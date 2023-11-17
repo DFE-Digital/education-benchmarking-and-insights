@@ -64,20 +64,6 @@
 | **CONS-4** | Project costs |
 | **CONS-5** | Project delivery timelines |
 
-## Decisions
-
-Decisions will be made using the following process:
-![Decision Process Flow](images/Decision-Process.png)
-
-| Id     | Decision |
-|:------:|:--------|
-
-
-## Risk and decision log
-
-**//TODO: Insert or link to risk/decision log**
-
-
 ## Technical debt log 
 
 **//TODO: Insert or link to technical debt log**

@@ -4,7 +4,6 @@
 
 The architecture used to define the APIs that provide the required information for the front-end will be a major factor in the efficiency of the overall system. Besides how the business logic algorithm actually operate, how we query the APIs and what inofrmation is returned will have a direct bearing on the sytem overhead, and consequenntly cost.
 
-![Decsion Process](../images/Decision-Process.png)
 
 ## Evaluation
 
