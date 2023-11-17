@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EducationBenchmarking.Web", "src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj", "{153CE668-575D-4E95-B849-5C8D28FC0E3D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Web.Tests", "tests\EducationBenchmarking.Web.Tests\EducationBenchmarking.Web.Tests.csproj", "{5B89A67B-B81D-406A-8C10-D98DBDFEB0BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{153CE668-575D-4E95-B849-5C8D28FC0E3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{153CE668-575D-4E95-B849-5C8D28FC0E3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{153CE668-575D-4E95-B849-5C8D28FC0E3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5B89A67B-B81D-406A-8C10-D98DBDFEB0BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5B89A67B-B81D-406A-8C10-D98DBDFEB0BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5B89A67B-B81D-406A-8C10-D98DBDFEB0BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5B89A67B-B81D-406A-8C10-D98DBDFEB0BF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
