@@ -396,6 +396,9 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+.idea/.idea.education-benchmarking-and-insights.dir/.idea/encodings.xml
+.idea/.idea.education-benchmarking-and-insights.dir/.idea/indexLayout.xml
+.idea/.idea.education-benchmarking-and-insights.dir/.idea/vcs.xml
 
 # DrawIO backup files
 *.bkp

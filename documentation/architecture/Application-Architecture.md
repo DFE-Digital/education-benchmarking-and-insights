@@ -10,9 +10,9 @@ The calculations below are based on the latest available SLA summary provided by
 
 
 | Service | Theoretical Max SLA | Expected min downtime (mins/yr) | Theoretical Min SLA | Expected max downtime (mins/yr) |
-|:-------:|:------------:|:-------:|:------:|:------|
-| Benchmarking Service | 99.87% | 162 | 95.96% | 5042 |
-| Data Ingestion Pipeline | TBD | TBD | TBD | TBD |
+|:-------:|:------------:|:-------------------------------:|:------:|:------|
+| Benchmarking Service | 99.87% |               163               | 95.96% | 5042 |
+| Data Ingestion Pipeline | TBD |               TBD               | TBD | TBD |
 
 Downtime calculations are based on a 8-hour working day (Mon - Fri)
 
