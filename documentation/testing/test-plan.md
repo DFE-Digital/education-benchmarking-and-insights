@@ -3,13 +3,13 @@
 
 ## History and Approvals
 
-| Version | Name    | Role      | Date       | Remarks       |
-|---------|---------|-----------|------------|---------------|
-| XX      | QA Name | Test Lead | 01/01/2021 | First Release |
+| Version | Name         | Role          | Date       | Remarks                                   |
+|---------|--------------|---------------|------------|-------------------------------------------|
+| 1.1     | Faizan Ahmad | Test Engineer | 29/11/2023 | need to be reviewed by other team members |
 
 ## Project Overview
 ### Purpose
-The purpose of the software is to seamlessly integrate the functionalities of View My Financial Insights (VMFI) and School Financial Benchmarking (SFB). The end goal is to provide users with a unified platform where they can compare school financial data, view school spending, and analyse expenditures in comparison with similar schools. Another objective is to build data pipelines that will read data from raw data files and pass them to pipeline to store them into the schema which will later be used in the system.
+The purpose of the software is to seamlessly integrate the functionalities of View My Financial Insights (VMFI) and School Financial Benchmarking (SFB). The end goal is to provide users with a unified platform where they can compare school financial data, view school spending, and analyse expenditures in comparison with similar schools. Another objective is to build ETL data pipelines to import and operate on raw data files and deposit them into some azure storage solution.
 
 ### Key Features and Functionalities
 The software will empower users with the ability to conduct benchmarking by comparing school financial data. Additionally, users can easily view their own school's spending patterns and compare these expenditures with similar schools or academies. There would also be a option to see a forecast of spending. Implementation of data pipelines to ingest data in the pipeline.
@@ -22,17 +22,16 @@ Testing will encompass various elements, including accessibility, cross-browser 
 The performance of the system under load conditions is currently out of scope for this testing phase.
 
 ## Special Attention
-A dedicated focus will be placed on testing the data upload feature to ensure that all data is accurately processed and integrated into the system.
+A dedicated focus will be placed for ensuring conformance with the required input schema. We want to make sure that any variability in the input due to user error is dealt to best of our capabilities to prevent any issues in the ETL process.
 
 ## Testing Objectives
 ### Primary Goals
 The primary testing objectives include verifying that the product successfully combines the features of SFB and VMFI. Additionally, it aims to confirm the implementation of all acceptance criteria and ensure comprehensive logging, fixing, or backlog management of issues and bugs discovered during testing.
 
-### Quality Attributes
-A key quality attribute is data ingestion validation.
 
 ## Stakeholders
-Key stakeholders include Daniel Tovey (Product Owner) and representatives from the Department for Education, Keld Oshea and Gavin Monument.
+Key stakeholders include [Daniel Tovey](mailto:daniel.tovey@education.gov.uk) (Product Owner) and representatives from the Department for Education, [Keld Oshea](mailto:keld.oshea@education.gov.uk) and [Gavin Monument](mailto:gavin.monument@education.gov.uk).
+
 
 ## Testing Environment
 The project will utilise multiple environments, including development, testing (for automated testing), pre-production, and production. Cross-browser testing will require a subscription to Browserstack. (details of the environment will later be added here)
@@ -51,7 +50,7 @@ The testing approach will encompass manual testing for acceptance criteria valid
 Each user story will be associated with a QA ticket containing detailed test scripts. Manual testing will follow automated testing to validate acceptance criteria.
 
 ## Test Case Design
-Test cases will be meticulously designed for each acceptance criterion, utilising the Gherkin syntax for clear and structured documentation.
+Test cases will be meticulously designed for each acceptance criterion, utilising the Gherkin syntax(Given When Then Format) for clear and structured documentation.
 
 ## Test Data
 ### Required Test Data
@@ -77,10 +76,14 @@ The primary tester, Faizan Ahmad, will lead testing efforts. The entire team wil
 Communication will be facilitated through DfE email or Teams. Technical discussions will primarily take place within DevOps tickets.
 
 ## Entry Criteria
-| No | Entry Criteria                | Entry Criteria                             | 
-|----|-------------------------------|--------------------------------------------|
-| 1  | dev ticket has been completed | All Automation Tests/Regression Tests Pass | 
+Entry criteria to start the testing of a particular feature will be dependent on the following. The automated tests for the new feature will be written along with the dev work when possible.  
 
+| No | Entry Criteria                     | 
+|----|------------------------------------|
+| 1  | dev ticket has been completed      |
+| 2  | all integrations tests are passing |
+| 3  | all unit tests are passing         |
+| 4  | functional e2e tests are passing   |
 ## Exit Criteria
 The testing phase will be considered complete when all acceptance criteria have been successfully implemented and tested, automated tests have been integrated, and accessibility testing has been comprehensively conducted.
 
