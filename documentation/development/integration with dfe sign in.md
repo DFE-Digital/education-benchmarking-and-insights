@@ -2,7 +2,7 @@
 
 ## The authorization flow (‘code’ response type)
 
-![Authentication flow](dfe_sign_in_intergation.png.png)
+![Authentication flow](./dfe_sign_in_intergation.png)
 
 
 
