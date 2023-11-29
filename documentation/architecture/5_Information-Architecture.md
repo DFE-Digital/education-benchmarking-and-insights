@@ -1,1 +1,6 @@
-### Data Model
+# Information Architecture
+
+## Data Model
+
+
+## Data Ingestion Process
