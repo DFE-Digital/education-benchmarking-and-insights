@@ -30,7 +30,7 @@ The primary testing objectives include verifying that the product successfully c
 
 
 ## Stakeholders
-Key stakeholders include [Daniel Tovey](mailto:daniel.tovey@education.gov.uk) (Product Owner) and representatives from the Department for Education, [Keld Oshea](mailto:keld.oshea@education.gov.uk) and [Gavin Monument](mailto:gavin.monument@education.gov.uk).
+Key business stakeholders include [Daniel Tovey](mailto:daniel.tovey@education.gov.uk) (Product Owner) and representatives from the Department for Education, [Keld Oshea](mailto:keld.oshea@education.gov.uk) and [Gavin Monument](mailto:gavin.monument@education.gov.uk).
 
 
 ## Testing Environment
