@@ -100,9 +100,4 @@ The success of the testing effort will be measured through metrics such as autom
 The data pipeline implementation is yet to be finalised and testing the data pipeline will depend on how it is developed.
 
 #  Deliverables/Reporting
-//TODO: Describe what the test team will deliver to the Project Team through the whole project phase from Reviews, Test results and Testing Progress.
-
-
-#  Open Points
-//TODO: Any areas of testing that still need to be clarified with the Team. E.g. Tooling, Licensing etc
-
+Test scripts for each story will be delivered as part of testing activities. 
