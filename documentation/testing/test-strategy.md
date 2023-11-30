@@ -27,13 +27,13 @@ The developed system will replace View my financial Insights(VMFI) and School Fi
 
 The product backlog and project sprints are managed within Azure DevOps.
 
-Product Backlog Items contained within DevOps go through the following statuses during the development process:
+User Story contained within DevOps go through the following statuses during the development process:
 * To Do
 * In Development
-* Dev Done
+* In Review
 * In Test
-* PO Sign Off
-* Completed
+* Complete
+* Closed
 
 Each status and Definition of Done acts as a control ‘gate’ for all work passing through this process.
 
