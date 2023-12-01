@@ -1,0 +1,14 @@
+{
+  "name": "front-end-components",
+  "version": "1.0.0",
+  "description": "This project contains the interactive front end components for the service, written in ReactJS. The output of this project will be a Nuget Package.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
