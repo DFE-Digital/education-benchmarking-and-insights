@@ -15,4 +15,9 @@
       <PackageReference Include="SpecFlow.NUnit" Version="3.9.74" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Pages\" />
+      <Folder Include="Steps\" />
+    </ItemGroup>
+
 </Project>
