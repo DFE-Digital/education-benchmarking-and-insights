@@ -402,6 +402,6 @@ FodyWeavers.xsd
 .idea/.idea.education-benchmarking-and-insights.dir/.idea/encodings.xml
 .idea/.idea.education-benchmarking-and-insights.dir/.idea/indexLayout.xml
 .idea/.idea.education-benchmarking-and-insights.dir/.idea/vcs.xml
-
+/web/.idea
 # DrawIO backup files
 *.bkp
