@@ -4,7 +4,6 @@
 
 This document tracks each technical decision made, along with the rationale and alternatives considered (where applicable). The decision process is shown below:
 
-![Decsion Process](../images/Decision-Process.png)
 
 ## Evaluation
 
