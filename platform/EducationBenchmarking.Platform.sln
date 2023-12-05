@@ -27,6 +27,28 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{613E31
 		docker\docker-compose.yml = docker\docker-compose.yml
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{40636378-A9AE-4BD0-95FC-755987FC7388}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\variables.tf = terraform\variables.tf
+		terraform\main.tf = terraform\main.tf
+		terraform\provider.tf = terraform\provider.tf
+		terraform\terraform.tfvars = terraform\terraform.tfvars
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{331196E5-A208-4344-8C07-321E17121CAE}"
+	ProjectSection(SolutionItems) = preProject
+		pipelines\build.yaml = pipelines\build.yaml
+		pipelines\jobs-platform-deployment.yaml = pipelines\jobs-platform-deployment.yaml
+		pipelines\steps-platform-build.yaml = pipelines\steps-platform-build.yaml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{F752FFB8-6BA0-44B5-A6A3-4E87A04F8527}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\functions\main.tf = terraform\functions\main.tf
+		terraform\functions\variables.tf = terraform\functions\variables.tf
+		terraform\functions\output.tf = terraform\functions\output.tf
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -70,5 +92,6 @@ Global
 		{346579AA-839E-485D-A8AE-B04DD14BDBCE} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{E5D01C03-6D75-498E-A66F-C204CFF65EFD} = {80C48401-A0AA-4707-B26A-332240A6C214}
+		{F752FFB8-6BA0-44B5-A6A3-4E87A04F8527} = {40636378-A9AE-4BD0-95FC-755987FC7388}
 	EndGlobalSection
 EndGlobal
