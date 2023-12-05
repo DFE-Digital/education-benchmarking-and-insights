@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>EducationBenchmarking.Platform.Api.Establishments</name>
+    </assembly>
+    <members>
+        <member name="T:EducationBenchmarking.Platform.Api.Establishments.HealthCheckFunctions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishments.HealthCheckFunctions.#ctor(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckService)">
+            <summary>
+            
+            </summary>
+            <param name="healthCheck"></param>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishments.HealthCheckFunctions.Health(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            
+            </summary>
+            <param name="req"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EducationBenchmarking.Platform.Api.Establishments.Startup">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishments.Startup.Configure(Microsoft.Azure.Functions.Extensions.DependencyInjection.IFunctionsHostBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:EducationBenchmarking.Platform.Api.Establishments.SwaggerFunctions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishments.SwaggerFunctions.Swagger(System.Net.Http.HttpRequestMessage,AzureFunctions.Extensions.Swashbuckle.ISwashBuckleClient)">
+            <summary>
+            
+            </summary>
+            <param name="req"></param>
+            <param name="swashBuckleClient"></param>
+            <returns></returns>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishments.SwaggerFunctions.SwaggerUi(System.Net.Http.HttpRequestMessage,AzureFunctions.Extensions.Swashbuckle.ISwashBuckleClient)">
+            <summary>
+            
+            </summary>
+            <param name="req"></param>
+            <param name="swashBuckleClient"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
