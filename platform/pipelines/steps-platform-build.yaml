@@ -1,0 +1,76 @@
+parameters:
+  BuildVersion: ''
+  BuildNumber: ''
+  
+steps:
+
+  - bash: |
+      echo "##vso[task.setvariable variable=PLATFORM_CACHE_RESTORED]false"
+      echo "##vso[task.setvariable variable=PLATFORM_NUGET_CACHE]$(Pipeline.Workspace)/platform/.nuget"
+
+  - task: NuGetAuthenticate@0
+
+  - task: Cache@2
+    condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
+    displayName: 'Cache nuget packages'
+    inputs:
+      key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,platform/src/db/**/packages.lock.json,!**/bin/**,!**/obj/**'
+      restoreKeys: |
+        nuget | "$(Agent.OS)-platform"
+      path: $(PLATFORM_NUGET_CACHE)
+      cacheHitVar: PLATFORM_CACHE_RESTORED
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore nuget packages'
+    condition: ne(variables.PLATFORM_CACHE_RESTORED, 'true')
+    inputs:
+      command: restore
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
+      projects: |
+        platform/src/search/**/*.csproj
+        platform/src/apis/**/*.csproj
+        platform/src/db/**/*.csproj
+      feedsToUse: 'config'
+      nugetConfigPath: 'platform/nuget.config'
+      
+  - task: DotNetCoreCLI@2
+    displayName: 'Build platform database'
+    inputs:
+        command: publish
+        publishWebProjects: false
+        projects: 'platform/src/db/**/Platform.Database.csproj'
+        packagesDirectory: $(PLATFORM_NUGET_CACHE)
+        arguments: '--configuration Release  --output $(Build.ArtifactStagingDirectory)/platform-db /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+        zipAfterPublish: true
+        modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build platform search'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
+      projects: 'platform/src/search/**/*.csproj'
+      arguments: '--configuration Release  --output $(Build.ArtifactStagingDirectory)/platform-search /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build platform apis'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirectory: $(PLATFORM_NUGET_CACHE)
+      projects: 'src/platform/src/apis/**/*.csproj'
+      arguments: '--configuration Release  --output $(Build.ArtifactStagingDirectory)/platform-apis /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
+  - publish: $(build.artifactstagingdirectory)/platform-db
+    artifact: platform-db
+    
+  - publish: $(build.artifactstagingdirectory)/platform-search
+    artifact: platform-search
+  
+  - publish: $(build.artifactstagingdirectory)/platform-apis
+    artifact: platform-apis

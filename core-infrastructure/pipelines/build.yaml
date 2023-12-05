@@ -26,7 +26,7 @@ stages:
     variables:
       - group: development
     jobs:
-      - template: terraform.yaml
+      - template: jobs-core-deployment.yaml
         parameters:
           subscription: $(subscription)
           environmentPrefix: $(environment-prefix)
