@@ -1,0 +1,35 @@
+pool:
+  vmImage: 'windows-2022'
+
+trigger: none
+
+stages:
+  - stage: Build
+    displayName: 'Build artifacts'
+    jobs:
+      - job: Zip_static_artifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - task: ArchiveFiles@2
+            displayName: 'Zip terraform files'
+            inputs:
+              rootFolderOrFile: 'core-infrastructure/terraform'
+              includeRootFolder: false
+              archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
+
+          - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
+            artifact: terraform
+
+  - stage: DeployDevelopment
+    dependsOn: [Build]
+    displayName: 'Deploy to development'
+    variables:
+      - group: development
+    jobs:
+      - template: terraform.yaml
+        parameters:
+          subscription: $(subscription)
+          environmentPrefix: $(environment-prefix)
+          environment: $(environment)
+          cipEnvironment: $(cip-environment)
+          devopsPrincipal: $(devops-principal)
