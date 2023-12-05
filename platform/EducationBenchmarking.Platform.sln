@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Database", "src\db\Platform.Database\Platform.Database.csproj", "{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Database", "src\db\EducationBenchmarking.Platform.Database\EducationBenchmarking.Platform.Database.csproj", "{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "apis", "apis", "{80C48401-A0AA-4707-B26A-332240A6C214}"
 EndProject
@@ -10,7 +10,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{88E9B775
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "search", "search", "{B59E14FF-BBC9-4659-BA54-94089935CBAA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Search", "src\search\Platform.Search\Platform.Search.csproj", "{ECE338C2-996D-4D2D-9F1A-0AF4B585F9E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search", "src\search\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj", "{ECE338C2-996D-4D2D-9F1A-0AF4B585F9E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Tests", "tests\EducationBenchmarking.Platform.Tests\EducationBenchmarking.Platform.Tests.csproj", "{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1}"
 EndProject

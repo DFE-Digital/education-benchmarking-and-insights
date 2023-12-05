@@ -5,6 +5,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>EducationBenchmarking.A11yTests</RootNamespace>
     </PropertyGroup>
 
 </Project>

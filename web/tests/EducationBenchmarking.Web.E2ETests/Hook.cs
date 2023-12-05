@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TechTalk.SpecFlow;
+﻿using TechTalk.SpecFlow;
 
-namespace EducationBenchmarking.E2ETests;
+namespace EducationBenchmarking.Web.E2ETests;
 
 [Binding]
 public sealed class Hook
