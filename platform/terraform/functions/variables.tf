@@ -61,5 +61,5 @@ variable "storage-account-key" {
 }
 
 variable "common-tags" {
-  type = string
+  type = map(string)
 }
