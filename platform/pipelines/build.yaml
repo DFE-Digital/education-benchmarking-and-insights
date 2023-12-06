@@ -72,7 +72,7 @@ stages:
               projects: 'platform/**/*.Tests.csproj'
 
       - job: BuildPlatform
-        dependsOn: [Set_Build_Number, BuildFrontEnd]
+        dependsOn: [Set_Build_Number]
         displayName: 'Build platform'
         steps:
           - template: steps-platform-build.yaml
