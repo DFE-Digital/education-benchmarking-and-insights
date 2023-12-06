@@ -107,62 +107,62 @@ jobs:
                 backendAzureRmKey: education-benchmarking-platform.tfstate
                 backendAzureRmResourceGroupLocation: ${{ parameters.location }}
                 
-    - deployment: Deploy
-      dependsOn: [RunTerraform]
-      displayName: 'Deploy development platform'
-      pool:
-        vmImage: windows-2022
-      environment: ${{ parameters.environment }}
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - checkout: none
-              - download: current
-              - task: AzureFunctionApp@1
-                displayName: 'Deploy academies function app'
-                inputs:
-                  azureSubscription: ${{ parameters.subscription }}
-                  appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-ebis-academies-fa'
-                  deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                  package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Academies.zip'
-                  slotName: production
-                  appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-            
-              - task: AzureFunctionApp@1
-                displayName: 'Deploy benchmarks function app'
-                inputs:
-                  azureSubscription: ${{ parameters.subscription }}
-                  appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-ebis-benchmarks-fa'
-                  deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                  package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmarks.zip'
-                  slotName: production
-                  appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                  
-              - task: AzureFunctionApp@1
-                displayName: 'Deploy schools function app'
-                inputs:
-                  azureSubscription: ${{ parameters.subscription }}
-                  appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-ebis-schools-fa'
-                  deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                  package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Schools.zip'
-                  slotName: production
-                  appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                  
-              - task: AzureFunctionApp@1
-                displayName: 'Deploy establishments function app'
-                inputs:
-                  azureSubscription: ${{ parameters.subscription }}
-                  appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-ebis-establishments-fa'
-                  deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                  package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishments.zip'
-                  slotName: production
-                  appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'      
+  - deployment: Deploy
+    dependsOn: [RunTerraform]
+    displayName: 'Deploy development platform'
+    pool:
+      vmImage: windows-2022
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+            - download: current
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy academies function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-academies-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Academies.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+          
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy benchmarks function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-benchmarks-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmarks.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy schools function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-schools-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Schools.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy establishments function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-establishments-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishments.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'      
