@@ -34,10 +34,10 @@ jobs:
                 azureSubscription: ${{ parameters.subscription }}
                 scriptLocation: inlineScript
                 inlineScript: |
-                  az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
+                  az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
                   echo "Resource group created"
                   
-                  az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-terraform --location ${{ parameters.location }} --sku Standard_LRS
+                  az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
                   echo "Storage account created"
                   
                   az storage container create --auth-mode login --name tfstate --account-name ${{ parameters.environmentPrefix }}storagetf
@@ -70,7 +70,7 @@ jobs:
                 workingDirectory: '${{ parameters.workspaceDir }}/tf'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-core.tfstate
@@ -85,7 +85,7 @@ jobs:
                 workingDirectory: '${{ parameters.workspaceDir }}/tf'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-core.tfstate
@@ -101,7 +101,7 @@ jobs:
                 commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-core.plan'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-core.tfstate
