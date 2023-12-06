@@ -33,10 +33,10 @@ stages:
         - script: echo $(environment)
         - script: echo $(cip-environment)
         - script: echo $(devops-principal)
-#      - template: jobs-core-deployment.yaml
-#        parameters:
-#          subscription: $(subscription)
-#          environmentPrefix: $(environment-prefix)
-#          environment: $(environment)
-#          cipEnvironment: $(cip-environment)
-#          devopsPrincipal: $(devops-principal)
+      - template: jobs-core-deployment.yaml
+        parameters:
+          subscription: $(subscription)
+          environmentPrefix: $(environment-prefix)
+          environment: $(environment)
+          cipEnvironment: $(cip-environment)
+          devopsPrincipal: $(devops-principal)
