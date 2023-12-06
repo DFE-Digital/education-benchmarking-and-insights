@@ -13,13 +13,13 @@ resource "azurerm_service_plan" "func-asp" {
   location = var.location
   resource_group_name = var.resource-group-name
 
-  os_type = "Linux"
+  os_type = "Windows"
   sku_name = var.sku.size
 
   tags = var.common-tags
 }
 
-resource "azurerm_linux_function_app" "func-app" {
+resource "azurerm_windows_function_app" "func-app" {
   name = local.function-app-name
   location = var.location
   resource_group_name = var.resource-group-name
@@ -52,9 +52,9 @@ resource "azurerm_template_deployment" "function_keys" {
   count = var.requires-keys ? 1 : 0
   name = "${var.function-name}-host-key"
   parameters = {
-    "functionApp" = azurerm_linux_function_app.func-app.name
+    "functionApp" = azurerm_windows_function_app.func-app.name
   }
-  resource_group_name = azurerm_linux_function_app.func-app.resource_group_name
+  resource_group_name = azurerm_windows_function_app.func-app.resource_group_name
   deployment_mode     = "Incremental"
   
   template_body = <<BODY
@@ -81,7 +81,7 @@ resource "azurerm_template_deployment" "function_keys" {
 
 locals {
   key = var.requires-keys ? lookup(azurerm_template_deployment.function_keys[0].outputs, "functionkey", "") : null
-  host = "https://${azurerm_linux_function_app.func-app.default_hostname}" 
+  host = "https://${azurerm_windows_function_app.func-app.default_hostname}" 
 }
 
 resource "azurerm_key_vault_secret" "fa-key" {
