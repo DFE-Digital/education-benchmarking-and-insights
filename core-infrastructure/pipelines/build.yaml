@@ -26,11 +26,13 @@ stages:
     variables:
       - group: development
     jobs:
-      - script: echo $(subscription)
-      - script: echo $(environment-prefix)
-      - script: echo $(environment)
-      - script: echo $(cip-environment)
-      - script: echo $(devops-principal)
+      - job: Check_variables
+        steps:
+        - script: echo $(subscription)
+        - script: echo $(environment-prefix)
+        - script: echo $(environment)
+        - script: echo $(cip-environment)
+        - script: echo $(devops-principal)
 #      - template: jobs-core-deployment.yaml
 #        parameters:
 #          subscription: $(subscription)
