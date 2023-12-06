@@ -34,10 +34,10 @@ jobs:
                 azureSubscription: ${{ parameters.subscription }}
                 scriptLocation: inlineScript
                 inlineScript: |
-                  az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
+                  az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
                   echo "Resource group created"
                   
-                  az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-terraform --location ${{ parameters.location }} --sku Standard_LRS
+                  az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
                   echo "Storage account created"
                   
                   az storage container create --auth-mode login --name tfstate --account-name ${{ parameters.environmentPrefix }}storagetf
@@ -70,7 +70,7 @@ jobs:
                 workingDirectory: '${{ parameters.workspaceDir }}/tf'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-platform.tfstate
@@ -85,7 +85,7 @@ jobs:
                 workingDirectory: '${{ parameters.workspaceDir }}/tf'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-platform.tfstate
@@ -101,13 +101,14 @@ jobs:
                 commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-platform.plan'
                 environmentServiceName: ${{ parameters.subscription }}
                 backendServiceArm: ${{ parameters.subscription }}
-                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-terraform
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
                 backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-platform.tfstate
                 backendAzureRmResourceGroupLocation: ${{ parameters.location }}
                 
     - deployment: Deploy
+      dependsOn: [RunTerraform]
       displayName: 'Deploy development platform'
       pool:
         vmImage: windows-2022
@@ -123,9 +124,9 @@ jobs:
                 inputs:
                   azureSubscription: ${{ parameters.subscription }}
                   appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-academies-fa'
+                  appName: '${{ parameters.environmentPrefix }}-ebis-academies-fa'
                   deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-platform'
+                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                   package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Academies.zip'
                   slotName: production
                   appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
@@ -135,9 +136,9 @@ jobs:
                 inputs:
                   azureSubscription: ${{ parameters.subscription }}
                   appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-benchmarks-fa'
+                  appName: '${{ parameters.environmentPrefix }}-ebis-benchmarks-fa'
                   deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-platform'
+                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                   package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmarks.zip'
                   slotName: production
                   appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
@@ -147,9 +148,9 @@ jobs:
                 inputs:
                   azureSubscription: ${{ parameters.subscription }}
                   appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-schools-fa'
+                  appName: '${{ parameters.environmentPrefix }}-ebis-schools-fa'
                   deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-platform'
+                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                   package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Schools.zip'
                   slotName: production
                   appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
@@ -159,9 +160,9 @@ jobs:
                 inputs:
                   azureSubscription: ${{ parameters.subscription }}
                   appType: functionApp
-                  appName: '${{ parameters.environmentPrefix }}-establishments-fa'
+                  appName: '${{ parameters.environmentPrefix }}-ebis-establishments-fa'
                   deployToSlotOrASE: true
-                  resourceGroupName: '${{ parameters.environmentPrefix }}-platform'
+                  resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                   package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishments.zip'
                   slotName: production
                   appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'      

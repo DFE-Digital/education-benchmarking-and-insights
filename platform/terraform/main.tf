@@ -10,18 +10,18 @@ locals {
   }
 }
 
-data "terraform_remote_state" "core" {
-  backend = "azurerm"
-  config = {
-    storage_account_name = "${var.environment-prefix}storagetf"
-    container_name       = "tfstate"
-    key                  = "education-benchmarking-core.tfstate"
+data "azurerm_key_vault" "key-vault" {
+  name                            = "${var.environment-prefix}-ebis-keyvault"
+  resource_group_name             = "${var.environment-prefix}-ebis-core"
+}
 
-  }
+data "azurerm_application_insights" "application-insights" {
+  name                = "${var.environment-prefix}-ebis-ai"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 
 resource "azurerm_resource_group" "resource-group" {
-  name = "${var.environment-prefix}-platform"
+  name = "${var.environment-prefix}-ebis-platform"
   location = var.location
   tags = local.common-tags
 }
@@ -39,7 +39,7 @@ resource "azurerm_storage_account" "platform-storage" {
 resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
   name         = "platform-storage-connection-string"
   value        = azurerm_storage_account.platform-storage.primary_connection_string
-  key_vault_id = data.terraform_remote_state.core.key-vault-id
+  key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 module "academies-fa" {
@@ -50,9 +50,9 @@ module "academies-fa" {
   resource-group-name = azurerm_resource_group.resource-group.name
   storage-account-name= azurerm_storage_account.platform-storage.name
   storage-account-key= azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id = data.terraform_remote_state.core.key-vault-id
+  key-vault-id = data.azurerm_key_vault.key-vault.id
   location = var.location
-  application-insights-key = data.terraform_remote_state.core.application-insights-key
+  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
   app-settings = local.default_app_settings
 }
 
@@ -64,9 +64,9 @@ module "benchmarks-fa" {
   resource-group-name = azurerm_resource_group.resource-group.name
   storage-account-name= azurerm_storage_account.platform-storage.name
   storage-account-key= azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id = data.terraform_remote_state.core.key-vault-id
+  key-vault-id = data.azurerm_key_vault.key-vault.id
   location = var.location
-  application-insights-key = data.terraform_remote_state.core.application-insights-key
+  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
   app-settings = local.default_app_settings
 }
 
@@ -78,9 +78,9 @@ module "schools-fa" {
   resource-group-name = azurerm_resource_group.resource-group.name
   storage-account-name= azurerm_storage_account.platform-storage.name
   storage-account-key= azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id = data.terraform_remote_state.core.key-vault-id
+  key-vault-id = data.azurerm_key_vault.key-vault.id
   location = var.location
-  application-insights-key = data.terraform_remote_state.core.application-insights-key
+  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
   app-settings = local.default_app_settings
 }
 
@@ -92,8 +92,8 @@ module "establishments-fa" {
   resource-group-name = azurerm_resource_group.resource-group.name
   storage-account-name= azurerm_storage_account.platform-storage.name
   storage-account-key= azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id = data.terraform_remote_state.core.key-vault-id
+  key-vault-id = data.azurerm_key_vault.key-vault.id
   location = var.location
-  application-insights-key = data.terraform_remote_state.core.application-insights-key
+  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
   app-settings = local.default_app_settings
 }

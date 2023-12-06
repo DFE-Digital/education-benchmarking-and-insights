@@ -5,11 +5,11 @@
     "APPINSIGHTS_INSTRUMENTATIONKEY" = var.application-insights-key
   })
   cors = var.cors
-  function-app-name = "${var.environment-prefix}-${var.function-name}-fa"
+  function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
 
 resource "azurerm_service_plan" "func-asp" {
-  name = "${var.environment-prefix}-${var.function-name}-function-asp"
+  name = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location = var.location
   resource_group_name = var.resource-group-name
 
