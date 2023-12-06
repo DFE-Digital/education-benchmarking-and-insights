@@ -23,20 +23,11 @@ stages:
   - stage: DeployDevelopment
     dependsOn: [Build]
     displayName: 'Deploy to development'
-    variables:
-      - group: development
     jobs:
-      - job: Check_variables
-        steps:
-        - script: echo $(subscription)
-        - script: echo $(environment-prefix)
-        - script: echo $(environment)
-        - script: echo $(cip-environment)
-        - script: echo $(devops-principal)
       - template: jobs-core-deployment.yaml
         parameters:
-          subscription: $(subscription)
-          environmentPrefix: $(environment-prefix)
-          environment: $(environment)
-          cipEnvironment: $(cip-environment)
-          devopsPrincipal: $(devops-principal)
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01'
+          environment: 'development'
+          cipEnvironment: 'Dev'
+          devopsPrincipal: '5018b284-3fee-449b-9e73-936e7efb1e78'
