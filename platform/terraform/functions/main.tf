@@ -21,7 +21,6 @@ resource "azurerm_service_plan" "func-asp" {
 
 resource "azurerm_linux_function_app" "func-app" {
   name = local.function-app-name
-  version = "~4"
   location = var.location
   resource_group_name = var.resource-group-name
   service_plan_id = azurerm_service_plan.func-asp.id
