@@ -1,0 +1,128 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  terraformArchive: '$(Pipeline.Workspace)/terraform/terraform.zip'
+  location: 'westeurope'
+
+jobs:
+  - deployment: RunTerraform
+    displayName: 'Run terraform'
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - task: ExtractFiles@1
+              displayName: 'Extract terraform Files'
+              inputs:
+                archiveFilePatterns: ${{ parameters.terraformArchive }}
+                destinationFolder: '${{ parameters.workspaceDir }}/tf'
+
+            - task: AzureCLI@1
+              displayName: 'Create terraform dependencies'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptLocation: inlineScript
+                inlineScript: |
+                  az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
+                  echo "Resource group created"
+                  
+                  az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
+                  echo "Storage account created"
+                  
+                  az storage container create --auth-mode login --name tfstate --account-name ${{ parameters.environmentPrefix }}storagetf
+                  echo "Storage container created"
+                  
+                  echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
+                  echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
+                  echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
+                  echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
+                  
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+              displayName: 'Replace tokens in terraform file'
+              inputs:
+                targetFiles: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
+                escapeType: none
+                tokenPrefix: '__'
+                tokenSuffix: '__'
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+              displayName: 'Terraform : install 1.0.7'
+              inputs:
+                terraformVersion: 1.0.7
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : init'
+              inputs:
+                command: init
+                backendType: 'azurerm'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-web.tfstate
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : plan'
+              inputs:
+                command: plan
+                backendType: 'azurerm'
+                commandOptions: '-input=false -out=${{ parameters.workspaceDir }}\education-benchmarking-web.plan'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-web.tfstate
+                publishPlanResults: '${{ parameters.environmentPrefix }}-web-plan'
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : apply'
+              inputs:
+                command: apply
+                backendType: 'azurerm'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-web.plan'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-web.tfstate
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+                
+  - deployment: Deploy
+    dependsOn: [RunTerraform]
+    displayName: 'Deploy web'
+    pool:
+      vmImage: windows-2022
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+            - download: current
+            - task: AzureRmWebAppDeployment@4
+              displayName: 'Deploy website'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
+                deployToSlotOrASE: true
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/EducationBenchmarking.Web.zip'
+                enableCustomDeployment: true 

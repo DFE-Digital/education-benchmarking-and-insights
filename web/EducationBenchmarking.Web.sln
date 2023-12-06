@@ -18,8 +18,19 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "service", "service", "{5FA8D55A-365C-4EF0-81E6-D06DFC5906E3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{3D97AF84-2B73-40BF-97D4-24A1546562C9}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\main.tf = terraform\main.tf
+		terraform\provider.tf = terraform\provider.tf
+		terraform\terraform.tfvars = terraform\terraform.tfvars
+		terraform\variables.tf = terraform\variables.tf
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{FAEF5E55-1BF1-40C6-ACED-560351518D95}"
+	ProjectSection(SolutionItems) = preProject
+		pipelines\build.yaml = pipelines\build.yaml
+		pipelines\steps-web-build.yaml = pipelines\steps-web-build.yaml
+		pipelines\jobs-web-deployment.yaml = pipelines\jobs-web-deployment.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
