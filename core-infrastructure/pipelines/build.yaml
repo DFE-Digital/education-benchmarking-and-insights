@@ -26,10 +26,15 @@ stages:
     variables:
       - group: development
     jobs:
-      - template: jobs-core-deployment.yaml
-        parameters:
-          subscription: $(subscription)
-          environmentPrefix: $(environment-prefix)
-          environment: $(environment)
-          cipEnvironment: $(cip-environment)
-          devopsPrincipal: $(devops-principal)
+      - script: echo $(subscription)
+      - script: echo $(environment-prefix)
+      - script: echo $(environment)
+      - script: echo $(cip-environment)
+      - script: echo $(devops-principal)
+#      - template: jobs-core-deployment.yaml
+#        parameters:
+#          subscription: $(subscription)
+#          environmentPrefix: $(environment-prefix)
+#          environment: $(environment)
+#          cipEnvironment: $(cip-environment)
+#          devopsPrincipal: $(devops-principal)
