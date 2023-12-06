@@ -10,13 +10,13 @@ locals {
 data "azurerm_client_config" "client" {}
 
 resource "azurerm_resource_group" "resource-group" {
-  name = "${var.environment-prefix}-core"
+  name = "${var.environment-prefix}-ebis-core"
   location = var.location
   tags = local.common-tags
 }
 
 resource "azurerm_key_vault" "key-vault" {
-  name                            = "${var.environment-prefix}-keyvault"
+  name                            = "${var.environment-prefix}-ebis-keyvault"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   enabled_for_deployment          = true
@@ -48,7 +48,7 @@ resource "azurerm_key_vault" "key-vault" {
 }
 
 resource "azurerm_application_insights" "application-insights" {
-  name                = "${var.environment-prefix}-ai"
+  name                = "${var.environment-prefix}-ebis-ai"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   application_type    = "web"
