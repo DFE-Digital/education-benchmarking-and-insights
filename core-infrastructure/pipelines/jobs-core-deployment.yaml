@@ -49,60 +49,60 @@ jobs:
                   echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
                   echo "##vso[task.setvariable variable=devopsPrincipal]${{ parameters.devopsPrincipal }}"
 
-#            - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-#              displayName: 'Replace tokens in terraform file'
-#              inputs:
-#                targetFiles: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
-#                escapeType: none
-#                tokenPrefix: '__'
-#                tokenSuffix: '__'
-#
-#            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
-#              displayName: 'Terraform : install 1.0.7'
-#              inputs:
-#                terraformVersion: 1.0.7
-#
-#            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-#              displayName: 'Terraform : init'
-#              inputs:
-#                command: init
-#                backendType: 'azurerm'
-#                workingDirectory: '${{ parameters.workspaceDir }}/tf'
-#                environmentServiceName: ${{ parameters.subscription }}
-#                backendServiceArm: ${{ parameters.subscription }}
-#                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
-#                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
-#                backendAzureRmContainerName: 'tfstate'
-#                backendAzureRmKey: education-benchmarking-core.tfstate
-#                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
-#
-#            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-#              displayName: 'Terraform : plan'
-#              inputs:
-#                command: plan
-#                backendType: 'azurerm'
-#                commandOptions: '-input=false -out=${{ parameters.workspaceDir }}\education-benchmarking-core.plan'
-#                workingDirectory: '${{ parameters.workspaceDir }}/tf'
-#                environmentServiceName: ${{ parameters.subscription }}
-#                backendServiceArm: ${{ parameters.subscription }}
-#                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
-#                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
-#                backendAzureRmContainerName: 'tfstate'
-#                backendAzureRmKey: education-benchmarking-core.tfstate
-#                publishPlanResults: '${{ parameters.environmentPrefix }}-core-plan'
-#                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
-#
-#            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-#              displayName: 'Terraform : apply'
-#              inputs:
-#                command: apply
-#                backendType: 'azurerm'
-#                workingDirectory: '${{ parameters.workspaceDir }}/tf'
-#                commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-core.plan'
-#                environmentServiceName: ${{ parameters.subscription }}
-#                backendServiceArm: ${{ parameters.subscription }}
-#                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
-#                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
-#                backendAzureRmContainerName: 'tfstate'
-#                backendAzureRmKey: education-benchmarking-core.tfstate
-#                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+              displayName: 'Replace tokens in terraform file'
+              inputs:
+                targetFiles: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
+                escapeType: none
+                tokenPrefix: '__'
+                tokenSuffix: '__'
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+              displayName: 'Terraform : install 1.0.7'
+              inputs:
+                terraformVersion: 1.0.7
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : init'
+              inputs:
+                command: init
+                backendType: 'azurerm'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-core.tfstate
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : plan'
+              inputs:
+                command: plan
+                backendType: 'azurerm'
+                commandOptions: '-input=false -out=${{ parameters.workspaceDir }}\education-benchmarking-core.plan'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-core.tfstate
+                publishPlanResults: '${{ parameters.environmentPrefix }}-core-plan'
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+            - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+              displayName: 'Terraform : apply'
+              inputs:
+                command: apply
+                backendType: 'azurerm'
+                workingDirectory: '${{ parameters.workspaceDir }}/tf'
+                commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-core.plan'
+                environmentServiceName: ${{ parameters.subscription }}
+                backendServiceArm: ${{ parameters.subscription }}
+                backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+                backendAzureRmStorageAccountName: '${{ parameters.environmentPrefix }}storagetf'
+                backendAzureRmContainerName: 'tfstate'
+                backendAzureRmKey: education-benchmarking-core.tfstate
+                backendAzureRmResourceGroupLocation: ${{ parameters.location }}
