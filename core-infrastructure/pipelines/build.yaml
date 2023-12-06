@@ -3,6 +3,8 @@ pool:
 
 trigger: none
 
+pr: none
+
 stages:
   - stage: Build
     displayName: 'Build artifacts'

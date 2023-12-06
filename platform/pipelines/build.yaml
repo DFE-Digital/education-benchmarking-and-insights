@@ -3,6 +3,8 @@ pool:
 
 trigger: none
 
+pr: none
+
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]  
   Version.BuildNumber: 0.0.$(Version.Revision)
