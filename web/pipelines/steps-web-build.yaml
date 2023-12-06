@@ -1,0 +1,46 @@
+parameters:
+  BuildVersion: ''
+  BuildNumber: ''
+  
+steps:
+
+  - bash: |
+      echo "##vso[task.setvariable variable=WEB_CACHE_RESTORED]false"
+      echo "##vso[task.setvariable variable=WEB_NUGET_CACHE]$(Pipeline.Workspace)/web/.nuget"
+
+  - task: NuGetAuthenticate@0
+
+  - task: Cache@2
+    condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
+    displayName: 'Cache nuget packages'
+    inputs:
+      key: 'nuget | "$(Agent.OS)-web" | web/src/**/packages.lock.json,!**/bin/**,!**/obj/**'
+      restoreKeys: |
+        nuget | "$(Agent.OS)-web"
+      path: $(WEB_NUGET_CACHE)
+      cacheHitVar: WEB_CACHE_RESTORED
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore nuget packages'
+    condition: ne(variables.WEB_CACHE_RESTORED, 'true')
+    inputs:
+      command: restore
+      packagesDirectory: $(WEB_NUGET_CACHE)
+      projects: |
+        web/src/**/*.csproj
+      feedsToUse: 'config'
+      nugetConfigPath: 'web/nuget.config'
+      
+  - task: DotNetCoreCLI@2
+    displayName: 'Build web'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      packagesDirectory: $(WEB_NUGET_CACHE)
+      projects: 'web/src/**/*.csproj'
+      arguments: '--configuration Release --output $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
+      zipAfterPublish: true
+      modifyOutputPath: true
+
+  - publish: $(build.artifactstagingdirectory)/web
+    artifact: web
