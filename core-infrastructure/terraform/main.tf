@@ -22,15 +22,7 @@ resource "azurerm_key_vault" "key-vault" {
   enabled_for_deployment          = true
   enabled_for_template_deployment = true
   tenant_id                       = data.azurerm_client_config.client.tenant_id
-
   sku_name = "standard"
-
-  access_policy {
-    object_id = var.devops-principal
-    tenant_id = data.azurerm_client_config.client.tenant_id
-    secret_permissions = ["Get", "List", "Set", "Delete", "Purge"]
-    key_permissions = ["Get", "List", "Create", "Purge", "Delete"]
-  }
 
   network_acls {
     default_action = "Allow"
@@ -46,6 +38,15 @@ resource "azurerm_key_vault" "key-vault" {
 
   tags = local.common-tags
 }
+
+resource "azurerm_key_vault_access_policy" "terraform_sp_access" {
+  key_vault_id = azurerm_key_vault.key-vault.id
+  tenant_id    = data.azurerm_client_config.client.tenant_id
+  object_id    = data.azurerm_client_config.client.object_id
+  secret_permissions = ["Get", "List", "Set", "Delete", "Purge"]
+  key_permissions = ["Get", "List", "Create", "Purge", "Delete"]
+}
+
 
 resource "azurerm_application_insights" "application-insights" {
   name                = "${var.environment-prefix}-ebis-ai"

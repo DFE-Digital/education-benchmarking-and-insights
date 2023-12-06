@@ -1,5 +1,4 @@
 environment-prefix = "__environmentPrefix__"
 environment        = "__environment__"
 location           = "__location__"
-devops-principal   = "__devopsPrincipal__"
 cip-environment    = "__cipEnvironment__"

@@ -30,4 +30,3 @@ stages:
           environmentPrefix: 's198d01'
           environment: 'development'
           cipEnvironment: 'Dev'
-          devopsPrincipal: '5018b284-3fee-449b-9e73-936e7efb1e78'

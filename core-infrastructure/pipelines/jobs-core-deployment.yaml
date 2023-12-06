@@ -3,7 +3,6 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
-  devopsPrincipal: ''
   workspaceDir: '$(Pipeline.Workspace)'
   terraformArchive: '$(Pipeline.Workspace)/terraform/terraform.zip'
   location: 'westeurope'
@@ -47,7 +46,6 @@ jobs:
                   echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
                   echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
                   echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
-                  echo "##vso[task.setvariable variable=devopsPrincipal]${{ parameters.devopsPrincipal }}"
 
             - task: qetza.replacetokens.replacetokens-task.replacetokens@3
               displayName: 'Replace tokens in terraform file'
