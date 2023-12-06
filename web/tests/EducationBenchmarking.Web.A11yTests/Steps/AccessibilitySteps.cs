@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Web.A11yTests.Steps;
 [Binding]
 public sealed class AccessibilitySteps
 {
-    private readonly Driver _driver;
+    //private readonly Driver _driver;
     private readonly ScenarioContext _scenarioContext;
     private IPage page;
     private AxeResult? _axeResults;
@@ -19,7 +19,6 @@ public sealed class AccessibilitySteps
 
     public AccessibilitySteps(Driver driver, ScenarioContext scenarioContext)
     {
-        _driver = driver;
         _scenarioContext = scenarioContext;
         //  _schoolSearchPage = new SchoolSearchPage(_driver.Page);
     }
@@ -28,15 +27,10 @@ public sealed class AccessibilitySteps
     [Given(@"I open the page with the url (.*)")]
     public async Task GivenIOpenThePageWithTheUrl(string url)
     {
-        var launchOptions = new BrowserTypeLaunchOptions
-        {
-            Headless = false // Set to true for headless mode
-        };
-        using var playwright = await Playwright.CreateAsync();
+        var browser = (IBrowser)_scenarioContext["Browser"];
+        page = (IPage)_scenarioContext["Page"];
 
-        await using var browser = await playwright.Chromium.LaunchAsync(launchOptions);
-        var context = await browser.NewContextAsync();
-        page = await context.NewPageAsync();
+        await page.GotoAsync(url);
         
         await page.GotoAsync("https://hippodigital.co.uk/");
         
