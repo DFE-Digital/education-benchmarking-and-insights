@@ -6,7 +6,7 @@ steps:
 
   - bash: |
       echo "##vso[task.setvariable variable=WEB_CACHE_RESTORED]false"
-      echo "##vso[task.setvariable variable=WEB_NUGET_CACHE]$(Pipeline.Workspace)/web/.nuget"
+      echo "##vso[task.setvariable variable=WEB_NUGET_CACHE]$(Pipeline.Workspace)/.nuget/web/packages"
 
   - task: NuGetAuthenticate@0
 
