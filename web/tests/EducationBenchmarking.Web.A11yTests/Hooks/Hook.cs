@@ -8,12 +8,10 @@ namespace EducationBenchmarking.Web.A11yTests.Hooks;
     {
         private IBrowserContext BrowserContext { get; set; } = null!;
         private IPlaywright PlaywrightInstance { get; set; } = null!;
-      //  private readonly ScenarioContext _scenarioContext;
         private readonly IObjectContainer _objectContainer;
 
         public Hooks(ScenarioContext scenarioContext, IObjectContainer objectContainer)
         {
-      //      _scenarioContext = scenarioContext;
             _objectContainer = objectContainer;
         }
 

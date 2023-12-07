@@ -40,11 +40,7 @@ public sealed class AccessibilitySteps
         var seriousOrCriticalViolations = _axeResults!.Violations
             .Where(violation => violation.Impact == "serious" || violation.Impact == "critical")
             .ToList();
-
-        // Print the number of violations
         Console.WriteLine($"There are {seriousOrCriticalViolations.Count()} serious and critical issues on this page");
-
-        // Categorize and print details for each violation
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
         Assert.That(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
@@ -62,7 +58,6 @@ public sealed class AccessibilitySteps
         {
             var violation = categoryViolations[i];
             Console.WriteLine($"Issue {i + 1}: {violation.Description}");
-            // Print details for each node of the violation
             for (int j = 0; j < violation.Nodes.Count(); j++)
             {
                 var node = violation.Nodes[j];
