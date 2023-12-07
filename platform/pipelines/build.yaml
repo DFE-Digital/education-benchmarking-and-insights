@@ -5,12 +5,16 @@ trigger:
   batch: true
   branches:
     include:
-      - main
+    - main
   paths:
     include:
-      - platform
+    - platform
 
-pr: none
+pr:
+  paths: 
+    include:
+    - platform
+  drafts: false
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]  
