@@ -1,7 +1,13 @@
 pool:
   vmImage: 'windows-2022'
 
-trigger: none
+trigger:
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - core-infrastructure
 
 pr: none
 
