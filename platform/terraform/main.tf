@@ -42,6 +42,28 @@ resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
+resource "azurerm_cosmosdb_account" "cosmosdb-account" {
+  name                = "${var.environment-prefix}-ebis-cdb"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  offer_type          = "Standard"
+  kind                = "GlobalDocumentDB"
+  consistency_policy {
+    consistency_level = "Session"
+  }
+  tags = local.common-tags
+  geo_location {
+    failover_priority = 0
+    location          = azurerm_resource_group.resource-group.location
+  }
+}
+
+resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
+  name = "ebis-data"
+  account_name = azurerm_cosmosdb_account.cosmosdb-account.name
+  resource_group_name = azurerm_resource_group.resource-group.name
+}
+
 module "academies-fa" {
   source = "./functions"
   function-name = "academies"

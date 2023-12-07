@@ -163,4 +163,4 @@ jobs:
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishments.zip'
                 slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'      
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'   
