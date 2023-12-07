@@ -20,8 +20,8 @@ namespace EducationBenchmarking.Web.A11yTests.Features
     [System.CodeDom.Compiler.GeneratedCodeAttribute("TechTalk.SpecFlow", "3.9.0.0")]
     [System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [NUnit.Framework.TestFixtureAttribute()]
-    [NUnit.Framework.DescriptionAttribute("check the accessibility of a single page")]
-    public partial class CheckTheAccessibilityOfASinglePageFeature
+    [NUnit.Framework.DescriptionAttribute("Accessibility Audit")]
+    public partial class AccessibilityAuditFeature
     {
         
         private TechTalk.SpecFlow.ITestRunner testRunner;
@@ -91,7 +91,8 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
 #line 4
-testRunner.Given("I open the page with the url https://hippodigital.co.uk/", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+testRunner.Given("I open the page with the url https://schools-financial-benchmarking.service.gov.u" +
+                        "k/", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
 testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
