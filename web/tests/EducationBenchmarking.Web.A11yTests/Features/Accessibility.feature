@@ -1,4 +1,4 @@
-﻿Feature: check the accessibility of a single page
+﻿Feature: Accessibility Audit
 
 Scenario: Check the accessibility of landing page
 Given I open the page with the url https://schools-financial-benchmarking.service.gov.uk/

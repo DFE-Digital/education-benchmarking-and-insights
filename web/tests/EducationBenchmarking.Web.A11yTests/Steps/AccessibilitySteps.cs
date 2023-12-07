@@ -1,27 +1,21 @@
-﻿using EducationBenchmarking.Web.A11yTests.Drivers;
-using Deque.AxeCore.Commons;
+﻿using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 //using EducationBenchmarking.Web.A11yTests.Pages;
 using Microsoft.Playwright;
 using NUnit.Framework;
-using TechTalk.SpecFlow;
 
 namespace EducationBenchmarking.Web.A11yTests.Steps;
 
 [Binding]
 public sealed class AccessibilitySteps
 {
-    //private readonly Driver _driver;
-   // private readonly ScenarioContext _scenarioContext;
     private IPage _page;
     private AxeResult? _axeResults;
     
 
-    public AccessibilitySteps(Driver driver, ScenarioContext scenarioContext, IPage page)
+    public AccessibilitySteps( ScenarioContext scenarioContext, IPage page)
     {
         _page = page;
-        //   _scenarioContext = scenarioContext;
-        //  _schoolSearchPage = new SchoolSearchPage(_driver.Page);
     }
     
 
@@ -40,7 +34,7 @@ public sealed class AccessibilitySteps
     }
 
     [Then(@"there are no accessibility issues")]
-    public async Task ThenThereAreNoAccessibilityIssues()
+    public Task ThenThereAreNoAccessibilityIssues()
     {
        
         var seriousOrCriticalViolations = _axeResults!.Violations
@@ -54,6 +48,7 @@ public sealed class AccessibilitySteps
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
         Assert.That(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
+        return Task.CompletedTask;
     }
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
     {
