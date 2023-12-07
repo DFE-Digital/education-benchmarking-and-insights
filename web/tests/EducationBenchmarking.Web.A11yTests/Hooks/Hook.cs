@@ -1,3 +1,4 @@
+using BoDi;
 using Microsoft.Playwright;
 using TechTalk.SpecFlow;
 namespace EducationBenchmarking.Web.A11yTests.Hooks;
@@ -5,41 +6,51 @@ namespace EducationBenchmarking.Web.A11yTests.Hooks;
     [Binding]
     public class Hooks
     {
-        private static IBrowser browser;
-        private static IPage page;
+        private IBrowserContext BrowserContext { get; set; } = null!;
+        private IPlaywright PlaywrightInstance { get; set; } = null!;
+      //  private readonly ScenarioContext _scenarioContext;
+        private readonly IObjectContainer _objectContainer;
 
-        [BeforeScenario]
-        public async void BeforeScenario()
+        public Hooks(ScenarioContext scenarioContext, IObjectContainer objectContainer)
         {
-            var launchOptions = new BrowserTypeLaunchOptions
-            {
-                Headless = false // Set to true for headless mode
-            };
-
-            using var playwright = await Playwright.CreateAsync();
-            browser = await playwright.Chromium.LaunchAsync(launchOptions);
-            var context = await browser.NewContextAsync();
-            page = await context.NewPageAsync();
-
-            // Share the browser and page instances across steps using ScenarioContext
-            var scenarioContext = ScenarioContext.Current;
-            scenarioContext.Add("Browser", browser);
-            scenarioContext.Add("Page", page);
+      //      _scenarioContext = scenarioContext;
+            _objectContainer = objectContainer;
         }
 
-        [AfterScenario]
-        public async void AfterScenario()
-        {
-            // Retrieve the browser and page instances from ScenarioContext
-            var scenarioContext = ScenarioContext.Current;
-            var browser = (IBrowser)scenarioContext["Browser"];
-            var page = (IPage)scenarioContext["Page"];
 
-            // Close the browser
-            if (browser != null)
+        [BeforeTestRun]
+        public static async void InstallBrowsers()
+        {
+            var exitCode = Program.Main(new[] {"install", "chromium"});
+            if (exitCode != 0)
             {
-                await browser.CloseAsync();
+                throw new Exception($"Playwright exited with code {exitCode}");
             }
+        }
+
+        [BeforeScenario]
+        public async Task RegisterInstance()
+        {
+            PlaywrightInstance = await Playwright.CreateAsync();
+            var browser = await PlaywrightInstance.Chromium.LaunchAsync(new BrowserTypeLaunchOptions
+            {
+                Headless = false
+                });
+            BrowserContext = await browser.NewContextAsync(
+                new BrowserNewContextOptions
+                {
+                    IgnoreHTTPSErrors = true
+                });
+            var page = await BrowserContext.NewPageAsync();
+            _objectContainer.RegisterInstanceAs(browser);
+            _objectContainer.RegisterInstanceAs(page);
+            
+        }
+        
+        [AfterScenario]
+        public async Task AfterScenario()
+        {
+            PlaywrightInstance.Dispose();
         }
     }
     

@@ -12,14 +12,15 @@ namespace EducationBenchmarking.Web.A11yTests.Steps;
 public sealed class AccessibilitySteps
 {
     //private readonly Driver _driver;
-    private readonly ScenarioContext _scenarioContext;
-    private IPage page;
+   // private readonly ScenarioContext _scenarioContext;
+    private IPage _page;
     private AxeResult? _axeResults;
     
 
-    public AccessibilitySteps(Driver driver, ScenarioContext scenarioContext)
+    public AccessibilitySteps(Driver driver, ScenarioContext scenarioContext, IPage page)
     {
-        _scenarioContext = scenarioContext;
+        _page = page;
+        //   _scenarioContext = scenarioContext;
         //  _schoolSearchPage = new SchoolSearchPage(_driver.Page);
     }
     
@@ -27,15 +28,22 @@ public sealed class AccessibilitySteps
     [Given(@"I open the page with the url (.*)")]
     public async Task GivenIOpenThePageWithTheUrl(string url)
     {
-        var browser = (IBrowser)_scenarioContext["Browser"];
-        page = (IPage)_scenarioContext["Page"];
+        await _page.GotoAsync(url);
+     
+    }
+    
 
-        await page.GotoAsync(url);
-        
-        await page.GotoAsync("https://hippodigital.co.uk/");
-        
-        _axeResults = await page.RunAxe();
-        var seriousOrCriticalViolations = _axeResults.Violations
+    [When(@"I check the accessibility of the page")]
+    public async Task WhenICheckTheAccessibilityOfThePage()
+    {
+        _axeResults = await _page.RunAxe();
+    }
+
+    [Then(@"there are no accessibility issues")]
+    public async Task ThenThereAreNoAccessibilityIssues()
+    {
+       
+        var seriousOrCriticalViolations = _axeResults!.Violations
             .Where(violation => violation.Impact == "serious" || violation.Impact == "critical")
             .ToList();
 
@@ -46,21 +54,6 @@ public sealed class AccessibilitySteps
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
         Assert.That(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
-         
-        //  await browser.CloseAsync();
-    }
-    
-
-    [When(@"I check the accessibility of the page")]
-    public async Task WhenICheckTheAccessibilityOfThePage()
-    {
-       
-    }
-
-    [Then(@"there are no accessibility issues")]
-    public async Task ThenThereAreNoAccessibilityIssues()
-    {
-       
     }
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
     {
