@@ -2,6 +2,7 @@ pool:
   vmImage: 'windows-2022'
 
 trigger:
+  batch: true
   branches:
     include:
       - main
