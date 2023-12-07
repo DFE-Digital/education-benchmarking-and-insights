@@ -411,7 +411,7 @@ local.settings.json
 *.css.map
 
 # govuk frontend stuff
-**/wwwroot/css/assets
+**/wwwroot/assets
 **/wwwroot/js/govuk.js
 
 # minified js
