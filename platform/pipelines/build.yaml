@@ -1,7 +1,14 @@
 pool:
   vmImage: 'windows-2022'
 
-trigger: none
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - platform
 
 pr: none
 
