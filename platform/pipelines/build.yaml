@@ -37,11 +37,12 @@ stages:
               echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)-prerelease"
-            condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+            condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
             displayName: 'Set pre-release build number'
 
       - job: Zip_Static_artifacts
         displayName: 'Zip static artifacts'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps: 
           - task: ArchiveFiles@2
             displayName: 'Zip terraform files'
@@ -98,6 +99,7 @@ stages:
   - stage: DeployDevelopment
     dependsOn: [Build]
     displayName: 'Deploy to development'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs-platform-deployment.yaml
         parameters:
