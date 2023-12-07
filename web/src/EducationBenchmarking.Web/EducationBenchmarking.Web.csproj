@@ -7,4 +7,8 @@
     <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="CorrelationId" Version="3.0.1" />
+  </ItemGroup>
+
 </Project>
