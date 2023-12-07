@@ -134,12 +134,17 @@ This ensures that the service copes with large amount of users accessing the ser
 ** *add technology here* **
 
 #### Accessibility Testing
-Automated accessibility testing will be carried out using Pa11y to generate feedback on whether the service meets high level accessibility requirements in line with WCAG 2.2 AA.
+Automated accessibility testing will be carried out using [Deque.axe.playwright](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
+library to generate feedback on whether the service meets high level accessibility requirements in line with WCAG 2.2 AA.
 This will run as part of the pipeline in the later deployment steps from development to test and production.
 
 ##### Technology Selected
+[Deque.axe.playwright 4.8.0 ](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
 
-** *add technology here* **
+[Specflow 3.9.22](https://www.nuget.org/packages/SpecFlow/3.9.22)
+
+[Playwright 1.4.0](https://playwright.dev/)
+
 
 #### Security Scans
 [need to check how we are going to implement - STA uses OWASP ZAP security scans] 
