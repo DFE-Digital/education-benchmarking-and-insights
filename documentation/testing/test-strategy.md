@@ -139,11 +139,12 @@ library to generate feedback on whether the service meets high level accessibili
 This will run as part of the pipeline in the later deployment steps from development to test and production.
 
 ##### Technology Selected
-[Deque.axe.playwright 4.8.0 ](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
 
-[Specflow 3.9.22](https://www.nuget.org/packages/SpecFlow/3.9.22)
-
-[Playwright 1.4.0](https://playwright.dev/)
+- [Dotnet SDK](https://dotnet.microsoft.com/download)
+- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
+-  [Deque.axe.playwright 4.8.0](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
+- [SpecFlow 3.9.74](https://www.nuget.org/packages/SpecFlow/3.9.74)
+- [Playwright 1.4.0](https://playwright.dev/)
 
 
 #### Security Scans

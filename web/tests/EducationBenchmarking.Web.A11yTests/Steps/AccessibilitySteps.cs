@@ -1,6 +1,5 @@
 ﻿using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
-//using EducationBenchmarking.Web.A11yTests.Pages;
 using Microsoft.Playwright;
 using NUnit.Framework;
 
