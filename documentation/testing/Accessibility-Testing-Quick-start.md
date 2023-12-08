@@ -10,16 +10,6 @@ The accessibility tests are written in the Behavior-Driven Development (BDD) for
 
 ## Guide to Run Tests Locally
 
-### Prerequisites
-
-Make sure you have the following prerequisites installed on your local machine:
-
-- [Dotnet SDK](https://dotnet.microsoft.com/download)
-- [.NET 6.0](https://dotnet.microsoft.com/download/dotnet/6.0)
-- Open NuGet Package Manager and install:
-    - [Deque.axe.playwright 4.8.0](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
-    - [SpecFlow 3.9.22](https://www.nuget.org/packages/SpecFlow/3.9.22)
-    - [Playwright 1.4.0](https://playwright.dev/)
 
 ### Build and Run
 
@@ -29,7 +19,7 @@ Make sure you have the following prerequisites installed on your local machine:
     ```bash
     dotnet build
     ```
-
+it will download the the required packages for the project. 
 3. Once the project is built successfully, use the following command to run the tests:
 
     ```bash
