@@ -17,7 +17,6 @@
   "devDependencies": {},
     "scripts": {
         "test": "echo \"Error: no test specified\" && exit 1",
-        "compile-sass": "dart-sass wwwroot/css/main.scss wwwroot/css/main.css",
         "build": "gulp build-fe"
     },
   "author": "",
