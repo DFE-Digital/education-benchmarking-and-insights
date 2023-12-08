@@ -1,6 +1,7 @@
 ﻿using EducationBenchmarking.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Text;
 
 namespace EducationBenchmarking.Web.Controllers
 {
@@ -15,6 +16,11 @@ namespace EducationBenchmarking.Web.Controllers
 
         public IActionResult Index()
         {
+            
+            var testHttpContent = new ByteArrayContent(Encoding.UTF8.GetBytes("test"));
+            testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("text/html");
+            
+            
             return View();
         }
 

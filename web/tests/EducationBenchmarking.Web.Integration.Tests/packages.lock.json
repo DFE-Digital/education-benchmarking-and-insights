@@ -57,6 +57,19 @@
           "Microsoft.Extensions.Options": "2.1.1"
         }
       },
+      "FluentValidation": {
+        "type": "Transitive",
+        "resolved": "11.8.1",
+        "contentHash": "N72rnlE99XYB7EGA1u9y7m7kNTTynqOPBhZqDE8zr1Y0aSR4t5si94LRA7UVdAV09GaXWCErW+EiFhfbg3DSbg=="
+      },
+      "JsonSubTypes": {
+        "type": "Transitive",
+        "resolved": "2.0.1",
+        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
+        "dependencies": {
+          "Newtonsoft.Json": "13.0.1"
+        }
+      },
       "Microsoft.AspNetCore.Http.Abstractions": {
         "type": "Transitive",
         "resolved": "2.1.1",
@@ -1359,7 +1372,10 @@
       "educationbenchmarking.web": {
         "type": "Project",
         "dependencies": {
-          "CorrelationId": "[3.0.1, )"
+          "CorrelationId": "[3.0.1, )",
+          "FluentValidation": "[11.8.1, )",
+          "JsonSubTypes": "[2.0.1, )",
+          "Newtonsoft.Json": "[13.0.1, )"
         }
       }
     }

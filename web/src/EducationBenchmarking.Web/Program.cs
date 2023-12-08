@@ -26,6 +26,5 @@ app.MapControllerRoute(
 
 app.Run();
 
+public partial class Program { } // required for intergration tests
 
-// required for intergration tests
-public partial class Program { }
