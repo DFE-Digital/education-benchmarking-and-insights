@@ -1,7 +1,7 @@
 ﻿using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
 using Microsoft.Playwright;
-using NUnit.Framework;
+using Xunit;
 
 namespace EducationBenchmarking.Web.A11yTests.Steps;
 
@@ -42,7 +42,10 @@ public sealed class AccessibilitySteps
         Console.WriteLine($"There are {seriousOrCriticalViolations.Count()} serious and critical issues on this page");
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
-        Assert.That(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
+      //  Assert.Null(seriousOrCriticalViolations);
+      //  Assert.Empty(seriousOrCriticalViolations!);
+      Assert.True(seriousOrCriticalViolations.Count==0, "There are violations on the page");
+       // Assert.True(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
         return Task.CompletedTask;
     }
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
