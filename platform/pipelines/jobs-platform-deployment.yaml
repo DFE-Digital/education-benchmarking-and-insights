@@ -122,10 +122,10 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-academies-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-academy-trust-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Academies.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.AcademyTrust.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
           
@@ -134,10 +134,10 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-benchmarks-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmarks.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmark.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 
@@ -146,10 +146,10 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-schools-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-school-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Schools.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.School.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 
@@ -158,9 +158,9 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-establishments-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishments.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishment.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'   

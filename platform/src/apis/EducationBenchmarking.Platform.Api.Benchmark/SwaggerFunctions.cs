@@ -5,7 +5,7 @@ using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 
-namespace EducationBenchmarking.Platform.Api.Academies;
+namespace EducationBenchmarking.Platform.Api.Benchmark;
 
 /// <summary>
 /// 

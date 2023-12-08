@@ -64,9 +64,9 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   resource_group_name = azurerm_resource_group.resource-group.name
 }
 
-module "academies-fa" {
+module "academy-trust-fa" {
   source = "./functions"
-  function-name = "academies"
+  function-name = "academy-trust"
   common-tags = local.common-tags
   environment-prefix = var.environment-prefix
   resource-group-name = azurerm_resource_group.resource-group.name
@@ -78,9 +78,9 @@ module "academies-fa" {
   app-settings = local.default_app_settings
 }
 
-module "benchmarks-fa" {
+module "benchmark-fa" {
   source = "./functions"
-  function-name = "benchmarks"
+  function-name = "benchmark"
   common-tags = local.common-tags
   environment-prefix = var.environment-prefix
   resource-group-name = azurerm_resource_group.resource-group.name
@@ -92,9 +92,9 @@ module "benchmarks-fa" {
   app-settings = local.default_app_settings
 }
 
-module "schools-fa" {
+module "school-fa" {
   source = "./functions"
-  function-name = "schools"
+  function-name = "school"
   common-tags = local.common-tags
   environment-prefix = var.environment-prefix
   resource-group-name = azurerm_resource_group.resource-group.name
@@ -106,9 +106,9 @@ module "schools-fa" {
   app-settings = local.default_app_settings
 }
 
-module "establishments-fa" {
+module "establishment-fa" {
   source = "./functions"
-  function-name = "establishments"
+  function-name = "establishment"
   common-tags = local.common-tags
   environment-prefix = var.environment-prefix
   resource-group-name = azurerm_resource_group.resource-group.name

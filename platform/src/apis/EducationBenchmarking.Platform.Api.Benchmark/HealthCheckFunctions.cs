@@ -6,7 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace EducationBenchmarking.Platform.Api.Establishments;
+namespace EducationBenchmarking.Platform.Api.Benchmark;
 
 /// <summary>
 /// 
