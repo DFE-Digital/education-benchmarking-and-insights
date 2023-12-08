@@ -404,3 +404,15 @@ FodyWeavers.xsd
 *.feature.cs
 appsettings.local.json
 local.settings.json
+
+
+# CSS files (because we're using SASS)
+*.css
+*.css.map
+
+# govuk frontend stuff
+**/wwwroot/assets
+**/wwwroot/js/govuk.js
+
+# minified js
+*.min.js
