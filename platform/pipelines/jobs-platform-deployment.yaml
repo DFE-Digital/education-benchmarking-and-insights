@@ -107,7 +107,7 @@ jobs:
                 
   - deployment: Deploy
     dependsOn: [RunTerraform]
-    displayName: 'Deploy development platform'
+    displayName: 'Deploy platform'
     pool:
       vmImage: windows-2022
     environment: ${{ parameters.environment }}
