@@ -49,6 +49,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "functions", "functions", "{
 		terraform\functions\output.tf = terraform\functions\output.tf
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Infrastructure", "src\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj", "{B976AFDE-F059-4685-A33C-8C420ED09F12}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Domain", "src\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj", "{790C2FB1-998C-4D56-9A63-D6140D20C3D3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +89,14 @@ Global
 		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Release|Any CPU.Build.0 = Release|Any CPU
+		{790C2FB1-998C-4D56-9A63-D6140D20C3D3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{790C2FB1-998C-4D56-9A63-D6140D20C3D3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{790C2FB1-998C-4D56-9A63-D6140D20C3D3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{790C2FB1-998C-4D56-9A63-D6140D20C3D3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
@@ -93,5 +107,7 @@ Global
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{E5D01C03-6D75-498E-A66F-C204CFF65EFD} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{F752FFB8-6BA0-44B5-A6A3-4E87A04F8527} = {40636378-A9AE-4BD0-95FC-755987FC7388}
+		{B976AFDE-F059-4685-A33C-8C420ED09F12} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{790C2FB1-998C-4D56-9A63-D6140D20C3D3} = {D52455F1-3BF5-46F4-9833-633817248295}
 	EndGlobalSection
 EndGlobal
