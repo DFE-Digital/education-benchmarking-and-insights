@@ -22,7 +22,6 @@ resource "azurerm_app_service_plan" "education-benchmarking-asp" {
   name                = "${var.environment-prefix}-education-benchmarking-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
-  os_type             = "Windows"
   
   sku {
     tier = var.sizing[var.environment].tier
