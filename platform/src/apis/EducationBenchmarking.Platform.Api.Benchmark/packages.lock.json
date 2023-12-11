@@ -50,6 +50,11 @@
           "Newtonsoft.Json": "13.0.1"
         }
       },
+      "FluentValidation": {
+        "type": "Transitive",
+        "resolved": "11.8.1",
+        "contentHash": "N72rnlE99XYB7EGA1u9y7m7kNTTynqOPBhZqDE8zr1Y0aSR4t5si94LRA7UVdAV09GaXWCErW+EiFhfbg3DSbg=="
+      },
       "Microsoft.AspNet.WebApi.Client": {
         "type": "Transitive",
         "resolved": "5.2.8",
@@ -1574,6 +1579,13 @@
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "Newtonsoft.Json": "10.0.2"
+        }
+      },
+      "educationbenchmarking.platform.shared": {
+        "type": "Project",
+        "dependencies": {
+          "FluentValidation": "[11.8.1, )",
+          "Newtonsoft.Json": "[13.0.1, )"
         }
       }
     }

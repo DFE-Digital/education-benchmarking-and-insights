@@ -4,6 +4,10 @@ using System.Reflection;
 using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using EducationBenchmarking.Platform.Api.Benchmark;
+using EducationBenchmarking.Platform.Api.Benchmark.Db;
+using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Shared.Validators;
+using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -14,12 +18,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark;
 
-/// <summary>
-/// 
-/// </summary>
 public class Startup : FunctionsStartup
 {
-    /// <inheritdoc />
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -47,5 +47,9 @@ public class Startup : FunctionsStartup
         });
 
         builder.Services.AddHealthChecks();
+        builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
+        builder.Services.AddSingleton<ITrustDb, TrustDb>();
+        builder.Services.AddTransient<IValidator<SchoolComparatorSetRequest>, SchoolComparatorSetRequestValidator>();
+        builder.Services.AddTransient<IValidator<TrustComparatorSetRequest>, TrustComparatorSetRequestValidator>();
     }
 }

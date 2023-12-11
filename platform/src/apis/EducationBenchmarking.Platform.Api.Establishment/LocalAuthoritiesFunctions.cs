@@ -22,7 +22,7 @@ public class LocalAuthoritiesFunctions
     
     [FunctionName(nameof(GetLocalAuthorityAsync))]
     public async Task<IActionResult> GetLocalAuthorityAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "local-authority/{identifier}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authority/{identifier}")] HttpRequest req,
         string identifier)
     {
         return new OkResult();
@@ -30,21 +30,21 @@ public class LocalAuthoritiesFunctions
     
     [FunctionName(nameof(QueryLocalAuthoritiesAsync))]
     public async Task<IActionResult> QueryLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "local-authorities")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authorities")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SearchLocalAuthoritiesAsync))]
     public async Task<IActionResult> SearchLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "local-authorities/search")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SuggestLocalAuthoritiesAsync))]
     public async Task<IActionResult> SuggestLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "local-authorities/suggest")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")] HttpRequest req)
     {
         return new OkResult();
     }

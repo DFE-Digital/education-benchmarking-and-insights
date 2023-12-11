@@ -22,7 +22,7 @@ public class SchoolsFunctions
     
     [FunctionName(nameof(GetSchoolAsync))]
     public async Task<IActionResult> GetSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "school/{identifier}")] HttpRequest req,
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{identifier}")] HttpRequest req,
         string identifier)
     {
         return new OkResult();
@@ -30,21 +30,21 @@ public class SchoolsFunctions
     
     [FunctionName(nameof(QuerySchoolsAsync))]
     public async Task<IActionResult> QuerySchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "schools")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SearchSchoolsAsync))]
     public async Task<IActionResult> SearchSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schools/search")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/search")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SuggestSchoolsAsync))]
     public async Task<IActionResult> SuggestSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "post", Route = "schools/suggest")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")] HttpRequest req)
     {
         return new OkResult();
     }
