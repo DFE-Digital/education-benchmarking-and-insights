@@ -117,7 +117,6 @@ public class GivenAHttpContent
     {
         // arrange       
         var testHttpContent = new ByteArrayContent(Encoding.UTF8.GetBytes(""));
-        testHttpContent.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
 
         // act
         var result = await ApiResponseBody.FromHttpContent(testHttpContent);
