@@ -1,0 +1,15 @@
+parameters:
+  workingDir: ''
+  
+steps:
+  - script: 'npm install'
+    displayName: 'Install dependencies ${{ parameters.workingDir }}'
+    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
+
+  - script: 'npm test'
+    displayName: 'Run tests ${{ parameters.workingDir }}'
+    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
+    
+  - script: 'npm run build'
+    displayName: 'Build ${{ parameters.workingDir }}'
+    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
