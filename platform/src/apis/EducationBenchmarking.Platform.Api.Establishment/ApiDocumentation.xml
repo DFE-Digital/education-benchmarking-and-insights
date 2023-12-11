@@ -51,5 +51,17 @@
             <param name="swashBuckleClient"></param>
             <returns></returns>
         </member>
+        <member name="T:EducationBenchmarking.Platform.Api.Establishment.TrustsFunctions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.Establishment.TrustsFunctions.#ctor(Microsoft.Extensions.Logging.ILogger{EducationBenchmarking.Platform.Api.Establishment.TrustsFunctions},EducationBenchmarking.Platform.Infrastructure.Search.ISearchService{EducationBenchmarking.Platform.Shared.Trust})">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="search"></param>
+        </member>
     </members>
 </doc>

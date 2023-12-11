@@ -4,6 +4,9 @@ using System.Reflection;
 using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using EducationBenchmarking.Platform.Api.School;
+using EducationBenchmarking.Platform.Api.School.Db;
+using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -47,5 +50,6 @@ public class Startup : FunctionsStartup
         });
 
         builder.Services.AddHealthChecks();
+        builder.Services.AddSingleton<ISchoolExpenditureDb, SchoolExpenditureDb>();
     }
 }

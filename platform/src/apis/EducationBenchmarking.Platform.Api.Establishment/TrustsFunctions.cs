@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Domain;
 using EducationBenchmarking.Platform.Infrastructure.Search;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;

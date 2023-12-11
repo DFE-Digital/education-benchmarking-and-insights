@@ -21,7 +21,7 @@
         </None>
     </ItemGroup>
     <ItemGroup>
-      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj" />
+      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
       <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj" />
     </ItemGroup>
 </Project>
