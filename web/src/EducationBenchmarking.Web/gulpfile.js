@@ -6,11 +6,10 @@ var cleanCSS = require('gulp-clean-css');
 var uglify = require('gulp-uglify');
 
 
-const buildSass = () => gulp.src("wwwroot/css/*.scss")
+const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
 	.pipe(sass().on("error", sass.logError))
 	.pipe(cleanCSS())
 	.pipe(gulp.dest("wwwroot/css"));
-
 
 const copyGovukAssets = () => gulp.src(["node_modules/govuk-frontend/govuk/assets/**/*"]).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
 	gulp.src(["node_modules/govuk-frontend/govuk/all.js"]).pipe(rename("govuk.js")).pipe(gulp.dest("wwwroot/js/")));
