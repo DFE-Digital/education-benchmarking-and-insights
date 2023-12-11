@@ -14,7 +14,8 @@ steps:
   - task: Npm@1
     displayName: 'Run front-end build task' 
     inputs:
-      command: 'run-script build'
+      command: 'custom'
+      customCommand: 'run-script build'
       workingDir: 'web/src/EducationBenchmarking.Web'
       verbose: false
 
