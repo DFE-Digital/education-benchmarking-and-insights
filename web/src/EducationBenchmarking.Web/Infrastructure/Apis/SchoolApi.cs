@@ -2,19 +2,17 @@
 
 public class SchoolApi : BaseApi, ISchoolApi
 {
-    private const string SchoolsRoute = "api/schools";
-    
     public SchoolApi(HttpClient httpClient, string? key = default) : base(httpClient, key)
     {
     }
     
-    public async Task<ApiResult> Query(ApiQuery? query = null)
+    public async Task<ApiResult> QueryExpenditure(ApiQuery? query = null)
     {
-        return await GetAsync($"{SchoolsRoute}{query?.ToQueryString()}");
+        return await GetAsync($"api/school-expenditure{query?.ToQueryString()}");
     }
 }
 
 public interface ISchoolApi
 {
-    Task<ApiResult> Query(ApiQuery? query = null);
+    Task<ApiResult> QueryExpenditure(ApiQuery? query = null);
 }
