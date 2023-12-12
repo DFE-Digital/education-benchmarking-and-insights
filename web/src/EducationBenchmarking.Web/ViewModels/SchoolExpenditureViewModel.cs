@@ -2,8 +2,8 @@
 {
     public class SchoolExpenditureViewModel
     {
-        public required string SchoolName { get; set; }
+        public string SchoolName { get; set; }
 
-        public required string LastFinancialYear { get; set; }
+        public string LastFinancialYear { get; set; }
     }
 }

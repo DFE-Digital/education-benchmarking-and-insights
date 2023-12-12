@@ -3,9 +3,12 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers
 {
+    [Controller]
+    [Route("school-expenditure")]
     public class SchoolExpenditureController : Controller
     {
-        public IActionResult Index()
+        [Route("{id}")]
+            public IActionResult Details(string id)
         {
             var viewModel = new SchoolExpenditureViewModel
             {
