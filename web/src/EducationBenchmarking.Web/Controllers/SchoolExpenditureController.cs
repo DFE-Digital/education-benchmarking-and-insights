@@ -13,13 +13,6 @@ namespace EducationBenchmarking.Web.Controllers
                 LastFinancialYear = "2022"
             };
 
-            //    var query = HttpContext.Request.QueryString.Value;
-
-            //    var viewModel = new SchoolExpenditureViewModel
-            //    {
-            //        QueryString = string.IsNullOrEmpty(query) ? "" : query.Substring(1)
-            //};
-
             return View(viewModel);
         }
     }
