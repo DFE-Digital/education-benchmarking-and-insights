@@ -12,7 +12,7 @@ namespace EducationBenchmarking.Web.Controllers
         {
             var viewModel = new SchoolExpenditureViewModel
             {
-                SchoolName = "MySchool",
+                SchoolName = "Three Bears Secondary School",
                 LastFinancialYear = "2022"
             };
 
