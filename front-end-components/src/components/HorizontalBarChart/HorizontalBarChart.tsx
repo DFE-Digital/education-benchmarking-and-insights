@@ -3,6 +3,7 @@ import { Bar } from 'react-chartjs-2';
 import { ChartData, ChartOptions } from 'chart.js';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title} from 'chart.js';
 import {GridRow, GridCol} from "govuk-react";
+import './HorizontalBarChart.css';
   
   ChartJS.register(
     CategoryScale,
@@ -13,38 +14,85 @@ import {GridRow, GridCol} from "govuk-react";
 
 interface BarData {
     labels: string[];
-    datasets: [{data:number[]}];
+    data: number[];
 }
 
 interface BarChartProps {
     data: BarData;
-    title: string;
+    chosenSchool: string;
+    xLabel: string;
 }
 
-const HBarChart: React.FC<BarChartProps> = ({ data, title }) => {
+const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
+
+    const chosenSchoolIndex = data.labels.indexOf(chosenSchool);
+    const barBackgroundColors = data.labels.map((label, index) => 
+        index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
+    );
+
+    const datasets = [{
+      data: data.data,
+      backgroundColor: barBackgroundColors
+    }];
+
+    const dataForChart = {datasets:datasets, labels:data.labels}
+
+
     const options = {
+      maintainAspectRatio: false,
+      barPercentage: 1.09,
       indexAxis: 'y',
-      elements: {
-        bar: {
-          borderWidth: 2,
-        },
-      },
       responsive: true,
-      plugins: {
-        title: {
-          display: true,
-          text: title,
+      scales: {
+        x: {
+          border: {
+            color: 'black',
+          },
+          grid: {
+            display: true,
+            drawOnChartArea: false,
+            drawTicks: true, 
+            tickLength: 7, 
+            color: 'black',
+          },
+          title: {
+            display: true,
+            text: xLabel,
+            color: 'black'
+          },
+          ticks:{
+            color: 'black'
+          }
         },
-      },
+        y: {
+          border: {
+            color: 'black',
+          },
+          grid: {
+            offset: false,
+            display: true,
+            drawOnChartArea: false,
+            drawTicks: true, 
+            tickLength: 7,
+            color: 'black'
+          },
+          ticks: {
+            color: '#1D70B8'
+          }
+        }
+      }
     };
     return(
-    <>
-      <GridRow>
-        <GridCol setWidth="full">
-          <Bar data={data} options={options as ChartOptions} />;
-        </GridCol>
-      </GridRow>
-    </>)
+      <>
+        <GridRow>
+          <GridCol setWidth="full">
+            <div className="chart-container">
+              <Bar data={dataForChart} options={options as ChartOptions} />
+            </div>
+          </GridCol>
+        </GridRow>
+      </>
+    )
   };
   
   export default HBarChart;
