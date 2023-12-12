@@ -5,12 +5,12 @@ import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title} from 'c
 import {GridRow, GridCol} from "govuk-react";
 import './HorizontalBarChart.css';
   
-  ChartJS.register(
+ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
     Title,
-  );
+);
 
 interface BarData {
     labels: string[];
@@ -24,7 +24,6 @@ interface BarChartProps {
 }
 
 const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
-
     const chosenSchoolIndex = data.labels.indexOf(chosenSchool);
     const barBackgroundColors = data.labels.map((label, index) => 
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
@@ -36,7 +35,6 @@ const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
     }];
 
     const dataForChart = {datasets:datasets, labels:data.labels}
-
 
     const options = {
       maintainAspectRatio: false,
@@ -77,7 +75,10 @@ const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
             color: 'black'
           },
           ticks: {
-            color: '#1D70B8'
+            color: '#1D70B8',
+            font: data.labels.map((l, i) => ({
+              weight: i == chosenSchoolIndex ? 'bolder' : 'normal',
+            }))
           }
         }
       }
@@ -87,7 +88,7 @@ const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
         <GridRow>
           <GridCol setWidth="full">
             <div className="chart-container">
-              <Bar data={dataForChart} options={options as ChartOptions} />
+              <Bar data={dataForChart} options={options as ChartOptions}  />
             </div>
           </GridCol>
         </GridRow>
