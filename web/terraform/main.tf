@@ -18,12 +18,12 @@ data "azurerm_key_vault" "key-vault" {
 }
 
 data "azurerm_key_vault_secret" "school-api-key" {
-  name         = "${var.environment-prefix}-ebis-school-fa-host-key"
+  name         = "school-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
 data "azurerm_key_vault_secret" "school-api-host" {
-  name         = "${var.environment-prefix}-ebis-school-fa-host-host"
+  name         = "school-host"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
