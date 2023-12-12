@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Shared;
-using EducationBenchmarking.Platform.Shared.Characteristics;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +30,7 @@ public class TrustsFunctions
     }
 
     [FunctionName(nameof(GetTrustCharacteristics))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Characteristic[]))]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public IActionResult GetTrustCharacteristics(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts/characteristics")]  HttpRequest req)
@@ -46,7 +45,7 @@ public class TrustsFunctions
         {
             try
             {
-                return new JsonContentResult(Questions.Trusts.All);
+                return new JsonContentResult(Characteristics.Trusts.All);
             }
             catch (Exception e)
             {
@@ -57,7 +56,7 @@ public class TrustsFunctions
     }
     
     [FunctionName(nameof(CreateTrustComparatorSet))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ComparatorSet<Trust>))]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateTrustComparatorSet(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/comparator-set")]

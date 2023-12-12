@@ -12,7 +12,6 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -27,7 +26,7 @@ public class Startup : FunctionsStartup
         builder.AddSwashBuckle(assembly, opts =>
         {
             opts.AddCodeParameter = true;
-            opts.SpecVersion = OpenApiSpecVersion.OpenApi2_0;
+            opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
             opts.Documents = new[]
             {
                 new SwaggerDocument
@@ -39,10 +38,23 @@ public class Startup : FunctionsStartup
             };
             opts.ConfigureSwaggerGen = x =>
             {
-                x.CustomSchemaIds(type => type.ToString());
-                x.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var mInfo)
-                    ? mInfo.Name
-                    : default(Guid).ToString());
+                
+                x.UseAllOfForInheritance();
+                x.UseOneOfForPolymorphism();
+                x.SelectSubTypesUsing(baseType =>
+                {
+                    if (baseType == typeof(ProximitySort))
+                    {
+                        return new[]
+                        {
+                            typeof(BestInClassProximitySort),
+                            typeof(SenProximitySort),
+                            typeof(SimpleProximitySort)
+                        };
+                    }
+
+                    return Array.Empty<Type>();
+                });
             };
         });
 

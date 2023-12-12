@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace EducationBenchmarking.Platform.Shared;
 
 
