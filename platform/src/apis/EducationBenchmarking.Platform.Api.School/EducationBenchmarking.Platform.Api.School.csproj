@@ -20,4 +20,7 @@
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
+    </ItemGroup>
 </Project>

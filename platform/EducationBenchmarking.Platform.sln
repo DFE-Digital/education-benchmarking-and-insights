@@ -53,7 +53,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstraction
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Infrastructure", "src\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj", "{B976AFDE-F059-4685-A33C-8C420ED09F12}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Domain", "src\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj", "{790C2FB1-998C-4D56-9A63-D6140D20C3D3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Shared", "src\abstractions\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj", "{790C2FB1-998C-4D56-9A63-D6140D20C3D3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

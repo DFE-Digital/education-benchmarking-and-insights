@@ -4,6 +4,21 @@
         <name>EducationBenchmarking.Platform.Api.School</name>
     </assembly>
     <members>
+        <member name="T:EducationBenchmarking.Platform.Api.School.Db.ISchoolExpenditureDb">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.School.Db.ISchoolExpenditureDb.Query(System.Collections.Generic.IEnumerable{System.Collections.Generic.KeyValuePair{System.String,Microsoft.Extensions.Primitives.StringValues}})">
+            <summary>
+            
+            </summary>
+            <param name="criteria"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EducationBenchmarking.Platform.Api.School.Db.SchoolExpenditureDb">
+            <inheritdoc />
+        </member>
         <member name="T:EducationBenchmarking.Platform.Api.School.HealthCheckFunctions">
             <summary>
             
@@ -16,6 +31,24 @@
             <param name="healthCheck"></param>
         </member>
         <member name="M:EducationBenchmarking.Platform.Api.School.HealthCheckFunctions.Health(Microsoft.AspNetCore.Http.HttpRequest)">
+            <summary>
+            
+            </summary>
+            <param name="req"></param>
+            <returns></returns>
+        </member>
+        <member name="T:EducationBenchmarking.Platform.Api.School.SchoolExpenditureFunctions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.School.SchoolExpenditureFunctions.#ctor(Microsoft.Extensions.Logging.ILogger{EducationBenchmarking.Platform.Api.School.SchoolExpenditureFunctions},EducationBenchmarking.Platform.Api.School.Db.ISchoolExpenditureDb)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:EducationBenchmarking.Platform.Api.School.SchoolExpenditureFunctions.QuerySchoolExpenditureAsync(Microsoft.AspNetCore.Http.HttpRequest)">
             <summary>
             
             </summary>
