@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
+[ApiExplorerSettings(GroupName = "Schools")]
 public class SchoolsFunctions
 {
     private readonly ILogger<SchoolsFunctions> _logger;
@@ -37,14 +39,16 @@ public class SchoolsFunctions
     
     [FunctionName(nameof(SearchSchoolsAsync))]
     public async Task<IActionResult> SearchSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/search")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/search")] 
+        [RequestBodyType(typeof(PostSearchRequest), "The search object")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SuggestSchoolsAsync))]
     public async Task<IActionResult> SuggestSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")] 
+        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
         return new OkResult();
     }

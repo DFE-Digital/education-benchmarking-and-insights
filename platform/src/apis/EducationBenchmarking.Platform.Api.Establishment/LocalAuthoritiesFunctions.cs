@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
+[ApiExplorerSettings(GroupName = "Local Authorities")]
 public class LocalAuthoritiesFunctions
 {
     private readonly ILogger<LocalAuthoritiesFunctions> _logger;
@@ -37,14 +39,16 @@ public class LocalAuthoritiesFunctions
     
     [FunctionName(nameof(SearchLocalAuthoritiesAsync))]
     public async Task<IActionResult> SearchLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")] 
+        [RequestBodyType(typeof(PostSearchRequest), "The search object")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SuggestLocalAuthoritiesAsync))]
     public async Task<IActionResult> SuggestLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")] 
+        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
         return new OkResult();
     }

@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
+[ApiExplorerSettings(GroupName = "Trusts")]
 public class TrustsFunctions
 {
     private readonly ILogger<TrustsFunctions> _logger;
@@ -38,14 +40,16 @@ public class TrustsFunctions
     
     [FunctionName(nameof(SearchTrustsAsync))]
     public async Task<IActionResult> SearchTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/search")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/search")] 
+        [RequestBodyType(typeof(PostSearchRequest), "The search object")]  HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SuggestTrustsAsync))]
     public async Task<IActionResult> SuggestTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")] 
+        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
         return new OkResult();
     }

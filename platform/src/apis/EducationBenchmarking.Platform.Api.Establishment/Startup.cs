@@ -33,13 +33,6 @@ public class Startup : FunctionsStartup
                     Description = assemblyDetails.FileDescription ?? string.Empty
                 }
             };
-            opts.ConfigureSwaggerGen = x =>
-            {
-                x.CustomSchemaIds(type => type.ToString());
-                x.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var mInfo)
-                    ? mInfo.Name
-                    : default(Guid).ToString());
-            };
         });
 
         builder.Services.AddHealthChecks();
