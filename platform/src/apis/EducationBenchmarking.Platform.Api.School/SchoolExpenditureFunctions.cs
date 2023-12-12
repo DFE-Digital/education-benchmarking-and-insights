@@ -13,40 +13,26 @@ using Microsoft.Extensions.Logging;
 
 namespace EducationBenchmarking.Platform.Api.School;
 
-/// <summary>
-/// 
-/// </summary>
 [ApiExplorerSettings(GroupName = "School Expenditure")]
 public class SchoolExpenditureFunctions
 {
     private readonly ILogger<SchoolExpenditureFunctions> _logger;
     private readonly ISchoolExpenditureDb _db;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="logger"></param>
+    
     public SchoolExpenditureFunctions(ILogger<SchoolExpenditureFunctions> logger, ISchoolExpenditureDb db)
     {
         _logger = logger;
         _db = db;
     }
-
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
+    
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
     [ProducesResponseType((int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = false)]
     [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("pageSize", "Size of page ", DataType = typeof(int), Required = false)]
-
     public async Task<IActionResult> QuerySchoolExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "school-expenditure")] HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school-expenditure")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
         

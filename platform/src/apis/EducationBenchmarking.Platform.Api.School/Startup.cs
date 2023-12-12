@@ -17,12 +17,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace EducationBenchmarking.Platform.Api.School;
 
-/// <summary>
-/// 
-/// </summary>
 public class Startup : FunctionsStartup
 {
-    /// <inheritdoc />
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var assembly = Assembly.GetExecutingAssembly();

@@ -2,7 +2,6 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
-        <DocumentationFile>ApiDocumentation.xml</DocumentationFile>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
