@@ -12,6 +12,21 @@ data "azurerm_application_insights" "application-insights" {
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 
+data "azurerm_key_vault" "key-vault" {
+  name                            = "${var.environment-prefix}-ebis-keyvault"
+  resource_group_name             = "${var.environment-prefix}-ebis-core"
+}
+
+data "azurerm_key_vault_secret" "school-api-key" {
+  name         = "${var.environment-prefix}-ebis-school-fa-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "school-api-host" {
+  name         = "${var.environment-prefix}-ebis-school-fa-host-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
 resource "azurerm_resource_group" "resource-group" {
   name     = "${var.environment-prefix}-ebis-web"
   location = var.location
@@ -44,6 +59,8 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.application-insights.instrumentation_key
+    "Apis:School:Url" = data.azurerm_key_vault_secret.school-api-host.value
+    "Apis:School:Key" = data.azurerm_key_vault_secret.school-api-key.value
   }
   tags = local.common-tags
 }

@@ -1,7 +1,21 @@
+using CorrelationId.DependencyInjection;
+using EducationBenchmarking.Web.Extensions;
+using EducationBenchmarking.Web.Infrastructure.Apis;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.SetupLogging("Education Benchmarking and Insights");
 builder.Services.AddControllersWithViews();
+builder.Services.AddDefaultCorrelationId();
+builder.Services.AddApplicationInsightsTelemetry();
+
+builder.Services.AddOptions<ApiSettings>(ApiSettings.SchoolApi)
+    .BindConfiguration($"Apis:{ApiSettings.SchoolApi}")
+    .ValidateDataAnnotations();
+
+builder.Services.AddHttpClient<ISchoolApi, SchoolApi>()
+    .ConfigureHttpClientForApi(ApiSettings.SchoolApi);
 
 var app = builder.Build();
 
