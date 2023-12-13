@@ -1,15 +1,31 @@
-parameters:
-  workingDir: ''
-  
-steps:
-  - script: 'npm install'
-    displayName: 'Install dependencies ${{ parameters.workingDir }}'
-    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
+trigger:
+- main
+- feature/*
 
-  - script: 'npm test'
-    displayName: 'Run tests ${{ parameters.workingDir }}'
-    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
-    
-  - script: 'npm run build'
-    displayName: 'Build ${{ parameters.workingDir }}'
-    workingDirectory: 'education-benchmarking-and-insights/front-end-components/${{ parameters.workingDir }}'
+pr:
+- main
+- feature/*
+
+pool:
+  vmImage: ''  
+
+steps:
+- checkout: self
+  fetchDepth: 1 
+
+- task: Npm@1
+  displayName: 'Install dependencies'
+  inputs:
+    command: 'install'
+
+- task: Npm@1
+  displayName: 'Run tests'
+  inputs:
+    command: 'custom'
+    customCommand: 'test'
+
+- task: Npm@1
+  displayName: 'Build project'
+  inputs:
+    command: 'custom'
+    customCommand: 'run build'
