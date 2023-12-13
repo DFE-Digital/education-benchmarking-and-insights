@@ -1,7 +1,7 @@
 ﻿@model EducationBenchmarking.Web.ViewModels.SchoolExpenditureViewModel
 
 <div class="govuk-width-container">
-    <a href="" class="govuk-back-link">Back</a>
+    <a href="" class="govuk-back-link" id="back-link">Back</a>
     <main class="govuk-main-wrapper">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters">
@@ -9,14 +9,14 @@
             </div>
             <div class="govuk-grid-column-one-quarter">
                 <p class="govuk-body-s">
-                    <a href="" class="govuk-link govuk-link--no-visited-state">Change</a>
+                    <a href="" class="govuk-link govuk-link--no-visited-state" id="change-link">Change</a>
                 </p>
             </div>
         </div>
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-three-quarters">
                 <p class="govuk-body">Compare your spending costs against similar schools for @Model.LastFinancialYear</p>
-                <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="view-comparator-set">
                     View your comparator set
                 </a>
             </div>
