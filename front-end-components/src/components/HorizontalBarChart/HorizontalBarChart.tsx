@@ -1,16 +1,14 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
-import { ChartData, ChartOptions } from 'chart.js';
-import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title} from 'chart.js';
-import {GridRow, GridCol} from "govuk-react";
+import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
 import './HorizontalBarChart.css';
-  
+
 ChartJS.register(
     CategoryScale,
     LinearScale,
     BarElement,
-    Title,
-);
+    Title
+  );
 
 interface BarData {
     labels: string[];
@@ -23,22 +21,50 @@ interface BarChartProps {
     xLabel: string;
 }
 
+const underLinePlugin = {
+  id: 'underline',
+  afterDraw: (chart: ChartJS) => {
+    const ctx = chart.ctx;
+    ctx.save();
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const yAxis = chart.scales.y as any;
+    
+    yAxis.ticks.forEach((tick: Tick, index: number) => {
+      const yAxisLabelPadding = yAxis.options.ticks.padding;
+      const textWidth = ctx.measureText(tick.label as string).width;
+      const yPosition = yAxis.getPixelForTick(index) + (yAxisLabelPadding*2)
+
+      ctx.strokeStyle = yAxis.options.ticks.color
+      ctx.lineWidth = 1.5;
+      const xStart = yAxis.right - textWidth - (yAxisLabelPadding*3)
+
+
+      ctx.beginPath();
+      ctx.moveTo(xStart, yPosition);
+      ctx.lineTo(xStart + textWidth, yPosition);
+      ctx.stroke();
+    });
+    ctx.restore();
+  }
+};
+
 const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
     const chosenSchoolIndex = data.labels.indexOf(chosenSchool);
-    const barBackgroundColors = data.labels.map((label, index) => 
+    const barBackgroundColors = data.labels.map((_, index) => 
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
     );
 
     const datasets = [{
       data: data.data,
-      backgroundColor: barBackgroundColors
+      backgroundColor: barBackgroundColors,
+      barPercentage: 1.09,
     }];
 
     const dataForChart = {datasets:datasets, labels:data.labels}
 
-    const options = {
+    const options: ChartOptions<'bar'> = {
       maintainAspectRatio: false,
-      barPercentage: 1.09,
       indexAxis: 'y',
       responsive: true,
       scales: {
@@ -76,22 +102,22 @@ const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
           },
           ticks: {
             color: '#1D70B8',
-            font: data.labels.map((l, i) => ({
-              weight: i == chosenSchoolIndex ? 'bolder' : 'normal',
-            }))
+            font: (context) => {
+              const label = context.tick.label;
+              const weight = data.labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
+              return {
+                  weight: weight,
+              };
+            }
           }
         }
       }
     };
     return(
       <>
-        <GridRow>
-          <GridCol setWidth="full">
-            <div className="chart-container">
-              <Bar data={dataForChart} options={options as ChartOptions}  />
-            </div>
-          </GridCol>
-        </GridRow>
+        <div className="chart-container">
+          <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} />
+        </div>
       </>
     )
   };
