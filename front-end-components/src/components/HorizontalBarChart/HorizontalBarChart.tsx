@@ -29,7 +29,7 @@ const underLinePlugin = {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const yAxis = chart.scales.y as any;
-    
+
     yAxis.ticks.forEach((tick: Tick, index: number) => {
       const yAxisLabelPadding = yAxis.options.ticks.padding;
       const textWidth = ctx.measureText(tick.label as string).width;
