@@ -8,7 +8,7 @@ namespace EducationBenchmarking.Web.Controllers
     public class SchoolExpenditureController : Controller
     {
         [Route("{id}")]
-            public IActionResult Details(string id)
+        public IActionResult Details(string id)
         {
             var viewModel = new SchoolExpenditureViewModel
             {
