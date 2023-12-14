@@ -11,9 +11,8 @@ const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
 	.pipe(cleanCSS())
 	.pipe(gulp.dest("wwwroot/css"));
 
-const copyGovukAssets = () => gulp.src(["node_modules/govuk-frontend/govuk/assets/**/*"]).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
-	gulp.src(["node_modules/govuk-frontend/govuk/all.js"]).pipe(rename("govuk.js")).pipe(gulp.dest("wwwroot/js/")));
-	gulp.src(["node_modules/govuk-frontend/govuk/all.js"]).pipe(uglify()).pipe(rename("govuk.js")).pipe(gulp.dest("wwwroot/js/"));
+const copyGovukAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/**/*"]).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
+	gulp.src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js"]).pipe(gulp.dest("wwwroot/js/")));
 
 
 gulp.task("build-fe", () => {
