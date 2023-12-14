@@ -32,8 +32,6 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
         //temp hard coded should use lookup collection
 
         var collectionName = "GIAS-2022-2023"; //_collectionService.GetLatestCollection(DataGroups.Edubase);
-
-        //var school = await ReadItemAsync<Edubase>(collectionName, urn, urn);
         
         var school = await GetItemEnumerableAsync<Edubase>(
                 collectionName,
