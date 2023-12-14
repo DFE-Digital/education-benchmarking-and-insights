@@ -6,7 +6,7 @@
   "dependencies": {
     "async": "^3.2.5",
     "dart-sass": "^1.25.0",
-    "govuk-frontend": "^4.7.0",
+    "govuk-frontend": "^5.0.0",
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.3.0",
     "gulp-dart-sass": "^1.1.0",

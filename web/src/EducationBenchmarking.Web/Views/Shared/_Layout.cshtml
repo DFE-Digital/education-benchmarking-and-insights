@@ -113,9 +113,11 @@
 </footer>
 
 <script src="~/js/site.js" asp-append-version="true" type="text/javascript"></script>
-<script src="~/js/govuk.js" asp-append-version="true" type="text/javascript"></script>
-<script>
-    window.GOVUKFrontend.initAll()
+<script type="module" src="~/js/govuk-frontend.min.js"></script>
+<script type="module">
+  import { initAll } from '~/js/govuk-frontend.min.js'
+
+  initAll()
 </script>
 
 @await RenderSectionAsync("Scripts", required: false)
