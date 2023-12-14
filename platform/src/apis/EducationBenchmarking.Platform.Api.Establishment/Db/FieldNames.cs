@@ -1,0 +1,53 @@
+namespace EducationBenchmarking.Platform.Api.Establishment.Db;
+
+public static class FieldNames
+{
+        public const string URN = "URN";
+        public const string ESTAB_NAME = "EstablishmentName";
+        public const string ESTAB_NAME_UPPERCASE = "EstablishmentNameUpperCase";
+        public const string OVERALL_PHASE = "OverallPhase";
+        public const string PHASE_OF_EDUCATION = "PhaseOfEducation";
+        public const string TYPE_OF_ESTAB = "TypeOfEstablishment";
+        public const string STREET = "Street";
+        public const string TOWN = "Town";
+        public const string POSTCODE = "Postcode";
+        public const string ADDRESS = "FullAddress";
+        public const string LOCATION = "Location";
+        public const string TRUSTS = "Trusts";
+        public const string SPONSORS = "SchoolSponsors";
+        public const string LA_CODE = "LACode";
+        public const string ESTAB_NO = "EstablishmentNumber";
+        public const string LA_ESTAB = "LAEstab";
+        public const string TEL_NO = "TelephoneNum";
+        public const string NO_PUPIL = "NumberOfPupils";
+        public const string STAT_LOW = "StatutoryLowAge";
+        public const string STAT_HIGH = "StatutoryHighAge";
+        public const string HEAD_FIRST_NAME = "HeadFirstName";
+        public const string HEAD_LAST_NAME = "HeadLastName";
+        public const string OFFICIAL_6_FORM = "OfficialSixthForm";
+        public const string SCHOOL_WEB_SITE = "SchoolWebsite";
+        public const string OFSTED_RATING = "OfstedRating";
+        public const string OFSTE_LAST_INSP = "OfstedLastInsp";
+        public const string FINANCE_TYPE = "FinanceType";
+        public const string OPEN_DATE = "OpenDate";
+        public const string CLOSE_DATE = "CloseDate";
+        public const string ESTAB_STATUS = "EstablishmentStatus";
+        public const string ESTAB_STATUS_IN_YEAR = "EstablishmentStatusInLatestAcademicYear";
+        public const string PERIOD_COVERED_BY_RETURN = "Period covered by return";
+        public const string LOCATION_TYPE = "type";
+        public const string LOCATION_COORDINATES = "coordinates";
+        public const string RELIGIOUS_CHARACTER = "ReligiousCharacter";
+        public const string GENDER = "Gender";
+        public const string COMPANY_NUMBER = "CompanyNumber";
+        public const string UID = "UID";
+        public const string NURSERY_PROVISION = "NurseryProvisionName";
+        public const string MAT_SAT = "MAT SAT or Central Services";
+        public const string IS_FEDERATION = "IsFederation";
+        public const string FEDERATION_MEMBERS = "FederationMembers";
+        public const string IS_PART_OF_FEDERATION = "IsPartOfFederation";
+        public const string FEDERATION_UID = "FederationUId";
+        public const string FEDERATION_NAME = "FederationName";
+        public const string FEDERATIONS_CODE = "FederationsCode";
+        public const string FEDERATION = "Federations";
+        public const string GOV_OFFICE_REGION = "GOR";
+}

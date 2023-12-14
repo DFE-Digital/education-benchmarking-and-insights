@@ -1,14 +1,17 @@
-﻿using System;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 using System.Reflection;
 using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using EducationBenchmarking.Platform.Api.Establishment;
+using EducationBenchmarking.Platform.Api.Establishment.Db;
+using EducationBenchmarking.Platform.Api.Establishment.Search;
+using EducationBenchmarking.Platform.Infrastructure.Cosmos;
+using EducationBenchmarking.Platform.Infrastructure.Search;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
-using Swashbuckle.AspNetCore.SwaggerGen;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -35,6 +38,11 @@ public class Startup : FunctionsStartup
             };
         });
 
+        builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos");
+        builder.Services.AddOptions<SchoolDbOptions>().BindConfiguration("Cosmos");
+        
         builder.Services.AddHealthChecks();
+        builder.Services.AddSingleton<ICollectionService, CollectionService>();
+        builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
     }
 }

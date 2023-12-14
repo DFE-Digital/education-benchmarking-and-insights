@@ -3,12 +3,15 @@
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle" Version="3.3.2" />
         <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.25" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0"/>
+        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
     <ItemGroup>
         <None Update="host.json">
