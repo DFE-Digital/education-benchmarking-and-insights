@@ -165,9 +165,4 @@ public class SchoolTrustFinance
     public string FederationName { get; set; }
     public decimal? InterestLoansAndBanking { get; set; }
     public decimal? DirectRevenueFinancing { get; set; }
-    
-    internal decimal? GetDecimalValueByName(string? name)
-    {
-        return name != null ? typeof(Trust).GetProperty(name)?.GetValue(this) as decimal? : null;
-    }
 }

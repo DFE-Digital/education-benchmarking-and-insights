@@ -10,7 +10,7 @@ namespace EducationBenchmarking.Platform.Shared;
 
 public static class JsonExtensions
 {
-    private static readonly JsonConverter ProximityLimitConverter = JsonSubtypesConverterBuilder
+    private static readonly JsonConverter ProximitySortConverter = JsonSubtypesConverterBuilder
         .Of<ProximitySort>("Kind")
         .RegisterSubtype<SenProximitySort>(ProximitySortKinds.Sen)
         .RegisterSubtype<SimpleProximitySort>(ProximitySortKinds.Simple)
@@ -28,7 +28,7 @@ public static class JsonExtensions
         {
             new IsoDateTimeConverter(),
             new StringEnumConverter(),
-            ProximityLimitConverter
+            ProximitySortConverter
         }
     };
 

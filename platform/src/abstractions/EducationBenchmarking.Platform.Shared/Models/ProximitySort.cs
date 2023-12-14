@@ -33,7 +33,7 @@ public class SenProximitySort : ProximitySort
         var enumerable = set as SchoolTrustFinance[] ?? set.ToArray();
 
         return enumerable
-                .OrderBy(x => Math.Abs(x.GetDecimalValueByName(SortBy).GetValueOrDefault() - Baseline));
+                .OrderBy(x => Math.Abs(x.GetDecimalValueByName<SchoolTrustFinance>(SortBy).GetValueOrDefault() - Baseline));
     }
 }
 
@@ -48,7 +48,7 @@ public class SimpleProximitySort : ProximitySort
         var enumerable = set as SchoolTrustFinance[] ?? set.ToArray();
 
         return enumerable
-                .OrderBy(x => Math.Abs(x.GetDecimalValueByName(SortBy).GetValueOrDefault() - Baseline));
+                .OrderBy(x => Math.Abs(x.GetDecimalValueByName<SchoolTrustFinance>(SortBy).GetValueOrDefault() - Baseline));
     }
 }
 
@@ -64,7 +64,7 @@ public class BestInClassProximitySort : ProximitySort
         var enumerable = set as SchoolTrustFinance[] ?? set.ToArray();
         
         return enumerable
-                .OrderBy(x => Math.Abs(x.GetDecimalValueByName(SortBy).GetValueOrDefault() - Baseline))
+                .OrderBy(x => Math.Abs(x.GetDecimalValueByName<SchoolTrustFinance>(SortBy).GetValueOrDefault() - Baseline))
                 .Take(Pool)
                 .OrderByDescending(x => x.OverallPhase is "Secondary" or "All-through" ? x.Progress8Measure : x.Ks2Progress);
     }
