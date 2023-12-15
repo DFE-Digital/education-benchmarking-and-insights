@@ -10,18 +10,3 @@ public abstract class SearchServiceOptions
     public Uri Endpoint => new($"https://{ServiceName}.search.windows.net/");
     public AzureKeyCredential Credential => new(ApiKey);
 }
-
-public class TrustSearchServiceOptions : SearchServiceOptions
-{
-    public string TrustIndexName { get; set; }
-}
-
-public class SchoolSearchServiceOptions : SearchServiceOptions
-{
-    public string SchoolIndexName { get; set; }
-}
-
-public class LocalAuthoritySearchServiceOptions : SearchServiceOptions
-{
-    public string LocalAuthorityIndexName { get; set; }
-}
