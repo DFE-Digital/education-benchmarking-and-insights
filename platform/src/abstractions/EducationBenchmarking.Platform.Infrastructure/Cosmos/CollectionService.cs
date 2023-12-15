@@ -4,7 +4,7 @@ namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
 public interface ICollectionService
 {
-    string GetLatestCollection(string dataGroup);
+    Task<DataCollection> GetLatestCollection(string dataGroup);
 }
 
 public class CollectionServiceOptions
@@ -17,44 +17,34 @@ public class CollectionServiceOptions
 public class CollectionService : CosmosDatabase, ICollectionService
 {
     private readonly CollectionServiceOptions _options;
-    private DataCollection[]? _collections;
 
-    public DataCollection[] ActiveCollections
-    {
-        get
-        {
-            if (_collections == null)
-            {
-                _collections = GetItemEnumerableAsync<DataCollection>(
-                        _options.LookupCollectionName,
-                        q => q.Where(x => x.Active == "Y"))
-                    .ToArrayAsync().GetAwaiter().GetResult();
-            }
-
-            return _collections;
-        }
-    }
-
-    public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value.ConnectionString, options.Value.DatabaseId)
+    public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value.ConnectionString,
+        options.Value.DatabaseId)
     {
         _options = options.Value;
     }
 
-    private IEnumerable<string> GetActiveCollections(string dataGroup)
+    private async Task<DataCollection[]> GetAllActiveCollections()
     {
-        var result = ActiveCollections.Where(c => c.DataGroup == dataGroup)
-            .Select(c => c.Name)
-            .ToArray();
-        return result;
+        return await GetItemEnumerableAsync<DataCollection>(
+                _options.LookupCollectionName,
+                q => q.Where(x => x.Active == "Y"))
+            .ToArrayAsync();
     }
 
-    public string GetLatestCollection(string dataGroup)
-    {
-        var activeCollections = GetActiveCollections(dataGroup);
 
-        return activeCollections.MaxBy(o => o.Split('-').First()) 
+    private async Task<IEnumerable<DataCollection>> GetActiveCollectionsForDataGroup(string dataGroup)
+    {
+        var groups = await GetAllActiveCollections();
+        return groups.Where(c => c.DataGroup == dataGroup)
+            .ToArray();
+    }
+
+    public async Task<DataCollection> GetLatestCollection(string dataGroup)
+    {
+        var activeCollections = await GetActiveCollectionsForDataGroup(dataGroup);
+
+        return activeCollections.MaxBy(o => o.Name.Split('-').First())
                ?? throw new ArgumentException("Collection not found for the data group");
     }
-    
 }
-

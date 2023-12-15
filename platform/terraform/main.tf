@@ -120,6 +120,6 @@ module "establishment-fa" {
   app-settings             = merge(app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = "ebis-data"
-    "Cosmos__LookupCollectionName" = "[TBC]"
+    "Cosmos__LookupCollectionName" = "fibre-directory"
   })
 }

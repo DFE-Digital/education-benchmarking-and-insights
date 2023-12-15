@@ -29,12 +29,10 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
 
     public async Task<School?> GetSchool(string urn)
     {
-        //temp hard coded should use lookup collection
-
-        var collectionName = "GIAS-2022-2023"; //_collectionService.GetLatestCollection(DataGroups.Edubase);
+        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
         
         var school = await GetItemEnumerableAsync<Edubase>(
-                collectionName,
+                collection.Name,
                 q => q.Where(x => x.URN == long.Parse(urn)))
             .FirstOrDefaultAsync();
 
