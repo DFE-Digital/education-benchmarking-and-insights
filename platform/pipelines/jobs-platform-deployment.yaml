@@ -117,8 +117,7 @@ jobs:
           steps:
             - checkout: none
             - download: current
-            - task: AzureFunctionApp@1
-          
+                      
             - task: AzureFunctionApp@1
               displayName: 'Deploy benchmarks function app'
               inputs:
