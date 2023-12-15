@@ -59,7 +59,7 @@ public static class JsonExtensions
         return JsonConvert.DeserializeObject<T>(source, Settings);
     }
 
-    public static T? FromJson<T>(this byte[] source, Encoding? encoding = null)
+    public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
     {
         if (source == null || source.Length == 0)
             throw new ArgumentException("The source was empty", nameof(source));
@@ -69,7 +69,7 @@ public static class JsonExtensions
         {
             var js = JsonSerializer.CreateDefault(Settings);
 
-            return js.Deserialize<T>(jr);
+            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
         }
     }
 

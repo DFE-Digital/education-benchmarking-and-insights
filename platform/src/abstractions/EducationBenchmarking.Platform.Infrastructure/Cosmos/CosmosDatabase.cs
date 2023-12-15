@@ -1,3 +1,5 @@
+using System.Net;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 

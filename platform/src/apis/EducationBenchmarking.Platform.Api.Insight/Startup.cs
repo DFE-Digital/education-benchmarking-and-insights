@@ -5,6 +5,7 @@ using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using EducationBenchmarking.Platform.Api.School;
 using EducationBenchmarking.Platform.Api.School.Db;
+using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
@@ -37,7 +38,15 @@ public class Startup : FunctionsStartup
                 }
             };
         });
+        
+        builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos");
+        builder.Services.AddOptions<AcademyDbOptions>().BindConfiguration("Cosmos");
+        builder.Services.AddOptions<MaintainSchoolDbOptions>().BindConfiguration("Cosmos");
+        
         builder.Services.AddHealthChecks();
         builder.Services.AddSingleton<ISchoolExpenditureDb, SchoolExpenditureDb>();
+        builder.Services.AddSingleton<ICollectionService, CollectionService>();
+        builder.Services.AddSingleton<IMaintainSchoolDb, MaintainSchoolDb>();
+        builder.Services.AddSingleton<IAcademyDb, AcademyDb>();
     }
 }

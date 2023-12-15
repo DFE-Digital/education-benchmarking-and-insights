@@ -1731,20 +1731,11 @@
           "Newtonsoft.Json": "10.0.2"
         }
       },
-      "educationbenchmarking.platform.api.benchmark": {
-        "type": "Project",
-        "dependencies": {
-          "AzureExtensions.Swashbuckle": "[3.3.2, )",
-          "EducationBenchmarking.Platform.Shared": "[1.0.0, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "[6.0.25, )",
-          "Microsoft.NET.Sdk.Functions": "[4.2.0, )"
-        }
-      },
       "educationbenchmarking.platform.infrastructure": {
         "type": "Project",
         "dependencies": {
           "Azure.Search.Documents": "[11.5.1, )",
+          "EducationBenchmarking.Platform.Shared": "[1.0.0, )",
           "Microsoft.Azure.Cosmos": "[3.37.0, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "System.Linq.Async": "[6.0.1, )"

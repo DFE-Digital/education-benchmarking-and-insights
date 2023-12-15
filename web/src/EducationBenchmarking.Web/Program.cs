@@ -10,12 +10,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 
-builder.Services.AddOptions<ApiSettings>(ApiSettings.SchoolApi)
-    .BindConfiguration($"Apis:{ApiSettings.SchoolApi}")
-    .ValidateDataAnnotations();
+if (!builder.Environment.IsEnvironment("IntegrationTest"))
+{
+    builder.Services.AddOptions<ApiSettings>(ApiSettings.InsightApi)
+        .BindConfiguration($"Apis:{ApiSettings.InsightApi}")
+        .ValidateDataAnnotations();
 
-builder.Services.AddHttpClient<ISchoolApi, SchoolApi>()
-    .ConfigureHttpClientForApi(ApiSettings.SchoolApi);
+    builder.Services.AddOptions<ApiSettings>(ApiSettings.EstablishmentApi)
+        .BindConfiguration($"Apis:{ApiSettings.EstablishmentApi}")
+        .ValidateDataAnnotations();
+
+    builder.Services.AddHttpClient<IInsightApi, InsightApi>()
+        .ConfigureHttpClientForApi(ApiSettings.InsightApi);
+
+    builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
+        .ConfigureHttpClientForApi(ApiSettings.EstablishmentApi);
+}
 
 var app = builder.Build();
 

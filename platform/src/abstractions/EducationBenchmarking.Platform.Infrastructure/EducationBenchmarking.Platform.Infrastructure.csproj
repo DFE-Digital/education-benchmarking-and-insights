@@ -14,4 +14,8 @@
       <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
+    </ItemGroup>
+
 </Project>

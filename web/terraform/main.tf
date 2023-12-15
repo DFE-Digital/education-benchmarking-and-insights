@@ -17,13 +17,33 @@ data "azurerm_key_vault" "key-vault" {
   resource_group_name             = "${var.environment-prefix}-ebis-core"
 }
 
-data "azurerm_key_vault_secret" "school-api-key" {
-  name         = "school-host-key"
+data "azurerm_key_vault_secret" "insight-api-key" {
+  name         = "insight-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
-data "azurerm_key_vault_secret" "school-api-host" {
-  name         = "school-host"
+data "azurerm_key_vault_secret" "insight-api-host" {
+  name         = "insight-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "benchmark-api-key" {
+  name         = "benchmark-host-key"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "benchmark-api-host" {
+  name         = "benchmark-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "establishment-api-host" {
+  name         = "establishment-host"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+data "azurerm_key_vault_secret" "establishment-api-key" {
+  name         = "establishment-host-key"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
@@ -59,8 +79,12 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.application-insights.instrumentation_key
-    "Apis:School:Url" = data.azurerm_key_vault_secret.school-api-host.value
-    "Apis:School:Key" = data.azurerm_key_vault_secret.school-api-key.value
+    "Apis:Insight:Url" = data.azurerm_key_vault_secret.insight-api-host.value
+    "Apis:Insight:Key" = data.azurerm_key_vault_secret.insight-api-key.value
+    "Apis:Establishment:Url" = data.azurerm_key_vault_secret.establishment-api-host.value
+    "Apis:Establishment:Key" = data.azurerm_key_vault_secret.establishment-api-key.value
+    "Apis:Benchmark:Url" = data.azurerm_key_vault_secret.benchmark-api-host.value
+    "Apis:Benchmark:Key" = data.azurerm_key_vault_secret.benchmark-api-key.value
   }
   tags = local.common-tags
 }

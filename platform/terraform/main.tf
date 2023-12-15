@@ -64,20 +64,6 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   resource_group_name = azurerm_resource_group.resource-group.name
 }
 
-module "academy-trust-fa" {
-  source                   = "./functions"
-  function-name            = "academy-trust"
-  common-tags              = local.common-tags
-  environment-prefix       = var.environment-prefix
-  resource-group-name      = azurerm_resource_group.resource-group.name
-  storage-account-name     = azurerm_storage_account.platform-storage.name
-  storage-account-key      = azurerm_storage_account.platform-storage.primary_access_key
-  key-vault-id             = data.azurerm_key_vault.key-vault.id
-  location                 = var.location
-  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = local.default_app_settings
-}
-
 module "benchmark-fa" {
   source                   = "./functions"
   function-name            = "benchmark"
@@ -92,9 +78,9 @@ module "benchmark-fa" {
   app-settings             = local.default_app_settings
 }
 
-module "school-fa" {
+module "insight-fa" {
   source                   = "./functions"
-  function-name            = "school"
+  function-name            = "insight"
   common-tags              = local.common-tags
   environment-prefix       = var.environment-prefix
   resource-group-name      = azurerm_resource_group.resource-group.name
@@ -103,7 +89,11 @@ module "school-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = local.default_app_settings
+  app-settings             = merge(local.default_app_settings, {
+    "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
+    "Cosmos__DatabaseId"           = "ebis-data"
+    "Cosmos__LookupCollectionName" = "fibre-directory"
+  })
 }
 
 module "establishment-fa" {
@@ -117,7 +107,7 @@ module "establishment-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = merge(app_settings, {
+  app-settings             = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = "ebis-data"
     "Cosmos__LookupCollectionName" = "fibre-directory"

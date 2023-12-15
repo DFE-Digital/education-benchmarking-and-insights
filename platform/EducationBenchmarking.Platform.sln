@@ -16,11 +16,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Api.Establishment", "src\apis\EducationBenchmarking.Platform.Api.Establishment\EducationBenchmarking.Platform.Api.Establishment.csproj", "{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Api.School", "src\apis\EducationBenchmarking.Platform.Api.School\EducationBenchmarking.Platform.Api.School.csproj", "{346579AA-839E-485D-A8AE-B04DD14BDBCE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Api.Insight", "src\apis\EducationBenchmarking.Platform.Api.Insight\EducationBenchmarking.Platform.Api.Insight.csproj", "{346579AA-839E-485D-A8AE-B04DD14BDBCE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Api.Benchmark", "src\apis\EducationBenchmarking.Platform.Api.Benchmark\EducationBenchmarking.Platform.Api.Benchmark.csproj", "{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Api.AcademyTrust", "src\apis\EducationBenchmarking.Platform.Api.AcademyTrust\EducationBenchmarking.Platform.Api.AcademyTrust.csproj", "{E5D01C03-6D75-498E-A66F-C204CFF65EFD}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{613E31FE-85E5-48F4-83CA-8C7BC094A95C}"
 	ProjectSection(SolutionItems) = preProject
@@ -85,10 +83,6 @@ Global
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E5D01C03-6D75-498E-A66F-C204CFF65EFD}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -105,7 +99,6 @@ Global
 		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{346579AA-839E-485D-A8AE-B04DD14BDBCE} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D} = {80C48401-A0AA-4707-B26A-332240A6C214}
-		{E5D01C03-6D75-498E-A66F-C204CFF65EFD} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{F752FFB8-6BA0-44B5-A6A3-4E87A04F8527} = {40636378-A9AE-4BD0-95FC-755987FC7388}
 		{B976AFDE-F059-4685-A33C-8C420ED09F12} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{790C2FB1-998C-4D56-9A63-D6140D20C3D3} = {D52455F1-3BF5-46F4-9833-633817248295}
