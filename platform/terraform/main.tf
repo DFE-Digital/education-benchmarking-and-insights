@@ -64,6 +64,14 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   resource_group_name = azurerm_resource_group.resource-group.name
 }
 
+resource "azurerm_search_service" "search" {
+  name                = "${var.environment-prefix}-ebis-search"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  sku                 = "standard"
+  tags = local.common-tags
+}
+
 module "benchmark-fa" {
   source                   = "./functions"
   function-name            = "benchmark"
@@ -111,5 +119,7 @@ module "establishment-fa" {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = "ebis-data"
     "Cosmos__LookupCollectionName" = "fibre-directory"
+    "Search__Name" = azurerm_search_service.search.name
+    "Search__Key" = azurerm_search_service.search.query_keys[0].key
   })
 }
