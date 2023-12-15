@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Shared;
-using EducationBenchmarking.Platform.Shared.Characteristics;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,7 +21,8 @@ public class SchoolsFunctions
     private readonly ISchoolDb _db;
     private readonly IValidator<SchoolComparatorSetRequest> _validator;
 
-    public SchoolsFunctions(ISchoolDb db, ILogger<SchoolsFunctions> logger, IValidator<SchoolComparatorSetRequest> validator)
+    public SchoolsFunctions(ISchoolDb db, ILogger<SchoolsFunctions> logger,
+        IValidator<SchoolComparatorSetRequest> validator)
     {
         _db = db;
         _logger = logger;
@@ -30,10 +30,11 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(GetSchoolCharacteristics))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Characteristic[]))]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public IActionResult GetSchoolCharacteristics(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/characteristics")]  HttpRequest req)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/characteristics")]
+        HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -45,7 +46,7 @@ public class SchoolsFunctions
         {
             try
             {
-                return new JsonContentResult(Questions.Schools.All);
+                return new JsonContentResult(Characteristics.Schools.All);
             }
             catch (Exception e)
             {
@@ -54,9 +55,9 @@ public class SchoolsFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(CreateSchoolComparatorSet))]
-    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ComparatorSet<School>))]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateSchoolComparatorSet(
@@ -75,7 +76,7 @@ public class SchoolsFunctions
             try
             {
                 var body = req.ReadAsJson<SchoolComparatorSetRequest>();
-                
+
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
                 {
@@ -83,7 +84,7 @@ public class SchoolsFunctions
                 }
 
                 var set = await _db.CreateSet(body);
-                
+
                 return new JsonContentResult(set);
             }
             catch (Exception e)

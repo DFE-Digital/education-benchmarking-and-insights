@@ -5,12 +5,12 @@ using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
 using EducationBenchmarking.Platform.Api.School;
 using EducationBenchmarking.Platform.Api.School.Db;
-using FluentValidation;
-using Microsoft.AspNetCore.Http;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.SwaggerGen;
 
 [assembly: WebJobsStartup(typeof(Startup))]
@@ -36,15 +36,7 @@ public class Startup : FunctionsStartup
                     Description = assemblyDetails.FileDescription ?? string.Empty
                 }
             };
-            opts.ConfigureSwaggerGen = x =>
-            {
-                x.CustomSchemaIds(type => type.ToString());
-                x.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var mInfo)
-                    ? mInfo.Name
-                    : default(Guid).ToString());
-            };
         });
-
         builder.Services.AddHealthChecks();
         builder.Services.AddSingleton<ISchoolExpenditureDb, SchoolExpenditureDb>();
     }

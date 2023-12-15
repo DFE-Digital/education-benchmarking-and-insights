@@ -1,4 +1,6 @@
 using System.Text;
+using JsonSubTypes;
+using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Linq;
@@ -8,6 +10,15 @@ namespace EducationBenchmarking.Platform.Shared;
 
 public static class JsonExtensions
 {
+    private static readonly JsonConverter ProximitySortConverter = JsonSubtypesConverterBuilder
+        .Of<ProximitySort>("Kind")
+        .RegisterSubtype<SenProximitySort>(ProximitySortKinds.Sen)
+        .RegisterSubtype<SimpleProximitySort>(ProximitySortKinds.Simple)
+        .RegisterSubtype<BestInClassProximitySort>(ProximitySortKinds.Bic)
+        .SetFallbackSubtype<UnknownProximitySort>()
+        .SerializeDiscriminatorProperty()
+        .Build();
+    
     public static JsonSerializerSettings Settings => new()
     {
         NullValueHandling = NullValueHandling.Ignore, 
@@ -16,11 +27,12 @@ public static class JsonExtensions
         Converters = new List<JsonConverter>
         {
             new IsoDateTimeConverter(),
-            new StringEnumConverter()
+            new StringEnumConverter(),
+            ProximitySortConverter
         }
     };
 
-    public static string ToJson(this object? source,  Formatting formatting = Formatting.Indented)
+    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented)
     {
         return JsonConvert.SerializeObject(source, formatting, Settings);
     }
@@ -122,4 +134,6 @@ public static class JsonExtensions
             }
         }
     }
+
+
 }

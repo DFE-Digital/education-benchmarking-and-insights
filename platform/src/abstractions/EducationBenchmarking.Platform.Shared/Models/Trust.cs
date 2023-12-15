@@ -11,7 +11,7 @@ public class Trust : IEquatable<Trust>
         if (ReferenceEquals(this, other)) return true;
         return CompanyNo == other.CompanyNo && Name == other.Name;
     }
-
+    
     public override bool Equals(object? obj)
     {
         if (ReferenceEquals(null, obj)) return false;
