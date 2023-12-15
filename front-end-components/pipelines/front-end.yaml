@@ -8,8 +8,8 @@ trigger:
       - front-end-components
 
 pr:
-  - paths:
-      include:
+  paths:
+    include:
         - front-end-components
     drafts: false
 
@@ -44,5 +44,5 @@ steps:
       command: 'publish'
       publishRegistry: useFeed
       publishFeed: 'S198-DfE-Benchmarking-servicee/education-benchmarking'
-    workingDir: 'front-end-components'
-    verbose: false
+      workingDir: 'front-end-components'
+      verbose: false
