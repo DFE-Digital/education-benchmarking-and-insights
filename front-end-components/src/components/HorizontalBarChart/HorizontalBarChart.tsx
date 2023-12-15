@@ -114,11 +114,9 @@ const HBarChart: React.FC<BarChartProps> = ({ data, chosenSchool, xLabel }) => {
       }
     };
     return(
-      <>
         <div className="chart-container">
           <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} />
         </div>
-      </>
     )
   };
   
