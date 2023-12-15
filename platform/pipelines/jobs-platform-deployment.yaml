@@ -118,16 +118,6 @@ jobs:
             - checkout: none
             - download: current
             - task: AzureFunctionApp@1
-              displayName: 'Deploy academies function app'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-academy-trust-fa'
-                deployToSlotOrASE: true
-                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.AcademyTrust.zip'
-                slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
           
             - task: AzureFunctionApp@1
               displayName: 'Deploy benchmarks function app'
@@ -142,14 +132,14 @@ jobs:
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 
             - task: AzureFunctionApp@1
-              displayName: 'Deploy schools function app'
+              displayName: 'Deploy insights function app'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: functionApp
-                appName: '${{ parameters.environmentPrefix }}-ebis-school-fa'
+                appName: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.School.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Insight.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 

@@ -12,7 +12,7 @@ public static class ApiResultExtensions
         rs.EnsureSuccess();
     }
         
-    public static async Task<T?> GetResultOrThrow<T>(this Task<ApiResult> result)
+    public static async Task<T> GetResultOrThrow<T>(this Task<ApiResult> result)
     {
         var rs = await result;
         return rs.GetResultOrThrow<T>();
@@ -78,7 +78,7 @@ public static class ApiResultExtensions
         };
     }
         
-    public static T? GetResultOrThrow<T>(this ApiResult result)
+    public static T GetResultOrThrow<T>(this ApiResult result)
     {
         if (result is SuccessApiResult s)
         {

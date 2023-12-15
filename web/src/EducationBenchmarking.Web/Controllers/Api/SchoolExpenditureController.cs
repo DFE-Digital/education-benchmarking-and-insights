@@ -5,27 +5,26 @@ using Microsoft.AspNetCore.Mvc;
 namespace EducationBenchmarking.Web.Controllers.Api;
 
 [ApiController]
-[Route("api/school-expenditure")]
+[Route("api/school/{urn}/expenditure")]
 public class SchoolExpenditureController : Controller
 {
     private readonly ILogger<SchoolExpenditureController> _logger;
-    private readonly ISchoolApi _schoolApi;
+    private readonly IInsightApi _insightApi;
 
-    public SchoolExpenditureController(ILogger<SchoolExpenditureController> logger, ISchoolApi schoolApi)
+    public SchoolExpenditureController(ILogger<SchoolExpenditureController> logger, IInsightApi insightApi)
     {
         _logger = logger;
-        _schoolApi = schoolApi;
+        _insightApi = insightApi;
     }
 
     [HttpGet]
-    [Route("{urn}")]
     public async Task<IActionResult> Get(string urn)
     {
         using (_logger.BeginScope(new {urn}))
         {
             try
             {
-                var schools = await _schoolApi.QueryExpenditure();
+                var schools = await _insightApi.QuerySchoolsExpenditure();
                 return await Task.FromResult(new JsonResult(schools));
             }
             catch (Exception e)

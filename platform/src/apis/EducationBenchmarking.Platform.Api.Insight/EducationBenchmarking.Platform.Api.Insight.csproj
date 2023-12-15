@@ -3,6 +3,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <RootNamespace>EducationBenchmarking.Platform.Api.School</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle" Version="3.3.2" />
@@ -18,5 +19,13 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+        <None Update="local.settings.json">
+          <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+          <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj" />
+      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
     </ItemGroup>
 </Project>

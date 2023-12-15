@@ -13,7 +13,7 @@ public class JsonResponseBody : ApiResponseBody
     {
     }
 
-    public T? ReadAs<T>()
+    public T ReadAs<T>()
     {
         return Content.FromJson<T>();
     }

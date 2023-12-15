@@ -12,4 +12,7 @@ public class DataCollection
     
     [JsonProperty(PropertyName = "data-group")]
     public string DataGroup { get; set; }
+    
+    [JsonProperty(PropertyName = "term")]
+    public int Term { get; set; }
 }
