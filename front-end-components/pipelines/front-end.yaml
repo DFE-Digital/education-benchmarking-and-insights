@@ -1,3 +1,6 @@
+pool:
+  vmImage: 'windows-2022'
+
 trigger:
   batch: true
   branches:
@@ -10,32 +13,29 @@ trigger:
 pr:
   paths:
     include:
-        - front-end-components
-    drafts: false
-
-pool:
-  vmImage: 'windows-2022'
+      - front-end-components
+  drafts: false
 
 steps:
   - task: Npm@1
     displayName: 'Install dependencies'
     inputs:
       command: 'install'
-    workingDir: 'front-end-components'
+      workingDir: 'front-end-components'
 
   - task: Npm@1
     displayName: 'Run tests'
     inputs:
       command: 'custom'
       customCommand: 'test'
-    workingDir: 'front-end-components'
+      workingDir: 'front-end-components'
 
   - task: Npm@1
     displayName: 'Build project'
     inputs:
       command: 'custom'
       customCommand: 'run build'
-    workingDir: 'front-end-components'
+      workingDir: 'front-end-components'
 
   - task: Npm@1
     displayName: 'Publish'
