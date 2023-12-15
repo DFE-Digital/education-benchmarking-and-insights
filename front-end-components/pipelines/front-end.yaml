@@ -8,8 +8,8 @@ trigger:
       - front-end-components
 
 pr:
-  - paths:
-      include:
+  paths:
+    include:
         - front-end-components
     drafts: false
 
