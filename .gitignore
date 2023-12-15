@@ -407,8 +407,8 @@ local.settings.json
 
 
 # govuk frontend stuff
-**/wwwroot/assets
-**/wwwroot/js/govuk.js
+**/wwwroot/*
+**/wwwroot/*
 
 # minified js
 *.min.js

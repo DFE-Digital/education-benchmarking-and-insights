@@ -4,7 +4,7 @@ namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
 public class TrustSearchService<T> : SearchService, ISearchService<T>
 {
-    private static readonly string[] Facets = { ""};
+    private static readonly string[] Facets = { "" };
     
     public TrustSearchService(IOptions<TrustSearchServiceOptions> options) : base(options.Value.Endpoint, options.Value.TrustIndexName, options.Value.Credential)
     {

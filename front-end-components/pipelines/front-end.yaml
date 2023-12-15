@@ -1,0 +1,48 @@
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - front-end-components
+
+pr:
+  - paths:
+      include:
+        - front-end-components
+    drafts: false
+
+pool:
+  vmImage: 'windows-2022'
+
+steps:
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+    workingDir: 'front-end-components'
+
+  - task: Npm@1
+    displayName: 'Run tests'
+    inputs:
+      command: 'custom'
+      customCommand: 'test'
+    workingDir: 'front-end-components'
+
+  - task: Npm@1
+    displayName: 'Build project'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+    workingDir: 'front-end-components'
+
+  - task: Npm@1
+    displayName: 'Publish'
+    continueOnError: false
+    inputs:
+      command: 'publish'
+      publishRegistry: useFeed
+      publishFeed: 'S198-DfE-Benchmarking-servicee/education-benchmarking'
+    workingDir: 'front-end-components'
+    verbose: false

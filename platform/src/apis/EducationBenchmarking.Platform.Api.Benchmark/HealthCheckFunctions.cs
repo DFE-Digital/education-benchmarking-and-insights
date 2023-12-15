@@ -8,28 +8,16 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark;
 
-/// <summary>
-/// 
-/// </summary>
 [ApiExplorerSettings(GroupName = "Health Check")]
 public class HealthCheckFunctions
 {
     private readonly HealthCheckService _healthCheck;
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="healthCheck"></param>
+    
     public HealthCheckFunctions(HealthCheckService healthCheck)
     {
         _healthCheck = healthCheck;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="req"></param>
-    /// <returns></returns>
     [FunctionName(nameof(Health))]
     public async Task<IActionResult> Health(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequest req)

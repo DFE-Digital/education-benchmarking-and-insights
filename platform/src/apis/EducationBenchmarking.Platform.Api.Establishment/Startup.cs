@@ -14,12 +14,8 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
-/// <summary>
-/// 
-/// </summary>
 public class Startup : FunctionsStartup
 {
-    /// <inheritdoc />
     public override void Configure(IFunctionsHostBuilder builder)
     {
         var assembly = Assembly.GetExecutingAssembly();
@@ -36,13 +32,6 @@ public class Startup : FunctionsStartup
                     Title = assemblyDetails.ProductName ?? string.Empty,
                     Description = assemblyDetails.FileDescription ?? string.Empty
                 }
-            };
-            opts.ConfigureSwaggerGen = x =>
-            {
-                x.CustomSchemaIds(type => type.ToString());
-                x.CustomOperationIds(apiDesc => apiDesc.TryGetMethodInfo(out var mInfo)
-                    ? mInfo.Name
-                    : default(Guid).ToString());
             };
         });
 

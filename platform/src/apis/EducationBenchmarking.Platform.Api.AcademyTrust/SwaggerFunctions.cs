@@ -7,17 +7,8 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace EducationBenchmarking.Platform.Api.AcademyTrust;
 
-/// <summary>
-/// 
-/// </summary>
 public static class SwaggerFunctions
 {
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="req"></param>
-    /// <param name="swashBuckleClient"></param>
-    /// <returns></returns>
     [SwaggerIgnore]
     [FunctionName("Swagger")]
     public static Task<HttpResponseMessage> Swagger(
@@ -26,13 +17,7 @@ public static class SwaggerFunctions
     {
         return Task.FromResult(swashBuckleClient.CreateSwaggerJsonDocumentResponse(req));
     }
-
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="req"></param>
-    /// <param name="swashBuckleClient"></param>
-    /// <returns></returns>
+    
     [SwaggerIgnore]
     [FunctionName("SwaggerUI")]
     public static Task<HttpResponseMessage> SwaggerUi(
