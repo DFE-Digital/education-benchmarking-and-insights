@@ -18,10 +18,7 @@ public class Edubase
 
     [JsonProperty(PropertyName = FieldNames.TYPE_OF_ESTAB)]
     public string TypeOfEstablishment { get; set; }
-
-    /*[JsonProperty(PropertyName = FieldNames.LOCATION)]
-    public LocationDataObject Location { get; set; }*/
-
+    
     [JsonProperty(PropertyName = FieldNames.ADDRESS)]
     public string Address { get; set; }
 
@@ -120,13 +117,4 @@ public class Edubase
 
     [JsonProperty(PropertyName = FieldNames.ESTAB_STATUS)]
     public string EstablishmentStatus { get; set; }
-    
-    public class LocationDataObject
-    {
-        [JsonProperty(PropertyName = FieldNames.LOCATION_TYPE)]
-        public string type { get; set; }
-
-        [JsonProperty(PropertyName = FieldNames.LOCATION_COORDINATES)]
-        public string[] coordinates { get; set; }
-    }
 }

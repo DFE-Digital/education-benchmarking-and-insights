@@ -18,8 +18,7 @@ public static class CosmosClientFactory
                         HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
                 };
                 return new HttpClient(httpMessageHandler);
-            },
-            ConnectionMode = ConnectionMode.Gateway,
+            }
 #endif
         });
     }

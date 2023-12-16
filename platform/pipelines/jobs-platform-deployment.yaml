@@ -116,8 +116,26 @@ jobs:
         deploy:
           steps:
             - checkout: none
-            - download: current
-                      
+            - download: current            
+            - task: AzureKeyVault@1
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+                SecretsFilter: '*'
+                RunAsPreJob: true
+
+            - task: ExtractFiles@1
+              displayName: 'Extract platform search app'
+              inputs:
+                archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/EducationBenchmarking.Platform.Search.App.zip'
+                destinationFolder: '${{ parameters.workspaceDir }}/search-app'
+            
+            - script: |
+                call EducationBenchmarking.Platform.Search.App.exe -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory"
+              displayName: 'Run platform search app'    
+              workingDirectory: '${{ parameters.workspaceDir }}/search-app'
+              failOnStderr: true
+
             - task: AzureFunctionApp@1
               displayName: 'Deploy benchmarks function app'
               inputs:

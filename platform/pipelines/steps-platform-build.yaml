@@ -50,7 +50,7 @@ steps:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(PLATFORM_NUGET_CACHE)
-      projects: 'platform/src/search/**/EducationBenchmarking.Platform.Search.csproj'
+      projects: 'platform/src/search/**/*.csproj'
       arguments: '--configuration Release  --output $(Build.ArtifactStagingDirectory)/platform-search /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
