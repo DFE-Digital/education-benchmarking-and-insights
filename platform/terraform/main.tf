@@ -58,7 +58,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
   }
 }
 
-resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
+resource "azurerm_key_vault_secret" "platform-cosmos-connection-string" {
   name         = "ebis-cdb-connection-string"
   value        = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -78,7 +78,7 @@ resource "azurerm_search_service" "search" {
   tags = local.common-tags
 }
 
-resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
+resource "azurerm_key_vault_secret" "platform-search-key" {
   name         = "ebis-search-admin-key"
   value        = azurerm_search_service.search.primary_key
   key_vault_id = data.azurerm_key_vault.key-vault.id
