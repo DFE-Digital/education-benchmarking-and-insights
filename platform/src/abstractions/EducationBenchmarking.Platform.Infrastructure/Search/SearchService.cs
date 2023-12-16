@@ -13,42 +13,80 @@ public abstract class SearchService
         _client = new SearchClient(searchEndpoint, indexName, credential);
     }
 
-    protected async Task<SearchOutput<T>> SearchAsync<T>(PostSearchRequest request,  Func<List<SearchFilters>, string>? filterExpBuilder = null, string[]? facets = null)
+    protected async Task<SearchOutput<T>> SearchAsync<T>(PostSearchRequest request,  Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
-            Size = request.Size,
-            Skip = request.Skip,
+            Size = request.PageSize,
+            Skip = (request.Page - 1) * request.PageSize,
             IncludeTotalCount = true,
-            Filter = filterExpBuilder?.Invoke(request.Filters)
+            Filter = request.Filters != null ? filterExpBuilder?.Invoke(request.Filters) : null,
+            QueryType = SearchQueryType.Simple
         };
 
         if (facets is { Length: > 0 })
         {
             foreach (var facet in facets)
             {
-                if (string.IsNullOrWhiteSpace(facet))
+                if (!string.IsNullOrWhiteSpace(facet))
                 {
                     options.Facets.Add(facet);    
                 }
             }
         }
 
-        var results = await _client.SearchAsync<T>(request.SearchText, options);
-        var facetOutput = BuildFacetOutput(results);
+        var searchResponse = await _client.SearchAsync<T>(request.SearchText, options);
+        var searchResults= searchResponse.Value;
+        
+        var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : default;
+        var results = searchResults.GetResults().Select(result => result.Document);
 
-        return new SearchOutput<T>
+        return SearchOutput<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
+    }
+    
+    public async Task<SuggestOutput<T>> SuggestAsync<T>(PostSuggestRequest request, CancellationToken cancellationToken, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    {
+        var options = new SuggestOptions
         {
-            Count = results.Value.TotalCount,
-            Results = results.Value.GetResults().ToList(),
-            Facets = facetOutput
+            HighlightPreTag = "*",
+            HighlightPostTag = "*",
+            Filter = filterExpBuilder?.Invoke(),
+            Size = request.Size,
+            UseFuzzyMatching = false
+        };
+        
+        if (selectFields is { Length: > 0 })
+        {
+            foreach (var field in selectFields)
+            {
+                if (!string.IsNullOrWhiteSpace(field))
+                {
+                    options.Select.Add(field);
+                }
+            }
+        }
+        
+        var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options, cancellationToken);
+        var results = response.Value.Results.Select(SuggestValue<T>.Create);
+        
+        return new SuggestOutput<T>
+        {
+            Results = results
         };
     }
 
-    private static Dictionary<string, IList<FacetValue>> BuildFacetOutput<T>(Response<SearchResults<T>> results)
+    protected static string? Sanatise(string? query)
+    {
+        if (query == null) return query;
+        
+        query = query.Replace("'", "''");
+        return query;
+    }
+    
+    private static Dictionary<string, IList<FacetValue>> BuildFacetOutput(IDictionary<string,IList<FacetResult>> facetResults)
     {
         var facetOutput = new Dictionary<string, IList<FacetValue>>();
-        foreach (var facetResult in results.Value.Facets)
+        foreach (var facetResult in facetResults)
         {
             facetOutput[facetResult.Key] = facetResult.Value
                 .Select(x => new FacetValue { Value = x.Value.ToString(), Count = x.Count }).ToList();

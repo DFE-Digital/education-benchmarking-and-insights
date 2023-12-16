@@ -1,12 +1,13 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
+using EducationBenchmarking.Platform.Infrastructure.Search;
 
 namespace EducationBenchmarking.Platform.Search.Builders.DataSourceConnections;
 
 public class CosmosEbisEdubaseBuilder : DataSourceConnectionBuilder
 {
-    public override string Name => Names.DataSources.CosmosEbisEdubase; 
+    public override string Name => SearchResourceNames.DataSources.CosmosEbisEdubase; 
     
     private readonly string _connectionString;
     private readonly string _databaseId;

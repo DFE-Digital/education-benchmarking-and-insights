@@ -1,3 +1,4 @@
+using EducationBenchmarking.Platform.Shared;
 using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Platform.Api.Establishment.Db;
@@ -117,4 +118,16 @@ public class Edubase
 
     [JsonProperty(PropertyName = FieldNames.ESTAB_STATUS)]
     public string EstablishmentStatus { get; set; }
+    
+    
+    public School CreateSchool()
+    {
+        return new School
+        {
+            Urn = URN.ToString(),
+            Kind = TypeOfEstablishment,
+            FinanceType = FinanceType,
+            Name = EstablishmentName
+        };
+    }
 }

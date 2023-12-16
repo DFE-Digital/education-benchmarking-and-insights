@@ -1,8 +1,4 @@
-﻿using System;
-using System.Diagnostics;
-using System.Reflection;
-using AzureFunctions.Extensions.Swashbuckle;
-using AzureFunctions.Extensions.Swashbuckle.Settings;
+﻿using System.Reflection;
 using EducationBenchmarking.Platform.Api.Benchmark;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Shared;
@@ -11,7 +7,6 @@ using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -21,46 +16,13 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var assemblyDetails = FileVersionInfo.GetVersionInfo(assembly.Location);
-        builder.AddSwashBuckle(assembly, opts =>
-        {
-            opts.AddCodeParameter = true;
-            opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
-            opts.Documents = new[]
-            {
-                new SwaggerDocument
-                {
-                    Version = assemblyDetails.ProductVersion ?? string.Empty,
-                    Title = assemblyDetails.ProductName ?? string.Empty,
-                    Description = assemblyDetails.FileDescription ?? string.Empty
-                }
-            };
-            opts.ConfigureSwaggerGen = x =>
-            {
-                
-                x.UseAllOfForInheritance();
-                x.UseOneOfForPolymorphism();
-                x.SelectSubTypesUsing(baseType =>
-                {
-                    if (baseType == typeof(ProximitySort))
-                    {
-                        return new[]
-                        {
-                            typeof(BestInClassProximitySort),
-                            typeof(SenProximitySort),
-                            typeof(SimpleProximitySort)
-                        };
-                    }
-
-                    return Array.Empty<Type>();
-                });
-            };
-        });
-
+        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
+        
         builder.Services.AddHealthChecks();
+        
         builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
         builder.Services.AddSingleton<ITrustDb, TrustDb>();
+        
         builder.Services.AddTransient<IValidator<SchoolComparatorSetRequest>, SchoolComparatorSetRequestValidator>();
         builder.Services.AddTransient<IValidator<TrustComparatorSetRequest>, TrustComparatorSetRequestValidator>();
     }

@@ -52,5 +52,4 @@ public class LocalAuthoritiesFunctions
     {
         return new OkResult();
     }
-    
 }

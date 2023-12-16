@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
@@ -24,8 +25,13 @@ public class TrustSearchService : SearchService, ISearchService<Trust>
         return await SearchAsync<Trust>(request, CreateFilterExpression, Facets);
     }
 
-    private string CreateFilterExpression(List<SearchFilters> requestFilters)
+    public Task<SuggestOutput<Trust>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
     {
-        return "";
+        throw new System.NotImplementedException();
+    }
+
+    private static string? CreateFilterExpression(FilterCriteria[] requestFilters)
+    {
+        return null;
     }
 }

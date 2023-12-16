@@ -31,9 +31,7 @@ public abstract class CosmosDatabase
     protected async IAsyncEnumerable<T> GetItemEnumerableAsync<T>(string containerId,
         Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
-        var container = _client.GetContainer(_databaseId, containerId);
-        var queryable = withF !=null ? withF(container.GetItemLinqQueryable<T>())
-                : container.GetItemLinqQueryable<T>();
+        var queryable = BuildQueryable(containerId, withF);
 
         using (var feedIterator = queryable.ToFeedIterator())
         {
@@ -47,5 +45,39 @@ public abstract class CosmosDatabase
                 }
             }
         }
+    }
+    
+    protected async IAsyncEnumerable<T> GetPagedItemEnumerableAsync<T>(string containerId, int page, int pageSize,
+        Func<IQueryable<T>, IQueryable<T>>? withF = null)
+    {
+        var start = (page - 1) * pageSize;
+        var queryable = BuildQueryable(containerId, withF);
+        var pagedQueryable = queryable.Skip(start).Take(pageSize);
+        
+        using (var feedIterator = pagedQueryable.ToFeedIterator())
+        {
+            while (feedIterator.HasMoreResults)
+            {
+                foreach (var item in await feedIterator.ReadNextAsync())
+                {
+                    {
+                        yield return item;
+                    }
+                }
+            }
+        }
+    }
+    
+    protected async Task<int> GetItemCountAsync<T>(string containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
+    {
+        var response = await BuildQueryable(containerId, withF).CountAsync();
+        return response.Resource;
+    }
+    
+    private IQueryable<T> BuildQueryable<T>(string containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
+    {
+        var container = _client.GetContainer(_databaseId, containerId);
+        return withF != null ? withF(container.GetItemLinqQueryable<T>())
+            : container.GetItemLinqQueryable<T>();
     }
 }

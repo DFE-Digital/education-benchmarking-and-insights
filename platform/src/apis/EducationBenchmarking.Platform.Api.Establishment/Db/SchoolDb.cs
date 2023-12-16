@@ -1,20 +1,25 @@
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Shared.Helpers;
 using Microsoft.Extensions.Options;
+using Microsoft.Extensions.Primitives;
 
 namespace EducationBenchmarking.Platform.Api.Establishment.Db;
 
 public interface ISchoolDb
 {
-    Task<School?> GetSchool(string urn);
+    Task<School?> Get(string urn);
+    Task<PagedResults<School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria);
 }
 
 public class SchoolDbOptions
 {
-    public string ConnectionString { get; set; }
-    public string DatabaseId { get; set; }
+    [Required] public string ConnectionString { get; set; }
+    [Required] public string DatabaseId { get; set; }
 }
 
 public class SchoolDb : CosmosDatabase, ISchoolDb
@@ -27,10 +32,10 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
         _collectionService = collectionService;
     }
 
-    public async Task<School?> GetSchool(string urn)
+    public async Task<School?> Get(string urn)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-        
+
         var school = await GetItemEnumerableAsync<Edubase>(
                 collection.Name,
                 q => q.Where(x => x.URN == long.Parse(urn)))
@@ -45,5 +50,20 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 FinanceType = school.FinanceType,
                 Name = school.EstablishmentName
             };
+    }
+
+    public async Task<PagedResults<School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
+    {
+        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
+        var pageParams = QueryParameters.GetPagingValues(criteria);
+
+
+        var establishments =
+            await GetPagedItemEnumerableAsync<Edubase>(collection.Name, pageParams.Page, pageParams.PageSize)
+                .ToArrayAsync();
+        var establishmentsTotalCount = await GetItemCountAsync<Edubase>(collection.Name);
+
+        var schools = establishments.Select(x => x.CreateSchool());
+        return PagedResults<School>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);
     }
 }

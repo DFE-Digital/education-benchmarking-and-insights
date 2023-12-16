@@ -131,7 +131,7 @@ module "establishment-fa" {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName" = "fibre-directory"
-    "Search__Name" = azurerm_search_service.search.name
-    "Search__Key" = azurerm_search_service.search.query_keys[0].key
+    "Search__Name"                 = azurerm_search_service.search.name
+    "Search__Key"                  = azurerm_search_service.search.query_keys[0].key
   })
 }

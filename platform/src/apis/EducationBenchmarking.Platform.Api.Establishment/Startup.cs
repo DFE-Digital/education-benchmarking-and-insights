@@ -1,14 +1,15 @@
-﻿using System.Diagnostics;
-using System.Reflection;
-using AzureFunctions.Extensions.Swashbuckle;
-using AzureFunctions.Extensions.Swashbuckle.Settings;
+﻿using System.Reflection;
 using EducationBenchmarking.Platform.Api.Establishment;
 using EducationBenchmarking.Platform.Api.Establishment.Db;
+using EducationBenchmarking.Platform.Api.Establishment.Search;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
+using EducationBenchmarking.Platform.Infrastructure.Search;
+using EducationBenchmarking.Platform.Infrastructure.Search.Validators;
+using EducationBenchmarking.Platform.Shared;
+using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.OpenApi;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -18,28 +19,18 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        var assembly = Assembly.GetExecutingAssembly();
-        var assemblyDetails = FileVersionInfo.GetVersionInfo(assembly.Location);
-        builder.AddSwashBuckle(assembly, opts =>
-        {
-            opts.AddCodeParameter = true;
-            opts.SpecVersion = OpenApiSpecVersion.OpenApi2_0;
-            opts.Documents = new[]
-            {
-                new SwaggerDocument
-                {
-                    Version = assemblyDetails.ProductVersion ?? string.Empty,
-                    Title = assemblyDetails.ProductName ?? string.Empty,
-                    Description = assemblyDetails.FileDescription ?? string.Empty
-                }
-            };
-        });
-
-        builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos");
-        builder.Services.AddOptions<SchoolDbOptions>().BindConfiguration("Cosmos");
+        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
         
         builder.Services.AddHealthChecks();
+
+        builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
+        
         builder.Services.AddSingleton<ICollectionService, CollectionService>();
         builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
+        builder.Services.AddSingleton<ISearchService<School>, SchoolSearchService>();
+        
+        builder.Services.AddTransient<IValidator<PostSuggestRequest>, PostSuggestRequestValidator>();
     }
 }

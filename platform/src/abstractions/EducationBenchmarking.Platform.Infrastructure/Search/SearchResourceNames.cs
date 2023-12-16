@@ -1,6 +1,6 @@
-namespace EducationBenchmarking.Platform.Search;
+namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
-public static class Names
+public static class SearchResourceNames
 {
     public static class DataSources
     {

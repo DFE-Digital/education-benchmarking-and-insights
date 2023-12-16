@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
@@ -13,8 +14,8 @@ public interface IMaintainSchoolDb
 
 public class MaintainSchoolDbOptions
 {
-    public string ConnectionString { get; set; }
-    public string DatabaseId { get; set; }
+    [Required] public string ConnectionString { get; set; }
+    [Required] public string DatabaseId { get; set; }
 }
 
 public class MaintainSchoolDb : CosmosDatabase, IMaintainSchoolDb

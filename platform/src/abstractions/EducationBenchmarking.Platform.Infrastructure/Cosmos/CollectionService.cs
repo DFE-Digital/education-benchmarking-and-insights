@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
@@ -9,9 +10,9 @@ public interface ICollectionService
 
 public class CollectionServiceOptions
 {
-    public string ConnectionString { get; set; }
-    public string DatabaseId { get; set; }
-    public string LookupCollectionName { get; set; }
+    [Required] public string ConnectionString { get; set; }
+    [Required] public string DatabaseId { get; set; }
+    [Required] public string LookupCollectionName { get; set; }
 }
 
 public class CollectionService : CosmosDatabase, ICollectionService

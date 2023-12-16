@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
@@ -24,8 +25,13 @@ public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAu
         return await SearchAsync<LocalAuthority>(request, CreateFilterExpression, Facets);
     }
 
-    private string CreateFilterExpression(List<SearchFilters> requestFilters)
+    public Task<SuggestOutput<LocalAuthority>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
     {
-        return "";
+        throw new System.NotImplementedException();
+    }
+
+    private static string? CreateFilterExpression(FilterCriteria[] requestFilters)
+    {
+        return null;
     }
 }
