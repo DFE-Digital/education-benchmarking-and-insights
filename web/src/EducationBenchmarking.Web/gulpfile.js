@@ -11,8 +11,10 @@ const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
 	.pipe(cleanCSS())
 	.pipe(gulp.dest("wwwroot/css"));
 
-const copyGovukAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/**/*"]).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
-	gulp.src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js"]).pipe(gulp.dest("wwwroot/js/")));
+const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/**/*"]).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
+	gulp.src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js"]).pipe(gulp.dest("wwwroot/js/"))).on("end", () =>
+	gulp.src(["AssetSrc/images/*"]).pipe(gulp.dest("wwwroot/assets/images")));
+
 
 let paths = {
 	src: "AssetSrc/",
@@ -87,6 +89,6 @@ gulp.task("build-fe", () => {
 	return async.series([
 		(next) => buildSass().on("end", next),
 		(next) => buildJs().on("end", next),
-		(next) => copyGovukAssets().on("end", next)
+		(next) => copyStaticAssets().on("end", next)
 	])
 }); 

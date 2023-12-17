@@ -96,18 +96,18 @@
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <a href="@Url.Action("Index", "SchoolExpenditure", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">Company your costs</a>
+            @await Component.InvokeAsync("CompareYourCosts", Model.Urn)
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">View your data dashboard</a>
+            @await Component.InvokeAsync("ViewYourDataDashboard")
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+            @await Component.InvokeAsync("CurriculumFinancialPlanning")
         </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
+            @await Component.InvokeAsync("ForecastRisk")
         </div>
     </div>
 </div>
@@ -122,13 +122,13 @@
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Find commercial resources</a>
+            @await Component.InvokeAsync("FindCommercialResources")
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Historic data</a>
+            @await Component.InvokeAsync("HistoricData")
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">School details</a>
+            @await Component.InvokeAsync("SchoolDetails")
         </div>
     </div>
 </div>
@@ -143,13 +143,13 @@
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Help with this service</a>
+            @await Component.InvokeAsync("HelpWithThisService")
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Ask for help from an SRMA</a>
+            @await Component.InvokeAsync("AskForHelpFromAnSrma")
         </div>
         <div class="govuk-grid-column-one-third">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Submit an enquiry</a>
+            @await Component.InvokeAsync("SubmitAnEnquiry")
         </div>
     </div>
 </div>
