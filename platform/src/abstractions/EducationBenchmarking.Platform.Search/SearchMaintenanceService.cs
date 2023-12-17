@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using Azure;
 using Azure.Search.Documents.Indexes;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
@@ -18,19 +19,18 @@ public interface ISearchMaintenanceService
 
 public class SearchMaintenanceServiceOptions
 {
-    public CosmosOptions Cosmos { get; set; }
-    public string Name { get; set; }
-    public string Key { get; set; }
+    [Required] public CosmosOptions Cosmos { get; set; }
+    [Required] public string Name { get; set; }
+    [Required] public string Key { get; set; }
     
     public Uri SearchEndPoint => new($"https://{Name}.search.windows.net/");
     public AzureKeyCredential SearchCredentials => new(Key);
     
     public class CosmosOptions
     {
-        public string ConnectionString { get; set; }
-        public string DatabaseId { get; set; } 
+        [Required] public string ConnectionString { get; set; }
+        [Required] public string DatabaseId { get; set; } 
     }
-    
 }
 
 public class SearchMaintenanceService : ISearchMaintenanceService

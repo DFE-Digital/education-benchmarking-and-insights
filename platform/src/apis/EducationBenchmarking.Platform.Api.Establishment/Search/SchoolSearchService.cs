@@ -22,12 +22,12 @@ public class SchoolSearchService : SearchService, ISearchService<School>
     {
     }
 
-    public async Task<SearchOutput<School>> SearchAsync(PostSearchRequest request)
+    public Task<SearchOutput<School>> SearchAsync(PostSearchRequest request)
     {
-        return await SearchAsync<School>(request, CreateFilterExpression, Facets);
+        return SearchAsync<School>(request, CreateFilterExpression, Facets);
     }
     
-    public async Task<SuggestOutput<School>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
+    public Task<SuggestOutput<School>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
     {
         var fields = new[]
         {
@@ -37,7 +37,7 @@ public class SchoolSearchService : SearchService, ISearchService<School>
             nameof(School.Postcode)
         };
         
-        return await SuggestAsync<School>(request, cancellationToken, selectFields: fields);
+        return SuggestAsync<School>(request, cancellationToken, selectFields: fields);
     }
 
     private static string? CreateFilterExpression(FilterCriteria[] filters)
@@ -58,7 +58,7 @@ public class SchoolSearchService : SearchService, ISearchService<School>
             filterExpressions.Add($"search.in(Urn, '{string.Join("|", urnFilterValues)}', '|')");
         }
         
-        var nameFilterValues = nameFilters.Select(f => Sanatise(f.Value)).ToList();
+        var nameFilterValues = nameFilters.Select(f => Sanitize(f.Value)).ToList();
         if (nameFilterValues.Count > 0)
         {
             filterExpressions.Add($"({string.Join(") or ( ", nameFilterValues.Select(a => $"Name eq '{a}'"))})");

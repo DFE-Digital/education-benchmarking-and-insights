@@ -14,9 +14,6 @@ public static class QueryParameters
         var pageParsed = int.TryParse(pageValue.ToString(), out var page); 
         var pageSizedParsed = int.TryParse(pageSizeValue.ToString(), out var pageSize);
         
-        //pageValue.ToString().TryParse<int?>(out var page);
-        //pageSizeValue.ToString().TryParse<int?>(out var pageSize);
-            
         return (pageParsed ? page : 1, pageSizedParsed ? pageSize : 10);
     }
 }

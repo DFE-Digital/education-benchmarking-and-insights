@@ -30,7 +30,7 @@ public class TrustsFunctions
     }
 
     [FunctionName(nameof(GetTrustCharacteristics))]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Characteristic[]))]
+    [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public IActionResult GetTrustCharacteristics(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts/characteristics")]  HttpRequest req)
@@ -56,7 +56,7 @@ public class TrustsFunctions
     }
     
     [FunctionName(nameof(CreateTrustComparatorSet))]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ComparatorSet<Trust>))]
+    [ProducesResponseType(typeof(ComparatorSet<Trust>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateTrustComparatorSet(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/comparator-set")]

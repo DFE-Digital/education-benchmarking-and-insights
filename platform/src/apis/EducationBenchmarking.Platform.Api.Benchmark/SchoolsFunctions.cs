@@ -30,7 +30,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(GetSchoolCharacteristics))]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(Characteristic[]))]
+    [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public IActionResult GetSchoolCharacteristics(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/characteristics")]
@@ -57,7 +57,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(CreateSchoolComparatorSet))]
-    [ProducesResponseType((int)HttpStatusCode.OK, Type = typeof(ComparatorSet<School>))]
+    [ProducesResponseType(typeof(ComparatorSet<School>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateSchoolComparatorSet(

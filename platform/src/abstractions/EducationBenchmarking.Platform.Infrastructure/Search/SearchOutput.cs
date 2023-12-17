@@ -1,5 +1,3 @@
-using System.Text.Json.Serialization;
-using Azure.Search.Documents.Models;
 using EducationBenchmarking.Platform.Shared;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
@@ -26,9 +24,6 @@ public class SearchOutput<T> : PagedResults<T>
 
 public class FacetValue
 {
-    [JsonPropertyName("value")]
     public string? Value { get; set; }
-    
-    [JsonPropertyName("count")]
     public long? Count { get; set; }
 }

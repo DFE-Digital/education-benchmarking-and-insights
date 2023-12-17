@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Establishment.Db;
 using EducationBenchmarking.Platform.Infrastructure.Search;
-using EducationBenchmarking.Platform.Infrastructure.Search.Validators;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;

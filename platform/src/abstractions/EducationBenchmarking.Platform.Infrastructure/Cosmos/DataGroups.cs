@@ -10,5 +10,4 @@ public static class DataGroups
     public const string MatTotals = "MAT-Totals";//Total of Academy only figures of the MAT
     public const string MatOverview = "MAT-Overview";//MAT + all of its Academies' figures
     public const string Unidentified = "Unidentified";
-
 }
