@@ -1,0 +1,155 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolViewModel
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h1 class="govuk-heading-l">Education benchmarking and insights</h1>
+            <h2 class="govuk-heading-l">
+                <span>@Model.Name</span>
+                <a href="" class="govuk-body govuk-link govuk-link--no-visited-state" id="change-link">change</a>
+            </h2>
+            <p class="govuk-body">
+                You can use this service to understand the finances of your chosen school, academy trust or local authority.
+                You can find areas for further investigation and relevant guidance and resources.
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-m">Areas for investigation</h2>
+            <p class="govuk-body">
+                This following cost categories have the widest variation for costs when compared to similar schools.
+            </p>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+
+        </div>
+        <div class="govuk-grid-column-one-third">
+
+        </div>
+        <div class="govuk-grid-column-one-third">
+
+        </div>
+    </div>
+</div>
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-m">RAG status for data submitted [LAST FINANCIAL YEAR]</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-2">
+                                Red areas
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
+                        <p class="govuk-body">This is the content for Writing well for specialists.</p>
+                    </div>
+                </div>
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
+                                Amber areas
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
+                        <p class="govuk-body">This is the content for Know your audience.</p>
+                    </div>
+                </div>
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h2 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
+                                Green areas
+                            </span>
+                        </h2>
+                    </div>
+                    <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
+                        <p class="govuk-body">This is the content for How people read.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-l">Finance tools</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <a href="@Url.Action("Index", "SchoolExpenditure", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">Company your costs</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">View your data dashboard</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Forecast and risk</a>
+        </div>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-l">Resources</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Find commercial resources</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Historic data</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">School details</a>
+        </div>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-width-container">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h2 class="govuk-heading-l">How we can help</h2>
+        </div>
+    </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Help with this service</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Ask for help from an SRMA</a>
+        </div>
+        <div class="govuk-grid-column-one-third">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Submit an enquiry</a>
+        </div>
+    </div>
+</div>

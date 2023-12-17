@@ -1,19 +1,15 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace EducationBenchmarking.Web.Controllers
+namespace EducationBenchmarking.Web.Controllers;
+
+[Controller]
+[Route("/")]
+public class HomeController : Controller
 {
-    public class HomeController : Controller
+
+    [HttpGet]
+    public IActionResult Index()
     {
-        private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
-        {
-            _logger = logger;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
-        }
+        return View();
     }
 }

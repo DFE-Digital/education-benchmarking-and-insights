@@ -23,7 +23,7 @@ public class SchoolExpenditureController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Details(string urn)
+    public async Task<IActionResult> Index(string urn)
     {
         using (_logger.BeginScope(new {urn}))
         {
