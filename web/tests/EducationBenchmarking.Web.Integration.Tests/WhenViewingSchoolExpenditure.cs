@@ -26,7 +26,7 @@ public class WhenViewingSchoolExpenditure : BenchmarkingWebAppClient
             .SetupAcademyInsights(school,finances)
             .Navigate($"/school/{school.Urn}/expenditure");
             
-        DocumentAssert.TitleAndH1(page, "",$"Compare your costs for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
             
         var changeLinkElement = page.QuerySelector("#change-link");
         Assert.NotNull(changeLinkElement);
@@ -53,7 +53,7 @@ public class WhenViewingSchoolExpenditure : BenchmarkingWebAppClient
             .SetupMaintainedSchoolInsights(school,finances)
             .Navigate($"/school/{school.Urn}/expenditure");
             
-        DocumentAssert.TitleAndH1(page, "",$"Compare your costs for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
             
         var changeLinkElement = page.QuerySelector("#change-link");
         Assert.NotNull(changeLinkElement);
