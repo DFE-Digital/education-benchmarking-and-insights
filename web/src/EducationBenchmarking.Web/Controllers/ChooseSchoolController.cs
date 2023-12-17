@@ -44,12 +44,24 @@ public class ChooseSchoolController : Controller
                 var suggestions = await _establishmentApi.SuggestSchools(search, cancellation).GetResultOrThrow<SuggestOutput<School>>();
                 var results = suggestions.Results.Select(value =>
                 {
-                    var text = value.Text?.Replace("*", "");
-                    if (text != value.Document?.Name)
-                    {
-                        value.Text = value.Document?.Name;
-                    }
+                    var text = value.Text.Replace("*", "");
+                    
+                    var additionalDetails = new List<string>();
+                    
+                    if(!string.IsNullOrWhiteSpace(value.Document.Town)) additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town );
+                    if(!string.IsNullOrWhiteSpace(value.Document.Postcode)) additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
 
+                    if (text != value.Document.Name)
+                    {
+                        value.Text = value.Document.Name;
+                    }
+                    
+                    var additionalText = additionalDetails.Count > 0
+                        ? $" ({string.Join(", ", additionalDetails.Select(a => a))})"
+                        : "";
+                    
+                    value.Text = $"{value.Text}{additionalText}";
+                    
                     return value;
                 });
                 return new OkObjectResult(results);

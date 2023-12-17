@@ -17,7 +17,11 @@
   width: 100%;
 }
 
-.filters-form-group, .search-form-group {
+.search-input{
+  position: relative;
+}
+
+.search-form-group {
   ul {
     position: absolute;
     height: auto;
@@ -27,148 +31,11 @@
     border-top: 0;
     padding: 3px 0;
     z-index: 3;
-
+    margin-top: 40px;
     background: #FFF;
     list-style-type: none;
   }
-}
-
-.filters-form-group.expanded {
-  h3 {
-    font-weight: 700;
-    color: #0b0c0c;
-    margin-bottom: 6px;
-  }
-
-  .govuk-form-group {
-    display: block;
-  }
-}
-
-.filters-form-group {
-  select {
-    width: 100%;
-  }
-
-  h3 {
-    font-weight: 400;
-    color: #1d70b8;
-    padding: 10px 15px;
-    cursor: pointer;
-    margin: -10px 0;
-  }
-
-  .govuk-date-input__item {
-    margin-right: 6px;
-
-    &:last-child {
-      margin-right: 0;
-    }
-  }
-
-  .date {
-    padding: 0 10px;
-  }
-
-  .govuk-form-group {
-    display: none;
-  }
-
-  .govuk-grid-column-one-quarter {
-    z-index: 2
-  }
-
-  .filter-buttons {
-    padding: 0 15px;
-    text-align: right;
-
-    a {
-      font-size: 18px;
-      margin: 10px;
-      vertical-align: baseline;
-    }
-
-    div {
-      clear: both;
-      display: block;
-    }
-  }
-
-  ul {
-    right: 15px;
-    left: 15px;
-    margin-top: -22px;
-    max-height: 260px;
-    overflow-y: auto;
-  }
-
-  .govuk-checkboxes__label {
-    margin-left: 40px;
-    float: none;
-    display: block;
-    text-overflow: ellipsis;
-    overflow: hidden;
-  }
-
-  .govuk-checkboxes__label:before {
-    box-shadow: none !important;
-    left: 8px;
-  }
-
-  .govuk-checkboxes__label:after {
-    left: 14px;
-  }
-
-  .govuk-checkboxes__item {
-    width: 100%;
-    padding: 0;
-  }
-
-  .govuk-checkboxes__input {
-    left: -2px;
-  }
-
-  button {
-    text-align: left;
-    background: #FFF;
-    margin-bottom: 20px;
-
-    span {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-  }
-
-  .govuk-input:focus {
-    outline: none;
-    box-shadow: none;
-  }
-
-  .arrow {
-    margin-left: auto;
-    border: solid black;
-    border-width: 0 3px 3px 0;
-    display: inline-block;
-    padding: 3px;
-    float: right;
-    margin-top: 6px;
-  }
-
-  .arrow.up {
-    margin-top: 10px;
-    transform: rotate(-135deg);
-    -webkit-transform: rotate(-135deg);
-  }
-
-  .arrow.down {
-    transform: rotate(45deg);
-    -webkit-transform: rotate(45deg);
-  }
-}
-
-.search-form-group {
+  
   input {
     padding-right: 36px;
   }
@@ -177,10 +44,6 @@
     background: #0B0C0C;
     padding: 8px;
     cursor: pointer;
-  }
-
-  ul {
-    margin-top: 40px;
   }
 
   a {
@@ -195,19 +58,3 @@
     background: lightgray;
   }
 }
-
-.search-clear {
-  position: relative;
-}
-
-.search-clear > div {
-  position: absolute;
-  right: 10px;
-  z-index: 2;
-  margin: 10px 0;
-  padding: 4px;
-  line-height: 0;
-  cursor: pointer;
-}
-
-[v-cloak] {display: none}

@@ -1,23 +1,18 @@
-using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
-using EducationBenchmarking.Web.Infrastructure.Extensions;
-using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
-[Route("school/{urn}")]
-public class SchoolController : Controller
+[Route("school/{urn}/dashboard")]
+public class SchoolDashboardController : Controller
 {
-    private readonly ILogger<SchoolController> _logger;
-    private readonly IEstablishmentApi _establishmentApi;
+    private readonly ILogger<SchoolDashboardController> _logger;
 
-    public SchoolController(ILogger<SchoolController> logger, IEstablishmentApi establishmentApi)
+    public SchoolDashboardController(ILogger<SchoolDashboardController> logger)
     {
         _logger = logger;
-        _establishmentApi = establishmentApi;
     }
 
     [HttpGet]
@@ -27,10 +22,7 @@ public class SchoolController : Controller
         {
             try
             {
-                var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolViewModel(school);
-                
-                return View(viewModel);
+                return View();
             }
             catch (Exception e)
             {

@@ -1,5 +1,7 @@
+@model EducationBenchmarking.Web.ViewModels.ViewYourDataDashboardViewModel
+
 <h3 class="govuk-heading-m">
-    <a href="" class="govuk-link govuk-link--no-visited-state">View your data dashboard</a>
+    <a href="@Url.Action("Index", "SchoolDashboard", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">View your data dashboard</a>
 </h3>
 <p class="govuk-body">
     See areas where your school is looking healthy or may need to focus on.

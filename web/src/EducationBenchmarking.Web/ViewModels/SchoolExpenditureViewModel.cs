@@ -13,6 +13,7 @@ namespace EducationBenchmarking.Web.ViewModels
             _finances = finances;
         }
 
+        public string Urn => _school.Urn;
         public string Name => _school.Name;
         public string LastFinancialYear => $"{_finances.YearEnd - 1}/{_finances.YearEnd}";
     }

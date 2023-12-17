@@ -1,6 +1,8 @@
+@model EducationBenchmarking.Web.ViewModels.CurriculumFinancialPlanningViewModel
+
 <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
 <h3 class="govuk-heading-m">
-    <a href="" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+    <a href="@Url.Action("Index", "SchoolPlanning", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
 </h3>
 <p class="govuk-body">
     Measure expected curriculum spending and staffing structure

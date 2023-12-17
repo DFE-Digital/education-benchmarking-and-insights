@@ -99,15 +99,15 @@
             @await Component.InvokeAsync("CompareYourCosts", Model.Urn)
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("ViewYourDataDashboard")
+            @await Component.InvokeAsync("ViewYourDataDashboard", Model.Urn)
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("CurriculumFinancialPlanning")
+            @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
         </div>
     </div>
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("ForecastRisk")
+            @await Component.InvokeAsync("ForecastRisk", Model.Urn)
         </div>
     </div>
 </div>

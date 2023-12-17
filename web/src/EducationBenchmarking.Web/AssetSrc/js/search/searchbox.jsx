@@ -106,14 +106,14 @@ function SearchBox(props) {
         }
     }
 
-    return <div className="govuk-input__wrapper">
-        <input id="search-input" ref={searchInput} className="govuk-input govuk-input--width-20" aria-label="search"
+    return <div className="govuk-input__wrapper search-input">
+        <input id="search-input" ref={searchInput} className="govuk-input" aria-label="search"
                name="search" type="text"
                value={searchValue} onKeyDown={onKeyDown} onKeyUp={onKeyPressed} onBlur={hideOptions} onChange={onChange}
                autoComplete="off"/>
         <input value={searchUrn} name="urn" type="hidden"/>
         <button id="search-btn" type="submit" className="govuk-button">Continue</button>
-        {options.length > 0 && <ul className="govuk-input govuk-input--width-20" id="search-suggestions">
+        {options.length > 0 && optionsVisible && <ul className="govuk-input" id="search-suggestions">
             {options.map((item, idx) => {
                 return <li key={item.id}>
                     <a onMouseMove={() => {

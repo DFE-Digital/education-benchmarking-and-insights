@@ -7,6 +7,6 @@ public class SuggestOutput<T>
 
 public class SuggestValue<T>
 {
-    public string? Text {get; set;}
-    public T? Document {get; set;}
+    public string Text {get; set;}
+    public T Document {get; set;}
 }
