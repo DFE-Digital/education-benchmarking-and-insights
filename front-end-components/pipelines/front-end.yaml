@@ -27,7 +27,7 @@ steps:
     continueOnError: false
     inputs:
       command: 'custom'
-      ${{ if ne(variables['Build.Reason'], 'PullRequest')) }}:
+      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
         customCommand: 'version ${{ parameters.BuildNumber }}'
       ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
         customCommand: 'version ${{ parameters.BuildNumber }}-alpha.0'
