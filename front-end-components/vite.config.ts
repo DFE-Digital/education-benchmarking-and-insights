@@ -10,7 +10,7 @@ export default defineConfig({
       entry: path.resolve(__dirname, 'src/main.tsx'),
       name: 'Educational Benchmarking - Front-end components',
       formats: ['es'],
-      fileName: `front-end.js`,
+      fileName: `front-end`,
     }
   },
   resolve: {
