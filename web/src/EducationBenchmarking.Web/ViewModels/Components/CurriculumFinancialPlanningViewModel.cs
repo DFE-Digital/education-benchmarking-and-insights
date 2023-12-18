@@ -1,4 +1,4 @@
-namespace EducationBenchmarking.Web.ViewModels;
+namespace EducationBenchmarking.Web.ViewModels.Components;
 
 public class CurriculumFinancialPlanningViewModel
 {

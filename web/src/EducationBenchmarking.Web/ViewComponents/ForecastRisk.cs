@@ -1,4 +1,5 @@
 using EducationBenchmarking.Web.ViewModels;
+using EducationBenchmarking.Web.ViewModels.Components;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.ViewComponents;

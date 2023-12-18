@@ -1,5 +1,7 @@
+@model EducationBenchmarking.Web.ViewModels.Components.SchoolDetailsViewModel
+
 <h3 class="govuk-heading-m">
-    <a href="" class="govuk-link govuk-link--no-visited-state">School details</a>
+    <a href="@Url.Action("Index", "SchoolDetails", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">School details</a>
 </h3>
 <p class="govuk-body">
     SOME CONTENT HERE

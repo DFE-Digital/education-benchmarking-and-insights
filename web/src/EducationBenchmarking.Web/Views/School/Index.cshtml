@@ -125,10 +125,10 @@
             @await Component.InvokeAsync("FindCommercialResources")
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("HistoricData")
+            @await Component.InvokeAsync("HistoricData", Model.Urn)
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("SchoolDetails")
+            @await Component.InvokeAsync("SchoolDetails", Model.Urn)
         </div>
     </div>
 </div>
