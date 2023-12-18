@@ -11,7 +11,7 @@
             <div id="search" 
                  data-label="Name, URN or location" 
                  data-search="@Model.Search" 
-                 data-error="@ViewData.ModelState[$"{nameof(Model.Search)}"]?.Errors.FirstOrDefault()?.ErrorMessage"></div>
+                 data-error="@ViewData.ModelState["search-box"]?.Errors.FirstOrDefault()?.ErrorMessage"></div>
         </div>
     </div>
 </div>

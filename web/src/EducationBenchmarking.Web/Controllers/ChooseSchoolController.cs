@@ -38,7 +38,7 @@ public class ChooseSchoolController : Controller
                     var message = string.IsNullOrEmpty(viewModel.Search)
                         ? "Enter a school name select a school"
                         : "Please select school from the suggester";
-                    ModelState.AddModelError("Search", message);
+                    ModelState.AddModelError("search-box", message);
                     return View(viewModel);
                 }
                 
