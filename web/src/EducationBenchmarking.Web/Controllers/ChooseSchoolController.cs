@@ -33,9 +33,12 @@ public class ChooseSchoolController : Controller
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(viewModel.Urn))
+                if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.Search))
                 {
-                    ModelState.AddModelError("Search", "Please select a school.");
+                    var message = string.IsNullOrEmpty(viewModel.Search)
+                        ? "Enter a school name select a school"
+                        : "Please select school from the suggester";
+                    ModelState.AddModelError("Search", message);
                     return View(viewModel);
                 }
                 
