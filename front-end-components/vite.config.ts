@@ -8,7 +8,7 @@ export default defineConfig({
   build: {
     lib: {
       entry: path.resolve(__dirname, 'src/main.tsx'),
-      name: 'Educational Benchmarking - Front-end components',
+      name: 'Education Benchmarking - Front-end components',
       formats: ['es'],
       fileName: `front-end`,
     }
