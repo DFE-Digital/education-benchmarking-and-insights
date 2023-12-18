@@ -1,6 +1,7 @@
 import React from 'react';
 import { Bar } from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
+import {BarChartProps} from '../../../types.tsx'
 import './HorizontalBarChart.css';
 
 ChartJS.register(
@@ -10,16 +11,6 @@ ChartJS.register(
     Title
   );
 
-interface BarData {
-    labels: string[];
-    data: number[];
-}
-
-interface BarChartProps {
-    data: BarData;
-    chosenSchool: string;
-    xLabel: string;
-}
 
 const underLinePlugin = {
   id: 'underline',

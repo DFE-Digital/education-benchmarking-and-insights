@@ -1,9 +1,11 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HBarChart from './HorizontalBarChart'; // Adjust the import path as necessary
+import HBarChart from './HorizontalBarChart';
+import {BarChartProps} from '../../../types.tsx'
+
 
 jest.mock('react-chartjs-2', () => ({
-    Bar: (props) => <div data-testid="mock-bar">{JSON.stringify(props)}</div>
+    Bar: (props: BarChartProps) => <div data-testid="mock-bar">{JSON.stringify(props)}</div>
   }));
 
 describe('HBarChart Component', () => {
@@ -21,13 +23,13 @@ describe('HBarChart Component', () => {
 
   it('displays correct xLabel', () => {
     const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
-    const barProps = JSON.parse(getByTestId('mock-bar').textContent);
+    const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.options.scales.x.title.text).toBe(mockXLabel);
   });
 
   it('passes correct data to the chart', () => {
     const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
-    const barProps = JSON.parse(getByTestId('mock-bar').textContent);
+    const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.data).toEqual({
       labels: mockData.labels,
       datasets: [{
@@ -40,15 +42,14 @@ describe('HBarChart Component', () => {
 
   it('highlights the chosen school correctly', () => {
     const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
-    const barProps = JSON.parse(getByTestId('mock-bar').textContent);
+    const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     const chosenSchoolIndex = mockData.labels.indexOf(mockChosenSchool);
     expect(barProps.data.datasets[0].backgroundColor[chosenSchoolIndex]).toBe('#12436D');
   });
 
   it('sets correct chart options', () => {
     const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
-    const barProps = JSON.parse(getByTestId('mock-bar').textContent); // Replace 'mock-bar' with the appropriate data-testid
-
+    const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     // Main options
     expect(barProps.options.maintainAspectRatio).toBe(false);
     expect(barProps.options.indexAxis).toBe('y');
@@ -80,7 +81,7 @@ describe('HBarChart Component', () => {
 
   it('includes custom underline plugin', () => {
     const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
-    const barProps = JSON.parse(getByTestId('mock-bar').textContent);
+    const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.plugins).toEqual(expect.arrayContaining([{ id: 'underline'}]));
   });
   
