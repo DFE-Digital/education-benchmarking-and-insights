@@ -43,6 +43,6 @@ steps:
     inputs:
       command: 'publish'
       publishRegistry: useFeed
-      publishFeed: 'S198-DfE-Benchmarking-servicee/education-benchmarking'
+      publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
       workingDir: 'front-end-components'
       verbose: false
