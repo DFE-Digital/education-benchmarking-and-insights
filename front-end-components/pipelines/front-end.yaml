@@ -23,7 +23,7 @@ pr:
 
 steps:
   - task: Npm@1
-    displayName: 'Update version number ${{ parameters.workingDir }}'
+    displayName: 'Update version number'
     continueOnError: false
     inputs:
       command: 'custom'
