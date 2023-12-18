@@ -13,6 +13,7 @@ export default defineConfig({
       fileName: `front-end`,
     }
   },
+  define: { 'process.env.NODE_ENV': '"production"' },
   resolve: {
     alias: {
       '@govuk-react/icon-crown': path.resolve(__dirname, 'node_modules/@govuk-react/icon-crown'),
