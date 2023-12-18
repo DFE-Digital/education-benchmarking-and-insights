@@ -2,6 +2,7 @@ using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
@@ -22,14 +23,30 @@ public class ChooseSchoolController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        return View(new ChooseSchoolViewModel());
     }
     
     [HttpPost]
     public IActionResult Index([FromForm]ChooseSchoolViewModel viewModel)
     {
-        //TODO: Add validation for empty urn
-        return string.IsNullOrWhiteSpace(viewModel.Urn) ? View() : RedirectToAction("Index","School", new {urn = viewModel.Urn});
+        using (_logger.BeginScope(new { viewModel }))
+        {
+            try
+            {
+                if (string.IsNullOrWhiteSpace(viewModel.Urn))
+                {
+                    ModelState.AddModelError("Search", "Please select a school.");
+                    return View(viewModel);
+                }
+                
+                return RedirectToAction("Index","School", new {urn = viewModel.Urn});
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error occurred choosing a school: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
     }
     
     [HttpGet]

@@ -6,7 +6,8 @@ import SearchBox from "./searchbox";
 function Search(props) {
     let {
         search,
-        label
+        label,
+        error
     } = props;
 
     const formElem = useRef(null);
@@ -16,9 +17,13 @@ function Search(props) {
     }
     
     return <form action="" method="POST" role="search" ref={formElem}>
-        <div className="govuk-form-group search-form-group">
+        <div
+            className={error ? "govuk-form-group search-form-group govuk-form-group--error" : "govuk-form-group search-form-group"}>
             <label id="search-label" className="govuk-label" htmlFor="search-input">{label}</label>
-            <SearchBox search={search} submitForm={submitForm} />
+            <p id="search-error" className="govuk-error-message">
+                {error}
+            </p>
+            <SearchBox search={search} error={error} submitForm={submitForm}/>
         </div>
     </form>;
 }

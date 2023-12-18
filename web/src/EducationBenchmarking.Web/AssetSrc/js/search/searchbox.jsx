@@ -3,6 +3,7 @@ import axios from "axios";
 
 function SearchBox(props) {
     let {
+        error,
         search,
         submitForm
     } = props;
