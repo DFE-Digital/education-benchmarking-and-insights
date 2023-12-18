@@ -2,6 +2,7 @@
   "name": "front-end",
   "private": false,
   "version": "0.0.0",
+  "main": "dist/front-end.js",
   "type": "module",
   "scripts": {
     "dev": "vite",
