@@ -1,6 +1,6 @@
 import path from 'path';
 
-module.exports = {
+export default {
     entry: "./src/main.tsx",
     output: {
         path: path.resolve(__dirname, "dist"),
