@@ -5,7 +5,7 @@ using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
-namespace EducationBenchmarking.Platform.Api.School.Db;
+namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface IAcademyDb
 {

@@ -1731,6 +1731,17 @@
           "Newtonsoft.Json": "10.0.2"
         }
       },
+      "educationbenchmarking.platform.api.insight": {
+        "type": "Project",
+        "dependencies": {
+          "AzureExtensions.Swashbuckle": "[3.3.2, )",
+          "EducationBenchmarking.Platform.Infrastructure": "[1.0.0, )",
+          "EducationBenchmarking.Platform.Shared": "[1.0.0, )",
+          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "[6.0.25, )",
+          "Microsoft.NET.Sdk.Functions": "[4.2.0, )"
+        }
+      },
       "educationbenchmarking.platform.infrastructure": {
         "type": "Project",
         "dependencies": {

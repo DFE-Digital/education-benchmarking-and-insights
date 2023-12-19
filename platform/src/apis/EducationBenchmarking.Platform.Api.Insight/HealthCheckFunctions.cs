@@ -6,7 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 
-namespace EducationBenchmarking.Platform.Api.School;
+namespace EducationBenchmarking.Platform.Api.Insight;
 
 [ApiExplorerSettings(GroupName = "Health Check")]
 public class HealthCheckFunctions

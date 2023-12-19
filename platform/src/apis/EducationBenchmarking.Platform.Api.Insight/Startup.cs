@@ -1,7 +1,6 @@
 ﻿using System.Reflection;
-using AzureFunctions.Extensions.Swashbuckle;
-using EducationBenchmarking.Platform.Api.School;
-using EducationBenchmarking.Platform.Api.School.Db;
+using EducationBenchmarking.Platform.Api.Insight;
+using EducationBenchmarking.Platform.Api.Insight.Db;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -10,7 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
-namespace EducationBenchmarking.Platform.Api.School;
+namespace EducationBenchmarking.Platform.Api.Insight;
 
 public class Startup : FunctionsStartup
 {
@@ -23,6 +22,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<AcademyDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<MaintainSchoolDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolExpenditureDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         
         builder.Services.AddSingleton<ISchoolExpenditureDb, SchoolExpenditureDb>();
         builder.Services.AddSingleton<ICollectionService, CollectionService>();

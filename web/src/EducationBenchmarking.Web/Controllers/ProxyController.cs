@@ -27,7 +27,19 @@ public class ProxyController : Controller
         {
             try
             {
-                var schools = await _insightApi.QuerySchoolsExpenditure().GetPagedResultOrThrow<SchoolExpenditure>();
+                var urns = new[]
+                {
+                    "140558", "143633", "142769", "141155", "142424", 
+                    "146726", "141197", "141634", "139696", "140327",
+                    "147334", "147380", "143226", "142197", "140183"
+                };
+
+                var query = new ApiQuery();
+                foreach (var value in urns)
+                {
+                    query.AddIfNotNull("urns", value);
+                }
+                var schools = await _insightApi.QuerySchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
                 return await Task.FromResult(new JsonResult(schools));
             }
             catch (Exception e)
