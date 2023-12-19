@@ -99,8 +99,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 4
-        testRunner.Given("I open the page with the url https://s198d01-education-benchmarking.azurewebsites" +
-                        ".net/", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the LandingPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -131,8 +130,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 9
-        testRunner.Given("I open the page with the url https://s198d01-education-benchmarking.azurewebsites" +
-                        ".net/choose-school", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the ChooseSchoolPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -163,8 +161,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 14
-        testRunner.Given("I open the page with the url https://s198d01-education-benchmarking.azurewebsites" +
-                        ".net/school/142205", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the BenchmarkingPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
