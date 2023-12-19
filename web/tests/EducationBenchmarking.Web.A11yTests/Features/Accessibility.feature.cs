@@ -80,14 +80,14 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             this.TestTearDown();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of landing page")]
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of Service Landing Page")]
         [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
-        [Xunit.TraitAttribute("Description", "Check the accessibility of landing page")]
-        public void CheckTheAccessibilityOfLandingPage()
+        [Xunit.TraitAttribute("Description", "Check the accessibility of Service Landing Page")]
+        public void CheckTheAccessibilityOfServiceLandingPage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of landing page", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of Service Landing Page", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 3
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -99,7 +99,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 4
-        testRunner.Given("I am on the LandingPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the Service Landing Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 5
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -111,14 +111,14 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of choose school page")]
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of Choose your School Page")]
         [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
-        [Xunit.TraitAttribute("Description", "Check the accessibility of choose school page")]
-        public void CheckTheAccessibilityOfChooseSchoolPage()
+        [Xunit.TraitAttribute("Description", "Check the accessibility of Choose your School Page")]
+        public void CheckTheAccessibilityOfChooseYourSchoolPage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of choose school page", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of Choose your School Page", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 8
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -130,7 +130,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 9
-        testRunner.Given("I am on the ChooseSchoolPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the Choose your School Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 10
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
@@ -142,14 +142,14 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of benchmarking page")]
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of School Homepage and compare your school")]
         [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
-        [Xunit.TraitAttribute("Description", "Check the accessibility of benchmarking page")]
-        public void CheckTheAccessibilityOfBenchmarkingPage()
+        [Xunit.TraitAttribute("Description", "Check the accessibility of School Homepage and compare your school")]
+        public void CheckTheAccessibilityOfSchoolHomepageAndCompareYourSchool()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of benchmarking page", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of School Homepage and compare your school", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 13
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -161,7 +161,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 14
-        testRunner.Given("I am on the BenchmarkingPage", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the school \"142205\" Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

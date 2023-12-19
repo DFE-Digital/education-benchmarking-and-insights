@@ -11,7 +11,5 @@ public class Config
 #endif
         .Build();
 
-    public static string LandingPage => Instance.GetValue<string>("Urls:LandingPage")!;
-    public static string ChooseSchoolPage => Instance.GetValue<string>("Urls:ChooseSchoolPage")!;
-    public static string BenchmarkingPage => Instance.GetValue<string>("Urls:BenchmarkingPage")!;
+    public static string BaseUrl => Instance.GetValue<string>("Urls:BaseUrl")!;
 }

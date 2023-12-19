@@ -17,6 +17,23 @@ public sealed class AccessibilitySteps
         _page = page;
     }
 
+    [Given(@"I am on the Service Landing Page")]
+    public async Task GivenIAmOnTheServiceLandingPage()
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}");
+    }
+
+    [Given(@"I am on the Choose your School Page")]
+    public async Task GivenIAmOnTheChooseYourSchoolPage()
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/choose-school");
+    }
+
+    [Given(@"I am on the school ""(.*)"" Home Page")]
+    public async Task GivenIAmOnTheSchoolHomePage(string urn)
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}");
+    }
 
     [When(@"I check the accessibility of the page")]
     public async Task WhenICheckTheAccessibilityOfThePage()
@@ -56,22 +73,5 @@ public sealed class AccessibilitySteps
             }
         }
     }
-
-    [Given(@"I am on the LandingPage")]
-    public async void GivenIAmOnTheLandingPage()
-    {
-        await _page.GotoAsync($"{Config.LandingPage}");
-    }
-
-    [Given(@"I am on the ChooseSchoolPage")]
-    public async void GivenIAmOnTheChooseSchoolPage()
-    {
-        await _page.GotoAsync($"{Config.ChooseSchoolPage}");
-    }
-
-    [Given(@"I am on the BenchmarkingPage")]
-    public async void GivenIAmOnTheBenchmarkingPage()
-    {
-        await _page.GotoAsync($"{Config.BenchmarkingPage}");
-    }
+    
 }
