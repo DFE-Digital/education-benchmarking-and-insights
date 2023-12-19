@@ -1,30 +1,33 @@
-﻿using EducationBenchmarking.Web.Infrastructure.Apis;
+﻿using EducationBenchmarking.Web.Domain;
+using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.Infrastructure.Extensions;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
-namespace EducationBenchmarking.Web.Controllers.Api;
+namespace EducationBenchmarking.Web.Controllers;
 
 [ApiController]
-[Route("api/school/{urn}/expenditure")]
-public class SchoolExpenditureController : Controller
+[Route("api")]
+public class ProxyController : Controller
 {
-    private readonly ILogger<SchoolExpenditureController> _logger;
+    private readonly ILogger<ProxyController> _logger;
     private readonly IInsightApi _insightApi;
 
-    public SchoolExpenditureController(ILogger<SchoolExpenditureController> logger, IInsightApi insightApi)
+    public ProxyController(ILogger<ProxyController> logger, IInsightApi insightApi)
     {
         _logger = logger;
         _insightApi = insightApi;
     }
 
     [HttpGet]
-    public async Task<IActionResult> Get(string urn)
+    [Route("school/{urn}/expenditure")]
+    public async Task<IActionResult> GetSchoolExpenditure(string urn)
     {
         using (_logger.BeginScope(new {urn}))
         {
             try
             {
-                var schools = await _insightApi.QuerySchoolsExpenditure();
+                var schools = await _insightApi.QuerySchoolsExpenditure().GetPagedResultOrThrow<SchoolExpenditure>();
                 return await Task.FromResult(new JsonResult(schools));
             }
             catch (Exception e)

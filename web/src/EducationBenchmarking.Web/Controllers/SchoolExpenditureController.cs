@@ -1,6 +1,7 @@
 ﻿using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
+using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -15,13 +16,13 @@ public class SchoolExpenditureController : Controller
 {
     private readonly IEstablishmentApi _establishmentApi;
     private readonly ILogger<SchoolExpenditureController> _logger;
-    private readonly IInsightApi _insightApi;
+    private readonly IFinanceService _financeService;
 
-    public SchoolExpenditureController(IEstablishmentApi establishmentApi, ILogger<SchoolExpenditureController> logger, IInsightApi insightApi)
+    public SchoolExpenditureController(IEstablishmentApi establishmentApi, ILogger<SchoolExpenditureController> logger, IFinanceService financeService)
     {
         _establishmentApi = establishmentApi;
         _logger = logger;
-        _insightApi = insightApi;
+        _financeService = financeService;
     }
 
     [HttpGet]
@@ -41,7 +42,7 @@ public class SchoolExpenditureController : Controller
                 ViewData["BreadcrumbNode"] = childNode; 
                 
                 var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
-                var finances = await GetFinances(school).GetResultOrThrow<Finances>();
+                var finances = await _financeService.GetFinances(school).GetResultOrThrow<Finances>();
                 var viewModel = new SchoolExpenditureViewModel(school, finances);
                 
                 return View(viewModel);
@@ -51,20 +52,6 @@ public class SchoolExpenditureController : Controller
                 _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
-        }
-    }
-
-    private async Task<ApiResult> GetFinances(School school)
-    {
-        switch (school.FinanceType)
-        {
-            case EstablishmentTypes.Academies:
-                return await _insightApi.GetAcademyFinances(school.Urn);
-            case EstablishmentTypes.Federation:
-            case EstablishmentTypes.Maintained:
-                return await _insightApi.GetMaintainedSchoolFinances(school.Urn);
-            default:
-                throw new ArgumentOutOfRangeException(nameof(school.Kind));
         }
     }
 }

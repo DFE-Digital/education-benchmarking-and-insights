@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.ViewComponents;
 
-public class ViewYourDataDashboard : ViewComponent
+public class ViewYourAreasForInvestigation : ViewComponent
 {
     public IViewComponentResult Invoke(string identifier)
     {
-        return View(new ViewYourDataDashboardViewModel(identifier));
+        return View(new ViewYourAreasForInvestigationViewModel(identifier));
     }
 }

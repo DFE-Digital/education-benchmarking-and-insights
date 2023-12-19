@@ -1,18 +1,17 @@
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
-[Route("school/{urn}/dashboard")]
-public class SchoolDashboardController : Controller
+[Route("school/{urn}/investigation")]
+public class SchoolInvestigationAreaController : Controller
 {
-    private readonly ILogger<SchoolDashboardController> _logger;
+    private readonly ILogger<SchoolInvestigationAreaController> _logger;
 
-    public SchoolDashboardController(ILogger<SchoolDashboardController> logger)
+    public SchoolInvestigationAreaController(ILogger<SchoolInvestigationAreaController> logger)
     {
         _logger = logger;
     }

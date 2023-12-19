@@ -8,14 +8,8 @@ public class PagedResults<T> : IEquatable<PagedResults<T>>
     public int Page { get; set; }
     public int PageSize { get; set; }
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
-    public string Search { get; set; } = "";
-    public string Token { get; set; } = "";
     public IEnumerable<T>? Results { get; set; }
-
-    [JsonIgnore]
-    public (int, int) ResultWindow => (Math.Max(1, ((Page - 1) * PageSize) + 1),
-        Math.Min(TotalResults, Math.Max(PageSize, Page * PageSize)));
-
+    
     public IEnumerable<int> GetPageWindow(int windowSize = 5)
     {
         if (Page < windowSize)
