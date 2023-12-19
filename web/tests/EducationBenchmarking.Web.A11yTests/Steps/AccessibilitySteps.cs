@@ -1,5 +1,6 @@
 ﻿using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
+using EducationBenchmarking.Web.A11yTests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -8,23 +9,14 @@ namespace EducationBenchmarking.Web.A11yTests.Steps;
 [Binding]
 public sealed class AccessibilitySteps
 {
-    private IPage _page;
+    private readonly IPage _page;
     private AxeResult? _axeResults;
-    
 
-    public AccessibilitySteps( ScenarioContext scenarioContext, IPage page)
+    public AccessibilitySteps(ScenarioContext scenarioContext, IPage page)
     {
         _page = page;
     }
-    
 
-    [Given(@"I open the page with the url (.*)")]
-    public async Task GivenIOpenThePageWithTheUrl(string url)
-    {
-        await _page.GotoAsync(url);
-     
-    }
-    
 
     [When(@"I check the accessibility of the page")]
     public async Task WhenICheckTheAccessibilityOfThePage()
@@ -35,16 +27,16 @@ public sealed class AccessibilitySteps
     [Then(@"there are no accessibility issues")]
     public Task ThenThereAreNoAccessibilityIssues()
     {
-       
         var seriousOrCriticalViolations = _axeResults!.Violations
             .Where(violation => violation.Impact == "serious" || violation.Impact == "critical")
             .ToList();
         Console.WriteLine($"There are {seriousOrCriticalViolations.Count()} serious and critical issues on this page");
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
-      Assert.True(seriousOrCriticalViolations.Count==0, "There are violations on the page");
+        Assert.True(seriousOrCriticalViolations.Count == 0, "There are violations on the page");
         return Task.CompletedTask;
     }
+
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
     {
         var categoryViolations = violations
@@ -63,5 +55,23 @@ public sealed class AccessibilitySteps
                 Console.WriteLine($"  Occurrence {j + 1}: {node.Html}");
             }
         }
+    }
+
+    [Given(@"I am on the LandingPage")]
+    public async void GivenIAmOnTheLandingPage()
+    {
+        await _page.GotoAsync($"{Config.LandingPage}");
+    }
+
+    [Given(@"I am on the ChooseSchoolPage")]
+    public async void GivenIAmOnTheChooseSchoolPage()
+    {
+        await _page.GotoAsync($"{Config.ChooseSchoolPage}");
+    }
+
+    [Given(@"I am on the BenchmarkingPage")]
+    public async void GivenIAmOnTheBenchmarkingPage()
+    {
+        await _page.GotoAsync($"{Config.BenchmarkingPage}");
     }
 }
