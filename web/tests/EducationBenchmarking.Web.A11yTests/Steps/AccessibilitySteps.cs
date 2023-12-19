@@ -42,10 +42,7 @@ public sealed class AccessibilitySteps
         Console.WriteLine($"There are {seriousOrCriticalViolations.Count()} serious and critical issues on this page");
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
-      //  Assert.Null(seriousOrCriticalViolations);
-      //  Assert.Empty(seriousOrCriticalViolations!);
       Assert.True(seriousOrCriticalViolations.Count==0, "There are violations on the page");
-       // Assert.True(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
         return Task.CompletedTask;
     }
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
