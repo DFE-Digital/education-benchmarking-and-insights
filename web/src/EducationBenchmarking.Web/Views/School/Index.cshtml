@@ -36,7 +36,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">RAG status for data submitted [LAST FINANCIAL YEAR]</h2>
+        <h2 class="govuk-heading-m">RAG status for data submitted @Model.LastFinancialYear</h2>
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -91,7 +91,7 @@
         @await Component.InvokeAsync("CompareYourCosts", Model.Urn)
     </div>
     <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("ViewYourDataDashboard", Model.Urn)
+        @await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)
     </div>
     <div class="govuk-grid-column-one-third">
         @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)

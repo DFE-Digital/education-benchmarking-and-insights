@@ -12,7 +12,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-        <p class="govuk-body">Compare your spending costs against similar schools for @Model.LastFinancialYear</p>
+        <p class="govuk-body">Compare your spending costs against similar schools for @Model.FinancePeriod</p>
         <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="view-comparator-set">
             View your comparator set
         </a>
@@ -32,7 +32,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("ViewYourDataDashboard", Model.Urn)
+        @await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)
     </div>
     <div class="govuk-grid-column-one-third">
         @await Component.InvokeAsync("ForecastRisk", Model.Urn)

@@ -2,6 +2,7 @@ using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.Services;
 using SmartBreadcrumbs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -37,6 +38,8 @@ if (!builder.Environment.IsEnvironment("IntegrationTest"))
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
         .ConfigureHttpClientForApi(ApiSettings.EstablishmentApi);
 }
+
+builder.Services.AddSingleton<IFinanceService, FinanceService>();
 
 var app = builder.Build();
 
