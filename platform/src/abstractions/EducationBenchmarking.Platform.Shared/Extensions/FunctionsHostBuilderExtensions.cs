@@ -10,7 +10,7 @@ namespace EducationBenchmarking.Platform.Shared;
 
 public static class FunctionsHostBuilderExtensions
 {
-    public static IFunctionsHostBuilder AddSwashBuckle(this IFunctionsHostBuilder builder, Assembly assembly)
+    public static IFunctionsHostBuilder AddCustomSwashBuckle(this IFunctionsHostBuilder builder, Assembly assembly)
     {
         var assemblyDetails = FileVersionInfo.GetVersionInfo(assembly.Location);
         builder.AddSwashBuckle(assembly, opts =>

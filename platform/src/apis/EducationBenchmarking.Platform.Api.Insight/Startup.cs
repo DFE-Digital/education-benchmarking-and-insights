@@ -3,6 +3,7 @@ using AzureFunctions.Extensions.Swashbuckle;
 using EducationBenchmarking.Platform.Api.School;
 using EducationBenchmarking.Platform.Api.School.Db;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,7 +16,7 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
+        builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
         
         builder.Services.AddHealthChecks();
         

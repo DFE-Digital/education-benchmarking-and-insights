@@ -1,74 +1,67 @@
 ﻿@model EducationBenchmarking.Web.ViewModels.SchoolExpenditureViewModel
 
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-three-quarters">
-            <h1 class="govuk-heading-l">Compare your costs for @Model.Name</h1>
-        </div>
-        <div class="govuk-grid-column-one-quarter">
-            <p class="govuk-body-s">
-                <a href="" class="govuk-link govuk-link--no-visited-state" id="change-link">Change</a>
-            </p>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <h1 class="govuk-heading-l">Compare your costs for @Model.Name</h1>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-three-quarters">
-            <p class="govuk-body">Compare your spending costs against similar schools for @Model.LastFinancialYear</p>
-            <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="view-comparator-set">
-                View your comparator set
-            </a>
-        </div>
+    <div class="govuk-grid-column-one-quarter">
+        <p class="govuk-body-s">
+            <a href="" class="govuk-link govuk-link--no-visited-state" id="change-link">Change</a>
+        </p>
     </div>
 </div>
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <div id="root"></div>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-three-quarters">
+        <p class="govuk-body">Compare your spending costs against similar schools for @Model.LastFinancialYear</p>
+        <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="view-comparator-set">
+            View your comparator set
+        </a>
     </div>
 </div>
 
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-l">Finance tools</h2>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div id="root"></div>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("ViewYourDataDashboard", Model.Urn)
-        </div>
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("ForecastRisk", Model.Urn)
-        </div>
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
-        </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">Finance tools</h2>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("ViewYourDataDashboard", Model.Urn)
+    </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("ForecastRisk", Model.Urn)
+    </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
     </div>
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h2 class="govuk-heading-l">How we can help</h2>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">How we can help</h2>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("FindCommercialResources")
-        </div>
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("AskForHelpFromAnSrma")
-        </div>
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("SubmitAnEnquiry")
-        </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("FindCommercialResources")
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("HelpWithThisService")
-        </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("AskForHelpFromAnSrma")
+    </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("SubmitAnEnquiry")
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("HelpWithThisService")
     </div>
 </div>

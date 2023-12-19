@@ -92,6 +92,12 @@
           "Serilog": "2.11.0"
         }
       },
+      "SmartBreadcrumbs": {
+        "type": "Direct",
+        "requested": "[3.6.1, )",
+        "resolved": "3.6.1",
+        "contentHash": "+GTqVp0EyaOQ1dxL5dDB/l5YE1w+q4D7a1EBN/O1eNQO+1WU91I9bGrhMV0bUyOaPJPZJ/acdRYUe4hmadcDTg=="
+      },
       "Microsoft.ApplicationInsights": {
         "type": "Transitive",
         "resolved": "2.22.0",
