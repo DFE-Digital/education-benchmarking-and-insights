@@ -57,6 +57,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search.Processor", "src\search\EducationBenchmarking.Platform.Search.Processor\EducationBenchmarking.Platform.Search.Processor.csproj", "{B6DD36FA-C957-4676-AB34-C27D51CD0EB6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.platform.Api.Tests", "tests\EducationBenchmarking.platform.Api.Tests\EducationBenchmarking.platform.Api.Tests.csproj", "{1919CD09-11A6-43E5-9C78-52C2BB264631}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +105,10 @@ Global
 		{B6DD36FA-C957-4676-AB34-C27D51CD0EB6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6DD36FA-C957-4676-AB34-C27D51CD0EB6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6DD36FA-C957-4676-AB34-C27D51CD0EB6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1919CD09-11A6-43E5-9C78-52C2BB264631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1919CD09-11A6-43E5-9C78-52C2BB264631}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1919CD09-11A6-43E5-9C78-52C2BB264631}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1919CD09-11A6-43E5-9C78-52C2BB264631}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
@@ -116,5 +122,6 @@ Global
 		{790C2FB1-998C-4D56-9A63-D6140D20C3D3} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{9D7FACAC-6B68-4B90-B5F4-FB8B8AF38429} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{B6DD36FA-C957-4676-AB34-C27D51CD0EB6} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
+		{1919CD09-11A6-43E5-9C78-52C2BB264631} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 	EndGlobalSection
 EndGlobal
