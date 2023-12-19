@@ -980,6 +980,11 @@
           "Serilog": "2.10.0"
         }
       },
+      "SmartBreadcrumbs": {
+        "type": "Transitive",
+        "resolved": "3.6.1",
+        "contentHash": "+GTqVp0EyaOQ1dxL5dDB/l5YE1w+q4D7a1EBN/O1eNQO+1WU91I9bGrhMV0bUyOaPJPZJ/acdRYUe4hmadcDTg=="
+      },
       "System.AppContext": {
         "type": "Transitive",
         "resolved": "4.3.0",
@@ -1982,7 +1987,8 @@
           "Newtonsoft.Json": "[13.0.1, )",
           "Serilog.AspNetCore": "[8.0.0, )",
           "Serilog.Enrichers.CorrelationId": "[3.0.1, )",
-          "Serilog.Sinks.ApplicationInsights": "[4.0.0, )"
+          "Serilog.Sinks.ApplicationInsights": "[4.0.0, )",
+          "SmartBreadcrumbs": "[3.6.1, )"
         }
       }
     }

@@ -4,6 +4,8 @@ using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
+using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -29,6 +31,15 @@ public class SchoolExpenditureController : Controller
         {
             try
             {
+                var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
+                var childNode = new MvcBreadcrumbNode("Index", "SchoolExpenditure", "Compare your costs")
+                {
+                    RouteValues = new { urn },
+                    Parent = parentNode
+                };
+                
+                ViewData["BreadcrumbNode"] = childNode; 
+                
                 var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
                 var finances = await GetFinances(school).GetResultOrThrow<Finances>();
                 var viewModel = new SchoolExpenditureViewModel(school, finances);

@@ -4,6 +4,8 @@ using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using SmartBreadcrumbs.Attributes;
+using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -27,6 +29,10 @@ public class SchoolController : Controller
         {
             try
             {
+                var node = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
+                
+                ViewData["BreadcrumbNode"] = node; 
+                
                 var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolViewModel(school);
                 

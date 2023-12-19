@@ -1,77 +1,74 @@
-@using EducationBenchmarking.Web.Controllers
-<div class="govuk-width-container">
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <h1 class="govuk-heading-l">Education benchmarking and insights</h1>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Education benchmarking and insights</h1>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                <div class="govuk-notification-banner__header">
-                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                        Important
-                    </h2>
-                </div>
-                <div class="govuk-notification-banner__content">
-                    <h3 class="govuk-notification-banner__heading">The Schools Financial Benchmark and View My Financial Insights services have moved</h3>
-                    <p class="govuk-body">You can now find the tools from those services here in Education Benchmark and Insights</p>
-                </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+            <div class="govuk-notification-banner__header">
+                <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                    Important
+                </h2>
+            </div>
+            <div class="govuk-notification-banner__content">
+                <h3 class="govuk-notification-banner__heading">The Schools Financial Benchmark and View My Financial Insights services have moved</h3>
+                <p class="govuk-body">You can now find the tools from those services here in Education Benchmark and Insights</p>
             </div>
         </div>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">This services helps schools to view and improve their financial performance</p>
-            <p class="govuk-body">You can compare a school or trust with similar locations in England.</p>
-        </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">This services helps schools to view and improve their financial performance</p>
+        <p class="govuk-body">You can compare a school or trust with similar locations in England.</p>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">At a school level you can:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>see how your spending compares against other other schools in a range of categories</li>
-                <li>assess risks based on the budget forecast return (academy only)</li>
-                <li>model different data scenarios</li>
-                <li>plan and forecast future scenarios</li>
-                <li>download a summary of your data and findings</li>
-            </ul>
-        </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">At a school level you can:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>see how your spending compares against other other schools in a range of categories</li>
+            <li>assess risks based on the budget forecast return (academy only)</li>
+            <li>model different data scenarios</li>
+            <li>plan and forecast future scenarios</li>
+            <li>download a summary of your data and findings</li>
+        </ul>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">At an academy trust or LA level you can:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>see all your schools in one place and assess your data in comparison to other schools</li>
-                <li>identify areas for investigation to support better resource management</li>
-                <li>download a summary of your data and findings</li>
-            </ul>
-        </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">At an academy trust or LA level you can:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>see all your schools in one place and assess your data in comparison to other schools</li>
+            <li>identify areas for investigation to support better resource management</li>
+            <li>download a summary of your data and findings</li>
+        </ul>
     </div>
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">You can use this service if you are:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>School Finance Managers and other school or academy trust finance staff</li>
-                <li>senior leadership teams and other non-finance staff in schools or academy trusts</li>
-                <li>Local Authority staff involved in financial planning and reporting</li>
-                <li>governors, trustees and other people with oversight roles</li>
-                <li>member of the public with an interest in school financial resource management</li>
-            </ul>
-        </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">You can use this service if you are:</p>
+        <ul class="govuk-list govuk-list--bullet">
+            <li>School Finance Managers and other school or academy trust finance staff</li>
+            <li>senior leadership teams and other non-finance staff in schools or academy trusts</li>
+            <li>Local Authority staff involved in financial planning and reporting</li>
+            <li>governors, trustees and other people with oversight roles</li>
+            <li>member of the public with an interest in school financial resource management</li>
+        </ul>
     </div>
+</div>
 
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <div class="govuk-inset-text">
-                Please note: to access a small number of tools you will need your DfE Sign-in account.
-            </div>
-            <a href="@Url.Action("Index", "ChooseSchool")" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
-                Start now
-                <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
-                    <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
-                </svg>
-            </a>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div class="govuk-inset-text">
+            Please note: to access a small number of tools you will need your DfE Sign-in account.
         </div>
+        <a href="@Url.Action("Index", "ChooseSchool")" role="button" draggable="false" class="govuk-button govuk-button--start" data-module="govuk-button">
+            Start now
+            <svg class="govuk-button__start-icon" xmlns="http://www.w3.org/2000/svg" width="17.5" height="19" viewBox="0 0 33 40" aria-hidden="true" focusable="false">
+                <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
+            </svg>
+        </a>
     </div>
 </div>

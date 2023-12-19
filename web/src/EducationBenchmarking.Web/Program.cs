@@ -1,6 +1,8 @@
+using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
+using SmartBreadcrumbs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +11,15 @@ builder.Services.SetupLogging("Education Benchmarking and Insights");
 builder.Services.AddControllersWithViews();
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
+builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
+{
+    options.TagName = "nav";
+    options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
+    options.OlClasses = "govuk-breadcrumbs__list";
+    //options.LiTemplate = "<li><a href=\"{1}\">{0}</a></li>";
+    options.LiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.ActiveLiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+});
 
 if (!builder.Environment.IsEnvironment("IntegrationTest"))
 {
@@ -41,7 +52,6 @@ app.UseStatusCodePagesWithRedirects("/error/{0}");
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseRouting();
 
 app.UseAuthorization();

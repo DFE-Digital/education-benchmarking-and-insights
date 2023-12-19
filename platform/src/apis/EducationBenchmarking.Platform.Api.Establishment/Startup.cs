@@ -19,7 +19,7 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.AddSwashBuckle(Assembly.GetExecutingAssembly());
+        builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
         
         builder.Services.AddHealthChecks();
 
