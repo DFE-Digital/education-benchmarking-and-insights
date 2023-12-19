@@ -1,5 +1,6 @@
 ﻿using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
+using EducationBenchmarking.Web.A11yTests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -8,23 +9,31 @@ namespace EducationBenchmarking.Web.A11yTests.Steps;
 [Binding]
 public sealed class AccessibilitySteps
 {
-    private IPage _page;
+    private readonly IPage _page;
     private AxeResult? _axeResults;
-    
 
-    public AccessibilitySteps( ScenarioContext scenarioContext, IPage page)
+    public AccessibilitySteps(ScenarioContext scenarioContext, IPage page)
     {
         _page = page;
     }
-    
 
-    [Given(@"I open the page with the url (.*)")]
-    public async Task GivenIOpenThePageWithTheUrl(string url)
+    [Given(@"I am on the Service Landing Page")]
+    public async Task GivenIAmOnTheServiceLandingPage()
     {
-        await _page.GotoAsync(url);
-     
+        await _page.GotoAsync($"{Config.BaseUrl}");
     }
-    
+
+    [Given(@"I am on the Choose your School Page")]
+    public async Task GivenIAmOnTheChooseYourSchoolPage()
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/choose-school");
+    }
+
+    [Given(@"I am on the school ""(.*)"" Home Page")]
+    public async Task GivenIAmOnTheSchoolHomePage(string urn)
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}");
+    }
 
     [When(@"I check the accessibility of the page")]
     public async Task WhenICheckTheAccessibilityOfThePage()
@@ -35,19 +44,16 @@ public sealed class AccessibilitySteps
     [Then(@"there are no accessibility issues")]
     public Task ThenThereAreNoAccessibilityIssues()
     {
-       
         var seriousOrCriticalViolations = _axeResults!.Violations
             .Where(violation => violation.Impact == "serious" || violation.Impact == "critical")
             .ToList();
         Console.WriteLine($"There are {seriousOrCriticalViolations.Count()} serious and critical issues on this page");
         PrintViolations(_axeResults.Violations, "Critical", "critical");
         PrintViolations(_axeResults.Violations, "Serious", "serious");
-      //  Assert.Null(seriousOrCriticalViolations);
-      //  Assert.Empty(seriousOrCriticalViolations!);
-      Assert.True(seriousOrCriticalViolations.Count==0, "There are violations on the page");
-       // Assert.True(seriousOrCriticalViolations, Is.Null.Or.Empty, "There are violations on the page");
+        Assert.True(seriousOrCriticalViolations.Count == 0, "There are violations on the page");
         return Task.CompletedTask;
     }
+
     private void PrintViolations(AxeResultItem[] violations, string category, string impact)
     {
         var categoryViolations = violations
@@ -67,4 +73,5 @@ public sealed class AccessibilitySteps
             }
         }
     }
+    
 }
