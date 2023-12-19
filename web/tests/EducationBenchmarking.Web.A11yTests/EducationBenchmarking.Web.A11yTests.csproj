@@ -15,6 +15,9 @@
 
     <ItemGroup>
         <PackageReference Include="Deque.AxeCore.Playwright" Version="4.8.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.0.0"/>
         <PackageReference Include="Microsoft.Playwright" Version="1.40.0" />
         <PackageReference Include="SpecFlow" Version="3.9.74" />
@@ -22,6 +25,12 @@
         <PackageReference Include="FluentAssertions" Version="6.2.0"/>
         <PackageReference Include="SpecFlow.xUnit" Version="3.9.74" />
         <PackageReference Include="xunit.assert" Version="2.4.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="appsettings.local.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
 </Project>
