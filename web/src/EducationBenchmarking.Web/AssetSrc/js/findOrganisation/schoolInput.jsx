@@ -1,22 +1,18 @@
-﻿import React, {useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import axios from "axios";
 
-function SearchBox(props) {
-    let {
-        error,
-        search,
-        submitForm
-    } = props;
+function SchoolInput(props) {
+    let { input, urn } = props;
 
-    const searchInput = useRef(null);
+    const schoolInput = useRef(null);
 
     const [index, setIndex] = useState(-1);
     const [optionsVisible, setOptionsVisible] = useState(false);
     const [optionMode, setOptionMode] = useState(false);
     const [options, setOptions] = useState([]);
-    const [searchValue, setSearchValue] = useState(search);
-    const [searchUrn, setSearchUrn] = useState();
-    const [lastSearch, setLastSearch] = useState('');
+    const [inputValue, setInputValue] = useState(input);
+    const [selectedUrn, setSelectedUrn] = useState(urn);
+    const [lastInput, setLastInput] = useState('');
     const [cancelToken, setCancelToken] = useState(null);
 
     function cancelOngoing() {
@@ -29,8 +25,8 @@ function SearchBox(props) {
     function fillSearch() {
         if (index < 0) return;
 
-        setSearchValue(options[index].text.replace(/(<([^>]+)>)/gi, ""));
-        setSearchUrn(options[index].document.urn)
+        setInputValue(options[index].text.replace(/(<([^>]+)>)/gi, ""));
+        setSelectedUrn(options[index].document.urn)
         setOptionsVisible(false);
     }
 
@@ -53,7 +49,7 @@ function SearchBox(props) {
     }
 
     function onKeyPressed() {
-        if (searchValue === lastSearch) {
+        if (inputValue === lastInput) {
             setOptionsVisible(true);
             return;
         } else if (!optionsVisible) {
@@ -63,18 +59,19 @@ function SearchBox(props) {
 
         cancelOngoing();
 
-        if (searchValue.length === 0) {
+        if (inputValue.length === 0) {
             setOptions([]);
             return;
         }
 
         setOptionMode(false);
-        setLastSearch(searchValue);
+        setLastInput(inputValue);
         let ctLocal = axios.CancelToken.source();
         setCancelToken(ctLocal);
-        axios.get(window.location.pathname + '/suggest', {
+        axios.get( '/api/establishments/suggest', {
             params: {
-                search: searchValue
+                type: 'school',
+                search: inputValue
             }, cancelToken: ctLocal.token
         }).then(response => {
             let optsLocal = response.data;
@@ -94,11 +91,10 @@ function SearchBox(props) {
         if (e.button !== 0) return;
 
         fillSearch();
-        submitForm();
     }
 
     function onChange(e) {
-        setSearchValue(e.target.value);
+        setInputValue(e.target.value);
     }
 
     function optionMouseMove(idx) {
@@ -107,14 +103,13 @@ function SearchBox(props) {
         }
     }
 
-    return <div className="govuk-input__wrapper search-input">
-        <input id="search-input" ref={searchInput} className="govuk-input" aria-label="search"
-               name="search" type="text"
-               value={searchValue} onKeyDown={onKeyDown} onKeyUp={onKeyPressed} onBlur={hideOptions} onChange={onChange}
+    return <div className="suggest-input">
+        <input id="school-input" ref={schoolInput} className="govuk-input" aria-label="schoolInput"
+               name="schoolInput" type="text"
+               value={inputValue} onKeyDown={onKeyDown} onKeyUp={onKeyPressed} onBlur={hideOptions} onChange={onChange}
                autoComplete="off"/>
-        <input value={searchUrn} name="urn" type="hidden"/>
-        <button id="search-btn" type="submit" className="govuk-button">Continue</button>
-        {options.length > 0 && optionsVisible && <ul className="govuk-input" id="search-suggestions">
+        <input value={selectedUrn} name="urn" type="hidden"/>
+        {options.length > 0 && optionsVisible && <ul className="govuk-input" id="school-suggestions">
             {options.map((item, idx) => {
                 return <li key={item.id}>
                     <a onMouseMove={() => {
@@ -127,4 +122,4 @@ function SearchBox(props) {
     </div>;
 }
 
-export default SearchBox;
+export default SchoolInput;

@@ -2,14 +2,14 @@
 
 public class Trust : IEquatable<Trust>
 {
-    public int? CompanyNo { get; set; }
+    public string? CompanyNumber { get; set; }
     public string? Name { get; set; }
 
     public bool Equals(Trust? other)
     {
         if (ReferenceEquals(null, other)) return false;
         if (ReferenceEquals(this, other)) return true;
-        return CompanyNo == other.CompanyNo && Name == other.Name;
+        return CompanyNumber == other.CompanyNumber && Name == other.Name;
     }
     
     public override bool Equals(object? obj)
@@ -22,6 +22,6 @@ public class Trust : IEquatable<Trust>
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(CompanyNo, Name);
+        return HashCode.Combine(CompanyNumber, Name);
     }
 }
