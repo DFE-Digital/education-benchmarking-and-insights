@@ -11,6 +11,7 @@ public class ApiEndpoint
 public class Apis
 {
     public ApiEndpoint Insight { get; set; } = null!;
+    public ApiEndpoint Benchmark { get; set; } = null!;
 }
 
 public class Config
