@@ -6,7 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <IsPackable>false</IsPackable>
         <IsTestProject>true</IsTestProject>
-        <RootNamespace>EducationBenchmarking.platfrom.Api.Tests</RootNamespace>
+        <RootNamespace>EducationBenchmarking.platform.Api.Tests</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
