@@ -117,7 +117,16 @@ public class ProxyController : Controller
     private async Task<IActionResult> TrustSuggestions(string search, CancellationToken cancellation)
     {
         var suggestions = await _establishmentApi.SuggestTrusts(search, cancellation).GetResultOrThrow<SuggestOutput<Trust>>();
-        var results = suggestions.Results;
+        var results = suggestions.Results.Select(value =>
+        {
+            var text = value.Text.Replace("*", "");
+            if (text != value.Document.Name)
+            {
+                value.Text = value.Document.Name;
+            }
+            
+            return value;
+        });
         
         return new JsonResult(results);
     }
