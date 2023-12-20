@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Configuration;
 
-namespace EducationBenchmarking.platform.Api.Tests.TestSupport;
+namespace EducationBenchmarking.Platform.ApiTests.TestSupport;
 
 public class ApiEndpoint
 {

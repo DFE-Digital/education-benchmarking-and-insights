@@ -57,7 +57,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platf
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search.Processor", "src\search\EducationBenchmarking.Platform.Search.Processor\EducationBenchmarking.Platform.Search.Processor.csproj", "{B6DD36FA-C957-4676-AB34-C27D51CD0EB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.platform.ApiTests", "tests\EducationBenchmarking.platform.ApiTests\EducationBenchmarking.platform.ApiTests.csproj", "{1919CD09-11A6-43E5-9C78-52C2BB264631}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.ApiTests", "tests\EducationBenchmarking.Platform.ApiTests\EducationBenchmarking.Platform.ApiTests.csproj", "{1919CD09-11A6-43E5-9C78-52C2BB264631}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
