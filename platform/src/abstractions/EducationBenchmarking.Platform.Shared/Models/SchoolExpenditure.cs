@@ -3,29 +3,36 @@ namespace EducationBenchmarking.Platform.Shared;
 public class SchoolExpenditure : School
 {
     public string? LocalAuthority { get; set; }
-    public decimal? TotalExpenditurePerPupil { get; set; }
     
-    public decimal? TotalTeachingSupportStaffCostsPerPupil { get; set; }
-    public decimal? TeachingStaffCostsPerPupil { get; set; }
-    public decimal? SupplyTeachingStaffCostsPerPupil { get; set; }
-    public decimal? EducationalConsultancyCostsPerPupil { get; set; }
-    public decimal? EducationSupportStaffCostsPerPupil { get; set; }
-    public decimal? AgencySupplyTeachingStaffCostsPerPupil { get; set; }
+    public decimal? TotalExpenditure { get; set; }
 
-    public decimal? TotalOtherCostsPerPupil { get; set; }
-    public decimal? OtherInsurancePremiumsCostsPerPupil { get; set; }
-    public decimal? DirectRevenueFinancingCostsPerPupil { get; set; }
-    public decimal? GroundsMaintenanceCostsPerPupil { get; set; }
-    public decimal? IndirectEmployeeExpensesPerPupil { get; set; }
-    public decimal? InterestChargesLoanBankPerPupil { get; set; }
-    public decimal? PrivateFinanceInitiativeChargesPerPupil { get; set; }
-    public decimal? RentRatesCostsPerPupil { get; set; }
-    public decimal? SpecialFacilitiesCostsPerPupil { get; set; }
-    public decimal? StaffDevelopmentTrainingCostsPerPupil { get; set; }
-    public decimal? StaffRelatedInsuranceCostsPerPupil { get; set; }
-    public decimal? SupplyTeacherInsurableCostsPerPupil { get; set; }
-    public decimal? CommunityFocusedSchoolStaffPerPupil { get; set; }
-    public decimal? CommunityFocusedSchoolCostsPerPupil { get; set; }
+    public decimal? TotalTeachingSupportStaffCosts => TeachingStaffCosts + SupplyTeachingStaffCosts +
+                                                      EducationalConsultancyCosts + EducationSupportStaffCosts +
+                                                      AgencySupplyTeachingStaffCosts;
+    public decimal? TeachingStaffCosts { get; set; }
+    public decimal? SupplyTeachingStaffCosts { get; set; }
+    public decimal? EducationalConsultancyCosts { get; set; }
+    public decimal? EducationSupportStaffCosts { get; set; }
+    public decimal? AgencySupplyTeachingStaffCosts { get; set; }
+
+    public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
+                                        GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
+                                        PrivateFinanceInitiativeCharges + RentRatesCosts + SpecialFacilitiesCosts + 
+                                        StaffDevelopmentTrainingCosts + StaffRelatedInsuranceCosts + 
+                                        SupplyTeacherInsurableCosts + SupplyTeacherInsurableCosts + CommunityFocusedSchoolCosts;
+    public decimal? OtherInsurancePremiumsCosts { get; set; }
+    public decimal? DirectRevenueFinancingCosts { get; set; }
+    public decimal? GroundsMaintenanceCosts { get; set; }
+    public decimal? IndirectEmployeeExpenses { get; set; }
+    public decimal? InterestChargesLoanBank { get; set; }
+    public decimal? PrivateFinanceInitiativeCharges { get; set; }
+    public decimal? RentRatesCosts { get; set; }
+    public decimal? SpecialFacilitiesCosts { get; set; }
+    public decimal? StaffDevelopmentTrainingCosts { get; set; }
+    public decimal? StaffRelatedInsuranceCosts { get; set; }
+    public decimal? SupplyTeacherInsurableCosts { get; set; }
+    public decimal? CommunityFocusedSchoolStaff { get; set; }
+    public decimal? CommunityFocusedSchoolCosts { get; set; }
     
     public decimal? AdministrativeClericalStaffCostsPerPupil { get; set; }
     public decimal? AuditorsCostsPerPupil { get; set; }

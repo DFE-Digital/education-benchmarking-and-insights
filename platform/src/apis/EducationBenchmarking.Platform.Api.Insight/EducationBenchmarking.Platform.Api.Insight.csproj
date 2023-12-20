@@ -3,7 +3,6 @@
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
-        <RootNamespace>EducationBenchmarking.Platform.Api.School</RootNamespace>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle" Version="3.3.2" />

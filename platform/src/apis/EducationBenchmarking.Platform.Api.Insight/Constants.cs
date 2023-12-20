@@ -1,4 +1,4 @@
-namespace EducationBenchmarking.Platform.Api.School;
+namespace EducationBenchmarking.Platform.Api.Insight;
 
 public static class Constants
 {

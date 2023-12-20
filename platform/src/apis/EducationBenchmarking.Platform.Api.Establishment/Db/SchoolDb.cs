@@ -52,7 +52,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
             };
     }
 
-    public async Task<PagedResults<School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
+    public async Task<PagedResults<Shared.School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
         var pageParams = QueryParameters.GetPagingValues(criteria);
@@ -63,7 +63,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 .ToArrayAsync();
         var establishmentsTotalCount = await GetItemCountAsync<Edubase>(collection.Name);
 
-        var schools = establishments.Select(x => x.CreateSchool());
+        var schools = establishments.Select(SchoolFactory.Create);
         return PagedResults<School>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);
     }
 }

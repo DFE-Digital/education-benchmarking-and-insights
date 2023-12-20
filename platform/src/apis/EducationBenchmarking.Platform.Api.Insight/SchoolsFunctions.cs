@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using EducationBenchmarking.Platform.Api.School.Db;
+using EducationBenchmarking.Platform.Api.Insight.Db;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,7 +11,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 
-namespace EducationBenchmarking.Platform.Api.School;
+namespace EducationBenchmarking.Platform.Api.Insight;
 
 [ApiExplorerSettings(GroupName = "Schools")]
 public class SchoolsFunctions
