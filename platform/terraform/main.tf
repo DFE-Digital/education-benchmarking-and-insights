@@ -85,7 +85,7 @@ resource "azurerm_key_vault_secret" "platform-search-key" {
 }
 
 module "benchmark-fa" {
-  source                   = "./functions"
+  source                   = "./modules/functions"
   function-name            = "benchmark"
   common-tags              = local.common-tags
   environment-prefix       = var.environment-prefix
@@ -99,7 +99,7 @@ module "benchmark-fa" {
 }
 
 module "insight-fa" {
-  source                   = "./functions"
+  source                   = "./modules/functions"
   function-name            = "insight"
   common-tags              = local.common-tags
   environment-prefix       = var.environment-prefix
@@ -117,7 +117,7 @@ module "insight-fa" {
 }
 
 module "establishment-fa" {
-  source                   = "./functions"
+  source                   = "./modules/functions"
   function-name            = "establishment"
   common-tags              = local.common-tags
   environment-prefix       = var.environment-prefix

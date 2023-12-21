@@ -1,7 +1,10 @@
+using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -15,11 +18,13 @@ public class TrustsFunctions
 {
     private readonly ILogger<TrustsFunctions> _logger;
     private readonly ISearchService<Trust> _search;
+    private readonly IValidator<PostSuggestRequest> _validator;
     
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ISearchService<Trust> search)
+    public TrustsFunctions(ILogger<TrustsFunctions> logger, ISearchService<Trust> search, IValidator<PostSuggestRequest> validator)
     {
         _logger = logger;
         _search = search;
+        _validator = validator;
     }
     
     
@@ -51,6 +56,32 @@ public class TrustsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")] 
         [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
-        return new OkResult();
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var body = req.ReadAsJson<PostSuggestRequest>();
+        
+                var validationResult = await _validator.ValidateAsync(body);
+                if (!validationResult.IsValid)
+                {
+                    return new ValidationErrorsResult(validationResult.Errors);
+                }
+        
+                var trusts = await _search.SuggestAsync(body, req.HttpContext.RequestAborted);
+                return new JsonContentResult(trusts);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get trust suggestions");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }

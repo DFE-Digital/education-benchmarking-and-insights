@@ -173,7 +173,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new DataSourceConnectionBuilder[]
         {
             new CosmosEbisEdubaseBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new CosmosEbisEdubaseSchoolBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
+            new CosmosEbisEdubaseSchoolBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new CosmosEbisEdubaseTrustBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
         };
 
         foreach (var builder in builders)
@@ -199,6 +200,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new IndexerBuilder[]
         {
             new EdubaseSchoolBuilder(),
+            new EdubaseTrustBuilder(),
             new EdubaseEstablishmentSchoolBuilder()
         };
 

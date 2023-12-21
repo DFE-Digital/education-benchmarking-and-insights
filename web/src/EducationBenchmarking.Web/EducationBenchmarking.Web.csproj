@@ -18,4 +18,5 @@
     <PackageReference Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
     <PackageReference Include="SmartBreadcrumbs" Version="3.6.1" />
   </ItemGroup>
+
 </Project>

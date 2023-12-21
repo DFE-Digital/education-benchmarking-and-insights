@@ -8,25 +8,30 @@ namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 public class TrustSearchServiceOptions : SearchServiceOptions
 {
-    public string TrustIndexName { get; set; }
 }
 
 public class TrustSearchService : SearchService, ISearchService<Trust>
 {
     private static readonly string[] Facets = { "" };
-    
-    public TrustSearchService(IOptions<TrustSearchServiceOptions> options) : base(options.Value.Endpoint, options.Value.TrustIndexName, options.Value.Credential)
+    private const string IndexName = "trust-index";
+    public TrustSearchService(IOptions<TrustSearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 
-    public async Task<SearchOutput<Trust>> SearchAsync(PostSearchRequest request)
+    public Task<SearchOutput<Trust>> SearchAsync(PostSearchRequest request)
     {
-        return await SearchAsync<Trust>(request, CreateFilterExpression, Facets);
+        return SearchAsync<Trust>(request, CreateFilterExpression, Facets);
     }
 
     public Task<SuggestOutput<Trust>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
     {
-        throw new System.NotImplementedException();
+        var fields = new[]
+        {
+            nameof(Trust.CompanyNumber), 
+            nameof(Trust.Name)
+        };
+        
+        return SuggestAsync<Trust>(request, cancellationToken, selectFields: fields);
     }
 
     private static string? CreateFilterExpression(FilterCriteria[] requestFilters)

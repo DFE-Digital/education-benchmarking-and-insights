@@ -1,11 +1,11 @@
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class ApiQuery : Dictionary<string, string>
+public class ApiQuery : List<QueryParameter>
 {
     public ApiQuery Page(int page = 1, int pageSize = 10)
     {
-        this["page"] = page.ToString();
-        this["pageSize"] = pageSize.ToString();
+        Add("page",page.ToString());
+        Add("pageSize",pageSize.ToString());
 
         return this;
     }
@@ -17,12 +17,22 @@ public class ApiQuery : Dictionary<string, string>
             : string.Empty;
     }
 
+    private void Add(string key, string value)
+    {
+        Add(new QueryParameter{Key = key, Value = value});
+    }
     public ApiQuery AddIfNotNull(string key, string value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return this;
 
-        this[key] = value;
+        Add(key,value);
         return this;
     }
+}
+
+public class QueryParameter
+{
+    public string Key { get; set; }
+    public string Value { get; set;}
 }

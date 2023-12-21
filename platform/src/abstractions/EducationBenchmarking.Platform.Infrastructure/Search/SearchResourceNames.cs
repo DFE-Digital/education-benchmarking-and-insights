@@ -6,11 +6,13 @@ public static class SearchResourceNames
     {
         public const string CosmosEbisEdubase ="cosmos-ebis-edubase";
         public const string CosmosEbisEdubaseSchool ="cosmos-ebis-edubase-school";
+        public const string CosmosEbisEdubaseTrust ="cosmos-ebis-edubase-trust";
     }
     
     public static class Indexers
     {
         public const string CosmosSchoolEdubase ="school-edubase-cosmos-indexer";
+        public const string CosmosTrustEdubase ="trust-edubase-cosmos-indexer";
         public const string CosmosEstablishmentSchoolEdubase ="establishment-school-edubase-cosmos-indexer";
     }
     

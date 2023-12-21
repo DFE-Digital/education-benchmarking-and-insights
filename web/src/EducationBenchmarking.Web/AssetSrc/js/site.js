@@ -1,1 +1,1 @@
-﻿require('search/search');
+﻿require('findOrganisation/findOrganisationView')

@@ -14,7 +14,7 @@ public class TrustBuilder : IndexBuilder
         var searchFields = new FieldBuilder().Build(typeof(Trust));
 
         var definition = new SearchIndex(Name, searchFields);
-        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Trust, nameof(Trust.Name));
+        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Trust, nameof(Trust.CompanyNumber), nameof(Trust.Name));
 
         definition.Suggesters.Add(suggester);
         

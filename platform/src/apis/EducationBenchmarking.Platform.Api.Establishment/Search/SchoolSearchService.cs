@@ -16,9 +16,9 @@ public class SchoolSearchServiceOptions : SearchServiceOptions
 public class SchoolSearchService : SearchService, ISearchService<School>
 {
     private static readonly string[] Facets = Array.Empty<string>();
-    private const string SchoolIndexName = "school-index";
+    private const string IndexName = "school-index";
     
-    public SchoolSearchService(IOptions<SchoolSearchServiceOptions> options) : base(options.Value.Endpoint, SchoolIndexName, options.Value.Credential)
+    public SchoolSearchService(IOptions<SchoolSearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 
