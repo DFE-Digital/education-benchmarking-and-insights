@@ -8,7 +8,7 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --config vite.config-dev.js",
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
