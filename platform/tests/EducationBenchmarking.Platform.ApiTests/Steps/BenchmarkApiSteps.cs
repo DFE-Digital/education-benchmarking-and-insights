@@ -20,8 +20,8 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             _httpClient = new HttpClient(httpClientHandler);
         }
 
-        [Given(@"the School Comparator Set API is running")]
-        public void GivenTheSchoolComparatorSetApiIsRunning()
+        [Given(@"the Benchmark API is running")]
+        public void GivenTheBenchmarkApiIsRunning()
         {
         }
 
