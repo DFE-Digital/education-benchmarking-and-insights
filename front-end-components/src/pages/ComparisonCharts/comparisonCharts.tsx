@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
+// import ReactDOM from 'react-dom';
 import HBarChart from '../../components/HorizontalBarChart/HorizontalBarChart';
 
-const ComparisonCharts: React.FC = (urn: string) => {
+type PageProps = {
+    urn: string;
+}
+const ComparisonCharts: React.FC<PageProps> = ({urn}) => {
 
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -10,7 +14,7 @@ const ComparisonCharts: React.FC = (urn: string) => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch(window.location.pathname + `school/${urn}/expenditure`);
+                const response = await fetch(`api/school/${urn}/expenditure`);
                 if (!response.ok) {
                     throw new Error(`Response not ok ${response}`);
                 }
@@ -22,35 +26,26 @@ const ComparisonCharts: React.FC = (urn: string) => {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, [urn]);
 
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
-    
+
+    const barData = {
+        labels: data.results.map(result => result.schoolName),
+        data: data.results.map(result => result.totalExpenditurePerPupil),
+    }
+    const chosenSchoolName = data.results.find(school => school.urn === urn)?.schoolName || null;
+
     return(
-        <HBarChart />
-
-
-        /*
-
-        render bar expenditure bar chart, pass props through
-
-
-        export interface BarData {
-            labels: string[];
-            data: number[];
-        }
-
-        export interface BarChartProps {
-            data: BarData;
-            chosenSchool: string;
-            xLabel: string;
-        }
-        */
+        <div>
+            <h1>Total Expenditure</h1>
+            <HBarChart data={barData} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
+        </div>
     )
   };
   
-  const comparisonCharts = document.getElementById('comparisonCharts');
-  searchFormElem && ReactDOM.render(<ComparisonCharts {...searchFormElem.dataset} />, searchFormElem);
+// const comparisonCharts = document.getElementById('comparisonCharts');
+// comparisonCharts && ReactDOM.render(<ComparisonCharts {...comparisonCharts.dataset} />, comparisonCharts);
+export default ComparisonCharts;
