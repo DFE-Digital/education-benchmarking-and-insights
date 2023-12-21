@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿
+using System.Net;
 using System.Text;
 using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
@@ -17,31 +18,32 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(httpClientHandler);
-            _response = null!;
         }
 
-        [Then(@"the response status code api is (.*)")]
-        public void ThenTheResponseStatusCodeApiIs(int expectedStatusCode)
+        [Given(@"the School Comparator Set API is running")]
+        public void GivenTheSchoolComparatorSetApiIsRunning()
+        {
+        }
+
+        [When(@"I send a POST request to get comparators with the following payload:")]
+        public async Task WhenISendAPostRequestToGetComparatorsWithTheFollowingPayload(Table table)
+        {
+            var requestData = table.Rows.ToDictionary(row => row["Type"], row => row["Body"]);
+            var jsonContent = requestData["requestJson"];
+
+            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/schools/comparator-set", content);
+        }
+
+
+        [Then(@"the response status code for benchmark api should be (.*)")]
+        public void ThenTheResponseStatusCodeForBenchmarkApiShouldBe(int expectedStatusCode)
         {
             _response.StatusCode.Should().Be((HttpStatusCode)expectedStatusCode);
         }
 
-        [Given(@"I want to create a comparator set")]
-        public void GivenIWantToCreateAComparatorSet()
-        {
-        }
-
-        [When(@"I send a request to get school comparators with includeset set to true and size set to '(.*)'")]
-        public async Task WhenISendARequestToGetSchoolComparatorsWithIncludesetSetToTrueAndSizeSetTo(string size)
-        {
-            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/schools/comparator-set",
-                content);
-        }
-
-        [Then(@"a valid school comparator set of size '(.*)' should be returned")]
-        public async Task ThenAValidSchoolComparatorSetOfSizeShouldBeReturned(string expectedSize)
+        [Then(@"the response body should contain a valid School Comparator Set")]
+        public async Task ThenTheResponseBodyShouldContainAValidSchoolComparatorSet()
         {
             _response.EnsureSuccessStatusCode();
             var responseBody = await _response.Content.ReadAsStringAsync();
@@ -56,20 +58,29 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
                 school.Should().ContainKey("financeType");
                 school.Should().ContainKey("kind");
             }
-
-            schoolComparatorSet["results"].Children().Should().HaveCount(int.Parse(expectedSize));
         }
 
-        [When(@"I send a request to get trust comparators with includeset set to true and size set to '(.*)'")]
-        public async Task WhenISendARequestToGetTrustComparatorsWithIncludesetSetToTrueAndSizeSetTo(string size)
+        [Then(@"the response size should be '(.*)'")]
+        public async Task ThenTheResponseSizeShouldBe(string expectedSize)
         {
-            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
+            var responseBody = await _response.Content.ReadAsStringAsync();
+            var schoolComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody);
+            schoolComparatorSet.Should().NotBeNull();
+            schoolComparatorSet["results"].Should().NotBeNull();
+            schoolComparatorSet["results"].Children().Should().HaveCount(int.Parse(expectedSize));
+        }
+        
+        [When(@"I send a POST request to get trusts comparators with the following payload:")]
+        public async Task WhenISendAPostRequestToGetTrustsComparatorsWithTheFollowingPayload(Table table)
+        {
+            var requestData = table.Rows.ToDictionary(row => row["Type"], row => row["Body"]);
+            var jsonContent = requestData["requestJson"];
+
             var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
             _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/trusts/comparator-set", content);
         }
-
-        [Then(@"a valid trust comparator set of size '(.*)' should be returned")]
-        public async Task ThenAValidTrustComparatorSetOfSizeShouldBeReturned(string expectedSize)
+        [Then(@"the response body should contain a valid trusts Comparator Set")]
+        public async Task ThenTheResponseBodyShouldContainAValidTrustsComparatorSet()
         {
             _response.EnsureSuccessStatusCode();
             var responseBody = await _response.Content.ReadAsStringAsync();
@@ -82,8 +93,8 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
                 academy.Should().ContainKey("companyNumber");
                 academy.Should().ContainKey("name");
             }
-
-            academyComparatorSet["results"].Children().Should().HaveCount(int.Parse(expectedSize));
         }
+
+
     }
 }
