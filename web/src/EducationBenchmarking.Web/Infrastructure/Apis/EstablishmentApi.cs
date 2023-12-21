@@ -6,9 +6,14 @@ public class EstablishmentApi : BaseApi, IEstablishmentApi
     {
     }
     
-    public Task<ApiResult> Get(string identifier)
+    public Task<ApiResult> GetSchool(string identifier)
     {
         return GetAsync($"api/school/{identifier}");
+    }
+    
+    public Task<ApiResult> GetTrust(string identifier)
+    {
+        return GetAsync($"api/trust/{identifier}");
     }
 
     public Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation)
@@ -34,7 +39,8 @@ public class EstablishmentApi : BaseApi, IEstablishmentApi
 
 public interface IEstablishmentApi
 {
-    Task<ApiResult> Get(string identifier);
+    Task<ApiResult> GetSchool(string identifier);
+    Task<ApiResult> GetTrust(string identifier);
     Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation);
     Task<ApiResult> SuggestTrusts(string search, CancellationToken cancellation);
 }

@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
-
 [Controller]
 [Route("find-organisation")]
 public class FindOrganisationController : Controller
@@ -17,9 +16,9 @@ public class FindOrganisationController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string findMethod = Constants.SchoolOrganisationType)
     {
-        return View(new FindOrganisationViewModel());
+        return View(new FindOrganisationViewModel { FindMethod = findMethod });
     }
 
     [HttpPost]
@@ -31,7 +30,7 @@ public class FindOrganisationController : Controller
             {
                 switch (viewModel.FindMethod.ToLower())
                 {
-                    case "school":
+                    case Constants.SchoolOrganisationType:
                     {
                         if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                         {
@@ -44,7 +43,7 @@ public class FindOrganisationController : Controller
 
                         return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
                     }
-                    case "trust":
+                    case Constants.TrustOrganisationType:
                     {
                         if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) || string.IsNullOrEmpty(viewModel.TrustInput))
                         {
@@ -60,18 +59,6 @@ public class FindOrganisationController : Controller
                         default:
                         throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
                 }
-                
-                
-                if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
-                {
-                    var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                        ? "Enter a school name select a school"
-                        : "Please select school from the suggester";
-                    ModelState.AddModelError("search-box", message);
-                    return View(viewModel);
-                }
-
-                return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
             }
             catch (Exception e)
             {
