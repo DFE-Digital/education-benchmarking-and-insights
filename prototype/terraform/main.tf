@@ -8,17 +8,6 @@ locals {
 }
 
 resource "azurerm_resource_group" "resource-group" {
-  name = "${var.environment-prefix}-ebis-core"
-  location = var.location
-  tags = local.common-tags
-}
-
-resource "random_integer" "ri" {
-  min = 10000
-  max = 99999
-}
-
-resource "azurerm_resource_group" "resource-group" {
   name = "${var.environment-prefix}-ebis-prototype"
   location = var.location
   tags = local.common-tags
