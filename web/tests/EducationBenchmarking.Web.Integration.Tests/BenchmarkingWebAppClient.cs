@@ -28,7 +28,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     public BenchmarkingWebAppClient SetupEstablishment(School school)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.Get(school.Urn)).ReturnsAsync(ApiResult.Ok(school));
+        EstablishmentApi.Setup(api => api.GetSchool(school.Urn)).ReturnsAsync(ApiResult.Ok(school));
         return this;
     }
     

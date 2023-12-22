@@ -35,7 +35,7 @@ public class SchoolController : Controller
                 
                 ViewData["BreadcrumbNode"] = node; 
                 
-                var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
+                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await _financeService.GetFinances(school).GetResultOrThrow<Finances>();
                 
                 var viewModel = new SchoolViewModel(school, finances);

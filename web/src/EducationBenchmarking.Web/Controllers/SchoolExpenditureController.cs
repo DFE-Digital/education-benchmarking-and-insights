@@ -41,7 +41,7 @@ public class SchoolExpenditureController : Controller
                 
                 ViewData["BreadcrumbNode"] = childNode; 
                 
-                var school = await _establishmentApi.Get(urn).GetResultOrThrow<School>();
+                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await _financeService.GetFinances(school).GetResultOrThrow<Finances>();
                 var viewModel = new SchoolExpenditureViewModel(school, finances);
                 

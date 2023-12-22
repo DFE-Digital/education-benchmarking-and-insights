@@ -1,0 +1,15 @@
+@model EducationBenchmarking.Web.ViewModels.Components.OrganisationHeaderViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Education benchmarking and insights</h1>
+        <h2 class="govuk-heading-l">
+            <span>@Model.Name</span>
+            <a href="@Url.Action("Index","FindOrganisation", new {findMethod = Model.OrganisationType})" class="govuk-body govuk-link govuk-link--no-visited-state" id="change-link">change</a>
+        </h2>
+        <p class="govuk-body">
+            You can use this service to understand the finances of your chosen school, academy trust or local authority.
+            You can find areas for further investigation and relevant guidance and resources.
+        </p>
+    </div>
+</div>

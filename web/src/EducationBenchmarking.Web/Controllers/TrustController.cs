@@ -1,4 +1,8 @@
+using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.Infrastructure.Extensions;
+using EducationBenchmarking.Web.Services;
+using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Nodes;
@@ -10,10 +14,14 @@ namespace EducationBenchmarking.Web.Controllers;
 public class TrustController : Controller
 {
     private readonly ILogger<TrustController> _logger;
+    private readonly IEstablishmentApi _establishmentApi;
+    private readonly IFinanceService _financeService;
 
-    public TrustController(ILogger<TrustController> logger)
+    public TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IFinanceService financeService)
     {
         _logger = logger;
+        _establishmentApi = establishmentApi;
+        _financeService = financeService;
     }
 
     [HttpGet]
@@ -27,7 +35,11 @@ public class TrustController : Controller
 
                 ViewData["BreadcrumbNode"] = node;
                 
-                return View();
+                var trust = await _establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var finances = await _financeService.GetFinances(trust).GetResultOrThrow<Finances>();
+                
+                var viewModel = new TrustViewModel(trust, finances);
+                return View(viewModel);
             }
             catch (Exception e)
             {

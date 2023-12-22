@@ -131,6 +131,7 @@ public class SchoolsFunctions
 
     [FunctionName(nameof(SuggestSchoolsAsync))]
     [ProducesResponseType(typeof(SuggestOutput<School>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")]

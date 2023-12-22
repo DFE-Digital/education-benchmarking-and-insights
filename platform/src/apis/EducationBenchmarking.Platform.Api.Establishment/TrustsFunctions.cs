@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
@@ -29,11 +30,14 @@ public class TrustsFunctions
     
     
     [FunctionName(nameof(GetTrustAsync))]
+    [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> GetTrustAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequest req,
         string identifier)
     {
-        return new OkResult();
+        return new NotFoundResult();
     }
     
     [FunctionName(nameof(QueryTrustsAsync))]
@@ -52,6 +56,9 @@ public class TrustsFunctions
     }
     
     [FunctionName(nameof(SuggestTrustsAsync))]
+    [ProducesResponseType(typeof(SuggestOutput<Trust>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")] 
         [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)

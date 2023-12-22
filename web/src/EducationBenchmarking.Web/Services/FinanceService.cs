@@ -6,6 +6,7 @@ namespace EducationBenchmarking.Web.Services;
 public interface IFinanceService
 {
     Task<ApiResult> GetFinances(School school);
+    Task<ApiResult> GetFinances(Trust trust);
 }
 
 public class FinanceService : IFinanceService
@@ -29,5 +30,10 @@ public class FinanceService : IFinanceService
             default:
                 throw new ArgumentOutOfRangeException(nameof(school.Kind));
         }
+    }
+    
+    public async Task<ApiResult> GetFinances(Trust trust)
+    {
+        return ApiResult.Ok(new Finances());
     }
 }
