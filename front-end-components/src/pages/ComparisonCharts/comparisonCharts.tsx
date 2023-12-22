@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
-// import ReactDOM from 'react-dom';
+import React, {useEffect, useState} from 'react';
+import ReactDOM from 'react-dom';
 import HBarChart from '../../components/HorizontalBarChart/HorizontalBarChart';
+
 
 type PageProps = {
     urn: string;
-}
-const ComparisonCharts: React.FC<PageProps> = ({urn}) => {
+};
 
+const ComparisonCharts: React.FC<PageProps> = ({ urn }) => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+     const [error, setError] = useState(null);
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -20,8 +22,9 @@ const ComparisonCharts: React.FC<PageProps> = ({urn}) => {
                 }
                 const json = await response.json();
                 setData(json);
+                console.log(json)
             } catch (error) {
-                setError(error);
+                setError(error)
             } finally {
                 setLoading(false);
             }
@@ -32,11 +35,14 @@ const ComparisonCharts: React.FC<PageProps> = ({urn}) => {
     if (loading) return <div>Loading...</div>;
     if (error) return <div>Error: {error}</div>;
 
+
     const barData = {
         labels: data.results.map(result => result.schoolName),
         data: data.results.map(result => result.totalExpenditurePerPupil),
     }
     const chosenSchoolName = data.results.find(school => school.urn === urn)?.schoolName || null;
+
+
 
     return(
         <div>
@@ -46,6 +52,5 @@ const ComparisonCharts: React.FC<PageProps> = ({urn}) => {
     )
   };
   
-// const comparisonCharts = document.getElementById('comparisonCharts');
-// comparisonCharts && ReactDOM.render(<ComparisonCharts {...comparisonCharts.dataset} />, comparisonCharts);
-export default ComparisonCharts;
+const comparisonCharts = document.getElementById('comparisonCharts');
+comparisonCharts && ReactDOM.render(<ComparisonCharts urn={...comparisonCharts.dataset} />, comparisonCharts)
