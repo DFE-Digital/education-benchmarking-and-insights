@@ -4,6 +4,8 @@ using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Insight.Db;
+using EducationBenchmarking.Platform.Api.Insight.Models;
+using EducationBenchmarking.Platform.Api.Insight.Requests;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,27 +27,34 @@ public class SchoolsFunctions
         _db = db;
     }
     
-    [FunctionName(nameof(QuerySchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(PagedResults<SchoolExpenditure>), (int)HttpStatusCode.OK)]
+    [FunctionName(nameof(GetSchoolExpenditureAsync))]
+    [ProducesResponseType(typeof(SchoolExpenditure), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = false)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page ", DataType = typeof(int), Required = false)]
-    public async Task<IActionResult> QuerySchoolExpenditureAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/expenditure")] HttpRequest req)
+    public async Task<IActionResult> GetSchoolExpenditureAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/expenditure")] 
+        [RequestBodyType(typeof(SchoolExpenditureRequest), "The school expenditure request object")]
+        HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
         
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    {"Application", Constants.ApplicationName}, 
-                   {"CorrelationID", correlationId},
-                   {"Query",  req.QueryString.HasValue ? req.QueryString.Value : "" }
+                   {"CorrelationID", correlationId}
                }))
         {
             try
             {
-                var schools = await _db.Query(req.Query);
+                var body = req.ReadAsJson<SchoolExpenditureRequest>();
+                
+                //TODO : Add request validator
+                // var validationResult = await _validator.ValidateAsync(body);
+                // if (!validationResult.IsValid)
+                // {
+                //     return new ValidationErrorsResult(validationResult.Errors);
+                // }
+                
+                var schools = await _db.GetExpenditure(body);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)

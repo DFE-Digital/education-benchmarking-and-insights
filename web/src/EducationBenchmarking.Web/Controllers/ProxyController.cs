@@ -20,11 +20,11 @@ public class ProxyController : Controller
         _insightApi = insightApi;
         _establishmentApi = establishmentApi;
     }
-
-    [HttpGet]
+    
+    [HttpPost]
     [Produces("application/json")]
     [Route("school/{urn}/expenditure")]
-    public async Task<IActionResult> GetSchoolExpenditure(string urn)
+    public async Task<IActionResult> SchoolExpenditure(string urn, [FromBody]SectionDimensions dimensions)
     {
         using (_logger.BeginScope(new {urn}))
         {
@@ -37,12 +37,8 @@ public class ProxyController : Controller
                     "147334", "147380", "143226", "142197", "140183"
                 };
 
-                var query = new ApiQuery();
-                foreach (var value in urns)
-                {
-                    query.AddIfNotNull("urns", value);
-                }
-                var schools = await _insightApi.QuerySchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
+                var request = new PostSchoolExpenditureRequest { Urns = urns, Dimensions = dimensions };
+                var schools = await _insightApi.CreateSchoolsExpenditureReport(request).GetPagedResultOrThrow<SchoolExpenditure>();
                 return new JsonResult(schools);
             }
             catch (Exception e)

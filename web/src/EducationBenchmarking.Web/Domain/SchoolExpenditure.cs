@@ -1,60 +1,16 @@
 namespace EducationBenchmarking.Web.Domain;
 
-public class SchoolExpenditure
+public record SchoolExpenditure
 {
-    public string Urn { get; set; }
-    public string SchoolName { get; set; }
-    public string Kind { get; set; }
-    public string LocalAuthority { get; set; }
-
-    public decimal TotalExpenditure { get; set; }
+    public string[]? AllDimensions { get; set; }
     
-    public decimal TotalTeachingSupportStaffCosts { get; set; }
-    public decimal TeachingStaffCosts { get; set; }
-    public decimal SupplyTeachingStaffCosts { get; set; }
-    public decimal EducationalConsultancyCosts { get; set; }
-    public decimal EducationSupportStaffCosts { get; set; }
-    public decimal AgencySupplyTeachingStaffCosts { get; set; }
-
-    public decimal TotalOtherCosts { get; set; }
-    public decimal OtherInsurancePremiumsCosts { get; set; }
-    public decimal DirectRevenueFinancingCosts { get; set; }
-    public decimal GroundsMaintenanceCosts { get; set; }
-    public decimal IndirectEmployeeExpenses { get; set; }
-    public decimal InterestChargesLoanBank { get; set; }
-    public decimal PrivateFinanceInitiativeCharges { get; set; }
-    public decimal RentRatesCosts { get; set; }
-    public decimal SpecialFacilitiesCosts { get; set; }
-    public decimal StaffDevelopmentTrainingCosts { get; set; }
-    public decimal StaffRelatedInsuranceCosts { get; set; }
-    public decimal SupplyTeacherInsurableCosts { get; set; }
-    public decimal CommunityFocusedSchoolStaff { get; set; }
-    public decimal CommunityFocusedSchoolCosts { get; set; }
-
-    public decimal AdministrativeClericalStaffCostsPerPupil { get; set; }
-    public decimal AuditorsCostsPerPupil { get; set; }
-    public decimal OtherStaffCostsPerPupil { get; set; }
-    public decimal ProfessionalServicesNonCurriculumCostsPerPupil { get; set; }
-
-    public decimal ExaminationFeesCostsPerPupil { get; set; }
-    public decimal BreakdownEducationalSuppliesCostsPerPupil { get; set; }
-    public decimal LearningResourcesNonIctCostsPerPupil { get; set; }
-
-    public decimal LearningResourcesIctCostsPerPupil { get; set; }
-
-    public decimal CleaningCaretakingCostsPerPupil { get; set; }
-    public decimal MaintenancePremisesCostsPerPupil { get; set; }
-    public decimal OtherOccupationCostsPerPupil { get; set; }
-    public decimal PremisesStaffCostsPerPupil { get; set; }
-
-    public decimal AdministrativeSuppliesCostsPerPupil { get; set; }
-
-    public decimal NetCateringCostsPerPupil { get; set; }
-    public decimal CateringStaffCostsPerPupil { get; set; }
-    public decimal CateringSuppliesCostsPerPupil { get; set; }
-    public decimal IncomeCateringPerPupil { get; set; }
-
-    public decimal TotalUtilitiesCostPerMetreSq { get; set; }
-    public decimal EnergyCostPerMetreSq { get; set; }
-    public decimal WaterSewerageCostsPerMetreSq { get; set; }
+    public SectionDimensions? Dimensions { get; set; }
+    public Dictionary<string, School>? Schools { get; set; }
+    public Dictionary<string, decimal>? TotalExpenditure { get; set; }
+    public Dictionary<string, decimal>? TotalTeachingSupportStaffCosts { get; set; }
+    public Dictionary<string, decimal>? TeachingStaffCosts { get; set; }
+    public Dictionary<string, decimal>? SupplyTeachingStaffCosts { get; set; }
+    public Dictionary<string, decimal>? EducationalConsultancyCosts { get; set; }
+    public Dictionary<string, decimal>? EducationSupportStaffCosts { get; set; }
+    public Dictionary<string, decimal>? AgencySupplyTeachingStaffCosts { get; set; }
 }

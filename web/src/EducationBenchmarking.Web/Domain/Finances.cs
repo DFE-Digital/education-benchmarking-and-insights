@@ -1,6 +1,6 @@
 namespace EducationBenchmarking.Web.Domain;
 
-    public class Finances
+    public record Finances
     {
         public string URN { get; set; }
         public string SchoolName { get; set; }

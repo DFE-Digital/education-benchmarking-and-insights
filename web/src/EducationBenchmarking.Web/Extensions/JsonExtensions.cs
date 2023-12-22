@@ -1,3 +1,4 @@
+
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -8,6 +9,17 @@ namespace EducationBenchmarking.Web.Extensions;
 
 public static class JsonExtensions
 {
+
+    public static void SetJsonOptions(this JsonSerializerSettings settings)
+    {
+        settings.NullValueHandling = NullValueHandling.Ignore;
+        settings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+        settings.Converters.Add(new IsoDateTimeConverter());
+        settings.Converters.Add(new StringEnumConverter());
+    }
+    
+    
+    
     public static JsonSerializerSettings Settings => new()
     {
         NullValueHandling = NullValueHandling.Ignore, 

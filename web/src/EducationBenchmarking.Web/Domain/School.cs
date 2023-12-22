@@ -1,11 +1,11 @@
 namespace EducationBenchmarking.Web.Domain;
 
-public class School
+public record School
 {
-    public string Urn { get; set; }
-    public string Name { get; set; }
-    public string FinanceType { get; set; }
-    public string Kind { get; set; }
+    public string? Urn { get; set; }
+    public string? Name { get; set; }
+    public string? FinanceType { get; set; }
+    public string? Kind { get; set; }
     public string? LaEstab { get; set; }
     public string? Street { get; set; }
     public string? Locality { get; set; }
@@ -13,4 +13,5 @@ public class School
     public string? Town { get; set; }
     public string? County { get; set; }
     public string? Postcode { get; set; }
+    public string? LocalAuthority { get; set; }
 }
