@@ -1,4 +1,5 @@
-Feature: SchoolHomePage
+Feature: CompareYourCosts
+
 	School HomePage is showing correct data
 
 Feature: Expenditure Benchmarking for Schools
