@@ -16,12 +16,10 @@ public class ErrorController : Controller
     [Route("{statusCode:int}")]
     public IActionResult StatusCodeError(int statusCode)
     {
-        switch (statusCode)
+        return statusCode switch
         {
-            case 404:
-                return View("NotFound");
-            default:
-                return View("Problem");
-        }
+            404 => View("NotFound"),
+            _ => View("Problem")
+        };
     }
 }
