@@ -104,3 +104,23 @@ jobs:
                 backendAzureRmContainerName: 'tfstate'
                 backendAzureRmKey: education-benchmarking-prototype.tfstate
                 backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+  - deployment: Deploy
+    dependsOn: [RunTerraform]
+    displayName: 'Deploy prototype web app'
+    environment: ${{ parameters.environment }}
+    pool:
+      vmImage: ubuntu-latest
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: AzureWebApp@1
+              displayName: 'Web app deploy'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: webAppLinux
+                appName: ${{ parameters.environmentPrefix }}-ebis-prototype
+                runtimeStack: 'NODE|20-lts'
+                package: $(Pipeline.Workspace)/prototype/prototype.zip
+                startUpCommand: 'npm run start'

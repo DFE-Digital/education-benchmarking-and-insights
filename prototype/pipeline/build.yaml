@@ -29,6 +29,34 @@ stages:
           - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
             artifact: terraform
 
+      - job: Build
+        displayName: Build
+        pool:
+          vmImage: ubuntu-latest
+        steps:
+          - task: NodeTool@0
+            inputs:
+              versionSpec: '20.x'
+            displayName: 'Install Node.js'
+
+          - script: |
+              npm install
+              npm run build --if-present
+              npm run test --if-present
+            displayName: 'npm install, build and test'
+            workingDir: 'prototype/src'
+
+          - task: ArchiveFiles@2
+            displayName: 'Archive files'
+            inputs:
+              rootFolderOrFile: 'prototype/src'
+              includeRootFolder: false
+              archiveFile: $(Build.ArtifactStagingDirectory)/prototype.zip
+              replaceExistingArchive: true
+
+          - publish: $(Build.ArtifactStagingDirectory)/prototype
+            artifact: prototype
+
   - stage: DeployDevelopment
     dependsOn: [Build]
     displayName: 'Deploy to prototype'
