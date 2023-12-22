@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using EducationBenchmarking.Platform.Api.Insight.Models;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;

@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.SetupLogging("Education Benchmarking and Insights");
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); });
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>

@@ -1,4 +1,4 @@
-namespace EducationBenchmarking.Platform.Shared;
+namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
 public class Finances
 {

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Insight.Db;
+using EducationBenchmarking.Platform.Api.Insight.Models;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

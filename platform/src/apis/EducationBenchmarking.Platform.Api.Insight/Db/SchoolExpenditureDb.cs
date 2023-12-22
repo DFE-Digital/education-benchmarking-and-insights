@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using EducationBenchmarking.Platform.Api.Insight.Models;
+using EducationBenchmarking.Platform.Api.Insight.Requests;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using EducationBenchmarking.Platform.Shared.Helpers;
@@ -12,7 +14,7 @@ namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface ISchoolExpenditureDb
 {
-    Task<PagedResults<SchoolExpenditure>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria);
+    Task<SchoolExpenditure> GetExpenditure(SchoolExpenditureRequest request);
 }
 
 public class SchoolExpenditureDbOptions
@@ -31,23 +33,19 @@ public class SchoolExpenditureDb : CosmosDatabase, ISchoolExpenditureDb
         _collectionService = collectionService;
     }
     
-    public async Task<PagedResults<SchoolExpenditure>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
+    public async Task<SchoolExpenditure> GetExpenditure(SchoolExpenditureRequest request)
     {
-        var values = criteria as KeyValuePair<string, StringValues>[] ?? criteria.ToArray();
-        var (page, pageSize) = QueryParameters.GetPagingValues(values);
-        var urns = values.FirstOrDefault(x => x.Key.ToLower() == "urns").Value.ToString().Split(",");
-
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-        var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
+        var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => request.Urns.Contains(x.URN.ToString()))).ToListAsync();
         
         var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.URN.ToString()).ToArray();
         var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.URN.ToString()).ToArray();
         
         var finances = await Task.WhenAll(GetFinances(maintained, DataGroups.Maintained), GetFinances(academies, DataGroups.Academies));
+
+        finances[0].AddRange(finances[1]);
         
-        var schoolsExpenditure = finances.SelectMany(x => x.Select(SchoolFactory.Create));
-        
-        return PagedResults<SchoolExpenditure>.Create(schoolsExpenditure);
+        return SchoolExpenditure.Create(finances[0], request.Dimensions);
     }
 
     private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(string[] urns, string dataGroup)
