@@ -1,0 +1,41 @@
+pool:
+  vmImage: 'windows-2022'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - prototype
+
+pr: none
+
+stages:
+  - stage: Build
+    displayName: 'Build artifacts'
+    jobs:
+      - job: Zip_static_artifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - task: ArchiveFiles@2
+            displayName: 'Zip terraform files'
+            inputs:
+              rootFolderOrFile: 'prototype/terraform'
+              includeRootFolder: false
+              archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
+
+          - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
+            artifact: terraform
+
+  - stage: DeployDevelopment
+    dependsOn: [Build]
+    displayName: 'Deploy to prototype'
+    jobs:
+      - template: jobs-prototype.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d99'
+          environment: 'prototype'
+          cipEnvironment: 'Dev'
