@@ -54,7 +54,7 @@ stages:
               archiveFile: $(Build.ArtifactStagingDirectory)/prototype.zip
               replaceExistingArchive: true
 
-          - publish: $(Build.ArtifactStagingDirectory)/prototype
+          - publish: $(Build.ArtifactStagingDirectory)/prototype.zip
             artifact: prototype
 
   - stage: DeployDevelopment
