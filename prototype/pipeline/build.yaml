@@ -34,12 +34,11 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - script: |
-              npm install
-              npm run build --if-present
-              npm run test --if-present
-            displayName: 'npm install, build and test'
-            workingDirectory: 'prototype/src'
+          - task: Npm@1
+            displayName: 'Install dependencies'
+            inputs:
+              command: 'install'
+              workingDir: 'prototype/src'
 
           - task: ArchiveFiles@2
             displayName: 'Archive files'
