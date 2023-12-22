@@ -14,6 +14,7 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(httpClientHandler);
+            _response = null!;
         }
 
        
