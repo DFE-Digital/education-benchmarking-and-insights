@@ -17,6 +17,7 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(httpClientHandler);
+            _response = null!;
         }
 
         [Then(@"the response status code api is (.*)")]
