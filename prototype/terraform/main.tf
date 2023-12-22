@@ -32,4 +32,8 @@ resource "azurerm_linux_web_app" "web-app" {
   site_config {
     minimum_tls_version = "1.2"
   }
+  app_settings = {
+    "NODE_ENV" = "production"
+    "PASSWORD" = "q"
+  }
 }
