@@ -35,4 +35,9 @@ public record SchoolExpenditure
     public decimal AuditorsCosts { get; set; }
     public decimal OtherStaffCosts { get; set; }
     public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
+    
+    public decimal CleaningCaretakingCosts { get; set; }
+    public decimal MaintenancePremisesCosts { get; set; }
+    public decimal OtherOccupationCosts { get; set; }
+    public decimal PremisesStaffCosts { get; set; }
 }
