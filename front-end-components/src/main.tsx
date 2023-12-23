@@ -1,15 +1,19 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
+import CompareYourSchool, {CompareYourSchoolElementId} from './views/compare-your-school'
 
-const rootElement = document.getElementById('root');
-if (rootElement) {
-    const root = ReactDOM.createRoot(rootElement);
-    root.render(
-        <React.StrictMode>
-            <App />
-        </React.StrictMode>
-    );
+const compareYourSchoolElement = document.getElementById(CompareYourSchoolElementId);
+
+if (compareYourSchoolElement) {
+    const {urn} = compareYourSchoolElement.dataset;
+    if( urn != undefined){
+        const root = ReactDOM.createRoot(compareYourSchoolElement);
+
+        root.render(
+            <React.StrictMode>
+                <CompareYourSchool urn={urn}/>
+            </React.StrictMode>
+        );
+    }
 }
-
