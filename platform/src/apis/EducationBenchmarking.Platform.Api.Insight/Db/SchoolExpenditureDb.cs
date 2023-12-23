@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface ISchoolExpenditureDb
 {
-    Task<PagedSchoolExpenditure> GetExpenditure(string[] urns, int page, int pageSize);
+    Task<PagedSchoolExpenditure> GetExpenditure(IEnumerable<string> urns, int page, int pageSize);
 }
 
 public class SchoolExpenditureDbOptions
@@ -30,7 +30,7 @@ public class SchoolExpenditureDb : CosmosDatabase, ISchoolExpenditureDb
         _collectionService = collectionService;
     }
     
-    public async Task<PagedSchoolExpenditure> GetExpenditure(string[] urns, int page, int pageSize)
+    public async Task<PagedSchoolExpenditure> GetExpenditure(IEnumerable<string> urns, int page, int pageSize)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
         var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
@@ -45,10 +45,10 @@ public class SchoolExpenditureDb : CosmosDatabase, ISchoolExpenditureDb
         return PagedSchoolExpenditure.Create(finances[0], page, pageSize);
     }
 
-    private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(string[] urns, string dataGroup)
+    private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(IReadOnlyCollection<string> urns, string dataGroup)
     {
         var finances = new List<SchoolTrustFinancialDataObject>();
-        if (urns.Length > 0)
+        if (urns.Count > 0)
         {
             var collection = await _collectionService.GetLatestCollection(dataGroup);
             finances = await GetItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
