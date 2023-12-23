@@ -22,4 +22,17 @@ public record SchoolExpenditure
     public decimal CateringStaffCosts { get; set; }
     public decimal CateringSuppliesCosts { get; set; }
     public decimal IncomeCatering { get; set; }
+    
+    public decimal AdministrativeSuppliesCosts { get; set; }
+    
+    public decimal LearningResourcesIctCosts { get; set; }
+    
+    public decimal ExaminationFeesCosts { get; set; }
+    public decimal BreakdownEducationalSuppliesCosts { get; set; }
+    public decimal LearningResourcesNonIctCosts { get; set; }
+    
+    public decimal AdministrativeClericalStaffCosts { get; set; }
+    public decimal AuditorsCosts { get; set; }
+    public decimal OtherStaffCosts { get; set; }
+    public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
 }
