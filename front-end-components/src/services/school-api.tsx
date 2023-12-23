@@ -46,4 +46,8 @@ export type SchoolExpenditure = {
     educationalConsultancyCosts: number
     educationSupportStaffCosts: number
     agencySupplyTeachingStaffCosts: number
+    netCateringCosts: number
+    cateringStaffCosts: number
+    cateringSuppliesCosts: number
+    incomeCatering: number
 }

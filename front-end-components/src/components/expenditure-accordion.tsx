@@ -1,6 +1,7 @@
 import React from "react";
 import TeachingSupportStaff from "./teaching-support-staff";
 import {SchoolExpenditure} from "../services/school-api";
+import CateringStaffServices from "./catering-staff-services.tsx";
 
 const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
@@ -114,7 +115,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         </div>
                         <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-catering-staff-services">
-                            <p className="govuk-body">This is the content for How people read.</p>
+                            <CateringStaffServices urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">

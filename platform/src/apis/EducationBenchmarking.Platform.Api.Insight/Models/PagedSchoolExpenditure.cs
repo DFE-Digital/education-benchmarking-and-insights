@@ -24,8 +24,11 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
                 SupplyTeachingStaffCosts = result.SupplyTeachingStaff,
                 EducationalConsultancyCosts = result.EducationalConsultancy,
                 EducationSupportStaffCosts = result.EducationSupportStaff,
-                AgencySupplyTeachingStaffCosts = result.AgencyTeachingStaff
-                
+                AgencySupplyTeachingStaffCosts = result.AgencyTeachingStaff,
+                NetCateringCosts = result.CateringExp,
+                CateringStaffCosts = result.CateringStaff,
+                CateringSuppliesCosts = result.CateringSupplies,
+                IncomeCatering = result.IncomeFromCatering
             });
         }
             

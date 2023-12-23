@@ -21,6 +21,11 @@ public class SchoolExpenditure
     public decimal EducationalConsultancyCosts { get; set; } 
     public decimal EducationSupportStaffCosts { get; set; } 
     public decimal AgencySupplyTeachingStaffCosts { get; set; }
+    
+    public decimal NetCateringCosts { get; set; }
+    public decimal CateringStaffCosts { get; set; }
+    public decimal CateringSuppliesCosts { get; set; }
+    public decimal IncomeCatering { get; set; }
 
 //     public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
 //                                         GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
@@ -59,10 +64,7 @@ public class SchoolExpenditure
 //     
 //     public decimal? AdministrativeSuppliesCostsPerPupil { get; set; }
 //     
-//     public decimal? NetCateringCostsPerPupil { get; set; }
-//     public decimal? CateringStaffCostsPerPupil { get; set; }
-//     public decimal? CateringSuppliesCostsPerPupil { get; set; }
-//     public decimal? IncomeCateringPerPupil { get; set; }
+
 //     
 //     public decimal? TotalUtilitiesCostPerMetreSq { get; set; }
 //     public decimal? EnergyCostPerMetreSq { get; set; }
