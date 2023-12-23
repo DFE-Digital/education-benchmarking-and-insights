@@ -17,4 +17,9 @@ public record SchoolExpenditure
     public decimal EducationalConsultancyCosts { get; set; } 
     public decimal EducationSupportStaffCosts { get; set; } 
     public decimal AgencySupplyTeachingStaffCosts { get; set; }
+    
+    public decimal NetCateringCosts { get; set; }
+    public decimal CateringStaffCosts { get; set; }
+    public decimal CateringSuppliesCosts { get; set; }
+    public decimal IncomeCatering { get; set; }
 }
