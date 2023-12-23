@@ -26,7 +26,20 @@ public class SchoolExpenditure
     public decimal CateringStaffCosts { get; set; }
     public decimal CateringSuppliesCosts { get; set; }
     public decimal IncomeCatering { get; set; }
-
+    
+    public decimal AdministrativeSuppliesCosts { get; set; }
+    
+    public decimal LearningResourcesIctCosts { get; set; }
+    
+    public decimal ExaminationFeesCosts { get; set; }
+    public decimal BreakdownEducationalSuppliesCosts { get; set; }
+    public decimal LearningResourcesNonIctCosts { get; set; }
+    
+    public decimal AdministrativeClericalStaffCosts { get; set; }
+    public decimal AuditorsCosts { get; set; }
+    public decimal OtherStaffCosts { get; set; }
+    public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
+    
 //     public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
 //                                         GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
 //                                         PrivateFinanceInitiativeCharges + RentRatesCosts + SpecialFacilitiesCosts + 
@@ -46,23 +59,17 @@ public class SchoolExpenditure
 //     public decimal? CommunityFocusedSchoolStaff { get; set; }
 //     public decimal? CommunityFocusedSchoolCosts { get; set; }
 //     
-//     public decimal? AdministrativeClericalStaffCostsPerPupil { get; set; }
-//     public decimal? AuditorsCostsPerPupil { get; set; }
-//     public decimal? OtherStaffCostsPerPupil { get; set; }
-//     public decimal? ProfessionalServicesNonCurriculumCostsPerPupil { get; set; }
+
 //     
-//     public decimal? ExaminationFeesCostsPerPupil { get; set; }
-//     public decimal? BreakdownEducationalSuppliesCostsPerPupil { get; set; }
-//     public decimal? LearningResourcesNonIctCostsPerPupil { get; set; }
 //     
-//     public decimal? LearningResourcesIctCostsPerPupil { get; set; }
+//     
 //     
 //     public decimal? CleaningCaretakingCostsPerPupil { get; set; }
 //     public decimal? MaintenancePremisesCostsPerPupil { get; set; }
 //     public decimal? OtherOccupationCostsPerPupil { get; set; }
 //     public decimal? PremisesStaffCostsPerPupil { get; set; }
 //     
-//     public decimal? AdministrativeSuppliesCostsPerPupil { get; set; }
+//     
 //     
 
 //     

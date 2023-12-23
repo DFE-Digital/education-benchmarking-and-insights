@@ -1,7 +1,11 @@
 import React from "react";
 import TeachingSupportStaff from "./teaching-support-staff";
 import {SchoolExpenditure} from "../services/school-api";
-import CateringStaffServices from "./catering-staff-services.tsx";
+import CateringStaffServices from "./catering-staff-services";
+import AdministrativeSupplies from "./administrative-supplies";
+import EducationalIct from "./educational-ict";
+import EducationalSupplies from "./educational-supplies";
+import NonEducationalSupportStaff from "./non-educational-support-staff";
 
 const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
@@ -34,7 +38,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         <div id="accordion-content-non-educational-support-staff"
                              className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-non-educational-support-staff">
-                            <p className="govuk-body">This is the content for Know your audience.</p>
+                            <NonEducationalSupportStaff urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">
@@ -47,7 +51,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         </div>
                         <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-educational-supplies">
-                            <p className="govuk-body">This is the content for How people read.</p>
+                            <EducationalSupplies urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">
@@ -60,7 +64,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         </div>
                         <div id="accordion-content-educational-ict" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-educational-ict">
-                            <p className="govuk-body">This is the content for How people read.</p>
+                            <EducationalIct urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">
@@ -101,7 +105,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         </div>
                         <div id="accordion-content-administrative-supplies" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-administrative-supplies">
-                            <p className="govuk-body">This is the content for How people read.</p>
+                            <AdministrativeSupplies urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">

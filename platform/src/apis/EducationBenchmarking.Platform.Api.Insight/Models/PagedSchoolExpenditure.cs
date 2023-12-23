@@ -28,7 +28,16 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
                 NetCateringCosts = result.CateringExp,
                 CateringStaffCosts = result.CateringStaff,
                 CateringSuppliesCosts = result.CateringSupplies,
-                IncomeCatering = result.IncomeFromCatering
+                IncomeCatering = result.IncomeFromCatering,
+                AdministrativeSuppliesCosts = result.AdministrativeSupplies,
+                LearningResourcesIctCosts = result.ICTLearningResources,
+                ExaminationFeesCosts = result.ExaminationFees,
+                BreakdownEducationalSuppliesCosts = result.EducationalSupplies,
+                LearningResourcesNonIctCosts = result.LearningResources,
+                AdministrativeClericalStaffCosts = result.AdministrativeClericalStaff,
+                AuditorsCosts = result.AuditorCosts,
+                OtherStaffCosts = result.OtherStaffCosts,
+                ProfessionalServicesNonCurriculumCosts = result.BroughtProfessionalServices
             });
         }
             
