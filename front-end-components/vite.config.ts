@@ -11,7 +11,12 @@ export default defineConfig({
       name: 'Education Benchmarking - Front-end components',
       formats: ['es'],
       fileName: `front-end`,
-    }
+    },
+    rollupOptions: {
+      output: {
+        assetFileNames: "front-end.[ext]",
+      },
+    },
   },
   define: { 'process.env.NODE_ENV': '"production"' },
   resolve: {

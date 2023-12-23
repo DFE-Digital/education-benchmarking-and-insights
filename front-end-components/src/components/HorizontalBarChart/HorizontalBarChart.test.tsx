@@ -1,8 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HBarChart from './HorizontalBarChart';
-import {BarChartProps} from '../../../types.tsx'
-
+import HBarChart, {BarChartProps} from './HorizontalBarChart';
 
 jest.mock('react-chartjs-2', () => ({
     Bar: (props: BarChartProps) => <div data-testid="mock-bar">{JSON.stringify(props)}</div>
