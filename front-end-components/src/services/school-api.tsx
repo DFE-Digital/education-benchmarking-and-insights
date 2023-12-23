@@ -63,4 +63,18 @@ export type SchoolExpenditure = {
     maintenancePremisesCosts: number
     otherOccupationCosts: number
     premisesStaffCosts: number
+    totalOtherCosts: number
+    otherInsurancePremiumsCosts: number
+    directRevenueFinancingCosts: number
+    groundsMaintenanceCosts: number
+    indirectEmployeeExpenses: number
+    interestChargesLoanBank: number
+    privateFinanceInitiativeCharges: number
+    rentRatesCosts: number
+    specialFacilitiesCosts: number
+    staffDevelopmentTrainingCosts: number
+    staffRelatedInsuranceCosts: number
+    supplyTeacherInsurableCosts: number
+    communityFocusedSchoolStaff: number
+    communityFocusedSchoolCosts: number
 }

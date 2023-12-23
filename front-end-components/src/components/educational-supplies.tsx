@@ -23,16 +23,26 @@ const EducationalSupplies: React.FC<EducationalSuppliesExpenditure> = ({urn, sch
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <AccordionChartContent heading={'Examination fees costs'}
-                                   data={examinationFeesBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Breakdown of educational supplies costs'}
-                                   data={breakdownEducationalBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Learning resources (not ICT equipment) costs'}
-                                   data={learningResourcesBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
+        <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+                <h2 className="govuk-accordion__section-heading">
+                        <span className="govuk-accordion__section-button" id="accordion-heading-educational-supplies">
+                            Educational supplies
+                        </span>
+                </h2>
+            </div>
+            <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
+                 aria-labelledby="accordion-heading-educational-supplies">
+                <AccordionChartContent heading={'Examination fees costs'}
+                                       data={examinationFeesBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Breakdown of educational supplies costs'}
+                                       data={breakdownEducationalBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Learning resources (not ICT equipment) costs'}
+                                       data={learningResourcesBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+            </div>
         </div>
     )
 };

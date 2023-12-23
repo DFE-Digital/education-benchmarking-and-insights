@@ -27,19 +27,31 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffExpenditure
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <AccordionChartContent heading={'Administrative and clerical staff costs'}
-                                   data={administrativeClericalBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Auditors costs'}
-                                   data={auditorsCostsBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Other staff costs'}
-                                   data={otherStaffCostsBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Professional services (non-curriculum) costs'}
-                                   data={professionalServicesBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
+        <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+                <h2 className="govuk-accordion__section-heading">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-non-educational-support-staff">
+                            Non-educational support staff
+                        </span>
+                </h2>
+            </div>
+            <div id="accordion-content-non-educational-support-staff"
+                 className="govuk-accordion__section-content"
+                 aria-labelledby="accordion-heading-non-educational-support-staff">
+                <AccordionChartContent heading={'Administrative and clerical staff costs'}
+                                       data={administrativeClericalBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Auditors costs'}
+                                       data={auditorsCostsBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Other staff costs'}
+                                       data={otherStaffCostsBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Professional services (non-curriculum) costs'}
+                                       data={professionalServicesBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+            </div>
         </div>
     )
 };

@@ -37,25 +37,35 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffExpenditure> = ({urn, s
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <AccordionChartContent heading={'Total teaching and teaching support staff'}
-                                   data={totalTeachingBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Teaching staff costs'}
-                                   data={teachingStaffBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Supply teaching staff costs'}
-                                   data={supplyTeachingBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Educational consultancy costs'}
-                                   data={educationalConsultancyBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Educational support staff costs'}
-                                   data={educationSupportStaffBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Agency supply teaching staff costs'}
-                                   data={agencySupplyBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
+        <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+                <h2 className="govuk-accordion__section-heading">
+                        <span className="govuk-accordion__section-button" id="accordion-heading-teaching-support-staff">
+                            Teaching and teaching support staff
+                        </span>
+                </h2>
+            </div>
+            <div id="accordion-content-teaching-support-staff" className="govuk-accordion__section-content"
+                 aria-labelledby="accordion-heading-teaching-support-staff">
+                <AccordionChartContent heading={'Total teaching and teaching support staff'}
+                                       data={totalTeachingBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Teaching staff costs'}
+                                       data={teachingStaffBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Supply teaching staff costs'}
+                                       data={supplyTeachingBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Educational consultancy costs'}
+                                       data={educationalConsultancyBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Educational support staff costs'}
+                                       data={educationSupportStaffBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Agency supply teaching staff costs'}
+                                       data={agencySupplyBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+            </div>
         </div>
     )
 };

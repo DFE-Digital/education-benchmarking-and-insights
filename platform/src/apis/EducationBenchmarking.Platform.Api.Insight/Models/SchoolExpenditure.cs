@@ -45,37 +45,21 @@ public class SchoolExpenditure
     public decimal OtherOccupationCosts { get; set; }
     public decimal PremisesStaffCosts { get; set; }
     
-    
-//     public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
-//                                         GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
-//                                         PrivateFinanceInitiativeCharges + RentRatesCosts + SpecialFacilitiesCosts + 
-//                                         StaffDevelopmentTrainingCosts + StaffRelatedInsuranceCosts + 
-//                                         SupplyTeacherInsurableCosts + SupplyTeacherInsurableCosts + CommunityFocusedSchoolCosts;
-//     public decimal? OtherInsurancePremiumsCosts { get; set; }
-//     public decimal? DirectRevenueFinancingCosts { get; set; }
-//     public decimal? GroundsMaintenanceCosts { get; set; }
-//     public decimal? IndirectEmployeeExpenses { get; set; }
-//     public decimal? InterestChargesLoanBank { get; set; }
-//     public decimal? PrivateFinanceInitiativeCharges { get; set; }
-//     public decimal? RentRatesCosts { get; set; }
-//     public decimal? SpecialFacilitiesCosts { get; set; }
-//     public decimal? StaffDevelopmentTrainingCosts { get; set; }
-//     public decimal? StaffRelatedInsuranceCosts { get; set; }
-//     public decimal? SupplyTeacherInsurableCosts { get; set; }
-//     public decimal? CommunityFocusedSchoolStaff { get; set; }
-//     public decimal? CommunityFocusedSchoolCosts { get; set; }
-//     
+    public decimal TotalOtherCosts { get; set; }
+    public decimal OtherInsurancePremiumsCosts { get; set; }
+    public decimal DirectRevenueFinancingCosts { get; set; }
+    public decimal GroundsMaintenanceCosts { get; set; }
+    public decimal IndirectEmployeeExpenses { get; set; }
+    public decimal InterestChargesLoanBank { get; set; }
+    public decimal PrivateFinanceInitiativeCharges { get; set; }
+    public decimal RentRatesCosts { get; set; }
+    public decimal SpecialFacilitiesCosts { get; set; }
+    public decimal StaffDevelopmentTrainingCosts { get; set; }
+    public decimal StaffRelatedInsuranceCosts { get; set; }
+    public decimal SupplyTeacherInsurableCosts { get; set; }
+    public decimal CommunityFocusedSchoolStaff { get; set; }
+    public decimal CommunityFocusedSchoolCosts { get; set; }
 
-//     
-//     
-//     
-//     
-
-//     
-//     
-//     
-
-//     
 //     public decimal? TotalUtilitiesCostPerMetreSq { get; set; }
 //     public decimal? EnergyCostPerMetreSq { get; set; }
 //     public decimal? WaterSewerageCostsPerMetreSq { get; set; }

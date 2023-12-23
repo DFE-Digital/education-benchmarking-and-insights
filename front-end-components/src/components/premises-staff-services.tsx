@@ -27,19 +27,30 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesExpenditure> = ({urn,
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <AccordionChartContent heading={'Cleaning and caretaking costs'}
-                                   data={cleaningCaretakingBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Maintenance of premises costs'}
-                                   data={maintenanceBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Other occupation costs'}
-                                   data={otherOccupationBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
-            <AccordionChartContent heading={'Premises staff costs'}
-                                   data={premisesStaffBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
+        <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+                <h2 className="govuk-accordion__section-heading">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-premises-staff-services">
+                            Premises staff and services
+                        </span>
+                </h2>
+            </div>
+            <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
+                 aria-labelledby="accordion-heading-premises-staff-services">
+                <AccordionChartContent heading={'Cleaning and caretaking costs'}
+                                       data={cleaningCaretakingBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Maintenance of premises costs'}
+                                       data={maintenanceBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Other occupation costs'}
+                                       data={otherOccupationBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+                <AccordionChartContent heading={'Premises staff costs'}
+                                       data={premisesStaffBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+            </div>
         </div>
     )
 };

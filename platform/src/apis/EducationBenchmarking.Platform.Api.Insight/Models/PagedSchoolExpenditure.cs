@@ -6,10 +6,11 @@ namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
 public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
 {
-        public static PagedSchoolExpenditure Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page, int pageSize)
+    public static PagedSchoolExpenditure Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page,
+        int pageSize)
     {
         var schools = new List<SchoolExpenditure>();
-        
+
         foreach (var result in results)
         {
             schools.Add(new SchoolExpenditure
@@ -19,7 +20,9 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
                 NumberOfPupils = result.NoPupils,
                 TotalExpenditure = result.TotalExpenditure,
                 TotalIncome = result.TotalIncome,
-                TotalTeachingSupportStaffCosts = result.TeachingStaff + result.SupplyTeachingStaff + result.EducationalConsultancy + result.EducationSupportStaff + result.AgencyTeachingStaff,
+                TotalTeachingSupportStaffCosts = result.TeachingStaff + result.SupplyTeachingStaff +
+                                                 result.EducationalConsultancy + result.EducationSupportStaff +
+                                                 result.AgencyTeachingStaff,
                 TeachingStaffCosts = result.TeachingStaff,
                 SupplyTeachingStaffCosts = result.SupplyTeachingStaff,
                 EducationalConsultancyCosts = result.EducationalConsultancy,
@@ -41,16 +44,35 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
                 CleaningCaretakingCosts = result.CleaningCaretaking,
                 MaintenancePremisesCosts = result.Premises,
                 OtherOccupationCosts = result.OtherOccupationCosts,
-                PremisesStaffCosts = result.PremisesStaff
+                PremisesStaffCosts = result.PremisesStaff,
+                TotalOtherCosts = result.OtherInsurancePremiums + result.DirectRevenue +
+                                  result.BuildingGroundsMaintenance + result.IndirectEmployeeExpenses +
+                                  result.InterestCharges + result.PFICharges + result.RentRates +
+                                  result.Specialfacilities + result.StaffDevelopment + result.StaffInsurance +
+                                  result.SupplyTeacherInsurance + result.CommunityFocusedStaff +
+                                  result.CommunityFocusedSchoolCosts,
+                OtherInsurancePremiumsCosts = result.OtherInsurancePremiums,
+                DirectRevenueFinancingCosts = result.DirectRevenue,
+                GroundsMaintenanceCosts = result.BuildingGroundsMaintenance,
+                IndirectEmployeeExpenses = result.IndirectEmployeeExpenses,
+                InterestChargesLoanBank = result.InterestCharges,
+                PrivateFinanceInitiativeCharges = result.PFICharges,
+                RentRatesCosts = result.RentRates,
+                SpecialFacilitiesCosts = result.Specialfacilities,
+                StaffDevelopmentTrainingCosts = result.StaffDevelopment,
+                StaffRelatedInsuranceCosts = result.StaffInsurance,
+                SupplyTeacherInsurableCosts = result.SupplyTeacherInsurance,
+                CommunityFocusedSchoolStaff = result.CommunityFocusedStaff,
+                CommunityFocusedSchoolCosts = result.CommunityFocusedSchoolCosts
             });
         }
-            
+
         return new PagedSchoolExpenditure
         {
             Page = page,
             PageSize = pageSize,
             Results = schools,
             TotalResults = schools.Count
-        };      
+        };
     }
 }

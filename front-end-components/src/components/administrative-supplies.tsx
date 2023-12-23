@@ -13,10 +13,21 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesExpenditure> = ({ur
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <AccordionChartContent heading={'Administrative supplies (Non-educational)'}
-                                   data={administrativeSuppliesBarData}
-                                   chosenSchoolName={chosenSchoolName}/>
+        <div className="govuk-accordion__section">
+            <div className="govuk-accordion__section-header">
+                <h2 className="govuk-accordion__section-heading">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-administrative-supplies">
+                            Administrative supplies
+                        </span>
+                </h2>
+            </div>
+            <div id="accordion-content-administrative-supplies" className="govuk-accordion__section-content"
+                 aria-labelledby="accordion-heading-administrative-supplies">
+                <AccordionChartContent heading={'Administrative supplies (Non-educational)'}
+                                       data={administrativeSuppliesBarData}
+                                       chosenSchoolName={chosenSchoolName}/>
+            </div>
         </div>
     )
 };
