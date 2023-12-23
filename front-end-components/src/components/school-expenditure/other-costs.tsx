@@ -1,5 +1,5 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content";
+import AccordionChartContent from "./accordion-chart-content.tsx";
 
 const OtherCosts: React.FC<OtherCostsExpenditure> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)

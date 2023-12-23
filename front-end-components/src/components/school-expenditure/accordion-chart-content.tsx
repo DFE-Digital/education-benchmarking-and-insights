@@ -1,5 +1,5 @@
 import React from "react";
-import HBarChart, {BarData} from "./HorizontalBarChart/HorizontalBarChart";
+import HorizontalBarChart, {BarData} from "../horizontal-bar-chart/horizontal-bar-chart";
 
 const AccordionChartContent: React.FC<AccordionChartContentData> = ({heading, chosenSchoolName, data}) => {
     return (
@@ -15,7 +15,7 @@ const AccordionChartContent: React.FC<AccordionChartContentData> = ({heading, ch
             {data.labels.length > 0 &&
                 <div className="govuk-grid-row">
                     <div className="govuk-grid-column-full">
-                        <HBarChart data={data} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
+                        <HorizontalBarChart data={data} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
                     </div>
                 </div>
             }

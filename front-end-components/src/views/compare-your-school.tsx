@@ -1,6 +1,6 @@
 import React, {useLayoutEffect, useCallback, useState, useEffect} from 'react';
-import TotalExpenditure from "../components/total-expenditure";
-import ExpenditureAccordion from "../components/expenditure-accordion";
+import TotalExpenditure from "../components/school-expenditure/total-expenditure.tsx";
+import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion.tsx";
 import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
 
 // @ts-ignore

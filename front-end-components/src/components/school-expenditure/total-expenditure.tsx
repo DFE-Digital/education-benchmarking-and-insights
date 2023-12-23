@@ -1,5 +1,5 @@
 import React from "react";
-import HBarChart from "./HorizontalBarChart/HorizontalBarChart";
+import HorizontalBarChart from "../horizontal-bar-chart/horizontal-bar-chart";
 
 const TotalExpenditure: React.FC<SchoolTotalExpenditure> = ({urn, schools}) => {
 
@@ -23,7 +23,7 @@ const TotalExpenditure: React.FC<SchoolTotalExpenditure> = ({urn, schools}) => {
             {schools.length > 0 &&
                 <div className="govuk-grid-row">
                     <div className="govuk-grid-column-full">
-                        <HBarChart data={barData} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
+                        <HorizontalBarChart data={barData} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
                     </div>
                 </div>
             }

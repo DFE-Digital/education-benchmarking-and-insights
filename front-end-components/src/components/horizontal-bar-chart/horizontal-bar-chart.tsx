@@ -1,7 +1,7 @@
 import React from 'react';
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
-import './HorizontalBarChart.css';
+import './horizontal-bar-chart.css';
 
 ChartJS.register(
     CategoryScale,
@@ -39,7 +39,7 @@ const underLinePlugin = {
     }
 };
 
-const HBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel}) => {
+const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel}) => {
     const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
     const barBackgroundColors = data.labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
@@ -110,7 +110,7 @@ const HBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel}) => {
     )
 };
 
-export default HBarChart;
+export default HorizontalBarChart;
 
 export type BarData = {
     labels: string[];

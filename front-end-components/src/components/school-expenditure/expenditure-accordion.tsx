@@ -1,14 +1,14 @@
 import React from "react";
-import TeachingSupportStaff from "./teaching-support-staff";
-import {SchoolExpenditure} from "../services/school-api";
-import CateringStaffServices from "./catering-staff-services";
-import AdministrativeSupplies from "./administrative-supplies";
-import EducationalIct from "./educational-ict";
-import EducationalSupplies from "./educational-supplies";
-import NonEducationalSupportStaff from "./non-educational-support-staff";
-import PremisesStaffServices from "./premises-staff-services";
-import OtherCosts from "./other-costs";
-import Utilities from "./utilities";
+import TeachingSupportStaff from "./teaching-support-staff.tsx";
+import {SchoolExpenditure} from "../../services/school-api.tsx";
+import CateringStaffServices from "./catering-staff-services.tsx";
+import AdministrativeSupplies from "./administrative-supplies.tsx";
+import EducationalIct from "./educational-ict.tsx";
+import EducationalSupplies from "./educational-supplies.tsx";
+import NonEducationalSupportStaff from "./non-educational-support-staff.tsx";
+import PremisesStaffServices from "./premises-staff-services.tsx";
+import OtherCosts from "./other-costs.tsx";
+import Utilities from "./utilities.tsx";
 
 const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
