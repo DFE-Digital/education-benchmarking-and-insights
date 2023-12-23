@@ -9,7 +9,7 @@ public class PagedResults<T> : IPagedResults, IEquatable<PagedResults<T>>
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T> Results { get; set; }
         
-    public static PagedResults<T> Create(IEnumerable<T> results, int page = 1, int pageSize = 10,  long?  totalResults = null)
+    public static PagedResults<T> Create(IEnumerable<T> results, int page, int pageSize,  long?  totalResults = null)
     {
         var enumerable = results as T[] ?? results.ToArray();
         var resultCount = totalResults ?? enumerable.Length;

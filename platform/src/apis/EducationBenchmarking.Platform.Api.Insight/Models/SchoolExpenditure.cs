@@ -6,59 +6,67 @@ namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
 public class SchoolExpenditure
 {
-    public readonly string[] AllDimensions = { Constants.DimensionActual, Constants.DimensionPerPupil, Constants.DimensionPercentExpenditure, Constants.DimensionPercentIncome };
+    public string Urn { get; set; }
+    public string Name { get; set; }
+    public string FinanceType { get; set; }
+    public string LocalAuthority { get; set; }
     
-    public SectionDimensions Dimensions { get; set; }
-    public Dictionary<string, School> Schools { get; set; } = new();
-    public Dictionary<string, decimal> TotalExpenditure { get; set; } = new();
-    public Dictionary<string, decimal> TotalTeachingSupportStaffCosts { get; set; } = new();
-    public Dictionary<string, decimal> TeachingStaffCosts { get; set; } = new();
-    public Dictionary<string, decimal> SupplyTeachingStaffCosts { get; set; } = new();
-    public Dictionary<string, decimal> EducationalConsultancyCosts { get; set; } = new();
-    public Dictionary<string, decimal> EducationSupportStaffCosts { get; set; } = new();
-    public Dictionary<string, decimal> AgencySupplyTeachingStaffCosts { get; set; } = new();
-
-    public static SchoolExpenditure Create(IEnumerable<SchoolTrustFinancialDataObject> results, SectionDimensions dimensions)
-    {
-        var expenditureResult = new SchoolExpenditure { Dimensions = dimensions };
-        foreach (var result in results)
-        {
-            var key = result.URN.ToString();
-            var noOfPupils = result.NoPupils;
-            var totalExpenditure = result.TotalExpenditure;
-            var totalIncome = result.TotalIncome;
-            var totalTeachingSupportStaffCosts = result.TeachingStaff + result.SupplyTeachingStaff + result.EducationalConsultancy + result.EducationSupportStaff + result.AgencyTeachingStaff;
-            
-            expenditureResult.Schools[key] = new School { Urn = result.URN.ToString(), Name = result.SchoolName, FinanceType = result.FinanceType, LocalAuthority = result.LA.ToString() };
-            
-            expenditureResult.TotalExpenditure[key] = CalculateValue(dimensions.TotalExpenditure, result.TotalExpenditure, noOfPupils, totalExpenditure, totalIncome);
-            
-            expenditureResult.TotalTeachingSupportStaffCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, totalTeachingSupportStaffCosts, noOfPupils, totalExpenditure, totalIncome);
-            expenditureResult.TeachingStaffCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, result.TeachingStaff, noOfPupils, totalExpenditure, totalIncome);
-            expenditureResult.SupplyTeachingStaffCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, result.SupplyTeachingStaff, noOfPupils, totalExpenditure, totalIncome);
-            expenditureResult.EducationalConsultancyCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, result.EducationalConsultancy, noOfPupils, totalExpenditure, totalIncome);
-            expenditureResult.EducationSupportStaffCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, result.EducationSupportStaff, noOfPupils, totalExpenditure, totalIncome);
-            expenditureResult.AgencySupplyTeachingStaffCosts[key] = CalculateValue(dimensions.TeachingSupportStaff, result.AgencyTeachingStaff, noOfPupils, totalExpenditure, totalIncome);
-            
-
-        }
-        
-        
-
-        return expenditureResult;
-    }
+    public decimal TotalExpenditure { get; set; }
+    public decimal NumberOfPupils { get; set; }
+    public decimal TotalIncome { get; set; }
     
-    private static decimal CalculateValue(string dimension, decimal raw, decimal numberOfPupils, decimal totalExpenditure, decimal totalIncome)
-    {
-        return dimension switch
-        {
-            Constants.DimensionActual => raw,
-            Constants.DimensionPerPupil => raw / numberOfPupils,
-            Constants.DimensionPercentExpenditure => (raw / totalExpenditure) * 100,
-            Constants.DimensionPercentIncome => (raw / totalIncome) * 100,
-            _ => throw new ArgumentOutOfRangeException(nameof(dimension))
-        };
-    }
+    public decimal TotalTeachingSupportStaffCosts { get; set; }
+    public decimal TeachingStaffCosts { get; set; } 
+    public decimal SupplyTeachingStaffCosts { get; set; } 
+    public decimal EducationalConsultancyCosts { get; set; } 
+    public decimal EducationSupportStaffCosts { get; set; } 
+    public decimal AgencySupplyTeachingStaffCosts { get; set; }
+
+//     public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
+//                                         GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
+//                                         PrivateFinanceInitiativeCharges + RentRatesCosts + SpecialFacilitiesCosts + 
+//                                         StaffDevelopmentTrainingCosts + StaffRelatedInsuranceCosts + 
+//                                         SupplyTeacherInsurableCosts + SupplyTeacherInsurableCosts + CommunityFocusedSchoolCosts;
+//     public decimal? OtherInsurancePremiumsCosts { get; set; }
+//     public decimal? DirectRevenueFinancingCosts { get; set; }
+//     public decimal? GroundsMaintenanceCosts { get; set; }
+//     public decimal? IndirectEmployeeExpenses { get; set; }
+//     public decimal? InterestChargesLoanBank { get; set; }
+//     public decimal? PrivateFinanceInitiativeCharges { get; set; }
+//     public decimal? RentRatesCosts { get; set; }
+//     public decimal? SpecialFacilitiesCosts { get; set; }
+//     public decimal? StaffDevelopmentTrainingCosts { get; set; }
+//     public decimal? StaffRelatedInsuranceCosts { get; set; }
+//     public decimal? SupplyTeacherInsurableCosts { get; set; }
+//     public decimal? CommunityFocusedSchoolStaff { get; set; }
+//     public decimal? CommunityFocusedSchoolCosts { get; set; }
+//     
+//     public decimal? AdministrativeClericalStaffCostsPerPupil { get; set; }
+//     public decimal? AuditorsCostsPerPupil { get; set; }
+//     public decimal? OtherStaffCostsPerPupil { get; set; }
+//     public decimal? ProfessionalServicesNonCurriculumCostsPerPupil { get; set; }
+//     
+//     public decimal? ExaminationFeesCostsPerPupil { get; set; }
+//     public decimal? BreakdownEducationalSuppliesCostsPerPupil { get; set; }
+//     public decimal? LearningResourcesNonIctCostsPerPupil { get; set; }
+//     
+//     public decimal? LearningResourcesIctCostsPerPupil { get; set; }
+//     
+//     public decimal? CleaningCaretakingCostsPerPupil { get; set; }
+//     public decimal? MaintenancePremisesCostsPerPupil { get; set; }
+//     public decimal? OtherOccupationCostsPerPupil { get; set; }
+//     public decimal? PremisesStaffCostsPerPupil { get; set; }
+//     
+//     public decimal? AdministrativeSuppliesCostsPerPupil { get; set; }
+//     
+//     public decimal? NetCateringCostsPerPupil { get; set; }
+//     public decimal? CateringStaffCostsPerPupil { get; set; }
+//     public decimal? CateringSuppliesCostsPerPupil { get; set; }
+//     public decimal? IncomeCateringPerPupil { get; set; }
+//     
+//     public decimal? TotalUtilitiesCostPerMetreSq { get; set; }
+//     public decimal? EnergyCostPerMetreSq { get; set; }
+//     public decimal? WaterSewerageCostsPerMetreSq { get; set; }
 }
 
 

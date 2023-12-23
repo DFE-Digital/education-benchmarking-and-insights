@@ -3,18 +3,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Insight.Models;
-using EducationBenchmarking.Platform.Api.Insight.Requests;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
-using EducationBenchmarking.Platform.Shared.Helpers;
 using Microsoft.Extensions.Options;
-using Microsoft.Extensions.Primitives;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface ISchoolExpenditureDb
 {
-    Task<SchoolExpenditure> GetExpenditure(SchoolExpenditureRequest request);
+    Task<PagedSchoolExpenditure> GetExpenditure(string[] urns, int page, int pageSize);
 }
 
 public class SchoolExpenditureDbOptions
@@ -33,10 +30,10 @@ public class SchoolExpenditureDb : CosmosDatabase, ISchoolExpenditureDb
         _collectionService = collectionService;
     }
     
-    public async Task<SchoolExpenditure> GetExpenditure(SchoolExpenditureRequest request)
+    public async Task<PagedSchoolExpenditure> GetExpenditure(string[] urns, int page, int pageSize)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-        var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => request.Urns.Contains(x.URN.ToString()))).ToListAsync();
+        var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
         
         var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.URN.ToString()).ToArray();
         var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.URN.ToString()).ToArray();
@@ -45,7 +42,7 @@ public class SchoolExpenditureDb : CosmosDatabase, ISchoolExpenditureDb
 
         finances[0].AddRange(finances[1]);
         
-        return SchoolExpenditure.Create(finances[0], request.Dimensions);
+        return PagedSchoolExpenditure.Create(finances[0], page, pageSize);
     }
 
     private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(string[] urns, string dataGroup)
