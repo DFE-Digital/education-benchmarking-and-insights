@@ -2,12 +2,12 @@
 
 namespace EducationBenchmarking.Web.ViewModels
 {
-    public class SchoolExpenditureViewModel
+    public class SchoolComparisonViewModel
     {
         private readonly School _school;
         private readonly Finances _finances;
 
-        public SchoolExpenditureViewModel(School school, Finances finances)
+        public SchoolComparisonViewModel(School school, Finances finances)
         {
             _school = school;
             _finances = finances;

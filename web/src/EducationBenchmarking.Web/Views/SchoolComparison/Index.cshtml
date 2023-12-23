@@ -1,33 +1,29 @@
-﻿@model EducationBenchmarking.Web.ViewModels.SchoolExpenditureViewModel
+﻿@model EducationBenchmarking.Web.ViewModels.SchoolComparisonViewModel
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
+    <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">Compare your costs for @Model.Name</h1>
     </div>
-    <div class="govuk-grid-column-one-quarter">
+    <div class="govuk-grid-column-one-third">
         <p class="govuk-body-s">
-            <a href="" class="govuk-link govuk-link--no-visited-state" id="change-link">Change</a>
+            <a href="" class="govuk-link govuk-link--no-visited-state" id="change-school">Change school</a>
         </p>
     </div>
 </div>
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
-        <p class="govuk-body">Compare your spending costs against similar schools for @Model.FinancePeriod</p>
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">Compare your spending costs against similar schools</p>
         <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="view-comparator-set">
             View your comparator set
         </a>
     </div>
 </div>
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <div id="root"></div>
-    </div>
-</div>
+<div id="compare-your-school" data-urn="@Model.Urn"></div>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">Finance tools</h2>
+        <h2 class="govuk-heading-l">More tools</h2>
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -35,11 +31,11 @@
         @await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)
     </div>
     <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("ForecastRisk", Model.Urn)
-    </div>
-    <div class="govuk-grid-column-one-third">
         @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
     </div>
+        <div class="govuk-grid-column-one-third">
+            @await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)
+        </div>
 </div>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

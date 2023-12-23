@@ -11,14 +11,14 @@ using SmartBreadcrumbs.Nodes;
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
-[Route("school/{urn}/expenditure")]
-public class SchoolExpenditureController : Controller
+[Route("school/{urn}/comparison")]
+public class SchoolComparisonController : Controller
 {
     private readonly IEstablishmentApi _establishmentApi;
-    private readonly ILogger<SchoolExpenditureController> _logger;
+    private readonly ILogger<SchoolComparisonController> _logger;
     private readonly IFinanceService _financeService;
 
-    public SchoolExpenditureController(IEstablishmentApi establishmentApi, ILogger<SchoolExpenditureController> logger, IFinanceService financeService)
+    public SchoolComparisonController(IEstablishmentApi establishmentApi, ILogger<SchoolComparisonController> logger, IFinanceService financeService)
     {
         _establishmentApi = establishmentApi;
         _logger = logger;
@@ -33,7 +33,7 @@ public class SchoolExpenditureController : Controller
             try
             {
                 var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-                var childNode = new MvcBreadcrumbNode("Index", "SchoolExpenditure", "Compare your costs")
+                var childNode = new MvcBreadcrumbNode("Index", "SchoolComparison", "Compare your costs")
                 {
                     RouteValues = new { urn },
                     Parent = parentNode
@@ -43,13 +43,13 @@ public class SchoolExpenditureController : Controller
                 
                 var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await _financeService.GetFinances(school).GetResultOrThrow<Finances>();
-                var viewModel = new SchoolExpenditureViewModel(school, finances);
+                var viewModel = new SchoolComparisonViewModel(school, finances);
                 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                _logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

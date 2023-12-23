@@ -4,9 +4,9 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingSchoolExpenditure : BenchmarkingWebAppClient
+public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
 {
-    public WhenViewingSchoolExpenditure(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory) : base(factory)
     {
     }
 
@@ -24,15 +24,15 @@ public class WhenViewingSchoolExpenditure : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupAcademyInsights(school,finances)
-            .Navigate($"/school/{school.Urn}/expenditure");
+            .Navigate($"/school/{school.Urn}/comparison");
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
             
-        var changeLinkElement = page.QuerySelector("#change-link");
+        var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);
-        Assert.Contains("Change", changeLinkElement.TextContent);
+        Assert.Contains("Change school", changeLinkElement.TextContent);
             
-        var viewYourComparatorLinkElement = page.QuerySelector("#view-comparator-set");
+        var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
         Assert.NotNull(viewYourComparatorLinkElement);
         Assert.Contains("View your comparator set", viewYourComparatorLinkElement.TextContent);
     }
@@ -51,15 +51,15 @@ public class WhenViewingSchoolExpenditure : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupMaintainedSchoolInsights(school,finances)
-            .Navigate($"/school/{school.Urn}/expenditure");
+            .Navigate($"/school/{school.Urn}/comparison");
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
             
-        var changeLinkElement = page.QuerySelector("#change-link");
+        var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);
-        Assert.Contains("Change", changeLinkElement.TextContent);
+        Assert.Contains("Change school", changeLinkElement.TextContent);
             
-        var viewYourComparatorLinkElement = page.QuerySelector("#view-comparator-set");
+        var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
         Assert.NotNull(viewYourComparatorLinkElement);
         Assert.Contains("View your comparator set", viewYourComparatorLinkElement.TextContent);
     }

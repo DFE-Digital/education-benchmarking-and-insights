@@ -129,3 +129,11 @@
         @await Component.InvokeAsync("SubmitAnEnquiry")
     </div>
 </div>
+
+@section scripts
+{
+    <script type="module">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}
