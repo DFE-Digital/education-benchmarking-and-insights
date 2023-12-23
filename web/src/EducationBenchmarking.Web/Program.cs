@@ -1,5 +1,6 @@
 using System.Reflection;
 using CorrelationId.DependencyInjection;
+using EducationBenchmarking.Web;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Services;
@@ -8,7 +9,7 @@ using SmartBreadcrumbs.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.SetupLogging("Education Benchmarking and Insights");
+builder.Services.SetupLogging(Constants.ServiceName);
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); });
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
@@ -17,26 +18,32 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
     options.TagName = "nav";
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
     options.OlClasses = "govuk-breadcrumbs__list";
-    //options.LiTemplate = "<li><a href=\"{1}\">{0}</a></li>";
     options.LiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
     options.ActiveLiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
 });
 
-if (!builder.Environment.IsEnvironment("IntegrationTest"))
+if (!builder.Environment.IsIntegrationTest())
 {
-    builder.Services.AddOptions<ApiSettings>(ApiSettings.InsightApi)
-        .BindConfiguration($"Apis:{ApiSettings.InsightApi}")
+    builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)
+        .BindConfiguration(Constants.SectionInsightApi)
         .ValidateDataAnnotations();
 
-    builder.Services.AddOptions<ApiSettings>(ApiSettings.EstablishmentApi)
-        .BindConfiguration($"Apis:{ApiSettings.EstablishmentApi}")
+    builder.Services.AddOptions<ApiSettings>(Constants.EstablishmentApi)
+        .BindConfiguration(Constants.SectionEstablishmentApi)
+        .ValidateDataAnnotations();
+    
+    builder.Services.AddOptions<ApiSettings>(Constants.BenchmarkApi)
+        .BindConfiguration(Constants.SectionBenchmarkApi)
         .ValidateDataAnnotations();
 
     builder.Services.AddHttpClient<IInsightApi, InsightApi>()
-        .ConfigureHttpClientForApi(ApiSettings.InsightApi);
+        .ConfigureHttpClientForApi(Constants.InsightApi);
 
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
-        .ConfigureHttpClientForApi(ApiSettings.EstablishmentApi);
+        .ConfigureHttpClientForApi(Constants.EstablishmentApi);
+    
+    builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
+        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
 }
 
 builder.Services.AddSingleton<IFinanceService, FinanceService>();

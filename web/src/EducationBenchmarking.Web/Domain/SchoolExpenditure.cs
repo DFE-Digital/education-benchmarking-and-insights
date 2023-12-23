@@ -2,15 +2,19 @@ namespace EducationBenchmarking.Web.Domain;
 
 public record SchoolExpenditure
 {
-    public string[]? AllDimensions { get; set; }
+    public string Urn { get; set; }
+    public string Name { get; set; }
+    public string FinanceType { get; set; }
+    public string LocalAuthority { get; set; }
     
-    public SectionDimensions? Dimensions { get; set; }
-    public Dictionary<string, School>? Schools { get; set; }
-    public Dictionary<string, decimal>? TotalExpenditure { get; set; }
-    public Dictionary<string, decimal>? TotalTeachingSupportStaffCosts { get; set; }
-    public Dictionary<string, decimal>? TeachingStaffCosts { get; set; }
-    public Dictionary<string, decimal>? SupplyTeachingStaffCosts { get; set; }
-    public Dictionary<string, decimal>? EducationalConsultancyCosts { get; set; }
-    public Dictionary<string, decimal>? EducationSupportStaffCosts { get; set; }
-    public Dictionary<string, decimal>? AgencySupplyTeachingStaffCosts { get; set; }
+    public decimal TotalExpenditure { get; set; }
+    public decimal NumberOfPupils { get; set; }
+    public decimal TotalIncome { get; set; }
+    
+    public decimal TotalTeachingSupportStaffCosts { get; set; }
+    public decimal TeachingStaffCosts { get; set; } 
+    public decimal SupplyTeachingStaffCosts { get; set; } 
+    public decimal EducationalConsultancyCosts { get; set; } 
+    public decimal EducationSupportStaffCosts { get; set; } 
+    public decimal AgencySupplyTeachingStaffCosts { get; set; }
 }

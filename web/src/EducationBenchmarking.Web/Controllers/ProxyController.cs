@@ -13,33 +13,34 @@ public class ProxyController : Controller
     private readonly ILogger<ProxyController> _logger;
     private readonly IInsightApi _insightApi;
     private readonly IEstablishmentApi _establishmentApi;
+    private readonly IBenchmarkApi _benchmarkApi;
 
-    public ProxyController(ILogger<ProxyController> logger, IInsightApi insightApi, IEstablishmentApi establishmentApi)
+    public ProxyController(ILogger<ProxyController> logger, IInsightApi insightApi, IEstablishmentApi establishmentApi, IBenchmarkApi benchmarkApi)
     {
         _logger = logger;
         _insightApi = insightApi;
         _establishmentApi = establishmentApi;
+        _benchmarkApi = benchmarkApi;
     }
     
-    [HttpPost]
+    [HttpGet]
     [Produces("application/json")]
     [Route("school/{urn}/expenditure")]
-    public async Task<IActionResult> SchoolExpenditure(string urn, [FromBody]SectionDimensions dimensions)
+    public async Task<IActionResult> SchoolExpenditure(string urn)
     {
         using (_logger.BeginScope(new {urn}))
         {
             try
             {
-                var urns = new[]
+                var comparatorSet = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
+                var query = new ApiQuery().Page(1, comparatorSet.TotalResults);
+                foreach (var school in comparatorSet.Results)
                 {
-                    "140558", "143633", "142769", "141155", "142424", 
-                    "146726", "141197", "141634", "139696", "140327",
-                    "147334", "147380", "143226", "142197", "140183"
-                };
-
-                var request = new PostSchoolExpenditureRequest { Urns = urns, Dimensions = dimensions };
-                var schools = await _insightApi.CreateSchoolsExpenditureReport(request).GetPagedResultOrThrow<SchoolExpenditure>();
-                return new JsonResult(schools);
+                    query.AddIfNotNull("urns", school.Urn);
+                }
+                
+                var result = await _insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
+                return new JsonResult(result);
             }
             catch (Exception e)
             {
@@ -95,7 +96,7 @@ public class ProxyController : Controller
 
             if (text != value.Document.Name)
             {
-                value.Text = value.Document.Name;
+                value.Text = value.Document.Name ?? "{Missing school name}";
             }
                     
             var additionalText = additionalDetails.Count > 0
