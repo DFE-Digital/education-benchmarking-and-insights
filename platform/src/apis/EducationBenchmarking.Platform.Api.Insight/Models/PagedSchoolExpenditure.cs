@@ -37,7 +37,11 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
                 AdministrativeClericalStaffCosts = result.AdministrativeClericalStaff,
                 AuditorsCosts = result.AuditorCosts,
                 OtherStaffCosts = result.OtherStaffCosts,
-                ProfessionalServicesNonCurriculumCosts = result.BroughtProfessionalServices
+                ProfessionalServicesNonCurriculumCosts = result.BroughtProfessionalServices,
+                CleaningCaretakingCosts = result.CleaningCaretaking,
+                MaintenancePremisesCosts = result.Premises,
+                OtherOccupationCosts = result.OtherOccupationCosts,
+                PremisesStaffCosts = result.PremisesStaff
             });
         }
             

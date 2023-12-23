@@ -40,6 +40,12 @@ public class SchoolExpenditure
     public decimal OtherStaffCosts { get; set; }
     public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
     
+    public decimal CleaningCaretakingCosts { get; set; }
+    public decimal MaintenancePremisesCosts { get; set; }
+    public decimal OtherOccupationCosts { get; set; }
+    public decimal PremisesStaffCosts { get; set; }
+    
+    
 //     public decimal? TotalOtherCosts  => OtherInsurancePremiumsCosts + DirectRevenueFinancingCosts + 
 //                                         GroundsMaintenanceCosts + IndirectEmployeeExpenses + InterestChargesLoanBank +
 //                                         PrivateFinanceInitiativeCharges + RentRatesCosts + SpecialFacilitiesCosts + 
@@ -64,10 +70,7 @@ public class SchoolExpenditure
 //     
 //     
 //     
-//     public decimal? CleaningCaretakingCostsPerPupil { get; set; }
-//     public decimal? MaintenancePremisesCostsPerPupil { get; set; }
-//     public decimal? OtherOccupationCostsPerPupil { get; set; }
-//     public decimal? PremisesStaffCostsPerPupil { get; set; }
+
 //     
 //     
 //     

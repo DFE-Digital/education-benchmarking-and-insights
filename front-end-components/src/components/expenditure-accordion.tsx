@@ -6,6 +6,7 @@ import AdministrativeSupplies from "./administrative-supplies";
 import EducationalIct from "./educational-ict";
 import EducationalSupplies from "./educational-supplies";
 import NonEducationalSupportStaff from "./non-educational-support-staff";
+import PremisesStaffServices from "./premises-staff-services";
 
 const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
@@ -78,7 +79,7 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
                         </div>
                         <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-premises-staff-services">
-                            <p className="govuk-body">This is the content for How people read.</p>
+                            <PremisesStaffServices urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">
