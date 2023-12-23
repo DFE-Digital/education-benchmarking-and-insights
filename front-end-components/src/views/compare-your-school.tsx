@@ -15,6 +15,16 @@ const CompareYourSchool: React.FC<ViewProps> = () => {
 
     return (
         <div>
+            <div className="govuk-grid-row">
+                <div className="govuk-grid-column-two-thirds">
+                    <p className="govuk-body">
+                        The data below is from the latest year available, For maintained schools this is [insert text], academies for [insert text]
+                    </p>
+                </div>
+                <div className="govuk-grid-column-one-third">
+                    <p className="govuk-body">[View as table]</p>
+                </div>
+            </div>
             <TotalExpenditure/>
             <ExpenditureAccordion/>
         </div>
