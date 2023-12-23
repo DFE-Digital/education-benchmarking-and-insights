@@ -1,9 +1,10 @@
 import React, {useLayoutEffect, useCallback, useState, useEffect} from 'react';
-import TotalExpenditure, {ExpenditureData} from "../components/total-expenditure";
+import TotalExpenditure from "../components/total-expenditure";
 import ExpenditureAccordion from "../components/expenditure-accordion";
+import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
+
 // @ts-ignore
 import {initAll} from 'govuk-frontend'
-import SchoolApi, {ExpenditureResult} from "../services/school-api";
 
 type ViewProps = {
     urn: string;
@@ -38,8 +39,10 @@ const CompareYourSchool: React.FC<ViewProps> = ({urn}) => {
                     <p className="govuk-body">[View as table]</p>
                 </div>
             </div>
-            <TotalExpenditure urn={urn} schools={expenditureData ? expenditureData.results : new Array<ExpenditureData>() }/>
-            <ExpenditureAccordion/>
+            <TotalExpenditure urn={urn}
+                              schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+            <ExpenditureAccordion urn={urn}
+                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
         </div>
     )
 };

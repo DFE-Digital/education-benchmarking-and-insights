@@ -1,8 +1,8 @@
 import {v4 as uuidv4} from "uuid";
 
-export default class SchoolApi{
+export default class SchoolApi {
 
-    static async getSchoolExpenditure(urn : string) : Promise<ExpenditureResult> {
+    static async getSchoolExpenditure(urn: string): Promise<ExpenditureResult> {
         return fetch(
             `/api/school/${urn}/expenditure`,
             {
@@ -10,7 +10,7 @@ export default class SchoolApi{
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'X-Correlation-ID' : uuidv4()
+                    'X-Correlation-ID': uuidv4()
                 }
             }
         )
@@ -27,17 +27,23 @@ export default class SchoolApi{
 }
 
 export type ExpenditureResult = {
-    totalResults : bigint
-    page : bigint
-    pageSize : bigint
-    pageCount : bigint
-    results : SchoolExpenditure[]
+    totalResults: bigint
+    page: bigint
+    pageSize: bigint
+    pageCount: bigint
+    results: SchoolExpenditure[]
 }
 
 export type SchoolExpenditure = {
-    urn : string
-    name : string
-    totalExpenditure : number
+    urn: string
+    name: string
+    totalExpenditure: number
     totalIncome: number
     numberOfPupils: bigint
+    totalTeachingSupportStaffCosts: number
+    teachingStaffCosts: number
+    supplyTeachingStaffCosts: number
+    educationalConsultancyCosts: number
+    educationSupportStaffCosts: number
+    agencySupplyTeachingStaffCosts: number
 }

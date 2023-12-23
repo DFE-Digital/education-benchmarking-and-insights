@@ -1,6 +1,8 @@
 import React from "react";
+import TeachingSupportStaff from "./teaching-support-staff";
+import {SchoolExpenditure} from "../services/school-api";
 
-const ExpenditureAccordion: React.FC = () => {
+const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
     return (
         <div className="govuk-grid-row">
@@ -16,18 +18,20 @@ const ExpenditureAccordion: React.FC = () => {
                         </div>
                         <div id="accordion-content-teaching-support-staff" className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-teaching-support-staff">
-                            <p className="govuk-body">This is the content for Writing well for specialists.</p>
+                            <TeachingSupportStaff urn={urn} schools={schools}/>
                         </div>
                     </div>
                     <div className="govuk-accordion__section">
                         <div className="govuk-accordion__section-header">
                             <h2 className="govuk-accordion__section-heading">
-                        <span className="govuk-accordion__section-button" id="accordion-heading-non-educational-support-staff">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-non-educational-support-staff">
                             Non-educational support staff
                         </span>
                             </h2>
                         </div>
-                        <div id="accordion-content-non-educational-support-staff" className="govuk-accordion__section-content"
+                        <div id="accordion-content-non-educational-support-staff"
+                             className="govuk-accordion__section-content"
                              aria-labelledby="accordion-heading-non-educational-support-staff">
                             <p className="govuk-body">This is the content for Know your audience.</p>
                         </div>
@@ -61,7 +65,8 @@ const ExpenditureAccordion: React.FC = () => {
                     <div className="govuk-accordion__section">
                         <div className="govuk-accordion__section-header">
                             <h2 className="govuk-accordion__section-heading">
-                        <span className="govuk-accordion__section-button" id="accordion-heading-premises-staff-services">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-premises-staff-services">
                             Premises staff and services
                         </span>
                             </h2>
@@ -87,7 +92,8 @@ const ExpenditureAccordion: React.FC = () => {
                     <div className="govuk-accordion__section">
                         <div className="govuk-accordion__section-header">
                             <h2 className="govuk-accordion__section-heading">
-                        <span className="govuk-accordion__section-button" id="accordion-heading-administrative-supplies">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-administrative-supplies">
                             Administrative supplies
                         </span>
                             </h2>
@@ -100,7 +106,8 @@ const ExpenditureAccordion: React.FC = () => {
                     <div className="govuk-accordion__section">
                         <div className="govuk-accordion__section-header">
                             <h2 className="govuk-accordion__section-heading">
-                        <span className="govuk-accordion__section-button" id="accordion-heading-catering-staff-services">
+                        <span className="govuk-accordion__section-button"
+                              id="accordion-heading-catering-staff-services">
                             Catering staff and services
                         </span>
                             </h2>
@@ -130,3 +137,8 @@ const ExpenditureAccordion: React.FC = () => {
 };
 
 export default ExpenditureAccordion
+
+export type AccordionData = {
+    urn: string
+    schools: SchoolExpenditure[]
+}

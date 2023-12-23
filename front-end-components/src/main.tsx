@@ -7,7 +7,7 @@ const compareYourSchoolElement = document.getElementById(CompareYourSchoolElemen
 
 if (compareYourSchoolElement) {
     const {urn} = compareYourSchoolElement.dataset;
-    if( urn != undefined){
+    if (urn != undefined) {
         const root = ReactDOM.createRoot(compareYourSchoolElement);
 
         root.render(

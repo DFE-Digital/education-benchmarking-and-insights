@@ -35,10 +35,10 @@ export default TotalExpenditure
 
 export type SchoolTotalExpenditure = {
     urn: string
-    schools: ExpenditureData[]
+    schools: TotalExpenditureData[]
 }
 
-export type ExpenditureData = {
+export type TotalExpenditureData = {
     urn: string
     name: string
     totalIncome: number
