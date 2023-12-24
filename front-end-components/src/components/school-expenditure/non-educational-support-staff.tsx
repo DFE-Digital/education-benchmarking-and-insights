@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffExpenditure> = ({urn, schools}) => {
+const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const administrativeClericalBarData = {
@@ -39,18 +40,22 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffExpenditure
             <div id="accordion-content-non-educational-support-staff"
                  className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-non-educational-support-staff">
-                <AccordionChartContent heading={'Administrative and clerical staff costs'}
-                                       data={administrativeClericalBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Auditors costs'}
-                                       data={auditorsCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Other staff costs'}
-                                       data={otherStaffCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Professional services (non-curriculum) costs'}
-                                       data={professionalServicesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
+                              data={administrativeClericalBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
+                              data={auditorsCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Other staff costs</h3>}
+                              data={otherStaffCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
+                              data={professionalServicesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -58,12 +63,13 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffExpenditure
 
 export default NonEducationalSupportStaff
 
-export type NonEducationalSupportStaffExpenditure = {
+export type NonEducationalSupportStaffProps = {
     urn: string
-    schools: NonEducationalSupportStaffExpenditureData[]
+    schools: NonEducationalSupportStaffData[]
+    mode: ChartMode
 }
 
-export type NonEducationalSupportStaffExpenditureData = {
+export type NonEducationalSupportStaffData = {
     urn: string
     name: string
     totalIncome: number

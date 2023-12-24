@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const TeachingSupportStaff: React.FC<TeachingSupportStaffExpenditure> = ({urn, schools}) => {
+const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const totalTeachingBarData = {
@@ -47,24 +48,30 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffExpenditure> = ({urn, s
             </div>
             <div id="accordion-content-teaching-support-staff" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-teaching-support-staff">
-                <AccordionChartContent heading={'Total teaching and teaching support staff'}
-                                       data={totalTeachingBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Teaching staff costs'}
-                                       data={teachingStaffBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Supply teaching staff costs'}
-                                       data={supplyTeachingBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Educational consultancy costs'}
-                                       data={educationalConsultancyBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Educational support staff costs'}
-                                       data={educationSupportStaffBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Agency supply teaching staff costs'}
-                                       data={agencySupplyBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>}
+                              data={totalTeachingBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching staff costs</h3>}
+                              data={teachingStaffBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teaching staff costs</h3>}
+                              data={supplyTeachingBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Educational consultancy costs</h3>}
+                              data={educationalConsultancyBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Educational support staff costs</h3>}
+                              data={educationSupportStaffBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>}
+                              data={agencySupplyBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -72,12 +79,13 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffExpenditure> = ({urn, s
 
 export default TeachingSupportStaff
 
-export type TeachingSupportStaffExpenditure = {
+export type TeachingSupportStaffProps = {
     urn: string
-    schools: TeachingSupportStaffExpenditureData[]
+    schools: TeachingSupportStaffData[]
+    mode: ChartMode
 }
 
-export type TeachingSupportStaffExpenditureData = {
+export type TeachingSupportStaffData = {
     urn: string
     name: string
     totalIncome: number

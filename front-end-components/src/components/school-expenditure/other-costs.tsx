@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const OtherCosts: React.FC<OtherCostsExpenditure> = ({urn, schools}) => {
+const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const totalOtherCostsBarData = {
@@ -87,48 +88,62 @@ const OtherCosts: React.FC<OtherCostsExpenditure> = ({urn, schools}) => {
             </div>
             <div id="accordion-content-other-cost" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-other-cost">
-                <AccordionChartContent heading={'Total other costs'}
-                                       data={totalOtherCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Other insurance costs'}
-                                       data={otherInsurancePremiumsCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Direct revenue financing costs'}
-                                       data={directRevenueFinancingCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Ground maintenance costs'}
-                                       data={groundsMaintenanceCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Indirect employee expenses'}
-                                       data={indirectEmployeeExpensesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Interest charges for loan and bank'}
-                                       data={interestChargesLoanBankBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'PFI costs'}
-                                       data={privateFinanceInitiativeChargesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Rent and rates costs'}
-                                       data={rentRatesCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Special facilities costs'}
-                                       data={specialFacilitiesCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Staff development and training costs'}
-                                       data={staffDevelopmentTrainingCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Staff-related insurance costs'}
-                                       data={staffRelatedInsuranceCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Supply teacher insurance costs'}
-                                       data={supplyTeacherInsurableCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Community focused school staff (maintained schools only)'}
-                                       data={communityFocusedSchoolStaffBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Community focused school costs (maintained schools only)'}
-                                       data={communityFocusedSchoolCostsBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Total other costs</h3>}
+                              data={totalOtherCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
+                              data={otherInsurancePremiumsCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
+                              data={directRevenueFinancingCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Ground maintenance costs</h3>}
+                              data={groundsMaintenanceCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Indirect employee expenses</h3>}
+                              data={indirectEmployeeExpensesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Interest charges for loan and bank</h3>}
+                              data={interestChargesLoanBankBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
+                              data={privateFinanceInitiativeChargesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
+                              data={rentRatesCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Special facilities costs</h3>}
+                              data={specialFacilitiesCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Staff development and training costs</h3>}
+                              data={staffDevelopmentTrainingCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Staff-related insurance costs</h3>}
+                              data={staffRelatedInsuranceCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teacher insurance costs</h3>}
+                              data={supplyTeacherInsurableCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools only)</h3>}
+                              data={communityFocusedSchoolStaffBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools only)</h3>}
+                              data={communityFocusedSchoolCostsBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -136,12 +151,13 @@ const OtherCosts: React.FC<OtherCostsExpenditure> = ({urn, schools}) => {
 
 export default OtherCosts
 
-export type OtherCostsExpenditure = {
+export type OtherCostsProps = {
     urn: string
-    schools: OtherCostsExpenditureData[]
+    schools: OtherCostsData[]
+    mode: ChartMode
 }
 
-export type OtherCostsExpenditureData = {
+export type OtherCostsData = {
     urn: string
     name: string
     totalIncome: number

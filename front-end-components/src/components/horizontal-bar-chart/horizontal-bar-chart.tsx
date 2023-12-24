@@ -39,7 +39,7 @@ const underLinePlugin = {
     }
 };
 
-const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel}) => {
+const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel, heading}) => {
     const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
     const barBackgroundColors = data.labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
@@ -104,9 +104,27 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
         }
     };
     return (
-        <div className="chart-container">
-            <Bar data={dataForChart} options={options} plugins={[underLinePlugin]}/>
-        </div>
+        <>
+            <div className="govuk-grid-row">
+                <div className="govuk-grid-column-two-thirds">
+                    {heading}
+                </div>
+                <div className="govuk-grid-column-one-third">
+                    <button className="govuk-button" data-module="govuk-button">
+                        Save as image
+                    </button>
+                </div>
+            </div>
+            {data.labels.length > 0 &&
+                <div className="govuk-grid-row">
+                    <div className="govuk-grid-column-full">
+                        <div className="chart-container">
+                            <Bar data={dataForChart} options={options} plugins={[underLinePlugin]}/>
+                        </div>
+                    </div>
+                </div>
+            }
+        </>
     )
 };
 
@@ -121,4 +139,5 @@ export type BarChartProps = {
     data: BarData;
     chosenSchool: string;
     xLabel: string;
+    heading: React.ReactNode
 }

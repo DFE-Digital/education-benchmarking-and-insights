@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const EducationalIct: React.FC<EducationalIctExpenditure> = ({urn, schools}) => {
+const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools,mode}) => {
     const labels = schools.map(result => result.name)
 
     const learningResourcesBarData = {
@@ -23,9 +24,10 @@ const EducationalIct: React.FC<EducationalIctExpenditure> = ({urn, schools}) => 
             </div>
             <div id="accordion-content-educational-ict" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-educational-ict">
-                <AccordionChartContent heading={'Educational learning resources costs'}
-                                       data={learningResourcesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Educational learning resources costs</h3>}
+                              data={learningResourcesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -33,12 +35,13 @@ const EducationalIct: React.FC<EducationalIctExpenditure> = ({urn, schools}) => 
 
 export default EducationalIct
 
-export type EducationalIctExpenditure = {
+export type EducationalIctProps = {
     urn: string
-    schools: EducationalIctExpenditureData[]
+    schools: EducationalIctData[]
+    mode: ChartMode
 }
 
-export type EducationalIctExpenditureData = {
+export type EducationalIctData = {
     urn: string
     name: string
     totalIncome: number

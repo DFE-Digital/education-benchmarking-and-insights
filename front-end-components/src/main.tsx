@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import CompareYourSchool, {CompareYourSchoolElementId} from './views/compare-your-school'
+import CompareYourSchool from './views/compare-your-school'
+import {CompareYourSchoolElementId} from "./constants";
 
 const compareYourSchoolElement = document.getElementById(CompareYourSchoolElementId);
 

@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const CateringStaffServices: React.FC<CateringStaffServicesExpenditure> = ({urn, schools}) => {
+const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const netCateringBarData = {
@@ -38,18 +39,22 @@ const CateringStaffServices: React.FC<CateringStaffServicesExpenditure> = ({urn,
             </div>
             <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-catering-staff-services">
-                <AccordionChartContent heading={'Net catering costs'}
-                                       data={netCateringBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Catering staff costs'}
-                                       data={cateringStaffBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Catering supplies costs'}
-                                       data={cateringSuppliesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Income from catering'}
-                                       data={incomeCateringBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
+                              data={netCateringBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
+                              data={cateringStaffBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
+                              data={cateringSuppliesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
+                              data={incomeCateringBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -57,12 +62,13 @@ const CateringStaffServices: React.FC<CateringStaffServicesExpenditure> = ({urn,
 
 export default CateringStaffServices
 
-export type CateringStaffServicesExpenditure = {
+export type CateringStaffServicesProps = {
     urn: string
-    schools: CateringStaffServicesExpenditureData[]
+    schools: CateringStaffServicesData[]
+    mode: ChartMode
 }
 
-export type CateringStaffServicesExpenditureData = {
+export type CateringStaffServicesData = {
     urn: string
     name: string
     totalIncome: number

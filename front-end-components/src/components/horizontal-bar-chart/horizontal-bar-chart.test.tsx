@@ -13,20 +13,21 @@ describe('HBarChart Component', () => {
   };
   const mockChosenSchool = 'School B';
   const mockXLabel = 'Test X Label';
+  const mockHeading = <h2>Some heading</h2>;
 
   it('renders without crashing', () => {
-    const { container } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { container } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     expect(container).toBeInTheDocument();
   });
 
   it('displays correct xLabel', () => {
-    const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.options.scales.x.title.text).toBe(mockXLabel);
   });
 
   it('passes correct data to the chart', () => {
-    const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.data).toEqual({
       labels: mockData.labels,
@@ -39,14 +40,14 @@ describe('HBarChart Component', () => {
   });
 
   it('highlights the chosen school correctly', () => {
-    const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     const chosenSchoolIndex = mockData.labels.indexOf(mockChosenSchool);
     expect(barProps.data.datasets[0].backgroundColor[chosenSchoolIndex]).toBe('#12436D');
   });
 
   it('sets correct chart options', () => {
-    const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     // Main options
     expect(barProps.options.maintainAspectRatio).toBe(false);
@@ -78,7 +79,7 @@ describe('HBarChart Component', () => {
   
 
   it('includes custom underline plugin', () => {
-    const { getByTestId } = render(<HBarChart data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.plugins).toEqual(expect.arrayContaining([{ id: 'underline'}]));
   });

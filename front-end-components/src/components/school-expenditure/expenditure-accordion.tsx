@@ -1,30 +1,31 @@
 import React from "react";
-import TeachingSupportStaff from "./teaching-support-staff.tsx";
-import {SchoolExpenditure} from "../../services/school-api.tsx";
-import CateringStaffServices from "./catering-staff-services.tsx";
-import AdministrativeSupplies from "./administrative-supplies.tsx";
-import EducationalIct from "./educational-ict.tsx";
-import EducationalSupplies from "./educational-supplies.tsx";
-import NonEducationalSupportStaff from "./non-educational-support-staff.tsx";
-import PremisesStaffServices from "./premises-staff-services.tsx";
-import OtherCosts from "./other-costs.tsx";
-import Utilities from "./utilities.tsx";
+import TeachingSupportStaff from "./teaching-support-staff";
+import {SchoolExpenditure} from "../../services/school-api";
+import CateringStaffServices from "./catering-staff-services";
+import AdministrativeSupplies from "./administrative-supplies";
+import EducationalIct from "./educational-ict";
+import EducationalSupplies from "./educational-supplies";
+import NonEducationalSupportStaff from "./non-educational-support-staff";
+import PremisesStaffServices from "./premises-staff-services";
+import OtherCosts from "./other-costs";
+import Utilities from "./utilities";
+import {ChartMode} from "../../constants";
 
-const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
+const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({urn, schools,mode}) => {
 
     return (
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
                 <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                    <TeachingSupportStaff urn={urn} schools={schools}/>
-                    <NonEducationalSupportStaff urn={urn} schools={schools}/>
-                    <EducationalSupplies urn={urn} schools={schools}/>
-                    <EducationalIct urn={urn} schools={schools}/>
-                    <PremisesStaffServices urn={urn} schools={schools}/>
+                    <TeachingSupportStaff urn={urn} schools={schools} mode={mode}/>
+                    <NonEducationalSupportStaff urn={urn} schools={schools} mode={mode}/>
+                    <EducationalSupplies urn={urn} schools={schools} mode={mode}/>
+                    <EducationalIct urn={urn} schools={schools} mode={mode}/>
+                    <PremisesStaffServices urn={urn} schools={schools} mode={mode}/>
                     <Utilities/>
-                    <AdministrativeSupplies urn={urn} schools={schools}/>
-                    <CateringStaffServices urn={urn} schools={schools}/>
-                    <OtherCosts urn={urn} schools={schools}/>
+                    <AdministrativeSupplies urn={urn} schools={schools} mode={mode}/>
+                    <CateringStaffServices urn={urn} schools={schools} mode={mode}/>
+                    <OtherCosts urn={urn} schools={schools} mode={mode}/>
                 </div>
             </div>
         </div>
@@ -33,7 +34,8 @@ const ExpenditureAccordion: React.FC<AccordionData> = ({urn, schools}) => {
 
 export default ExpenditureAccordion
 
-export type AccordionData = {
+export type ExpenditureAccordionProps = {
     urn: string
     schools: SchoolExpenditure[]
+    mode: ChartMode
 }

@@ -1,7 +1,8 @@
 import React, {useLayoutEffect, useCallback, useState, useEffect} from 'react';
-import TotalExpenditure from "../components/school-expenditure/total-expenditure.tsx";
-import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion.tsx";
+import TotalExpenditure from "../components/school-expenditure/total-expenditure";
+import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion";
 import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
+import {ChartMode} from "../constants";
 
 // @ts-ignore
 import {initAll} from 'govuk-frontend'
@@ -14,6 +15,7 @@ type CompareYourSchoolViewProps = {
 
 const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYear, maintainedYear}) => {
     const [expenditureData, setExpenditureData] = useState<ExpenditureResult>();
+    const [displayMode, setDisplayMode] = useState<ChartMode>(ChartMode.CHART);
 
     useLayoutEffect(() => {
         initAll();
@@ -28,6 +30,14 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
         getExpenditure()
     }, [getExpenditure])
 
+    const oppositeMode = (currentMode : ChartMode) => {
+        return currentMode == ChartMode.TABLE ? ChartMode.CHART : ChartMode.TABLE
+    }
+
+    function toggleChartMode() {
+        setDisplayMode(oppositeMode(displayMode));
+    }
+
     return (
         <div>
             <div className="govuk-grid-row">
@@ -38,16 +48,19 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
                     </p>
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <p className="govuk-body">[View as table]</p>
+                    <button className="govuk-button" data-module="govuk-button" onClick={toggleChartMode}>
+                        {oppositeMode(displayMode)}
+                    </button>
                 </div>
             </div>
             <TotalExpenditure urn={urn}
-                              schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                              schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}
+                              mode={displayMode}/>
             <ExpenditureAccordion urn={urn}
-                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}
+                                  mode={displayMode}/>
         </div>
     )
 };
 
 export default CompareYourSchool;
-export const CompareYourSchoolElementId = 'compare-your-school';

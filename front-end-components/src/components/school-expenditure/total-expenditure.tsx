@@ -1,7 +1,8 @@
 import React from "react";
-import HorizontalBarChart from "../horizontal-bar-chart/horizontal-bar-chart";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const TotalExpenditure: React.FC<SchoolTotalExpenditure> = ({urn, schools}) => {
+const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools, mode}) => {
 
     const barData = {
         labels: schools.map(result => result.name),
@@ -11,29 +12,18 @@ const TotalExpenditure: React.FC<SchoolTotalExpenditure> = ({urn, schools}) => {
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div>
-            <div className="govuk-grid-row">
-                <div className="govuk-grid-column-two-thirds">
-                    <h2 className="govuk-heading-l">Total Expenditure</h2>
-                </div>
-                <div className="govuk-grid-column-one-third">
-                    <p className="govuk-body">[Save as image]</p>
-                </div>
-            </div>
-            {schools.length > 0 &&
-                <div className="govuk-grid-row">
-                    <div className="govuk-grid-column-full">
-                        <HorizontalBarChart data={barData} chosenSchool={chosenSchoolName} xLabel='per pupil'/>
-                    </div>
-                </div>
-            }
-        </div>
+            <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
+                          data={barData}
+                          chosenSchoolName={chosenSchoolName}
+                          mode={mode}
+            />
     )
 };
 
 export default TotalExpenditure
 
-export type SchoolTotalExpenditure = {
+export type TotalExpenditureProps = {
+    mode: ChartMode
     urn: string
     schools: TotalExpenditureData[]
 }

@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const EducationalSupplies: React.FC<EducationalSuppliesExpenditure> = ({urn, schools}) => {
+const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const examinationFeesBarData = {
@@ -33,15 +34,18 @@ const EducationalSupplies: React.FC<EducationalSuppliesExpenditure> = ({urn, sch
             </div>
             <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-educational-supplies">
-                <AccordionChartContent heading={'Examination fees costs'}
-                                       data={examinationFeesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Breakdown of educational supplies costs'}
-                                       data={breakdownEducationalBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Learning resources (not ICT equipment) costs'}
-                                       data={learningResourcesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
+                              data={examinationFeesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
+                              data={breakdownEducationalBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
+                              data={learningResourcesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -49,12 +53,13 @@ const EducationalSupplies: React.FC<EducationalSuppliesExpenditure> = ({urn, sch
 
 export default EducationalSupplies
 
-export type EducationalSuppliesExpenditure = {
+export type EducationalSuppliesProps = {
     urn: string
-    schools: EducationalSuppliesExpenditureData[]
+    schools: EducationalSuppliesData[]
+    mode: ChartMode
 }
 
-export type EducationalSuppliesExpenditureData = {
+export type EducationalSuppliesData = {
     urn: string
     name: string
     totalIncome: number

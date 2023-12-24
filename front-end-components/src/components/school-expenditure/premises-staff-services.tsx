@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const PremisesStaffServices: React.FC<PremisesStaffServicesExpenditure> = ({urn, schools}) => {
+const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const cleaningCaretakingBarData = {
@@ -38,18 +39,22 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesExpenditure> = ({urn,
             </div>
             <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-premises-staff-services">
-                <AccordionChartContent heading={'Cleaning and caretaking costs'}
-                                       data={cleaningCaretakingBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Maintenance of premises costs'}
-                                       data={maintenanceBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Other occupation costs'}
-                                       data={otherOccupationBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
-                <AccordionChartContent heading={'Premises staff costs'}
-                                       data={premisesStaffBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
+                              data={cleaningCaretakingBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
+                              data={maintenanceBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Other occupation costs</h3>}
+                              data={otherOccupationBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Premises staff costs</h3>}
+                              data={premisesStaffBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -57,12 +62,13 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesExpenditure> = ({urn,
 
 export default PremisesStaffServices
 
-export type PremisesStaffServicesExpenditure = {
+export type PremisesStaffServicesProps = {
     urn: string
-    schools: PremisesStaffServicesExpenditureData[]
+    schools: PremisesStaffServicesData[]
+    mode: ChartMode
 }
 
-export type PremisesStaffServicesExpenditureData = {
+export type PremisesStaffServicesData = {
     urn: string
     name: string
     totalIncome: number

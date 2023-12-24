@@ -1,7 +1,8 @@
 import React from "react";
-import AccordionChartContent from "./accordion-chart-content.tsx";
+import ChartWrapper from "../chart-wrapper";
+import {ChartMode} from "../../constants";
 
-const AdministrativeSupplies: React.FC<AdministrativeSuppliesExpenditure> = ({urn, schools}) => {
+const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools, mode}) => {
     const labels = schools.map(result => result.name)
 
     const administrativeSuppliesBarData = {
@@ -24,9 +25,10 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesExpenditure> = ({ur
             </div>
             <div id="accordion-content-administrative-supplies" className="govuk-accordion__section-content"
                  aria-labelledby="accordion-heading-administrative-supplies">
-                <AccordionChartContent heading={'Administrative supplies (Non-educational)'}
-                                       data={administrativeSuppliesBarData}
-                                       chosenSchoolName={chosenSchoolName}/>
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
+                              data={administrativeSuppliesBarData}
+                              chosenSchoolName={chosenSchoolName}
+                              mode={mode}/>
             </div>
         </div>
     )
@@ -34,12 +36,13 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesExpenditure> = ({ur
 
 export default AdministrativeSupplies
 
-export type AdministrativeSuppliesExpenditure = {
+export type AdministrativeSuppliesProps = {
     urn: string
-    schools: AdministrativeSuppliesExpenditureData[]
+    schools: AdministrativeSuppliesData[]
+    mode: ChartMode
 }
 
-export type AdministrativeSuppliesExpenditureData = {
+export type AdministrativeSuppliesData = {
     urn: string
     name: string
     totalIncome: number
