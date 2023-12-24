@@ -39,7 +39,7 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
     }
 
     return (
-        <div>
+        <>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     <p className="govuk-body">
@@ -59,7 +59,7 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
             <ExpenditureAccordion urn={urn}
                                   schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}
                                   mode={displayMode}/>
-        </div>
+        </>
     )
 };
 
