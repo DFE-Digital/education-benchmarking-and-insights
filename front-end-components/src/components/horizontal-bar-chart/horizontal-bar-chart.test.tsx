@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import HBarChart, {BarChartProps} from './horizontal-bar-chart.tsx';
+import HorizontalBarChart, {BarChartProps} from './horizontal-bar-chart';
 
 jest.mock('react-chartjs-2', () => ({
     Bar: (props: BarChartProps) => <div data-testid="mock-bar">{JSON.stringify(props)}</div>
@@ -14,20 +14,21 @@ describe('HBarChart Component', () => {
   const mockChosenSchool = 'School B';
   const mockXLabel = 'Test X Label';
   const mockHeading = <h2>Some heading</h2>;
+  const mockFileName ='file-name';
 
   it('renders without crashing', () => {
-    const { container } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { container } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName}/>);
     expect(container).toBeInTheDocument();
   });
 
   it('displays correct xLabel', () => {
-    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.options.scales.x.title.text).toBe(mockXLabel);
   });
 
   it('passes correct data to the chart', () => {
-    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.data).toEqual({
       labels: mockData.labels,
@@ -40,14 +41,14 @@ describe('HBarChart Component', () => {
   });
 
   it('highlights the chosen school correctly', () => {
-    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     const chosenSchoolIndex = mockData.labels.indexOf(mockChosenSchool);
     expect(barProps.data.datasets[0].backgroundColor[chosenSchoolIndex]).toBe('#12436D');
   });
 
   it('sets correct chart options', () => {
-    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName} />);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     // Main options
     expect(barProps.options.maintainAspectRatio).toBe(false);
@@ -79,11 +80,8 @@ describe('HBarChart Component', () => {
   
 
   it('includes custom underline plugin', () => {
-    const { getByTestId } = render(<HBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} />);
+    const { getByTestId } = render(<HorizontalBarChart heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool} xLabel={mockXLabel} fileName={mockFileName}/>);
     const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
     expect(barProps.plugins).toEqual(expect.arrayContaining([{ id: 'underline'}]));
   });
-  
-  
-  
 });

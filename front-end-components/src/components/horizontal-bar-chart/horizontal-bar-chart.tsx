@@ -1,6 +1,6 @@
-import React from 'react';
-import {Bar} from 'react-chartjs-2';
-import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
+import React, {useRef} from 'react';
+import { Bar } from 'react-chartjs-2';
+import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions } from 'chart.js';
 import './horizontal-bar-chart.css';
 
 ChartJS.register(
@@ -39,11 +39,15 @@ const underLinePlugin = {
     }
 };
 
-const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel, heading}) => {
+const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel, heading, fileName}) => {
     const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
     const barBackgroundColors = data.labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
     );
+
+
+    const chartRef = useRef<ChartJS<'bar'>>(null);
+
 
     const datasets = [{
         data: data.data,
@@ -103,6 +107,16 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
             }
         }
     };
+
+    function handleSaveClick() {
+        if(chartRef.current) {
+            const a = document.createElement('a');
+            a.href = chartRef.current.toBase64Image();
+            a.download = `${fileName}.png`;
+            a.click();
+        }
+    }
+
     return (
         <>
             <div className="govuk-grid-row">
@@ -110,7 +124,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
                     {heading}
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button" data-module="govuk-button">
+                    <button className="govuk-button" data-module="govuk-button" onClick={handleSaveClick}>
                         Save as image
                     </button>
                 </div>
@@ -119,7 +133,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
                 <div className="govuk-grid-row">
                     <div className="govuk-grid-column-full">
                         <div className="chart-container">
-                            <Bar data={dataForChart} options={options} plugins={[underLinePlugin]}/>
+                            <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} ref={chartRef}/>
                         </div>
                     </div>
                 </div>
@@ -140,4 +154,5 @@ export type BarChartProps = {
     chosenSchool: string;
     xLabel: string;
     heading: React.ReactNode
+    fileName: string
 }

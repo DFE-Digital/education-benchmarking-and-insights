@@ -42,19 +42,19 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schoo
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
                               data={netCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="net-catering-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
                               data={cateringStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="catering-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
                               data={cateringSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="catering-supplies-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
                               data={incomeCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="income-from-catering"/>
             </div>
         </div>
     )

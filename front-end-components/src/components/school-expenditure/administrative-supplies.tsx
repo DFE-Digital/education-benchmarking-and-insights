@@ -28,7 +28,7 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
                               data={administrativeSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="administrative-supplies-non-eductional"/>
             </div>
         </div>
     )

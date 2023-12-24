@@ -51,27 +51,27 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>}
                               data={totalTeachingBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="total-teaching-support-staff-cost"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching staff costs</h3>}
                               data={teachingStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="teaching-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teaching staff costs</h3>}
                               data={supplyTeachingBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="supply-teaching-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational consultancy costs</h3>}
                               data={educationalConsultancyBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="educational-consultancy-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational support staff costs</h3>}
                               data={educationSupportStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="education-support-stff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>}
                               data={agencySupplyBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="agency-supply-teaching-staff-costs"/>
             </div>
         </div>
     )

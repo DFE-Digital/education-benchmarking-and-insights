@@ -27,7 +27,7 @@ const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools,mode}) => {
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational learning resources costs</h3>}
                               data={learningResourcesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="eductional-learning-resources-costs"/>
             </div>
         </div>
     )

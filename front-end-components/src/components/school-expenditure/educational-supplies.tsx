@@ -37,15 +37,15 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools, 
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
                               data={examinationFeesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="examination-fees-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
                               data={breakdownEducationalBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="breakdown-eductional-supplies-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
                               data={learningResourcesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="learning-resource-not-ict-costs"/>
             </div>
         </div>
     )

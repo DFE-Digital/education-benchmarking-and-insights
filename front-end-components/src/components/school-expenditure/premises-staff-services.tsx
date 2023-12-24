@@ -42,19 +42,19 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schoo
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
                               data={cleaningCaretakingBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="cleaning-caretaking-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
                               data={maintenanceBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="maintenance-premises-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other occupation costs</h3>}
                               data={otherOccupationBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="other-occupation-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Premises staff costs</h3>}
                               data={premisesStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="premises staff costs"/>
             </div>
         </div>
     )

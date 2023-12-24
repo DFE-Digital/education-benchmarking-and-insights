@@ -16,6 +16,7 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools, mode})
                           data={barData}
                           chosenSchoolName={chosenSchoolName}
                           mode={mode}
+                          fileName="total-expenditure"
             />
     )
 };

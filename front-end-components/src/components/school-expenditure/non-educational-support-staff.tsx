@@ -43,19 +43,19 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
                               data={administrativeClericalBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="administrative-clerical-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
                               data={auditorsCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="Auditors costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other staff costs</h3>}
                               data={otherStaffCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="Other staff costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
                               data={professionalServicesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode}/>
+                              mode={mode} fileName="profession-services-non-curriculum-costs"/>
             </div>
         </div>
     )
