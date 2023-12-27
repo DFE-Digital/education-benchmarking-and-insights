@@ -124,7 +124,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
                     {heading}
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button" data-module="govuk-button" onClick={handleSaveClick}>
+                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button" onClick={handleSaveClick}>
                         Save as image
                     </button>
                 </div>

@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools, mode}) => {
+const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const totalTeachingBarData = {
@@ -51,27 +50,27 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>}
                               data={totalTeachingBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="total-teaching-support-staff-cost"/>
+                              fileName="total-teaching-support-staff-cost"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching staff costs</h3>}
                               data={teachingStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="teaching-staff-costs"/>
+                              fileName="teaching-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teaching staff costs</h3>}
                               data={supplyTeachingBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="supply-teaching-staff-costs"/>
+                              fileName="supply-teaching-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational consultancy costs</h3>}
                               data={educationalConsultancyBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="educational-consultancy-costs"/>
+                              fileName="educational-consultancy-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational support staff costs</h3>}
                               data={educationSupportStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="education-support-stff-costs"/>
+                              fileName="education-support-stff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>}
                               data={agencySupplyBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="agency-supply-teaching-staff-costs"/>
+                              fileName="agency-supply-teaching-staff-costs"/>
             </div>
         </div>
     )
@@ -82,7 +81,6 @@ export default TeachingSupportStaff
 export type TeachingSupportStaffProps = {
     urn: string
     schools: TeachingSupportStaffData[]
-    mode: ChartMode
 }
 
 export type TeachingSupportStaffData = {

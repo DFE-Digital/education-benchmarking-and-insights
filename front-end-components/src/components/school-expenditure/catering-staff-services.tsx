@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools, mode}) => {
+const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const netCateringBarData = {
@@ -42,19 +41,19 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schoo
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
                               data={netCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="net-catering-costs"/>
+                              fileName="net-catering-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
                               data={cateringStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="catering-staff-costs"/>
+                              fileName="catering-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
                               data={cateringSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="catering-supplies-costs"/>
+                              fileName="catering-supplies-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
                               data={incomeCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="income-from-catering"/>
+                              fileName="income-from-catering"/>
             </div>
         </div>
     )
@@ -65,7 +64,6 @@ export default CateringStaffServices
 export type CateringStaffServicesProps = {
     urn: string
     schools: CateringStaffServicesData[]
-    mode: ChartMode
 }
 
 export type CateringStaffServicesData = {

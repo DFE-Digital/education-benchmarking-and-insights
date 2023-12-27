@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import HorizontalBarChart, {BarData} from "./horizontal-bar-chart/horizontal-bar-chart";
-import {ChartMode} from "../constants";
+import {ChartMode, ChartModeContext} from "../chart-more";
 
-const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, data, mode, fileName}) => {
-    const renderView = (displayMode: ChartMode) => {
+const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, data, fileName}) => {
+    const mode = useContext(ChartModeContext);
+
+    const renderView = (displayMode : ChartMode) => {
         switch (displayMode) {
             case ChartMode.CHART:
                 return <HorizontalBarChart data={data} chosenSchool={chosenSchoolName} xLabel='per pupil'
@@ -39,6 +41,5 @@ export type ChartWrapperProps = {
     heading: React.ReactNode
     chosenSchoolName: string
     data: BarData
-    mode: ChartMode
     fileName: string
 }

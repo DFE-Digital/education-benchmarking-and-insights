@@ -9,23 +9,22 @@ import NonEducationalSupportStaff from "./non-educational-support-staff";
 import PremisesStaffServices from "./premises-staff-services";
 import OtherCosts from "./other-costs";
 import Utilities from "./utilities";
-import {ChartMode} from "../../constants";
 
-const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({urn, schools,mode}) => {
+const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({urn, schools}) => {
 
     return (
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
                 <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                    <TeachingSupportStaff urn={urn} schools={schools} mode={mode}/>
-                    <NonEducationalSupportStaff urn={urn} schools={schools} mode={mode}/>
-                    <EducationalSupplies urn={urn} schools={schools} mode={mode}/>
-                    <EducationalIct urn={urn} schools={schools} mode={mode}/>
-                    <PremisesStaffServices urn={urn} schools={schools} mode={mode}/>
+                    <TeachingSupportStaff urn={urn} schools={schools}/>
+                    <NonEducationalSupportStaff urn={urn} schools={schools}/>
+                    <EducationalSupplies urn={urn} schools={schools}/>
+                    <EducationalIct urn={urn} schools={schools}/>
+                    <PremisesStaffServices urn={urn} schools={schools}/>
                     <Utilities/>
-                    <AdministrativeSupplies urn={urn} schools={schools} mode={mode}/>
-                    <CateringStaffServices urn={urn} schools={schools} mode={mode}/>
-                    <OtherCosts urn={urn} schools={schools} mode={mode}/>
+                    <AdministrativeSupplies urn={urn} schools={schools}/>
+                    <CateringStaffServices urn={urn} schools={schools}/>
+                    <OtherCosts urn={urn} schools={schools}/>
                 </div>
             </div>
         </div>
@@ -37,5 +36,4 @@ export default ExpenditureAccordion
 export type ExpenditureAccordionProps = {
     urn: string
     schools: SchoolExpenditure[]
-    mode: ChartMode
 }

@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools, mode}) => {
+const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const administrativeSuppliesBarData = {
@@ -28,7 +27,7 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
                               data={administrativeSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="administrative-supplies-non-eductional"/>
+                              fileName="administrative-supplies-non-eductional"/>
             </div>
         </div>
     )
@@ -39,7 +38,6 @@ export default AdministrativeSupplies
 export type AdministrativeSuppliesProps = {
     urn: string
     schools: AdministrativeSuppliesData[]
-    mode: ChartMode
 }
 
 export type AdministrativeSuppliesData = {

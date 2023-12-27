@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({urn, schools, mode}) => {
+const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const administrativeClericalBarData = {
@@ -43,19 +42,19 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
                               data={administrativeClericalBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="administrative-clerical-staff-costs"/>
+                              fileName="administrative-clerical-staff-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
                               data={auditorsCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="Auditors costs"/>
+                              fileName="Auditors costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other staff costs</h3>}
                               data={otherStaffCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="Other staff costs"/>
+                              fileName="Other staff costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
                               data={professionalServicesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="profession-services-non-curriculum-costs"/>
+                              fileName="profession-services-non-curriculum-costs"/>
             </div>
         </div>
     )
@@ -66,7 +65,6 @@ export default NonEducationalSupportStaff
 export type NonEducationalSupportStaffProps = {
     urn: string
     schools: NonEducationalSupportStaffData[]
-    mode: ChartMode
 }
 
 export type NonEducationalSupportStaffData = {

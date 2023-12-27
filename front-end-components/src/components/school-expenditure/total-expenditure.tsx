@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools, mode}) => {
+const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
 
     const barData = {
         labels: schools.map(result => result.name),
@@ -15,7 +14,6 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools, mode})
             <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
                           data={barData}
                           chosenSchoolName={chosenSchoolName}
-                          mode={mode}
                           fileName="total-expenditure"
             />
     )
@@ -24,7 +22,6 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools, mode})
 export default TotalExpenditure
 
 export type TotalExpenditureProps = {
-    mode: ChartMode
     urn: string
     schools: TotalExpenditureData[]
 }

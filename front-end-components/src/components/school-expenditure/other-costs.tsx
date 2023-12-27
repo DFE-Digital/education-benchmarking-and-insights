@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools, mode}) => {
+const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const totalOtherCostsBarData = {
@@ -91,59 +90,59 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools, mode}) => {
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Total other costs</h3>}
                               data={totalOtherCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="total-otehr-costs"/>
+                              fileName="total-otehr-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
                               data={otherInsurancePremiumsCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="other-insurance-costs"/>
+                              fileName="other-insurance-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
                               data={directRevenueFinancingCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="direct-revenue-financing-costs"/>
+                              fileName="direct-revenue-financing-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Ground maintenance costs</h3>}
                               data={groundsMaintenanceCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="ground-maintenance-costs"/>
+                              fileName="ground-maintenance-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Indirect employee expenses</h3>}
                               data={indirectEmployeeExpensesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="indirect-employee-expenses"/>
+                              fileName="indirect-employee-expenses"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Interest charges for loan and bank</h3>}
                               data={interestChargesLoanBankBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="interest-charges-loan-bank"/>
+                              fileName="interest-charges-loan-bank"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
                               data={privateFinanceInitiativeChargesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="pfi-costs"/>
+                              fileName="pfi-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
                               data={rentRatesCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="rent-rates-cots"/>
+                              fileName="rent-rates-cots"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Special facilities costs</h3>}
                               data={specialFacilitiesCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="special-facilities-costs"/>
+                              fileName="special-facilities-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Staff development and training costs</h3>}
                               data={staffDevelopmentTrainingCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="staff-development-training-costs"/>
+                              fileName="staff-development-training-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Staff-related insurance costs</h3>}
                               data={staffRelatedInsuranceCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="staff-related-insurance-costs"/>
+                              fileName="staff-related-insurance-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teacher insurance costs</h3>}
                               data={supplyTeacherInsurableCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="supply-teacher-insurance-costs"/>
+                              fileName="supply-teacher-insurance-costs"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools only)</h3>}
                               data={communityFocusedSchoolStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="community-focused-staff"/>
+                              fileName="community-focused-staff"/>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools only)</h3>}
                               data={communityFocusedSchoolCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="community-focused-costs"/>
+                              fileName="community-focused-costs"/>
             </div>
         </div>
     )
@@ -154,7 +153,6 @@ export default OtherCosts
 export type OtherCostsProps = {
     urn: string
     schools: OtherCostsData[]
-    mode: ChartMode
 }
 
 export type OtherCostsData = {

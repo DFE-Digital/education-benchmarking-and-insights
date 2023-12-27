@@ -1,8 +1,8 @@
-import React, {useLayoutEffect, useCallback, useState, useEffect} from 'react';
+import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import TotalExpenditure from "../components/school-expenditure/total-expenditure";
 import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion";
 import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
-import {ChartMode} from "../constants";
+import {ChartMode, ChartModeContext, oppositeMode} from "../chart-more";
 
 // @ts-ignore
 import {initAll} from 'govuk-frontend'
@@ -22,17 +22,13 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
     }, []);
 
     const getExpenditure = useCallback(async () => {
-        const data = await SchoolApi.getSchoolExpenditure(urn);
-        setExpenditureData(data);
+        return await SchoolApi.getSchoolExpenditure(urn);
     }, [urn])
 
     useEffect(() => {
-        getExpenditure()
+        getExpenditure().then(setExpenditureData)
     }, [getExpenditure])
 
-    const oppositeMode = (currentMode : ChartMode) => {
-        return currentMode == ChartMode.TABLE ? ChartMode.CHART : ChartMode.TABLE
-    }
 
     function toggleChartMode() {
         setDisplayMode(oppositeMode(displayMode));
@@ -43,22 +39,51 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     <p className="govuk-body">
-                        The data below is from the latest year available, For maintained schools this is {maintainedYear},
+                        The data below is from the latest year available, For maintained schools this
+                        is {maintainedYear},
                         academies for {academyYear}
                     </p>
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button" data-module="govuk-button" onClick={toggleChartMode}>
+                    <div className="govuk-form-group">
+                        <fieldset className="govuk-fieldset">
+                            <legend className="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h2 className="govuk-fieldset__heading">
+                                    View as
+                                </h2>
+                            </legend>
+                            <div className="govuk-radios govuk-radios--small govuk-radios--inline" data-module="govuk-radios">
+                                <div className="govuk-radios__item">
+                                    <input className="govuk-radios__input" id="mode-chart" name="changedChartMode"
+                                           type="radio" value={ChartMode.CHART}
+                                           defaultChecked={displayMode == ChartMode.CHART} onChange={toggleChartMode}/>
+                                    <label className="govuk-label govuk-radios__label" htmlFor="mode-chart">
+                                        Chart
+                                    </label>
+                                </div>
+                                <div className="govuk-radios__item">
+                                    <input className="govuk-radios__input" id="mode-table" name="changedChartMode"
+                                           type="radio" value={ChartMode.TABLE}
+                                           defaultChecked={displayMode == ChartMode.TABLE} onChange={toggleChartMode}/>
+                                    <label className="govuk-label govuk-radios__label" htmlFor="mode-table">
+                                        Table
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button"
+                            onClick={toggleChartMode}>
                         {oppositeMode(displayMode)}
                     </button>
                 </div>
             </div>
-            <TotalExpenditure urn={urn}
-                              schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}
-                              mode={displayMode}/>
-            <ExpenditureAccordion urn={urn}
-                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}
-                                  mode={displayMode}/>
+            <ChartModeContext.Provider value={displayMode}>
+                <TotalExpenditure urn={urn}
+                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                <ExpenditureAccordion urn={urn}
+                                      schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+            </ChartModeContext.Provider>
         </>
     )
 };

@@ -1,8 +1,7 @@
 import React from "react";
 import ChartWrapper from "../chart-wrapper";
-import {ChartMode} from "../../constants";
 
-const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools,mode}) => {
+const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
 
     const learningResourcesBarData = {
@@ -27,7 +26,7 @@ const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools,mode}) => {
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Educational learning resources costs</h3>}
                               data={learningResourcesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              mode={mode} fileName="eductional-learning-resources-costs"/>
+                              fileName="eductional-learning-resources-costs"/>
             </div>
         </div>
     )
@@ -38,7 +37,6 @@ export default EducationalIct
 export type EducationalIctProps = {
     urn: string
     schools: EducationalIctData[]
-    mode: ChartMode
 }
 
 export type EducationalIctData = {
