@@ -1,8 +1,8 @@
 ﻿using Azure.Search.Documents.Indexes;
 
-namespace EducationBenchmarking.Platform.Search.Establishment;
+namespace EducationBenchmarking.Platform.Search.Organisation;
 
-public class EstablishmentIndex
+public class OrganisationIndex
 {
     [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
     public string Id { get; set; }

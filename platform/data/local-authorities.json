@@ -1,0 +1,1218 @@
+[
+  {
+    "Id": "la-805",
+    "Kind": "la",
+    "Identifier": "805",
+    "Name": "Hartlepool",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-807",
+    "Kind": "la",
+    "Identifier": "807",
+    "Name": "Redcar and Cleveland",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-390",
+    "Kind": "la",
+    "Identifier": "390",
+    "Name": "Gateshead",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-841",
+    "Kind": "la",
+    "Identifier": "841",
+    "Name": "Darlington",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-808",
+    "Kind": "la",
+    "Identifier": "808",
+    "Name": "Stockton-on-Tees",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-840",
+    "Kind": "la",
+    "Identifier": "840",
+    "Name": "County Durham",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-806",
+    "Kind": "la",
+    "Identifier": "806",
+    "Name": "Middlesbrough",
+    "Region": "1",
+    "RegionName": "North East A"
+  },
+  {
+    "Id": "la-391",
+    "Kind": "la",
+    "Identifier": "391",
+    "Name": "Newcastle upon Tyne",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-929",
+    "Kind": "la",
+    "Identifier": "929",
+    "Name": "Northumberland",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-392",
+    "Kind": "la",
+    "Identifier": "392",
+    "Name": "North Tyneside",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-393",
+    "Kind": "la",
+    "Identifier": "393",
+    "Name": "South Tyneside",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-889",
+    "Kind": "la",
+    "Identifier": "889",
+    "Name": "Blackburn with Darwen",
+    "Region": "6",
+    "RegionName": "North West A"
+  },
+  {
+    "Id": "la-394",
+    "Kind": "la",
+    "Identifier": "394",
+    "Name": "Sunderland",
+    "Region": "3",
+    "RegionName": "North East B"
+  },
+  {
+    "Id": "la-890",
+    "Kind": "la",
+    "Identifier": "890",
+    "Name": "Blackpool",
+    "Region": "6",
+    "RegionName": "North West A"
+  },
+  {
+    "Id": "la-909",
+    "Kind": "la",
+    "Identifier": "909",
+    "Name": "Cumbria",
+    "Region": "6",
+    "RegionName": "North West A"
+  },
+  {
+    "Id": "la-888",
+    "Kind": "la",
+    "Identifier": "888",
+    "Name": "Lancashire",
+    "Region": "6",
+    "RegionName": "North West A"
+  },
+  {
+    "Id": "la-351",
+    "Kind": "la",
+    "Identifier": "351",
+    "Name": "Bury",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-357",
+    "Kind": "la",
+    "Identifier": "357",
+    "Name": "Tameside",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-353",
+    "Kind": "la",
+    "Identifier": "353",
+    "Name": "Oldham",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-354",
+    "Kind": "la",
+    "Identifier": "354",
+    "Name": "Rochdale",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-350",
+    "Kind": "la",
+    "Identifier": "350",
+    "Name": "Bolton",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-352",
+    "Kind": "la",
+    "Identifier": "352",
+    "Name": "Manchester",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-355",
+    "Kind": "la",
+    "Identifier": "355",
+    "Name": "Salford",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-343",
+    "Kind": "la",
+    "Identifier": "343",
+    "Name": "Sefton",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-896",
+    "Kind": "la",
+    "Identifier": "896",
+    "Name": "Cheshire West & Chester",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-359",
+    "Kind": "la",
+    "Identifier": "359",
+    "Name": "Wigan",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-340",
+    "Kind": "la",
+    "Identifier": "340",
+    "Name": "Knowsley",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-358",
+    "Kind": "la",
+    "Identifier": "358",
+    "Name": "Trafford",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-356",
+    "Kind": "la",
+    "Identifier": "356",
+    "Name": "Stockport",
+    "Region": "7",
+    "RegionName": "North West B"
+  },
+  {
+    "Id": "la-877",
+    "Kind": "la",
+    "Identifier": "877",
+    "Name": "Warrington",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-342",
+    "Kind": "la",
+    "Identifier": "342",
+    "Name": "St. Helens",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-812",
+    "Kind": "la",
+    "Identifier": "812",
+    "Name": "North East Lincolnshire",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-876",
+    "Kind": "la",
+    "Identifier": "876",
+    "Name": "Halton",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-811",
+    "Kind": "la",
+    "Identifier": "811",
+    "Name": "East Riding of Yorkshire",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-895",
+    "Kind": "la",
+    "Identifier": "895",
+    "Name": "Cheshire East",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-815",
+    "Kind": "la",
+    "Identifier": "815",
+    "Name": "North Yorkshire",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-341",
+    "Kind": "la",
+    "Identifier": "341",
+    "Name": "Liverpool",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-344",
+    "Kind": "la",
+    "Identifier": "344",
+    "Name": "Wirral",
+    "Region": "9",
+    "RegionName": "North West C"
+  },
+  {
+    "Id": "la-370",
+    "Kind": "la",
+    "Identifier": "370",
+    "Name": "Barnsley",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-813",
+    "Kind": "la",
+    "Identifier": "813",
+    "Name": "North Lincolnshire",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-381",
+    "Kind": "la",
+    "Identifier": "381",
+    "Name": "Calderdale",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-810",
+    "Kind": "la",
+    "Identifier": "810",
+    "Name": "Kingston Upon Hull",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-382",
+    "Kind": "la",
+    "Identifier": "382",
+    "Name": "Kirklees",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-371",
+    "Kind": "la",
+    "Identifier": "371",
+    "Name": "Doncaster",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-372",
+    "Kind": "la",
+    "Identifier": "372",
+    "Name": "Rotherham",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-380",
+    "Kind": "la",
+    "Identifier": "380",
+    "Name": "Bradford",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-384",
+    "Kind": "la",
+    "Identifier": "384",
+    "Name": "Wakefield",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-373",
+    "Kind": "la",
+    "Identifier": "373",
+    "Name": "Sheffield",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-855",
+    "Kind": "la",
+    "Identifier": "855",
+    "Name": "Leicestershire",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-830",
+    "Kind": "la",
+    "Identifier": "830",
+    "Name": "Derbyshire",
+    "Region": "14",
+    "RegionName": "East Midlands A"
+  },
+  {
+    "Id": "la-891",
+    "Kind": "la",
+    "Identifier": "891",
+    "Name": "Nottinghamshire",
+    "Region": "14",
+    "RegionName": "East Midlands A"
+  },
+  {
+    "Id": "la-383",
+    "Kind": "la",
+    "Identifier": "383",
+    "Name": "Leeds",
+    "Region": "12",
+    "RegionName": "South and West Yorkshire"
+  },
+  {
+    "Id": "la-925",
+    "Kind": "la",
+    "Identifier": "925",
+    "Name": "Lincolnshire",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-892",
+    "Kind": "la",
+    "Identifier": "892",
+    "Name": "Nottingham",
+    "Region": "14",
+    "RegionName": "East Midlands A"
+  },
+  {
+    "Id": "la-856",
+    "Kind": "la",
+    "Identifier": "856",
+    "Name": "Leicester",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-831",
+    "Kind": "la",
+    "Identifier": "831",
+    "Name": "Derby",
+    "Region": "14",
+    "RegionName": "East Midlands A"
+  },
+  {
+    "Id": "la-893",
+    "Kind": "la",
+    "Identifier": "893",
+    "Name": "Shropshire",
+    "Region": "20",
+    "RegionName": "West Midlands A"
+  },
+  {
+    "Id": "la-940",
+    "Kind": "la",
+    "Identifier": "940",
+    "Name": "North Northamptonshire",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-941",
+    "Kind": "la",
+    "Identifier": "941",
+    "Name": "West Northamptonshire",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-334",
+    "Kind": "la",
+    "Identifier": "334",
+    "Name": "Solihull",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-330",
+    "Kind": "la",
+    "Identifier": "330",
+    "Name": "Birmingham",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-861",
+    "Kind": "la",
+    "Identifier": "861",
+    "Name": "Stoke-on-Trent",
+    "Region": "20",
+    "RegionName": "West Midlands A"
+  },
+  {
+    "Id": "la-822",
+    "Kind": "la",
+    "Identifier": "822",
+    "Name": "Bedford",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-857",
+    "Kind": "la",
+    "Identifier": "857",
+    "Name": "Rutland",
+    "Region": "16",
+    "RegionName": "East Midlands B"
+  },
+  {
+    "Id": "la-860",
+    "Kind": "la",
+    "Identifier": "860",
+    "Name": "Staffordshire",
+    "Region": "20",
+    "RegionName": "West Midlands A"
+  },
+  {
+    "Id": "la-331",
+    "Kind": "la",
+    "Identifier": "331",
+    "Name": "Coventry",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-894",
+    "Kind": "la",
+    "Identifier": "894",
+    "Name": "Telford and Wrekin",
+    "Region": "20",
+    "RegionName": "West Midlands A"
+  },
+  {
+    "Id": "la-335",
+    "Kind": "la",
+    "Identifier": "335",
+    "Name": "Walsall",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-873",
+    "Kind": "la",
+    "Identifier": "873",
+    "Name": "Cambridgeshire",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-821",
+    "Kind": "la",
+    "Identifier": "821",
+    "Name": "Luton",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-882",
+    "Kind": "la",
+    "Identifier": "882",
+    "Name": "Southend-on-Sea",
+    "Region": "27",
+    "RegionName": "East of England B"
+  },
+  {
+    "Id": "la-884",
+    "Kind": "la",
+    "Identifier": "884",
+    "Name": "Herefordshire",
+    "Region": "22",
+    "RegionName": "West Midlands B"
+  },
+  {
+    "Id": "la-874",
+    "Kind": "la",
+    "Identifier": "874",
+    "Name": "Peterborough",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-823",
+    "Kind": "la",
+    "Identifier": "823",
+    "Name": "Central Bedfordshire",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-937",
+    "Kind": "la",
+    "Identifier": "937",
+    "Name": "Warwickshire",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-332",
+    "Kind": "la",
+    "Identifier": "332",
+    "Name": "Dudley",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-885",
+    "Kind": "la",
+    "Identifier": "885",
+    "Name": "Worcestershire",
+    "Region": "22",
+    "RegionName": "West Midlands B"
+  },
+  {
+    "Id": "la-206",
+    "Kind": "la",
+    "Identifier": "206",
+    "Name": "Islington",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-881",
+    "Kind": "la",
+    "Identifier": "881",
+    "Name": "Essex",
+    "Region": "27",
+    "RegionName": "East of England B"
+  },
+  {
+    "Id": "la-336",
+    "Kind": "la",
+    "Identifier": "336",
+    "Name": "Wolverhampton",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-935",
+    "Kind": "la",
+    "Identifier": "935",
+    "Name": "Suffolk",
+    "Region": "27",
+    "RegionName": "East of England B"
+  },
+  {
+    "Id": "la-212",
+    "Kind": "la",
+    "Identifier": "212",
+    "Name": "Wandsworth",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-333",
+    "Kind": "la",
+    "Identifier": "333",
+    "Name": "Sandwell",
+    "Region": "24",
+    "RegionName": "West Midlands C"
+  },
+  {
+    "Id": "la-213",
+    "Kind": "la",
+    "Identifier": "213",
+    "Name": "Westminster",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-919",
+    "Kind": "la",
+    "Identifier": "919",
+    "Name": "Hertfordshire",
+    "Region": "25",
+    "RegionName": "East of England A"
+  },
+  {
+    "Id": "la-207",
+    "Kind": "la",
+    "Identifier": "207",
+    "Name": "Kensington and Chelsea",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-301",
+    "Kind": "la",
+    "Identifier": "301",
+    "Name": "Barking and Dagenham",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-201",
+    "Kind": "la",
+    "Identifier": "201",
+    "Name": "City of London",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-883",
+    "Kind": "la",
+    "Identifier": "883",
+    "Name": "Thurrock",
+    "Region": "27",
+    "RegionName": "East of England B"
+  },
+  {
+    "Id": "la-208",
+    "Kind": "la",
+    "Identifier": "208",
+    "Name": "Lambeth",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-209",
+    "Kind": "la",
+    "Identifier": "209",
+    "Name": "Lewisham",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-926",
+    "Kind": "la",
+    "Identifier": "926",
+    "Name": "Norfolk",
+    "Region": "27",
+    "RegionName": "East of England B"
+  },
+  {
+    "Id": "la-303",
+    "Kind": "la",
+    "Identifier": "303",
+    "Name": "Bexley",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-203",
+    "Kind": "la",
+    "Identifier": "203",
+    "Name": "Greenwich",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-202",
+    "Kind": "la",
+    "Identifier": "202",
+    "Name": "Camden",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-302",
+    "Kind": "la",
+    "Identifier": "302",
+    "Name": "Barnet",
+    "Region": "33",
+    "RegionName": "London North"
+  },
+  {
+    "Id": "la-210",
+    "Kind": "la",
+    "Identifier": "210",
+    "Name": "Southwark",
+    "Region": "31",
+    "RegionName": "London Central"
+  },
+  {
+    "Id": "la-305",
+    "Kind": "la",
+    "Identifier": "305",
+    "Name": "Bromley",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-316",
+    "Kind": "la",
+    "Identifier": "316",
+    "Name": "Newham",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-204",
+    "Kind": "la",
+    "Identifier": "204",
+    "Name": "Hackney",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-205",
+    "Kind": "la",
+    "Identifier": "205",
+    "Name": "Hammersmith and Fulham",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-306",
+    "Kind": "la",
+    "Identifier": "306",
+    "Name": "Croydon",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-308",
+    "Kind": "la",
+    "Identifier": "308",
+    "Name": "Enfield",
+    "Region": "33",
+    "RegionName": "London North"
+  },
+  {
+    "Id": "la-318",
+    "Kind": "la",
+    "Identifier": "318",
+    "Name": "Richmond upon Thames",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-317",
+    "Kind": "la",
+    "Identifier": "317",
+    "Name": "Redbridge",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-310",
+    "Kind": "la",
+    "Identifier": "310",
+    "Name": "Harrow",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-311",
+    "Kind": "la",
+    "Identifier": "311",
+    "Name": "Havering",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-314",
+    "Kind": "la",
+    "Identifier": "314",
+    "Name": "Kingston upon Thames",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-816",
+    "Kind": "la",
+    "Identifier": "816",
+    "Name": "York",
+    "Region": "10",
+    "RegionName": "North Yorkshire and The Humber"
+  },
+  {
+    "Id": "la-319",
+    "Kind": "la",
+    "Identifier": "319",
+    "Name": "Haringey",
+    "Region": "33",
+    "RegionName": "London North"
+  },
+  {
+    "Id": "la-319",
+    "Kind": "la",
+    "Identifier": "319",
+    "Name": "Sutton",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-211",
+    "Kind": "la",
+    "Identifier": "211",
+    "Name": "Tower Hamlets",
+    "Region": "32",
+    "RegionName": "London East"
+  },
+  {
+    "Id": "la-867",
+    "Kind": "la",
+    "Identifier": "867",
+    "Name": "Bracknell Forest",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-312",
+    "Kind": "la",
+    "Identifier": "312",
+    "Name": "Hillingdon",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-315",
+    "Kind": "la",
+    "Identifier": "315",
+    "Name": "Merton",
+    "Region": "34",
+    "RegionName": "London South"
+  },
+  {
+    "Id": "la-870",
+    "Kind": "la",
+    "Identifier": "870",
+    "Name": "Reading",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-869",
+    "Kind": "la",
+    "Identifier": "869",
+    "Name": "West Berkshire",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-304",
+    "Kind": "la",
+    "Identifier": "304",
+    "Name": "Brent",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-825",
+    "Kind": "la",
+    "Identifier": "825",
+    "Name": "Buckinghamshire",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-320",
+    "Kind": "la",
+    "Identifier": "320",
+    "Name": "Waltham Forest",
+    "Region": "33",
+    "RegionName": "London North"
+  },
+  {
+    "Id": "la-871",
+    "Kind": "la",
+    "Identifier": "871",
+    "Name": "Slough",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-868",
+    "Kind": "la",
+    "Identifier": "868",
+    "Name": "Windsor and Maidenhead",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-307",
+    "Kind": "la",
+    "Identifier": "307",
+    "Name": "Ealing",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-313",
+    "Kind": "la",
+    "Identifier": "313",
+    "Name": "Hounslow",
+    "Region": "35",
+    "RegionName": "London West"
+  },
+  {
+    "Id": "la-921",
+    "Kind": "la",
+    "Identifier": "921",
+    "Name": "Isle of Wight",
+    "Region": "37",
+    "RegionName": "South East B"
+  },
+  {
+    "Id": "la-826",
+    "Kind": "la",
+    "Identifier": "826",
+    "Name": "Milton Keynes",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-887",
+    "Kind": "la",
+    "Identifier": "887",
+    "Name": "Medway",
+    "Region": "39",
+    "RegionName": "South East D"
+  },
+  {
+    "Id": "la-872",
+    "Kind": "la",
+    "Identifier": "872",
+    "Name": "Wokingham",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-916",
+    "Kind": "la",
+    "Identifier": "916",
+    "Name": "Gloucestershire",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-838",
+    "Kind": "la",
+    "Identifier": "838",
+    "Name": "Dorset",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-851",
+    "Kind": "la",
+    "Identifier": "851",
+    "Name": "Portsmouth",
+    "Region": "37",
+    "RegionName": "South East B"
+  },
+  {
+    "Id": "la-933",
+    "Kind": "la",
+    "Identifier": "933",
+    "Name": "Somerset",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-839",
+    "Kind": "la",
+    "Identifier": "839",
+    "Name": "Bournemouth, Christchurch & Poole",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-931",
+    "Kind": "la",
+    "Identifier": "931",
+    "Name": "Oxfordshire",
+    "Region": "36",
+    "RegionName": "South East A"
+  },
+  {
+    "Id": "la-802",
+    "Kind": "la",
+    "Identifier": "802",
+    "Name": "North Somerset",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-850",
+    "Kind": "la",
+    "Identifier": "850",
+    "Name": "Hampshire",
+    "Region": "37",
+    "RegionName": "South East B"
+  },
+  {
+    "Id": "la-852",
+    "Kind": "la",
+    "Identifier": "852",
+    "Name": "Southampton",
+    "Region": "37",
+    "RegionName": "South East B"
+  },
+  {
+    "Id": "la-420",
+    "Kind": "la",
+    "Identifier": "420",
+    "Name": "Isles of Scilly",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-908",
+    "Kind": "la",
+    "Identifier": "908",
+    "Name": "Cornwall",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-803",
+    "Kind": "la",
+    "Identifier": "803",
+    "Name": "South Gloucestershire",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-880",
+    "Kind": "la",
+    "Identifier": "880",
+    "Name": "Torbay",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-936",
+    "Kind": "la",
+    "Identifier": "936",
+    "Name": "Surrey",
+    "Region": "38",
+    "RegionName": "South East C"
+  },
+  {
+    "Id": "la-878",
+    "Kind": "la",
+    "Identifier": "878",
+    "Name": "Devon",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-866",
+    "Kind": "la",
+    "Identifier": "866",
+    "Name": "Swindon",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-879",
+    "Kind": "la",
+    "Identifier": "879",
+    "Name": "Plymouth",
+    "Region": "43",
+    "RegionName": "South West A"
+  },
+  {
+    "Id": "la-800",
+    "Kind": "la",
+    "Identifier": "800",
+    "Name": "Bath and North East Somerset",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-938",
+    "Kind": "la",
+    "Identifier": "938",
+    "Name": "West Sussex",
+    "Region": "38",
+    "RegionName": "South East C"
+  },
+  {
+    "Id": "la-801",
+    "Kind": "la",
+    "Identifier": "801",
+    "Name": "Wiltshire",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-801",
+    "Kind": "la",
+    "Identifier": "801",
+    "Name": "Bristol",
+    "Region": "45",
+    "RegionName": "South West B"
+  },
+  {
+    "Id": "la-846",
+    "Kind": "la",
+    "Identifier": "846",
+    "Name": "Brighton and Hove",
+    "Region": "39",
+    "RegionName": "South East D"
+  },
+  {
+    "Id": "la-845",
+    "Kind": "la",
+    "Identifier": "845",
+    "Name": "East Sussex",
+    "Region": "39",
+    "RegionName": "South East D"
+  },
+  {
+    "Id": "la-886",
+    "Kind": "la",
+    "Identifier": "886",
+    "Name": "Kent",
+    "Region": "39",
+    "RegionName": "South East D"
+  }
+]

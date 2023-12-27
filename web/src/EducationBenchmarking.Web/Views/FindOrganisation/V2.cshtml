@@ -1,0 +1,25 @@
+@model EducationBenchmarking.Web.ViewModels.FindOrganisationViewModelV2
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Choose your school, academy trust, local authority</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <div id="find-org-view-v2"
+             data-identifier="@Model.Identifier"
+             data-kind="@Model.Kind"
+             data-organisation-input="@Model.Input"
+             data-organisation-error="@ViewData.ModelState["organisation-input"]?.Errors.FirstOrDefault()?.ErrorMessage">
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

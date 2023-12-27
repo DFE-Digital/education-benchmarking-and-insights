@@ -27,6 +27,11 @@ static Task RebuildIndexes(ProgramOptions options)
         {
             ConnectionString = options.CosmosConnectionString, 
             DatabaseId = options.CosmosDatabaseId
+        },
+        Storage = new SearchMaintenanceServiceOptions.StorageOptions
+        {
+            ConnectionString = options.PlatformStorageConnectionString,
+            LocalAuthoritiesContainer = options.LocalAuthoritiesContainer,
         }
     });
     

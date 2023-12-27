@@ -4,17 +4,17 @@ using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Establishment;
+namespace EducationBenchmarking.Platform.Search.Organisation;
 
-public class EstablishmentSchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
+public class OrganisationSchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
 {
-    public override string Name => SearchResourceNames.DataSources.EstablishmentSchool; 
+    public override string Name => SearchResourceNames.DataSources.OrganisationSchool; 
     
     private readonly string _connectionString;
     private readonly string _databaseId;
     private readonly ICollectionService _collectionService;
     
-    public EstablishmentSchoolDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
+    public OrganisationSchoolDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
     {
         _collectionService = collectionService;
         _connectionString = connectionString;

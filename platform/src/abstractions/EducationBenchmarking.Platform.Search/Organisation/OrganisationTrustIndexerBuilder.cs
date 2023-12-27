@@ -3,18 +3,18 @@ using Azure.Search.Documents.Indexes.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Establishment;
+namespace EducationBenchmarking.Platform.Search.Organisation;
 
-public class EstablishmentSchoolIndexerBuilder : IndexerBuilder
+public class OrganisationTrustIndexerBuilder : IndexerBuilder
 {
-    public override string Name => SearchResourceNames.Indexers.EstablishmentSchool;
+    public override string Name => SearchResourceNames.Indexers.OrganisationTrust;
 
     public override async Task Build(SearchIndexerClient client)
     {
         var cosmosDbIndexer = new SearchIndexer(
             name: Name,
-            dataSourceName: SearchResourceNames.DataSources.EstablishmentSchool,
-            targetIndexName: SearchResourceNames.Indexes.Establishment)
+            dataSourceName: SearchResourceNames.DataSources.OrganisationTrust,
+            targetIndexName: SearchResourceNames.Indexes.Organisation)
         {
             Schedule = new IndexingSchedule(TimeSpan.FromDays(1))
         };

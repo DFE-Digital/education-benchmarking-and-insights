@@ -4,17 +4,17 @@ using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Establishment;
+namespace EducationBenchmarking.Platform.Search.Organisation;
 
-public class EstablishmentTrustDataSourceConnectionBuilder : DataSourceConnectionBuilder
+public class OrganisationTrustDataSourceConnectionBuilder : DataSourceConnectionBuilder
 {
-    public override string Name => SearchResourceNames.DataSources.EstablishmentTrust; 
+    public override string Name => SearchResourceNames.DataSources.OrganisationTrust; 
     
     private readonly string _connectionString;
     private readonly string _databaseId;
     private readonly ICollectionService _collectionService;
     
-    public EstablishmentTrustDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
+    public OrganisationTrustDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
     {
         _collectionService = collectionService;
         _connectionString = connectionString;

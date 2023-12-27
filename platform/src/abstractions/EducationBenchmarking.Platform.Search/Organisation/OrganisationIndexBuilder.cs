@@ -3,23 +3,23 @@ using Azure.Search.Documents.Indexes.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Establishment;
+namespace EducationBenchmarking.Platform.Search.Organisation;
 
-public class EstablishmentIndexBuilder : IndexBuilder
+public class OrganisationIndexBuilder : IndexBuilder
 {
-    public override string Name => SearchResourceNames.Indexes.Establishment;
+    public override string Name => SearchResourceNames.Indexes.Organisation;
     
     public override async Task Build(SearchIndexClient client)
     {
-        var searchFields = new FieldBuilder().Build(typeof(EstablishmentIndex));
+        var searchFields = new FieldBuilder().Build(typeof(OrganisationIndex));
 
         var definition = new SearchIndex(Name, searchFields);
         var suggestFields = new[]
         {
-            nameof(EstablishmentIndex.Name),
-            nameof(EstablishmentIndex.Identifier)
+            nameof(OrganisationIndex.Name),
+            nameof(OrganisationIndex.Identifier)
         };
-        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Establishment, suggestFields);
+        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Organisation, suggestFields);
 
         definition.Suggesters.Add(suggester);
         

@@ -35,6 +35,16 @@ public class EstablishmentApi : BaseApi, IEstablishmentApi
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "trust-suggester" })
         }, cancellation);
     }
+    
+    public Task<ApiResult> SuggestOrganisations(string search, CancellationToken cancellation)
+    {
+        return SendAsync(new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri("api/organisations/suggest", UriKind.Relative),
+            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "organisation-suggester" })
+        }, cancellation);
+    }
 }
 
 public interface IEstablishmentApi
@@ -43,4 +53,5 @@ public interface IEstablishmentApi
     Task<ApiResult> GetTrust(string identifier);
     Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation);
     Task<ApiResult> SuggestTrusts(string search, CancellationToken cancellation);
+    Task<ApiResult> SuggestOrganisations(string search, CancellationToken cancellation);
 }
