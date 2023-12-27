@@ -17,7 +17,13 @@ public class OrganisationIndexBuilder : IndexBuilder
         var suggestFields = new[]
         {
             nameof(OrganisationIndex.Name),
-            nameof(OrganisationIndex.Identifier)
+            nameof(OrganisationIndex.Identifier),
+            nameof(OrganisationIndex.Street),
+            nameof(OrganisationIndex.Locality),
+            nameof(OrganisationIndex.Address3),
+            nameof(OrganisationIndex.Town),
+            nameof(OrganisationIndex.County),
+            nameof(OrganisationIndex.Postcode)
         };
         var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Organisation, suggestFields);
 

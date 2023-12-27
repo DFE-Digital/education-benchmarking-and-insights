@@ -1,6 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Establishment.Models;
@@ -34,7 +32,9 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
         {
             nameof(Organisation.Identifier), 
             nameof(Organisation.Name),
-            nameof(Organisation.Kind)
+            nameof(Organisation.Kind),
+            nameof(Organisation.Town),
+            nameof(Organisation.Postcode)
         };
         
         return SuggestAsync<Organisation>(request, cancellationToken, selectFields: fields);

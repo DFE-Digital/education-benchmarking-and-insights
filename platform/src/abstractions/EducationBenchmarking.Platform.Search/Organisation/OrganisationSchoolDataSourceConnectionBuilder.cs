@@ -30,7 +30,19 @@ public class OrganisationSchoolDataSourceConnectionBuilder : DataSourceConnectio
         var container = new SearchIndexerDataContainer(collection.Name)
         {
             Query =
-                "SELECT VALUE { 'Id': CONCAT('school-',ToString(c.URN)), 'Name': c.EstablishmentName, 'Kind':'school', 'Identifier': ToString(c.URN),'_ts':c._ts } FROM c WHERE c._ts >= @HighWaterMark ORDER BY c._ts"
+                "SELECT VALUE { " +
+                "'Id': CONCAT('school-',ToString(c.URN)), " +
+                "'Name': c.EstablishmentName, " +
+                "'Kind':'school', " +
+                "'Identifier': c.URN," +
+                "'Street': c.Street," +
+                "'Locality': c.Locality," +
+                "'Address3': c.Address3," +
+                "'Town': c.Town," +
+                "'County': c.County," +
+                "'Postcode': c.Postcode," +
+                "'_ts':c._ts }" +
+                " FROM c WHERE c._ts >= @HighWaterMark ORDER BY c._ts"
         };
         
         var cosmosDbDataSource = new SearchIndexerDataSourceConnection(
