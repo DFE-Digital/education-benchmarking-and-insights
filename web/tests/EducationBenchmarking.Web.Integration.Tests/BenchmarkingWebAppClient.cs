@@ -36,6 +36,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
+        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
         return this;
     }
     
@@ -43,6 +44,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
+        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
         return this;
     }
 }

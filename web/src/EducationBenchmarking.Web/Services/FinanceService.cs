@@ -8,6 +8,7 @@ public interface IFinanceService
 {
     Task<Finances> GetFinances(School school);
     Task<Finances> GetFinances(Trust trust);
+    Task<FinanceYears> GetYears();
 }
 
 public class FinanceService : IFinanceService
@@ -19,6 +20,11 @@ public class FinanceService : IFinanceService
         _insightApi = insightApi;
     }
 
+    public async Task<FinanceYears> GetYears()
+    {
+        return await _insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
+    }
+    
     public async Task<Finances> GetFinances(School school)
     {
         switch (school.FinanceType)

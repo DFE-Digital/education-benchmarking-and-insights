@@ -42,8 +42,8 @@ public class SchoolComparisonController : Controller
                 ViewData["BreadcrumbNode"] = childNode; 
                 
                 var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await _financeService.GetFinances(school);
-                var viewModel = new SchoolComparisonViewModel(school, finances);
+                var years = await _financeService.GetYears();
+                var viewModel = new SchoolComparisonViewModel(school, years);
                 
                 return View(viewModel);
             }
