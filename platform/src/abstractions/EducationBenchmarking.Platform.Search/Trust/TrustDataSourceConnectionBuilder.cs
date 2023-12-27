@@ -2,18 +2,19 @@ using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Infrastructure.Search;
+using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Builders.DataSourceConnections;
+namespace EducationBenchmarking.Platform.Search.Trust;
 
-public class CosmosEbisEdubaseSchoolBuilder : DataSourceConnectionBuilder
+public class TrustDataSourceConnectionBuilder : DataSourceConnectionBuilder
 {
-    public override string Name => SearchResourceNames.DataSources.CosmosEbisEdubaseSchool; 
+    public override string Name => SearchResourceNames.DataSources.Trust; 
     
     private readonly string _connectionString;
     private readonly string _databaseId;
     private readonly ICollectionService _collectionService;
     
-    public CosmosEbisEdubaseSchoolBuilder(ICollectionService collectionService, string connectionString, string databaseId)
+    public TrustDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
     {
         _collectionService = collectionService;
         _connectionString = connectionString;
@@ -29,7 +30,7 @@ public class CosmosEbisEdubaseSchoolBuilder : DataSourceConnectionBuilder
         var container = new SearchIndexerDataContainer(collection.Name)
         {
             Query =
-                "SELECT VALUE { 'id': CONCAT('school-',ToString(c.URN)), 'name': c.EstablishmentName, 'kind':'school', '_ts':c._ts } FROM c WHERE c._ts >= @HighWaterMark ORDER BY c._ts"
+                "SELECT * FROM c WHERE c._ts >= @HighWaterMark AND IS_DEFINED(c.CompanyNumber) ORDER BY c._ts"
         };
         
         var cosmosDbDataSource = new SearchIndexerDataSourceConnection(

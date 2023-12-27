@@ -3,9 +3,9 @@ using Azure;
 using Azure.Search.Documents.Indexes;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Search.Builders;
-using EducationBenchmarking.Platform.Search.Builders.DataSourceConnections;
-using EducationBenchmarking.Platform.Search.Builders.Indexers;
-using EducationBenchmarking.Platform.Search.Builders.Indexes;
+using EducationBenchmarking.Platform.Search.Establishment;
+using EducationBenchmarking.Platform.Search.School;
+using EducationBenchmarking.Platform.Search.Trust;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
@@ -145,9 +145,9 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     {
         var builders = new IndexBuilder[] 
         {
-            new EstablishmentBuilder(),
-            new TrustBuilder(),
-            new SchoolBuilder()
+            new EstablishmentIndexBuilder(),
+            new TrustIndexBuilder(),
+            new SchoolIndexBuilder()
         };
 
         foreach (var builder in builders)
@@ -172,9 +172,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     {
         var builders = new DataSourceConnectionBuilder[]
         {
-            new CosmosEbisEdubaseBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new CosmosEbisEdubaseSchoolBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new CosmosEbisEdubaseTrustBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
+            new EstablishmentSchoolDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new EstablishmentTrustDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new SchoolDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new TrustDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
         };
 
         foreach (var builder in builders)
@@ -199,9 +200,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     {
         var builders = new IndexerBuilder[]
         {
-            new EdubaseSchoolBuilder(),
-            new EdubaseTrustBuilder(),
-            new EdubaseEstablishmentSchoolBuilder()
+            new SchoolIndexerBuilder(),
+            new TrustIndexerBuilder(),
+            new EstablishmentSchoolIndexerBuilder(),
+            new EstablishmentTrustIndexerBuilder()
         };
 
         foreach (var builder in builders)

@@ -36,6 +36,11 @@ resource "azurerm_storage_account" "platform-storage" {
   tags                            = local.common-tags
 }
 
+resource "azurerm_storage_container" "local-authorities-container" {
+  name                  = "local-authorities"
+  storage_account_name  = azurerm_storage_account.platform-storage.name
+}
+
 resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
   name         = "platform-storage-connection-string"
   value        = azurerm_storage_account.platform-storage.primary_connection_string

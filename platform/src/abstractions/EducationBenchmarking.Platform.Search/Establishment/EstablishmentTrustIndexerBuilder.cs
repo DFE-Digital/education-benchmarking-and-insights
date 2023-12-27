@@ -1,18 +1,19 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
+using EducationBenchmarking.Platform.Search.Builders;
 
-namespace EducationBenchmarking.Platform.Search.Builders.Indexers;
+namespace EducationBenchmarking.Platform.Search.Establishment;
 
-public class EdubaseEstablishmentSchoolBuilder : IndexerBuilder
+public class EstablishmentTrustIndexerBuilder : IndexerBuilder
 {
-    public override string Name => SearchResourceNames.Indexers.CosmosEstablishmentSchoolEdubase;
+    public override string Name => SearchResourceNames.Indexers.EstablishmentTrust;
 
     public override async Task Build(SearchIndexerClient client)
     {
         var cosmosDbIndexer = new SearchIndexer(
             name: Name,
-            dataSourceName: SearchResourceNames.DataSources.CosmosEbisEdubaseSchool,
+            dataSourceName: SearchResourceNames.DataSources.EstablishmentTrust,
             targetIndexName: SearchResourceNames.Indexes.Establishment)
         {
             Schedule = new IndexingSchedule(TimeSpan.FromDays(1))

@@ -4,16 +4,22 @@ public static class SearchResourceNames
 {
     public static class DataSources
     {
-        public const string CosmosEbisEdubase ="cosmos-ebis-edubase";
-        public const string CosmosEbisEdubaseSchool ="cosmos-ebis-edubase-school";
-        public const string CosmosEbisEdubaseTrust ="cosmos-ebis-edubase-trust";
+        public const string School ="school-data-source";
+        public const string Trust ="trust-data-source";
+        
+        public const string EstablishmentSchool ="estblishment-school-data-source";
+        public const string EstablishmentTrust ="estblishment-trust-data-source";
+        public const string EstablishmentLa ="estblishment-la-data-source";
     }
     
     public static class Indexers
     {
-        public const string CosmosSchoolEdubase ="school-edubase-cosmos-indexer";
-        public const string CosmosTrustEdubase ="trust-edubase-cosmos-indexer";
-        public const string CosmosEstablishmentSchoolEdubase ="establishment-school-edubase-cosmos-indexer";
+        public const string School ="school-indexer";
+        public const string Trust ="trust-indexer";
+        
+        public const string EstablishmentSchool ="establishment-school-indexer";
+        public const string EstablishmentTrust ="establishment-trust-indexer";
+        public const string EstablishmentLa ="establishment-la-indexer";
     }
     
     public static class Indexes
