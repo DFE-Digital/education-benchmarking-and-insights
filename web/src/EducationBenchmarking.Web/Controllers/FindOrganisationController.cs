@@ -16,9 +16,9 @@ public class FindOrganisationController : Controller
     }
 
     [HttpGet]
-    public IActionResult Index(string findMethod = Constants.SchoolOrganisationType)
+    public IActionResult Index()
     {
-        return View(new FindOrganisationViewModel { FindMethod = findMethod });
+        return View(new FindOrganisationViewModel());
     }
 
     [HttpPost]
