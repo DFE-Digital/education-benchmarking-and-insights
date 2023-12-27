@@ -36,7 +36,7 @@ public class TrustController : Controller
                 ViewData["BreadcrumbNode"] = node;
                 
                 var trust = await _establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var finances = await _financeService.GetFinances(trust).GetResultOrThrow<Finances>();
+                var finances = await _financeService.GetFinances(trust);
                 
                 var viewModel = new TrustViewModel(trust, finances);
                 return View(viewModel);

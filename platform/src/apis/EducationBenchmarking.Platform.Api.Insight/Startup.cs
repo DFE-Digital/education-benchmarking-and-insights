@@ -22,9 +22,9 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<AcademyDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<MaintainSchoolDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<SchoolExpenditureDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         
-        builder.Services.AddSingleton<ISchoolExpenditureDb, SchoolExpenditureDb>();
+        builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ICollectionService, CollectionService>();
         builder.Services.AddSingleton<IMaintainSchoolDb, MaintainSchoolDb>();
         builder.Services.AddSingleton<IAcademyDb, AcademyDb>();

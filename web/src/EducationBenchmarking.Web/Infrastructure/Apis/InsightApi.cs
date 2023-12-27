@@ -20,6 +20,11 @@ public class InsightApi : BaseApi, IInsightApi
     {
         return await GetAsync($"api/schools/expenditure{query?.ToQueryString()}");
     }
+    
+    public async Task<ApiResult> GetSchoolsWorkforce(ApiQuery? query = null)
+    {
+        return await GetAsync($"api/schools/workforce{query?.ToQueryString()}");
+    }
 }
 
 public interface IInsightApi
@@ -27,4 +32,5 @@ public interface IInsightApi
     Task<ApiResult> GetMaintainedSchoolFinances(string urn);
     Task<ApiResult> GetAcademyFinances(string urn, ApiQuery? query = null);
     Task<ApiResult> GetSchoolsExpenditure(ApiQuery? query = null);
+    Task<ApiResult> GetSchoolsWorkforce(ApiQuery? query = null);
 }

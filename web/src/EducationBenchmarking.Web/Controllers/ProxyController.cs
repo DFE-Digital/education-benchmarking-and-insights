@@ -52,6 +52,33 @@ public class ProxyController : Controller
     
     [HttpGet]
     [Produces("application/json")]
+    [Route("school/{urn}/workforce")]
+    public async Task<IActionResult> SchoolWorkforce(string urn)
+    {
+        using (_logger.BeginScope(new {urn}))
+        {
+            try
+            {
+                var comparatorSet = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
+                var query = new ApiQuery().Page(1, comparatorSet.TotalResults);
+                foreach (var school in comparatorSet.Results)
+                {
+                    query.AddIfNotNull("urns", school.Urn);
+                }
+                
+                var result = await _insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
+                return new JsonResult(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "An error getting school workforce: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpGet]
+    [Produces("application/json")]
     [Route("establishments/suggest")]
     public async Task<IActionResult> EstablishmentSuggest([FromQuery]string search, [FromQuery]string type, CancellationToken cancellation)
     {
