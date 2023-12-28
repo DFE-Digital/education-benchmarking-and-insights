@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const administrativeClericalBarData = {
         labels: labels,
@@ -42,19 +50,29 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
                               data={administrativeClericalBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="administrative-clerical-staff-costs"/>
+                              fileName="administrative-clerical-staff-costs"
+                              chartDimensions={chartDimensions}
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
                               data={auditorsCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="Auditors costs"/>
+                              fileName="Auditors costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other staff costs</h3>}
                               data={otherStaffCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="Other staff costs"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
-                              data={professionalServicesBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="profession-services-non-curriculum-costs"/>
+                              fileName="Other staff costs"
+                              selectedDimension={dimension}
+                />
+                <ChartWrapper
+                    heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
+                    data={professionalServicesBarData}
+                    chosenSchoolName={chosenSchoolName}
+                    fileName="profession-services-non-curriculum-costs"
+                    selectedDimension={dimension}
+                />
             </div>
         </div>
     )

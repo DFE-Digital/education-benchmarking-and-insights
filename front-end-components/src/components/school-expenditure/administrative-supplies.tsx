@@ -1,14 +1,21 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const administrativeSuppliesBarData = {
         labels: labels,
         data: schools.map(result => result.administrativeSuppliesCosts)
     }
-
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
@@ -27,7 +34,10 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
                               data={administrativeSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="administrative-supplies-non-eductional"/>
+                              fileName="administrative-supplies-non-eductional"
+                              chartDimensions={chartDimensions}
+                              selectedDimension={dimension}
+                />
             </div>
         </div>
     )

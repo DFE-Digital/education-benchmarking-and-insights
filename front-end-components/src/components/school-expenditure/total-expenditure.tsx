@@ -1,21 +1,30 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
+    const [dimension, setDimension] = useState(PoundsPerPupil)
 
     const barData = {
         labels: schools.map(result => result.name),
         data: schools.map(result => result.totalExpenditure)
     }
 
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     return (
-            <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
-                          data={barData}
-                          chosenSchoolName={chosenSchoolName}
-                          fileName="total-expenditure"
-            />
+        <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
+                      data={barData}
+                      chosenSchoolName={chosenSchoolName}
+                      fileName="total-expenditure"
+                      chartDimensions={chartDimensions}
+                      selectedDimension={dimension}
+        />
     )
 };
 
