@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const totalOtherCostsBarData = {
         labels: labels,
@@ -90,59 +98,92 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Total other costs</h3>}
                               data={totalOtherCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="total-otehr-costs"/>
+                              fileName="total-otehr-costs"
+                              chartDimensions={chartDimensions}
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
                               data={otherInsurancePremiumsCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="other-insurance-costs"/>
+                              fileName="other-insurance-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
                               data={directRevenueFinancingCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="direct-revenue-financing-costs"/>
+                              fileName="direct-revenue-financing-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Ground maintenance costs</h3>}
                               data={groundsMaintenanceCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="ground-maintenance-costs"/>
+                              fileName="ground-maintenance-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Indirect employee expenses</h3>}
                               data={indirectEmployeeExpensesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="indirect-employee-expenses"/>
+                              fileName="indirect-employee-expenses"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Interest charges for loan and bank</h3>}
                               data={interestChargesLoanBankBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="interest-charges-loan-bank"/>
+                              fileName="interest-charges-loan-bank"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
                               data={privateFinanceInitiativeChargesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="pfi-costs"/>
+                              fileName="pfi-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
                               data={rentRatesCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="rent-rates-cots"/>
+                              fileName="rent-rates-cots"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Special facilities costs</h3>}
                               data={specialFacilitiesCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="special-facilities-costs"/>
+                              fileName="special-facilities-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Staff development and training costs</h3>}
                               data={staffDevelopmentTrainingCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="staff-development-training-costs"/>
+                              fileName="staff-development-training-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Staff-related insurance costs</h3>}
                               data={staffRelatedInsuranceCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="staff-related-insurance-costs"/>
+                              fileName="staff-related-insurance-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teacher insurance costs</h3>}
                               data={supplyTeacherInsurableCostsBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="supply-teacher-insurance-costs"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools only)</h3>}
-                              data={communityFocusedSchoolStaffBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="community-focused-staff"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools only)</h3>}
-                              data={communityFocusedSchoolCostsBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="community-focused-costs"/>
+                              fileName="supply-teacher-insurance-costs"
+                              selectedDimension={dimension}
+                />
+                <ChartWrapper
+                    heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools
+                        only)</h3>}
+                    data={communityFocusedSchoolStaffBarData}
+                    chosenSchoolName={chosenSchoolName}
+                    fileName="community-focused-staff"
+                    selectedDimension={dimension}
+                />
+                <ChartWrapper
+                    heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools
+                        only)</h3>}
+                    data={communityFocusedSchoolCostsBarData}
+                    chosenSchoolName={chosenSchoolName}
+                    fileName="community-focused-costs"
+                    selectedDimension={dimension}
+                />
             </div>
         </div>
     )

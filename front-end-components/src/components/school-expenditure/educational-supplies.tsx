@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const examinationFeesBarData = {
         labels: labels,
@@ -18,7 +26,6 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
         labels: labels,
         data: schools.map(result => result.learningResourcesNonIctCosts)
     }
-
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
@@ -36,15 +43,23 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
                               data={examinationFeesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="examination-fees-costs"/>
+                              fileName="examination-fees-costs"
+                              chartDimensions={chartDimensions}
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
                               data={breakdownEducationalBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="breakdown-eductional-supplies-costs"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
-                              data={learningResourcesBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="learning-resource-not-ict-costs"/>
+                              fileName="breakdown-eductional-supplies-costs"
+                              selectedDimension={dimension}
+                />
+                <ChartWrapper
+                    heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
+                    data={learningResourcesBarData}
+                    chosenSchoolName={chosenSchoolName}
+                    fileName="learning-resource-not-ict-costs"
+                    selectedDimension={dimension}
+                />
             </div>
         </div>
     )

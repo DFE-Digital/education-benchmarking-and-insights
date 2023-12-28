@@ -1,8 +1,16 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
+    }
+
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const netCateringBarData = {
         labels: labels,
@@ -41,19 +49,28 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schoo
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
                               data={netCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="net-catering-costs"/>
+                              fileName="net-catering-costs"
+                              chartDimensions={chartDimensions}
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
                               data={cateringStaffBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="catering-staff-costs"/>
+                              fileName="catering-staff-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
                               data={cateringSuppliesBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="catering-supplies-costs"/>
+                              fileName="catering-supplies-costs"
+                              selectedDimension={dimension}
+                />
                 <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
                               data={incomeCateringBarData}
                               chosenSchoolName={chosenSchoolName}
-                              fileName="income-from-catering"/>
+                              fileName="income-from-catering"
+                              selectedDimension={dimension}
+                />
             </div>
         </div>
     )

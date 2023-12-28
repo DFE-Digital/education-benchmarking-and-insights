@@ -2,6 +2,7 @@ import React, {useRef} from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions } from 'chart.js';
 import './horizontal-bar-chart.css';
+import {ChartDimensions} from "../../chart-dimensions";
 
 ChartJS.register(
     CategoryScale,
@@ -39,7 +40,8 @@ const underLinePlugin = {
     }
 };
 
-const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel, heading, fileName}) => {
+const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
+    const {data, chosenSchool, xLabel, heading, fileName, chartDimensions} = props
     const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
     const barBackgroundColors = data.labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
@@ -122,9 +124,22 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     {heading}
+                    {chartDimensions && chartDimensions.dimensions.length > 0 &&
+                        <div className="govuk-form-group">
+                            <label className="govuk-label" htmlFor="dimension">
+                                View graph as
+                            </label>
+                            <select className="govuk-select" id="dimension" name="dimension" onChange={chartDimensions.handleChange}>
+                                {chartDimensions.dimensions.map((dimension, idx) => {
+                                    return <option key={idx} value={dimension}>{dimension}</option>;
+                                })}
+                            </select>
+                        </div>
+                    }
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button" onClick={handleSaveClick}>
+                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button"
+                            onClick={handleSaveClick}>
                         Save as image
                     </button>
                 </div>
@@ -145,14 +160,15 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
 export default HorizontalBarChart;
 
 export type BarData = {
-    labels: string[];
-    data: number[];
+    labels: string[]
+    data: number[]
 }
 
 export type BarChartProps = {
-    data: BarData;
-    chosenSchool: string;
-    xLabel: string;
+    data: BarData
+    chosenSchool: string
+    xLabel: string
     heading: React.ReactNode
     fileName: string
+    chartDimensions?: ChartDimensions
 }

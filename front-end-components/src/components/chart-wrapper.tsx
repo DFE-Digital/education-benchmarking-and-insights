@@ -1,15 +1,17 @@
-import React, { useContext } from "react";
+import React, {useContext} from "react";
 import HorizontalBarChart, {BarData} from "./horizontal-bar-chart/horizontal-bar-chart";
 import {ChartMode, ChartModeContext} from "../chart-more";
+import {ChartDimensions} from "../chart-dimensions";
 
-const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, data, fileName}) => {
+const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
+    const {heading, chosenSchoolName, data, fileName, chartDimensions, selectedDimension} = props
     const mode = useContext(ChartModeContext);
 
-    const renderView = (displayMode : ChartMode) => {
+    const renderView = (displayMode: ChartMode) => {
         switch (displayMode) {
             case ChartMode.CHART:
-                return <HorizontalBarChart data={data} chosenSchool={chosenSchoolName} xLabel='per pupil'
-                                           heading={heading} fileName={fileName}/>
+                return <HorizontalBarChart data={data} chosenSchool={chosenSchoolName} xLabel={selectedDimension}
+                                           heading={heading} fileName={fileName} chartDimensions={chartDimensions}/>
             case ChartMode.TABLE:
                 return <>
                     <div className="govuk-grid-row">
@@ -28,7 +30,6 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, d
         }
     }
 
-
     return (<>
             {renderView(mode)}
         </>
@@ -42,4 +43,6 @@ export type ChartWrapperProps = {
     chosenSchoolName: string
     data: BarData
     fileName: string
+    chartDimensions?: ChartDimensions
+    selectedDimension: string
 }
