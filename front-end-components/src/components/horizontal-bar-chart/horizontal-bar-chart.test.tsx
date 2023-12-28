@@ -2,7 +2,7 @@ import {render} from '@testing-library/react';
 import '@testing-library/jest-dom';
 import HorizontalBarChart from './horizontal-bar-chart';
 import {BarChartProps} from '../../types';
-import {ChartDimensionContext} from '../../contexts';
+import {ChartDimensionContext, SelectedSchoolContext} from '../../contexts';
 
 jest.mock('react-chartjs-2', () => ({
     Bar: (props: BarChartProps) => <div data-testid="mock-bar">{JSON.stringify(props)}</div>
@@ -14,30 +14,30 @@ describe('HBarChart Component', () => {
         {school: 'School B', urn: "2", value: 30},
         {school: 'School C', urn: "3", value: 40}
     ];
-    const mockChosenSchool = 'School B';
+    const mockChosenSchool = {urn:mockData[1].urn, name: mockData[1].school};
     const mockXLabel = 'Test X Label';
     const mockHeading = <h2>Some heading</h2>;
     const mockFileName = 'file-name';
 
     it('renders without crashing', () => {
-        const {container} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {container} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         expect(container).toBeInTheDocument();
     });
 
     it('displays correct xLabel', () => {
-        const {getByTestId} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.options.scales.x.title.text).toBe(mockXLabel);
     });
 
     it('passes correct data to the chart', () => {
-        const {getByTestId} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.data).toEqual({
             labels: mockData.map(data => data.school),
@@ -50,18 +50,18 @@ describe('HBarChart Component', () => {
     });
 
     it('highlights the chosen school correctly', () => {
-        const {getByTestId} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
-        const chosenSchoolIndex = mockData.findIndex(data => data.school === mockChosenSchool);
+        const chosenSchoolIndex = mockData.findIndex(data => data.school === mockChosenSchool.name);
         expect(barProps.data.datasets[0].backgroundColor[chosenSchoolIndex]).toBe('#12436D');
     });
 
     it('sets correct chart options', () => {
-        const {getByTestId} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         // Main options
         expect(barProps.options.maintainAspectRatio).toBe(false);
@@ -93,9 +93,9 @@ describe('HBarChart Component', () => {
 
 
     it('includes custom underline plugin', () => {
-        const {getByTestId} = render(<ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            heading={mockHeading} data={mockData} chosenSchool={mockChosenSchool}
-            fileName={mockFileName}/></ChartDimensionContext.Provider>);
+        const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
+            heading={mockHeading} data={mockData}
+            fileName={mockFileName}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.plugins).toEqual(expect.arrayContaining([{id: 'underline'}]));
     });

@@ -8,7 +8,6 @@ export type CompareYourSchoolViewProps = {
 
 export type ChartWrapperProps = {
     heading: React.ReactNode
-    chosenSchoolName: string
     data: ChartWrapperData
     fileName: string
     chartDimensions?: ChartDimensions
@@ -16,7 +15,6 @@ export type ChartWrapperProps = {
 
 export type BarChartProps = {
     data: BarDataPoint[]
-    chosenSchool: string
     heading: React.ReactNode
     fileName: string
     chartDimensions?: ChartDimensions
@@ -54,6 +52,11 @@ export type PremisesValue = {
     value: number
 }
 
+export type SelectedSchool = {
+    urn: string
+    name: string
+}
+
 type BarDataPoint = {
     school: string
     urn: string
@@ -66,3 +69,4 @@ type ChartDataPoint = {
     value: number
     additionalData?: (string | bigint)[]
 }
+

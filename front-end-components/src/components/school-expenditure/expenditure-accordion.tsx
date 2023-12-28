@@ -10,21 +10,21 @@ import PremisesStaffServices from "./premises-staff-services";
 import OtherCosts from "./other-costs";
 import Utilities from "./utilities";
 
-const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({urn, schools}) => {
+const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({schools}) => {
 
     return (
         <div className="govuk-grid-row">
             <div className="govuk-grid-column-full">
                 <div className="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-                    <TeachingSupportStaff urn={urn} schools={schools}/>
-                    <NonEducationalSupportStaff urn={urn} schools={schools}/>
-                    <EducationalSupplies urn={urn} schools={schools}/>
-                    <EducationalIct urn={urn} schools={schools}/>
-                    <PremisesStaffServices urn={urn} schools={schools}/>
+                    <TeachingSupportStaff schools={schools}/>
+                    <NonEducationalSupportStaff schools={schools}/>
+                    <EducationalSupplies schools={schools}/>
+                    <EducationalIct schools={schools}/>
+                    <PremisesStaffServices schools={schools}/>
                     <Utilities/>
-                    <AdministrativeSupplies urn={urn} schools={schools}/>
-                    <CateringStaffServices urn={urn} schools={schools}/>
-                    <OtherCosts urn={urn} schools={schools}/>
+                    <AdministrativeSupplies schools={schools}/>
+                    <CateringStaffServices schools={schools}/>
+                    <OtherCosts schools={schools}/>
                 </div>
             </div>
         </div>
@@ -34,6 +34,5 @@ const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({urn, schools
 export default ExpenditureAccordion
 
 export type ExpenditureAccordionProps = {
-    urn: string
     schools: SchoolExpenditure[]
 }

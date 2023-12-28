@@ -6,14 +6,13 @@ import {ChartModeContext} from "../contexts";
 import {ChartWrapperProps} from "../types";
 
 const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
-    const {heading, chosenSchoolName, fileName, chartDimensions, data} = props
+    const {heading, fileName, chartDimensions, data} = props
     const mode = useContext(ChartModeContext);
 
     const renderView = (displayMode: ChartMode) => {
         switch (displayMode) {
             case ChartMode.CHART:
                 return <HorizontalBarChart data={data.dataPoints}
-                                           chosenSchool={chosenSchoolName}
                                            heading={heading}
                                            fileName={fileName}
                                            chartDimensions={chartDimensions}

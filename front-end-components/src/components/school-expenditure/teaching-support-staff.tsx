@@ -4,7 +4,7 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools}) => {
+const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -110,8 +110,6 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
         tableHeadings: tableHeadings
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
-
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <div className="govuk-accordion__section">
@@ -127,33 +125,27 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>}
                         data={totalTeachingBarData}
-                        chosenSchoolName={chosenSchoolName}
                         fileName="total-teaching-support-staff-cost"
                         chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching staff costs</h3>}
                                   data={teachingStaffBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="teaching-staff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teaching staff costs</h3>}
                                   data={supplyTeachingBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="supply-teaching-staff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational consultancy costs</h3>}
                                   data={educationalConsultancyBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="educational-consultancy-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational support staff costs</h3>}
                                   data={educationSupportStaffBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="education-support-stff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>}
                                   data={agencySupplyBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="agency-supply-teaching-staff-costs"
                     />
                 </div>
@@ -165,7 +157,6 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
 export default TeachingSupportStaff
 
 export type TeachingSupportStaffProps = {
-    urn: string
     schools: TeachingSupportStaffData[]
 }
 

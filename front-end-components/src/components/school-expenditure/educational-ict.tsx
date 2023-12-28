@@ -4,7 +4,7 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools}) => {
+const EducationalIct: React.FC<EducationalIctProps> = ({ schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -30,8 +30,6 @@ const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools}) => {
         tableHeadings: tableHeadings
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
-
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <div className="govuk-accordion__section">
@@ -46,7 +44,6 @@ const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools}) => {
                      aria-labelledby="accordion-heading-educational-ict">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational learning resources costs</h3>}
                                   data={learningResourcesBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="eductional-learning-resources-costs"
                                   chartDimensions={chartDimensions}
                     />
@@ -59,7 +56,6 @@ const EducationalIct: React.FC<EducationalIctProps> = ({urn, schools}) => {
 export default EducationalIct
 
 export type EducationalIctProps = {
-    urn: string
     schools: EducationalIctData[]
 }
 

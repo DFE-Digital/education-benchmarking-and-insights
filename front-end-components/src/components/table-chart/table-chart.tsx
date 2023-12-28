@@ -1,10 +1,11 @@
 import React, {useContext} from "react";
 import {TableChartProps} from "../../types";
-import {ChartDimensionContext} from "../../contexts";
+import {ChartDimensionContext, SelectedSchoolContext} from "../../contexts";
 
 const TableChart: React.FC<TableChartProps> = (props) => {
     const {heading, tableHeadings, chartDimensions, data} = props;
     const dimension = useContext(ChartDimensionContext);
+    const selectedSchool = useContext(SelectedSchoolContext);
 
     return (
         <div className="govuk-grid-row">
@@ -35,8 +36,20 @@ const TableChart: React.FC<TableChartProps> = (props) => {
                     {data && data.map((row) => {
                         return <tr className="govuk-table__row">
                             <td className="govuk-table__cell">
-                                <a className="govuk-link govuk-link--no-visited-state"
-                                   href={`/school/${row.urn}`}>{row.school}</a>
+                                {
+                                    selectedSchool.urn == row.urn ?
+                                        <strong>
+                                            <a className="govuk-link govuk-link--no-visited-state"
+                                               href={`/school/${row.urn}`}>
+                                                {row.school}
+                                            </a>
+                                        </strong> :
+                                        <a className="govuk-link govuk-link--no-visited-state"
+                                           href={`/school/${row.urn}`}>
+                                            {row.school}
+                                        </a>
+                                }
+
                             </td>
                             {row.additionalData && row.additionalData.map((data) => {
                                 return <td className="govuk-table__cell">{String(data)}</td>

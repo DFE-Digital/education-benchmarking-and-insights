@@ -4,7 +4,7 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
+const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -238,8 +238,6 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
         tableHeadings: tableHeadings
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
-
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <div className="govuk-accordion__section">
@@ -254,77 +252,63 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
                      aria-labelledby="accordion-heading-other-cost">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Total other costs</h3>}
                                   data={totalOtherCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="total-otehr-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
                                   data={otherInsurancePremiumsCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="other-insurance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
                                   data={directRevenueFinancingCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="direct-revenue-financing-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Ground maintenance costs</h3>}
                                   data={groundsMaintenanceCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="ground-maintenance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Indirect employee expenses</h3>}
                                   data={indirectEmployeeExpensesBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="indirect-employee-expenses"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Interest charges for loan and bank</h3>}
                                   data={interestChargesLoanBankBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="interest-charges-loan-bank"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
                                   data={privateFinanceInitiativeChargesBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="pfi-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
                                   data={rentRatesCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="rent-rates-cots"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Special facilities costs</h3>}
                                   data={specialFacilitiesCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="special-facilities-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Staff development and training costs</h3>}
                                   data={staffDevelopmentTrainingCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="staff-development-training-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Staff-related insurance costs</h3>}
                                   data={staffRelatedInsuranceCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="staff-related-insurance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teacher insurance costs</h3>}
                                   data={supplyTeacherInsurableCostsBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="supply-teacher-insurance-costs"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools
                             only)</h3>}
                         data={communityFocusedSchoolStaffBarData}
-                        chosenSchoolName={chosenSchoolName}
                         fileName="community-focused-staff"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools
                             only)</h3>}
                         data={communityFocusedSchoolCostsBarData}
-                        chosenSchoolName={chosenSchoolName}
                         fileName="community-focused-costs"
                     />
                 </div>
@@ -336,7 +320,6 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
 export default OtherCosts
 
 export type OtherCostsProps = {
-    urn: string
     schools: OtherCostsData[]
 }
 

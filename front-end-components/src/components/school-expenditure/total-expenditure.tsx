@@ -4,7 +4,8 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
+const TotalExpenditure: React.FC<TotalExpenditureProps> = ({ schools}) => {
+
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -28,14 +29,13 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
         setDimension(event.target.value)
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
+
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
                           data={chartData}
-                          chosenSchoolName={chosenSchoolName}
                           fileName="total-expenditure"
                           chartDimensions={chartDimensions}
             />
@@ -46,7 +46,6 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
 export default TotalExpenditure
 
 export type TotalExpenditureProps = {
-    urn: string
     schools: TotalExpenditureData[]
 }
 

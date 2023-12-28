@@ -4,7 +4,7 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools}) => {
+const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -30,8 +30,6 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
         tableHeadings: tableHeadings
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
-
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <div className="govuk-accordion__section">
@@ -48,7 +46,6 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
                         data={administrativeSuppliesBarData}
-                        chosenSchoolName={chosenSchoolName}
                         fileName="administrative-supplies-non-eductional"
                         chartDimensions={chartDimensions}
                     />
@@ -61,7 +58,6 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
 export default AdministrativeSupplies
 
 export type AdministrativeSuppliesProps = {
-    urn: string
     schools: AdministrativeSuppliesData[]
 }
 

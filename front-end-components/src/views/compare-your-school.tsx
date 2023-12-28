@@ -3,8 +3,8 @@ import TotalExpenditure from "../components/school-expenditure/total-expenditure
 import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion";
 import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
 import {ChartMode, oppositeMode} from "../chart-mode";
-import {CompareYourSchoolViewProps} from "../types";
-import {ChartModeContext} from '../contexts';
+import {CompareYourSchoolViewProps, SelectedSchool} from "../types";
+import {ChartModeContext, SelectedSchoolContext} from '../contexts';
 
 // @ts-ignore
 import {initAll} from 'govuk-frontend'
@@ -14,6 +14,7 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
     const {urn, academyYear, maintainedYear} = props
     const [expenditureData, setExpenditureData] = useState<ExpenditureResult>();
     const [displayMode, setDisplayMode] = useState<ChartMode>(ChartMode.CHART);
+    const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({urn: "", name:""});
 
     useLayoutEffect(() => {
         initAll();
@@ -24,7 +25,14 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
     }, [urn])
 
     useEffect(() => {
-        getExpenditure().then(setExpenditureData)
+        getExpenditure().then((data) => {
+            setExpenditureData(data)
+
+            const currentSchool = data.results.find(school => school.urn == urn);
+            if(currentSchool) {
+                setSelectedSchool({urn: currentSchool.urn, name: currentSchool.name})
+            }
+        })
     }, [getExpenditure])
 
 
@@ -33,7 +41,7 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
     }
 
     return (
-        <>
+        <SelectedSchoolContext.Provider value={selectedSchool}>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     <p className="govuk-body">
@@ -78,12 +86,10 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
                 </div>
             </div>
             <ChartModeContext.Provider value={displayMode}>
-                <TotalExpenditure urn={urn}
-                                  schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
-                <ExpenditureAccordion urn={urn}
-                                      schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                <TotalExpenditure schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                <ExpenditureAccordion schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
             </ChartModeContext.Provider>
-        </>
+        </SelectedSchoolContext.Provider>
     )
 };
 

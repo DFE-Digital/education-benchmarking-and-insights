@@ -2,7 +2,7 @@ import React, {useContext, useRef} from 'react';
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
 import './horizontal-bar-chart.css';
-import {ChartDimensionContext} from '../../contexts';
+import {ChartDimensionContext, SelectedSchoolContext} from '../../contexts';
 import {BarChartProps} from '../../types';
 
 ChartJS.register(
@@ -42,12 +42,13 @@ const underLinePlugin = {
 };
 
 const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
-    const {data, chosenSchool, heading, fileName, chartDimensions} = props;
+    const {data, heading, fileName, chartDimensions} = props;
     const labels = data.map(dataPoint => dataPoint.school);
     const values = data.map(dataPoint => dataPoint.value);
+    const selectedSchool = useContext(SelectedSchoolContext);
     const xLabel = useContext(ChartDimensionContext);
 
-    const chosenSchoolIndex = chosenSchool ? labels.indexOf(chosenSchool) : 0;
+    const chosenSchoolIndex = selectedSchool ? labels.indexOf(selectedSchool.name) : 0;
     const barBackgroundColors = labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
     );
@@ -105,7 +106,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                         const label = context.tick.label;
                         const weight = labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
                         return {
-                            weight: weight,
+                            weight: weight
                         };
                     }
                 }

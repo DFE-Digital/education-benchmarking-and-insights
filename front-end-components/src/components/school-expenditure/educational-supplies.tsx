@@ -4,7 +4,7 @@ import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} fr
 import {ChartDimensionContext} from "../../contexts";
 import {ChartWrapperData} from "../../types";
 
-const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools}) => {
+const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
@@ -62,8 +62,6 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
         tableHeadings: tableHeadings
     }
 
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
-
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <div className="govuk-accordion__section">
@@ -78,19 +76,16 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
                      aria-labelledby="accordion-heading-educational-supplies">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
                                   data={examinationFeesBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="examination-fees-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
                                   data={breakdownEducationalBarData}
-                                  chosenSchoolName={chosenSchoolName}
                                   fileName="breakdown-eductional-supplies-costs"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
                         data={learningResourcesBarData}
-                        chosenSchoolName={chosenSchoolName}
                         fileName="learning-resource-not-ict-costs"
                     />
                 </div>
@@ -102,7 +97,6 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
 export default EducationalSupplies
 
 export type EducationalSuppliesProps = {
-    urn: string
     schools: EducationalSuppliesData[]
 }
 
