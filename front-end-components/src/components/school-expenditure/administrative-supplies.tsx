@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,7 +14,11 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
 
     const administrativeSuppliesBarData = {
         labels: labels,
-        data: schools.map(result => result.administrativeSuppliesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.administrativeSuppliesCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';

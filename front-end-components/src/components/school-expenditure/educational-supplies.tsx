@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,17 +14,29 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools})
 
     const examinationFeesBarData = {
         labels: labels,
-        data: schools.map(result => result.examinationFeesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.examinationFeesCosts,
+            ...result
+        }))
     }
 
     const breakdownEducationalBarData = {
         labels: labels,
-        data: schools.map(result => result.breakdownEducationalSuppliesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.breakdownEducationalSuppliesCosts,
+            ...result
+        }))
     }
 
     const learningResourcesBarData = {
         labels: labels,
-        data: schools.map(result => result.learningResourcesNonIctCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.learningResourcesNonIctCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';

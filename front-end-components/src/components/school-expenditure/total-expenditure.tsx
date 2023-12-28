@@ -1,13 +1,17 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
 
     const barData = {
         labels: schools.map(result => result.name),
-        data: schools.map(result => result.totalExpenditure)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.totalExpenditure,
+            ...result
+        }))
     }
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {

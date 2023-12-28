@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,32 +14,56 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({urn, schools
 
     const totalTeachingBarData = {
         labels: labels,
-        data: schools.map(result => result.totalTeachingSupportStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.totalTeachingSupportStaffCosts,
+            ...result
+        }))
     }
 
     const teachingStaffBarData = {
         labels: labels,
-        data: schools.map(result => result.teachingStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.teachingStaffCosts,
+            ...result
+        }))
     }
 
     const supplyTeachingBarData = {
         labels: labels,
-        data: schools.map(result => result.supplyTeachingStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.supplyTeachingStaffCosts,
+            ...result
+        }))
     }
 
     const educationalConsultancyBarData = {
         labels: labels,
-        data: schools.map(result => result.educationalConsultancyCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.educationalConsultancyCosts,
+            ...result
+        }))
     }
 
     const educationSupportStaffBarData = {
         labels: labels,
-        data: schools.map(result => result.educationSupportStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.educationSupportStaffCosts,
+            ...result
+        }))
     }
 
     const agencySupplyBarData = {
         labels: labels,
-        data: schools.map(result => result.agencySupplyTeachingStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.agencySupplyTeachingStaffCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';

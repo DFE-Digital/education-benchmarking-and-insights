@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,22 +14,38 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
 
     const administrativeClericalBarData = {
         labels: labels,
-        data: schools.map(result => result.administrativeClericalStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.administrativeClericalStaffCosts,
+            ...result
+        }))
     }
 
     const auditorsCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.auditorsCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.auditorsCosts,
+            ...result
+        }))
     }
 
     const otherStaffCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.otherStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.otherStaffCosts,
+            ...result
+        }))
     }
 
     const professionalServicesBarData = {
         labels: labels,
-        data: schools.map(result => result.professionalServicesNonCurriculumCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.professionalServicesNonCurriculumCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
