@@ -1,17 +1,27 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} from "../../chart-dimensions";
+import {ChartDimensionContext} from "../../contexts";
+import {ChartWrapperData} from "../../types";
 
 const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
     const [dimension, setDimension] = useState(PoundsPerPupil)
+    const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
-    const barData = {
-        labels: schools.map(result => result.name),
-        data: schools.map(result => CalculateCostValue({
-            dimension: dimension,
-            value: result.totalExpenditure,
-            ...result
-        }))
+    const chartData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.totalExpenditure,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
@@ -22,13 +32,14 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({urn, schools}) => {
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     return (
-        <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
-                      data={barData}
-                      chosenSchoolName={chosenSchoolName}
-                      fileName="total-expenditure"
-                      chartDimensions={chartDimensions}
-                      selectedDimension={dimension}
-        />
+        <ChartDimensionContext.Provider value={dimension}>
+            <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
+                          data={chartData}
+                          chosenSchoolName={chosenSchoolName}
+                          fileName="total-expenditure"
+                          chartDimensions={chartDimensions}
+            />
+        </ChartDimensionContext.Provider>
     )
 };
 

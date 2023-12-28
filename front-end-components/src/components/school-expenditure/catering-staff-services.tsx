@@ -1,10 +1,12 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} from "../../chart-dimensions";
+import {ChartDimensionContext} from "../../contexts";
+import {ChartWrapperData} from "../../types";
 
 const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools}) => {
-    const labels = schools.map(result => result.name)
     const [dimension, setDimension] = useState(PoundsPerPupil)
+    const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
@@ -12,83 +14,109 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schoo
 
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
-    const netCateringBarData = {
-        labels: labels,
-        data: schools.map(result => CalculateCostValue({
-            dimension: dimension,
-            value: result.netCateringCosts,
-            ...result
-        }))
+    const netCateringBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.netCateringCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const cateringStaffBarData = {
-        labels: labels,
-        data: schools.map(result => CalculateCostValue({
-            dimension: dimension,
-            value: result.cateringStaffCosts,
-            ...result
-        }))
+    const cateringStaffBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.cateringStaffCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const cateringSuppliesBarData = {
-        labels: labels,
-        data: schools.map(result => CalculateCostValue({
-            dimension: dimension,
-            value: result.cateringSuppliesCosts,
-            ...result
-        }))
+    const cateringSuppliesBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.cateringSuppliesCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const incomeCateringBarData = {
-        labels: labels,
-        data: schools.map(result => CalculateCostValue({
-            dimension: dimension,
-            value: result.incomeCatering,
-            ...result
-        }))
+    const incomeCateringBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.incomeCatering,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-                <h2 className="govuk-accordion__section-heading">
+        <ChartDimensionContext.Provider value={dimension}>
+            <div className="govuk-accordion__section">
+                <div className="govuk-accordion__section-header">
+                    <h2 className="govuk-accordion__section-heading">
                         <span className="govuk-accordion__section-button"
                               id="accordion-heading-catering-staff-services">
                             Catering staff and services
                         </span>
-                </h2>
+                    </h2>
+                </div>
+                <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
+                     aria-labelledby="accordion-heading-catering-staff-services">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
+                                  data={netCateringBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="net-catering-costs"
+                                  chartDimensions={chartDimensions}
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
+                                  data={cateringStaffBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="catering-staff-costs"
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
+                                  data={cateringSuppliesBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="catering-supplies-costs"
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
+                                  data={incomeCateringBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="income-from-catering"
+                    />
+                </div>
             </div>
-            <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
-                 aria-labelledby="accordion-heading-catering-staff-services">
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
-                              data={netCateringBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="net-catering-costs"
-                              chartDimensions={chartDimensions}
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
-                              data={cateringStaffBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="catering-staff-costs"
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
-                              data={cateringSuppliesBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="catering-supplies-costs"
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
-                              data={incomeCateringBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="income-from-catering"
-                              selectedDimension={dimension}
-                />
-            </div>
-        </div>
+        </ChartDimensionContext.Provider>
     )
 };
 

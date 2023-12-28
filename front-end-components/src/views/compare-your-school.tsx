@@ -2,18 +2,16 @@ import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import TotalExpenditure from "../components/school-expenditure/total-expenditure";
 import ExpenditureAccordion from "../components/school-expenditure/expenditure-accordion";
 import SchoolApi, {ExpenditureResult, SchoolExpenditure} from "../services/school-api";
-import {ChartMode, ChartModeContext, oppositeMode} from "../chart-more";
+import {ChartMode, oppositeMode} from "../chart-mode";
+import {CompareYourSchoolViewProps} from "../types";
+import {ChartModeContext} from '../contexts';
 
 // @ts-ignore
 import {initAll} from 'govuk-frontend'
 
-type CompareYourSchoolViewProps = {
-    urn: string
-    academyYear: string
-    maintainedYear: string
-};
 
-const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYear, maintainedYear}) => {
+const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
+    const {urn, academyYear, maintainedYear} = props
     const [expenditureData, setExpenditureData] = useState<ExpenditureResult>();
     const [displayMode, setDisplayMode] = useState<ChartMode>(ChartMode.CHART);
 
@@ -52,7 +50,8 @@ const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = ({urn, academyYe
                                     View as
                                 </h2>
                             </legend>
-                            <div className="govuk-radios govuk-radios--small govuk-radios--inline" data-module="govuk-radios">
+                            <div className="govuk-radios govuk-radios--small govuk-radios--inline"
+                                 data-module="govuk-radios">
                                 <div className="govuk-radios__item">
                                     <input className="govuk-radios__input" id="mode-chart" name="changedChartMode"
                                            type="radio" value={ChartMode.CHART}

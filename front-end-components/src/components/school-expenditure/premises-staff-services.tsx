@@ -1,10 +1,17 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CalculatePremisesValue, PoundsPerMetreSq, PremisesCategories} from "../../chart-dimensions";
+import {
+    CalculatePremisesValue,
+    DimensionHeading,
+    PoundsPerMetreSq,
+    PremisesCategories
+} from "../../chart-dimensions";
+import {ChartDimensionContext} from "../../contexts";
+import {ChartWrapperData} from "../../types";
 
 const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schools}) => {
-    const labels = schools.map(result => result.name)
     const [dimension, setDimension] = useState(PoundsPerMetreSq)
+    const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
@@ -12,83 +19,109 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schoo
 
     const chartDimensions = {dimensions: PremisesCategories, handleChange: handleSelectChange}
 
-    const cleaningCaretakingBarData = {
-        labels: labels,
-        data: schools.map(result => CalculatePremisesValue({
-            dimension: dimension,
-            value: result.cleaningCaretakingCosts,
-            ...result
-        }))
+    const cleaningCaretakingBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculatePremisesValue({
+                    dimension: dimension,
+                    value: school.cleaningCaretakingCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const maintenanceBarData = {
-        labels: labels,
-        data: schools.map(result => CalculatePremisesValue({
-            dimension: dimension,
-            value: result.maintenancePremisesCosts,
-            ...result
-        }))
+    const maintenanceBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculatePremisesValue({
+                    dimension: dimension,
+                    value: school.maintenancePremisesCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const otherOccupationBarData = {
-        labels: labels,
-        data: schools.map(result => CalculatePremisesValue({
-            dimension: dimension,
-            value: result.otherOccupationCosts,
-            ...result
-        }))
+    const otherOccupationBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculatePremisesValue({
+                    dimension: dimension,
+                    value: school.otherOccupationCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const premisesStaffBarData = {
-        labels: labels,
-        data: schools.map(result => CalculatePremisesValue({
-            dimension: dimension,
-            value: result.premisesStaffCosts,
-            ...result
-        }))
+    const premisesStaffBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculatePremisesValue({
+                    dimension: dimension,
+                    value: school.premisesStaffCosts,
+                    ...school
+                }),
+                additionalData: ["", "", school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (
-        <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-                <h2 className="govuk-accordion__section-heading">
+        <ChartDimensionContext.Provider value={dimension}>
+            <div className="govuk-accordion__section">
+                <div className="govuk-accordion__section-header">
+                    <h2 className="govuk-accordion__section-heading">
                         <span className="govuk-accordion__section-button"
                               id="accordion-heading-premises-staff-services">
                             Premises staff and services
                         </span>
-                </h2>
+                    </h2>
+                </div>
+                <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
+                     aria-labelledby="accordion-heading-premises-staff-services">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
+                                  data={cleaningCaretakingBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="cleaning-caretaking-costs"
+                                  chartDimensions={chartDimensions}
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
+                                  data={maintenanceBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="maintenance-premises-costs"
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Other occupation costs</h3>}
+                                  data={otherOccupationBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="other-occupation-costs"
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Premises staff costs</h3>}
+                                  data={premisesStaffBarData}
+                                  chosenSchoolName={chosenSchoolName}
+                                  fileName="premises staff costs"
+                    />
+                </div>
             </div>
-            <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
-                 aria-labelledby="accordion-heading-premises-staff-services">
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
-                              data={cleaningCaretakingBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="cleaning-caretaking-costs"
-                              chartDimensions={chartDimensions}
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
-                              data={maintenanceBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="maintenance-premises-costs"
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Other occupation costs</h3>}
-                              data={otherOccupationBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="other-occupation-costs"
-                              selectedDimension={dimension}
-                />
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Premises staff costs</h3>}
-                              data={premisesStaffBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="premises staff costs"
-                              selectedDimension={dimension}
-                />
-            </div>
-        </div>
+        </ChartDimensionContext.Provider>
     )
 };
 
