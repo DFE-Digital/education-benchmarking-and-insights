@@ -1,8 +1,9 @@
-import React, {useRef} from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions } from 'chart.js';
+import React, {useContext, useRef} from 'react';
+import {Bar} from 'react-chartjs-2';
+import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
 import './horizontal-bar-chart.css';
-import {ChartDimensions} from "../../chart-dimensions";
+import {ChartDimensionContext} from '../../contexts';
+import {BarChartProps} from '../../types';
 
 ChartJS.register(
     CategoryScale,
@@ -41,23 +42,25 @@ const underLinePlugin = {
 };
 
 const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
-    const {data, chosenSchool, xLabel, heading, fileName, chartDimensions} = props
-    const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
-    const barBackgroundColors = data.labels.map((_, index) =>
+    const {data, chosenSchool, heading, fileName, chartDimensions} = props;
+    const labels = data.map(dataPoint => dataPoint.school);
+    const values = data.map(dataPoint => dataPoint.value);
+    const xLabel = useContext(ChartDimensionContext);
+
+    const chosenSchoolIndex = chosenSchool ? labels.indexOf(chosenSchool) : 0;
+    const barBackgroundColors = labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
     );
 
-
     const chartRef = useRef<ChartJS<'bar'>>(null);
 
-
     const datasets = [{
-        data: data.data,
+        data: values,
         backgroundColor: barBackgroundColors,
         barPercentage: 1.09,
     }];
 
-    const dataForChart = {datasets: datasets, labels: data.labels}
+    const dataForChart = {datasets: datasets, labels: labels}
 
     const options: ChartOptions<'bar'> = {
         maintainAspectRatio: false,
@@ -100,7 +103,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                     color: '#1D70B8',
                     font: (context) => {
                         const label = context.tick.label;
-                        const weight = data.labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
+                        const weight = labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
                         return {
                             weight: weight,
                         };
@@ -111,7 +114,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
     };
 
     function handleSaveClick() {
-        if(chartRef.current) {
+        if (chartRef.current) {
             const a = document.createElement('a');
             a.href = chartRef.current.toBase64Image();
             a.download = `${fileName}.png`;
@@ -129,7 +132,8 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                             <label className="govuk-label" htmlFor="dimension">
                                 View graph as
                             </label>
-                            <select className="govuk-select" id="dimension" name="dimension" onChange={chartDimensions.handleChange} defaultValue={xLabel}>
+                            <select className="govuk-select" id="dimension" name="dimension"
+                                    onChange={chartDimensions.handleChange} defaultValue={xLabel}>
                                 {chartDimensions.dimensions.map((dimension, idx) => {
                                     return <option key={idx} value={dimension}>{dimension}</option>;
                                 })}
@@ -144,7 +148,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                     </button>
                 </div>
             </div>
-            {data.labels.length > 0 &&
+            {labels.length > 0 &&
                 <div className="govuk-grid-row">
                     <div className="govuk-grid-column-full">
                         <div className="chart-container">
@@ -159,16 +163,3 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
 
 export default HorizontalBarChart;
 
-export type BarData = {
-    labels: string[]
-    data: number[]
-}
-
-export type BarChartProps = {
-    data: BarData
-    chosenSchool: string
-    xLabel: string
-    heading: React.ReactNode
-    fileName: string
-    chartDimensions?: ChartDimensions
-}
