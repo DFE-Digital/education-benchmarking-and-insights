@@ -13,3 +13,46 @@ export type ChartDimensions = {
     dimensions: string[]
     handleChange: React.ChangeEventHandler<HTMLSelectElement>
 }
+
+export type CostValue = {
+    dimension: string
+    totalExpenditure: number
+    totalIncome: number
+    numberOfPupils: bigint
+    value: number
+}
+
+export type PremisesValue = {
+    dimension: string
+    totalExpenditure: number
+    totalIncome: number
+    value: number
+}
+
+export function CalculateCostValue(costValue: CostValue): number {
+    switch (costValue.dimension) {
+        case PoundsPerPupil :
+            return costValue.value / Number(costValue.numberOfPupils)
+        case PercentageExpenditure :
+            return (costValue.value / costValue.totalExpenditure) * 100
+        case PercentageIncome :
+            return (costValue.value / costValue.totalIncome) * 100
+        case Actual :
+            return costValue.value
+        default:
+            return 0
+    }
+}
+
+export function CalculatePremisesValue(premisesValue: PremisesValue): number {
+    switch (premisesValue.dimension) {
+        case PercentageExpenditure :
+            return (premisesValue.value / premisesValue.totalExpenditure) * 100
+        case PercentageIncome :
+            return (premisesValue.value / premisesValue.totalIncome) * 100
+        case Actual :
+            return premisesValue.value
+        default:
+            return 0
+    }
+}

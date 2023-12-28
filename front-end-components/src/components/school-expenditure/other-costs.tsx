@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,72 +14,128 @@ const OtherCosts: React.FC<OtherCostsProps> = ({urn, schools}) => {
 
     const totalOtherCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.totalOtherCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.totalOtherCosts,
+            ...result
+        }))
     }
 
     const otherInsurancePremiumsCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.otherInsurancePremiumsCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.otherInsurancePremiumsCosts,
+            ...result
+        }))
     }
 
     const directRevenueFinancingCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.directRevenueFinancingCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.directRevenueFinancingCosts,
+            ...result
+        }))
     }
 
     const groundsMaintenanceCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.groundsMaintenanceCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.groundsMaintenanceCosts,
+            ...result
+        }))
     }
 
     const indirectEmployeeExpensesBarData = {
         labels: labels,
-        data: schools.map(result => result.indirectEmployeeExpenses)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.indirectEmployeeExpenses,
+            ...result
+        }))
     }
 
     const interestChargesLoanBankBarData = {
         labels: labels,
-        data: schools.map(result => result.interestChargesLoanBank)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.interestChargesLoanBank,
+            ...result
+        }))
     }
 
     const privateFinanceInitiativeChargesBarData = {
         labels: labels,
-        data: schools.map(result => result.privateFinanceInitiativeCharges)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.privateFinanceInitiativeCharges,
+            ...result
+        }))
     }
 
     const rentRatesCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.rentRatesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.rentRatesCosts,
+            ...result
+        }))
     }
 
     const specialFacilitiesCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.specialFacilitiesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.specialFacilitiesCosts,
+            ...result
+        }))
     }
 
     const staffDevelopmentTrainingCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.staffDevelopmentTrainingCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.staffDevelopmentTrainingCosts,
+            ...result
+        }))
     }
 
     const staffRelatedInsuranceCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.staffRelatedInsuranceCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.staffRelatedInsuranceCosts,
+            ...result
+        }))
     }
 
     const supplyTeacherInsurableCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.supplyTeacherInsurableCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.supplyTeacherInsurableCosts,
+            ...result
+        }))
     }
 
     const communityFocusedSchoolStaffBarData = {
         labels: labels,
-        data: schools.map(result => result.communityFocusedSchoolStaff)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.communityFocusedSchoolStaff,
+            ...result
+        }))
     }
 
     const communityFocusedSchoolCostsBarData = {
         labels: labels,
-        data: schools.map(result => result.communityFocusedSchoolCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.communityFocusedSchoolCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';

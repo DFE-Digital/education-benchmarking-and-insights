@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {PoundsPerMetreSq, PremisesCategories} from "../../chart-dimensions";
+import {CalculatePremisesValue, PoundsPerMetreSq, PremisesCategories} from "../../chart-dimensions";
 
 const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,22 +14,38 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schoo
 
     const cleaningCaretakingBarData = {
         labels: labels,
-        data: schools.map(result => result.cleaningCaretakingCosts)
+        data: schools.map(result => CalculatePremisesValue({
+            dimension: dimension,
+            value: result.cleaningCaretakingCosts,
+            ...result
+        }))
     }
 
     const maintenanceBarData = {
         labels: labels,
-        data: schools.map(result => result.maintenancePremisesCosts)
+        data: schools.map(result => CalculatePremisesValue({
+            dimension: dimension,
+            value: result.maintenancePremisesCosts,
+            ...result
+        }))
     }
 
     const otherOccupationBarData = {
         labels: labels,
-        data: schools.map(result => result.otherOccupationCosts)
+        data: schools.map(result => CalculatePremisesValue({
+            dimension: dimension,
+            value: result.otherOccupationCosts,
+            ...result
+        }))
     }
 
     const premisesStaffBarData = {
         labels: labels,
-        data: schools.map(result => result.premisesStaffCosts)
+        data: schools.map(result => CalculatePremisesValue({
+            dimension: dimension,
+            value: result.premisesStaffCosts,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';

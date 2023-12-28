@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CalculateCostValue, CostCategories, PoundsPerPupil} from "../../chart-dimensions";
 
 const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
@@ -14,22 +14,38 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({urn, schoo
 
     const netCateringBarData = {
         labels: labels,
-        data: schools.map(result => result.netCateringCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.netCateringCosts,
+            ...result
+        }))
     }
 
     const cateringStaffBarData = {
         labels: labels,
-        data: schools.map(result => result.cateringStaffCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.cateringStaffCosts,
+            ...result
+        }))
     }
 
     const cateringSuppliesBarData = {
         labels: labels,
-        data: schools.map(result => result.cateringSuppliesCosts)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.cateringSuppliesCosts,
+            ...result
+        }))
     }
 
     const incomeCateringBarData = {
         labels: labels,
-        data: schools.map(result => result.incomeCatering)
+        data: schools.map(result => CalculateCostValue({
+            dimension: dimension,
+            value: result.incomeCatering,
+            ...result
+        }))
     }
 
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
