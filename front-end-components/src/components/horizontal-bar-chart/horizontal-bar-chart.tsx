@@ -129,7 +129,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                             <label className="govuk-label" htmlFor="dimension">
                                 View graph as
                             </label>
-                            <select className="govuk-select" id="dimension" name="dimension" onChange={chartDimensions.handleChange}>
+                            <select className="govuk-select" id="dimension" name="dimension" onChange={chartDimensions.handleChange} defaultValue={xLabel}>
                                 {chartDimensions.dimensions.map((dimension, idx) => {
                                     return <option key={idx} value={dimension}>{dimension}</option>;
                                 })}
