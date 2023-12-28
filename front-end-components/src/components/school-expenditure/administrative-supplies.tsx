@@ -16,7 +16,7 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({urn, sch
         labels: labels,
         data: schools.map(result => result.administrativeSuppliesCosts)
     }
-    
+
     const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
 
     return (

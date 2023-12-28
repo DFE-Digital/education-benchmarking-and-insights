@@ -1,16 +1,16 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerPupil} from "../../chart-dimensions";
+import {CostCategories, PoundsPerMetreSq, PoundsPerPupil, PremisesCategories} from "../../chart-dimensions";
 
 const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
-    const [dimension, setDimension] = useState(PoundsPerPupil)
+    const [dimension, setDimension] = useState(PoundsPerMetreSq)
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
     }
 
-    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
+    const chartDimensions = {dimensions: PremisesCategories, handleChange: handleSelectChange}
 
     const cleaningCaretakingBarData = {
         labels: labels,
