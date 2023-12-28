@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
-import {CostCategories, PoundsPerMetreSq, PoundsPerPupil, PremisesCategories} from "../../chart-dimensions";
+import {PoundsPerMetreSq, PremisesCategories} from "../../chart-dimensions";
 
 const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({urn, schools}) => {
     const labels = schools.map(result => result.name)
