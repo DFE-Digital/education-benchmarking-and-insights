@@ -1,16 +1,17 @@
 using System.Threading.Tasks;
+using EducationBenchmarking.Platform.Api.Benchmark.Models;
 using EducationBenchmarking.Platform.Shared;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
-public interface ISchoolDb
+public interface IComparatorSetDb
 {
-    Task<ComparatorSet<School>> CreateSet(SchoolComparatorSetRequest body);
+    Task<ComparatorSet> CreateSet(ComparatorSetRequest body);
 }
 
-public class SchoolDb : ISchoolDb 
+public class ComparatorSetDb : IComparatorSetDb
 {
-    public async Task<ComparatorSet<School>> CreateSet(SchoolComparatorSetRequest body)
+    public async Task<ComparatorSet> CreateSet(ComparatorSetRequest body)
     {
         var schools = new School[]
         {
@@ -23,6 +24,6 @@ public class SchoolDb : ISchoolDb
             new() { Urn = "112267", Name = "Asby Endowed School", Kind ="Voluntary controlled school", FinanceType = "Maintained" }
         };
 
-        return await Task.FromResult(ComparatorSet<School>.Create(schools, includeResults: body.IncludeSet));
+        return await Task.FromResult(ComparatorSet.Create(schools, includeResults: body.IncludeSet));
     }
 }

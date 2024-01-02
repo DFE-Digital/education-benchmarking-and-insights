@@ -13,21 +13,25 @@ public interface ISchoolsDb
 {
     Task<PagedSchoolExpenditure> GetExpenditure(IEnumerable<string> urns, int page, int pageSize);
     Task<PagedSchoolWorkforce> GetWorkforce(IEnumerable<string> urns, int page, int pageSize);
+    Task<IEnumerable<Rating>> GetSchoolRatings(string phase, string term, string size, string fsm);
 }
 
 public class SchoolsDbOptions
 {
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
+    [Required] public string RatingCollectionName { get; set; }
 }
 
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
     private readonly ICollectionService _collectionService;
+    private readonly SchoolsDbOptions _options;
     
     public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService)
         : base(options.Value.ConnectionString, options.Value.DatabaseId)
     {
+        _options = options.Value;
         _collectionService = collectionService;
     }
     
@@ -45,6 +49,23 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         return PagedSchoolExpenditure.Create(finances, page, pageSize);
     }
 
+    public async Task<IEnumerable<Rating>> GetSchoolRatings(string phase, string term, string size, string fsm)
+    {
+        var ratings = await GetItemEnumerableAsync<SchoolRatingDataObject>(_options.RatingCollectionName,q => BuildRatingsQueryable(q, phase, term, size, fsm)).ToArrayAsync();
+
+        var groups = ratings.GroupBy(x => x.AssessmentArea);
+
+        return ratings.Select(x => new Rating
+        {
+            AssessmentArea = x.AssessmentArea,
+            Divisor = x.Divisor,
+            ScoreLow = x.ScoreLow,
+            ScoreHigh = x.ScoreHigh,
+            RatingText = x.RatingText,
+            RatingColour = x.RatingColour
+        });
+    }
+    
     private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(IEnumerable<string> urns)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
@@ -75,5 +96,15 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         }
 
         return finances;
+    }
+    
+    private static IQueryable<SchoolRatingDataObject> BuildRatingsQueryable(IQueryable<SchoolRatingDataObject> queryable, string phase, string term, string size, string fsm)
+    {
+        if (!string.IsNullOrEmpty(phase)) queryable = queryable.Where(x => x.OverallPhase == phase);
+        if (!string.IsNullOrEmpty(term)) queryable = queryable.Where(x => x.Term == term);
+        if (!string.IsNullOrEmpty(size)) queryable = queryable.Where(x => x.Size == size);
+        if (!string.IsNullOrEmpty(fsm)) queryable = queryable.Where(x => x.FSM == fsm);
+        
+        return queryable;
     }
 }

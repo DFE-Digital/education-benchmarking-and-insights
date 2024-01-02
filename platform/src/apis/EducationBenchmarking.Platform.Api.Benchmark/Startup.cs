@@ -1,8 +1,8 @@
 ﻿using System.Reflection;
 using EducationBenchmarking.Platform.Api.Benchmark;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
+using EducationBenchmarking.Platform.Api.Benchmark.Validators;
 using EducationBenchmarking.Platform.Shared;
-using EducationBenchmarking.Platform.Shared.Validators;
 using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
@@ -17,13 +17,14 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
-        
         builder.Services.AddHealthChecks();
         
-        builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
-        builder.Services.AddSingleton<ITrustDb, TrustDb>();
+        builder.Services.AddOptions<BandingDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         
-        builder.Services.AddTransient<IValidator<SchoolComparatorSetRequest>, SchoolComparatorSetRequestValidator>();
-        builder.Services.AddTransient<IValidator<TrustComparatorSetRequest>, TrustComparatorSetRequestValidator>();
+        builder.Services.AddSingleton<IComparatorSetDb,ComparatorSetDb>();
+        builder.Services.AddSingleton<IBandingDb,BandingDb>();
+        
+        
+        builder.Services.AddTransient<IValidator<ComparatorSetRequest>, ComparatorSetRequestValidator>();
     }
 }

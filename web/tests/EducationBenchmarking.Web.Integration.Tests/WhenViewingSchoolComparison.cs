@@ -19,11 +19,11 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var finances = Fixture.Build<Finances>()
             .With(x => x.SchoolName, school.Name)
-            .With(x => x.URN, school.Urn)
+            .With(x => x.Urn, school.Urn)
             .Create();
             
         var page = await SetupEstablishment(school)
-            .SetupAcademyInsights(school,finances)
+            .SetupInsightsFromAcademy(school,finances)
             .Navigate($"/school/{school.Urn}/comparison");
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
@@ -46,11 +46,11 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var finances = Fixture.Build<Finances>()
             .With(x => x.SchoolName, school.Name)
-            .With(x => x.URN, school.Urn)
+            .With(x => x.Urn, school.Urn)
             .Create();
             
         var page = await SetupEstablishment(school)
-            .SetupMaintainedSchoolInsights(school,finances)
+            .SetupInsightsFromMaintainedSchool(school,finances)
             .Navigate($"/school/{school.Urn}/comparison");
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");

@@ -1,6 +1,7 @@
+using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 
-namespace EducationBenchmarking.Platform.Shared.Validators;
+namespace EducationBenchmarking.Platform.Api.Benchmark.Validators;
 
 public class UnknownProximitySortValidator : AbstractValidator<UnknownProximitySort>
 {

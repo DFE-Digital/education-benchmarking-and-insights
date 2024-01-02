@@ -12,6 +12,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
 {
     protected readonly Mock<IInsightApi> InsightApi = new();
     protected readonly Mock<IEstablishmentApi> EstablishmentApi = new();
+    protected readonly Mock<IBenchmarkApi> BenchmarkApi = new();
     
     protected Fixture Fixture { get; private set; }
     public BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory) : base(factory)
@@ -23,6 +24,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     {
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
+        services.AddSingleton(BenchmarkApi.Object);
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
@@ -32,19 +34,28 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
         return this;
     }
     
-    public BenchmarkingWebAppClient SetupAcademyInsights(School school, Finances finances)
+    public BenchmarkingWebAppClient SetupInsightsFromAcademy(School school, Finances finances)
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
+        InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
         return this;
     }
     
-    public BenchmarkingWebAppClient SetupMaintainedSchoolInsights(School school, Finances finances)
+    public BenchmarkingWebAppClient SetupInsightsFromMaintainedSchool(School school, Finances finances)
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
+        InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
+        return this;
+    }
+    
+    public BenchmarkingWebAppClient SetupBenchmark()
+    {
+        BenchmarkApi.Reset();
+        BenchmarkApi.Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>())).ReturnsAsync(ApiResult.Ok());
         return this;
     }
 }

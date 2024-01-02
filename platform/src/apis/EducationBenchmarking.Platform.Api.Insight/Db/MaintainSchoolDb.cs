@@ -40,11 +40,6 @@ public class MaintainSchoolDb : CosmosDatabase, IMaintainSchoolDb
 
         return finances == null
             ? null
-            : new Finances
-            {
-                YearEnd = collection.Term,
-                URN = finances.URN.ToString(),
-                SchoolName = finances.SchoolName
-            };
+            : Finances.Create(finances, collection.Term);
     }
 }

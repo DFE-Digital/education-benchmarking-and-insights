@@ -1,13 +1,15 @@
+using System.Linq;
+using EducationBenchmarking.Platform.Api.Benchmark.Models;
 using FluentValidation;
 
-namespace EducationBenchmarking.Platform.Shared.Validators;
+namespace EducationBenchmarking.Platform.Api.Benchmark.Validators;
 
-public class SchoolComparatorSetRequestValidator : AbstractValidator<SchoolComparatorSetRequest>
+public class ComparatorSetRequestValidator : AbstractValidator<ComparatorSetRequest>
 {
-    public SchoolComparatorSetRequestValidator()
+    public ComparatorSetRequestValidator()
     {
         RuleFor(p => p.Characteristics)
-            .Must(x => x is null || x.Keys.All(key => Characteristics.Schools.AllCodes.Contains(key)))
+            .Must(x => x is null || x.Keys.All(key => Characteristics.AllCodes.Contains(key)))
             .WithMessage("Invalid characteristics");
         
         RuleFor(x => x.SortMethod).SetInheritanceValidator(v =>

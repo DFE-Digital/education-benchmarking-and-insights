@@ -55,7 +55,7 @@ public static class ApiResultExtensions
         };
     }
         
-    public static async Task<PagedResults<T>?> GetPagedResultOrThrow<T>(this Task<ApiResult> result)
+    public static async Task<PagedResults<T>> GetPagedResultOrThrow<T>(this Task<ApiResult> result)
     {
         var rs = await result;
         return rs.GetPagedResultOrThrow<T>();
@@ -113,7 +113,7 @@ public static class ApiResultExtensions
         return GetBodyOrThrow(rs);
     }
         
-    public static PagedResults<T>? GetPagedResultOrThrow<T>(this ApiResult result)
+    public static PagedResults<T> GetPagedResultOrThrow<T>(this ApiResult result)
     {
         if (result is SuccessApiResult s)
         {
@@ -123,9 +123,8 @@ public static class ApiResultExtensions
                 _ => throw new ArgumentOutOfRangeException()
             };
         }
-                    
 
         result.EnsureSuccess();
-        return default;
+        return new PagedResults<T>();
     }
 }
