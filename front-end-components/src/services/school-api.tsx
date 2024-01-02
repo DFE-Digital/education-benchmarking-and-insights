@@ -24,6 +24,27 @@ export default class SchoolApi {
                 return res;
             });
     }
+
+    static async getWorkforceBenchmarkData(urn: string): Promise<WorkforceBenchmarkResult> {
+        return fetch(`/api/school/${urn}/workforce`, 
+        {
+          redirect: 'manual',
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-Correlation-ID': uuidv4(),
+          },
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            if (res.error) {
+              throw res.error;
+            }
+    
+            return res;
+          });
+      }
+
 }
 
 export type ExpenditureResult = {
@@ -33,6 +54,18 @@ export type ExpenditureResult = {
     pageCount: bigint
     results: SchoolExpenditure[]
 }
+
+export type WorkforceBenchmarkResult = {
+    schoolWorkforceFTE: number;
+    totalNumberOfTeachersFTE: number;
+    teachersWithQTSFTE: number;
+    seniorLeadershipFTE: number;
+    teachingAssistantsFTE: number;
+    nonClassroomSupportStaffFTE: number;
+    auxiliaryStaffFTE: number;
+    schoolWorkforceHeadcount: number;
+};
+
 
 export type SchoolExpenditure = {
     urn: string
