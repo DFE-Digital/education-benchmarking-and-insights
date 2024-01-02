@@ -100,7 +100,12 @@ module "benchmark-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = local.default_app_settings
+  app-settings             = merge(local.default_app_settings, {
+    "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
+    "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
+    "Cosmos__LookupCollectionName" = "fibre-directory"
+    "Cosmos__SizingCollectionName" = "SizelookupTest"
+  })
 }
 
 module "insight-fa" {
