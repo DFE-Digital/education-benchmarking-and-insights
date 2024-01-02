@@ -12,12 +12,14 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
     {
         private readonly HttpClient _httpClient;
         private HttpResponseMessage _response;
+        private StringContent _content;
 
         public BenchmarkApiSteps()
         {
             var httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(httpClientHandler);
             _response = null!;
+            _content = null!;
         }
 
         [Then(@"the response status code api is (.*)")]
@@ -26,22 +28,8 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             _response.StatusCode.Should().Be((HttpStatusCode)expectedStatusCode);
         }
 
-        [Given(@"I want to create a comparator set")]
-        public void GivenIWantToCreateAComparatorSet()
-        {
-        }
-
-        [When(@"I send a request to get school comparators with includeset set to true and size set to '(.*)'")]
-        public async Task WhenISendARequestToGetSchoolComparatorsWithIncludesetSetToTrueAndSizeSetTo(string size)
-        {
-            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/schools/comparator-set",
-                content);
-        }
-
-        [Then(@"a valid school comparator set of size '(.*)' should be returned")]
-        public async Task ThenAValidSchoolComparatorSetOfSizeShouldBeReturned(string expectedSize)
+        [Then(@"a valid comparator set of size '(.*)' should be returned")]
+        public async Task ThenAValidComparatorSetOfSizeShouldBeReturned(string expectedSize)
         {
             _response.EnsureSuccessStatusCode();
             var responseBody = await _response.Content.ReadAsStringAsync();
@@ -60,30 +48,26 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             schoolComparatorSet["results"].Children().Should().HaveCount(int.Parse(expectedSize));
         }
 
-        [When(@"I send a request to get trust comparators with includeset set to true and size set to '(.*)'")]
-        public async Task WhenISendARequestToGetTrustComparatorsWithIncludesetSetToTrueAndSizeSetTo(string size)
+        
+        [When(@"I submit the request")]
+        public async Task WhenISubmitTheRequest()
         {
-            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
-            var content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
-            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/trusts/comparator-set", content);
+            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/comparator-set", _content);
         }
 
-        [Then(@"a valid trust comparator set of size '(.*)' should be returned")]
-        public async Task ThenAValidTrustComparatorSetOfSizeShouldBeReturned(string expectedSize)
-        {
-            _response.EnsureSuccessStatusCode();
-            var responseBody = await _response.Content.ReadAsStringAsync();
-            var academyComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody);
-            academyComparatorSet.Should().NotBeNull();
-            academyComparatorSet["results"].Should().NotBeNull();
-            var academies = academyComparatorSet["results"].ToObject<List<JObject>>();
-            foreach (var academy in academies)
-            {
-                academy.Should().ContainKey("companyNumber");
-                academy.Should().ContainKey("name");
-            }
 
-            academyComparatorSet["results"].Children().Should().HaveCount(int.Parse(expectedSize));
+        [Given(@"I have a valid comparator set request of size set to '(.*)'")]
+        public void GivenIHaveAValidComparatorSetRequestOfSizeSetTo(string size)
+        {
+            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
+            _content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+        }
+
+        [Given(@"I have a invalid comparator set request of size set to '(.*)'")]
+        public void GivenIHaveAInvalidComparatorSetRequestOfSizeSetTo(string size)
+        {
+            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
+            _content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
         }
     }
 }

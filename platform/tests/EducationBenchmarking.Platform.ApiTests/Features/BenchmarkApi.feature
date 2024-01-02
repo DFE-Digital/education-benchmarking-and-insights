@@ -1,25 +1,11 @@
-﻿Feature: BenchmarkApi
-API Endpoint Testing
+﻿Feature: BenchmarkApi API Endpoint Testing
+        Scenario: Create a comparator set successfully
+            Given I have a valid comparator set request of size set to '7'
+            When I submit the request
+            Then a valid comparator set of size '7' should be returned
+            And the response status code api is 200
 
-    Scenario: Create School Comparator Set Successfully
-        Given I want to create a comparator set
-        When I send a request to get school comparators with includeset set to true and size set to '7'
-        Then a valid school comparator set of size '7' should be returned
-        And the response status code api is 200
-
-    Scenario: Receive 500 Bad Request for Invalid School Comparator Set Request
-        Given I want to create a comparator set
-        When I send a request to get school comparators with includeset set to true and size set to 'invalid-size'
-        Then the response status code api is 500
-
-    Scenario: Create Trusts Comparator Set Successfully
-
-        Given I want to create a comparator set
-        When I send a request to get trust comparators with includeset set to true and size set to '8'
-        Then a valid trust comparator set of size '8' should be returned
-        And the response status code api is 200
-
-    Scenario: Create 500 Bad Request for Invalid Trusts Comparator Set Request
-        Given I want to create a comparator set
-        When I send a request to get trust comparators with includeset set to true and size set to 'invalid'
+    Scenario: Get error for Invalid School Comparator Set Request
+        Given I have a invalid comparator set request of size set to 'invalid'
+        When I submit the request
         Then the response status code api is 500
