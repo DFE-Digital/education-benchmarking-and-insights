@@ -6,7 +6,7 @@ import {ChartModeContext} from "../contexts";
 import {ChartWrapperProps} from "../types";
 
 const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
-    const {heading, fileName, chartDimensions, data} = props
+    const {heading, elementId, chartDimensions, data} = props
     const mode = useContext(ChartModeContext);
 
     const renderView = (displayMode: ChartMode) => {
@@ -14,7 +14,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
             case ChartMode.CHART:
                 return <HorizontalBarChart data={data.dataPoints}
                                            heading={heading}
-                                           fileName={fileName}
+                                           elementId={elementId}
                                            chartDimensions={chartDimensions}
                 />
             case ChartMode.TABLE:
@@ -22,6 +22,7 @@ const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
                                    tableHeadings={data.tableHeadings}
                                    data={data.dataPoints}
                                    chartDimensions={chartDimensions}
+                                   elementId={elementId}
                 />
             default:
                 return null

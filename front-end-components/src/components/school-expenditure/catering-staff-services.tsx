@@ -24,7 +24,7 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({schools}) 
                     value: school.netCateringCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -40,7 +40,7 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({schools}) 
                     value: school.cateringStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -56,7 +56,7 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({schools}) 
                     value: school.cateringSuppliesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -72,7 +72,7 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({schools}) 
                     value: school.incomeCatering,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -93,20 +93,20 @@ const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({schools}) 
                      aria-labelledby="accordion-heading-catering-staff-services">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Net catering costs</h3>}
                                   data={netCateringBarData}
-                                  fileName="net-catering-costs"
+                                  elementId="net-catering-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Catering staff costs</h3>}
                                   data={cateringStaffBarData}
-                                  fileName="catering-staff-costs"
+                                  elementId="catering-staff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Catering supplies costs</h3>}
                                   data={cateringSuppliesBarData}
-                                  fileName="catering-supplies-costs"
+                                  elementId="catering-supplies-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Income from catering</h3>}
                                   data={incomeCateringBarData}
-                                  fileName="income-from-catering"
+                                  elementId="income-from-catering"
                     />
                 </div>
             </div>
@@ -123,6 +123,8 @@ export type CateringStaffServicesProps = {
 export type CateringStaffServicesData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

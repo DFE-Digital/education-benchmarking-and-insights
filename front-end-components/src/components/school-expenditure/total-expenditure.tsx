@@ -19,7 +19,7 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({ schools}) => {
                     value: school.totalExpenditure,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -29,14 +29,13 @@ const TotalExpenditure: React.FC<TotalExpenditureProps> = ({ schools}) => {
         setDimension(event.target.value)
     }
 
-
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <ChartWrapper heading={<h2 className="govuk-heading-l">Total Expenditure</h2>}
                           data={chartData}
-                          fileName="total-expenditure"
+                          elementId="total-expenditure"
                           chartDimensions={chartDimensions}
             />
         </ChartDimensionContext.Provider>
@@ -52,6 +51,8 @@ export type TotalExpenditureProps = {
 export type TotalExpenditureData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

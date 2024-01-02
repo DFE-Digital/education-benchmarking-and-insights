@@ -37,6 +37,8 @@ export type ExpenditureResult = {
 export type SchoolExpenditure = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalExpenditure: number
     totalIncome: number
     numberOfPupils: bigint

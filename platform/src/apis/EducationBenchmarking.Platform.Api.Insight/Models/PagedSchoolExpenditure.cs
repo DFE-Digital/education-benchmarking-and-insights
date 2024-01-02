@@ -17,6 +17,8 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
             {
                 Urn = result.URN.ToString(),
                 Name = result.SchoolName,
+                SchoolType = result.Type,
+                LocalAuthority = result.LA.ToString(),
                 NumberOfPupils = result.NoPupils,
                 TotalExpenditure = result.TotalExpenditure,
                 TotalIncome = result.TotalIncome,

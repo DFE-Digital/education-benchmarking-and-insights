@@ -29,7 +29,7 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                     value: school.cleaningCaretakingCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -45,7 +45,7 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                     value: school.maintenancePremisesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -61,7 +61,7 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                     value: school.otherOccupationCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -77,7 +77,7 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                     value: school.premisesStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -98,20 +98,20 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                      aria-labelledby="accordion-heading-premises-staff-services">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
                                   data={cleaningCaretakingBarData}
-                                  fileName="cleaning-caretaking-costs"
+                                  elementId="cleaning-caretaking-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
                                   data={maintenanceBarData}
-                                  fileName="maintenance-premises-costs"
+                                  elementId="maintenance-premises-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Other occupation costs</h3>}
                                   data={otherOccupationBarData}
-                                  fileName="other-occupation-costs"
+                                  elementId="other-occupation-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Premises staff costs</h3>}
                                   data={premisesStaffBarData}
-                                  fileName="premises staff costs"
+                                  elementId="premises staff costs"
                     />
                 </div>
             </div>
@@ -128,6 +128,8 @@ export type PremisesStaffServicesProps = {
 export type PremisesStaffServicesData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

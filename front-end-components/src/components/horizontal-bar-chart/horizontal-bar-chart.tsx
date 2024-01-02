@@ -42,7 +42,7 @@ const underLinePlugin = {
 };
 
 const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
-    const {data, heading, fileName, chartDimensions} = props;
+    const {data, heading, elementId, chartDimensions} = props;
     const labels = data.map(dataPoint => dataPoint.school);
     const values = data.map(dataPoint => dataPoint.value);
     const selectedSchool = useContext(SelectedSchoolContext);
@@ -119,7 +119,7 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
         if (chartRef.current) {
             const a = document.createElement('a');
             a.href = chartRef.current.toBase64Image();
-            a.download = `${fileName}.png`;
+            a.download = `${elementId}.png`;
             a.click();
         }
     }
@@ -131,10 +131,10 @@ const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
                     {heading}
                     {chartDimensions && chartDimensions.dimensions.length > 0 &&
                         <div className="govuk-form-group">
-                            <label className="govuk-label" htmlFor="dimension">
+                            <label className="govuk-label" htmlFor={`${elementId}-dimension`}>
                                 View graph as
                             </label>
-                            <select className="govuk-select" id="dimension" name="dimension"
+                            <select className="govuk-select" name="dimension" id={`${elementId}-dimension`}
                                     onChange={chartDimensions.handleChange} defaultValue={xLabel}>
                                 {chartDimensions.dimensions.map((dimension, idx) => {
                                     return <option key={idx} value={dimension}>{dimension}</option>;
