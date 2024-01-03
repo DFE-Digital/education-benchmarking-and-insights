@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Api.Benchmark.Models;
 
+[ExcludeFromCodeCoverage]
 public class SizeLookupDataObject
 {
     public string Term { get; set; }

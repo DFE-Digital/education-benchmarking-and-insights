@@ -1,5 +1,8 @@
-namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
+using System.Diagnostics.CodeAnalysis;
 
+namespace EducationBenchmarking.Platform.Shared;
+
+[ExcludeFromCodeCoverage]
 public static class SchoolTrustFinancialDataObjectFieldNames
 {
     public const string FINANCE_TYPE = "FinanceType";

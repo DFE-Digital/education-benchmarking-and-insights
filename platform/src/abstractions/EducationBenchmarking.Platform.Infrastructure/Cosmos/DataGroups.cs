@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
+[ExcludeFromCodeCoverage]
 public static class DataGroups
 {
     public const string Edubase = "Edubase";

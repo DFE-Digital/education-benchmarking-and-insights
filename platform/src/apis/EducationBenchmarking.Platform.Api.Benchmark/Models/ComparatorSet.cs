@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using EducationBenchmarking.Platform.Shared;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Models;
 
+[ExcludeFromCodeCoverage]
 public class ComparatorSet
 {
     public int TotalResults { get; set; }

@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Api.Benchmark.Models;
+using EducationBenchmarking.Platform.Api.Benchmark.Models.Characteristics;
+using EducationBenchmarking.Platform.Api.Benchmark.Requests;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
@@ -33,36 +35,18 @@ public class ComparatorSetFunctions
     
     [FunctionName(nameof(GetCharacteristics))]
     [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public IActionResult GetCharacteristics(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/characteristics")]
         HttpRequest req)
     {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                return new JsonContentResult(Characteristics.All);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get school characteristics");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
+        return new JsonContentResult(Characteristics.All);
     }
 
-    [FunctionName(nameof(CreateComparatorSet))]
+    [FunctionName(nameof(PostComparatorSet))]
     [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> CreateComparatorSet(
+    public async Task<IActionResult> PostComparatorSet(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set")]
         [RequestBodyType(typeof(ComparatorSetRequest), "The comparator set object")]
         HttpRequest req)

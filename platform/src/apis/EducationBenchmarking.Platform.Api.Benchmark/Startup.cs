@@ -1,6 +1,8 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using EducationBenchmarking.Platform.Api.Benchmark;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
+using EducationBenchmarking.Platform.Api.Benchmark.Requests;
 using EducationBenchmarking.Platform.Api.Benchmark.Validators;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
@@ -12,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark;
 
+[ExcludeFromCodeCoverage]
 public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)

@@ -1,14 +1,17 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace EducationBenchmarking.Platform.Api.Benchmark.Models;
+namespace EducationBenchmarking.Platform.Api.Benchmark.Models.Characteristics;
 
+[ExcludeFromCodeCoverage]
 public class Characteristic
 {
     public string? Code { get; set; }
     public string? Description { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public static class Characteristics
 {
     public static Characteristic[] All =

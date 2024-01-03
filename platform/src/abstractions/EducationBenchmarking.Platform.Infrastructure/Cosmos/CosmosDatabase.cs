@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
+[ExcludeFromCodeCoverage]
 public abstract class CosmosDatabase
 {
     private readonly CosmosClient _client;

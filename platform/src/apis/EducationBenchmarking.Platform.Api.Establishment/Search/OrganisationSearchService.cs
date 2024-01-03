@@ -1,17 +1,19 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
+[ExcludeFromCodeCoverage]
 public class OrganisationSearchServiceOptions : SearchServiceOptions
 {
 }
 
+[ExcludeFromCodeCoverage]
 public class OrganisationSearchService : SearchService, ISearchService<Organisation>
 {
     private static readonly string[] Facets = Array.Empty<string>();

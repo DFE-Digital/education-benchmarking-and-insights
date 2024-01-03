@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Insight.Models;
@@ -13,12 +14,14 @@ public interface IAcademyDb
     Task<Finances> Get(string urn);
 }
 
+[ExcludeFromCodeCoverage]
 public class AcademyDbOptions
 {
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class AcademyDb : CosmosDatabase, IAcademyDb
 {
     private readonly ICollectionService _collectionService;

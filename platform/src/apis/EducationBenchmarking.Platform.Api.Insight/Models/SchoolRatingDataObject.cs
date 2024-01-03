@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
+[ExcludeFromCodeCoverage]
 public class SchoolRatingDataObject
 {
     public string Term { get; set; }

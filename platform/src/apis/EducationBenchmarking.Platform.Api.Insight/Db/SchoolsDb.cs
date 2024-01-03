@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Insight.Models;
@@ -16,6 +17,7 @@ public interface ISchoolsDb
     Task<IEnumerable<Rating>> GetSchoolRatings(string phase, string term, string size, string fsm);
 }
 
+[ExcludeFromCodeCoverage]
 public class SchoolsDbOptions
 {
     [Required] public string ConnectionString { get; set; }
@@ -23,6 +25,7 @@ public class SchoolsDbOptions
     [Required] public string RatingCollectionName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
     private readonly ICollectionService _collectionService;
