@@ -1,4 +1,5 @@
 import React from "react";
+import {ChartMode} from "./chart-mode.tsx";
 
 export type CompareYourSchoolViewProps = {
     urn: string
@@ -26,6 +27,11 @@ export type TableChartProps = {
     heading: React.ReactNode
     chartDimensions?: ChartDimensions
     elementId: string
+}
+
+export type ToggleChartModeProps = {
+    displayMode: ChartMode
+    handleChange(): void
 }
 
 export type ChartWrapperData = {
