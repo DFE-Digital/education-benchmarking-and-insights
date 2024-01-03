@@ -7,16 +7,16 @@ export type CompareYourSchoolViewProps = {
 };
 
 export type ChartWrapperProps = {
+    elementId: string
     heading: React.ReactNode
     data: ChartWrapperData
-    fileName: string
     chartDimensions?: ChartDimensions
 }
 
 export type BarChartProps = {
     data: BarDataPoint[]
     heading: React.ReactNode
-    fileName: string
+    elementId: string
     chartDimensions?: ChartDimensions
 }
 
@@ -25,6 +25,7 @@ export type TableChartProps = {
     data?: ChartDataPoint[]
     heading: React.ReactNode
     chartDimensions?: ChartDimensions
+    elementId: string
 }
 
 export type ChartWrapperData = {

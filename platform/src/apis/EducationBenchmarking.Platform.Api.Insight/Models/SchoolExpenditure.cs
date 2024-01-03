@@ -8,7 +8,7 @@ public class SchoolExpenditure
 {
     public string Urn { get; set; }
     public string Name { get; set; }
-    public string FinanceType { get; set; }
+    public string SchoolType { get; set; }
     public string LocalAuthority { get; set; }
     
     public decimal TotalExpenditure { get; set; }

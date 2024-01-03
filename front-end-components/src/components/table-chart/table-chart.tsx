@@ -3,7 +3,7 @@ import {TableChartProps} from "../../types";
 import {ChartDimensionContext, SelectedSchoolContext} from "../../contexts";
 
 const TableChart: React.FC<TableChartProps> = (props) => {
-    const {heading, tableHeadings, chartDimensions, data} = props;
+    const {heading, tableHeadings, chartDimensions,elementId, data} = props;
     const dimension = useContext(ChartDimensionContext);
     const selectedSchool = useContext(SelectedSchoolContext);
 
@@ -13,10 +13,10 @@ const TableChart: React.FC<TableChartProps> = (props) => {
                 {heading}
                 {chartDimensions && chartDimensions.dimensions.length > 0 &&
                     <div className="govuk-form-group">
-                        <label className="govuk-label" htmlFor="dimension">
+                        <label className="govuk-label" htmlFor={`${elementId}-dimension`}>
                             View table as
                         </label>
-                        <select className="govuk-select" id="dimension" name="dimension"
+                        <select className="govuk-select" id={`${elementId}-dimension`} name="dimension"
                                 onChange={chartDimensions.handleChange} defaultValue={dimension}>
                             {chartDimensions.dimensions.map((dimension, idx) => {
                                 return <option key={idx} value={dimension}>{dimension}</option>;

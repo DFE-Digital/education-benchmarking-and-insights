@@ -24,7 +24,7 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
                     value: school.examinationFeesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -40,7 +40,7 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
                     value: school.breakdownEducationalSuppliesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -56,7 +56,7 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
                     value: school.learningResourcesNonIctCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -76,17 +76,17 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
                      aria-labelledby="accordion-heading-educational-supplies">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
                                   data={examinationFeesBarData}
-                                  fileName="examination-fees-costs"
+                                  elementId="examination-fees-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
                                   data={breakdownEducationalBarData}
-                                  fileName="breakdown-eductional-supplies-costs"
+                                  elementId="breakdown-eductional-supplies-costs"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
                         data={learningResourcesBarData}
-                        fileName="learning-resource-not-ict-costs"
+                        elementId="learning-resource-not-ict-costs"
                     />
                 </div>
             </div>
@@ -103,6 +103,8 @@ export type EducationalSuppliesProps = {
 export type EducationalSuppliesData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

@@ -24,7 +24,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.totalTeachingSupportStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -40,7 +40,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.teachingStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -56,7 +56,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.supplyTeachingStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -72,7 +72,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.educationalConsultancyCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -88,7 +88,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.educationSupportStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -104,7 +104,7 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     value: school.agencySupplyTeachingStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -125,28 +125,28 @@ const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schools}) =>
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>}
                         data={totalTeachingBarData}
-                        fileName="total-teaching-support-staff-cost"
+                        elementId="total-teaching-support-staff-cost"
                         chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching staff costs</h3>}
                                   data={teachingStaffBarData}
-                                  fileName="teaching-staff-costs"
+                                  elementId="teaching-staff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teaching staff costs</h3>}
                                   data={supplyTeachingBarData}
-                                  fileName="supply-teaching-staff-costs"
+                                  elementId="supply-teaching-staff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational consultancy costs</h3>}
                                   data={educationalConsultancyBarData}
-                                  fileName="educational-consultancy-costs"
+                                  elementId="educational-consultancy-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational support staff costs</h3>}
                                   data={educationSupportStaffBarData}
-                                  fileName="education-support-stff-costs"
+                                  elementId="education-support-stff-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>}
                                   data={agencySupplyBarData}
-                                  fileName="agency-supply-teaching-staff-costs"
+                                  elementId="agency-supply-teaching-staff-costs"
                     />
                 </div>
             </div>
@@ -163,6 +163,8 @@ export type TeachingSupportStaffProps = {
 export type TeachingSupportStaffData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

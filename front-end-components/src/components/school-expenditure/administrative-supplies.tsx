@@ -24,7 +24,7 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({schools}
                     value: school.administrativeSuppliesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -46,7 +46,7 @@ const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({schools}
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>}
                         data={administrativeSuppliesBarData}
-                        fileName="administrative-supplies-non-eductional"
+                        elementId="administrative-supplies-non-eductional"
                         chartDimensions={chartDimensions}
                     />
                 </div>
@@ -64,6 +64,8 @@ export type AdministrativeSuppliesProps = {
 export type AdministrativeSuppliesData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

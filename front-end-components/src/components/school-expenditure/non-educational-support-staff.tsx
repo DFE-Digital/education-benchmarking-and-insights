@@ -24,7 +24,7 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                     value: school.administrativeClericalStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -40,7 +40,7 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                     value: school.auditorsCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -56,7 +56,7 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                     value: school.otherStaffCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -72,7 +72,7 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                     value: school.professionalServicesNonCurriculumCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -94,21 +94,21 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                      aria-labelledby="accordion-heading-non-educational-support-staff">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
                                   data={administrativeClericalBarData}
-                                  fileName="administrative-clerical-staff-costs"
+                                  elementId="administrative-clerical-staff-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
                                   data={auditorsCostsBarData}
-                                  fileName="Auditors costs"
+                                  elementId="Auditors costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Other staff costs</h3>}
                                   data={otherStaffCostsBarData}
-                                  fileName="Other staff costs"
+                                  elementId="Other staff costs"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>}
                         data={professionalServicesBarData}
-                        fileName="profession-services-non-curriculum-costs"
+                        elementId="profession-services-non-curriculum-costs"
                     />
                 </div>
             </div>
@@ -125,6 +125,8 @@ export type NonEducationalSupportStaffProps = {
 export type NonEducationalSupportStaffData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

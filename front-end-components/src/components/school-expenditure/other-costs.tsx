@@ -24,7 +24,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.totalOtherCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -40,7 +40,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.otherInsurancePremiumsCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -56,7 +56,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.directRevenueFinancingCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -72,7 +72,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.groundsMaintenanceCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -88,7 +88,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.indirectEmployeeExpenses,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -104,7 +104,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.interestChargesLoanBank,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -120,7 +120,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.privateFinanceInitiativeCharges,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -136,7 +136,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.rentRatesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -152,7 +152,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.specialFacilitiesCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -168,7 +168,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.staffDevelopmentTrainingCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -184,7 +184,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.staffRelatedInsuranceCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -200,7 +200,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.supplyTeacherInsurableCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -216,7 +216,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.communityFocusedSchoolStaff,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -232,7 +232,7 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     value: school.communityFocusedSchoolCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -252,64 +252,64 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                      aria-labelledby="accordion-heading-other-cost">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Total other costs</h3>}
                                   data={totalOtherCostsBarData}
-                                  fileName="total-otehr-costs"
+                                  elementId="total-otehr-costs"
                                   chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
                                   data={otherInsurancePremiumsCostsBarData}
-                                  fileName="other-insurance-costs"
+                                  elementId="other-insurance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
                                   data={directRevenueFinancingCostsBarData}
-                                  fileName="direct-revenue-financing-costs"
+                                  elementId="direct-revenue-financing-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Ground maintenance costs</h3>}
                                   data={groundsMaintenanceCostsBarData}
-                                  fileName="ground-maintenance-costs"
+                                  elementId="ground-maintenance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Indirect employee expenses</h3>}
                                   data={indirectEmployeeExpensesBarData}
-                                  fileName="indirect-employee-expenses"
+                                  elementId="indirect-employee-expenses"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Interest charges for loan and bank</h3>}
                                   data={interestChargesLoanBankBarData}
-                                  fileName="interest-charges-loan-bank"
+                                  elementId="interest-charges-loan-bank"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
                                   data={privateFinanceInitiativeChargesBarData}
-                                  fileName="pfi-costs"
+                                  elementId="pfi-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
                                   data={rentRatesCostsBarData}
-                                  fileName="rent-rates-cots"
+                                  elementId="rent-rates-cots"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Special facilities costs</h3>}
                                   data={specialFacilitiesCostsBarData}
-                                  fileName="special-facilities-costs"
+                                  elementId="special-facilities-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Staff development and training costs</h3>}
                                   data={staffDevelopmentTrainingCostsBarData}
-                                  fileName="staff-development-training-costs"
+                                  elementId="staff-development-training-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Staff-related insurance costs</h3>}
                                   data={staffRelatedInsuranceCostsBarData}
-                                  fileName="staff-related-insurance-costs"
+                                  elementId="staff-related-insurance-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Supply teacher insurance costs</h3>}
                                   data={supplyTeacherInsurableCostsBarData}
-                                  fileName="supply-teacher-insurance-costs"
+                                  elementId="supply-teacher-insurance-costs"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Community focused school staff (maintained schools
                             only)</h3>}
                         data={communityFocusedSchoolStaffBarData}
-                        fileName="community-focused-staff"
+                        elementId="community-focused-staff"
                     />
                     <ChartWrapper
                         heading={<h3 className="govuk-heading-s">Community focused school costs (maintained schools
                             only)</h3>}
                         data={communityFocusedSchoolCostsBarData}
-                        fileName="community-focused-costs"
+                        elementId="community-focused-costs"
                     />
                 </div>
             </div>
@@ -326,6 +326,8 @@ export type OtherCostsProps = {
 export type OtherCostsData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

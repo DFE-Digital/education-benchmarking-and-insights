@@ -24,7 +24,7 @@ const EducationalIct: React.FC<EducationalIctProps> = ({ schools}) => {
                     value: school.learningResourcesIctCosts,
                     ...school
                 }),
-                additionalData: ["", "", school.numberOfPupils]
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }),
         tableHeadings: tableHeadings
@@ -44,7 +44,7 @@ const EducationalIct: React.FC<EducationalIctProps> = ({ schools}) => {
                      aria-labelledby="accordion-heading-educational-ict">
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Educational learning resources costs</h3>}
                                   data={learningResourcesBarData}
-                                  fileName="eductional-learning-resources-costs"
+                                  elementId="eductional-learning-resources-costs"
                                   chartDimensions={chartDimensions}
                     />
                 </div>
@@ -62,6 +62,8 @@ export type EducationalIctProps = {
 export type EducationalIctData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint
