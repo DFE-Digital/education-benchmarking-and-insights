@@ -29,7 +29,7 @@ public class WhenFunctionReceivesSuggestOrganisationsRequest : OrganisationsFunc
     }
 
     [Fact]
-    public async Task ShouldReturn40OOnInvalidRequest()
+    public async Task ShouldReturn400OnInvalidRequest()
     {
         
         Validator

@@ -30,7 +30,7 @@ public class WhenFunctionReceivesPostComparatorSetRequest : ComparatorSetFunctio
     }
 
     [Fact]
-    public async Task ShouldReturn40OOnInvalidRequest()
+    public async Task ShouldReturn400OnInvalidRequest()
     {
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<ComparatorSetRequest>(), It.IsAny<CancellationToken>()))

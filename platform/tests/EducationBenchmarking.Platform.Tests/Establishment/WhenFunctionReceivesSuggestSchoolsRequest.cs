@@ -29,7 +29,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     }
 
     [Fact]
-    public async Task ShouldReturn40OOnInvalidRequest()
+    public async Task ShouldReturn400OnInvalidRequest()
     {
         
         Validator
