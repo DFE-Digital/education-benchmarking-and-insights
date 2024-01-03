@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Validators;
 
+[ExcludeFromCodeCoverage]
 public class UnknownProximitySortValidator : AbstractValidator<UnknownProximitySort>
 {
     public UnknownProximitySortValidator()
@@ -12,6 +14,7 @@ public class UnknownProximitySortValidator : AbstractValidator<UnknownProximityS
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class SenProximitySortValidator : AbstractValidator<SenProximitySort>
 {
     public SenProximitySortValidator()
@@ -21,6 +24,7 @@ public class SenProximitySortValidator : AbstractValidator<SenProximitySort>
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class SimpleProximitySortValidator : AbstractValidator<SimpleProximitySort>
 {
     public SimpleProximitySortValidator()
@@ -30,6 +34,7 @@ public class SimpleProximitySortValidator : AbstractValidator<SimpleProximitySor
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class BestInClassProximitySortValidator : AbstractValidator<BestInClassProximitySort>
 {
     public BestInClassProximitySortValidator()

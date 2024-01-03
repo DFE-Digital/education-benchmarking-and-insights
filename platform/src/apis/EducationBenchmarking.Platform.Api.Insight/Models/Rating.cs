@@ -1,7 +1,9 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
+[ExcludeFromCodeCoverage]
 public class Rating
 {
     public string AssessmentArea { get; set; }

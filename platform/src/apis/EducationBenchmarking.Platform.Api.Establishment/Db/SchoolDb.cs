@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
+using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 using EducationBenchmarking.Platform.Shared.Helpers;
@@ -16,12 +18,14 @@ public interface ISchoolDb
     Task<PagedResults<School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria);
 }
 
+[ExcludeFromCodeCoverage]
 public class SchoolDbOptions
 {
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class SchoolDb : CosmosDatabase, ISchoolDb
 {
     private readonly ICollectionService _collectionService;
@@ -41,18 +45,10 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 q => q.Where(x => x.URN == long.Parse(urn)))
             .FirstOrDefaultAsync();
 
-        return school == null
-            ? null
-            : new School
-            {
-                Urn = school.URN.ToString(),
-                Kind = school.TypeOfEstablishment,
-                FinanceType = school.FinanceType,
-                Name = school.EstablishmentName
-            };
+        return school == null ? null : SchoolFactory.Create(school);
     }
 
-    public async Task<PagedResults<Shared.School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
+    public async Task<PagedResults<School>> Query(IEnumerable<KeyValuePair<string, StringValues>> criteria)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
         var pageParams = QueryParameters.GetPagingValues(criteria);

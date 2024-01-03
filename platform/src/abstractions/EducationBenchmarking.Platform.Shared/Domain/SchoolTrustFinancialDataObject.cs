@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
+namespace EducationBenchmarking.Platform.Shared;
 
+[ExcludeFromCodeCoverage]
 public class SchoolTrustFinancialDataObject
     {
         [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.URN)]

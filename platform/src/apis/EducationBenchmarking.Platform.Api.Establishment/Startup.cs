@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using EducationBenchmarking.Platform.Api.Establishment;
 using EducationBenchmarking.Platform.Api.Establishment.Db;
 using EducationBenchmarking.Platform.Api.Establishment.Models;
@@ -16,6 +17,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
+[ExcludeFromCodeCoverage]
 public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)

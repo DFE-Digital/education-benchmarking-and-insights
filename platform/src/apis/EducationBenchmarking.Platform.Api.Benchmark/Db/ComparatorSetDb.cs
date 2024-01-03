@@ -1,6 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Benchmark.Models;
+using EducationBenchmarking.Platform.Api.Benchmark.Requests;
 using EducationBenchmarking.Platform.Shared;
+using School = EducationBenchmarking.Platform.Api.Benchmark.Models.School;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
@@ -9,6 +12,7 @@ public interface IComparatorSetDb
     Task<ComparatorSet> CreateSet(ComparatorSetRequest body);
 }
 
+[ExcludeFromCodeCoverage]
 public class ComparatorSetDb : IComparatorSetDb
 {
     public async Task<ComparatorSet> CreateSet(ComparatorSetRequest body)

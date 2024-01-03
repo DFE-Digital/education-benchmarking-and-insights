@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Benchmark.Models;
@@ -16,6 +17,8 @@ public interface IBandingDb
     Task<IEnumerable<Banding>> GetSchoolSizeBandings(string phase = null, string term = null, decimal? noOfPupils = null, bool? hasSixthForm = null);
 }
 
+
+[ExcludeFromCodeCoverage]
 public class BandingDbOptions
 {
     [Required] public string ConnectionString { get; set; }
@@ -23,6 +26,7 @@ public class BandingDbOptions
     [Required] public string SizingCollectionName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class BandingDb : CosmosDatabase, IBandingDb
 {
     private readonly BandingDbOptions _options;

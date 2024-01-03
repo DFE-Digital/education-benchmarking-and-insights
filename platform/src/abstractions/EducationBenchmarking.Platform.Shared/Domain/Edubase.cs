@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
+namespace EducationBenchmarking.Platform.Shared;
 
+[ExcludeFromCodeCoverage]
 public class Edubase
 {
     [JsonProperty(PropertyName = EdubaseFieldNames.URN)]

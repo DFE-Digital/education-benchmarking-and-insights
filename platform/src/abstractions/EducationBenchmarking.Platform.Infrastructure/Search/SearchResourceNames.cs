@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public static class SearchResourceNames
 {
     public static class DataSources

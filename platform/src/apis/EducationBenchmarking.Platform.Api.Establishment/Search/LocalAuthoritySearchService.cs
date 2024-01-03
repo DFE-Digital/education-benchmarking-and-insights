@@ -1,22 +1,25 @@
-using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
+using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
+[ExcludeFromCodeCoverage]
 public class LocalAuthoritySearchServiceOptions : SearchServiceOptions
 {
-    public string LocalAuthorityIndexName { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAuthority>
 {
     private static readonly string[] Facets = { ""};
+    private const string IndexName = "local-authority-index";
     
-    public LocalAuthoritySearchService(IOptions<LocalAuthoritySearchServiceOptions> options) : base(options.Value.Endpoint, options.Value.LocalAuthorityIndexName, options.Value.Credential)
+    public LocalAuthoritySearchService(IOptions<LocalAuthoritySearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 

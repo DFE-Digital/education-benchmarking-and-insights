@@ -1,5 +1,9 @@
-﻿namespace EducationBenchmarking.Platform.Shared;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
+namespace EducationBenchmarking.Platform.Api.Establishment.Models;
+
+[ExcludeFromCodeCoverage]
 public class Trust : IEquatable<Trust>
 {
     public string? CompanyNumber { get; set; }

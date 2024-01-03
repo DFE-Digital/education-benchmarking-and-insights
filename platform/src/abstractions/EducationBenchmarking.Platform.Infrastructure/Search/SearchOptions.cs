@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Azure;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public abstract class SearchServiceOptions
 {
     [Required] public string Name { get; set; }
