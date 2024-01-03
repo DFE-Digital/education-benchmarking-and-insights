@@ -53,9 +53,9 @@ export type ExpenditureResult = {
     pageSize: bigint
     pageCount: bigint
     results: SchoolExpenditure[]
-}
+} 
 
-export type WorkforceBenchmarkResult = {
+export type WorkforceBenchmark = {
     schoolWorkforceFTE: number;
     totalNumberOfTeachersFTE: number;
     teachersWithQTSFTE: number;
@@ -65,6 +65,14 @@ export type WorkforceBenchmarkResult = {
     auxiliaryStaffFTE: number;
     schoolWorkforceHeadcount: number;
 };
+
+export type WorkforceBenchmarkResult = {
+    totalResults: bigint
+    page: bigint
+    pageSize: bigint
+    pageCount: bigint
+    results: WorkforceBenchmark[]
+}
 
 
 export type SchoolExpenditure = {

@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useLayoutEffect, useState } from 'react';
-import WorkforceChart from '../components/workforce/workforce-chart'; // Replace with your actual chart component
-import WorkforceTable from '../components/workforce/workforce-table'; // Replace with your actual table component
 import SchoolApi, { WorkforceBenchmarkResult } from '../services/school-api';
 import { ChartMode, ChartModeContext, oppositeMode } from '../chart-more';
+import WorkforceChart from '../components/workforce/workforce-chart'; // Replace with your actual chart component
+import WorkforceTable from '../components/workforce/workforce-table'; // Replace with your actual table component
 
 // @ts-ignore
 import { initAll } from 'govuk-frontend';
@@ -21,28 +21,21 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({ urn, ac
     initAll();
   }, []);
 
-
   const getWorkforceData = useCallback(async () => {
-    const data = await SchoolApi.getWorkforceBenchmarkData(urn); // API call without try...catch
-    setWorkforceData(data); // Set the data using the same variable
-  }, [urn]);
-  
-  useEffect(() => {
-    getWorkforceData().then(setWorkforceData); // Use the same variables
-  }, [getWorkforceData])
-  
-
-  const getWorkforceData = useCallback(async () => {
-      const data = await SchoolApi.getWorkforceBenchmarkData(urn); 
+    try {
+      const data = await SchoolApi.getWorkforceBenchmarkData(urn);
       setWorkforceData(data);
+    } catch (error) {
+      console.error('Error fetching workforce benchmark data', error);
+    }
   }, [urn]);
-  
+
   useEffect(() => {
     getWorkforceData();
   }, [getWorkforceData]);
-  
 
-  const toggleChartMode = () => {
+  // Function to toggle between chart and table display modes
+  const toggleDisplayMode = () => {
     setDisplayMode(oppositeMode(displayMode));
   };
 
@@ -69,8 +62,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({ urn, ac
                     name="changedChartMode"
                     type="radio"
                     value={ChartMode.CHART}
-                    defaultChecked={displayMode == ChartMode.CHART}
-                    onChange={toggleChartMode}
+                    defaultChecked={displayMode === ChartMode.CHART}
+                    onChange={() => setDisplayMode(ChartMode.CHART)}
                   />
                   <label className="govuk-label govuk-radios__label" htmlFor="mode-chart">
                     Chart
@@ -83,8 +76,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({ urn, ac
                     name="changedChartMode"
                     type="radio"
                     value={ChartMode.TABLE}
-                    defaultChecked={displayMode == ChartMode.TABLE}
-                    onChange={toggleChartMode}
+                    defaultChecked={displayMode === ChartMode.TABLE}
+                    onChange={() => setDisplayMode(ChartMode.TABLE)}
                   />
                   <label className="govuk-label govuk-radios__label" htmlFor="mode-table">
                     Table
@@ -93,31 +86,18 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({ urn, ac
               </div>
             </fieldset>
           </div>
-          <button className="govuk-button govuk-button--secondary" data-module="govuk-button" onClick={toggleChartMode}>
-            {oppositeMode(displayMode)}
+          <button className="govuk-button govuk-button--secondary" data-module="govuk-button" onClick={toggleDisplayMode}>
+            Switch Display
           </button>
         </div>
       </div>
       <ChartModeContext.Provider value={displayMode}>
-        <WorkforceChart urn={urn}
-        schools={workforceData}
-
-
-
-
-
-
         {displayMode === ChartMode.CHART ? (
-          <>
-            <WorkforceChart data={workforceData?.schoolWorkforceFTE || []} metric="Pupils per staff role" />
-            {/* Add more chart components here */}
-          </>
+          // Render benchmark charts
+          <WorkforceChart urn={urn} schools={workforceData?.results || []} />
         ) : (
           // Render benchmark tables
-          <>
-            <WorkforceTable data={workforceData?.schoolWorkforceFTE || []} metric="Pupils per staff role" />
-            {/* Add more table components here */}
-          </>
+          <WorkforceTable urn={urn} schools={workforceData?.results || []} />
         )}
       </ChartModeContext.Provider>
     </>
