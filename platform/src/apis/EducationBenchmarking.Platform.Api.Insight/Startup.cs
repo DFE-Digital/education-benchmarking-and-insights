@@ -1,4 +1,5 @@
-﻿using System.Reflection;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 using EducationBenchmarking.Platform.Api.Insight;
 using EducationBenchmarking.Platform.Api.Insight.Db;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationBenchmarking.Platform.Api.Insight;
 
+[ExcludeFromCodeCoverage]
 public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)

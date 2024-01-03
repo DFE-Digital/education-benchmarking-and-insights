@@ -20,11 +20,22 @@ public class BenchmarkApi : BaseApi, IBenchmarkApi
         var schools = urns.Select(x => new School { Urn = x });
 
         return ApiResult.Ok(new ComparatorSet<School> { TotalResults = urns.Length, Results = schools});
-        //return await PostAsync("api/benchmark-set", new JsonContent(request));
+    }
+
+    public async Task<ApiResult> GetFreeSchoolMealBandings(ApiQuery? query = null)
+    {
+        return await GetAsync($"api/free-school-meal/bandings{query?.ToQueryString()}");
+    }
+
+    public async Task<ApiResult> GetSchoolSizeBandings(ApiQuery? query = null)
+    {
+        return await GetAsync($"api/school-size/bandings{query?.ToQueryString()}");
     }
 }
 
 public interface IBenchmarkApi
 {
     Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default);
+    Task<ApiResult> GetFreeSchoolMealBandings(ApiQuery? query = null);
+    Task<ApiResult> GetSchoolSizeBandings(ApiQuery? query = null);
 }

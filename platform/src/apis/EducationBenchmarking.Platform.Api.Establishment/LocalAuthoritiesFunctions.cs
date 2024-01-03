@@ -1,5 +1,6 @@
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
+using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;

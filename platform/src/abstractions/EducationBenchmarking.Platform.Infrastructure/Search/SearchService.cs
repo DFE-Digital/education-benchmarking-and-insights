@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using Azure;
 using Azure.Search.Documents;
 using Azure.Search.Documents.Models;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public abstract class SearchService
 {
     private readonly SearchClient _client;

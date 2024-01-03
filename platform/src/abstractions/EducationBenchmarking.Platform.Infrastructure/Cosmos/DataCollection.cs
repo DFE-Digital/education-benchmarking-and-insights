@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
+[ExcludeFromCodeCoverage]
 public class DataCollection
 {
     [JsonProperty(PropertyName = "name")] public string Name { get; set; }

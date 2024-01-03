@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
+[ExcludeFromCodeCoverage]
 public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
 {
     public static PagedSchoolExpenditure Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page,
@@ -17,6 +19,8 @@ public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
             {
                 Urn = result.URN.ToString(),
                 Name = result.SchoolName,
+                SchoolType = result.Type,
+                LocalAuthority = result.LA.ToString(),
                 NumberOfPupils = result.NoPupils,
                 TotalExpenditure = result.TotalExpenditure,
                 TotalIncome = result.TotalIncome,

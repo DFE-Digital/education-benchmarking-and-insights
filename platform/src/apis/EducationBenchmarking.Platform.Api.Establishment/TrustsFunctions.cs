@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
+using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
@@ -37,7 +38,7 @@ public class TrustsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequest req,
         string identifier)
     {
-        return new NotFoundResult();
+        return new OkResult();
     }
     
     [FunctionName(nameof(QueryTrustsAsync))]

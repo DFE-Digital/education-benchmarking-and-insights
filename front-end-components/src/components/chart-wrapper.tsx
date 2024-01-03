@@ -1,33 +1,33 @@
-import React, { useContext } from "react";
-import HorizontalBarChart, {BarData} from "./horizontal-bar-chart/horizontal-bar-chart";
-import {ChartMode, ChartModeContext} from "../chart-more";
+import React, {useContext} from "react";
+import HorizontalBarChart from "./horizontal-bar-chart/horizontal-bar-chart";
+import {ChartMode} from "../chart-mode";
+import TableChart from "./table-chart/table-chart";
+import {ChartModeContext} from "../contexts";
+import {ChartWrapperProps} from "../types";
 
-const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, data, fileName}) => {
+const ChartWrapper: React.FC<ChartWrapperProps> = (props) => {
+    const {heading, elementId, chartDimensions, data} = props
     const mode = useContext(ChartModeContext);
 
-    const renderView = (displayMode : ChartMode) => {
+    const renderView = (displayMode: ChartMode) => {
         switch (displayMode) {
             case ChartMode.CHART:
-                return <HorizontalBarChart data={data} chosenSchool={chosenSchoolName} xLabel='per pupil'
-                                           heading={heading} fileName={fileName}/>
+                return <HorizontalBarChart data={data.dataPoints}
+                                           heading={heading}
+                                           elementId={elementId}
+                                           chartDimensions={chartDimensions}
+                />
             case ChartMode.TABLE:
-                return <>
-                    <div className="govuk-grid-row">
-                        <div className="govuk-grid-column-two-thirds">
-                            {heading}
-                        </div>
-                    </div>
-                    <div className="govuk-grid-row">
-                        <div className="govuk-grid-column-two-thirds">
-                            <p className="govuk-body">[Table goes here]</p>
-                        </div>
-                    </div>
-                </>
+                return <TableChart heading={heading}
+                                   tableHeadings={data.tableHeadings}
+                                   data={data.dataPoints}
+                                   chartDimensions={chartDimensions}
+                                   elementId={elementId}
+                />
             default:
-                return <></>
+                return null
         }
     }
-
 
     return (<>
             {renderView(mode)}
@@ -36,10 +36,3 @@ const ChartWrapper: React.FC<ChartWrapperProps> = ({heading, chosenSchoolName, d
 };
 
 export default ChartWrapper
-
-export type ChartWrapperProps = {
-    heading: React.ReactNode
-    chosenSchoolName: string
-    data: BarData
-    fileName: string
-}

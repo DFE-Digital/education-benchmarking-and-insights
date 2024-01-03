@@ -5,8 +5,8 @@ namespace EducationBenchmarking.Web.ViewComponents;
 
 public class OrganisationHeader : ViewComponent
 {
-    public IViewComponentResult Invoke(string name, string organisationType)
+    public IViewComponentResult Invoke(string name)
     {
-        return View(new OrganisationHeaderViewModel(name, organisationType));
+        return View(new OrganisationHeaderViewModel(name));
     }
 }

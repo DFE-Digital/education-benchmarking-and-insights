@@ -15,6 +15,10 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj" />
+      <ProjectReference Include="..\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj" />
     </ItemGroup>
-
+    
+    <ItemGroup>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
 </Project>

@@ -1,7 +1,9 @@
-import React, {useRef} from 'react';
-import { Bar } from 'react-chartjs-2';
-import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions } from 'chart.js';
-import './horizontal-bar-chart.css';
+import React, {useContext, useRef} from 'react';
+import {Bar} from 'react-chartjs-2';
+import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
+import {ChartDimensionContext, SelectedSchoolContext} from '../../contexts';
+import {BarChartProps} from '../../types';
+import Loading from "../loading";
 
 ChartJS.register(
     CategoryScale,
@@ -39,23 +41,28 @@ const underLinePlugin = {
     }
 };
 
-const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel, heading, fileName}) => {
-    const chosenSchoolIndex = chosenSchool ? data.labels.indexOf(chosenSchool) : 0;
-    const barBackgroundColors = data.labels.map((_, index) =>
+const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
+    const {data, heading, elementId, chartDimensions} = props;
+    const labels = data.map(dataPoint => dataPoint.school);
+    const values = data.map(dataPoint => dataPoint.value);
+    const selectedSchool = useContext(SelectedSchoolContext);
+    const xLabel = useContext(ChartDimensionContext);
+    const chartContainerStyle = {width: '100%', minHeight: `${labels.length * 30}px`}
+
+    const chosenSchoolIndex = selectedSchool ? labels.indexOf(selectedSchool.name) : 0;
+    const barBackgroundColors = labels.map((_, index) =>
         index === chosenSchoolIndex ? '#12436D' : '#BFBFBF'
     );
 
-
     const chartRef = useRef<ChartJS<'bar'>>(null);
 
-
     const datasets = [{
-        data: data.data,
+        data: values,
         backgroundColor: barBackgroundColors,
         barPercentage: 1.09,
     }];
 
-    const dataForChart = {datasets: datasets, labels: data.labels}
+    const dataForChart = {datasets: datasets, labels: labels}
 
     const options: ChartOptions<'bar'> = {
         maintainAspectRatio: false,
@@ -98,9 +105,9 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
                     color: '#1D70B8',
                     font: (context) => {
                         const label = context.tick.label;
-                        const weight = data.labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
+                        const weight = labels[chosenSchoolIndex] === label ? 'bolder' : 'normal';
                         return {
-                            weight: weight,
+                            weight: weight
                         };
                     }
                 }
@@ -109,10 +116,10 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
     };
 
     function handleSaveClick() {
-        if(chartRef.current) {
+        if (chartRef.current) {
             const a = document.createElement('a');
             a.href = chartRef.current.toBase64Image();
-            a.download = `${fileName}.png`;
+            a.download = `${elementId}.png`;
             a.click();
         }
     }
@@ -122,37 +129,41 @@ const HorizontalBarChart: React.FC<BarChartProps> = ({data, chosenSchool, xLabel
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
                     {heading}
+                    {chartDimensions && chartDimensions.dimensions.length > 0 &&
+                        <div className="govuk-form-group">
+                            <label className="govuk-label" htmlFor={`${elementId}-dimension`}>
+                                View graph as
+                            </label>
+                            <select className="govuk-select" name="dimension" id={`${elementId}-dimension`}
+                                    onChange={chartDimensions.handleChange} defaultValue={xLabel}>
+                                {chartDimensions.dimensions.map((dimension, idx) => {
+                                    return <option key={idx} value={dimension}>{dimension}</option>;
+                                })}
+                            </select>
+                        </div>
+                    }
                 </div>
                 <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button" onClick={handleSaveClick}>
+                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button"
+                            onClick={handleSaveClick}>
                         Save as image
                     </button>
                 </div>
             </div>
-            {data.labels.length > 0 &&
-                <div className="govuk-grid-row">
-                    <div className="govuk-grid-column-full">
-                        <div className="chart-container">
+            <div className="govuk-grid-row">
+                <div className="govuk-grid-column-full">
+                    {labels.length > 0 ?
+                        <div style={chartContainerStyle}>
                             <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} ref={chartRef}/>
                         </div>
-                    </div>
+                        :
+                        <Loading/>
+                    }
                 </div>
-            }
+            </div>
         </>
     )
 };
 
 export default HorizontalBarChart;
 
-export type BarData = {
-    labels: string[];
-    data: number[];
-}
-
-export type BarChartProps = {
-    data: BarData;
-    chosenSchool: string;
-    xLabel: string;
-    heading: React.ReactNode
-    fileName: string
-}

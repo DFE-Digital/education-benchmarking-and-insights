@@ -1,32 +1,41 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public static class SearchResourceNames
 {
     public static class DataSources
     {
-        public const string CosmosEbisEdubase ="cosmos-ebis-edubase";
-        public const string CosmosEbisEdubaseSchool ="cosmos-ebis-edubase-school";
-        public const string CosmosEbisEdubaseTrust ="cosmos-ebis-edubase-trust";
+        public const string School = "school-data-source";
+        public const string Trust = "trust-data-source";
+
+        public const string OrganisationSchool = "organisation-school-data-source";
+        public const string OrganisationTrust = "organisation-trust-data-source";
+        public const string OrganisationLa = "organisation-la-data-source";
     }
-    
+
     public static class Indexers
     {
-        public const string CosmosSchoolEdubase ="school-edubase-cosmos-indexer";
-        public const string CosmosTrustEdubase ="trust-edubase-cosmos-indexer";
-        public const string CosmosEstablishmentSchoolEdubase ="establishment-school-edubase-cosmos-indexer";
+        public const string School = "school-indexer";
+        public const string Trust = "trust-indexer";
+
+        public const string OrganisationSchool = "organisation-school-indexer";
+        public const string OrganisationTrust = "organisation-trust-indexer";
+        public const string OrganisationLa = "organisation-la-indexer";
     }
-    
+
     public static class Indexes
     {
-        public const string Establishment = "establishment-index";
+        public const string Organisation = "organisation-index";
         public const string School = "school-index";
         public const string Trust = "trust-index";
     }
-    
+
     public static class Suggesters
     {
         public const string Trust = "trust-suggester";
         public const string School = "school-suggester";
-        public const string Establishment = "establishment-suggester";
+        public const string Organisation = "organisation-suggester";
     }
 }

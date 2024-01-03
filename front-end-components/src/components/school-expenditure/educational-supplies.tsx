@@ -1,65 +1,110 @@
-import React from "react";
+import React, {useState} from "react";
 import ChartWrapper from "../chart-wrapper";
+import {CalculateCostValue, CostCategories, DimensionHeading, PoundsPerPupil} from "../../chart-dimensions";
+import {ChartDimensionContext} from "../../contexts";
+import {ChartWrapperData} from "../../types";
 
-const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({urn, schools}) => {
-    const labels = schools.map(result => result.name)
+const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
+    const [dimension, setDimension] = useState(PoundsPerPupil)
+    const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
-    const examinationFeesBarData = {
-        labels: labels,
-        data: schools.map(result => result.examinationFeesCosts)
+    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setDimension(event.target.value)
     }
 
-    const breakdownEducationalBarData = {
-        labels: labels,
-        data: schools.map(result => result.breakdownEducationalSuppliesCosts)
+    const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
+
+    const examinationFeesBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.examinationFeesCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-    const learningResourcesBarData = {
-        labels: labels,
-        data: schools.map(result => result.learningResourcesNonIctCosts)
+    const breakdownEducationalBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.breakdownEducationalSuppliesCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
     }
 
-
-    const chosenSchoolName = schools.find(school => school.urn === urn)?.name || '';
+    const learningResourcesBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.learningResourcesNonIctCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
+    }
 
     return (
-        <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-                <h2 className="govuk-accordion__section-heading">
+        <ChartDimensionContext.Provider value={dimension}>
+            <div className="govuk-accordion__section">
+                <div className="govuk-accordion__section-header">
+                    <h2 className="govuk-accordion__section-heading">
                         <span className="govuk-accordion__section-button" id="accordion-heading-educational-supplies">
                             Educational supplies
                         </span>
-                </h2>
+                    </h2>
+                </div>
+                <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
+                     aria-labelledby="accordion-heading-educational-supplies">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
+                                  data={examinationFeesBarData}
+                                  elementId="examination-fees-costs"
+                                  chartDimensions={chartDimensions}
+                    />
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
+                                  data={breakdownEducationalBarData}
+                                  elementId="breakdown-eductional-supplies-costs"
+                    />
+                    <ChartWrapper
+                        heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
+                        data={learningResourcesBarData}
+                        elementId="learning-resource-not-ict-costs"
+                    />
+                </div>
             </div>
-            <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
-                 aria-labelledby="accordion-heading-educational-supplies">
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
-                              data={examinationFeesBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="examination-fees-costs"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
-                              data={breakdownEducationalBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="breakdown-eductional-supplies-costs"/>
-                <ChartWrapper heading={<h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>}
-                              data={learningResourcesBarData}
-                              chosenSchoolName={chosenSchoolName}
-                              fileName="learning-resource-not-ict-costs"/>
-            </div>
-        </div>
+        </ChartDimensionContext.Provider>
     )
 };
 
 export default EducationalSupplies
 
 export type EducationalSuppliesProps = {
-    urn: string
     schools: EducationalSuppliesData[]
 }
 
 export type EducationalSuppliesData = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint

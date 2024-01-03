@@ -5,16 +5,18 @@ namespace EducationBenchmarking.Web.ViewModels
     public class SchoolComparisonViewModel
     {
         private readonly School _school;
-        private readonly Finances _finances;
+        private readonly FinanceYears _years;
 
-        public SchoolComparisonViewModel(School school, Finances finances)
+        public SchoolComparisonViewModel(School school, FinanceYears years)
         {
             _school = school;
-            _finances = finances;
+            _years = years;
         }
 
         public string Urn => _school.Urn;
         public string Name => _school.Name;
-        public string FinancePeriod => $"{_finances.YearEnd - 1}/{_finances.YearEnd}";
+        public string AcademiesFinancePeriod => $"{_years.Academies - 1} / {_years.Academies}";
+        public string MaintainedSchoolsFinancePeriod => $"{_years.MaintainedSchools - 1} - {_years.MaintainedSchools}";
     }
+    
 }

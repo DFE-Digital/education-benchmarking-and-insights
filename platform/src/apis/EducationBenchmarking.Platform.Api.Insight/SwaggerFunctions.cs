@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Net.Http;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -7,6 +8,7 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 
 namespace EducationBenchmarking.Platform.Api.Insight;
 
+[ExcludeFromCodeCoverage]
 public static class SwaggerFunctions
 {
     [SwaggerIgnore]

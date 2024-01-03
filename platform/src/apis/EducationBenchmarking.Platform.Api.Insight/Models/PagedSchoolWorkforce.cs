@@ -1,9 +1,11 @@
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Shared;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Models;
 
+[ExcludeFromCodeCoverage]
 public class PagedSchoolWorkforce : PagedResults<SchoolWorkforce>
 {
     public static PagedSchoolWorkforce Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page,

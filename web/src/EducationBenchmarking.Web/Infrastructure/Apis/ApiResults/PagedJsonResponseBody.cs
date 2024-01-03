@@ -13,7 +13,7 @@ public class PagedJsonResponseBody : ApiResponseBody
     {
     }
 
-    public PagedResults<T>? ReadAs<T>()
+    public PagedResults<T> ReadAs<T>()
     {
         return Content.FromJson<PagedResults<T>>();
     }

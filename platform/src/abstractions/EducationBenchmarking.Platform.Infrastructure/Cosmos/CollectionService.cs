@@ -1,13 +1,10 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
-public interface ICollectionService
-{
-    Task<DataCollection> GetLatestCollection(string dataGroup);
-}
-
+[ExcludeFromCodeCoverage]
 public class CollectionServiceOptions
 {
     [Required] public string ConnectionString { get; set; }
@@ -15,6 +12,8 @@ public class CollectionServiceOptions
     [Required] public string LookupCollectionName { get; set; }
 }
 
+
+[ExcludeFromCodeCoverage]
 public class CollectionService : CosmosDatabase, ICollectionService
 {
     private readonly CollectionServiceOptions _options;
@@ -48,4 +47,9 @@ public class CollectionService : CosmosDatabase, ICollectionService
         return activeCollections.MaxBy(o => o.Name.Split('-').First())
                ?? throw new ArgumentException("Collection not found for the data group");
     }
+}
+
+public interface ICollectionService
+{
+    Task<DataCollection> GetLatestCollection(string dataGroup);
 }

@@ -1,6 +1,7 @@
 ﻿using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
+using EducationBenchmarking.Web.Services;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,16 +12,14 @@ namespace EducationBenchmarking.Web.Controllers;
 public class ProxyController : Controller
 {
     private readonly ILogger<ProxyController> _logger;
-    private readonly IInsightApi _insightApi;
     private readonly IEstablishmentApi _establishmentApi;
-    private readonly IBenchmarkApi _benchmarkApi;
+    private readonly IFinanceService _financeService;
 
-    public ProxyController(ILogger<ProxyController> logger, IInsightApi insightApi, IEstablishmentApi establishmentApi, IBenchmarkApi benchmarkApi)
+    public ProxyController(ILogger<ProxyController> logger, IEstablishmentApi establishmentApi, IFinanceService financeService)
     {
         _logger = logger;
-        _insightApi = insightApi;
         _establishmentApi = establishmentApi;
-        _benchmarkApi = benchmarkApi;
+        _financeService = financeService;
     }
     
     [HttpGet]
@@ -32,14 +31,7 @@ public class ProxyController : Controller
         {
             try
             {
-                var comparatorSet = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
-                var query = new ApiQuery().Page(1, comparatorSet.TotalResults);
-                foreach (var school in comparatorSet.Results)
-                {
-                    query.AddIfNotNull("urns", school.Urn);
-                }
-                
-                var result = await _insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
+                var result = await _financeService.GetExpenditure(urn);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -59,14 +51,7 @@ public class ProxyController : Controller
         {
             try
             {
-                var comparatorSet = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
-                var query = new ApiQuery().Page(1, comparatorSet.TotalResults);
-                foreach (var school in comparatorSet.Results)
-                {
-                    query.AddIfNotNull("urns", school.Urn);
-                }
-                
-                var result = await _insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
+                var result = await _financeService.GetWorkforce(urn);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -88,12 +73,12 @@ public class ProxyController : Controller
             {
                 switch (type.ToLower())
                 {
-                    case "school":
+                    case Constants.SchoolOrganisationType:
                         return await SchoolSuggestions(search,cancellation);
-                    case "trust":
+                    case Constants.TrustOrganisationType:
                         return await TrustSuggestions(search,cancellation);
                     default:
-                        throw new ArgumentOutOfRangeException(nameof(type));
+                        return await OrganisationSuggestions(search,cancellation);
                 }
             }
             catch (TaskCanceledException)
@@ -144,10 +129,40 @@ public class ProxyController : Controller
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");
+            
             if (text != value.Document.Name)
             {
                 value.Text = value.Document.Name;
             }
+            
+            return value;
+        });
+        
+        return new JsonResult(results);
+    }
+    
+    private async Task<IActionResult> OrganisationSuggestions(string search, CancellationToken cancellation)
+    {
+        var suggestions = await _establishmentApi.SuggestOrganisations(search, cancellation).GetResultOrThrow<SuggestOutput<Organisation>>();
+        var results = suggestions.Results.Select(value =>
+        {
+            var text = value.Text.Replace("*", "");
+            
+            var additionalDetails = new List<string>();
+                    
+            if(!string.IsNullOrWhiteSpace(value.Document.Town)) additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town );
+            if(!string.IsNullOrWhiteSpace(value.Document.Postcode)) additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
+            
+            if (text != value.Document.Name)
+            {
+                value.Text = value.Document.Name;
+            }
+            
+            var additionalText = additionalDetails.Count > 0
+                ? $" ({string.Join(", ", additionalDetails.Select(a => a))})"
+                : "";
+                    
+            value.Text = $"{value.Text}{additionalText}";
             
             return value;
         });
