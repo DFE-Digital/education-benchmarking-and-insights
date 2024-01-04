@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Shared;
 
+[ExcludeFromCodeCoverage]
 public class SchoolTrustFinance
 {
     public long? URN { get; set; }

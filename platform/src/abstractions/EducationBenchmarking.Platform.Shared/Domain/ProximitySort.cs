@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Shared;
 
+[ExcludeFromCodeCoverage]
 public static class ProximitySortKinds
 {
     public const string Sen = "SEN";
@@ -7,11 +10,13 @@ public static class ProximitySortKinds
     public const string Simple = "Simple";
 }
 
+[ExcludeFromCodeCoverage]
 public abstract class ProximitySort
 { 
     public abstract string Kind { get; }
     public abstract IEnumerable<SchoolTrustFinance> Sort(IEnumerable<SchoolTrustFinance> set);
 }
+
 
 public class UnknownProximitySort : ProximitySort
 {

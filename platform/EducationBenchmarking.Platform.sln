@@ -67,6 +67,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{1D110B5A-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search", "src\search\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Shared.Tests", "tests\EducationBenchmarking.Platform.Shared.Tests\EducationBenchmarking.Platform.Shared.Tests.csproj", "{55E94E05-2406-4B20-9C5B-F3BF9D378104}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -117,6 +119,10 @@ Global
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
@@ -132,5 +138,6 @@ Global
 		{4150CD4C-2835-410D-BB90-B10FD04C6BE5} = {40636378-A9AE-4BD0-95FC-755987FC7388}
 		{D1FD7A16-3B98-4294-89D0-E77539D0E593} = {4150CD4C-2835-410D-BB90-B10FD04C6BE5}
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 	EndGlobalSection
 EndGlobal
