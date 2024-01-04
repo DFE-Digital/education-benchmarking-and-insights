@@ -12,7 +12,7 @@ Feature: CompareYourCosts page is showing correct data
 
     Scenario: download total expenditure chart
         Given I am on compare your costs page
-        When i click on save as image for 'total expenditure'
+        When i click on save as image for total expenditure
         Then chart image is downloaded
 
     Scenario: change dimension of total expenditure and change view to table
