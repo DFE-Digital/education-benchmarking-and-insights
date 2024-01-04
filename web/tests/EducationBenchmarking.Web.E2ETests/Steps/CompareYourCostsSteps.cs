@@ -38,4 +38,29 @@ public class CompareYourCostsSteps
      {
          await _compareYourCostsPage.AssertImageDownload();
      }
+
+     [Given(@"the dimension in dimension dropdown is '(.*)'")]
+     public async Task GivenTheDimensionInDimensionDropdownIs(string dimension)
+     {
+         await _compareYourCostsPage.AssertDimension(dimension);
+     }
+
+     [When(@"I change total expenditure dimension to '(.*)'")]
+     public async Task WhenIChangeTotalExpenditureDimensionTo(string dimension)
+     {
+         await _compareYourCostsPage.ChangeDimension(dimension);
+     }
+
+     [Then(@"the chart should be updated")]
+     public async Task ThenTheChartShouldBeUpdated()
+     {
+         await _compareYourCostsPage.AssertChartUpdate();
+     }
+
+     [Given(@"I am on compare your costs page for school with URN '(.*)'")]
+     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
+     {
+         await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/comparison");
+         await  _compareYourCostsPage.AssertPage();
+     }
 }
