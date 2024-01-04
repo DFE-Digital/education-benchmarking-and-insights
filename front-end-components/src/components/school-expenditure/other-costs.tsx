@@ -255,9 +255,9 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                                   elementId="total-otehr-costs"
                                   chartDimensions={chartDimensions}
                     />
-                    <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance costs</h3>}
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Other insurance premiums costs</h3>}
                                   data={otherInsurancePremiumsCostsBarData}
-                                  elementId="other-insurance-costs"
+                                  elementId="other-insurance-premiums-costs"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Direct revenue financing costs</h3>}
                                   data={directRevenueFinancingCostsBarData}
@@ -275,9 +275,9 @@ const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                                   data={interestChargesLoanBankBarData}
                                   elementId="interest-charges-loan-bank"
                     />
-                    <ChartWrapper heading={<h3 className="govuk-heading-s">PFI costs</h3>}
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">PFI charges</h3>}
                                   data={privateFinanceInitiativeChargesBarData}
-                                  elementId="pfi-costs"
+                                  elementId="pfi-charges"
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Rent and rates costs</h3>}
                                   data={rentRatesCostsBarData}

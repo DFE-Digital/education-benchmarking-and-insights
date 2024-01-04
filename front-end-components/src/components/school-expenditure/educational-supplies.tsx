@@ -14,6 +14,22 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
 
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
+    const totalEducationalSuppliesBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.totalEducationalSuppliesCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
+    }
+
     const examinationFeesBarData: ChartWrapperData = {
         dataPoints: schools.map(school => {
             return {
@@ -74,10 +90,14 @@ const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools}) => {
                 </div>
                 <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-educational-supplies">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Total educational supplies costs</h3>}
+                                  data={totalEducationalSuppliesBarData}
+                                  elementId="total-educational-supplies-costs"
+                                  chartDimensions={chartDimensions}
+                    />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Examination fees costs</h3>}
                                   data={examinationFeesBarData}
                                   elementId="examination-fees-costs"
-                                  chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>}
                                   data={breakdownEducationalBarData}
@@ -108,6 +128,7 @@ export type EducationalSuppliesData = {
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint
+    totalEducationalSuppliesCosts: number
     examinationFeesCosts: number
     breakdownEducationalSuppliesCosts: number
     learningResourcesNonIctCosts: number

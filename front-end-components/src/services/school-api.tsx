@@ -54,13 +54,16 @@ export type SchoolExpenditure = {
     incomeCatering: number
     administrativeSuppliesCosts: number
     learningResourcesIctCosts: number
+    totalEducationalSuppliesCosts: number
     examinationFeesCosts: number
     breakdownEducationalSuppliesCosts: number
     learningResourcesNonIctCosts: number
+    totalNonEducationalSupportStaffCosts: number
     administrativeClericalStaffCosts: number
     auditorsCosts: number
     otherStaffCosts: number
     professionalServicesNonCurriculumCosts: number
+    totalPremisesStaffServiceCosts: number
     cleaningCaretakingCosts: number
     maintenancePremisesCosts: number
     otherOccupationCosts: number

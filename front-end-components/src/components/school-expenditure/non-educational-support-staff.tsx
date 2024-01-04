@@ -30,6 +30,23 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
         tableHeadings: tableHeadings
     }
 
+
+    const totalNonEducationalBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.totalNonEducationalSupportStaffCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
+    }
+
     const auditorsCostsBarData: ChartWrapperData = {
         dataPoints: schools.map(school => {
             return {
@@ -92,10 +109,14 @@ const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProps> = ({
                 <div id="accordion-content-non-educational-support-staff"
                      className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-non-educational-support-staff">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Total non-educational support staff costs</h3>}
+                                  data={totalNonEducationalBarData}
+                                  elementId="total-non-educational-support-staff-costs"
+                                  chartDimensions={chartDimensions}
+                    />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>}
                                   data={administrativeClericalBarData}
                                   elementId="administrative-clerical-staff-costs"
-                                  chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Auditors costs</h3>}
                                   data={auditorsCostsBarData}
@@ -130,6 +151,7 @@ export type NonEducationalSupportStaffData = {
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint
+    totalNonEducationalSupportStaffCosts: number
     administrativeClericalStaffCosts: number
     auditorsCosts: number
     otherStaffCosts: number
