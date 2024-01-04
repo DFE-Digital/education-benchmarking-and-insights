@@ -27,10 +27,12 @@ public record SchoolExpenditure
     
     public decimal LearningResourcesIctCosts { get; set; }
     
+    public decimal TotalEducationalSuppliesCosts { get; set; }
     public decimal ExaminationFeesCosts { get; set; }
     public decimal BreakdownEducationalSuppliesCosts { get; set; }
     public decimal LearningResourcesNonIctCosts { get; set; }
     
+    public decimal TotalNonEducationalSupportStaffCosts { get; set; }    
     public decimal AdministrativeClericalStaffCosts { get; set; }
     public decimal AuditorsCosts { get; set; }
     public decimal OtherStaffCosts { get; set; }
