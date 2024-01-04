@@ -1,26 +1,31 @@
 Feature: CompareYourCosts page is showing correct data
 
-    Background:
-        Given I am on service landing page
-        When I click start now
-        Then I am on find organization page
-        When I type 'the wells free school' in the search bar and click it
-        And I click continue
-        Then I am taken to school home page
-        When I click compare your costs CTA
-        Then I am taken to compare your costs page
+#    Background:
+#        Given I am on service landing page
+#        When I click start now
+#        Then I am on find organization page
+#        When I type 'the wells free school' in the search bar and click it
+#        And I click continue
+#        Then I am taken to school home page
+#        When I click compare your costs CTA
+#        Then I am taken to compare your costs page
 
     Scenario: download total expenditure chart
-        Given I am on compare your costs page
+        Given I am on compare your costs page for school with URN '139696'
         When i click on save as image for total expenditure
         Then chart image is downloaded
 
     Scenario: change dimension of total expenditure and change view to table
-        Given I am on compare your costs page
-        And the default dimension is £ per pupil
-        When I change the to actuals
+        Given I am on compare your costs page for school with URN '139696'
+        And the dimension in dimension dropdown is '£ per pupil'
+        When I change total expenditure dimension to 'actuals'
         Then the chart should be updated
-        When I click on view as table
+
+    Scenario: Change dimension in table view for total expenditure
+        Given I am on compare your costs page for school with URN '139696'
+        And I click on view as table
+        And the dimension in dimension dropdown is '£ per pupil'
+        When I change total expenditure dimension to 'actuals'
         Then the following is showing in the Total expenditure
           | SchoolName                                      | LocalAuthority | SchoolType          | NumberOfPupils | Amount  |
           | Good Shepherd Catholic School                   | 331            | Academy converter   | 225            | 5351.11 |
@@ -39,4 +44,35 @@ Feature: CompareYourCosts page is showing correct data
           | Green Oaks Primary Academy                      | 941            | Academy sponsor led | 217            | 5829.49 |
           | St George's Primary School                      | 810            | Academy converter   | 222            | 6216.22 |
         And Save as image CTA is not showing
-        
+
+    Scenario: Show all CTA should expand all accordions
+        Given I am on compare your costs page for school with URN '139696'
+        When I click on Show all sections
+        Then all accordions on the page are expanded
+        And Save as image CTA is visible
+
+    Scenario: change all charts to table view
+        Given I am on compare your costs page for school with URN '139696'
+        And I click on show all sections
+        When I click on view as table
+        Then all accordions are showing table view
+        And Save as image CTA is visible
+
+    Scenario: Hide single accordion in table view
+        Given I am on compare your costs page for school with URN '139696'
+        And I click on show all sections
+        And I click on view as table
+        When I click hide for non educational support staff
+        Then the accordion non educational support staff is collapsed
+
+    Scenario: Hide single accordion in chart view
+        Given I am on compare your costs page for school with URN '139696'
+        And I click on show all sections
+        When I click hide for teaching and teaching support staff
+        Then the accordion teaching and teaching support staff is collapsed
+
+    Scenario: hide all sections closes all accordions
+        Given I am on compare your costs page for school with URN '139696'
+        And I click on show all sections
+        When I click on hide all sections
+        Then all accordions on the page are collapsed
