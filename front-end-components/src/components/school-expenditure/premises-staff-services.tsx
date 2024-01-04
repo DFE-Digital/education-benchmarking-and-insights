@@ -19,6 +19,22 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
 
     const chartDimensions = {dimensions: PremisesCategories, handleChange: handleSelectChange}
 
+    const totalPremisesStaffServiceCostsBarData: ChartWrapperData = {
+        dataPoints: schools.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculatePremisesValue({
+                    dimension: dimension,
+                    value: school.totalPremisesStaffServiceCosts,
+                    ...school
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+            }
+        }),
+        tableHeadings: tableHeadings
+    }
+
     const cleaningCaretakingBarData: ChartWrapperData = {
         dataPoints: schools.map(school => {
             return {
@@ -96,10 +112,14 @@ const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({schools}) 
                 </div>
                 <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-premises-staff-services">
+                    <ChartWrapper heading={<h3 className="govuk-heading-s">Total premises staff and service costs</h3>}
+                                  data={totalPremisesStaffServiceCostsBarData}
+                                  elementId="total-premises-staff-service-costs"
+                                  chartDimensions={chartDimensions}
+                    />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>}
                                   data={cleaningCaretakingBarData}
                                   elementId="cleaning-caretaking-costs"
-                                  chartDimensions={chartDimensions}
                     />
                     <ChartWrapper heading={<h3 className="govuk-heading-s">Maintenance of premises costs</h3>}
                                   data={maintenanceBarData}
@@ -133,6 +153,7 @@ export type PremisesStaffServicesData = {
     totalIncome: number
     totalExpenditure: number
     numberOfPupils: bigint
+    totalPremisesStaffServiceCosts: number
     cleaningCaretakingCosts: number
     maintenancePremisesCosts: number
     otherOccupationCosts: number

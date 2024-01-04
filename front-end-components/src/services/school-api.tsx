@@ -63,6 +63,7 @@ export type SchoolExpenditure = {
     auditorsCosts: number
     otherStaffCosts: number
     professionalServicesNonCurriculumCosts: number
+    totalPremisesStaffServiceCosts: number
     cleaningCaretakingCosts: number
     maintenancePremisesCosts: number
     otherOccupationCosts: number

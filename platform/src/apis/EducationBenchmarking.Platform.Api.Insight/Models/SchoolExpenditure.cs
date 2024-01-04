@@ -44,6 +44,8 @@ public class SchoolExpenditure
     public decimal OtherStaffCosts { get; set; }
     public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
 
+    
+    public decimal TotalPremisesStaffServiceCosts { get; set; }
     public decimal CleaningCaretakingCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }
     public decimal OtherOccupationCosts { get; set; }
@@ -104,6 +106,8 @@ public class SchoolExpenditure
             AuditorsCosts = dataObject.AuditorCosts,
             OtherStaffCosts = dataObject.OtherStaffCosts,
             ProfessionalServicesNonCurriculumCosts = dataObject.BroughtProfessionalServices,
+            TotalPremisesStaffServiceCosts = dataObject.CleaningCaretaking + dataObject.PremisesStaff + 
+                                             dataObject.OtherOccupationCosts + dataObject.PremisesStaff, 
             CleaningCaretakingCosts = dataObject.CleaningCaretaking,
             MaintenancePremisesCosts = dataObject.Premises,
             OtherOccupationCosts = dataObject.OtherOccupationCosts,
