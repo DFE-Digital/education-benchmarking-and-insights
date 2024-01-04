@@ -20,10 +20,18 @@ public class SearchOrganizationSteps
     {
         _page.WaitForURLAsync(Config.BaseUrl + "/find-organisation");
     }
+    
 
-    [When(@"I type '(.*)' in the search bar")]
-    public async Task WhenITypeInTheSearchBar(string searchText )
+    [When(@"I type '(.*)' in the search bar and click it")]
+    public async Task WhenITypeInTheSearchBarAndClickIt(string searchText)
     {
-       await _searchOrganizationPage.TypeInSearchSearchBar(searchText);
+        await _searchOrganizationPage.TypeInSearchSearchBar(searchText);
+        await _searchOrganizationPage.ClickOnSuggestion(searchText);
+    }
+
+    [When(@"I click continue")]
+    public async Task WhenIClickContinue()
+    {
+       await _searchOrganizationPage.ClickContinueBtn();
     }
 }
