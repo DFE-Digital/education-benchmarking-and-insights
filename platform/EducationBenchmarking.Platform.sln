@@ -65,9 +65,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{1D110B5A-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search", "src\search\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
+<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Functions", "src\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj", "{AD3DC4F8-B866-40FE-A456-B18BA3158403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Domain", "src\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj", "{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}"
+=======
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Shared.Tests", "tests\EducationBenchmarking.Platform.Shared.Tests\EducationBenchmarking.Platform.Shared.Tests.csproj", "{55E94E05-2406-4B20-9C5B-F3BF9D378104}"
+>>>>>>> c15eaa5 (Add init shared test project)
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -123,6 +127,10 @@ Global
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
@@ -139,5 +147,6 @@ Global
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{AD3DC4F8-B866-40FE-A456-B18BA3158403} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{55E94E05-2406-4B20-9C5B-F3BF9D378104} = {88E9B775-3937-45F6-9899-F0ECDD635145}
 	EndGlobalSection
 EndGlobal
