@@ -1,3 +1,4 @@
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
@@ -11,19 +12,15 @@ public class CompareYourCostsSteps
           _page = page;
      }
 
-     [Given(@"I search for a school on search page")]
-     public void GivenISearchForASchoolOnSearchPage()
+     [Then(@"I am taken to compare your costs page")]
+     public void ThenIAmTakenToCompareYourCostsPage()
      {
-          
+          _page.WaitForURLAsync(Config.BaseUrl + "/school/*/comparison");
      }
 
-     [Then(@"the expenditure benchmarking page is displayed")]
-     public void ThenTheExpenditureBenchmarkingPageIsDisplayed()
+     [Given(@"I am on compare your costs page")]
+     public void GivenIAmOnCompareYourCostsPage()
      {
-          /*//add checks for the below 
-          And the common header and footer are used as per the design
-          And the URL is bookmarkable and contains the school's URN
-          And the school name is displayed at the top of the page*/
           ScenarioContext.StepIsPending();
      }
 }

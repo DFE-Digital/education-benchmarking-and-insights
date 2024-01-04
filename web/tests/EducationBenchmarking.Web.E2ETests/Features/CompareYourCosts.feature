@@ -4,10 +4,10 @@ Feature: CompareYourCosts page is showing correct data
         Given I am on service landing page
         When I click start now
         Then I am on find organization page
-        When I type 'the wells free school' in the search bar
-        And I click the school in the search dropdown
+        When I type 'the wells free school' in the search bar and click it
+        And I click continue
         Then I am taken to school home page
-        When I click 'compare your costs' CTA
+        When I click compare your costs CTA
         Then I am taken to compare your costs page
 
     Scenario: download total expenditure chart
