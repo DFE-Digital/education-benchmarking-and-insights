@@ -10,14 +10,14 @@ using SmartBreadcrumbs.Nodes;
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
-[Route("school/{urn}/comparison")]
-public class SchoolComparisonController : Controller
+[Route("school/{urn}/workforce")]
+public class SchoolWorkforceController : Controller
 {
     private readonly IEstablishmentApi _establishmentApi;
-    private readonly ILogger<SchoolComparisonController> _logger;
+    private readonly ILogger<SchoolWorkforceController> _logger;
     private readonly IFinanceService _financeService;
 
-    public SchoolComparisonController(IEstablishmentApi establishmentApi, ILogger<SchoolComparisonController> logger, IFinanceService financeService)
+    public SchoolWorkforceController(IEstablishmentApi establishmentApi, ILogger<SchoolWorkforceController> logger, IFinanceService financeService)
     {
         _establishmentApi = establishmentApi;
         _logger = logger;
@@ -32,7 +32,7 @@ public class SchoolComparisonController : Controller
             try
             {
                 var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-                var childNode = new MvcBreadcrumbNode("Index", "SchoolComparison", "Compare your costs")
+                var childNode = new MvcBreadcrumbNode("Index", "SchoolWorkforce", "Benchmark workforce data")
                 {
                     RouteValues = new { urn },
                     Parent = parentNode
@@ -42,13 +42,13 @@ public class SchoolComparisonController : Controller
                 
                 var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await _financeService.GetYears();
-                var viewModel = new SchoolComparisonViewModel(school, years);
+                var viewModel = new SchoolWorkforceViewModel(school, years);
                 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
+                _logger.LogError(e, "An error displaying school workforce: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
