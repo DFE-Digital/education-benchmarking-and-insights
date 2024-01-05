@@ -8,7 +8,7 @@ steps:
       echo "##vso[task.setvariable variable=PLATFORM_CACHE_RESTORED]false"
       echo "##vso[task.setvariable variable=PLATFORM_NUGET_CACHE]$(Pipeline.Workspace)/platform/.nuget"
 
-  - task: NuGetAuthenticate@0
+  - task: NuGetAuthenticate@1
 
   - task: Cache@2
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))

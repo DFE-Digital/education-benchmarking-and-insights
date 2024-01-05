@@ -58,7 +58,7 @@ stages:
         dependsOn: [Set_Build_Number]
         displayName: 'Run unit tests'
         steps:
-          - task: NuGetAuthenticate@0
+          - task: NuGetAuthenticate@1
           
           - task: Cache@2
             displayName: 'Cache nuget packages'
