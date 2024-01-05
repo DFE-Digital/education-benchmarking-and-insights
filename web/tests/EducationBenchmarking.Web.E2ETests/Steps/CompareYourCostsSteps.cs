@@ -63,4 +63,11 @@ public class CompareYourCostsSteps
          await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/comparison");
          await  _compareYourCostsPage.AssertPage();
      }
+
+     [Then(@"all accordions are showing table view")]
+     public void ThenAllAccordionsAreShowingTableView()
+     {
+         //assert utitlites and premises dimension dropdown 
+         ScenarioContext.StepIsPending();
+     }
 }

@@ -39,7 +39,10 @@ public class CompareYourCostsPage
         await TotalExpenditureDimension.IsVisibleAsync();
         await TotalExpenditureChart.IsVisibleAsync();
         await ShowAllBtn.IsVisibleAsync();
-        
+        /*Given I am viewing charts of the Utilities or Premises expenditure category
+        When I click on dimensions dropdown
+        Then I am presented with a select component which permits the toggling between £ per m², actuals, percentage of expenditure and percentage of income, in that order
+        And the initial value displayed in this drop down is £ per m²*/
         //add further asserts for rest of accordions
     }
 
