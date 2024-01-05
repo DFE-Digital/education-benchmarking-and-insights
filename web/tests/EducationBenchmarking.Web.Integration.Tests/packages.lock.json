@@ -20,16 +20,6 @@
           "AngleSharp": "[0.17.0, 0.18.0)"
         }
       },
-      "AngleSharp.Js": {
-        "type": "Direct",
-        "requested": "[0.15.0, )",
-        "resolved": "0.15.0",
-        "contentHash": "m8pgXJz+sCWfjPeTQreOLCLZe+j7TtEgo4UkmlDmxV/i1uLpShcSQVJU8Nxw4E4wOaeIVP1l6kc65U2e+/P0Uw==",
-        "dependencies": {
-          "AngleSharp": "0.14.0",
-          "Jint": "2.10.4"
-        }
-      },
       "AutoFixture": {
         "type": "Direct",
         "requested": "[4.18.1, )",
@@ -134,17 +124,6 @@
         "type": "Transitive",
         "resolved": "11.8.1",
         "contentHash": "N72rnlE99XYB7EGA1u9y7m7kNTTynqOPBhZqDE8zr1Y0aSR4t5si94LRA7UVdAV09GaXWCErW+EiFhfbg3DSbg=="
-      },
-      "jint": {
-        "type": "Transitive",
-        "resolved": "2.10.4",
-        "contentHash": "PJ20tSyhW0AafikDa2CpiGv5c5DZ9Q20v7EXRiCLl+G+MNoMpggAeW0T03S/xUk6rj1zl29HbfpsVWlcq6DEDA==",
-        "dependencies": {
-          "NETStandard.Library": "1.6.0",
-          "System.Diagnostics.Contracts": "4.0.1",
-          "System.Dynamic.Runtime": "4.0.11",
-          "System.Reflection.TypeExtensions": "4.1.0"
-        }
       },
       "JsonSubTypes": {
         "type": "Transitive",
@@ -1161,14 +1140,6 @@
           "System.IO": "4.3.0",
           "System.Runtime": "4.3.0",
           "System.Text.Encoding": "4.3.0"
-        }
-      },
-      "System.Diagnostics.Contracts": {
-        "type": "Transitive",
-        "resolved": "4.0.1",
-        "contentHash": "HvQQjy712vnlpPxaloZYkuE78Gn353L0SJLJVeLcNASeg9c4qla2a1Xq8I7B3jZoDzKPtHTkyVO7AZ5tpeQGuA==",
-        "dependencies": {
-          "System.Runtime": "4.1.0"
         }
       },
       "System.Diagnostics.Debug": {

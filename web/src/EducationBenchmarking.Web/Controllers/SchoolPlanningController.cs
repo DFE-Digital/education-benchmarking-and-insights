@@ -1,4 +1,5 @@
 using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Attributes;
@@ -20,7 +21,7 @@ public class SchoolPlanningController : Controller
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (_logger.BeginScope(new { urn }))
         {
             try
             {
@@ -30,11 +31,11 @@ public class SchoolPlanningController : Controller
                     RouteValues = new { urn },
                     Parent = parentNode
                 };
-                
-                ViewData["BreadcrumbNode"] = childNode; 
-                
-                
-                return View();
+
+                ViewData["BreadcrumbNode"] = childNode;
+
+
+                return View(new SchoolPlanningViewModel { Urn = urn });
             }
             catch (Exception e)
             {

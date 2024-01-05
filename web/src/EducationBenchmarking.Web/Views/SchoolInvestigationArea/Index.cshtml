@@ -1,5 +1,24 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolInvestigationViewModel
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l">View your areas for investigation</h1>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">More tools</h2>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("CompareYourCosts", Model.Urn)
+    </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
+    </div>
+    <div class="govuk-grid-column-one-third">
+        @await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)
     </div>
 </div>

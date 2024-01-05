@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
@@ -72,5 +73,7 @@ app.MapControllerRoute(
 
 app.Run();
 
-public partial class Program { } // required for intergration tests
+
+[ExcludeFromCodeCoverage]
+public partial class Program { } // required for integration tests
 

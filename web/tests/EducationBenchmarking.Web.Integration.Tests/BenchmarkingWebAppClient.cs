@@ -1,8 +1,6 @@
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
-using EducationBenchmarking.Web.Services;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Moq;
 using Xunit;
 
