@@ -56,6 +56,8 @@ export type ExpenditureResult = {
 } 
 
 export type WorkforceBenchmark = {
+    urn: string
+    name: string
     schoolWorkforceFTE: number;
     totalNumberOfTeachersFTE: number;
     teachersWithQTSFTE: number;
