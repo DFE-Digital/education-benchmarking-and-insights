@@ -28,4 +28,8 @@
 	  <ProjectReference Include="..\..\src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+		<AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+	</ItemGroup>
+
 </Project>

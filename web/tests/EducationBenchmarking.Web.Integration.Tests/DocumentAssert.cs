@@ -163,63 +163,7 @@ public static class DocumentAssert
                     $"The {element.Id} should have govuk-button--disabled class supplied");
             }
         }
-
-        public static void AvailableFunctions(IHtmlDocument doc, bool enabled,
-            params (IElement element, string, string)[] functions)
-        {
-            var headerElement = doc.GetElementById("available-functions");
-
-            Assert.Equal(headerElement != null, enabled);
-            if (headerElement == null)
-                return;
-
-            var header = string.Join(" ", headerElement.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
-
-            Assert.Equal("Available functions", header);
-
-            foreach (var (element, contents, url) in functions)
-            {
-                SecondaryCTA(element, contents, url);
-            }
-        }
-
-        public static void Search(IHtmlDocument doc, bool enabled, bool hasButton, bool hasLabel, string searchLabel = "")
-        {
-            var input = doc.GetElementById("search");
-            var button = doc.GetElementById("search-btn");
-            var label = doc.GetElementById("search-label");
-
-            if (enabled)
-            {
-                Assert.NotNull(input);
-                if (hasButton)
-                {
-                    Assert.NotNull(button);
-                }
-
-                if (!hasLabel) return;
-                
-                Assert.NotNull(label);
-                var labelText = String.Join(" ", label.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
-                Assert.Equal(searchLabel, labelText);
-                
-            }
-            else
-            {
-                Assert.Null(input);
-
-                if (hasButton)
-                {
-                    Assert.Null(button);
-                }
-
-                if (hasLabel)
-                {
-                    Assert.Null(label);
-                }
-            }
-        }
-
+        
         public static void Link(IElement element, string contents, string url)
         {
             Assert.Equal(contents, element.TextContent.Trim());
@@ -234,8 +178,7 @@ public static class DocumentAssert
                 Assert.Equal(url, l.Href);
             }
 
-            Assert.True(element.ClassList.Contains("govuk-link") || element.ClassList.Contains("button-as-link"),
-                "A link should have a the class govuk-link or button-as-link assigned");
+            Assert.True(element.ClassList.Contains("govuk-link"),"A link should have a the class govuk-link");
         }
 
         public static void Table(IElement element, List<List<string>> data, bool removeHeadingSpan = false,

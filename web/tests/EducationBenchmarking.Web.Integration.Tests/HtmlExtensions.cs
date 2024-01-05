@@ -49,17 +49,18 @@ public static class HtmlExtensions
         {
             foreach (var file in files)
             {
-                fileInput.Files.Add(file);
+                fileInput.Files?.Add(file);
             }
         }
 
         return form;
     }
-        
+    
     public static async Task<IHtmlDocument> GetDocumentAsync(this HttpResponseMessage response)
     {
         var content = await response.Content.ReadAsStringAsync();
         var document = await BrowsingContext.New(Configuration.Default.WithCss()).OpenAsync(ResponseFactory, CancellationToken.None);
+        
         return (IHtmlDocument) document;
 
         void ResponseFactory(VirtualResponse htmlResponse)
@@ -87,12 +88,7 @@ public static class HtmlExtensions
             }
         }
     }
-
-    public static async Task<IHtmlDocument> GetDocumentAsync(this string content)
-    {
-        return (IHtmlDocument) await BrowsingContext.New(Configuration.Default.WithCss()).OpenAsync(req => req.Content(content), CancellationToken.None);
-    }
-
+    
     public static async Task<IHtmlDocument> GetDocumentAsync(this Task<HttpResponseMessage> responseMessage)
     {
         var response = await responseMessage;
@@ -119,7 +115,7 @@ public static class HtmlExtensions
         
     public static IEnumerable<T> FindMainContentElements<T>(this IHtmlDocument doc)
     {
-        return doc.GetElementById("main-content").Descendents().OfType<T>();
+        return (doc.GetElementById("main-content") ?? throw new NullReferenceException()).Descendants().OfType<T>();
     }
         
 }

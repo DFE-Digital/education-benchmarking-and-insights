@@ -44,7 +44,7 @@ public abstract class ClientBase<TStartup> : IDisposable
         }
     }
         
-    public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage> responseValidation = null)
+    public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage>? responseValidation = null)
     {
         var response = await _http.GetAsync(uri);
         responseValidation?.Invoke(response);

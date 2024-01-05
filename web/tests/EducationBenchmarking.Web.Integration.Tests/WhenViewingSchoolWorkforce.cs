@@ -5,9 +5,9 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
+public class WhenViewingSchoolWorkforce : BenchmarkingWebAppClient
 {
-    public WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory) : base(factory)
     {
     }
 
@@ -25,7 +25,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupInsightsFromAcademy(school,finances)
-            .Navigate($"/school/{school.Urn}/comparison");
+            .Navigate($"/school/{school.Urn}/workforce");
             
         AssertPageLayout(page, school);
     }
@@ -44,11 +44,11 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupInsightsFromMaintainedSchool(school,finances)
-            .Navigate($"https://localhost/school/{school.Urn}/comparison");
-            
+            .Navigate($"/school/{school.Urn}/workforce");
+
         AssertPageLayout(page, school);
     }
-
+    
     [Fact]
     public async Task CanNavigateToChangeSchool()
     {
@@ -78,9 +78,9 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
     }
     
     [Fact]
-    public async Task CanNavigateToWorkforceBenchmark()
+    public async Task CanNavigateToCompareCosts()
     {
-        //TODO : Add test case to click on and follow benchmark workforce data link
+        //TODO : Add test case to click on and follow compare your costs link
         Assert.True(true);
     }
     
@@ -100,19 +100,19 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
     
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Benchmark the workforce data for {school.Name}");
             
         var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);
-        DocumentAssert.Link(changeLinkElement, "Change school", $"https://localhost/school/{school.Urn}/comparison");
+        DocumentAssert.Link(changeLinkElement, "Change school", $"https://localhost/school/{school.Urn}/workforce");
             
         var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
         Assert.NotNull(viewYourComparatorLinkElement);
-        DocumentAssert.PrimaryCTA(viewYourComparatorLinkElement, "View your comparator set", $"/school/{school.Urn}/comparison");
+        DocumentAssert.PrimaryCTA(viewYourComparatorLinkElement, "View your comparator set", $"/school/{school.Urn}/workforce");
         
-        var comparisonComponent = page.GetElementById("compare-your-school");
-        Assert.NotNull(comparisonComponent);
-        
+        var workforceComponent = page.GetElementById("compare-your-workforce");
+        Assert.NotNull(workforceComponent);
+
         //TODO: Get and assert more tools section on page
     }
 }
