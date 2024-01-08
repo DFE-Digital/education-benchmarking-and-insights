@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Html.Dom;
+using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
@@ -25,7 +26,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupInsightsFromAcademy(school,finances)
-            .Navigate($"/school/{school.Urn}/comparison");
+            .Navigate(Paths.SchoolComparison(school.Urn));
             
         AssertPageLayout(page, school);
     }
@@ -44,7 +45,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             
         var page = await SetupEstablishment(school)
             .SetupInsightsFromMaintainedSchool(school,finances)
-            .Navigate($"https://localhost/school/{school.Urn}/comparison");
+            .Navigate(Paths.SchoolComparison(school.Urn));
             
         AssertPageLayout(page, school);
     }
@@ -87,32 +88,47 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
     [Fact]
     public async Task CanDisplayNotFound()
     {
-        //TODO : Add test case for when API returns status code exception
-        Assert.True(true);
+        var page = await SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolComparison("12345"));
+        
+        DocumentAssert.AssertPageUrl(page, Paths.StatusError(404).ToAbsolute());
     }
     
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
-        //TODO : Add test case for when controller throws exception that isn't a status code exception
-        Assert.True(true);
+        var page = await SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolComparison("12345"));
+        
+        DocumentAssert.AssertPageUrl(page, Paths.StatusError(500).ToAbsolute());
     }
     
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute()),
+            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
+            ("Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute()),
+        };
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
             
         var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);
-        DocumentAssert.Link(changeLinkElement, "Change school", $"https://localhost/school/{school.Urn}/comparison");
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolComparison(school.Urn).ToAbsolute());
             
         var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
         Assert.NotNull(viewYourComparatorLinkElement);
-        DocumentAssert.PrimaryCTA(viewYourComparatorLinkElement, "View your comparator set", $"/school/{school.Urn}/comparison");
+        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparison(school.Urn));
         
         var comparisonComponent = page.GetElementById("compare-your-school");
         Assert.NotNull(comparisonComponent);
         
+        var toolsHeadingSection = page.Body.SelectSingleNode("//main/div[4]");
+        DocumentAssert.Heading2(toolsHeadingSection, "More tools");
         //TODO: Get and assert more tools section on page
     }
 }

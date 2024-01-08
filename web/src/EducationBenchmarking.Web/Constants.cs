@@ -15,5 +15,7 @@ public static class Constants
     public const string SectionInsightApi = "Apis:Insight";
     public const string SectionEstablishmentApi = "Apis:Establishment";
     public const string SectionBenchmarkApi = "Apis:Benchmark";
-}
 
+    public static string GiasSchoolUrl(string urn) => $"https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/{urn}";
+    public static string GiasTrustUrl(string uid) => $"https://www.get-information-schools.service.gov.uk/Groups/Group/Details/{uid}";
+}

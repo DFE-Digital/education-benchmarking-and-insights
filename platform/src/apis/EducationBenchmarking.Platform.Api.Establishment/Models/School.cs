@@ -17,6 +17,8 @@ public class School : IEquatable<School>
     public string? Town { get; set; }
     public string? County { get; set; }
     public string? Postcode { get; set; }
+    public string? CompanyNumber { get; set; }
+    public string? TrustOrCompanyName { get; set; }
 
     public bool Equals(School? other)
     {

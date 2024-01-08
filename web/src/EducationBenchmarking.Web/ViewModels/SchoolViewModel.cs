@@ -21,6 +21,10 @@ public class SchoolViewModel
     public string Name => _school.Name;
     public string Urn => _school.Urn;
     public string LastFinancialYear => $"{_finances.YearEnd}";
+    public bool IsPartOfTrust => !string.IsNullOrEmpty(_school.CompanyNumber);
+    public string TrustIdentifier => _school.CompanyNumber;
+    public string TrustName => _school.TrustOrCompanyName;
+    
     public IEnumerable<AreaOfInvestigation> AreaOfInvestigations => _areaOfInvestigations;
     
     public IEnumerable<AreaOfInvestigation> RedAreaOfInvestigations => _areaOfInvestigations.Where(x => x.RatingColour == "Red");

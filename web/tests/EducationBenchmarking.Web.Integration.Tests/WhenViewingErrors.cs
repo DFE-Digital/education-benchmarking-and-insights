@@ -12,7 +12,7 @@ public class WhenViewingErrors : BenchmarkingWebAppClient
     [Fact]
     public async Task CanDisplayProblemWithServicePage()
     {
-        var page = await Navigate("/error");
+        var page = await Navigate(Paths.Error);
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights","Sorry, there is a problem with the service");
     }
@@ -22,7 +22,7 @@ public class WhenViewingErrors : BenchmarkingWebAppClient
     [InlineData(500, "Sorry, there is a problem with the service")]
     public async Task CanDisplayStatusErrorPage(int statusCode, string heading)
     {
-        var page = await Navigate($"/error/{statusCode}");
+        var page = await Navigate(Paths.StatusError(statusCode));
             
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",heading);
     }

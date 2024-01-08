@@ -11,24 +11,28 @@ public class WhenViewingServiceHome : BenchmarkingWebAppClient
     [Fact]
     public async Task CanDisplayHomepage()
     {
-        var page = await Navigate("/");
-            
+        var page = await Navigate(Paths.ServiceHome);
+        
+        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
+        
+        DocumentAssert.AssertPageUrl(page, Paths.ServiceHome.ToAbsolute());
+        DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Education benchmarking and insights","Education benchmarking and insights");
         
         var startButton = page.GetElementsByClassName("govuk-button--start").FirstOrDefault();
         Assert.NotNull(startButton);
-        DocumentAssert.PrimaryCTA(startButton, "Start now", "/find-organisation");
+        DocumentAssert.PrimaryCta(startButton, "Start now", Paths.FindOrganisation);
     }
     
     [Fact]
     public async Task CanNavigateToFindOrganisation()
     {
-        var page = await Navigate("/");
+        var page = await Navigate(Paths.ServiceHome);
         var startButton = page.GetElementsByClassName("govuk-button--start").FirstOrDefault();
         Assert.NotNull(startButton);
         
         page = await Follow(startButton);
         
-        DocumentAssert.AssertPageUrl(page, "https://localhost/find-organisation");
+        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
 }

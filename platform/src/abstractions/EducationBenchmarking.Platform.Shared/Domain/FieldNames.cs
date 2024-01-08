@@ -217,6 +217,7 @@ public static class EdubaseFieldNames
         public const string RELIGIOUS_CHARACTER = "ReligiousCharacter";
         public const string GENDER = "Gender";
         public const string COMPANY_NUMBER = "CompanyNumber";
+        public const string TRUST_NAME = "TrustOrCompanyName";
         public const string UID = "UID";
         public const string NURSERY_PROVISION = "NurseryProvisionName";
         public const string MAT_SAT = "MAT SAT or Central Services";
