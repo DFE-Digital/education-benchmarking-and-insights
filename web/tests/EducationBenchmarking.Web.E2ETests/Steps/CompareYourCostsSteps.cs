@@ -40,6 +40,7 @@ public class CompareYourCostsSteps
      }
 
      [Given(@"the dimension in dimension dropdown is '(.*)'")]
+     [Then(@"the dimension in dimension dropdown is '(.*)'")]
      public async Task GivenTheDimensionInDimensionDropdownIs(string dimension)
      {
          await _compareYourCostsPage.AssertDimension(dimension);
@@ -49,12 +50,6 @@ public class CompareYourCostsSteps
      public async Task WhenIChangeTotalExpenditureDimensionTo(string dimension)
      {
          await _compareYourCostsPage.ChangeDimension(dimension);
-     }
-
-     [Then(@"the chart should be updated")]
-     public async Task ThenTheChartShouldBeUpdated()
-     {
-         await _compareYourCostsPage.AssertChartUpdate();
      }
 
      [Given(@"I am on compare your costs page for school with URN '(.*)'")]
@@ -69,5 +64,17 @@ public class CompareYourCostsSteps
      {
          //assert utitlites and premises dimension dropdown 
          ScenarioContext.StepIsPending();
+     }
+
+     [Given(@"I click on view as table")]
+     public async Task GivenIClickOnViewAsTable()
+     {
+        await _compareYourCostsPage.ClickViewAsTable();
+     }
+
+     [Then(@"the following is showing in the Total expenditure")]
+     public async Task ThenTheFollowingIsShowingInTheTotalExpenditure(Table expectedData)
+     {
+         await _compareYourCostsPage.CompareTableData(expectedData);
      }
 }

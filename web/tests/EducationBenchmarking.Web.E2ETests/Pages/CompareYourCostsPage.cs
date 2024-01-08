@@ -1,3 +1,4 @@
+using Google.Protobuf;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -30,6 +31,12 @@ public class CompareYourCostsPage
     private ILocator TeachingAndTeachingSupportStaffAccordion =>
         _page.Locator("#accordion-heading-teaching-support-staff");
 
+    private ILocator ViewAsTableBtn => _page.Locator(".govuk-button:has-text('View as table')");
+    private ILocator Table(string table) => _page.Locator($"h2:has-text(\"{table}\") + div table.govuk-table");
+
+    //private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
+
+
     public async Task AssertPage()
     {
         await PageH1Heading.IsVisibleAsync();
@@ -49,20 +56,22 @@ public class CompareYourCostsPage
     public async Task ClickOnSaveImg()
     {
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-         _downloadEvent = _page.WaitForDownloadAsync();
+        _downloadEvent = _page.WaitForDownloadAsync();
         await SaveImageTotalExpenditure.ClickAsync();
     }
 
     public async Task AssertImageDownload()
     {
-        var download =await _downloadEvent;
+        var download = await _downloadEvent;
         string downloadedFilePath = download.SuggestedFilename;
         Assert.Equal("total-expenditure.png", downloadedFilePath);
     }
 
     public async Task AssertDimension(string value)
     {
-        var selectedValue = await TotalExpenditureDimension.EvaluateAsync<string>("select => select.options[select.selectedIndex].text");
+        var selectedValue =
+            await TotalExpenditureDimension.EvaluateAsync<string>(
+                "select => select.options[select.selectedIndex].text");
         Assert.Equal(value, selectedValue.ToString());
     }
 
@@ -72,21 +81,54 @@ public class CompareYourCostsPage
         await AssertDimension(value);
     }
 
-    public async Task AssertChartUpdate()
+    public async Task ClickViewAsTable()
     {
-       // await Task.Delay(5000);
-       var canvasElement =  TotalExpenditureChart;
+        await ViewAsTableBtn.ClickAsync();
+    }
 
-        if (canvasElement != null)
+    public async Task CompareTableData(Table expectedData)
+    {
+        var expectedHeaders = expectedData.Header.ToArray();
+        var expectedTable = new List<string>(expectedHeaders);
+        foreach (var row in expectedData.Rows)
         {
-            var canvasBeforeChange = await _page.EvaluateAsync<byte[]>(
-                "canvas => { const ctx = canvas.getContext('2d'); return ctx.getImageData(0, 0, canvas.width, canvas.height).data; }");
-            var canvasAfterChange = await _page.EvaluateAsync<byte[]>(
-                "canvas => { const ctx = canvas.getContext('2d'); return ctx.getImageData(0, 0, canvas.width, canvas.height).data; }");
-
-
-            // Assert that the pixel data has changed
-            Assert.NotEqual(canvasBeforeChange, canvasAfterChange);
+            expectedTable.AddRange(row.Values);
         }
+
+        var actualTable = await GetActualTableData("Total Expenditure");
+
+        Assert.Equal(expectedTable, actualTable.SelectMany(row => row).ToList());
+    }
+
+    private async Task<List<List<string>>> GetActualTableData(string table)
+    {
+        var headers = await _page.QuerySelectorAllAsync($"h2:has-text(\"{table}\") + div table.govuk-table thead th");
+        var headerTexts = await Task.WhenAll(headers.Select(async header =>
+        {
+            var textContent = await header.TextContentAsync();
+            return textContent.Trim();
+        }));
+
+        var headerList = headerTexts.ToList();
+        var actualTableData = new List<List<string>> { headerList };
+
+        var rows = await _page.QuerySelectorAllAsync($"h2:has-text(\"{table}\") + div table.govuk-table tbody tr");
+
+        var tableData = await Task.WhenAll(rows.Select(async row =>
+        {
+            var cells = await row.QuerySelectorAllAsync("td");
+
+            var cellTexts = await Task.WhenAll(cells.Select(async cell =>
+            {
+                var textContent = await cell.TextContentAsync();
+                return textContent.Trim();
+            }));
+
+            return cellTexts.ToList();
+        }));
+
+        actualTableData.AddRange(tableData);
+
+        return actualTableData;
     }
 }
