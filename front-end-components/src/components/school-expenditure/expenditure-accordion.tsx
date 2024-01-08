@@ -21,7 +21,7 @@ const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({schools}) =>
                     <EducationalSupplies schools={schools}/>
                     <EducationalIct schools={schools}/>
                     <PremisesStaffServices schools={schools}/>
-                    <Utilities/>
+                    <Utilities schools={schools}/>
                     <AdministrativeSupplies schools={schools}/>
                     <CateringStaffServices schools={schools}/>
                     <OtherCosts schools={schools}/>

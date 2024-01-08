@@ -66,9 +66,9 @@ public class SchoolExpenditure
     public decimal CommunityFocusedSchoolStaff { get; set; }
     public decimal CommunityFocusedSchoolCosts { get; set; }
 
-//     public decimal? TotalUtilitiesCostPerMetreSq { get; set; }
-//     public decimal? EnergyCostPerMetreSq { get; set; }
-//     public decimal? WaterSewerageCostsPerMetreSq { get; set; }
+    public decimal TotalUtilitiesCosts { get; set; }
+    public decimal EnergyCosts { get; set; }
+    public decimal WaterSewerageCosts { get; set; }
 
     public static SchoolExpenditure Create(SchoolTrustFinancialDataObject dataObject)
     {
@@ -130,7 +130,10 @@ public class SchoolExpenditure
             StaffRelatedInsuranceCosts = dataObject.StaffInsurance,
             SupplyTeacherInsurableCosts = dataObject.SupplyTeacherInsurance,
             CommunityFocusedSchoolStaff = dataObject.CommunityFocusedStaff,
-            CommunityFocusedSchoolCosts = dataObject.CommunityFocusedSchoolCosts
+            CommunityFocusedSchoolCosts = dataObject.CommunityFocusedSchoolCosts,
+            TotalUtilitiesCosts = dataObject.Energy + dataObject.WaterSewerage,
+            EnergyCosts = dataObject.Energy,
+            WaterSewerageCosts = dataObject.WaterSewerage
         };
     }
 }

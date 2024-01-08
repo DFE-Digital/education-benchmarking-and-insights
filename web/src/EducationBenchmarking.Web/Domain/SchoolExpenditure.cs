@@ -58,4 +58,8 @@ public record SchoolExpenditure
     public decimal SupplyTeacherInsurableCosts { get; set; }
     public decimal CommunityFocusedSchoolStaff { get; set; }
     public decimal CommunityFocusedSchoolCosts { get; set; }
+    
+    public decimal TotalUtilitiesCosts { get; set; }
+    public decimal EnergyCosts { get; set; }
+    public decimal WaterSewerageCosts { get; set; }
 }
