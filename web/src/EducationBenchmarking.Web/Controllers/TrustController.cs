@@ -15,13 +15,11 @@ public class TrustController : Controller
 {
     private readonly ILogger<TrustController> _logger;
     private readonly IEstablishmentApi _establishmentApi;
-    private readonly IFinanceService _financeService;
 
-    public TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IFinanceService financeService)
+    public TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi)
     {
         _logger = logger;
         _establishmentApi = establishmentApi;
-        _financeService = financeService;
     }
 
     [HttpGet]
@@ -36,9 +34,8 @@ public class TrustController : Controller
                 ViewData["BreadcrumbNode"] = node;
                 
                 var trust = await _establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var finances = await _financeService.GetFinances(trust);
                 
-                var viewModel = new TrustViewModel(trust, finances);
+                var viewModel = new TrustViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)

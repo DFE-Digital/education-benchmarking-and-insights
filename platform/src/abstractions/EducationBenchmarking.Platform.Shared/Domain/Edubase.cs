@@ -32,6 +32,9 @@ public class Edubase
 
     [JsonProperty(PropertyName = EdubaseFieldNames.COMPANY_NUMBER)]
     public int? CompanyNumber { get; set; }
+    
+    [JsonProperty(PropertyName = EdubaseFieldNames.TRUST_NAME)]
+    public string? TrustOrCompanyName { get; set; }
 
     [JsonProperty(PropertyName = EdubaseFieldNames.UID)]
     public int? UID { get; set; }

@@ -32,12 +32,27 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
         return this;
     }
     
+    public BenchmarkingWebAppClient SetupEstablishmentWithNotFound()
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).ReturnsAsync(ApiResult.NotFound);
+        return this;
+    }
+    
+    public BenchmarkingWebAppClient SetupEstablishmentWithException()
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).Throws(new Exception());
+        return this;
+    }
+    
     public BenchmarkingWebAppClient SetupInsightsFromAcademy(School school, Finances finances)
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
+        InsightApi.Setup(api => api.GetSchoolsRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Rating>()));
         return this;
     }
     
@@ -47,6 +62,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
         InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
+        InsightApi.Setup(api => api.GetSchoolsRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Rating>()));
         return this;
     }
     
@@ -54,6 +70,8 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     {
         BenchmarkApi.Reset();
         BenchmarkApi.Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>())).ReturnsAsync(ApiResult.Ok());
+        BenchmarkApi.Setup(api => api.GetSchoolSizeBandings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Banding>()));
+        BenchmarkApi.Setup(api => api.GetFreeSchoolMealBandings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Banding>()));
         return this;
     }
 }
