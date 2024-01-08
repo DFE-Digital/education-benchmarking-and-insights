@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using AzureFunctions.Extensions.Swashbuckle;
 using AzureFunctions.Extensions.Swashbuckle.Settings;
@@ -8,6 +9,7 @@ using Microsoft.OpenApi;
 
 namespace EducationBenchmarking.Platform.Shared;
 
+[ExcludeFromCodeCoverage]
 public static class FunctionsHostBuilderExtensions
 {
     public static IFunctionsHostBuilder AddCustomSwashBuckle(this IFunctionsHostBuilder builder, Assembly assembly)

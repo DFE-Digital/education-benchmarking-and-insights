@@ -1,6 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Shared;
 
-
+[ExcludeFromCodeCoverage]
 public class PagedResults<T> : IPagedResults, IEquatable<PagedResults<T>>
 {
     public long TotalResults { get; set; }
