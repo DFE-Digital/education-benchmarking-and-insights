@@ -12,6 +12,7 @@
 	<ItemGroup>
 		<PackageReference Include="AngleSharp" Version="1.0.7" />
 		<PackageReference Include="AngleSharp.Css" Version="0.17.0" />
+		<PackageReference Include="AngleSharp.XPath" Version="2.0.3" />
 		<PackageReference Include="AutoFixture" Version="4.18.1" />
 		<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="7.0.14" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />

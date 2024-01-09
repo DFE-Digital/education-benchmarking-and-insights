@@ -21,7 +21,7 @@ public class ApiQuery : List<QueryParameter>
     {
         Add(new QueryParameter{Key = key, Value = value});
     }
-    public ApiQuery AddIfNotNull(string key, string value)
+    public ApiQuery AddIfNotNull(string key, string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
             return this;

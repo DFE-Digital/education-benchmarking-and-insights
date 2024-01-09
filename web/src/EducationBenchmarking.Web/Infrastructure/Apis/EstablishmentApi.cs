@@ -11,9 +11,10 @@ public class EstablishmentApi : BaseApi, IEstablishmentApi
         return GetAsync($"api/school/{identifier}");
     }
     
-    public Task<ApiResult> GetTrust(string identifier)
+    public async Task<ApiResult> GetTrust(string identifier)
     {
-        return GetAsync($"api/trust/{identifier}");
+        //return GetAsync($"api/trust/{identifier}");
+        return ApiResult.Ok(new { name = "Dummy Trust" });
     }
 
     public Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation)

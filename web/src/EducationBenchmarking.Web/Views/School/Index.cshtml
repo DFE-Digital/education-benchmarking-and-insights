@@ -1,6 +1,39 @@
 @model EducationBenchmarking.Web.ViewModels.SchoolViewModel
 
-@await Component.InvokeAsync("OrganisationHeader", new { name = Model.Name })
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">@Constants.ServiceName</h1>
+        <p class="govuk-body">
+            You can use this service to understand the finances of your chosen school, academy trust or local authority.
+            You can find areas for further investigation and relevant guidance and resources.
+        </p>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-l">
+            @Model.Name
+        </h2>
+        @if (Model.IsPartOfTrust)
+        {
+            <h3 class="govuk-heading-m">
+                <span>Part of</span>
+                <a href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })" class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
+            </h3>
+        }
+        <p class="govuk-body">
+            <a href="@Constants.GiasSchoolUrl(Model.Urn)" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">
+                Get more information about this school (opens in new tab)
+            </a>
+        </p>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body">
+            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state" id="change-school">Change school</a>
+        </p>
+    </div>
+</div>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

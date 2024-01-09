@@ -15,7 +15,9 @@ public static class SchoolFactory
             Urn = edubase.URN.ToString(),
             Kind = edubase.TypeOfEstablishment,
             FinanceType = edubase.FinanceType,
-            Name = edubase.EstablishmentName
+            Name = edubase.EstablishmentName,
+            CompanyNumber = edubase.CompanyNumber.ToString(),
+            TrustOrCompanyName = edubase.TrustOrCompanyName
         };
     }
 }

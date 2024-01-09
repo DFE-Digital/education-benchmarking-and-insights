@@ -48,19 +48,19 @@ public class FinanceService : IFinanceService
     public async Task<(Finances, Rating[])> GetRatings(School school)
     {
         var finances = await GetFinances(school);
-        var fsmBanding = await _benchmarkApi.GetFreeSchoolMealBandings().GetResultOrThrow<Banding[]>();
-
+        var fsmBandings = await _benchmarkApi.GetFreeSchoolMealBandings().GetResultOrThrow<Banding[]>();
+        
         var sizeQuery = new ApiQuery()
             .AddIfNotNull("phase", finances.OverallPhase)
             .AddIfNotNull("hasSixthForm", finances.HasSixthForm.ToString())
             .AddIfNotNull("noOfPupils", finances.NumberOfPupils.ToString(CultureInfo.InvariantCulture))
             .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
-        
         var sizeBandings = await _benchmarkApi.GetSchoolSizeBandings(sizeQuery).GetResultOrThrow<Banding[]>();
         
         var ratingsQuery = new ApiQuery()
             .AddIfNotNull("phase", finances.OverallPhase)
-            .AddIfNotNull("size", sizeBandings[0].Scale)
+            .AddIfNotNull("size", fsmBandings.FirstOrDefault()?.Scale)
+            .AddIfNotNull("fsm", sizeBandings.FirstOrDefault()?.Scale)
             .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
         var ratings = await _insightApi.GetSchoolsRatings(ratingsQuery).GetResultOrThrow<Rating[]>();
         

@@ -14,4 +14,6 @@ public record School
     public string County { get; set; }
     public string Postcode { get; set; }
     public string LocalAuthority { get; set; }
+    public string CompanyNumber { get; set; }
+    public string TrustOrCompanyName { get; set; }
 }
