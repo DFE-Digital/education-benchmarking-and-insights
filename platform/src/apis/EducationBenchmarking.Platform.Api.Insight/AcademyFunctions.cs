@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Api.Insight.Db;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

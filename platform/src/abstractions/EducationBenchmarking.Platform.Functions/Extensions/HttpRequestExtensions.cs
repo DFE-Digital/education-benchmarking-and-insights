@@ -1,8 +1,8 @@
-using EducationBenchmarking.Platform.Functions.Extensions;
+using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 
-namespace EducationBenchmarking.Platform.Shared;
+namespace EducationBenchmarking.Platform.Functions.Extensions;
 
 public static class HttpRequestExtensions
 {
