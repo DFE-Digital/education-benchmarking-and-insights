@@ -1,3 +1,4 @@
+using FluentAssertions;
 using Google.Protobuf;
 using Microsoft.Playwright;
 using Xunit;
@@ -32,9 +33,11 @@ public class CompareYourCostsPage
         _page.Locator("#accordion-heading-teaching-support-staff");
 
     private ILocator ViewAsTableBtn => _page.Locator(".govuk-button:has-text('View as table')");
-    private ILocator Table(string table) => _page.Locator($"h2:has-text(\"{table}\") + div table.govuk-table");
 
-    //private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
+    private ILocator TableContent(string table) =>
+        _page.Locator($"h2:has-text(\"{table}\") + div table.govuk-table");
+
+    private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
 
 
     public async Task AssertPage()
@@ -86,49 +89,58 @@ public class CompareYourCostsPage
         await ViewAsTableBtn.ClickAsync();
     }
 
-    public async Task CompareTableData(Table expectedData)
+    public async Task CompareTableData(List<List<string>> expectedData)
     {
-        var expectedHeaders = expectedData.Header.ToArray();
-        var expectedTable = new List<string>(expectedHeaders);
-        foreach (var row in expectedData.Rows)
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+      await ShouldHaveTableContent(TotalExpenditureTable, expectedData, true);
+    }
+    public static async Task ShouldHaveTableContent(ILocator locator, List<List<string>> expectedData,
+        bool includeHeaderRow)
+    {
+        var actualData = new List<List<string>>();
+
+        if (includeHeaderRow)
         {
-            expectedTable.AddRange(row.Values);
+            var headerCells = await locator.Locator("th").AllAsync();
+            var headerData = new List<string>();
+            foreach (var cell in headerCells)
+            {
+                headerData.Add(await cell.InnerTextAsync());
+            }
+        
+            actualData.Add(headerData);
+        }
+    
+        var rows = await locator.Locator("tbody").Locator("tr").AllAsync();
+    
+        foreach (var row in rows)
+        {
+            var cells = await row.Locator("td").AllAsync();
+
+            var rowData = new List<string>();
+            foreach (var cell in cells)
+            {
+                rowData.Add(await cell.InnerTextAsync());
+            }
+        
+            actualData.Add(rowData);
         }
 
-        var actualTable = await GetActualTableData("Total Expenditure");
-
-        Assert.Equal(expectedTable, actualTable.SelectMany(row => row).ToList());
+        for (int i = 0; i < expectedData.Count; i++)
+        {
+            var expectedTableCell = expectedData[i];
+            var actualTableCell = actualData[i];
+        
+            for (int j = 0; j < expectedTableCell.Count; j++)
+            {
+                actualTableCell[j].Should().Be(expectedTableCell[j], "actual table cells should have the expected data");
+            }
+        }
+        
     }
 
-    private async Task<List<List<string>>> GetActualTableData(string table)
+    public async Task CheckSaveCtaVisibility()
     {
-        var headers = await _page.QuerySelectorAllAsync($"h2:has-text(\"{table}\") + div table.govuk-table thead th");
-        var headerTexts = await Task.WhenAll(headers.Select(async header =>
-        {
-            var textContent = await header.TextContentAsync();
-            return textContent.Trim();
-        }));
-
-        var headerList = headerTexts.ToList();
-        var actualTableData = new List<List<string>> { headerList };
-
-        var rows = await _page.QuerySelectorAllAsync($"h2:has-text(\"{table}\") + div table.govuk-table tbody tr");
-
-        var tableData = await Task.WhenAll(rows.Select(async row =>
-        {
-            var cells = await row.QuerySelectorAllAsync("td");
-
-            var cellTexts = await Task.WhenAll(cells.Select(async cell =>
-            {
-                var textContent = await cell.TextContentAsync();
-                return textContent.Trim();
-            }));
-
-            return cellTexts.ToList();
-        }));
-
-        actualTableData.AddRange(tableData);
-
-        return actualTableData;
+       await Assertions.Expect(SaveImageTotalExpenditure).ToBeHiddenAsync();
     }
 }

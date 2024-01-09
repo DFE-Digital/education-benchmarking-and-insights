@@ -75,6 +75,32 @@ public class CompareYourCostsSteps
      [Then(@"the following is showing in the Total expenditure")]
      public async Task ThenTheFollowingIsShowingInTheTotalExpenditure(Table expectedData)
      {
-         await _compareYourCostsPage.CompareTableData(expectedData);
+         List<List<string>> expectedTableContent = new List<List<string>>();
+         {
+             List<string> headers = new List<string>();
+             foreach (var header in expectedData.Header)
+             {
+                 headers.Add(header);
+             }
+             expectedTableContent.Add(headers);
+
+             // Adding rows
+             foreach (var row in expectedData.Rows)
+             {
+                 List<string> rowData = new List<string>();
+                 foreach (var cell in row)
+                 {
+                     rowData.Add(cell.Value);
+                 }
+                 expectedTableContent.Add(rowData);
+             }
+         }
+         await _compareYourCostsPage.CompareTableData(expectedTableContent);
+     }
+
+     [Then(@"Save as image CTA is not showing")]
+     public async Task ThenSaveAsImageCtaIsNotShowing()
+     {
+        await _compareYourCostsPage.CheckSaveCtaVisibility();
      }
 }
