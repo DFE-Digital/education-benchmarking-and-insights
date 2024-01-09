@@ -29,7 +29,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var testHttpRequest = testHttpContext.Request;
 
             // Act
-            var result = HttpRequestExtensions.GetCorrelationId(testHttpRequest);
+            var result = testHttpRequest.GetCorrelationId();
 
             // Assert
             // is valid guid
@@ -50,7 +50,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var testHttpRequest = testHttpContext.Request;
 
             // Act + Assert
-            Assert.Throws<FormatException>(() => HttpRequestExtensions.GetCorrelationId(testHttpRequest));
+            Assert.Throws<FormatException>(() => testHttpRequest.GetCorrelationId());
         }
         
         
@@ -62,7 +62,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var testHttpRequest = testHttpContext.Request;
 
             // Act
-            var result = HttpRequestExtensions.GetCorrelationId(testHttpRequest);
+            var result = testHttpRequest.GetCorrelationId();
 
             // Assert
             // is valid guid
