@@ -23,7 +23,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         {
             // Arrange
             var testHttpContext = new DefaultHttpContext();
-            var correlationIdHeaderValue = "123e4567-e89b-12d3-a456-426614174000";
+            var correlationIdHeaderValue = Guid.NewGuid().ToString();
             testHttpContext.Request.Headers.Add(Constants.CorrelationIdHeader, correlationIdHeaderValue);
 
             var testHttpRequest = testHttpContext.Request;
@@ -32,8 +32,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var result = testHttpRequest.GetCorrelationId();
 
             // Assert
-            // is valid guid
-            Assert.True(Guid.TryParse(result.ToString(), out _));
             // is the same guid
             Assert.Equal(Guid.Parse(correlationIdHeaderValue), result);
         }
