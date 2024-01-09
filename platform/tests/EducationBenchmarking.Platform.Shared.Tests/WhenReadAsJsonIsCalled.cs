@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -42,7 +43,15 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [Fact]
         public void IfResultIsNullThrowsNullReferenceException()
         {
+            // Arrange
+            var testHttpContext = new DefaultHttpContext();
+            var jsonContent = "";
+            testHttpContext.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent));
 
+            var testHttpRequest = testHttpContext.Request;
+
+            // Act and Assert
+            Assert.Throws<NullReferenceException>(() => testHttpRequest.ReadAsJson<TestObjectType>());
         }
     }
 
