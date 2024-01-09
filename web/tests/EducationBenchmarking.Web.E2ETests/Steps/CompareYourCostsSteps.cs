@@ -60,13 +60,14 @@ public class CompareYourCostsSteps
      }
 
      [Then(@"all accordions are showing table view")]
-     public void ThenAllAccordionsAreShowingTableView()
+     public async Task ThenAllAccordionsAreShowingTableView()
      {
          //assert utitlites and premises dimension dropdown 
-         ScenarioContext.StepIsPending();
+         await _compareYourCostsPage.AssertTablesAreShowing();
+         await _compareYourCostsPage.AssertNoChartsAreShowing();
      }
-
      [Given(@"I click on view as table")]
+     [When(@"I click on view as table")]
      public async Task GivenIClickOnViewAsTable()
      {
         await _compareYourCostsPage.ClickViewAsTable();
@@ -102,5 +103,41 @@ public class CompareYourCostsSteps
      public async Task ThenSaveAsImageCtaIsNotShowing()
      {
         await _compareYourCostsPage.CheckSaveCtaVisibility();
+     }
+     [Given(@"I click on Show all sections")]
+     [When(@"I click on Show all sections")]
+     public async Task WhenIClickOnShowAllSections()
+     {
+       await _compareYourCostsPage.ClickShowAllSectionsCta();
+     }
+
+     [Then(@"all accordions on the page are expanded")]
+     public async Task ThenAllAccordionsOnThePageAreExpanded()
+     {
+         await _compareYourCostsPage.AssertAccordionsExpandState();
+     }
+
+     [Then(@"the text of cta changes to hide all sections")]
+     public async Task ThenTheTextOfCtaChangesToHideAllSections()
+     {
+         await _compareYourCostsPage.AssertShowAllSectionsText("Hide all sections");
+     }
+
+     [Then(@"Save as image CTAs are not visible")]
+     public async Task ThenSaveAsImageCtAsAreNotVisible()
+     {
+         await _compareYourCostsPage.AssertAllImageCtas(false);
+     }
+
+     [When(@"I click hide for non educational support staff")]
+     public async Task WhenIClickHideForNonEducationalSupportStaff()
+     {
+         await _compareYourCostsPage.ClickHideBtn("non-educational support staff");
+     }
+
+     [Then(@"the accordion non educational support staff is collapsed")]
+     public async Task ThenTheAccordionNonEducationalSupportStaffIsCollapsed()
+     {
+         await _compareYourCostsPage.AssertAccordionState("non-educational support staff");
      }
 }
