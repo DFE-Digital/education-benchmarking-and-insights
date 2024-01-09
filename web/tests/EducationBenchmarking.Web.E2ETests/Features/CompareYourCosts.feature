@@ -49,18 +49,20 @@ Feature: CompareYourCosts page is showing correct data
         Given I am on compare your costs page for school with URN '139696'
         When I click on Show all sections
         Then all accordions on the page are expanded
-        And Save as image CTA is visible
+        And the text of cta changes to hide all sections
+        
 
     Scenario: change all charts to table view
         Given I am on compare your costs page for school with URN '139696'
-        And I click on show all sections
+        And I click on Show all sections
         When I click on view as table
         Then all accordions are showing table view
-        And Save as image CTA is visible
+        And Save as image CTAs are not visible
+     
 
     Scenario: Hide single accordion in table view
         Given I am on compare your costs page for school with URN '139696'
-        And I click on show all sections
+        And I click on Show all sections
         And I click on view as table
         When I click hide for non educational support staff
         Then the accordion non educational support staff is collapsed

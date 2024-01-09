@@ -363,5 +363,11 @@ public static class LocatorAssert
         
     }
 
+    public static async Task<ILocator> AssertLocatorClass(this ILocator locator, string locatorClass)
+    {
+        await Assertions.Expect(locator).ToHaveClassAsync(locatorClass);
+        return locator;
+    }
+
   
 }
