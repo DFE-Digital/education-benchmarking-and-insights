@@ -1,5 +1,5 @@
 using System.Net;
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Functions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;

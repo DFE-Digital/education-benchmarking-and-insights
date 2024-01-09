@@ -2,22 +2,9 @@
 
 namespace EducationBenchmarking.Platform.ApiTests.TestSupport;
 
-public class ApiEndpoint
+public static class Config
 {
-    public string Host { get; set; } = null!;
-    public string Key { get; set; } = null!;
-}
-
-public class Apis
-{
-    public ApiEndpoint Insight { get; set; } = null!;
-    public ApiEndpoint Benchmark { get; set; } = null!;
-}
-
-public class Config
-{
-    public static IConfiguration Instance =>
-        new ConfigurationBuilder()
+    public static IConfiguration Instance => new ConfigurationBuilder()
 #if !DEBUG
     .AddJsonFile("appsettings.json", optional: false)
 #else
@@ -25,13 +12,26 @@ public class Config
 #endif
             .Build();
 
-    public static Apis Apis
+    public static Api Apis
     {
         get
         {
-            var instance = new Apis();
+            var instance = new Api();
             Instance.Bind("Apis", instance);
             return instance;
+        }
+    }
+    
+    public class Api
+    {
+        public ApiEndpoint? Insight { get; set; }
+        public ApiEndpoint? Benchmark { get; set; }
+        public ApiEndpoint? Establishment { get; set; } 
+        
+        public class ApiEndpoint
+        {
+            public string? Host { get; set; } 
+            public string? Key { get; set; }
         }
     }
 }

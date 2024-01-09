@@ -1,9 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Api.Establishment.Models;
+using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Infrastructure.Search;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;

@@ -1,4 +1,3 @@
-using AutoFixture;
 using EducationBenchmarking.Platform.Api.Insight;
 using EducationBenchmarking.Platform.Api.Insight.Db;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -8,14 +7,12 @@ namespace EducationBenchmarking.Platform.Tests.Insight;
 
 public class AcademyFunctionsTestBase : FunctionsTestBase
 {
-    protected AcademyFunctions Functions;
-    protected Mock<IAcademyDb> Db;
-    protected Fixture Fixture;
+    protected readonly AcademyFunctions Functions;
+    protected readonly Mock<IAcademyDb> Db;
 
-    public AcademyFunctionsTestBase()
+    protected AcademyFunctionsTestBase()
     {
         Db = new Mock<IAcademyDb>();
         Functions = new AcademyFunctions(new NullLogger<AcademyFunctions>(),Db.Object);
-        Fixture = new Fixture();
     }
 }

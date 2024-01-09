@@ -1,9 +1,9 @@
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Domain.Responses;
+using EducationBenchmarking.Platform.Functions;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Primitives;
 using Moq;
 using Xunit;
-using School = EducationBenchmarking.Platform.Api.Establishment.Models.School;
+using School = EducationBenchmarking.Platform.Domain.Responses.School;
 
 namespace EducationBenchmarking.Platform.Tests.Establishment;
 
@@ -13,7 +13,7 @@ public class WhenFunctionQuerySchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Query(It.IsAny<IEnumerable<KeyValuePair<string,StringValues>>>()))
+            .Setup(d => d.Query(It.IsAny<IQueryCollection>()))
             .ReturnsAsync(new PagedResults<School>());
         
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
@@ -26,7 +26,7 @@ public class WhenFunctionQuerySchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Query(It.IsAny<IEnumerable<KeyValuePair<string,StringValues>>>()))
+            .Setup(d => d.Query(It.IsAny<IQueryCollection>()))
             .Throws(new Exception());
         
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as StatusCodeResult;

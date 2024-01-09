@@ -6,14 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AzureExtensions.Swashbuckle" Version="3.3.2" />
-        <PackageReference Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
-        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.25" />
-        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
-        <PackageReference Include="Microsoft.NET.Sdk.Functions" Version="4.2.0"/>
-        <PackageReference Include="System.Linq.Async" Version="6.0.1" />
-    </ItemGroup>
-    <ItemGroup>
+        <PackageReference Include="AzureExtensions.Swashbuckle"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
+        <PackageReference Include="Microsoft.NET.Sdk.Functions"/>
+        <PackageReference Include="System.Linq.Async"/>
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -21,9 +19,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
-      <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj" />
+        <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj"/>
+        <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj"/>
     </ItemGroup>
 </Project>

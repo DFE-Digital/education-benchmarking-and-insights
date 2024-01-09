@@ -1,0 +1,42 @@
+using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
+using EducationBenchmarking.Platform.ApiTests.TestSupport;
+using FluentAssertions;
+using Xunit.Sdk;
+
+namespace EducationBenchmarking.Platform.ApiTests.Steps;
+
+[Binding]
+public class InsightHealthcheckSteps
+{
+    private const string RequestKey = "health-check";
+    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+
+    [Given("a valid insight health check request")]
+    private void GivenAValidInsightHealthCheckRequest()
+    {
+        _api.CreateRequest(RequestKey, new HttpRequestMessage
+        {
+            RequestUri = new Uri("/api/health", UriKind.Relative),
+            Method = HttpMethod.Get
+        });
+    }
+    
+    [When("I submit the insight health check request")]
+    private async Task WhenISubmitTheInsightHealthCheckRequest()
+    {
+        await _api.Send();
+    }
+
+    [Then("the insight health check result should be healthy")]
+    private async Task ThenTheInsightHealthCheckResultShouldBeHealthy()
+    {
+        var result = _api[RequestKey].Response ?? throw new NullException(_api[RequestKey].Response);
+
+        result.Should().NotBeNull();
+        result.StatusCode.Should().Be(HttpStatusCode.OK);
+        
+        var content = await result.Content.ReadAsStringAsync();
+        content.Should().Be("Healthy");
+    }
+}

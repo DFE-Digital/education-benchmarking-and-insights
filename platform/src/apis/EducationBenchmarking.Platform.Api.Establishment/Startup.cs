@@ -2,12 +2,12 @@
 using System.Reflection;
 using EducationBenchmarking.Platform.Api.Establishment;
 using EducationBenchmarking.Platform.Api.Establishment.Db;
-using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Api.Establishment.Search;
+using EducationBenchmarking.Platform.Domain.Responses;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using EducationBenchmarking.Platform.Infrastructure.Search.Validators;
-using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;

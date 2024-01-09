@@ -1,4 +1,3 @@
-using AutoFixture;
 using EducationBenchmarking.Platform.Api.Benchmark;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -8,14 +7,12 @@ namespace EducationBenchmarking.Platform.Tests.Benchmark;
 
 public class BandingsFunctionsTestBase : FunctionsTestBase
 {
-    protected BandingsFunctions Functions;
-    protected Mock<IBandingDb> Db;
-    protected Fixture Fixture;
-    
-    public BandingsFunctionsTestBase()
+    protected readonly BandingsFunctions Functions;
+    protected readonly Mock<IBandingDb> Db;
+
+    protected BandingsFunctionsTestBase()
     {
         Db = new Mock<IBandingDb>();
         Functions = new BandingsFunctions(new NullLogger<BandingsFunctions>(), Db.Object);
-        Fixture = new Fixture();
     }
 }
