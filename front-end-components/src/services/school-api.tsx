@@ -82,4 +82,7 @@ export type SchoolExpenditure = {
     supplyTeacherInsurableCosts: number
     communityFocusedSchoolStaff: number
     communityFocusedSchoolCosts: number
+    totalUtilitiesCosts: number
+    energyCosts: number
+    waterSewerageCosts: number
 }
