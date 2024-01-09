@@ -1,5 +1,4 @@
-using FluentAssertions;
-using Google.Protobuf;
+using EducationBenchmarking.Web.E2ETests.Helpers;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -80,67 +79,23 @@ public class CompareYourCostsPage
 
     public async Task ChangeDimension(string value)
     {
+        await TotalExpenditureDimension.Select(value);
         await TotalExpenditureDimension.SelectOptionAsync(new SelectOptionValue { Value = value });
         await AssertDimension(value);
     }
 
     public async Task ClickViewAsTable()
     {
-        await ViewAsTableBtn.ClickAsync();
+        await ViewAsTableBtn.Click();
     }
 
     public async Task CompareTableData(List<List<string>> expectedData)
     {
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-      await ShouldHaveTableContent(TotalExpenditureTable, expectedData, true);
+      await TotalExpenditureTable.ShouldHaveTableContent(expectedData, true);
     }
-    public static async Task ShouldHaveTableContent(ILocator locator, List<List<string>> expectedData,
-        bool includeHeaderRow)
-    {
-        var actualData = new List<List<string>>();
-
-        if (includeHeaderRow)
-        {
-            var headerCells = await locator.Locator("th").AllAsync();
-            var headerData = new List<string>();
-            foreach (var cell in headerCells)
-            {
-                headerData.Add(await cell.InnerTextAsync());
-            }
-        
-            actualData.Add(headerData);
-        }
-    
-        var rows = await locator.Locator("tbody").Locator("tr").AllAsync();
-    
-        foreach (var row in rows)
-        {
-            var cells = await row.Locator("td").AllAsync();
-
-            var rowData = new List<string>();
-            foreach (var cell in cells)
-            {
-                rowData.Add(await cell.InnerTextAsync());
-            }
-        
-            actualData.Add(rowData);
-        }
-
-        for (int i = 0; i < expectedData.Count; i++)
-        {
-            var expectedTableCell = expectedData[i];
-            var actualTableCell = actualData[i];
-        
-            for (int j = 0; j < expectedTableCell.Count; j++)
-            {
-                actualTableCell[j].Should().Be(expectedTableCell[j], "actual table cells should have the expected data");
-            }
-        }
-        
-    }
-
     public async Task CheckSaveCtaVisibility()
     {
-       await Assertions.Expect(SaveImageTotalExpenditure).ToBeHiddenAsync();
+       await SaveImageTotalExpenditure.ShouldNotBeVisible();
     }
 }
