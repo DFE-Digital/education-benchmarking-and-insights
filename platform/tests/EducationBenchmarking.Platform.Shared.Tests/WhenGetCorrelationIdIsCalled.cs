@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Xunit;
 using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Primitives;
+using Newtonsoft.Json.Linq;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
@@ -23,8 +24,8 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         {
             // Arrange
             var testHttpContext = new DefaultHttpContext();
-            var correlationIdHeaderValue = Guid.NewGuid().ToString();
-            testHttpContext.Request.Headers.Add(Constants.CorrelationIdHeader, correlationIdHeaderValue);
+            var correlationIdHeaderValue = Guid.NewGuid();
+            testHttpContext.Request.Headers.Add(Constants.CorrelationIdHeader, correlationIdHeaderValue.ToString());
 
             var testHttpRequest = testHttpContext.Request;
 
@@ -33,7 +34,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
 
             // Assert
             // is the same guid
-            Assert.Equal(Guid.Parse(correlationIdHeaderValue), result);
+            Assert.Equal(correlationIdHeaderValue, result);
         }
 
 
@@ -63,8 +64,10 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var result = testHttpRequest.GetCorrelationId();
 
             // Assert
-            // is valid guid
-            Assert.True(Guid.TryParse(result.ToString(), out _));
+            // TODO is valid guid
+            // Assert.True(Guid.TryParse(result.ToString(), out _));
+            Assert.IsType<Guid>(result);
+            Assert.NotEqual(Guid.Empty, result);
         }
     }
 }
