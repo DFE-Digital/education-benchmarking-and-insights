@@ -1,8 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using EducationBenchmarking.Platform.Api.Benchmark.Models;
-using EducationBenchmarking.Platform.Api.Benchmark.Models.Characteristics;
-using EducationBenchmarking.Platform.Api.Benchmark.Requests;
+using EducationBenchmarking.Platform.Domain.Requests;
+using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 using FluentValidation;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Validators;

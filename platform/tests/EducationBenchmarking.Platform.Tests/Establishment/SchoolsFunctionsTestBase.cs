@@ -1,7 +1,6 @@
-using AutoFixture;
 using EducationBenchmarking.Platform.Api.Establishment;
 using EducationBenchmarking.Platform.Api.Establishment.Db;
-using EducationBenchmarking.Platform.Api.Establishment.Models;
+using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -11,18 +10,16 @@ namespace EducationBenchmarking.Platform.Tests.Establishment;
 
 public class SchoolsFunctionsTestBase : FunctionsTestBase
 {
-    protected SchoolsFunctions Functions;
-    protected Mock<ISchoolDb> Db;
-    protected Mock<ISearchService<School>> Search;
-    protected Mock<IValidator<PostSuggestRequest>> Validator;
-    protected Fixture Fixture;
+    protected readonly SchoolsFunctions Functions;
+    protected readonly Mock<ISchoolDb> Db;
+    protected readonly Mock<ISearchService<School>> Search;
+    protected readonly Mock<IValidator<PostSuggestRequest>> Validator;
 
-    public SchoolsFunctionsTestBase()
+    protected SchoolsFunctionsTestBase()
     {
         Db = new Mock<ISchoolDb>();
         Search = new Mock<ISearchService<School>>();
         Validator = new Mock<IValidator<PostSuggestRequest>>();
         Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(),Db.Object, Search.Object, Validator.Object);
-        Fixture = new Fixture();
     }
 }

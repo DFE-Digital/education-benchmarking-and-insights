@@ -1,7 +1,6 @@
-using EducationBenchmarking.Platform.Api.Benchmark;
-using EducationBenchmarking.Platform.Api.Benchmark.Models;
-using EducationBenchmarking.Platform.Api.Benchmark.Requests;
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Domain.Requests;
+using EducationBenchmarking.Platform.Domain.Responses;
+using EducationBenchmarking.Platform.Functions;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Moq;

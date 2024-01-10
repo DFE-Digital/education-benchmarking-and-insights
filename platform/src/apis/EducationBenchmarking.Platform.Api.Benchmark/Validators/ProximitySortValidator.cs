@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using EducationBenchmarking.Platform.Domain;
 using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 

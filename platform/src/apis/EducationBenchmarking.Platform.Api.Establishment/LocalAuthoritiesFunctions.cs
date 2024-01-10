@@ -1,27 +1,16 @@
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
-using EducationBenchmarking.Platform.Api.Establishment.Models;
 using EducationBenchmarking.Platform.Infrastructure.Search;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.Extensions.Logging;
 
 namespace EducationBenchmarking.Platform.Api.Establishment;
 
 [ApiExplorerSettings(GroupName = "Local Authorities")]
 public class LocalAuthoritiesFunctions
 {
-    private readonly ILogger<LocalAuthoritiesFunctions> _logger;
-    private readonly ISearchService<LocalAuthority> _search;
-
-    public LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger, ISearchService<LocalAuthority> search)
-    {
-        _logger = logger;
-        _search = search;
-    }
     
     [FunctionName(nameof(GetLocalAuthorityAsync))]
     public async Task<IActionResult> GetLocalAuthorityAsync(

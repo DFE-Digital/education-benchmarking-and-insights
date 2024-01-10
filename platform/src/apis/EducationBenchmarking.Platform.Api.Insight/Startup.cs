@@ -2,8 +2,8 @@
 using System.Reflection;
 using EducationBenchmarking.Platform.Api.Insight;
 using EducationBenchmarking.Platform.Api.Insight.Db;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;

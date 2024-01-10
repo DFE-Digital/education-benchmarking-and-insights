@@ -3,9 +3,10 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Api.Insight.Models;
+using EducationBenchmarking.Platform.Domain;
+using EducationBenchmarking.Platform.Domain.DataObjects;
+using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Db;
@@ -72,7 +73,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(IEnumerable<string> urns)
     {
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-        var schools = await GetItemEnumerableAsync<Edubase>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
+        var schools = await GetItemEnumerableAsync<EdubaseDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
         
         var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.URN.ToString()).ToArray();
         var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.URN.ToString()).ToArray();

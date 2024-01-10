@@ -1,6 +1,6 @@
-using EducationBenchmarking.Platform.Api.Benchmark.Models;
-using EducationBenchmarking.Platform.Api.Benchmark.Models.Characteristics;
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
+using EducationBenchmarking.Platform.Functions;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using Xunit;
 
 namespace EducationBenchmarking.Platform.Tests.Benchmark;

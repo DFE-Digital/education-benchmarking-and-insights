@@ -1,9 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Api.Benchmark.Models;
-using EducationBenchmarking.Platform.Api.Benchmark.Requests;
-using EducationBenchmarking.Platform.Shared;
-using School = EducationBenchmarking.Platform.Api.Benchmark.Models.School;
+using EducationBenchmarking.Platform.Domain.Requests;
+using EducationBenchmarking.Platform.Domain.Responses;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 

@@ -2,9 +2,9 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Api.Insight.Models;
+using EducationBenchmarking.Platform.Domain.DataObjects;
+using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Insight.Db;

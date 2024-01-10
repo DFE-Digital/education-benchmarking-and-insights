@@ -1,21 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
-
     <ItemGroup>
-      <PackageReference Include="Azure.Search.Documents" Version="11.5.1" />
-      <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.37.0" />
-      <PackageReference Include="Microsoft.Extensions.Options" Version="6.0.0" />
-      <PackageReference Include="System.Linq.Async" Version="6.0.1" />
+        <PackageReference Include="Azure.Search.Documents"/>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="Microsoft.Azure.Cosmos"/>
+        <PackageReference Include="Microsoft.Extensions.Options"/>
+        <PackageReference Include="System.Linq.Async"/>
+        <ProjectReference Include="..\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj"/>
     </ItemGroup>
-
-    <ItemGroup>
-      <ProjectReference Include="..\EducationBenchmarking.Platform.Shared\EducationBenchmarking.Platform.Shared.csproj" />
-    </ItemGroup>
-
 </Project>

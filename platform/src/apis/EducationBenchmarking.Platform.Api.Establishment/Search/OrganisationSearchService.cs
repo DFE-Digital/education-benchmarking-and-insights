@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Api.Establishment.Models;
+using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using Microsoft.Extensions.Options;
 

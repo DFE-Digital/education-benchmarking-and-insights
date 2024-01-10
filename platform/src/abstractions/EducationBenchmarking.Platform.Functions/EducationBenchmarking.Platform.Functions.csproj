@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+    </PropertyGroup>
+    <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App"/>
+        <PackageReference Include="AzureExtensions.Swashbuckle"/>
+        <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="JsonSubTypes"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
+        <PackageReference Include="Newtonsoft.Json"/>
+        <ProjectReference Include="..\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj"/>
+    </ItemGroup>
+</Project>

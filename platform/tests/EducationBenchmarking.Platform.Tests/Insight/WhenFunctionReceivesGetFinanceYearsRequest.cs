@@ -1,4 +1,4 @@
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Functions;
 using Xunit;
 
 namespace EducationBenchmarking.Platform.Tests.Insight;

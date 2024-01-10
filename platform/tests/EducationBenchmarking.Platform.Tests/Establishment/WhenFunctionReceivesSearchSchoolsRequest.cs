@@ -1,6 +1,6 @@
-using EducationBenchmarking.Platform.Api.Establishment.Models;
+using EducationBenchmarking.Platform.Domain.Responses;
+using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Xunit;

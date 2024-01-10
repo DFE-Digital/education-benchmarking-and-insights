@@ -1,6 +1,6 @@
 using System.IO.Pipelines;
 using System.Text;
-using EducationBenchmarking.Platform.Shared;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using Microsoft.Extensions.Primitives;
 using Moq;
 
@@ -8,7 +8,7 @@ namespace EducationBenchmarking.Platform.Tests;
 
 public class FunctionsTestBase
 {
-     public async Task<HttpRequest> CreateRequestWithBody(string body, Dictionary<String, StringValues> query = null)
+    private static async Task<HttpRequest> CreateRequestWithBody(string body, Dictionary<string, StringValues>? query = null)
     {
         var reqMock = new Mock<HttpRequest>();
 
@@ -26,14 +26,13 @@ public class FunctionsTestBase
             
         return reqMock.Object;
     }
-        
-    public HttpRequest CreateRequestWithBody(object item, Dictionary<String, StringValues> query = null)
+
+    protected static HttpRequest CreateRequestWithBody(object item, Dictionary<string, StringValues>? query = null)
     {
         return CreateRequestWithBody(item.ToJson(), query).Result;
     }
-
-        
-    public HttpRequest CreateRequest(Dictionary<String, StringValues> query = null, Stream body = null)
+    
+    protected static HttpRequest CreateRequest(Dictionary<string, StringValues>? query = null, Stream? body = null)
     {
         var reqMock = new Mock<HttpRequest>();
         reqMock.Setup(req => req.Headers).Returns(new HeaderDictionary());

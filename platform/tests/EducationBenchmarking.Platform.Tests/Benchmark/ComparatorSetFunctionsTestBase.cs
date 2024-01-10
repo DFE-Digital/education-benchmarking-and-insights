@@ -1,7 +1,6 @@
-using AutoFixture;
 using EducationBenchmarking.Platform.Api.Benchmark;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
-using EducationBenchmarking.Platform.Api.Benchmark.Requests;
+using EducationBenchmarking.Platform.Domain.Requests;
 using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
@@ -10,16 +9,14 @@ namespace EducationBenchmarking.Platform.Tests.Benchmark;
 
 public class ComparatorSetFunctionsTestBase : FunctionsTestBase
 {
-    protected ComparatorSetFunctions Functions;
-    protected Mock<IComparatorSetDb> Db;
-    protected Mock<IValidator<ComparatorSetRequest>> Validator;
-    protected Fixture Fixture;
+    protected readonly ComparatorSetFunctions Functions;
+    protected readonly Mock<IComparatorSetDb> Db;
+    protected readonly Mock<IValidator<ComparatorSetRequest>> Validator;
 
-    public ComparatorSetFunctionsTestBase()
+    protected ComparatorSetFunctionsTestBase()
     {
         Db = new Mock<IComparatorSetDb>();
         Validator = new Mock<IValidator<ComparatorSetRequest>>();
-        Functions = new ComparatorSetFunctions(Db.Object, new NullLogger<ComparatorSetFunctions>(), Validator.Object );
-        Fixture = new Fixture();
+        Functions = new ComparatorSetFunctions(Db.Object, new NullLogger<ComparatorSetFunctions>(), Validator.Object);
     }
 }
