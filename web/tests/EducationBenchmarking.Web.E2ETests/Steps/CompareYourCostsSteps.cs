@@ -132,12 +132,34 @@ public class CompareYourCostsSteps
      [When(@"I click hide for non educational support staff")]
      public async Task WhenIClickHideForNonEducationalSupportStaff()
      {
+         await _compareYourCostsPage.AssertAccordionSectionText("non-educational support staff", "Hide");
+         await _compareYourCostsPage.AssertAccordionState("non-educational support staff", "true");
+         await _compareYourCostsPage.AssertAccordionContentVisibility("non-educational support staff", true, "table");
          await _compareYourCostsPage.ClickHideBtn("non-educational support staff");
      }
 
      [Then(@"the accordion non educational support staff is collapsed")]
      public async Task ThenTheAccordionNonEducationalSupportStaffIsCollapsed()
      {
-         await _compareYourCostsPage.AssertAccordionState("non-educational support staff");
+         await _compareYourCostsPage.AssertAccordionState("non-educational support staff", "false");
+         await _compareYourCostsPage.AssertAccordionSectionText("non-educational support staff", "Show");
+         await _compareYourCostsPage.AssertAccordionContentVisibility("non-educational support staff", false, "table");
+
+     }
+
+     [When(@"I click hide for teaching and teaching support staff")]
+     public async Task WhenIClickHideForTeachingAndTeachingSupportStaff()
+     {
+         await _compareYourCostsPage.ClickHideBtn("Teaching and teaching support staff");
+     }
+
+
+     [Then(@"the accordion teaching and teaching support staff is collapsed")]
+     public async Task ThenTheAccordionTeachingAndTeachingSupportStaffIsCollapsed()
+     {
+         await _compareYourCostsPage.AssertAccordionState("Teaching and teaching support staff", "false");
+         await _compareYourCostsPage.AssertAccordionSectionText("Teaching and teaching support staff", "Show");
+         await _compareYourCostsPage.AssertAccordionContentVisibility("Teaching and teaching support staff", false, "canvas");
+
      }
 }

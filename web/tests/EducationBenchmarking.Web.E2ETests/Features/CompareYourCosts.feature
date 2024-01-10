@@ -75,6 +75,6 @@ Feature: CompareYourCosts page is showing correct data
 
     Scenario: hide all sections closes all accordions
         Given I am on compare your costs page for school with URN '139696'
-        And I click on show all sections
+        And I click on Show all sections
         When I click on hide all sections
         Then all accordions on the page are collapsed

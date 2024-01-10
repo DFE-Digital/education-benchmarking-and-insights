@@ -41,12 +41,21 @@ public class CompareYourCostsPage
     private ILocator AllTables => _page.Locator(".govuk-accordion__section .govuk-table");
     private ILocator AllSaveImgCtas => _page.Locator(".govuk-accordion__section .govuk-button");
 
-    private readonly string _nonEducationalSupportStaffAccordionHeadingId = "#accordion-heading-non-educational-support-staff";
-     private ILocator GetAccordionSectionBtns(string accordionHeadingId) => _page.Locator("button",
-     new PageLocatorOptions()
-     { Has = _page.Locator($"span{accordionHeadingId}") });
+    private readonly string _nonEducationalSupportStaffAccordionHeadingId =
+        "#accordion-heading-non-educational-support-staff";
 
-     private readonly string _accordionTextLocator = ".govuk-accordion__section-toggle-text";
+    private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-teaching-support-staff";
+
+    private ILocator GetAccordionSectionBtns(string accordionHeadingId) => _page.Locator("button",
+        new PageLocatorOptions()
+            { Has = _page.Locator($"span{accordionHeadingId}") });
+
+    private readonly string _showHideAccordionTextLocator = ".govuk-accordion__section-toggle-text";
+
+    private ILocator NonEducationSupportStaffAccordionContent =>
+        _page.Locator("#accordion-content-non-educational-support-staff");
+
+    private ILocator TeachingSupportStaffAccordionContent => _page.Locator("#accordion-content-teaching-support-staff");
 
 
     public async Task AssertPage()
@@ -164,26 +173,76 @@ public class CompareYourCostsPage
     {
         switch (accordionName)
         {
-            case "non-educational support staff" :
-                var hideBtn =  GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId)
-                    .Locator(_accordionTextLocator).First;
-               await hideBtn.ShouldHaveText("Hide");
-                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).ShouldHaveAttribute("aria-expanded", "true");               await hideBtn.ClickAsync();
+            case "non-educational support staff":
+                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId)
+                    .Locator(_showHideAccordionTextLocator).First.ClickAsync();
                 break;
-            
+            case "Teaching and teaching support staff":
+                await GetAccordionSectionBtns(_teachingAndTeachingSupportStaffHeadingId)
+                    .Locator(_showHideAccordionTextLocator).First.ClickAsync();
+                break;
         }
     }
 
-    public async Task AssertAccordionState(string accordionName)
+    public async Task AssertAccordionState(string accordionName, string expandedState)
     {
+        string accordionToAssertHeadingId = null;
         switch (accordionName)
         {
-            case "non-educational support staff" :
-                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).ShouldHaveAttribute("aria-expanded", "false");
-                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).Locator(_accordionTextLocator).ShouldHaveText("Show");
+            case "non-educational support staff":
+                accordionToAssertHeadingId = _nonEducationalSupportStaffAccordionHeadingId;
+                break;
+            case "Teaching and teaching support staff":
+                accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
+                break;
+        }
+
+        await GetAccordionSectionBtns(accordionToAssertHeadingId!)
+            .ShouldHaveAttribute("aria-expanded", expandedState);
+    }
+
+    public async Task AssertAccordionSectionText(string accordionName, string text)
+    {
+        string accordionToAssertHeadingId = null;
+        switch (accordionName)
+        {
+            case "non-educational support staff":
+                accordionToAssertHeadingId = _nonEducationalSupportStaffAccordionHeadingId;
+                break;
+            case "Teaching and teaching support staff":
+                accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
+                break;
+        }
+
+        await GetAccordionSectionBtns(accordionToAssertHeadingId!)
+            .Locator(_showHideAccordionTextLocator).ShouldHaveText(text);
+    }
+
+    public async Task AssertAccordionContentVisibility(string accordionName, bool visibility, string type)
+    {
+        ILocator accordionToAssert = null;
+        switch (accordionName)
+        {
+            case "non-educational support staff":
+                accordionToAssert = NonEducationSupportStaffAccordionContent;
 
                 break;
-            
+            case "Teaching and teaching support staff":
+                accordionToAssert = TeachingSupportStaffAccordionContent;
+
+                break;
+        }
+
+        foreach (var table in await accordionToAssert!.Locator(type).AllAsync())
+        {
+            if (visibility)
+            {
+                await table.ShouldBeVisible();
+            }
+            else
+            {
+                await table.ShouldNotBeVisible();
+            }
         }
     }
 }
