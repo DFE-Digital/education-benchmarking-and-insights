@@ -69,7 +69,7 @@ Feature: CompareYourCosts page is showing correct data
 
     Scenario: Hide single accordion in chart view
         Given I am on compare your costs page for school with URN '139696'
-        And I click on show all sections
+        And I click on Show all sections
         When I click hide for teaching and teaching support staff
         Then the accordion teaching and teaching support staff is collapsed
 
