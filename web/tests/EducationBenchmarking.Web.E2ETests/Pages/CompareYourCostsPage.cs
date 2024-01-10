@@ -35,7 +35,7 @@ public class CompareYourCostsPage
         _page.Locator($"h2:has-text(\"{table}\") + div table.govuk-table");
 
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
-    private ILocator ShowAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
+    private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
     private ILocator Accordions => _page.Locator(".govuk-accordion__section");
     private ILocator AllCharts => _page.Locator(".govuk-accordion__section canvas");
     private ILocator AllTables => _page.Locator(".govuk-accordion__section .govuk-table");
@@ -46,7 +46,7 @@ public class CompareYourCostsPage
 
     private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-teaching-support-staff";
 
-    private ILocator GetAccordionSectionBtns(string accordionHeadingId) => _page.Locator("button",
+    private ILocator GetAccordionSectionBtn(string accordionHeadingId) => _page.Locator("button",
         new PageLocatorOptions()
             { Has = _page.Locator($"span{accordionHeadingId}") });
 
@@ -56,7 +56,10 @@ public class CompareYourCostsPage
         _page.Locator("#accordion-content-non-educational-support-staff");
 
     private ILocator TeachingSupportStaffAccordionContent => _page.Locator("#accordion-content-teaching-support-staff");
+    private ILocator AllAccordions => _page.Locator(".govuk-accordion__section h2 button");
 
+    private ILocator AllAccordionsContent =>
+        _page.Locator(".govuk-accordion__section .govuk-accordion__section-content");
 
     public async Task AssertPage()
     {
@@ -66,7 +69,7 @@ public class CompareYourCostsPage
         await SaveImageTotalExpenditure.ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();
-        await ShowAllSectionsCta.ShouldBeVisible();
+        await ShowOrHideAllSectionsCta.ShouldBeVisible();
         /*Given I am viewing charts of the Utilities or Premises expenditure category
         When I click on dimensions dropdown
         Then I am presented with a select component which permits the toggling between £ per m², actuals, percentage of expenditure and percentage of income, in that order
@@ -119,9 +122,9 @@ public class CompareYourCostsPage
         await SaveImageTotalExpenditure.ShouldNotBeVisible();
     }
 
-    public async Task ClickShowAllSectionsCta()
+    public async Task ClickShowOrHideAllSectionsCta()
     {
-        await ShowAllSectionsCta.Click();
+        await ShowOrHideAllSectionsCta.Click();
     }
 
     public async Task AssertAccordionsExpandState()
@@ -135,7 +138,7 @@ public class CompareYourCostsPage
 
     public async Task AssertShowAllSectionsText(string expectedText)
     {
-        var actualText = await ShowAllSectionsCta.InnerTextAsync();
+        var actualText = await ShowOrHideAllSectionsCta.InnerTextAsync();
         LocatorAssert.AreEqual(actualText, expectedText);
     }
 
@@ -174,11 +177,11 @@ public class CompareYourCostsPage
         switch (accordionName)
         {
             case "non-educational support staff":
-                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId)
+                await GetAccordionSectionBtn(_nonEducationalSupportStaffAccordionHeadingId)
                     .Locator(_showHideAccordionTextLocator).First.ClickAsync();
                 break;
             case "Teaching and teaching support staff":
-                await GetAccordionSectionBtns(_teachingAndTeachingSupportStaffHeadingId)
+                await GetAccordionSectionBtn(_teachingAndTeachingSupportStaffHeadingId)
                     .Locator(_showHideAccordionTextLocator).First.ClickAsync();
                 break;
         }
@@ -197,7 +200,7 @@ public class CompareYourCostsPage
                 break;
         }
 
-        await GetAccordionSectionBtns(accordionToAssertHeadingId!)
+        await GetAccordionSectionBtn(accordionToAssertHeadingId!)
             .ShouldHaveAttribute("aria-expanded", expandedState);
     }
 
@@ -214,7 +217,7 @@ public class CompareYourCostsPage
                 break;
         }
 
-        await GetAccordionSectionBtns(accordionToAssertHeadingId!)
+        await GetAccordionSectionBtn(accordionToAssertHeadingId!)
             .Locator(_showHideAccordionTextLocator).ShouldHaveText(text);
     }
 
@@ -231,6 +234,9 @@ public class CompareYourCostsPage
                 accordionToAssert = TeachingSupportStaffAccordionContent;
 
                 break;
+            case "all accordions":
+                accordionToAssert = AllAccordionsContent;
+                break;
         }
 
         foreach (var table in await accordionToAssert!.Locator(type).AllAsync())
@@ -243,6 +249,16 @@ public class CompareYourCostsPage
             {
                 await table.ShouldNotBeVisible();
             }
+        }
+    }
+
+    public async Task AssertAllAccordionsExpandedState(string expandedState)
+    {
+        var accordionsExpandedStateBtns = await AllAccordions.AllAsync();
+        foreach (var accordionState in accordionsExpandedStateBtns)
+        {
+            await accordionState
+                .ShouldHaveAttribute("aria-expanded", expandedState);
         }
     }
 }
