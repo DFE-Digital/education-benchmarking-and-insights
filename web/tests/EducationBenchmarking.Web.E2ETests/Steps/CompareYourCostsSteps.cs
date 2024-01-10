@@ -63,7 +63,6 @@ public class CompareYourCostsSteps
     [Then(@"all accordions are showing table view")]
     public async Task ThenAllAccordionsAreShowingTableView()
     {
-        //assert utitlites and premises dimension dropdown 
         await _compareYourCostsPage.AssertTablesAreShowing();
         await _compareYourCostsPage.AssertNoChartsAreShowing();
     }
@@ -87,8 +86,6 @@ public class CompareYourCostsSteps
             }
 
             expectedTableContent.Add(headers);
-
-            // Adding rows
             foreach (var row in expectedData.Rows)
             {
                 List<string> rowData = new List<string>();

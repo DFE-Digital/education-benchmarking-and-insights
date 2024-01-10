@@ -61,6 +61,8 @@ public class CompareYourCostsPage
     private ILocator AllAccordionsContent =>
         _page.Locator(".govuk-accordion__section .govuk-accordion__section-content");
 
+    private ILocator PremisesDimensionsDropdown => _page.Locator("#total-premises-staff-service-costs-dimension");
+
     public async Task AssertPage()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -70,11 +72,9 @@ public class CompareYourCostsPage
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();
         await ShowOrHideAllSectionsCta.ShouldBeVisible();
-        /*Given I am viewing charts of the Utilities or Premises expenditure category
-        When I click on dimensions dropdown
-        Then I am presented with a select component which permits the toggling between £ per m², actuals, percentage of expenditure and percentage of income, in that order
-        And the initial value displayed in this drop down is £ per m²*/
-        //add further asserts for rest of accordions
+        string[] expectedOptions = { "£ per m²", "actuals", "percentage of expenditure", "percentage of income" };
+        //todo add assertions for utilities dropdown below
+        await AssertDropDownDimensions(PremisesDimensionsDropdown, expectedOptions);
     }
 
     public async Task ClickOnSaveImg()
@@ -260,5 +260,11 @@ public class CompareYourCostsPage
             await accordionState
                 .ShouldHaveAttribute("aria-expanded", expandedState);
         }
+    }
+
+    public async Task AssertDropDownDimensions(ILocator dimensionsDropdown,string[] expectedOptions )
+    {
+        string[] actualOptions = await dimensionsDropdown.EvaluateAsync<string[]>("(select) => Array.from(select.options).map(option => option.value)");
+          Assert.Equal(actualOptions, expectedOptions);
     }
 }

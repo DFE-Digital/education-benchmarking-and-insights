@@ -1,5 +1,5 @@
 Feature: CompareYourCosts page is showing correct data
-
+#leaving these here so that we can reuse these while writing tests for relavant pages.
 #    Background:
 #        Given I am on service landing page
 #        When I click start now
