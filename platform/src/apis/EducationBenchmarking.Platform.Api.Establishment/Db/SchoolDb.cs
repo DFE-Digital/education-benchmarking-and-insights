@@ -37,11 +37,17 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
 
     public async Task<School?> Get(string urn)
     {
+        var canParse = long.TryParse(urn, out var parsedUrn);
+        if (!canParse)
+        {
+            return null;
+        }
+        
         var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-
+        
         var school = await GetItemEnumerableAsync<EdubaseDataObject>(
                 collection.Name,
-                q => q.Where(x => x.URN == long.Parse(urn)))
+                q => q.Where(x => x.URN == parsedUrn))
             .FirstOrDefaultAsync();
 
         return school == null ? null : School.Create(school);
