@@ -41,13 +41,12 @@ public class CompareYourCostsPage
     private ILocator AllTables => _page.Locator(".govuk-accordion__section .govuk-table");
     private ILocator AllSaveImgCtas => _page.Locator(".govuk-accordion__section .govuk-button");
 
-    private ILocator NonEducationalSupportStaffAccordion =>
-        _page.Locator("#accordion-heading-non-educational-support-staff");
+    private readonly string _nonEducationalSupportStaffAccordionHeadingId = "#accordion-heading-non-educational-support-staff";
+     private ILocator GetAccordionSectionBtns(string accordionHeadingId) => _page.Locator("button",
+     new PageLocatorOptions()
+     { Has = _page.Locator($"span{accordionHeadingId}") });
 
-    private ILocator HideAccordionCta(ILocator accordionLocator) =>
-        _page.Locator($"{accordionLocator.ToString()} button:has-text('Hide')");
-    /*private ILocator HideAccordionCta(string accordionLocator) =>
-        _page.Locator($"{accordionLocator}", new PageLocatorOptions { HasTextString = "Hide" });*/
+     private readonly string _accordionTextLocator = ".govuk-accordion__section-toggle-text";
 
 
     public async Task AssertPage()
@@ -166,8 +165,10 @@ public class CompareYourCostsPage
         switch (accordionName)
         {
             case "non-educational support staff" :
-                await NonEducationalSupportStaffAccordion.Filter(new LocatorFilterOptions { HasText = "Hide" }).Click();
-           //  await  HideAccordionCta(NonEducationalSupportStaffAccordion).Click();
+                var hideBtn =  GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId)
+                    .Locator(_accordionTextLocator).First;
+               await hideBtn.ShouldHaveText("Hide");
+                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).ShouldHaveAttribute("aria-expanded", "true");               await hideBtn.ClickAsync();
                 break;
             
         }
@@ -178,7 +179,9 @@ public class CompareYourCostsPage
         switch (accordionName)
         {
             case "non-educational support staff" :
-                await NonEducationalSupportStaffAccordion.AssertLocatorClass("govuk-accordion__section govuk-accordion__section--expanded");
+                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).ShouldHaveAttribute("aria-expanded", "false");
+                await GetAccordionSectionBtns(_nonEducationalSupportStaffAccordionHeadingId).Locator(_accordionTextLocator).ShouldHaveText("Show");
+
                 break;
             
         }
