@@ -6,8 +6,8 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 [Binding]
 public class SchoolHomePageSteps
 {
-    private IPage _page;
-    private SchoolHomePage _schoolHomePage;
+    private readonly IPage _page;
+    private readonly SchoolHomePage _schoolHomePage;
 
     public SchoolHomePageSteps(IPage page, SchoolHomePage schoolHomePage)
     {

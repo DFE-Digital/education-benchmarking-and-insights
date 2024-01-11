@@ -4,7 +4,7 @@ namespace EducationBenchmarking.Web.E2ETests.Pages;
 
 public class SchoolHomePage
 {
-    private IPage _page;
+    private readonly IPage _page;
 
     public SchoolHomePage(IPage page)
     {

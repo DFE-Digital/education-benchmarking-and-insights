@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace EducationBenchmarking.Web.E2ETests.TestSupport;
 
-public class Config
+public static class Config
 {
     public static IConfiguration Instance => new ConfigurationBuilder()
 #if !DEBUG

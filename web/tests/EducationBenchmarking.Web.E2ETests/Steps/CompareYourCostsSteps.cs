@@ -35,9 +35,9 @@ public class CompareYourCostsSteps
     }
 
     [Then(@"chart image is downloaded")]
-    public async Task ThenChartImageIsDownloaded()
+    public void ThenChartImageIsDownloaded()
     {
-        await _compareYourCostsPage.AssertImageDownload();
+        _compareYourCostsPage.AssertImageDownload();
     }
 
     [Given(@"the dimension in dimension dropdown is '(.*)'")]

@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.Playwright;
+﻿using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 

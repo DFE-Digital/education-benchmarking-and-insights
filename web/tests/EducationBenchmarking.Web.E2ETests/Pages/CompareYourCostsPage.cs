@@ -7,7 +7,7 @@ namespace EducationBenchmarking.Web.E2ETests.Pages;
 public class CompareYourCostsPage
 {
     private readonly IPage _page;
-    private Task<IDownload> _downloadEvent = null!;
+    private IDownload? _download;
 
     public CompareYourCostsPage(IPage page)
     {
@@ -72,19 +72,20 @@ public class CompareYourCostsPage
     public async Task ClickOnSaveImg()
     {
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        _downloadEvent = _page.WaitForDownloadAsync();
+        var downloadTask =  _page.WaitForDownloadAsync();
+        
         await SaveImageTotalExpenditure.ClickAsync();
-        await _downloadEvent;
+        
+        _download = await downloadTask;
     }
 
-    public async Task AssertImageDownload()
+    public void AssertImageDownload()
     {
-        var download = await _downloadEvent;
-        if (download == null)
+        if (_download == null)
         {
-            throw new InvalidOperationException("Image was not downloaded");
+            throw new ArgumentNullException(nameof(_download));
         }
-        var downloadedFilePath = download.SuggestedFilename;
+        var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(
             string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
             $"Expected file name: total-expenditure.png. Actual: {downloadedFilePath}"

@@ -6,7 +6,7 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 [Binding]
 public class ServiceLandingPageSteps
 {
-    private IPage _page;
+    private readonly IPage _page;
     private readonly ServiceLandingPage _serviceLandingPage;
 
     public ServiceLandingPageSteps(IPage page, ServiceLandingPage serviceLandingPage)

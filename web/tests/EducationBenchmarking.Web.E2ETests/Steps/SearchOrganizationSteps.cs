@@ -6,8 +6,8 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 [Binding]
 public class SearchOrganizationSteps
 {
-    private SearchOrganizationPage _searchOrganizationPage;
-    private IPage _page;
+    private readonly SearchOrganizationPage _searchOrganizationPage;
+    private readonly IPage _page;
 
     public SearchOrganizationSteps(SearchOrganizationPage searchOrganizationPage, IPage page)
     {
