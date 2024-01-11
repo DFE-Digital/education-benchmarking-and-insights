@@ -14,8 +14,7 @@ public class EstablishmentLocalAuthoritiesSteps
     private const string SearchRequestKey = "search-local-authority";
     private const string QueryRequestKey = "query-local-authority";
     private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
-
-   
+    
     [When("I submit the local authorities request")]
     private async Task WhenISubmitTheLocalAuthoritiesRequest()
     {
