@@ -58,6 +58,8 @@ export type ExpenditureResult = {
 export type WorkforceBenchmark = {
     urn: string
     name: string
+    schoolType: string
+    localAuthority: string
     totalExpenditure: number
     totalIncome: number
     numberOfPupils: bigint

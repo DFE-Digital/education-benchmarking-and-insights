@@ -63,7 +63,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.schoolWorkforceFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -78,7 +79,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.totalNumberOfTeachersFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -93,7 +95,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.teachersWithQTSFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -108,7 +111,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.seniorLeadershipFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -123,7 +127,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.teachingAssistantsFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -138,7 +143,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.nonClassroomSupportStaffFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -153,7 +159,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.auxiliaryStaffFTE,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
@@ -168,7 +175,8 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                     dimension: dimension,
                     value: school.schoolWorkforceHeadcount,
                     ...school
-                })
+                }),
+                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
             }
         }) : new Array<ChartDataPoint>(),
         tableHeadings: tableHeadings
