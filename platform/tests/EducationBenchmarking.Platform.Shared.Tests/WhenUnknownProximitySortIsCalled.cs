@@ -7,8 +7,6 @@ using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
-    //behaviours
-    // sorting with an empty kind throws NotImplementedException
     public class WhenUnknownProximitySortIsCalled
     {
         [Fact]

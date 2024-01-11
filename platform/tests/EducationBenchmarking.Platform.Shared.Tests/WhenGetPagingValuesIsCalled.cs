@@ -9,16 +9,8 @@ using EducationBenchmarking.Platform.Shared.Helpers;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
-    //behaviour to test
-    // page and pageSize are present should return tuple with both values
-    // neither value present should return default values page == 1 pageSize == 10
-    // page and pageSize can't be parsed as int should return default values page == 1 pageSize == 10
-    // page is present but pageSize is not should return tuple with page value and default pageSize
-    // pageSize is present but page is not should return tuple with pageSize value and default page
-    // TODO naming
     public class WhenGetPagingValuesIsCalled
     {
-        // page and pageSize are present should return tuple with both values
         [Fact]
         public void PageAndPageSizeValuesPresent()
         {
@@ -38,7 +30,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         }
 
 
-        // neither value present should return default values page == 1 pageSize == 10
         [Fact]
         public void NoValuesPresent()
         {
@@ -54,7 +45,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         }
 
 
-        // page and pageSize can't be parsed as int should return default values page == 1 pageSize == 10
         [Fact]
         public void PageAndPageSizeValuesInvalid()
         {
@@ -74,7 +64,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         }
 
 
-        // page is present but pageSize is not should return tuple with page value and default pageSize
         [Fact]
         public void PageValuePresent()
         {
@@ -93,7 +82,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         }
 
 
-        // pageSize is present but page is not should return tuple with pageSize value and default page
         [Fact]
         public void PageSizeValuePresent()
         {

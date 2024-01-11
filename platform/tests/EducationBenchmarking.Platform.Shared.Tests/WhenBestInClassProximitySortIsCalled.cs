@@ -6,13 +6,6 @@ using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
-    // behaviour
-    // with baseline the sort method should first order the list based on the absolute diffence between x and baseline lowest to highest
-    // based on Pool it will then take a subset from start index and reorder those
-    // first
-    // if OverallPhase == "Secondary" or "All-through" sorted by Progress8Measure 
-    // else by Ks2Progress
-    // and return just the subset ordered descending as above
     public class WhenBestInClassProximitySortIsCalled
     {
         [Theory]
@@ -39,14 +32,14 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         {
             yield return new object[]
             {
-                // set up bestInClassProximitySort
+                // bestInClassProximitySort
                 new BestInClassProximitySort
                 {
                     SortBy = "OtherIncome",
                     Baseline = 100,
                     Pool = 6
                 },
-                // set up schoolList
+                // schoolList
                 new List<SchoolTrustFinance>
                 {
                     new SchoolTrustFinance { SchoolName = "6", OtherIncome = 8m, OverallPhase = "Secondary", Progress8Measure = 5m },
@@ -58,23 +51,23 @@ namespace EducationBenchmarking.Platform.Shared.Tests
                     new SchoolTrustFinance { SchoolName = "7", OtherIncome = 4m, OverallPhase = "Primary", Ks2Progress = 1m },
                     new SchoolTrustFinance { SchoolName = "8",  OtherIncome = 4m, OverallPhase = "Primary", Ks2Progress = 1m },
                 },
-                // set up expectedOrder
+                // expectedOrder
                 new List<string> { "1", "2", "3", "4", "5", "6" },
-                // set up expectedCount
+                // expectedCount
                 6
             };
 
 
             yield return new object[]
             {
-                // set up bestInClassProximitySort
+                // bestInClassProximitySort
                 new BestInClassProximitySort
                 {
                     SortBy = "OtherIncome",
                     Baseline = 11,
                     Pool = 2
                 },
-                // set up schoolList
+                // schoolList
                 new List<SchoolTrustFinance>
                 {
                     new SchoolTrustFinance { SchoolName = "1", OtherIncome = 20m, OverallPhase = "Secondary", Progress8Measure = 1m },
@@ -86,9 +79,9 @@ namespace EducationBenchmarking.Platform.Shared.Tests
                     new SchoolTrustFinance { SchoolName = "7", OtherIncome = 10m, OverallPhase = "Primary", Ks2Progress = 9m },
                     new SchoolTrustFinance { SchoolName = "8",  OtherIncome = 9m, OverallPhase = "Primary", Ks2Progress =10m },
                 },
-                // set up expectedOrder
+                // expectedOrder
                 new List<string> { "8", "7" },
-                // set up expectedCount
+                // expectedCount
                 2
             };
         }

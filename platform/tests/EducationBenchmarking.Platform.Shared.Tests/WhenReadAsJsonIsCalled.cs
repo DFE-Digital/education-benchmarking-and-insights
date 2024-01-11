@@ -9,12 +9,6 @@ using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
-    //behaviour to test
-    //returns an object matching the type specified
-    // returns an object with the correct values
-    //throws null ref exc if the result is null
-
-    // TODO naming
     public class WhenReadAsJsonIsCalled
     {
         [Fact]
@@ -31,11 +25,8 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var result = testHttpRequest.ReadAsJson<TestObjectType>();
 
             // Assert
-            // not null
             Assert.NotNull(result);
-            // correct type
             Assert.IsType<TestObjectType>(result);
-            // correct value
             Assert.Equal("testValue", result.Test0);
         }
 

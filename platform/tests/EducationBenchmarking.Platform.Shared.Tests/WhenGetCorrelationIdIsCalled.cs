@@ -11,12 +11,6 @@ using Newtonsoft.Json.Linq;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
-    //behaviour to test
-    // when valid guid in headers returns that guid
-    // when invalid guid in headers throws
-    // when guid not in headers return new guid
-
-    // TODO naming
     public class WhenGetCorrelationIdIsCalled
     {
         [Fact]
@@ -33,7 +27,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var result = testHttpRequest.GetCorrelationId();
 
             // Assert
-            // is the same guid
             Assert.Equal(correlationIdHeaderValue, result);
         }
 
@@ -64,8 +57,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             var result = testHttpRequest.GetCorrelationId();
 
             // Assert
-            // TODO is valid guid
-            // Assert.True(Guid.TryParse(result.ToString(), out _));
             Assert.IsType<Guid>(result);
             Assert.NotEqual(Guid.Empty, result);
         }
