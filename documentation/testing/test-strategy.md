@@ -70,11 +70,11 @@ As part of the project test engineer will be involved in the following activitie
 The following diagram shows the Agile Testing Quadrants which outlines where each different type of testing sits, it's order of implementation,
 and the categories that it is associated with.
 
-![agile-testing-quadrants](C:\Users\fahmad\RiderProjects\education-benchmarking-and-insights-07-12\documentation\testing\images\agile-testing-quadrants.png)
+![agile-testing-quadrants](images\agile-testing-quadrants.png)
 
 The testing pyramid below shows the value of implementing different types of automated testing within a software project.
 
-![testing-pyramid](C:\Users\fahmad\RiderProjects\education-benchmarking-and-insights-07-12\documentation\testing\images\testing-pyramid.jpg)
+![testing-pyramid](images\testing-pyramid.jpg)
 
 ## Automated Testing
 We have 2 solutions. One is Platform and other is Web. Both have their own tests. 
@@ -232,7 +232,7 @@ The unit and integration testing is performed by the developers to test their co
 
 ## Path to live
 
-![Path to Live](C:\Users\fahmad\RiderProjects\education-benchmarking-and-insights-07-12\documentation\testing\images\path-to-live.jpg)
+![Path to Live](images\path-to-live.jpg)
 
 
 ## Test data overview
