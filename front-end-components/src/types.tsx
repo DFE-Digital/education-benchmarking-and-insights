@@ -70,7 +70,7 @@ type BarDataPoint = {
     value: number
 }
 
-type ChartDataPoint = {
+export type ChartDataPoint = {
     school: string
     urn: string
     value: number
