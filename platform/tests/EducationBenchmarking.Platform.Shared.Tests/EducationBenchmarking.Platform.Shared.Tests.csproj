@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
@@ -24,5 +24,11 @@
 
     <ItemGroup>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj" />
+      <ProjectReference Include="..\..\src\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj" />
     </ItemGroup>
 </Project>

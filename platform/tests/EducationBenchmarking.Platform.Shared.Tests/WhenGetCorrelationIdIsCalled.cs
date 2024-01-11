@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using EducationBenchmarking.Platform.Functions.Extensions;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests;

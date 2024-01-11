@@ -1,4 +1,7 @@
 using System.Net;
+using EducationBenchmarking.Platform.Domain.Responses;
+using EducationBenchmarking.Platform.Functions;
+using EducationBenchmarking.Platform.Functions.Extensions;
 using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests;

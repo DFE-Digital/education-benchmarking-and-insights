@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using EducationBenchmarking.Platform.Domain;
 using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
