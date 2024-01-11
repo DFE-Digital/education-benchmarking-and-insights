@@ -1,10 +1,10 @@
 # Outline
 
-This direcotry contains python scripts created to substitute part of the MetricRAG_Calculation pipeline used in the VMFI data drop process. 
+This directory contains python scripts created to substitute part of the MetricRAG_Calculation pipeline used in the VMFI data drop process. 
 
 # Code structure
 
-The `main.py` file is used in running the scripts. Small tasks, such as those associated with the stored procedures and the benchmarking calcualtions, are defined in the helper directory as helper scripts. The controller directory contains scripts which execute the helper scripts. The naming convention of the helpers associated with the 6 stored procedures being rewritten have names matching the stored procedures in the VMFI pipeline.
+The `main.py` file is used in running the scripts. Small tasks, such as those associated with the stored procedures and the benchmarking calculations, are defined in the helper directory as helper scripts. The controller directory contains scripts which execute the helper scripts. The naming convention of the helpers associated with the 6 stored procedures being rewritten have names matching the stored procedures in the VMFI pipeline.
 
 # Running the scripts
 1. Pull the code locally
