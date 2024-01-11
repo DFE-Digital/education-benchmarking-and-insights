@@ -9,11 +9,10 @@ namespace EducationBenchmarking.Platform.Shared.Tests
 {
     // behaviour
     // with baseline the sort method should order the list based on the absolute diffence between x and baseline lowest to highest
-    // TODO naming
-    public class TODOSenProximitySort
+    public class WhenSenProximitySortIsCalled
     {
         [Fact]
-        public void TODOTestSenProximitySort()
+        public void OrderIsCorrect()
         {
             // Arrange
             // set up SenProximitySort

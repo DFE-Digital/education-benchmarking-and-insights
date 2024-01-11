@@ -14,14 +14,13 @@ namespace EducationBenchmarking.Platform.Shared.Tests
     // if OverallPhase == "Secondary" or "All-through" sorted by Progress8Measure 
     // else by Ks2Progress
     // and return just the subset ordered descending as above
-    // TODO naming
-    public class TODOBestInClassProximitySort
+    public class WhenBestInClassProximitySortIsCalled
     {
         [Fact]
-        public void TODOTestBestInClassProximitySort()
+        public void OrderIsCorrectAndLengthMatchesPool()
         {
             // Arrange
-            var bestInClassProximitySort = new BestInClassProximitySort
+            var testBestInClassProximitySort = new BestInClassProximitySort
             {
                 SortBy = "OtherIncome",
                 Baseline = 100,
@@ -40,10 +39,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             };
 
             // Act
-            var result = bestInClassProximitySort.Sort(testData);
-
-            // TODO
-            var valuesAsList = result.Select(school => school.SchoolName).ToList();
+            var result = testBestInClassProximitySort.Sort(testData);
 
             // Assert
             // correct order

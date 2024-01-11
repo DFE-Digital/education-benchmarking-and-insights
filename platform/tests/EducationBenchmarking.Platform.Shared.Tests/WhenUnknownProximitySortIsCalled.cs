@@ -9,8 +9,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
 {
     //behaviours
     // sorting with an empty kind throws NotImplementedException
-    // naming
-    public class TODOUnknownProximitySort
+    public class WhenUnknownProximitySortIsCalled
     {
         [Fact]
         public void SortingWithEmptyKindThrowsNotImplementedException()
