@@ -17,7 +17,7 @@ The `main.py` file is used in running the scripts. Small tasks, such as those as
     - [processing].[maintained_schools_list]
     - [processing].[SEN]
 
-for [processing].[finance] you will only want to use items with a DataReleaseId matching your desired data release, as the file will be too large to download as a single csv otherwise.
+for [processing].[finance] you will only want to use items with a DataReleaseId matching your desired data release, as the file will be too large to download as a single csv otherwise. Be sure to double check the names of the files against the names of the accepted files in the `data_load_controller.py` file. Note: [processing].[finance] was saved with the name "finance_data_release_id_10".
 
 3. In each of the 6 `sp_my...` helper functions, change the table output destination to your desired directory.
 
