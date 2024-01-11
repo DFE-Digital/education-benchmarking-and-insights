@@ -6,28 +6,7 @@ namespace EducationBenchmarking.Web.E2ETests.Helpers;
 
 public static class LocatorAssert
 {
-    /// <summary>
-    /// <para>Executes multiple, awaitable locator assertions in the given order</para>
-    /// <para>Only use this when executing more than 1 assertion on the given element in sequence</para>
-    /// <para>**Usage**</para>
-    /// <code>
-    /// // To check that an element is visible and has certain text
-    /// await page.ExecuteMultipleAssertions(l => l.ShouldBeVisible(), l => l.ShouldHaveText("Assessment"));
-    /// </code>
-    /// </summary>
-    /// <param name="locator">the locator of the element for the assertions to be performed on</param>
-    /// <param name="assertions">sequence of the chained actions to be executed in order as lambda expressions</param>
-    public static async Task ExecuteMultipleAssertion(this ILocator locator,
-        params Func<ILocator, Task<ILocator>>[] assertions)
-    {
-        var data = locator;
-        foreach (var assertion in assertions)
-        {
-            var response = await assertion(data);
-            data = response;
-        }
-    }
-    
+   
     /// <summary>
     /// Asserts that the given element is visible in the DOM
     /// </summary>
@@ -179,24 +158,22 @@ public static class LocatorAssert
         return locator;
     }
 
-    /// <summary>
-    /// Asserts that the given element is either checked or unchecked 
-    /// </summary>
-    /// <param name="locator">the locator of the element for the assertion to be performed on</param>
-    /// <param name="isChecked">should element be checked (true) or unchecked (false)?</param>
-    /// <returns></returns>
+
     public static async Task<ILocator> ShouldBeChecked(this ILocator locator, bool isChecked)
     {
-        /*await Assertions.Expect(locator).ToBeCheckedAsync(new LocatorAssertionsToBeCheckedOptions
-        {
-            Checked = isChecked
-        });*/
         bool actualCheckedStatus = await locator.IsCheckedAsync();
         string expectedStatus = isChecked ? "checked" : "unchecked";
         actualCheckedStatus.Should().Be(isChecked, $"the checkbox status should be {expectedStatus}");
         return locator;
     }
 
+    public static async Task<ILocator> ShouldBeChecked(this Task<ILocator> locator, bool isChecked)
+    {
+        var l = await locator;
+        return await l.ShouldBeChecked(isChecked);
+    }
+    
+    
     /// <summary>
     /// Asserts whether the element is enabled in the DOM
     /// </summary>
@@ -345,9 +322,10 @@ public static class LocatorAssert
     {
         foreach (var option in optionCheckedStatuses)
         {
-            await radioGroupLocator.GetByLabel(option.Key, new LocatorGetByLabelOptions{Exact = exactLabels})
-                .ExecuteMultipleAssertion(l => l.ShouldBeVisible(), 
-                    l => l.ShouldBeChecked(option.Value));
+            await radioGroupLocator
+                .GetByLabel(option.Key, new LocatorGetByLabelOptions{Exact = exactLabels})
+                .ShouldBeVisible()
+                .ShouldBeChecked(option.Value);
         }
         
         return radioGroupLocator;
