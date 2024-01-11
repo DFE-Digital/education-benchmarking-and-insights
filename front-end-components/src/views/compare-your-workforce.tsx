@@ -69,7 +69,110 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
         tableHeadings: tableHeadings
     }
 
+    const totalNumberOfTeachersFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.totalNumberOfTeachersFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
 
+    const teachersWithQTSFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.teachersWithQTSFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
+
+    const seniorLeadershipFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.seniorLeadershipFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
+
+    const teachingAssistantsFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.teachingAssistantsFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
+
+    const nonClassroomSupportStaffFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.nonClassroomSupportStaffFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
+
+    const auxiliaryStaffFTEBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.auxiliaryStaffFTE,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
+
+    const schoolWorkforceHeadcountBarData: ChartWrapperData = {
+        dataPoints: workforceData ? workforceData.results.map(school => {
+            return {
+                school: school.name,
+                urn: school.urn,
+                value: CalculateCostValue({
+                    dimension: dimension,
+                    value: school.schoolWorkforceHeadcount,
+                    ...school
+                })
+            }
+        }) : new Array<ChartDataPoint>(),
+        tableHeadings: tableHeadings
+    }
     return (
         <SelectedSchoolContext.Provider value={selectedSchool}>
             <div className="govuk-grid-row">
@@ -84,6 +187,42 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 <ChartWrapper heading={<h3 className="govuk-heading-s">School workforce (Full Time Equivalent)</h3>}
                               data={schoolWorkforceBarData}
                               elementId="school-workforce"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Total number of teachers (Full Time Equivalent)</h3>}
+                              data={totalNumberOfTeachersFTEBarData}
+                              elementId="total-teachers"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Teachers with qualified Teacher Status (%)</h3>}
+                              data={teachersWithQTSFTEBarData}
+                              elementId="total-teachers-qualified"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Senior Leadership (Full Time Equivalent)</h3>}
+                              data={seniorLeadershipFTEBarData}
+                              elementId="senior-leadership"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Teaching Assistants (Full Time Equivalent)</h3>}
+                              data={teachingAssistantsFTEBarData}
+                              elementId="teaching-assistants"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Non-classroom support staff - excluding auxiliary staff (Full Time Equivalent)</h3>}
+                              data={nonClassroomSupportStaffFTEBarData}
+                              elementId="teachers-qualified"
+                              chartDimensions={chartDimensions}
+                />
+                <ChartWrapper heading={<h3 className="govuk-heading-s">Auxiliary staff (Full Time Equivalent)</h3>}
+                              data={auxiliaryStaffFTEBarData}
+                              elementId="auxiliary-staff"
+                              chartDimensions={chartDimensions}
+                />
+
+                <ChartWrapper heading={<h3 className="govuk-heading-s">School workforce (headcount)</h3>}
+                              data={schoolWorkforceHeadcountBarData}
+                              elementId="headcount-data"
                               chartDimensions={chartDimensions}
                 />
             </ChartModeContext.Provider>
