@@ -10,6 +10,7 @@
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="Microsoft.Azure.Cosmos"/>
         <PackageReference Include="Microsoft.Extensions.Options"/>
+        <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="System.Linq.Async"/>
         <ProjectReference Include="..\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj"/>
     </ItemGroup>

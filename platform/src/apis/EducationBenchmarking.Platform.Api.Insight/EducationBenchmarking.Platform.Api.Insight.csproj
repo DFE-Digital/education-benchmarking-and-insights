@@ -7,7 +7,14 @@
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle"/>
         <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Microsoft.NET.Sdk.Functions"/>
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -20,6 +27,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+        <PackageReference Include="Newtonsoft.Json" />
         <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj"/>
         <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj"/>
     </ItemGroup>

@@ -11,6 +11,13 @@
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+        <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Newtonsoft.Json"/>
         <ProjectReference Include="..\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj"/>
     </ItemGroup>

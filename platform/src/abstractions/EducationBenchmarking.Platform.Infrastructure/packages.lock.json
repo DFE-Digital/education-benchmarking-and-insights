@@ -21,9 +21,9 @@
       },
       "Microsoft.Azure.Cosmos": {
         "type": "Direct",
-        "requested": "[3.37.0, )",
-        "resolved": "3.37.0",
-        "contentHash": "NTNIGWBMVc/gwS2utRvSQ2pULeNC+BomgYh4sb5lQAVH/kkWUDcRgHwd3/YQE9xuo5U6jkEe1VHFME0szC1z3g==",
+        "requested": "[3.37.1, )",
+        "resolved": "3.37.1",
+        "contentHash": "pcEic62IyYdpTyqjSYBYSIoL9ZJqX4+B7PJ9aUJtJs9ZUPeTOlG1XIl3oGki6db6T0gLtCZRPOZ0d54UhiPf+g==",
         "dependencies": {
           "Azure.Core": "1.19.0",
           "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
@@ -48,6 +48,12 @@
           "Microsoft.Extensions.DependencyInjection.Abstractions": "6.0.0",
           "Microsoft.Extensions.Primitives": "6.0.0"
         }
+      },
+      "Newtonsoft.Json": {
+        "type": "Direct",
+        "requested": "[13.0.1, )",
+        "resolved": "13.0.1",
+        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
       },
       "System.Linq.Async": {
         "type": "Direct",
@@ -216,12 +222,6 @@
         "dependencies": {
           "Newtonsoft.Json": "[13.0.1, )"
         }
-      },
-      "Newtonsoft.Json": {
-        "type": "CentralTransitive",
-        "requested": "[13.0.1, )",
-        "resolved": "13.0.1",
-        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
       }
     }
   }
