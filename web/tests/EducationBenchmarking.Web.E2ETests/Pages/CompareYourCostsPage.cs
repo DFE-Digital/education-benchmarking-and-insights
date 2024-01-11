@@ -6,8 +6,8 @@ namespace EducationBenchmarking.Web.E2ETests.Pages;
 
 public class CompareYourCostsPage
 {
-    private IPage _page;
-    private Task<IDownload> _downloadEvent;
+    private readonly IPage _page;
+    private Task<IDownload> _downloadEvent = null!;
 
     public CompareYourCostsPage(IPage page)
     {
@@ -25,15 +25,7 @@ public class CompareYourCostsPage
 
     private ILocator TotalExpenditureChart =>
         _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
-
-    private ILocator TeachingAndTeachingSupportStaffAccordion =>
-        _page.Locator("#accordion-heading-teaching-support-staff");
-
     private ILocator ViewAsTableBtn => _page.Locator(".govuk-button:has-text('View as table')");
-
-    private ILocator TableContent(string table) =>
-        _page.Locator($"h2:has-text(\"{table}\") + div table.govuk-table");
-
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
     private ILocator Accordions => _page.Locator(".govuk-accordion__section");
@@ -82,21 +74,31 @@ public class CompareYourCostsPage
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         _downloadEvent = _page.WaitForDownloadAsync();
         await SaveImageTotalExpenditure.ClickAsync();
+        await _downloadEvent;
     }
 
     public async Task AssertImageDownload()
     {
         var download = await _downloadEvent;
-        string downloadedFilePath = download.SuggestedFilename;
-        Assert.Equal("total-expenditure.png", downloadedFilePath);
+        if (download == null)
+        {
+            throw new InvalidOperationException("Image was not downloaded");
+        }
+        var downloadedFilePath = download.SuggestedFilename;
+        Assert.True(
+            string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
+            $"Expected file name: total-expenditure.png. Actual: {downloadedFilePath}"
+        );
     }
 
-    public async Task AssertDimension(string value)
+    public async Task AssertDimension(string expectedValue)
     {
         var selectedValue =
             await TotalExpenditureDimension.EvaluateAsync<string>(
                 "select => select.options[select.selectedIndex].text");
-        Assert.Equal(value, selectedValue.ToString());
+        Assert.True(
+            string.Equals(expectedValue, selectedValue),
+            $"Expected dimension: {expectedValue}. Actual: {selectedValue}");
     }
 
     public async Task ChangeDimension(string value)
@@ -163,11 +165,11 @@ public class CompareYourCostsPage
         {
             if (visibility)
             {
-                await AllSaveImgCtas.ShouldBeVisible();
+                await chartImage.ShouldBeVisible();
             }
             else
             {
-                await AllSaveImgCtas.ShouldNotBeVisible();
+                await chartImage.ShouldNotBeVisible();
             }
         }
     }
@@ -184,12 +186,14 @@ public class CompareYourCostsPage
                 await GetAccordionSectionBtn(_teachingAndTeachingSupportStaffHeadingId)
                     .Locator(_showHideAccordionTextLocator).First.ClickAsync();
                 break;
+            default:
+                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
         }
     }
 
     public async Task AssertAccordionState(string accordionName, string expandedState)
     {
-        string accordionToAssertHeadingId = null;
+        string accordionToAssertHeadingId;
         switch (accordionName)
         {
             case "non-educational support staff":
@@ -198,15 +202,17 @@ public class CompareYourCostsPage
             case "Teaching and teaching support staff":
                 accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
                 break;
+            default:
+                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
         }
 
-        await GetAccordionSectionBtn(accordionToAssertHeadingId!)
+        await GetAccordionSectionBtn(accordionToAssertHeadingId)
             .ShouldHaveAttribute("aria-expanded", expandedState);
     }
 
     public async Task AssertAccordionSectionText(string accordionName, string text)
     {
-        string accordionToAssertHeadingId = null;
+        string accordionToAssertHeadingId;
         switch (accordionName)
         {
             case "non-educational support staff":
@@ -215,15 +221,17 @@ public class CompareYourCostsPage
             case "Teaching and teaching support staff":
                 accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
                 break;
+            default:
+                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
         }
 
-        await GetAccordionSectionBtn(accordionToAssertHeadingId!)
+        await GetAccordionSectionBtn(accordionToAssertHeadingId)
             .Locator(_showHideAccordionTextLocator).ShouldHaveText(text);
     }
 
     public async Task AssertAccordionContentVisibility(string accordionName, bool visibility, string type)
     {
-        ILocator accordionToAssert = null;
+        ILocator accordionToAssert;
         switch (accordionName)
         {
             case "non-educational support staff":
@@ -237,9 +245,11 @@ public class CompareYourCostsPage
             case "all accordions":
                 accordionToAssert = AllAccordionsContent;
                 break;
+            default:
+                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
         }
 
-        foreach (var table in await accordionToAssert!.Locator(type).AllAsync())
+        foreach (var table in await accordionToAssert.Locator(type).AllAsync())
         {
             if (visibility)
             {

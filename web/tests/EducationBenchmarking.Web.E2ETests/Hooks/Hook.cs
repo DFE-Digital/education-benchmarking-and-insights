@@ -17,7 +17,7 @@ namespace EducationBenchmarking.Web.E2ETests.Hooks;
 
 
         [BeforeTestRun]
-        public static async void InstallBrowsers()
+        public static void InstallBrowsers()
         {
             var exitCode = Program.Main(new[] {"install", "chromium"});
             if (exitCode != 0)
@@ -46,7 +46,7 @@ namespace EducationBenchmarking.Web.E2ETests.Hooks;
         }
         
         [AfterScenario]
-        public async Task AfterScenario()
+        public void AfterScenario()
         {
             PlaywrightInstance.Dispose();
         }

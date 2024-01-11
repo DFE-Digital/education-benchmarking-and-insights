@@ -1,14 +1,4 @@
 Feature: CompareYourCosts page is showing correct data
-#leaving these here so that we can reuse these while writing tests for relavant pages.
-#    Background:
-#        Given I am on service landing page
-#        When I click start now
-#        Then I am on find organization page
-#        When I type 'the wells free school' in the search bar and click it
-#        And I click continue
-#        Then I am taken to school home page
-#        When I click compare your costs CTA
-#        Then I am taken to compare your costs page
 
     Scenario: download total expenditure chart
         Given I am on compare your costs page for school with URN '139696'
