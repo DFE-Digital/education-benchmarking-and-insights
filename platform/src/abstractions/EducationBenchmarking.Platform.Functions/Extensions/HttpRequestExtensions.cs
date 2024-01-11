@@ -10,7 +10,9 @@ public static class HttpRequestExtensions
     {
         if (req.Headers.TryGetValue(Constants.CorrelationIdHeader, out var value))
         {
-            return Guid.Parse(value.ToString());
+            return Guid.TryParse(value.ToString(), out var guid) 
+                ? guid 
+                : Guid.NewGuid();
         }
             
         return Guid.NewGuid();

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
@@ -12,12 +7,9 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [Fact]
         public void SortingWithEmptyKindThrowsNotImplementedException()
         {
-            // Arrange
-            var unknownProximitySort = new UnknownProximitySort();
-            var testData = new List<SchoolTrustFinance>();
-
-            // Act and Assert
-            Assert.Throws<NotImplementedException>(() => unknownProximitySort.Sort(testData));
+            Assert.Throws<NotImplementedException>(
+                () => new UnknownProximitySort()
+                    .Sort(Array.Empty<SchoolTrustFinance>()));
         }
     }
 }

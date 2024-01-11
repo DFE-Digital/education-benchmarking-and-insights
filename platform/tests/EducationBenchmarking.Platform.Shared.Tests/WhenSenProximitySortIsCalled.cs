@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit;
+﻿using Xunit;
 
 namespace EducationBenchmarking.Platform.Shared.Tests
 {
@@ -15,7 +10,6 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [InlineData(400, 150, 190, 200)]
         public void OrderIsCorrect(decimal value1, decimal value2, decimal value3, int baseline)
         {
-            // Arrange
             var testSenProximitySort = new SenProximitySort
             {
                 SortBy = "SEN",
@@ -24,16 +18,14 @@ namespace EducationBenchmarking.Platform.Shared.Tests
 
             var testData = new List<SchoolTrustFinance>
             {
-                new SchoolTrustFinance { SEN = value1 },
-                new SchoolTrustFinance { SEN = value2 },
-                new SchoolTrustFinance { SEN = value3 }
+                new() { SEN = value1 },
+                new() { SEN = value2 },
+                new() { SEN = value3 }
 
             };
-
-            // Act
-            var result = testSenProximitySort.Sort(testData);
-
-            // Assert
+            
+            var result = testSenProximitySort.Sort(testData).ToArray();
+            
             Assert.Equal(value3, result.ElementAt(0).SEN);
             Assert.Equal(value2, result.ElementAt(1).SEN);
             Assert.Equal(value1, result.ElementAt(2).SEN);
