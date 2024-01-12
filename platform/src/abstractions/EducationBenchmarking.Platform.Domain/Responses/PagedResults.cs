@@ -1,10 +1,11 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
-
+[ExcludeFromCodeCoverage]
 public class PagedResults<T> : IPagedResults, IEquatable<PagedResults<T>>
 {
     public long TotalResults { get; set; }

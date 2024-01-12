@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public class PostSearchRequest
 {
     public string? SearchText { get; set; }
@@ -8,6 +11,7 @@ public class PostSearchRequest
     public FilterCriteria[]? Filters { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class FilterCriteria
 {
     public string? Field { get; set; }

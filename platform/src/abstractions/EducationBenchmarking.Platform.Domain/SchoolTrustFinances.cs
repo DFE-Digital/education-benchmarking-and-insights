@@ -1,8 +1,9 @@
-using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EducationBenchmarking.Platform.Domain;
 
+[ExcludeFromCodeCoverage]
 public class SchoolTrustFinance
 {
     public long? URN { get; set; }

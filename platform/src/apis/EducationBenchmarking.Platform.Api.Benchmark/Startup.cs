@@ -5,7 +5,6 @@ using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Api.Benchmark.Validators;
 using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Functions.Extensions;
-using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;

@@ -1,9 +1,8 @@
-﻿using Microsoft.AspNetCore.Http;
-using System.Text;
+﻿using System.Text;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using Xunit;
 
-namespace EducationBenchmarking.Platform.Shared.Tests
+namespace EducationBenchmarking.Platform.Tests.Functions
 {
     public class WhenReadAsJsonIsCalled
     {

@@ -9,7 +9,6 @@ using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Functions.Extensions;
-using EducationBenchmarking.Platform.Shared;
 using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;

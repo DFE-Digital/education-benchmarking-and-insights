@@ -1,7 +1,8 @@
 ﻿using EducationBenchmarking.Platform.Domain;
+using FluentAssertions;
 using Xunit;
 
-namespace EducationBenchmarking.Platform.Shared.Tests
+namespace EducationBenchmarking.Platform.Tests.Domain
 {
     public class WhenSenProximitySortIsCalled
     {
@@ -26,6 +27,8 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             };
             
             var result = proximitySort.Sort(schools).ToArray();
+            
+            proximitySort.Kind.Should().Be(ProximitySortKinds.Sen);
             
             Assert.Equal(value3, result.ElementAt(0).SEN);
             Assert.Equal(value2, result.ElementAt(1).SEN);

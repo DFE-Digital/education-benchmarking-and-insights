@@ -1,4 +1,3 @@
-using EducationBenchmarking.Platform.Shared;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
 

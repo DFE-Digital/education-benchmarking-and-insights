@@ -1,9 +1,8 @@
 ﻿using EducationBenchmarking.Platform.Functions.Extensions;
 using Microsoft.Extensions.Primitives;
 using Xunit;
-using Microsoft.AspNetCore.Http;
 
-namespace EducationBenchmarking.Platform.Shared.Tests;
+namespace EducationBenchmarking.Platform.Tests.Functions;
 
 public class WhenGetPagingValuesIsCalled
 {

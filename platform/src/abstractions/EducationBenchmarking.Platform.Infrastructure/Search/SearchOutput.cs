@@ -1,8 +1,9 @@
-using EducationBenchmarking.Platform.Domain;
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Domain.Responses;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
+[ExcludeFromCodeCoverage]
 public class SearchOutput<T> : IPagedResults
 {
     public Dictionary<string, IList<FacetValue>>? Facets { get; set; }
@@ -26,10 +27,9 @@ public class SearchOutput<T> : IPagedResults
             Facets = facets
         };         
     }
-
-
 }
 
+[ExcludeFromCodeCoverage]
 public class FacetValue
 {
     public string? Value { get; set; }

@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using EducationBenchmarking.Platform.Domain;
+using FluentAssertions;
 using Xunit;
 
-namespace EducationBenchmarking.Platform.Shared.Tests
+namespace EducationBenchmarking.Platform.Tests.Domain
 {
     public class WhenBestInClassProximitySortIsCalled
     {
@@ -15,6 +16,8 @@ namespace EducationBenchmarking.Platform.Shared.Tests
             int expectedCount)
         {
             var result = proximitySort.Sort(schools).ToArray();
+            
+            proximitySort.Kind.Should().Be(ProximitySortKinds.Bic);
             
             Assert.Equal(expectedOrder, result.Select(school => school.SchoolName));
             Assert.Equal(expectedCount, result.Length);

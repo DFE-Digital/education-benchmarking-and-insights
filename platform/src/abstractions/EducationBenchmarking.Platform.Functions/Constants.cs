@@ -1,4 +1,4 @@
-namespace EducationBenchmarking.Platform.Shared;
+namespace EducationBenchmarking.Platform.Functions;
 
 public static class Constants
 {
