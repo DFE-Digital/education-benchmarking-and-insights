@@ -24,16 +24,10 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">More tools</h2>
-    </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)
-    </div>
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
-    </div>
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)
+        <ul class="app-links">
+            <li>@await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)</li>
+            <li>@await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)</li>
+            <li>@await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)</li>
+        </ul>
     </div>
 </div>

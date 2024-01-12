@@ -6,12 +6,34 @@
   max-width: 100%
 }
 
-.custom-flex-container {
-    display: flex;
-    flex-wrap: wrap;
+.app-links {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  gap: 15px;
+  li {
+    width: calc(calc(100% - 30px)/ 3);
+  }
 }
 
-.custom-list-no-bullet {
+@media (max-width: 576px) {
+  .app-links {
+    li {
+      width: 100%;
+    }
+  }
+}
+
+@media (min-width: 576px) and (max-width: 768px) {
+  .app-links {
+    display: flex;
+    flex-wrap: wrap;
     list-style: none;
-    padding-left: 0;
+    padding: 0;
+    gap: 15px;
+    li {
+      width: calc(calc(100% - 15px)/ 2);
+    }
+  }
 }
