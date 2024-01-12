@@ -13,8 +13,8 @@ data "azurerm_application_insights" "application-insights" {
 }
 
 data "azurerm_key_vault" "key-vault" {
-  name                            = "${var.environment-prefix}-ebis-keyvault"
-  resource_group_name             = "${var.environment-prefix}-ebis-core"
+  name                = "${var.environment-prefix}-ebis-keyvault"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 
 data "azurerm_key_vault_secret" "insight-api-key" {
@@ -57,12 +57,12 @@ resource "azurerm_app_service_plan" "education-benchmarking-asp" {
   name                = "${var.environment-prefix}-education-benchmarking-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
-  
+
   sku {
     tier = var.sizing[var.environment].tier
     size = var.sizing[var.environment].size
   }
-  tags                = local.common-tags
+  tags = local.common-tags
 }
 
 resource "azurerm_windows_web_app" "education-benchmarking-as" {
@@ -79,12 +79,13 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 
   app_settings = {
     "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.application-insights.instrumentation_key
-    "Apis:Insight:Url" = data.azurerm_key_vault_secret.insight-api-host.value
-    "Apis:Insight:Key" = data.azurerm_key_vault_secret.insight-api-key.value
-    "Apis:Establishment:Url" = data.azurerm_key_vault_secret.establishment-api-host.value
-    "Apis:Establishment:Key" = data.azurerm_key_vault_secret.establishment-api-key.value
-    "Apis:Benchmark:Url" = data.azurerm_key_vault_secret.benchmark-api-host.value
-    "Apis:Benchmark:Key" = data.azurerm_key_vault_secret.benchmark-api-key.value
+    "APPINSIGHTS_CONNECTIONSTRING"   = data.azurerm_application_insights.application-insights.connection_string
+    "Apis:Insight:Url"               = data.azurerm_key_vault_secret.insight-api-host.value
+    "Apis:Insight:Key"               = data.azurerm_key_vault_secret.insight-api-key.value
+    "Apis:Establishment:Url"         = data.azurerm_key_vault_secret.establishment-api-host.value
+    "Apis:Establishment:Key"         = data.azurerm_key_vault_secret.establishment-api-key.value
+    "Apis:Benchmark:Url"             = data.azurerm_key_vault_secret.benchmark-api-host.value
+    "Apis:Benchmark:Key"             = data.azurerm_key_vault_secret.benchmark-api-key.value
   }
   tags = local.common-tags
 }

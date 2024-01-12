@@ -22,6 +22,8 @@
     <link rel="manifest" href="/assets/manifest.json">
     <link rel="stylesheet" href="/css/front-end.css"/>
     <link rel="stylesheet" href="/css/main.css" asp-append-version="true"/>
+
+@Html.Raw(JavaScriptSnippet.FullScript)
 </head>
 <body class="govuk-template__body govuk-frontend-supported">
 <script>
@@ -81,7 +83,7 @@
     </div>
 
     <breadcrumb></breadcrumb>
-    
+
     <main class="govuk-main-wrapper " id="main-content" role="main">
         @RenderBody()
     </main>
@@ -125,7 +127,7 @@
 </footer>
 
 <script src="/js/main.js" asp-append-version="true" type="text/javascript"></script>
-<script type="module" src="/js/front-end.js" ></script>
+<script type="module" src="/js/front-end.js"></script>
 <script type="module" src="/js/govuk-frontend.min.js"></script>
 @await RenderSectionAsync("scripts", required: false)
 

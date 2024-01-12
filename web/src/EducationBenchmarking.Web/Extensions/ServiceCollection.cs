@@ -33,18 +33,18 @@ public static class ServiceCollection
     
     public static Logger CreateLogger(string applicationName)
     {
-        var instrumentationKey = Environment.GetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY");
+        var connstring = Environment.GetEnvironmentVariable("APPINSIGHTS_CONNECTIONSTRING");
 
         return new LoggerConfiguration()
 #if !DEBUG
-                .MinimumLevel.Information()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .MinimumLevel.Information()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
+            .WriteTo.ApplicationInsights(connstring, TelemetryConverter.Traces)
 #endif
             .Enrich.FromLogContext()
             .Enrich.WithProperty("Application", applicationName)
             .Enrich.WithCorrelationIdHeader(Constants.CorrelationIdHeader)
             .WriteTo.Console()
-            .WriteTo.ApplicationInsights(new TelemetryConfiguration(instrumentationKey), TelemetryConverter.Traces)
             .CreateLogger();
     }
 }
