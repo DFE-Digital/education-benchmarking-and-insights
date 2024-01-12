@@ -1,5 +1,4 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
@@ -8,33 +7,23 @@
         <IsTestProject>true</IsTestProject>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
-
     <ItemGroup>
         <Using Include="TechTalk.SpecFlow"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Deque.AxeCore.Playwright" />
-        <PackageReference Include="Microsoft.Extensions.Configuration" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"  />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
-        <PackageReference Include="Microsoft.NET.Test.Sdk" />
-        <PackageReference Include="Microsoft.Playwright" />
-        <PackageReference Include="Newtonsoft.Json" />
-        <PackageReference Include="SpecFlow"  />
-        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin" />
-        <PackageReference Include="FluentAssertions" />
+        <PackageReference Include="Deque.AxeCore.Playwright"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json"/>
+        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
+        <PackageReference Include="Microsoft.Playwright"/>
+        <PackageReference Include="Newtonsoft.Json"/>
+        <PackageReference Include="SpecFlow"/>
+        <PackageReference Include="SpecFlow.Plus.LivingDocPlugin"/>
+        <PackageReference Include="FluentAssertions"/>
         <PackageReference Include="SpecFlow.xUnit"/>
-        <PackageReference Include="xunit.assert"  />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Update="appsettings.local.json">
-        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      </None>
-    </ItemGroup>
-
-    <ItemGroup>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
+        <PackageReference Include="xunit.assert"/>
+        <None Update="appsettings.local.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
 </Project>
