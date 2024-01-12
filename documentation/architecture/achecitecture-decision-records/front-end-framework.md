@@ -1,8 +1,8 @@
 # Front-end framework
 
-## Context and Proble mStatement
+## Context and Problem Statement
 
-For the new financial benchmarking system, there are several differnet frameworks and architectures that can be used to build the user-facing front end site. 
+For the new financial benchmarking system, there are several different frameworks and architectures that can be used to build the user-facing front end site. 
 
 ## Considered Options
 - An .NET Core MVC site written in C#. 
@@ -17,7 +17,7 @@ For the new financial benchmarking system, there are several differnet framework
 | Ease of Deployment | MVC offers easier deployment as .NET Core can be run natively on Windows & Linux, whereas pure ReactJS requires a container | 4 | 2 | 4 |
 | Security | MVC is able to act as a proxy for DfE Sign-IN, allowing authentication to be passed to server-side functions | 4 | 2 | 4 |
 | User Experience | ReactJS gives a rich, interactive experience that is more difficult to reproduce using standard C# views | 2 | 4 | 4 |
-| **Total** || **13** | **11** | **15** |
+| **Total** | | **13** | **11** | **15** |
 
 ## Decision Outcome
 
