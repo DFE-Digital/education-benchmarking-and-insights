@@ -11,7 +11,9 @@
         <PackageReference Include="AutoFixture" />
         <PackageReference Include="JsonSubTypes" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="xunit" />
+        <PackageReference Include="xunit.assert" />
         <PackageReference Include="xunit.runner.visualstudio"/>
         <PackageReference Include="coverlet.collector" />
         <ProjectReference Include="..\..\src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj" />
