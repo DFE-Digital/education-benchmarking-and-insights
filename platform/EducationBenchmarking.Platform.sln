@@ -65,13 +65,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{1D110B5A-0
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Search", "src\search\EducationBenchmarking.Platform.Search\EducationBenchmarking.Platform.Search.csproj", "{B6991DB1-7945-4348-86ED-B00A3AC8B889}"
 EndProject
-<<<<<<< HEAD
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Functions", "src\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj", "{AD3DC4F8-B866-40FE-A456-B18BA3158403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Domain", "src\abstractions\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj", "{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}"
-=======
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Platform.Shared.Tests", "tests\EducationBenchmarking.Platform.Shared.Tests\EducationBenchmarking.Platform.Shared.Tests.csproj", "{55E94E05-2406-4B20-9C5B-F3BF9D378104}"
->>>>>>> c15eaa5 (Add init shared test project)
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
