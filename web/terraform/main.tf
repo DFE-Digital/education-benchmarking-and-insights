@@ -78,14 +78,24 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
   }
 
   app_settings = {
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = data.azurerm_application_insights.application-insights.instrumentation_key
-    "APPINSIGHTS_CONNECTIONSTRING"   = data.azurerm_application_insights.application-insights.connection_string
-    "Apis:Insight:Url"               = data.azurerm_key_vault_secret.insight-api-host.value
-    "Apis:Insight:Key"               = data.azurerm_key_vault_secret.insight-api-key.value
-    "Apis:Establishment:Url"         = data.azurerm_key_vault_secret.establishment-api-host.value
-    "Apis:Establishment:Key"         = data.azurerm_key_vault_secret.establishment-api-key.value
-    "Apis:Benchmark:Url"             = data.azurerm_key_vault_secret.benchmark-api-host.value
-    "Apis:Benchmark:Key"             = data.azurerm_key_vault_secret.benchmark-api-key.value
+    "APPINSIGHTS_INSTRUMENTATIONKEY"          = data.azurerm_application_insights.application-insights.instrumentation_key
+    "APPINSIGHTS_CONNECTIONSTRING"            = data.azurerm_application_insights.application-insights.connection_string
+    "Apis:Insight:Url"                        = data.azurerm_key_vault_secret.insight-api-host.value
+    "Apis:Insight:Key"                        = data.azurerm_key_vault_secret.insight-api-key.value
+    "Apis:Establishment:Url"                  = data.azurerm_key_vault_secret.establishment-api-host.value
+    "Apis:Establishment:Key"                  = data.azurerm_key_vault_secret.establishment-api-key.value
+    "Apis:Benchmark:Url"                      = data.azurerm_key_vault_secret.benchmark-api-host.value
+    "Apis:Benchmark:Key"                      = data.azurerm_key_vault_secret.benchmark-api-key.value
+    "DFESignInSettings:APISecret"             = var.dfe-signin.api-secret
+    "DFESignInSettings:APIUri"                = var.dfe-signin.api-uri
+    "DFESignInSettings:Audience"              = var.dfe-signin.audience
+    "DFESignInSettings:CallbackPath"          = var.dfe-signin.callback-path
+    "DFESignInSettings:ClientID"              = var.dfe-signin.client-id
+    "DFESignInSettings:ClientSecret"          = var.dfe-signin.client-secret
+    "DFESignInSettings:Issuer"                = var.dfe-signin.issuer
+    "DFESignInSettings:MetadataAddress"       = var.dfe-signin.metadata-address
+    "DFESignInSettings:SignedOutCallbackPath" = var.dfe-signin.signed-out-callback-path
+    "DFESignInSettings:SignOutUri"            = var.dfe-signin.sign-out-uri
   }
   tags = local.common-tags
 }

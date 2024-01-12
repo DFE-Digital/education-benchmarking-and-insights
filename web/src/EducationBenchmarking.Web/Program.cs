@@ -3,11 +3,20 @@ using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
 using EducationBenchmarking.Web.Extensions;
+using EducationBenchmarking.Web.Identity.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Services;
+using Serilog;
 using SmartBreadcrumbs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var configuration = new ConfigurationBuilder()
+    .AddEnvironmentVariables()
+    .AddJsonFile("appsettings.json", optional: false)
+    .AddJsonFile("appsettings.Development.json", optional: false)
+    .AddUserSecrets<Program>()
+    .Build();
 
 // Add services to the container.
 builder.Services.SetupLogging(Constants.ServiceName);
@@ -25,6 +34,15 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
 
 if (!builder.Environment.IsIntegrationTest())
 {
+    builder.Services.AddDfeSignIn(options =>
+    {
+        configuration.GetSection("DFESignInSettings").Bind(options.Settings);
+        options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ",response.ErrorDescription);
+        options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
+        options.Events.OnRemoteFailure = ctx => Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
+        options.Events.OnValidatedPrincipal = _ => Log.Logger.Debug("Valid principal received");
+    });
+    
     builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)
         .BindConfiguration(Constants.SectionInsightApi)
         .ValidateDataAnnotations();

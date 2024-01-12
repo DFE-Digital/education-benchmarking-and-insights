@@ -4,7 +4,10 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Include="IdentityModel" Version="6.2.0" />
     <PackageVersion Include="JsonSubTypes" Version="2.0.1" />
+    <PackageVersion Include="JWT" Version="10.1.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="7.0.15" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
     <PackageVersion Include="xunit" Version="2.6.5" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.6">

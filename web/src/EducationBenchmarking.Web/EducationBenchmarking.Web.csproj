@@ -21,4 +21,7 @@
         <PackageReference Include="Serilog.Sinks.ApplicationInsights"/>
         <PackageReference Include="SmartBreadcrumbs"/>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\EducationBenchmarking.Web.Identity\EducationBenchmarking.Web.Identity.csproj" />
+    </ItemGroup>
 </Project>
