@@ -132,7 +132,7 @@ We have 2 types of API Tests.
 
 #### API Integration Test
 Same as Web Application Integrations tests these tests are the responsibility of the developers to write and maintain in collaboration with the test engineers.
-In the pipeline the tests are kicked off in build stage after code changes in platform project. 
+In the pipeline the tests are kicked off in the build stage after code changes in the platform project. 
 
 ##### Technology Selected
 
@@ -141,8 +141,8 @@ In the pipeline the tests are kicked off in build stage after code changes in pl
 - [Xunit](https://github.com/xunit)
 
 #### API Functional Tests
- These tests checks the functionality and behaviour of deployed APIs. These tests are kicked off after build stage using the test environment after code changes are made.
-These tests are the responsibility of the developers and Test Engineer(s) to write and maintain with collaboration. 
+ These tests checks the functionality and behaviour of deployed APIs. These tests are kicked off after the build stage using the test environment after code changes are made.
+These tests are the responsibility of the developers and test engineer(s) to write and maintain with collaboration. 
 ##### Technology Selected
 
 - [Xunit](https://github.com/xunit)
