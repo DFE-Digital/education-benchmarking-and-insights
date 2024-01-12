@@ -5,3 +5,13 @@
 .app-view-component {
   max-width: 100%
 }
+
+.custom-flex-container {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.custom-list-no-bullet {
+    list-style: none;
+    padding-left: 0;
+}

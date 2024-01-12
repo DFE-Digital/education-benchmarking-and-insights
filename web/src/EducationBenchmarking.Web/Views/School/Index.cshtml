@@ -121,24 +121,15 @@
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-l">Finance tools</h2>
     </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("CompareYourCosts", Model.Urn)
-    </div>
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)
-    </div>
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)
+    <div class="govuk-grid-column-full">
+        <ul class="govuk-grid-row custom-flex-container custom-list-no-bullet">
+            <li class="govuk-grid-column-one-third">@await Component.InvokeAsync("CompareYourCosts", Model.Urn)</li>
+            <li class="govuk-grid-column-one-third">@await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)</li>
+            <li class="govuk-grid-column-one-third">@await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)</li>
+            <li class="govuk-grid-column-one-third">@await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)</li>
+        </ul>
     </div>
 </div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-        @await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)
-    </div>
-</div>
-
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
