@@ -10,13 +10,11 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [Fact]
         public void ReturnsObjectMatchingType()
         {
-            var testHttpContext = new DefaultHttpContext();
+            var context = new DefaultHttpContext();
             var jsonContent = new TestObjectType("testValue").ToJson();
-            testHttpContext.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent));
+            context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent));
 
-            var testHttpRequest = testHttpContext.Request;
-
-            var result = testHttpRequest.ReadAsJson<TestObjectType>();
+            var result = context.Request.ReadAsJson<TestObjectType>();
             
             Assert.NotNull(result);
             Assert.IsType<TestObjectType>(result);
@@ -27,13 +25,10 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [Fact]
         public void IfResultIsNullThrowsNullReferenceException()
         {
-            var testHttpContext = new DefaultHttpContext();
-            var jsonContent = "";
-            testHttpContext.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent));
+            var context = new DefaultHttpContext();
+            context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(""));
 
-            var testHttpRequest = testHttpContext.Request;
-
-            Assert.Throws<NullReferenceException>(() => testHttpRequest.ReadAsJson<TestObjectType>());
+            Assert.Throws<NullReferenceException>(() => context.Request.ReadAsJson<TestObjectType>());
         }
     }
 

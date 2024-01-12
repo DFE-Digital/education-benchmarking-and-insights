@@ -6,7 +6,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
     public class WhenUnknownProximitySortIsCalled
     {
         [Fact]
-        public void SortingWithEmptyKindThrowsNotImplementedException()
+        public void SortingWithEmptyKindThrows()
         {
             Assert.Throws<NotImplementedException>(
                 () => new UnknownProximitySort()

@@ -11,13 +11,13 @@ namespace EducationBenchmarking.Platform.Shared.Tests
         [InlineData(400, 150, 190, 200)]
         public void OrderIsCorrect(decimal value1, decimal value2, decimal value3, int baseline)
         {
-            var testSenProximitySort = new SenProximitySort
+            var proximitySort = new SenProximitySort
             {
                 SortBy = "SEN",
                 Baseline = baseline
             };
 
-            var testData = new List<SchoolTrustFinance>
+            var schools = new List<SchoolTrustFinance>
             {
                 new() { SEN = value1 },
                 new() { SEN = value2 },
@@ -25,7 +25,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
 
             };
             
-            var result = testSenProximitySort.Sort(testData).ToArray();
+            var result = proximitySort.Sort(schools).ToArray();
             
             Assert.Equal(value3, result.ElementAt(0).SEN);
             Assert.Equal(value2, result.ElementAt(1).SEN);

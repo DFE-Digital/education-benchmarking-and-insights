@@ -13,8 +13,7 @@ public class WhenGetCorrelationIdIsCalled
         var id = Guid.NewGuid();
         context.Request.Headers.Add(Constants.CorrelationIdHeader, id.ToString());
 
-        var request = context.Request;
-        var result = request.GetCorrelationId();
+        var result = context.Request.GetCorrelationId();
             
         Assert.Equal(id, result);
     }
@@ -22,24 +21,23 @@ public class WhenGetCorrelationIdIsCalled
     [Fact]
     public void WithCorrelationIdHeaderAsInvalidGuid()
     {
-        var testHttpContext = new DefaultHttpContext();
-        var correlationIdHeaderValue = "invalid";
-        testHttpContext.Request.Headers.Add(Constants.CorrelationIdHeader, correlationIdHeaderValue);
+        var context = new DefaultHttpContext();
+        var id = "invalid";
+        context.Request.Headers.Add(Constants.CorrelationIdHeader, id);
 
-        var id = testHttpContext.Request.GetCorrelationId();
+        var result = context.Request.GetCorrelationId();
             
-        Assert.IsType<Guid>(id);
-        Assert.NotEqual(Guid.Empty, id);    
+        Assert.IsType<Guid>(result);
+        Assert.NotEqual(Guid.Empty, result);    
     }
         
         
     [Fact]
     public void WithoutCorrelationIdHeader()
     {
-        var testHttpContext = new DefaultHttpContext();
-        var testHttpRequest = testHttpContext.Request;
+        var context = new DefaultHttpContext();
             
-        var result = testHttpRequest.GetCorrelationId();
+        var result = context.Request.GetCorrelationId();
             
         Assert.IsType<Guid>(result);
         Assert.NotEqual(Guid.Empty, result);

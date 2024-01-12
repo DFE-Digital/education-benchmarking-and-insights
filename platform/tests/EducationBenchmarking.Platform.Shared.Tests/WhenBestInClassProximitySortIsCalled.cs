@@ -7,14 +7,14 @@ namespace EducationBenchmarking.Platform.Shared.Tests
     public class WhenBestInClassProximitySortIsCalled
     {
         [Theory]
-        [ClassData(typeof(BestInClassProximitySortTestData))]
+        [ClassData(typeof(ProximitySortTestData))]
         public void OrderIsCorrectAndLengthMatchesPool(
-            BestInClassProximitySort bestInClassProximitySort, 
-            List<SchoolTrustFinance> schoolList, 
+            BestInClassProximitySort proximitySort, 
+            List<SchoolTrustFinance> schools, 
             List<string> expectedOrder, 
             int expectedCount)
         {
-            var result = bestInClassProximitySort.Sort(schoolList).ToArray();
+            var result = proximitySort.Sort(schools).ToArray();
             
             Assert.Equal(expectedOrder, result.Select(school => school.SchoolName));
             Assert.Equal(expectedCount, result.Length);
@@ -22,7 +22,7 @@ namespace EducationBenchmarking.Platform.Shared.Tests
     }
 
 
-    public class BestInClassProximitySortTestData : IEnumerable<object[]>
+    public class ProximitySortTestData : IEnumerable<object[]>
     {
         public IEnumerator<object[]> GetEnumerator()
         {
