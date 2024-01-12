@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Domain;
 
+[ExcludeFromCodeCoverage]
 public class Rating
 {
     public string AssessmentArea { get; set; }

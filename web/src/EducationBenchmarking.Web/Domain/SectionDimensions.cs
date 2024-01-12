@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Domain;
 
+[ExcludeFromCodeCoverage]
 public record SectionDimensions
 {
     public string? TotalExpenditure { get; set; }

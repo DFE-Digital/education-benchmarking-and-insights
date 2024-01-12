@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Domain;
 
+[ExcludeFromCodeCoverage]
 public static class EstablishmentTypes
 {
     public const string Academies = "Academies";

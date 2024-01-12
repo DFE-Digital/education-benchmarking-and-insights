@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Domain;
 
+[ExcludeFromCodeCoverage]
 public record SchoolWorkforce
 {
     public string Urn { get; set; }

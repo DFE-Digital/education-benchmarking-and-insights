@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web;
 
+[ExcludeFromCodeCoverage]
 public static class Constants
 {
     public const string ServiceName = "Education benchmarking and insights";

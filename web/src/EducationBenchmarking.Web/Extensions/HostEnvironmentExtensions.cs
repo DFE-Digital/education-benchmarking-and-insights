@@ -1,6 +1,6 @@
 namespace EducationBenchmarking.Web.Extensions;
 
-public static class HostEnvironmentEnvExtensions
+public static class HostEnvironmentExtensions
 {
     private const string IntegrationTestEnvironment = "IntegrationTest";
     
