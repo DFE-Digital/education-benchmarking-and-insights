@@ -19,7 +19,9 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
-
+    "paths": {
+      "src/*": ["./src/*"],
+    },
 
     "types": ["jest", "@testing-library/jest-dom"]
   },
