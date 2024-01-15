@@ -17,10 +17,11 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
     public class BenchmarkApiSteps
     {
         private readonly HttpClient _httpClient;
-        private HttpResponseMessage _response;
         private StringContent _content;
         private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
         private const string GetComparatorSetKey = "get-comparator-set";
+        private const string FsmBandingKey = "free-school-meal-banding";
+        private const string SchoolSizeBandingKey = "school-size-banding";
         private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
 
 
@@ -28,7 +29,6 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var httpClientHandler = new HttpClientHandler();
             _httpClient = new HttpClient(httpClientHandler);
-            _response = null!;
             _content = null!;
         }
 
@@ -64,13 +64,6 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             }
 
             schoolComparatorSet["results"]!.Children().Should().HaveCount(int.Parse(expectedSize));
-        }
-
-
-        [When(@"I submit the request")]
-        public async Task WhenISubmitTheRequest()
-        {
-            _response = await _httpClient.PostAsync($"{Config.Apis.Benchmark.Host}/api/comparator-set", _content);
         }
 
 
@@ -133,6 +126,41 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             expectedTable.CompareToDynamicSet(set,false);
             
 
+        }
+
+        [Given(@"a valid fsm banding request")]
+        public void GivenAValidFsmBandingRequest()
+        {
+            _api.CreateRequest(FsmBandingKey, new HttpRequestMessage
+            {
+                RequestUri = new Uri("/api/free-school-meal/bandings", UriKind.Relative),
+                Method = HttpMethod.Get
+            });
+        }
+
+        [When(@"I submit the banding request")]
+        public async Task WhenISubmitTheBandingRequest()
+        {
+            await _api.Send();
+        }
+
+        [Then(@"the banding result should be ok")]
+        public void ThenTheBandingResultShouldBeOk()
+        {
+            var response = _api[FsmBandingKey].Response ?? throw new NullException(_api[FsmBandingKey].Response);
+
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
+
+        [Given(@"a valid school size banding request")]
+        public void GivenAValidSchoolSizeBandingRequest()
+        {
+            _api.CreateRequest(SchoolSizeBandingKey, new HttpRequestMessage
+            {
+                RequestUri = new Uri("/api/school-size/bandings", UriKind.Relative),
+                Method = HttpMethod.Get
+            });
         }
     }
 }

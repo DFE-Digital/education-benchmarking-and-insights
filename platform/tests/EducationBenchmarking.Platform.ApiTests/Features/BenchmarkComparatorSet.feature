@@ -1,4 +1,4 @@
-﻿Feature: BenchmarkApi API Endpoint Testing
+﻿Feature: Benchmark Comparator set Endpoint Testing
 
     Scenario: Create a comparator set successfully
         Given I have a valid comparator set request of size set to '7'
