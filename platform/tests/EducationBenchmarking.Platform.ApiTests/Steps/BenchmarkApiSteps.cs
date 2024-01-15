@@ -16,8 +16,6 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
     [Binding]
     public class BenchmarkApiSteps
     {
-        private readonly HttpClient _httpClient;
-        private StringContent _content;
         private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
         private const string GetComparatorSetKey = "get-comparator-set";
         private const string FsmBandingKey = "free-school-meal-banding";
@@ -28,12 +26,10 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         public BenchmarkApiSteps()
         {
             var httpClientHandler = new HttpClientHandler();
-            _httpClient = new HttpClient(httpClientHandler);
-            _content = null!;
         }
 
-        [Then(@"the response status code api is (.*)")]
-        public void ThenTheResponseStatusCodeApiIs(int expectedStatusCode)
+        [Then(@"the comparator result should be ok")]
+        public void ThenTheComparatorResultShouldBeOk()
         {
             var response = _api[GetComparatorSetKey].Response ??
                            throw new NullException(_api[GetComparatorSetKey].Response);
@@ -83,11 +79,20 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             });
         }
 
-        [Given(@"I have a invalid comparator set request of size set to '(.*)'")]
-        public void GivenIHaveAInvalidComparatorSetRequestOfSizeSetTo(string size)
+        [Given(@"I have a invalid comparator set request")]
+        public void GivenIHaveAInvalidComparatorSetRequest()
         {
-            var jsonContent = "{\"includeSet\": true, \"size\": " + size + "}";
-            _content = new StringContent(jsonContent, Encoding.UTF8, "application/json");
+            var content = new
+            {
+                includeSet = "true", size="7", sortMethod = new { sortBy = "bad request"}
+            };
+        
+            _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
+            {
+                RequestUri = new Uri("/api/comparator-set", UriKind.Relative),
+                Method = HttpMethod.Post,
+                Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
+            });
         }
 
         [Given(@"a valid comparator set characteristics request")]
@@ -161,6 +166,15 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
                 RequestUri = new Uri("/api/school-size/bandings", UriKind.Relative),
                 Method = HttpMethod.Get
             });
+        }
+
+        [Then(@"the comparator result should be bad request")]
+        public void ThenTheComparatorResultShouldBeBadRequest()
+        {
+            var response = _api[GetComparatorSetKey].Response ?? throw new NullException(_api[GetComparatorSetKey].Response);
+
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
