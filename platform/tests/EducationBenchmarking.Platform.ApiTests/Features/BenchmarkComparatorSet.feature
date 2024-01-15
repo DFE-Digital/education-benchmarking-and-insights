@@ -4,12 +4,12 @@
         Given I have a valid comparator set request of size set to '7'
         When I submit the comparator set request
         Then a valid comparator set of size '7' should be returned
-        Then the response status code api is 200
+        Then the comparator result should be ok
 
-    Scenario: Get error for Invalid School Comparator Set Request
-        Given I have a invalid comparator set request of size set to 'invalid'
-        When I submit the request
-        Then the response status code api is 500
+    Scenario: Sending a bad comparator set request
+        Given I have a invalid comparator set request
+        When I submit the comparator set request
+        Then the comparator result should be bad request
 
     Scenario: sending a valid comparator set characteristics request
         Given a valid comparator set characteristics request
