@@ -114,7 +114,7 @@ public class WhenViewingSchoolWorkforce : BenchmarkingWebAppClient
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Benchmark the workforce data for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Benchmark workforce data",$"Benchmark the workforce data for {school.Name}");
             
         var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);

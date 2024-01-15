@@ -1,6 +1,10 @@
+@{
+    ViewBag.Title = PageTitles.ErrorPageNotFound;
+}
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Page not found</h1>
+        <h1 class="govuk-heading-l">@ViewData["Title"]</h1>
         <p class="govuk-body">
             If you typed the web address, check it is correct.
         </p>

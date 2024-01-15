@@ -108,7 +108,7 @@ public class WhenViewingSchool : BenchmarkingWebAppClient
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights","Education benchmarking and insights");
+        DocumentAssert.TitleAndH1(page, "Your school","Education benchmarking and insights");
         DocumentAssert.Heading2(page, school.Name);
 
         var toolsHeadingSection = page.Body.SelectSingleNode("//main/div[7]");

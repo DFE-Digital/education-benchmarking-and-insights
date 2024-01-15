@@ -114,7 +114,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",$"Compare your costs for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Compare your costs",$"Compare your costs for {school.Name}");
             
         var changeLinkElement = page.GetElementById("change-school");
         Assert.NotNull(changeLinkElement);

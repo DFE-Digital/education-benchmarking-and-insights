@@ -14,7 +14,7 @@ public class WhenViewingErrors : BenchmarkingWebAppClient
     {
         var page = await Navigate(Paths.Error);
             
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights","Sorry, there is a problem with the service");
+        DocumentAssert.TitleAndH1(page, "Sorry, there is a problem with the service","Sorry, there is a problem with the service");
     }
     
     [Theory]
@@ -24,6 +24,6 @@ public class WhenViewingErrors : BenchmarkingWebAppClient
     {
         var page = await Navigate(Paths.StatusError(statusCode));
             
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights",heading);
+        DocumentAssert.TitleAndH1(page, heading,heading);
     }
 }
