@@ -7,9 +7,7 @@ public record SchoolWorkforce
     public string SchoolType { get; set; }
     public string LocalAuthority { get; set; }
     
-    public decimal TotalExpenditure { get; set; }
     public decimal NumberOfPupils { get; set; }
-    public decimal TotalIncome { get; set; }
 
     public decimal SchoolWorkforceFTE { get; set; }
     public decimal TotalNumberOfTeachersFTE { get; set; }

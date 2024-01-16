@@ -61,6 +61,8 @@ export type PremisesValue = {
 
 export type WorkforceValue = {
     dimension: string
+    schoolWorkforceFTE: number
+    numberOfPupils: bigint
     value: number
 }
 

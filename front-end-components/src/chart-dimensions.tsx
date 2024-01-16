@@ -42,7 +42,6 @@ export function DimensionHeading(dimension: string): string {
     }
 }
 
-
 export function CalculatePremisesValue(premisesValue: PremisesValue): number {
     switch (premisesValue.dimension) {
         case PercentageExpenditure :
@@ -56,11 +55,17 @@ export function CalculatePremisesValue(premisesValue: PremisesValue): number {
     }
 }
 
-export function CalculateWorkforceValue(costValue: WorkforceValue): number {
-    switch (costValue.dimension) {
-        case Actual :
-            return costValue.value
+export function CalculateWorkforceValue(workforceValue: WorkforceValue): number {
+    switch (workforceValue.dimension) {
+        case Total :
+            return workforceValue.value
+        case HeadcountPerFTE :
+            return workforceValue.schoolWorkforceFTE / workforceValue.value
+        case PercentageOfWorkforce :
+            return (workforceValue.value / workforceValue.schoolWorkforceFTE) * 100
+        case PupilsPerStaffRole :
+            return Number(workforceValue.numberOfPupils) / workforceValue.value
         default:
-            return costValue.value
+            return 0
     }
 }

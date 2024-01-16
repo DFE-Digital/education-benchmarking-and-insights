@@ -57,8 +57,7 @@ export type TotalTeachersData = {
     name: string
     schoolType: string
     localAuthority: string
-    totalIncome: number
-    totalExpenditure: number
     numberOfPupils: bigint
+    schoolWorkforceFTE: number
     totalNumberOfTeachersFTE : number
 }

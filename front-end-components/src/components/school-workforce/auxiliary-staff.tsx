@@ -58,8 +58,7 @@ export type AuxiliaryStaffData = {
     name: string
     schoolType: string
     localAuthority: string
-    totalIncome: number
-    totalExpenditure: number
     numberOfPupils: bigint
+    schoolWorkforceFTE: number
     auxiliaryStaffFTE : number
 }

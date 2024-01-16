@@ -60,8 +60,6 @@ export type WorkforceBenchmark = {
     name: string
     schoolType: string
     localAuthority: string
-    totalExpenditure: number
-    totalIncome: number
     numberOfPupils: bigint
     schoolWorkforceFTE: number;
     totalNumberOfTeachersFTE: number;

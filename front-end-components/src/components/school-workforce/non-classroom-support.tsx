@@ -57,8 +57,7 @@ export type NonClassroomSupportData = {
     name: string
     schoolType: string
     localAuthority: string
-    totalIncome: number
-    totalExpenditure: number
     numberOfPupils: bigint
+    schoolWorkforceFTE: number
     nonClassroomSupportStaffFTE : number
 }
