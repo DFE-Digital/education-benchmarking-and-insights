@@ -109,20 +109,20 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({sch
                 </div>
                 <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-premises-staff-services">
-                    <HorizontalBarChartWrapper data={totalPremisesStaffServiceCostsBarData} elementId="total-premises-staff-service-costs">
+                    <HorizontalBarChartWrapper data={totalPremisesStaffServiceCostsBarData} chartId="total-premises-staff-service-costs">
                         <h3 className="govuk-heading-s">Total premises staff and service costs</h3>
                         <ChartDimensions dimensions={PremisesCategories} handleChange={handleSelectChange} elementId="total-premises-staff-service-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={cleaningCaretakingBarData} elementId="cleaning-caretaking-costs">
+                    <HorizontalBarChartWrapper data={cleaningCaretakingBarData} chartId="cleaning-caretaking-costs">
                         <h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={maintenanceBarData} elementId="maintenance-premises-costs">
+                    <HorizontalBarChartWrapper data={maintenanceBarData} chartId="maintenance-premises-costs">
                         <h3 className="govuk-heading-s">Maintenance of premises costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={otherOccupationBarData} elementId="other-occupation-costs">
+                    <HorizontalBarChartWrapper data={otherOccupationBarData} chartId="other-occupation-costs">
                         <h3 className="govuk-heading-s">Other occupation costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={premisesStaffBarData} elementId="premises staff costs">
+                    <HorizontalBarChartWrapper data={premisesStaffBarData} chartId="premises staff costs">
                         <h3 className="govuk-heading-s">Premises staff costs</h3>
                     </HorizontalBarChartWrapper>
                 </div>

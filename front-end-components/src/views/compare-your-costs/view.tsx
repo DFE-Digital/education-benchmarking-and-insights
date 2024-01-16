@@ -1,7 +1,10 @@
 import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-expect-error
+import {initAll} from 'govuk-frontend'
 import {TotalExpenditure, ExpenditureAccordion} from "src/views/compare-your-costs/partials";
 import {CompareYourSchoolViewProps} from "src/views/compare-your-costs";
-import {SchoolApi, ExpenditureResult, SchoolExpenditure} from "src/services";
+import {SchoolApi, SchoolApiResult ,Expenditure } from "src/services";
 import {
     ChartMode,
     OppositeMode,
@@ -9,13 +12,9 @@ import {
 } from 'src/components';
 import {School, SelectedSchool, SelectedSchoolContext, ChartModeContext} from "src/contexts";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import {initAll} from 'govuk-frontend'
-
 export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
     const {urn, academyYear, maintainedYear} = props
-    const [expenditureData, setExpenditureData] = useState<ExpenditureResult>();
+    const [expenditureData, setExpenditureData] = useState<SchoolApiResult<Expenditure>>();
     const [displayMode, setDisplayMode] = useState<ChartModes>(ChartModes.CHART);
     const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(School.empty);
 
@@ -57,9 +56,9 @@ export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) =
                 </div>
             </div>
             <ChartModeContext.Provider value={displayMode}>
-                <TotalExpenditure schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                <TotalExpenditure schools={expenditureData ? expenditureData.results : new Array<Expenditure>()}/>
                 <ExpenditureAccordion
-                    schools={expenditureData ? expenditureData.results : new Array<SchoolExpenditure>()}/>
+                    schools={expenditureData ? expenditureData.results : new Array<Expenditure>()}/>
             </ChartModeContext.Provider>
         </SelectedSchoolContext.Provider>
     )

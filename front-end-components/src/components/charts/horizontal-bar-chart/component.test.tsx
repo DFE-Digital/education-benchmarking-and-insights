@@ -15,23 +15,24 @@ describe('HBarChart Component', () => {
     ];
     const mockChosenSchool = {urn:mockData[1].urn, name: mockData[1].school};
     const mockXLabel = 'Test X Label';
+    const mockChartId = 'mock=chart'
 
     it('renders without crashing', () => {
         const {container} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         expect(container).toBeInTheDocument();
     });
 
     it('displays correct xLabel', () => {
         const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.options.scales.x.title.text).toBe(mockXLabel);
     });
 
     it('passes correct data to the chart', () => {
         const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.data).toEqual({
             labels: mockData.map(data => data.school),
@@ -45,7 +46,7 @@ describe('HBarChart Component', () => {
 
     it('highlights the chosen school correctly', () => {
         const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         const chosenSchoolIndex = mockData.findIndex(data => data.school === mockChosenSchool.name);
         expect(barProps.data.datasets[0].backgroundColor[chosenSchoolIndex]).toBe('#12436D');
@@ -53,7 +54,7 @@ describe('HBarChart Component', () => {
 
     it('sets correct chart options', () => {
         const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         // Main options
         expect(barProps.options.maintainAspectRatio).toBe(false);
@@ -85,7 +86,7 @@ describe('HBarChart Component', () => {
 
     it('includes custom underline plugin', () => {
         const {getByTestId} = render(<SelectedSchoolContext.Provider value={mockChosenSchool}><ChartDimensionContext.Provider value={mockXLabel}><HorizontalBarChart
-            data={mockData}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
+            data={mockData} chartId={mockChartId}/></ChartDimensionContext.Provider></SelectedSchoolContext.Provider>);
         const barProps = JSON.parse(getByTestId('mock-bar').textContent ?? '');
         expect(barProps.plugins).toEqual(expect.arrayContaining([{id: 'underline'}]));
     });

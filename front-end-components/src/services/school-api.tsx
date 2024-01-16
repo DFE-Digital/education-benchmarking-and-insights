@@ -1,8 +1,11 @@
 import {v4 as uuidv4} from "uuid";
+import {
+    Expenditure, SchoolApiResult, Workforce,
+} from "src/services";
 
-export default class SchoolApi {
+export class SchoolApi {
 
-    static async getSchoolExpenditure(urn: string): Promise<ExpenditureResult> {
+    static async getSchoolExpenditure(urn: string): Promise<SchoolApiResult<Expenditure>> {
         return fetch(
             `/api/school/${urn}/expenditure`,
             {
@@ -25,7 +28,7 @@ export default class SchoolApi {
             });
     }
 
-    static async getWorkforceBenchmarkData(urn: string): Promise<WorkforceBenchmarkResult> {
+    static async getWorkforceBenchmarkData(urn: string): Promise<SchoolApiResult<Workforce>> {
         return fetch(`/api/school/${urn}/workforce`, 
         {
           redirect: 'manual',
@@ -47,87 +50,5 @@ export default class SchoolApi {
 
 }
 
-export type ExpenditureResult = {
-    totalResults: bigint
-    page: bigint
-    pageSize: bigint
-    pageCount: bigint
-    results: SchoolExpenditure[]
-} 
 
-export type WorkforceBenchmark = {
-    urn: string
-    name: string
-    schoolType: string
-    localAuthority: string
-    numberOfPupils: bigint
-    schoolWorkforceFTE: number;
-    totalNumberOfTeachersFTE: number;
-    teachersWithQTSFTE: number;
-    seniorLeadershipFTE: number;
-    teachingAssistantsFTE: number;
-    nonClassroomSupportStaffFTE: number;
-    auxiliaryStaffFTE: number;
-    schoolWorkforceHeadcount: number;
-}
 
-export type WorkforceBenchmarkResult = {
-    totalResults: bigint
-    page: bigint
-    pageSize: bigint
-    pageCount: bigint
-    results: WorkforceBenchmark[]
-}
-
-export type SchoolExpenditure = {
-    urn: string
-    name: string
-    schoolType: string
-    localAuthority: string
-    totalExpenditure: number
-    totalIncome: number
-    numberOfPupils: bigint
-    totalTeachingSupportStaffCosts: number
-    teachingStaffCosts: number
-    supplyTeachingStaffCosts: number
-    educationalConsultancyCosts: number
-    educationSupportStaffCosts: number
-    agencySupplyTeachingStaffCosts: number
-    netCateringCosts: number
-    cateringStaffCosts: number
-    cateringSuppliesCosts: number
-    incomeCatering: number
-    administrativeSuppliesCosts: number
-    learningResourcesIctCosts: number
-    totalEducationalSuppliesCosts: number
-    examinationFeesCosts: number
-    breakdownEducationalSuppliesCosts: number
-    learningResourcesNonIctCosts: number
-    totalNonEducationalSupportStaffCosts: number
-    administrativeClericalStaffCosts: number
-    auditorsCosts: number
-    otherStaffCosts: number
-    professionalServicesNonCurriculumCosts: number
-    totalPremisesStaffServiceCosts: number
-    cleaningCaretakingCosts: number
-    maintenancePremisesCosts: number
-    otherOccupationCosts: number
-    premisesStaffCosts: number
-    totalOtherCosts: number
-    otherInsurancePremiumsCosts: number
-    directRevenueFinancingCosts: number
-    groundsMaintenanceCosts: number
-    indirectEmployeeExpenses: number
-    interestChargesLoanBank: number
-    privateFinanceInitiativeCharges: number
-    rentRatesCosts: number
-    specialFacilitiesCosts: number
-    staffDevelopmentTrainingCosts: number
-    staffRelatedInsuranceCosts: number
-    supplyTeacherInsurableCosts: number
-    communityFocusedSchoolStaff: number
-    communityFocusedSchoolCosts: number
-    totalUtilitiesCosts: number
-    energyCosts: number
-    waterSewerageCosts: number
-}

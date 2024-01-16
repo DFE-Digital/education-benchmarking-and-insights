@@ -94,17 +94,17 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({sch
                 </div>
                 <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-catering-staff-services">
-                    <HorizontalBarChartWrapper data={netCateringBarData} elementId="net-catering-costs">
+                    <HorizontalBarChartWrapper data={netCateringBarData} chartId="net-catering-costs">
                         <h3 className="govuk-heading-s">Net catering costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="net-catering-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={cateringStaffBarData} elementId="catering-staff-costs">
+                    <HorizontalBarChartWrapper data={cateringStaffBarData} chartId="catering-staff-costs">
                         <h3 className="govuk-heading-s">Catering staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={cateringSuppliesBarData} elementId="catering-supplies-costs">
+                    <HorizontalBarChartWrapper data={cateringSuppliesBarData} chartId="catering-supplies-costs">
                         <h3 className="govuk-heading-s">Catering supplies costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={incomeCateringBarData} elementId="income-from-catering">
+                    <HorizontalBarChartWrapper data={incomeCateringBarData} chartId="income-from-catering">
                         <h3 className="govuk-heading-s">Income from catering</h3>
                     </HorizontalBarChartWrapper>
                 </div>

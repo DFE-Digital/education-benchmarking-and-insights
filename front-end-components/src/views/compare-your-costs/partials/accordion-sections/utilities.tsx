@@ -76,14 +76,14 @@ export const Utilities: React.FC<UtilitiesProps> = ({schools}) => {
                 </div>
                 <div id="accordion-content-utilities" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-utilities">
-                    <HorizontalBarChartWrapper data={totalUtilitiesCostsBarData} elementId="total-utilities-costs">
+                    <HorizontalBarChartWrapper data={totalUtilitiesCostsBarData} chartId="total-utilities-costs">
                         <h3 className="govuk-heading-s">Total utilities costs</h3>
                         <ChartDimensions dimensions={PremisesCategories} handleChange={handleSelectChange} elementId="total-utilities-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={energyBarData} elementId="energy-costs">
+                    <HorizontalBarChartWrapper data={energyBarData} chartId="energy-costs">
                         <h3 className="govuk-heading-s">Energy costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={waterSewerageBarData} elementId="water-sewerage-costs">
+                    <HorizontalBarChartWrapper data={waterSewerageBarData} chartId="water-sewerage-costs">
                         <h3 className="govuk-heading-s">Water and sewerage costs</h3>
                     </HorizontalBarChartWrapper>
                 </div>

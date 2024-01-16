@@ -252,47 +252,47 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                 </div>
                 <div id="accordion-content-other-cost" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-other-cost">
-                    <HorizontalBarChartWrapper data={totalOtherCostsBarData} elementId="total-otehr-costs">
+                    <HorizontalBarChartWrapper data={totalOtherCostsBarData} chartId="total-otehr-costs">
                         <h3 className="govuk-heading-s">Total other costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-otehr-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={otherInsurancePremiumsCostsBarData} elementId="other-insurance-premiums-costs">
+                    <HorizontalBarChartWrapper data={otherInsurancePremiumsCostsBarData} chartId="other-insurance-premiums-costs">
                         <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={directRevenueFinancingCostsBarData} elementId="direct-revenue-financing-costs">
+                    <HorizontalBarChartWrapper data={directRevenueFinancingCostsBarData} chartId="direct-revenue-financing-costs">
                         <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={groundsMaintenanceCostsBarData} elementId="ground-maintenance-costs">
+                    <HorizontalBarChartWrapper data={groundsMaintenanceCostsBarData} chartId="ground-maintenance-costs">
                         <h3 className="govuk-heading-s">Ground maintenance costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={indirectEmployeeExpensesBarData} elementId="indirect-employee-expenses">
+                    <HorizontalBarChartWrapper data={indirectEmployeeExpensesBarData} chartId="indirect-employee-expenses">
                         <h3 className="govuk-heading-s">Indirect employee expenses</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={interestChargesLoanBankBarData} elementId="interest-charges-loan-bank">
+                    <HorizontalBarChartWrapper data={interestChargesLoanBankBarData} chartId="interest-charges-loan-bank">
                         <h3 className="govuk-heading-s">Interest charges for loan and bank</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={privateFinanceInitiativeChargesBarData} elementId="pfi-charges">
+                    <HorizontalBarChartWrapper data={privateFinanceInitiativeChargesBarData} chartId="pfi-charges">
                         <h3 className="govuk-heading-s">PFI charges</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={rentRatesCostsBarData} elementId="rent-rates-cots">
+                    <HorizontalBarChartWrapper data={rentRatesCostsBarData} chartId="rent-rates-cots">
                         <h3 className="govuk-heading-s">Rent and rates costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={specialFacilitiesCostsBarData} elementId="special-facilities-costs">
+                    <HorizontalBarChartWrapper data={specialFacilitiesCostsBarData} chartId="special-facilities-costs">
                         <h3 className="govuk-heading-s">Special facilities costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={staffDevelopmentTrainingCostsBarData} elementId="staff-development-training-costs">
+                    <HorizontalBarChartWrapper data={staffDevelopmentTrainingCostsBarData} chartId="staff-development-training-costs">
                         <h3 className="govuk-heading-s">Staff development and training costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={staffRelatedInsuranceCostsBarData} elementId="staff-related-insurance-costs">
+                    <HorizontalBarChartWrapper data={staffRelatedInsuranceCostsBarData} chartId="staff-related-insurance-costs">
                         <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={supplyTeacherInsurableCostsBarData} elementId="supply-teacher-insurance-costs">
+                    <HorizontalBarChartWrapper data={supplyTeacherInsurableCostsBarData} chartId="supply-teacher-insurance-costs">
                         <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={communityFocusedSchoolStaffBarData} elementId="community-focused-staff">
+                    <HorizontalBarChartWrapper data={communityFocusedSchoolStaffBarData} chartId="community-focused-staff">
                         <h3 className="govuk-heading-s">Community focused school staff (maintained schools only)</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={communityFocusedSchoolCostsBarData} elementId="community-focused-costs">
+                    <HorizontalBarChartWrapper data={communityFocusedSchoolCostsBarData} chartId="community-focused-costs">
                         <h3 className="govuk-heading-s">Community focused school costs (maintained schools only)</h3>
                     </HorizontalBarChartWrapper>
                 </div>

@@ -124,23 +124,23 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schoo
                 </div>
                 <div id="accordion-content-teaching-support-staff" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-teaching-support-staff">
-                    <HorizontalBarChartWrapper data={totalTeachingBarData} elementId="total-teaching-support-staff-cost">
+                    <HorizontalBarChartWrapper data={totalTeachingBarData} chartId="total-teaching-support-staff-cost">
                         <h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-teaching-support-staff-cost" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={teachingStaffBarData} elementId="teaching-staff-costs">
+                    <HorizontalBarChartWrapper data={teachingStaffBarData} chartId="teaching-staff-costs">
                         <h3 className="govuk-heading-s">Teaching staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={supplyTeachingBarData} elementId="supply-teaching-staff-costs">
+                    <HorizontalBarChartWrapper data={supplyTeachingBarData} chartId="supply-teaching-staff-costs">
                         <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={educationalConsultancyBarData} elementId="educational-consultancy-costs">
+                    <HorizontalBarChartWrapper data={educationalConsultancyBarData} chartId="educational-consultancy-costs">
                         <h3 className="govuk-heading-s">Educational consultancy costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={educationSupportStaffBarData} elementId="education-support-stff-costs">
+                    <HorizontalBarChartWrapper data={educationSupportStaffBarData} chartId="education-support-stff-costs">
                         <h3 className="govuk-heading-s">Educational support staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={agencySupplyBarData} elementId="agency-supply-teaching-staff-costs">
+                    <HorizontalBarChartWrapper data={agencySupplyBarData} chartId="agency-supply-teaching-staff-costs">
                         <h3 className="govuk-heading-s">Agency supply teaching staff costs</h3>
                     </HorizontalBarChartWrapper>
                 </div>

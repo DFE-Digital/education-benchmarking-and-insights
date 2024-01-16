@@ -1,12 +1,12 @@
-export type ExpenditureResult = {
+export type SchoolApiResult<T> = {
     totalResults: bigint
     page: bigint
     pageSize: bigint
     pageCount: bigint
-    results: SchoolExpenditure[]
+    results: T[]
 }
 
-export type SchoolExpenditure = {
+export type Expenditure = {
     urn: string
     name: string
     schoolType: string
@@ -57,4 +57,20 @@ export type SchoolExpenditure = {
     totalUtilitiesCosts: number
     energyCosts: number
     waterSewerageCosts: number
+}
+
+export type Workforce = {
+    urn: string
+    name: string
+    schoolType: string
+    localAuthority: string
+    numberOfPupils: bigint
+    schoolWorkforceFTE: number;
+    totalNumberOfTeachersFTE: number;
+    teachersWithQTSFTE: number;
+    seniorLeadershipFTE: number;
+    teachingAssistantsFTE: number;
+    nonClassroomSupportStaffFTE: number;
+    auxiliaryStaffFTE: number;
+    schoolWorkforceHeadcount: number;
 }

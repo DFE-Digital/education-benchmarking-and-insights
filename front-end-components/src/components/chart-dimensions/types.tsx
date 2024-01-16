@@ -15,6 +15,13 @@ export type PremisesValue = {
     value: number
 }
 
+export type WorkforceValue = {
+    dimension: string
+    schoolWorkforceFTE: number
+    numberOfPupils: bigint
+    value: number
+}
+
 export type ChartDimensionsProps = {
     dimensions: string[]
     handleChange: React.ChangeEventHandler<HTMLSelectElement>

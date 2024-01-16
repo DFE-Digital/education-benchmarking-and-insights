@@ -111,20 +111,20 @@ export const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProp
                 <div id="accordion-content-non-educational-support-staff"
                      className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-non-educational-support-staff">
-                    <HorizontalBarChartWrapper data={totalNonEducationalBarData} elementId="total-non-educational-support-staff-costs">
+                    <HorizontalBarChartWrapper data={totalNonEducationalBarData} chartId="total-non-educational-support-staff-costs">
                         <h3 className="govuk-heading-s">Total non-educational support staff costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-non-educational-support-staff-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={administrativeClericalBarData} elementId="administrative-clerical-staff-costs">
+                    <HorizontalBarChartWrapper data={administrativeClericalBarData} chartId="administrative-clerical-staff-costs">
                         <h3 className="govuk-heading-s">Administrative and clerical staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={auditorsCostsBarData} elementId="Auditors costs">
+                    <HorizontalBarChartWrapper data={auditorsCostsBarData} chartId="Auditors costs">
                         <h3 className="govuk-heading-s">Auditors costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={otherStaffCostsBarData} elementId="Other staff costs">
+                    <HorizontalBarChartWrapper data={otherStaffCostsBarData} chartId="Other staff costs">
                         <h3 className="govuk-heading-s">Other staff costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={professionalServicesBarData} elementId="profession-services-non-curriculum-costs">
+                    <HorizontalBarChartWrapper data={professionalServicesBarData} chartId="profession-services-non-curriculum-costs">
                         <h3 className="govuk-heading-s">Professional services (non-curriculum) costs</h3>
                     </HorizontalBarChartWrapper>
                 </div>

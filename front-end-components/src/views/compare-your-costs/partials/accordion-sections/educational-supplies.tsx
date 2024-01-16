@@ -92,17 +92,17 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools
                 </div>
                 <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
                      aria-labelledby="accordion-heading-educational-supplies">
-                    <HorizontalBarChartWrapper data={totalEducationalSuppliesBarData} elementId="total-educational-supplies-costs">
+                    <HorizontalBarChartWrapper data={totalEducationalSuppliesBarData} chartId="total-educational-supplies-costs">
                         <h3 className="govuk-heading-s">Total educational supplies costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-educational-supplies-costs" defaultValue={dimension} />
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={examinationFeesBarData} elementId="examination-fees-costs">
+                    <HorizontalBarChartWrapper data={examinationFeesBarData} chartId="examination-fees-costs">
                         <h3 className="govuk-heading-s">Examination fees costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={breakdownEducationalBarData} elementId="breakdown-eductional-supplies-costs">
+                    <HorizontalBarChartWrapper data={breakdownEducationalBarData} chartId="breakdown-eductional-supplies-costs">
                         <h3 className="govuk-heading-s">Breakdown of educational supplies costs</h3>
                     </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={learningResourcesBarData} elementId="learning-resource-not-ict-costs">
+                    <HorizontalBarChartWrapper data={learningResourcesBarData} chartId="learning-resource-not-ict-costs">
                         <h3 className="govuk-heading-s">Learning resources (not ICT equipment) costs</h3>
                     </HorizontalBarChartWrapper>
                 </div>

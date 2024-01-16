@@ -1,18 +1,17 @@
 import React, {useState} from "react";
-import {TotalExpenditureProps} from "src/views/compare-your-costs/partials";
-import {ChartDimensionContext} from "src/contexts";
 import {
-    HorizontalBarChartWrapper,
-    HorizontalBarChartWrapperData,
-    CalculateCostValue,
-    CostCategories,
+    ChartDimensions,
     DimensionHeading,
-    PoundsPerPupil, ChartDimensions, PercentageExpenditure
+    HorizontalBarChartWrapperData,
+    CalculateWorkforceValue,
+    Total, HorizontalBarChartWrapper, WorkforceCategories
 } from "src/components";
+import {ChartDimensionContext} from 'src/contexts'
+import {AuxiliaryStaffProps} from "src/views/compare-your-workforce/partials";
 
-export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({schools}) => {
-
-    const [dimension, setDimension] = useState(PoundsPerPupil)
+export const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
+    const {schools} = props
+    const [dimension, setDimension] = useState(Total)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
     const chartData: HorizontalBarChartWrapperData = {
@@ -20,9 +19,9 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({schools}) => 
             return {
                 school: school.name,
                 urn: school.urn,
-                value: CalculateCostValue({
+                value: CalculateWorkforceValue({
                     dimension: dimension,
-                    value: school.totalExpenditure,
+                    value: school.auxiliaryStaffFTE,
                     ...school
                 }),
                 additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
@@ -31,23 +30,20 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({schools}) => 
         tableHeadings: tableHeadings
     }
 
+
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
     }
 
     return (
         <ChartDimensionContext.Provider value={dimension}>
-            <HorizontalBarChartWrapper data={chartData} chartId="total-expenditure">
-                <h2 className="govuk-heading-l">Total Expenditure</h2>
-                <ChartDimensions dimensions={
-                    CostCategories.filter(function (category) {
-                        return category !== PercentageExpenditure
-                    })}
+            <HorizontalBarChartWrapper data={chartData} chartId="auxiliary-staff">
+                <h3 className="govuk-heading-s">Auxiliary staff (Full Time Equivalent)</h3>
+                <ChartDimensions dimensions={WorkforceCategories}
                                  handleChange={handleSelectChange}
-                                 elementId="total-expenditure"
+                                 elementId="auxiliary-staff"
                                  defaultValue={dimension}/>
             </HorizontalBarChartWrapper>
         </ChartDimensionContext.Provider>
     )
 };
-

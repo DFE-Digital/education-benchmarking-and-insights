@@ -1,8 +1,8 @@
-import React, {useContext, useRef} from 'react';
+import {forwardRef, useContext, useImperativeHandle, useRef} from 'react';
 import {Bar} from 'react-chartjs-2';
 import {Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tick, ChartOptions} from 'chart.js';
 import {ChartDimensionContext, SelectedSchoolContext} from 'src/contexts';
-import {BarChartProps} from 'src/components/charts/horizontal-bar-chart';
+import {BarChartProps, DownloadHandle} from 'src/components/charts/horizontal-bar-chart';
 
 ChartJS.register(
     CategoryScale,
@@ -10,7 +10,6 @@ ChartJS.register(
     BarElement,
     Title
 );
-
 
 const underLinePlugin = {
     id: 'underline',
@@ -40,8 +39,8 @@ const underLinePlugin = {
     }
 };
 
-export const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
-    const {data, children} = props;
+export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>((props, ref) => {
+    const {data, chartId} = props;
     const labels = data.map(dataPoint => dataPoint.school);
     const values = data.map(dataPoint => dataPoint.value);
     const selectedSchool = useContext(SelectedSchoolContext);
@@ -114,35 +113,20 @@ export const HorizontalBarChart: React.FC<BarChartProps> = (props) => {
         }
     };
 
-    function handleSaveClick() {
-        if (chartRef.current) {
-            const a = document.createElement('a');
-            a.href = chartRef.current.toBase64Image();
-            a.download = 'something.png'//`${elementId}.png`;
-            a.click();
+    useImperativeHandle(ref, () => ({
+        download() {
+            if (chartRef.current) {
+                const a = document.createElement('a');
+                a.href = chartRef.current.toBase64Image();
+                a.download = `${chartId}.png`;
+                a.click();
+            }
         }
-    }
+    }));
 
     return (
-        <>
-            <div className="govuk-grid-row">
-                <div className="govuk-grid-column-two-thirds">
-                    {children}
-                </div>
-                <div className="govuk-grid-column-one-third">
-                    <button className="govuk-button govuk-button--secondary" data-module="govuk-button"
-                            onClick={handleSaveClick}>
-                        Save as image
-                    </button>
-                </div>
-            </div>
-            <div className="govuk-grid-row">
-                <div className="govuk-grid-column-full">
-                    <div style={chartContainerStyle}>
-                        <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} ref={chartRef}/>
-                    </div>
-                </div>
-            </div>
-        </>
+        <div style={chartContainerStyle}>
+            <Bar data={dataForChart} options={options} plugins={[underLinePlugin]} ref={chartRef}/>
+        </div>
     )
-};
+});

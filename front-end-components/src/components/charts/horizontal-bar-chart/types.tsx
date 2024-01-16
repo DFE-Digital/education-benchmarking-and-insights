@@ -1,8 +1,7 @@
-import React from "react";
-
 export type BarChartProps = {
+    chartId: string
     data: BarDataPoint[]
-    children?: React.ReactNode[] | React.ReactNode
+    ref?: DownloadHandle
 }
 
 type BarDataPoint = {
@@ -10,3 +9,7 @@ type BarDataPoint = {
     urn: string
     value: number
 }
+
+export type DownloadHandle = {
+    download: () => void;
+};

@@ -3,13 +3,10 @@ import {TableChartProps} from "src/components/charts/table-chart";
 import {SelectedSchoolContext} from "src/contexts";
 
 export const TableChart: React.FC<TableChartProps> = (props) => {
-    const {children, tableHeadings, data} = props;
+    const {tableHeadings, data} = props;
     const selectedSchool = useContext(SelectedSchoolContext);
 
     return (
-        <div className="govuk-grid-row">
-            <div className="govuk-grid-column-full">
-                {children}
                 <table className="govuk-table">
                     <thead className="govuk-table__head">
                     <tr className="govuk-table__row">
@@ -45,7 +42,5 @@ export const TableChart: React.FC<TableChartProps> = (props) => {
                     })}
                     </tbody>
                 </table>
-            </div>
-        </div>
     )
 };
