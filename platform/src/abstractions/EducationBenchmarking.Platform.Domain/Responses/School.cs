@@ -40,7 +40,7 @@ public class School : IEquatable<School>
     {
         return HashCode.Combine(Urn, Name, FinanceType, Kind);
     }
-    
+
     public static School Create(EdubaseDataObject edubase)
     {
         return new School
@@ -48,7 +48,9 @@ public class School : IEquatable<School>
             Urn = edubase.URN.ToString(),
             Kind = edubase.TypeOfEstablishment,
             FinanceType = edubase.FinanceType,
-            Name = edubase.EstablishmentName
+            Name = edubase.EstablishmentName,
+            CompanyNumber = edubase.CompanyNumber.ToString(),
+            TrustOrCompanyName = edubase.TrustOrCompanyName
         };
     }
 }

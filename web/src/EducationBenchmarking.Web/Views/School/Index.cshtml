@@ -15,12 +15,12 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-l">
+        <h2 class="govuk-heading-m">
             @Model.Name
         </h2>
         @if (Model.IsPartOfTrust)
         {
-            <h3 class="govuk-heading-m">
+            <h3 class="govuk-heading-s">
                 <span>Part of</span>
                 <a href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })" class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
             </h3>
@@ -122,7 +122,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-l">Finance tools</h2>
+        <h2 class="govuk-heading-m">Finance tools</h2>
         <ul class="app-links">
             <li>@await Component.InvokeAsync("CompareYourCosts", Model.Urn)</li>
             <li>@await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)</li>
@@ -136,7 +136,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-l">Resources</h2>
+        <h2 class="govuk-heading-m">Resources</h2>
         <ul class="app-links">
             <li>@await Component.InvokeAsync("FindCommercialResources")</li>
             <li>@await Component.InvokeAsync("HistoricData", Model.Urn)</li>
@@ -149,7 +149,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-l">How we can help</h2>
+        <h2 class="govuk-heading-m">How we can help</h2>
         <ul class="app-links">
             <li>@await Component.InvokeAsync("HelpWithThisService")</li>
             <li>@await Component.InvokeAsync("AskForHelpFromAnSrma")</li>
