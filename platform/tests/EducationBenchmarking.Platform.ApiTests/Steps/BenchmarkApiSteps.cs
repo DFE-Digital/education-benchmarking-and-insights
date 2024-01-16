@@ -149,8 +149,8 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             await _api.Send();
         }
 
-        [Then(@"the banding result should be ok")]
-        public void ThenTheBandingResultShouldBeOk()
+        [Then(@"the free school meal banding result should be ok")]
+        public void ThenTheFreeSchoolMealBandingResultShouldBeOk()
         {
             var response = _api[FsmBandingKey].Response ?? throw new NullException(_api[FsmBandingKey].Response);
 
@@ -175,6 +175,15 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
 
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+        }
+
+        [Then(@"the school size banding result should be ok")]
+        public void ThenTheSchoolSizeBandingResultShouldBeOk()
+        {
+            var response = _api[SchoolSizeBandingKey].Response ?? throw new NullException(_api[SchoolSizeBandingKey].Response);
+
+            response.Should().NotBeNull();
+            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }
