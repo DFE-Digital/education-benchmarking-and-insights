@@ -37,7 +37,7 @@ export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <HorizontalBarChartWrapper data={chartData} chartId="senior-leadership">
-                <h3 className="govuk-heading-s">Senior Leadership (Full Time Equivalent)</h3>
+                <h2 className="govuk-heading-m">Senior Leadership (Full Time Equivalent)</h2>
                 <ChartDimensions dimensions={WorkforceCategories}
                                  handleChange={handleSelectChange}
                                  elementId="senior-leadership"

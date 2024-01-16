@@ -38,7 +38,7 @@ export const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <HorizontalBarChartWrapper data={chartData} chartId="school-workforce">
-                <h3 className="govuk-heading-s">School workforce (Full Time Equivalent)</h3>
+                <h2 className="govuk-heading-m">School workforce (Full Time Equivalent)</h2>
                 <ChartDimensions dimensions={
                     WorkforceCategories.filter(function (category) {
                         return category !== PercentageOfWorkforce && category !== HeadcountPerFTE

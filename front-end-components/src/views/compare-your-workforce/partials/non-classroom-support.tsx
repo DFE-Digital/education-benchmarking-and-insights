@@ -38,8 +38,8 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (props) =
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <HorizontalBarChartWrapper data={chartData} chartId="teachers-qualified">
-                <h3 className="govuk-heading-s">Non-classroom support staff - excluding auxiliary staff (Full Time
-                    Equivalent)</h3>
+                <h2 className="govuk-heading-m">Non-classroom support staff - excluding auxiliary staff (Full Time
+                    Equivalent)</h2>
                 <ChartDimensions dimensions={WorkforceCategories}
                                  handleChange={handleSelectChange}
                                  elementId="teachers-qualified"

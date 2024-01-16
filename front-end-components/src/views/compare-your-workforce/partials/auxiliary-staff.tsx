@@ -38,7 +38,7 @@ export const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <HorizontalBarChartWrapper data={chartData} chartId="auxiliary-staff">
-                <h3 className="govuk-heading-s">Auxiliary staff (Full Time Equivalent)</h3>
+                <h2 className="govuk-heading-m">Auxiliary staff (Full Time Equivalent)</h2>
                 <ChartDimensions dimensions={WorkforceCategories}
                                  handleChange={handleSelectChange}
                                  elementId="auxiliary-staff"

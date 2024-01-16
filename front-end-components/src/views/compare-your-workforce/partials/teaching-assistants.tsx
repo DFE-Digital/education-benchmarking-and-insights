@@ -37,7 +37,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (props) => 
     return (
         <ChartDimensionContext.Provider value={dimension}>
             <HorizontalBarChartWrapper data={chartData} chartId="teaching-assistants">
-                <h3 className="govuk-heading-s">Teaching Assistants (Full Time Equivalent)</h3>
+                <h2 className="govuk-heading-m">Teaching Assistants (Full Time Equivalent)</h2>
                 <ChartDimensions dimensions={WorkforceCategories}
                                  handleChange={handleSelectChange}
                                  elementId="teaching-assistants"

@@ -22,7 +22,7 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (pr
     return (
         <ChartDimensionContext.Provider value={"percent"}>
             <HorizontalBarChartWrapper data={chartData} chartId="total-teachers-qualified">
-                <h3 className="govuk-heading-s">Teachers with qualified Teacher Status (%)</h3>
+                <h2 className="govuk-heading-m">Teachers with qualified Teacher Status (%)</h2>
             </HorizontalBarChartWrapper>
         </ChartDimensionContext.Provider>
     )
