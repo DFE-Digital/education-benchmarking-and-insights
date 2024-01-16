@@ -23,6 +23,15 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
     const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({urn: "", name: ""});
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
+    const [schoolWorkforceDimension, setSchoolWorkforceDimension] = useState(PoundsPerPupil);
+    const [totalTeachersDimension, setTotalTeachersDimension] = useState(PoundsPerPupil);
+    const [teachersWithQTSDimension, setTeachersWithQTSDimension] = useState(PoundsPerPupil);
+    const [seniorLeadershipDimension, setSeniorLeadershipDimension] = useState(PoundsPerPupil);
+    const [teachingAssistantDimension, setTeachingAssistantDimension] = useState(PoundsPerPupil);
+    const [nonClassroomSupportStaffDimension, setNonClassroomSupportStaffDimension] = useState(PoundsPerPupil);
+    const [auxiliaryStaffDimension, setAuxiliaryStaffDimension] = useState(PoundsPerPupil);
+    const [schoolWorkforceHeadCount, setSchoolWorkforceHeadCount] = useState(PoundsPerPupil);
+
     useLayoutEffect(() => {
         initAll();
     }, []);
@@ -52,6 +61,39 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
         setDimension(event.target.value)
     }
 
+    const handleSchoolWorkforceDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setSchoolWorkforceDimension(event.target.value);
+    };
+
+    const handleTotalTeachersDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setTotalTeachersDimension(event.target.value);
+    };
+
+    const handleTeachersWithQTSDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setTeachersWithQTSDimension(event.target.value);
+    };
+
+    const handleSeniorLeadershipDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setSeniorLeadershipDimension(event.target.value);
+    };
+
+    const handleTeachingAssistantDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setTeachingAssistantDimension(event.target.value);
+    };
+
+    const handleNonClassroomSupportStaffDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setNonClassroomSupportStaffDimension(event.target.value);
+    };
+
+    const handleAuxiliaryStaffDimensionChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setAuxiliaryStaffDimension(event.target.value);
+    };
+
+    const handleSchoolWorkforceHeadCountChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
+        setSchoolWorkforceHeadCount(event.target.value);
+    };
+
+
     const chartDimensions = {dimensions: CostCategories, handleChange: handleSelectChange}
 
     const schoolWorkforceBarData: ChartWrapperData = {
@@ -60,7 +102,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: schoolWorkforceDimension,
                     value: school.schoolWorkforceFTE,
                     ...school
                 }),
@@ -76,7 +118,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: totalTeachersDimension,
                     value: school.totalNumberOfTeachersFTE,
                     ...school
                 }),
@@ -92,7 +134,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: teachersWithQTSDimension,
                     value: school.teachersWithQTSFTE,
                     ...school
                 }),
@@ -108,7 +150,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: seniorLeadershipDimension,
                     value: school.seniorLeadershipFTE,
                     ...school
                 }),
@@ -124,7 +166,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: teachingAssistantDimension,
                     value: school.teachingAssistantsFTE,
                     ...school
                 }),
@@ -140,7 +182,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: nonClassroomSupportStaffDimension,
                     value: school.nonClassroomSupportStaffFTE,
                     ...school
                 }),
@@ -156,7 +198,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: auxiliaryStaffDimension,
                     value: school.auxiliaryStaffFTE,
                     ...school
                 }),
@@ -172,7 +214,7 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
                 school: school.name,
                 urn: school.urn,
                 value: CalculateCostValue({
-                    dimension: dimension,
+                    dimension: schoolWorkforceHeadCount,
                     value: school.schoolWorkforceHeadcount,
                     ...school
                 }),
