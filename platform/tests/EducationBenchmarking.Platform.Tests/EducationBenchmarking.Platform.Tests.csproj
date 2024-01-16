@@ -7,13 +7,13 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="AutoFixture"/>
+        <PackageReference Include="AutoFixture" />
         <PackageReference Include="FluentAssertions" />
-        <PackageReference Include="FluentValidation"/>
-        <PackageReference Include="Microsoft.NET.Test.Sdk"/>
-        <PackageReference Include="Moq"/>
+        <PackageReference Include="FluentValidation" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" />
+        <PackageReference Include="Moq" />
         <PackageReference Include="Newtonsoft.Json" />
-        <PackageReference Include="xunit"/>
+        <PackageReference Include="xunit" />
         <PackageReference Include="xunit.runner.visualstudio">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -23,8 +23,8 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-      <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Benchmark\EducationBenchmarking.Platform.Api.Benchmark.csproj" />
-      <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Establishment\EducationBenchmarking.Platform.Api.Establishment.csproj" />
-      <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Insight\EducationBenchmarking.Platform.Api.Insight.csproj" />
+        <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Benchmark\EducationBenchmarking.Platform.Api.Benchmark.csproj" />
+        <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Establishment\EducationBenchmarking.Platform.Api.Establishment.csproj" />
+        <ProjectReference Include="..\..\src\apis\EducationBenchmarking.Platform.Api.Insight\EducationBenchmarking.Platform.Api.Insight.csproj" />
     </ItemGroup>
 </Project>

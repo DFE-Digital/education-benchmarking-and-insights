@@ -100,6 +100,8 @@ stages:
     dependsOn: [Build]
     displayName: 'Deploy to development'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    variables:
+      - group: 'dsi pre-prod'
     jobs:
       - template: jobs-web-deployment.yaml
         parameters:

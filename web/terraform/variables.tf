@@ -15,3 +15,5 @@ variable "sizing" {
     }
   }
 }
+
+variable "dfe-signin" {}
