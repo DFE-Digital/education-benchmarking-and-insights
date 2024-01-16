@@ -37,6 +37,10 @@ export function DimensionHeading(dimension: string): string {
             return "Percentage"
         case Total :
             return "Count"
+        case HeadcountPerFTE:
+            return "Ratio"
+        case PupilsPerStaffRole:
+            return "Pupils per staff role"
         default:
             return "Amount"
     }

@@ -22,7 +22,8 @@ type CompareYourWorkforceViewProps = {
     maintainedYear: string;
 };
 
-const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) => {
+const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (props) => {
+    const {urn, academyYear, maintainedYear} = props
     const [workforceData, setWorkforceData] = useState<WorkforceBenchmarkResult>();
     const [displayMode, setDisplayMode] = useState<ChartMode>(ChartMode.CHART);
     const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({urn: "", name: ""});
@@ -56,7 +57,11 @@ const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = ({urn}) =>
         <SelectedSchoolContext.Provider value={selectedSchool}>
             <div className="govuk-grid-row">
                 <div className="govuk-grid-column-two-thirds">
-                    <p className="govuk-body"></p>
+                    <p className="govuk-body">
+                        The data below is from the latest year available, For maintained schools this
+                        is {maintainedYear},
+                        academies for {academyYear}
+                    </p>
                 </div>
                 <div className="govuk-grid-column-one-third">
                     <ToggleChartMode displayMode={displayMode} handleChange={toggleChartMode}/>

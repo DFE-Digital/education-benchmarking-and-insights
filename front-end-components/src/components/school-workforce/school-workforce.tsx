@@ -2,7 +2,7 @@ import React, {useMemo, useState} from "react";
 import ChartWrapper from "../chart-wrapper";
 import {
     CalculateWorkforceValue,
-    DimensionHeading,
+    DimensionHeading, HeadcountPerFTE, PercentageOfWorkforce,
     Total, WorkforceCategories
 } from "../../chart-dimensions";
 import {ChartDimensionContext} from "../../contexts";
@@ -35,7 +35,9 @@ const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
         setDimension(event.target.value)
     }
 
-    const chartDimensions = {dimensions: WorkforceCategories, handleChange: handleSelectChange}
+    const chartDimensions = {dimensions: WorkforceCategories.filter(function(category) {
+            return category !== PercentageOfWorkforce && category !== HeadcountPerFTE
+        }), handleChange: handleSelectChange}
 
     return (
         <ChartDimensionContext.Provider value={dimension}>
