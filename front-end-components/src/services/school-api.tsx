@@ -71,7 +71,7 @@ export type WorkforceBenchmark = {
     nonClassroomSupportStaffFTE: number;
     auxiliaryStaffFTE: number;
     schoolWorkforceHeadcount: number;
-};
+}
 
 export type WorkforceBenchmarkResult = {
     totalResults: bigint
@@ -80,7 +80,6 @@ export type WorkforceBenchmarkResult = {
     pageCount: bigint
     results: WorkforceBenchmark[]
 }
-
 
 export type SchoolExpenditure = {
     urn: string

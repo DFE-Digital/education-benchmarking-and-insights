@@ -1,13 +1,18 @@
-import {CostValue, PremisesValue} from "./types";
+import {CostValue, PremisesValue, WorkforceValue} from "./types";
 
 export const PoundsPerPupil = "£ per pupil";
 export const PoundsPerMetreSq = "£ per m²"
 export const Actual = "actuals";
 export const PercentageExpenditure = "percentage of expenditure";
 export const PercentageIncome = "percentage of income";
+export const Total = "total";
+export const HeadcountPerFTE = "headcount per FTE";
+export const PercentageOfWorkforce = "percentage of workforce";
+export const PupilsPerStaffRole = "pupils per staff role";
 
 export const CostCategories = [PoundsPerPupil, Actual, PercentageExpenditure, PercentageIncome]
 export const PremisesCategories = [PoundsPerMetreSq, Actual, PercentageExpenditure, PercentageIncome]
+export const WorkforceCategories = [Total, HeadcountPerFTE, PercentageOfWorkforce, PupilsPerStaffRole]
 
 export function CalculateCostValue(costValue: CostValue): number {
     switch (costValue.dimension) {
@@ -28,7 +33,10 @@ export function DimensionHeading(dimension: string): string {
     switch (dimension) {
         case PercentageExpenditure :
         case PercentageIncome :
+        case PercentageOfWorkforce:
             return "Percentage"
+        case Total :
+            return "Count"
         default:
             return "Amount"
     }
@@ -45,5 +53,14 @@ export function CalculatePremisesValue(premisesValue: PremisesValue): number {
             return premisesValue.value
         default:
             return 0
+    }
+}
+
+export function CalculateWorkforceValue(costValue: WorkforceValue): number {
+    switch (costValue.dimension) {
+        case Actual :
+            return costValue.value
+        default:
+            return costValue.value
     }
 }

@@ -59,6 +59,11 @@ export type PremisesValue = {
     value: number
 }
 
+export type WorkforceValue = {
+    dimension: string
+    value: number
+}
+
 export type SelectedSchool = {
     urn: string
     name: string
