@@ -1,7 +1,7 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import ChartWrapper from "../chart-wrapper";
 import {
-     CalculateWorkforceValue,
+    CalculateWorkforceValue,
     DimensionHeading,
     Total,
     WorkforceCategories
@@ -14,21 +14,23 @@ const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
     const [dimension, setDimension] = useState(Total)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
-    const chartData: ChartWrapperData = {
-        dataPoints: schools.map(school => {
-            return {
-                school: school.name,
-                urn: school.urn,
-                value: CalculateWorkforceValue({
-                    dimension: dimension,
-                    value: school.auxiliaryStaffFTE,
-                    ...school
-                }),
-                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
-            }
-        }),
-        tableHeadings: tableHeadings
-    }
+    const chartData: ChartWrapperData = useMemo(() => {
+        return {
+            dataPoints: schools.map(school => {
+                return {
+                    school: school.name,
+                    urn: school.urn,
+                    value: CalculateWorkforceValue({
+                        dimension: dimension,
+                        value: school.auxiliaryStaffFTE,
+                        ...school
+                    }),
+                    additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+                }
+            }),
+            tableHeadings: tableHeadings
+        }
+    }, [schools, dimension]);
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
@@ -41,7 +43,7 @@ const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
             <ChartWrapper heading={<h3 className="govuk-heading-s">Auxiliary staff (Full Time Equivalent)</h3>}
                           data={chartData}
                           elementId="auxiliary-staff"
-                          chartDimensions={ chartDimensions}
+                          chartDimensions={chartDimensions}
             />
         </ChartDimensionContext.Provider>
     )
@@ -60,5 +62,5 @@ export type AuxiliaryStaffData = {
     localAuthority: string
     numberOfPupils: bigint
     schoolWorkforceFTE: number
-    auxiliaryStaffFTE : number
+    auxiliaryStaffFTE: number
 }

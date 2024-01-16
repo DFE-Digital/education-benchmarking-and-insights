@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useMemo, useState} from "react";
 import ChartWrapper from "../chart-wrapper";
 import {
     CalculateWorkforceValue,
@@ -13,21 +13,23 @@ const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (props) =>
     const [dimension, setDimension] = useState(Total)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
-    const chartData: ChartWrapperData = {
-        dataPoints: schools.map(school => {
-            return {
-                school: school.name,
-                urn: school.urn,
-                value: CalculateWorkforceValue({
-                    dimension: dimension,
-                    value: school.teachersWithQTSFTE,
-                    ...school
-                }),
-                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
-            }
-        }),
-        tableHeadings: tableHeadings
-    }
+    const chartData: ChartWrapperData = useMemo(() => {
+        return {
+            dataPoints: schools.map(school => {
+                return {
+                    school: school.name,
+                    urn: school.urn,
+                    value: CalculateWorkforceValue({
+                        dimension: dimension,
+                        value: school.teachersWithQTSFTE,
+                        ...school
+                    }),
+                    additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
+                }
+            }),
+            tableHeadings: tableHeadings
+        }
+    }, [schools, dimension]);
 
     const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
         setDimension(event.target.value)
@@ -59,5 +61,5 @@ export type TotalTeachersQualifiedData = {
     localAuthority: string
     numberOfPupils: bigint
     schoolWorkforceFTE: number
-    teachersWithQTSFTE : number
+    teachersWithQTSFTE: number
 }
