@@ -54,7 +54,7 @@ public static class ServiceCollectionExtensions
         return builder
             .AddCookie(options =>
             {
-                options.Cookie.Name = "dsi_assessment_service";
+                options.Cookie.Name = Constants.AuthCookieName;
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 options.SlidingExpiration = true;
                 options.Cookie.SameSite = SameSiteMode.Lax;
