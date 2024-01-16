@@ -7,7 +7,6 @@ public class WhenViewingErrors : BenchmarkingWebAppClient
     public WhenViewingErrors(BenchmarkingWebAppFactory factory) : base(factory)
     {
     }
- 
     
     [Fact]
     public async Task CanDisplayProblemWithServicePage()

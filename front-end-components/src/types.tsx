@@ -59,6 +59,13 @@ export type PremisesValue = {
     value: number
 }
 
+export type WorkforceValue = {
+    dimension: string
+    schoolWorkforceFTE: number
+    numberOfPupils: bigint
+    value: number
+}
+
 export type SelectedSchool = {
     urn: string
     name: string
@@ -70,7 +77,7 @@ type BarDataPoint = {
     value: number
 }
 
-type ChartDataPoint = {
+export type ChartDataPoint = {
     school: string
     urn: string
     value: number
