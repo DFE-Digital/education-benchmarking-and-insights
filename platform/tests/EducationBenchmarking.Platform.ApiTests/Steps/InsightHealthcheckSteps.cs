@@ -21,7 +21,7 @@ public class InsightHealthcheckSteps
             Method = HttpMethod.Get
         });
     }
-    
+
     [When("I submit the insight health check request")]
     private async Task WhenISubmitTheInsightHealthCheckRequest()
     {
@@ -35,7 +35,7 @@ public class InsightHealthcheckSteps
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await result.Content.ReadAsStringAsync();
         content.Should().Be("Healthy");
     }

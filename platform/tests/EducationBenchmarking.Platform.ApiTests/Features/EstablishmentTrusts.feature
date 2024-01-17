@@ -9,12 +9,12 @@ Feature: Establishment trusts endpoints
         Given a valid trusts query request
         When I submit the trusts request
         Then the trusts query result should be ok
-   
+
     Scenario: Sending a valid search trusts request
         Given a valid trusts search request
         When I submit the trusts request
         Then the trusts search result should be ok
-    
+
     Scenario: Sending a valid suggest trusts request
         Given a valid trusts suggest request
         When I submit the trusts request
