@@ -120,11 +120,11 @@ public class InsightsSchoolsSteps
     }
 
     [Given(@"a valid school workforce request with page '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string urn, string page)
+    public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string page, string urn)
     {
         _api.CreateRequest(GetSchoolWorkforceKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/workforce?urns={urn}?page={page}", UriKind.Relative),
+            RequestUri = new Uri($"/api/schools/workforce?urns={urn}&page={page}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

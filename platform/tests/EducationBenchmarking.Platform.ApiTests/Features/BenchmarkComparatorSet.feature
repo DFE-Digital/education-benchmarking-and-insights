@@ -15,7 +15,7 @@
         Given a valid comparator set characteristics request
         When I submit the comparator set request
         Then the comparator set result should be:
-          | Code                                 | Description          |
+          | Code                                 | Description                                                                              |
           | LaCode                               | Local Authority Code                                                                     |
           | NumberOfPupils                       | Number of pupils                                                                         |
           | GenderOfPupils                       | Gender of pupils                                                                         |
