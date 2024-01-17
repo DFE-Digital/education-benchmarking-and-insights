@@ -8,26 +8,16 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TechTalk.SpecFlow.Assist;
-using Xunit;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps
 {
     [Binding]
-    public class BenchmarkApiSteps
+    public class BenchmarkComparatorSetSteps
     {
         private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
         private const string GetComparatorSetKey = "get-comparator-set";
-        private const string FsmBandingKey = "free-school-meal-banding";
-        private const string SchoolSizeBandingKey = "school-size-banding";
         private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
-
-
-        public BenchmarkApiSteps()
-        {
-            var httpClientHandler = new HttpClientHandler();
-        }
-
         [Then(@"the comparator result should be ok")]
         public void ThenTheComparatorResultShouldBeOk()
         {
@@ -40,12 +30,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
 
         [Then(@"a valid comparator set of size '(.*)' should be returned")]
         public async Task ThenAValidComparatorSetOfSizeShouldBeReturned(string expectedSize)
-        { 
-            var response = _api[GetComparatorSetKey].Response ?? throw new NullException(_api[GetComparatorSetKey].Response);
+        {
+            var response = _api[GetComparatorSetKey].Response ??
+                           throw new NullException(_api[GetComparatorSetKey].Response);
 
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.OK);
-            
+
             var responseBody = await response.Content.ReadAsStringAsync();
             var schoolComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody);
             schoolComparatorSet.Should().NotBeNull();
@@ -68,9 +59,9 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var content = new
             {
-                includeSet = "true", size=size
+                includeSet = "true", size = size
             };
-        
+
             _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
             {
                 RequestUri = new Uri("/api/comparator-set", UriKind.Relative),
@@ -84,9 +75,9 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         {
             var content = new
             {
-                includeSet = "true", size="7", sortMethod = new { sortBy = "bad request"}
+                includeSet = "true", size = "7", sortMethod = new { sortBy = "bad request" }
             };
-        
+
             _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
             {
                 RequestUri = new Uri("/api/comparator-set", UriKind.Relative),
@@ -127,63 +118,18 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             {
                 set.Add(new { result.Code, result.Description });
             }
-        
-            expectedTable.CompareToDynamicSet(set,false);
-            
 
-        }
-
-        [Given(@"a valid fsm banding request")]
-        public void GivenAValidFsmBandingRequest()
-        {
-            _api.CreateRequest(FsmBandingKey, new HttpRequestMessage
-            {
-                RequestUri = new Uri("/api/free-school-meal/bandings", UriKind.Relative),
-                Method = HttpMethod.Get
-            });
-        }
-
-        [When(@"I submit the banding request")]
-        public async Task WhenISubmitTheBandingRequest()
-        {
-            await _api.Send();
-        }
-
-        [Then(@"the free school meal banding result should be ok")]
-        public void ThenTheFreeSchoolMealBandingResultShouldBeOk()
-        {
-            var response = _api[FsmBandingKey].Response ?? throw new NullException(_api[FsmBandingKey].Response);
-
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
-        }
-
-        [Given(@"a valid school size banding request")]
-        public void GivenAValidSchoolSizeBandingRequest()
-        {
-            _api.CreateRequest(SchoolSizeBandingKey, new HttpRequestMessage
-            {
-                RequestUri = new Uri("/api/school-size/bandings", UriKind.Relative),
-                Method = HttpMethod.Get
-            });
+            expectedTable.CompareToDynamicSet(set, false);
         }
 
         [Then(@"the comparator result should be bad request")]
         public void ThenTheComparatorResultShouldBeBadRequest()
         {
-            var response = _api[GetComparatorSetKey].Response ?? throw new NullException(_api[GetComparatorSetKey].Response);
+            var response = _api[GetComparatorSetKey].Response ??
+                           throw new NullException(_api[GetComparatorSetKey].Response);
 
             response.Should().NotBeNull();
             response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
-        [Then(@"the school size banding result should be ok")]
-        public void ThenTheSchoolSizeBandingResultShouldBeOk()
-        {
-            var response = _api[SchoolSizeBandingKey].Response ?? throw new NullException(_api[SchoolSizeBandingKey].Response);
-
-            response.Should().NotBeNull();
-            response.StatusCode.Should().Be(HttpStatusCode.OK);
         }
     }
 }
