@@ -10,7 +10,7 @@ using Xunit.Sdk;
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightsSchoolsSteps
+public class InsightSchoolsSteps
 {
     private const string GetSchoolFinancesKey = "get-school-finances";
     private const string GetSchoolWorkforceKey = "get-school-workforce";
@@ -25,7 +25,8 @@ public class InsightsSchoolsSteps
     [Then(@"the school expenditure result should be ok")]
     public async Task ThenTheSchoolExpenditureResultShouldBeOk()
     {
-        var response = _api[GetSchoolFinancesKey].Response ?? throw new NullException(_api[GetSchoolFinancesKey].Response);
+        var response = _api[GetSchoolFinancesKey].Response ??
+                       throw new NullException(_api[GetSchoolFinancesKey].Response);
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -44,7 +45,6 @@ public class InsightsSchoolsSteps
         result.Should().NotBeNull();
         result!.Name.Should().Be("Hadlow Rural Community School");
         result.Urn.Should().Be("139697");
-        
     }
 
     [Given(@"a valid schools expenditure request with urn '(.*)' and '(.*)'")]
@@ -70,7 +70,8 @@ public class InsightsSchoolsSteps
     [Then(@"the schools expenditure result should be page '(.*)' with '(.*)' page size")]
     public async Task ThenTheSchoolsExpenditureResultShouldBePageWithPageSize(int page, int pageSize)
     {
-        var response = _api[GetSchoolFinancesKey].Response ?? throw new NullException(_api[GetSchoolFinancesKey].Response);
+        var response = _api[GetSchoolFinancesKey].Response ??
+                       throw new NullException(_api[GetSchoolFinancesKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -103,16 +104,17 @@ public class InsightsSchoolsSteps
     [Then(@"the school workforce result should be ok")]
     public async Task ThenTheSchoolWorkforceResultShouldBeOk()
     {
-        var response = _api[GetSchoolWorkforceKey].Response ?? throw new NullException(_api[GetSchoolFinancesKey].Response);
+        var response = _api[GetSchoolWorkforceKey].Response ??
+                       throw new NullException(_api[GetSchoolFinancesKey].Response);
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
         var json = JObject.Parse(jsonString);
-        
+
         json.Should().ContainKey("results");
         var resultsArray = json["results"]?.ToObject<JArray>();
         resultsArray.Should().NotBeNull().And.NotBeEmpty();
-        
+
         var result = resultsArray!.First!.ToObject<SchoolWorkforce>();
         result.Should().NotBeNull();
         result!.Name.Should().Be("Wells Free School");
@@ -132,7 +134,8 @@ public class InsightsSchoolsSteps
     [Then(@"the schools workforce result should be page '(.*)' with '(.*)' page size")]
     public async Task ThenTheSchoolsWorkforceResultShouldBePageWithPageSize(int page, int pageSize)
     {
-        var response = _api[GetSchoolWorkforceKey].Response ?? throw new NullException(_api[GetSchoolWorkforceKey].Response);
+        var response = _api[GetSchoolWorkforceKey].Response ??
+                       throw new NullException(_api[GetSchoolWorkforceKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);

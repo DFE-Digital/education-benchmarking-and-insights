@@ -18,6 +18,7 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
         private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
         private const string GetComparatorSetKey = "get-comparator-set";
         private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
+
         [Then(@"the comparator result should be ok")]
         public void ThenTheComparatorResultShouldBeOk()
         {

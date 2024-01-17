@@ -9,10 +9,11 @@ using Xunit.Sdk;
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightsFinanceYearSteps
+public class InsightMiscellaneousSteps
 {
     private const string GetFinanceYearKey = "get-finance-year";
     private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+
     [Given(@"a valid finance year request")]
     public void GivenAValidFinanceYearRequest()
     {

@@ -9,10 +9,11 @@ using Xunit.Sdk;
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightsMaintainedSchoolsSteps
+public class InsightMaintainedSchoolsSteps
 {
     private const string GetMaintainedSchoolKey = "get-maintained-school";
     private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+
     [When(@"I submit the maintained school request")]
     public async Task WhenISubmitTheMaintainedSchoolRequest()
     {
@@ -32,7 +33,8 @@ public class InsightsMaintainedSchoolsSteps
     [Then(@"the maintained school result should be ok")]
     public async Task ThenTheMaintainedSchoolResultShouldBeOk()
     {
-        var response = _api[GetMaintainedSchoolKey].Response ?? throw new NullException(_api[GetMaintainedSchoolKey].Response);
+        var response = _api[GetMaintainedSchoolKey].Response ??
+                       throw new NullException(_api[GetMaintainedSchoolKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -55,7 +57,8 @@ public class InsightsMaintainedSchoolsSteps
     [Then(@"the maintained school result should be not found")]
     public void ThenTheMaintainedSchoolResultShouldBeNotFound()
     {
-        var response = _api[GetMaintainedSchoolKey].Response ?? throw new NullException(_api[GetMaintainedSchoolKey].Response);
+        var response = _api[GetMaintainedSchoolKey].Response ??
+                       throw new NullException(_api[GetMaintainedSchoolKey].Response);
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }

@@ -7,6 +7,7 @@ using FluentAssertions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
+
 [Binding]
 public class InsightAcademiesSteps
 {
