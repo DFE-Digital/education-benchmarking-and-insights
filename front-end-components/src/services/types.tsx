@@ -1,0 +1,76 @@
+export type SchoolApiResult<T> = {
+    totalResults: bigint
+    page: bigint
+    pageSize: bigint
+    pageCount: bigint
+    results: T[]
+}
+
+export type Expenditure = {
+    urn: string
+    name: string
+    schoolType: string
+    localAuthority: string
+    totalExpenditure: number
+    totalIncome: number
+    numberOfPupils: bigint
+    totalTeachingSupportStaffCosts: number
+    teachingStaffCosts: number
+    supplyTeachingStaffCosts: number
+    educationalConsultancyCosts: number
+    educationSupportStaffCosts: number
+    agencySupplyTeachingStaffCosts: number
+    netCateringCosts: number
+    cateringStaffCosts: number
+    cateringSuppliesCosts: number
+    incomeCatering: number
+    administrativeSuppliesCosts: number
+    learningResourcesIctCosts: number
+    totalEducationalSuppliesCosts: number
+    examinationFeesCosts: number
+    breakdownEducationalSuppliesCosts: number
+    learningResourcesNonIctCosts: number
+    totalNonEducationalSupportStaffCosts: number
+    administrativeClericalStaffCosts: number
+    auditorsCosts: number
+    otherStaffCosts: number
+    professionalServicesNonCurriculumCosts: number
+    totalPremisesStaffServiceCosts: number
+    cleaningCaretakingCosts: number
+    maintenancePremisesCosts: number
+    otherOccupationCosts: number
+    premisesStaffCosts: number
+    totalOtherCosts: number
+    otherInsurancePremiumsCosts: number
+    directRevenueFinancingCosts: number
+    groundsMaintenanceCosts: number
+    indirectEmployeeExpenses: number
+    interestChargesLoanBank: number
+    privateFinanceInitiativeCharges: number
+    rentRatesCosts: number
+    specialFacilitiesCosts: number
+    staffDevelopmentTrainingCosts: number
+    staffRelatedInsuranceCosts: number
+    supplyTeacherInsurableCosts: number
+    communityFocusedSchoolStaff: number
+    communityFocusedSchoolCosts: number
+    totalUtilitiesCosts: number
+    energyCosts: number
+    waterSewerageCosts: number
+}
+
+export type Workforce = {
+    urn: string
+    name: string
+    schoolType: string
+    localAuthority: string
+    numberOfPupils: bigint
+    schoolWorkforceFTE: number;
+    totalNumberOfTeachersFTE: number;
+    teachersWithQTSFTE: number;
+    seniorLeadershipFTE: number;
+    teachingAssistantsFTE: number;
+    nonClassroomSupportStaffFTE: number;
+    auxiliaryStaffFTE: number;
+    schoolWorkforceHeadcount: number;
+}
