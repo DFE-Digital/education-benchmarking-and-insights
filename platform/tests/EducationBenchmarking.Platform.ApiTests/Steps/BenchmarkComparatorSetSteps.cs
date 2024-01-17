@@ -56,11 +56,11 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
 
 
         [Given(@"I have a valid comparator set request of size set to '(.*)'")]
-        public void GivenIHaveAValidComparatorSetRequestOfSizeSetTo(string size)
+        public void GivenIHaveAValidComparatorSetRequestOfSizeSetTo(string comparatorSize)
         {
             var content = new
             {
-                includeSet = "true", size = size
+                includeSet = "true", size = comparatorSize
             };
 
             _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
@@ -97,14 +97,15 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
             });
         }
 
+        [When(@"I submit the comparator set characteristics request")]
         [When(@"I submit the comparator set request")]
         public async Task WhenISubmitTheComparatorSetRequest()
         {
             await _api.Send();
         }
 
-        [Then(@"the comparator set result should be:")]
-        public async Task ThenTheComparatorSetResultShouldBe(Table expectedTable)
+        [Then(@"the comparator set characteristics result should be:")]
+        public async Task ThenTheComparatorSetCharacteristicsResultShouldBe(Table expectedTable)
         {
             var response = _api[ComparatorSetCharacteristicsKey].Response ??
                            throw new NullException(_api[ComparatorSetCharacteristicsKey].Response);
