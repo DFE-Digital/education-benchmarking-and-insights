@@ -137,6 +137,7 @@ public class InsightsSchoolsSteps
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsByteArrayAsync();
+        //todo troubleshoot the reason of failure 
         var result = content.FromJson<PagedResults<SchoolWorkforce>>() ?? throw new NullException(content);
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
