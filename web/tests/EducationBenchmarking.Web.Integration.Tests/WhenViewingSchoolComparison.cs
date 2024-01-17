@@ -26,7 +26,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
             
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromAcademy(school,finances)
+            .SetupInsights(school,finances)
             .Navigate(Paths.SchoolComparison(school.Urn));
             
         AssertPageLayout(page, school);
@@ -45,7 +45,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
             
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school,finances)
+            .SetupInsights(school,finances)
             .Navigate(Paths.SchoolComparison(school.Urn));
             
         AssertPageLayout(page, school);
@@ -64,7 +64,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupInsights(school, finances)
             .Navigate(Paths.SchoolComparison(school.Urn));
 
         var changeSchoolAnchor = page.QuerySelector("#change-school");
@@ -89,7 +89,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupInsights(school, finances)
             .Navigate(Paths.SchoolComparison(school.Urn));
 
         var comparatorAnchor = page.QuerySelector("#view-comparator-set");
@@ -114,7 +114,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupInsights(school, finances)
             .SetupBenchmark()
             .Navigate(Paths.SchoolComparison(school.Urn));
 
@@ -140,7 +140,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupInsights(school, finances)
             .SetupBenchmark()
             .Navigate(Paths.SchoolComparison(school.Urn));
 
@@ -166,7 +166,7 @@ public class WhenViewingSchoolComparison : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupInsights(school, finances)
             .SetupBenchmark()
             .Navigate(Paths.SchoolComparison(school.Urn));
 
