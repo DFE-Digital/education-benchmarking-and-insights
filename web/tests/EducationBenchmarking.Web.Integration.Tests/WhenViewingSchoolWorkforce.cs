@@ -1,4 +1,5 @@
-﻿using AngleSharp.Html.Dom;
+﻿using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -53,36 +54,129 @@ public class WhenViewingSchoolWorkforce : BenchmarkingWebAppClient
     [Fact]
     public async Task CanNavigateToChangeSchool()
     {
-        //TODO : Add test case to click on and follow change school link
-        Assert.True(true);
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .SetupInsightsFromMaintainedSchool(school, finances)
+            .Navigate(Paths.SchoolWorkforce(school.Urn));
+
+        var anchor = page.QuerySelector("#change-school");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        //TODO: amend path once functionality added
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
     
     [Fact]
     public async Task CanNavigateToComparatorSet()
     {
-        //TODO : Add test case to click on and follow view your comparator set button
-        Assert.True(true);
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .SetupInsightsFromMaintainedSchool(school, finances)
+            .Navigate(Paths.SchoolWorkforce(school.Urn));
+
+        var anchor = page.QuerySelector("#view-comparator-set");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        //TODO: amend path once functionality added
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
     
     [Fact]
     public async Task CanNavigateToAreasForInvestigation()
     {
-        //TODO : Add test case to click on and follow view your areas for investigation link
-        Assert.True(true);
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupBenchmark()
+            .Navigate(Paths.SchoolWorkforce(school.Urn));
+
+        var liElements = page.QuerySelectorAll("ul.app-links > li");
+        var anchor = liElements[0].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
     }
     
     [Fact]
     public async Task CanNavigateToCurriculumPlanning()
     {
-        //TODO : Add test case to click on and follow curriculum and financial planning link
-        Assert.True(true);
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupBenchmark()
+            .Navigate(Paths.SchoolWorkforce(school.Urn));
+
+        var liElements = page.QuerySelectorAll("ul.app-links > li");
+        var anchor = liElements[1].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
     }
     
     [Fact]
     public async Task CanNavigateToCompareCosts()
     {
-        //TODO : Add test case to click on and follow compare your costs link
-        Assert.True(true);
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, EstablishmentTypes.Maintained)
+            .Create();
+
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .SetupInsightsFromMaintainedSchool(school, finances)
+            .SetupBenchmark()
+            .Navigate(Paths.SchoolWorkforce(school.Urn));
+
+        var liElements = page.QuerySelectorAll("ul.app-links > li");
+        var anchor = liElements[2].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
     
     [Fact]
@@ -129,6 +223,20 @@ public class WhenViewingSchoolWorkforce : BenchmarkingWebAppClient
 
         var toolsHeadingSection = page.Body.SelectSingleNode("//main/div[4]");
         DocumentAssert.Heading2(toolsHeadingSection, "More tools");
-        //TODO: Get and assert more tools section on page
+        
+        var toolsListSection = toolsHeadingSection.ChildNodes.QuerySelector("ul");
+        Assert.NotNull(toolsListSection);
+
+        var toolsList = toolsListSection.QuerySelectorAll("li > h3 > a").ToList();
+        Assert.Equal(3, toolsList.Count);
+
+        var investigationAnchor = toolsList[0];
+        DocumentAssert.Link(investigationAnchor, "View your areas for investigation", Paths.SchoolInvestigation(school.Urn).ToAbsolute());
+
+        var curriculumPlanningAnchor = toolsList[1];
+        DocumentAssert.Link(curriculumPlanningAnchor, "Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
+
+        var comparisonAnchor = toolsList[2];
+        DocumentAssert.Link(comparisonAnchor, "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 }
