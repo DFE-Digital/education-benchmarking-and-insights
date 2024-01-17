@@ -13,7 +13,7 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightsSchoolsSteps
 {
     private const string GetSchoolFinancesKey = "get-school-finances";
-    private const string GetSchoolWorkforceKey = "get-school-workfoce";
+    private const string GetSchoolWorkforceKey = "get-school-workforce";
     private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
 
     [When(@"I submit the schools insights request")]
@@ -137,7 +137,7 @@ public class InsightsSchoolsSteps
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedSchoolWorkforce>() ?? throw new NullException(content);
+        var result = content.FromJson<PagedResults<SchoolWorkforce>>() ?? throw new NullException(content);
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }
