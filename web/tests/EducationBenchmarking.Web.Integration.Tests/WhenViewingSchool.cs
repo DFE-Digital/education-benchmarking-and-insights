@@ -31,10 +31,10 @@ public class WhenViewingSchool : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var link = liElements[0].QuerySelector("h3 > a");
-        Assert.NotNull(link);
+        var anchor = liElements[0].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
 
-        var newPage = await Follow(link);
+        var newPage = await Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
@@ -47,10 +47,10 @@ public class WhenViewingSchool : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var link = liElements[1].QuerySelector("h3 > a");
-        Assert.NotNull(link);
+        var anchor = liElements[1].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
 
-        var newPage = await Follow(link);
+        var newPage = await Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
 
@@ -64,10 +64,10 @@ public class WhenViewingSchool : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var link = liElements[2].QuerySelector("h3 > a");
-        Assert.NotNull(link);
+        var anchor = liElements[2].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
 
-        var newPage = await Follow(link);
+        var newPage = await Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
     }
@@ -80,10 +80,10 @@ public class WhenViewingSchool : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var link = liElements[3].QuerySelector("h3 > a");
-        Assert.NotNull(link);
+        var anchor = liElements[3].QuerySelector("h3 > a");
+        Assert.NotNull(anchor);
 
-        var newPage = await Follow(link);
+        var newPage = await Follow(anchor);
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
