@@ -1,5 +1,5 @@
 ﻿# Background
-Our projects involve two main solutions - `EducationBenchmarking.Platform` and `EducationBenchmarking.Web`. Each solution has its unique set of tests: unit tests, integration tests, functional API tests for `Platform`, and Feature/E2E tests along with accessibility tests for `Web`. The focus of our exploration is on optimizing the testing pipelines for the functional API tests for `Platform` and Feature/E2E tests and accessibility tests for `Web`.
+Our projects involve two main solutions - `EducationBenchmarking.Platform` and `EducationBenchmarking.Web`. Each solution has its unique set of tests: unit tests, integration tests, functional API tests for `Platform`, and Feature/E2E tests along with accessibility tests for `Web`. The focus of our exploration is on optimising the testing pipelines for the functional API tests for `Platform` and Feature/E2E tests and accessibility tests for `Web`.
 
 ## Context and Problem Statement
 In the current state of our development lifecycle, we find ourselves at a stage where the absence of established testing pipelines demands our attention. To fortify the reliability and effectiveness of our projects, we recognize the essential need to implement robust testing structures. We need a solution that fulfills the following criteria.
