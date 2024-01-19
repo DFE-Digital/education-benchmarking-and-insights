@@ -48,3 +48,13 @@ This option is hybrid  version of option1 and option2 and makes the tests easy w
 
 ## Conclusion
 The decision regarding our testing pipeline strategy will significantly impact the efficiency and effectiveness of our development process. I propose that we review these options collectively, considering our project's specific needs, infrastructure capabilities, and desired testing outcomes. Please feel free to provide your feedback and preferences, and let's collaborate to arrive at a consensus on the most suitable approach for our testing pipelines.
+
+## Decision Outcome
+
+The team has unanimously decided to adopt **Option 3**. This decision aligns with the principle that robust tests should:
+
+a) Leave no trace.
+
+b) Support concurrency, allowing two QA individuals to run the same test suite against the same environment simultaneously.
+
+In terms of data management and test composition, **Option 3** stands out as the simplest approach. This is because we would only need to provision, deploy, and manage a single functional test environment. By avoiding the complexity of troubleshooting test failures across multiple environments, we can achieve greater efficiency. Additionally, we can capitalise on efficiencies by pre-seeding a significant portion of the read-only data in the environment.
