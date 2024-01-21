@@ -10,6 +10,7 @@ using EducationBenchmarking.Web.Infrastructure.Extensions;
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
+[Route("school/{urn}/financial-planning")]
 public class SchoolPlanningController : Controller
 {
     private readonly IEstablishmentApi _establishmentApi;
@@ -22,7 +23,6 @@ public class SchoolPlanningController : Controller
     }
 
     [HttpGet]
-    [Route("school/{urn}/financial-planning")]
     public async Task<IActionResult> Index(string urn)
     {
         using (_logger.BeginScope(new { urn }))
@@ -52,15 +52,15 @@ public class SchoolPlanningController : Controller
     }
 
     [HttpGet]
-    [Route("school/{urn}/financial-planning/help")]
-    public async Task<IActionResult> Help(string urn)
+    [Route("help")]
+    public IActionResult Help(string urn)
     {
         using (_logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewBag.Urn = urn;
-                return View();
+                var viewModel = new SchoolPlanningHelpViewModel(urn);
+                return View(viewModel);
             }
             catch (Exception e)
             {
