@@ -1,10 +1,12 @@
-﻿
+﻿@{
+    ViewBag.Title = PageTitles.SchoolPlanningHelp;
+}
 
 <a href="@Url.Action("Index", "SchoolPlanning", new {@ViewBag.Urn})" class="govuk-back-link">Back</a>
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">Data required for ICFP</h1>
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
     </div>
 </div>
 
@@ -14,14 +16,14 @@
     </div>
 </div>
 
-<section>
+<div id="required">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h2 class="govuk-heading-l">Required:</h2>
         </div>
     </div>
 
-    <section>
+    <div id="required-1">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Length of timetable cycle</h3>
@@ -41,9 +43,10 @@
                 </p>
             </div>
         </div>
-    </section>
+    </div>
+    
 
-    <section>
+    <div id="required-2">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Pupil figures</h3>
@@ -55,9 +58,9 @@
                 <p class="govuk-body">The number of pupils you have, or wish to plan for in each year group,</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="required-3">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Teacher period allocation</h3>
@@ -79,9 +82,9 @@
                 </p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="required-4">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Other teaching periods</h3>
@@ -99,9 +102,9 @@
                 <p class="govuk-body">For example, intervention, dyslexia support and career support periods. Other teaching periods do not include management or PPA time.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="required-5">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Management roles with teaching responsibilities</h3>
@@ -113,9 +116,9 @@
                 <p class="govuk-body">You will need to provide the number of managers in each role as well as the number of periods they teach per timetable cycle.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="required-6">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Total educational support staff costs (primary schools only)</h3>
@@ -127,16 +130,16 @@
                 <p class="govuk-body">Your total educational support staff costs for the planned year</p>
             </div>
         </div>
-    </section>
-</section>
+    </div>
+</div>
 
-<section>
+<div id="optional">
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <h2 class="govuk-heading-l">Optional:</h2>
         </div>
     </div>
-
+    
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-two-thirds">
             <p class="govuk-body">
@@ -145,7 +148,7 @@
         </div>
     </div>
 
-    <section>
+    <div id="optional-1">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Total income</h3>
@@ -157,9 +160,9 @@
                 <p class="govuk-body">Your total income for the planned year.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="optional-2">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Total expenditure</h3>
@@ -171,9 +174,9 @@
                 <p class="govuk-body">Your total expenditure for the planned year.</p>
             </div>
         </div>
-    </section>
+    </div>
 
-    <section>
+    <div id="optional-3">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Total teacher costs</h3>
@@ -185,9 +188,10 @@
                 <p class="govuk-body">Your total teacher costs for the planned year.</p>
             </div>
         </div>
-    </section>
+    </div>
+    
 
-    <section>
+    <div id="optional-4">
         <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-m">Full time equivalent teachers</h3>
@@ -199,24 +203,24 @@
                 <p class="govuk-body">The number of full time equivalent teachers for the planned year.</p>
             </div>
         </div>
-    </section>
-</section>
+    </div>
+</div>
 
-    <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-    <section>
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-m">Further help</h3>
-            </div>
+<div class="govuk-grid-row" id="further-help">
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <h3 class="govuk-heading-m">Further help</h3>
         </div>
+    </div>
 
-        <div class="govuk-grid-row">
-            <div class="govuk-grid-column-two-thirds">
-            <p class="govuk-body">If you need help with anything <a href="@Url.Action("SubmitEnquiry", "StaticContent")">submit an enquiry</a></p>
-            </div>
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <p class="govuk-body">If you need help with anything <a href="@Url.Action("SubmitEnquiry", "StaticContent")" id="submit-enquiry" class="govuk-link">submit an enquiry</a></p>
         </div>
-    </section>
+    </div>
+</div>
 
 
 

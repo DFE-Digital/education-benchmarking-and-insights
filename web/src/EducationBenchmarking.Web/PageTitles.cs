@@ -11,4 +11,6 @@ public static class PageTitles
     public const string SchoolComparison = "Compare your costs";
     public const string SchoolWorkforce = "Benchmark workforce data";
     public const string SchoolDetails = "School details";
+    public const string SchoolPlanning = "Integrated Curriculum and financial planning";
+    public const string SchoolPlanningHelp = "Data required for ICFP";
 }

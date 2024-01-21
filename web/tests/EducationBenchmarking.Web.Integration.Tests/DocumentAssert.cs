@@ -42,7 +42,15 @@ public static class DocumentAssert
         var h2 = node.ChildNodes.QuerySelector("h2") ?? throw new Exception("No <h2> elements found in this page document");
         AssertNodeText(h2, header2);
     }
-    
+
+    public static void Heading3(INode? node, string header3)
+    {
+        Assert.NotNull(node);
+
+        var h3 = node.ChildNodes.QuerySelector("h3") ?? throw new Exception("No <h3> elements found in this page document");
+        AssertNodeText(h3, header3);
+    }
+
     public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl)
     {
         Assert.NotNull(doc);
@@ -75,7 +83,23 @@ public static class DocumentAssert
                 break;
         }
     }
-    
+
+    public static void BackLink(IElement element, string contents, string url)
+    {
+        Assert.Equal(contents, element.TextContent.Trim());
+        Assert.True(element.ClassList.Contains("govuk-back-link"), "A back link should have a the class govuk-back-link");
+
+        switch (element)
+        {
+            case IHtmlAnchorElement a:
+                Assert.Equal(url, a.Href);
+                break;
+            case IHtmlLinkElement l:
+                Assert.Equal(url, l.Href);
+                break;
+        }
+    }
+
     private static void AssertNodeText(INode element, string text)
     {
         var elementText = string.Join(" ", element.ChildNodes.Select(n => n.TextContent.Trim())).Trim();

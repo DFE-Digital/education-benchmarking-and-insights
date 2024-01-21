@@ -1,8 +1,6 @@
 ﻿using AngleSharp.Html.Dom;
-using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
-using Newtonsoft.Json.Linq;
 using Xunit;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
@@ -14,24 +12,46 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
     }
 
     [Theory]
-    [InlineData(true)]
-    public async Task CanDisplaySchool(bool value)
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanDisplaySchool(string financeType)
     {
-        Assert.True(value);
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+        AssertPageLayout(page, school);
     }
 
     [Theory]
-    [InlineData(true)]
-    public async Task CanNavigateToHelp(bool value)
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToHelp(string financeType)
     {
-        Assert.True(value);
+        var (page, school) = await SetupNavigateInitPage(financeType);
+        
+
+        var anchor = page.GetElementById("financial-planning-help");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
     }
 
     [Theory]
-    [InlineData(true)]
-    public async Task CanNavigateToContinue(bool value)
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToContinue(string financeType)
     {
-        Assert.True(value);
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+
+        var anchor = page.GetElementById("financial-planning-continue");
+        Assert.NotNull(anchor);
+
+        var newPage = await Follow(anchor);
+
+        //TODO: amend path once functionality added
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanning(school.Urn).ToAbsolute());
     }
 
 
@@ -53,8 +73,48 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         DocumentAssert.AssertPageUrl(page, Paths.StatusError(500).ToAbsolute());
     }
 
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    {
+        var school = Fixture.Build<School>()
+            .With(x => x.FinanceType, financeType)
+            .Create();
+
+        var page = await SetupEstablishment(school)
+            .Navigate(Paths.SchoolPlanning(school.Urn));
+
+        return (page, school);
+    }
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
+        // TODO: assert layout
+
+        // breadcrumbs == Home // Your school // Curriculum and financial planning
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute()),
+            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
+            ("Curriculum and financial planning", Paths.SchoolPlanning(school.Urn).ToAbsolute()),
+        };
+        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
+
+        // Title and H1 == Integrated Curriculum and financial planning
+        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning", "Integrated Curriculum and financial planning");
+        // assert h2 == school.Name
+        DocumentAssert.Heading2(page, $"{school.Name}");
+
+        // assert continue
+        var cta = page.GetElementById("financial-planning-continue");
+        Assert.NotNull(cta);
+        // assert is a cta
+        // TODO: update path when functionality added
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolPlanning(school.Urn));
+
+        // assert help link
+        var helpLink = page.GetElementById("financial-planning-help");
+        Assert.NotNull(helpLink);
+        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
+
+
         Assert.True(true);
         Assert.IsAssignableFrom<IHtmlDocument>(page);
         Assert.IsType<School>(school);
