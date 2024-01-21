@@ -88,7 +88,6 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
     {
         // TODO: assert layout
 
-        // breadcrumbs == Home // Your school // Curriculum and financial planning
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
@@ -97,19 +96,14 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
-        // Title and H1 == Integrated Curriculum and financial planning
         DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning", "Integrated Curriculum and financial planning");
-        // assert h2 == school.Name
         DocumentAssert.Heading2(page, $"{school.Name}");
 
-        // assert continue
         var cta = page.GetElementById("financial-planning-continue");
         Assert.NotNull(cta);
-        // assert is a cta
         // TODO: update path when functionality added
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolPlanning(school.Urn));
 
-        // assert help link
         var helpLink = page.GetElementById("financial-planning-help");
         Assert.NotNull(helpLink);
         DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
