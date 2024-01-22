@@ -1,10 +1,11 @@
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
 public class WhenViewingServiceHome : BenchmarkingWebAppClient
 {
-    public WhenViewingServiceHome(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingServiceHome(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
     {
     }
     

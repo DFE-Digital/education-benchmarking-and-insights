@@ -3,6 +3,7 @@ using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using Moq;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
@@ -13,7 +14,7 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
     protected readonly Mock<IBenchmarkApi> BenchmarkApi = new();
     
     protected Fixture Fixture { get; private set; }
-    public BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory) : base(factory)
+    public BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
     {
         Fixture = new Fixture();
     }

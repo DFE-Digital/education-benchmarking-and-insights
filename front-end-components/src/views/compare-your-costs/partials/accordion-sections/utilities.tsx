@@ -75,7 +75,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({schools}) => {
                     </h2>
                 </div>
                 <div id="accordion-content-utilities" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-utilities">
+                     aria-labelledby="accordion-heading-utilities" role="region">
                     <HorizontalBarChartWrapper data={totalUtilitiesCostsBarData} chartId="total-utilities-costs">
                         <h3 className="govuk-heading-s">Total utilities costs</h3>
                         <ChartDimensions dimensions={PremisesCategories} handleChange={handleSelectChange} elementId="total-utilities-costs" defaultValue={dimension} />

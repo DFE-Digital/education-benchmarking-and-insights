@@ -4,12 +4,13 @@ using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
 public class WhenViewingSchool : BenchmarkingWebAppClient
 {
-    public WhenViewingSchool(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingSchool(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
     {
     }
     

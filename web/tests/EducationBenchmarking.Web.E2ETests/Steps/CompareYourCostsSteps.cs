@@ -6,10 +6,12 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 public class CompareYourCostsSteps
 {
     private readonly CompareYourCostsPage _compareYourCostsPage;
+    private readonly ITestOutputHelper _output;
 
     public CompareYourCostsSteps(CompareYourCostsPage compareYourCostsPage)
     {
         _compareYourCostsPage = compareYourCostsPage;
+        _output = output;
     }
 
     [Then("I am taken to compare your costs page for school '(.*)'")]

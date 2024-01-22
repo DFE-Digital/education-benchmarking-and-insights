@@ -46,7 +46,7 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({s
                     </h2>
                 </div>
                 <div id="accordion-content-administrative-supplies" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-administrative-supplies">
+                     aria-labelledby="accordion-heading-administrative-supplies" role="region">
                     <HorizontalBarChartWrapper data={administrativeSuppliesBarData}
                                                chartId="administrative-supplies-non-eductional">
                         <h3 className="govuk-heading-s">Administrative supplies (Non-educational)</h3>

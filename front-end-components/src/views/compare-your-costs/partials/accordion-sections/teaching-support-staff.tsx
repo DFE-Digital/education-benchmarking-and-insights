@@ -123,7 +123,7 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({schoo
                     </h2>
                 </div>
                 <div id="accordion-content-teaching-support-staff" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-teaching-support-staff">
+                     aria-labelledby="accordion-heading-teaching-support-staff" role="region">
                     <HorizontalBarChartWrapper data={totalTeachingBarData} chartId="total-teaching-support-staff-cost">
                         <h3 className="govuk-heading-s">Total teaching and teaching support staff</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-teaching-support-staff-cost" defaultValue={dimension} />

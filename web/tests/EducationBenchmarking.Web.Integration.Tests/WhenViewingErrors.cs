@@ -1,10 +1,11 @@
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
 public class WhenViewingErrors : BenchmarkingWebAppClient
 {
-    public WhenViewingErrors(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingErrors(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
     {
     }
     
