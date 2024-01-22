@@ -43,7 +43,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({schools}) => {
                     </h2>
                 </div>
                 <div id="accordion-content-educational-ict" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-educational-ict">
+                     aria-labelledby="accordion-heading-educational-ict" role="region">
                     <HorizontalBarChartWrapper data={learningResourcesBarData} chartId="eductional-learning-resources-costs">
                         <h3 className="govuk-heading-s">Educational learning resources costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="eductional-learning-resources-costs" defaultValue={dimension} />

@@ -110,7 +110,7 @@ export const NonEducationalSupportStaff: React.FC<NonEducationalSupportStaffProp
                 </div>
                 <div id="accordion-content-non-educational-support-staff"
                      className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-non-educational-support-staff">
+                     aria-labelledby="accordion-heading-non-educational-support-staff" role="region">
                     <HorizontalBarChartWrapper data={totalNonEducationalBarData} chartId="total-non-educational-support-staff-costs">
                         <h3 className="govuk-heading-s">Total non-educational support staff costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-non-educational-support-staff-costs" defaultValue={dimension} />

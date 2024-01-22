@@ -91,7 +91,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({schools
                     </h2>
                 </div>
                 <div id="accordion-content-educational-supplies" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-educational-supplies">
+                     aria-labelledby="accordion-heading-educational-supplies" role="region">
                     <HorizontalBarChartWrapper data={totalEducationalSuppliesBarData} chartId="total-educational-supplies-costs">
                         <h3 className="govuk-heading-s">Total educational supplies costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-educational-supplies-costs" defaultValue={dimension} />
