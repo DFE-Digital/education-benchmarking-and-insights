@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.AspNetCore.TestHost;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
@@ -11,8 +12,9 @@ public abstract class ClientBase<TStartup> : IDisposable
     where TStartup : class
 {
     private HttpClient _http;
+    private readonly ITestOutputHelper _output;
 
-    public ClientBase(WebApplicationFactory<TStartup> factory)
+    public ClientBase(WebApplicationFactory<TStartup> factory, ITestOutputHelper output)
     {
         _http = factory.WithWebHostBuilder(builder =>
         {
@@ -22,6 +24,8 @@ public abstract class ClientBase<TStartup> : IDisposable
             BaseAddress = new Uri("https://localhost"),
             HandleCookies = true
         });
+
+        _output = output;
     }
 
     protected abstract void Configure(IServiceCollection services);
@@ -36,8 +40,10 @@ public abstract class ClientBase<TStartup> : IDisposable
         switch (element)
         {
             case IHtmlLinkElement link:
+                _output.WriteLine($"Following <link href=\"{link.Href}\" ... />");
                 return _http.GetAsync(link.Href).GetDocumentAsync();
             case IHtmlAnchorElement a:
+                _output.WriteLine($"Following <a href=\"{a.Href}\" ... />");
                 return _http.GetAsync(a.Href).GetDocumentAsync();
             default:
                 throw new Exception($"Unable to follow a {element.GetType()}");
@@ -47,6 +53,7 @@ public abstract class ClientBase<TStartup> : IDisposable
     public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage>? responseValidation = null)
     {
         var response = await _http.GetAsync(uri);
+        _output.WriteLine($"Navigating to {response.RequestMessage?.RequestUri}");
         responseValidation?.Invoke(response);
         return await response.GetDocumentAsync();
     }
