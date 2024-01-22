@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using System.Text;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Microsoft.AspNetCore.Mvc.Testing;
@@ -37,14 +38,19 @@ public abstract class ClientBase<TStartup> : IDisposable
             throw new ArgumentNullException(nameof(element));
         }
 
+        async Task<IHtmlDocument> GetDocumentAsync(string? href) 
+        {
+            var response = await _http.GetAsync(href);
+            _output.WriteLine($"↳ {response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
+            return await response.GetDocumentAsync();
+        }
+
         switch (element)
         {
             case IHtmlLinkElement link:
-                _output.WriteLine($"Following <link href=\"{link.Href}\" ... />");
-                return _http.GetAsync(link.Href).GetDocumentAsync();
+                return GetDocumentAsync(link.Href);
             case IHtmlAnchorElement a:
-                _output.WriteLine($"Following <a href=\"{a.Href}\" ... />");
-                return _http.GetAsync(a.Href).GetDocumentAsync();
+                return GetDocumentAsync(a.Href);
             default:
                 throw new Exception($"Unable to follow a {element.GetType()}");
         }
@@ -53,7 +59,7 @@ public abstract class ClientBase<TStartup> : IDisposable
     public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage>? responseValidation = null)
     {
         var response = await _http.GetAsync(uri);
-        _output.WriteLine($"Navigating to {response.RequestMessage?.RequestUri}");
+        _output.WriteLine($"{response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
         responseValidation?.Invoke(response);
         return await response.GetDocumentAsync();
     }
@@ -102,7 +108,7 @@ public abstract class ClientBase<TStartup> : IDisposable
         var submit = form.GetSubmission(submitButton);
             
         var target = (Uri)submit.Target;
-        if (!String.IsNullOrWhiteSpace(submitButton.Form.Action))
+        if (!string.IsNullOrWhiteSpace(submitButton.Form.Action))
         {
             var formAction = submitButton.Form.Action;
             target = new Uri(formAction, UriKind.RelativeOrAbsolute);
@@ -118,6 +124,8 @@ public abstract class ClientBase<TStartup> : IDisposable
             submission.Headers.TryAddWithoutValidation(header.Key, header.Value);
             submission.Content.Headers.TryAddWithoutValidation(header.Key, header.Value);
         }
+        
+        _output.WriteLine($"{submit.Method}ing <form> to {target} with body length {submit.Body.Length}");
             
         return await _http.SendAsync(submission);
     }

@@ -17,6 +17,9 @@ public sealed class AccessibilitySteps
     public AccessibilitySteps(ScenarioContext scenarioContext, IPage page, ITestOutputHelper output)
     {
         _page = page;
+#if DEBUG
+        _page.Response += (sender, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
+#endif 
         _output = output;
     }
 

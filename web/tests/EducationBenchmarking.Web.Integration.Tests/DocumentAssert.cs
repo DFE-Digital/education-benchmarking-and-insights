@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Xunit;
@@ -43,10 +44,11 @@ public static class DocumentAssert
         AssertNodeText(h2, header2);
     }
     
-    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl)
+    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl, HttpStatusCode expectedStatusCode = HttpStatusCode.OK)
     {
         Assert.NotNull(doc);
         Assert.Equal(expectedUrl, doc.Url);
+            Assert.Equal(expectedStatusCode, doc.StatusCode);
     }
     
     public static void PrimaryCta(IElement element, string contents, string url, bool enabled = true)
