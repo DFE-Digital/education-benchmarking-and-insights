@@ -17,7 +17,9 @@ public static class ReinforcedTypingsConfiguration
         builder.Global(g =>
         {
             g.CamelCaseForProperties();
-            g.TabSymbol("  ");
+            g.TabSymbol("    ");
+            g.UseModules(false);
+            g.ExportPureTypings();
         });
 
         var types = Assembly.GetAssembly(typeof(School))!

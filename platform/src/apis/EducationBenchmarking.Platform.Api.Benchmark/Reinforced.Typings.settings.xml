@@ -17,7 +17,7 @@
             It is not used if RtDivideTypesAmongFiles='true' specified.
             Important! Do not forget to include generated file to solution.
         -->
-        <RtTargetFile>$(ProjectDir)..\..\..\..\front-end-components\src\types\benchmark.ts</RtTargetFile>
+        <RtTargetFile>$(ProjectDir)..\..\..\..\front-end-components\src\types\benchmark.d.ts</RtTargetFile>
 
         <!--
             This property sets RT configuration method for fluent configuration.
@@ -54,7 +54,7 @@
             Note that in case of using RtDivideTypesAmongFiles, RtTargetFile parameter will 
             NOT be used anymore.
         -->
-        <RtTargetDirectory>$(ProjectDir)Scripts\MyApplication</RtTargetDirectory>
+        <RtTargetDirectory>$(ProjectDir)..\..\..\..\front-end-components\src\types\Benchmark</RtTargetDirectory>
 
 
         <!--
