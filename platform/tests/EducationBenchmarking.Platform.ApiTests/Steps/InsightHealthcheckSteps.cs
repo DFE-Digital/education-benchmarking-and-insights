@@ -2,6 +2,7 @@ using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -10,8 +11,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightHealthcheckSteps
 {
     private const string RequestKey = "health-check";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly ApiDriver _api;
 
+    public InsightHealthcheckSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight), output);
+    }
+    
     [Given("a valid insight health check request")]
     private void GivenAValidInsightHealthCheckRequest()
     {

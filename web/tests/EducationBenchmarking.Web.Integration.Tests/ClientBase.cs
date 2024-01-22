@@ -41,7 +41,9 @@ public abstract class ClientBase<TStartup> : IDisposable
         async Task<IHtmlDocument> GetDocumentAsync(string? href) 
         {
             var response = await _http.GetAsync(href);
+#if DEBUG
             _output.WriteLine($"↳ {response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
+#endif
             return await response.GetDocumentAsync();
         }
 
@@ -59,7 +61,9 @@ public abstract class ClientBase<TStartup> : IDisposable
     public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage>? responseValidation = null)
     {
         var response = await _http.GetAsync(uri);
+#if DEBUG
         _output.WriteLine($"{response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
+#endif
         responseValidation?.Invoke(response);
         return await response.GetDocumentAsync();
     }

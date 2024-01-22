@@ -8,6 +8,7 @@ using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentAssertions;
 using TechTalk.SpecFlow.Assist;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -21,8 +22,12 @@ public class EstablishmentSchoolsSteps
     private const string SearchRequestKey = "search-school";
     private const string SuggestInvalidRequestKey = "suggest-school-invalid";
     private const string SuggestValidRequestKey = "suggest-school-invalid";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
+    private readonly ApiDriver _api;
     
+    public EstablishmentSchoolsSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment), output);
+    }
     
     [Given("an invalid schools suggest request")]
     private void GivenAnInvalidSchoolsSuggestRequest()

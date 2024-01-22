@@ -1,6 +1,7 @@
 using EducationBenchmarking.Web.E2ETests.Pages;
 using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
@@ -9,11 +10,16 @@ public class CompareYourCostsSteps
 {
     private readonly IPage _page;
     private readonly CompareYourCostsPage _compareYourCostsPage;
+    private readonly ITestOutputHelper _output;
 
-    public CompareYourCostsSteps(IPage page, CompareYourCostsPage compareYourCostsPage)
+    public CompareYourCostsSteps(IPage page, CompareYourCostsPage compareYourCostsPage, ITestOutputHelper output)
     {
         _page = page;
+#if DEBUG
+        _page.Response += (sender, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
+#endif 
         _compareYourCostsPage = compareYourCostsPage;
+        _output = output;
     }
 
     [Then(@"I am taken to compare your costs page")]

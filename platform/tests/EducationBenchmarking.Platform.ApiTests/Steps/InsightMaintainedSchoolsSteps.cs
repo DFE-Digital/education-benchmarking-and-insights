@@ -4,6 +4,7 @@ using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -12,8 +13,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightMaintainedSchoolsSteps
 {
     private const string GetMaintainedSchoolKey = "get-maintained-school";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly ApiDriver _api;
 
+    public InsightMaintainedSchoolsSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight), output);
+    }
+    
     [When(@"I submit the maintained school request")]
     public async Task WhenISubmitTheMaintainedSchoolRequest()
     {

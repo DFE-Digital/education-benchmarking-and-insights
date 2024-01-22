@@ -4,6 +4,7 @@ using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -12,8 +13,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightMiscellaneousSteps
 {
     private const string GetFinanceYearKey = "get-finance-year";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly ApiDriver _api;
 
+    public InsightMiscellaneousSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight), output);
+    }
+    
     [Given(@"a valid finance year request")]
     public void GivenAValidFinanceYearRequest()
     {

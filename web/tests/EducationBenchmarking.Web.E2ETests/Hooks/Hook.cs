@@ -6,6 +6,7 @@ namespace EducationBenchmarking.Web.E2ETests.Hooks;
 [Binding]
 public class Hooks
 {
+    private IPlaywright PlaywrightInstance { get; set; } = null!;
     private readonly IObjectContainer _objectContainer;
 
     public Hooks(IObjectContainer objectContainer)
@@ -26,10 +27,10 @@ public class Hooks
     [BeforeScenario]
     public async Task RegisterInstance()
     {
-        var playwrightInstance = await Playwright.CreateAsync();
+        PlaywrightInstance = await Playwright.CreateAsync();
 
         var launchOptions = new BrowserTypeLaunchOptions { Headless = false };
-        var browser = await playwrightInstance.Chromium.LaunchAsync(launchOptions);
+        var browser = await PlaywrightInstance.Chromium.LaunchAsync(launchOptions);
 
         var contextOptions = new BrowserNewContextOptions { IgnoreHTTPSErrors = true };
         var browserContext = await browser.NewContextAsync(contextOptions);
@@ -38,5 +39,11 @@ public class Hooks
 
         _objectContainer.RegisterInstanceAs(browser);
         _objectContainer.RegisterInstanceAs(page);
+    }
+    
+    [AfterScenario]
+    public async Task AfterScenario()
+    {
+        PlaywrightInstance.Dispose();
     }
 }

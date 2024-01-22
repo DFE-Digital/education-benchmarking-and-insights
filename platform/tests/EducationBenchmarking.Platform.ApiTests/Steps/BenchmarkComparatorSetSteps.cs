@@ -8,6 +8,7 @@ using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TechTalk.SpecFlow.Assist;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps
@@ -17,8 +18,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps
     {
         private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
         private const string GetComparatorSetKey = "get-comparator-set";
-        private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
+        private readonly ApiDriver _api;
 
+        public BenchmarkComparatorSetSteps(ITestOutputHelper output)
+        {
+            _api = new ApiDriver(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark), output);
+        }
+        
         [Then(@"the comparator result should be ok")]
         public void ThenTheComparatorResultShouldBeOk()
         {

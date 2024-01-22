@@ -2,6 +2,7 @@ using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -10,8 +11,13 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class EstablishmentHealthcheckSteps
 {
     private const string RequestKey = "health-check";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
+    private readonly ApiDriver _api;
 
+    public EstablishmentHealthcheckSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment), output);
+    }
+    
     [Given("a valid establishment health check request")]
     private void GivenAValidEstablishmentHealthCheckRequest()
     {

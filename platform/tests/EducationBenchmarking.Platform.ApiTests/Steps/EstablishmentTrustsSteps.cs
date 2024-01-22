@@ -8,6 +8,7 @@ using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentAssertions;
 using TechTalk.SpecFlow.Assist;
+using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
@@ -20,7 +21,12 @@ public class EstablishmentTrustsSteps
     private const string SearchRequestKey = "search-trust";
     private const string SuggestInvalidRequestKey = "suggest-trust-invalid";
     private const string SuggestValidRequestKey = "suggest-trust-invalid";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
+    private readonly ApiDriver _api;
+    
+    public EstablishmentTrustsSteps(ITestOutputHelper output)
+    {
+        _api = new ApiDriver(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment), output);
+    }
     
     [Given("a valid trust request with id '(.*)'")]
     private void GivenAValidTrustRequestWithId(string id)
