@@ -1852,7 +1852,8 @@
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
           "Microsoft.NET.Sdk.Functions": "[4.2.0, )",
-          "Newtonsoft.Json": "[13.0.1, )"
+          "Newtonsoft.Json": "[13.0.1, )",
+          "Reinforced.Typings": "[1.6.3, )"
         }
       },
       "educationbenchmarking.platform.api.establishment": {
@@ -2091,6 +2092,12 @@
           "Microsoft.Azure.WebJobs.Script.ExtensionsMetadataGenerator": "4.0.1",
           "Newtonsoft.Json": "13.0.1"
         }
+      },
+      "Reinforced.Typings": {
+        "type": "CentralTransitive",
+        "requested": "[1.6.3, )",
+        "resolved": "1.6.3",
+        "contentHash": "lLdMeO5ybDagOGtRvuhyAGiPCJrJwU6PDGG3JIImQp+gYEQdpuUj8PjE5agv/Ujktx2XwCoEPnQDqtPm+/fZLQ=="
       },
       "System.Linq.Async": {
         "type": "CentralTransitive",

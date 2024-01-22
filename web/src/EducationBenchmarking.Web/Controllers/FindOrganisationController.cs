@@ -21,6 +21,7 @@ public class FindOrganisationController : Controller
         return View(new FindOrganisationViewModel());
     }
 
+    // do we care about PRG?
     [HttpPost]
     public IActionResult Index([FromForm] FindOrganisationViewModel viewModel)
     {
@@ -35,8 +36,8 @@ public class FindOrganisationController : Controller
                         if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                         {
                             var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                ? "Enter a school name select a school"
-                                : "Please select school from the suggester";
+                                ? "Enter a school name select a school" // typo
+                                : "Please select school from the suggester"; 
                             ModelState.AddModelError("school-input", message);
                             return View(viewModel);
                         }

@@ -22,3 +22,9 @@ Now when you run the project locally you should see the correct styling and asse
 using node 20.10.0
 
 using npm 10.2.3
+
+## Troubleshooting
+
+### Unable to authenticate, your authentication token seems to be invalid
+
+`.npmrc` defines a custom registry with which one must first be authenticated before packages may be installed.
