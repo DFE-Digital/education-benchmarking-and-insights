@@ -171,6 +171,34 @@ public static class LocatorAssert
         return locator;
     }
 
+    public static async Task<ILocator> ShouldHaveTableHeaders(this ILocator locator, List<List<string>> expectedHeaders)
+    {
+        var actualData = new List<List<string>>();
+
+
+        var headerCells = await locator.Locator("th").AllAsync();
+        var headerData = new List<string>();
+        foreach (var cell in headerCells)
+        {
+            headerData.Add(await cell.InnerTextAsync());
+        }
+
+        actualData.Add(headerData);
+        for (var i = 0; i < expectedHeaders.Count; i++)
+        {
+            var expectedTableCell = expectedHeaders[i];
+            var actualTableCell = actualData[i];
+
+            for (var j = 0; j < expectedTableCell.Count; j++)
+            {
+                actualTableCell[j].Should()
+                    .Be(expectedTableCell[j], "actual table headers should have the expected data");
+            }
+        }
+
+        return locator;
+    }
+
     public static async Task<ILocator> ShouldHaveCount(this ILocator locator, int expectedCount)
     {
         await Assertions.Expect(locator).ToHaveCountAsync(expectedCount);

@@ -18,14 +18,19 @@ public class WorkforcePage
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
     private ILocator ChangeSchoolLink => _page.Locator("#change-school");
 
-    private ILocator SaveImgBtns => _page.Locator("button", new PageLocatorOptions()
+    private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions()
     {
         HasText = "Save as image"
     });
 
-    private ILocator ViewAsTable => _page.Locator("button", new PageLocatorOptions()
+    private ILocator ViewAsTableCta => _page.Locator("button", new PageLocatorOptions()
     {
         HasText = "View as table"
+    });
+
+    private ILocator ViewAsChartCta => _page.Locator("button", new PageLocatorOptions()
+    {
+        HasText = "View as chart"
     });
 
     private ILocator AllCharts => _page.Locator("canvas");
@@ -36,6 +41,8 @@ public class WorkforcePage
     private ILocator NonClassRoomSupportStaffDimension => _page.Locator("#teachers-qualified-dimension");
     private ILocator AuxiliaryStaffDimension => _page.Locator("#auxiliary-staff-dimension");
     private ILocator SchoolWorkforceHeadcountDimension => _page.Locator("#auxiliary-staff-dimension");
+    private ILocator TotalTeachersTable => _page.Locator("table").Nth(1);
+    private ILocator AllTables => _page.Locator("table");
 
 
     private ILocator SaveImageSchoolWorkforce =>
@@ -43,11 +50,12 @@ public class WorkforcePage
 
     public async Task AssertPage()
     {
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await PageH1Heading.ShouldBeVisible();
         await BreadCrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
-        await ViewAsTable.ShouldBeVisible();
-        var saveImagesCtas = await SaveImgBtns.AllAsync();
+        await ViewAsTableCta.ShouldBeVisible();
+        var saveImagesCtas = await SaveImgCtas.AllAsync();
         Assert.True(saveImagesCtas.Count == 8,
             $"not all save as image buttons are showing on the page. Expected = 8 , actual = {saveImagesCtas.Count}");
         foreach (var cta in saveImagesCtas)
@@ -107,7 +115,6 @@ public class WorkforcePage
                 throw new ArgumentException($"Unsupported chart name: {chartName}");
         }
 
-        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         var downloadTask = _page.WaitForDownloadAsync();
         await chartToDownload.Click();
         _download = await downloadTask;
@@ -145,6 +152,9 @@ public class WorkforcePage
             case "school workforce":
                 chart = SchoolWorkforceDimension;
                 break;
+            case "total teachers":
+                chart = TotalNumberOfTeacherDimension;
+                break;
             default:
                 throw new ArgumentException($"Unsupported chart name: {chartName}");
         }
@@ -165,5 +175,52 @@ public class WorkforcePage
         }
 
         await chart.ShouldHaveSelectedOption(expectedValue);
+    }
+
+    public async Task ClickViewAsTable()
+    {
+        await ViewAsTableCta.Click();
+    }
+
+    public async Task CheckTableHeaders(string tableName, List<List<string>> expectedTableHeaders)
+    {
+        ILocator chart;
+        switch (tableName)
+        {
+            case "total teachers":
+                chart = TotalTeachersTable;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported chart name: {tableName}");
+        }
+
+        await chart.ShouldHaveTableHeaders(expectedTableHeaders);
+    }
+
+    public async Task AssertTableView()
+    {
+        var tables = await AllTables.AllAsync();
+        Assert.True(tables.Count == 8,
+            $"not all tables are showing on the page. Expected = 8 , actual = {tables.Count}");
+        foreach (var table in tables)
+        {
+            await table.ShouldBeVisible();
+        }
+    }
+
+    public async Task ClickViewAsChart()
+    {
+        await ViewAsChartCta.Click();
+    }
+
+    public async Task AssertChartView()
+    {
+        var charts = await AllCharts.AllAsync();
+        Assert.True(charts.Count == 8,
+            $"not all charts are showing on the page. Expected = 8 , actual = {charts.Count}");
+        foreach (var table in charts)
+        {
+            await table.ShouldBeVisible();
+        }
     }
 }
