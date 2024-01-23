@@ -25,6 +25,7 @@ public class CompareYourCostsPage
 
     private ILocator TotalExpenditureChart =>
         _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
+
     private ILocator ViewAsTableBtn => _page.Locator(".govuk-button:has-text('View as table')");
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
@@ -72,10 +73,10 @@ public class CompareYourCostsPage
     public async Task ClickOnSaveImg()
     {
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
-        var downloadTask =  _page.WaitForDownloadAsync();
-        
+        var downloadTask = _page.WaitForDownloadAsync();
+
         await SaveImageTotalExpenditure.ClickAsync();
-        
+
         _download = await downloadTask;
     }
 
@@ -85,6 +86,7 @@ public class CompareYourCostsPage
         {
             throw new ArgumentNullException(nameof(_download));
         }
+
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(
             string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
@@ -92,21 +94,34 @@ public class CompareYourCostsPage
         );
     }
 
-    public async Task AssertDimension(string expectedValue)
+    public async Task AssertDimensionValue(string chartName, string expectedValue)
     {
-        var selectedValue =
-            await TotalExpenditureDimension.EvaluateAsync<string>(
-                "select => select.options[select.selectedIndex].text");
-        Assert.True(
-            string.Equals(expectedValue, selectedValue),
-            $"Expected dimension: {expectedValue}. Actual: {selectedValue}");
+        ILocator chart;
+        switch (chartName)
+        {
+            case "total expenditure":
+                chart = TotalExpenditureDimension;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported chart name: {chartName}");
+        }
+
+        await chart.ShouldHaveSelectedOption(expectedValue);
     }
 
-    public async Task ChangeDimension(string value)
+    public async Task ChangeDimension(string chartName, string value)
     {
-        await TotalExpenditureDimension.Select(value);
-        await TotalExpenditureDimension.SelectOptionAsync(new SelectOptionValue { Value = value });
-        await AssertDimension(value);
+        ILocator chart;
+        switch (chartName)
+        {
+            case "total expenditure":
+                chart = TotalExpenditureDimension;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported chart name: {chartName}");
+        }
+
+        await chart.SelectOption(value);
     }
 
     public async Task ClickViewAsTable()
@@ -273,9 +288,11 @@ public class CompareYourCostsPage
         }
     }
 
-    public async Task AssertDropDownDimensions(ILocator dimensionsDropdown,string[] expectedOptions )
+    public async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
-        string[] actualOptions = await dimensionsDropdown.EvaluateAsync<string[]>("(select) => Array.from(select.options).map(option => option.value)");
-          Assert.Equal(actualOptions, expectedOptions);
+        string[] actualOptions =
+            await dimensionsDropdown.EvaluateAsync<string[]>(
+                "(select) => Array.from(select.options).map(option => option.value)");
+        Assert.Equal(actualOptions, expectedOptions);
     }
 }

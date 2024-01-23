@@ -40,17 +40,17 @@ public class CompareYourCostsSteps
         _compareYourCostsPage.AssertImageDownload();
     }
 
-    [Given(@"the dimension in dimension dropdown is '(.*)'")]
-    [Then(@"the dimension in dimension dropdown is '(.*)'")]
+    [Given(@"the total expenditure chart dimension in dimension dropdown is '(.*)'")]
+    [Then(@"the total expenditure chart dimension in dimension dropdown is '(.*)'")]
     public async Task GivenTheDimensionInDimensionDropdownIs(string dimension)
     {
-        await _compareYourCostsPage.AssertDimension(dimension);
+        await _compareYourCostsPage.AssertDimensionValue("total expenditure", dimension);
     }
 
     [When(@"I change total expenditure dimension to '(.*)'")]
     public async Task WhenIChangeTotalExpenditureDimensionTo(string dimension)
     {
-        await _compareYourCostsPage.ChangeDimension(dimension);
+        await _compareYourCostsPage.ChangeDimension("total expenditure", dimension);
     }
 
     [Given(@"I am on compare your costs page for school with URN '(.*)'")]
