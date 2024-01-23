@@ -279,7 +279,7 @@ public class CompareYourCostsPage
         }
     }
 
-    public async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
+    private async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
         string[] actualOptions =
             await dimensionsDropdown.EvaluateAsync<string[]>(
