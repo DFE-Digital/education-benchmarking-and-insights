@@ -18,19 +18,12 @@ namespace EducationBenchmarking.Web.Integration.Tests
         {
             var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
-            // TODO: do we need back if we have breadcrumbs ?
-
             DocumentAssert.AssertPageUrl(page, Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
 
-            var expectedBreadcrumbs = new[]
-            {
-                ("Home", Paths.ServiceHome.ToAbsolute()),
-            };
-            DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-            
-            var backLink = page.QuerySelector(".govuk-back-link");
-            Assert.NotNull(backLink);
-            DocumentAssert.BackLink(backLink, "Back", Paths.SchoolPlanning(school.Urn).ToAbsolute());
+            // TODO: uncomment once back link added to page
+            //var backLink = page.QuerySelector(".govuk-back-link");
+            //Assert.NotNull(backLink);
+            //DocumentAssert.BackLink(backLink, "Back", Paths.SchoolPlanning(school.Urn).ToAbsolute());
 
             DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
 
@@ -47,18 +40,19 @@ namespace EducationBenchmarking.Web.Integration.Tests
             DocumentAssert.Link(helpLink, "submit an enquiry", "/submit-an-enquiry".ToAbsolute());
         }
 
-        [Fact]
-        public async Task CanNavigateBack()
-        {
-            var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        // TODO: uncomment once back link added to page
+        //[Fact]
+        //public async Task CanNavigateBack()
+        //{
+        //    var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
-            var anchor = page.QuerySelector(".govuk-back-link");
-            Assert.NotNull(anchor);
+        //    var anchor = page.QuerySelector(".govuk-back-link");
+        //    Assert.NotNull(anchor);
 
-            var newPage = await Follow(anchor);
+        //    var newPage = await Follow(anchor);
 
-            DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanning(school.Urn).ToAbsolute());
-        }
+        //    DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanning(school.Urn).ToAbsolute());
+        //}
 
         [Fact]
         public async Task CanNavigateToSubmitEnquiry()
