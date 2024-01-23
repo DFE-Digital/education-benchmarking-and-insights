@@ -11,24 +11,19 @@ Benchmark the workforce page is showing correct data
         When I change school workforce dimension to 'pupils per staff role'
         Then the dimension in school workforce dimension dropdown is 'pupils per staff role'
 
-    Scenario: Change dimension in table view for Total number of teachers
+    Scenario Outline: Change dimension in table view for Total number of teachers
         Given I am on workforce page for school with URN '139696'
         And I click on view as table on workforce page
-        When I change Total number of teachers dimension to 'total'
+        When I change Total number of teachers dimension to '<dimension>'
         Then the following header in the Total number of teachers table
-          | School name | Local Authority | School type | Number of pupils | Count |
+          | School name | Local Authority | School type | Number of pupils | <ColumnHeader> |
 
-        When I change Total number of teachers dimension to 'headcount per FTE'
-        Then the following header in the Total number of teachers table
-          | School name | Local Authority | School type | Number of pupils | Ratio |
-
-        When I change Total number of teachers dimension to 'percentage of workforce'
-        Then the following header in the Total number of teachers table
-          | School name | Local Authority | School type | Number of pupils | Percentage |
-
-        When I change Total number of teachers dimension to 'pupils per staff role'
-        Then the following header in the Total number of teachers table
-          | School name | Local Authority | School type | Number of pupils | Pupils per staff role |
+        Examples:
+          | dimension               | ColumnHeader          |
+          | total                   | Count                 |
+          | headcount per FTE       | Ratio                 |
+          | percentage of workforce | Percentage            |
+          | pupils per staff role   | Pupils per staff role |
 
     Scenario: Change view from charts to table
         Given I am on workforce page for school with URN '139696'
