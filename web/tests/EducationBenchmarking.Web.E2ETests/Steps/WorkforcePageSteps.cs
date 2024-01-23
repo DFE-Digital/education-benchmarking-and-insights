@@ -33,4 +33,16 @@ public class WorkforcePageSteps
     {
         _workforcePage.AssertImageDownload("school workforce");
     }
+
+    [When(@"I change school workforce dimension to '(.*)'")]
+    public async Task WhenIChangeSchoolWorkforceDimensionTo(string dimensionValue)
+    {
+        await _workforcePage.ChangeDimension("school workforce", dimensionValue);
+    }
+
+    [Then(@"the dimension in school workforce dimension dropdown is '(.*)'")]
+    public async Task ThenTheDimensionInSchoolWorkforceDimensionDropdownIs(string dimensionValue)
+    {
+        await _workforcePage.AssertDimensionValue("school workforce", dimensionValue);
+    }
 }

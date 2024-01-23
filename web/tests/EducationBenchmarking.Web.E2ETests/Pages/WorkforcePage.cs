@@ -41,11 +41,6 @@ public class WorkforcePage
     private ILocator SaveImageSchoolWorkforce =>
         _page.Locator("xpath=//*[@id='compare-workforce']/div[2]/div[2]/button");
 
-    private ILocator TotalExpenditureDimension => _page.Locator("#total-expenditure-dimension");
-
-    private ILocator TotalExpenditureChart =>
-        _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
-
     public async Task AssertPage()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -140,5 +135,35 @@ public class WorkforcePage
             string.Equals($"{downloadedFileName}.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
             $"Expected file name: {downloadedFileName}.png. Actual: {downloadedFilePath}"
         );
+    }
+
+    public async Task ChangeDimension(string chartName, string value)
+    {
+        ILocator chart;
+        switch (chartName)
+        {
+            case "school workforce":
+                chart = SchoolWorkforceDimension;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported chart name: {chartName}");
+        }
+
+        await chart.SelectOption(value);
+    }
+
+    public async Task AssertDimensionValue(string chartName, string expectedValue)
+    {
+        ILocator chart;
+        switch (chartName)
+        {
+            case "school workforce":
+                chart = SchoolWorkforceDimension;
+                break;
+            default:
+                throw new ArgumentException($"Unsupported chart name: {chartName}");
+        }
+
+        await chart.ShouldHaveSelectedOption(expectedValue);
     }
 }

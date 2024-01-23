@@ -8,9 +8,8 @@
 		
 	Scenario: change dimension of school workforce
 		Given I am on workforce page for school with URN '139696'
-		And the dimension in school workforce dropdown is 'Pupils per staff role'
-		When I change school workforce dimension to 'total'
-		Then the dimension in school workfoce dimension dropdown is 'total'
+		When I change school workforce dimension to 'pupils per staff role'
+		Then the dimension in school workforce dimension dropdown is 'pupils per staff role'
 		
 	Scenario: Change dimension in table view for Total number of teachers 
 		Given I am on workforce page for school with URN '139696'

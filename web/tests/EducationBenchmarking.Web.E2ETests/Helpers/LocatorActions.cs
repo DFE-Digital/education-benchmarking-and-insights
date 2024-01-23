@@ -82,7 +82,7 @@ public static class LocatorActions
         return locator;
     }
     
-    public static async Task<ILocator> Select(this ILocator locator, string option)
+    public static async Task<ILocator> SelectOption(this ILocator locator, string option)
     {
         await locator.SelectOptionAsync(option);
 
@@ -135,4 +135,5 @@ public static class LocatorActions
                throw new InvalidOperationException(
                    "No bounding box data returned for this element. Check that the locator of the element is valid");
     }
+    
 }
