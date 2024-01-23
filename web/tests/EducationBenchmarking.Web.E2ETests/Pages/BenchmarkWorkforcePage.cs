@@ -4,12 +4,12 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class WorkforcePage
+public class BenchmarkWorkforcePage
 {
     private readonly IPage _page;
     private IDownload? _download;
 
-    public WorkforcePage(IPage page)
+    public BenchmarkWorkforcePage(IPage page)
     {
         _page = page;
     }

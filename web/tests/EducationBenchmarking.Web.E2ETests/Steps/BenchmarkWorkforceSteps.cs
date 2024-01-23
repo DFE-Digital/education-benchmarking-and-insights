@@ -5,59 +5,59 @@ using Microsoft.Playwright;
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
-public class WorkforcePageSteps
+public class BenchmarkWorkforceSteps
 {
     private readonly IPage _page;
-    private readonly WorkforcePage _workforcePage;
+    private readonly BenchmarkWorkforcePage _benchmarkWorkforcePage;
 
-    public WorkforcePageSteps(IPage page, WorkforcePage workforcePage)
+    public BenchmarkWorkforceSteps(IPage page, BenchmarkWorkforcePage benchmarkWorkforcePage)
     {
         _page = page;
-        _workforcePage = workforcePage;
+        _benchmarkWorkforcePage = benchmarkWorkforcePage;
     }
 
     [Given(@"I am on workforce page for school with URN '(.*)'")]
     public async Task GivenIAmOnWorkforcePageForSchoolWithUrn(string urn)
     {
         await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/workforce");
-        await _workforcePage.AssertPage();
+        await _benchmarkWorkforcePage.AssertPage();
     }
 
     [When(@"i click on save as image for school workforce")]
     public async Task WhenIClickOnSaveAsImageForSchoolWorkforce()
     {
-        await _workforcePage.ClickSaveImgBtn("school workforce");
+        await _benchmarkWorkforcePage.ClickSaveImgBtn("school workforce");
     }
 
     [Then(@"school workforce chart image is downloaded")]
     public void ThenSchoolWorkforceChartImageIsDownloaded()
     {
-        _workforcePage.AssertImageDownload("school workforce");
+        _benchmarkWorkforcePage.AssertImageDownload("school workforce");
     }
 
     [When(@"I change school workforce dimension to '(.*)'")]
     public async Task WhenIChangeSchoolWorkforceDimensionTo(string dimensionValue)
     {
-        await _workforcePage.ChangeDimension("school workforce", dimensionValue);
+        await _benchmarkWorkforcePage.ChangeDimension("school workforce", dimensionValue);
     }
 
     [Then(@"the dimension in school workforce dimension dropdown is '(.*)'")]
     public async Task ThenTheDimensionInSchoolWorkforceDimensionDropdownIs(string dimensionValue)
     {
-        await _workforcePage.AssertDimensionValue("school workforce", dimensionValue);
+        await _benchmarkWorkforcePage.AssertDimensionValue("school workforce", dimensionValue);
     }
 
     [When(@"I click on view as table on workforce page")]
     [Given(@"I click on view as table on workforce page")]
     public async Task GivenIClickOnViewAsTableOnWorkforcePage()
     {
-        await _workforcePage.ClickViewAsTable();
+        await _benchmarkWorkforcePage.ClickViewAsTable();
     }
 
     [When(@"I change Total number of teachers dimension to '(.*)'")]
     public async Task WhenIChangeTotalNumberOfTeachersDimensionTo(string dimensionValue)
     {
-        await _workforcePage.ChangeDimension("total teachers", dimensionValue);
+        await _benchmarkWorkforcePage.ChangeDimension("total teachers", dimensionValue);
     }
 
     [Then(@"the following header in the Total number of teachers table")]
@@ -73,24 +73,24 @@ public class WorkforcePageSteps
 
             expectedTableHeaders.Add(headers);
         }
-        await _workforcePage.CheckTableHeaders("total teachers", expectedTableHeaders);
+        await _benchmarkWorkforcePage.CheckTableHeaders("total teachers", expectedTableHeaders);
     }
 
     [Then(@"the table view is showing on workforce page")]
     public async Task ThenTheTableViewIsShowingOnWorkforcePage()
     {
-        await _workforcePage.AssertTableView();
+        await _benchmarkWorkforcePage.AssertTableView();
     }
 
     [When(@"I click on view as chart on workforce page")]
     public async Task WhenIClickOnViewAsChartOnWorkforcePage()
     {
-        await _workforcePage.ClickViewAsChart();
+        await _benchmarkWorkforcePage.ClickViewAsChart();
     }
 
     [Then(@"chart view is showing on workforce page")]
     public async Task ThenChartViewIsShowingOnWorkforcePage()
     {
-        await _workforcePage.AssertChartView();
+        await _benchmarkWorkforcePage.AssertChartView();
     }
 }
