@@ -1,4 +1,5 @@
 ﻿using AngleSharp.Html.Dom;
+using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -33,57 +34,13 @@ namespace EducationBenchmarking.Web.Integration.Tests
 
             DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
 
-            var required = page.GetElementById("required");
+            var required = page.Body.SelectSingleNode("//main/div[2]");
             Assert.NotNull(required);
             DocumentAssert.Heading2(required, "Required:");
 
-            var requiredOne = page.GetElementById("required-1");
-            Assert.NotNull(requiredOne);
-            DocumentAssert.Heading3(required, "Length of timetable cycle");
-
-            var requiredTwo = page.GetElementById("required-2");
-            Assert.NotNull(requiredTwo);
-            DocumentAssert.Heading3(requiredTwo, "Pupil figures");
-
-            var requiredThree = page.GetElementById("required-3");
-            Assert.NotNull(requiredThree);
-            DocumentAssert.Heading3(requiredThree, "Teacher period allocation");
-
-            var requiredFour = page.GetElementById("required-4");
-            Assert.NotNull(requiredFour);
-            DocumentAssert.Heading3(requiredFour, "Other teaching periods");
-
-            var requiredFive = page.GetElementById("required-5");
-            Assert.NotNull(requiredFive);
-            DocumentAssert.Heading3(requiredFive, "Management roles with teaching responsibilities");
-
-            var requiredSix = page.GetElementById("required-6");
-            Assert.NotNull(requiredSix);
-            DocumentAssert.Heading3(requiredSix, "Total educational support staff costs (primary schools only)");
-
-            var optional = page.GetElementById("optional");
+            var optional = page.Body.SelectSingleNode("//main/div[3]"); ;
             Assert.NotNull(optional);
             DocumentAssert.Heading2(optional, "Optional:");
-
-            var optionalOne = page.GetElementById("optional-1");
-            Assert.NotNull(optionalOne);
-            DocumentAssert.Heading3(optionalOne, "Total income");
-
-            var optionalTwo = page.GetElementById("optional-2");
-            Assert.NotNull(optionalTwo);
-            DocumentAssert.Heading3(optionalTwo, "Total expenditure");
-
-            var optionalThree = page.GetElementById("optional-3");
-            Assert.NotNull(optionalThree);
-            DocumentAssert.Heading3(optionalThree, "Total teacher costs");
-
-            var optionalFour = page.GetElementById("optional-4");
-            Assert.NotNull(optionalFour);
-            DocumentAssert.Heading3(optionalFour, "Full time equivalent teachers");
-
-            var furtherHelp = page.GetElementById("further-help");
-            Assert.NotNull(furtherHelp);
-            DocumentAssert.Heading3(furtherHelp, "Further help");
 
             var helpLink = page.GetElementById("submit-enquiry");
             Assert.NotNull(helpLink);

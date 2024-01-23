@@ -107,10 +107,5 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         var helpLink = page.GetElementById("financial-planning-help");
         Assert.NotNull(helpLink);
         DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
-
-
-        Assert.True(true);
-        Assert.IsAssignableFrom<IHtmlDocument>(page);
-        Assert.IsType<School>(school);
     }
 }

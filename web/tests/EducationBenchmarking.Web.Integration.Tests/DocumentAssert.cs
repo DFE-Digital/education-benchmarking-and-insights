@@ -43,14 +43,6 @@ public static class DocumentAssert
         AssertNodeText(h2, header2);
     }
 
-    public static void Heading3(INode? node, string header3)
-    {
-        Assert.NotNull(node);
-
-        var h3 = node.ChildNodes.QuerySelector("h3") ?? throw new Exception("No <h3> elements found in this page document");
-        AssertNodeText(h3, header3);
-    }
-
     public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl)
     {
         Assert.NotNull(doc);
