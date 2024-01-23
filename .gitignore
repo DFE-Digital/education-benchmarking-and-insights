@@ -412,3 +412,6 @@ local.settings.json
 
 # minified js
 *.min.js
+
+# OSX
+.DS_Store
