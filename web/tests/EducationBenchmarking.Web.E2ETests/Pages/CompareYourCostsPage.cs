@@ -65,7 +65,7 @@ public class CompareYourCostsPage
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();
         await ShowOrHideAllSectionsCta.ShouldBeVisible();
-        string[] expectedOptions = { "£ per m²", "actuals", "percentage of expenditure", "percentage of income" };
+        var expectedOptions = new[] { "£ per m²", "actuals", "percentage of expenditure", "percentage of income" };
         //todo add assertions for utilities dropdown below
         await AssertDropDownDimensions(PremisesDimensionsDropdown, expectedOptions);
     }
