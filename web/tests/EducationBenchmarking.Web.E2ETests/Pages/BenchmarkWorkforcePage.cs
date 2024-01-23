@@ -146,35 +146,24 @@ public class BenchmarkWorkforcePage
 
     public async Task ChangeDimension(string chartName, string value)
     {
-        ILocator chart;
-        switch (chartName)
-        {
-            case "school workforce":
-                chart = SchoolWorkforceDimension;
-                break;
-            case "total teachers":
-                chart = TotalNumberOfTeacherDimension;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {chartName}");
-        }
-
-        await chart.SelectOption(value);
+        await GetChart(chartName).SelectOption(value);
     }
 
     public async Task AssertDimensionValue(string chartName, string expectedValue)
     {
-        ILocator chart;
-        switch (chartName)
-        {
-            case "school workforce":
-                chart = SchoolWorkforceDimension;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {chartName}");
-        }
+        await GetChart(chartName).ShouldHaveSelectedOption(expectedValue);
+    }
 
-        await chart.ShouldHaveSelectedOption(expectedValue);
+    private ILocator GetChart(string chartName)
+    {
+        var chart = chartName switch
+        {
+            "school workforce" => SchoolWorkforceDimension,
+            "total teachers" => TotalNumberOfTeacherDimension,
+            _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
+        };
+
+        return chart;
     }
 
     public async Task ClickViewAsTable()
@@ -184,17 +173,12 @@ public class BenchmarkWorkforcePage
 
     public async Task CheckTableHeaders(string tableName, List<List<string>> expectedTableHeaders)
     {
-        ILocator chart;
-        switch (tableName)
+        var table = tableName switch
         {
-            case "total teachers":
-                chart = TotalTeachersTable;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {tableName}");
-        }
-
-        await chart.ShouldHaveTableHeaders(expectedTableHeaders);
+            "total teachers" => TotalTeachersTable,
+            _ => throw new ArgumentException($"Unsupported table name: {tableName}")
+        };
+        await table.ShouldHaveTableHeaders(expectedTableHeaders);
     }
 
     public async Task AssertTableView()

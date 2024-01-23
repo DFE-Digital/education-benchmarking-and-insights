@@ -96,32 +96,23 @@ public class CompareYourCostsPage
 
     public async Task AssertDimensionValue(string chartName, string expectedValue)
     {
-        ILocator chart;
-        switch (chartName)
-        {
-            case "total expenditure":
-                chart = TotalExpenditureDimension;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {chartName}");
-        }
-
-        await chart.ShouldHaveSelectedOption(expectedValue);
+        await GetChart(chartName).ShouldHaveSelectedOption(expectedValue);
     }
 
     public async Task ChangeDimension(string chartName, string value)
     {
-        ILocator chart;
-        switch (chartName)
-        {
-            case "total expenditure":
-                chart = TotalExpenditureDimension;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {chartName}");
-        }
+        await GetChart(chartName).SelectOption(value);
+    }
 
-        await chart.SelectOption(value);
+    private ILocator GetChart(string chartName)
+    { 
+        var chart = chartName switch
+        {
+            "total expenditure" => TotalExpenditureDimension,
+            _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
+        };
+
+        return chart;
     }
 
     public async Task ClickViewAsTable()
