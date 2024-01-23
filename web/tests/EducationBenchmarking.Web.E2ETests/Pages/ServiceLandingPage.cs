@@ -18,6 +18,4 @@ public class ServiceLandingPage
     {
         await StartNowCta.ClickAsync();
     }
-
-
 }

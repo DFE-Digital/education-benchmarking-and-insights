@@ -6,6 +6,7 @@ namespace EducationBenchmarking.Web.E2ETests.Pages;
 
 public class BenchmarkWorkforcePage
 {
+    private const string DefaultDimensionOption = "pupils per staff role";
     private readonly IPage _page;
     private IDownload? _download;
 
@@ -17,22 +18,9 @@ public class BenchmarkWorkforcePage
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
     private ILocator ChangeSchoolLink => _page.Locator("#change-school");
-
-    private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions()
-    {
-        HasText = "Save as image"
-    });
-
-    private ILocator ViewAsTableCta => _page.Locator("button", new PageLocatorOptions()
-    {
-        HasText = "View as table"
-    });
-
-    private ILocator ViewAsChartCta => _page.Locator("button", new PageLocatorOptions()
-    {
-        HasText = "View as chart"
-    });
-
+    private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions { HasText = "Save as image" });
+    private ILocator ViewAsTableCta => _page.Locator("button", new PageLocatorOptions { HasText = "View as table" });
+    private ILocator ViewAsChartCta => _page.Locator("button", new PageLocatorOptions { HasText = "View as chart"});
     private ILocator AllCharts => _page.Locator("canvas");
     private ILocator SchoolWorkforceDimension => _page.Locator("#school-workforce-dimension");
     private ILocator TotalNumberOfTeacherDimension => _page.Locator("#total-teachers-dimension");
@@ -43,10 +31,7 @@ public class BenchmarkWorkforcePage
     private ILocator SchoolWorkforceHeadcountDimension => _page.Locator("#auxiliary-staff-dimension");
     private ILocator TotalTeachersTable => _page.Locator("table").Nth(1);
     private ILocator AllTables => _page.Locator("table");
-
-
-    private ILocator SaveImageSchoolWorkforce =>
-        _page.Locator("xpath=//*[@id='compare-workforce']/div[2]/div[2]/button");
+    private ILocator SaveImageSchoolWorkforce => _page.Locator("xpath=//*[@id='compare-workforce']/div[2]/div[2]/button");
 
     public async Task AssertPage()
     {
@@ -83,19 +68,19 @@ public class BenchmarkWorkforcePage
         var schoolWorkforceHeadcountDimensionOptions = new[] { "total", "percentage of workforce", "pupils per staff role" };
         await AssertDropDownDimensions(SchoolWorkforceHeadcountDimension, schoolWorkforceHeadcountDimensionOptions);
 
-        string defaultOption = "pupils per staff role";
-        await SchoolWorkforceDimension.ShouldHaveSelectedOption(defaultOption);
-        await TotalNumberOfTeacherDimension.ShouldHaveSelectedOption(defaultOption);
-        await SeniorLeadershipDimension.ShouldHaveSelectedOption(defaultOption);
-        await TeachingAssistantDimension.ShouldHaveSelectedOption(defaultOption);
-        await NonClassRoomSupportStaffDimension.ShouldHaveSelectedOption(defaultOption);
-        await AuxiliaryStaffDimension.ShouldHaveSelectedOption(defaultOption);
-        await SchoolWorkforceHeadcountDimension.ShouldHaveSelectedOption(defaultOption);
+        
+        await SchoolWorkforceDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await TotalNumberOfTeacherDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await SeniorLeadershipDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await TeachingAssistantDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await NonClassRoomSupportStaffDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await AuxiliaryStaffDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
+        await SchoolWorkforceHeadcountDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
     }
 
     private async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
-        string[] actualOptions =
+        var actualOptions =
             await dimensionsDropdown.EvaluateAsync<string[]>(
                 "(select) => Array.from(select.options).map(option => option.value)");
         Assert.Equal(expectedOptions, actualOptions);
@@ -103,15 +88,11 @@ public class BenchmarkWorkforcePage
 
     public async Task ClickSaveImgBtn(string chartName)
     {
-        ILocator chartToDownload;
-        switch (chartName)
+        var chartToDownload = chartName switch
         {
-            case "school workforce":
-                chartToDownload = SaveImageSchoolWorkforce;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {chartName}");
-        }
+            "school workforce" => SaveImageSchoolWorkforce,
+            _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
+        };
 
         var downloadTask = _page.WaitForDownloadAsync();
         await chartToDownload.Click();
@@ -120,20 +101,12 @@ public class BenchmarkWorkforcePage
 
     public void AssertImageDownload(string downloadedChart)
     {
-        string downloadedFileName;
-        if (_download == null)
+        Assert.NotNull(_download);
+        var downloadedFileName = downloadedChart switch
         {
-            throw new ArgumentNullException(nameof(_download));
-        }
-
-        switch (downloadedChart)
-        {
-            case "school workforce":
-                downloadedFileName = "school-workforce";
-                break;
-            default:
-                throw new ArgumentException($"Unsupported chart name: {downloadedChart}");
-        }
+            "school workforce" => "school-workforce",
+            _ => throw new ArgumentException($"Unsupported chart name: {downloadedChart}")
+        };
 
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(

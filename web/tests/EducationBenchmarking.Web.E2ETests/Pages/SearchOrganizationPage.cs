@@ -15,9 +15,7 @@ public class SearchOrganizationPage
     private ILocator AcademyAndLocalAuthSchoolSearch => _page.Locator("#school-input");
     private ILocator Suggester => _page.Locator("#school-suggestions");
     private ILocator ContinueBtn => _page.Locator("#search-btn");
-
-    private ILocator SelectFromSuggestions(string text) =>
-        _page.Locator($"#school-suggestions li:has-text(\"{text}\"):first-child");
+    private ILocator SelectFromSuggestions(string text) => _page.Locator($"#school-suggestions li:has-text(\"{text}\"):first-child");
 
     public async Task TypeInSearchSearchBar(string searchInput)
     {

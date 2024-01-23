@@ -1,4 +1,5 @@
 using EducationBenchmarking.Web.E2ETests.Helpers;
+using FluentAssertions;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -82,11 +83,8 @@ public class CompareYourCostsPage
 
     public void AssertImageDownload()
     {
-        if (_download == null)
-        {
-            throw new ArgumentNullException(nameof(_download));
-        }
-
+        Assert.NotNull(_download);
+        
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(
             string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
@@ -103,18 +101,7 @@ public class CompareYourCostsPage
     {
         await GetChart(chartName).SelectOption(value);
     }
-
-    private ILocator GetChart(string chartName)
-    { 
-        var chart = chartName switch
-        {
-            "total expenditure" => TotalExpenditureDimension,
-            _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
-        };
-
-        return chart;
-    }
-
+    
     public async Task ClickViewAsTable()
     {
         await ViewAsTableBtn.Click();
@@ -187,11 +174,15 @@ public class CompareYourCostsPage
         {
             case "non-educational support staff":
                 await GetAccordionSectionBtn(_nonEducationalSupportStaffAccordionHeadingId)
-                    .Locator(_showHideAccordionTextLocator).First.ClickAsync();
+                    .Locator(_showHideAccordionTextLocator)
+                    .First
+                    .ClickAsync();
                 break;
             case "Teaching and teaching support staff":
                 await GetAccordionSectionBtn(_teachingAndTeachingSupportStaffHeadingId)
-                    .Locator(_showHideAccordionTextLocator).First.ClickAsync();
+                    .Locator(_showHideAccordionTextLocator)
+                    .First
+                    .ClickAsync();
                 break;
             default:
                 throw new ArgumentException($"Unsupported accordion name: {accordionName}");
@@ -200,61 +191,30 @@ public class CompareYourCostsPage
 
     public async Task AssertAccordionState(string accordionName, string expandedState)
     {
-        string accordionToAssertHeadingId;
-        switch (accordionName)
-        {
-            case "non-educational support staff":
-                accordionToAssertHeadingId = _nonEducationalSupportStaffAccordionHeadingId;
-                break;
-            case "Teaching and teaching support staff":
-                accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
-        }
+        var accordionToAssertHeadingId = GetAccordionHeadingId(accordionName);
 
         await GetAccordionSectionBtn(accordionToAssertHeadingId)
             .ShouldHaveAttribute("aria-expanded", expandedState);
     }
-
+    
     public async Task AssertAccordionSectionText(string accordionName, string text)
     {
-        string accordionToAssertHeadingId;
-        switch (accordionName)
-        {
-            case "non-educational support staff":
-                accordionToAssertHeadingId = _nonEducationalSupportStaffAccordionHeadingId;
-                break;
-            case "Teaching and teaching support staff":
-                accordionToAssertHeadingId = _teachingAndTeachingSupportStaffHeadingId;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
-        }
+        var accordionToAssertHeadingId = GetAccordionHeadingId(accordionName);
 
         await GetAccordionSectionBtn(accordionToAssertHeadingId)
-            .Locator(_showHideAccordionTextLocator).ShouldHaveText(text);
+            .Locator(_showHideAccordionTextLocator)
+            .ShouldHaveText(text);
     }
 
     public async Task AssertAccordionContentVisibility(string accordionName, bool visibility, string type)
     {
-        ILocator accordionToAssert;
-        switch (accordionName)
+        var accordionToAssert = accordionName switch
         {
-            case "non-educational support staff":
-                accordionToAssert = NonEducationSupportStaffAccordionContent;
-
-                break;
-            case "Teaching and teaching support staff":
-                accordionToAssert = TeachingSupportStaffAccordionContent;
-
-                break;
-            case "all accordions":
-                accordionToAssert = AllAccordionsContent;
-                break;
-            default:
-                throw new ArgumentException($"Unsupported accordion name: {accordionName}");
-        }
+            "non-educational support staff" => NonEducationSupportStaffAccordionContent,
+            "Teaching and teaching support staff" => TeachingSupportStaffAccordionContent,
+            "all accordions" => AllAccordionsContent,
+            _ => throw new ArgumentException($"Unsupported accordion name: {accordionName}")
+        };
 
         foreach (var table in await accordionToAssert.Locator(type).AllAsync())
         {
@@ -279,9 +239,31 @@ public class CompareYourCostsPage
         }
     }
 
+    private ILocator GetChart(string chartName)
+    { 
+        var chart = chartName switch
+        {
+            "total expenditure" => TotalExpenditureDimension,
+            _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
+        };
+
+        return chart;
+    }
+    
+    private string GetAccordionHeadingId(string accordionName)
+    {
+        var accordionToAssertHeadingId = accordionName switch
+        {
+            "non-educational support staff" => _nonEducationalSupportStaffAccordionHeadingId,
+            "Teaching and teaching support staff" => _teachingAndTeachingSupportStaffHeadingId,
+            _ => throw new ArgumentException($"Unsupported accordion name: {accordionName}")
+        };
+        return accordionToAssertHeadingId;
+    }
+    
     private async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
-        string[] actualOptions =
+        var actualOptions =
             await dimensionsDropdown.EvaluateAsync<string[]>(
                 "(select) => Array.from(select.options).map(option => option.value)");
         Assert.Equal(actualOptions, expectedOptions);
