@@ -1,31 +1,33 @@
 ﻿using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightMaintainedSchoolsSteps : InsightSteps
+public class InsightMaintainedSchoolsSteps
 {
     private const string GetMaintainedSchoolKey = "get-maintained-school";
+    private readonly InsightApiDriver _api;
 
-    public InsightMaintainedSchoolsSteps(ITestOutputHelper output) : base(output)
+    public InsightMaintainedSchoolsSteps(InsightApiDriver api)
     {
+        _api = api;
     }
 
     [When(@"I submit the maintained school request")]
     public async Task WhenISubmitTheMaintainedSchoolRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Given(@"a valid maintained school request with urn '(.*)'")]
     public void GivenAValidMaintainedSchoolRequestWithUrn(string urn)
     {
-        Api.CreateRequest(GetMaintainedSchoolKey, new HttpRequestMessage
+        _api.CreateRequest(GetMaintainedSchoolKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/maintained-school/{urn}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -35,8 +37,8 @@ public class InsightMaintainedSchoolsSteps : InsightSteps
     [Then(@"the maintained school result should be ok")]
     public async Task ThenTheMaintainedSchoolResultShouldBeOk()
     {
-        var response = Api[GetMaintainedSchoolKey].Response ??
-                       throw new NullException(Api[GetMaintainedSchoolKey].Response);
+        var response = _api[GetMaintainedSchoolKey].Response ??
+                       throw new NullException(_api[GetMaintainedSchoolKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -49,7 +51,7 @@ public class InsightMaintainedSchoolsSteps : InsightSteps
     [Given(@"a invalid maintained school request")]
     public void GivenAInvalidMaintainedSchoolRequest()
     {
-        Api.CreateRequest(GetMaintainedSchoolKey, new HttpRequestMessage
+        _api.CreateRequest(GetMaintainedSchoolKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/maintained-school/00", UriKind.Relative),
             Method = HttpMethod.Get
@@ -59,8 +61,8 @@ public class InsightMaintainedSchoolsSteps : InsightSteps
     [Then(@"the maintained school result should be not found")]
     public void ThenTheMaintainedSchoolResultShouldBeNotFound()
     {
-        var response = Api[GetMaintainedSchoolKey].Response ??
-                       throw new NullException(Api[GetMaintainedSchoolKey].Response);
+        var response = _api[GetMaintainedSchoolKey].Response ??
+                       throw new NullException(_api[GetMaintainedSchoolKey].Response);
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }

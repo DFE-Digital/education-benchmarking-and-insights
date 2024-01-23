@@ -1,23 +1,25 @@
 using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using FluentAssertions;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class EstablishmentHealthcheckSteps : EstablishmentSteps
+public class EstablishmentHealthcheckSteps
 {
     private const string RequestKey = "health-check";
+    private readonly EstablishmentApiDriver _api;
 
-    public EstablishmentHealthcheckSteps(ITestOutputHelper output) : base(output)
+    public EstablishmentHealthcheckSteps(EstablishmentApiDriver api)
     {
+        _api = api;
     }
 
     [Given("a valid establishment health check request")]
     private void GivenAValidEstablishmentHealthCheckRequest()
     {
-        Api.CreateRequest(RequestKey, new HttpRequestMessage
+        _api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/health", UriKind.Relative),
             Method = HttpMethod.Get
@@ -27,13 +29,13 @@ public class EstablishmentHealthcheckSteps : EstablishmentSteps
     [When("I submit the establishment health check request")]
     private async Task WhenISubmitTheEstablishmentHealthCheckRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then("the establishment health check result should be healthy")]
     private async Task ThenTheEstablishmentHealthCheckResultShouldBeHealthy()
     {
-        var result = Api[RequestKey].Response ?? throw new NullException(Api[RequestKey].Response);
+        var result = _api[RequestKey].Response ?? throw new NullException(_api[RequestKey].Response);
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);

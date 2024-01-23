@@ -1,24 +1,26 @@
 using System.Net;
 using System.Text;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentAssertions;
 using TechTalk.SpecFlow.Assist;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class EstablishmentOrganisationsSteps : EstablishmentSteps
+public class EstablishmentOrganisationsSteps
 {
     private const string SuggestValidRequestKey = "suggest-organisation-valid";
     private const string SuggestInvalidRequestKey = "suggest-organisation-invalid";
+    private readonly EstablishmentApiDriver _api;
 
-    public EstablishmentOrganisationsSteps(ITestOutputHelper output) : base(output)
+    public EstablishmentOrganisationsSteps(EstablishmentApiDriver api)
     {
+        _api = api;
     }
 
     [Given("a valid organisations suggest request")]
@@ -26,7 +28,7 @@ public class EstablishmentOrganisationsSteps : EstablishmentSteps
     {
         var content = new { SearchText = "school", Size = 10, SuggesterName = "organisation-suggester" };
 
-        Api.CreateRequest(SuggestValidRequestKey, new HttpRequestMessage
+        _api.CreateRequest(SuggestValidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/organisations/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -37,14 +39,14 @@ public class EstablishmentOrganisationsSteps : EstablishmentSteps
     [When("I submit the organisations request")]
     private async Task WhenISubmitTheOrganisationsRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then("the organisations suggest result should be:")]
     private async Task ThenTheOrganisationsSuggestResultShouldBe(Table table)
     {
-        var response = Api[SuggestValidRequestKey].Response ??
-                       throw new NullException(Api[SuggestValidRequestKey].Response);
+        var response = _api[SuggestValidRequestKey].Response ??
+                       throw new NullException(_api[SuggestValidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
@@ -62,7 +64,7 @@ public class EstablishmentOrganisationsSteps : EstablishmentSteps
     {
         var content = new { Size = 0 };
 
-        Api.CreateRequest(SuggestInvalidRequestKey, new HttpRequestMessage
+        _api.CreateRequest(SuggestInvalidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/organisations/suggest", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -73,8 +75,8 @@ public class EstablishmentOrganisationsSteps : EstablishmentSteps
     [Then("the organisations suggest result should have the follow validation errors:")]
     private async Task ThenTheOrganisationsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = Api[SuggestInvalidRequestKey].Response ??
-                       throw new NullException(Api[SuggestInvalidRequestKey].Response);
+        var response = _api[SuggestInvalidRequestKey].Response ??
+                       throw new NullException(_api[SuggestInvalidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var content = await response.Content.ReadAsByteArrayAsync();

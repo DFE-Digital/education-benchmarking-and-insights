@@ -1,25 +1,27 @@
 ﻿using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightMiscellaneousSteps : InsightSteps
+public class InsightMiscellaneousSteps
 {
     private const string GetFinanceYearKey = "get-finance-year";
+    private readonly InsightApiDriver _api;
 
-    public InsightMiscellaneousSteps(ITestOutputHelper output) : base(output)
+    public InsightMiscellaneousSteps(InsightApiDriver api)
     {
+        _api = api;
     }
 
     [Given(@"a valid finance year request")]
     public void GivenAValidFinanceYearRequest()
     {
-        Api.CreateRequest(GetFinanceYearKey, new HttpRequestMessage
+        _api.CreateRequest(GetFinanceYearKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/finance-years", UriKind.Relative),
             Method = HttpMethod.Get
@@ -29,13 +31,13 @@ public class InsightMiscellaneousSteps : InsightSteps
     [When(@"I submit the finance year request")]
     public async Task WhenISubmitTheFinanceYearRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then(@"the finance year result should be ok")]
     public async Task ThenTheFinanceYearResultShouldBeOk()
     {
-        var response = Api[GetFinanceYearKey].Response ?? throw new NullException(Api[GetFinanceYearKey].Response);
+        var response = _api[GetFinanceYearKey].Response ?? throw new NullException(_api[GetFinanceYearKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);

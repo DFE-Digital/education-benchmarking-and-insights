@@ -1,32 +1,34 @@
 using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using FluentAssertions;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
+public class EstablishmentLocalAuthoritiesSteps
 {
     private const string GetRequestKey = "get-local-authority";
     private const string SuggestRequestKey = "suggest-local-authority";
     private const string SearchRequestKey = "search-local-authority";
     private const string QueryRequestKey = "query-local-authority";
+    private readonly EstablishmentApiDriver _api;
 
-    public EstablishmentLocalAuthoritiesSteps(ITestOutputHelper output) : base(output)
+    public EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
     {
+        _api = api;
     }
 
     [When("I submit the local authorities request")]
     private async Task WhenISubmitTheLocalAuthoritiesRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then("the local authority result should be ok")]
     private void ThenTheLocalAuthorityResultShouldBeOk()
     {
-        var result = Api[GetRequestKey].Response ?? throw new NullException(Api[GetRequestKey].Response);
+        var result = _api[GetRequestKey].Response ?? throw new NullException(_api[GetRequestKey].Response);
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -35,7 +37,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Given("a valid local authority request with id '(.*)'")]
     private void GivenAValidLocalAuthorityRequestWithId(string id)
     {
-        Api.CreateRequest(GetRequestKey, new HttpRequestMessage
+        _api.CreateRequest(GetRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/local-authority/{id}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -45,7 +47,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Given("a valid local authorities suggest request")]
     private void GivenAValidLocalAuthoritiesSuggestRequest()
     {
-        Api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
+        _api.CreateRequest(SuggestRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/local-authorities/suggest", UriKind.Relative),
             Method = HttpMethod.Post
@@ -55,7 +57,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Given("a valid local authorities search request")]
     private void GivenAValidLocalAuthoritiesSearchRequest()
     {
-        Api.CreateRequest(SearchRequestKey, new HttpRequestMessage
+        _api.CreateRequest(SearchRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/local-authorities/search", UriKind.Relative),
             Method = HttpMethod.Post
@@ -65,7 +67,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Given("a valid local authorities query request")]
     private void GivenAValidLocalAuthoritiesQueryRequest()
     {
-        Api.CreateRequest(QueryRequestKey, new HttpRequestMessage
+        _api.CreateRequest(QueryRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/local-authorities", UriKind.Relative),
             Method = HttpMethod.Get
@@ -75,7 +77,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Then("the local authorities suggest result should be ok")]
     private void ThenTheLocalAuthoritiesSuggestResultShouldBeOk()
     {
-        var result = Api[SuggestRequestKey].Response ?? throw new NullException(Api[SuggestRequestKey].Response);
+        var result = _api[SuggestRequestKey].Response ?? throw new NullException(_api[SuggestRequestKey].Response);
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -84,7 +86,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Then("the local authorities search result should be ok")]
     private void ThenTheLocalAuthoritiesSearchResultShouldBeOk()
     {
-        var result = Api[SearchRequestKey].Response ?? throw new NullException(Api[SearchRequestKey].Response);
+        var result = _api[SearchRequestKey].Response ?? throw new NullException(_api[SearchRequestKey].Response);
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -93,7 +95,7 @@ public class EstablishmentLocalAuthoritiesSteps : EstablishmentSteps
     [Then("the local authorities query result should be ok")]
     private void ThenTheLocalAuthoritiesQueryResultShouldBeOk()
     {
-        var result = Api[QueryRequestKey].Response ?? throw new NullException(Api[QueryRequestKey].Response);
+        var result = _api[QueryRequestKey].Response ?? throw new NullException(_api[QueryRequestKey].Response);
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);

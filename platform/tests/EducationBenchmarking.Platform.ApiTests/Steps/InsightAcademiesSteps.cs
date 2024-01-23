@@ -1,25 +1,27 @@
 ﻿using System.Net;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class InsightAcademiesSteps : InsightSteps
+public class InsightAcademiesSteps
 {
     private const string GetAcademyKey = "get-academy";
+    private readonly InsightApiDriver _api;
 
-    public InsightAcademiesSteps(ITestOutputHelper output) : base(output)
+    public InsightAcademiesSteps(InsightApiDriver api)
     {
+        _api = api;
     }
 
     [Given(@"a valid academy request with urn '(.*)'")]
     public void GivenAValidAcademyRequestWithUrn(string urn)
     {
-        Api.CreateRequest(GetAcademyKey, new HttpRequestMessage
+        _api.CreateRequest(GetAcademyKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/academy/{urn}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -29,13 +31,13 @@ public class InsightAcademiesSteps : InsightSteps
     [When(@"I submit the academies request")]
     public async Task WhenISubmitTheAcademiesRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then(@"the academies result should be ok")]
     public async Task ThenTheAcademiesResultShouldBeOk()
     {
-        var response = Api[GetAcademyKey].Response ?? throw new NullException(Api[GetAcademyKey].Response);
+        var response = _api[GetAcademyKey].Response ?? throw new NullException(_api[GetAcademyKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -48,7 +50,7 @@ public class InsightAcademiesSteps : InsightSteps
     [Given(@"a invalid academy request")]
     public void GivenAInvalidAcademyRequest()
     {
-        Api.CreateRequest(GetAcademyKey, new HttpRequestMessage
+        _api.CreateRequest(GetAcademyKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/academy/00", UriKind.Relative),
             Method = HttpMethod.Get
@@ -58,7 +60,7 @@ public class InsightAcademiesSteps : InsightSteps
     [Then(@"the academies result should be not found")]
     public void ThenTheAcademiesResultShouldBeNotFound()
     {
-        var response = Api[GetAcademyKey].Response ?? throw new NullException(Api[GetAcademyKey].Response);
+        var response = _api[GetAcademyKey].Response ?? throw new NullException(_api[GetAcademyKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);

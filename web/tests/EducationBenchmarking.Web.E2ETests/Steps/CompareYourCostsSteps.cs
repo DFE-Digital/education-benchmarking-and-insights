@@ -6,7 +6,7 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 public class CompareYourCostsSteps
 {
     private readonly CompareYourCostsPage _compareYourCostsPage;
-    private readonly ITestOutputHelper _output;
+    private readonly ISpecFlowOutputHelper _output;
 
     public CompareYourCostsSteps(CompareYourCostsPage compareYourCostsPage)
     {

@@ -1,31 +1,33 @@
 ﻿using System.Net;
 using System.Text;
+using EducationBenchmarking.Platform.ApiTests.Drivers;
 using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using TechTalk.SpecFlow.Assist;
-using Xunit.Abstractions;
 using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
-public class BenchmarkComparatorSetSteps : BenchmarkSteps
+public class BenchmarkComparatorSetSteps
 {
     private const string ComparatorSetCharacteristicsKey = "comparator-set-characteristics";
     private const string GetComparatorSetKey = "get-comparator-set";
+    private readonly BenchmarkApiDriver _api;
 
-    public BenchmarkComparatorSetSteps(ITestOutputHelper output) : base(output)
+    public BenchmarkComparatorSetSteps(BenchmarkApiDriver api)
     {
+        _api = api;
     }
 
     [Then(@"the comparator result should be ok")]
     public void ThenTheComparatorResultShouldBeOk()
     {
-        var response = Api[GetComparatorSetKey].Response ??
-                       throw new NullException(Api[GetComparatorSetKey].Response);
+        var response = _api[GetComparatorSetKey].Response ??
+                       throw new NullException(_api[GetComparatorSetKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -34,8 +36,8 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
     [Then(@"a valid comparator set of size '(.*)' should be returned")]
     public async Task ThenAValidComparatorSetOfSizeShouldBeReturned(string expectedSize)
     {
-        var response = Api[GetComparatorSetKey].Response ??
-                       throw new NullException(Api[GetComparatorSetKey].Response);
+        var response = _api[GetComparatorSetKey].Response ??
+                       throw new NullException(_api[GetComparatorSetKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -65,7 +67,7 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
             includeSet = "true", size = comparatorSize
         };
 
-        Api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
+        _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/comparator-set", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -81,7 +83,7 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
             includeSet = "true", size = "7", sortMethod = new { sortBy = "bad request" }
         };
 
-        Api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
+        _api.CreateRequest(GetComparatorSetKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/comparator-set", UriKind.Relative),
             Method = HttpMethod.Post,
@@ -92,7 +94,7 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
     [Given(@"a valid comparator set characteristics request")]
     public void GivenAValidComparatorSetCharacteristicsRequest()
     {
-        Api.CreateRequest(ComparatorSetCharacteristicsKey, new HttpRequestMessage
+        _api.CreateRequest(ComparatorSetCharacteristicsKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/comparator-set/characteristics", UriKind.Relative),
             Method = HttpMethod.Get
@@ -103,14 +105,14 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
     [When(@"I submit the comparator set request")]
     public async Task WhenISubmitTheComparatorSetRequest()
     {
-        await Api.Send();
+        await _api.Send();
     }
 
     [Then(@"the comparator set characteristics result should be:")]
     public async Task ThenTheComparatorSetCharacteristicsResultShouldBe(Table expectedTable)
     {
-        var response = Api[ComparatorSetCharacteristicsKey].Response ??
-                       throw new NullException(Api[ComparatorSetCharacteristicsKey].Response);
+        var response = _api[ComparatorSetCharacteristicsKey].Response ??
+                       throw new NullException(_api[ComparatorSetCharacteristicsKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
@@ -126,8 +128,8 @@ public class BenchmarkComparatorSetSteps : BenchmarkSteps
     [Then(@"the comparator result should be bad request")]
     public void ThenTheComparatorResultShouldBeBadRequest()
     {
-        var response = Api[GetComparatorSetKey].Response ??
-                       throw new NullException(Api[GetComparatorSetKey].Response);
+        var response = _api[GetComparatorSetKey].Response ??
+                       throw new NullException(_api[GetComparatorSetKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
