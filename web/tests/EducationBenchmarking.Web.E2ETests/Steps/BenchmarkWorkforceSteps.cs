@@ -93,11 +93,15 @@ public class BenchmarkWorkforceSteps
     }
     
     [Then("the '(.*)' are showing in the dimension dropdown for '(.*)'")]
-    public async Task ThenTheAreShowingInTheDimensionDropdownFor(string dropdownOptions, string chartName)
+    public async Task ThenTheAreShowingInTheDimensionDropdownFor(string[] dropdownOptions, string chartName)
     {
-        var expectedOptions = dropdownOptions.Split(", ").Select(option => option.Trim()).ToArray();
         var chartDimensionLocator = _benchmarkWorkforcePage.GetChartDimensionDropdown(chartName);
-       await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, expectedOptions);
+       await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, dropdownOptions);
+    }
+    [StepArgumentTransformation]
+    public string[] TransformTDropdownOptionsToListOfStrings(string commaSeperatedList)
+    {
+        return commaSeperatedList.Split(',').Select(option => option.Trim()).ToArray();
     }
     
 }
