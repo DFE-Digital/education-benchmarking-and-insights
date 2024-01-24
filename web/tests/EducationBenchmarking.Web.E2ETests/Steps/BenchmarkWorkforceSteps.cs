@@ -104,5 +104,10 @@ public class BenchmarkWorkforceSteps
     {
         return commaSeperatedList.Split(',').Select(option => option.Trim()).ToArray();
     }
-    
+
+    [Then("Save as image CTAs are not visible on workforce page")]
+    public async Task ThenSaveAsImageCtAsAreNotVisibleOnWorkforcePage()
+    {
+        await _benchmarkWorkforcePage.AssertAllImageCtas(false);
+    }
 }

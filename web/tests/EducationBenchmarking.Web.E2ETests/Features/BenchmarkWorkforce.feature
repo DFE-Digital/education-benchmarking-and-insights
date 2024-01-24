@@ -29,6 +29,7 @@ Benchmark the workforce page is showing correct data
         Given I am on workforce page for school with URN '139696'
         When I click on view as table on workforce page
         Then the table view is showing on workforce page
+        And Save as image CTAs are not visible on workforce page
         When I click on view as chart on workforce page
         Then chart view is showing on workforce page
         

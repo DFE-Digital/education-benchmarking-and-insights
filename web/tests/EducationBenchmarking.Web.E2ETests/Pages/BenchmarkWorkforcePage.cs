@@ -7,7 +7,7 @@ using Xunit;
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
 public class BenchmarkWorkforcePage
-{ 
+{
     private readonly IPage _page;
     private IDownload? _download;
 
@@ -21,7 +21,7 @@ public class BenchmarkWorkforcePage
     private ILocator ChangeSchoolLink => _page.Locator("#change-school");
     private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions { HasText = "Save as image" });
     private ILocator ViewAsTableRadioBtn => _page.Locator("#mode-table");
-  private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
+    private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
     private ILocator AllCharts => _page.Locator("canvas");
     private ILocator SchoolWorkforceDimension => _page.Locator("#school-workforce-dimension");
     private ILocator TotalNumberOfTeacherDimension => _page.Locator("#total-teachers-dimension");
@@ -32,7 +32,9 @@ public class BenchmarkWorkforcePage
     private ILocator SchoolWorkforceHeadcountDimension => _page.Locator("#auxiliary-staff-dimension");
     private ILocator TotalTeachersTable => _page.Locator("table").Nth(1);
     private ILocator AllTables => _page.Locator("table");
-    private ILocator SaveImageSchoolWorkforce => _page.Locator("xpath=//*[@id='compare-workforce']/div[2]/div[2]/button");
+
+    private ILocator SaveImageSchoolWorkforce =>
+        _page.Locator("xpath=//*[@id='compare-workforce']/div[2]/div[2]/button");
 
     public async Task AssertPage()
     {
@@ -57,7 +59,6 @@ public class BenchmarkWorkforcePage
         {
             await chart.ShouldBeVisible();
         }
-        
     }
 
     public async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
@@ -164,6 +165,8 @@ public class BenchmarkWorkforcePage
         {
             await table.ShouldBeVisible();
         }
+
+        await AssertAllImageCtas(true);
     }
 
     public async Task GotToPage(string urn)
@@ -174,5 +177,21 @@ public class BenchmarkWorkforcePage
     public async Task ClickOnDimensionDropdown(string chartName)
     {
         await GetChartDimensionDropdown(chartName).Click();
+    }
+
+    public async Task AssertAllImageCtas(bool visibility)
+    {
+        var allSaveImgCtas = await SaveImgCtas.AllAsync();
+        foreach (var saveCta in allSaveImgCtas)
+        {
+            if (visibility)
+            {
+                await saveCta.ShouldBeVisible();
+            }
+            else
+            {
+                await saveCta.ShouldNotBeVisible();
+            }
+        }
     }
 }
