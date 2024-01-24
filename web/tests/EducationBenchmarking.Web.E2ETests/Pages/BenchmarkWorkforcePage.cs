@@ -59,7 +59,7 @@ public class BenchmarkWorkforcePage
             await chart.ShouldBeVisible();
         }
 
-        var schoolWorkForceExpectedOptions = new[] { "total", "pupils per staff role" };
+        var schoolWorkForceExpectedOptions = new[] { "total", "headcount per FTE", "pupils per staff role" };
         await AssertDropDownDimensions(SchoolWorkforceDimension, schoolWorkForceExpectedOptions);
         var dimensionsDropDownOptions = new[] { "total", "headcount per FTE", "percentage of workforce", "pupils per staff role" };
         await AssertDropDownDimensions(TotalNumberOfTeacherDimension, dimensionsDropDownOptions);
