@@ -25,11 +25,10 @@ Benchmark the workforce page is showing correct data
           | percentage of workforce | Percentage            |
           | pupils per staff role   | Pupils per staff role |
 
-    Scenario: Change view from charts to table
+    Scenario: Change view from table to charts
         Given I am on workforce page for school with URN '139696'
-        When I click on view as table on workforce page
-        Then the table view is showing on workforce page
-        And Save as image CTAs are not visible on workforce page
+        And I click on view as table on workforce page
+        And the table view is showing on workforce page
         When I click on view as chart on workforce page
         Then chart view is showing on workforce page
         

@@ -68,8 +68,8 @@ public class BenchmarkWorkforceSteps
         await _benchmarkWorkforcePage.CheckTableHeaders("TotalNumberOfTeacher", expectedTableHeaders);
     }
 
-    [Then("the table view is showing on workforce page")]
-    public async Task ThenTheTableViewIsShowingOnWorkforcePage()
+    [Given("the table view is showing on workforce page")]
+    public async Task GivenTheTableViewIsShowingOnWorkforcePage()
     {
         await _benchmarkWorkforcePage.AssertTableView();
     }
@@ -104,10 +104,5 @@ public class BenchmarkWorkforceSteps
     {
         return commaSeperatedList.Split(',').Select(option => option.Trim()).ToArray();
     }
-
-    [Then("Save as image CTAs are not visible on workforce page")]
-    public async Task ThenSaveAsImageCtAsAreNotVisibleOnWorkforcePage()
-    {
-        await _benchmarkWorkforcePage.AssertAllImageCtas(false);
-    }
+    
 }
