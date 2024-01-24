@@ -34,7 +34,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
 
         var newPage = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
     }
 
     [Theory]
@@ -51,7 +51,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         var newPage = await Follow(anchor);
 
         //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
     }
 
 
@@ -80,7 +80,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
             .Create();
 
         var page = await SetupEstablishment(school)
-            .Navigate(Paths.SchoolPlanning(school.Urn));
+            .Navigate(Paths.SchoolCurriculumPlanning(school.Urn));
 
         return (page, school);
     }
@@ -90,7 +90,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Curriculum and financial planning", Paths.SchoolPlanning(school.Urn).ToAbsolute()),
+            ("Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute()),
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
@@ -100,10 +100,10 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         var cta = page.GetElementById("financial-planning-continue");
         Assert.NotNull(cta);
         // TODO: update path when functionality added
-        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolPlanning(school.Urn));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolCurriculumPlanning(school.Urn));
 
         var helpLink = page.GetElementById("financial-planning-help");
         Assert.NotNull(helpLink);
-        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
+        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
     }
 }

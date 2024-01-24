@@ -17,12 +17,12 @@ namespace EducationBenchmarking.Web.Integration.Tests
         {
             var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
-            DocumentAssert.AssertPageUrl(page, Paths.SchoolPlanningHelp(school.Urn).ToAbsolute());
+            DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
 
             // TODO: uncomment once back link added to page
             //var backLink = page.QuerySelector(".govuk-back-link");
             //Assert.NotNull(backLink);
-            //DocumentAssert.BackLink(backLink, "Back", Paths.SchoolPlanning(school.Urn).ToAbsolute());
+            //DocumentAssert.BackLink(backLink, "Back", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
 
             DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
 
@@ -73,7 +73,7 @@ namespace EducationBenchmarking.Web.Integration.Tests
                 .Create();
 
             var page = await SetupEstablishment(school)
-                .Navigate(Paths.SchoolPlanningHelp(school.Urn));
+                .Navigate(Paths.SchoolCurriculumPlanningHelp(school.Urn));
 
             return (page, school);
         }
