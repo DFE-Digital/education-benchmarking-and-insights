@@ -7,5 +7,5 @@ public class SchoolPlanningHelpViewModel
         Urn = urn;
     }
 
-    public string Urn { get; private set; }
+    public string Urn { get; }
 }
