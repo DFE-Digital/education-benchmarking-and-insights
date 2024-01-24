@@ -20,8 +20,8 @@ public class BenchmarkWorkforcePage
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
     private ILocator ChangeSchoolLink => _page.Locator("#change-school");
     private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions { HasText = "Save as image" });
-    private ILocator ViewAsTableCta => _page.Locator("button", new PageLocatorOptions { HasText = "View as table" });
-    private ILocator ViewAsChartCta => _page.Locator("button", new PageLocatorOptions { HasText = "View as chart"});
+    private ILocator ViewAsTableRadioBtn => _page.Locator("#mode-table");
+  private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
     private ILocator AllCharts => _page.Locator("canvas");
     private ILocator SchoolWorkforceDimension => _page.Locator("#school-workforce-dimension");
     private ILocator TotalNumberOfTeacherDimension => _page.Locator("#total-teachers-dimension");
@@ -40,7 +40,7 @@ public class BenchmarkWorkforcePage
         await PageH1Heading.ShouldBeVisible();
         await BreadCrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
-        await ViewAsTableCta.ShouldBeVisible();
+        await ViewAsTableRadioBtn.ShouldBeVisible();
         var saveImagesCtas = await SaveImgCtas.AllAsync();
         Assert.True(saveImagesCtas.Count == 8,
             $"not all save as image buttons are showing on the page. Expected = 8 , actual = {saveImagesCtas.Count}");
@@ -72,7 +72,7 @@ public class BenchmarkWorkforcePage
     {
         var chartToDownload = chartName switch
         {
-            "school workforce" => SaveImageSchoolWorkforce,
+            "SchoolWorkforce" => SaveImageSchoolWorkforce,
             _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
         };
 
@@ -86,7 +86,7 @@ public class BenchmarkWorkforcePage
         Assert.NotNull(_download);
         var downloadedFileName = downloadedChart switch
         {
-            "school workforce" => "school-workforce",
+            "SchoolWorkforce" => "school-workforce",
             _ => throw new ArgumentException($"Unsupported chart name: {downloadedChart}")
         };
 
@@ -126,14 +126,14 @@ public class BenchmarkWorkforcePage
 
     public async Task ClickViewAsTable()
     {
-        await ViewAsTableCta.Click();
+        await ViewAsTableRadioBtn.Click();
     }
 
     public async Task CheckTableHeaders(string tableName, List<List<string>> expectedTableHeaders)
     {
         var table = tableName switch
         {
-            "total teachers" => TotalTeachersTable,
+            "TotalNumberOfTeacher" => TotalTeachersTable,
             _ => throw new ArgumentException($"Unsupported table name: {tableName}")
         };
         await table.ShouldHaveTableHeaders(expectedTableHeaders);
@@ -152,7 +152,7 @@ public class BenchmarkWorkforcePage
 
     public async Task ClickViewAsChart()
     {
-        await ViewAsChartCta.Click();
+        await ViewAsChartRadioBtn.Click();
     }
 
     public async Task AssertChartView()
