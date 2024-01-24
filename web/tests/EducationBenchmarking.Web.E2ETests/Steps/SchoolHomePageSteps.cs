@@ -15,14 +15,15 @@ public class SchoolHomePageSteps
         _schoolHomePage = schoolHomePage;
     }
 
-    [Then(@"I am taken to school home page")]
+    [Then("I am taken to school home page")]
     public void ThenIAmTakenToSchoolHomePage()
     {
         _page.WaitForURLAsync(Config.BaseUrl + "/school*");
     }
-    [When(@"I click compare your costs CTA")]
+    
+    [When("I click compare your costs CTA")]
     public async Task WhenIClickCompareYourCostsCta()
     {
-       await _schoolHomePage.ClickOnCompareYourCosts();
+        await _schoolHomePage.ClickOnCompareYourCosts();
     }
 }

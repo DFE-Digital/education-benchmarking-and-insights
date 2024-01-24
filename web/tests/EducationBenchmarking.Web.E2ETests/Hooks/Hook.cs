@@ -16,7 +16,7 @@ public class Hooks
     [BeforeTestRun]
     public static void InstallBrowsers()
     {
-        var exitCode = Program.Main(new[] { "install", "chromium" });
+        var exitCode = Program.Main(["install", "chromium"]);
         if (exitCode != 0)
         {
             throw new Exception($"Playwright exited with code {exitCode}");

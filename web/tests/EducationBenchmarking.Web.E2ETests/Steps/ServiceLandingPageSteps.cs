@@ -3,6 +3,7 @@ using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
+
 [Binding]
 public class ServiceLandingPageSteps
 {
@@ -15,14 +16,14 @@ public class ServiceLandingPageSteps
         _serviceLandingPage = serviceLandingPage;
     }
 
-    [Given(@"I am on service landing page")]
+    [Given("I am on service landing page")]
     public async Task GivenIAmOnServiceLandingPage()
     {
         await _page.GotoAsync($"{Config.BaseUrl}");
         
     }
 
-    [When(@"I click start now")]
+    [When("I click start now")]
     public async Task WhenIClickStartNow()
     {
       await _serviceLandingPage.ClickStartNow();

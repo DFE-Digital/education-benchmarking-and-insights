@@ -15,23 +15,22 @@ public class SearchOrganizationSteps
         _page = page;
     }
 
-    [Then(@"I am on find organization page")]
+    [Then("I am on find organization page")]
     public void ThenIAmOnFindOrganizationPage()
     {
         _page.WaitForURLAsync(Config.BaseUrl + "/find-organisation");
     }
-    
 
-    [When(@"I type '(.*)' in the search bar and click it")]
+    [When("I type '(.*)' in the search bar and click it")]
     public async Task WhenITypeInTheSearchBarAndClickIt(string searchText)
     {
         await _searchOrganizationPage.TypeInSearchSearchBar(searchText);
         await _searchOrganizationPage.ClickOnSuggestion(searchText);
     }
 
-    [When(@"I click continue")]
+    [When("I click continue")]
     public async Task WhenIClickContinue()
     {
-       await _searchOrganizationPage.ClickContinueBtn();
+        await _searchOrganizationPage.ClickContinueBtn();
     }
 }

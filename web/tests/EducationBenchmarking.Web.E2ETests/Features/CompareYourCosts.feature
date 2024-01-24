@@ -7,14 +7,14 @@ Feature: CompareYourCosts page is showing correct data
 
     Scenario: change dimension of total expenditure and change view to table
         Given I am on compare your costs page for school with URN '139696'
-        And the dimension in dimension dropdown is '£ per pupil'
+        And the total expenditure chart dimension in dimension dropdown is '£ per pupil'
         When I change total expenditure dimension to 'actuals'
-        Then the dimension in dimension dropdown is 'actuals'
+        Then the total expenditure chart dimension in dimension dropdown is 'actuals'
 
     Scenario: Change dimension in table view for total expenditure
         Given I am on compare your costs page for school with URN '139696'
         And I click on view as table
-        And the dimension in dimension dropdown is '£ per pupil'
+        And the total expenditure chart dimension in dimension dropdown is '£ per pupil'
         When I change total expenditure dimension to 'actuals'
         Then the following is showing in the Total expenditure
           | School name                                     | Local Authority | School type         | Number of pupils | Amount     |

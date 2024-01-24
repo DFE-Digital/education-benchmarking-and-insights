@@ -46,20 +46,18 @@ public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<Benc
         return this;
     }
     
-    public BenchmarkingWebAppClient SetupInsightsFromAcademy(School school, Finances finances)
+    public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
     {
         InsightApi.Reset();
-        InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
-        InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
-        InsightApi.Setup(api => api.GetSchoolsRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Rating>()));
-        return this;
-    }
-    
-    public BenchmarkingWebAppClient SetupInsightsFromMaintainedSchool(School school, Finances finances)
-    {
-        InsightApi.Reset();
-        InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
+        if (school.FinanceType == EstablishmentTypes.Academies)
+        {
+            InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
+        }
+
+        if (school.FinanceType == EstablishmentTypes.Maintained)
+        {
+            InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
+        }
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
         InsightApi.Setup(api => api.GetSchoolsRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<Rating>()));

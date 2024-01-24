@@ -142,14 +142,14 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             this.ScenarioCleanup();
         }
         
-        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of School Homepage and compare your school")]
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of School Homepage")]
         [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
-        [Xunit.TraitAttribute("Description", "Check the accessibility of School Homepage and compare your school")]
-        public void CheckTheAccessibilityOfSchoolHomepageAndCompareYourSchool()
+        [Xunit.TraitAttribute("Description", "Check the accessibility of School Homepage")]
+        public void CheckTheAccessibilityOfSchoolHomepage()
         {
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
-            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of School Homepage and compare your school", null, tagsOfScenario, argumentsOfScenario, featureTags);
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of School Homepage", null, tagsOfScenario, argumentsOfScenario, featureTags);
 #line 13
     this.ScenarioInitialize(scenarioInfo);
 #line hidden
@@ -161,12 +161,142 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 14
-        testRunner.Given("I am on the school \"142205\" Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the school \"139696\" Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
 #line 16
+        testRunner.Then("there are no accessibility issues", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of compare your costs page in chart view")]
+        [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
+        [Xunit.TraitAttribute("Description", "Check the accessibility of compare your costs page in chart view")]
+        public void CheckTheAccessibilityOfCompareYourCostsPageInChartView()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of compare your costs page in chart view", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 18
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 19
+        testRunner.Given("I am on compare your costs page for school \'139696\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 20
+        testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 21
+        testRunner.Then("there are no accessibility issues", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of compare your costs page in table view")]
+        [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
+        [Xunit.TraitAttribute("Description", "Check the accessibility of compare your costs page in table view")]
+        public void CheckTheAccessibilityOfCompareYourCostsPageInTableView()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of compare your costs page in table view", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 23
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 24
+        testRunner.Given("I am on compare your costs page for school \'139696\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 25
+        testRunner.And("I click on view as table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 26
+        testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 27
+        testRunner.Then("there are no accessibility issues", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of school workforce page in chart view")]
+        [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
+        [Xunit.TraitAttribute("Description", "Check the accessibility of school workforce page in chart view")]
+        public void CheckTheAccessibilityOfSchoolWorkforcePageInChartView()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of school workforce page in chart view", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 29
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 30
+        testRunner.Given("I am on school workforce page for school \'139696\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 31
+        testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 32
+        testRunner.Then("there are no accessibility issues", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+#line hidden
+            }
+            this.ScenarioCleanup();
+        }
+        
+        [Xunit.SkippableFactAttribute(DisplayName="Check the accessibility of school workforce page in table view")]
+        [Xunit.TraitAttribute("FeatureTitle", "Accessibility Audit")]
+        [Xunit.TraitAttribute("Description", "Check the accessibility of school workforce page in table view")]
+        public void CheckTheAccessibilityOfSchoolWorkforcePageInTableView()
+        {
+            string[] tagsOfScenario = ((string[])(null));
+            System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
+            TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Check the accessibility of school workforce page in table view", null, tagsOfScenario, argumentsOfScenario, featureTags);
+#line 34
+    this.ScenarioInitialize(scenarioInfo);
+#line hidden
+            if ((TagHelper.ContainsIgnoreTag(tagsOfScenario) || TagHelper.ContainsIgnoreTag(featureTags)))
+            {
+                testRunner.SkipScenario();
+            }
+            else
+            {
+                this.ScenarioStart();
+#line 35
+        testRunner.Given("I am on school workforce page for school \'139696\'", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+#line hidden
+#line 36
+        testRunner.And("I click on view as table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+#line 37
+        testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 38
         testRunner.Then("there are no accessibility issues", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
