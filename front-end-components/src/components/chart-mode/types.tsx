@@ -1,9 +1,9 @@
+import React from "react";
+
 export type ChartModeProps = {
-    displayMode: ChartModes
-    handleChange(): void
+    displayMode: string
+    handleChange: React.ChangeEventHandler<HTMLInputElement>
 }
 
-export enum ChartModes {
-    CHART = 'View as chart',
-    TABLE = 'View as table'
-}
+export const ChartModeChart = "Chart";
+export const ChartModeTable = "Table";

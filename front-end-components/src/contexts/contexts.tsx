@@ -1,5 +1,5 @@
 import {createContext} from "react";
-import {ChartModes} from "src/components/chart-mode";
+import {ChartModeChart} from "src/components/chart-mode";
 import {SelectedSchool} from "src/contexts/types";
 
 export class School{
@@ -8,6 +8,6 @@ export class School{
     }
 }
 
-export const ChartModeContext = createContext(ChartModes.CHART);
+export const ChartModeContext = createContext(ChartModeChart);
 export const ChartDimensionContext = createContext("");
 export const SelectedSchoolContext = createContext(School.empty());

@@ -1,7 +1,7 @@
 import {ChartDimensionsProps, CostValue, PremisesValue, WorkforceValue} from "src/components/chart-dimensions";
 import React, {useContext} from "react";
 import {ChartModeContext} from "src/contexts";
-import {ChartModes} from "src/components";
+import {ChartModeChart} from "src/components";
 
 export const PoundsPerPupil = "£ per pupil";
 export const PoundsPerMetreSq = "£ per m²"
@@ -83,7 +83,7 @@ export const ChartDimensions: React.FC<ChartDimensionsProps> = (props) => {
 
     return <div className="govuk-form-group">
         <label className="govuk-label" htmlFor={`${elementId}-dimension`}>
-            {mode == ChartModes.CHART ? 'View graph as' : 'View table as'}
+            {mode == ChartModeChart ? 'View graph as' : 'View table as'}
         </label>
         <select className="govuk-select" name="dimension" id={`${elementId}-dimension`}
                 onChange={handleChange} defaultValue={defaultValue}>
