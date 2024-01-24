@@ -1,25 +1,21 @@
 ﻿using EducationBenchmarking.Web.E2ETests.Pages;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
-using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
 public class BenchmarkWorkforceSteps
 {
-    private readonly IPage _page;
     private readonly BenchmarkWorkforcePage _benchmarkWorkforcePage;
 
-    public BenchmarkWorkforceSteps(IPage page, BenchmarkWorkforcePage benchmarkWorkforcePage)
+    public BenchmarkWorkforceSteps(BenchmarkWorkforcePage benchmarkWorkforcePage)
     {
-        _page = page;
         _benchmarkWorkforcePage = benchmarkWorkforcePage;
     }
 
     [Given("I am on workforce page for school with URN '(.*)'")]
     public async Task GivenIAmOnWorkforcePageForSchoolWithUrn(string urn)
     {
-        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/workforce");
+        await _benchmarkWorkforcePage.GotToPage(urn);
         await _benchmarkWorkforcePage.AssertPage();
     }
 

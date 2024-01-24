@@ -1,5 +1,6 @@
 using EducationBenchmarking.Web.E2ETests.Helpers;
-using FluentAssertions;
+using EducationBenchmarking.Web.E2ETests.Hooks;
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -10,9 +11,9 @@ public class CompareYourCostsPage
     private readonly IPage _page;
     private IDownload? _download;
 
-    public CompareYourCostsPage(IPage page)
+    public CompareYourCostsPage(PageHook page)
     {
-        _page = page;
+        _page = page.Current;
     }
 
     private ILocator PageH1Heading => _page.Locator("h1");
@@ -268,4 +269,16 @@ public class CompareYourCostsPage
                 "(select) => Array.from(select.options).map(option => option.value)");
         Assert.Equal(actualOptions, expectedOptions);
     }
+
+    public async Task WaitForPage(string urn)
+    {
+        await _page.WaitForURLAsync(PageUrl(urn));
+    }
+
+    public async Task GoToPage(string urn)
+    {
+        await _page.GotoAsync(PageUrl(urn));
+    }
+
+    private static string PageUrl(string urn) => $"{Config.BaseUrl}/school/{urn}/comparison";
 }

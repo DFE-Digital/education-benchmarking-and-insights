@@ -1,25 +1,21 @@
 using EducationBenchmarking.Web.E2ETests.Pages;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
-using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
 public class CompareYourCostsSteps
 {
-    private readonly IPage _page;
     private readonly CompareYourCostsPage _compareYourCostsPage;
 
-    public CompareYourCostsSteps(IPage page, CompareYourCostsPage compareYourCostsPage)
+    public CompareYourCostsSteps(CompareYourCostsPage compareYourCostsPage)
     {
-        _page = page;
         _compareYourCostsPage = compareYourCostsPage;
     }
 
-    [Then("I am taken to compare your costs page")]
-    public void ThenIAmTakenToCompareYourCostsPage()
+    [Then("I am taken to compare your costs page for school '(.*)'")]
+    public async Task ThenIAmTakenToCompareYourCostsPageForSchool(string urn)
     {
-        _page.WaitForURLAsync(Config.BaseUrl + "/school/*/comparison");
+        await _compareYourCostsPage.WaitForPage(urn);
     }
 
     [Given("I am on compare your costs page")]
@@ -56,7 +52,8 @@ public class CompareYourCostsSteps
     [Given("I am on compare your costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
     {
-        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/comparison");
+
+        await _compareYourCostsPage.GoToPage(urn);
         await _compareYourCostsPage.AssertPage();
     }
 

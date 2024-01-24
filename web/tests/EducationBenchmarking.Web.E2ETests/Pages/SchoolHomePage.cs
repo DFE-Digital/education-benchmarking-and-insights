@@ -1,3 +1,5 @@
+using EducationBenchmarking.Web.E2ETests.Hooks;
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
@@ -6,9 +8,9 @@ public class SchoolHomePage
 {
     private readonly IPage _page;
 
-    public SchoolHomePage(IPage page)
+    public SchoolHomePage(PageHook page)
     {
-        _page = page;
+        _page = page.Current;
     }
 
     private ILocator CompareYourCostsLink =>
@@ -17,5 +19,10 @@ public class SchoolHomePage
     public async Task ClickOnCompareYourCosts()
     {
         await CompareYourCostsLink.ClickAsync();
+    }
+
+    public async Task WaitForPage(string urn)
+    {
+        await _page.WaitForURLAsync($"{Config.BaseUrl}/school/{urn}");
     }
 }

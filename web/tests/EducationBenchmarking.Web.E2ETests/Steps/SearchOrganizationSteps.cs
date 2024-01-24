@@ -1,24 +1,20 @@
 ﻿using EducationBenchmarking.Web.E2ETests.Pages;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
-using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 [Binding]
 public class SearchOrganizationSteps
 {
     private readonly SearchOrganizationPage _searchOrganizationPage;
-    private readonly IPage _page;
 
-    public SearchOrganizationSteps(SearchOrganizationPage searchOrganizationPage, IPage page)
+    public SearchOrganizationSteps(SearchOrganizationPage searchOrganizationPage)
     {
         _searchOrganizationPage = searchOrganizationPage;
-        _page = page;
     }
 
     [Then("I am on find organization page")]
-    public void ThenIAmOnFindOrganizationPage()
+    public async Task ThenIAmOnFindOrganizationPage()
     {
-        _page.WaitForURLAsync(Config.BaseUrl + "/find-organisation");
+        await _searchOrganizationPage.WaitForPage();
     }
 
     [When("I type '(.*)' in the search bar and click it")]

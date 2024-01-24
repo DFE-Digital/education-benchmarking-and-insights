@@ -1,4 +1,6 @@
 ﻿using EducationBenchmarking.Web.E2ETests.Helpers;
+using EducationBenchmarking.Web.E2ETests.Hooks;
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -10,9 +12,9 @@ public class BenchmarkWorkforcePage
     private readonly IPage _page;
     private IDownload? _download;
 
-    public BenchmarkWorkforcePage(IPage page)
+    public BenchmarkWorkforcePage(PageHook page)
     {
-        _page = page;
+        _page = page.Current;
     }
 
     private ILocator PageH1Heading => _page.Locator("h1");
@@ -57,7 +59,7 @@ public class BenchmarkWorkforcePage
             await chart.ShouldBeVisible();
         }
 
-        var schoolWorkForceExpectedOptions = new[] { "total", "headcount per FTE", "pupils per staff role" };
+        var schoolWorkForceExpectedOptions = new[] { "total", "pupils per staff role" };
         await AssertDropDownDimensions(SchoolWorkforceDimension, schoolWorkForceExpectedOptions);
         var dimensionsDropDownOptions = new[] { "total", "headcount per FTE", "percentage of workforce", "pupils per staff role" };
         await AssertDropDownDimensions(TotalNumberOfTeacherDimension, dimensionsDropDownOptions);
@@ -177,5 +179,10 @@ public class BenchmarkWorkforcePage
         {
             await table.ShouldBeVisible();
         }
+    }
+
+    public async Task GotToPage(string urn)
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/workforce");
     }
 }
