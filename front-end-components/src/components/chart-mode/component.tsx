@@ -1,9 +1,5 @@
 import React from "react";
-import {ChartModeProps, ChartModes} from "src/components/chart-mode";
-
-export const OppositeMode = (currentMode: ChartModes) => {
-    return currentMode == ChartModes.TABLE ? ChartModes.CHART : ChartModes.TABLE
-}
+import {ChartModeChart, ChartModeProps, ChartModeTable} from "src/components/chart-mode";
 
 export const ChartMode: React.FC<ChartModeProps> = (props) => {
     const {displayMode, handleChange} = props
@@ -20,34 +16,28 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
                      data-module="govuk-radios">
                     <div className="govuk-radios__item">
                         <input className="govuk-radios__input" id="mode-chart" name="changedChartMode"
-                               type="radio" value={ChartModes.CHART}
-                               defaultChecked={displayMode == ChartModes.CHART}
+                               type="radio" value={ChartModeChart}
+                               defaultChecked={displayMode == ChartModeChart}
                                onChange={handleChange}
-                               checked={displayMode == ChartModes.CHART}
+                               checked={displayMode == ChartModeChart}
                         />
                         <label className="govuk-label govuk-radios__label" htmlFor="mode-chart">
-                            Chart
+                            { ChartModeChart }
                         </label>
                     </div>
                     <div className="govuk-radios__item">
                         <input className="govuk-radios__input" id="mode-table" name="changedChartMode"
-                               type="radio" value={ChartModes.TABLE}
-                               defaultChecked={displayMode == ChartModes.TABLE}
+                               type="radio" value={ChartModeTable}
+                               defaultChecked={displayMode == ChartModeTable}
                                onChange={handleChange}
-                               checked={displayMode == ChartModes.TABLE}
+                               checked={displayMode == ChartModeTable}
                         />
                         <label className="govuk-label govuk-radios__label" htmlFor="mode-table">
-                            Table
+                            { ChartModeTable }
                         </label>
                     </div>
                 </div>
             </fieldset>
-            <button className="govuk-button govuk-button--secondary"
-                    data-module="govuk-button"
-                    onClick={handleChange}
-            >
-                {OppositeMode(displayMode)}
-            </button>
         </div>
     )
 };

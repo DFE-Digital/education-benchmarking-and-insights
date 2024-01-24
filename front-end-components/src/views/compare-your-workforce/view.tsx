@@ -4,7 +4,7 @@ import React, {useCallback, useEffect, useLayoutEffect, useState} from 'react';
 import {initAll} from 'govuk-frontend';
 import {CompareYourWorkforceViewProps} from "src/views";
 import {SchoolApi, SchoolApiResult, Workforce} from "src/services";
-import {ChartMode, ChartModes, OppositeMode} from "src/components";
+import {ChartMode, ChartModeChart} from "src/components";
 import {SelectedSchool, SelectedSchoolContext, ChartModeContext} from "src/contexts";
 import {
     AuxiliaryStaff, Headcount,
@@ -19,7 +19,7 @@ import {
 export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (props) => {
     const {urn, academyYear, maintainedYear} = props
     const [workforceData, setWorkforceData] = useState<SchoolApiResult<Workforce>>();
-    const [displayMode, setDisplayMode] = useState<ChartModes>(ChartModes.CHART);
+    const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
     const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({urn: "", name: ""});
 
     useLayoutEffect(() => {
@@ -43,8 +43,8 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (pr
     }, [getWorkforceData]);
 
     // Function to toggle between chart and table display modes
-    const toggleChartMode = () => {
-        setDisplayMode(OppositeMode(displayMode));
+    const toggleChartMode = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setDisplayMode(e.target.value);
     };
 
     return (

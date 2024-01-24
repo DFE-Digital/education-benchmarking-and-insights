@@ -6,16 +6,14 @@ import {TotalExpenditure, ExpenditureAccordion} from "src/views/compare-your-cos
 import {CompareYourSchoolViewProps} from "src/views/compare-your-costs";
 import {SchoolApi, SchoolApiResult ,Expenditure } from "src/services";
 import {
-    ChartMode,
-    OppositeMode,
-    ChartModes
+    ChartMode, ChartModeChart
 } from 'src/components';
 import {School, SelectedSchool, SelectedSchoolContext, ChartModeContext} from "src/contexts";
 
 export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) => {
     const {urn, academyYear, maintainedYear} = props
     const [expenditureData, setExpenditureData] = useState<SchoolApiResult<Expenditure>>();
-    const [displayMode, setDisplayMode] = useState<ChartModes>(ChartModes.CHART);
+    const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
     const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(School.empty);
 
     useLayoutEffect(() => {
@@ -37,9 +35,9 @@ export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (props) =
         })
     }, [getExpenditure])
 
-    const toggleChartMode = () => {
-        setDisplayMode(OppositeMode(displayMode));
-    }
+    const toggleChartMode = (e : React.ChangeEvent<HTMLInputElement>) => {
+        setDisplayMode(e.target.value);
+    };
 
     return (
         <SelectedSchoolContext.Provider value={selectedSchool}>
