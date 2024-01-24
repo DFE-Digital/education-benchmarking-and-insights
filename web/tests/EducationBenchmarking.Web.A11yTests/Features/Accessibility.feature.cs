@@ -161,7 +161,7 @@ namespace EducationBenchmarking.Web.A11yTests.Features
             {
                 this.ScenarioStart();
 #line 14
-        testRunner.Given("I am on the school \"139696\" Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
+        testRunner.Given("I am on the school \'139696\' Home Page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
 #line hidden
 #line 15
         testRunner.When("I check the accessibility of the page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");

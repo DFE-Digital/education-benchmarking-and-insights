@@ -11,7 +11,7 @@
         Then there are no accessibility issues
 
     Scenario: Check the accessibility of School Homepage
-        Given I am on the school "139696" Home Page
+        Given I am on the school '139696' Home Page
         When I check the accessibility of the page
         Then there are no accessibility issues
 

@@ -1,3 +1,5 @@
+using EducationBenchmarking.Web.E2ETests.Hooks;
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
@@ -6,9 +8,9 @@ public class SearchOrganizationPage
 {
     private readonly IPage _page;
 
-    public SearchOrganizationPage(IPage page)
+    public SearchOrganizationPage(PageHook page)
     {
-        _page = page;
+        _page = page.Current;
     }
 
     private ILocator PageH1Heading => _page.Locator("h1");
@@ -32,5 +34,10 @@ public class SearchOrganizationPage
     public async Task ClickContinueBtn()
     {
         await ContinueBtn.ClickAsync();
+    }
+
+    public async Task WaitForPage()
+    {
+        await _page.WaitForURLAsync(Config.BaseUrl + "/find-organisation");
     }
 }

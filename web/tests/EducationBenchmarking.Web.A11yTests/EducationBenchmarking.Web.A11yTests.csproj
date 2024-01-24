@@ -25,5 +25,8 @@
             <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+        <None Update="appsettings.local.json">
+          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
     </ItemGroup>
 </Project>

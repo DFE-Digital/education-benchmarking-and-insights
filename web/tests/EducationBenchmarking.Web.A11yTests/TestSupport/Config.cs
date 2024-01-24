@@ -11,5 +11,7 @@ public class Config
 #endif
         .Build();
 
-    public static string BaseUrl => Instance.GetValue<string>("Urls:BaseUrl")!;
+    public static string BaseUrl => Instance.GetValue<string>("Urls:BaseUrl") ?? throw new Exception("Base url missing");
+    
+    public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 }
