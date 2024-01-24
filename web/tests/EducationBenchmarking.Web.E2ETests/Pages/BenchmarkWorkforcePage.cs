@@ -58,29 +58,10 @@ public class BenchmarkWorkforcePage
         {
             await chart.ShouldBeVisible();
         }
-
-        var schoolWorkForceExpectedOptions = new[] { "total", "headcount per FTE", "pupils per staff role" };
-        await AssertDropDownDimensions(SchoolWorkforceDimension, schoolWorkForceExpectedOptions);
-        var dimensionsDropDownOptions = new[] { "total", "headcount per FTE", "percentage of workforce", "pupils per staff role" };
-        await AssertDropDownDimensions(TotalNumberOfTeacherDimension, dimensionsDropDownOptions);
-        await AssertDropDownDimensions(SeniorLeadershipDimension, dimensionsDropDownOptions);
-        await AssertDropDownDimensions(TeachingAssistantDimension, dimensionsDropDownOptions);
-        await AssertDropDownDimensions(NonClassRoomSupportStaffDimension, dimensionsDropDownOptions);
-        await AssertDropDownDimensions(AuxiliaryStaffDimension, dimensionsDropDownOptions);
-        var schoolWorkforceHeadcountDimensionOptions = new[] { "total", "percentage of workforce", "pupils per staff role" };
-        await AssertDropDownDimensions(SchoolWorkforceHeadcountDimension, schoolWorkforceHeadcountDimensionOptions);
-
         
-        await SchoolWorkforceDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await TotalNumberOfTeacherDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await SeniorLeadershipDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await TeachingAssistantDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await NonClassRoomSupportStaffDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await AuxiliaryStaffDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
-        await SchoolWorkforceHeadcountDimension.ShouldHaveSelectedOption(DefaultDimensionOption);
     }
 
-    private async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
+    public async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
         var actualOptions =
             await dimensionsDropdown.EvaluateAsync<string[]>(
@@ -119,20 +100,25 @@ public class BenchmarkWorkforcePage
 
     public async Task ChangeDimension(string chartName, string value)
     {
-        await GetChart(chartName).SelectOption(value);
+        await GetChartDimensionDropdown(chartName).SelectOption(value);
     }
 
     public async Task AssertDimensionValue(string chartName, string expectedValue)
     {
-        await GetChart(chartName).ShouldHaveSelectedOption(expectedValue);
+        await GetChartDimensionDropdown(chartName).ShouldHaveSelectedOption(expectedValue);
     }
 
-    private ILocator GetChart(string chartName)
+    public ILocator GetChartDimensionDropdown(string chartName)
     {
         var chart = chartName switch
         {
-            "school workforce" => SchoolWorkforceDimension,
-            "total teachers" => TotalNumberOfTeacherDimension,
+            "SchoolWorkforce" => SchoolWorkforceDimension,
+            "TotalNumberOfTeacher" => TotalNumberOfTeacherDimension,
+            "SeniorLeadership" => SeniorLeadershipDimension,
+            "TeachingAssistant" => TeachingAssistantDimension,
+            "NonClassRoomSupportStaff" => NonClassRoomSupportStaffDimension,
+            "AuxiliaryStaff" => AuxiliaryStaffDimension,
+            "SchoolWorkforceHeadcount" => SchoolWorkforceHeadcountDimension,
             _ => throw new ArgumentException($"Unsupported chart name: {chartName}")
         };
 
@@ -184,5 +170,10 @@ public class BenchmarkWorkforcePage
     public async Task GotToPage(string urn)
     {
         await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/workforce");
+    }
+
+    public async Task ClickOnDimensionDropdown(string chartName)
+    {
+        await GetChartDimensionDropdown(chartName).Click();
     }
 }

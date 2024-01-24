@@ -22,25 +22,25 @@ public class BenchmarkWorkforceSteps
     [When("i click on save as image for school workforce")]
     public async Task WhenIClickOnSaveAsImageForSchoolWorkforce()
     {
-        await _benchmarkWorkforcePage.ClickSaveImgBtn("school workforce");
+        await _benchmarkWorkforcePage.ClickSaveImgBtn("SchoolWorkforce");
     }
 
     [Then("school workforce chart image is downloaded")]
     public void ThenSchoolWorkforceChartImageIsDownloaded()
     {
-        _benchmarkWorkforcePage.AssertImageDownload("school workforce");
+        _benchmarkWorkforcePage.AssertImageDownload("SchoolWorkforce");
     }
 
     [When("I change school workforce dimension to '(.*)'")]
     public async Task WhenIChangeSchoolWorkforceDimensionTo(string dimensionValue)
     {
-        await _benchmarkWorkforcePage.ChangeDimension("school workforce", dimensionValue);
+        await _benchmarkWorkforcePage.ChangeDimension("SchoolWorkforce", dimensionValue);
     }
 
-    [Then("the dimension in school workforce dimension dropdown is '(.*)'")]
-    public async Task ThenTheDimensionInSchoolWorkforceDimensionDropdownIs(string dimensionValue)
+    [Then(@"the dimension in '(.*)' dimension dropdown is '(.*)'")]
+    public async Task ThenTheDimensionInDimensionDropdownIs(string chartName, string dimensionValue)
     {
-        await _benchmarkWorkforcePage.AssertDimensionValue("school workforce", dimensionValue);
+        await _benchmarkWorkforcePage.AssertDimensionValue(chartName, dimensionValue);
     }
 
     [When("I click on view as table on workforce page")]
@@ -53,7 +53,7 @@ public class BenchmarkWorkforceSteps
     [When("I change Total number of teachers dimension to '(.*)'")]
     public async Task WhenIChangeTotalNumberOfTeachersDimensionTo(string dimensionValue)
     {
-        await _benchmarkWorkforcePage.ChangeDimension("total teachers", dimensionValue);
+        await _benchmarkWorkforcePage.ChangeDimension("TotalNumberOfTeacher", dimensionValue);
     }
 
     [Then("the following header in the Total number of teachers table")]
@@ -65,7 +65,7 @@ public class BenchmarkWorkforceSteps
 
             expectedTableHeaders.Add(headers);
         }
-        await _benchmarkWorkforcePage.CheckTableHeaders("total teachers", expectedTableHeaders);
+        await _benchmarkWorkforcePage.CheckTableHeaders("TotalNumberOfTeacher", expectedTableHeaders);
     }
 
     [Then("the table view is showing on workforce page")]
@@ -85,4 +85,19 @@ public class BenchmarkWorkforceSteps
     {
         await _benchmarkWorkforcePage.AssertChartView();
     }
+    
+    [When("I click the dimension dropdown for '(.*)'")]
+    public async Task WhenIClickTheDimensionDropdownFor(string chartName)
+    {
+        await _benchmarkWorkforcePage.ClickOnDimensionDropdown(chartName);
+    }
+    
+    [Then("the '(.*)' are showing in the dimension dropdown for '(.*)'")]
+    public async Task ThenTheAreShowingInTheDimensionDropdownFor(string dropdownOptions, string chartName)
+    {
+        var expectedOptions = dropdownOptions.Split(", ").Select(option => option.Trim()).ToArray();
+        var chartDimensionLocator = _benchmarkWorkforcePage.GetChartDimensionDropdown(chartName);
+       await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, expectedOptions);
+    }
+    
 }
