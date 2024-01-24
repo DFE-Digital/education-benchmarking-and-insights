@@ -25,13 +25,19 @@ Benchmark the workforce page is showing correct data
           | percentage of workforce | Percentage            |
           | pupils per staff role   | Pupils per staff role |
 
-    Scenario: Change view from table to charts
+    Scenario: Change chart view to table view
         Given I am on workforce page for school with URN '139696'
-        And I click on view as table on workforce page
-        And the table view is showing on workforce page
+        When I click on view as table on workforce page
+        Then the table view is showing on workforce page
+        And save image ctas are not visible on workforce page
+
+    Scenario: Change table view to chart view
+        Given I am on workforce page for school with URN '139696'
+        And the chart view is shown on workforce page
         When I click on view as chart on workforce page
         Then chart view is showing on workforce page
-        
+        And save image ctas are visible on workforce page
+
     Scenario Outline: Checking the charts dimension dropdown items
         Given I am on workforce page for school with URN '139696'
         When I click the dimension dropdown for '<chartName>'
@@ -47,4 +53,3 @@ Benchmark the workforce page is showing correct data
           | NonClassRoomSupportStaff | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | AuxiliaryStaff           | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | SchoolWorkforceHeadcount | total, percentage of workforce, pupils per staff role                    |
-

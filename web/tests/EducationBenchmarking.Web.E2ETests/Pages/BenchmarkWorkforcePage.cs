@@ -149,7 +149,6 @@ public class BenchmarkWorkforcePage
         {
             await table.ShouldBeVisible();
         }
-        await AssertAllImageCtas(false);
     }
 
     public async Task ClickViewAsChart()
@@ -166,8 +165,6 @@ public class BenchmarkWorkforcePage
         {
             await table.ShouldBeVisible();
         }
-
-        await AssertAllImageCtas(true);
     }
 
     public async Task GotToPage(string urn)
