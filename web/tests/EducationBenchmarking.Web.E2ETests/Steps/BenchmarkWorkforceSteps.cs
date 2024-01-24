@@ -96,8 +96,9 @@ public class BenchmarkWorkforceSteps
     public async Task ThenTheAreShowingInTheDimensionDropdownFor(string[] dropdownOptions, string chartName)
     {
         var chartDimensionLocator = _benchmarkWorkforcePage.GetChartDimensionDropdown(chartName);
-       await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, dropdownOptions);
+        await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, dropdownOptions);
     }
+    
     [StepArgumentTransformation]
     public string[] TransformTDropdownOptionsToListOfStrings(string commaSeperatedList)
     {

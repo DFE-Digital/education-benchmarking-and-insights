@@ -7,8 +7,7 @@ using Xunit;
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
 public class BenchmarkWorkforcePage
-{
-    private const string DefaultDimensionOption = "pupils per staff role";
+{ 
     private readonly IPage _page;
     private IDownload? _download;
 
