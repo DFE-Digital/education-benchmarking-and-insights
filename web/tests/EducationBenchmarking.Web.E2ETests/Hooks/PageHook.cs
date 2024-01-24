@@ -1,3 +1,4 @@
+using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Hooks;
@@ -16,7 +17,7 @@ public class PageHook
     {
         var playwrightInstance = await Playwright.CreateAsync();
         
-        var launchOptions = new BrowserTypeLaunchOptions { Headless = false };
+        var launchOptions = new BrowserTypeLaunchOptions { Headless = Config.Headless };
         _browser = await playwrightInstance.Chromium.LaunchAsync(launchOptions);
 
         var contextOptions = new BrowserNewContextOptions { IgnoreHTTPSErrors = true };
