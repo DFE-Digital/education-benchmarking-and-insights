@@ -2,9 +2,8 @@ import React, {useState} from "react";
 import {
     CalculateWorkforceValue,
     ChartDimensions, DimensionHeading,
-    HeadcountPerFTE,
     HorizontalBarChartWrapper, HorizontalBarChartWrapperData,
-    PercentageOfWorkforce, Total,
+    PercentageOfWorkforce, PupilsPerStaffRole,
     WorkforceCategories
 } from "src/components";
 import {ChartDimensionContext} from 'src/contexts'
@@ -12,7 +11,7 @@ import {SchoolWorkforceProps} from "src/views/compare-your-workforce/partials";
 
 export const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
     const {schools} = props
-    const [dimension, setDimension] = useState(Total)
+    const [dimension, setDimension] = useState(PupilsPerStaffRole)
     const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
 
     const chartData: HorizontalBarChartWrapperData = {
@@ -40,9 +39,7 @@ export const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
             <HorizontalBarChartWrapper data={chartData} chartId="school-workforce">
                 <h2 className="govuk-heading-m">School workforce (Full Time Equivalent)</h2>
                 <ChartDimensions dimensions={
-                    WorkforceCategories.filter(function (category) {
-                        return category !== PercentageOfWorkforce && category !== HeadcountPerFTE
-                    })}
+                    WorkforceCategories.filter(category => category !== PercentageOfWorkforce)}
                                  handleChange={handleSelectChange}
                                  elementId="school-workforce"
                                  defaultValue={dimension}/>
