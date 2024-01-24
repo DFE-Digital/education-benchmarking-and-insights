@@ -12,9 +12,12 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
     protected ApiDriver(Config.Api.ApiEndpoint? endpoint, ISpecFlowOutputHelper output)
     {
         ArgumentNullException.ThrowIfNull(endpoint);
-        
+
         _client = new HttpClient { BaseAddress = new Uri(endpoint.Host ?? throw new NullException(endpoint.Host)) };
-        if (!string.IsNullOrEmpty(endpoint.Key)) _client.DefaultRequestHeaders.Add("x-functions-key", endpoint.Key);
+        if (!string.IsNullOrEmpty(endpoint.Key))
+        {
+            _client.DefaultRequestHeaders.Add("x-functions-key", endpoint.Key);
+        }
 
         _output = output;
     }

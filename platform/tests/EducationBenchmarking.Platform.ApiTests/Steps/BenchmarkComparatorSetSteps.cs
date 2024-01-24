@@ -120,7 +120,10 @@ public class BenchmarkComparatorSetSteps
         var content = await response.Content.ReadAsStringAsync();
         var results = content.FromJson<List<Characteristic>>() ?? throw new NullException(content);
         var set = new List<dynamic>();
-        foreach (var result in results) set.Add(new { result.Code, result.Description });
+        foreach (var result in results)
+        {
+            set.Add(new { result.Code, result.Description });
+        }
 
         expectedTable.CompareToDynamicSet(set, false);
     }

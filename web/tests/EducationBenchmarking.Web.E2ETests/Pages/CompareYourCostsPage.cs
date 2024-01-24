@@ -6,15 +6,17 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class CompareYourCostsPage
+public class CompareYourCostsPage(PageHook page)
 {
-    private readonly IPage _page;
-    private IDownload? _download;
+    private readonly string _nonEducationalSupportStaffAccordionHeadingId =
+        "#accordion-heading-non-educational-support-staff";
 
-    public CompareYourCostsPage(PageHook page)
-    {
-        _page = page.Current;
-    }
+    private readonly IPage _page = page.Current;
+
+    private readonly string _showHideAccordionTextLocator = ".govuk-accordion__section-toggle-text";
+
+    private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-teaching-support-staff";
+    private IDownload? _download;
 
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
@@ -37,17 +39,6 @@ public class CompareYourCostsPage
     private ILocator AllTables => _page.Locator(".govuk-accordion__section .govuk-table");
     private ILocator AllSaveImgCtas => _page.Locator(".govuk-accordion__section .govuk-button");
 
-    private readonly string _nonEducationalSupportStaffAccordionHeadingId =
-        "#accordion-heading-non-educational-support-staff";
-
-    private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-teaching-support-staff";
-
-    private ILocator GetAccordionSectionBtn(string accordionHeadingId) => _page.Locator("button",
-        new PageLocatorOptions()
-            { Has = _page.Locator($"span{accordionHeadingId}") });
-
-    private readonly string _showHideAccordionTextLocator = ".govuk-accordion__section-toggle-text";
-
     private ILocator NonEducationSupportStaffAccordionContent =>
         _page.Locator("#accordion-content-non-educational-support-staff");
 
@@ -58,6 +49,12 @@ public class CompareYourCostsPage
         _page.Locator(".govuk-accordion__section .govuk-accordion__section-content");
 
     private ILocator PremisesDimensionsDropdown => _page.Locator("#total-premises-staff-service-costs-dimension");
+
+    private ILocator GetAccordionSectionBtn(string accordionHeadingId)
+    {
+        return _page.Locator("button",
+            new PageLocatorOptions { Has = _page.Locator($"span{accordionHeadingId}") });
+    }
 
     public async Task AssertPage()
     {
@@ -89,7 +86,7 @@ public class CompareYourCostsPage
     public void AssertImageDownload()
     {
         Assert.NotNull(_download);
-        
+
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(
             string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
@@ -106,7 +103,7 @@ public class CompareYourCostsPage
     {
         await GetChart(chartName).SelectOption(value);
     }
-    
+
     public async Task ClickViewAsTable()
     {
         await ViewAsTableRadioBtn.Click();
@@ -201,7 +198,7 @@ public class CompareYourCostsPage
         await GetAccordionSectionBtn(accordionToAssertHeadingId)
             .ShouldHaveAttribute("aria-expanded", expandedState);
     }
-    
+
     public async Task AssertAccordionSectionText(string accordionName, string text)
     {
         var accordionToAssertHeadingId = GetAccordionHeadingId(accordionName);
@@ -245,7 +242,7 @@ public class CompareYourCostsPage
     }
 
     private ILocator GetChart(string chartName)
-    { 
+    {
         var chart = chartName switch
         {
             "total expenditure" => TotalExpenditureDimension,
@@ -254,7 +251,7 @@ public class CompareYourCostsPage
 
         return chart;
     }
-    
+
     private string GetAccordionHeadingId(string accordionName)
     {
         var accordionToAssertHeadingId = accordionName switch
@@ -265,7 +262,7 @@ public class CompareYourCostsPage
         };
         return accordionToAssertHeadingId;
     }
-    
+
     private async Task AssertDropDownDimensions(ILocator dimensionsDropdown, string[] expectedOptions)
     {
         var actualOptions =
@@ -284,5 +281,8 @@ public class CompareYourCostsPage
         await _page.GotoAsync(PageUrl(urn));
     }
 
-    private static string PageUrl(string urn) => $"{Config.BaseUrl}/school/{urn}/comparison";
+    private static string PageUrl(string urn)
+    {
+        return $"{Config.BaseUrl}/school/{urn}/comparison";
+    }
 }

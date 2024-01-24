@@ -54,7 +54,9 @@ public class EstablishmentOrganisationsSteps
 
         var set = new List<dynamic>();
         foreach (var result in results)
+        {
             set.Add(new { result.Text, result.Document?.Identifier, result.Document?.Kind });
+        }
 
         table.CompareToDynamicSet(set, false);
     }
@@ -83,7 +85,10 @@ public class EstablishmentOrganisationsSteps
         var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
 
         var set = new List<dynamic>();
-        foreach (var result in results) set.Add(new { result.PropertyName, result.ErrorMessage });
+        foreach (var result in results)
+        {
+            set.Add(new { result.PropertyName, result.ErrorMessage });
+        }
 
         table.CompareToDynamicSet(set, false);
     }

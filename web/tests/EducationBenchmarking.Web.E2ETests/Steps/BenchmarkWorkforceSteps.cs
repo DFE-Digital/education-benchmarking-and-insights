@@ -3,57 +3,50 @@
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
-public class BenchmarkWorkforceSteps
+public class BenchmarkWorkforceSteps(BenchmarkWorkforcePage benchmarkWorkforcePage)
 {
-    private readonly BenchmarkWorkforcePage _benchmarkWorkforcePage;
-
-    public BenchmarkWorkforceSteps(BenchmarkWorkforcePage benchmarkWorkforcePage)
-    {
-        _benchmarkWorkforcePage = benchmarkWorkforcePage;
-    }
-
     [Given("I am on workforce page for school with URN '(.*)'")]
     public async Task GivenIAmOnWorkforcePageForSchoolWithUrn(string urn)
     {
-        await _benchmarkWorkforcePage.GotToPage(urn);
-        await _benchmarkWorkforcePage.AssertPage();
+        await benchmarkWorkforcePage.GotToPage(urn);
+        await benchmarkWorkforcePage.AssertPage();
     }
 
     [When("i click on save as image for school workforce")]
     public async Task WhenIClickOnSaveAsImageForSchoolWorkforce()
     {
-        await _benchmarkWorkforcePage.ClickSaveImgBtn("SchoolWorkforce");
+        await benchmarkWorkforcePage.ClickSaveImgBtn("SchoolWorkforce");
     }
 
     [Then("school workforce chart image is downloaded")]
     public void ThenSchoolWorkforceChartImageIsDownloaded()
     {
-        _benchmarkWorkforcePage.AssertImageDownload("SchoolWorkforce");
+        benchmarkWorkforcePage.AssertImageDownload("SchoolWorkforce");
     }
 
     [When("I change school workforce dimension to '(.*)'")]
     public async Task WhenIChangeSchoolWorkforceDimensionTo(string dimensionValue)
     {
-        await _benchmarkWorkforcePage.ChangeDimension("SchoolWorkforce", dimensionValue);
+        await benchmarkWorkforcePage.ChangeDimension("SchoolWorkforce", dimensionValue);
     }
 
     [Then(@"the dimension in '(.*)' dimension dropdown is '(.*)'")]
     public async Task ThenTheDimensionInDimensionDropdownIs(string chartName, string dimensionValue)
     {
-        await _benchmarkWorkforcePage.AssertDimensionValue(chartName, dimensionValue);
+        await benchmarkWorkforcePage.AssertDimensionValue(chartName, dimensionValue);
     }
 
     [When("I click on view as table on workforce page")]
     [Given("I click on view as table on workforce page")]
     public async Task GivenIClickOnViewAsTableOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.ClickViewAsTable();
+        await benchmarkWorkforcePage.ClickViewAsTable();
     }
 
     [When("I change Total number of teachers dimension to '(.*)'")]
     public async Task WhenIChangeTotalNumberOfTeachersDimensionTo(string dimensionValue)
     {
-        await _benchmarkWorkforcePage.ChangeDimension("TotalNumberOfTeacher", dimensionValue);
+        await benchmarkWorkforcePage.ChangeDimension("TotalNumberOfTeacher", dimensionValue);
     }
 
     [Then("the following header in the Total number of teachers table")]
@@ -65,40 +58,40 @@ public class BenchmarkWorkforceSteps
 
             expectedTableHeaders.Add(headers);
         }
-        await _benchmarkWorkforcePage.CheckTableHeaders("TotalNumberOfTeacher", expectedTableHeaders);
+        await benchmarkWorkforcePage.CheckTableHeaders("TotalNumberOfTeacher", expectedTableHeaders);
     }
 
     [Then("the table view is showing on workforce page")]
     public async Task ThenTheTableViewIsShowingOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.AssertTableView();
+        await benchmarkWorkforcePage.AssertTableView();
     }
 
     [When("I click on view as chart on workforce page")]
     public async Task WhenIClickOnViewAsChartOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.ClickViewAsChart();
+        await benchmarkWorkforcePage.ClickViewAsChart();
     }
 
     [Then("chart view is showing on workforce page")]
     public async Task ThenChartViewIsShowingOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.AssertChartView();
+        await benchmarkWorkforcePage.AssertChartView();
     }
-    
+
     [When("I click the dimension dropdown for '(.*)'")]
     public async Task WhenIClickTheDimensionDropdownFor(string chartName)
     {
-        await _benchmarkWorkforcePage.ClickOnDimensionDropdown(chartName);
+        await benchmarkWorkforcePage.ClickOnDimensionDropdown(chartName);
     }
-    
+
     [Then("the '(.*)' are showing in the dimension dropdown for '(.*)'")]
     public async Task ThenTheAreShowingInTheDimensionDropdownFor(string[] dropdownOptions, string chartName)
     {
-        var chartDimensionLocator = _benchmarkWorkforcePage.GetChartDimensionDropdown(chartName);
-        await _benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, dropdownOptions);
+        var chartDimensionLocator = benchmarkWorkforcePage.GetChartDimensionDropdown(chartName);
+        await benchmarkWorkforcePage.AssertDropDownDimensions(chartDimensionLocator, dropdownOptions);
     }
-    
+
     [StepArgumentTransformation]
     public string[] TransformTDropdownOptionsToListOfStrings(string commaSeperatedList)
     {
@@ -108,18 +101,18 @@ public class BenchmarkWorkforceSteps
     [Given(@"the chart view is shown on workforce page")]
     public async Task GivenTheChartViewIsShownOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.ClickViewAsTable();
+        await benchmarkWorkforcePage.ClickViewAsTable();
     }
 
     [Then(@"save image ctas are not visible on workforce page")]
     public async Task ThenSaveImageCtasAreNotVisibleOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.AssertAllImageCtas(false);
+        await benchmarkWorkforcePage.AssertAllImageCtas(false);
     }
 
     [Then(@"save image ctas are visible on workforce page")]
     public async Task ThenSaveImageCtasAreVisibleOnWorkforcePage()
     {
-        await _benchmarkWorkforcePage.AssertAllImageCtas(true);
+        await benchmarkWorkforcePage.AssertAllImageCtas(true);
     }
 }

@@ -57,7 +57,10 @@ public class EstablishmentSchoolsSteps
         var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
 
         var set = new List<dynamic>();
-        foreach (var result in results) set.Add(new { result.PropertyName, result.ErrorMessage });
+        foreach (var result in results)
+        {
+            set.Add(new { result.PropertyName, result.ErrorMessage });
+        }
 
         table.CompareToDynamicSet(set, false);
     }
@@ -86,7 +89,10 @@ public class EstablishmentSchoolsSteps
         var results = content.FromJson<SuggestOutput<School>>()?.Results ?? throw new NullException(content);
 
         var set = new List<dynamic>();
-        foreach (var result in results) set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
+        foreach (var result in results)
+        {
+            set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
+        }
 
         table.CompareToDynamicSet(set, false);
     }
