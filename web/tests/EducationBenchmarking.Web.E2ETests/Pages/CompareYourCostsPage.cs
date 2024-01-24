@@ -29,6 +29,7 @@ public class CompareYourCostsPage
         _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
 
     private ILocator ViewAsTableRadioBtn =>  _page.Locator("#mode-table");
+    private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
     private ILocator Accordions => _page.Locator(".govuk-accordion__section");
@@ -67,6 +68,9 @@ public class CompareYourCostsPage
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();
         await ShowOrHideAllSectionsCta.ShouldBeVisible();
+        await ViewAsTableRadioBtn.ShouldBeVisible();
+        await ViewAsChartRadioBtn.ShouldBeVisible();
+        await ViewAsChartRadioBtn.ShouldBeChecked(true);
         var expectedOptions = new[] { "£ per m²", "actuals", "percentage of expenditure", "percentage of income" };
         //todo add assertions for utilities dropdown below
         await AssertDropDownDimensions(PremisesDimensionsDropdown, expectedOptions);

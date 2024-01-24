@@ -43,6 +43,8 @@ public class BenchmarkWorkforcePage
         await BreadCrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
         await ViewAsTableRadioBtn.ShouldBeVisible();
+        await ViewAsChartRadioBtn.ShouldBeVisible();
+        await ViewAsChartRadioBtn.ShouldBeChecked(true);
         var saveImagesCtas = await SaveImgCtas.AllAsync();
         Assert.True(saveImagesCtas.Count == 8,
             $"not all save as image buttons are showing on the page. Expected = 8 , actual = {saveImagesCtas.Count}");
