@@ -28,7 +28,7 @@ public class CompareYourCostsPage
     private ILocator TotalExpenditureChart =>
         _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
 
-    private ILocator ViewAsTableBtn => _page.Locator(".govuk-button:has-text('View as table')");
+    private ILocator ViewAsTableRadioBtn =>  _page.Locator("#mode-table");
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
     private ILocator Accordions => _page.Locator(".govuk-accordion__section");
@@ -105,7 +105,7 @@ public class CompareYourCostsPage
     
     public async Task ClickViewAsTable()
     {
-        await ViewAsTableBtn.Click();
+        await ViewAsTableRadioBtn.Click();
     }
 
     public async Task CompareTableData(List<List<string>> expectedData)
@@ -155,16 +155,16 @@ public class CompareYourCostsPage
 
     public async Task AssertAllImageCtas(bool visibility)
     {
-        var chartImages = await AllSaveImgCtas.AllAsync();
-        foreach (var chartImage in chartImages)
+        var allSaveImgCtas = await AllSaveImgCtas.AllAsync();
+        foreach (var saveImgCta in allSaveImgCtas)
         {
             if (visibility)
             {
-                await chartImage.ShouldBeVisible();
+                await saveImgCta.ShouldBeVisible();
             }
             else
             {
-                await chartImage.ShouldNotBeVisible();
+                await saveImgCta.ShouldNotBeVisible();
             }
         }
     }
