@@ -1,6 +1,4 @@
-﻿using EducationBenchmarking.Web.Domain;
-
-namespace EducationBenchmarking.Web.ViewModels;
+﻿namespace EducationBenchmarking.Web.ViewModels;
 
 public class SchoolPlanningHelpViewModel
 {

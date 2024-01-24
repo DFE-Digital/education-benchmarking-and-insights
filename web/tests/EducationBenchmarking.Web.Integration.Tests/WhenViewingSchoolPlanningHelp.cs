@@ -2,7 +2,6 @@
 using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
-using Microsoft.AspNetCore.Mvc.RazorPages;
 using Xunit;
 
 namespace EducationBenchmarking.Web.Integration.Tests

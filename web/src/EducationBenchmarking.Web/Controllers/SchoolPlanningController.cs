@@ -3,7 +3,6 @@ using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Attributes;
 using SmartBreadcrumbs.Nodes;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 

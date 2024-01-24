@@ -86,8 +86,6 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
     }
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        // TODO: assert layout
-
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
