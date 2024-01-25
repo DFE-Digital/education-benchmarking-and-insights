@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 export * from "src/views/compare-your-workforce/partials/types";
 export * from "src/views/compare-your-workforce/partials/auxiliary-staff";
 export * from "src/views/compare-your-workforce/partials/headcount";

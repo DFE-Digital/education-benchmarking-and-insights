@@ -17,6 +17,7 @@ export default defineConfig({
         assetFileNames: "front-end.[ext]",
       },
     },
+    sourcemap: true,
   },
   define: { "process.env.NODE_ENV": '"production"' },
   resolve: {
