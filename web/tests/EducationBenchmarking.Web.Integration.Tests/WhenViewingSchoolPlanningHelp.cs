@@ -1,4 +1,5 @@
-﻿using AngleSharp.Html.Dom;
+﻿using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -26,15 +27,7 @@ namespace EducationBenchmarking.Web.Integration.Tests
 
             DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
 
-            var required = page.Body.SelectSingleNode("//main/div[2]");
-            Assert.NotNull(required);
-            DocumentAssert.Heading2(required, "Required:");
-
-            var optional = page.Body.SelectSingleNode("//main/div[3]"); ;
-            Assert.NotNull(optional);
-            DocumentAssert.Heading2(optional, "Optional:");
-
-            var helpLink = page.GetElementById("submit-enquiry");
+            var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
             Assert.NotNull(helpLink);
             DocumentAssert.Link(helpLink, "submit an enquiry", "/submit-an-enquiry".ToAbsolute());
         }
@@ -58,7 +51,7 @@ namespace EducationBenchmarking.Web.Integration.Tests
         {
             var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
-            var anchor = page.GetElementById("submit-enquiry");
+            var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
             Assert.NotNull(anchor);
 
             var newPage = await Follow(anchor);

@@ -44,7 +44,7 @@ public class SchoolPlanningController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                _logger.LogError(e, "An error displaying school financial planning: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -58,12 +58,11 @@ public class SchoolPlanningController : Controller
         {
             try
             {
-                var viewModel = new SchoolPlanningHelpViewModel(urn);
-                return View(viewModel);
+                return View();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                _logger.LogError(e, "An error displaying school financial planning help: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

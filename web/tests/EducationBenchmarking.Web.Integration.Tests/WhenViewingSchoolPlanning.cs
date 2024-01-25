@@ -29,7 +29,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
         
 
-        var anchor = page.GetElementById("financial-planning-help");
+        var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
         Assert.NotNull(anchor);
 
         var newPage = await Follow(anchor);
@@ -45,7 +45,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         var (page, school) = await SetupNavigateInitPage(financeType);
 
 
-        var anchor = page.GetElementById("financial-planning-continue");
+        var anchor = page.QuerySelector(".govuk-button");
         Assert.NotNull(anchor);
 
         var newPage = await Follow(anchor);
@@ -94,15 +94,15 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
-        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning", "Integrated Curriculum and financial planning");
+        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)", "Integrated Curriculum and financial planning (ICFP)");
         DocumentAssert.Heading2(page, $"{school.Name}");
 
-        var cta = page.GetElementById("financial-planning-continue");
+        var cta = page.QuerySelector(".govuk-button");
         Assert.NotNull(cta);
         // TODO: update path when functionality added
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolCurriculumPlanning(school.Urn));
 
-        var helpLink = page.GetElementById("financial-planning-help");
+        var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
         Assert.NotNull(helpLink);
         DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
     }
