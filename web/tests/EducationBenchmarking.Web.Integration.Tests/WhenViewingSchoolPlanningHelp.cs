@@ -16,11 +16,7 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
-
-        var backLink = page.QuerySelector(".govuk-back-link");
-        Assert.NotNull(backLink);
-        DocumentAssert.BackLink(backLink, "Back", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
-
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
 
         var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
@@ -34,11 +30,9 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelector(".govuk-back-link");
-        Assert.NotNull(anchor);
+        page = await Follow(anchor);
 
-        var newPage = await Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
     }
 
     [Fact]
@@ -47,11 +41,9 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
         var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 
         var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
-        Assert.NotNull(anchor);
+        page = await Follow(anchor);
 
-        var newPage = await Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(newPage, "/submit-an-enquiry".ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, "/submit-an-enquiry".ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)

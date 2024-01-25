@@ -39,88 +39,6 @@
 </div>
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-m">Areas for investigation</h2>
-        <p class="govuk-body">
-            This following cost categories have the widest variation for costs when compared to similar schools.
-        </p>
-    </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-third">
-
-    </div>
-    <div class="govuk-grid-column-one-third">
-
-    </div>
-    <div class="govuk-grid-column-one-third">
-
-    </div>
-</div>
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">RAG status for data submitted @Model.LastFinancialYear</h2>
-    </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-default">
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-default-heading-2">
-                            Red areas
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-2" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-2">
-                    @foreach (var area in Model.RedAreaOfInvestigations)
-                    {
-                        <p class="govuk-body">
-                            @area.AreaName - score: @area.Score @area.RatingText
-                        </p>
-                    }
-                </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-default-heading-3">
-                            Amber areas
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-3" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-3">
-                    @foreach (var area in Model.AmberAreaOfInvestigations)
-                    {
-                        <p class="govuk-body">
-                            @area.AreaName - score: @area.Score @area.RatingText
-                        </p>
-                    }
-                </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h2 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-default-heading-4">
-                            Green areas
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-default-content-4" class="govuk-accordion__section-content" aria-labelledby="accordion-default-heading-4">
-                    @foreach (var area in Model.GreenAreaOfInvestigations)
-                    {
-                        <p class="govuk-body">
-                            @area.AreaName - score: @area.Score @area.RatingText
-                        </p>
-                    }
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Finance tools</h2>
         <ul class="app-links">
@@ -157,11 +75,3 @@
         </ul>
     </div>
 </div>
-
-@section scripts
-{
-    <script type="module">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
-    </script>
-}

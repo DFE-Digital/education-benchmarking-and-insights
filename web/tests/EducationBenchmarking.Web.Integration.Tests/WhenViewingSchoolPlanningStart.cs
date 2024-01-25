@@ -6,7 +6,7 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+public class WhenViewingSchoolPlanningStart(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
         output)
 {
@@ -16,19 +16,31 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
     public async Task CanDisplaySchool(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
+
         AssertPageLayout(page, school);
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToCreateNewPlan(string financeType)
+    public async Task CanNavigateToHelp(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+        var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
+        page = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
+    }
+
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToContinue(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         var anchor = page.QuerySelector(".govuk-button");
         page = await Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute());
     }
 
 
@@ -36,7 +48,7 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
     public async Task CanDisplayNotFound()
     {
         var page = await SetupEstablishmentWithNotFound()
-            .Navigate(Paths.SchoolCurriculumPlanning("12345"));
+            .Navigate(Paths.SchoolCurriculumPlanningStart("12345"));
 
         DocumentAssert.AssertPageUrl(page, Paths.StatusError(404).ToAbsolute());
     }
@@ -45,7 +57,7 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
     public async Task CanDisplayProblemWithService()
     {
         var page = await SetupEstablishmentWithException()
-            .Navigate(Paths.SchoolCurriculumPlanning("12345"));
+            .Navigate(Paths.SchoolCurriculumPlanningStart("12345"));
 
         DocumentAssert.AssertPageUrl(page, Paths.StatusError(500).ToAbsolute());
     }
@@ -57,24 +69,21 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
             .Create();
 
         var page = await SetupEstablishment(school)
-            .Navigate(Paths.SchoolCurriculumPlanning(school.Urn));
+            .Navigate(Paths.SchoolCurriculumPlanningStart(school.Urn));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        var expectedBreadcrumbs = new[]
-        {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute())
-        };
-        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)","Integrated Curriculum and financial planning (ICFP)");
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)", "Integrated Curriculum and financial planning (ICFP)");
         DocumentAssert.Heading2(page, $"{school.Name}");
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolCurriculumPlanningStart(school.Urn));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolCurriculumPlanningSelectYear(school.Urn));
+
+        var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
+        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
     }
 }

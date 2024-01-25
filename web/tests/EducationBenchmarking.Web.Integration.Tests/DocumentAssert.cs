@@ -49,19 +49,22 @@ public static class DocumentAssert
         Assert.Equal(expectedUrl, doc.Url);
     }
     
-    public static void PrimaryCta(IElement element, string contents, string url, bool enabled = true)
+    public static void PrimaryCta(IElement? element, string contents, string url, bool enabled = true)
     {
+        Assert.NotNull(element);
         AssertStandardCta(element, contents, url, enabled);
     }
 
-    public static void SecondaryCta(IElement element, string contents, string url, bool enabled = true)
+    public static void SecondaryCta(IElement? element, string contents, string url, bool enabled = true)
     {
+        Assert.NotNull(element);
         AssertStandardCta(element, contents,url, enabled);
         Assert.True(element.ClassList.Contains("govuk-button--secondary"),"The secondary CTA should have a the class govuk-button--secondary assigned");
     }
     
-    public static void Link(IElement element, string contents, string url)
+    public static void Link(IElement? element, string contents, string url)
     {
+        Assert.NotNull(element);
         Assert.Equal(contents, element.TextContent.Trim());
         Assert.True(element.ClassList.Contains("govuk-link"), "A link should have the class govuk-link");
         
@@ -76,11 +79,14 @@ public static class DocumentAssert
         }
     }
 
-    public static void BackLink(IElement element , string contents, string url)
+    public static void BackLink(IHtmlDocument? doc, string contents, string url)
     {
-        Assert.Equal(contents, element.TextContent.Trim());
-        Assert.True(element.ClassList.Contains("govuk-back-link"), "A back link should have the class govuk-back-link");
-        if (element is IHtmlAnchorElement a)
+        Assert.NotNull(doc);
+        var backLink = doc.QuerySelector(".govuk-back-link");
+        Assert.NotNull(backLink);
+        Assert.Equal(contents, backLink.TextContent.Trim());
+        Assert.True(backLink.ClassList.Contains("govuk-back-link"), "A back link should have the class govuk-back-link");
+        if (backLink is IHtmlAnchorElement a)
         {
             Assert.Equal(url, a.Href);
         }
