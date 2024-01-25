@@ -5,7 +5,7 @@ import {
   DimensionHeading,
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
-  Total,
+  PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
@@ -15,7 +15,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
   props
 ) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(Total);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const tableHeadings = [
     "School name",
     "Local Authority",

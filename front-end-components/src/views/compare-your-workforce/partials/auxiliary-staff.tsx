@@ -4,7 +4,7 @@ import {
   DimensionHeading,
   HorizontalBarChartWrapperData,
   CalculateWorkforceValue,
-  Total,
+  PupilsPerStaffRole,
   HorizontalBarChartWrapper,
   WorkforceCategories,
 } from "src/components";
@@ -13,7 +13,7 @@ import { AuxiliaryStaffProps } from "src/views/compare-your-workforce/partials";
 
 export const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(Total);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const tableHeadings = [
     "School name",
     "Local Authority",
