@@ -8,12 +8,9 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingSchoolWorkforce : BenchmarkingWebAppClient
+public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+    : BenchmarkingWebAppClient(factory, output)
 {
-    public WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
-    {
-    }
-
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]

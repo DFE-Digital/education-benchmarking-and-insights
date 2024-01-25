@@ -1,10 +1,6 @@
 namespace EducationBenchmarking.Web.ViewModels.Components;
 
-public class CurriculumFinancialPlanningViewModel
+public class CurriculumFinancialPlanningViewModel(string identifier)
 {
-    public string Identifier { get; }
-    public CurriculumFinancialPlanningViewModel(string identifier)
-    {
-        Identifier = identifier;
-    }
+    public string Identifier { get; } = identifier;
 }

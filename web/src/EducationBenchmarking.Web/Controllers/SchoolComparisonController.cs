@@ -11,23 +11,16 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparison")]
-public class SchoolComparisonController : Controller
+public class SchoolComparisonController(
+    IEstablishmentApi establishmentApi,
+    ILogger<SchoolComparisonController> logger,
+    IFinanceService financeService)
+    : Controller
 {
-    private readonly IEstablishmentApi _establishmentApi;
-    private readonly ILogger<SchoolComparisonController> _logger;
-    private readonly IFinanceService _financeService;
-
-    public SchoolComparisonController(IEstablishmentApi establishmentApi, ILogger<SchoolComparisonController> logger, IFinanceService financeService)
-    {
-        _establishmentApi = establishmentApi;
-        _logger = logger;
-        _financeService = financeService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new {urn}))
         {
             try
             {
@@ -40,15 +33,15 @@ public class SchoolComparisonController : Controller
                 
                 ViewData["BreadcrumbNode"] = childNode; 
                 
-                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var years = await _financeService.GetYears();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var years = await financeService.GetYears();
                 var viewModel = new SchoolComparisonViewModel(school, years);
                 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

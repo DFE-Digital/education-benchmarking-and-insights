@@ -11,23 +11,16 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}")]
-public class SchoolController : Controller
+public class SchoolController(
+    ILogger<SchoolController> logger,
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService)
+    : Controller
 {
-    private readonly ILogger<SchoolController> _logger;
-    private readonly IEstablishmentApi _establishmentApi;
-    private readonly IFinanceService _financeService;
-
-    public SchoolController(ILogger<SchoolController> logger, IEstablishmentApi establishmentApi, IFinanceService financeService)
-    {
-        _logger = logger;
-        _establishmentApi = establishmentApi;
-        _financeService = financeService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new {urn}))
         {
             try
             {
@@ -35,8 +28,8 @@ public class SchoolController : Controller
                 
                 ViewData["BreadcrumbNode"] = node; 
                 
-                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var (finances,ratings) = await _financeService.GetRatings(school);
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var (finances,ratings) = await financeService.GetRatings(school);
                 
                 var viewModel = new SchoolViewModel(school, finances, ratings);
                 
@@ -44,7 +37,7 @@ public class SchoolController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

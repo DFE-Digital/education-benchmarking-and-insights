@@ -1,10 +1,6 @@
 namespace EducationBenchmarking.Web.ViewModels.Components;
 
-public class ForecastRiskViewModel
+public class ForecastRiskViewModel(string identifier)
 {
-    public string Identifier { get; }
-    public ForecastRiskViewModel(string identifier)
-    {
-        Identifier = identifier;
-    }
+    public string Identifier { get; } = identifier;
 }

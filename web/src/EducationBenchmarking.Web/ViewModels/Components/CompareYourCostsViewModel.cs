@@ -1,10 +1,6 @@
 namespace EducationBenchmarking.Web.ViewModels.Components;
 
-public class CompareYourCostsViewModel
+public class CompareYourCostsViewModel(string identifier)
 {
-    public string Identifier { get; }
-    public CompareYourCostsViewModel(string identifier)
-    {
-        Identifier = identifier;
-    }
+    public string Identifier { get; } = identifier;
 }

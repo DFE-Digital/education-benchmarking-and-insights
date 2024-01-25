@@ -11,23 +11,16 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/workforce")]
-public class SchoolWorkforceController : Controller
+public class SchoolWorkforceController(
+    IEstablishmentApi establishmentApi,
+    ILogger<SchoolWorkforceController> logger,
+    IFinanceService financeService)
+    : Controller
 {
-    private readonly IEstablishmentApi _establishmentApi;
-    private readonly ILogger<SchoolWorkforceController> _logger;
-    private readonly IFinanceService _financeService;
-
-    public SchoolWorkforceController(IEstablishmentApi establishmentApi, ILogger<SchoolWorkforceController> logger, IFinanceService financeService)
-    {
-        _establishmentApi = establishmentApi;
-        _logger = logger;
-        _financeService = financeService;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new {urn}))
         {
             try
             {
@@ -40,15 +33,15 @@ public class SchoolWorkforceController : Controller
                 
                 ViewData["BreadcrumbNode"] = childNode; 
                 
-                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var years = await _financeService.GetYears();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var years = await financeService.GetYears();
                 var viewModel = new SchoolWorkforceViewModel(school, years);
                 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school workforce: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school workforce: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

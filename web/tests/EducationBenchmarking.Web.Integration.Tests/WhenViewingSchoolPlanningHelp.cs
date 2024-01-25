@@ -6,13 +6,10 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingSchoolPlanningHelp : BenchmarkingWebAppClient
-{
-    public WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory,
+public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+    : BenchmarkingWebAppClient(factory,
         output)
-    {
-    }
-
+{
     [Fact]
     public async Task PageLayoutIsCorrect()
     {

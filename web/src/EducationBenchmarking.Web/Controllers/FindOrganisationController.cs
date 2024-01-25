@@ -6,15 +6,8 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("find-organisation")]
-public class FindOrganisationController : Controller
+public class FindOrganisationController(ILogger<FindOrganisationController> logger) : Controller
 {
-    private readonly ILogger<FindOrganisationController> _logger;
-
-    public FindOrganisationController(ILogger<FindOrganisationController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet]
     public IActionResult Index()
     {
@@ -24,7 +17,7 @@ public class FindOrganisationController : Controller
     [HttpPost]
     public IActionResult Index([FromForm] FindOrganisationViewModel viewModel)
     {
-        using (_logger.BeginScope(new { viewModel }))
+        using (logger.BeginScope(new { viewModel }))
         {
             try
             {
@@ -63,7 +56,7 @@ public class FindOrganisationController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -81,7 +74,7 @@ public class FindOrganisationController : Controller
     [Route("v2")]
     public IActionResult V2([FromForm] FindOrganisationViewModelV2 viewModel)
     {
-        using (_logger.BeginScope(new { viewModel }))
+        using (logger.BeginScope(new { viewModel }))
         {
             try
             {
@@ -104,7 +97,7 @@ public class FindOrganisationController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }

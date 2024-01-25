@@ -28,15 +28,10 @@ public class Organisation
     [JsonIgnore] public UrnValue UrnValue => URN;
 }
 
-public readonly struct UrnValue
+public readonly struct UrnValue(int value)
 {
-    private int Value { get; init; }
+    private int Value { get; init; } = value;
 
-    public UrnValue(int value)
-    {
-        Value = value;
-    }
-    
     public override string ToString()
     {
         return Value.ToString("000000");

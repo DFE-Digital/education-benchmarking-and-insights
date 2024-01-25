@@ -15,54 +15,45 @@ public interface IFinanceService
     Task<FinanceYears> GetYears();
 }
 
-public class FinanceService : IFinanceService
+public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) : IFinanceService
 {
-    private readonly IInsightApi _insightApi;
-    private readonly IBenchmarkApi _benchmarkApi;
-
-    public FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi)
-    {
-        _insightApi = insightApi;
-        _benchmarkApi = benchmarkApi;
-    }
-
     public async Task<FinanceYears> GetYears()
     {
-        return await _insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
+        return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
     }
 
     public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(string urn)
     {
-        var set = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
+        var set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
         var query = BuildApiQueryFromComparatorSet(set);
-        return await _insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
+        return await insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
     }
 
     public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(string urn)
     {
-        var set = await _benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
+        var set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
         var query = BuildApiQueryFromComparatorSet(set);
-        return await _insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
+        return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
     }
 
     public async Task<(Finances, Rating[])> GetRatings(School school)
     {
         var finances = await GetFinances(school);
-        var fsmBandings = await _benchmarkApi.GetFreeSchoolMealBandings().GetResultOrThrow<Banding[]>();
+        var fsmBandings = await benchmarkApi.GetFreeSchoolMealBandings().GetResultOrThrow<Banding[]>();
         
         var sizeQuery = new ApiQuery()
             .AddIfNotNull("phase", finances.OverallPhase)
             .AddIfNotNull("hasSixthForm", finances.HasSixthForm.ToString())
             .AddIfNotNull("noOfPupils", finances.NumberOfPupils.ToString(CultureInfo.InvariantCulture))
             .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
-        var sizeBandings = await _benchmarkApi.GetSchoolSizeBandings(sizeQuery).GetResultOrThrow<Banding[]>();
+        var sizeBandings = await benchmarkApi.GetSchoolSizeBandings(sizeQuery).GetResultOrThrow<Banding[]>();
         
         var ratingsQuery = new ApiQuery()
             .AddIfNotNull("phase", finances.OverallPhase)
             .AddIfNotNull("size", fsmBandings.FirstOrDefault()?.Scale)
             .AddIfNotNull("fsm", sizeBandings.FirstOrDefault()?.Scale)
             .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
-        var ratings = await _insightApi.GetSchoolsRatings(ratingsQuery).GetResultOrThrow<Rating[]>();
+        var ratings = await insightApi.GetSchoolsRatings(ratingsQuery).GetResultOrThrow<Rating[]>();
         
         return (finances, ratings);
     }
@@ -72,10 +63,10 @@ public class FinanceService : IFinanceService
         switch (school.FinanceType)
         {
             case EstablishmentTypes.Academies:
-                return await _insightApi.GetAcademyFinances(school.Urn).GetResultOrThrow<Finances>();
+                return await insightApi.GetAcademyFinances(school.Urn).GetResultOrThrow<Finances>();
             case EstablishmentTypes.Federation:
             case EstablishmentTypes.Maintained:
-                return await _insightApi.GetMaintainedSchoolFinances(school.Urn).GetResultOrThrow<Finances>();
+                return await insightApi.GetMaintainedSchoolFinances(school.Urn).GetResultOrThrow<Finances>();
             default:
                 throw new ArgumentOutOfRangeException(nameof(school.Kind));
         }

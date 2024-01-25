@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using AutoFixture;
-using EducationBenchmarking.Web.Infrastructure;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using FluentValidation;

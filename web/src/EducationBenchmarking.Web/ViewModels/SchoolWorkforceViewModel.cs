@@ -2,21 +2,12 @@
 
 namespace EducationBenchmarking.Web.ViewModels
 {
-    public class SchoolWorkforceViewModel
+    public class SchoolWorkforceViewModel(School school, FinanceYears years)
     {
-        private readonly School _school;
-        private readonly FinanceYears _years;
-
-        public SchoolWorkforceViewModel(School school, FinanceYears years)
-        {
-            _school = school;
-            _years = years;
-        }
-
-        public string Urn => _school.Urn;
-        public string Name => _school.Name;
-        public string AcademiesFinancePeriod => $"{_years.Academies - 1} / {_years.Academies}";
-        public string MaintainedSchoolsFinancePeriod => $"{_years.MaintainedSchools - 1} - {_years.MaintainedSchools}";
+        public string Urn => school.Urn;
+        public string Name => school.Name;
+        public string AcademiesFinancePeriod => $"{years.Academies - 1} / {years.Academies}";
+        public string MaintainedSchoolsFinancePeriod => $"{years.MaintainedSchools - 1} - {years.MaintainedSchools}";
     }
     
 }

@@ -1,5 +1,3 @@
-using Newtonsoft.Json;
-
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
 public class PagedResults<T> : IEquatable<PagedResults<T>>

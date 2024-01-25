@@ -10,21 +10,13 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/financial-planning")]
-public class SchoolPlanningController : Controller
+public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger)
+    : Controller
 {
-    private readonly IEstablishmentApi _establishmentApi;
-    private readonly ILogger<SchoolPlanningController> _logger;
-
-    public SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger)
-    {
-        _establishmentApi = establishmentApi;
-        _logger = logger;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
@@ -37,14 +29,14 @@ public class SchoolPlanningController : Controller
 
                 ViewData["BreadcrumbNode"] = childNode;
 
-                var school = await _establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanningViewModel(school);
 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school financial planning: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -54,7 +46,7 @@ public class SchoolPlanningController : Controller
     [Route("help")]
     public IActionResult Help(string urn)
     {
-        using (_logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
@@ -62,7 +54,7 @@ public class SchoolPlanningController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school financial planning help: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school financial planning help: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

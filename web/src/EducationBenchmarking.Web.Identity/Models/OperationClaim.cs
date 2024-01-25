@@ -3,18 +3,12 @@ using System.Security.Claims;
 namespace EducationBenchmarking.Web.Identity.Models;
 
 
-public class OperationClaim : Claim, IEquatable<OperationClaim>
+public class OperationClaim(string name, string context, string text)
+    : Claim(ClaimNames.Operation, name), IEquatable<OperationClaim>
 {
-    public OperationClaim(string name, string context, string text) : base(ClaimNames.Operation, name)
-    {
-        Name = name;
-        Context = context;
-        Text = text;
-    }
-
-    public string Name { get; }
-    public string Context { get; }
-    public string Text { get; }
+    public string Name { get; } = name;
+    public string Context { get; } = context;
+    public string Text { get; } = text;
 
     public static implicit operator OperationClaim(string op)
     {

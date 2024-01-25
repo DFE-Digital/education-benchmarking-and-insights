@@ -7,17 +7,14 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class BenchmarkingWebAppClient : ClientBase<Program>,  IClassFixture<BenchmarkingWebAppFactory>
+public class BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+    : ClientBase<Program>(factory, output), IClassFixture<BenchmarkingWebAppFactory>
 {
     protected readonly Mock<IInsightApi> InsightApi = new();
     protected readonly Mock<IEstablishmentApi> EstablishmentApi = new();
     protected readonly Mock<IBenchmarkApi> BenchmarkApi = new();
     
-    protected Fixture Fixture { get; private set; }
-    public BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
-    {
-        Fixture = new Fixture();
-    }
+    protected Fixture Fixture { get; private set; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
