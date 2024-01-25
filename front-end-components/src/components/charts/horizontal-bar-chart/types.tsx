@@ -1,15 +1,15 @@
 export type BarChartProps = {
-    chartId: string
-    data: BarDataPoint[]
-    ref?: DownloadHandle
-}
+  chartId: string;
+  data: BarDataPoint[];
+  ref?: DownloadHandle;
+};
 
 type BarDataPoint = {
-    school: string
-    urn: string
-    value: number
-}
+  school: string;
+  urn: string;
+  value: number;
+};
 
 export type DownloadHandle = {
-    download: () => void;
+  download: () => void;
 };

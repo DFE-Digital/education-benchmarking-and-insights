@@ -1,93 +1,137 @@
-import React, {useState} from "react";
-import {UtilitiesProps} from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useState } from "react";
+import { UtilitiesProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-    CalculatePremisesValue,
-    DimensionHeading,
-    PoundsPerMetreSq,
-    PremisesCategories, HorizontalBarChartWrapper, HorizontalBarChartWrapperData, ChartDimensions
+  CalculatePremisesValue,
+  DimensionHeading,
+  PoundsPerMetreSq,
+  PremisesCategories,
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+  ChartDimensions,
 } from "src/components";
-import {ChartDimensionContext} from "src/contexts";
+import { ChartDimensionContext } from "src/contexts";
 
-export const Utilities: React.FC<UtilitiesProps> = ({schools}) => {
-    const [dimension, setDimension] = useState(PoundsPerMetreSq)
-    const tableHeadings = ["School name", "Local Authority", "School type", "Number of pupils", DimensionHeading(dimension)]
+export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
+  const [dimension, setDimension] = useState(PoundsPerMetreSq);
+  const tableHeadings = [
+    "School name",
+    "Local Authority",
+    "School type",
+    "Number of pupils",
+    DimensionHeading(dimension),
+  ];
 
-    const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (event) => {
-        setDimension(event.target.value)
-    }
+  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
+    event
+  ) => {
+    setDimension(event.target.value);
+  };
 
-    const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData = {
-        dataPoints: schools.map(school => {
-            return {
-                school: school.name,
-                urn: school.urn,
-                value: CalculatePremisesValue({
-                    dimension: dimension,
-                    value: school.totalUtilitiesCosts,
-                    ...school
-                }),
-                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
-            }
+  const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData = {
+    dataPoints: schools.map((school) => {
+      return {
+        school: school.name,
+        urn: school.urn,
+        value: CalculatePremisesValue({
+          dimension: dimension,
+          value: school.totalUtilitiesCosts,
+          ...school,
         }),
-        tableHeadings: tableHeadings
-    }
+        additionalData: [
+          school.localAuthority,
+          school.schoolType,
+          school.numberOfPupils,
+        ],
+      };
+    }),
+    tableHeadings: tableHeadings,
+  };
 
-    const energyBarData: HorizontalBarChartWrapperData = {
-        dataPoints: schools.map(school => {
-            return {
-                school: school.name,
-                urn: school.urn,
-                value: CalculatePremisesValue({
-                    dimension: dimension,
-                    value: school.energyCosts,
-                    ...school
-                }),
-                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
-            }
+  const energyBarData: HorizontalBarChartWrapperData = {
+    dataPoints: schools.map((school) => {
+      return {
+        school: school.name,
+        urn: school.urn,
+        value: CalculatePremisesValue({
+          dimension: dimension,
+          value: school.energyCosts,
+          ...school,
         }),
-        tableHeadings: tableHeadings
-    }
+        additionalData: [
+          school.localAuthority,
+          school.schoolType,
+          school.numberOfPupils,
+        ],
+      };
+    }),
+    tableHeadings: tableHeadings,
+  };
 
-    const waterSewerageBarData: HorizontalBarChartWrapperData = {
-        dataPoints: schools.map(school => {
-            return {
-                school: school.name,
-                urn: school.urn,
-                value: CalculatePremisesValue({
-                    dimension: dimension,
-                    value: school.waterSewerageCosts,
-                    ...school
-                }),
-                additionalData: [school.localAuthority, school.schoolType, school.numberOfPupils]
-            }
+  const waterSewerageBarData: HorizontalBarChartWrapperData = {
+    dataPoints: schools.map((school) => {
+      return {
+        school: school.name,
+        urn: school.urn,
+        value: CalculatePremisesValue({
+          dimension: dimension,
+          value: school.waterSewerageCosts,
+          ...school,
         }),
-        tableHeadings: tableHeadings
-    }
+        additionalData: [
+          school.localAuthority,
+          school.schoolType,
+          school.numberOfPupils,
+        ],
+      };
+    }),
+    tableHeadings: tableHeadings,
+  };
 
-    return (
-        <ChartDimensionContext.Provider value={dimension}>
-            <div className="govuk-accordion__section">
-                <div className="govuk-accordion__section-header">
-                    <h2 className="govuk-accordion__section-heading">
-                        <span className="govuk-accordion__section-button" id="accordion-heading-utilities">
-                            Utilities
-                        </span>
-                    </h2>
-                </div>
-                <div id="accordion-content-utilities" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-utilities" role="region">
-                    <HorizontalBarChartWrapper data={totalUtilitiesCostsBarData} chartId="total-utilities-costs">
-                        <h3 className="govuk-heading-s">Total utilities costs</h3>
-                        <ChartDimensions dimensions={PremisesCategories} handleChange={handleSelectChange} elementId="total-utilities-costs" defaultValue={dimension} />
-                    </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={energyBarData} chartId="energy-costs">
-                        <h3 className="govuk-heading-s">Energy costs</h3>
-                    </HorizontalBarChartWrapper>
-                    <HorizontalBarChartWrapper data={waterSewerageBarData} chartId="water-sewerage-costs">
-                        <h3 className="govuk-heading-s">Water and sewerage costs</h3>
-                    </HorizontalBarChartWrapper>
-                </div>
-            </div>
-        </ChartDimensionContext.Provider>
-    )
+  return (
+    <ChartDimensionContext.Provider value={dimension}>
+      <div className="govuk-accordion__section">
+        <div className="govuk-accordion__section-header">
+          <h2 className="govuk-accordion__section-heading">
+            <span
+              className="govuk-accordion__section-button"
+              id="accordion-heading-utilities"
+            >
+              Utilities
+            </span>
+          </h2>
+        </div>
+        <div
+          id="accordion-content-utilities"
+          className="govuk-accordion__section-content"
+          aria-labelledby="accordion-heading-utilities"
+          role="region"
+        >
+          <HorizontalBarChartWrapper
+            data={totalUtilitiesCostsBarData}
+            chartId="total-utilities-costs"
+          >
+            <h3 className="govuk-heading-s">Total utilities costs</h3>
+            <ChartDimensions
+              dimensions={PremisesCategories}
+              handleChange={handleSelectChange}
+              elementId="total-utilities-costs"
+              defaultValue={dimension}
+            />
+          </HorizontalBarChartWrapper>
+          <HorizontalBarChartWrapper
+            data={energyBarData}
+            chartId="energy-costs"
+          >
+            <h3 className="govuk-heading-s">Energy costs</h3>
+          </HorizontalBarChartWrapper>
+          <HorizontalBarChartWrapper
+            data={waterSewerageBarData}
+            chartId="water-sewerage-costs"
+          >
+            <h3 className="govuk-heading-s">Water and sewerage costs</h3>
+          </HorizontalBarChartWrapper>
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
+  );
 };

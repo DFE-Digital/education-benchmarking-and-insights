@@ -12,7 +12,8 @@
     "build": "tsc && vite build",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx,cjs --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint:fix": "eslint . --ext ts,tsx,cjs --fix"
   },
   "dependencies": {
     "chart.js": "^4.4.1",

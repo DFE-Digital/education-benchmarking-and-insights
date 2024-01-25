@@ -1,4 +1,4 @@
 export type SelectedSchool = {
-    urn: string
-    name: string
-}
+  urn: string;
+  name: string;
+};

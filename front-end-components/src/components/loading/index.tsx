@@ -1,1 +1,1 @@
-export * from 'src/components/loading/component'
+export * from "src/components/loading/component";

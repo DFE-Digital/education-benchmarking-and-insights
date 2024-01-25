@@ -1,6 +1,6 @@
-import {ChartDataPoint} from "src/components/charts";
+import { ChartDataPoint } from "src/components/charts";
 
 export type TableChartProps = {
-    tableHeadings: string[]
-    data?: ChartDataPoint[]
-}
+  tableHeadings: string[];
+  data?: ChartDataPoint[];
+};

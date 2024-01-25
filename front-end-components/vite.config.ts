@@ -1,15 +1,15 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-import path from 'path';
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [ react()],
+  plugins: [react()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, 'src/main.tsx'),
-      name: 'Education Benchmarking - Front-end components',
-      formats: ['es'],
+      entry: path.resolve(__dirname, "src/main.tsx"),
+      name: "Education Benchmarking - Front-end components",
+      formats: ["es"],
       fileName: `front-end`,
     },
     rollupOptions: {
@@ -18,11 +18,14 @@ export default defineConfig({
       },
     },
   },
-  define: { 'process.env.NODE_ENV': '"production"' },
+  define: { "process.env.NODE_ENV": '"production"' },
   resolve: {
     alias: {
       src: "/src",
-      '@govuk-react/icon-crown': path.resolve(__dirname, 'node_modules/@govuk-react/icon-crown'),
+      "@govuk-react/icon-crown": path.resolve(
+        __dirname,
+        "node_modules/@govuk-react/icon-crown"
+      ),
     },
   },
-})
+});
