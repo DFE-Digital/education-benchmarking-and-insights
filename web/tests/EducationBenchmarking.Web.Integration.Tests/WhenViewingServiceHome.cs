@@ -3,12 +3,9 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
-public class WhenViewingServiceHome : BenchmarkingWebAppClient
+public class WhenViewingServiceHome(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+    : BenchmarkingWebAppClient(factory, output)
 {
-    public WhenViewingServiceHome(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory, output)
-    {
-    }
-    
     [Fact]
     public async Task CanDisplayHomepage()
     {

@@ -9,34 +9,27 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [ApiController]
 [Route("api")]
-public class ProxyController : Controller
+public class ProxyController(
+    ILogger<ProxyController> logger,
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService)
+    : Controller
 {
-    private readonly ILogger<ProxyController> _logger;
-    private readonly IEstablishmentApi _establishmentApi;
-    private readonly IFinanceService _financeService;
-
-    public ProxyController(ILogger<ProxyController> logger, IEstablishmentApi establishmentApi, IFinanceService financeService)
-    {
-        _logger = logger;
-        _establishmentApi = establishmentApi;
-        _financeService = financeService;
-    }
-    
     [HttpGet]
     [Produces("application/json")]
     [Route("school/{urn}/expenditure")]
     public async Task<IActionResult> SchoolExpenditure(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new {urn}))
         {
             try
             {
-                var result = await _financeService.GetExpenditure(urn);
+                var result = await financeService.GetExpenditure(urn);
                 return new JsonResult(result);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error getting school expenditure: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error getting school expenditure: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -47,16 +40,16 @@ public class ProxyController : Controller
     [Route("school/{urn}/workforce")]
     public async Task<IActionResult> SchoolWorkforce(string urn)
     {
-        using (_logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new {urn}))
         {
             try
             {
-                var result = await _financeService.GetWorkforce(urn);
+                var result = await financeService.GetWorkforce(urn);
                 return new JsonResult(result);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error getting school workforce: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error getting school workforce: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -67,7 +60,7 @@ public class ProxyController : Controller
     [Route("establishments/suggest")]
     public async Task<IActionResult> EstablishmentSuggest([FromQuery]string search, [FromQuery]string type, CancellationToken cancellation)
     {
-        using (_logger.BeginScope(new {search}))
+        using (logger.BeginScope(new {search}))
         {
             try
             {
@@ -83,12 +76,12 @@ public class ProxyController : Controller
             }
             catch (TaskCanceledException)
             {
-                _logger.LogInformation("Suggestion request cancelled");
+                logger.LogInformation("Suggestion request cancelled");
                 return new EmptyResult();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error getting suggestion: {Search} - {Type}", search, type);
+                logger.LogError(e, "An error getting suggestion: {Search} - {Type}", search, type);
                 return StatusCode(500);
             }
         }
@@ -96,7 +89,7 @@ public class ProxyController : Controller
 
     private async Task<IActionResult> SchoolSuggestions(string search, CancellationToken cancellation)
     {
-        var suggestions = await _establishmentApi.SuggestSchools(search, cancellation).GetResultOrThrow<SuggestOutput<School>>();
+        var suggestions = await establishmentApi.SuggestSchools(search, cancellation).GetResultOrThrow<SuggestOutput<School>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");
@@ -125,7 +118,7 @@ public class ProxyController : Controller
     
     private async Task<IActionResult> TrustSuggestions(string search, CancellationToken cancellation)
     {
-        var suggestions = await _establishmentApi.SuggestTrusts(search, cancellation).GetResultOrThrow<SuggestOutput<Trust>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search, cancellation).GetResultOrThrow<SuggestOutput<Trust>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");
@@ -143,7 +136,7 @@ public class ProxyController : Controller
     
     private async Task<IActionResult> OrganisationSuggestions(string search, CancellationToken cancellation)
     {
-        var suggestions = await _establishmentApi.SuggestOrganisations(search, cancellation).GetResultOrThrow<SuggestOutput<Organisation>>();
+        var suggestions = await establishmentApi.SuggestOrganisations(search, cancellation).GetResultOrThrow<SuggestOutput<Organisation>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");

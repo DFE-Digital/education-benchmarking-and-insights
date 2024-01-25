@@ -1,11 +1,6 @@
 namespace EducationBenchmarking.Web.ViewModels.Components;
 
-public class SchoolHistoryViewModel
+public class SchoolHistoryViewModel(string identifier)
 {
-    public SchoolHistoryViewModel(string identifier)
-    {
-        Identifier = identifier;
-    }
-
-    public string Identifier { get; set; }
+    public string Identifier { get; set; } = identifier;
 }

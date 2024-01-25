@@ -2,12 +2,7 @@ using EducationBenchmarking.Web.Domain;
 
 namespace EducationBenchmarking.Web.ViewModels;
 
-public class TrustViewModel
+public class TrustViewModel(Trust trust)
 {
-    private readonly Trust _trust;
-    public TrustViewModel(Trust trust)
-    {
-        _trust = trust;
-    }
-    public string Name => _trust.Name;
+    public string Name => trust.Name;
 }

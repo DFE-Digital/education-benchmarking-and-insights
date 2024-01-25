@@ -1,10 +1,6 @@
 namespace EducationBenchmarking.Web.ViewModels.Components;
 
-public class BenchmarkWorkforceViewModel
+public class BenchmarkWorkforceViewModel(string identifier)
 {
-    public string Identifier { get; }
-    public BenchmarkWorkforceViewModel(string identifier)
-    {
-        Identifier = identifier;
-    }
+    public string Identifier { get; } = identifier;
 }

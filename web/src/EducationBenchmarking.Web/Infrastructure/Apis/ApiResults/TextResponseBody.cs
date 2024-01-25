@@ -2,11 +2,7 @@
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class TextResponseBody : ApiResponseBody
+public class TextResponseBody(byte[] content) : ApiResponseBody(content)
 {
-    public TextResponseBody(byte[] content) : base(content)
-    {
-    }
-
     public string Payload => Encoding.UTF8.GetString(Content);
 }

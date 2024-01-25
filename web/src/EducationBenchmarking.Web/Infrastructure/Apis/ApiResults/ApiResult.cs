@@ -1,22 +1,16 @@
 using System.Net;
 using EducationBenchmarking.Web.Extensions;
-using EducationBenchmarking.Web.Infrastructure.Extensions;
 using FluentValidation;
 using FluentValidation.Results;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public abstract class ApiResult
+public abstract class ApiResult(HttpStatusCode status)
 {
-    public HttpStatusCode Status { get; }
+    public HttpStatusCode Status { get; } = status;
 
     public bool IsSuccess => (int)Status < 400;
 
-    protected ApiResult(HttpStatusCode status)
-    {
-        Status = status;
-    }
-        
     public static ApiResult Ok<T>(T payload) => new SuccessApiResult(HttpStatusCode.OK, new JsonResponseBody(payload.ToJsonByteArray()));
 
     public static ApiResult Ok<T>(PagedResults<T> payload) => new SuccessApiResult(HttpStatusCode.OK, new PagedJsonResponseBody(payload.ToJsonByteArray()));

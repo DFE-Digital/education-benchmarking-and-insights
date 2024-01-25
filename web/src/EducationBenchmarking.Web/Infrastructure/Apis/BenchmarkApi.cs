@@ -2,12 +2,8 @@ using EducationBenchmarking.Web.Domain;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class BenchmarkApi : BaseApi, IBenchmarkApi
+public class BenchmarkApi(HttpClient httpClient, string? key = default) : BaseApi(httpClient, key), IBenchmarkApi
 {
-    public BenchmarkApi(HttpClient httpClient, string? key = default) : base(httpClient, key)
-    {
-    }
-    
     public async Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default)
     {
         

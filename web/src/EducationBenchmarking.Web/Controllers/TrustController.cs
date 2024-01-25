@@ -1,7 +1,6 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
-using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -11,21 +10,13 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("trust/{companyNumber}")]
-public class TrustController : Controller
+public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi)
+    : Controller
 {
-    private readonly ILogger<TrustController> _logger;
-    private readonly IEstablishmentApi _establishmentApi;
-
-    public TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi)
-    {
-        _logger = logger;
-        _establishmentApi = establishmentApi;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string companyNumber)
     {
-        using (_logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new { companyNumber }))
         {
             try
             {
@@ -33,14 +24,14 @@ public class TrustController : Controller
 
                 ViewData["BreadcrumbNode"] = node;
                 
-                var trust = await _establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 
                 var viewModel = new TrustViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying trust details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying trust details: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

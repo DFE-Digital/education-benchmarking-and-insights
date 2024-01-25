@@ -1,15 +1,10 @@
 ﻿namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public abstract class ApiResponseBody
+public abstract class ApiResponseBody(byte[] content)
 {
-    public byte[] Content { get; }
+    public byte[] Content { get; } = content;
     public bool HasContent => Content is { Length: > 0 };
-    
-    public ApiResponseBody(byte[] content)
-    {
-        Content = content;
-    }
-    
+
     public static async Task<ApiResponseBody> FromHttpContent(HttpContent content)
     {
         if (content is not { Headers.ContentLength: > 0 }) return new EmptyResponseBody();

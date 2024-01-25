@@ -8,19 +8,12 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/investigation")]
-public class SchoolInvestigationAreaController : Controller
+public class SchoolInvestigationAreaController(ILogger<SchoolInvestigationAreaController> logger) : Controller
 {
-    private readonly ILogger<SchoolInvestigationAreaController> _logger;
-
-    public SchoolInvestigationAreaController(ILogger<SchoolInvestigationAreaController> logger)
-    {
-        _logger = logger;
-    }
-
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (_logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
@@ -37,7 +30,7 @@ public class SchoolInvestigationAreaController : Controller
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

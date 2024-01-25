@@ -1,11 +1,7 @@
 ﻿namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class InsightApi : BaseApi, IInsightApi
+public class InsightApi(HttpClient httpClient, string? key = default) : BaseApi(httpClient, key), IInsightApi
 {
-    public InsightApi(HttpClient httpClient, string? key = default) : base(httpClient, key)
-    {
-    }
-
     public async Task<ApiResult> GetMaintainedSchoolFinances(string urn)
     {
         return await GetAsync($"api/maintained-school/{urn}");

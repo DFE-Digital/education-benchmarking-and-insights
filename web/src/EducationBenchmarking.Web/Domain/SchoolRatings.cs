@@ -3,14 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace EducationBenchmarking.Web.Domain;
 
 [ExcludeFromCodeCoverage]
-public class SchoolRatings
+public class SchoolRatings(Finances currentFinances, IEnumerable<Rating> ratings)
 {
-    public SchoolRatings(Finances currentFinances, IEnumerable<Rating> ratings)
-    {
-        CurrentFinances = currentFinances;
-        Ratings = ratings;
-    }
-
-    public Finances CurrentFinances { get; set; }
-    public IEnumerable<Rating> Ratings { get; set; }
+    public Finances CurrentFinances { get; set; } = currentFinances;
+    public IEnumerable<Rating> Ratings { get; set; } = ratings;
 }

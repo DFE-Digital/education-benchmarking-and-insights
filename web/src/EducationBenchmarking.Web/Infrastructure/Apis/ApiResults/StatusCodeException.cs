@@ -1,18 +1,12 @@
 using System.Net;
 using EducationBenchmarking.Web.Extensions;
-using EducationBenchmarking.Web.Infrastructure.Extensions;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class StatusCodeException : Exception
+public class StatusCodeException(HttpStatusCode statusCode)
+    : Exception($"The api returned `{GetFriendlyMessage(statusCode)}` underlying status code: {statusCode}")
 {
-    public HttpStatusCode Status { get; }
-
-    public StatusCodeException(HttpStatusCode statusCode)
-        : base($"The api returned `{GetFriendlyMessage(statusCode)}` underlying status code: {statusCode}")
-    {
-        Status = statusCode;
-    }
+    public HttpStatusCode Status { get; } = statusCode;
 
     public static string GetFriendlyMessage(HttpStatusCode status)
     {

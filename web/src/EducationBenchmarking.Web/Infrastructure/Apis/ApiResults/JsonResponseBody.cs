@@ -1,15 +1,10 @@
 ﻿using EducationBenchmarking.Web.Extensions;
-using EducationBenchmarking.Web.Infrastructure.Extensions;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class JsonResponseBody : ApiResponseBody
+public class JsonResponseBody(byte[] content) : ApiResponseBody(content)
 {
-    public JsonResponseBody(byte[] content) : base(content)
-    {
-    }
-
-    public JsonResponseBody(object content) : base(content.ToJsonByteArray())
+    public JsonResponseBody(object content) : this(content.ToJsonByteArray())
     {
     }
 

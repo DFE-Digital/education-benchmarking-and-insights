@@ -2,12 +2,7 @@
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public sealed class SuccessApiResult : ApiResult
+public sealed class SuccessApiResult(HttpStatusCode status, ApiResponseBody body) : ApiResult(status)
 {
-    public ApiResponseBody Body { get; }
-
-    public SuccessApiResult(HttpStatusCode status, ApiResponseBody body) : base(status)
-    {
-        Body = body;
-    }
+    public ApiResponseBody Body { get; } = body;
 }
