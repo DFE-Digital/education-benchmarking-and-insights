@@ -1,6 +1,5 @@
 using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
 using Xunit.Sdk;
 
@@ -13,8 +12,13 @@ public class EstablishmentLocalAuthoritiesSteps
     private const string SuggestRequestKey = "suggest-local-authority";
     private const string SearchRequestKey = "search-local-authority";
     private const string QueryRequestKey = "query-local-authority";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
-    
+    private readonly EstablishmentApiDriver _api;
+
+    public EstablishmentLocalAuthoritiesSteps(EstablishmentApiDriver api)
+    {
+        _api = api;
+    }
+
     [When("I submit the local authorities request")]
     private async Task WhenISubmitTheLocalAuthoritiesRequest()
     {
@@ -29,7 +33,7 @@ public class EstablishmentLocalAuthoritiesSteps
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
-    
+
     [Given("a valid local authority request with id '(.*)'")]
     private void GivenAValidLocalAuthorityRequestWithId(string id)
     {
@@ -69,7 +73,7 @@ public class EstablishmentLocalAuthoritiesSteps
             Method = HttpMethod.Get
         });
     }
-    
+
     [Then("the local authorities suggest result should be ok")]
     private void ThenTheLocalAuthoritiesSuggestResultShouldBeOk()
     {

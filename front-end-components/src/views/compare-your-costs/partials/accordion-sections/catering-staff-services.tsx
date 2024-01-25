@@ -93,7 +93,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({sch
                     </h2>
                 </div>
                 <div id="accordion-content-catering-staff-services" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-catering-staff-services">
+                     aria-labelledby="accordion-heading-catering-staff-services" role="region">
                     <HorizontalBarChartWrapper data={netCateringBarData} chartId="net-catering-costs">
                         <h3 className="govuk-heading-s">Net catering costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="net-catering-costs" defaultValue={dimension} />

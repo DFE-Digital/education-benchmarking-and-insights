@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -12,14 +11,19 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightMiscellaneousSteps
 {
     private const string GetFinanceYearKey = "get-finance-year";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly InsightApiDriver _api;
+
+    public InsightMiscellaneousSteps(InsightApiDriver api)
+    {
+        _api = api;
+    }
 
     [Given(@"a valid finance year request")]
     public void GivenAValidFinanceYearRequest()
     {
         _api.CreateRequest(GetFinanceYearKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/finance-years", UriKind.Relative),
+            RequestUri = new Uri("/api/finance-years", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

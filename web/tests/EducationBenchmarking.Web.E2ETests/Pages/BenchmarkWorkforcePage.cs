@@ -6,15 +6,10 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class BenchmarkWorkforcePage
+public class BenchmarkWorkforcePage(PageHook page)
 {
-    private readonly IPage _page;
+    private readonly IPage _page = page.Current;
     private IDownload? _download;
-
-    public BenchmarkWorkforcePage(PageHook page)
-    {
-        _page = page.Current;
-    }
 
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");

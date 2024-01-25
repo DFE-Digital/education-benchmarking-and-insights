@@ -3,25 +3,17 @@ using Deque.AxeCore.Playwright;
 using EducationBenchmarking.Web.A11yTests.Hooks;
 using EducationBenchmarking.Web.A11yTests.TestSupport;
 using Microsoft.Playwright;
-using TechTalk.SpecFlow.Infrastructure;
 using Xunit;
 
 namespace EducationBenchmarking.Web.A11yTests.Steps;
 
 [Binding]
-public sealed class AccessibilitySteps
+public sealed class AccessibilitySteps(PageHook page)
 {
-    private readonly IPage _page;
+    private readonly IPage _page = page.Current;
     private AxeResult? _axeResult;
-    private readonly ISpecFlowOutputHelper _output;
 
     private AxeResult Result => _axeResult ?? throw new ArgumentNullException(nameof(_axeResult));
-
-    public AccessibilitySteps(PageHook page, ISpecFlowOutputHelper output)
-    {
-        _page = page.Current;
-        _output = output;
-    }
 
     [Given("I am on the Service Landing Page")]
     public async Task GivenIAmOnTheServiceLandingPage()
@@ -54,8 +46,8 @@ public sealed class AccessibilitySteps
             .Where(violation => violation.Impact is "serious" or "critical")
             .ToList();
 
-        _output.WriteLine($"There are {seriousOrCriticalViolations.Count} serious and critical issues on this page");
-        
+        page.WriteOutputLine($"There are {seriousOrCriticalViolations.Count} serious and critical issues on this page");
+
         PrintViolations(Result.Violations, "Critical", "critical");
         PrintViolations(Result.Violations, "Serious", "serious");
 
@@ -69,16 +61,16 @@ public sealed class AccessibilitySteps
             .Where(violation => violation.Impact == impact)
             .ToList();
 
-        _output.WriteLine($"{category} issues: {categoryViolations.Count}");
+        page.WriteOutputLine($"{category} issues: {categoryViolations.Count}");
 
         for (var i = 0; i < categoryViolations.Count; i++)
         {
             var violation = categoryViolations[i];
-            _output.WriteLine($"Issue {i + 1}: {violation.Description}");
+            page.WriteOutputLine($"Issue {i + 1}: {violation.Description}");
             for (var j = 0; j < violation.Nodes.Length; j++)
             {
                 var node = violation.Nodes[j];
-                _output.WriteLine($"  Occurrence {j + 1}: {node.Html}");
+                page.WriteOutputLine($"  Occurrence {j + 1}: {node.Html}");
             }
         }
     }

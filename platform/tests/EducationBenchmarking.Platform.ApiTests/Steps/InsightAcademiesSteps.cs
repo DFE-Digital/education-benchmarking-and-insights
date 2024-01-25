@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
@@ -12,7 +11,12 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightAcademiesSteps
 {
     private const string GetAcademyKey = "get-academy";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly InsightApiDriver _api;
+
+    public InsightAcademiesSteps(InsightApiDriver api)
+    {
+        _api = api;
+    }
 
     [Given(@"a valid academy request with urn '(.*)'")]
     public void GivenAValidAcademyRequestWithUrn(string urn)
@@ -48,7 +52,7 @@ public class InsightAcademiesSteps
     {
         _api.CreateRequest(GetAcademyKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/academy/00", UriKind.Relative),
+            RequestUri = new Uri("/api/academy/00", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

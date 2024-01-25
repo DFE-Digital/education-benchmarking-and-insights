@@ -4,14 +4,9 @@ using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class SchoolHomePage
+public class SchoolHomePage(PageHook page)
 {
-    private readonly IPage _page;
-
-    public SchoolHomePage(PageHook page)
-    {
-        _page = page.Current;
-    }
+    private readonly IPage _page = page.Current;
 
     private ILocator CompareYourCostsLink =>
         _page.Locator("h3 a.govuk-link:has-text(\"Compare your costs\")");

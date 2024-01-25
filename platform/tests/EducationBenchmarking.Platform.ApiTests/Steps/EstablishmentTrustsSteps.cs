@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Functions.Extensions;
@@ -20,8 +19,13 @@ public class EstablishmentTrustsSteps
     private const string SearchRequestKey = "search-trust";
     private const string SuggestInvalidRequestKey = "suggest-trust-invalid";
     private const string SuggestValidRequestKey = "suggest-trust-invalid";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
-    
+    private readonly EstablishmentApiDriver _api;
+
+    public EstablishmentTrustsSteps(EstablishmentApiDriver api)
+    {
+        _api = api;
+    }
+
     [Given("a valid trust request with id '(.*)'")]
     private void GivenAValidTrustRequestWithId(string id)
     {
@@ -89,7 +93,7 @@ public class EstablishmentTrustsSteps
     private void GivenAnInvalidTrustsSuggestRequest()
     {
         var content = new { Size = 0 };
-        
+
         _api.CreateRequest(SuggestInvalidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
@@ -101,26 +105,27 @@ public class EstablishmentTrustsSteps
     [Then("the trusts suggest result should have the follow validation errors:")]
     private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = _api[SuggestInvalidRequestKey].Response ?? throw new NullException(_api[SuggestInvalidRequestKey].Response);
+        var response = _api[SuggestInvalidRequestKey].Response ??
+                       throw new NullException(_api[SuggestInvalidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
-        
+
         var set = new List<dynamic>();
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
         }
-        
-        table.CompareToDynamicSet(set,false);
+
+        table.CompareToDynamicSet(set, false);
     }
 
     [Given("a valid trusts suggest request")]
     private void GivenAValidTrustsSuggestRequest()
     {
         var content = new { SearchText = "trust", Size = 10, SuggesterName = "trust-suggester" };
-        
+
         _api.CreateRequest(SuggestValidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/trusts/suggest", UriKind.Relative),
@@ -132,18 +137,19 @@ public class EstablishmentTrustsSteps
     [Then("the trusts suggest result should be:")]
     private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
     {
-        var response = _api[SuggestValidRequestKey].Response ?? throw new NullException(_api[SuggestValidRequestKey].Response);
+        var response = _api[SuggestValidRequestKey].Response ??
+                       throw new NullException(_api[SuggestValidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestOutput<Trust>>()?.Results ?? throw new NullException(content);
-        
+
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { result.Text, result.Document?.Name, result.Document?.CompanyNumber  });
+            set.Add(new { result.Text, result.Document?.Name, result.Document?.CompanyNumber });
         }
 
-        table.CompareToDynamicSet(set,false);
+        table.CompareToDynamicSet(set, false);
     }
 }

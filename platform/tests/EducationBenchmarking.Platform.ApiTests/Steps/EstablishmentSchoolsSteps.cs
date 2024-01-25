@@ -1,7 +1,6 @@
 using System.Net;
 using System.Text;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Functions.Extensions;
@@ -21,14 +20,18 @@ public class EstablishmentSchoolsSteps
     private const string SearchRequestKey = "search-school";
     private const string SuggestInvalidRequestKey = "suggest-school-invalid";
     private const string SuggestValidRequestKey = "suggest-school-invalid";
-    private readonly ApiDriver _api = new(Config.Apis.Establishment ?? throw new NullException(Config.Apis.Establishment));
-    
-    
+    private readonly EstablishmentApiDriver _api;
+
+    public EstablishmentSchoolsSteps(EstablishmentApiDriver api)
+    {
+        _api = api;
+    }
+
     [Given("an invalid schools suggest request")]
     private void GivenAnInvalidSchoolsSuggestRequest()
     {
         var content = new { Size = 0 };
-        
+
         _api.CreateRequest(SuggestInvalidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/suggest", UriKind.Relative),
@@ -46,26 +49,27 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should have the follow validation errors:")]
     private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = _api[SuggestInvalidRequestKey].Response ?? throw new NullException(_api[SuggestInvalidRequestKey].Response);
+        var response = _api[SuggestInvalidRequestKey].Response ??
+                       throw new NullException(_api[SuggestInvalidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
-        
+
         var set = new List<dynamic>();
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
         }
-        
-        table.CompareToDynamicSet(set,false);
+
+        table.CompareToDynamicSet(set, false);
     }
 
     [Given("a valid schools suggest request")]
     private void GivenAValidSchoolsSuggestRequest()
     {
         var content = new { SearchText = "school", Size = 10, SuggesterName = "school-suggester" };
-        
+
         _api.CreateRequest(SuggestValidRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/suggest", UriKind.Relative),
@@ -73,23 +77,24 @@ public class EstablishmentSchoolsSteps
             Content = new StringContent(content.ToJson(), Encoding.UTF8, "application/json")
         });
     }
-    
+
     [Then("the schools suggest result should be:")]
     private async Task ThenTheSchoolsSuggestResultShouldBe(Table table)
     {
-        var response = _api[SuggestValidRequestKey].Response ?? throw new NullException(_api[SuggestValidRequestKey].Response);
+        var response = _api[SuggestValidRequestKey].Response ??
+                       throw new NullException(_api[SuggestValidRequestKey].Response);
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestOutput<School>>()?.Results ?? throw new NullException(content);
-        
+
         var set = new List<dynamic>();
         foreach (var result in results)
         {
-            set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn  });
+            set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
         }
 
-        table.CompareToDynamicSet(set,false);
+        table.CompareToDynamicSet(set, false);
     }
 
     [Given("a valid school request with id '(.*)'")]
@@ -128,7 +133,8 @@ public class EstablishmentSchoolsSteps
     [Then("the school result should be not found")]
     private void ThenTheSchoolResultShouldBeNotFound()
     {
-        var response = _api[GetNotFoundRequestKey].Response ?? throw new NullException(_api[GetNotFoundRequestKey].Response);
+        var response = _api[GetNotFoundRequestKey].Response ??
+                       throw new NullException(_api[GetNotFoundRequestKey].Response);
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
@@ -187,7 +193,7 @@ public class EstablishmentSchoolsSteps
 
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<SearchOutput<School>>() ?? throw new NullException(content);
 

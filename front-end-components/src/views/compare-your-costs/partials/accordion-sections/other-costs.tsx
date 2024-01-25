@@ -251,7 +251,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({schools}) => {
                     </h2>
                 </div>
                 <div id="accordion-content-other-cost" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-other-cost">
+                     aria-labelledby="accordion-heading-other-cost" role="region">
                     <HorizontalBarChartWrapper data={totalOtherCostsBarData} chartId="total-otehr-costs">
                         <h3 className="govuk-heading-s">Total other costs</h3>
                         <ChartDimensions dimensions={CostCategories} handleChange={handleSelectChange} elementId="total-otehr-costs" defaultValue={dimension} />

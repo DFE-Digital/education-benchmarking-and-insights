@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
 using Xunit.Sdk;
 
@@ -11,7 +10,12 @@ public class BenchmarkBandingsSteps
 {
     private const string FsmBandingKey = "free-school-meal-banding";
     private const string SchoolSizeBandingKey = "school-size-banding";
-    private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
+    private readonly BenchmarkApiDriver _api;
+
+    public BenchmarkBandingsSteps(BenchmarkApiDriver api)
+    {
+        _api = api;
+    }
 
     [Given(@"a valid fsm banding request")]
     public void GivenAValidFsmBandingRequest()

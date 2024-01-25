@@ -2,12 +2,14 @@
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.Integration.Tests;
 
 public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
 {
-    public WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory) : base(factory)
+    public WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestOutputHelper output) : base(factory,
+        output)
     {
     }
 
@@ -27,7 +29,7 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
     public async Task CanNavigateToHelp(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
-        
+
 
         var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
         Assert.NotNull(anchor);
@@ -84,17 +86,19 @@ public class WhenViewingSchoolPlanning : BenchmarkingWebAppClient
 
         return (page, school);
     }
+
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute()),
+            ("Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
-        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)", "Integrated Curriculum and financial planning (ICFP)");
+        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)",
+            "Integrated Curriculum and financial planning (ICFP)");
         DocumentAssert.Heading2(page, $"{school.Name}");
 
         var cta = page.QuerySelector(".govuk-button");

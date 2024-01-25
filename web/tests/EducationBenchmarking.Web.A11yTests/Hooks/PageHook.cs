@@ -1,22 +1,23 @@
 using EducationBenchmarking.Web.A11yTests.TestSupport;
 using Microsoft.Playwright;
+using TechTalk.SpecFlow.Infrastructure;
 
 namespace EducationBenchmarking.Web.A11yTests.Hooks;
 
 [Binding]
-public class PageHook
+public class PageHook(ISpecFlowOutputHelper output)
 {
-    private IPage? _page;
     private IBrowser? _browser;
+    private IPage? _page;
 
     public IPage Current => _page ?? throw new ArgumentNullException(nameof(_page));
-    
-    
+
+
     [BeforeScenario]
     public async Task CreatePageInstance()
     {
         var playwrightInstance = await Playwright.CreateAsync();
-        
+
         var launchOptions = new BrowserTypeLaunchOptions { Headless = Config.Headless };
         _browser = await playwrightInstance.Chromium.LaunchAsync(launchOptions);
 
@@ -24,15 +25,28 @@ public class PageHook
         var browserContext = await _browser.NewContextAsync(contextOptions);
 
         _page = await browserContext.NewPageAsync();
+#if DEBUG
+        _page.Response += (sender, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
+#endif
     }
-    
+
     [AfterScenario]
     public async Task ClosePage()
     {
         if (_browser != null)
         {
             _page = null;
-            await _browser.CloseAsync(new BrowserCloseOptions {Reason = "End of a11y test scenario"});
+            await _browser.CloseAsync(new BrowserCloseOptions { Reason = "End of a11y test scenario" });
         }
+    }
+
+    public void WriteOutputLine(string format, params object[] args)
+    {
+        output.WriteLine(format, args);
+    }
+
+    public void WriteOutputLine(string message)
+    {
+        output.WriteLine(message);
     }
 }

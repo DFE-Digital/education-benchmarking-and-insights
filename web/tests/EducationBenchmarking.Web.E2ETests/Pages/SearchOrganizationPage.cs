@@ -4,20 +4,19 @@ using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class SearchOrganizationPage
+public class SearchOrganizationPage(PageHook page)
 {
-    private readonly IPage _page;
-
-    public SearchOrganizationPage(PageHook page)
-    {
-        _page = page.Current;
-    }
+    private readonly IPage _page = page.Current;
 
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator AcademyAndLocalAuthSchoolSearch => _page.Locator("#school-input");
     private ILocator Suggester => _page.Locator("#school-suggestions");
     private ILocator ContinueBtn => _page.Locator("#search-btn");
-    private ILocator SelectFromSuggestions(string text) => _page.Locator($"#school-suggestions li:has-text(\"{text}\"):first-child");
+
+    private ILocator SelectFromSuggestions(string text)
+    {
+        return _page.Locator($"#school-suggestions li:has-text(\"{text}\"):first-child");
+    }
 
     public async Task TypeInSearchSearchBar(string searchInput)
     {

@@ -1,6 +1,5 @@
 using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using FluentAssertions;
 using Xunit.Sdk;
 
@@ -10,7 +9,12 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class BenchmarkHealthcheckSteps
 {
     private const string RequestKey = "health-check";
-    private readonly ApiDriver _api = new(Config.Apis.Benchmark ?? throw new NullException(Config.Apis.Benchmark));
+    private readonly BenchmarkApiDriver _api;
+
+    public BenchmarkHealthcheckSteps(BenchmarkApiDriver api)
+    {
+        _api = api;
+    }
 
     [Given("a valid benchmark health check request")]
     private void GivenAValidBenchmarkHealthCheckRequest()
@@ -21,7 +25,7 @@ public class BenchmarkHealthcheckSteps
             Method = HttpMethod.Get
         });
     }
-    
+
     [When("I submit the benchmark health check request")]
     private async Task WhenISubmitTheBenchmarkHealthCheckRequest()
     {
@@ -35,7 +39,7 @@ public class BenchmarkHealthcheckSteps
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await result.Content.ReadAsStringAsync();
         content.Should().Be("Healthy");
     }

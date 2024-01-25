@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
@@ -14,7 +13,12 @@ public class InsightSchoolsSteps
 {
     private const string GetSchoolFinancesKey = "get-school-finances";
     private const string GetSchoolWorkforceKey = "get-school-workforce";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly InsightApiDriver _api;
+
+    public InsightSchoolsSteps(InsightApiDriver api)
+    {
+        _api = api;
+    }
 
     [When(@"I submit the schools insights request")]
     public async Task WhenISubmitTheSchoolsInsightsRequest()
@@ -147,11 +151,11 @@ public class InsightSchoolsSteps
     }
 
     [Given(@"a valid school workforce request with size '(.*)' and urn '(.*)'")]
-    public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string urn, string pageSize)
+    public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string pageSize, string urn)
     {
         _api.CreateRequest(GetSchoolWorkforceKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/schools/workforce?urns={urn}?pageSize={pageSize}", UriKind.Relative),
+            RequestUri = new Uri($"/api/schools/workforce?urns={urn}&pageSize={pageSize}", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

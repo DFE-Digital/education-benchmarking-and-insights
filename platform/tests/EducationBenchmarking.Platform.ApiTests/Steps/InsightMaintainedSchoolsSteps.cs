@@ -1,6 +1,5 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.ApiTests.TestSupport;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
@@ -12,7 +11,12 @@ namespace EducationBenchmarking.Platform.ApiTests.Steps;
 public class InsightMaintainedSchoolsSteps
 {
     private const string GetMaintainedSchoolKey = "get-maintained-school";
-    private readonly ApiDriver _api = new(Config.Apis.Insight ?? throw new NullException(Config.Apis.Insight));
+    private readonly InsightApiDriver _api;
+
+    public InsightMaintainedSchoolsSteps(InsightApiDriver api)
+    {
+        _api = api;
+    }
 
     [When(@"I submit the maintained school request")]
     public async Task WhenISubmitTheMaintainedSchoolRequest()
@@ -49,7 +53,7 @@ public class InsightMaintainedSchoolsSteps
     {
         _api.CreateRequest(GetMaintainedSchoolKey, new HttpRequestMessage
         {
-            RequestUri = new Uri($"/api/maintained-school/00", UriKind.Relative),
+            RequestUri = new Uri("/api/maintained-school/00", UriKind.Relative),
             Method = HttpMethod.Get
         });
     }

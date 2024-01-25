@@ -108,7 +108,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({sch
                     </h2>
                 </div>
                 <div id="accordion-content-premises-staff-services" className="govuk-accordion__section-content"
-                     aria-labelledby="accordion-heading-premises-staff-services">
+                     aria-labelledby="accordion-heading-premises-staff-services" role="region">
                     <HorizontalBarChartWrapper data={totalPremisesStaffServiceCostsBarData} chartId="total-premises-staff-service-costs">
                         <h3 className="govuk-heading-s">Total premises staff and service costs</h3>
                         <ChartDimensions dimensions={PremisesCategories} handleChange={handleSelectChange} elementId="total-premises-staff-service-costs" defaultValue={dimension} />
