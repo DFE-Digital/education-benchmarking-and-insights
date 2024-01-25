@@ -12,6 +12,7 @@ public static class Paths
     public static string SchoolWorkforce(string urn) => $"/school/{urn}/workforce";
     public static string SchoolInvestigation(string urn) => $"/school/{urn}/investigation";
     public static string SchoolCurriculumPlanning(string urn) => $"/school/{urn}/financial-planning";
+    public static string SchoolCurriculumPlanningHelp(string urn) => $"/school/{urn}/financial-planning/help";
 
     public static string ToAbsolute(this string path)
     {

@@ -1,0 +1,110 @@
+﻿@{
+    ViewBag.Title = PageTitles.SchoolPlanningHelp;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        <p class="govuk-body">This is a list of the data that we will ask you to input to create an ICFP plan.</p>
+        <h2 class="govuk-heading-m">Required:</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Length of timetable cycle
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">The length of your timetable cycle is the number of periods before it repeats itself.</p>
+                    <p class="govuk-body">
+                        For example, a timetable that repeats weekly with 5 periods per day would give you a cycle length of 25 periods.
+                    </p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Pupil figures
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">The number of pupils you have, or wish to plan for in each year group.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Teacher period allocation
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">
+                        This is the number of teaching periods that each year group receives per timetable cycle.
+                    </p>
+                    <p class="govuk-body">
+                        For example, a year group with 5 forms, no sets and a timetable length of 25 gives you a teacher period allocation of 125.
+                    </p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Other teaching periods
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">These are additional periods that aren't accounted for in the core timetable where a teacher interacts with pupils.</p>
+                    <p class="govuk-body">For example, intervention, dyslexia support and career support periods. Other teaching periods do not include management or PPA time.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Management roles with teaching responsibilities
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">You will need to provide the number of managers in each role as well as the number of periods they teach per timetable cycle.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total educational support staff costs (primary schools only)
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">Your total educational support staff costs for the planned year.</p>
+                </dd>
+            </div>
+        </dl>
+        <h2 class="govuk-heading-m">Optional:</h2>        
+        <p class="govuk-body">
+            You have the option to prepopulate the plan with the following information. If you choose not to prepopulate then it will need to be entered manually.
+        </p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total income
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">Your total income for the planned year.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total expenditure
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">Your total expenditure for the planned year.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total teacher costs
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">Your total teacher costs for the planned year.</p>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Full time equivalent teachers
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <p class="govuk-body">The number of full time equivalent teachers for the planned year.</p>
+                </dd>
+            </div>
+        </dl>
+        <h3 class="govuk-heading-s">Further help</h3>
+        <p class="govuk-body">If you need help with anything <a href="@Url.Action("SubmitEnquiry", "StaticContent")" class="govuk-link">submit an enquiry</a></p>
+    </div>
+</div>

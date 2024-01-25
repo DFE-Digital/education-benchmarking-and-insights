@@ -42,7 +42,7 @@ public static class DocumentAssert
         var h2 = node.ChildNodes.QuerySelector("h2") ?? throw new Exception("No <h2> elements found in this page document");
         AssertNodeText(h2, header2);
     }
-    
+
     public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl)
     {
         Assert.NotNull(doc);
@@ -75,7 +75,15 @@ public static class DocumentAssert
                 break;
         }
     }
-    
+
+    // TODO: uncomment once back link added to icfp help page
+    //public static void BackLink(IHtmlAnchorElement element, string contents, string url)
+    //{
+    //    Assert.Equal(contents, element.TextContent.Trim());
+    //    Assert.True(element.ClassList.Contains("govuk-back-link"), "A back link should have a the class govuk-back-link");
+    //    Assert.Equal(url, element.Href);
+    //}
+
     private static void AssertNodeText(INode element, string text)
     {
         var elementText = string.Join(" ", element.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
