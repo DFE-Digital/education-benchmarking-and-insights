@@ -86,11 +86,6 @@ stages:
               packagesDirectory: $(NUGET_PACKAGES)
               arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFileName=TestResults.trx"'
               projects: 'web/**/*.Tests.csproj'
-              
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: 'XUnit'
-              testResultsFiles: '**/TestResults.trx'
 
       - job: BuildWeb
         dependsOn: [Set_Build_Number]

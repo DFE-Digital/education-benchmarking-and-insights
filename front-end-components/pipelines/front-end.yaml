@@ -1,10 +1,11 @@
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'ubuntu-latest'
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
+  WorkingDir: 'front-end-components'
 
 trigger:
   batch: true
@@ -31,28 +32,35 @@ steps:
         customCommand: 'version $(Version.BuildNumber)'
       ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
         customCommand: 'version $(Version.BuildNumber)-alpha.0'
-      workingDir: 'front-end-components'
+      workingDir: $(WorkingDir)
       verbose: false
 
   - task: Npm@1
     displayName: 'Install dependencies'
     inputs:
       command: 'install'
-      workingDir: 'front-end-components'
+      workingDir: $(WorkingDir)
 
   - task: Npm@1
     displayName: 'Run tests'
     inputs:
       command: 'custom'
       customCommand: 'test'
-      workingDir: 'front-end-components'
+      workingDir: $(WorkingDir)
+
+  - task: Npm@1
+    displayName: 'Run lint'
+    inputs:
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: $(WorkingDir)
 
   - task: Npm@1
     displayName: 'Build project'
     inputs:
       command: 'custom'
       customCommand: 'run build'
-      workingDir: 'front-end-components'
+      workingDir: $(WorkingDir)
 
   - task: Npm@1
     displayName: 'Publish'
@@ -62,5 +70,5 @@ steps:
       command: 'publish'
       publishRegistry: useFeed
       publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
-      workingDir: 'front-end-components'
+      workingDir: $(WorkingDir)
       verbose: false
