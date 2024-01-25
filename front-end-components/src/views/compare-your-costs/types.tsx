@@ -1,5 +1,5 @@
 export type CompareYourSchoolViewProps = {
-    urn: string
-    academyYear: string
-    maintainedYear: string
+  urn: string;
+  academyYear: string;
+  maintainedYear: string;
 };

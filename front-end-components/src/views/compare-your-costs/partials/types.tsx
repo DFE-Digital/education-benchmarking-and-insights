@@ -1,19 +1,19 @@
-import {Expenditure} from "src/services";
+import { Expenditure } from "src/services";
 
 export type TotalExpenditureProps = {
-    schools: TotalExpenditureData[]
-}
+  schools: TotalExpenditureData[];
+};
 
 export type TotalExpenditureData = {
-    urn: string
-    name: string
-    schoolType: string
-    localAuthority: string
-    totalIncome: number
-    totalExpenditure: number
-    numberOfPupils: bigint
-}
+  urn: string;
+  name: string;
+  schoolType: string;
+  localAuthority: string;
+  totalIncome: number;
+  totalExpenditure: number;
+  numberOfPupils: bigint;
+};
 
 export type ExpenditureAccordionProps = {
-    schools: Expenditure[]
-}
+  schools: Expenditure[];
+};
