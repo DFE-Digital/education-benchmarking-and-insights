@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'ubuntu-latest'
 
 trigger:
   batch: true
