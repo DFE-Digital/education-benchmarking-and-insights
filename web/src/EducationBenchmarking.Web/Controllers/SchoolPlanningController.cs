@@ -50,6 +50,8 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
+                ViewData["Backlink"] = new TagHelpers.BacklinkInfo("Index", "SchoolPlanning", new { urn });
+
                 return View();
             }
             catch (Exception e)
