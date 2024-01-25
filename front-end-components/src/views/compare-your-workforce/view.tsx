@@ -46,16 +46,23 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
     return await SchoolApi.getWorkforceBenchmarkData(urn);
   }, [urn]);
 
-  useEffect(() => {
-    getWorkforceData().then((data) => {
-      setWorkforceData(data);
+  useEffect(
+    () => {
+      getWorkforceData().then((data) => {
+        setWorkforceData(data);
 
-      const currentSchool = data.results.find((school) => school.urn == urn);
-      if (currentSchool) {
-        setSelectedSchool({ urn: currentSchool.urn, name: currentSchool.name });
-      }
-    });
-  }, [getWorkforceData]);
+        const currentSchool = data.results.find((school) => school.urn == urn);
+        if (currentSchool) {
+          setSelectedSchool({
+            urn: currentSchool.urn,
+            name: currentSchool.name,
+          });
+        }
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getWorkforceData]
+  );
 
   // Function to toggle between chart and table display modes
   const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {

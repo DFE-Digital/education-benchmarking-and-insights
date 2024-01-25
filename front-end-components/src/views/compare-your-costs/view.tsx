@@ -40,16 +40,23 @@ export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (
     return await SchoolApi.getSchoolExpenditure(urn);
   }, [urn]);
 
-  useEffect(() => {
-    getExpenditure().then((data) => {
-      setExpenditureData(data);
+  useEffect(
+    () => {
+      getExpenditure().then((data) => {
+        setExpenditureData(data);
 
-      const currentSchool = data.results.find((school) => school.urn == urn);
-      if (currentSchool) {
-        setSelectedSchool({ urn: currentSchool.urn, name: currentSchool.name });
-      }
-    });
-  }, [getExpenditure]);
+        const currentSchool = data.results.find((school) => school.urn == urn);
+        if (currentSchool) {
+          setSelectedSchool({
+            urn: currentSchool.urn,
+            name: currentSchool.name,
+          });
+        }
+      });
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [getExpenditure]
+  );
 
   const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayMode(e.target.value);

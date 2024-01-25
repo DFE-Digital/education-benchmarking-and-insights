@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 export * from "src/views/compare-your-costs/partials/accordion-sections/utilities";
 export * from "src/views/compare-your-costs/partials/accordion-sections/teaching-support-staff";
 export * from "src/views/compare-your-costs/partials/accordion-sections/other-costs";
