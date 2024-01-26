@@ -58,7 +58,7 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Windows"
-  sku_name            =  var.sizing[var.environment].size
+  sku_name            =  var.sizing[var.environment].sku
   tags                = local.common-tags
 }
 
