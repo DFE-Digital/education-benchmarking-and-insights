@@ -10,8 +10,7 @@ variable "sizing" {
   }))
   default = {
     development = {
-      tier = "Basic"
-      size = "B1"
+      sku = "B1"
     }
   }
 }

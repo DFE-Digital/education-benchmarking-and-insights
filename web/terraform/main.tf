@@ -53,23 +53,20 @@ resource "azurerm_resource_group" "resource-group" {
   tags     = local.common-tags
 }
 
-resource "azurerm_app_service_plan" "education-benchmarking-asp" {
+resource "azurerm_service_plan" "education-benchmarking-asp" {
   name                = "${var.environment-prefix}-education-benchmarking-asp"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
-
-  sku {
-    tier = var.sizing[var.environment].tier
-    size = var.sizing[var.environment].size
-  }
-  tags = local.common-tags
+  os_type             = "Windows"
+  sku_name            =  var.sizing[var.environment].size
+  tags                = local.common-tags
 }
 
 resource "azurerm_windows_web_app" "education-benchmarking-as" {
   name                    = "${var.environment-prefix}-education-benchmarking"
   location                = azurerm_resource_group.resource-group.location
   resource_group_name     = azurerm_resource_group.resource-group.name
-  service_plan_id         = azurerm_app_service_plan.education-benchmarking-asp.id
+  service_plan_id         = azurerm_service_plan.education-benchmarking-asp.id
   client_affinity_enabled = false
   https_only              = true
 
