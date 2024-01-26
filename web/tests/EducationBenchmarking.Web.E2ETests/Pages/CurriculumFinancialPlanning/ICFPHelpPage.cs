@@ -10,8 +10,7 @@ public class ICFPHelpPage(PageHook page)
 {
     private readonly IPage _page = page.Current;
     private ILocator PageH1Heading => _page.Locator("h1");
-    //todo update the backLink selector when it has been added
-    private ILocator BackLink => _page.Locator("#link-back");
+    private ILocator BackLink => _page.Locator(".govuk-back-link");
     private ILocator SubmitAnEnquiryLink => _page.Locator("a", new PageLocatorOptions { HasText = "submit an enquiry" });
 
 
