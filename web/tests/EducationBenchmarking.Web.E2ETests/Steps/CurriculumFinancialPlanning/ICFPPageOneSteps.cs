@@ -19,16 +19,15 @@ public class ICFPPageOneSteps(ICFPPageOne _icfpPageOne, ICFPHelpPage _icfpHelpPa
         await _icfpPageOne.clickOnHelpBtn();
     }
 
-    [Given(@"I am on the help page  for school with URN '(.*)'")]
-    [Then(@"I am on the help page  for school with URN '(.*)'")]
+    [Given(@"I am on the help page for school with URN '(.*)'")]
     public async Task ThenIAmOnTheHelpPage(string urn)
     {
         await _icfpHelpPage.GoToPage(urn);
         await _icfpHelpPage.AssertPage();
     }
 
-    [When(@"I click back CTA on help page")]
-    public async Task WhenIClickBackCtaOnHelpPage()
+    [When(@"I click back link on help page")]
+    public async Task WhenIClickBacklinkOnHelpPage()
     {
         await _icfpHelpPage.ClickBack();
     }

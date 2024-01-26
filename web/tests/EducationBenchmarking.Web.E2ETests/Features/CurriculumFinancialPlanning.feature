@@ -7,6 +7,6 @@ Integrated Curriculum and financial planning feature
         Then I am on the help page
 
     Scenario: Go back from help page
-        Given I am on the help page  for school with URN '139696'
-        When I click back CTA on help page
+        Given I am on the help page for school with URN '139696'
+        When I click back link on help page
         Then I am on page 1 of the curriculum and financial planning journey

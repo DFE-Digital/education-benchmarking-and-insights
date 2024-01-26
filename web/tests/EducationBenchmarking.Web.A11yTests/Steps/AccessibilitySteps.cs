@@ -95,4 +95,16 @@ public sealed class AccessibilitySteps(PageHook page)
     {
         await _page.Locator(".govuk-button:has-text('View as table')").ClickAsync();
     }
+
+    [Given(@"I am on page 1 of the curriculum and financial planning journey for school with URN '(.*)'")]
+    public async Task GivenIAmOnPageOfTheCurriculumAndFinancialPlanningJourneyForSchoolWithUrn(string urn)
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/financial-planning");
+    }
+
+    [Given(@"I am on curriculum and financial planning help page for school with URN '(.*)'")]
+    public async Task GivenIAmOnCurriculumAndFinancialPlanningHelpPageForSchoolWithUrn(string urn)
+    {
+        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/financial-planning/help");
+    }
 }
