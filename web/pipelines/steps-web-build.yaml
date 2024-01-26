@@ -30,8 +30,6 @@ steps:
     displayName: 'Cache nuget packages'
     inputs:
       key: 'nuget | "$(Agent.OS)-web" | web/src/**/packages.lock.json,!**/bin/**,!**/obj/**'
-      restoreKeys: |
-        nuget | "$(Agent.OS)-web"
       path: $(WEB_NUGET_CACHE)
       cacheHitVar: WEB_CACHE_RESTORED
 
