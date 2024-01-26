@@ -63,9 +63,7 @@ stages:
           - task: Cache@2
             displayName: 'Cache nuget packages'
             inputs:
-              key: 'nuget | "$(Agent.OS)-web-tests" | web/tests/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
-              restoreKeys: |
-                nuget | "$(Agent.OS)-web-tests"
+              key: 'nuget | "$(Agent.OS)-web-tests" | web/**/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
               path: $(NUGET_PACKAGES)
               cacheHitVar: CACHE_RESTORED
 
