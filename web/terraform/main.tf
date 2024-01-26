@@ -75,7 +75,7 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
     application_stack {
       dotnet_version = "v8.0"
     }
-    use_32_bit_worker_process = false
+    use_32_bit_worker = false
   }
 
   app_settings = {
