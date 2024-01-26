@@ -112,10 +112,4 @@ public static class HtmlExtensions
             return (c.TextContent.Trim(), c.Href);
         }).FirstOrDefault();
     }
-        
-    public static IEnumerable<T> FindMainContentElements<T>(this IHtmlDocument doc)
-    {
-        return (doc.GetElementById("main-content") ?? throw new NullReferenceException()).Descendants().OfType<T>();
-    }
-        
 }
