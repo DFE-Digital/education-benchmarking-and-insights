@@ -73,7 +73,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   site_config {
     http2_enabled = true
     application_stack {
-      dotnet_version = "v8.0"
+      dotnet_version = "8.0"
     }
     use_32_bit_worker = false
   }
