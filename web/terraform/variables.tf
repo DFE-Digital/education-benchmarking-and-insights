@@ -5,8 +5,7 @@ variable "location" {}
 
 variable "sizing" {
   type = map(object({
-    tier = string
-    size = string
+    sku = string
   }))
   default = {
     development = {
