@@ -31,11 +31,11 @@ resource "azurerm_linux_web_app" "web-app" {
   https_only          = true
   site_config {
     minimum_tls_version = "1.2"
+    app_command_line = "npm run start"
   }
   app_settings = {
     "NODE_ENV"                       = "production"
     "PASSWORD"                       = "q"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
-    "app_command_line"               = "npm run start"
   }
 }
