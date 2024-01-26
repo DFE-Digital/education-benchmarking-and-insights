@@ -61,6 +61,7 @@ stages:
           - task: NuGetAuthenticate@1
           
           - task: Cache@2
+            condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
             displayName: 'Cache nuget packages'
             inputs:
               key: 'nuget | "$(Agent.OS)-tests" | platform/**/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
