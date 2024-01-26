@@ -58,7 +58,7 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Windows"
-  sku_name            =  var.sizing[var.environment].sku
+  sku_name            = var.sizing[var.environment].sku
   tags                = local.common-tags
 }
 
@@ -72,6 +72,9 @@ resource "azurerm_windows_web_app" "education-benchmarking-as" {
 
   site_config {
     http2_enabled = true
+    application_stack {
+      dotnet_version = "v8.0"
+    }
   }
 
   app_settings = {
