@@ -130,8 +130,7 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/EducationBenchmarking.Platform.Search.App.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
             
-            - script: |
-                call EducationBenchmarking.Platform.Search.App.exe -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory" -p "$(platform-storage-connection-string)" -a "local-authorities"
+            - script: EducationBenchmarking.Platform.Search.App.exe -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory" -p "$(platform-storage-connection-string)" -a "local-authorities"
               displayName: 'Run platform search app'    
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
               failOnStderr: true
