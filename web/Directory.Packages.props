@@ -18,9 +18,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="AngleSharp" Version="1.1.0" />
+    <PackageVersion Include="AngleSharp" Version="0.17.1" />
     <PackageVersion Include="AngleSharp.Css" Version="0.17.0" />
-    <PackageVersion Include="AngleSharp.XPath" Version="2.0.3" />
+    <PackageVersion Include="AngleSharp.XPath" Version="2.0.1" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
@@ -36,7 +36,7 @@
     <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
-    <PackageVersion Include="Microsoft.Playwright" Version="1.41.1" />
+    <PackageVersion Include="Microsoft.Playwright" Version="1.41.2" />
     <PackageVersion Include="SpecFlow" Version="3.9.74" />
     <PackageVersion Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
