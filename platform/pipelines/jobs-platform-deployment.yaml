@@ -109,7 +109,7 @@ jobs:
     dependsOn: [RunTerraform]
     displayName: 'Deploy platform'
     pool:
-      vmImage: windows-2022
+      vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
     strategy:
       runOnce:
@@ -147,7 +147,8 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmark.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
-                
+                DeploymentType: 'runFromZip'
+
             - task: AzureFunctionApp@1
               displayName: 'Deploy insights function app'
               inputs:
@@ -159,6 +160,7 @@ jobs:
                 package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Insight.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                DeploymentType: 'runFromZip'
                 
             - task: AzureFunctionApp@1
               displayName: 'Deploy establishments function app'
@@ -170,4 +172,5 @@ jobs:
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishment.zip'
                 slotName: production
-                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'   
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                DeploymentType: 'runFromZip'
