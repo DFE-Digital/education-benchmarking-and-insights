@@ -1,5 +1,5 @@
 pool:
-  vmImage: 'windows-2022'
+  vmImage: 'ubuntu-latest'
 
 trigger:
   batch: true
@@ -86,11 +86,6 @@ stages:
               packagesDirectory: $(NUGET_PACKAGES)
               arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFileName=TestResults.trx"'
               projects: 'platform/**/*.Tests.csproj'
-              
-          - task: PublishTestResults@2
-            inputs:
-              testResultsFormat: 'XUnit'
-              testResultsFiles: '**/TestResults.trx'
 
       - job: BuildPlatform
         dependsOn: [Set_Build_Number]
