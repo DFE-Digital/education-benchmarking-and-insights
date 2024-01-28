@@ -26,10 +26,10 @@ stages:
             displayName: "Pull > bridgecrew/checkov"
           - bash: |
               docker run \
-                --volume $(directory):/terraform bridgecrew/checkov \
+                --volume /terraform:/terraform --workdir /terraform bridgecrew/checkov \ 
                 --directory /terraform \
                 --output junitxml \
-                --soft-fail > $(directory)/CheckovReport.xml
+                --soft-fail > CheckovReport.xml
             workingDirectory: $(directory)
             displayName: "Run > checkov"
           - task: PublishTestResults@2
@@ -40,7 +40,7 @@ stages:
               testResultsFiles: "CheckovReport.xml"
               searchFolder: "$(directory)"
             displayName: "Publish > Checkov scan results"
-            
+
       - job: Zip_static_artifacts
         displayName: 'Zip static artifacts'
         steps:
