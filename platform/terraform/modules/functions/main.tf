@@ -34,6 +34,7 @@ resource "azurerm_windows_function_app" "func-app" {
     cors {
       allowed_origins = local.cors
     }
+    application_insights_key = var.application-insights-key
   }
 
   app_settings = local.function-app-settings
