@@ -1,7 +1,6 @@
 locals {
   function-app-settings = merge(var.app-settings, {
     "FUNCTIONS_WORKER_RUNTIME"       = "dotnet",
-    "WEBSITE_NODE_DEFAULT_VERSION"   = "~10",
     "APPINSIGHTS_INSTRUMENTATIONKEY" = var.application-insights-key
   })
   cors              = var.cors
@@ -44,7 +43,8 @@ resource "azurerm_windows_function_app" "func-app" {
     ignore_changes = [
       app_settings["FUNCTIONS_EXTENSION_VERSION"],
       app_settings["WEBSITE_ENABLE_SYNC_UPDATE_SITE"],
-      app_settings["WEBSITE_RUN_FROM_PACKAGE"]
+      app_settings["WEBSITE_RUN_FROM_PACKAGE"],
+      app_settings["APPINSIGHTS_INSTRUMENTATIONKEY"],
     ]
   }
 }
