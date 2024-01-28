@@ -5,11 +5,15 @@ variable "location" {}
 
 variable "sizing" {
   type = map(object({
-    sku = string
+    sku                    = string
+    zone_balancing_enabled = bool
+    worker_count           = number
   }))
   default = {
     development = {
-      sku = "B1"
+      sku_name               = "B1"
+      zone_balancing_enabled = false
+      worker_count           = 1
     }
   }
 }
