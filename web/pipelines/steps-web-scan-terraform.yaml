@@ -18,4 +18,3 @@ steps:
       testResultsFiles: "CheckovReport.xml"
       searchFolder: "${{ parameters.TerraformDirectory }}"
     displayName: "Publish results"
-    continueOnError: true
