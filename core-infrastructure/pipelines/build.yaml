@@ -19,7 +19,7 @@ stages:
       - job: "runCheckov"
         displayName: "Checkov > Pull, run and publish results of Checkov scan"
         variables:
-          directory: 'core-infrastructure/terraform'
+          directory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
         steps:
           - bash: docker pull bridgecrew/checkov
             workingDirectory: $(directory)
