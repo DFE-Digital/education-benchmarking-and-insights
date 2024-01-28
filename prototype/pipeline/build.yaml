@@ -16,40 +16,24 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
+      - job: RunCheckov
+        displayName: "Checkov scan terraform"
+        steps:
+          - template: steps-prototype-scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(System.DefaultWorkingDirectory)/prototype/terraform
+
       - job: Zip_static_artifacts
         displayName: 'Zip static artifacts'
         steps:
-          - task: ArchiveFiles@2
-            displayName: 'Zip terraform files'
-            inputs:
-              rootFolderOrFile: 'prototype/terraform'
-              includeRootFolder: false
-              archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
-
-          - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
-            artifact: terraform
+          - template: steps-prototype-publish-static-artifacts.yaml
 
       - job: Build
         displayName: Build
         pool:
           vmImage: ubuntu-latest
         steps:
-          - task: Npm@1
-            displayName: 'Install dependencies'
-            inputs:
-              command: 'install'
-              workingDir: 'prototype/src'
-
-          - task: ArchiveFiles@2
-            displayName: 'Archive files'
-            inputs:
-              rootFolderOrFile: 'prototype/src'
-              includeRootFolder: false
-              archiveFile: $(Build.ArtifactStagingDirectory)/prototype.zip
-              replaceExistingArchive: true
-
-          - publish: $(Build.ArtifactStagingDirectory)/prototype.zip
-            artifact: prototype
+          - template: steps-prototype-build.yaml
 
   - stage: DeployDevelopment
     dependsOn: [Build]
