@@ -15,8 +15,6 @@ steps:
     displayName: 'Cache nuget packages'
     inputs:
       key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,platform/src/db/**/packages.lock.json,!**/bin/**,!**/obj/**'
-      restoreKeys: |
-        nuget | "$(Agent.OS)-platform"
       path: $(PLATFORM_NUGET_CACHE)
       cacheHitVar: PLATFORM_CACHE_RESTORED
 

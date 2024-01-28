@@ -9,7 +9,7 @@ steps:
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
     displayName: 'Cache nuget packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-tests" | platform/**/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-web-tests" | web/**/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
       path: $(NUGET_PACKAGES)
       cacheHitVar: CACHE_RESTORED
 
@@ -18,10 +18,10 @@ steps:
     condition: ne(variables.CACHE_RESTORED, 'true')
     inputs:
       command: restore
-      projects: 'platform/**/*.Tests.csproj'
+      projects: 'web/**/*.Tests.csproj'
       packagesDirectory: $(NUGET_PACKAGES)
       feedsToUse: 'config'
-      nugetConfigPath: 'platform/nuget.config'
+      nugetConfigPath: 'web/nuget.config'
 
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests'
@@ -29,4 +29,4 @@ steps:
       command: test
       packagesDirectory: $(NUGET_PACKAGES)
       arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFileName=TestResults.trx"'
-      projects: 'platform/**/*.Tests.csproj'
+      projects: 'web/**/*.Tests.csproj'

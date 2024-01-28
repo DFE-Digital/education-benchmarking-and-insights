@@ -20,8 +20,6 @@ variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]  
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
-  NUGET_PACKAGES: $(Pipeline.Workspace)/.nuget/test/packages
-  CACHE_RESTORED: 'false'
   NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
 
@@ -40,51 +38,23 @@ stages:
             condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
             displayName: 'Set pre-release build number'
 
+      - job: RunCheckov
+        displayName: "Checkov scan terraform"
+        steps:
+          - template: steps-platform-scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(System.DefaultWorkingDirectory)/web/terraform
+
       - job: Zip_Static_artifacts
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps: 
-          - task: ArchiveFiles@2
-            displayName: 'Zip terraform files'
-            inputs:
-              rootFolderOrFile: 'web/terraform'
-              includeRootFolder: false
-              archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
-
-          - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
-            artifact: terraform
+          - template: steps-web-publish-static-artifacts.yaml
 
       - job: RunTests
-        dependsOn: [Set_Build_Number]
         displayName: 'Run unit tests'
         steps:
-          - task: NuGetAuthenticate@1
-          
-          - task: Cache@2
-            condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
-            displayName: 'Cache nuget packages'
-            inputs:
-              key: 'nuget | "$(Agent.OS)-web-tests" | web/**/*.Tests*/packages.lock.json,!**/bin/**,!**/obj/**'
-              path: $(NUGET_PACKAGES)
-              cacheHitVar: CACHE_RESTORED
-
-          - task: DotNetCoreCLI@2
-            displayName: 'Restore nuget packages'
-            condition: ne(variables.CACHE_RESTORED, 'true')
-            inputs:
-              command: restore
-              projects: 'web/**/*.Tests.csproj'
-              packagesDirectory: $(NUGET_PACKAGES)
-              feedsToUse: 'config'
-              nugetConfigPath: 'web/nuget.config'
-                              
-          - task: DotNetCoreCLI@2
-            displayName: 'Run unit tests'
-            inputs:
-              command: test
-              packagesDirectory: $(NUGET_PACKAGES)
-              arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFileName=TestResults.trx"'
-              projects: 'web/**/*.Tests.csproj'
+          - template: steps-web-run-unit-tests.yaml
 
       - job: BuildWeb
         dependsOn: [Set_Build_Number]
