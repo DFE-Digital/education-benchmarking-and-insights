@@ -12,7 +12,7 @@ terraform -chdir='../core-infrastructure/terraform' init -backend=false
 terraform -chdir='../core-infrastructure/terraform' validate
 
 terraform -chdir='../platform/terraform' init -backend=false
-terraform -chdir='.../platform/terraform' validate
+terraform -chdir='../platform/terraform' validate
 
 terraform -chdir='../web/terraform' init -backend=false
 terraform -chdir='../web/terraform' validate

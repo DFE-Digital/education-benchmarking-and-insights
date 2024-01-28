@@ -2,12 +2,12 @@ namespace EducationBenchmarking.Web.Extensions;
 
 public static class HostEnvironmentExtensions
 {
-    private const string IntegrationTestEnvironment = "IntegrationTest";
+    private const string IntegrationEnvironment = "Integration";
     
-    public static bool IsIntegrationTest(this IHostEnvironment hostEnvironment)
+    public static bool IsIntegration(this IHostEnvironment hostEnvironment)
     {
         ArgumentNullException.ThrowIfNull(hostEnvironment);
 
-        return hostEnvironment.IsEnvironment(IntegrationTestEnvironment);
+        return hostEnvironment.IsEnvironment(IntegrationEnvironment);
     }
 }

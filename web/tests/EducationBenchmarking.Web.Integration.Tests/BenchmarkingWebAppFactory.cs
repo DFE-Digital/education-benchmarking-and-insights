@@ -6,8 +6,7 @@ public class BenchmarkingWebAppFactory : WebApplicationFactory<Program>
 {
     protected override void ConfigureWebHost(IWebHostBuilder builder)
     {
-        Environment.SetEnvironmentVariable("APPINSIGHTS_INSTRUMENTATIONKEY", "appinsights");
         builder.ConfigureServices(_ => { });
-        builder.UseEnvironment("IntegrationTest");
+        builder.UseEnvironment("Integration");
     }
 }
