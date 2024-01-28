@@ -16,26 +16,12 @@ stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
-      - job: "runCheckov"
-        displayName: "Checkov > Pull, run and publish results of Checkov scan"
-        variables:
-          directory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
+      - job: RunCheckov
+        displayName: "Checkov scan terraform"
         steps:
-          - bash: docker pull bridgecrew/checkov
-            workingDirectory: $(directory)
-            displayName: "Pull > bridgecrew/checkov"
-          - bash: |
-              docker run --volume $(directory):/tf bridgecrew/checkov --directory /tf --output junitxml > $(directory)/CheckovReport.xml --soft-fail
-            workingDirectory: $(directory)
-            displayName: "Run > checkov"
-          - task: PublishTestResults@2
-            inputs:
-              testRunTitle: "Checkov Results"
-              failTaskOnFailedTests: true
-              testResultsFormat: "JUnit"
-              testResultsFiles: "CheckovReport.xml"
-              searchFolder: "$(directory)"
-            displayName: "Publish > Checkov scan results"
+          - template: steps-core-scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
 
       - job: Zip_static_artifacts
         displayName: 'Zip static artifacts'
