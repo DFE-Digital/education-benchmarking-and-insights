@@ -71,7 +71,6 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   service_plan_id         = azurerm_service_plan.education-benchmarking-asp.id
   client_affinity_enabled = false
   https_only              = true
-  ftps_state = "Disabled"
 
   site_config {
     http2_enabled = true
@@ -79,6 +78,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
       dotnet_version = "8.0"
     }
     use_32_bit_worker = false
+    ftps_state        = "Disabled"
   }
 
   app_settings = {
