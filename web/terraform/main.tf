@@ -61,7 +61,6 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   sku_name               = var.sizing[var.environment].sku
   tags                   = local.common-tags
   zone_balancing_enabled = true
-  worker_count           = 2
 }
 
 resource "azurerm_linux_web_app" "education-benchmarking-as" {
