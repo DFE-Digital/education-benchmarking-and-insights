@@ -72,6 +72,10 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   client_affinity_enabled = false
   https_only              = true
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   site_config {
     http2_enabled = true
     application_stack {
@@ -79,6 +83,17 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     }
     use_32_bit_worker = false
     ftps_state        = "Disabled"
+  }
+
+  logs {
+    failed_request_tracing  = true
+    detailed_error_messages = true
+    http_logs {
+      file_system {
+        retention_in_days = 4
+        retention_in_mb   = 25
+      }
+    }
   }
 
   app_settings = {
