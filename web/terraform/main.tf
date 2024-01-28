@@ -67,6 +67,8 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
 resource "azurerm_linux_web_app" "education-benchmarking-as" {
   #checkov:skip=CKV_AZURE_13:Authentication is handled via DSI
   #checkov:skip=CKV_AZURE_88:Persistent storage not required
+  #checkov:skip=CKV_AZURE_17:Client cert no used
+  #checkov:skip=CKV_AZURE_222:Web app is public site
   name                    = "${var.environment-prefix}-education-benchmarking"
   location                = azurerm_resource_group.resource-group.location
   resource_group_name     = azurerm_resource_group.resource-group.name
@@ -83,8 +85,10 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     application_stack {
       dotnet_version = "8.0"
     }
-    use_32_bit_worker = false
-    ftps_state        = "Disabled"
+    use_32_bit_worker                 = false
+    ftps_state                        = "Disabled"
+    health_check_path                 = "health"
+    health_check_eviction_time_in_min = 10
   }
 
   logs {

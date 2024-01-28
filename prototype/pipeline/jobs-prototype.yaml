@@ -58,7 +58,7 @@ jobs:
             - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
               displayName: 'Terraform : install'
               inputs:
-                terraformVersion: 1.6.6
+                terraformVersion: 1.7.1
 
             - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
               displayName: 'Terraform : init'
