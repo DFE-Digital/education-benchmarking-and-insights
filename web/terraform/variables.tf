@@ -3,9 +3,9 @@ variable "cip-environment" {}
 variable "environment-prefix" {}
 variable "location" {}
 
-variable "sizing" {
+variable "configuration" {
   type = map(object({
-    sku                    = string
+    sku_name               = string
     zone_balancing_enabled = bool
     worker_count           = number
   }))

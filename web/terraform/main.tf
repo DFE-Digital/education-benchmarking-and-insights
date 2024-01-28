@@ -58,9 +58,9 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   location               = azurerm_resource_group.resource-group.location
   resource_group_name    = azurerm_resource_group.resource-group.name
   os_type                = "Linux"
-  sku_name               = var.sizing[var.environment].sku_name
-  zone_balancing_enabled = var.sizing[var.environment].zone_balancing_enabled
-  worker_count           = var.sizing[var.environment].worker_count
+  sku_name               = var.configuration[var.environment].sku_name
+  zone_balancing_enabled = var.configuration[var.environment].zone_balancing_enabled
+  worker_count           = var.configuration[var.environment].worker_count
   tags                   = local.common-tags
 }
 

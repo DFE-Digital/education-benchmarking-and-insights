@@ -37,11 +37,11 @@ No modules.
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    sku_name               = string<br>    zone_balancing_enabled = bool<br>    worker_count           = number<br>  }))</pre> | <pre>{<br>  "development": {<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  }<br>}</pre> | no |
 | <a name="input_dfe-signin"></a> [dfe-signin](#input\_dfe-signin) | n/a | `any` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |
-| <a name="input_sizing"></a> [sizing](#input\_sizing) | n/a | <pre>map(object({<br>    sku                    = string<br>    zone_balancing_enabled = bool<br>    worker_count           = number<br>  }))</pre> | <pre>{<br>  "development": {<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  }<br>}</pre> | no |
 
 ## Outputs
 
