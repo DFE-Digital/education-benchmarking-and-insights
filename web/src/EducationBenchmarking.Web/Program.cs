@@ -33,6 +33,10 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
     options.ActiveLiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
 });
 
+builder.Services.AddHealthChecks();
+
+builder.Services.AddSingleton<IFinanceService, FinanceService>();
+
 if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
@@ -66,8 +70,6 @@ if (!builder.Environment.IsIntegration())
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
 }
 
-builder.Services.AddSingleton<IFinanceService, FinanceService>();
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -80,7 +82,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseSerilogRequestLogging();
 app.UseStatusCodePagesWithRedirects("/error/{0}");
-
+app.MapHealthChecks("/health");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();

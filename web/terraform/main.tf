@@ -87,7 +87,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     }
     use_32_bit_worker                 = false
     ftps_state                        = "Disabled"
-    health_check_path                 = "health"
+    health_check_path                 = "/health"
     health_check_eviction_time_in_min = 10
   }
 
