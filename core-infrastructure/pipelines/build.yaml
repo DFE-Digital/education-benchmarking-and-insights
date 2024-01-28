@@ -25,11 +25,7 @@ stages:
             workingDirectory: $(directory)
             displayName: "Pull > bridgecrew/checkov"
           - bash: |
-              docker run \
-                --volume /terraform:/terraform --workdir /terraform bridgecrew/checkov \ 
-                --directory /terraform \
-                --output junitxml \
-                --soft-fail > CheckovReport.xml
+              docker run --volume /terraform:/terraform --workdir /terraform bridgecrew/checkov --directory /terraform --output junitxml > CheckovReport.xml --soft-fail
             workingDirectory: $(directory)
             displayName: "Run > checkov"
           - task: PublishTestResults@2
