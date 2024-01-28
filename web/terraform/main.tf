@@ -78,6 +78,10 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     use_32_bit_worker = false
   }
 
+  auth_settings {
+    enabled = false
+  }
+
   app_settings = {
     "ASPNETCORE_ENVIRONMENT"                   = "Production"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"    = data.azurerm_application_insights.application-insights.connection_string
