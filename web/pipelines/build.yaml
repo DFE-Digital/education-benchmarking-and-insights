@@ -41,7 +41,7 @@ stages:
       - job: RunCheckov
         displayName: "Checkov scan terraform"
         steps:
-          - template: steps-platform-scan-terraform.yaml
+          - template: steps-web-scan-terraform.yaml
             parameters:
               TerraformDirectory: $(System.DefaultWorkingDirectory)/web/terraform
 
