@@ -37,8 +37,8 @@ resource "azurerm_storage_account" "platform-storage" {
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {
-  name                  = "local-authorities"
-  storage_account_name  = azurerm_storage_account.platform-storage.name
+  name                 = "local-authorities"
+  storage_account_name = azurerm_storage_account.platform-storage.name
 }
 
 resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
@@ -80,7 +80,7 @@ resource "azurerm_search_service" "search" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   sku                 = "standard"
-  tags = local.common-tags
+  tags                = local.common-tags
 }
 
 resource "azurerm_key_vault_secret" "platform-search-key" {
@@ -100,7 +100,7 @@ module "benchmark-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = merge(local.default_app_settings, {
+  app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName" = "fibre-directory"
@@ -119,7 +119,7 @@ module "insight-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = merge(local.default_app_settings, {
+  app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName" = "fibre-directory"
@@ -138,7 +138,7 @@ module "establishment-fa" {
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
   application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
-  app-settings             = merge(local.default_app_settings, {
+  app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName" = "fibre-directory"

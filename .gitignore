@@ -404,7 +404,7 @@ FodyWeavers.xsd
 *.feature.cs
 appsettings.local.json
 local.settings.json
-
+**/.terraform*
 
 # govuk frontend stuff
 **/wwwroot/*

@@ -10,7 +10,7 @@
 
 | Name | Version |
 |------|---------|
-| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | ~> 3.32 |
+| <a name="provider_azurerm"></a> [azurerm](#provider\_azurerm) | 3.89.0 |
 
 ## Modules
 

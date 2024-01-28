@@ -1,4 +1,4 @@
-﻿variable "function-name" {
+variable "function-name" {
   type = string
 }
 
@@ -7,9 +7,9 @@ variable "app-settings" {
 }
 
 variable "sku" {
-  type=object({
-    tier=string
-    size=string
+  type = object({
+    tier = string
+    size = string
   })
   default = {
     tier = "Dynamic"
@@ -18,17 +18,17 @@ variable "sku" {
 }
 
 variable "requires-keys" {
-  type = bool
+  type    = bool
   default = true
 }
 
 variable "always-on" {
-  type = bool
+  type    = bool
   default = false
 }
 
 variable "cors" {
-  type=list(string)
+  type    = list(string)
   default = ["*"]
 }
 
