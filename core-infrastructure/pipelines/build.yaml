@@ -19,13 +19,13 @@ stages:
       - job: "runCheckov"
         displayName: "Checkov > Pull, run and publish results of Checkov scan"
         variables:
-          directory: 'front-end-components'
+          directory: 'core-infrastructure/terraform'
         steps:
           - bash: docker pull bridgecrew/checkov
             workingDirectory: $(directory)
             displayName: "Pull > bridgecrew/checkov"
           - bash: |
-              docker run --volume /terraform:/terraform --workdir /terraform bridgecrew/checkov --directory /terraform --output junitxml > CheckovReport.xml --soft-fail
+              docker run --volume $(directory):/tf bridgecrew/checkov --directory /tf --output junitxml > $(directory)/CheckovReport.xml --soft-fail
             workingDirectory: $(directory)
             displayName: "Run > checkov"
           - task: PublishTestResults@2
