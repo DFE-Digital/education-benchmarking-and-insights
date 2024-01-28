@@ -54,12 +54,14 @@ resource "azurerm_resource_group" "resource-group" {
 }
 
 resource "azurerm_service_plan" "education-benchmarking-asp" {
-  name                = "${var.environment-prefix}-education-benchmarking-asp"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  os_type             = "Linux"
-  sku_name            = var.sizing[var.environment].sku
-  tags                = local.common-tags
+  name                   = "${var.environment-prefix}-education-benchmarking-asp"
+  location               = azurerm_resource_group.resource-group.location
+  resource_group_name    = azurerm_resource_group.resource-group.name
+  os_type                = "Linux"
+  sku_name               = var.sizing[var.environment].sku
+  tags                   = local.common-tags
+  zone_balancing_enabled = true
+  worker_count           = 2
 }
 
 resource "azurerm_linux_web_app" "education-benchmarking-as" {
