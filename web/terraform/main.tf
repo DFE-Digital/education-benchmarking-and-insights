@@ -63,13 +63,15 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
 }
 
 resource "azurerm_linux_web_app" "education-benchmarking-as" {
-  #checkov:skip=CKV_AZURE_13:Authentication is handle via DSI 
+  #checkov:skip=CKV_AZURE_13:Authentication is handled via DSI
+  #checkov:skip=CKV_AZURE_88:Persistent storage not required
   name                    = "${var.environment-prefix}-education-benchmarking"
   location                = azurerm_resource_group.resource-group.location
   resource_group_name     = azurerm_resource_group.resource-group.name
   service_plan_id         = azurerm_service_plan.education-benchmarking-asp.id
   client_affinity_enabled = false
   https_only              = true
+  ftps_state = "Disabled"
 
   site_config {
     http2_enabled = true
@@ -78,7 +80,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     }
     use_32_bit_worker = false
   }
-  
+
   app_settings = {
     "ASPNETCORE_ENVIRONMENT"                   = "Production"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"    = data.azurerm_application_insights.application-insights.connection_string
