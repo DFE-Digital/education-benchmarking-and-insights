@@ -60,7 +60,6 @@ resource "azurerm_service_plan" "education-benchmarking-asp" {
   os_type                = "Linux"
   sku_name               = var.sizing[var.environment].sku
   tags                   = local.common-tags
-  zone_balancing_enabled = true
 }
 
 resource "azurerm_linux_web_app" "education-benchmarking-as" {
