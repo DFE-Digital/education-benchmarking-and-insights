@@ -29,7 +29,7 @@ No modules.
 |------|-------------|------|---------|:--------:|
 | <a name="input_always-on"></a> [always-on](#input\_always-on) | n/a | `bool` | `false` | no |
 | <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)` | n/a | yes |
-| <a name="input_application-insights-key"></a> [application-insights-key](#input\_application-insights-key) | n/a | `string` | n/a | yes |
+| <a name="input_application-insights-connection-string"></a> [application-insights-connection-string](#input\_application-insights-connection-string) | n/a | `string` | n/a | yes |
 | <a name="input_common-tags"></a> [common-tags](#input\_common-tags) | n/a | `map(string)` | n/a | yes |
 | <a name="input_cors"></a> [cors](#input\_cors) | n/a | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `string` | n/a | yes |

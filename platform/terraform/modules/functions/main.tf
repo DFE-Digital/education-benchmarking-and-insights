@@ -1,6 +1,6 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"       = "dotnet",
+    "FUNCTIONS_WORKER_RUNTIME"              = "dotnet",
     "APPLICATIONINSIGHTS_CONNECTION_STRING" = var.application-insights-connection-string
   })
   cors              = var.cors
@@ -11,9 +11,9 @@ resource "azurerm_service_plan" "func-asp" {
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
-  os_type  = "Windows"
-  sku_name = var.sku.size
-  tags = var.common-tags
+  os_type             = "Windows"
+  sku_name            = var.sku.size
+  tags                = var.common-tags
 }
 
 resource "azurerm_windows_function_app" "func-app" {
@@ -31,9 +31,9 @@ resource "azurerm_windows_function_app" "func-app" {
     cors {
       allowed_origins = local.cors
     }
-    application_insights_connection_string  = var.application-insights-connection-string
+    application_insights_connection_string = var.application-insights-connection-string
     application_stack {
-      dotnet_version = "v6.0"
+      dotnet_version              = "v6.0"
       use_dotnet_isolated_runtime = false
     }
   }
