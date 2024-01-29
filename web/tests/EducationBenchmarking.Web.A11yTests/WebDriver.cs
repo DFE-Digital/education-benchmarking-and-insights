@@ -18,6 +18,7 @@ public class WebDriver: IDisposable
 
         var page = await browserContext.NewPageAsync();
         await page.GotoAsync(url);
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         return page;
     }
     
