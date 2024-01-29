@@ -1,7 +1,8 @@
-namespace EducationBenchmarking.Web.A11yTests.TestSupport;
 using Microsoft.Extensions.Configuration;
 
-public class Config
+namespace EducationBenchmarking.Web.A11yTests;
+
+public static class TestConfiguration
 {
     public static IConfiguration Instance => new ConfigurationBuilder()
 #if !DEBUG
@@ -11,7 +12,7 @@ public class Config
 #endif
         .Build();
 
-    public static string BaseUrl => Instance.GetValue<string>("Urls:BaseUrl") ?? throw new Exception("Base url missing");
+    public static string BaseUrl => Instance.GetValue<string>("ServiceUrl") ?? throw new Exception("Service url missing");
     
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 }

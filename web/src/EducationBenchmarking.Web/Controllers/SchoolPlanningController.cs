@@ -10,8 +10,7 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/financial-planning")]
-public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger)
-    : Controller
+public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
