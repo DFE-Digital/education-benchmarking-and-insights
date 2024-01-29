@@ -7,12 +7,14 @@ public class WhenViewingSchoolBenchmarkWorkforceData(WebDriver driver, ITestOutp
 {
     private const string SchoolUrn = "139696";
     
-    [Fact]
-    public async Task ThenThereAreNoAccessibilityIssues()
+    [Theory]
+    [InlineData("table")]
+    [InlineData("chart")]
+    public async Task ThenThereAreNoAccessibilityIssues(string mode)
     {
         Page = await driver.GetPage(PageUrl);
+        await Page.Locator($"#mode-{mode}").ClickAsync();
         await EvaluatePage();
     }
-
     protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}/workforce";
 }
