@@ -63,7 +63,7 @@ public static class DocumentAssert
     public static void Link(IElement element, string contents, string url)
     {
         Assert.Equal(contents, element.TextContent.Trim());
-        Assert.True(element.ClassList.Contains("govuk-link"), "A link should have a the class govuk-link");
+        Assert.True(element.ClassList.Contains("govuk-link"), "A link should have the class govuk-link");
         
         switch (element)
         {
@@ -76,13 +76,19 @@ public static class DocumentAssert
         }
     }
 
-    // TODO: uncomment once back link added to icfp help page
-    //public static void BackLink(IHtmlAnchorElement element, string contents, string url)
-    //{
-    //    Assert.Equal(contents, element.TextContent.Trim());
-    //    Assert.True(element.ClassList.Contains("govuk-back-link"), "A back link should have a the class govuk-back-link");
-    //    Assert.Equal(url, element.Href);
-    //}
+    public static void BackLink(IElement element , string contents, string url)
+    {
+        Assert.Equal(contents, element.TextContent.Trim());
+        Assert.True(element.ClassList.Contains("govuk-back-link"), "A back link should have the class govuk-back-link");
+        if (element is IHtmlAnchorElement a)
+        {
+            Assert.Equal(url, a.Href);
+        }
+        else
+        {
+            Assert.Fail("A back link should be an anchor element");
+        }
+    }
 
     private static void AssertNodeText(INode element, string text)
     {
