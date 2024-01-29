@@ -1596,11 +1596,6 @@
           "System.Xml.ReaderWriter": "4.3.0"
         }
       },
-      "xunit.abstractions": {
-        "type": "Transitive",
-        "resolved": "2.0.3",
-        "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg=="
-      },
       "xunit.analyzers": {
         "type": "Transitive",
         "resolved": "1.10.0",
@@ -1807,6 +1802,12 @@
         "requested": "[3.6.1, )",
         "resolved": "3.6.1",
         "contentHash": "+GTqVp0EyaOQ1dxL5dDB/l5YE1w+q4D7a1EBN/O1eNQO+1WU91I9bGrhMV0bUyOaPJPZJ/acdRYUe4hmadcDTg=="
+      },
+      "xunit.abstractions": {
+        "type": "CentralTransitive",
+        "requested": "[2.0.3, )",
+        "resolved": "2.0.3",
+        "contentHash": "pot1I4YOxlWjIb5jmwvvQNbTrZ3lJQ+jUGkGjWE3hEFM0l5gOnBWS+H3qsex68s5cO52g+44vpGzhAt+42vwKg=="
       }
     }
   }
