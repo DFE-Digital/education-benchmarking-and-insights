@@ -10,10 +10,10 @@ public abstract class CosmosDatabase
     private readonly CosmosClient _client;
     private readonly string _databaseId;
 
-    protected CosmosDatabase(string connectionString, string databaseId)
+    protected CosmosDatabase(string connectionString, string databaseId, bool isDirect)
     {
         _databaseId = databaseId;
-        _client = CosmosClientFactory.Create(connectionString);
+        _client = CosmosClientFactory.Create(connectionString,isDirect);
     }
     
     protected Task<ItemResponse<T>> ReadItemAsync<T>(string containerId, string id, string partitionKey)

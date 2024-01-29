@@ -10,6 +10,7 @@ public class CollectionServiceOptions
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
     [Required] public string LookupCollectionName { get; set; }
+    public bool IsDirect { get; set; } = true;
 }
 
 
@@ -19,7 +20,7 @@ public class CollectionService : CosmosDatabase, ICollectionService
     private readonly CollectionServiceOptions _options;
 
     public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value.ConnectionString,
-        options.Value.DatabaseId)
+        options.Value.DatabaseId, options.Value.IsDirect)
     {
         _options = options.Value;
     }

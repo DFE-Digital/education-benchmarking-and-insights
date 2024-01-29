@@ -25,6 +25,7 @@ public class BandingDbOptions
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
     [Required] public string SizingCollectionName { get; set; }
+    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -33,7 +34,7 @@ public class BandingDb : CosmosDatabase, IBandingDb
     private readonly BandingDbOptions _options;
     
     public BandingDb(IOptions<BandingDbOptions> options)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId)
+        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
     {
         _options = options.Value;
     }

@@ -19,6 +19,7 @@ public class MaintainSchoolDbOptions
 {
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
+    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public class MaintainSchoolDb : CosmosDatabase, IMaintainSchoolDb
     private readonly ICollectionService _collectionService;
 
     public MaintainSchoolDb(IOptions<MaintainSchoolDbOptions> options, ICollectionService collectionService)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId)
+        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
     {
         _collectionService = collectionService;
     }

@@ -19,6 +19,7 @@ public class AcademyDbOptions
 {
     [Required] public string ConnectionString { get; set; }
     [Required] public string DatabaseId { get; set; }
+    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,7 +28,7 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
     private readonly ICollectionService _collectionService;
 
     public AcademyDb(IOptions<AcademyDbOptions> options, ICollectionService collectionService)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId)
+        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
     {
         _collectionService = collectionService;
     }

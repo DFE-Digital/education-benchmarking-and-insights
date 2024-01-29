@@ -6,22 +6,11 @@ namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 [ExcludeFromCodeCoverage]
 public static class CosmosClientFactory
 {
-    public static CosmosClient Create(string connectionString)
+    public static CosmosClient Create(string connectionString, bool isDirect)
     {
         return new CosmosClient(connectionString, new CosmosClientOptions
         {
-#if DEBUG
-            //Disabling SSL validation for local emulator
-            HttpClientFactory = () =>
-            {
-                HttpMessageHandler httpMessageHandler = new HttpClientHandler
-                {
-                    ServerCertificateCustomValidationCallback =
-                        HttpClientHandler.DangerousAcceptAnyServerCertificateValidator
-                };
-                return new HttpClient(httpMessageHandler);
-            }
-#endif
+            ConnectionMode = isDirect ? ConnectionMode.Direct : ConnectionMode.Gateway
         });
     }
 }
