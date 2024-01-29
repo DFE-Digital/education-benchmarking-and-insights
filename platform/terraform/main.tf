@@ -99,7 +99,7 @@ module "benchmark-fa" {
   storage-account-key      = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
-  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
@@ -118,7 +118,7 @@ module "insight-fa" {
   storage-account-key      = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
-  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
@@ -137,7 +137,7 @@ module "establishment-fa" {
   storage-account-key      = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id             = data.azurerm_key_vault.key-vault.id
   location                 = var.location
-  application-insights-key = data.azurerm_application_insights.application-insights.instrumentation_key
+  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
