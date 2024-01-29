@@ -19,6 +19,9 @@
         <PackageReference Include="Microsoft.Extensions.Options" />
         <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" />
         <PackageReference Include="Newtonsoft.Json"/>
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Enrichers.CorrelationId" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
         <ProjectReference Include="..\EducationBenchmarking.Platform.Domain\EducationBenchmarking.Platform.Domain.csproj"/>
     </ItemGroup>
 </Project>

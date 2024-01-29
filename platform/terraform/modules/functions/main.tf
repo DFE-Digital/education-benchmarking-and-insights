@@ -1,7 +1,7 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"       = "dotnet",
-    "APPINSIGHTS_INSTRUMENTATIONKEY" = var.application-insights-key
+    "FUNCTIONS_WORKER_RUNTIME"              = "dotnet",
+    "APPLICATIONINSIGHTS_CONNECTION_STRING" = var.application-insights-connection-string
   })
   cors              = var.cors
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
@@ -11,11 +11,9 @@ resource "azurerm_service_plan" "func-asp" {
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
-
-  os_type  = "Windows"
-  sku_name = var.sku.size
-
-  tags = var.common-tags
+  os_type             = "Windows"
+  sku_name            = var.sku.size
+  tags                = var.common-tags
 }
 
 resource "azurerm_windows_function_app" "func-app" {
@@ -33,7 +31,11 @@ resource "azurerm_windows_function_app" "func-app" {
     cors {
       allowed_origins = local.cors
     }
-    application_insights_key = var.application-insights-key
+    application_insights_connection_string = var.application-insights-connection-string
+    application_stack {
+      dotnet_version              = "v6.0"
+      use_dotnet_isolated_runtime = false
+    }
   }
 
   app_settings = local.function-app-settings
@@ -44,7 +46,6 @@ resource "azurerm_windows_function_app" "func-app" {
       app_settings["FUNCTIONS_EXTENSION_VERSION"],
       app_settings["WEBSITE_ENABLE_SYNC_UPDATE_SITE"],
       app_settings["WEBSITE_RUN_FROM_PACKAGE"],
-      app_settings["APPINSIGHTS_INSTRUMENTATIONKEY"],
     ]
   }
 }
@@ -98,5 +99,3 @@ resource "azurerm_key_vault_secret" "fa-host" {
   value        = local.host
   key_vault_id = var.key-vault-id
 }
-
-

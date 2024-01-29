@@ -19,6 +19,7 @@ public class Startup : FunctionsStartup
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
         
+        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
         
         builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();

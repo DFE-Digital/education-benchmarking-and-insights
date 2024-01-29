@@ -40,7 +40,7 @@ variable "key-vault-id" {
   type = string
 }
 
-variable "application-insights-key" {
+variable "application-insights-connection-string" {
   type = string
 }
 
