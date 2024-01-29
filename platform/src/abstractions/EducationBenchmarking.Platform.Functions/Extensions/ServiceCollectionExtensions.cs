@@ -15,7 +15,7 @@ public static class ServiceCollectionExtensions
         serviceCollection.AddSingleton<ILoggerProvider>((sp) =>
         {
             Log.Logger = new LoggerConfiguration()
-#if DEBUG
+#if !DEBUG
                 .MinimumLevel.Information()
                 .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
                 .WriteTo.ApplicationInsights(sp.GetRequiredService<TelemetryClient>(), TelemetryConverter.Traces)
