@@ -26,7 +26,7 @@ public class TrustSearchService : SearchService, ISearchService<Trust>
         return SearchAsync<Trust>(request, CreateFilterExpression, Facets);
     }
 
-    public Task<SuggestOutput<Trust>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
+    public Task<SuggestOutput<Trust>> SuggestAsync(PostSuggestRequest request)
     {
         var fields = new[]
         {
@@ -34,7 +34,7 @@ public class TrustSearchService : SearchService, ISearchService<Trust>
             nameof(Trust.Name)
         };
         
-        return SuggestAsync<Trust>(request, cancellationToken, selectFields: fields);
+        return SuggestAsync<Trust>(request, selectFields: fields);
     }
 
     private static string? CreateFilterExpression(FilterCriteria[] requestFilters)

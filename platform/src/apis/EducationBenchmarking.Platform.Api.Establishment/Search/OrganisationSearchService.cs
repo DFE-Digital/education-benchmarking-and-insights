@@ -28,7 +28,7 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
         return SearchAsync<Organisation>(request, facets: Facets);
     }
     
-    public Task<SuggestOutput<Organisation>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
+    public Task<SuggestOutput<Organisation>> SuggestAsync(PostSuggestRequest request)
     {
         var fields = new[]
         {
@@ -39,6 +39,6 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
             nameof(Organisation.Postcode)
         };
         
-        return SuggestAsync<Organisation>(request, cancellationToken, selectFields: fields);
+        return SuggestAsync<Organisation>(request,  selectFields: fields);
     }
 }

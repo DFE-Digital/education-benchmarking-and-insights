@@ -14,7 +14,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     public async Task ShouldReturn200OnValidRequest()
     {
         Search
-            .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
+            .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequest>()))
             .ReturnsAsync(new SuggestOutput<School>());
 
         Validator

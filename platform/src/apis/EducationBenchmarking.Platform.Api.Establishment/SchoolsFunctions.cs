@@ -158,7 +158,7 @@ public class SchoolsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
         
-                var schools = await _search.SuggestAsync(body, req.HttpContext.RequestAborted);
+                var schools = await _search.SuggestAsync(body);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)

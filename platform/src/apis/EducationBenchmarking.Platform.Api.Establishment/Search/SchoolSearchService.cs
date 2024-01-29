@@ -30,7 +30,7 @@ public class SchoolSearchService : SearchService, ISearchService<School>
         return SearchAsync<School>(request, CreateFilterExpression, Facets);
     }
     
-    public Task<SuggestOutput<School>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
+    public Task<SuggestOutput<School>> SuggestAsync(PostSuggestRequest request)
     {
         var fields = new[]
         {
@@ -40,7 +40,7 @@ public class SchoolSearchService : SearchService, ISearchService<School>
             nameof(School.Postcode)
         };
         
-        return SuggestAsync<School>(request, cancellationToken, selectFields: fields);
+        return SuggestAsync<School>(request, selectFields: fields);
     }
 
     private static string? CreateFilterExpression(FilterCriteria[] filters)

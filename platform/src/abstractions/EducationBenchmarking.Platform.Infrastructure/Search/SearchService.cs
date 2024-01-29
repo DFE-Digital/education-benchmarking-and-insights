@@ -46,7 +46,7 @@ public abstract class SearchService
         return SearchOutput<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
     
-    protected async Task<SuggestOutput<T>> SuggestAsync<T>(PostSuggestRequest request, CancellationToken cancellationToken, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected async Task<SuggestOutput<T>> SuggestAsync<T>(PostSuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
         var options = new SuggestOptions
         {
@@ -68,7 +68,7 @@ public abstract class SearchService
             }
         }
         
-        var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options, cancellationToken);
+        var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
         var results = response.Value.Results.Select(SuggestValue<T>.Create);
         
         return new SuggestOutput<T>

@@ -83,7 +83,7 @@ public class TrustsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
         
-                var trusts = await _search.SuggestAsync(body, req.HttpContext.RequestAborted);
+                var trusts = await _search.SuggestAsync(body);
                 return new JsonContentResult(trusts);
             }
             catch (Exception e)

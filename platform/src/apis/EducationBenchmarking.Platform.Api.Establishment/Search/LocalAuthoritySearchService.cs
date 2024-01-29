@@ -27,7 +27,7 @@ public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAu
         return await SearchAsync<LocalAuthority>(request, CreateFilterExpression, Facets);
     }
 
-    public Task<SuggestOutput<LocalAuthority>> SuggestAsync(PostSuggestRequest request, CancellationToken cancellationToken)
+    public Task<SuggestOutput<LocalAuthority>> SuggestAsync(PostSuggestRequest request)
     {
         throw new System.NotImplementedException();
     }
