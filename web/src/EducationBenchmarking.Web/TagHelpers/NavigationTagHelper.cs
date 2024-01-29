@@ -8,6 +8,7 @@ using System.Text.Encodings.Web;
 
 namespace EducationBenchmarking.Web.TagHelpers
 {
+    [HtmlTargetElement("navigation")]
     public class NavigationTagHelper(
             BreadcrumbManager breadcrumbManager, IUrlHelperFactory urlHelperFactory,
             IActionContextAccessor actionContextAccessor, HtmlEncoder htmlEncoder
