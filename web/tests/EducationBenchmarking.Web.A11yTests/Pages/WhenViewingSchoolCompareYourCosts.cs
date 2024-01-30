@@ -17,5 +17,5 @@ public class WhenViewingSchoolCompareYourCosts(WebDriver driver, ITestOutputHelp
         await EvaluatePage();
     }
     
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}/comparison";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/comparison";
 }

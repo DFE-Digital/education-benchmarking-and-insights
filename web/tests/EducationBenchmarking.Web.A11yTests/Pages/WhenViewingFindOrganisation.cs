@@ -12,5 +12,5 @@ public class WhenViewingFindOrganisation(WebDriver driver, ITestOutputHelper out
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/find-organisation";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/find-organisation";
 }

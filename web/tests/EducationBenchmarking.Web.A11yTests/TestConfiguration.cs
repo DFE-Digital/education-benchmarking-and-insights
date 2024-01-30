@@ -12,7 +12,8 @@ public static class TestConfiguration
 #endif
         .Build();
 
-    public static string BaseUrl => Instance.GetValue<string>("ServiceUrl") ?? throw new Exception("Service url missing");
     
+    public static string[] Impacts => Instance.GetValue<string[]>("Impacts") ?? ["critical",  "serious"];
+    public static string ServiceUrl => Instance.GetValue<string>("ServiceUrl") ?? throw new Exception("Service url missing");
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 }

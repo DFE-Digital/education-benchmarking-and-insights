@@ -14,5 +14,5 @@ public class WhenViewingSchoolCurriculumFinancialPlanningHelp(WebDriver driver, 
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}/financial-planning/help";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/financial-planning/help";
 }

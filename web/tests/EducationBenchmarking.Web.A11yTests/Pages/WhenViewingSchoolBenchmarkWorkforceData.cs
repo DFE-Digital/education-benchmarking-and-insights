@@ -16,5 +16,5 @@ public class WhenViewingSchoolBenchmarkWorkforceData(WebDriver driver, ITestOutp
         await Page.Locator($"#mode-{mode}").ClickAsync();
         await EvaluatePage();
     }
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}/workforce";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/workforce";
 }

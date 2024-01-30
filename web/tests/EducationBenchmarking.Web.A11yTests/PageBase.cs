@@ -20,36 +20,33 @@ public abstract class PageBase(ITestOutputHelper outputHelper)
         Assert.Equal( PageUrl, Page.Url);
         
         var results = await Page.RunAxe();
-        var seriousOrCriticalViolations = results.Violations
-            .Where(violation => violation.Impact is "serious" or "critical")
-            .ToList();
-
-        outputHelper.WriteLine($"There are {seriousOrCriticalViolations.Count} serious and critical issues on this page");
-
-        PrintViolations(results.Violations, ["critical",  "serious"]);
-
-        Assert.True(seriousOrCriticalViolations.Count == 0, "There are violations on the page");
+        var violations = results.Violations
+            .Where(violation => TestConfiguration.Impacts.Contains(violation.Impact))
+            .ToArray();
+        
+        PrintViolations(violations);
+        
+        Assert.True(violations.Length == 0, "There are violations on the page");
     }
     
-    private void PrintViolations(IEnumerable<AxeResultItem> violations, string[] categories)
+    private void PrintViolations(IReadOnlyList<AxeResultItem> violations)
     {
-        var categoryViolations = violations
-            .Where(violation => categories.Contains(violation.Impact))
-            .ToList();
-
-        foreach (var category in categories)
+        if (violations.Any())
         {
-            outputHelper.WriteLine($"{category} issues: {categoryViolations.Count(x => x.Impact == category)}");    
-        }
-        
-        for (var i = 0; i < categoryViolations.Count; i++)
-        {
-            var violation = categoryViolations[i];
-            outputHelper.WriteLine($"Issue {i + 1}: {violation.Description}");
-            for (var j = 0; j < violation.Nodes.Length; j++)
+            foreach (var impact in TestConfiguration.Impacts)
             {
-                var node = violation.Nodes[j];
-                outputHelper.WriteLine($"  Occurrence {j + 1}: {node.Html}");
+                outputHelper.WriteLine($"{impact} issues: {violations.Count(x => x.Impact == impact)}");    
+            }
+        
+            for (var i = 0; i < violations.Count; i++)
+            {
+                var violation = violations[i];
+                outputHelper.WriteLine($"Issue {i + 1}: {violation.Description}");
+                for (var j = 0; j < violation.Nodes.Length; j++)
+                {
+                    var node = violation.Nodes[j];
+                    outputHelper.WriteLine($"  Occurrence {j + 1}: {node.Html}");
+                }
             }
         }
     }

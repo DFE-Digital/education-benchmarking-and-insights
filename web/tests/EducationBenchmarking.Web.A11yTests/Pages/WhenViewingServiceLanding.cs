@@ -13,5 +13,5 @@ public class WhenViewingServiceLanding(WebDriver driver, ITestOutputHelper outpu
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/";
 }
