@@ -30,12 +30,9 @@ public abstract class ClientBase<TStartup> : IDisposable
 
     protected abstract void Configure(IServiceCollection services);
 
-    public Task<IHtmlDocument> Follow(IElement element)
+    public Task<IHtmlDocument> Follow(IElement? element)
     {
-        if (element == null)
-        {
-            throw new ArgumentNullException(nameof(element));
-        }
+        Assert.NotNull(element);
 
         async Task<IHtmlDocument> GetDocumentAsync(string? href) 
         {

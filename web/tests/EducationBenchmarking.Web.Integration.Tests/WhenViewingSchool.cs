@@ -137,7 +137,7 @@ public class WhenViewingSchool(BenchmarkingWebAppFactory factory, ITestOutputHel
         DocumentAssert.TitleAndH1(page, "Your school", "Education benchmarking and insights");
         DocumentAssert.Heading2(page, school.Name);
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div[7]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div[3]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

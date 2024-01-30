@@ -1,0 +1,25 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
+@{
+    ViewBag.Title = PageTitles.SchoolPlanning;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">@Model.Name</h2>
+
+        <p class="govuk-body">ICFP is a management process that helps schools to plan and adjust their curriculum and budget.</p>
+
+        <h3 class="govuk-heading-s">Before you start</h3>
+        <p class="govuk-body">Completing a deployment plan will take about 10 minutes.</p>
+        <p class="govuk-body ">A full list of the data will be asked to input <a href="@Url.Action("Help", "SchoolPlanning", new { urn = Model.Urn })" id="financial-planning-help" class="govuk-link">can be found here</a>.</p>
+        <a href="@Url.Action("SelectYear", "SchoolPlanning", new { urn = Model.Urn })" role="button" class="govuk-button">
+            Continue
+        </a>
+    </div>
+</div>
