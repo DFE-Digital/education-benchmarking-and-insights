@@ -11,13 +11,6 @@ using SmartBreadcrumbs.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var config = new ConfigurationBuilder()
-    .AddEnvironmentVariables()
-    .AddJsonFile("appsettings.json", optional: false)
-    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false)
-    .AddUserSecrets<Program>()
-    .Build();
-
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); });
@@ -40,7 +33,8 @@ if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
     {
-        config.GetSection("DFESignInSettings").Bind(options.Settings);
+        
+        builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
         options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ",response.ErrorDescription);
         options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
         options.Events.OnRemoteFailure = ctx => Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);

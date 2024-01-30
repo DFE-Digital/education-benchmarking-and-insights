@@ -14,5 +14,5 @@ public class WhenViewingSchoolHome(WebDriver driver, ITestOutputHelper outputHel
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}";
 }

@@ -10,6 +10,17 @@ public class WhenViewingSchoolCompareYourCosts(WebDriver driver, ITestOutputHelp
     [Theory]
     [InlineData("table")]
     [InlineData("chart")]
+    public async Task ShowAllSectionsThenThereAreNoAccessibilityIssues(string mode)
+    {
+        Page = await driver.GetPage(PageUrl);
+        await Page.Locator($"#mode-{mode}").ClickAsync();
+        await Page.Locator(".govuk-accordion__show-all").ClickAsync();
+        await EvaluatePage();
+    }
+    
+    [Theory]
+    [InlineData("table")]
+    [InlineData("chart")]
     public async Task ThenThereAreNoAccessibilityIssues(string mode)
     {
         Page = await driver.GetPage(PageUrl);
@@ -17,5 +28,5 @@ public class WhenViewingSchoolCompareYourCosts(WebDriver driver, ITestOutputHelp
         await EvaluatePage();
     }
     
-    protected override string PageUrl => $"{TestConfiguration.BaseUrl}/school/{SchoolUrn}/comparison";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/comparison";
 }
