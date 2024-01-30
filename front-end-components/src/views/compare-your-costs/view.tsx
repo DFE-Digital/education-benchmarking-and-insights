@@ -67,7 +67,7 @@ export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">
           <p className="govuk-body">
-            The data below is from the latest year available, For maintained
+            The data below is from the latest year available. For maintained
             schools this is {maintainedYear}, academies for {academyYear}
           </p>
         </div>
