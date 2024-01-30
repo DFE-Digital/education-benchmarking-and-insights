@@ -3,6 +3,7 @@
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle"/>
