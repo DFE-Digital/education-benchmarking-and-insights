@@ -22,11 +22,12 @@ variables:
   Version.BuildVersion: $(Version.BuildNumber)
   NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
+  TerraformDirectory: $(System.DefaultWorkingDirectory)/platform/terraform
 
 stages:
   - stage: Build
     jobs:
-      - job: Set_Build_Number
+      - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
           - checkout: none          
@@ -38,14 +39,21 @@ stages:
             condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
             displayName: 'Set pre-release build number'
 
-      - job: RunCheckov
-        displayName: "Checkov scan terraform"
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: steps-platform-fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
         steps:
           - template: steps-platform-scan-terraform.yaml
             parameters:
-              TerraformDirectory: $(System.DefaultWorkingDirectory)/platform/terraform
+              TerraformDirectory: $(TerraformDirectory)
 
-      - job: Zip_Static_artifacts
+      - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps:
@@ -57,7 +65,7 @@ stages:
           - template: steps-platform-run-unit-tests.yaml
 
       - job: BuildPlatform
-        dependsOn: [Set_Build_Number]
+        dependsOn: [SetBuildNumber]
         displayName: 'Build platform'
         steps:
           - template: steps-platform-build.yaml

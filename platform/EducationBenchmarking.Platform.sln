@@ -38,6 +38,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		pipelines\build.yaml = pipelines\build.yaml
 		pipelines\jobs-platform-deployment.yaml = pipelines\jobs-platform-deployment.yaml
 		pipelines\steps-platform-build.yaml = pipelines\steps-platform-build.yaml
+		pipelines\steps-platform-fmt-validate-terraform.yaml = pipelines\steps-platform-fmt-validate-terraform.yaml
+		pipelines\steps-platform-publish-static-artifacts.yaml = pipelines\steps-platform-publish-static-artifacts.yaml
+		pipelines\steps-platform-run-unit-tests.yaml = pipelines\steps-platform-run-unit-tests.yaml
+		pipelines\steps-platform-scan-terraform.yaml = pipelines\steps-platform-scan-terraform.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"

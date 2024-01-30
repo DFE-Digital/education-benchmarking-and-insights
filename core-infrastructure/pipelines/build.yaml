@@ -12,18 +12,28 @@ trigger:
 
 pr: none
 
+variables:
+  TerraformDirectory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
+
 stages:
   - stage: Build
     displayName: 'Build artifacts'
     jobs:
-      - job: RunCheckov
-        displayName: "Checkov scan terraform"
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: steps-core-fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
         steps:
           - template: steps-core-scan-terraform.yaml
             parameters:
-              TerraformDirectory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
+              TerraformDirectory: $(TerraformDirectory)
 
-      - job: Zip_static_artifacts
+      - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         steps:
           - template: steps-core-publish-static-artifacts.yaml
