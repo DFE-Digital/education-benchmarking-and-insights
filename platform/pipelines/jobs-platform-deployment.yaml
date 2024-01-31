@@ -6,6 +6,7 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
   terraformArchive: '$(Pipeline.Workspace)/terraform/terraform.zip'
   location: 'westeurope'
+  runSearchApp: true
 
 jobs:
   - deployment: RunTerraform
@@ -131,7 +132,8 @@ jobs:
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
             
             - script: ./EducationBenchmarking.Platform.Search.App -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory" -p "$(platform-storage-connection-string)" -a "local-authorities"
-              displayName: 'Run platform search app'    
+              condition: ${{ parameters.runSearchApp }}
+              displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
               failOnStderr: true
 
