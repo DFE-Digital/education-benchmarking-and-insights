@@ -53,13 +53,22 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
   resource_group_name = azurerm_resource_group.resource-group.name
   offer_type          = "Standard"
   kind                = "GlobalDocumentDB"
+
   consistency_policy {
     consistency_level = "Session"
   }
+
   tags = local.common-tags
   geo_location {
     failover_priority = 0
     location          = azurerm_resource_group.resource-group.location
+  }
+
+  dynamic "capabilities" {
+    for_each = var.configuration[var.environment].cosmos.capabilities
+    content {
+      name = capabilities.value
+    }
   }
 }
 
