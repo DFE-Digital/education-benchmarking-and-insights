@@ -21,7 +21,7 @@ export const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({
         <div
           className="govuk-accordion"
           data-module="govuk-accordion"
-          id="accordion-default"
+          id="accordion"
         >
           <TeachingSupportStaff schools={schools} />
           <NonEducationalSupportStaff schools={schools} />

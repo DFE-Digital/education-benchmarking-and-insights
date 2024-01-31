@@ -315,16 +315,16 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-other-cost"
+              id="accordion-heading-9"
             >
               Other costs
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-other-cost"
+          id="accordion-content-9"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-other-cost"
+          aria-labelledby="accordion-heading-9"
           role="region"
         >
           <HorizontalBarChartWrapper

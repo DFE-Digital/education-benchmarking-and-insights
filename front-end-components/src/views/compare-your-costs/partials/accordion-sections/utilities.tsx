@@ -94,16 +94,16 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-utilities"
+              id="accordion-heading-6"
             >
               Utilities
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-utilities"
+          id="accordion-content-6"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-utilities"
+          aria-labelledby="accordion-heading-6"
           role="region"
         >
           <HorizontalBarChartWrapper

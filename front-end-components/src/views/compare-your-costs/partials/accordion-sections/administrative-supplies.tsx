@@ -56,16 +56,16 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-administrative-supplies"
+              id="accordion-heading-7"
             >
               Administrative supplies
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-administrative-supplies"
+          id="accordion-content-7"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-administrative-supplies"
+          aria-labelledby="accordion-heading-7"
           role="region"
         >
           <HorizontalBarChartWrapper
