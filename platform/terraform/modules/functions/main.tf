@@ -1,7 +1,6 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"              = "dotnet",
-    "APPLICATIONINSIGHTS_CONNECTION_STRING" = var.application-insights-connection-string
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
   })
   cors              = var.cors
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
