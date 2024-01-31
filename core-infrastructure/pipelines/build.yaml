@@ -17,7 +17,7 @@ variables:
 
 stages:
   - stage: Build
-    displayName: 'Build artifacts'
+    displayName: 'Build'
     jobs:
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
@@ -40,11 +40,33 @@ stages:
 
   - stage: DeployDevelopment
     dependsOn: [Build]
-    displayName: 'Deploy to development'
+    displayName: 'Development'
     jobs:
       - template: jobs-core-deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
           environment: 'development'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployFunctionalTest
+    dependsOn: [Build]
+    displayName: 'Functional test'
+    jobs:
+      - template: jobs-core-deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d02'
+          environment: 'functional-test'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployAccessibilityTest
+    dependsOn: [Build]
+    displayName: 'Accessibility test'
+    jobs:
+      - template: jobs-core-deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d03'
+          environment: 'accessibility-test'
           cipEnvironment: 'Dev'
