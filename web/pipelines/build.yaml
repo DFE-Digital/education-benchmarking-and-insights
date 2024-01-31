@@ -14,7 +14,6 @@ pr:
   paths: 
     include:
     - web
-  drafts: false
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]  

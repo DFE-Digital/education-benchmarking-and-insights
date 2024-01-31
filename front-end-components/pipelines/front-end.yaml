@@ -20,7 +20,6 @@ pr:
   paths:
     include:
       - front-end-components
-  drafts: false
 
 steps:
   - task: Npm@1
