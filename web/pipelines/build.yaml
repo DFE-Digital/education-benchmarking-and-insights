@@ -26,6 +26,7 @@ variables:
 
 stages:
   - stage: Build
+    displayName: 'Build'
     jobs:
       - job: SetBuildNumber
         displayName: 'Set build number'
@@ -75,7 +76,7 @@ stages:
       
   - stage: DeployDevelopment
     dependsOn: [Build]
-    displayName: 'Deploy to development'
+    displayName: 'Development'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     variables:
       - group: 'dsi pre-prod'
@@ -85,4 +86,32 @@ stages:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
           environment: 'development'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployFunctionalTest
+    dependsOn: [Build]
+    displayName: 'Functional test'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    variables:
+      - group: 'dsi pre-prod'
+    jobs:
+      - template: jobs-web-deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d02'
+          environment: 'functional-test'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployAccessibilityTest
+    dependsOn: [Build]
+    displayName: 'Accessibility test'
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    variables:
+      - group: 'dsi pre-prod'
+    jobs:
+      - template: jobs-web-deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d03'
+          environment: 'accessibility-test'
           cipEnvironment: 'Dev'
