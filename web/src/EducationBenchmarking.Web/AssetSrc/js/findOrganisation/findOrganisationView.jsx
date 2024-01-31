@@ -29,7 +29,7 @@ function FindOrganisationView(props) {
                 <div className="govuk-radios" data-module="govuk-radios">
                     <div className="govuk-radios__item">
                         <input className="govuk-radios__input" id="school" name="findMethod" type="radio" value="school"
-                               defaultChecked={findMethod === "school"} data-aria-controls="conditional-school"/>
+                            defaultChecked={findMethod === "school"} data-aria-controls="conditional-school" role="switch"/>
                         <label className="govuk-label govuk-radios__label" htmlFor="school">
                             Academy or Local Authority maintained school
                         </label>
@@ -46,7 +46,7 @@ function FindOrganisationView(props) {
                     </div>
                     <div className="govuk-radios__item">
                         <input className="govuk-radios__input" id="trust" name="findMethod" type="radio" value="trust"
-                               defaultChecked={findMethod === "trust"} data-aria-controls="conditional-trust"/>
+                            defaultChecked={findMethod === "trust"} data-aria-controls="conditional-trust" role="switch"/>
                         <label className="govuk-label govuk-radios__label" htmlFor="trust">
                             Single or Multi-Academy Trust
                         </label>
