@@ -18,7 +18,6 @@ builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
 {
-    options.TagName = "nav";
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
     options.OlClasses = "govuk-breadcrumbs__list";
     options.LiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";

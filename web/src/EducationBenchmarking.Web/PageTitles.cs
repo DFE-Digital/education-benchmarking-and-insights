@@ -13,5 +13,6 @@ public static class PageTitles
     public const string SchoolDetails = "School details";
     public const string SchoolPlanning = "Integrated Curriculum and financial planning (ICFP)";
     public const string SchoolPlanningYearSelect = "Select academic year to plan";
+    public const string SchoolPlanningYear = "Prepopulated data";
     public const string SchoolPlanningHelp = "Data required for ICFP";
 }

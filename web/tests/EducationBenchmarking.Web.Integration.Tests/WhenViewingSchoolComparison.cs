@@ -162,7 +162,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         var comparisonComponent = page.GetElementById("compare-your-school");
         Assert.NotNull(comparisonComponent);
         
-        var toolsListSection = page.Body.SelectSingleNode("//main/div[4]");
+        var toolsListSection = page.Body.SelectSingleNode("//main/div/div[4]");
         DocumentAssert.Heading2(toolsListSection, "More tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
