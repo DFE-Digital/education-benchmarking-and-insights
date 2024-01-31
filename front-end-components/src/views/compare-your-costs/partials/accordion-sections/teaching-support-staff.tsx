@@ -173,7 +173,7 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
             chartId="total-teaching-support-staff-cost"
           >
             <h3 className="govuk-heading-s">
-              Total teaching and teaching support staff
+              Total teaching and teaching support staff costs
             </h3>
             <ChartDimensions
               dimensions={CostCategories}
