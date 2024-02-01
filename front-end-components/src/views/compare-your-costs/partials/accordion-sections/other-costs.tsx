@@ -379,7 +379,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={rentRatesCostsBarData}
-            chartName="rent-rates-cots"
+            chartName="rent-rates-costs"
           >
             <h3 className="govuk-heading-s">Rent and rates costs</h3>
           </HorizontalBarChartWrapper>
