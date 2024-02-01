@@ -5,23 +5,25 @@ trigger:
   batch: true
   branches:
     include:
-    - main
+      - main
   paths:
     include:
-    - platform
+      - shared
+      - platform
 
 pr:
-  paths: 
+  paths:
     include:
-    - platform
+      - platform
 
 variables:
-  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]  
+  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
-  TerraformDirectory: $(System.DefaultWorkingDirectory)/platform/terraform
+  TerraformFolder: 'platform/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
 stages:
   - stage: Build
@@ -30,8 +32,8 @@ stages:
       - job: SetBuildNumber
         displayName: 'Set build number'
         steps:
-          - checkout: none          
-                    
+          - checkout: none
+
           - bash: |
               echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
@@ -42,14 +44,14 @@ stages:
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: steps-platform-fmt-validate-terraform.yaml
+          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: steps-platform-scan-terraform.yaml
+          - template: ..\..\shared\steps-scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
@@ -57,7 +59,9 @@ stages:
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps:
-          - template: steps-platform-publish-static-artifacts.yaml
+          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
 
       - job: RunTests
         displayName: 'Run unit tests'
@@ -65,16 +69,16 @@ stages:
           - template: steps-platform-run-unit-tests.yaml
 
       - job: BuildPlatform
-        dependsOn: [SetBuildNumber]
+        dependsOn: [ SetBuildNumber ]
         displayName: 'Build platform'
         steps:
           - template: steps-platform-build.yaml
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
-      
+
   - stage: DeployDevelopment
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Development'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
@@ -86,7 +90,7 @@ stages:
           cipEnvironment: 'Dev'
 
   - stage: DeployFunctionalTest
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Functional test'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
@@ -99,7 +103,7 @@ stages:
           runSearchApp: false
 
   - stage: DeployAccessibilityTest
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Accessibility test'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:

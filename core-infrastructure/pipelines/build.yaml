@@ -43,7 +43,7 @@ stages:
               TerraformFolder: $(TerraformFolder)
 
   - stage: DeployDevelopment
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Development'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -54,7 +54,7 @@ stages:
           cipEnvironment: 'Dev'
 
   - stage: DeployFunctionalTest
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Functional test'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -65,7 +65,7 @@ stages:
           cipEnvironment: 'Dev'
 
   - stage: DeployAccessibilityTest
-    dependsOn: [Build]
+    dependsOn: [ Build ]
     displayName: 'Accessibility test'
     jobs:
       - template: jobs-core-deployment.yaml
