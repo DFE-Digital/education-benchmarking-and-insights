@@ -28,8 +28,7 @@ resource "azurerm_linux_web_app" "web-app" {
   #checkov:skip=CKV_AZURE_222:Web app is public site
   #checkov:skip=CKV_AZURE_17:Client cert no used
   #checkov:skip=CKV_AZURE_213:Health end point not required
-  #checkov:skip=CKV_AZURE_212:Prototype site
-  #checkov:skip=CKV_AZURE_211:Prototype site
+  #checkov:skip=CKV_AZURE_211:Non-production application
   name                = "${var.environment-prefix}-ebis-prototype"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
