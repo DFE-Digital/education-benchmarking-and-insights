@@ -3,7 +3,7 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.A11yTests.Pages;
 
-public class WhenViewingSchoolCurriculumFinancialPlanningHelp(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
+public class WhenViewingSchoolFinancialPlanningHelp(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
