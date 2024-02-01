@@ -5,8 +5,6 @@ namespace EducationBenchmarking.Web.A11yTests.Pages;
 
 public class WhenViewingSchoolCurriculumFinancialPlanningHelp(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {
-    private const string SchoolUrn = "139696";
-    
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
     {
@@ -14,5 +12,5 @@ public class WhenViewingSchoolCurriculumFinancialPlanningHelp(WebDriver driver, 
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/financial-planning/help";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/help";
 }

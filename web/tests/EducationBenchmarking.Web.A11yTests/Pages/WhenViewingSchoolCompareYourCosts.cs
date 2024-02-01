@@ -5,8 +5,6 @@ namespace EducationBenchmarking.Web.A11yTests.Pages;
 
 public class WhenViewingSchoolCompareYourCosts(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {
-    private const string SchoolUrn = "139696";
-    
     [Theory]
     [InlineData("table")]
     [InlineData("chart")]
@@ -28,5 +26,5 @@ public class WhenViewingSchoolCompareYourCosts(WebDriver driver, ITestOutputHelp
         await EvaluatePage();
     }
     
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/comparison";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/comparison";
 }

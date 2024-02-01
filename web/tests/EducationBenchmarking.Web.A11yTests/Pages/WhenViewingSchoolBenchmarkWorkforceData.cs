@@ -5,8 +5,6 @@ namespace EducationBenchmarking.Web.A11yTests.Pages;
 
 public class WhenViewingSchoolBenchmarkWorkforceData(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {
-    private const string SchoolUrn = "139696";
-    
     [Theory]
     [InlineData("table")]
     [InlineData("chart")]
@@ -16,5 +14,5 @@ public class WhenViewingSchoolBenchmarkWorkforceData(WebDriver driver, ITestOutp
         await Page.Locator($"#mode-{mode}").ClickAsync();
         await EvaluatePage();
     }
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{SchoolUrn}/workforce";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/workforce";
 }

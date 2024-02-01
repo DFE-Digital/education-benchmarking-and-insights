@@ -14,12 +14,12 @@ public abstract class PageBase(ITestOutputHelper outputHelper)
     protected abstract string PageUrl { get; }
     protected IPage? Page { get; set; }
 
-    protected async Task EvaluatePage()
+    protected async Task EvaluatePage(AxeRunContext? context = null)
     {
         Assert.NotNull(Page);
         Assert.Equal( PageUrl, Page.Url);
         
-        var results = await Page.RunAxe();
+        var results = context != null ? await Page.RunAxe(context) : await Page.RunAxe();
         var violations = results.Violations
             .Where(violation => TestConfiguration.Impacts.Contains(violation.Impact))
             .ToArray();

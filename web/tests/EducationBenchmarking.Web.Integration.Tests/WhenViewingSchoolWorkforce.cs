@@ -161,7 +161,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         var workforceComponent = page.GetElementById("compare-workforce");
         Assert.NotNull(workforceComponent);
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div[4]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
         DocumentAssert.Heading2(toolsSection, "More tools");
         
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

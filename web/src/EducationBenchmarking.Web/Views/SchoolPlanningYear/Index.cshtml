@@ -1,0 +1,84 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
+@{
+    ViewBag.Title = PageTitles.SchoolPlanningYear;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">[insert school name]</span>
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        <p class="govuk-body">Here is some information we hold about your school.</p>
+        <h2 class="govuk-heading-m">Figures from [insert year]</h2>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total income
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    [insert total income]
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total expenditure
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    [insert total income]
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total teacher costs
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    [insert total teacher costs]
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Total education support staff costs
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    [insert total education support staff costs]
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Full time equivalent teachers
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    [insert full time equivalent teachers]
+                </dd>
+            </div>
+        </dl>
+        @using (Html.BeginForm("Index", "SchoolPlanningYear", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h2 class="govuk-fieldset__heading">
+                            Do you want to use these figures in your plan?
+                        </h2>
+                    </legend>
+                    <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="useFigures-yes" name="useFigures" type="radio" value="true">
+                            <label class="govuk-label govuk-radios__label" for="useFigures-yes">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="useFigures-no" name="useFigures" type="radio" value="false">
+                            <label class="govuk-label govuk-radios__label" for="useFigures-no">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

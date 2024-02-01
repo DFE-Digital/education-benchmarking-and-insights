@@ -126,7 +126,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                ViewData["Backlink"] = new TagHelpers.BacklinkInfo("Start", "SchoolPlanning", new { urn });
+                ViewData["Backlink"] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
 
                 return View();
             }
