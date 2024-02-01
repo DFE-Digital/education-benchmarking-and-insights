@@ -130,7 +130,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
         >
           <HorizontalBarChartWrapper
             data={netCateringBarData}
-            chartName="net-catering-costs"
+            chartName="net catering costs"
           >
             <h3 className="govuk-heading-s">Net catering costs</h3>
             <ChartDimensions
@@ -142,19 +142,19 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringStaffBarData}
-            chartName="catering-staff-costs"
+            chartName="catering staff costs"
           >
             <h3 className="govuk-heading-s">Catering staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringSuppliesBarData}
-            chartName="catering-supplies-costs"
+            chartName="catering supplies costs"
           >
             <h3 className="govuk-heading-s">Catering supplies costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={incomeCateringBarData}
-            chartName="income-from-catering"
+            chartName="income from catering"
           >
             <h3 className="govuk-heading-s">Income from catering</h3>
           </HorizontalBarChartWrapper>

@@ -50,7 +50,10 @@ export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="senior-leadership">
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="senior leadership (full time equivalent)"
+      >
         <h2 className="govuk-heading-m">
           Senior Leadership (Full Time Equivalent)
         </h2>

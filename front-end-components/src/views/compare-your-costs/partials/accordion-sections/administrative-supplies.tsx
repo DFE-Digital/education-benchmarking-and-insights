@@ -70,7 +70,7 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
         >
           <HorizontalBarChartWrapper
             data={administrativeSuppliesBarData}
-            chartName="administrative-supplies-non-eductional"
+            chartName="administrative supplies (non-eductional)"
           >
             <h3 className="govuk-heading-s">
               Administrative supplies (Non-educational)

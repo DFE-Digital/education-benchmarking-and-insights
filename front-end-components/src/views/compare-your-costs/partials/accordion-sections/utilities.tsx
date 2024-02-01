@@ -108,7 +108,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
         >
           <HorizontalBarChartWrapper
             data={totalUtilitiesCostsBarData}
-            chartName="total-utilities-costs"
+            chartName="total utilities costs"
           >
             <h3 className="govuk-heading-s">Total utilities costs</h3>
             <ChartDimensions
@@ -120,13 +120,13 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={energyBarData}
-            chartName="energy-costs"
+            chartName="energy costs"
           >
             <h3 className="govuk-heading-s">Energy costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={waterSewerageBarData}
-            chartName="water-sewerage-costs"
+            chartName="water and sewerage costs"
           >
             <h3 className="govuk-heading-s">Water and sewerage costs</h3>
           </HorizontalBarChartWrapper>

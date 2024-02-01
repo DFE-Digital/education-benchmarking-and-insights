@@ -50,7 +50,10 @@ export const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="auxiliary-staff">
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="auxiliary staff (full time equivalent)"
+      >
         <h2 className="govuk-heading-m">
           Auxiliary staff (Full Time Equivalent)
         </h2>
