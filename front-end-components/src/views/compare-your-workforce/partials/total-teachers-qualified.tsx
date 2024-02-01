@@ -1,11 +1,8 @@
-import React from "react";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import { ChartDimensions, WorkforceCategories } from "src/components";
-import { useState } from "react";
 import { TotalTeachersQualifiedProps } from "src/views/compare-your-workforce/partials";
 
 export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
@@ -19,13 +16,6 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
     "Number of pupils",
     "Percent",
   ];
-  const [dimension, setDimension] = useState(WorkforceCategories[0]);
-
-  const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
-    event
-  ) => {
-    setDimension(event.target.value);
-  };
 
   const chartData: HorizontalBarChartWrapperData = {
     dataPoints: schools.map((school) => {
@@ -44,20 +34,14 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
   };
 
   return (
-    <ChartDimensionContext.Provider value={dimension}>
+    <ChartDimensionContext.Provider value={"percent"}>
       <HorizontalBarChartWrapper
         data={chartData}
         chartName="total-teachers-qualified"
       >
         <h2 className="govuk-heading-m">
-          Teachers with qualified teacher status (Full Time Equivalent)
+          Teachers with qualified Teacher Status (%)
         </h2>
-        <ChartDimensions
-          dimensions={WorkforceCategories}
-          handleChange={handleSelectChange}
-          elementId="total-teachers-qualified"
-          defaultValue={dimension}
-        />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>
   );
