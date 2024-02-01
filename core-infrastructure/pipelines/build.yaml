@@ -8,12 +8,14 @@ trigger:
       - main
   paths:
     include:
+      - shared
       - core-infrastructure
 
 pr: none
 
 variables:
-  TerraformDirectory: $(System.DefaultWorkingDirectory)/core-infrastructure/terraform
+  TerraformFolder: 'core-infrastructure/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
 stages:
   - stage: Build
@@ -22,21 +24,23 @@ stages:
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: steps-core-fmt-validate-terraform.yaml
+          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: steps-core-scan-terraform.yaml
+          - template: ..\..\shared\steps-scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         steps:
-          - template: steps-core-publish-static-artifacts.yaml
+          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
 
   - stage: DeployDevelopment
     dependsOn: [Build]
