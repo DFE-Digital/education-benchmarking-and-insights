@@ -93,7 +93,61 @@ public class SchoolPlanningYearController(ILogger<SchoolPlanningYearController> 
         {
             try
             {
-                return new OkResult();
+                return View();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpGet]
+    [Route("total-expenditure")]
+    public IActionResult TotalExpenditure(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpGet]
+    [Route("total-teacher-cost")]
+    public IActionResult TotalTeacherCost(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                return View();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpGet]
+    [Route("total-number-teachers")]
+    public IActionResult TotalNumberTeachers(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                return View();
             }
             catch (Exception e)
             {
