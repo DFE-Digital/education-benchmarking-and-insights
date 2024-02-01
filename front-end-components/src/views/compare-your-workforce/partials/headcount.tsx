@@ -5,7 +5,6 @@ import {
   DimensionHeading,
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData, PupilsPerStaffRole,
-  Total,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
