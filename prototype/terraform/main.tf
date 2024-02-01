@@ -14,6 +14,9 @@ resource "azurerm_resource_group" "resource-group" {
 }
 
 resource "azurerm_service_plan" "app-service-plan" {
+  #checkov:skip=CKV_AZURE_211:Non production - prototype toolkit
+  #checkov:skip=CKV_AZURE_212:Non production - prototype toolkit
+  #checkov:skip=CKV_AZURE_225:Non production - prototype toolkit
   name                = "${var.environment-prefix}-ebis-asp-prototype"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -28,7 +31,6 @@ resource "azurerm_linux_web_app" "web-app" {
   #checkov:skip=CKV_AZURE_222:Web app is public site
   #checkov:skip=CKV_AZURE_17:Client cert no used
   #checkov:skip=CKV_AZURE_213:Health end point not required
-  #checkov:skip=CKV_AZURE_211:Non-production application
   name                = "${var.environment-prefix}-ebis-prototype"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
