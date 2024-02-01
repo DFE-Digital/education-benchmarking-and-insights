@@ -170,7 +170,7 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
         >
           <HorizontalBarChartWrapper
             data={totalTeachingBarData}
-            chartId="total-teaching-support-staff-cost"
+            chartName="total-teaching-support-staff-cost"
           >
             <h3 className="govuk-heading-s">
               Total teaching and teaching support staff costs
@@ -184,31 +184,31 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={teachingStaffBarData}
-            chartId="teaching-staff-costs"
+            chartName="teaching-staff-costs"
           >
             <h3 className="govuk-heading-s">Teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeachingBarData}
-            chartId="supply-teaching-staff-costs"
+            chartName="supply-teaching-staff-costs"
           >
             <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationalConsultancyBarData}
-            chartId="educational-consultancy-costs"
+            chartName="educational-consultancy-costs"
           >
             <h3 className="govuk-heading-s">Educational consultancy costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationSupportStaffBarData}
-            chartId="education-support-stff-costs"
+            chartName="education-support-stff-costs"
           >
             <h3 className="govuk-heading-s">Educational support staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={agencySupplyBarData}
-            chartId="agency-supply-teaching-staff-costs"
+            chartName="agency-supply-teaching-staff-costs"
           >
             <h3 className="govuk-heading-s">
               Agency supply teaching staff costs

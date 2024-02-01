@@ -150,7 +150,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
         >
           <HorizontalBarChartWrapper
             data={totalPremisesStaffServiceCostsBarData}
-            chartId="total-premises-staff-service-costs"
+            chartName="total-premises-staff-service-costs"
           >
             <h3 className="govuk-heading-s">
               Total premises staff and service costs
@@ -164,25 +164,25 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cleaningCaretakingBarData}
-            chartId="cleaning-caretaking-costs"
+            chartName="cleaning-caretaking-costs"
           >
             <h3 className="govuk-heading-s">Cleaning and caretaking costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={maintenanceBarData}
-            chartId="maintenance-premises-costs"
+            chartName="maintenance-premises-costs"
           >
             <h3 className="govuk-heading-s">Maintenance of premises costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherOccupationBarData}
-            chartId="other-occupation-costs"
+            chartName="other-occupation-costs"
           >
             <h3 className="govuk-heading-s">Other occupation costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={premisesStaffBarData}
-            chartId="premises staff costs"
+            chartName="premises staff costs"
           >
             <h3 className="govuk-heading-s">Premises staff costs</h3>
           </HorizontalBarChartWrapper>

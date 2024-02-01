@@ -50,7 +50,7 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartId="headcount">
+      <HorizontalBarChartWrapper data={chartData} chartName="headcount">
         <h2 className="govuk-heading-m">School workforce (headcount)</h2>
         <ChartDimensions
           dimensions={WorkforceCategories}

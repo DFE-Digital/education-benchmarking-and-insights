@@ -1,5 +1,5 @@
 export type BarChartProps = {
-  chartId: string;
+  chartName: string;
   data: BarDataPoint[];
   ref?: DownloadHandle;
 };

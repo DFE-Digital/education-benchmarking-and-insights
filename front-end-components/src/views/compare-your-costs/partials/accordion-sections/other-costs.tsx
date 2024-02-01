@@ -329,7 +329,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
         >
           <HorizontalBarChartWrapper
             data={totalOtherCostsBarData}
-            chartId="total-otehr-costs"
+            chartName="total-other-costs"
           >
             <h3 className="govuk-heading-s">Total other costs</h3>
             <ChartDimensions
@@ -341,31 +341,31 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherInsurancePremiumsCostsBarData}
-            chartId="other-insurance-premiums-costs"
+            chartName="other-insurance-premiums-costs"
           >
             <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={directRevenueFinancingCostsBarData}
-            chartId="direct-revenue-financing-costs"
+            chartName="direct-revenue-financing-costs"
           >
             <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={groundsMaintenanceCostsBarData}
-            chartId="ground-maintenance-costs"
+            chartName="ground-maintenance-costs"
           >
             <h3 className="govuk-heading-s">Ground maintenance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={indirectEmployeeExpensesBarData}
-            chartId="indirect-employee-expenses"
+            chartName="indirect-employee-expenses"
           >
             <h3 className="govuk-heading-s">Indirect employee expenses</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={interestChargesLoanBankBarData}
-            chartId="interest-charges-loan-bank"
+            chartName="interest-charges-loan-bank"
           >
             <h3 className="govuk-heading-s">
               Interest charges for loan and bank
@@ -373,25 +373,25 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={privateFinanceInitiativeChargesBarData}
-            chartId="pfi-charges"
+            chartName="pfi-charges"
           >
             <h3 className="govuk-heading-s">PFI charges</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={rentRatesCostsBarData}
-            chartId="rent-rates-cots"
+            chartName="rent-rates-cots"
           >
             <h3 className="govuk-heading-s">Rent and rates costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={specialFacilitiesCostsBarData}
-            chartId="special-facilities-costs"
+            chartName="special-facilities-costs"
           >
             <h3 className="govuk-heading-s">Special facilities costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={staffDevelopmentTrainingCostsBarData}
-            chartId="staff-development-training-costs"
+            chartName="staff-development-training-costs"
           >
             <h3 className="govuk-heading-s">
               Staff development and training costs
@@ -399,19 +399,19 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={staffRelatedInsuranceCostsBarData}
-            chartId="staff-related-insurance-costs"
+            chartName="staff-related-insurance-costs"
           >
             <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeacherInsurableCostsBarData}
-            chartId="supply-teacher-insurance-costs"
+            chartName="supply-teacher-insurance-costs"
           >
             <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolStaffBarData}
-            chartId="community-focused-staff"
+            chartName="community-focused-staff"
           >
             <h3 className="govuk-heading-s">
               Community focused school staff (maintained schools only)
@@ -419,7 +419,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolCostsBarData}
-            chartId="community-focused-costs"
+            chartName="community-focused-costs"
           >
             <h3 className="govuk-heading-s">
               Community focused school costs (maintained schools only)
