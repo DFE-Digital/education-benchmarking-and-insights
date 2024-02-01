@@ -51,7 +51,7 @@ export const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartId="school-workforce">
+      <HorizontalBarChartWrapper data={chartData} chartName="school-workforce">
         <h2 className="govuk-heading-m">
           School workforce (Full Time Equivalent)
         </h2>

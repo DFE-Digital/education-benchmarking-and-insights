@@ -130,7 +130,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
         >
           <HorizontalBarChartWrapper
             data={totalEducationalSuppliesBarData}
-            chartId="total-educational-supplies-costs"
+            chartName="total-educational-supplies-costs"
           >
             <h3 className="govuk-heading-s">
               Total educational supplies costs
@@ -144,13 +144,13 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={examinationFeesBarData}
-            chartId="examination-fees-costs"
+            chartName="examination-fees-costs"
           >
             <h3 className="govuk-heading-s">Examination fees costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={breakdownEducationalBarData}
-            chartId="breakdown-eductional-supplies-costs"
+            chartName="breakdown-eductional-supplies-costs"
           >
             <h3 className="govuk-heading-s">
               Breakdown of educational supplies costs
@@ -158,7 +158,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
-            chartId="learning-resource-not-ict-costs"
+            chartName="learning-resource-not-ict-costs"
           >
             <h3 className="govuk-heading-s">
               Learning resources (not ICT equipment) costs

@@ -1,7 +1,7 @@
 import React from "react";
 
 export type HorizontalBarChartWrapperProps = {
-  chartId: string;
+  chartName: string;
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperData;
 };

@@ -47,7 +47,7 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
     <ChartDimensionContext.Provider value={dimension}>
       <HorizontalBarChartWrapper
         data={chartData}
-        chartId="total-teachers-qualified"
+        chartName="total-teachers-qualified"
       >
         <h2 className="govuk-heading-m">
           Teachers with qualified teacher status (Full Time Equivalent)

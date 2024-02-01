@@ -26,7 +26,7 @@ describe("HBarChart Component", () => {
     const { container } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );
@@ -37,7 +37,7 @@ describe("HBarChart Component", () => {
     const { getByTestId } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );
@@ -49,7 +49,7 @@ describe("HBarChart Component", () => {
     const { getByTestId } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );
@@ -70,7 +70,7 @@ describe("HBarChart Component", () => {
     const { getByTestId } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );
@@ -87,7 +87,7 @@ describe("HBarChart Component", () => {
     const { getByTestId } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );
@@ -124,7 +124,7 @@ describe("HBarChart Component", () => {
     const { getByTestId } = render(
       <SelectedSchoolContext.Provider value={mockChosenSchool}>
         <ChartDimensionContext.Provider value={mockXLabel}>
-          <HorizontalBarChart data={mockData} chartId={mockChartId} />
+          <HorizontalBarChart data={mockData} chartName={mockChartId} />
         </ChartDimensionContext.Provider>
       </SelectedSchoolContext.Provider>
     );

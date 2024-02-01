@@ -12,7 +12,7 @@ import { ChartModeChart, ChartModeTable } from "src/components";
 export const HorizontalBarChartWrapper: React.FC<
   HorizontalBarChartWrapperProps
 > = (props) => {
-  const { data, children, chartId } = props;
+  const { data, children, chartName } = props;
   const mode = useContext(ChartModeContext);
   const ref = createRef<DownloadHandle>();
 
@@ -21,7 +21,7 @@ export const HorizontalBarChartWrapper: React.FC<
       case ChartModeChart:
         return (
           <HorizontalBarChart
-            chartId={chartId}
+            chartName={chartName}
             data={data.dataPoints}
             ref={ref}
           />
