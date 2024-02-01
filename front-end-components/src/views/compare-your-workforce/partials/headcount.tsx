@@ -15,10 +15,10 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
   const { schools } = props;
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
+    `School name`,
+    `Local Authority`,
+    `School type`,
+    `Number of pupils`,
     DimensionHeading(dimension),
   ];
 
