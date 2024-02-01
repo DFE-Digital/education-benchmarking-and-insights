@@ -141,7 +141,7 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
     return (
       <div style={chartContainerStyle}>
         <Bar
-          aria-label={`Bar chart showing ${chartName} as [insert x label]`}
+          aria-label={`Bar chart showing ${chartName} as ${xLabel}`}
           data={dataForChart}
           options={options}
           plugins={[underLinePlugin]}
