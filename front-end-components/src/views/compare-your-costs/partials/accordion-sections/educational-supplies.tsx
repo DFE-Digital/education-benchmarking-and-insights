@@ -116,16 +116,16 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-educational-supplies"
+              id="accordion-heading-3"
             >
               Educational supplies
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-educational-supplies"
+          id="accordion-content-3"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-educational-supplies"
+          aria-labelledby="accordion-heading-3"
           role="region"
         >
           <HorizontalBarChartWrapper

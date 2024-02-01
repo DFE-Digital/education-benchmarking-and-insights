@@ -116,16 +116,16 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-catering-staff-services"
+              id="accordion-heading-8"
             >
               Catering staff and services
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-catering-staff-services"
+          id="accordion-content-8"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-catering-staff-services"
+          aria-labelledby="accordion-heading-8"
           role="region"
         >
           <HorizontalBarChartWrapper

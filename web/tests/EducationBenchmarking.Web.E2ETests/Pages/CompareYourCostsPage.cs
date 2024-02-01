@@ -9,13 +9,13 @@ namespace EducationBenchmarking.Web.E2ETests.Pages;
 public class CompareYourCostsPage(PageHook page)
 {
     private readonly string _nonEducationalSupportStaffAccordionHeadingId =
-        "#accordion-heading-non-educational-support-staff";
+        "#accordion-heading-2";
 
     private readonly IPage _page = page.Current;
 
     private readonly string _showHideAccordionTextLocator = ".govuk-accordion__section-toggle-text";
 
-    private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-teaching-support-staff";
+    private readonly string _teachingAndTeachingSupportStaffHeadingId = "#accordion-heading-1";
     private IDownload? _download;
 
     private ILocator PageH1Heading => _page.Locator("h1");
@@ -40,9 +40,9 @@ public class CompareYourCostsPage(PageHook page)
     private ILocator AllSaveImgCtas => _page.Locator(".govuk-accordion__section .govuk-button");
 
     private ILocator NonEducationSupportStaffAccordionContent =>
-        _page.Locator("#accordion-content-non-educational-support-staff");
+        _page.Locator("#accordion-content-2");
 
-    private ILocator TeachingSupportStaffAccordionContent => _page.Locator("#accordion-content-teaching-support-staff");
+    private ILocator TeachingSupportStaffAccordionContent => _page.Locator("#accordion-content-1");
     private ILocator AllAccordions => _page.Locator(".govuk-accordion__section h2 button");
 
     private ILocator AllAccordionsContent =>
