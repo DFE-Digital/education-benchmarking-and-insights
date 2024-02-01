@@ -63,7 +63,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
         <ChartDimensions
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
-          elementId="teachers-qualified"
+          elementId="nonclassroom-support"
           defaultValue={dimension}
         />
       </HorizontalBarChartWrapper>
