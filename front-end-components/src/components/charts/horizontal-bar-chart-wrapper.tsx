@@ -16,28 +16,6 @@ export const HorizontalBarChartWrapper: React.FC<
   const mode = useContext(ChartModeContext);
   const ref = createRef<DownloadHandle>();
 
-  const renderView = (displayMode: string) => {
-    switch (displayMode) {
-      case ChartModeChart:
-        return (
-          <HorizontalBarChart
-            chartName={chartName}
-            data={data.dataPoints}
-            ref={ref}
-          />
-        );
-      case ChartModeTable:
-        return (
-          <TableChart
-            tableHeadings={data.tableHeadings}
-            data={data.dataPoints}
-          />
-        );
-      default:
-        return <Loading />;
-    }
-  };
-
   return (
     <>
       <div className="govuk-grid-row">
@@ -56,7 +34,33 @@ export const HorizontalBarChartWrapper: React.FC<
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          {data.dataPoints.length > 0 ? renderView(mode) : <Loading />}
+          {data.dataPoints.length > 0 ? (
+            <>
+              <div
+                className={
+                  mode == ChartModeChart ? "" : "govuk-visually-hidden"
+                }
+              >
+                <HorizontalBarChart
+                  chartName={chartName}
+                  data={data.dataPoints}
+                  ref={ref}
+                />
+              </div>
+              <div
+                className={
+                  mode == ChartModeTable ? "" : "govuk-visually-hidden"
+                }
+              >
+                <TableChart
+                  tableHeadings={data.tableHeadings}
+                  data={data.dataPoints}
+                />
+              </div>
+            </>
+          ) : (
+            <Loading />
+          )}
         </div>
       </div>
     </>
