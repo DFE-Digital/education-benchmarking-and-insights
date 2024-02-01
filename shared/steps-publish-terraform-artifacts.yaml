@@ -5,7 +5,7 @@ steps:
   - task: ArchiveFiles@2
     displayName: 'Zip terraform files'
     inputs:
-      rootFolderOrFile: ${{ parameters.TerraformDirectory }}
+      rootFolderOrFile: ${{ parameters.TerraformFolder }}
       includeRootFolder: false
       archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
 
