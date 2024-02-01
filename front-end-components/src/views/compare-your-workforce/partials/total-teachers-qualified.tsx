@@ -34,10 +34,15 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
   };
 
   return (
-      <ChartDimensionContext.Provider value={"percent"}>
-        <HorizontalBarChartWrapper data={chartData} chartName="total-teachers-qualified">
-          <h2 className="govuk-heading-m">Teachers with qualified Teacher Status (%)</h2>
-        </HorizontalBarChartWrapper>
-      </ChartDimensionContext.Provider>
+    <ChartDimensionContext.Provider value={"percent"}>
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="total-teachers-qualified"
+      >
+        <h2 className="govuk-heading-m">
+          Teachers with qualified Teacher Status (%)
+        </h2>
+      </HorizontalBarChartWrapper>
+    </ChartDimensionContext.Provider>
   );
 };
