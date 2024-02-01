@@ -46,7 +46,7 @@ const underLinePlugin = {
 
 export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
   (props, ref) => {
-    const { data, chartId } = props;
+    const { data, chartName } = props;
     const labels = data.map((dataPoint) => dataPoint.school);
     const values = data.map((dataPoint) => dataPoint.value);
     const selectedSchool = useContext(SelectedSchoolContext);
@@ -132,7 +132,7 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
         if (chartRef.current) {
           const a = document.createElement("a");
           a.href = chartRef.current.toBase64Image();
-          a.download = `${chartId}.png`;
+          a.download = `${chartName}.png`;
           a.click();
         }
       },
@@ -141,7 +141,7 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
     return (
       <div style={chartContainerStyle}>
         <Bar
-          aria-label="placeholder for alt text"
+          aria-label={`Bar chart showing ${chartName} as [insert x label]`}
           data={dataForChart}
           options={options}
           plugins={[underLinePlugin]}
