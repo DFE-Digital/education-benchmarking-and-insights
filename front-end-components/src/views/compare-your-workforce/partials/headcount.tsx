@@ -4,7 +4,7 @@ import {
   ChartDimensions,
   DimensionHeading,
   HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
+  HorizontalBarChartWrapperData, PupilsPerStaffRole,
   Total,
   WorkforceCategories,
 } from "src/components";
@@ -13,7 +13,7 @@ import { HeadcountProps } from "src/views/compare-your-workforce/partials";
 
 export const Headcount: React.FC<HeadcountProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(Total);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const tableHeadings = [
     "School name",
     "Local Authority",
