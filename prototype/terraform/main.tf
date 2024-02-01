@@ -23,6 +23,7 @@ resource "azurerm_service_plan" "app-service-plan" {
 }
 
 resource "azurerm_linux_web_app" "web-app" {
+  #checkov:skip=CKV_AZURE_13:Authentication not required
   #checkov:skip=CKV_AZURE_88:Persistent storage not required
   #checkov:skip=CKV_AZURE_222:Web app is public site
   #checkov:skip=CKV_AZURE_17:Client cert no used
