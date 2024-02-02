@@ -9,6 +9,7 @@ export type SchoolWorkforceData = {
   localAuthority: string;
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type AuxiliaryStaffProps = {
@@ -23,6 +24,7 @@ export type AuxiliaryStaffData = {
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
   auxiliaryStaffFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type HeadcountProps = {
@@ -51,6 +53,7 @@ export type NonClassroomSupportData = {
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
   nonClassroomSupportStaffFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type SeniorLeadershipProps = {
@@ -65,6 +68,7 @@ export type SeniorLeadershipData = {
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
   seniorLeadershipFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type TeachingAssistantsProps = {
@@ -79,6 +83,7 @@ export type TeachingAssistantsData = {
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
   teachingAssistantsFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type TotalTeachersProps = {
@@ -93,6 +98,7 @@ export type TotalTeachersData = {
   numberOfPupils: bigint;
   schoolWorkforceFTE: number;
   totalNumberOfTeachersFTE: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type TotalTeachersQualifiedProps = {

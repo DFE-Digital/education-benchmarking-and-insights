@@ -7,6 +7,7 @@ import {
   HorizontalBarChartWrapperData,
   PupilsPerStaffRole,
   WorkforceCategories,
+  HeadcountPerFTE,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
 import { HeadcountProps } from "src/views/compare-your-workforce/partials";
@@ -56,7 +57,9 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
       >
         <h2 className="govuk-heading-m">School workforce (Headcount)</h2>
         <ChartDimensions
-          dimensions={WorkforceCategories}
+          dimensions={WorkforceCategories.filter(
+            (category) => category !== HeadcountPerFTE
+          )}
           handleChange={handleSelectChange}
           elementId="headcount"
           defaultValue={dimension}
