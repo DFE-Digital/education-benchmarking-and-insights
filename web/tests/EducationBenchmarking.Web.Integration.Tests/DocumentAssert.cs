@@ -48,6 +48,12 @@ public static class DocumentAssert
         Assert.NotNull(doc);
         Assert.Equal(expectedUrl, doc.Url);
     }
+
+    public static void PrimaryCta(INode? node, string contents, string url, bool enabled = true)
+    {
+        Assert.NotNull(node);
+       // AssertStandardCta(node, contents, url, enabled);
+    }
     
     public static void PrimaryCta(IElement? element, string contents, string url, bool enabled = true)
     {

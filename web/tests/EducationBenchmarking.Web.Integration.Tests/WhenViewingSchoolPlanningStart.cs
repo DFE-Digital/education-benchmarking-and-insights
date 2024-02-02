@@ -77,8 +77,7 @@ public class WhenViewingSchoolPlanningStart(BenchmarkingWebAppFactory factory, I
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)", "Integrated Curriculum and financial planning (ICFP)");
-        DocumentAssert.Heading2(page, $"{school.Name}");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP)", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolCurriculumPlanningSelectYear(school.Urn));

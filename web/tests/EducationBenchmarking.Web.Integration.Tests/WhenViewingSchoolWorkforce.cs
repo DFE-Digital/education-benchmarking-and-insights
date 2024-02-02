@@ -28,7 +28,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
-        var anchor = page.QuerySelector("#change-school");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         var newPage = await Follow(anchor);
@@ -44,7 +44,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
-        var anchor = page.QuerySelector("#view-comparator-set");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         Assert.NotNull(anchor);
 
         var newPage = await Follow(anchor);
@@ -148,14 +148,12 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark workforce data",$"Benchmark the workforce data for {school.Name}");
+        DocumentAssert.TitleAndH1(page, "Benchmark workforce data","Benchmark workforce data");
             
-        var changeLinkElement = page.GetElementById("change-school");
-        Assert.NotNull(changeLinkElement);
+        var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
             
-        var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
-        Assert.NotNull(viewYourComparatorLinkElement);
+        var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolWorkforce(school.Urn));
         
         var workforceComponent = page.GetElementById("compare-workforce");

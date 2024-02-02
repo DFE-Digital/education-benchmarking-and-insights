@@ -27,14 +27,13 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
     public async Task CanNavigateToChangeSchool(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
-
-        var anchor = page.QuerySelector("#change-school");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
+        page = await Follow(anchor);
 
         //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 
     [Theory]
@@ -43,14 +42,13 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
     public async Task CanNavigateToComparatorSet(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
-
-        var anchor = page.QuerySelector("#view-comparator-set");
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
+        page = await Follow(anchor);
 
         //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 
     [Theory]
@@ -149,14 +147,12 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Compare your costs",$"Compare your costs for {school.Name}");
-            
-        var changeLinkElement = page.GetElementById("change-school");
-        Assert.NotNull(changeLinkElement);
+        DocumentAssert.TitleAndH1(page, "Compare your costs","Compare your costs");
+        
+        var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolComparison(school.Urn).ToAbsolute());
-            
-        var viewYourComparatorLinkElement = page.GetElementById("view-comparator-set");
-        Assert.NotNull(viewYourComparatorLinkElement);
+        
+        var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparison(school.Urn));
         
         var comparisonComponent = page.GetElementById("compare-your-school");

@@ -5,15 +5,23 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
         <h1 class="govuk-heading-l">@ViewBag.Title</h1>
-        <h2 class="govuk-heading-m">@Model.Name</h2>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body">
+            <a href="" class="govuk-link govuk-link--no-visited-state">Change school</a>
+        </p>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
         <a href="@Url.Action("Start", "SchoolPlanning", new { urn = Model.Urn })" role="button" class="govuk-button">
             Create new plan
         </a>
     </div>
 </div>
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

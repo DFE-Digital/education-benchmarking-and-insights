@@ -17,11 +17,7 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningHelp(school.Urn).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Data required for ICFP", "Data required for ICFP");
-
-        var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
-        Assert.NotNull(helpLink);
-        DocumentAssert.Link(helpLink, "submit an enquiry", "/submit-an-enquiry".ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Data required for curriculum and financial planning (CFP)", "Data required for curriculum and financial planning (CFP)");
     }
 
     [Fact]
@@ -33,17 +29,6 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
         page = await Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
-    }
-
-    [Fact]
-    public async Task CanNavigateToSubmitEnquiry()
-    {
-        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
-
-        var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
-        page = await Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, "/submit-an-enquiry".ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)

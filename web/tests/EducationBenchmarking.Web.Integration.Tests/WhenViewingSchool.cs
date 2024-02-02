@@ -134,9 +134,12 @@ public class WhenViewingSchool(BenchmarkingWebAppFactory factory, ITestOutputHel
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Your school", "Education benchmarking and insights");
-        DocumentAssert.Heading2(page, school.Name);
-
+        DocumentAssert.TitleAndH1(page, "Your school", school.Name);
+        if (school.FinanceType == EstablishmentTypes.Academies)
+        {
+            DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");    
+        }
+        
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[3]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 

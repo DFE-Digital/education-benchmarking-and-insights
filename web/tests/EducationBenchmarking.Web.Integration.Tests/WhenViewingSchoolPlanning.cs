@@ -71,8 +71,7 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
             ("Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Integrated Curriculum and financial planning (ICFP)","Integrated Curriculum and financial planning (ICFP)");
-        DocumentAssert.Heading2(page, $"{school.Name}");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP)","Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolCurriculumPlanningStart(school.Urn));
