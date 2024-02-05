@@ -5,10 +5,10 @@ namespace EducationBenchmarking.Web.Domain;
 [ExcludeFromCodeCoverage]
 public record Finances
 {
-    public string Urn { get; set; }
-    public string SchoolName { get; set; }
+    public string? Urn { get; set; }
+    public string? SchoolName { get; set; }
     public int YearEnd { get; set; }
-    public string OverallPhase { get; set; }
+    public string? OverallPhase { get; set; }
     public decimal NumberOfPupils { get; set; }
     public bool HasSixthForm { get; set; }
 
@@ -21,4 +21,5 @@ public record Finances
     public decimal AdministrativeClericalStaffCosts { get; set; }
     public decimal OtherStaffCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }
+    public decimal TotalNumberOfTeachersFte { get; set; }
 }

@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,11 +14,8 @@ public interface IMaintainSchoolDb
 }
 
 [ExcludeFromCodeCoverage]
-public class MaintainSchoolDbOptions
+public class MaintainSchoolDbOptions : CosmosDatabaseOptions
 {
-    [Required] public string ConnectionString { get; set; }
-    [Required] public string DatabaseId { get; set; }
-    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,8 +23,7 @@ public class MaintainSchoolDb : CosmosDatabase, IMaintainSchoolDb
 {
     private readonly ICollectionService _collectionService;
 
-    public MaintainSchoolDb(IOptions<MaintainSchoolDbOptions> options, ICollectionService collectionService)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
+    public MaintainSchoolDb(IOptions<MaintainSchoolDbOptions> options, ICollectionService collectionService) : base(options.Value)
     {
         _collectionService = collectionService;
     }

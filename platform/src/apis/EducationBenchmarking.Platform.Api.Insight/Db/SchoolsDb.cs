@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Domain;
 using EducationBenchmarking.Platform.Domain.DataObjects;
@@ -20,12 +19,9 @@ public interface ISchoolsDb
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolsDbOptions
+public class SchoolsDbOptions : CosmosDatabaseOptions
 {
-    [Required] public string ConnectionString { get; set; }
-    [Required] public string DatabaseId { get; set; }
     [Required] public string RatingCollectionName { get; set; }
-    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -34,8 +30,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     private readonly ICollectionService _collectionService;
     private readonly SchoolsDbOptions _options;
     
-    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
+    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService) : base(options.Value)
     {
         _options = options.Value;
         _collectionService = collectionService;

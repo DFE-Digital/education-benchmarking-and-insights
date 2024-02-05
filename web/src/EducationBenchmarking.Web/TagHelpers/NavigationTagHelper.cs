@@ -18,7 +18,7 @@ namespace EducationBenchmarking.Web.TagHelpers
 
         public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
         {
-            if (ViewContext.ViewData["Backlink"] is BacklinkInfo backlinkInfo)
+            if (ViewContext.ViewData[ViewDataConstants.Backlink] is BacklinkInfo backlinkInfo)
             {
                 var urlHelper = _urlHelperFactory.GetUrlHelper(ViewContext);
                 var url = urlHelper.Action(backlinkInfo.Action, backlinkInfo.Controller, backlinkInfo.RouteValues);

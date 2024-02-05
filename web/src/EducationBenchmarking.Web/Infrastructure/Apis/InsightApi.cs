@@ -41,4 +41,5 @@ public interface IInsightApi
     Task<ApiResult> GetSchoolsWorkforce(ApiQuery? query = null);
     Task<ApiResult> GetSchoolsRatings(ApiQuery? query = null);
     Task<ApiResult> GetFinanceYears();
+    
 }

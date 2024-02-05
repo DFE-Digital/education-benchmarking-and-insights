@@ -22,3 +22,26 @@ public static class Constants
     public static string GiasSchoolUrl(string urn) => $"https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/{urn}";
     public static string GiasTrustUrl(string uid) => $"https://www.get-information-schools.service.gov.uk/Groups/Group/Details/{uid}";
 }
+
+
+public static class ViewDataConstants
+{
+    public const string Backlink = nameof(Backlink);
+}
+
+public static class PageTitleConstants
+{
+    public const string ServiceHome = Constants.ServiceName;
+    public const string ErrorPageNotFound = "Page not found";
+    public const string ErrorProblem = "Sorry, there is a problem with the service";
+    public const string FindOrganisation = "Find an educational organisation";
+    public const string ChooseOrganisation = "Choose your school, academy trust, local authority";
+    public const string SchoolHome = "Your school";
+    public const string SchoolComparison = "Compare your costs";
+    public const string SchoolWorkforce = "Benchmark workforce data";
+    public const string SchoolDetails = "School details";
+    public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
+    public const string SchoolPlanningYearSelect = "Select academic year to plan";
+    public const string SchoolPlanningYear = "Prepopulated data";
+    public const string SchoolPlanningHelp = "Data required for curriculum and financial planning (CFP)";
+}
