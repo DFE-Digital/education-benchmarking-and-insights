@@ -89,7 +89,7 @@ export function CalculateWorkforceValue(
     case Total:
       return workforceValue.value;
     case HeadcountPerFTE:
-      return workforceValue.schoolWorkforceFTE / workforceValue.value;
+      return workforceValue.schoolWorkforceHeadcount / workforceValue.value;
     case PercentageOfWorkforce:
       return (workforceValue.value / workforceValue.schoolWorkforceFTE) * 100;
     case PupilsPerStaffRole:

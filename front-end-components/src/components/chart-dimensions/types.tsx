@@ -20,6 +20,7 @@ export type WorkforceValue = {
   schoolWorkforceFTE: number;
   numberOfPupils: bigint;
   value: number;
+  schoolWorkforceHeadcount: number;
 };
 
 export type ChartDimensionsProps = {
