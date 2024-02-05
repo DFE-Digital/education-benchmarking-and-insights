@@ -159,7 +159,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         Assert.NotNull(comparisonComponent);
         
         var toolsListSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsListSection, "More tools");
+        DocumentAssert.Heading2(toolsListSection, "Finance tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
