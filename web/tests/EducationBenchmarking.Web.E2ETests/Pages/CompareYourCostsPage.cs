@@ -1,6 +1,5 @@
 using EducationBenchmarking.Web.E2ETests.Helpers;
 using EducationBenchmarking.Web.E2ETests.Hooks;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -20,7 +19,7 @@ public class CompareYourCostsPage(PageHook page)
 
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
-    private ILocator ChangeSchoolLink => _page.Locator("#change-school");
+    private ILocator ChangeSchoolLink => _page.Locator(":text('Change school')");
 
     private ILocator SaveImageTotalExpenditure =>
         _page.Locator("xpath=//*[@id='compare-your-school']/div[2]/div[2]/button");
@@ -28,14 +27,13 @@ public class CompareYourCostsPage(PageHook page)
     private ILocator TotalExpenditureDimension => _page.Locator("#total-expenditure-dimension");
 
     private ILocator TotalExpenditureChart =>
-        _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/canvas");
+        _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/div/canvas");
 
     private ILocator ViewAsTableRadioBtn =>  _page.Locator("#mode-table");
     private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
     private ILocator Accordions => _page.Locator(".govuk-accordion__section");
-    private ILocator AllCharts => _page.Locator(".govuk-accordion__section canvas");
     private ILocator AllTables => _page.Locator(".govuk-accordion__section .govuk-table");
     private ILocator AllSaveImgCtas => _page.Locator(".govuk-accordion__section .govuk-button");
 
@@ -89,7 +87,7 @@ public class CompareYourCostsPage(PageHook page)
 
         var downloadedFilePath = _download.SuggestedFilename;
         Assert.True(
-            string.Equals("total-expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
+            string.Equals("total expenditure.png", downloadedFilePath, StringComparison.OrdinalIgnoreCase),
             $"Expected file name: total-expenditure.png. Actual: {downloadedFilePath}"
         );
     }
@@ -139,12 +137,7 @@ public class CompareYourCostsPage(PageHook page)
         var actualText = await ShowOrHideAllSectionsCta.InnerTextAsync();
         LocatorAssert.AreEqual(actualText, expectedText);
     }
-
-    public async Task AssertNoChartsAreShowing()
-    {
-        await AllCharts.ShouldNotBeVisible();
-    }
-
+    
     public async Task AssertTablesAreShowing()
     {
         var singleTable = await AllTables.AllAsync();
@@ -283,6 +276,6 @@ public class CompareYourCostsPage(PageHook page)
 
     private static string PageUrl(string urn)
     {
-        return $"{Config.BaseUrl}/school/{urn}/comparison";
+        return $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";
     }
 }

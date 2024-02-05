@@ -1,6 +1,5 @@
 ﻿using EducationBenchmarking.Web.E2ETests.Helpers;
 using EducationBenchmarking.Web.E2ETests.Hooks;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 using Xunit;
 
@@ -13,7 +12,7 @@ public class BenchmarkWorkforcePage(PageHook page)
 
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
-    private ILocator ChangeSchoolLink => _page.Locator("#change-school");
+    private ILocator ChangeSchoolLink => _page.Locator(":text('Change school')");
     private ILocator SaveImgCtas => _page.Locator("button", new PageLocatorOptions { HasText = "Save as image" });
     private ILocator ViewAsTableRadioBtn => _page.Locator("#mode-table");
     private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
@@ -22,9 +21,9 @@ public class BenchmarkWorkforcePage(PageHook page)
     private ILocator TotalNumberOfTeacherDimension => _page.Locator("#total-teachers-dimension");
     private ILocator SeniorLeadershipDimension => _page.Locator("#senior-leadership-dimension");
     private ILocator TeachingAssistantDimension => _page.Locator("#teaching-assistants-dimension");
-    private ILocator NonClassRoomSupportStaffDimension => _page.Locator("#teachers-qualified-dimension");
+    private ILocator NonClassRoomSupportStaffDimension => _page.Locator("#nonclassroom-support-dimension");
     private ILocator AuxiliaryStaffDimension => _page.Locator("#auxiliary-staff-dimension");
-    private ILocator SchoolWorkforceHeadcountDimension => _page.Locator("#auxiliary-staff-dimension");
+    private ILocator SchoolWorkforceHeadcountDimension => _page.Locator("#headcount-dimension");
     private ILocator TotalTeachersTable => _page.Locator("table").Nth(1);
     private ILocator AllTables => _page.Locator("table");
 
@@ -84,7 +83,7 @@ public class BenchmarkWorkforcePage(PageHook page)
         Assert.NotNull(_download);
         var downloadedFileName = downloadedChart switch
         {
-            "SchoolWorkforce" => "school-workforce",
+            "SchoolWorkforce" => "school workforce (full time equivalent)",
             _ => throw new ArgumentException($"Unsupported chart name: {downloadedChart}")
         };
 
@@ -166,7 +165,7 @@ public class BenchmarkWorkforcePage(PageHook page)
 
     public async Task GotToPage(string urn)
     {
-        await _page.GotoAsync($"{Config.BaseUrl}/school/{urn}/workforce");
+        await _page.GotoAsync($"{TestConfiguration.ServiceUrl}/school/{urn}/workforce");
     }
 
     public async Task ClickOnDimensionDropdown(string chartName)

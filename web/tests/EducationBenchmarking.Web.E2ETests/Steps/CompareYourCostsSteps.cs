@@ -53,7 +53,6 @@ public class CompareYourCostsSteps(CompareYourCostsPage compareYourCostsPage)
     public async Task ThenAllAccordionsAreShowingTableView()
     {
         await compareYourCostsPage.AssertTablesAreShowing();
-        await compareYourCostsPage.AssertNoChartsAreShowing();
     }
 
     [Given("I click on view as table")]

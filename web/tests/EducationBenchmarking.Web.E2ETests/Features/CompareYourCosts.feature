@@ -1,11 +1,11 @@
-Feature: CompareYourCosts page is showing correct data
+Feature: School Compare Your Costs
 
-    Scenario: download total expenditure chart
+    Scenario: Download total expenditure chart
         Given I am on compare your costs page for school with URN '139696'
         When i click on save as image for total expenditure
         Then chart image is downloaded
 
-    Scenario: change dimension of total expenditure and change view to table
+    Scenario: Change dimension of total expenditure and change view to table
         Given I am on compare your costs page for school with URN '139696'
         And the total expenditure chart dimension in dimension dropdown is '£ per pupil'
         When I change total expenditure dimension to 'actuals'
@@ -42,7 +42,7 @@ Feature: CompareYourCosts page is showing correct data
         And the text of cta changes to hide all sections
         
 
-    Scenario: change all charts to table view
+    Scenario: Change all charts to table view
         Given I am on compare your costs page for school with URN '139696'
         And I click on Show all sections
         When I click on view as table
@@ -63,7 +63,7 @@ Feature: CompareYourCosts page is showing correct data
         When I click hide for teaching and teaching support staff
         Then the accordion teaching and teaching support staff is collapsed
 
-    Scenario: hide all sections closes all accordions
+    Scenario: Hide all sections closes all accordions
         Given I am on compare your costs page for school with URN '139696'
         And I click on Show all sections
         When I click on Hide all sections

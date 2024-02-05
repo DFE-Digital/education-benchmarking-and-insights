@@ -110,10 +110,15 @@ public static class LocatorAssert
         return await l.ShouldBeChecked(isChecked);
     }
 
+    public static async Task<ILocator> ShouldBeEnabled(this Task<ILocator> locator)
+    {
+        var l = await locator;
+        return await l.ShouldBeEnabled();
+    }
+    
     public static async Task<ILocator> ShouldBeEnabled(this ILocator locator)
     {
         await Assertions.Expect(locator).ToBeEnabledAsync();
-
         return locator;
     }
 
@@ -222,21 +227,7 @@ public static class LocatorAssert
     {
         text1.Should().Be(text2, $"the expected text {text1} should match the actual text {text2}");
     }
-
-    public static async Task<ILocator> ShouldHaveRadioButtonOptions(this ILocator radioGroupLocator,
-        List<KeyValuePair<string, bool>> optionCheckedStatuses, bool exactLabels)
-    {
-        foreach (var option in optionCheckedStatuses)
-        {
-            await radioGroupLocator
-                .GetByLabel(option.Key, new LocatorGetByLabelOptions { Exact = exactLabels })
-                .ShouldBeVisible()
-                .ShouldBeChecked(option.Value);
-        }
-
-        return radioGroupLocator;
-    }
-
+    
     public static async Task<ILocator> ShouldHaveSelectedOption(this ILocator dropdownLocator, string expectedValue)
     {
         var selectedValue =

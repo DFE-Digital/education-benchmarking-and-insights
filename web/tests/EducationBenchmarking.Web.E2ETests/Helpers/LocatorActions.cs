@@ -125,13 +125,4 @@ public static class LocatorActions
         await locator.SetCheckedAsync(option);
         return locator;
     }
-
-    public static async Task<LocatorBoundingBoxResult> BoundingBox(this ILocator locator)
-    {
-        var boundingBox = await locator.BoundingBoxAsync();
-
-        return boundingBox ??
-               throw new InvalidOperationException(
-                   "No bounding box data returned for this element. Check that the locator of the element is valid");
-    }
 }
