@@ -1,4 +1,5 @@
-﻿@model EducationBenchmarking.Web.ViewModels.SchoolComparisonViewModel
+﻿@using EducationBenchmarking.Web.ViewModels.Components
+@model EducationBenchmarking.Web.ViewModels.SchoolComparisonViewModel
 @{
     ViewBag.Title = PageTitleConstants.SchoolComparison;
 }
@@ -25,13 +26,4 @@
 
 <div id="compare-your-school" data-urn="@Model.Urn" data-academy-year="@Model.AcademiesFinancePeriod" data-maintained-year="@Model.MaintainedSchoolsFinancePeriod"></div>
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">More tools</h2>
-        <ul class="app-links">
-            <li>@await Component.InvokeAsync("ViewYourAreasForInvestigation", Model.Urn)</li>
-            <li>@await Component.InvokeAsync("CurriculumFinancialPlanning", Model.Urn)</li>
-            <li>@await Component.InvokeAsync("BenchmarkWorkforce", Model.Urn)</li>
-        </ul>
-    </div>
-</div>
+@await Component.InvokeAsync("FinanceTools", new {identifier = Model.Urn, tools = new [] {FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce}})

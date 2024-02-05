@@ -160,7 +160,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         Assert.NotNull(workforceComponent);
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsSection, "More tools");
+        DocumentAssert.Heading2(toolsSection, "Finance tools");
         
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
