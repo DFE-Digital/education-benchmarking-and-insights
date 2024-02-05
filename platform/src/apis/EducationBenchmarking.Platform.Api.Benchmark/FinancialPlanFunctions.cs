@@ -98,6 +98,11 @@ public class FinancialPlanFunctions
                     _ => throw new ArgumentOutOfRangeException(nameof(result.Status))
                 };
             }
+            catch (DataConflictException ex)
+            {
+                _logger.LogWarning(ex, "Upsert financial plan conflict");
+                return new ConflictObjectResult(ex.Details);
+            }
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to upsert financial plan");
