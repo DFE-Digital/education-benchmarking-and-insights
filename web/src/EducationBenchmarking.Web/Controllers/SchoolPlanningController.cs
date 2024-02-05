@@ -1,3 +1,4 @@
+using System.Net;
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.ViewModels;
@@ -53,6 +54,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
             try
             {
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Index", "SchoolPlanning", new { urn });
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);
 
@@ -76,6 +78,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
             try
             {
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);
 
@@ -98,24 +101,26 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
-
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanViewModel(school);
-                if (year != null && viewModel.AvailableYears.Contains(year.GetValueOrDefault()))
+                if (year != null && Constants.AvailableYears.Contains(year.GetValueOrDefault()))
                 {
                     return RedirectToAction("Index", "SchoolPlanningYear", new { urn, year });
                 }
-
-                ModelState.AddModelError("year", "Select an academic year");
-                viewModel.SelectedYear = year;
+                
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+                
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolPlanViewModel(school, year);
+                ModelState.AddModelError("year","Select an academic year");
+                
                 return View(viewModel);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
                     Request.GetDisplayUrl());
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+                return e is StatusCodeException s 
+                    ? StatusCode((int)s.Status) 
+                    : StatusCode(500);
             }
         }
     }

@@ -11,31 +11,22 @@ public class WhenViewingFindOrganisation(WebDriver driver, ITestOutputHelper out
     private readonly AxeRunContext _context = new() { Exclude = [new AxeSelector("#school"), new AxeSelector("#trust")] };
 
     [Theory]
-    [InlineData(null)]
     [InlineData("school")]
     [InlineData("trust")]
-    public async Task ThenThereAreNoAccessibilityIssues(string? organisationType)
+    public async Task ThenThereAreNoAccessibilityIssues(string organisationType)
     {
         Page = await driver.GetPage(PageUrl);
-        if (!string.IsNullOrEmpty(organisationType))
-        {
-            await Page.Locator($"#{organisationType}").ClickAsync();    
-        }
-        
+        await Page.Locator($"#{organisationType}").ClickAsync();    
         await EvaluatePage(_context);
     }
 
     [Theory]
-    [InlineData(null)]
     [InlineData("school")]
     [InlineData("trust")]
-    public async Task ValidationErrorThenThereAreNoAccessibilityIssues(string? organisationType)
+    public async Task ValidationErrorThenThereAreNoAccessibilityIssues(string organisationType)
     {
         Page = await driver.GetPage(PageUrl);
-        if (!string.IsNullOrEmpty(organisationType))
-        {
-            await Page.Locator($"#{organisationType}").ClickAsync();    
-        }
+        await Page.Locator($"#{organisationType}").ClickAsync();    
         await Page.Locator(":text('Continue')").ClickAsync();
         await EvaluatePage(_context);
     }

@@ -7,12 +7,14 @@ namespace EducationBenchmarking.Web.Controllers;
 public class ErrorController : Controller
 {
     [HttpGet]
+    [HttpPost]
     public IActionResult Problem()
     {
         return View();
     }
     
     [HttpGet]
+    [HttpPost]
     [Route("{statusCode:int}")]
     public IActionResult StatusCodeError(int statusCode)
     {
