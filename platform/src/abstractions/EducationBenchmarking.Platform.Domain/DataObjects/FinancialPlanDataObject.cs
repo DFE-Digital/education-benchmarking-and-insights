@@ -1,0 +1,15 @@
+using System;
+using Newtonsoft.Json;
+
+namespace EducationBenchmarking.Platform.Domain.DataObjects;
+
+public class FinancialPlanDataObject
+{
+    [JsonProperty("id")] public string Id { get; set; }
+    [JsonProperty("partitionKey")] public string PartitionKey { get; set; }
+    [JsonProperty("created")] public DateTimeOffset Created { get; set; }
+    [JsonProperty("updatedAt")] public DateTimeOffset? UpdatedAt { get; set; }
+    [JsonProperty("updatedBy")] public string UpdatedBy { get; set; }
+    [JsonProperty("createdBy")] public string CreatedBy { get; set; }
+    [JsonProperty("version")] public int Version { get; set; }
+}

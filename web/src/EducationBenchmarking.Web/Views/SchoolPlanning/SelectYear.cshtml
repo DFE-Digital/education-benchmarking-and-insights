@@ -1,9 +1,8 @@
 @using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
-    ViewBag.Title = PageTitles.SchoolPlanningYearSelect;
+    ViewBag.Title = PageTitleConstants.SchoolPlanningYearSelect;
 }
-
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -26,7 +25,7 @@
                             <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["year"]?.Errors.First().ErrorMessage
                         </p>
                     }
-                    
+
                     <div class="govuk-radios" data-module="govuk-radios">
                         @foreach (var year in Model.AvailableYears)
                         {
@@ -35,7 +34,7 @@
                                 <input class="govuk-radios__input" id="year-@year" name="year" type="radio" value="@year" @(Model.SelectedYear == year ? "checked" : "")>
 
                                 <label class="govuk-label govuk-radios__label" for="year-@year">
-                                    @($"{year} - {year + 1}")
+                                    @($"{year - 1} - {year}")
                                 </label>
                             </div>
                         }

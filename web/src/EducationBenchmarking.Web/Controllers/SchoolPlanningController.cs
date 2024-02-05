@@ -11,7 +11,8 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/financial-planning")]
-public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger) : Controller
+public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogger<SchoolPlanningController> logger)
+    : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
@@ -51,7 +52,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                ViewData["Backlink"] = new TagHelpers.BacklinkInfo("Index", "SchoolPlanning", new { urn });
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Index", "SchoolPlanning", new { urn });
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);
 
@@ -66,7 +67,6 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
     }
 
 
-
     [HttpGet]
     [Route("select-year")]
     public async Task<IActionResult> SelectYear(string urn)
@@ -75,7 +75,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                ViewData["Backlink"] = new TagHelpers.BacklinkInfo("Start", "SchoolPlanning", new { urn });
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);
 
@@ -83,12 +83,13 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpPost]
     [Route("select-year")]
     public async Task<IActionResult> SelectYear(string urn, [FromForm]int? year)
@@ -97,44 +98,33 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                ViewData["Backlink"] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
-                
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);
                 if (year != null && viewModel.AvailableYears.Contains(year.GetValueOrDefault()))
                 {
                     return RedirectToAction("Index", "SchoolPlanningYear", new { urn, year });
                 }
-                
-                ModelState.AddModelError("year","Select an academic year");
+
+                ModelState.AddModelError("year", "Select an academic year");
                 viewModel.SelectedYear = year;
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpGet]
     [Route("help")]
     public IActionResult Help(string urn)
     {
-        using (logger.BeginScope(new { urn }))
-        {
-            try
-            {
-                ViewData["Backlink"] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
-
-                return View();
-            }
-            catch (Exception e)
-            { 
-                logger.LogError(e, "An error displaying school financial planning help: {DisplayUrl}",Request.GetDisplayUrl()); 
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-            }
-        }
+        ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+        return View();
     }
 }

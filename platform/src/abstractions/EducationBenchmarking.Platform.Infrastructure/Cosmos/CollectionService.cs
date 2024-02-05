@@ -5,28 +5,25 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
 [ExcludeFromCodeCoverage]
-public class CollectionServiceOptions
+public class CollectionServiceOptions : CosmosDatabaseOptions
 {
-    [Required] public string ConnectionString { get; set; }
-    [Required] public string DatabaseId { get; set; }
-    [Required] public string LookupCollectionName { get; set; }
-    public bool IsDirect { get; set; } = true;
+    [Required] public string? LookupCollectionName { get; set; }
 }
-
 
 [ExcludeFromCodeCoverage]
 public class CollectionService : CosmosDatabase, ICollectionService
 {
     private readonly CollectionServiceOptions _options;
 
-    public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value.ConnectionString,
-        options.Value.DatabaseId, options.Value.IsDirect)
+    public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value)
     {
         _options = options.Value;
     }
 
     private async Task<DataCollection[]> GetAllActiveCollections()
     {
+        ArgumentNullException.ThrowIfNull(_options.LookupCollectionName);
+
         return await GetItemEnumerableAsync<DataCollection>(
                 _options.LookupCollectionName,
                 q => q.Where(x => x.Active == "Y"))

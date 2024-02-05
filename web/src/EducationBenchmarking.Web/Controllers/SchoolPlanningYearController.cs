@@ -22,7 +22,7 @@ public class SchoolPlanningYearController(ILogger<SchoolPlanningYearController> 
                 //TODO: Get if exists plan for school / year
                 //TODO: Display previous selection value if plan exists
                 //TODO: Conditionally display total education support staff costs fpr primary schools
-                ViewData["Backlink"] = new BacklinkInfo("SelectYear", "SchoolPlanning", new { urn });
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("SelectYear", "SchoolPlanning", new { urn });
                 var school = new School { Urn = urn };
                 var viewModel = new SchoolPlanViewModel(school, year);
                 return View(viewModel);
@@ -46,7 +46,7 @@ public class SchoolPlanningYearController(ILogger<SchoolPlanningYearController> 
                 //TODO: Get if exists plan for school / year
                 //TODO: If valid PUT plan data
                 //TODO: If invalid return error
-                ViewData["Backlink"] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
                 
                 if (useFigures.HasValue)
                 {

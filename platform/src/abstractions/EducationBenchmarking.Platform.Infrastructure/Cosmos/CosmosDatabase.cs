@@ -1,31 +1,46 @@
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.Cosmos.Linq;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
+public class CosmosDatabaseOptions
+{
+    [Required] public string? ConnectionString { get; set; }
+    [Required] public string? DatabaseId { get; set; }
+    public bool IsDirect { get; set; } = true;
+}
+
+
 [ExcludeFromCodeCoverage]
 public abstract class CosmosDatabase
 {
+    private readonly CosmosDatabaseOptions _options;
     private readonly CosmosClient _client;
-    private readonly string _databaseId;
 
-    protected CosmosDatabase(string connectionString, string databaseId, bool isDirect)
+    protected CosmosDatabase(CosmosDatabaseOptions options)
     {
-        _databaseId = databaseId;
-        _client = CosmosClientFactory.Create(connectionString,isDirect);
+        _options = options;
+        _client = CosmosClientFactory.Create(options.ConnectionString,options.IsDirect);
     }
     
     protected Task<ItemResponse<T>> ReadItemAsync<T>(string containerId, string id, string partitionKey)
     {
-        var container = _client.GetContainer(_databaseId, containerId);
+        var container = _client.GetContainer(_options.DatabaseId, containerId);
         return container.ReadItemAsync<T>(id, new PartitionKey(partitionKey));
     }
     
     protected Task<ResponseMessage> ReadItemStreamAsync(string containerId, string id, string partitionKey)
     {
-        var container = _client.GetContainer(_databaseId, containerId);
+        var container = _client.GetContainer(_options.DatabaseId, containerId);
         return container.ReadItemStreamAsync(id, new PartitionKey(partitionKey));
+    }
+    
+    protected async Task UpsertItemAsync<T>(string containerId, T item, PartitionKey partitionKey)
+    {
+        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        await container.UpsertItemAsync(item, partitionKey);
     }
     
     protected async IAsyncEnumerable<T> GetItemEnumerableAsync<T>(string containerId,
@@ -76,7 +91,7 @@ public abstract class CosmosDatabase
     
     private IQueryable<T> BuildQueryable<T>(string containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
-        var container = _client.GetContainer(_databaseId, containerId);
+        var container = _client.GetContainer(_options.DatabaseId, containerId);
         return withF != null ? withF(container.GetItemLinqQueryable<T>())
             : container.GetItemLinqQueryable<T>();
     }

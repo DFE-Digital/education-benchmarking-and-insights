@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -15,11 +14,8 @@ public interface IAcademyDb
 }
 
 [ExcludeFromCodeCoverage]
-public class AcademyDbOptions
+public class AcademyDbOptions : CosmosDatabaseOptions
 {
-    [Required] public string ConnectionString { get; set; }
-    [Required] public string DatabaseId { get; set; }
-    public bool IsDirect { get; set; } = true;
 }
 
 [ExcludeFromCodeCoverage]
@@ -27,8 +23,7 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
 {
     private readonly ICollectionService _collectionService;
 
-    public AcademyDb(IOptions<AcademyDbOptions> options, ICollectionService collectionService)
-        : base(options.Value.ConnectionString, options.Value.DatabaseId, options.Value.IsDirect)
+    public AcademyDb(IOptions<AcademyDbOptions> options, ICollectionService collectionService) : base(options.Value)
     {
         _collectionService = collectionService;
     }

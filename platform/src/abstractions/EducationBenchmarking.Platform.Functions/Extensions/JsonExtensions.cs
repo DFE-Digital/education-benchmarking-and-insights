@@ -110,14 +110,14 @@ public static class JsonExtensions
         return js.Deserialize<T>(jr);
     }
 
-    public static T? FromJson<T>(this Stream stream)
+    public static T FromJson<T>(this Stream stream)
     {
         using (var sr = new StreamReader(stream))
         using (var jr = new JsonTextReader(sr))
         {
             var js = JsonSerializer.CreateDefault(Settings);
 
-            return js.Deserialize<T>(jr);
+            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
         }
     }
 

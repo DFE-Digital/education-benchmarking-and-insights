@@ -6,8 +6,10 @@ namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 [ExcludeFromCodeCoverage]
 public static class CosmosClientFactory
 {
-    public static CosmosClient Create(string connectionString, bool isDirect)
+    public static CosmosClient Create(string? connectionString, bool isDirect)
     {
+        ArgumentNullException.ThrowIfNull(connectionString);
+        
         return new CosmosClient(connectionString, new CosmosClientOptions
         {
             ConnectionMode = isDirect ? ConnectionMode.Direct : ConnectionMode.Gateway

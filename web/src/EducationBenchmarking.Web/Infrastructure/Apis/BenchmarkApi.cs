@@ -27,6 +27,16 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : BaseAp
     {
         return await GetAsync($"api/school-size/bandings{query?.ToQueryString()}");
     }
+    
+    public async Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request)
+    {
+        return await PutAsync($"api/financial-plan/{request.Urn}/{request.Year}", new JsonContent(request));
+    }
+    
+    public async Task<ApiResult> GetFinancialPlan(string urn, int year)
+    {
+        return await GetAsync($"api/financial-plan/{urn}/{year}");
+    }
 }
 
 public interface IBenchmarkApi
@@ -34,4 +44,6 @@ public interface IBenchmarkApi
     Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default);
     Task<ApiResult> GetFreeSchoolMealBandings(ApiQuery? query = null);
     Task<ApiResult> GetSchoolSizeBandings(ApiQuery? query = null);
+    Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request);
+    Task<ApiResult> GetFinancialPlan(string urn, int year);
 }
