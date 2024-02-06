@@ -28,5 +28,5 @@ steps:
     inputs:
       command: test
       packagesDirectory: $(NUGET_PACKAGES)
-      arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFileName=TestResults.trx"'
+      arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults"'
       projects: 'platform/**/*.Tests.csproj'
