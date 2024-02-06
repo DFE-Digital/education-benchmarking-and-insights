@@ -12,7 +12,7 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.GetSchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new List<Rating>());
         
         var result = await Functions.GetSchoolRatings(CreateRequest()) as JsonContentResult;
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.GetSchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
         
         var result = await Functions.GetSchoolRatings(CreateRequest()) as StatusCodeResult;

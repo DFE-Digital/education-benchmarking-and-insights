@@ -11,7 +11,7 @@ public class WhenGetGetDecimalValueByNameIsCalled
     {
         var data = new TestData { Foo = decimal.MaxValue };
 
-        var x = data.GetDecimalValueByName<TestData>("Foo");
+        var x = data.DecimalValueByName<TestData>("Foo");
         x.Should().NotBeNull();
         x.Should().Be(data.Foo);
     }
@@ -21,7 +21,7 @@ public class WhenGetGetDecimalValueByNameIsCalled
     {
         var data = new TestData { Foo = decimal.MaxValue };
 
-        var x = data.GetDecimalValueByName<TestData>("Bar");
+        var x = data.DecimalValueByName<TestData>("Bar");
         x.Should().BeNull();
     }
     
@@ -30,7 +30,7 @@ public class WhenGetGetDecimalValueByNameIsCalled
     {
         var data = new TestData { Foo = decimal.MaxValue };
 
-        var x = data.GetDecimalValueByName<TestData>(null);
+        var x = data.DecimalValueByName<TestData>(null);
         x.Should().BeNull();
     }
     

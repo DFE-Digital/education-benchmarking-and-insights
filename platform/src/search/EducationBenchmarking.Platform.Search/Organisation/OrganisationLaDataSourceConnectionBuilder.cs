@@ -12,10 +12,10 @@ public class OrganisationLaDataSourceConnectionBuilder : DataSourceConnectionBui
     private readonly string _container;
     private readonly string _connectionString;
     
-    public OrganisationLaDataSourceConnectionBuilder(string connectionString, string container)
+    public OrganisationLaDataSourceConnectionBuilder(string? connectionString, string? container)
     {
-        _connectionString = connectionString;
-        _container = container;
+        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        _container = container ?? throw new ArgumentNullException(nameof(container));
     }
     
     public override async Task Build(SearchIndexerClient client)

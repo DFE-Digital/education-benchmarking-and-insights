@@ -4,6 +4,7 @@ using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
+using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
@@ -19,17 +20,17 @@ public class InsightSchoolsSteps
         _api = api;
     }
 
-    [When("I submit the schools insights request")]
+    [When(@"I submit the schools insights request")]
     public async Task WhenISubmitTheSchoolsInsightsRequest()
     {
         await _api.Send();
     }
 
-    [Then("the school expenditure result should be ok")]
+    [Then(@"the school expenditure result should be ok")]
     public async Task ThenTheSchoolExpenditureResultShouldBeOk()
     {
-        var response = _api[SchoolFinancesKey].Response;
-        
+        var response = _api[SchoolFinancesKey].Response ??
+                       throw new NullException(_api[SchoolFinancesKey].Response);
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -37,21 +38,22 @@ public class InsightSchoolsSteps
 
         json.Should().ContainKey("results");
         
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new NullReferenceException();
+        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
         
         resultsArray.Should().NotBeEmpty();
 
-        var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new NullReferenceException();
-        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>()  ?? throw new NullReferenceException();
+        var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
+        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>()  ?? throw new ArgumentNullException();
         
         firstResult.Name.Should().Be("Wells Free School");
         firstResult.Urn.Should().Be("139696");
         
         secondResult.Name.Should().Be("Hadlow Rural Community School");
         secondResult.Urn.Should().Be("139697");
+
     }
 
-    [Given("a valid schools expenditure request with urn '(.*)' and '(.*)'")]
+    [Given(@"a valid schools expenditure request with urn '(.*)' and '(.*)'")]
     public void GivenAValidSchoolsExpenditureRequestWithUrnAnd(string urn1, string urn2)
     {
         _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
@@ -61,7 +63,7 @@ public class InsightSchoolsSteps
         });
     }
 
-    [Given("a valid school expenditure request with page '(.*)' and urn '(.*)'")]
+    [Given(@"a valid school expenditure request with page '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolExpenditureRequestWithPageAndUrn(string size, string urn)
     {
         _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
@@ -71,22 +73,21 @@ public class InsightSchoolsSteps
         });
     }
 
-    [Then("the schools expenditure result should be page '(.*)' with '(.*)' page size")]
+    [Then(@"the schools expenditure result should be page '(.*)' with '(.*)' page size")]
     public async Task ThenTheSchoolsExpenditureResultShouldBePageWithPageSize(int page, int pageSize)
     {
-        var response = _api[SchoolFinancesKey].Response;
-        
+        var response = _api[SchoolFinancesKey].Response ??
+                       throw new NullException(_api[SchoolFinancesKey].Response);
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<Finances>>();
-        
+        var result = content.FromJson<PagedResults<Finances>>() ?? throw new NullException(content);
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }
 
-    [Given("a valid school expenditure request with size '(.*)' and urn '(.*)'")]
+    [Given(@"a valid school expenditure request with size '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolExpenditureRequestWithSizeAndUrn(string pageSize, string urn)
     {
         _api.CreateRequest(SchoolFinancesKey, new HttpRequestMessage
@@ -96,7 +97,7 @@ public class InsightSchoolsSteps
         });
     }
 
-    [Given("a valid schools workforce request with urn '(.*)'")]
+    [Given(@"a valid schools workforce request with urn '(.*)'")]
     public void GivenAValidSchoolsWorkforceRequestWithUrn(string urn)
     {
         _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage
@@ -106,11 +107,11 @@ public class InsightSchoolsSteps
         });
     }
 
-    [Then("the school workforce result should be ok")]
+    [Then(@"the school workforce result should be ok")]
     public async Task ThenTheSchoolWorkforceResultShouldBeOk()
     {
-        var response = _api[SchoolWorkforceKey].Response;
-        
+        var response = _api[SchoolWorkforceKey].Response ??
+                       throw new NullException(_api[SchoolFinancesKey].Response);
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -118,17 +119,17 @@ public class InsightSchoolsSteps
 
         json.Should().ContainKey("results");
         
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new NullReferenceException();
+        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
         
         resultsArray.Should().NotBeEmpty();
 
-        var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new NullReferenceException();
+        var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new ArgumentNullException();
         
         result.Name.Should().Be("Wells Free School");
         result.Urn.Should().Be("139696");
     }
 
-    [Given("a valid school workforce request with page '(.*)' and urn '(.*)'")]
+    [Given(@"a valid school workforce request with page '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string page, string urn)
     {
         _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage
@@ -138,22 +139,22 @@ public class InsightSchoolsSteps
         });
     }
 
-    [Then("the schools workforce result should be page '(.*)' with '(.*)' page size")]
+    [Then(@"the schools workforce result should be page '(.*)' with '(.*)' page size")]
     public async Task ThenTheSchoolsWorkforceResultShouldBePageWithPageSize(int page, int pageSize)
     {
-        var response = _api[SchoolWorkforceKey].Response;
-        
+        var response = _api[SchoolWorkforceKey].Response ??
+                       throw new NullException(_api[SchoolWorkforceKey].Response);
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<SchoolWorkforce>>(); //TODO: troubleshoot the reason of failure 
-        
+        //todo troubleshoot the reason of failure 
+        var result = content.FromJson<PagedResults<SchoolWorkforce>>() ?? throw new NullException(content);
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }
 
-    [Given("a valid school workforce request with size '(.*)' and urn '(.*)'")]
+    [Given(@"a valid school workforce request with size '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string pageSize, string urn)
     {
         _api.CreateRequest(SchoolWorkforceKey, new HttpRequestMessage

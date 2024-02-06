@@ -22,7 +22,7 @@ public class FinancialPlanDbOptions : CosmosDatabaseOptions
 
 public interface IFinancialPlanDb
 {
-    Task<FinancialPlan?> GetFinancialPlan(string urn, int year);
+    Task<FinancialPlan?> FinancialPlan(string urn, int year);
     Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
     
 }
@@ -36,12 +36,12 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         _options = options.Value;
     }
 
-    public async Task<FinancialPlan?> GetFinancialPlan(string urn, int year)
+    public async Task<FinancialPlan?> FinancialPlan(string urn, int year)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
         
        var response =  await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
-       return response.IsSuccessStatusCode ? FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
+       return response.IsSuccessStatusCode ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
     }
 
     public async Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
@@ -59,7 +59,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         {
             throw new DataConflictException(
                 existing.Id, 
-                nameof(FinancialPlan), 
+                nameof(Domain.Responses.FinancialPlan), 
                 existing.CreatedBy,
                 existing.Created, 
                 existing.UpdatedBy,

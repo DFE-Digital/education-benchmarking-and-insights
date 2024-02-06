@@ -14,17 +14,17 @@ public class OrganisationSchoolDataSourceConnectionBuilder : DataSourceConnectio
     private readonly string _databaseId;
     private readonly ICollectionService _collectionService;
     
-    public OrganisationSchoolDataSourceConnectionBuilder(ICollectionService collectionService, string connectionString, string databaseId)
+    public OrganisationSchoolDataSourceConnectionBuilder(ICollectionService collectionService, string? connectionString, string? databaseId)
     {
         _collectionService = collectionService;
-        _connectionString = connectionString;
-        _databaseId = databaseId;
+        _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
+        _databaseId = databaseId ?? throw new ArgumentNullException(nameof(databaseId));
     }
     
     public override async Task Build(SearchIndexerClient client)
     {
         var fullConnString = $"{_connectionString}Database={_databaseId};";
-        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
+        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
 
 
         var container = new SearchIndexerDataContainer(collection.Name)

@@ -48,7 +48,7 @@ public class BandingsFunctions
         {
             try
             {
-                var bandings = await _db.GetFreeSchoolMealBandings();
+                var bandings = await _db.FreeSchoolMealBandings();
                 return new JsonContentResult(bandings);
             }
             catch (Exception e)
@@ -86,7 +86,7 @@ public class BandingsFunctions
                 var phase = req.Query["phase"].ToString();
                 var term = req.Query["term"].ToString();
                 
-                var bandings = await _db.GetSchoolSizeBandings(phase, term, noOfPupils, hasSixthForm);
+                var bandings = await _db.SchoolSizeBandings(phase, term, noOfPupils, hasSixthForm);
                 return new JsonContentResult(bandings);
             }
             catch (Exception e)

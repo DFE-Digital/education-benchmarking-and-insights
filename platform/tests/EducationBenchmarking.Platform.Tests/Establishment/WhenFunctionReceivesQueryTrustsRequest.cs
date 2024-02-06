@@ -6,9 +6,9 @@ namespace EducationBenchmarking.Platform.Tests.Establishment;
 public class WhenFunctionReceivesQueryTrustsRequest : TrustsFunctionsTestBase
 {
     [Fact]
-    public async Task ShouldReturn200OnValidRequest()
+    public void ShouldReturn200OnValidRequest()
     {
-        var result = await Functions.QueryTrustsAsync(CreateRequest()) as OkResult;
+        var result = Functions.QueryTrustsAsync(CreateRequest()) as OkResult;
         
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);

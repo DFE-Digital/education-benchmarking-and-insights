@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 
 [ExcludeFromCodeCoverage]
-public class CharacteristicValue
+public record CharacteristicValue
 {
     
 }

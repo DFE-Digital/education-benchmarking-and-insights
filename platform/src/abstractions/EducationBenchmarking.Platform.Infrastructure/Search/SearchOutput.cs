@@ -4,7 +4,7 @@ using EducationBenchmarking.Platform.Domain.Responses;
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public class SearchOutput<T> : IPagedResults
+public record SearchOutput<T> : IPagedResults
 {
     public Dictionary<string, IList<FacetValue>>? Facets { get; set; }
     public long TotalResults { get; set; }
@@ -30,7 +30,7 @@ public class SearchOutput<T> : IPagedResults
 }
 
 [ExcludeFromCodeCoverage]
-public class FacetValue
+public record FacetValue
 {
     public string? Value { get; set; }
     public long? Count { get; set; }

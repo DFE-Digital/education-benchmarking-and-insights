@@ -43,7 +43,7 @@ public abstract class CosmosDatabase
         await container.UpsertItemAsync(item, partitionKey);
     }
     
-    protected async IAsyncEnumerable<T> GetItemEnumerableAsync<T>(string containerId,
+    protected async IAsyncEnumerable<T> ItemEnumerableAsync<T>(string? containerId,
         Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
         var queryable = BuildQueryable(containerId, withF);
@@ -62,7 +62,7 @@ public abstract class CosmosDatabase
         }
     }
     
-    protected async IAsyncEnumerable<T> GetPagedItemEnumerableAsync<T>(string containerId, int page, int pageSize,
+    protected async IAsyncEnumerable<T> PagedItemEnumerableAsync<T>(string? containerId, int page, int pageSize,
         Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
         var start = (page - 1) * pageSize;
@@ -83,14 +83,15 @@ public abstract class CosmosDatabase
         }
     }
     
-    protected async Task<int> GetItemCountAsync<T>(string containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
+    protected async Task<int> ItemCountAsync<T>(string? containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
         var response = await BuildQueryable(containerId, withF).CountAsync();
         return response.Resource;
     }
     
-    private IQueryable<T> BuildQueryable<T>(string containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
+    private IQueryable<T> BuildQueryable<T>(string? containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
+        ArgumentNullException.ThrowIfNull(containerId);
         var container = _client.GetContainer(_options.DatabaseId, containerId);
         return withF != null ? withF(container.GetItemLinqQueryable<T>())
             : container.GetItemLinqQueryable<T>();

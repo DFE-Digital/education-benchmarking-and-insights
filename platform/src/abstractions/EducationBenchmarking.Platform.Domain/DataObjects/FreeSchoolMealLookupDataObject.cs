@@ -1,19 +1,18 @@
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Platform.Domain.DataObjects;
 
 [ExcludeFromCodeCoverage]
-public class FreeSchoolMealLookupDataObject
+public record FreeSchoolMealLookupDataObject
 {
-    public string Term { get; set; }
+    public string? Term { get; set; }
 
-    public string OverallPhase { get; set; }
+    public string? OverallPhase { get; set; }
         
     public bool? HasSixthForm { get; set; }
 
-    public decimal FSMMin { get; set; } 
-        
-    public decimal FSMMax { get; set; }
-
-    public string FSMScale { get; set; }
+    [JsonProperty("FSMMin")] public decimal FsmMin { get; set; } 
+    [JsonProperty("FSMMax")] public decimal FsmMax { get; set; }
+    [JsonProperty("FSMScale")] public string? FsmScale { get; set; }
 }

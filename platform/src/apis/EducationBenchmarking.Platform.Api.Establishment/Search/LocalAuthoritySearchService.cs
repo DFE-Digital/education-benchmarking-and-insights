@@ -8,7 +8,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public class LocalAuthoritySearchServiceOptions : SearchServiceOptions
+public record LocalAuthoritySearchServiceOptions : SearchServiceOptions
 {
 }
 

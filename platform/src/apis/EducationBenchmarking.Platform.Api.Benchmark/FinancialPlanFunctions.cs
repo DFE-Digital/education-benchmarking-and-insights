@@ -50,7 +50,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var plan = await _db.GetFinancialPlan(urn, year);
+                var plan = await _db.FinancialPlan(urn, year);
                 return plan != null 
                     ? new JsonContentResult(plan)
                     : new NotFoundResult();

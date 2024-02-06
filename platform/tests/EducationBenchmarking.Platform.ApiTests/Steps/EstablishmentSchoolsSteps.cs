@@ -163,7 +163,7 @@ public class EstablishmentSchoolsSteps
         
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
-        result.Results.Count().Should().Be(pageSize);
+        result.Results?.Count().Should().Be(pageSize);
     }
 
     [Given("a valid schools query request with page size '(.*)'")]

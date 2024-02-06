@@ -12,7 +12,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.GetSchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
+            .Setup(d => d.SchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
             .ReturnsAsync(Array.Empty<Banding>());
         
         var result =
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.GetSchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
+            .Setup(d => d.SchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
             .Throws(new Exception());
         
         var result = await Functions
