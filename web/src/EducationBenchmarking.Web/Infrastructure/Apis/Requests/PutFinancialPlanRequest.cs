@@ -12,4 +12,19 @@ public class PutFinancialPlanRequest
     public decimal? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
+
+    public static PutFinancialPlanRequest Create(FinancialPlan plan)
+    {
+        return new PutFinancialPlanRequest
+        {
+            Year = plan.Year,
+            Urn = plan.Urn,
+            UseFigures = plan.UseFigures,
+            TotalIncome = plan.TotalIncome,
+            TotalExpenditure = plan.TotalExpenditure,
+            TotalTeacherCosts = plan.TotalTeacherCosts,
+            TotalNumberOfTeachersFte = plan.TotalNumberOfTeachersFte,
+            EducationSupportStaffCosts = plan.EducationSupportStaffCosts
+        };
+    }
 }

@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
@@ -9,6 +10,8 @@ using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
 
 var builder = WebApplication.CreateBuilder(args);
 

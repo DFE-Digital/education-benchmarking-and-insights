@@ -10,6 +10,7 @@ public record School
     public string? Urn { get; set; }
     public string? Name { get; set; }
     public string? FinanceType { get; set; }
+    public string? OverallPhase { get; set; }
     public string? Kind { get; set; }
     public string? LaEstab { get; set; }
     public string? Street { get; set; }
@@ -30,7 +31,8 @@ public record School
             FinanceType = edubase.FinanceType,
             Name = edubase.EstablishmentName,
             CompanyNumber = edubase.CompanyNumber.ToString(),
-            TrustOrCompanyName = edubase.TrustOrCompanyName
+            TrustOrCompanyName = edubase.TrustOrCompanyName,
+            OverallPhase = edubase.OverallPhase
         };
     }
 }

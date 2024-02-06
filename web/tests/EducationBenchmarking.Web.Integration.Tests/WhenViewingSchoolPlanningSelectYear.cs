@@ -18,7 +18,7 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplaySchool(string financeType)
+    public async Task CanDisplay(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -44,7 +44,7 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
             });
         });
         
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningYear(school.Urn,CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn,CurrentYear).ToAbsolute());
     }
     
     [Theory]
@@ -117,6 +117,19 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+        var anchor = page.QuerySelector(".govuk-back-link");
+        page = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
+    }
+    
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()

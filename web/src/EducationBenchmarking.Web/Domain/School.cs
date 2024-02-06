@@ -19,4 +19,8 @@ public record School
     public string LocalAuthority { get; set; }
     public string CompanyNumber { get; set; }
     public string TrustOrCompanyName { get; set; }
+    
+    public string OverallPhase { get; set; }
+    
+    public bool IsPrimary => OverallPhase == "Primary";
 }

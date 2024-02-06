@@ -29,11 +29,11 @@ public class SchoolPlanningYearController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var existingPlan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
 
-                var viewModel = new SchoolPlanViewModel(school, finances, existingPlan, year);
+                var viewModel = new SchoolPlanFinancesViewModel(school, finances, year, plan);
+                
                 return View(viewModel);  
-
             }
             catch (Exception e)
             {
@@ -54,54 +54,39 @@ public class SchoolPlanningYearController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var existingPlan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
-
-                var viewModel = new SchoolPlanViewModel(school, finances, existingPlan, year);
-
-                if (useFigures.HasValue)
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
+                
+                if (!useFigures.HasValue)
                 {
-                    var plan = new PutFinancialPlanRequest
-                    {
-                        Year = year,
-                        Urn = urn,
-                        UseFigures = useFigures.Value,
-                    };
-
-                    if (useFigures.Value)
-                    {
-                        plan.TotalIncome = viewModel.CurrentTotalIncome;
-                        plan.TotalExpenditure = viewModel.CurrentTotalExpenditure;
-                        plan.TotalTeacherCosts = viewModel.CurrentTotalTeacherCosts;
-                        plan.TotalNumberOfTeachersFte = viewModel.CurrentTotalNumberOfTeachersFte;
-                        if (viewModel.IsPrimary)
-                        {
-                            plan.EducationSupportStaffCosts = viewModel.CurrentEducationSupportStaffCosts;
-                        }
-                    }
-                    else
-                    {
-                        if (existingPlan != null)
-                        {
-                            plan.TotalIncome = existingPlan.TotalIncome;
-                            plan.TotalExpenditure = existingPlan.TotalExpenditure;
-                            plan.TotalTeacherCosts = existingPlan.TotalTeacherCosts;
-                            plan.TotalNumberOfTeachersFte = existingPlan.TotalNumberOfTeachersFte;
-                            if (viewModel.IsPrimary)
-                            {
-                                plan.EducationSupportStaffCosts = existingPlan.EducationSupportStaffCosts;
-                            }
-                        }
-                    }
-
-                    await benchmarkApi.UpsertFinancialPlan(plan).EnsureSuccess();
-                    return useFigures.Value
-                        ? RedirectToAction("Timetable", new { urn, year })
-                        : RedirectToAction("TotalIncome", new { urn, year });
+                    var viewModel = new SchoolPlanFinancesViewModel(school, finances, year, plan);
+                    ModelState.AddModelError("useFigures", "Select whether to use the above figures in your plan");
+                    return View(viewModel);
                 }
-                ModelState.AddModelError("useFigures", "Select whether to use the above figures in your plan");
-                return View(viewModel);
-            }
+                
+                var request = plan != null
+                    ? PutFinancialPlanRequest.Create(plan)
+                    : new PutFinancialPlanRequest { Urn = urn, Year = year };
 
+                request.UseFigures = useFigures.Value;
+                    
+                if (useFigures.Value)
+                {
+                    request.TotalIncome = finances.TotalIncome;
+                    request.TotalExpenditure = finances.TotalExpenditure;
+                    request.TotalTeacherCosts = finances.TeachingStaffCosts;
+                    request.TotalNumberOfTeachersFte = finances.TotalNumberOfTeachersFte;
+                    if (school.IsPrimary)
+                    {
+                        request.EducationSupportStaffCosts = finances.EducationSupportStaffCosts;
+                    }
+                }
+
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+                    
+                return useFigures.Value
+                    ? RedirectToAction("Timetable", new { urn, year })
+                    : RedirectToAction("TotalIncome", new { urn, year });
+            }
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",

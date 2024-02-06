@@ -14,7 +14,7 @@ public class WhenViewingSchoolPlanningStart(BenchmarkingWebAppFactory factory, I
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplaySchool(string financeType)
+    public async Task CanDisplay(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -45,6 +45,19 @@ public class WhenViewingSchoolPlanningStart(BenchmarkingWebAppFactory factory, I
     }
 
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateBack(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+        var anchor = page.QuerySelector(".govuk-back-link");
+        page = await Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
+    }
+    
     [Fact]
     public async Task CanDisplayNotFound()
     {
