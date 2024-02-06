@@ -7,14 +7,13 @@ using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentAssertions;
 using TechTalk.SpecFlow.Assist;
-using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
 public class EstablishmentTrustsSteps
 {
-    private const string GetRequestKey = "get-trust";
+    private const string RequestKey = "get-trust";
     private const string QueryRequestKey = "query-trust";
     private const string SearchRequestKey = "search-trust";
     private const string SuggestInvalidRequestKey = "suggest-trust-invalid";
@@ -29,7 +28,7 @@ public class EstablishmentTrustsSteps
     [Given("a valid trust request with id '(.*)'")]
     private void GivenAValidTrustRequestWithId(string id)
     {
-        _api.CreateRequest(GetRequestKey, new HttpRequestMessage
+        _api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/trust/{id}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -45,8 +44,8 @@ public class EstablishmentTrustsSteps
     [Then("the trust result should be ok")]
     private void ThenTheTrustResultShouldBeOk()
     {
-        var result = _api[GetRequestKey].Response ?? throw new NullException(_api[GetRequestKey].Response);
-
+        var result = _api[RequestKey].Response;
+        
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -64,8 +63,8 @@ public class EstablishmentTrustsSteps
     [Then("the trusts query result should be ok")]
     private void ThenTheTrustsQueryResultShouldBeOk()
     {
-        var result = _api[QueryRequestKey].Response ?? throw new NullException(_api[QueryRequestKey].Response);
-
+        var result = _api[QueryRequestKey].Response;
+        
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -83,8 +82,8 @@ public class EstablishmentTrustsSteps
     [Then("the trusts search result should be ok")]
     private void ThenTheTrustsSearchResultShouldBeOk()
     {
-        var result = _api[SearchRequestKey].Response ?? throw new NullException(_api[SearchRequestKey].Response);
-
+        var result = _api[SearchRequestKey].Response;
+        
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -105,14 +104,14 @@ public class EstablishmentTrustsSteps
     [Then("the trusts suggest result should have the follow validation errors:")]
     private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = _api[SuggestInvalidRequestKey].Response ??
-                       throw new NullException(_api[SuggestInvalidRequestKey].Response);
+        var response = _api[SuggestInvalidRequestKey].Response;
+        
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-
+        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
-
+        var results = content.FromJson<ValidationError[]>();
         var set = new List<dynamic>();
+        
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
@@ -137,14 +136,14 @@ public class EstablishmentTrustsSteps
     [Then("the trusts suggest result should be:")]
     private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
     {
-        var response = _api[SuggestValidRequestKey].Response ??
-                       throw new NullException(_api[SuggestValidRequestKey].Response);
+        var response = _api[SuggestValidRequestKey].Response;
+        
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-
+        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestOutput<Trust>>()?.Results ?? throw new NullException(content);
-
+        var results = content.FromJson<SuggestOutput<Trust>>().Results ;
         var set = new List<dynamic>();
+        
         foreach (var result in results)
         {
             set.Add(new { result.Text, result.Document?.Name, result.Document?.CompanyNumber });

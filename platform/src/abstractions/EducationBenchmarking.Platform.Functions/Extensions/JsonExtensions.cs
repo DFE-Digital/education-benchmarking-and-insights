@@ -66,12 +66,12 @@ public static class JsonExtensions
         return JArray.FromObject(source);
     }
 
-    public static T? FromJson<T>(this string source)
+    public static T FromJson<T>(this string source)
     {
-        return JsonConvert.DeserializeObject<T>(source, Settings);
+        return JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new NullReferenceException();
     }
 
-    public static T? FromJson<T>(this byte[] source, Encoding? encoding = null)
+    public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
     {
         if (source == null || source.Length == 0)
             throw new ArgumentException("The source was empty", nameof(source));
@@ -81,22 +81,22 @@ public static class JsonExtensions
         {
             var js = JsonSerializer.CreateDefault(Settings);
 
-            return js.Deserialize<T>(jr);
+            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
         }
     }
 
-    public static async Task<T?> FromJson<T>(this Task<Stream> stream)
+    public static async Task<T> FromJson<T>(this Task<Stream> stream)
     {
         using (var sr = new StreamReader(await stream))
         using (var jr = new JsonTextReader(sr))
         {
             var js = JsonSerializer.CreateDefault(Settings);
 
-            return js.Deserialize<T>(jr);
+            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
         }
     }
     
-    public static async Task<T?> FromJsonAsync<T>(this Stream stream)
+    public static async Task<T> FromJsonAsync<T>(this Stream stream)
     {
         var streamCopy = new MemoryStream();
         await stream.CopyToAsync(streamCopy);
@@ -107,7 +107,7 @@ public static class JsonExtensions
         
         var js = JsonSerializer.CreateDefault(Settings);
 
-        return js.Deserialize<T>(jr);
+        return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
     }
 
     public static T FromJson<T>(this Stream stream)
@@ -121,7 +121,7 @@ public static class JsonExtensions
         }
     }
 
-    public static async IAsyncEnumerable<T?> FromJsonArrayAsync<T>(this Stream stream)
+    public static async IAsyncEnumerable<T> FromJsonArrayAsync<T>(this Stream stream)
     {
         var js = JsonSerializer.CreateDefault(Settings);
         using var sr = new StreamReader(stream);
@@ -130,7 +130,7 @@ public static class JsonExtensions
         {
             if (jr.TokenType == JsonToken.StartObject)
             {
-                yield return js.Deserialize<T>(jr);
+                yield return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
             }
         }
     }

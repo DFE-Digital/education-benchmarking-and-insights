@@ -13,7 +13,7 @@ public class WhenGetGetDecimalValueByNameIsCalled
 
         var x = data.GetDecimalValueByName<TestData>("Foo");
         x.Should().NotBeNull();
-        x.Should().Be(decimal.MaxValue);
+        x.Should().Be(data.Foo);
     }
 
     [Fact]

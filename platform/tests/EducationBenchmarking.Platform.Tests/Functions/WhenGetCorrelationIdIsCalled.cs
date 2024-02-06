@@ -22,7 +22,7 @@ public class WhenGetCorrelationIdIsCalled
     public void WithCorrelationIdHeaderAsInvalidGuid()
     {
         var context = new DefaultHttpContext();
-        var id = "invalid";
+        const string id = "invalid";
         context.Request.Headers.Add(Constants.CorrelationIdHeader, id);
 
         var result = context.Request.GetCorrelationId();
