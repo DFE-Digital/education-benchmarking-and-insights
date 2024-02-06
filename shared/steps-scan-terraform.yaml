@@ -12,7 +12,7 @@ steps:
 
   - task: PublishTestResults@2
     inputs:
-      testRunTitle: "Checkov Results"
+      testRunTitle: "Checkov_ScanResults"
       failTaskOnFailedTests: true
       testResultsFormat: "JUnit"
       testResultsFiles: "CheckovReport.xml"
