@@ -123,7 +123,11 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
             .With(x => x.FinanceType, financeType)
             .Create();
 
+        var finances = Fixture.Build<Finances>()
+            .Create();
+
         var page = await SetupEstablishment(school)
+            .SetupInsights(school, finances)
             .Navigate(Paths.SchoolCurriculumPlanningSelectYear(school.Urn));
 
         return (page, school);

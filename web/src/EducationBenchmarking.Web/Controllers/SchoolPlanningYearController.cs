@@ -30,7 +30,7 @@ public class SchoolPlanningYearController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var viewModel = new SchoolPlanFiguresViewModel(school, finances, year);
+                var viewModel = new SchoolPlanViewModel(school, finances, year);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -63,7 +63,7 @@ public class SchoolPlanningYearController(
                 // TODO: amend as required when working on post - below is here just to stop error with CTA
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var viewModel = new SchoolPlanFiguresViewModel(school, finances, year);
+                var viewModel = new SchoolPlanViewModel(school, finances, year);
                 return View(viewModel);
             }
             catch (Exception e)
