@@ -1,7 +1,6 @@
 using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
 using FluentAssertions;
-using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
@@ -35,12 +34,13 @@ public class InsightHealthcheckSteps
     [Then("the insight health check result should be healthy")]
     private async Task ThenTheInsightHealthCheckResultShouldBeHealthy()
     {
-        var result = _api[RequestKey].Response ?? throw new NullException(_api[RequestKey].Response);
+        var result = _api[RequestKey].Response;
 
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await result.Content.ReadAsStringAsync();
+        
         content.Should().Be("Healthy");
     }
 }

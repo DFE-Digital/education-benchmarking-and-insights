@@ -48,7 +48,7 @@ public class WhenJsonContentResultIsCalled
     public void ConstructorGets400StatusCode()
     {
         var data = new { Test0 = "foo", Test1 = "bar" };
-        var statusCode = HttpStatusCode.BadRequest;
+        const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
         var result = new JsonContentResult(data, statusCode);
         
         Assert.Equal(400, result.StatusCode);

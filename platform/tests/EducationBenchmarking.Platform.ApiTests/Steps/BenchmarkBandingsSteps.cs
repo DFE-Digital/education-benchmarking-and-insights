@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
 using FluentAssertions;
-using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
@@ -17,7 +16,7 @@ public class BenchmarkBandingsSteps
         _api = api;
     }
 
-    [Given(@"a valid fsm banding request")]
+    [Given("a valid fsm banding request")]
     public void GivenAValidFsmBandingRequest()
     {
         _api.CreateRequest(FsmBandingKey, new HttpRequestMessage
@@ -27,32 +26,31 @@ public class BenchmarkBandingsSteps
         });
     }
 
-    [Then(@"the free school meal banding result should be ok")]
+    [Then("the free school meal banding result should be ok")]
     public void ThenTheFreeSchoolMealBandingResultShouldBeOk()
     {
-        var response = _api[FsmBandingKey].Response ?? throw new NullException(_api[FsmBandingKey].Response);
-
+        var response = _api[FsmBandingKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [When(@"I submit the banding request")]
+    [When("I submit the banding request")]
     public async Task WhenISubmitTheBandingRequest()
     {
         await _api.Send();
     }
 
-    [Then(@"the school size banding result should be ok")]
+    [Then("the school size banding result should be ok")]
     public void ThenTheSchoolSizeBandingResultShouldBeOk()
     {
-        var response = _api[SchoolSizeBandingKey].Response ??
-                       throw new NullException(_api[SchoolSizeBandingKey].Response);
-
+        var response = _api[SchoolSizeBandingKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
 
-    [Given(@"a valid school size banding request")]
+    [Given("a valid school size banding request")]
     public void GivenAValidSchoolSizeBandingRequest()
     {
         _api.CreateRequest(SchoolSizeBandingKey, new HttpRequestMessage

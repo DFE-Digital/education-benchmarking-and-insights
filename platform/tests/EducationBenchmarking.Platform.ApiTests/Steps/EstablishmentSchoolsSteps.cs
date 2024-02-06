@@ -7,15 +7,14 @@ using EducationBenchmarking.Platform.Functions.Extensions;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using FluentAssertions;
 using TechTalk.SpecFlow.Assist;
-using Xunit.Sdk;
 
 namespace EducationBenchmarking.Platform.ApiTests.Steps;
 
 [Binding]
 public class EstablishmentSchoolsSteps
 {
-    private const string GetRequestKey = "get-school";
-    private const string GetNotFoundRequestKey = "get-school-not-found";
+    private const string RequestKey = "get-school";
+    private const string NotFoundRequestKey = "get-school-not-found";
     private const string QueryRequestKey = "query-school";
     private const string SearchRequestKey = "search-school";
     private const string SuggestInvalidRequestKey = "suggest-school-invalid";
@@ -49,14 +48,14 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should have the follow validation errors:")]
     private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
-        var response = _api[SuggestInvalidRequestKey].Response ??
-                       throw new NullException(_api[SuggestInvalidRequestKey].Response);
+        var response = _api[SuggestInvalidRequestKey].Response;
+        
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<ValidationError[]>() ?? throw new NullException(content);
-
+        var results = content.FromJson<ValidationError[]>();
         var set = new List<dynamic>();
+        
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
@@ -81,14 +80,14 @@ public class EstablishmentSchoolsSteps
     [Then("the schools suggest result should be:")]
     private async Task ThenTheSchoolsSuggestResultShouldBe(Table table)
     {
-        var response = _api[SuggestValidRequestKey].Response ??
-                       throw new NullException(_api[SuggestValidRequestKey].Response);
+        var response = _api[SuggestValidRequestKey].Response;
+        
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestOutput<School>>()?.Results ?? throw new NullException(content);
-
+        var results = content.FromJson<SuggestOutput<School>>().Results;
         var set = new List<dynamic>();
+        
         foreach (var result in results)
         {
             set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
@@ -100,7 +99,7 @@ public class EstablishmentSchoolsSteps
     [Given("a valid school request with id '(.*)'")]
     private void GivenAValidSchoolRequestWithId(string id)
     {
-        _api.CreateRequest(GetRequestKey, new HttpRequestMessage
+        _api.CreateRequest(RequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri($"/api/school/{id}", UriKind.Relative),
             Method = HttpMethod.Get
@@ -110,12 +109,14 @@ public class EstablishmentSchoolsSteps
     [Then("the school result should be ok")]
     private async Task ThenTheSchoolResultShouldBeOk()
     {
-        var response = _api[GetRequestKey].Response ?? throw new NullException(_api[GetRequestKey].Response);
-
+        var response = _api[RequestKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<School>() ?? throw new NullException(content);
+        var result = content.FromJson<School>();
+        
         result.Name.Should().Be("Burscough Bridge St John's Church of England Primary School");
         result.Urn.Should().Be("119376");
     }
@@ -123,7 +124,7 @@ public class EstablishmentSchoolsSteps
     [Given("a invalid school request")]
     private void GivenAInvalidSchoolRequest()
     {
-        _api.CreateRequest(GetNotFoundRequestKey, new HttpRequestMessage
+        _api.CreateRequest(NotFoundRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/school/invalid-urn", UriKind.Relative),
             Method = HttpMethod.Get
@@ -133,9 +134,8 @@ public class EstablishmentSchoolsSteps
     [Then("the school result should be not found")]
     private void ThenTheSchoolResultShouldBeNotFound()
     {
-        var response = _api[GetNotFoundRequestKey].Response ??
-                       throw new NullException(_api[GetNotFoundRequestKey].Response);
-
+        var response = _api[NotFoundRequestKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
@@ -153,12 +153,14 @@ public class EstablishmentSchoolsSteps
     [Then("the schools query result should be page '(.*)' with '(.*)' records")]
     private async Task ThenTheSchoolsQueryResultShouldBePageWithRecords(int page, int pageSize)
     {
-        var response = _api[QueryRequestKey].Response ?? throw new NullException(_api[QueryRequestKey].Response);
-
+        var response = _api[QueryRequestKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
+        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<School>>() ?? throw new NullException(content);
+        var result = content.FromJson<PagedResults<School>>();
+        
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
         result.Results.Count().Should().Be(pageSize);
@@ -178,6 +180,7 @@ public class EstablishmentSchoolsSteps
     private void GivenAValidSchoolsSearchRequest()
     {
         var content = new { };
+        
         _api.CreateRequest(SearchRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/search", UriKind.Relative),
@@ -189,14 +192,14 @@ public class EstablishmentSchoolsSteps
     [Then("the schools search result should be ok")]
     private async Task ThenTheSchoolsSearchResultShouldBeOk()
     {
-        var response = _api[SearchRequestKey].Response ?? throw new NullException(_api[SearchRequestKey].Response);
-
+        var response = _api[SearchRequestKey].Response;
+        
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SearchOutput<School>>() ?? throw new NullException(content);
-
+        var result = content.FromJson<SearchOutput<School>>();
+        
         result.Page.Should().Be(1);
         result.PageSize.Should().Be(15);
         result.Results.Count().Should().Be(15);
