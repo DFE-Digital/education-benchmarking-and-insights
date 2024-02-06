@@ -1,53 +1,57 @@
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
     ViewBag.Title = PageTitleConstants.SchoolPlanningYear;
+    var previousYear = Model.SelectedYear - 1;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">[insert school name]</span>
+        <span class="govuk-caption-l">@Model.Name</span>
         <h1 class="govuk-heading-l">@ViewBag.Title</h1>
         <p class="govuk-body">Here is some information we hold about your school.</p>
-        <h2 class="govuk-heading-m">Figures from [insert year]</h2>
+        <h2 class="govuk-heading-m">Figures from @previousYear - @Model.SelectedYear</h2>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     Total income
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    [insert total income]
+                <dd class="govuk-summary-list__value govuk-!-text-align-right">
+                    @Model.CurrentTotalIncome
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     Total expenditure
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    [insert total income]
+                <dd class="govuk-summary-list__value govuk-!-text-align-right">
+                    @Model.CurrentTotalExpenditure
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     Total teacher costs
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    [insert total teacher costs]
+                <dd class="govuk-summary-list__value govuk-!-text-align-right">
+                    @Model.CurrentTotalTeacherCosts
                 </dd>
             </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Total education support staff costs
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    [insert total education support staff costs]
-                </dd>
-            </div>
+            @if (Model.IsPrimary)
+            {
+                <div class="govuk-summary-list__row">
+                    <dt class="govuk-summary-list__key">
+                        Total education support staff costs
+                    </dt>
+                    <dd class="govuk-summary-list__value govuk-!-text-align-right">
+                        @Model.CurrentEducationSupportStaffCosts
+                    </dd>
+                </div>
+            }
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     Full time equivalent teachers
                 </dt>
-                <dd class="govuk-summary-list__value">
-                    [insert full time equivalent teachers]
+                <dd class="govuk-summary-list__value govuk-!-text-align-right">
+                    @Model.CurrentTotalNumberOfTeachersFte
                 </dd>
             </div>
         </dl>
