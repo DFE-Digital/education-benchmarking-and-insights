@@ -1,4 +1,3 @@
-using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 using TechTalk.SpecFlow.Infrastructure;
 
@@ -17,7 +16,7 @@ public class PageHook(ISpecFlowOutputHelper output)
     {
         var playwrightInstance = await Playwright.CreateAsync();
 
-        var launchOptions = new BrowserTypeLaunchOptions { Headless = Config.Headless };
+        var launchOptions = new BrowserTypeLaunchOptions { Headless = TestConfiguration.Headless };
         _browser = await playwrightInstance.Chromium.LaunchAsync(launchOptions);
 
         var contextOptions = new BrowserNewContextOptions { IgnoreHTTPSErrors = true };

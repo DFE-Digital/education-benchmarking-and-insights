@@ -30,7 +30,7 @@ public class BenchmarkWorkforceSteps(BenchmarkWorkforcePage benchmarkWorkforcePa
         await benchmarkWorkforcePage.ChangeDimension("SchoolWorkforce", dimensionValue);
     }
 
-    [Then(@"the dimension in '(.*)' dimension dropdown is '(.*)'")]
+    [Then("the dimension in '(.*)' dimension dropdown is '(.*)'")]
     public async Task ThenTheDimensionInDimensionDropdownIs(string chartName, string dimensionValue)
     {
         await benchmarkWorkforcePage.AssertDimensionValue(chartName, dimensionValue);
@@ -98,19 +98,19 @@ public class BenchmarkWorkforceSteps(BenchmarkWorkforcePage benchmarkWorkforcePa
         return commaSeperatedList.Split(',').Select(option => option.Trim()).ToArray();
     }
 
-    [Given(@"the chart view is shown on workforce page")]
+    [Given("the chart view is shown on workforce page")]
     public async Task GivenTheChartViewIsShownOnWorkforcePage()
     {
         await benchmarkWorkforcePage.ClickViewAsTable();
     }
 
-    [Then(@"save image ctas are not visible on workforce page")]
+    [Then("save image ctas are not visible on workforce page")]
     public async Task ThenSaveImageCtasAreNotVisibleOnWorkforcePage()
     {
         await benchmarkWorkforcePage.AssertAllImageCtas(false);
     }
 
-    [Then(@"save image ctas are visible on workforce page")]
+    [Then("save image ctas are visible on workforce page")]
     public async Task ThenSaveImageCtasAreVisibleOnWorkforcePage()
     {
         await benchmarkWorkforcePage.AssertAllImageCtas(true);

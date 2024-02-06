@@ -1,5 +1,4 @@
 using EducationBenchmarking.Web.E2ETests.Hooks;
-using EducationBenchmarking.Web.E2ETests.TestSupport;
 using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
@@ -18,6 +17,6 @@ public class SchoolHomePage(PageHook page)
 
     public async Task WaitForPage(string urn)
     {
-        await _page.WaitForURLAsync($"{Config.BaseUrl}/school/{urn}");
+        await _page.WaitForURLAsync($"{TestConfiguration.ServiceUrl}/school/{urn}");
     }
 }
