@@ -8,7 +8,7 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public void ShouldReturn200OnValidRequest()
     {
-        var result = Functions.LocalAuthorityAsync(CreateRequest(), "1") as OkResult;
+        var result = Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as OkResult;
         
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);

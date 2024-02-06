@@ -31,11 +31,11 @@ public class TrustsFunctions
     }
     
     
-    [FunctionName(nameof(TrustAsync))]
+    [FunctionName(nameof(SingleTrustAsync))]
     [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public IActionResult TrustAsync(
+    public IActionResult SingleTrustAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequest req,
         string identifier)
     {

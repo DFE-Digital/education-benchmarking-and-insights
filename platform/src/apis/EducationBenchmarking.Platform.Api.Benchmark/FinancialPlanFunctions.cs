@@ -30,11 +30,11 @@ public class FinancialPlanFunctions
     }
 
 
-    [FunctionName(nameof(GetFinancialPlanAsync))]
+    [FunctionName(nameof(SingleFinancialPlanAsync))]
     [ProducesResponseType(typeof(FinancialPlan), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetFinancialPlanAsync(
+    public async Task<IActionResult> SingleFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}/{year}")]
         HttpRequest req,
         string urn,
@@ -63,13 +63,13 @@ public class FinancialPlanFunctions
         }
     }
 
-    [FunctionName(nameof(PutFinancialPlanAsync))]
+    [FunctionName(nameof(UpsertFinancialPlanAsync))]
     [ProducesResponseType(typeof(FinancialPlan),(int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> PutFinancialPlanAsync(
+    public async Task<IActionResult> UpsertFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "financial-plan/{urn}/{year}")]
         [RequestBodyType(typeof(FinancialPlanRequest), "The financial plan object")]
         HttpRequest req,

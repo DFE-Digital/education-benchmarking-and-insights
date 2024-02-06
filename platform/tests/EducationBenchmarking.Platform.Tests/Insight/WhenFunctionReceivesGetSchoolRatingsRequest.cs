@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
             .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new List<Rating>());
         
-        var result = await Functions.GetSchoolRatings(CreateRequest()) as JsonContentResult;
+        var result = await Functions.QuerySchoolRatingsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
@@ -29,7 +29,7 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
             .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
         
-        var result = await Functions.GetSchoolRatings(CreateRequest()) as StatusCodeResult;
+        var result = await Functions.QuerySchoolRatingsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

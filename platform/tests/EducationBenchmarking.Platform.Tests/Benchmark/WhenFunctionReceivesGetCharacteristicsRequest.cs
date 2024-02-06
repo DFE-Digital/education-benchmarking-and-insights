@@ -10,7 +10,7 @@ public class WhenFunctionReceivesGetCharacteristicsRequest : ComparatorSetFuncti
     [Fact]
     public void ShouldReturn200OnValidRequest()
     {
-        var result = Functions.GetCharacteristics(CreateRequest()) as JsonContentResult;
+        var result = Functions.ListCharacteristics(CreateRequest()) as JsonContentResult;
         
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);

@@ -11,10 +11,10 @@ namespace EducationBenchmarking.Platform.Api.Insight;
 public class MiscFunctions
 {
 
-    [FunctionName(nameof(GetFinanceYears))]
+    [FunctionName(nameof(SingleFinanceYearsAsync))]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public IActionResult GetFinanceYears(
+    public IActionResult SingleFinanceYearsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "finance-years")]
         HttpRequest req)
     {

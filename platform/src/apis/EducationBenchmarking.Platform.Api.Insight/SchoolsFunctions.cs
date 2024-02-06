@@ -95,14 +95,14 @@ public class SchoolsFunctions
         }
     }
     
-    [FunctionName(nameof(GetSchoolRatings))]
+    [FunctionName(nameof(QuerySchoolRatingsAsync))]
     [ProducesResponseType(typeof(Rating[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("phase", "Overall school phase", DataType = typeof(string), Required = true)]
     [QueryStringParameter("term", "Term", DataType = typeof(string), Required = true)]
     [QueryStringParameter("size", "School size band", DataType = typeof(string), Required = true)]
     [QueryStringParameter("fsm", "Free school meals band", DataType = typeof(string), Required = true)]
-    public async Task<IActionResult> GetSchoolRatings(
+    public async Task<IActionResult> QuerySchoolRatingsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/ratings")]
         HttpRequest req)
     {

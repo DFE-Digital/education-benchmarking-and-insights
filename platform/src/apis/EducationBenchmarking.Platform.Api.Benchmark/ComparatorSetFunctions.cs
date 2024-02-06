@@ -34,20 +34,20 @@ public class ComparatorSetFunctions
     }
     
     
-    [FunctionName(nameof(GetCharacteristics))]
+    [FunctionName(nameof(ListCharacteristics))]
     [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
-    public IActionResult GetCharacteristics(
+    public IActionResult ListCharacteristics(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/characteristics")]
         HttpRequest req)
     {
         return new JsonContentResult(Characteristics.All);
     }
 
-    [FunctionName(nameof(PostComparatorSet))]
+    [FunctionName(nameof(CreateComparatorSetAsync))]
     [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> PostComparatorSet(
+    public async Task<IActionResult> CreateComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set")]
         [RequestBodyType(typeof(ComparatorSetRequest), "The comparator set object")]
         HttpRequest req)

@@ -27,14 +27,14 @@ public class BandingsFunctions
         _db = db;
     }
     
-    [FunctionName(nameof(GetFreeSchoolMealBandings))]
+    [FunctionName(nameof(QueryFreeSchoolMealBandingsAsync))]
     [ProducesResponseType(typeof(Banding[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("phase", "Overall school phase", DataType = typeof(string), Required = false)]
     [QueryStringParameter("hasSixthForm", "Where or not a school has a sixth form", DataType = typeof(bool), Required = false)]
     [QueryStringParameter("fsm", "Target free school meals percentage", DataType = typeof(decimal), Required = false)]
     [QueryStringParameter("term", "Term", DataType = typeof(string), Required = false)]
-    public async Task<IActionResult> GetFreeSchoolMealBandings(
+    public async Task<IActionResult> QueryFreeSchoolMealBandingsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "free-school-meal/bandings")]
         HttpRequest req)
     {
@@ -59,14 +59,14 @@ public class BandingsFunctions
         }
     }
     
-    [FunctionName(nameof(GetSchoolSizeBandings))]
+    [FunctionName(nameof(QuerySchoolSizeBandingsAsync))]
     [ProducesResponseType(typeof(Banding[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("phase", "Overall school phase", DataType = typeof(string), Required = false)]
     [QueryStringParameter("hasSixthForm", "Where or not a school has a sixth form", DataType = typeof(bool), Required = false)]
     [QueryStringParameter("noOfPupils", "Target number of pupils", DataType = typeof(int), Required = false)]
     [QueryStringParameter("term", "Term", DataType = typeof(string), Required = false)]
-    public async Task<IActionResult> GetSchoolSizeBandings(
+    public async Task<IActionResult> QuerySchoolSizeBandingsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school-size/bandings")]
         HttpRequest req)
     {

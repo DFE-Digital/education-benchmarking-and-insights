@@ -12,8 +12,8 @@ namespace EducationBenchmarking.Platform.Api.Establishment;
 public class LocalAuthoritiesFunctions
 {
     
-    [FunctionName(nameof(LocalAuthorityAsync))]
-    public IActionResult LocalAuthorityAsync(
+    [FunctionName(nameof(SingleLocalAuthorityAsync))]
+    public IActionResult SingleLocalAuthorityAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authority/{identifier}")] HttpRequest req,
         string identifier)
     {

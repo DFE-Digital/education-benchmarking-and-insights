@@ -22,7 +22,7 @@ public class WhenFunctionReceivesPostComparatorSetRequest : ComparatorSetFunctio
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await Functions.PostComparatorSet(CreateRequestWithBody(new ComparatorSetRequest())) as JsonContentResult;
+            await Functions.CreateComparatorSetAsync(CreateRequestWithBody(new ComparatorSetRequest())) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
@@ -36,7 +36,7 @@ public class WhenFunctionReceivesPostComparatorSetRequest : ComparatorSetFunctio
             .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(ComparatorSetRequest.IncludeSet), "This error message") }));
 
         var result = await Functions
-            .PostComparatorSet(CreateRequestWithBody(new ComparatorSetRequest())) as ValidationErrorsResult;
+            .CreateComparatorSetAsync(CreateRequestWithBody(new ComparatorSetRequest())) as ValidationErrorsResult;
 
         Assert.NotNull(result);
         Assert.Equal(400, result?.StatusCode);
@@ -54,7 +54,7 @@ public class WhenFunctionReceivesPostComparatorSetRequest : ComparatorSetFunctio
             .Throws(new Exception());
         
         var result = await Functions
-            .PostComparatorSet(CreateRequestWithBody(new ComparatorSetRequest())) as StatusCodeResult;
+            .CreateComparatorSetAsync(CreateRequestWithBody(new ComparatorSetRequest())) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

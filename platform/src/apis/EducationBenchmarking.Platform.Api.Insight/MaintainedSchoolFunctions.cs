@@ -26,11 +26,11 @@ public class MaintainedSchoolFunctions
         _db = db;
     }
 
-    [FunctionName(nameof(GetMaintainedSchoolAsync))]
+    [FunctionName(nameof(SingleMaintainedSchoolAsync))]
     [ProducesResponseType(typeof(Finances), (int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
     [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetMaintainedSchoolAsync(
+    public async Task<IActionResult> SingleMaintainedSchoolAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "maintained-school/{urn}")]
         HttpRequest req,
         string urn)

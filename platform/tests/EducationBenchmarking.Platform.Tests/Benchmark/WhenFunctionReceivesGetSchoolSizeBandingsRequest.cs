@@ -16,7 +16,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
             .ReturnsAsync(Array.Empty<Banding>());
         
         var result =
-            await Functions.GetSchoolSizeBandings(CreateRequest()) as JsonContentResult;
+            await Functions.QuerySchoolSizeBandingsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
@@ -30,7 +30,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
             .Throws(new Exception());
         
         var result = await Functions
-            .GetSchoolSizeBandings(CreateRequest()) as StatusCodeResult;
+            .QuerySchoolSizeBandingsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

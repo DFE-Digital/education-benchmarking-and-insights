@@ -26,11 +26,11 @@ public class AcademyFunctions
         _db = db;
     }
 
-    [FunctionName(nameof(GetAcademyAsync))]
+    [FunctionName(nameof(SingleAcademyAsync))]
     [ProducesResponseType(typeof(Finances), (int) HttpStatusCode.OK)]
     [ProducesResponseType((int) HttpStatusCode.NotFound)]
     [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetAcademyAsync(
+    public async Task<IActionResult> SingleAcademyAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}")]
         HttpRequest req,
         string urn)
