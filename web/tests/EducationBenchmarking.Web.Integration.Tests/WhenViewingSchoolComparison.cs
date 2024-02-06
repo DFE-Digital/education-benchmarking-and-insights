@@ -1,4 +1,5 @@
-﻿using AngleSharp.Dom;
+﻿using System.Net;
+using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.XPath;
 using AutoFixture;
@@ -102,19 +103,21 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
     [Fact]
     public async Task CanDisplayNotFound()
     {
+        const string urn = "12345";
         var page = await SetupEstablishmentWithNotFound()
-            .Navigate(Paths.SchoolComparison("12345"));
+            .Navigate(Paths.SchoolComparison(urn));
         
-        DocumentAssert.AssertPageUrl(page, Paths.StatusError(404).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(), HttpStatusCode.NotFound);
     }
     
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
+        const string urn = "12345";
         var page = await SetupEstablishmentWithException()
-            .Navigate(Paths.SchoolComparison("12345"));
+            .Navigate(Paths.SchoolComparison(urn));
         
-        DocumentAssert.AssertPageUrl(page, Paths.StatusError(500).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(),HttpStatusCode.InternalServerError);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)

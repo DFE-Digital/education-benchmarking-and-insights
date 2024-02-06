@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Xunit;
@@ -43,16 +44,11 @@ public static class DocumentAssert
         AssertNodeText(h2, header2);
     }
 
-    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl)
+    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         Assert.NotNull(doc);
         Assert.Equal(expectedUrl, doc.Url);
-    }
-
-    public static void PrimaryCta(INode? node, string contents, string url, bool enabled = true)
-    {
-        Assert.NotNull(node);
-       // AssertStandardCta(node, contents, url, enabled);
+        Assert.Equal(statusCode, doc.StatusCode);
     }
     
     public static void PrimaryCta(IElement? element, string contents, string url, bool enabled = true)
@@ -102,6 +98,16 @@ public static class DocumentAssert
         }
     }
 
+    public static void FormErrors(IHtmlDocument doc, params (string field, string message)[] errors)
+    {
+        foreach (var (field, message) in errors)
+        {
+            var element = doc.GetElementById($"{field}-error");
+            Assert.NotNull(element);
+            Assert.Equal($"Error: {message}", element.TextContent.Trim());
+        }
+    }
+    
     private static void AssertNodeText(INode element, string text)
     {
         var elementText = string.Join(" ", element.ChildNodes.Select(n => n.TextContent.Trim())).Trim();

@@ -16,18 +16,18 @@
                             @ViewData["Title"]
                         </h1>
                     </legend>
-                    <div id="changedName-hint" class="govuk-hint">
+                    <div class="govuk-hint">
                         If you select an academic year with a plan, the previously entered data will appear
                     </div>
                     @if (ViewData.ModelState.HasError("year"))
                     {
-                        <p id="nationality-error" class="govuk-error-message">
+                        <p id="year-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["year"]?.Errors.First().ErrorMessage
                         </p>
                     }
 
                     <div class="govuk-radios" data-module="govuk-radios">
-                        @foreach (var year in Model.AvailableYears)
+                        @foreach (var year in Constants.AvailableYears)
                         {
                             <div class="govuk-radios__item">
 
