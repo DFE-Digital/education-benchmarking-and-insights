@@ -1,0 +1,24 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <a href="#" class="govuk-back-link">Back</a>
+        <h1 class="govuk-heading-xl">Total number of teachers</h1>
+
+        <div class="govuk-form-group">
+            <label class="govuk-label govuk-label--m" for="total-number-teacher">
+                How many full-time equivalent teachers do you have?
+            </label>
+            <div id="event-name-hint" class="govuk-hint">
+                Enter a number of FTE teachers
+            </div>
+            <input class="govuk-input govuk-!-width-one-third" id="total-number-teacher" name="total-number-teacher" type="number">
+        </div>
+        <button type="submit" class="govuk-button" data-module="govuk-button">
+                        Continue
+                    </button>
+        </div>
+        
+    </div>
+</div>
