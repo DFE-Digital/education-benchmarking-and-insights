@@ -18,6 +18,7 @@ public class BenchmarkingWebAppClient(BenchmarkingWebAppFactory factory, ITestOu
 
     protected override void Configure(IServiceCollection services)
     {
+        services.AddDistributedMemoryCache();
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);

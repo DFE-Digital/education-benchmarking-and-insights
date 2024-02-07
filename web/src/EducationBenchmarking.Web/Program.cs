@@ -4,7 +4,9 @@ using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Identity.Extensions;
+using EducationBenchmarking.Web.Infrastructure;
 using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
@@ -27,6 +29,12 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
 builder.Services.AddHealthChecks();
 
 builder.Services.AddSingleton<IFinanceService, FinanceService>();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(3600);
+    options.Cookie.IsEssential = true;
+});
 
 if (!builder.Environment.IsIntegration())
 {
@@ -60,6 +68,17 @@ if (!builder.Environment.IsIntegration())
     
     builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+    
+    builder.Services.AddCosmosCache(opts =>
+    {
+        var settings = builder.Configuration.GetSection(CosmosCacheSettings.Section).Get<CosmosCacheSettings>();
+        ArgumentNullException.ThrowIfNull(settings);
+        
+        opts.ContainerName = settings.ContainerName ?? throw new ArgumentNullException(nameof(settings.ContainerName));
+        opts.DatabaseName = settings.DatabaseName ?? throw new ArgumentNullException(nameof(settings.DatabaseName));
+        opts.CosmosClient = CosmosClientFactory.Create(settings);
+        opts.CreateIfNotExists = false; 
+    });
 }
 
 var app = builder.Build();
@@ -74,6 +93,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
 app.UseAuthorization();
+app.UseSession();
 
 app.MapHealthChecks("/health");
 app.MapControllerRoute(
