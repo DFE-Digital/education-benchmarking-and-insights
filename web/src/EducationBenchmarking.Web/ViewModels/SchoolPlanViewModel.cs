@@ -24,5 +24,6 @@ public class SchoolPlanViewModel(School school)
     public string CurrentTotalTeacherCosts => $"{_finances.TeachingStaffCosts:C}";
     public string CurrentTotalNumberOfTeachersFte => $"{_finances.TotalNumberOfTeachersFte}";
     public string CurrentEducationSupportStaffCosts => $"{_finances.EducationSupportStaffCosts:C}";
+    public int CurrentYearEnd => _finances.YearEnd;
     public bool IsPrimary => _finances.OverallPhase == "Primary";
 }

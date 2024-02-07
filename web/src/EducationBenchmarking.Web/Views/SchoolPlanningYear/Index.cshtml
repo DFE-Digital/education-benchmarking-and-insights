@@ -1,7 +1,7 @@
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
     ViewBag.Title = PageTitleConstants.SchoolPlanningYear;
-    var previousYear = Model.SelectedYear - 1;
+    var previousYear = Model.CurrentYearEnd - 1;
 }
 
 <div class="govuk-grid-row">
@@ -9,7 +9,7 @@
         <span class="govuk-caption-l">@Model.Name</span>
         <h1 class="govuk-heading-l">@ViewBag.Title</h1>
         <p class="govuk-body">Here is some information we hold about your school.</p>
-        <h2 class="govuk-heading-m">Figures from @previousYear - @Model.SelectedYear</h2>
+        <h2 class="govuk-heading-m">Figures from @previousYear - @Model.CurrentYearEnd</h2>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
