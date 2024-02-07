@@ -26,7 +26,7 @@ public class BenchmarkComparatorSetSteps
     public void ThenTheComparatorResultShouldBeOk()
     {
         var response = _api[ComparatorSetKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -35,16 +35,16 @@ public class BenchmarkComparatorSetSteps
     public async Task ThenAValidComparatorSetOfSizeShouldBeReturned(string expectedSize)
     {
         var response = _api[ComparatorSetKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var responseBody = await response.Content.ReadAsStringAsync();
-        var schoolComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody) ?? throw new NullReferenceException();
+        var schoolComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody) ?? throw new ArgumentNullException();
         
         schoolComparatorSet["results"].Should().NotBeNull();
         
-        var schools = schoolComparatorSet["results"]?.ToObject<List<JObject>>() ?? throw new NullReferenceException();
+        var schools = schoolComparatorSet["results"]?.ToObject<List<JObject>>() ?? throw new ArgumentNullException();
         
         foreach (var school in schools)
         {
@@ -111,14 +111,13 @@ public class BenchmarkComparatorSetSteps
     public async Task ThenTheComparatorSetCharacteristicsResultShouldBe(Table expectedTable)
     {
         var response = _api[ComparatorSetCharacteristicsKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsStringAsync();
-        var results = content.FromJson<List<Characteristic>>();
+        var results = content.FromJson<List<Characteristic>>() ?? throw new ArgumentNullException(content);
         var set = new List<dynamic>();
-        
         foreach (var result in results)
         {
             set.Add(new { result.Code, result.Description });
@@ -131,7 +130,7 @@ public class BenchmarkComparatorSetSteps
     public void ThenTheComparatorResultShouldBeBadRequest()
     {
         var response = _api[ComparatorSetKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
     }

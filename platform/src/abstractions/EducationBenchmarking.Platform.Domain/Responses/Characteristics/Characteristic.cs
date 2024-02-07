@@ -5,7 +5,7 @@ using System.Linq;
 namespace EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 
 [ExcludeFromCodeCoverage]
-public class Characteristic
+public record Characteristic
 {
     public string? Code { get; set; }
     public string? Description { get; set; }

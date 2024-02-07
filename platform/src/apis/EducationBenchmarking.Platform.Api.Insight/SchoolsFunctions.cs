@@ -49,7 +49,7 @@ public class SchoolsFunctions
                 var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
                 
-                var result = await _db.GetExpenditure(urns, page, pageSize);
+                var result = await _db.Expenditure(urns, page, pageSize);
                 
                 return new JsonContentResult(result);
             }
@@ -83,7 +83,7 @@ public class SchoolsFunctions
                 var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
                 
-                var result = await _db.GetWorkforce(urns, page, pageSize);
+                var result = await _db.Workforce(urns, page, pageSize);
                 
                 return new JsonContentResult(result);
             }
@@ -95,14 +95,14 @@ public class SchoolsFunctions
         }
     }
     
-    [FunctionName(nameof(GetSchoolRatings))]
+    [FunctionName(nameof(QuerySchoolRatingsAsync))]
     [ProducesResponseType(typeof(Rating[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("phase", "Overall school phase", DataType = typeof(string), Required = true)]
     [QueryStringParameter("term", "Term", DataType = typeof(string), Required = true)]
     [QueryStringParameter("size", "School size band", DataType = typeof(string), Required = true)]
     [QueryStringParameter("fsm", "Free school meals band", DataType = typeof(string), Required = true)]
-    public async Task<IActionResult> GetSchoolRatings(
+    public async Task<IActionResult> QuerySchoolRatingsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/ratings")]
         HttpRequest req)
     {
@@ -121,7 +121,7 @@ public class SchoolsFunctions
                 var size = req.Query["size"].ToString();
                 var fsm = req.Query["fsm"].ToString();
                 
-                var bandings = await _db.GetSchoolRatings(phase, term, size, fsm);
+                var bandings = await _db.SchoolRatings(phase, term, size, fsm);
                 return new JsonContentResult(bandings);
             }
             catch (Exception e)

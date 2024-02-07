@@ -1,6 +1,6 @@
 namespace EducationBenchmarking.Platform.Domain.Requests;
 
-public class FinancialPlanRequest
+public record FinancialPlanRequest
 {
-    public string User { get; set; }
+    public string? User { get; set; }
 }

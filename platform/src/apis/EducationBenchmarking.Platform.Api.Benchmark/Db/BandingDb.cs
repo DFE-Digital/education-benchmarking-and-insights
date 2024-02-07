@@ -14,36 +14,36 @@ namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
 public interface IBandingDb
 {
-    Task<Banding[]> GetFreeSchoolMealBandings();
-    Task<IEnumerable<Banding>> GetSchoolSizeBandings(string phase = null, string term = null, decimal? noOfPupils = null, bool? hasSixthForm = null);
+    Task<Banding[]> FreeSchoolMealBandings();
+    Task<IEnumerable<Banding>> SchoolSizeBandings(string? phase = null, string? term = null, decimal? noOfPupils = null, bool? hasSixthForm = null);
 }
 
 
 [ExcludeFromCodeCoverage]
 public class BandingDbOptions : CosmosDatabaseOptions
 {
-    [Required] public string SizingCollectionName { get; set; }
+    [Required] public string? SizingCollectionName { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
 public class BandingDb : CosmosDatabase, IBandingDb
 {
-    private readonly BandingDbOptions _options;
+    private readonly string _collectionName;
     
     public BandingDb(IOptions<BandingDbOptions> options)
         : base(options.Value)
     {
-        _options = options.Value;
+        _collectionName = options.Value.SizingCollectionName ?? throw new ArgumentNullException(nameof(options.Value.SizingCollectionName));
     }
     
-    public Task<Banding[]> GetFreeSchoolMealBandings()
+    public Task<Banding[]> FreeSchoolMealBandings()
     {
         return Task.FromResult(Array.Empty<Banding>());
     }
 
-    public async Task<IEnumerable<Banding>> GetSchoolSizeBandings(string phase = null, string term = null, decimal? noOfPupils = null, bool? hasSixthForm = null)
+    public async Task<IEnumerable<Banding>> SchoolSizeBandings(string? phase = null, string? term = null, decimal? noOfPupils = null, bool? hasSixthForm = null)
     {
-        var sizes = await GetItemEnumerableAsync<SizeLookupDataObject>(_options.SizingCollectionName,q => BuildSizeQueryable(q, phase, term, noOfPupils, hasSixthForm)).ToArrayAsync();
+        var sizes = await ItemEnumerableAsync<SizeLookupDataObject>(_collectionName,q => BuildSizeQueryable(q, phase, term, noOfPupils, hasSixthForm)).ToArrayAsync();
         
         return sizes.Select(x => new Banding
         {
@@ -56,7 +56,7 @@ public class BandingDb : CosmosDatabase, IBandingDb
         });
     }
 
-    private static IQueryable<SizeLookupDataObject> BuildSizeQueryable(IQueryable<SizeLookupDataObject> queryable, string phase, string term, decimal? noOfPupils, bool? hasSixthForm)
+    private static IQueryable<SizeLookupDataObject> BuildSizeQueryable(IQueryable<SizeLookupDataObject> queryable, string? phase, string? term, decimal? noOfPupils, bool? hasSixthForm)
     {
         
             if (!string.IsNullOrEmpty(phase)) queryable = queryable.Where(x => x.OverallPhase == phase);

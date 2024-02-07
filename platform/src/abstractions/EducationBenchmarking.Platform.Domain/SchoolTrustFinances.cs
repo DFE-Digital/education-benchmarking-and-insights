@@ -7,11 +7,11 @@ namespace EducationBenchmarking.Platform.Domain;
 public class SchoolTrustFinance
 {
     public long? URN { get; set; }
-    public string SchoolName { get; set; }
-    public string FinanceType { get; set; }
+    public string? SchoolName { get; set; }
+    public string? FinanceType { get; set; }
     public int? CompanyNumber { get; set; }
     public int? UID { get; set; }
-    public string TrustOrCompanyName { get; set; }
+    public string? TrustOrCompanyName { get; set; }
     public decimal? OtherIncome { get; set; }
     public decimal? SEN { get; set; }
     public decimal? OtherDfeGrants { get; set; }
@@ -99,26 +99,26 @@ public class SchoolTrustFinance
     public int? SchoolCount { get; set; }
     public int? PeriodCoveredByReturn { get; set; }
     public bool? PartialYearsPresent { get; set; }
-    public string OverallPhase { get; set; }
-    public string Phase { get; set; }
-    public Dictionary<string, int> OverallPhaseBreakdown { get; set; }
+    public string? OverallPhase { get; set; }
+    public string? Phase { get; set; }
+    public Dictionary<string, int>? OverallPhaseBreakdown { get; set; }
     public bool DidNotSubmit { get; set; }
-    public string MATSATCentralServices { get; set; }
+    public string? MATSATCentralServices { get; set; }
     public bool WorkforcePresent { get; set; }
-    public string AdmissionPolicy { get; set; }
-    public string Gender { get; set; }
-    public string Type { get; set; }
-    public string UrbanRural { get; set; }
-    public string Region { get; set; }
-    public string LondonBorough { get; set; }
-    public string LondonWeight { get; set; }
+    public string? AdmissionPolicy { get; set; }
+    public string? Gender { get; set; }
+    public string? Type { get; set; }
+    public string? UrbanRural { get; set; }
+    public string? Region { get; set; }
+    public string? LondonBorough { get; set; }
+    public string? LondonWeight { get; set; }
     public decimal? PercentageFSM { get; set; }
     public decimal? PercentagePupilsWSEN { get; set; }
     public decimal? PercentagePupilsWOSEN { get; set; }
     public decimal? PercentagePupilsWEAL { get; set; }
     public decimal? PercentageBoarders { get; set; }
-    public string PFI { get; set; }
-    public string Has6Form { get; set; }
+    public string? PFI { get; set; }
+    public string? Has6Form { get; set; }
     public decimal? NumberIn6Form { get; set; }
     public int? HighestAgePupils { get; set; }
     public decimal? AdminStaff { get; set; }
@@ -141,7 +141,7 @@ public class SchoolTrustFinance
     public decimal? AverageAttainment { get; set; }
     public decimal? Progress8Measure { get; set; }
     public decimal? Progress8Banding { get; set; }
-    public string OfstedRatingName { get; set; }
+    public string? OfstedRatingName { get; set; }
     public decimal? SpecificLearningDiff { get; set; }
     public decimal? ModerateLearningDiff { get; set; }
     public decimal? SevereLearningDiff { get; set; }
@@ -166,9 +166,7 @@ public class SchoolTrustFinance
     public bool IsFederation { get; set; }
     public bool IsPartOfFederation { get; set; }
     public long? FederationUid { get; set; }
-    public string FederationName { get; set; }
+    public string? FederationName { get; set; }
     public decimal? InterestLoansAndBanking { get; set; }
     public decimal? DirectRevenueFinancing { get; set; }
-    
-    
 }

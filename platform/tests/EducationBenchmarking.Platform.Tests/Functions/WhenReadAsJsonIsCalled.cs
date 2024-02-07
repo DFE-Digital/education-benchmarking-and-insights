@@ -14,7 +14,7 @@ public class WhenReadAsJsonIsCalled
         context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(jsonContent));
 
         var result = context.Request.ReadAsJson<TestObjectType>();
-            
+
         Assert.NotNull(result);
         Assert.IsType<TestObjectType>(result);
         Assert.Equal("testValue", result.TestProp);
@@ -22,14 +22,15 @@ public class WhenReadAsJsonIsCalled
 
 
     [Fact]
-    public void IfResultIsNullThrowsNullReferenceException()
+    public void IfResultIsNullThrowsArgumentNullException()
     {
         var context = new DefaultHttpContext();
         context.Request.Body = new MemoryStream(Encoding.UTF8.GetBytes(""));
 
-        Assert.Throws<NullReferenceException>(() => context.Request.ReadAsJson<TestObjectType>());
+        Assert.Throws<ArgumentNullException>(() => context.Request.ReadAsJson<TestObjectType>());
     }
 }
+
 
 
 public class TestObjectType
@@ -38,6 +39,6 @@ public class TestObjectType
     {
         TestProp = testProp;
     }
-
+    
     public string TestProp { get; }
 }

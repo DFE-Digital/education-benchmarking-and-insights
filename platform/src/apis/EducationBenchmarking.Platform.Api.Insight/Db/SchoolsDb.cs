@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
@@ -13,48 +14,46 @@ namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface ISchoolsDb
 {
-    Task<PagedSchoolExpenditure> GetExpenditure(IEnumerable<string> urns, int page, int pageSize);
-    Task<PagedSchoolWorkforce> GetWorkforce(IEnumerable<string> urns, int page, int pageSize);
-    Task<IEnumerable<Rating>> GetSchoolRatings(string phase, string term, string size, string fsm);
+    Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize);
+    Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize);
+    Task<IEnumerable<Rating>> SchoolRatings(string phase, string term, string size, string fsm);
 }
 
 [ExcludeFromCodeCoverage]
 public class SchoolsDbOptions : CosmosDatabaseOptions
 {
-    [Required] public string RatingCollectionName { get; set; }
+    [Required] public string? RatingCollectionName { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
     private readonly ICollectionService _collectionService;
-    private readonly SchoolsDbOptions _options;
+    private readonly string _collectionName;
     
     public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService) : base(options.Value)
     {
-        _options = options.Value;
+        _collectionName = options.Value.RatingCollectionName ?? throw new ArgumentNullException(nameof(options.Value.RatingCollectionName));
         _collectionService = collectionService;
     }
     
-    public async Task<PagedSchoolWorkforce> GetWorkforce(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize)
     {
-        var finances = await GetFinances(urns);
+        var finances = await Finances(urns);
 
         return PagedSchoolWorkforce.Create(finances, page, pageSize);
     }
     
-    public async Task<PagedSchoolExpenditure> GetExpenditure(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize)
     {
-        var finances = await GetFinances(urns);
+        var finances = await Finances(urns);
         
         return PagedSchoolExpenditure.Create(finances, page, pageSize);
     }
 
-    public async Task<IEnumerable<Rating>> GetSchoolRatings(string phase, string term, string size, string fsm)
+    public async Task<IEnumerable<Rating>> SchoolRatings(string phase, string term, string size, string fsm)
     {
-        var ratings = await GetItemEnumerableAsync<SchoolRatingDataObject>(_options.RatingCollectionName,q => BuildRatingsQueryable(q, phase, term, size, fsm)).ToArrayAsync();
-
-        var groups = ratings.GroupBy(x => x.AssessmentArea);
+        var ratings = await ItemEnumerableAsync<SchoolRatingDataObject>(_collectionName,q => BuildRatingsQueryable(q, phase, term, size, fsm)).ToArrayAsync();
 
         return ratings.Select(x => new Rating
         {
@@ -67,18 +66,18 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         });
     }
     
-    private async Task<List<SchoolTrustFinancialDataObject>> GetFinances(IEnumerable<string> urns)
+    private async Task<List<SchoolTrustFinancialDataObject>> Finances(IEnumerable<string> urns)
     {
-        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
-        var schools = await GetItemEnumerableAsync<EdubaseDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
+        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
+        var schools = await ItemEnumerableAsync<EdubaseDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
         
-        var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.URN.ToString()).ToArray();
-        var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.URN.ToString()).ToArray();
+        var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.Urn.ToString()).ToArray();
+        var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.Urn.ToString()).ToArray();
         
         var tasks = new[]
         {
-            GetFinancesForDataGroup(maintained, DataGroups.Maintained),
-            GetFinancesForDataGroup(academies, DataGroups.Academies)
+            FinancesForDataGroup(maintained, DataGroups.Maintained),
+            FinancesForDataGroup(academies, DataGroups.Academies)
         };
         
         var finances = await Task.WhenAll(tasks);
@@ -87,13 +86,13 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         return finances[0];
     }
     
-    private async Task<List<SchoolTrustFinancialDataObject>> GetFinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
+    private async Task<List<SchoolTrustFinancialDataObject>> FinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
     {
         var finances = new List<SchoolTrustFinancialDataObject>();
         if (urns.Count > 0)
         {
-            var collection = await _collectionService.GetLatestCollection(dataGroup);
-            finances = await GetItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.URN.ToString()))).ToListAsync();
+            var collection = await _collectionService.LatestCollection(dataGroup);
+            finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name,q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
         }
 
         return finances;
@@ -104,7 +103,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         if (!string.IsNullOrEmpty(phase)) queryable = queryable.Where(x => x.OverallPhase == phase);
         if (!string.IsNullOrEmpty(term)) queryable = queryable.Where(x => x.Term == term);
         if (!string.IsNullOrEmpty(size)) queryable = queryable.Where(x => x.Size == size);
-        if (!string.IsNullOrEmpty(fsm)) queryable = queryable.Where(x => x.FSM == fsm);
+        if (!string.IsNullOrEmpty(fsm)) queryable = queryable.Where(x => x.Fsm == fsm);
         
         return queryable;
     }

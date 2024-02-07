@@ -4,12 +4,12 @@ using EducationBenchmarking.Platform.Domain.DataObjects;
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
 [ExcludeFromCodeCoverage]
-public class SchoolExpenditure
+public record SchoolExpenditure
 {
-    public string Urn { get; set; }
-    public string Name { get; set; }
-    public string SchoolType { get; set; }
-    public string LocalAuthority { get; set; }
+    public string? Urn { get; set; }
+    public string? Name { get; set; }
+    public string? SchoolType { get; set; }
+    public string? LocalAuthority { get; set; }
 
     public decimal TotalExpenditure { get; set; }
     public decimal NumberOfPupils { get; set; }
@@ -74,10 +74,10 @@ public class SchoolExpenditure
     {
         return new SchoolExpenditure
         {
-            Urn = dataObject.URN.ToString(),
+            Urn = dataObject.Urn.ToString(),
             Name = dataObject.SchoolName,
             SchoolType = dataObject.Type,
-            LocalAuthority = dataObject.LA.ToString(),
+            LocalAuthority = dataObject.La.ToString(),
             NumberOfPupils = dataObject.NoPupils,
             TotalExpenditure = dataObject.TotalExpenditure,
             TotalIncome = dataObject.TotalIncome,
@@ -94,7 +94,7 @@ public class SchoolExpenditure
             CateringSuppliesCosts = dataObject.CateringSupplies,
             IncomeCatering = dataObject.IncomeFromCatering,
             AdministrativeSuppliesCosts = dataObject.AdministrativeSupplies,
-            LearningResourcesIctCosts = dataObject.ICTLearningResources,
+            LearningResourcesIctCosts = dataObject.IctLearningResources,
             TotalEducationalSuppliesCosts = dataObject.ExaminationFees + dataObject.EducationalSupplies + 
                                             dataObject.LearningResources,
             ExaminationFeesCosts = dataObject.ExaminationFees,
@@ -114,8 +114,8 @@ public class SchoolExpenditure
             PremisesStaffCosts = dataObject.PremisesStaff,
             TotalOtherCosts = dataObject.OtherInsurancePremiums + dataObject.DirectRevenue +
                               dataObject.BuildingGroundsMaintenance + dataObject.IndirectEmployeeExpenses +
-                              dataObject.InterestCharges + dataObject.PFICharges + dataObject.RentRates +
-                              dataObject.Specialfacilities + dataObject.StaffDevelopment + dataObject.StaffInsurance +
+                              dataObject.InterestCharges + dataObject.PfiCharges + dataObject.RentRates +
+                              dataObject.SpecialFacilities + dataObject.StaffDevelopment + dataObject.StaffInsurance +
                               dataObject.SupplyTeacherInsurance + dataObject.CommunityFocusedStaff +
                               dataObject.CommunityFocusedSchoolCosts,
             OtherInsurancePremiumsCosts = dataObject.OtherInsurancePremiums,
@@ -123,9 +123,9 @@ public class SchoolExpenditure
             GroundsMaintenanceCosts = dataObject.BuildingGroundsMaintenance,
             IndirectEmployeeExpenses = dataObject.IndirectEmployeeExpenses,
             InterestChargesLoanBank = dataObject.InterestCharges,
-            PrivateFinanceInitiativeCharges = dataObject.PFICharges,
+            PrivateFinanceInitiativeCharges = dataObject.PfiCharges,
             RentRatesCosts = dataObject.RentRates,
-            SpecialFacilitiesCosts = dataObject.Specialfacilities,
+            SpecialFacilitiesCosts = dataObject.SpecialFacilities,
             StaffDevelopmentTrainingCosts = dataObject.StaffDevelopment,
             StaffRelatedInsuranceCosts = dataObject.StaffInsurance,
             SupplyTeacherInsurableCosts = dataObject.SupplyTeacherInsurance,

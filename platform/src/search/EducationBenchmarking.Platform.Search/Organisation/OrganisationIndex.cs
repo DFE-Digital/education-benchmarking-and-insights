@@ -5,16 +5,16 @@ namespace EducationBenchmarking.Platform.Search.Organisation;
 public class OrganisationIndex
 {
     [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Id { get; set; }
+    public string? Id { get; set; }
     
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Identifier { get; set; }
+    public string? Identifier { get; set; }
     
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Kind { get; set; }
+    public string? Kind { get; set; }
     
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
     public string? Street { get; set; }

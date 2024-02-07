@@ -4,13 +4,13 @@ using Azure.Search.Documents.Models;
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public class SuggestOutput<T>
+public record SuggestOutput<T>
 {
     public IEnumerable<SuggestValue<T>> Results { get; set; } = Array.Empty<SuggestValue<T>>();
 }
 
 [ExcludeFromCodeCoverage]
-public class SuggestValue<T>
+public record SuggestValue<T>
 {
     public string? Text {get; set;}
     public T? Document {get; set;}

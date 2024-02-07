@@ -39,11 +39,11 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
             return null;
         }
         
-        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
+        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
         
-        var school = await GetItemEnumerableAsync<EdubaseDataObject>(
+        var school = await ItemEnumerableAsync<EdubaseDataObject>(
                 collection.Name,
-                q => q.Where(x => x.URN == parsedUrn))
+                q => q.Where(x => x.Urn == parsedUrn))
             .FirstOrDefaultAsync();
 
         return school == null ? null : School.Create(school);
@@ -51,13 +51,13 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
 
     public async Task<PagedResults<School>> Query(IQueryCollection query)
     {
-        var collection = await _collectionService.GetLatestCollection(DataGroups.Edubase);
+        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
         var pageParams = query.GetPagingValues();
         
         var establishments =
-            await GetPagedItemEnumerableAsync<EdubaseDataObject>(collection.Name, pageParams.Page, pageParams.PageSize)
+            await PagedItemEnumerableAsync<EdubaseDataObject>(collection.Name, pageParams.Page, pageParams.PageSize)
                 .ToArrayAsync();
-        var establishmentsTotalCount = await GetItemCountAsync<EdubaseDataObject>(collection.Name);
+        var establishmentsTotalCount = await ItemCountAsync<EdubaseDataObject>(collection.Name);
 
         var schools = establishments.Select(School.Create);
         return PagedResults<School>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);

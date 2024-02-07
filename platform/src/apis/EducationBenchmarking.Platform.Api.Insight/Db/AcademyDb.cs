@@ -10,7 +10,7 @@ namespace EducationBenchmarking.Platform.Api.Insight.Db;
 
 public interface IAcademyDb
 {
-    Task<Finances> Get(string urn);
+    Task<Finances?> Get(string urn);
 }
 
 [ExcludeFromCodeCoverage]
@@ -28,13 +28,13 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
         _collectionService = collectionService;
     }
 
-    public async Task<Finances> Get(string urn)
+    public async Task<Finances?> Get(string urn)
     {
-        var collection = await _collectionService.GetLatestCollection(DataGroups.Academies);
+        var collection = await _collectionService.LatestCollection(DataGroups.Academies);
 
-        var finances = await GetItemEnumerableAsync<SchoolTrustFinancialDataObject>(
+        var finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(
                 collection.Name,
-                q => q.Where(x => x.URN == long.Parse(urn)))
+                q => q.Where(x => x.Urn == long.Parse(urn)))
             .FirstOrDefaultAsync();
 
         return finances == null

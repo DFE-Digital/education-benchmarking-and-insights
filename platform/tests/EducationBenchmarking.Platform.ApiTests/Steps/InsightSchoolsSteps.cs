@@ -29,7 +29,6 @@ public class InsightSchoolsSteps
     public async Task ThenTheSchoolExpenditureResultShouldBeOk()
     {
         var response = _api[SchoolFinancesKey].Response;
-        
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -37,18 +36,19 @@ public class InsightSchoolsSteps
 
         json.Should().ContainKey("results");
         
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new NullReferenceException();
+        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
         
         resultsArray.Should().NotBeEmpty();
 
-        var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new NullReferenceException();
-        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>()  ?? throw new NullReferenceException();
+        var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
+        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>()  ?? throw new ArgumentNullException();
         
         firstResult.Name.Should().Be("Wells Free School");
         firstResult.Urn.Should().Be("139696");
         
         secondResult.Name.Should().Be("Hadlow Rural Community School");
         secondResult.Urn.Should().Be("139697");
+
     }
 
     [Given("a valid schools expenditure request with urn '(.*)' and '(.*)'")]
@@ -75,13 +75,11 @@ public class InsightSchoolsSteps
     public async Task ThenTheSchoolsExpenditureResultShouldBePageWithPageSize(int page, int pageSize)
     {
         var response = _api[SchoolFinancesKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<Finances>>();
-        
+        var result = content.FromJson<PagedResults<Finances>>() ?? throw new ArgumentNullException();
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }
@@ -110,7 +108,6 @@ public class InsightSchoolsSteps
     public async Task ThenTheSchoolWorkforceResultShouldBeOk()
     {
         var response = _api[SchoolWorkforceKey].Response;
-        
         response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var jsonString = await response.Content.ReadAsStringAsync();
@@ -118,11 +115,11 @@ public class InsightSchoolsSteps
 
         json.Should().ContainKey("results");
         
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new NullReferenceException();
+        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
         
         resultsArray.Should().NotBeEmpty();
 
-        var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new NullReferenceException();
+        var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new ArgumentNullException();
         
         result.Name.Should().Be("Wells Free School");
         result.Urn.Should().Be("139696");
@@ -142,13 +139,12 @@ public class InsightSchoolsSteps
     public async Task ThenTheSchoolsWorkforceResultShouldBePageWithPageSize(int page, int pageSize)
     {
         var response = _api[SchoolWorkforceKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<SchoolWorkforce>>(); //TODO: troubleshoot the reason of failure 
-        
+        //todo troubleshoot the reason of failure 
+        var result = content.FromJson<PagedResults<SchoolWorkforce>>() ?? throw new ArgumentNullException();
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }

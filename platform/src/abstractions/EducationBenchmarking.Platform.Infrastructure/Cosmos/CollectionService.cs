@@ -20,34 +20,34 @@ public class CollectionService : CosmosDatabase, ICollectionService
         _options = options.Value;
     }
 
-    private async Task<DataCollection[]> GetAllActiveCollections()
+    private async Task<DataCollection[]> AllActiveCollections()
     {
         ArgumentNullException.ThrowIfNull(_options.LookupCollectionName);
 
-        return await GetItemEnumerableAsync<DataCollection>(
+        return await ItemEnumerableAsync<DataCollection>(
                 _options.LookupCollectionName,
                 q => q.Where(x => x.Active == "Y"))
             .ToArrayAsync();
     }
 
 
-    private async Task<IEnumerable<DataCollection>> GetActiveCollectionsForDataGroup(string dataGroup)
+    private async Task<IEnumerable<DataCollection>> ActiveCollectionsForDataGroup(string dataGroup)
     {
-        var groups = await GetAllActiveCollections();
+        var groups = await AllActiveCollections();
         return groups.Where(c => c.DataGroup == dataGroup)
             .ToArray();
     }
 
-    public async Task<DataCollection> GetLatestCollection(string dataGroup)
+    public async Task<DataCollection> LatestCollection(string dataGroup)
     {
-        var activeCollections = await GetActiveCollectionsForDataGroup(dataGroup);
+        var activeCollections = await ActiveCollectionsForDataGroup(dataGroup);
 
-        return activeCollections.MaxBy(o => o.Name.Split('-').First())
+        return activeCollections.MaxBy(o => o.Name?.Split('-').First())
                ?? throw new ArgumentException("Collection not found for the data group");
     }
 }
 
 public interface ICollectionService
 {
-    Task<DataCollection> GetLatestCollection(string dataGroup);
+    Task<DataCollection> LatestCollection(string dataGroup);
 }

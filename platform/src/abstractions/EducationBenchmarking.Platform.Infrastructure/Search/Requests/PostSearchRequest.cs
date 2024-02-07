@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace EducationBenchmarking.Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public class PostSearchRequest
+public record PostSearchRequest
 {
     public string? SearchText { get; set; }
     public int PageSize { get; set; } = 15;
@@ -12,7 +12,7 @@ public class PostSearchRequest
 }
 
 [ExcludeFromCodeCoverage]
-public class FilterCriteria
+public record FilterCriteria
 {
     public string? Field { get; set; }
     public string? Value { get; set; }

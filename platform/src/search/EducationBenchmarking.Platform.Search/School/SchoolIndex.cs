@@ -5,13 +5,13 @@ namespace EducationBenchmarking.Platform.Search.School;
 public class SchoolIndex
 {
     [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Urn { get; set; }
+    public string? Urn { get; set; }
     
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string Name { get; set; }
+    public string? Name { get; set; }
     
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string LaEstab { get; set; }
+    public string? LaEstab { get; set; }
     
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
     public string? FinanceType { get; set; }

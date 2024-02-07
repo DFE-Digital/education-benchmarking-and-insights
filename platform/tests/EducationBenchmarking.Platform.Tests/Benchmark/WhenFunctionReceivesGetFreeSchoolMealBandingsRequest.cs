@@ -12,11 +12,11 @@ public class WhenFunctionReceivesGetFreeSchoolMealBandingsRequest : BandingsFunc
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.GetFreeSchoolMealBandings())
+            .Setup(d => d.FreeSchoolMealBandings())
             .ReturnsAsync(Array.Empty<Banding>());
         
         var result =
-            await Functions.GetFreeSchoolMealBandings(CreateRequest()) as JsonContentResult;
+            await Functions.QueryFreeSchoolMealBandingsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
@@ -26,11 +26,11 @@ public class WhenFunctionReceivesGetFreeSchoolMealBandingsRequest : BandingsFunc
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.GetFreeSchoolMealBandings())
+            .Setup(d => d.FreeSchoolMealBandings())
             .Throws(new Exception());
         
         var result = await Functions
-            .GetFreeSchoolMealBandings(CreateRequest()) as StatusCodeResult;
+            .QueryFreeSchoolMealBandingsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

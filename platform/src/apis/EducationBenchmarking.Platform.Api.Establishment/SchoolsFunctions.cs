@@ -37,11 +37,11 @@ public class SchoolsFunctions
         _validator = validator;
     }
 
-    [FunctionName(nameof(GetSchoolAsync))]
+    [FunctionName(nameof(SingleSchoolAsync))]
     [ProducesResponseType(typeof(School), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetSchoolAsync(
+    public async Task<IActionResult> SingleSchoolAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}")]
         HttpRequest req,
         string urn)

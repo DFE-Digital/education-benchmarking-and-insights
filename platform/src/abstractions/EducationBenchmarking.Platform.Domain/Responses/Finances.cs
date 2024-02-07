@@ -4,12 +4,12 @@ using EducationBenchmarking.Platform.Domain.DataObjects;
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
 [ExcludeFromCodeCoverage]
-public class Finances
+public record Finances
 {
-    public string Urn { get; set; }
-    public string SchoolName { get; set; }
+    public string? Urn { get; set; }
+    public string? SchoolName { get; set; }
     public int YearEnd { get; set; }
-    public string OverallPhase { get; set; }
+    public string? OverallPhase { get; set; }
     public decimal NumberOfPupils { get; set; }
     public bool HasSixthForm { get; set; }
     public decimal TotalExpenditure { get; set; }
@@ -28,7 +28,7 @@ public class Finances
         return new Finances
         {
             YearEnd = term,
-            Urn = dataObject.URN.ToString(),
+            Urn = dataObject.Urn.ToString(),
             SchoolName = dataObject.SchoolName,
             OverallPhase = dataObject.OverallPhase,
             NumberOfPupils = dataObject.NoPupils,

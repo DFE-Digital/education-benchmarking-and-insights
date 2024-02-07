@@ -5,7 +5,7 @@ using System.Linq;
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSet
+public record ComparatorSet
 {
     public int TotalResults { get; set; }
     public IEnumerable<School>? Results { get; set; }

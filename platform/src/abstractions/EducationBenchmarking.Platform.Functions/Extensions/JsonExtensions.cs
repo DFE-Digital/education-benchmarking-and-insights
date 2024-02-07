@@ -68,7 +68,7 @@ public static class JsonExtensions
 
     public static T FromJson<T>(this string source)
     {
-        return JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new NullReferenceException();
+        return JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
     }
 
     public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
@@ -80,8 +80,8 @@ public static class JsonExtensions
         using (var jr = new JsonTextReader(sr))
         {
             var js = JsonSerializer.CreateDefault(Settings);
-
-            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
+            
+            return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
         }
     }
 
@@ -91,8 +91,8 @@ public static class JsonExtensions
         using (var jr = new JsonTextReader(sr))
         {
             var js = JsonSerializer.CreateDefault(Settings);
-
-            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
+            
+            return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
         }
     }
     
@@ -107,7 +107,7 @@ public static class JsonExtensions
         
         var js = JsonSerializer.CreateDefault(Settings);
 
-        return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
+        return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
     }
 
     public static T FromJson<T>(this Stream stream)
@@ -117,7 +117,7 @@ public static class JsonExtensions
         {
             var js = JsonSerializer.CreateDefault(Settings);
 
-            return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
+            return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
         }
     }
 
@@ -130,7 +130,7 @@ public static class JsonExtensions
         {
             if (jr.TokenType == JsonToken.StartObject)
             {
-                yield return js.Deserialize<T>(jr) ?? throw new NullReferenceException();
+                yield return js.Deserialize<T>(jr) ?? throw new ArgumentNullException();
             }
         }
     }

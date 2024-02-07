@@ -11,7 +11,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public class SchoolSearchServiceOptions : SearchServiceOptions
+public record SchoolSearchServiceOptions : SearchServiceOptions
 {
 }
 

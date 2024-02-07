@@ -31,11 +31,11 @@ public class TrustsFunctions
     }
     
     
-    [FunctionName(nameof(GetTrustAsync))]
+    [FunctionName(nameof(SingleTrustAsync))]
     [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> GetTrustAsync(
+    public IActionResult SingleTrustAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}")] HttpRequest req,
         string identifier)
     {
@@ -43,14 +43,14 @@ public class TrustsFunctions
     }
     
     [FunctionName(nameof(QueryTrustsAsync))]
-    public async Task<IActionResult> QueryTrustsAsync(
+    public IActionResult QueryTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts")] HttpRequest req)
     {
         return new OkResult();
     }
     
     [FunctionName(nameof(SearchTrustsAsync))]
-    public async Task<IActionResult> SearchTrustsAsync(
+    public IActionResult SearchTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/search")] 
         [RequestBodyType(typeof(PostSearchRequest), "The search object")]  HttpRequest req)
     {

@@ -1,6 +1,6 @@
 namespace EducationBenchmarking.Platform.Domain;
 
-public class DbResult
+public record DbResult
 {
     public enum ResultStatus
     {

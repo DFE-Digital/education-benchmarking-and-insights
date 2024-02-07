@@ -6,7 +6,7 @@ using EducationBenchmarking.Platform.Domain.DataObjects;
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
 [ExcludeFromCodeCoverage]
-public class PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
+public record PagedSchoolExpenditure : PagedResults<SchoolExpenditure>
 {
     public static PagedSchoolExpenditure Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page,
         int pageSize)

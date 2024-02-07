@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .ReturnsAsync(new School());
         
-        var result = await Functions.GetSchoolAsync(CreateRequest(),"1") as JsonContentResult;
+        var result = await Functions.SingleSchoolAsync(CreateRequest(),"1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
@@ -29,7 +29,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .ReturnsAsync((School?)null);
         
-        var result = await Functions.GetSchoolAsync(CreateRequest(),"1") as NotFoundResult;
+        var result = await Functions.SingleSchoolAsync(CreateRequest(),"1") as NotFoundResult;
 
         Assert.NotNull(result);
         Assert.Equal(404, result?.StatusCode);
@@ -42,7 +42,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .Throws(new Exception());
         
-        var result = await Functions.GetSchoolAsync(CreateRequest(),"1") as StatusCodeResult;
+        var result = await Functions.SingleSchoolAsync(CreateRequest(),"1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

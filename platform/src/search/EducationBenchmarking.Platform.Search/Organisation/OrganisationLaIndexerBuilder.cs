@@ -16,11 +16,10 @@ public class OrganisationLaIndexerBuilder : IndexerBuilder
             dataSourceName: SearchResourceNames.DataSources.OrganisationLa,
             targetIndexName: SearchResourceNames.Indexes.Organisation)
         {
-            Schedule = new IndexingSchedule(TimeSpan.FromDays(1))
+            Schedule = new IndexingSchedule(TimeSpan.FromDays(1)),
+            Parameters = new IndexingParameters { Configuration = { new KeyValuePair<string, object>("parsingMode" , "jsonArray")}}
         };
 
-        indexer.Parameters = new IndexingParameters { Configuration = { new KeyValuePair<string, object>("parsingMode" , "jsonArray")}};
-        
         await client.CreateOrUpdateIndexerAsync(indexer);
     }
 

@@ -13,19 +13,19 @@ public static class SwaggerFunctions
 {
     [SwaggerIgnore]
     [FunctionName("Swagger")]
-    public static Task<HttpResponseMessage> Swagger(
+    public static HttpResponseMessage Swagger(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "swagger/json")] HttpRequestMessage req,
         [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
     {
-        return Task.FromResult(swashBuckleClient.CreateSwaggerJsonDocumentResponse(req));
+        return swashBuckleClient.CreateSwaggerJsonDocumentResponse(req);
     }
     
     [SwaggerIgnore]
     [FunctionName("SwaggerUI")]
-    public static Task<HttpResponseMessage> SwaggerUi(
+    public static HttpResponseMessage SwaggerUi(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "swagger/ui")] HttpRequestMessage req,
         [SwashBuckleClient] ISwashBuckleClient swashBuckleClient)
     {
-        return Task.FromResult(swashBuckleClient.CreateSwaggerUIResponse(req, "swagger/json"));
+        return swashBuckleClient.CreateSwaggerUIResponse(req, "swagger/json");
     }
 }
