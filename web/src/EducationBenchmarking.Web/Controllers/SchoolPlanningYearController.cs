@@ -14,7 +14,8 @@ namespace EducationBenchmarking.Web.Controllers;
 public class SchoolPlanningYearController(
     ILogger<SchoolPlanningYearController> logger,
     IFinanceService financeService,
-    IEstablishmentApi establishmentApi) 
+    IEstablishmentApi establishmentApi,
+    IBenchmarkApi benchmarkApi) 
     : Controller
 {
     [HttpGet]
@@ -48,22 +49,43 @@ public class SchoolPlanningYearController(
         {
             try
             {
-                //TODO: Get school and financial information
                 //TODO: Get if exists plan for school / year
                 //TODO: If valid PUT plan data
                 //TODO: If invalid return error
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
-                
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var finances = await financeService.GetFinances(school);
+                var viewModel = new SchoolPlanViewModel(school, finances, year);
+
                 if (useFigures.HasValue)
                 {
+                    var plan = new PutFinancialPlanRequest
+                    {
+                        Year = year,
+                        Urn = urn,
+                        UseFigures = useFigures.Value,
+                    };
+
+                    if (useFigures.Value)
+                    {
+                        plan.TotalIncome = viewModel.CurrentTotalIncome;
+                        plan.TotalExpenditure = viewModel.CurrentTotalExpenditure;
+                        plan.TotalTeacherCosts = viewModel.CurrentTotalTeacherCosts;
+                        plan.TotalNumberOfTeachersFte = viewModel.CurrentTotalNumberOfTeachersFte;
+                        if (viewModel.IsPrimary)
+                        {
+                            plan.EducationSupportStaffCosts = viewModel.CurrentEducationSupportStaffCosts;
+                        }
+                    }
+
+                    await benchmarkApi.UpsertFinancialPlan(plan).EnsureSuccess();
+                    
                     return useFigures.Value 
                         ? RedirectToAction("Timetable", new { urn, year })
                         : RedirectToAction("TotalIncome", new { urn, year });
                 }
-                // TODO: amend as required when working on post - below is here just to stop error with CTA
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(school);
-                var viewModel = new SchoolPlanViewModel(school, finances, year);
+                
                 return View(viewModel);
             }
             catch (Exception e)
