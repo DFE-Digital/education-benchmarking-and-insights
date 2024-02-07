@@ -11,7 +11,7 @@ public class SelectYearPage(PageHook page)
     private ILocator BackLink => _page.Locator(".govuk-back-link");
     private ILocator ContinueButton => _page.Locator(".govuk-button", new PageLocatorOptions { HasText = "Continue" });
     private ILocator YearRadio(int year) => _page.Locator($"#year-{year}");
-    private static int CurrentYear => DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year : DateTime.UtcNow.Year + 1;
+    private static int CurrentYear => DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
     private static IEnumerable<int> AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
     
     public async Task AssertPage()
