@@ -1,0 +1,7 @@
+.recharts-wrapper
+  .yAxis
+  .recharts-cartesian-axis-tick
+  .recharts-text
+  > tspan:not(:first-child) {
+  display: none;
+}

@@ -1,4 +1,10 @@
-import { forwardRef, useContext, useImperativeHandle, useRef } from "react";
+import {
+  forwardRef,
+  useContext,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Bar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -14,6 +20,21 @@ import {
   BarChartProps,
   DownloadHandle,
 } from "src/components/charts/horizontal-bar-chart";
+import {
+  Bar as RechartsBar,
+  BarChart,
+  Cell,
+  Label,
+  LabelList,
+  ResponsiveContainer,
+  Text,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from "recharts";
+import { CategoricalChartState } from "recharts/types/chart/types";
+import { useWindowSize } from "@uidotdev/usehooks";
+import { Props as LabelProps } from "recharts/types/component/Label";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title);
 
@@ -138,16 +159,99 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
       },
     }));
 
+    const yTick = (t: { payload: { value: string } }) => {
+      const {
+        payload: { value },
+      } = t;
+      return (
+        <Text
+          {...t}
+          fill="#1D70B8"
+          fontWeight={value === selectedSchool.name ? "bold" : "normal"}
+          cursor="pointer"
+          className="govuk-link"
+          onClick={() =>
+            (window.location.href = `/school/${data.find((d) => d.school === value)?.urn}`)
+          }
+          lineHeight={0}
+        >
+          {value}
+        </Text>
+      );
+    };
+
+    const labelList = (props: LabelProps) => {
+      const { x, y, width, height, value } = props;
+
+      return (
+        <g>
+          <Text
+            x={(x as number) + (width as number) + (height as number) / 2}
+            y={(y as number) + (height as number) / 2}
+            textAnchor="start"
+            dominantBaseline="middle"
+          >
+            {value}
+          </Text>
+        </g>
+      );
+    };
+
+    const { width } = useWindowSize();
+    const [activeTooltipIndex, setActiveTooltipIndex] = useState<number>();
+    const handleBarChartMouseMove = (nextState: CategoricalChartState) => {
+      setActiveTooltipIndex(nextState.activeTooltipIndex);
+    };
+
     return (
-      <div style={chartContainerStyle}>
-        <Bar
-          aria-label={`Bar chart showing ${chartName} as ${xLabel}`}
-          data={dataForChart}
-          options={options}
-          plugins={[underLinePlugin]}
-          ref={chartRef}
-        />
-      </div>
+      <>
+        <div style={chartContainerStyle}>
+          <Bar
+            aria-label={`Bar chart showing ${chartName} as ${xLabel}`}
+            data={dataForChart}
+            options={options}
+            plugins={[underLinePlugin]}
+            ref={chartRef}
+          />
+        </div>
+        <ResponsiveContainer width="100%" height={labels.length * 30}>
+          <BarChart
+            data={data}
+            layout="vertical"
+            barCategoryGap={2}
+            className="govuk-body-s govuk-!-font-size-14"
+            onMouseMove={handleBarChartMouseMove}
+          >
+            <XAxis type="number" stroke="#000" padding={{ left: 1 }}>
+              <Label value={xLabel} offset={0} position="insideBottom" />
+            </XAxis>
+            <YAxis
+              dataKey="school"
+              type="category"
+              width={width ? width / 4 : undefined}
+              tick={(t) => yTick(t)}
+              stroke="#000"
+            ></YAxis>
+            <RechartsBar dataKey="value">
+              {data.map((entry, i) => (
+                <Cell
+                  cursor="pointer"
+                  fill={
+                    entry.urn === selectedSchool.urn
+                      ? "#12436D"
+                      : i === activeTooltipIndex
+                        ? "#ACACAC"
+                        : "#BFBFBF"
+                  }
+                  key={`cell-${entry.urn}`}
+                />
+              ))}
+              <LabelList dataKey="value" content={labelList} />
+            </RechartsBar>
+            <Tooltip cursor={false} separator=": " label={xLabel} />
+          </BarChart>
+        </ResponsiveContainer>
+      </>
     );
   }
 );
