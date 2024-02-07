@@ -1,4 +1,4 @@
-import React, { createRef, useContext } from "react";
+import React, { createRef, useContext, useMemo } from "react";
 import {
   DownloadHandle,
   HorizontalBarChart,
@@ -6,15 +6,31 @@ import {
 import { TableChart } from "src/components/charts/table-chart";
 import { ChartModeContext } from "src/contexts";
 import { Loading } from "src/components/loading";
-import { HorizontalBarChartWrapperProps } from "src/components/charts";
+import {
+  ChartSortMode,
+  HorizontalBarChartWrapperProps,
+} from "src/components/charts";
 import { ChartModeChart, ChartModeTable } from "src/components";
+import { chartComparer } from "./utils";
+
+const defaultSort: ChartSortMode = {
+  direction: "desc",
+  dataPoint: "value",
+};
 
 export const HorizontalBarChartWrapper: React.FC<
   HorizontalBarChartWrapperProps
 > = (props) => {
-  const { data, children, chartName } = props;
+  const { data, children, chartName, sort } = props;
   const mode = useContext(ChartModeContext);
   const ref = createRef<DownloadHandle>();
+
+  // if a `sort` is not provided, the default sorting method will be used (value DESC)
+  const sortedDataPoints = useMemo(() => {
+    return data.dataPoints.sort((a, b) =>
+      chartComparer(a, b, sort ?? defaultSort)
+    );
+  }, [data.dataPoints, sort]);
 
   return (
     <>
@@ -34,7 +50,7 @@ export const HorizontalBarChartWrapper: React.FC<
       </div>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
-          {data.dataPoints.length > 0 ? (
+          {sortedDataPoints.length > 0 ? (
             <>
               <div
                 className={
@@ -43,7 +59,7 @@ export const HorizontalBarChartWrapper: React.FC<
               >
                 <HorizontalBarChart
                   chartName={chartName}
-                  data={data.dataPoints}
+                  data={sortedDataPoints}
                   ref={ref}
                 />
               </div>
@@ -54,7 +70,7 @@ export const HorizontalBarChartWrapper: React.FC<
               >
                 <TableChart
                   tableHeadings={data.tableHeadings}
-                  data={data.dataPoints}
+                  data={sortedDataPoints}
                 />
               </div>
             </>
