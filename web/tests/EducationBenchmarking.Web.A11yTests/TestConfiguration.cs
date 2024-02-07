@@ -6,7 +6,7 @@ public static class TestConfiguration
 {
     private static IConfiguration Instance => new ConfigurationBuilder()
 #if !DEBUG
-    .AddJsonFile("appsettings.json", optional: false)
+        .AddJsonFile("appsettings.json", optional: false)
 #else
         .AddJsonFile("appsettings.local.json", optional: false)
 #endif
