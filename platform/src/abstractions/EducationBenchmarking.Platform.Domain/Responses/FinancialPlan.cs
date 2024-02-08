@@ -12,11 +12,11 @@ public record FinancialPlan
     public string? UpdatedBy { get; set; }
     public string? CreatedBy { get; set; }
     public int Version { get; set; }
-    public string? TotalIncome { get; set; }
-    public string? TotalExpenditure { get; set; }
-    public string? TotalTeacherCosts { get; set; }
-    public string? TotalNumberOfTeachersFte { get; set; }
-    public string? EducationSupportStaffCosts { get; set; }
+    public decimal? TotalIncome { get; set; }
+    public decimal? TotalExpenditure { get; set; }
+    public decimal? TotalTeacherCosts { get; set; }
+    public decimal? TotalNumberOfTeachersFte { get; set; }
+    public decimal? EducationSupportStaffCosts { get; set; }
     public bool UseFigures { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
