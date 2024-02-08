@@ -15,7 +15,7 @@ public class SchoolPlanningYearController(
     ILogger<SchoolPlanningYearController> logger,
     IFinanceService financeService,
     IEstablishmentApi establishmentApi,
-    IBenchmarkApi benchmarkApi) 
+    IBenchmarkApi benchmarkApi)
     : Controller
 {
     [HttpGet]
@@ -41,9 +41,9 @@ public class SchoolPlanningYearController(
             }
         }
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> Index(string urn, int year, [FromForm]bool? useFigures)
+    public async Task<IActionResult> Index(string urn, int year, [FromForm] bool? useFigures)
     {
         using (logger.BeginScope(new { urn, year, useFigures }))
         {
@@ -80,23 +80,24 @@ public class SchoolPlanningYearController(
                     }
 
                     await benchmarkApi.UpsertFinancialPlan(plan).EnsureSuccess();
-                    
-                    return useFigures.Value 
+
+                    return useFigures.Value
                         ? RedirectToAction("Timetable", new { urn, year })
                         : RedirectToAction("TotalIncome", new { urn, year });
                 }
-                
+
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
-    
+
+
     [HttpGet]
     [Route("timetable")]
     public IActionResult Timetable(string urn, int year)
@@ -109,12 +110,13 @@ public class SchoolPlanningYearController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpGet]
     [Route("total-income")]
     public IActionResult TotalIncome(string urn, int year)
@@ -123,16 +125,20 @@ public class SchoolPlanningYearController(
         {
             try
             {
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Index", "SchoolPlanningYear", new { urn, year });
+
                 return View();
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpGet]
     [Route("total-expenditure")]
     public IActionResult TotalExpenditure(string urn, int year)
@@ -145,12 +151,13 @@ public class SchoolPlanningYearController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpGet]
     [Route("total-teacher-cost")]
     public IActionResult TotalTeacherCost(string urn, int year)
@@ -163,12 +170,13 @@ public class SchoolPlanningYearController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
-    
+
     [HttpGet]
     [Route("total-number-teachers")]
     public IActionResult TotalNumberTeachers(string urn, int year)
@@ -181,9 +189,24 @@ public class SchoolPlanningYearController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
 }
+
+    
+    
+    
+    
+    
+
+    
+    
+
+
+
+
+
