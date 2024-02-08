@@ -77,20 +77,18 @@ dotnet test tests\EducationBenchmarking.Platform.Tests
 Add configuration in `appsetings.local.json`
 ```
 {
-  "Apis": {
     "Insight": {
-      "Host": "http://localhost:7071/",
-      "Key": "x"
+      "Host": "[INSERT URL OF INSIGHT API UNDER TEST]",
+      "Key": "[INSERT INSIGHT API KEY]"
     },
     "Benchmark": {
-      "Host": "http://localhost:7072/",
-      "Key": "x"
+      "Host": "[INSERT URL OF BENCHMARK API UNDER TEST]",
+      "Key": "[INSERT BENCHMARK API KEY]"
     },
     "Establishment": {
-      "Host": "http://localhost:7073/",
-      "Key": "x"
+      "Host": "[INSERT URL OF ESTABLISHMENT API UNDER TEST]",
+      "Key": "[INSERT ESTABLISHMENT API KEY]"
     }
-  }
 }
 ```
 Run:
