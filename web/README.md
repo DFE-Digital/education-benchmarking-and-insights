@@ -1,8 +1,8 @@
 # Web
 
-This is the main front-end web site project. This project will consume the output of the front end components project via NPM.
+This is the main front-end website project. This project will consume the output of the front end components project via NPM.
 
-This is an MVC web app written in C#. It's main purpuse is to provide proxy authentication/auuthorization services, alomng with any static pages that need serving
+This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorization services, along with any static pages that need serving
 
 ## Getting started
 
@@ -12,12 +12,11 @@ This is an MVC web app written in C#. It's main purpuse is to provide proxy auth
 In a console window:
 1. Navigate to `EducationBenchmarking.Web` project root
 2. Run `dotnet user-secrets init` to initialise secrets in the directory
-3. Run the follow to create XXXX secret: `dotnet user-secrets set "XXXX" "xxxxx"`
 
 #### Platform APIs
-If running the Platform APIs locally then no further required, just ensure the API port configuration matches that in `appsettings.Development.json`.
+If running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json`.
 
-However if you are using deployed instances of the Platform APIs then having initialised secret storage, in a console window:
+However, if you are using deployed instances of the Platform APIs then having initialised secret storage in a console window:
 1. Navigate to `EducationBenchmarking.Web` project root
 2. Set Insight API url user secret: `dotnet user-secrets set "Apis:Insight:Url" "[INSERT URL VALUE]"`
 3. Set Insight API key user secret: `dotnet user-secrets set "Apis:Insight:Key" "[INSERT KEY VALUE]"`
@@ -29,7 +28,13 @@ However if you are using deployed instances of the Platform APIs then having ini
 #### DfE Sign-in (DSI) authentication
 Having initialised secret storage, in a console window:
 1. Navigate to `EducationBenchmarking.Web` project root
-2. Run the follow to create XXXX secret: `dotnet user-secrets set "XXXX" "xxxxx"`
+2. Set XXXX user secret: `dotnet user-secrets set "XXXX" "xxxxx"`
+
+#### Session cache
+Having initialised secret storage, in a console window:
+1. Navigate to `EducationBenchmarking.Web` project root
+2. Set session cache connection string user secret: `dotnet user-secrets set "CosmosCacheSettings:ConnectionString" "[INSERT CONNECTION STRING VALUE]"`
+3. Optional, direct mode is preferred however if you have issues run the follow to set the mode to gateway: `dotnet user-secrets set "CosmosCacheSettings:IsDirect" false`
 
 ### Running tests
 

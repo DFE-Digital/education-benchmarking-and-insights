@@ -20,6 +20,9 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_cosmosdb_account.session-cache-account](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/cosmosdb_account) | resource |
+| [azurerm_cosmosdb_sql_container.session-cache-container](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/cosmosdb_sql_container) | resource |
+| [azurerm_cosmosdb_sql_database.session-cache-database](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/cosmosdb_sql_database) | resource |
 | [azurerm_linux_web_app.education-benchmarking-as](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/linux_web_app) | resource |
 | [azurerm_resource_group.resource-group](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/resource_group) | resource |
 | [azurerm_service_plan.education-benchmarking-asp](https://registry.terraform.io/providers/hashicorp/azurerm/3.87.0/docs/resources/service_plan) | resource |
