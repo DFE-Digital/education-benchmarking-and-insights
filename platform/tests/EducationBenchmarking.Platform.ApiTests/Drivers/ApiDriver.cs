@@ -7,7 +7,7 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
     private readonly HttpClient _client;
     private readonly ISpecFlowOutputHelper _output;
 
-    protected ApiDriver(TestConfiguration.Api.ApiEndpoint endpoint, ISpecFlowOutputHelper output)
+    protected ApiDriver(TestConfiguration.ApiEndpoint endpoint, ISpecFlowOutputHelper output)
     {
         _client = new HttpClient { BaseAddress = new Uri(endpoint.Host) };
         if (!string.IsNullOrEmpty(endpoint.Key))

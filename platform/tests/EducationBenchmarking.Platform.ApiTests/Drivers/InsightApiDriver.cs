@@ -4,7 +4,7 @@ namespace EducationBenchmarking.Platform.ApiTests.Drivers;
 
 public class InsightApiDriver : ApiDriver
 {
-    public InsightApiDriver(ISpecFlowOutputHelper output) : base(TestConfiguration.Apis.Insight, output)
+    public InsightApiDriver(ISpecFlowOutputHelper output) : base(TestConfiguration.Insight, output)
     {
     }
 }
