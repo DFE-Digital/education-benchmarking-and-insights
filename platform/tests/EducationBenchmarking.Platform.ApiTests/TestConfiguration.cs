@@ -13,30 +13,17 @@ public static class TestConfiguration
 #endif
             .Build();
 
-    public static Api Apis
-    {
-        get
-        {
-            var instance = new Api();
-            Instance.Bind("Apis", instance);
-            return instance;
-        }
-    }
+    public static ApiEndpoint Insight => Instance.GetSection(nameof(Insight)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Insight));
+    public static ApiEndpoint Benchmark => Instance.GetSection(nameof(Benchmark)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Benchmark));
+    public static ApiEndpoint Establishment => Instance.GetSection(nameof(Establishment)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Establishment));
     
-    public record  Api
-    {
+    
 #nullable disable warnings
-        public ApiEndpoint Insight { get; init; }
-        
-        public ApiEndpoint Benchmark { get; init; }
-
-        public ApiEndpoint Establishment { get; init; }
-        
-        public record  ApiEndpoint
-        {
-            public string Host { get; init; }
-            public string Key { get; init; }
-        }
-#nullable restore warnings
+    public record  ApiEndpoint
+    {
+        public string Host { get; init; }
+        public string Key { get; init; }
     }
+#nullable restore warnings
+    
 }
