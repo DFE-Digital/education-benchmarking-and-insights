@@ -76,6 +76,12 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.UpdatedAt = DateTimeOffset.UtcNow;
         existing.UpdatedBy = request.User;
         existing.Version += 1;
+        existing.UseFigures = request.UseFigures;
+        existing.TotalIncome = request.TotalIncome;
+        existing.TotalExpenditure = request.TotalExpenditure;
+        existing.TotalTeacherCosts = request.TotalTeacherCosts;
+        existing.TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte;
+        existing.EducationSupportStaffCosts = request.EducationSupportStaffCosts;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -85,7 +91,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
     private async Task<DbResult> Create(string urn, int year, FinancialPlanRequest request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-
+        
         var plan = new FinancialPlanDataObject
         {
             Id = year.ToString(),
@@ -94,7 +100,13 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             UpdatedAt = DateTimeOffset.UtcNow,
             UpdatedBy = request.User,
             CreatedBy = request.User,
-            Version = 1
+            Version = 1,
+            UseFigures = request.UseFigures,
+            TotalIncome = request.TotalIncome,
+            TotalExpenditure = request.TotalExpenditure,
+            TotalTeacherCosts = request.TotalTeacherCosts,
+            TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte,
+            EducationSupportStaffCosts = request.EducationSupportStaffCosts,
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));

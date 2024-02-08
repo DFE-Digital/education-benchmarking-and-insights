@@ -12,4 +12,10 @@ public record FinancialPlanDataObject
     [JsonProperty("updatedBy")] public string? UpdatedBy { get; set; }
     [JsonProperty("createdBy")] public string? CreatedBy { get; set; }
     [JsonProperty("version")] public int Version { get; set; }
+    [JsonProperty("totalIncome")] public decimal? TotalIncome { get; set; }
+    [JsonProperty("totalExpenditure")] public decimal? TotalExpenditure { get; set; }
+    [JsonProperty("totalTeacherCosts")] public decimal? TotalTeacherCosts { get; set; }
+    [JsonProperty("totalNumberOfTeachersFte")] public decimal? TotalNumberOfTeachersFte { get; set; }
+    [JsonProperty("educationSupportStaffCosts")] public decimal? EducationSupportStaffCosts { get; set; }
+    [JsonProperty("useFigures")] public bool UseFigures { get; set; }
 }
