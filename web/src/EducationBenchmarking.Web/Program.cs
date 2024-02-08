@@ -4,7 +4,6 @@ using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Identity.Extensions;
-using EducationBenchmarking.Web.Infrastructure;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
@@ -27,8 +26,9 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(),options =>
 });
 
 builder.Services.AddHealthChecks();
-
-builder.Services.AddSingleton<IFinanceService, FinanceService>();
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
 
 builder.Services.AddSession(options =>
 {
@@ -105,4 +105,3 @@ app.Run();
 
 [ExcludeFromCodeCoverage]
 public partial class Program { } // required for integration tests
-

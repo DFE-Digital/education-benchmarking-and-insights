@@ -9,7 +9,7 @@ public record ComparatorSet
 {
     public int TotalResults { get; set; }
     public IEnumerable<School>? Results { get; set; }
-        
+    
     public static ComparatorSet Create(IEnumerable<School> results, int? totalResults = null, bool includeResults = false)
     {
         var enumerable = results as School[] ?? results.ToArray();

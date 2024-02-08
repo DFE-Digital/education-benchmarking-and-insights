@@ -12,6 +12,8 @@ namespace EducationBenchmarking.Web.Integration.Tests;
 public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory, output)
 {
+    private const string Referrer = "school-workforce";
+    
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -27,15 +29,13 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToChangeSchool(string financeType)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, _) = await SetupNavigateInitPage(financeType);
 
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
-
-        //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        page = await Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
 
     [Theory]
@@ -48,10 +48,9 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
-
-        //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        page = await Follow(anchor);
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
 
     [Theory]
@@ -135,6 +134,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
 
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
+            .SetupBenchmark()
             .Navigate(Paths.SchoolWorkforce(school.Urn));
 
         return (page, school);
@@ -154,10 +154,10 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         DocumentAssert.TitleAndH1(page, "Benchmark workforce data","Benchmark workforce data");
             
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
             
         var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
-        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolWorkforce(school.Urn));
+        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparatorSet(school.Urn, Referrer));
         
         var workforceComponent = page.GetElementById("compare-workforce");
         Assert.NotNull(workforceComponent);

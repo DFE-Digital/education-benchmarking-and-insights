@@ -11,14 +11,14 @@
     </div>
     <div class="govuk-grid-column-one-third">
         <p class="govuk-body">
-            <a href="" class="govuk-link govuk-link--no-visited-state">Change school</a>
+            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change school</a>
         </p>
     </div>
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">Compare your workforce data against similar schools</p>
-        <a href="" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        <a href="@Url.Action("Index", "SchoolComparatorSet", new { urn = Model.Urn, referrer = Referrers.SchoolWorkforce})" role="button" class="govuk-button" data-module="govuk-button">
             View your comparator set
         </a>
     </div>
