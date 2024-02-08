@@ -35,6 +35,7 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/types";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Props as LabelProps } from "recharts/types/component/Label";
+import { BaseAxisProps, CartesianTickItem } from "recharts/types/util/types";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title);
 
@@ -159,44 +160,6 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
       },
     }));
 
-    const yTick = (t: { payload: { value: string } }) => {
-      const {
-        payload: { value },
-      } = t;
-      return (
-        <Text
-          {...t}
-          fill="#1D70B8"
-          fontWeight={value === selectedSchool.name ? "bold" : "normal"}
-          cursor="pointer"
-          className="govuk-link"
-          onClick={() =>
-            (window.location.href = `/school/${data.find((d) => d.school === value)?.urn}`)
-          }
-          lineHeight={0}
-        >
-          {value}
-        </Text>
-      );
-    };
-
-    const labelList = (props: LabelProps) => {
-      const { x, y, width, height, value } = props;
-
-      return (
-        <g>
-          <Text
-            x={(x as number) + (width as number) + (height as number) / 2}
-            y={(y as number) + (height as number) / 2}
-            textAnchor="start"
-            dominantBaseline="middle"
-          >
-            {value}
-          </Text>
-        </g>
-      );
-    };
-
     const { width } = useWindowSize();
     const [activeTooltipIndex, setActiveTooltipIndex] = useState<number>();
     const handleBarChartMouseMove = (nextState: CategoricalChartState) => {
@@ -218,18 +181,28 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
           <BarChart
             data={data}
             layout="vertical"
-            barCategoryGap={2}
+            barCategoryGap={3}
             className="govuk-body-s govuk-!-font-size-14"
             onMouseMove={handleBarChartMouseMove}
+            margin={{ top: 0, right: 5, bottom: 15, left: 5 }}
           >
-            <XAxis type="number" stroke="#000" padding={{ left: 1 }}>
-              <Label value={xLabel} offset={0} position="insideBottom" />
+            <XAxis type="number" stroke="#000" tickFormatter={defaultFormatter}>
+              <Label value={xLabel} offset={0} position="bottom" />
             </XAxis>
             <YAxis
               dataKey="school"
               type="category"
               width={width ? width / 4 : undefined}
-              tick={(t) => yTick(t)}
+              tick={(t) => (
+                <SchoolTick
+                  {...t}
+                  selectedSchoolName={selectedSchool.name}
+                  linkToSchool
+                  schoolUrnResolver={(name) =>
+                    data.find((d) => d.school === name)?.urn
+                  }
+                />
+              )}
               stroke="#000"
             ></YAxis>
             <RechartsBar dataKey="value">
@@ -246,12 +219,86 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
                   key={`cell-${entry.urn}`}
                 />
               ))}
-              <LabelList dataKey="value" content={labelList} />
+              <LabelList dataKey="value" content={<LabelListContent />} />
             </RechartsBar>
-            <Tooltip cursor={false} separator=": " label={xLabel} />
+            <Tooltip
+              cursor={false}
+              separator=": "
+              label={xLabel}
+              formatter={(value, name) => [
+                defaultFormatter(value as number),
+                name,
+              ]}
+            />
           </BarChart>
         </ResponsiveContainer>
       </>
     );
   }
 );
+
+function LabelListContent(props: LabelProps) {
+  const { x, y, width, height, value } = props;
+
+  return (
+    <g>
+      <Text
+        x={(x as number) + (width as number) + (height as number) / 2}
+        y={(y as number) + (height as number) / 2}
+        textAnchor="start"
+        dominantBaseline="middle"
+      >
+        {defaultFormatter(value)}
+      </Text>
+    </g>
+  );
+}
+
+interface YTickProps extends Omit<BaseAxisProps, "scale"> {
+  payload: CartesianTickItem;
+  selectedSchoolName?: string;
+  linkToSchool?: boolean;
+  schoolUrnResolver?: (name: string) => string;
+}
+
+function SchoolTick(props: YTickProps) {
+  const {
+    payload: { value },
+    selectedSchoolName,
+    linkToSchool,
+    schoolUrnResolver,
+  } = props;
+  const urn = linkToSchool && schoolUrnResolver && schoolUrnResolver(value);
+  {
+    /* TODO: replace with custom version of https://github.com/recharts/recharts/blob/master/src/component/Text.tsx
+    to avoid CSS hackls to hide multiple <tspan>s */
+  }
+  return (
+    <Text
+      {...props}
+      fontWeight={value === selectedSchoolName ? "bold" : "normal"}
+      cursor={urn ? "pointer" : undefined}
+      className={urn ? "govuk-link govuk-link--no-visited-state" : undefined}
+      onClick={() => {
+        urn && (window.location.href = `/school/${urn}`);
+      }}
+      lineHeight={0}
+    >
+      {value}
+    </Text>
+  );
+}
+
+// example number formatting using Intl. This could be defined on a per-item basis rather than globally
+// and would be overridable via props (e.g. decimal places, currency, etc.)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function defaultFormatter(value: any) {
+  if (typeof value !== "number") {
+    return value;
+  }
+
+  return new Intl.NumberFormat("en-GB", {
+    notation: "compact",
+    compactDisplay: "short",
+  }).format(value);
+}

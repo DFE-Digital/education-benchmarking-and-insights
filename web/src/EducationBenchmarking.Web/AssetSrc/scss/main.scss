@@ -38,6 +38,17 @@
   }
 }
 
+// recharts
 .recharts-wrapper .yAxis .recharts-cartesian-axis-tick .recharts-text > tspan:not(:first-child) {
   display: none;
 }
+
+text.govuk-link {
+  fill: #1d70b8;
+}
+
+text.govuk-link:hover {
+  fill: #003078;
+}
+
+// /recharts
