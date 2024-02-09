@@ -68,5 +68,8 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
         Assert.NotNull(action);
 
         page = await SubmitForm(page.Forms[0], action);
+        
+        var expectedNextPageUrl = Paths.SchoolsCurriculumPlanningTotalExpenditure; 
+        DocumentAssert.AssertPageUrl(page, expectedNextPageUrl); 
     }
     }
