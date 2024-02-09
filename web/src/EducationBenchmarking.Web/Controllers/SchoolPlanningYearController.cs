@@ -147,6 +147,8 @@ public class SchoolPlanningYearController(
         {
             try
             {
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("TotalIncome", "SchoolPlanningYear", new { urn, year });
+
                 return View();
             }
             catch (Exception e)
