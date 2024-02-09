@@ -1,7 +1,7 @@
+@using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
     ViewBag.Title = PageTitleConstants.SchoolPlanningYear;
-    var previousYear = Model.CurrentYearEnd - 1;
 }
 
 <div class="govuk-grid-row">
@@ -9,14 +9,14 @@
         <span class="govuk-caption-l">@Model.Name</span>
         <h1 class="govuk-heading-l">@ViewBag.Title</h1>
         <p class="govuk-body">Here is some information we hold about your school.</p>
-        <h2 class="govuk-heading-m">Figures from @previousYear - @Model.CurrentYearEnd</h2>
+        <h2 class="govuk-heading-m">Figures from @(Model.CurrentYearEnd-1) - @Model.CurrentYearEnd</h2>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
                     Total income
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.CurrentTotalIncome
+                    @($"{Model.CurrentTotalIncome:C}")
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -24,7 +24,7 @@
                     Total expenditure
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.CurrentTotalExpenditure
+                    @($"{Model.CurrentTotalExpenditure:C}")
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -32,7 +32,7 @@
                     Total teacher costs
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.CurrentTotalTeacherCosts
+                    @($"{Model.CurrentTotalTeacherCosts:C}")
                 </dd>
             </div>
             @if (Model.IsPrimary)
@@ -42,7 +42,7 @@
                         Total education support staff costs
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                        @Model.CurrentEducationSupportStaffCosts
+                        @($"{Model.CurrentEducationSupportStaffCosts:C}")
                     </dd>
                 </div>
             }
@@ -64,15 +64,21 @@
                             Do you want to use these figures in your plan?
                         </h2>
                     </legend>
+                    @if (ViewData.ModelState.HasError("useFigures"))
+                    {
+                        <p id="year-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["useFigures"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
                     <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="useFigures-yes" name="useFigures" type="radio" value="true">
+                            <input class="govuk-radios__input" id="useFigures-yes" name="useFigures" type="radio" value="true" @(Model.UseFigures == true ? "checked" : "")>
                             <label class="govuk-label govuk-radios__label" for="useFigures-yes">
                                 Yes
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="useFigures-no" name="useFigures" type="radio" value="false">
+                            <input class="govuk-radios__input" id="useFigures-no" name="useFigures" type="radio" value="false" @(Model.UseFigures == false ? "checked" : "")>
                             <label class="govuk-label govuk-radios__label" for="useFigures-no">
                                 No
                             </label>

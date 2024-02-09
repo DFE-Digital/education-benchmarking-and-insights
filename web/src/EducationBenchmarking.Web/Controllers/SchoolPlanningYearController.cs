@@ -25,18 +25,19 @@ public class SchoolPlanningYearController(
         {
             try
             {
-                //TODO: Get if exists plan for school / year
-                //TODO: Display previous selection value if plan exists
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("SelectYear", "SchoolPlanning", new { urn });
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var viewModel = new SchoolPlanViewModel(school, finances, year);
-                return View(viewModel);
+                var existingPlan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
+
+                var viewModel = new SchoolPlanViewModel(school, finances, existingPlan, year);
+                return View(viewModel);  
+
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -49,14 +50,13 @@ public class SchoolPlanningYearController(
         {
             try
             {
-                //TODO: Get if exists plan for school / year
-                //TODO: If valid PUT plan data
-                //TODO: If invalid return error
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Start", "SchoolPlanning", new { urn });
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("SelectYear", "SchoolPlanning", new { urn });
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(school);
-                var viewModel = new SchoolPlanViewModel(school, finances, year);
+                var existingPlan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlan>();
+
+                var viewModel = new SchoolPlanViewModel(school, finances, existingPlan, year);
 
                 if (useFigures.HasValue)
                 {
@@ -78,16 +78,30 @@ public class SchoolPlanningYearController(
                             plan.EducationSupportStaffCosts = viewModel.CurrentEducationSupportStaffCosts;
                         }
                     }
+                    else
+                    {
+                        if (existingPlan != null)
+                        {
+                            plan.TotalIncome = existingPlan.TotalIncome;
+                            plan.TotalExpenditure = existingPlan.TotalExpenditure;
+                            plan.TotalTeacherCosts = existingPlan.TotalTeacherCosts;
+                            plan.TotalNumberOfTeachersFte = existingPlan.TotalNumberOfTeachersFte;
+                            if (viewModel.IsPrimary)
+                            {
+                                plan.EducationSupportStaffCosts = existingPlan.EducationSupportStaffCosts;
+                            }
+                        }
+                    }
 
                     await benchmarkApi.UpsertFinancialPlan(plan).EnsureSuccess();
-
                     return useFigures.Value
                         ? RedirectToAction("Timetable", new { urn, year })
                         : RedirectToAction("TotalIncome", new { urn, year });
                 }
-
+                ModelState.AddModelError("useFigures", "Select whether to use the above figures in your plan");
                 return View(viewModel);
             }
+
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
