@@ -17,7 +17,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplaySchool(string financeType)
+    public async Task CanDisplay(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 

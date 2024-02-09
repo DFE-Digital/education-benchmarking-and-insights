@@ -7,7 +7,7 @@ public class WhenViewingErrors(BenchmarkingWebAppFactory factory, ITestOutputHel
     : BenchmarkingWebAppClient(factory, output)
 {
     [Fact]
-    public async Task CanDisplayProblemWithServicePage()
+    public async Task CanDisplayProblemWithService()
     {
         var page = await Navigate(Paths.Error);
             
@@ -17,7 +17,7 @@ public class WhenViewingErrors(BenchmarkingWebAppFactory factory, ITestOutputHel
     [Theory]
     [InlineData(404, "Page not found")]
     [InlineData(500, "Sorry, there is a problem with the service")]
-    public async Task CanDisplayStatusErrorPage(int statusCode, string heading)
+    public async Task CanDisplayStatusError(int statusCode, string heading)
     {
         var page = await Navigate(Paths.StatusError(statusCode));
             

@@ -11,7 +11,7 @@ public class WhenViewingSchoolPlanningHelp(BenchmarkingWebAppFactory factory, IT
         output)
 {
     [Fact]
-    public async Task PageLayoutIsCorrect()
+    public async Task CanDisplay()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
 

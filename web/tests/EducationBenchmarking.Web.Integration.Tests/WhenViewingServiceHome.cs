@@ -7,7 +7,7 @@ public class WhenViewingServiceHome(BenchmarkingWebAppFactory factory, ITestOutp
     : BenchmarkingWebAppClient(factory, output)
 {
     [Fact]
-    public async Task CanDisplayHomepage()
+    public async Task CanDisplay()
     {
         var page = await Navigate(Paths.ServiceHome);
         

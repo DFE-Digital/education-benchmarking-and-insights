@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Web.Integration.Tests;
 public abstract class ClientBase<TStartup> : IDisposable
     where TStartup : class
 {
-    private HttpClient _http;
+    private HttpClient? _http;
     private readonly ITestOutputHelper _output;
 
     public ClientBase(WebApplicationFactory<TStartup> factory, ITestOutputHelper output)
@@ -32,17 +32,9 @@ public abstract class ClientBase<TStartup> : IDisposable
 
     public Task<IHtmlDocument> Follow(IElement? element)
     {
+        ArgumentNullException.ThrowIfNull(_http);
         Assert.NotNull(element);
-
-        async Task<IHtmlDocument> GetDocumentAsync(string? href) 
-        {
-            var response = await _http.GetAsync(href);
-#if DEBUG
-            _output.WriteLine($"↳ {response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
-#endif
-            return await response.GetDocumentAsync();
-        }
-
+        
         switch (element)
         {
             case IHtmlLinkElement link:
@@ -58,6 +50,8 @@ public abstract class ClientBase<TStartup> : IDisposable
         
     public async Task<IHtmlDocument> Navigate(string uri, Action<HttpResponseMessage>? responseValidation = null)
     {
+        ArgumentNullException.ThrowIfNull(_http);
+        
         var response = await _http.GetAsync(uri);
 #if DEBUG
         _output.WriteLine($"{response.RequestMessage?.Method} {response.RequestMessage?.RequestUri} [{(int)response.StatusCode}]");
@@ -68,16 +62,19 @@ public abstract class ClientBase<TStartup> : IDisposable
 
     public async Task<HttpResponseMessage> Get(string uri)
     {
+        ArgumentNullException.ThrowIfNull(_http);
         return await _http.GetAsync(uri);
     }
         
     public async Task<string> GetString(string uri)
     {
+        ArgumentNullException.ThrowIfNull(_http);
         return await _http.GetStringAsync(uri);
     }
 
-    public async Task<HttpResponseMessage> Send(string uri, Action<HttpRequestMessage> cfg = null)
+    public async Task<HttpResponseMessage> Send(string uri, Action<HttpRequestMessage>? cfg = null)
     {
+        ArgumentNullException.ThrowIfNull(_http);
         Debug.Assert(_http.BaseAddress != null, "Http.BaseAddress != null");
         
         var request = new HttpRequestMessage
@@ -94,23 +91,24 @@ public abstract class ClientBase<TStartup> : IDisposable
     public async Task<IHtmlDocument> SubmitForm(
         IElement formElement,
         IElement submitButtonElement,
-        Action<IHtmlFormElement> cfg = null
+        Action<IHtmlFormElement>? cfg = null
     ) => await SubmitFormRaw(formElement, submitButtonElement, cfg).GetDocumentAsync();
 
     public async Task<HttpResponseMessage> SubmitFormRaw(
         IElement formElement,
         IElement submitButtonElement,
-        Action<IHtmlFormElement> cfg = null)
+        Action<IHtmlFormElement>? cfg = null)
     {
+        ArgumentNullException.ThrowIfNull(_http);
         var form = Assert.IsAssignableFrom<IHtmlFormElement>(formElement);
         var submitButton = Assert.IsAssignableFrom<IHtmlButtonElement>(submitButtonElement);
             
         cfg?.Invoke(form);
            
         var submit = form.GetSubmission(submitButton);
-            
+        Assert.NotNull(submit);
         var target = (Uri)submit.Target;
-        if (!String.IsNullOrWhiteSpace(submitButton.Form.Action))
+        if (!string.IsNullOrWhiteSpace(submitButton.Form?.Action))
         {
             var formAction = submitButton.Form.Action;
             target = new Uri(formAction, UriKind.RelativeOrAbsolute);
@@ -140,11 +138,8 @@ public abstract class ClientBase<TStartup> : IDisposable
     {
         if (disposing)
         {
-            if (_http != null)
-            {
-                _http.Dispose();
-                _http = null;
-            }
+            _http?.Dispose();
+            _http = null;
         }
     }
 }

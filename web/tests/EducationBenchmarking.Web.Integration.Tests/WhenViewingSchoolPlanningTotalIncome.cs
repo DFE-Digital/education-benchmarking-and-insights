@@ -46,7 +46,7 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningYear(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
@@ -67,7 +67,7 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningYear(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total Income", "Total Income");
     }
 }

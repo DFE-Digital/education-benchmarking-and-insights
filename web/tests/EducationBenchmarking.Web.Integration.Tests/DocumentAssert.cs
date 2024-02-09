@@ -137,4 +137,39 @@ public static class DocumentAssert
             Assert.True(element.ClassList.Contains("govuk-button--disabled"), $"The {element.Id} should have govuk-button--disabled class supplied");
         }
     }
+    
+    public static void Radios(IElement parent, params (string, string, string, bool)[] options)
+    {
+        var index = 0;
+        foreach (var radioItem in parent.Descendents<IElement>()
+                     .Where(c => c.ClassList.Contains("govuk-radios__item")))
+        {
+            var (name, value, label, isChecked) = options[index];
+            var inputElement = Assert.IsAssignableFrom<IHtmlInputElement>(radioItem.Children[0]);
+            var labelElement = Assert.IsAssignableFrom<IHtmlLabelElement>(radioItem.Children[1]);
+
+            ValidateInputElement(name, value, isChecked, inputElement);
+            ValidateLabelElement(label, labelElement);
+
+            Assert.Equal(inputElement.Id, labelElement.HtmlFor);
+            index++;
+        }
+
+        void ValidateInputElement(string name, string value, bool isChecked, IHtmlInputElement e)
+        {
+            Assert.Equal("radio", e.Type);
+            Assert.Equal(name, e.Name);
+            Assert.Equal(value, e.Value);
+            Assert.Equal(isChecked, e.IsChecked);
+            Assert.True(e.ClassList.Contains("govuk-radios__input"),
+                "A radio input should have the 'govuk-radios__item' class applied");
+        }
+
+        void ValidateLabelElement(string label, IHtmlLabelElement e)
+        {
+            Assert.Equal(label, e.TextContent.Trim());
+            Assert.True(e.ClassList.Contains("govuk-label") && e.ClassList.Contains("govuk-radios__label"),
+                "A radio input should have the 'govuk-label' and 'govuk-radios__label' classes applied");
+        }
+    }
 }
