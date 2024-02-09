@@ -17,6 +17,7 @@ public static class Paths
     public static string SchoolCurriculumPlanningYear(string urn, int year) => $"/school/{urn}/financial-planning/{year}";
     public static string SchoolCurriculumPlanningTotalIncome(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-income";
     public static string SchoolCurriculumPlanningHelp(string urn) => $"/school/{urn}/financial-planning/help";
+    public static string SchoolCurriculumPlanningTotalExpenditure(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-expenditure";
 
     public static string ToAbsolute(this string path)
     {
