@@ -56,4 +56,5 @@ public static class PageTitleConstants
     public const string SchoolPlanningYearSelect = "Select academic year to plan";
     public const string SchoolPlanningYear = "Prepopulated data";
     public const string SchoolPlanningHelp = "Data required for curriculum and financial planning (CFP)";
+    public const string SchoolPlanningTotalIncome = "Total Income";
 }

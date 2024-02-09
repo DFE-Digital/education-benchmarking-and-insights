@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AngleSharp.Html.Dom;
+﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
@@ -11,8 +10,9 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
     : BenchmarkingWebAppClient(factory,
         output)
 {
-    private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
-    
+    private static readonly int CurrentYear =
+        DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -21,6 +21,21 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         AssertPageLayout(page, school);
+    }
+
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanSubmitForm(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await SubmitForm(page.Forms[0], action);
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
     }
     
     [Fact]
@@ -33,7 +48,7 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningYear(school.Urn, CurrentYear).ToAbsolute());
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()

@@ -126,8 +126,8 @@ public class SchoolPlanningYearController(
             try
             {
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo("Index", "SchoolPlanningYear", new { urn, year });
-
-                return View();
+                var viewModel = new SchoolPlanViewModel(new School { Urn = urn }, year);
+                return View(viewModel);
             }
             catch (Exception e)
             {
@@ -201,6 +201,36 @@ public class SchoolPlanningYearController(
             }
         }
     }
+    
+    
+    [HttpPost]
+    [Route("total-income")]
+    public IActionResult TotalIncome(string urn, int year, decimal? totalIncome)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+              
+                
+                return RedirectToAction("TotalExpenditure", "SchoolPlanningYear", new { urn, year });
+
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred while processing total income: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s 
+                    ? StatusCode((int)s.Status) 
+                    : StatusCode(500);
+            }
+        }
+    }
+    
+    
+    
+    
+    
+    
 }
 
     
