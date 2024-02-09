@@ -1,5 +1,4 @@
-﻿using System.Net;
-using AngleSharp.Html.Dom;
+﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
@@ -24,6 +23,21 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
         AssertPageLayout(page, school);
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanSubmitForm(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await SubmitForm(page.Forms[0], action);
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
+    }
+    
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -56,20 +70,4 @@ public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory fact
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningYear(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total Income", "Total Income");
     }
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task Arrange(string financeType)
-    {
-        var (page, school) = await SetupNavigateInitPage(financeType);
-        AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
-        Assert.NotNull(action);
-
-        page = await SubmitForm(page.Forms[0], action);
-        
-        var expectedNextPageUrl = Paths.SchoolsCurriculumPlanningTotalExpenditure; 
-        DocumentAssert.AssertPageUrl(page, expectedNextPageUrl); 
-    }
-    }
+}
