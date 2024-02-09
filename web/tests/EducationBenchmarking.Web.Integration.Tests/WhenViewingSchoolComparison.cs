@@ -12,6 +12,8 @@ namespace EducationBenchmarking.Web.Integration.Tests;
 public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory, output)
 {
+    private const string Referrer = "school-comparison";
+    
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -34,7 +36,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         page = await Follow(anchor);
 
         //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
 
     [Theory]
@@ -48,8 +50,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
 
         page = await Follow(anchor);
 
-        //TODO: amend path once functionality added
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
 
     [Theory]
@@ -63,9 +64,9 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
+        page = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
     }
 
     [Theory]
@@ -133,6 +134,7 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
 
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
+            .SetupBenchmark()
             .Navigate(Paths.SchoolComparison(school.Urn));
 
         return (page, school);
@@ -153,10 +155,10 @@ public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITes
         DocumentAssert.TitleAndH1(page, "Compare your costs","Compare your costs");
         
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        DocumentAssert.Link(changeLinkElement, "Change school", Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
         
         var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
-        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparison(school.Urn));
+        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparatorSet(school.Urn, Referrer));
         
         var comparisonComponent = page.GetElementById("compare-your-school");
         Assert.NotNull(comparisonComponent);

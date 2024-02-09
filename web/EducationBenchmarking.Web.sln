@@ -19,6 +19,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\provider.tf = terraform\provider.tf
 		terraform\terraform.tfvars = terraform\terraform.tfvars
 		terraform\variables.tf = terraform\variables.tf
+		terraform\cache.tf = terraform\cache.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{FAEF5E55-1BF1-40C6-ACED-560351518D95}"
@@ -26,10 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		pipelines\build.yaml = pipelines\build.yaml
 		pipelines\steps-web-build.yaml = pipelines\steps-web-build.yaml
 		pipelines\jobs-web-deployment.yaml = pipelines\jobs-web-deployment.yaml
-		pipelines\steps-web-publish-static-artifacts.yaml = pipelines\steps-web-publish-static-artifacts.yaml
 		pipelines\steps-web-run-unit-tests.yaml = pipelines\steps-web-run-unit-tests.yaml
-		pipelines\steps-web-scan-terraform.yaml = pipelines\steps-web-scan-terraform.yaml
-		pipelines\steps-web-fmt-validate-terraform.yaml = pipelines\steps-web-fmt-validate-terraform.yaml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EducationBenchmarking.Web.A11yTests", "tests\EducationBenchmarking.Web.A11yTests\EducationBenchmarking.Web.A11yTests.csproj", "{7E0284C5-1887-441F-BA1C-03343AE414C8}"

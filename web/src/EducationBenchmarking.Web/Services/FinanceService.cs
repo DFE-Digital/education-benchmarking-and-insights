@@ -7,8 +7,8 @@ namespace EducationBenchmarking.Web.Services;
 
 public interface IFinanceService
 {
-    Task<PagedResults<SchoolExpenditure>> GetExpenditure(string urn);
-    Task<PagedResults<SchoolWorkforce>> GetWorkforce(string urn);
+    Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools);
+    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School>schools);
     Task<(Finances, Rating[])> GetRatings(School school);
     Task<Finances> GetFinances(School school);
     Task<Finances> GetFinances(Trust trust);
@@ -22,17 +22,15 @@ public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) 
         return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
     }
 
-    public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(string urn)
+    public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools)
     {
-        var set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
-        var query = BuildApiQueryFromComparatorSet(set);
+        var query = BuildApiQueryFromComparatorSet(schools);
         return await insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
     }
 
-    public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(string urn)
+    public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools)
     {
-        var set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
-        var query = BuildApiQueryFromComparatorSet(set);
+        var query = BuildApiQueryFromComparatorSet(schools);
         return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
     }
 
@@ -77,10 +75,11 @@ public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) 
         return new Finances();
     }
     
-    private static ApiQuery BuildApiQueryFromComparatorSet(ComparatorSet<School> set)
+    private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<School> schools)
     {
-        var query = new ApiQuery().Page(1, set.TotalResults);
-        foreach (var school in set.Results)
+        var array = schools.ToArray();
+        var query = new ApiQuery().Page(1, array.Length);
+        foreach (var school in array)
         {
             query.AddIfNotNull("urns", school.Urn);
         }

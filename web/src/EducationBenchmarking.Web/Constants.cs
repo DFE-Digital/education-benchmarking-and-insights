@@ -26,7 +26,16 @@ public static class Constants
     public static IEnumerable<int> AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
 }
 
+public static class Referrers
+{
+    public const string SchoolComparison = "school-comparison";
+    public const string SchoolWorkforce = "school-workforce";
+}
 
+public static class SessionKeys
+{
+    public static string SchoolComparatorSet(string urn) => $"school-comparator-set-{urn}";
+}
 public static class ViewDataConstants
 {
     public const string Backlink = nameof(Backlink);

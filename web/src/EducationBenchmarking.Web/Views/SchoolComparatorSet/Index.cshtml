@@ -1,0 +1,39 @@
+@using EducationBenchmarking.Web.ViewModels
+@model EducationBenchmarking.Web.ViewModels.SchoolComparatorSetViewModel
+@{
+    ViewBag.Title = "School comparator set";
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">[INSERT SCHOOL NAME]</span>
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @using (Html.BeginForm("Index", "SchoolComparatorSet", new { urn = Model.Urn, referrer = Model.Referrer }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action" value="reset">Reset</button>
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        @foreach (var school in Model.Schools)
+                        {
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    @school.Name
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                    <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button" name="action" value="remove-@school.Urn">Remove<span class="govuk-visually-hidden"> @school.Name</span></button>
+                                </dd>
+                            </div>
+                        }
+                    </dl>
+                </div>
+            </div>
+        }
+    </div>
+</div>

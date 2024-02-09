@@ -12,7 +12,7 @@ namespace EducationBenchmarking.Web.Controllers;
 public class ProxyController(
     ILogger<ProxyController> logger,
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService)
+    IFinanceService financeService, IComparatorSetService comparatorSetService)
     : Controller
 {
     [HttpGet]
@@ -24,7 +24,8 @@ public class ProxyController(
         {
             try
             {
-                var result = await financeService.GetExpenditure(urn);
+                var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
+                var result = await financeService.GetExpenditure(set.Results);
                 return new JsonResult(result);
             }
             catch (Exception e)
@@ -44,7 +45,8 @@ public class ProxyController(
         {
             try
             {
-                var result = await financeService.GetWorkforce(urn);
+                var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
+                var result = await financeService.GetWorkforce(set.Results);
                 return new JsonResult(result);
             }
             catch (Exception e)
