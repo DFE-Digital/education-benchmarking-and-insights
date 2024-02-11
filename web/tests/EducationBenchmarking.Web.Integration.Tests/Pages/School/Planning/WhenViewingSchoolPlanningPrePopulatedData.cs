@@ -8,7 +8,7 @@ using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
 
 public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -206,10 +206,10 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, School school, Finances finances)> SetupNavigateInitPage(string financeType,
+    private async Task<(IHtmlDocument page, Domain.School school, Finances finances)> SetupNavigateInitPage(string financeType,
         string phase, bool? useFigures = null)
     {
-        var school = Fixture.Build<School>()
+        var school = Fixture.Build<Domain.School>()
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, phase)
             .Create();
@@ -220,13 +220,11 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
             .With(x => x.YearEnd, FinancesYear)
             .Create();
 
-        var plan = useFigures != null
-            ? Fixture.Build<FinancialPlan>()
+        var plan = Fixture.Build<FinancialPlan>()
                 .With(x => x.Urn, school.Urn)
                 .With(x => x.Year, PlanYear)
                 .With(x => x.UseFigures, useFigures)
-                .Create()
-            : null;
+                .Create();
         
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
@@ -236,7 +234,7 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
         return (page, school, finances);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, Finances finances)
+    private static void AssertPageLayout(IHtmlDocument page, Domain.School school, Finances finances)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Prepopulated data", "Prepopulated data");
@@ -255,7 +253,7 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
             Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, PlanYear));
     }
 
-    private static void AssertCostsTable(IParentNode page, School school, Finances finances)
+    private static void AssertCostsTable(IParentNode page, Domain.School school, Finances finances)
     {
         var values = page.QuerySelectorAll("dd");
 

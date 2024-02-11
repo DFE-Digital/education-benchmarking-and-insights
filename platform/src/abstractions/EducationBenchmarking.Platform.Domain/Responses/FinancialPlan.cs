@@ -17,7 +17,7 @@ public record FinancialPlan
     public decimal? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
-    public bool UseFigures { get; set; }
+    public bool? UseFigures { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {

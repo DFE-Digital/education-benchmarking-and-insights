@@ -7,12 +7,12 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School;
 
-public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+public class WhenViewingSchoolComparison(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory, output)
 {
-    private const string Referrer = "school-workforce";
+    private const string Referrer = "school-comparison";
     
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -29,12 +29,13 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToChangeSchool(string financeType)
     {
-        var (page, _) = await SetupNavigateInitPage(financeType);
-
+        var (page, school) = await SetupNavigateInitPage(financeType);
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         Assert.NotNull(anchor);
 
         page = await Follow(anchor);
+
+        //TODO: amend path once functionality added
         DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
 
@@ -44,12 +45,11 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     public async Task CanNavigateToComparatorSet(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
-
         var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         Assert.NotNull(anchor);
 
         page = await Follow(anchor);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
 
@@ -64,9 +64,9 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
-        var newPage = await Follow(anchor);
+        page = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
     }
 
     [Theory]
@@ -88,7 +88,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToCompareCosts(string financeType)
+    public async Task CanNavigateToWorkforceBenchmark(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -98,7 +98,7 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
 
         var newPage = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
     
     [Fact]
@@ -106,9 +106,9 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     {
         const string urn = "12345";
         var page = await SetupEstablishmentWithNotFound()
-            .Navigate(Paths.SchoolWorkforce(urn));
+            .Navigate(Paths.SchoolComparison(urn));
         
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(urn).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(), HttpStatusCode.NotFound);
     }
     
     [Fact]
@@ -116,14 +116,14 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
     {
         const string urn = "12345";
         var page = await SetupEstablishmentWithException()
-            .Navigate(Paths.SchoolWorkforce(urn));
+            .Navigate(Paths.SchoolComparison(urn));
         
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(),HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, Domain.School school)> SetupNavigateInitPage(string financeType)
     {
-        var school = Fixture.Build<School>()
+        var school = Fixture.Build<Domain.School>()
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -135,41 +135,42 @@ public class WhenViewingSchoolWorkforce(BenchmarkingWebAppFactory factory, ITest
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark()
-            .Navigate(Paths.SchoolWorkforce(school.Urn));
+            .Navigate(Paths.SchoolComparison(school.Urn));
 
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+
+    private static void AssertPageLayout(IHtmlDocument page, Domain.School school)
     {
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute()),
+            ("Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute()),
         };
         
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page,expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark workforce data","Benchmark workforce data");
-            
+        DocumentAssert.TitleAndH1(page, "Compare your costs","Compare your costs");
+        
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-            
+        
         var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparatorSet(school.Urn, Referrer));
         
-        var workforceComponent = page.GetElementById("compare-workforce");
-        Assert.NotNull(workforceComponent);
-
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
-        DocumentAssert.Heading2(toolsSection, "Finance tools");
+        var comparisonComponent = page.GetElementById("compare-your-school");
+        Assert.NotNull(comparisonComponent);
         
-        var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
+        var toolsListSection = page.Body.SelectSingleNode("//main/div/div[4]");
+        DocumentAssert.Heading2(toolsListSection, "Finance tools");
+
+        var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "View your areas for investigation", Paths.SchoolInvestigation(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[0],"View your areas for investigation", Paths.SchoolInvestigation(school.Urn).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolCurriculumPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[2], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
 }

@@ -1,11 +1,10 @@
-using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
 
 public class WhenViewingSchoolPlanningTotalNumberTeachers(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -34,23 +33,30 @@ public class WhenViewingSchoolPlanningTotalNumberTeachers(BenchmarkingWebAppFact
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
     }
     
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, Domain.School school)> SetupNavigateInitPage(string financeType)
     {
-        var school = Fixture.Build<School>()
+        var school = Fixture.Build<Domain.School>()
             .With(x => x.FinanceType, financeType)
             .Create();
 
         var finances = Fixture.Build<Finances>()
             .Create();
 
+        var plan = Fixture.Build<FinancialPlan>()
+            .With(x => x.Urn, school.Urn)
+            .With(x => x.Year, CurrentYear)
+            .With(x => x.UseFigures, false)
+            .Create();
+        
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
+            .SetupBenchmark(plan)
             .Navigate(Paths.SchoolCurriculumPlanningTotalNumberTeachers(school.Urn, CurrentYear));
 
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, Domain.School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total number of teachers", "Total number of teachers");

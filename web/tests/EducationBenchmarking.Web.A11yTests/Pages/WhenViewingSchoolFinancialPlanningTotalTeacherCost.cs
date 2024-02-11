@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningTotalTeacherCost(WebDriver driver
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/{TestConfiguration.PlanYear}/total-teacher-cost";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/total-teacher-cost?year={TestConfiguration.PlanYear}";
 }

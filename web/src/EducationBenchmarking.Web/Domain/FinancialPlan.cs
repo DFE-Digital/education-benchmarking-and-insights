@@ -4,7 +4,7 @@
     {
         public int Year { get; set; }
         public string? Urn { get; set; }
-        public bool UseFigures { get; set; }
+        public bool? UseFigures { get; set; }
         public decimal? TotalIncome { get; set; }
         public decimal? TotalExpenditure { get; set; }
         public decimal? TotalTeacherCosts { get; set; }

@@ -4,6 +4,7 @@ namespace EducationBenchmarking.Web.ViewModels;
 
 public class SchoolPlanViewModel(School school)
 {
+    
     private readonly FinancialPlan? _plan;
     public SchoolPlanViewModel(School school, int? year, FinancialPlan? plan = null) : this(school)
     {
@@ -16,6 +17,10 @@ public class SchoolPlanViewModel(School school)
     public string Urn => school.Urn;
     public bool? UseFigures => _plan?.UseFigures;
     public bool IsPrimary => school.IsPrimary;
+    public decimal? TotalIncome => _plan?.TotalIncome;
+    public decimal? TotalExpenditure => _plan?.TotalExpenditure;
+    public decimal? TotalTeacherCosts => _plan?.TotalTeacherCosts;
+    public decimal? TotalNumberOfTeachersFte => _plan?.TotalNumberOfTeachersFte;
 }
 
 public class SchoolPlanFinancesViewModel(School school, Finances finances, int year, FinancialPlan? plan)

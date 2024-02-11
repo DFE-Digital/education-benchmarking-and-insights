@@ -62,12 +62,12 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
         }
     }
 
-    private static BacklinkInfo RefererInfo(string referrer, string urn)
+    private BacklinkInfo RefererInfo(string referrer, string urn)
     {
         return referrer switch
         {
-            Referrers.SchoolComparison => new BacklinkInfo("Index", "SchoolComparison", new { urn }),
-            Referrers.SchoolWorkforce => new BacklinkInfo("Index", "SchoolWorkforce", new { urn }),
+            Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn })),
+            Referrers.SchoolWorkforce => new BacklinkInfo(Url.Action("Index", "SchoolWorkforce", new { urn })),
             _ => throw new ArgumentOutOfRangeException(nameof(referrer))
         };
     }

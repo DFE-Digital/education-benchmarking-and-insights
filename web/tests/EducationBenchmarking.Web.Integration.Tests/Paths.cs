@@ -13,15 +13,15 @@ public static class Paths
     public static string SchoolWorkforce(string urn) => $"/school/{urn}/workforce";
     public static string SchoolInvestigation(string urn) => $"/school/{urn}/investigation";
     public static string SchoolCurriculumPlanning(string urn) => $"/school/{urn}/financial-planning";
-    public static string SchoolCurriculumPlanningStart(string urn) => $"/school/{urn}/financial-planning/start";
-    public static string SchoolCurriculumPlanningSelectYear(string urn) => $"/school/{urn}/financial-planning/select-year";
-    public static string SchoolCurriculumPlanningTotalIncome(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-income";
-    public static string SchoolCurriculumPlanningPrePopulatedData(string urn, int year) => $"/school/{urn}/financial-planning/{year}";
-    public static string SchoolCurriculumPlanningTimetable(string urn, int year) => $"/school/{urn}/financial-planning/{year}/timetable";
-    public static string SchoolCurriculumPlanningHelp(string urn) => $"/school/{urn}/financial-planning/help";
-    public static string SchoolCurriculumPlanningTotalExpenditure(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-expenditure";
-    public static string SchoolCurriculumPlanningTotalTeacherCost(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-teacher-cost";
-    public static string SchoolCurriculumPlanningTotalNumberTeachers(string urn, int year) => $"/school/{urn}/financial-planning/{year}/total-number-teachers";
+    public static string SchoolCurriculumPlanningStart(string urn) => $"/school/{urn}/financial-planning/steps/start";
+    public static string SchoolCurriculumPlanningSelectYear(string urn) => $"/school/{urn}/financial-planning/steps/select-year";
+    public static string SchoolCurriculumPlanningTotalIncome(string urn, int year) => $"/school/{urn}/financial-planning/steps/total-income?year={year}";
+    public static string SchoolCurriculumPlanningPrePopulatedData(string urn, int year) => $"/school/{urn}/financial-planning/steps/pre-populate-data?year={year}";
+    public static string SchoolCurriculumPlanningTimetable(string urn, int year) => $"/school/{urn}/financial-planning/steps/timetable?year={year}";
+    public static string SchoolCurriculumPlanningHelp(string urn) => $"/school/{urn}/financial-planning/steps/help";
+    public static string SchoolCurriculumPlanningTotalExpenditure(string urn, int year) => $"/school/{urn}/financial-planning/steps/total-expenditure?year={year}";
+    public static string SchoolCurriculumPlanningTotalTeacherCost(string urn, int year) => $"/school/{urn}/financial-planning/steps/total-teacher-costs?year={year}";
+    public static string SchoolCurriculumPlanningTotalNumberTeachers(string urn, int year) => $"/school/{urn}/financial-planning/steps/total-number-teachers?year={year}";
     
     public static string ToAbsolute(this string path)
     {

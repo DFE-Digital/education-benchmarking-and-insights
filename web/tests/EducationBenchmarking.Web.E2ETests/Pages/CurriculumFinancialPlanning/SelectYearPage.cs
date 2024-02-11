@@ -32,7 +32,7 @@ public class SelectYearPage(PageHook page)
     
     private static string PageUrl(string urn)
     {
-        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/select-year";
+        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/select-year";
     }
 
     public async Task ChooseYear(string year)

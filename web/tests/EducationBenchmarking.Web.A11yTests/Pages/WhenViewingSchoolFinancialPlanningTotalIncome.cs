@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningTotalIncome(WebDriver driver, ITe
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/{TestConfiguration.PlanYear}/total-income";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/total-income?year={TestConfiguration.PlanYear}";
 }

@@ -5,7 +5,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
 
 public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -130,23 +130,29 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
     }
     
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, Domain.School school)> SetupNavigateInitPage(string financeType)
     {
-        var school = Fixture.Build<School>()
+        var school = Fixture.Build<Domain.School>()
             .With(x => x.FinanceType, financeType)
             .Create();
 
         var finances = Fixture.Build<Finances>()
             .Create();
+        
+        var plan = Fixture.Build<FinancialPlan>()
+            .With(x => x.Urn, school.Urn)
+            .With(x => x.Year, CurrentYear)
+            .Create();
 
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
+            .SetupBenchmark(plan)
             .Navigate(Paths.SchoolCurriculumPlanningSelectYear(school.Urn));
 
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, Domain.School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningStart(school.Urn).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Select academic year to plan", "Select academic year to plan");

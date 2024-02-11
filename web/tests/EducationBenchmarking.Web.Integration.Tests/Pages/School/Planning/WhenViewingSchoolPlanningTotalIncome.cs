@@ -1,13 +1,12 @@
-using System.Net;
-using AngleSharp.Html.Dom;
+﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
 
-public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
+public class WhenViewingSchoolPlanningTotalIncome(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
         output)
 {
@@ -35,11 +34,10 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
         Assert.NotNull(action);
 
         page = await SubmitForm(page.Forms[0], action);
-
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
     }
-
+    
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -48,31 +46,35 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolCurriculumPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, Domain.School school)> SetupNavigateInitPage(string financeType)
     {
-        var school = Fixture.Build<School>()
+        var school = Fixture.Build<Domain.School>()
             .With(x => x.FinanceType, financeType)
             .Create();
 
         var finances = Fixture.Build<Finances>()
             .Create();
 
+        var plan = Fixture.Build<FinancialPlan>()
+            .With(x => x.Urn, school.Urn)
+            .With(x => x.Year, CurrentYear)
+            .With(x => x.UseFigures, false)
+            .Create();
+        
         var page = await SetupEstablishment(school)
             .SetupInsights(school, finances)
-            .Navigate(Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear));
+            .SetupBenchmark(plan)
+            .Navigate(Paths.SchoolCurriculumPlanningTotalIncome(school.Urn, CurrentYear));
 
         return (page, school);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school)
+    private static void AssertPageLayout(IHtmlDocument page, Domain.School school)
     {
-        DocumentAssert.BackLink(page, "Back",
-            Paths.SchoolCurriculumPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total Expenditure", "Total Expenditure");
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Total income", "Total income");
     }
-
 }
