@@ -30,7 +30,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
                     Parent = parentNode
                 };
 
-                ViewData["BreadcrumbNode"] = childNode;
+                ViewData[ViewDataConstants.BreadcrumbNode] = childNode;
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);

@@ -22,7 +22,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
             {
                 var node = new MvcBreadcrumbNode("Index", "Trust", "Your trust") { RouteValues = new { companyNumber } };
 
-                ViewData["BreadcrumbNode"] = node;
+                ViewData[ViewDataConstants.BreadcrumbNode] = node;
                 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 

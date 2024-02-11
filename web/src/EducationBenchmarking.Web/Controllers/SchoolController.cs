@@ -26,7 +26,7 @@ public class SchoolController(
             {
                 var node = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
                 
-                ViewData["BreadcrumbNode"] = node; 
+                ViewData[ViewDataConstants.BreadcrumbNode] = node; 
                 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var (finances,ratings) = await financeService.GetRatings(school);

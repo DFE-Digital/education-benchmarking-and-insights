@@ -39,6 +39,8 @@ public static class SessionKeys
 public static class ViewDataConstants
 {
     public const string Backlink = nameof(Backlink);
+    public const string Title = nameof(Title);
+    public const string BreadcrumbNode = nameof(BreadcrumbNode);
 }
 
 public static class PageTitleConstants

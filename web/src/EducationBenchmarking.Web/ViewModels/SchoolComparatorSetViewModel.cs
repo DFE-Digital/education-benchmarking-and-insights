@@ -6,5 +6,6 @@ public class SchoolComparatorSetViewModel(School school, ComparatorSet<School> c
 {
     public IEnumerable<School> Schools => comparatorSet.Results;
     public string Urn => school.Urn;
+    public string Name => school.Name;
     public string Referrer => referrer;
 }

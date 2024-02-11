@@ -2,13 +2,13 @@
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 
 @{
-    ViewBag.Title = PageTitleConstants.SchoolPlanningTotalIncome;
+    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningTotalIncome;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
         @using (Html.BeginForm("TotalIncome", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.TotalIncome)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">

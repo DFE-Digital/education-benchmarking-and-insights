@@ -18,7 +18,7 @@ public class SchoolInvestigationAreaController : Controller
             Parent = parentNode
         };
 
-        ViewData["BreadcrumbNode"] = childNode;
+        ViewData[ViewDataConstants.BreadcrumbNode] = childNode;
 
         return View(new SchoolInvestigationViewModel { Urn = urn });
     }

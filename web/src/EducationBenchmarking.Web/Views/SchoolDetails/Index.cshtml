@@ -1,9 +1,9 @@
 @{
-    ViewBag.Title = PageTitleConstants.SchoolDetails;
+    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolDetails;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">@ViewData["Title"]</h1>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
     </div>
 </div>

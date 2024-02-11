@@ -23,7 +23,7 @@ public class SchoolDetailsController(ILogger<SchoolDetailsController> logger) : 
                     Parent = parentNode
                 };
                 
-                ViewData["BreadcrumbNode"] = childNode; 
+                ViewData[ViewDataConstants.BreadcrumbNode] = childNode; 
                 
                 return View();
             }

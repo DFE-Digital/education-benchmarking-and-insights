@@ -31,7 +31,7 @@ public class SchoolComparisonController(
                     Parent = parentNode
                 };
                 
-                ViewData["BreadcrumbNode"] = childNode; 
+                ViewData[ViewDataConstants.BreadcrumbNode] = childNode; 
                 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await financeService.GetYears();

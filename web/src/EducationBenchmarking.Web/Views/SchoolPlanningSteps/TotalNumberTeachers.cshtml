@@ -1,12 +1,12 @@
 @using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
-    ViewBag.Title = PageTitleConstants.SchoolPlanningTotalNumberTeachers;
+    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningTotalNumberTeachers;
 }
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
         @using (Html.BeginForm("TotalNumberTeachers", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.TotalNumberOfTeachersFte)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">

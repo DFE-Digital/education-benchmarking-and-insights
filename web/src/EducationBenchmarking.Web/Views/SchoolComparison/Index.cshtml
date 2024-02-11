@@ -1,13 +1,13 @@
 ﻿@using EducationBenchmarking.Web.ViewModels.Components
 @model EducationBenchmarking.Web.ViewModels.SchoolComparisonViewModel
 @{
-    ViewBag.Title = PageTitleConstants.SchoolComparison;
+    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolComparison;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">Compare your costs</h1>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
     </div>
     <div class="govuk-grid-column-one-third">
         <p class="govuk-body">

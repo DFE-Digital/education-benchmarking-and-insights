@@ -1,13 +1,12 @@
-@using EducationBenchmarking.Web.ViewModels
 @model EducationBenchmarking.Web.ViewModels.SchoolComparatorSetViewModel
 @{
-    ViewBag.Title = "School comparator set";
+    ViewData[ViewDataConstants.Title] = "School comparator set";
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">[INSERT SCHOOL NAME]</span>
-        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
     </div>
 </div>
 <div class="govuk-grid-row">
@@ -27,7 +26,10 @@
                                     @school.Name
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
-                                    <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button" name="action" value="remove-@school.Urn">Remove<span class="govuk-visually-hidden"> @school.Name</span></button>
+                                    @if (school.Urn != Model.Urn)
+                                    {
+                                        <button type="submit" class="govuk-button govuk-button--warning" data-module="govuk-button" name="action" value="remove-@school.Urn">Remove<span class="govuk-visually-hidden"> @school.Name</span></button>    
+                                    }
                                 </dd>
                             </div>
                         }
