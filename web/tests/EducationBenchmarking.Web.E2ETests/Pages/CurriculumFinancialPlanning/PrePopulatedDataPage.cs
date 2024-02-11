@@ -20,6 +20,6 @@ public class PrePopulatedDataPage(PageHook page)
     
     private static string PageUrl(string urn, int year)
     {
-        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/{year}";
+        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/pre-populate-data?year={year}";
     }
 }

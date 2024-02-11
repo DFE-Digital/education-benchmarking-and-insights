@@ -17,5 +17,5 @@ public record FinancialPlanDataObject
     [JsonProperty("totalTeacherCosts")] public decimal? TotalTeacherCosts { get; set; }
     [JsonProperty("totalNumberOfTeachersFte")] public decimal? TotalNumberOfTeachersFte { get; set; }
     [JsonProperty("educationSupportStaffCosts")] public decimal? EducationSupportStaffCosts { get; set; }
-    [JsonProperty("useFigures")] public bool UseFigures { get; set; }
+    [JsonProperty("useFigures")] public bool? UseFigures { get; set; }
 }

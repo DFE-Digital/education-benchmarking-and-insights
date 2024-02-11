@@ -3,7 +3,7 @@ namespace EducationBenchmarking.Platform.Domain.Requests;
 public record FinancialPlanRequest
 {
     public string? User { get; set; }
-    public bool UseFigures { get; set; }
+    public bool? UseFigures { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeacherCosts { get; set; }

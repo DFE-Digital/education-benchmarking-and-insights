@@ -1,0 +1,38 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
+@{
+    ViewBag.Title = PageTitleConstants.SchoolPlanningTotalTeacherCosts;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewBag.Title</h1>
+        @using (Html.BeginForm("TotalTeacherCosts", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.TotalTeacherCosts)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <label class="govuk-label govuk-label--m" for="total-teacher">
+                    What is your total spend on teaching staff?
+                </label>
+                <div id="event-name-hint" class="govuk-hint">
+                    Enter a value
+                </div>
+                @if (ViewData.ModelState.HasError(nameof(Model.TotalTeacherCosts)))
+                {
+                    <p id="total-teacher-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TotalTeacherCosts)]?.Errors.First().ErrorMessage
+                    </p>
+                }
+                <div class="govuk-input__wrapper">
+                    <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                    <input class="govuk-input govuk-input--width-10" id="total-teacher" name="@nameof(Model.TotalTeacherCosts)" type="number" spellcheck="false" value="@Model.TotalTeacherCosts">
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Continue
+                </button>
+            </div>
+        }
+    </div>
+</div>

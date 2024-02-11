@@ -38,6 +38,6 @@ public class StartPage(PageHook page)
     
     private static string PageUrl(string urn)
     {
-        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/start";
+        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/start";
     }
 }

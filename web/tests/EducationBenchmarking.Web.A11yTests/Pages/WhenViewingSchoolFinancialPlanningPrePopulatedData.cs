@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningPrePopulatedData(WebDriver driver
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/{TestConfiguration.PlanYear}";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/pre-populate-data?year={TestConfiguration.PlanYear}";
 }

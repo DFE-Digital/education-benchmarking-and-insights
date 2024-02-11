@@ -14,7 +14,7 @@ public class HelpPage(PageHook page)
 
     public async Task AssertPage()
     {
-        _page.Url.Should().EndWith("/financial-planning/help");
+        _page.Url.Should().EndWith("/financial-planning/steps/help");
         await PageH1Heading.ShouldBeVisible();
         await BackLink.ShouldBeVisible();
     }
@@ -31,6 +31,6 @@ public class HelpPage(PageHook page)
 
     private static string PageUrl(string urn)
     {
-        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/help";
+        return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/help";
     }
 }

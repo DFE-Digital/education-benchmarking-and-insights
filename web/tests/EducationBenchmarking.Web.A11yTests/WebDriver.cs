@@ -1,4 +1,6 @@
+using System.Net;
 using Microsoft.Playwright;
+using Xunit;
 
 namespace EducationBenchmarking.Web.A11yTests;
 
@@ -6,7 +8,7 @@ public class WebDriver: IDisposable
 {
     private IBrowser? _browser;
 
-    public async Task<IPage> GetPage(string url)
+    public async Task<IPage> GetPage(string url, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         var playwrightInstance = await Playwright.CreateAsync();
 
@@ -17,8 +19,11 @@ public class WebDriver: IDisposable
         var browserContext = await _browser.NewContextAsync(contextOptions);
 
         var page = await browserContext.NewPageAsync();
-        await page.GotoAsync(url);
+        var response = await page.GotoAsync(url);
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        
+        Assert.Equal((int)statusCode, response?.Status);
+        
         return page;
     }
     

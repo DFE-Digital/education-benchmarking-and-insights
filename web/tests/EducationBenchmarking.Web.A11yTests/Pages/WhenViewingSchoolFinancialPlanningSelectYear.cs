@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningSelectYear(WebDriver driver, ITes
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/select-year";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/select-year";
 }

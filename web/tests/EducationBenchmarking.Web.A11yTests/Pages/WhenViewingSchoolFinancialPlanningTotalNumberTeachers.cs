@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningTotalNumberTeachers(WebDriver dri
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/{TestConfiguration.PlanYear}/total-number-teachers";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/total-number-teachers?year={TestConfiguration.PlanYear}";
 }
