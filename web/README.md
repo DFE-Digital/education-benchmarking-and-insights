@@ -70,7 +70,11 @@ Add configuration in `appsetings.local.json`
   "Headless" : true,
   "SchoolUrn" : "[INSERT SCHOOL URN]",
   "Impacts" : ["critical",  "serious", "moderate", "minor"]
-  "PlanYear" : [INSERT PLAN YEAR]
+  "PlanYear" : [INSERT PLAN YEAR],
+  "Benchmark": {
+    "Host": "[INSERT URL OF BENCHMARK API]",
+    "Key": "[INSERT BENCHMARK API KEY]"
+  },
 }
 ```
 Run:

@@ -21,6 +21,7 @@ public class ErrorController : Controller
         return statusCode switch
         {
             404 => View("NotFound"),
+            403 => View("AccessDenied"),
             _ => View("Problem")
         };
     }

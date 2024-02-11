@@ -1,9 +1,9 @@
-using Xunit;
+﻿using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.A11yTests.Pages;
+namespace EducationBenchmarking.Web.A11yTests.Pages.School.FinancialPlanning;
 
-public class WhenViewingSchoolFinancialPlanningPrePopulatedData(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
+public class WhenViewingSchoolFinancialPlanningSelectYear(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
@@ -11,7 +11,7 @@ public class WhenViewingSchoolFinancialPlanningPrePopulatedData(WebDriver driver
         Page = await driver.GetPage(PageUrl);
         await EvaluatePage();
     }
-    
+
     [Fact]
     public async Task ValidationErrorThenThereAreNoAccessibilityIssues()
     {
@@ -20,5 +20,5 @@ public class WhenViewingSchoolFinancialPlanningPrePopulatedData(WebDriver driver
         await EvaluatePage();
     }
 
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/pre-populate-data?year={TestConfiguration.PlanYear}";
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/school/{TestConfiguration.School}/financial-planning/steps/select-year";
 }

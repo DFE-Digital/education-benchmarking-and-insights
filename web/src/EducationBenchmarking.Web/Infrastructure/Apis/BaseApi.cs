@@ -40,9 +40,4 @@ public abstract class BaseApi
     {
         return await _httpClient.SendAsync(message).ToApiResult();
     }
-    
-    protected async Task<ApiResult> SendAsync(HttpRequestMessage message, CancellationToken cancellationToken)
-    {
-        return await _httpClient.SendAsync(message, cancellationToken).ToApiResult();
-    }
 }

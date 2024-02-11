@@ -309,14 +309,12 @@
       },
       "Microsoft.Extensions.Caching.Memory": {
         "type": "Transitive",
-        "resolved": "1.0.0",
-        "contentHash": "6+7zTufCnZ+tfrUo7RbIRR3LB0BxwOwxfXuo0IbLyIvgoToGpWuz5wYEDfCYNOvpig9tY8FA0I1uRHYmITMXMQ==",
+        "resolved": "2.1.23",
+        "contentHash": "00E3Y0sUISXmSL+BHaesNae1x06g8Bp3b6e9G3rlEn4FePu4TZ14su0PeeD8dgN9WUxbwRWMR6hf6r7QiTVQLQ==",
         "dependencies": {
-          "Microsoft.Extensions.Caching.Abstractions": "1.0.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "1.0.0",
-          "Microsoft.Extensions.Options": "1.0.0",
-          "System.Linq": "4.1.0",
-          "System.Threading": "4.0.11"
+          "Microsoft.Extensions.Caching.Abstractions": "2.1.2",
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "2.1.1",
+          "Microsoft.Extensions.Options": "2.1.1"
         }
       },
       "Microsoft.Extensions.Configuration.Abstractions": {
@@ -469,6 +467,16 @@
         "type": "Transitive",
         "resolved": "8.0.0",
         "contentHash": "bXJEZrW9ny8vjMF1JV253WeLhpEVzFo1lyaZu1vQ4ZxWUlVvknZ/+ftFgVheLubb4eZPSwwxBeqS1JkCOjxd8g=="
+      },
+      "Microsoft.FeatureManagement": {
+        "type": "Transitive",
+        "resolved": "3.1.1",
+        "contentHash": "H9KZxiFSJKGnQtiuHwkvKgw6ij1E9M5lBUtqn1VZPAR1Wy8fkrZOmWwoC+3DJrqOVeZq+riUKuwWst8zEpmtOw==",
+        "dependencies": {
+          "Microsoft.Extensions.Caching.Memory": "2.1.23",
+          "Microsoft.Extensions.Configuration.Binder": "2.1.10",
+          "Microsoft.Extensions.Logging": "2.1.1"
+        }
       },
       "Microsoft.IdentityModel.Abstractions": {
         "type": "Transitive",
@@ -1710,6 +1718,7 @@
           "Microsoft.Extensions.Configuration": "[8.0.0, )",
           "Microsoft.Extensions.Configuration.Binder": "[8.0.1, )",
           "Microsoft.Extensions.Configuration.Json": "[8.0.0, )",
+          "Microsoft.FeatureManagement.AspNetCore": "[3.1.1, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Serilog.AspNetCore": "[8.0.1, )",
           "Serilog.Enrichers.CorrelationId": "[3.0.1, )",
@@ -1840,6 +1849,15 @@
           "Microsoft.Extensions.Configuration.FileExtensions": "8.0.0",
           "Microsoft.Extensions.FileProviders.Abstractions": "8.0.0",
           "System.Text.Json": "8.0.0"
+        }
+      },
+      "Microsoft.FeatureManagement.AspNetCore": {
+        "type": "CentralTransitive",
+        "requested": "[3.1.1, )",
+        "resolved": "3.1.1",
+        "contentHash": "dFzRB4cjjjW5Qp5GRoSm1Qnoi2BWVo72gH3OB8rVO1ulrj7hkJALLpH5BnBlIhQNoVJV1oyQVcDjeISXN8um6A==",
+        "dependencies": {
+          "Microsoft.FeatureManagement": "3.1.1"
         }
       },
       "Serilog.AspNetCore": {

@@ -6,10 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.TagHelpers;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
+[FeatureGate(FeatureFlags.CurriculumFinancialPlanning)] 
 [Route("school/{urn}/financial-planning/steps")]
 public class SchoolPlanningStepsController(
     IEstablishmentApi establishmentApi,

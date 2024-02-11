@@ -14,34 +14,34 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return ApiResult.Ok(new { name = "Dummy Trust" });
     }
 
-    public Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation)
+    public Task<ApiResult> SuggestSchools(string search)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/schools/suggest", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "school-suggester" })
-        }, cancellation);
+        });
     }
     
-    public Task<ApiResult> SuggestTrusts(string search, CancellationToken cancellation)
+    public Task<ApiResult> SuggestTrusts(string search)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/trusts/suggest", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "trust-suggester" })
-        }, cancellation);
+        });
     }
     
-    public Task<ApiResult> SuggestOrganisations(string search, CancellationToken cancellation)
+    public Task<ApiResult> SuggestOrganisations(string search)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/organisations/suggest", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "organisation-suggester" })
-        }, cancellation);
+        });
     }
 }
 
@@ -49,7 +49,7 @@ public interface IEstablishmentApi
 {
     Task<ApiResult> GetSchool(string identifier);
     Task<ApiResult> GetTrust(string identifier);
-    Task<ApiResult> SuggestSchools(string search, CancellationToken cancellation);
-    Task<ApiResult> SuggestTrusts(string search, CancellationToken cancellation);
-    Task<ApiResult> SuggestOrganisations(string search, CancellationToken cancellation);
+    Task<ApiResult> SuggestSchools(string search);
+    Task<ApiResult> SuggestTrusts(string search);
+    Task<ApiResult> SuggestOrganisations(string search);
 }

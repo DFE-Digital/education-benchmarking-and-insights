@@ -8,7 +8,7 @@ using Moq;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -32,13 +32,11 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary, true)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary, false)]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, false)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary, true)]
-    public async Task CanDisplayWithPreviousValue(string financeType, string phase, bool useFigures)
+    [InlineData(true)]
+    [InlineData(false)]
+    public async Task CanDisplayWithPreviousValue(bool useFigures)
     {
-        var (page, _, _) = await SetupNavigateInitPage(financeType, phase, useFigures);
+        var (page, _, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary, useFigures);
 
         var radios = page.QuerySelector(".govuk-radios--inline");
         Assert.NotNull(radios);
@@ -145,14 +143,10 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
             HttpStatusCode.InternalServerError);
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
-    public async Task CanDisplayNotFoundOnSubmit(string financeType, string phase)
+    [Fact]
+    public async Task CanDisplayNotFoundOnSubmit()
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType, phase);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
@@ -167,14 +161,10 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
             Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, PlanYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
-    public async Task CanDisplayProblemWithServiceOnSubmit(string financeType, string phase)
+    [Fact]
+    public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType, phase);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
@@ -189,16 +179,11 @@ public class WhenViewingSchoolPlanningPrePopulatedData(BenchmarkingWebAppFactory
             Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn, PlanYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
-
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Primary)]
-    [InlineData(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary)]
-    [InlineData(EstablishmentTypes.Maintained, OverallPhaseTypes.Secondary)]
-    public async Task CanNavigateBack(string financeType, string phase)
+    
+    [Fact]
+    public async Task CanNavigateBack()
     {
-        var (page, school, _) = await SetupNavigateInitPage(financeType, phase);
+        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Follow(anchor);

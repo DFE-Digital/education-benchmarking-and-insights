@@ -1,7 +1,7 @@
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.A11yTests.Pages;
+namespace EducationBenchmarking.Web.A11yTests.Pages.School;
 
 public class WhenViewingSchoolBenchmarkWorkforceData(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
 {

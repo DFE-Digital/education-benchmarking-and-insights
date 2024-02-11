@@ -44,8 +44,9 @@ public static class ViewDataConstants
 public static class PageTitleConstants
 {
     public const string ServiceHome = Constants.ServiceName;
-    public const string ErrorPageNotFound = "Page not found";
+    public const string ErrorNotFound = "Page not found";
     public const string ErrorProblem = "Sorry, there is a problem with the service";
+    public const string ErrorAccessDenied = "Access denied"; 
     public const string FindOrganisation = "Find an educational organisation";
     public const string ChooseOrganisation = "Choose your school, academy trust, local authority";
     public const string SchoolHome = "Your school";
@@ -60,4 +61,9 @@ public static class PageTitleConstants
     public const string SchoolPlanningTotalExpenditure = "Total expenditure";
     public const string SchoolPlanningTotalTeacherCosts = "Total teacher costs";
     public const string SchoolPlanningTotalNumberTeachers = "Total number of teachers";
+}
+
+public static class FeatureFlags
+{
+    public const string CurriculumFinancialPlanning = nameof(CurriculumFinancialPlanning);
 }

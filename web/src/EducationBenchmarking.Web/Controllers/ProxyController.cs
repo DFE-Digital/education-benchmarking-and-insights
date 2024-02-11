@@ -60,7 +60,7 @@ public class ProxyController(
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/suggest")]
-    public async Task<IActionResult> EstablishmentSuggest([FromQuery]string search, [FromQuery]string type, CancellationToken cancellation)
+    public async Task<IActionResult> EstablishmentSuggest([FromQuery]string search, [FromQuery]string type)
     {
         using (logger.BeginScope(new {search}))
         {
@@ -69,11 +69,11 @@ public class ProxyController(
                 switch (type.ToLower())
                 {
                     case Constants.SchoolOrganisationType:
-                        return await SchoolSuggestions(search,cancellation);
+                        return await SchoolSuggestions(search);
                     case Constants.TrustOrganisationType:
-                        return await TrustSuggestions(search,cancellation);
+                        return await TrustSuggestions(search);
                     default:
-                        return await OrganisationSuggestions(search,cancellation);
+                        return await OrganisationSuggestions(search);
                 }
             }
             catch (TaskCanceledException)
@@ -89,9 +89,9 @@ public class ProxyController(
         }
     }
 
-    private async Task<IActionResult> SchoolSuggestions(string search, CancellationToken cancellation)
+    private async Task<IActionResult> SchoolSuggestions(string search)
     {
-        var suggestions = await establishmentApi.SuggestSchools(search, cancellation).GetResultOrThrow<SuggestOutput<School>>();
+        var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");
@@ -103,7 +103,7 @@ public class ProxyController(
 
             if (text != value.Document.Name)
             {
-                value.Text = value.Document.Name ?? "{Missing school name}";
+                value.Text = value.Document.Name;
             }
                     
             var additionalText = additionalDetails.Count > 0
@@ -118,9 +118,9 @@ public class ProxyController(
         return new JsonResult(results);
     }
     
-    private async Task<IActionResult> TrustSuggestions(string search, CancellationToken cancellation)
+    private async Task<IActionResult> TrustSuggestions(string search)
     {
-        var suggestions = await establishmentApi.SuggestTrusts(search, cancellation).GetResultOrThrow<SuggestOutput<Trust>>();
+        var suggestions = await establishmentApi.SuggestTrusts(search).GetResultOrThrow<SuggestOutput<Trust>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");
@@ -136,9 +136,9 @@ public class ProxyController(
         return new JsonResult(results);
     }
     
-    private async Task<IActionResult> OrganisationSuggestions(string search, CancellationToken cancellation)
+    private async Task<IActionResult> OrganisationSuggestions(string search)
     {
-        var suggestions = await establishmentApi.SuggestOrganisations(search, cancellation).GetResultOrThrow<SuggestOutput<Organisation>>();
+        var suggestions = await establishmentApi.SuggestOrganisations(search).GetResultOrThrow<SuggestOutput<Organisation>>();
         var results = suggestions.Results.Select(value =>
         {
             var text = value.Text.Replace("*", "");

@@ -4,10 +4,12 @@ using System.Reflection;
 using CorrelationId.DependencyInjection;
 using EducationBenchmarking.Web;
 using EducationBenchmarking.Web.Extensions;
+using EducationBenchmarking.Web.Handlers;
 using EducationBenchmarking.Web.Identity.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
+using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 
@@ -32,6 +34,8 @@ builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
 builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
+builder.Services.AddFeatureManagement()
+    .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
 builder.Services.AddSession(options =>
 {

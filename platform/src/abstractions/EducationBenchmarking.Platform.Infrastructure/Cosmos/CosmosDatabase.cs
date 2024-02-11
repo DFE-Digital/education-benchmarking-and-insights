@@ -43,6 +43,12 @@ public abstract class CosmosDatabase
         await container.UpsertItemAsync(item, partitionKey);
     }
     
+    protected async Task DeleteItemAsync<T>(string containerId, string identifier, PartitionKey partitionKey)
+    {
+        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        await container.DeleteItemAsync<T>(identifier, partitionKey);
+    }
+    
     protected async IAsyncEnumerable<T> ItemEnumerableAsync<T>(string? containerId,
         Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {

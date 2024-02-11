@@ -18,7 +18,8 @@ namespace EducationBenchmarking.Web.Identity.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddDfeSignIn(this IServiceCollection services, Action<DfeSignInOptions> optionCfg = null)
+    public static IServiceCollection AddDfeSignIn(this IServiceCollection services,
+        Action<DfeSignInOptions> optionCfg = null)
     {
         var opts = new DfeSignInOptions();
         optionCfg?.Invoke(opts);
@@ -61,13 +62,19 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new CookieAuthenticationEvents
                 {
+                    OnRedirectToAccessDenied = context =>
+                    {
+                        context.Response.StatusCode = 403;
+                        return Task.CompletedTask;
+                    },
                     OnValidatePrincipal = async x =>
                     {
                         x.Principal.GetOrSelectRole(x.HttpContext);
 
                         if (TimeIssuedIsValid(x.Properties.IssuedUtc))
                         {
-                            var identity = x.Principal!.Identity as ClaimsIdentity ?? throw new Exception("Missing identity claim");
+                            var identity = x.Principal!.Identity as ClaimsIdentity ??
+                                           throw new Exception("Missing identity claim");
 
                             var accessTokenClaim = identity.FindFirst(ClaimNames.AccessToken);
                             var refreshTokenClaim = identity.FindFirst(ClaimNames.RefreshToken);
@@ -166,7 +173,7 @@ public static class ServiceCollectionExtensions
                     RequireStateValidation = false,
                     NonceLifetime = TimeSpan.FromMinutes(60)
                 };
-                    
+
                 options.Events = new OpenIdConnectEvents
                 {
                     OnMessageReceived = context =>
@@ -222,7 +229,6 @@ public static class ServiceCollectionExtensions
                             x.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             x.Response.Redirect("/");
                         }
-                        
                     }
                 };
             });

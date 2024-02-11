@@ -24,7 +24,7 @@ public interface IFinancialPlanDb
 {
     Task<FinancialPlan?> FinancialPlan(string urn, int year);
     Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
-    
+    Task DeleteFinancialPlan(FinancialPlan plan);
 }
 
 public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
@@ -67,6 +67,12 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         }
 
         return await Update(request, existing);
+    }
+
+    public async Task DeleteFinancialPlan(FinancialPlan plan)
+    {
+        ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
+        await DeleteItemAsync<FinancialPlan>(_options.FinancialPlanCollectionName, plan.Year.ToString(), new PartitionKey(plan.Urn));
     }
 
     private async Task<DbResult> Update(FinancialPlanRequest request, FinancialPlanDataObject existing)

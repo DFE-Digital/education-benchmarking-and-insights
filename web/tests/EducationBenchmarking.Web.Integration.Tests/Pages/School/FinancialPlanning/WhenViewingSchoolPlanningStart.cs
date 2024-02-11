@@ -5,7 +5,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanningStart(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,

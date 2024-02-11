@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartBreadcrumbs.Nodes;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.TagHelpers;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 

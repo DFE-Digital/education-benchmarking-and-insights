@@ -4,7 +4,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanningTotalTeacherCosts(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -15,7 +15,7 @@ public class WhenViewingSchoolPlanningTotalTeacherCosts(BenchmarkingWebAppFactor
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplaySchool(string financeType)
+    public async Task CanDisplay(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -46,6 +46,7 @@ public class WhenViewingSchoolPlanningTotalTeacherCosts(BenchmarkingWebAppFactor
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, false)
+            .Without(x => x.TotalTeacherCosts)
             .Create();
         
         var page = await SetupEstablishment(school)

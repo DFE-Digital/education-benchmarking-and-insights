@@ -4,7 +4,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -16,7 +16,7 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplaySchool(string financeType)
+    public async Task CanDisplay(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -26,14 +26,20 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanSubmitForm(string financeType)
+    public async Task CanSubmit(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
 
-        page = await SubmitForm(page.Forms[0], action);
+        page = await SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "TotalExpenditure",  168794.ToString()}
+            });
+        });
 
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
@@ -64,6 +70,7 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, false)
+            .Without(x => x.TotalExpenditure)
             .Create();
         
         var page = await SetupEstablishment(school)

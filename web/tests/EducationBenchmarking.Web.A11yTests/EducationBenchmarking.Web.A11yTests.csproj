@@ -31,4 +31,7 @@
           <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj" />
+    </ItemGroup>
 </Project>

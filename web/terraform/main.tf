@@ -103,27 +103,28 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   }
 
   app_settings = {
-    "ASPNETCORE_ENVIRONMENT"                   = "Production"
-    "APPLICATIONINSIGHTS_CONNECTION_STRING"    = data.azurerm_application_insights.application-insights.connection_string
-    "Apis__Insight__Url"                       = data.azurerm_key_vault_secret.insight-api-host.value
-    "Apis__Insight__Key"                       = data.azurerm_key_vault_secret.insight-api-key.value
-    "Apis__Establishment__Url"                 = data.azurerm_key_vault_secret.establishment-api-host.value
-    "Apis__Establishment__Key"                 = data.azurerm_key_vault_secret.establishment-api-key.value
-    "Apis__Benchmark__Url"                     = data.azurerm_key_vault_secret.benchmark-api-host.value
-    "Apis__Benchmark__Key"                     = data.azurerm_key_vault_secret.benchmark-api-key.value
-    "DFESignInSettings__APISecret"             = var.dfe-signin.api-secret
-    "DFESignInSettings__APIUri"                = var.dfe-signin.api-uri
-    "DFESignInSettings__Audience"              = var.dfe-signin.audience
-    "DFESignInSettings__CallbackPath"          = var.dfe-signin.callback-path
-    "DFESignInSettings__ClientID"              = var.dfe-signin.client-id
-    "DFESignInSettings__ClientSecret"          = var.dfe-signin.client-secret
-    "DFESignInSettings__Issuer"                = var.dfe-signin.issuer
-    "DFESignInSettings__MetadataAddress"       = var.dfe-signin.metadata-address
-    "DFESignInSettings__SignedOutCallbackPath" = var.dfe-signin.signed-out-callback-path
-    "DFESignInSettings__SignOutUri"            = var.dfe-signin.sign-out-uri
-    "CosmosCacheSettings__ConnectionString"    = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
-    "CosmosCacheSettings__ContainerName"       = azurerm_cosmosdb_sql_container.session-cache-container.name
-    "CosmosCacheSettings__DatabaseName"        = azurerm_cosmosdb_sql_database.session-cache-database.name
+    "ASPNETCORE_ENVIRONMENT"                         = "Production"
+    "APPLICATIONINSIGHTS_CONNECTION_STRING"          = data.azurerm_application_insights.application-insights.connection_string
+    "FeatureManagement__CurriculumFinancialPlanning" = true
+    "Apis__Insight__Url"                             = data.azurerm_key_vault_secret.insight-api-host.value
+    "Apis__Insight__Key"                             = data.azurerm_key_vault_secret.insight-api-key.value
+    "Apis__Establishment__Url"                       = data.azurerm_key_vault_secret.establishment-api-host.value
+    "Apis__Establishment__Key"                       = data.azurerm_key_vault_secret.establishment-api-key.value
+    "Apis__Benchmark__Url"                           = data.azurerm_key_vault_secret.benchmark-api-host.value
+    "Apis__Benchmark__Key"                           = data.azurerm_key_vault_secret.benchmark-api-key.value
+    "DFESignInSettings__APISecret"                   = var.dfe-signin.api-secret
+    "DFESignInSettings__APIUri"                      = var.dfe-signin.api-uri
+    "DFESignInSettings__Audience"                    = var.dfe-signin.audience
+    "DFESignInSettings__CallbackPath"                = var.dfe-signin.callback-path
+    "DFESignInSettings__ClientID"                    = var.dfe-signin.client-id
+    "DFESignInSettings__ClientSecret"                = var.dfe-signin.client-secret
+    "DFESignInSettings__Issuer"                      = var.dfe-signin.issuer
+    "DFESignInSettings__MetadataAddress"             = var.dfe-signin.metadata-address
+    "DFESignInSettings__SignedOutCallbackPath"       = var.dfe-signin.signed-out-callback-path
+    "DFESignInSettings__SignOutUri"                  = var.dfe-signin.sign-out-uri
+    "CosmosCacheSettings__ConnectionString"          = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
+    "CosmosCacheSettings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name
+    "CosmosCacheSettings__DatabaseName"              = azurerm_cosmosdb_sql_database.session-cache-database.name
   }
   tags = local.common-tags
 }

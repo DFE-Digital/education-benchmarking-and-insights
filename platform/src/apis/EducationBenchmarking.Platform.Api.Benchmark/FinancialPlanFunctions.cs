@@ -110,4 +110,38 @@ public class FinancialPlanFunctions
             }
         }
     }
+    
+    [FunctionName(nameof(RemoveFinancialPlanAsync))]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> RemoveFinancialPlanAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "financial-plan/{urn}/{year}")]
+        HttpRequest req,
+        string urn,
+        int year)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var plan = await _db.FinancialPlan(urn, year);
+                if (plan == null) return new NotFoundResult();
+
+                await _db.DeleteFinancialPlan(plan);
+                return new OkResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to delete financial plan");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
 }

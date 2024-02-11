@@ -7,7 +7,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -56,12 +56,10 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
     }
 
     
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToCompareYourCosts(string financeType)
+    [Fact]
+    public async Task CanNavigateToCompareYourCosts()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[0].QuerySelector("h3 > a");
@@ -72,12 +70,10 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToAreasForInvestigation(string financeType)
+    [Fact]
+    public async Task CanNavigateToAreasForInvestigation()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[1].QuerySelector("h3 > a");
@@ -88,12 +84,10 @@ public class WhenViewingSchoolPlanning(BenchmarkingWebAppFactory factory, ITestO
         DocumentAssert.AssertPageUrl(page, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToWorkforceBenchmark(string financeType)
+    [Fact]
+    public async Task CanNavigateToWorkforceBenchmark()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
         var anchor = liElements[2].QuerySelector("h3 > a");

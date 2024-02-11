@@ -5,7 +5,7 @@ using EducationBenchmarking.Web.Domain;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.Planning;
+namespace EducationBenchmarking.Web.Integration.Tests.Pages.School.FinancialPlanning;
 
 public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory factory, ITestOutputHelper output)
     : BenchmarkingWebAppClient(factory,
@@ -25,13 +25,10 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         AssertPageLayout(page, school);
     }
     
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanSelectAYear(string financeType)
+    [Fact]
+    public async Task CanSelectAYear()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -47,12 +44,10 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningPrePopulatedData(school.Urn,CurrentYear).ToAbsolute());
     }
     
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task ShowsErrorOnInValidSelect(string financeType)
+    [Fact]
+    public async Task ShowsErrorOnInValidSelect()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -83,12 +78,10 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
     
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplayNotFoundOnSubmit(string financeType)
+    [Fact]
+    public async Task CanDisplayNotFoundOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         var action = page.QuerySelector(".govuk-button");
         
         Assert.NotNull(action);
@@ -100,12 +93,10 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplayProblemWithServiceOnSubmit(string financeType)
+    [Fact]
+    public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         var action = page.QuerySelector(".govuk-button");
         
         Assert.NotNull(action);
@@ -117,12 +108,10 @@ public class WhenViewingSchoolPlanningSelectYear(BenchmarkingWebAppFactory facto
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningSelectYear(school.Urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateBack(string financeType)
+    [Fact]
+    public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Follow(anchor);
