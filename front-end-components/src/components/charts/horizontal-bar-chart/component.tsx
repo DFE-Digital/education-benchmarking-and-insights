@@ -1,5 +1,6 @@
 import {
   forwardRef,
+  useCallback,
   useContext,
   useImperativeHandle,
   useRef,
@@ -36,6 +37,8 @@ import { CategoricalChartState } from "recharts/types/chart/types";
 import { useWindowSize } from "@uidotdev/usehooks";
 import { Props as LabelProps } from "recharts/types/component/Label";
 import { BaseAxisProps, CartesianTickItem } from "recharts/types/util/types";
+import { useCurrentPng } from "recharts-to-png";
+import { saveAs } from "file-saver";
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title);
 
@@ -71,8 +74,11 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
     const { data, chartName } = props;
     const labels = data.map((dataPoint) => dataPoint.school);
     const values = data.map((dataPoint) => dataPoint.value);
+
+    // todo: replace with hooks
     const selectedSchool = useContext(SelectedSchoolContext);
     const xLabel = useContext(ChartDimensionContext);
+
     const chartContainerStyle = {
       width: "100%",
       minHeight: `${labels.length * 30}px`,
@@ -157,6 +163,8 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
           a.download = `${chartName}.png`;
           a.click();
         }
+
+        handleDownload();
       },
     }));
 
@@ -165,6 +173,22 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
     const handleBarChartMouseMove = (nextState: CategoricalChartState) => {
       setActiveTooltipIndex(nextState.activeTooltipIndex);
     };
+
+    // todo: disable download button while image is loading
+    // (plus also hide it initially while the chart data is loading)
+    const [getPng, { ref: rechartsRef /*, isLoading*/ }] = useCurrentPng({
+      backgroundColor: "#fff",
+    });
+
+    const handleDownload = useCallback(async () => {
+      const png = await getPng();
+
+      // Verify that png is not undefined
+      if (png) {
+        // Download with FileSaver
+        saveAs(png, `${chartName}.png`);
+      }
+    }, [getPng, chartName]);
 
     return (
       <>
@@ -177,6 +201,7 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
             ref={chartRef}
           />
         </div>
+        {/* todo: a11y labels */}
         <ResponsiveContainer width="100%" height={labels.length * 30}>
           <BarChart
             data={data}
@@ -185,6 +210,7 @@ export const HorizontalBarChart = forwardRef<DownloadHandle, BarChartProps>(
             className="govuk-body-s govuk-!-font-size-14"
             onMouseMove={handleBarChartMouseMove}
             margin={{ top: 0, right: 5, bottom: 15, left: 5 }}
+            ref={rechartsRef}
           >
             <XAxis type="number" stroke="#000" tickFormatter={defaultFormatter}>
               <Label value={xLabel} offset={0} position="bottom" />
