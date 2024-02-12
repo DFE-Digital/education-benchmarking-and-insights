@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -62,4 +63,79 @@ public class WhenViewingSchoolPlanningTotalTeacherCosts(BenchmarkingWebAppFactor
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total teacher costs", "Total teacher costs");
     }
+    
+      
+        
+    [Fact]
+    public async Task CanDisplayNotFound()
+    {
+        const string urn = "12345";
+        const int year = 2024;
+
+        var page = await SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolCurriculumPlanningTotalTeacherCost(urn, year));
+
+        
+        var expectedUrl = Paths.SchoolCurriculumPlanningTotalTeacherCost(urn, year).ToAbsolute();
+        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
+    }
+
+    
+    [Fact]
+    public async Task CanDisplayProblemWithService()
+    {
+        const string urn = "12345";
+        const int year = 2024;
+        var page = await SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolCurriculumPlanningTotalTeacherCost(urn, year));
+
+        var expectedUrl = Paths.SchoolCurriculumPlanningTotalTeacherCost(urn, year).ToAbsolute();
+        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
+    }
+    
+
+    [Fact]
+    public async Task ShowsErrorOnInValidSubmit()
+    {
+        
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+        
+        
+        page = await SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "TotalTeacherCosts",  ""}
+            });
+        });
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.FormErrors(page, ("total-teacher","Enter a total teacher cost"));
+    }
+    
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanSubmit(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "TotalTeacherCosts",  168794.ToString()}
+            });
+        });
+
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolCurriculumPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
+    }
+
 }
