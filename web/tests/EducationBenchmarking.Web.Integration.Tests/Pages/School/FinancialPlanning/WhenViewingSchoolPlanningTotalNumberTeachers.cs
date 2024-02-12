@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -62,4 +63,8 @@ public class WhenViewingSchoolPlanningTotalNumberTeachers(BenchmarkingWebAppFact
         DocumentAssert.BackLink(page, "Back", Paths.SchoolCurriculumPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total number of teachers", "Total number of teachers");
     }
+  
+    
+    
+    
 }
