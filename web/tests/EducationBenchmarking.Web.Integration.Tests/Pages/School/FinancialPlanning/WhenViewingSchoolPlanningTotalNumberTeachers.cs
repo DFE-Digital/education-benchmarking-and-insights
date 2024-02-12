@@ -126,7 +126,7 @@ public class WhenViewingSchoolPlanningTotalNumberTeachers(BenchmarkingWebAppFact
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  ""}
+                { "TotalNumberTeachers",  ""}
             });
         });
         
