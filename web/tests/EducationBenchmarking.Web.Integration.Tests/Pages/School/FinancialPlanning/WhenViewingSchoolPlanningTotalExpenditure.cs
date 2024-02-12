@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -87,5 +88,57 @@ public class WhenViewingSchoolPlanningTotalExpenditure(BenchmarkingWebAppFactory
             Paths.SchoolCurriculumPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Total expenditure", "Total expenditure");
     }
+    
+    [Fact]
+    public async Task CanDisplayNotFound()
+    {
+        const string urn = "12345";
+        const int year = 2024;
+
+        var page = await SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolCurriculumPlanningTotalExpenditure(urn, year));
+
+        
+        var expectedUrl = Paths.SchoolCurriculumPlanningTotalExpenditure(urn, year).ToAbsolute();
+        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
+    }
+
+    
+    [Fact]
+    public async Task CanDisplayProblemWithService()
+    {
+        const string urn = "12345";
+        const int year = 2024;
+        var page = await SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolCurriculumPlanningTotalExpenditure(urn, year));
+
+        var expectedUrl = Paths.SchoolCurriculumPlanningTotalExpenditure(urn, year).ToAbsolute();
+        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
+    }
+    
+
+    [Fact]
+    public async Task ShowsErrorOnInValidSubmit()
+    {
+        
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+        
+        
+        page = await SubmitForm(page.Forms[0], action, f =>
+        {
+            f.SetFormValues(new Dictionary<string, string>
+            {
+                { "TotalExpenditure",  ""}
+            });
+        });
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCurriculumPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.FormErrors(page, ("total-expenditure","Enter a total expenditure"));
+    }
+
+
 
 }
