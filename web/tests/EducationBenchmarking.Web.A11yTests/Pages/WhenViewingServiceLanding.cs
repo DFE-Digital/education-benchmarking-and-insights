@@ -3,15 +3,14 @@ using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.A11yTests.Pages;
 
-public class WhenViewingServiceLanding(WebDriver driver, ITestOutputHelper outputHelper) : PageBase(outputHelper), IClassFixture<WebDriver>
+public class WhenViewingServiceLanding(ITestOutputHelper outputHelper) : PageBase(outputHelper)
 {
+    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
     {
-        Page = await driver.GetPage(PageUrl);
+        Page = await Driver.GetPage(PageUrl);
         await EvaluatePage();
     }
-
-    protected override string PageUrl => $"{TestConfiguration.ServiceUrl}/";
 }
