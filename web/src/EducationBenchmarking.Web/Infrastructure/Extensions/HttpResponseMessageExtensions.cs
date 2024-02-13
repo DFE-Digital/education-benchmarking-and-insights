@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 
 namespace EducationBenchmarking.Web.Infrastructure.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class HttpResponseMessageExtensions
 {
     public static async Task<ApiResult> ToApiResult(this Task<HttpResponseMessage> message)

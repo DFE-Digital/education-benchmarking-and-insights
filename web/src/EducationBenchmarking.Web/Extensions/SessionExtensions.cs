@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class SessionExtensions
 {
     public static void Set<T>(this ISession session, string key, T value)

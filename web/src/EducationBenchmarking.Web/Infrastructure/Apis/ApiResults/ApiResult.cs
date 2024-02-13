@@ -17,7 +17,7 @@ public abstract class ApiResult(HttpStatusCode status)
     
     public static ApiResult BadRequest(params ValidationError[] errors) => new BadRequestApiResult(new JsonResponseBody(errors));
         
-    public static ApiResult Ok() => new SuccessApiResult(HttpStatusCode.OK, null);
+    public static ApiResult Ok() => new SuccessApiResult(HttpStatusCode.OK, new EmptyResponseBody());
         
     public static ApiResult NotFound() => new NotFoundApiResult();
         

@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 
 namespace EducationBenchmarking.Web.Infrastructure.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class ApiResultExtensions
 {
     public static async Task EnsureSuccess(this Task<ApiResult> result)
@@ -80,6 +82,7 @@ public static class ApiResultExtensions
         
     public static T GetResultOrThrow<T>(this ApiResult result)
     {
+        result.EnsureSuccess();
         if (result is SuccessApiResult s)
         {
             return s.Body switch
@@ -90,10 +93,8 @@ public static class ApiResultExtensions
                 _ => throw new ArgumentOutOfRangeException(s.Body.GetType().Name)
             };
         }
-                    
-
-        result.EnsureSuccess();
-        return default;
+        
+        throw new ArgumentNullException();
     }
         
     public static byte[] GetBodyOrThrow(this ApiResult result)

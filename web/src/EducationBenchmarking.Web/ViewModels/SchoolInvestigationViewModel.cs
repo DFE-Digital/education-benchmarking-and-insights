@@ -2,5 +2,5 @@ namespace EducationBenchmarking.Web.ViewModels;
 
 public class SchoolInvestigationViewModel
 {
-    public string Urn { get; set; }
+    public string? Urn { get; set; }
 }

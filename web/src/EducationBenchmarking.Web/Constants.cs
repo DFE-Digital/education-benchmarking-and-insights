@@ -19,8 +19,8 @@ public static class Constants
     public const string SectionEstablishmentApi = "Apis:Establishment";
     public const string SectionBenchmarkApi = "Apis:Benchmark";
 
-    public static string GiasSchoolUrl(string urn) => $"https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/{urn}";
-    public static string GiasTrustUrl(string uid) => $"https://www.get-information-schools.service.gov.uk/Groups/Group/Details/{uid}";
+    public static string GiasSchoolUrl(string? urn) => $"https://www.get-information-schools.service.gov.uk/Establishments/Establishment/Details/{urn}";
+    public static string GiasTrustUrl(string? uid) => $"https://www.get-information-schools.service.gov.uk/Groups/Group/Details/{uid}";
     
     public static int CurrentYear => DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
     public static IEnumerable<int> AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
@@ -64,6 +64,7 @@ public static class PageTitleConstants
     public const string SchoolPlanningTotalTeacherCosts = "Total teacher costs";
     public const string SchoolPlanningTotalNumberTeachers = "Total number of teachers";
     public const string SchoolComparatorSet = "Comparator set";
+    public const string TrustHome = "Your trust";
 }
 
 public static class FeatureFlags

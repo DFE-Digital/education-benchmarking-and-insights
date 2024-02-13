@@ -28,6 +28,7 @@ public class Organisation
     [JsonIgnore] public UrnValue UrnValue => URN;
 }
 
+[ExcludeFromCodeCoverage]
 public readonly struct UrnValue(int value)
 {
     private int Value { get; init; } = value;

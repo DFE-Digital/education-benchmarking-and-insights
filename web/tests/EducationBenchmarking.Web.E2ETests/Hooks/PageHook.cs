@@ -23,9 +23,10 @@ public class PageHook(ISpecFlowOutputHelper output)
         var browserContext = await _browser.NewContextAsync(contextOptions);
 
         _page = await browserContext.NewPageAsync();
-#if DEBUG
-        _page.Response += (sender, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
-#endif
+        if (TestConfiguration.OutputPageResponse)
+        {
+            _page.Response += (_, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");    
+        }
     }
 
     [AfterScenario]
@@ -36,15 +37,5 @@ public class PageHook(ISpecFlowOutputHelper output)
             _page = null;
             await _browser.CloseAsync(new BrowserCloseOptions { Reason = "End of e2e test scenario" });
         }
-    }
-
-    public void WriteOutputLine(string format, params object[] args)
-    {
-        output.WriteLine(format, args);
-    }
-
-    public void WriteOutputLine(string message)
-    {
-        output.WriteLine(message);
     }
 }

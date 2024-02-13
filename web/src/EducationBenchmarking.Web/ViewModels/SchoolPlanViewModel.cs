@@ -13,8 +13,8 @@ public class SchoolPlanViewModel(School school)
     }
     
     public int? SelectedYear { get; }
-    public string Name => school.Name;
-    public string Urn => school.Urn;
+    public string? Name => school.Name;
+    public string? Urn => school.Urn;
     public bool? UseFigures => _plan?.UseFigures;
     public bool IsPrimary => school.IsPrimary;
     public decimal? TotalIncome => _plan?.TotalIncome;

@@ -13,8 +13,7 @@ namespace EducationBenchmarking.Web.Controllers;
 [Route("school/{urn}")]
 public class SchoolController(
     ILogger<SchoolController> logger,
-    IEstablishmentApi establishmentApi,
-    IFinanceService financeService)
+    IEstablishmentApi establishmentApi)
     : Controller
 {
     [HttpGet]
@@ -29,9 +28,7 @@ public class SchoolController(
                 ViewData[ViewDataConstants.BreadcrumbNode] = node; 
                 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var (finances,ratings) = await financeService.GetRatings(school);
-                
-                var viewModel = new SchoolViewModel(school, finances, ratings);
+                var viewModel = new SchoolViewModel(school);
                 
                 return View(viewModel);
             }

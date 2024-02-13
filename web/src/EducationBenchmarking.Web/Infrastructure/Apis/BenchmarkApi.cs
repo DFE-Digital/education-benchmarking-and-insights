@@ -1,10 +1,12 @@
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Web.Domain;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public class BenchmarkApi(HttpClient httpClient, string? key = default) : BaseApi(httpClient, key), IBenchmarkApi
+public class BenchmarkApi(HttpClient httpClient, string? key = default) : ApiBase(httpClient, key), IBenchmarkApi
 {
-    public async Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default)
+    [ExcludeFromCodeCoverage]
+    public Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default)
     {
         var schools = new School[]
         {
@@ -25,19 +27,9 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : BaseAp
             new() { Urn = "140183", Name = "St Thomas Cantilupe Cofe Academy" }
         };
 
-        return ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools });
+        return Task.FromResult(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
     }
-
-    public async Task<ApiResult> GetFreeSchoolMealBandings(ApiQuery? query = null)
-    {
-        return await GetAsync($"api/free-school-meal/bandings{query?.ToQueryString()}");
-    }
-
-    public async Task<ApiResult> GetSchoolSizeBandings(ApiQuery? query = null)
-    {
-        return await GetAsync($"api/school-size/bandings{query?.ToQueryString()}");
-    }
-
+    
     public async Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request)
     {
         return await PutAsync($"api/financial-plan/{request.Urn}/{request.Year}", new JsonContent(request));
@@ -52,8 +44,6 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : BaseAp
 public interface IBenchmarkApi
 {
     Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default);
-    Task<ApiResult> GetFreeSchoolMealBandings(ApiQuery? query = null);
-    Task<ApiResult> GetSchoolSizeBandings(ApiQuery? query = null);
     Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request);
     Task<ApiResult> GetFinancialPlan(string urn, int year);
 }

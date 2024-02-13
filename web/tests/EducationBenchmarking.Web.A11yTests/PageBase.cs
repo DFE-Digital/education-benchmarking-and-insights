@@ -1,37 +1,49 @@
+using System.Net;
 using Deque.AxeCore.Commons;
 using Deque.AxeCore.Playwright;
+using EducationBenchmarking.Web.A11yTests.Drivers;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Playwright;
 using Xunit;
 using Xunit.Abstractions;
 
 namespace EducationBenchmarking.Web.A11yTests;
 
-public abstract class PageBase : IDisposable
+public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver)
+    : IClassFixture<WebDriver>
 {
-    protected PageBase(ITestOutputHelper testOutputHelper)
-    {
-        TestOutputHelper = testOutputHelper;
-        Driver = new WebDriver(TestOutputHelper);
-    }
+    private static string ServiceUrl => TestConfiguration.Instance.GetValue<string>("ServiceUrl") ??
+                                        throw new InvalidOperationException("Service URL missing from configuration");
 
+    private static IEnumerable<string> Impacts =>
+        TestConfiguration.Instance.GetSection("Impacts").Get<string[]>() ?? ["critical", "serious"];
+
+    private IPage? _page;
+    
     protected abstract string PageUrl { get; }
-    protected IPage? Page { get; set; }
-    protected WebDriver Driver { get; }
-    protected ITestOutputHelper TestOutputHelper { get; }
 
-    public void Dispose()
+    protected IPage Page =>
+        _page ?? throw new InvalidOperationException("Ensure the page has been successfully navigated to");
+
+    protected ITestOutputHelper TestOutputHelper => testOutputHelper;
+
+    protected async Task GoToPage(HttpStatusCode statusCode = HttpStatusCode.OK)
     {
-        Driver.Dispose();
+        Assert.False(string.IsNullOrEmpty(PageUrl));
+        var fullUrl = $"{ServiceUrl}{PageUrl}";
+        
+        _page = await webDriver.GetPage(fullUrl, statusCode);
+
+        Assert.NotNull(_page);
+        Assert.Equal(fullUrl, _page.Url);
     }
 
     protected async Task EvaluatePage(AxeRunContext? context = null)
     {
-        Assert.NotNull(Page);
-        Assert.Equal(PageUrl, Page.Url);
-
         var results = context != null ? await Page.RunAxe(context) : await Page.RunAxe();
-        var violations = results.Violations
-            .Where(violation => TestConfiguration.Impacts.Contains(violation.Impact))
+        var violations = results
+            .Violations
+            .Where(violation => Impacts.Contains(violation.Impact))
             .ToArray();
 
         PrintViolations(violations);
@@ -43,7 +55,7 @@ public abstract class PageBase : IDisposable
     {
         if (violations.Any())
         {
-            foreach (var impact in TestConfiguration.Impacts)
+            foreach (var impact in Impacts)
             {
                 TestOutputHelper.WriteLine($"{impact} issues: {violations.Count(x => x.Impact == impact)}");
             }
@@ -55,7 +67,7 @@ public abstract class PageBase : IDisposable
                 for (var j = 0; j < violation.Nodes.Length; j++)
                 {
                     var node = violation.Nodes[j];
-                    TestOutputHelper.WriteLine($"  Occurrence {j + 1}: {node.Html}");
+                    TestOutputHelper.WriteLine($"Occurrence {j + 1}: {node.Html}");
                 }
             }
         }

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
@@ -18,39 +19,40 @@ public static class DocumentAssert
             }).ToArray()
         );
     }
-    
+
     public static void TitleAndH1(IHtmlDocument? doc, string pageTitle, string header1)
     {
         Assert.NotNull(doc);
-        var h1 = doc.QuerySelector("h1") ?? throw new Exception("No <h1> elements found in this page document");
-        
         Assert.Equal(pageTitle, doc.Title);
+
+        var h1 = doc.QuerySelector("h1");
         AssertNodeText(h1, header1);
     }
 
     public static void Heading2(IHtmlDocument? doc, string header2)
     {
         Assert.NotNull(doc);
-        
-        var h2 = doc.QuerySelector("h2") ?? throw new Exception("No <h2> elements found in this page document");
-        AssertNodeText(h2, header2);
-    }
-    
-    public static void Heading2(INode? node, string header2)
-    {
-        Assert.NotNull(node);
-        
-        var h2 = node.ChildNodes.QuerySelector("h2") ?? throw new Exception("No <h2> elements found in this page document");
+
+        var h2 = doc.QuerySelector("h2");
         AssertNodeText(h2, header2);
     }
 
-    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl, HttpStatusCode statusCode = HttpStatusCode.OK)
+    public static void Heading2(INode? node, string header2)
+    {
+        Assert.NotNull(node);
+
+        var h2 = node.ChildNodes.QuerySelector("h2");
+        AssertNodeText(h2, header2);
+    }
+
+    public static void AssertPageUrl(IHtmlDocument? doc, string expectedUrl,
+        HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         Assert.NotNull(doc);
         Assert.Equal(expectedUrl, doc.Url);
         Assert.Equal(statusCode, doc.StatusCode);
     }
-    
+
     public static void PrimaryCta(IElement? element, string contents, string url, bool enabled = true)
     {
         Assert.NotNull(element);
@@ -60,16 +62,17 @@ public static class DocumentAssert
     public static void SecondaryCta(IElement? element, string contents, string url, bool enabled = true)
     {
         Assert.NotNull(element);
-        AssertStandardCta(element, contents,url, enabled);
-        Assert.True(element.ClassList.Contains("govuk-button--secondary"),"The secondary CTA should have a the class govuk-button--secondary assigned");
+        AssertStandardCta(element, contents, url, enabled);
+        Assert.True(element.ClassList.Contains("govuk-button--secondary"),
+            "The secondary CTA should have a the class govuk-button--secondary assigned");
     }
-    
+
     public static void Link(IElement? element, string contents, string url)
     {
         Assert.NotNull(element);
-        Assert.Equal(contents, element.TextContent.Trim());
+        TextEqual(element, contents);
         Assert.True(element.ClassList.Contains("govuk-link"), "A link should have the class govuk-link");
-        
+
         switch (element)
         {
             case IHtmlAnchorElement a:
@@ -84,10 +87,13 @@ public static class DocumentAssert
     public static void BackLink(IHtmlDocument? doc, string contents, string url)
     {
         Assert.NotNull(doc);
+
         var backLink = doc.QuerySelector(".govuk-back-link");
         Assert.NotNull(backLink);
-        Assert.Equal(contents, backLink.TextContent.Trim());
-        Assert.True(backLink.ClassList.Contains("govuk-back-link"), "A back link should have the class govuk-back-link");
+        TextEqual(backLink, contents);
+        Assert.True(backLink.ClassList.Contains("govuk-back-link"),
+            "A back link should have the class govuk-back-link");
+
         if (backLink is IHtmlAnchorElement a)
         {
             Assert.Equal(url, a.Href);
@@ -104,40 +110,10 @@ public static class DocumentAssert
         {
             var element = doc.GetElementById($"{field}-error");
             Assert.NotNull(element);
-            Assert.Equal($"Error: {message}", element.TextContent.Trim());
+            TextEqual(element, $"Error: {message}");
         }
     }
-    
-    private static void AssertNodeText(INode element, string text)
-    {
-        var elementText = string.Join(" ", element.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
-        Assert.Equal(text, elementText);
-    }
-    
-    private static void AssertStandardCta(IElement element, string contents, string url, bool enabled)
-    {
-        Assert.Equal(contents, element.TextContent.Trim());
-        Assert.True(element.ClassList.Contains("govuk-button"),"The CTA should have a the class govuk-button assigned");
-        
-        switch (element)
-        {
-            case IHtmlLinkElement a:
-                Assert.Equal(url, a.Href);
-                break;
-            case IHtmlAnchorElement c:
-                Assert.Equal(url, c.PathName + c.Search);
-                break;
-            case IHtmlButtonElement b:
-                Assert.Equal(url, b.Form?.Action);
-                break;
-        }
 
-        if (!enabled)
-        {
-            Assert.True(element.ClassList.Contains("govuk-button--disabled"), $"The {element.Id} should have govuk-button--disabled class supplied");
-        }
-    }
-    
     public static void Radios(IElement parent, params (string, string, string, bool)[] options)
     {
         var index = 0;
@@ -155,6 +131,9 @@ public static class DocumentAssert
             index++;
         }
 
+        return;
+        
+        [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
         void ValidateInputElement(string name, string value, bool isChecked, IHtmlInputElement e)
         {
             Assert.Equal("radio", e.Type);
@@ -165,11 +144,52 @@ public static class DocumentAssert
                 "A radio input should have the 'govuk-radios__item' class applied");
         }
 
-        void ValidateLabelElement(string label, IHtmlLabelElement e)
+        [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
+        void ValidateLabelElement(string label, IElement e)
         {
-            Assert.Equal(label, e.TextContent.Trim());
+            TextEqual(e, label);
             Assert.True(e.ClassList.Contains("govuk-label") && e.ClassList.Contains("govuk-radios__label"),
                 "A radio input should have the 'govuk-label' and 'govuk-radios__label' classes applied");
+        }
+    }
+
+    public static void TextEqual(IElement element, string expected)
+    {
+        Assert.Equal(expected, element.TextContent.Trim());
+    }
+
+    private static void AssertNodeText(INode? node, string text)
+    {
+        Assert.NotNull(node);
+
+        var elementText = string.Join(" ", node.ChildNodes.Select(n => n.TextContent.Trim())).Trim();
+        Assert.Equal(text, elementText);
+    }
+
+    [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
+    private static void AssertStandardCta(IElement element, string contents, string url, bool enabled)
+    {
+        TextEqual(element, contents);
+        Assert.True(element.ClassList.Contains("govuk-button"),
+            "The CTA should have a the class govuk-button assigned");
+
+        switch (element)
+        {
+            case IHtmlLinkElement a:
+                Assert.Equal(url, a.Href);
+                break;
+            case IHtmlAnchorElement c:
+                Assert.Equal(url, c.PathName + c.Search);
+                break;
+            case IHtmlButtonElement b:
+                Assert.Equal(url, b.Form?.Action);
+                break;
+        }
+
+        if (!enabled)
+        {
+            Assert.True(element.ClassList.Contains("govuk-button--disabled"),
+                $"The {element.Id} should have govuk-button--disabled class supplied");
         }
     }
 }
