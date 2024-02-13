@@ -18,7 +18,7 @@
                 </div>
                 @if (ViewData.ModelState.HasError(nameof(Model.TotalNumberOfTeachersFte)))
                 {
-                    <p id="total-teacher-error" class="govuk-error-message">
+                    <p id="total-number-teacher-error" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TotalNumberOfTeachersFte)]?.Errors.First().ErrorMessage
                     </p>
                 }
