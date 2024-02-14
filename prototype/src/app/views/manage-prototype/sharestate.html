@@ -1,0 +1,52 @@
+{% extends "layouts/main.html" %}
+
+{% set pageName="Home" %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+
+
+        <h1 class="govuk-heading-xl">
+            Share the state of the prototype
+        </h1>
+
+        <h2 class="govuk-heading-m">How to use it</h2>
+        <p>On any page click the &nbsp;&nbsp; <a onclick="reloadpagewithsessionupdate()" style="color: black; font-size: 16px;">Share page</a> &nbsp;&nbsp; link in the footer.</p>
+
+
+
+        <h2 class="govuk-heading-m">What it does</h2>
+        <p>It generates a link to reproduce the prototype in the same state.</p>
+
+        <h2 class="govuk-heading-m">Use case</h2>
+        <p>In most tickets BAs wanted to share a specific state in the prototype with the Devs. </p>
+        <p>Using the query string worked but wasn't ideal because:</p>
+        <ul class="govuk-list--bullet govuk-body">
+            <li>It doesn't save entered data that not saved to the session</li>
+            <li>it required fiddly coping and pasting and URL building</li>
+        </ul>
+
+
+        <h2 class="govuk-heading-m">How it works</h2>
+        <p>It's not tidy but it works</p>
+        <ol class=" govuk-body">
+            <li>Pressing the link in the footer trigger javascrip on the same page.</li>
+            <li>The javascript then saves all the data on the page to the session</li>
+            <li>That saved session data is then saved as an item in the session </li>
+            <li>The page redicrects to a confirmtion page 'copy-url-to-clipboard.html'</li>
+            <li>The confirmation page then automatically saves the outputted URL and state to the clipboard.</li>
+        </ol>
+
+        <h2 class="govuk-heading-m">WARNING NOTE</h2>
+        <p>This requires the user tell your browser once that this website can have 'Clipboard' permission.</p>
+
+
+
+
+    </div>
+</div>
+
+{% endblock %}
