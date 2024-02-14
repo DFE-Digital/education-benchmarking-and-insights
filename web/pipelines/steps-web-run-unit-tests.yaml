@@ -28,5 +28,11 @@ steps:
     inputs:
       command: test
       packagesDirectory: $(NUGET_PACKAGES)
-      arguments: '--configuration Release --collect "Code coverage" --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults"'
+      arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       projects: 'web/**/*.Tests.csproj'
+
+  - task: PublishCodeCoverageResults@2
+    displayName: 'Publish code coverage report'
+    inputs:
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
