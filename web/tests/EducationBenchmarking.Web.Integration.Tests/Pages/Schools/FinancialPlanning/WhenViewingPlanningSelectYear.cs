@@ -154,7 +154,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Select academic year to plan", "Select academic year to plan");
+        DocumentAssert.TitleAndH1(page, "Select academic year to plan - Education benchmarking and insights - GOV.UK", "Select academic year to plan");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.Urn));

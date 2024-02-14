@@ -13,6 +13,6 @@ public class WhenViewingCommercialResources(BenchmarkingWebAppClient client) : P
 
         DocumentAssert.AssertPageUrl(page, Paths.CommercialResources.ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "", "Find commercial resources");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Find commercial resources");
     }
 }

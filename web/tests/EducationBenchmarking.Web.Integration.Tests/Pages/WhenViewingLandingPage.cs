@@ -13,7 +13,7 @@ public class WhenViewingLandingPage(BenchmarkingWebAppClient client) : PageBase(
 
         DocumentAssert.AssertPageUrl(page, Paths.ServiceHome.ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights", "Education benchmarking and insights");
+        DocumentAssert.TitleAndH1(page, "Home - Education benchmarking and insights - GOV.UK", "Education benchmarking and insights");
 
         var startButton = page.GetElementsByClassName("govuk-button--start").FirstOrDefault();
         Assert.NotNull(startButton);

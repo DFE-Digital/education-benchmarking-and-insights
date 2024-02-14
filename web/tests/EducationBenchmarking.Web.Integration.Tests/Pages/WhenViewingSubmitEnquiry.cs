@@ -13,6 +13,6 @@ public class WhenViewingSubmitEnquiry(BenchmarkingWebAppClient client) : PageBas
 
         DocumentAssert.AssertPageUrl(page, Paths.SubmitEnquiry.ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "", "Submit an enquiry");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Submit an enquiry");
     }
 }

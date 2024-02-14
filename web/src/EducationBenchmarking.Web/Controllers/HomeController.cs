@@ -9,7 +9,7 @@ public class HomeController : Controller
 {
 
     [HttpGet]
-    [DefaultBreadcrumb("Home")]
+    [DefaultBreadcrumb(PageTitleConstants.ServiceHome)]
     public IActionResult Index()
     {
         return View();

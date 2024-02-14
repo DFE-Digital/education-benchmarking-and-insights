@@ -92,7 +92,7 @@ public class WhenViewingPlanningStart(BenchmarkingWebAppClient client) : PageBas
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP)", "Curriculum and financial planning (CFP)");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.Urn));

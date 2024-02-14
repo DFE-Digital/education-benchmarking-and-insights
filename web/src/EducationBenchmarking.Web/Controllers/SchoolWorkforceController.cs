@@ -5,7 +5,6 @@ using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -24,14 +23,7 @@ public class SchoolWorkforceController(
         {
             try
             {
-                var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-                var childNode = new MvcBreadcrumbNode("Index", "SchoolWorkforce", "Benchmark workforce data")
-                {
-                    RouteValues = new { urn },
-                    Parent = parentNode
-                };
-                
-                ViewData[ViewDataConstants.BreadcrumbNode] = childNode; 
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolWorkforce(urn); 
                 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await financeService.GetYears();

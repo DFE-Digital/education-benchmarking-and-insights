@@ -86,6 +86,18 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     }
     
     [Fact]
+    public async Task CanNavigateToChangeSchool()
+    {
+        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
+    }
+    
+    [Fact]
     public async Task CanDisplayNotFound()
     {
         const string urn = "12345";
@@ -140,11 +152,14 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         
         Assert.NotNull(school.Name);
-        DocumentAssert.TitleAndH1(page, "Your school", school.Name);
-        if (school.FinanceType == EstablishmentTypes.Academies)
+        DocumentAssert.TitleAndH1(page, "Your school - Education benchmarking and insights - GOV.UK", school.Name);
+        if (school.IsPartOfTrust)
         {
             DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");    
         }
+        
+        var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
+        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
         
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[3]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");

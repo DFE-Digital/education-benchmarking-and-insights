@@ -180,6 +180,6 @@ public class WhenViewingPlanningTotalExpenditure(BenchmarkingWebAppClient client
     {
         DocumentAssert.BackLink(page, "Back",
             Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total expenditure", "Total expenditure");
+        DocumentAssert.TitleAndH1(page, "Total expenditure - Education benchmarking and insights - GOV.UK", "Total expenditure");
     }
 }

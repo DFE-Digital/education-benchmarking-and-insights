@@ -4,7 +4,6 @@ using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -20,9 +19,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
         {
             try
             {
-                var node = new MvcBreadcrumbNode("Index", "Trust", "Your trust") { RouteValues = new { companyNumber } };
-
-                ViewData[ViewDataConstants.BreadcrumbNode] = node;
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
                 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 

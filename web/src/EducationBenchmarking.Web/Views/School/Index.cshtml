@@ -27,29 +27,14 @@
                 <span>Part of </span><a href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })" class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
             </h2>
         }
-        <p class="govuk-body">
-            <a href="@Constants.GiasSchoolUrl(Model.Urn)" class="govuk-link govuk-link--no-visited-state" target="_blank" rel="noopener noreferrer">
-                Get more information about this school (opens in new tab)
-            </a>
-        </p>
     </div>
 </div>
 
-@await Component.InvokeAsync("FinanceTools", new {identifier = Model.Urn, tools = new [] { FinanceTools.CompareYourCosts, FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce}})
-
+@await Component.InvokeAsync("FinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Resources</h2>
-        <ul class="app-links">
-            <li>@await Component.InvokeAsync("FindCommercialResources")</li>
-            <li>@await Component.InvokeAsync("HistoricData", Model.Urn)</li>
-            <li>@await Component.InvokeAsync("SchoolDetails", Model.Urn)</li>
-        </ul>
-    </div>
-</div>
+@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.FindCommercialResources, Resources.HistoricData, Resources.SchoolDetails } })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

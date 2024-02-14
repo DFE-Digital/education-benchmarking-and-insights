@@ -6,7 +6,7 @@ public static class PageAssert
 {
     public static void IsNotFoundPage(IHtmlDocument doc)
     {
-        DocumentAssert.TitleAndH1(doc, "Page not found", "Page not found");
+        DocumentAssert.TitleAndH1(doc, "Page not found - Education benchmarking and insights - GOV.UK", "Page not found");
 
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
         DocumentAssert.TextEqual(paras[0], "If you typed the web address, check it is correct.");
@@ -18,7 +18,7 @@ public static class PageAssert
 
     public static void IsAccessDeniedPage(IHtmlDocument doc)
     {
-        DocumentAssert.TitleAndH1(doc, "Access denied",
+        DocumentAssert.TitleAndH1(doc, "Access denied - Education benchmarking and insights - GOV.UK",
             "Access denied");
 
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
@@ -30,7 +30,7 @@ public static class PageAssert
 
     public static void IsProblemPage(IHtmlDocument doc)
     {
-        DocumentAssert.TitleAndH1(doc, "Sorry, there is a problem with the service",
+        DocumentAssert.TitleAndH1(doc, "Sorry, there is a problem with the service - Education benchmarking and insights - GOV.UK",
             "Sorry, there is a problem with the service");
 
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();

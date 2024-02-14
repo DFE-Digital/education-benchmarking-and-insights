@@ -194,6 +194,7 @@ public static class EdubaseFieldNames
         public const string TRUSTS = "Trusts";
         public const string SPONSORS = "SchoolSponsors";
         public const string LA_CODE = "LACode";
+        public const string LA_NAME = "LA";
         public const string ESTAB_NO = "EstablishmentNumber";
         public const string LA_ESTAB = "LAEstab";
         public const string TEL_NO = "TelephoneNum";

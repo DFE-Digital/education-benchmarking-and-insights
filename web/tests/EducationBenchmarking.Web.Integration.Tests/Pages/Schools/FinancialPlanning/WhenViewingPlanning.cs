@@ -126,7 +126,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
             ("Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP)","Curriculum and financial planning (CFP)");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK","Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolFinancialPlanningStart(school.Urn));
