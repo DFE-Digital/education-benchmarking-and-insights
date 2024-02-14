@@ -60,8 +60,8 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
+        
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
     }
 
     [Fact]

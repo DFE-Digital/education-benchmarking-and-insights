@@ -181,8 +181,8 @@ public class SchoolPlanningStepsController(
 
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
-                return plan.UseFigures.Value
-                    ? RedirectToAction("Timetable", new { urn, year })
+                return  plan.UseFigures.Value
+                    ? RedirectToAction("TimetableCycle", new { urn, year })
                     : RedirectToAction("TotalIncome", new { urn, year });
             }
             catch (Exception e)
@@ -195,13 +195,68 @@ public class SchoolPlanningStepsController(
     }
 
     [HttpGet]
-    [Route("timetable")]
-    public IActionResult Timetable(string urn, int year)
+    [Route("timetable-cycle")]
+    public async Task<IActionResult> TimetableCycle(string urn, int year)
     {
         using (logger.BeginScope(new { urn, year }))
         {
             try
             {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                ArgumentNullException.ThrowIfNull(plan.UseFigures, nameof(plan.UseFigures));
+
+                var backAction = plan.UseFigures == true
+                    ? Url.Action("PrePopulateData", new { urn, year })
+                    : Url.Action("TotalNumberTeachers", new { urn, year });
+
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
+
+                var viewModel = new SchoolPlanViewModel(school, year, plan);
+
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("timetable-cycle")]
+    public async Task<IActionResult> TimetableCycle(string urn, int year, int? timetablePeriods)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                ArgumentNullException.ThrowIfNull(plan.UseFigures, nameof(plan.UseFigures));
+
+                plan.TimetablePeriods = timetablePeriods;
+
+                var backAction = plan.UseFigures == true
+                    ? Url.Action("PrePopulateData", new { urn, year })
+                    : Url.Action("TotalNumberTeachers", new { urn, year });
+
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
+
+                if (timetablePeriods is null or <= 0)
+                {
+                    var message = !timetablePeriods.HasValue ? "Please enter a value" : "Value must be a whole number";
+                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TimetablePeriods), message);
+                    return View(viewModel);
+                }
+
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+                //TODO: update when next page is created in icfp journey
                 return new OkResult();
             }
             catch (Exception e)
@@ -468,8 +523,8 @@ public class SchoolPlanningStepsController(
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-
-                return new OkResult();
+                
+                return RedirectToAction("TimetableCycle", new { urn, year });
             }
             catch (Exception e)
             {

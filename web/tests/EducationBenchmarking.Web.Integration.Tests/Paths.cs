@@ -30,8 +30,8 @@ public static class Paths
         $"/school/{urn}/financial-planning/steps/total-income?year={year}";
     public static string SchoolFinancialPlanningPrePopulatedData(string? urn, int year) =>
         $"/school/{urn}/financial-planning/steps/pre-populate-data?year={year}";
-    public static string SchoolFinancialPlanningTimetable(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/timetable?year={year}";
+    public static string SchoolFinancialPlanningTimetableCycle(string? urn, int year) =>
+        $"/school/{urn}/financial-planning/steps/timetable-cycle?year={year}";
     public static string SchoolFinancialPlanningHelp(string? urn) => $"/school/{urn}/financial-planning/steps/help";
     public static string SchoolFinancialPlanningTotalExpenditure(string? urn, int year) =>
         $"/school/{urn}/financial-planning/steps/total-expenditure?year={year}";
