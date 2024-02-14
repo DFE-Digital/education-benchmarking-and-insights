@@ -41,5 +41,6 @@ steps:
     displayName: 'Check build quality'
     inputs:
       checkCoverage: true
+      coverageType: lines
       coverageFailOption: fixed
       coverageThreshold: 50
