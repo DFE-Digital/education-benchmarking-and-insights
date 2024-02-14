@@ -34,7 +34,7 @@ steps:
   - task: PublishCodeCoverageResults@2
     displayName: 'Publish code coverage report'
     inputs:
-      summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
+      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
   - task: BuildQualityChecks@9
     displayName: 'Check build quality'
