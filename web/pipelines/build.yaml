@@ -24,6 +24,7 @@ variables:
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
   TerraformFolder: 'web/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  disable.coverage.autogenerate: 'true'
 
 stages:
   - stage: Build
@@ -65,8 +66,6 @@ stages:
 
       - job: RunTests
         displayName: 'Run unit tests'
-        variables:
-          disable.coverage.autogenerate: 'true'
         steps:
           - template: steps-web-run-unit-tests.yaml
 

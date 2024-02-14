@@ -31,11 +31,17 @@ steps:
       arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       projects: 'platform/**/*.Tests.csproj'
 
-  - task: PublishCodeCoverageResults@2
+  - task: reportgenerator@5
+    displayName: 'Generate coverage report'
+    inputs:
+      reports: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
+      targetdir: '$(Pipeline.Workspace)/coveragereport'
+
+  - task: PublishCodeCoverageResults@1
     displayName: 'Publish code coverage report'
     inputs:
-      summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
-      pathToSources: '$(System.DefaultWorkingDirectory)/platform/src/'
+      codeCoverageTool: 'Cobertura'
+      summaryFileLocation: '$(Pipeline.Workspace)/coveragereport/Cobertura.xml'
 
   - task: BuildQualityChecks@9
     displayName: 'Check build quality'
