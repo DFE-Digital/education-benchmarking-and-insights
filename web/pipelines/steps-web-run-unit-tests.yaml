@@ -31,7 +31,7 @@ steps:
       arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       projects: 'web/**/*.Tests.csproj'
 
-  - task: PublishCodeCoverageResults@1
+  - task: PublishCodeCoverageResults@2
     displayName: 'Publish code coverage report'
     inputs:
       summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
