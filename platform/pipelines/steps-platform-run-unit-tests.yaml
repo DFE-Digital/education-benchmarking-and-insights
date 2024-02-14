@@ -30,6 +30,7 @@ steps:
       packagesDirectory: $(NUGET_PACKAGES)
       arguments: '--configuration Release --logger "console;verbosity=detailed" --logger "trx;LogFilePrefix=testResults" --collect "XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
       projects: 'platform/**/*.Tests.csproj'
+      publishTestResults: false
 
   - task: PublishCodeCoverageResults@2
     displayName: 'Publish code coverage report'
