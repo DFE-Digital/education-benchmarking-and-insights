@@ -74,3 +74,11 @@ steps:
   
   - publish: $(build.artifactstagingdirectory)/platform-apis
     artifact: platform-apis
+
+  - task: BuildQualityChecks@9
+    displayName: 'Check build quality'
+    inputs:
+      checkWarnings: true
+      showStatistics: true
+      warningFailOption: fixed
+      warningThreshold: 5

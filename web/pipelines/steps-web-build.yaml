@@ -57,3 +57,11 @@ steps:
 
   - publish: $(build.artifactstagingdirectory)/web
     artifact: web
+
+  - task: BuildQualityChecks@9
+    displayName: 'Check build quality'
+    inputs:
+      checkWarnings: true
+      showStatistics: true
+      warningFailOption: fixed
+      warningThreshold: 50
