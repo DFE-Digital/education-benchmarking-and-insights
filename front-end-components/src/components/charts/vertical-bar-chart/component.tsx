@@ -1,5 +1,7 @@
 import {
   ForwardedRef,
+  ReactElement,
+  Ref,
   forwardRef,
   useImperativeHandle,
   useMemo,
@@ -25,12 +27,6 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
-
-declare module "react" {
-  function forwardRef<T, P = Record<string, never>>(
-    render: (props: P, ref: ForwardedRef<T>) => ReactElement | null
-  ): (props: P & RefAttributes<T>) => ReactElement | null;
-}
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
   props: ChartProps<TData>,
@@ -209,4 +205,9 @@ const MultiLineAxisTick = (props: Partial<TickProps>) => {
   );
 };
 
-export const VerticalBarChart = forwardRef(VerticalBarChartInner);
+// https://stackoverflow.com/a/58473012/504477
+export const VerticalBarChart = forwardRef(VerticalBarChartInner) as <
+  TData extends ChartDataSeries,
+>(
+  p: ChartProps<TData> & { ref?: Ref<ChartHandler> }
+) => ReactElement;
