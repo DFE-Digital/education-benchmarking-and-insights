@@ -9,6 +9,7 @@ import {
   ChartDataSeries,
   ChartHandler,
   ChartProps,
+  TickProps,
 } from "src/components/charts/vertical-bar-chart";
 import {
   Bar,
@@ -18,8 +19,8 @@ import {
   Label,
   Legend,
   ResponsiveContainer,
+  Text,
   XAxis,
-  XAxisProps,
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
@@ -38,15 +39,15 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   const {
     chartName,
     data,
-    gridEnabled,
+    grid,
     highlightedItemKeys,
     keyField,
-    legendEnabled,
+    legend,
     margin: _margin,
+    multiLineAxisLabel,
     seriesConfig,
     seriesLabel,
     seriesLabelField,
-    seriesLabelRotate,
     valueLabel,
     valueUnit,
   } = props;
@@ -104,12 +105,6 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     );
   };
 
-  const xAxisProps: XAxisProps = {};
-  if (seriesLabelRotate) {
-    xAxisProps.angle = -45;
-    xAxisProps.textAnchor = "end";
-  }
-
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
@@ -125,12 +120,30 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             top: margin,
             right: margin,
             bottom:
-              margin + (seriesLabel ? 10 : 0) + (seriesLabelRotate ? 10 : 0),
+              margin + (seriesLabel ? 10 : 0) + (multiLineAxisLabel ? 10 : 0),
             left: margin,
           }}
           onMouseMove={handleBarChartMouseMove}
         >
-          {gridEnabled && <CartesianGrid />}
+          {grid && (
+            <CartesianGrid
+              verticalCoordinatesGenerator={(props) => {
+                if (!props.offset || !props.xAxis?.domain) {
+                  return [];
+                }
+
+                // offset grid to be between columns rather than at tick mark
+                const keys = props.xAxis.domain as string[];
+                const columnWidth =
+                  (props.offset.width as number) / keys.length;
+                return Array.from({ length: keys.length + 2 }).map(
+                  (_x, i) =>
+                    i * columnWidth -
+                    (props.offset.left as number) / keys.length
+                );
+              }}
+            />
+          )}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (
             <Bar key={seriesName as string} dataKey={seriesName as string}>
               {data.map((entry, dataIndex) =>
@@ -141,7 +154,8 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
           <XAxis
             type="category"
             dataKey={seriesLabelField as string}
-            {...xAxisProps}
+            tick={multiLineAxisLabel ? <MultiLineAxisTick /> : undefined}
+            interval={0}
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
@@ -156,7 +170,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          {legendEnabled && (
+          {legend && (
             <Legend
               align="right"
               verticalAlign="top"
@@ -171,5 +185,28 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     </div>
   );
 }
+
+const MultiLineAxisTick = (props: Partial<TickProps>) => {
+  const { x, y, payload, width, visibleTicksCount } = props;
+  return (
+    <g transform={`translate(${x},${y})`}>
+      <Text
+        x={0}
+        y={0}
+        dy={12}
+        textAnchor="middle"
+        verticalAnchor="middle"
+        width={
+          width && visibleTicksCount
+            ? (width as number) / visibleTicksCount
+            : undefined
+        }
+        maxLines={2}
+      >
+        {payload?.value}
+      </Text>
+    </g>
+  );
+};
 
 export const VerticalBarChart = forwardRef(VerticalBarChartInner);

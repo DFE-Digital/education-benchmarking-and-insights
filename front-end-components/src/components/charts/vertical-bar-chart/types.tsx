@@ -1,16 +1,19 @@
+import { SVGProps } from "react";
+import { CartesianTickItem } from "recharts/types/util/types";
+
 export interface ChartProps<TData extends ChartDataSeries> {
   chartName: string;
   data: TData[];
-  gridEnabled?: boolean;
+  grid?: boolean;
   highlightedItemKeys?: ChartSeriesValue[];
   keyField: keyof TData;
+  legend?: boolean;
   margin?: number;
+  multiLineAxisLabel?: boolean;
   ref?: ChartHandler;
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
-  seriesLabelRotate?: boolean;
-  legendEnabled?: boolean;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
 }
@@ -33,4 +36,10 @@ export type ChartDataSeries = { [name: ChartSeriesName]: ChartSeriesValue };
 
 export type ChartHandler = {
   download: () => void;
+};
+
+export type TickProps = SVGProps<SVGGElement> & {
+  index: number;
+  payload: CartesianTickItem;
+  visibleTicksCount: number;
 };
