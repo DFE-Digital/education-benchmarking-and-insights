@@ -8,10 +8,8 @@ import {
   useState,
 } from "react";
 import {
-  ChartDataSeries,
-  ChartHandler,
-  ChartProps,
-  TickProps,
+  VerticalBarChartHandler,
+  VerticalBarChartProps,
 } from "src/components/charts/vertical-bar-chart";
 import {
   Bar,
@@ -27,10 +25,11 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
+import { ChartDataSeries, TickProps } from "src/components";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
-  props: ChartProps<TData>,
-  ref: ForwardedRef<ChartHandler>
+  props: VerticalBarChartProps<TData>,
+  ref: ForwardedRef<VerticalBarChartHandler>
 ) {
   const {
     chartName,
@@ -161,7 +160,6 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
                 value={valueLabel}
                 transform="rotate(90deg)"
                 angle={-90}
-                style={{ textAnchor: "middle" }}
                 position="insideLeft"
               />
             )}
@@ -209,5 +207,5 @@ const MultiLineAxisTick = (props: Partial<TickProps>) => {
 export const VerticalBarChart = forwardRef(VerticalBarChartInner) as <
   TData extends ChartDataSeries,
 >(
-  p: ChartProps<TData> & { ref?: Ref<ChartHandler> }
+  p: VerticalBarChartProps<TData> & { ref?: Ref<VerticalBarChartHandler> }
 ) => ReactElement;
