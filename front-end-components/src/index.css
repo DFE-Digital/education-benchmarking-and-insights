@@ -1,0 +1,25 @@
+.full-height-width {
+  width: 100%;
+  height: 100%;
+}
+
+.recharts-surface .chart-cell {
+  fill: #bfbfbf;
+}
+
+.recharts-surface .chart-cell.chart-cell-highlight {
+  fill: #12436d;
+}
+
+.recharts-surface .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
+  fill: #acacac;
+}
+
+.recharts-surface .recharts-cartesian-axis {
+  stroke: #000;
+}
+
+.recharts-surface .recharts-cartesian-axis .recharts-text {
+  fill: #000;
+  stroke: none;
+}
