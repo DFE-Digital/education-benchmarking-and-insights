@@ -63,33 +63,80 @@ if (verticalChartElement) {
           chartName="Chart name"
           data={[
             {
-              school: "School 1",
-              total: 100,
-              urn: 1,
+              group: "Year 7",
+              pupilsOnRoll: 14.2,
+              teacherCost: 12.9,
+              id: 0,
             },
             {
-              school: "School 2",
-              total: 200,
-              urn: 2,
+              group: "Year 8",
+              pupilsOnRoll: 16.3,
+              teacherCost: 16.1,
+              id: 1,
             },
             {
-              school: "School 3",
-              total: 300,
-              urn: 3,
+              group: "Year 9",
+              pupilsOnRoll: 14.1,
+              teacherCost: 12.8,
+              id: 2,
+            },
+            {
+              group: "Year 10",
+              pupilsOnRoll: 12.9,
+              teacherCost: 12.5,
+              id: 3,
+            },
+            {
+              group: "Year 11",
+              pupilsOnRoll: 15.2,
+              teacherCost: 12.6,
+              id: 4,
+            },
+            {
+              group: "Year 12",
+              pupilsOnRoll: 14.2,
+              teacherCost: 12.4,
+              id: 5,
+            },
+            {
+              group: "Year 13",
+              pupilsOnRoll: 14.1,
+              teacherCost: 12.8,
+              id: 6,
+            },
+            {
+              group: "Intervention",
+              teacherCost: 3.2,
+              id: 7,
+            },
+            {
+              group: "Learning support",
+              teacherCost: 4,
+              id: 8,
+            },
+            {
+              group: "Dyslexia support",
+              teacherCost: 2.5,
+              id: 9,
             },
           ]}
-          highlightedItemKeys={[3]}
-          keyField="urn"
+          gridEnabled
+          keyField="id"
+          legendEnabled
           margin={20}
           seriesConfig={{
-            total: {
+            pupilsOnRoll: {
+              label: "Pupils on roll",
               visible: true,
-              className: "chart-cell-red",
+            },
+            teacherCost: {
+              label: "Teacher cost",
+              visible: true,
             },
           }}
-          seriesLabelField="school"
-          seriesLabel="School"
-          valueLabel="Total"
+          seriesLabelField="group"
+          seriesLabelRotate
+          valueUnit="%"
         />
       </div>
     </React.StrictMode>

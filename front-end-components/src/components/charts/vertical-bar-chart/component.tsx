@@ -13,10 +13,13 @@ import {
 import {
   Bar,
   BarChart,
+  CartesianGrid,
   Cell,
   Label,
+  Legend,
   ResponsiveContainer,
   XAxis,
+  XAxisProps,
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
@@ -35,13 +38,17 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   const {
     chartName,
     data,
+    gridEnabled,
     highlightedItemKeys,
     keyField,
+    legendEnabled,
     margin: _margin,
     seriesConfig,
     seriesLabel,
     seriesLabelField,
+    seriesLabelRotate,
     valueLabel,
+    valueUnit,
   } = props;
 
   useImperativeHandle(ref, () => ({
@@ -68,7 +75,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   const margin = _margin || 5;
 
   // https://stackoverflow.com/a/61373602/504477
-  const buildCell = (
+  const renderCell = (
     entry: TData,
     dataIndex: number,
     seriesKey: keyof TData,
@@ -97,6 +104,12 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     );
   };
 
+  const xAxisProps: XAxisProps = {};
+  if (seriesLabelRotate) {
+    xAxisProps.angle = -45;
+    xAxisProps.textAnchor = "end";
+  }
+
   return (
     // a11y: https://github.com/recharts/recharts/issues/3816
     <div
@@ -111,15 +124,28 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
           margin={{
             top: margin,
             right: margin,
-            bottom: seriesLabel ? margin + 10 : margin,
+            bottom:
+              margin + (seriesLabel ? 10 : 0) + (seriesLabelRotate ? 10 : 0),
             left: margin,
           }}
           onMouseMove={handleBarChartMouseMove}
         >
-          <XAxis type="category" dataKey={seriesLabelField as string}>
+          {gridEnabled && <CartesianGrid />}
+          {visibleSeriesNames.map((seriesName, seriesIndex) => (
+            <Bar key={seriesName as string} dataKey={seriesName as string}>
+              {data.map((entry, dataIndex) =>
+                renderCell(entry, dataIndex, seriesName, seriesIndex)
+              )}
+            </Bar>
+          ))}
+          <XAxis
+            type="category"
+            dataKey={seriesLabelField as string}
+            {...xAxisProps}
+          >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
-          <YAxis type="number">
+          <YAxis type="number" unit={valueUnit}>
             {valueLabel && (
               <Label
                 value={valueLabel}
@@ -130,13 +156,16 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          {visibleSeriesNames.map((seriesName, seriesIndex) => (
-            <Bar key={seriesName as string} dataKey={seriesName as string}>
-              {data.map((entry, i) =>
-                buildCell(entry, i, seriesName, seriesIndex)
-              )}
-            </Bar>
-          ))}
+          {legendEnabled && (
+            <Legend
+              align="right"
+              verticalAlign="top"
+              formatter={(value) =>
+                (seriesConfig && seriesConfig[value]?.label) || value
+              }
+              height={30}
+            />
+          )}
         </BarChart>
       </ResponsiveContainer>
     </div>

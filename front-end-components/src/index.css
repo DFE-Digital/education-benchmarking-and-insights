@@ -3,23 +3,55 @@
   height: 100%;
 }
 
-.recharts-surface .chart-cell {
-  fill: #bfbfbf;
+.recharts-wrapper {
+  --grid-colour: #f0f0f0;
+  --label-colour: #8c8c8c;
+  --series-0-colour: #bfbfbf;
+  --series-0-active-colour: #acacac;
+  --series-1-colour: #4c2c92;
+  --series-1-active-colour: #341e63;
+  --series-highlight-colour: #12436d;
 }
 
-.recharts-surface .chart-cell.chart-cell-highlight {
-  fill: #12436d;
+.recharts-wrapper .chart-cell,
+.recharts-wrapper .chart-cell.chart-cell-series-0,
+.recharts-wrapper .recharts-legend-item.legend-item-0 path {
+  fill: var(--series-0-colour);
 }
 
-.recharts-surface .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
-  fill: #acacac;
+.recharts-wrapper .chart-cell.chart-cell-highlight {
+  fill: var(--series-highlight-colour);
 }
 
-.recharts-surface .recharts-cartesian-axis {
-  stroke: #000;
+.recharts-wrapper .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
+  fill: var(--series-0-active-colour);
 }
 
-.recharts-surface .recharts-cartesian-axis .recharts-text {
-  fill: #000;
+.recharts-wrapper .recharts-cartesian-axis,
+.recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-line,
+.recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-tick-line {
+  stroke: var(--label-colour);
+}
+
+.recharts-wrapper .recharts-cartesian-axis .recharts-text {
+  fill: var(--label-colour);
   stroke: none;
+}
+
+.recharts-wrapper .recharts-legend-item .recharts-legend-item-text {
+  color: var(--label-colour);
+}
+
+.recharts-wrapper .chart-cell.chart-cell-series-1,
+.recharts-wrapper .recharts-legend-item.legend-item-1 path {
+  fill: var(--series-1-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-1.chart-cell-active:not(.chart-cell-highlight) {
+  fill: var(--series-1-active-colour);
+}
+
+.recharts-wrapper .recharts-cartesian-grid line {
+  stroke: var(--grid-colour);
 }
