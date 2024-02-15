@@ -20,6 +20,7 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
     }
+  }
 }
 
 variable "dfe-signin" {}
