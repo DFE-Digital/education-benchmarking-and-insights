@@ -82,3 +82,4 @@ steps:
       showStatistics: true
       warningFailOption: fixed
       warningThreshold: 5
+      warningFilters: '/\s([1-9]\d*\.?[0]*)\s+Warning\(s\)|\s([1-9]\d*\.?[0]*)\s+Error\(s\)/'
