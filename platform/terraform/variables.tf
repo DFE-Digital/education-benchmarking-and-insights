@@ -22,5 +22,12 @@ variable "configuration" {
         ]
       }
     }
+    test = {
+      cosmos = {
+        capabilities = [
+          "EnableServerless"
+        ]
+      }
+    }
   }
 }
