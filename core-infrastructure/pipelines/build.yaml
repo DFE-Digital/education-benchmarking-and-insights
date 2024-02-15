@@ -71,6 +71,6 @@ stages:
       - template: jobs-core-deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
-          environmentPrefix: 's198t0t'
+          environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
