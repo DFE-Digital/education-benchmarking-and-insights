@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class HostEnvironmentExtensions
 {
     private const string IntegrationEnvironment = "Integration";

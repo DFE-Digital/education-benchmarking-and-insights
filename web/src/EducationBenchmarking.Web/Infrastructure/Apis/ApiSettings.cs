@@ -1,7 +1,9 @@
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics.CodeAnalysis;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
+[ExcludeFromCodeCoverage]
 public class ApiSettings
 {
     [Required(ErrorMessage = "Api {0} is mandatory")]

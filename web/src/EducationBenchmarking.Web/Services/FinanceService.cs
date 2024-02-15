@@ -1,4 +1,3 @@
-using System.Globalization;
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
@@ -9,13 +8,11 @@ public interface IFinanceService
 {
     Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools);
     Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School>schools);
-    Task<(Finances, Rating[])> GetRatings(School school);
     Task<Finances> GetFinances(School school);
-    Task<Finances> GetFinances(Trust trust);
     Task<FinanceYears> GetYears();
 }
 
-public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) : IFinanceService
+public class FinanceService(IInsightApi insightApi) : IFinanceService
 {
     public async Task<FinanceYears> GetYears()
     {
@@ -34,28 +31,6 @@ public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) 
         return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
     }
 
-    public async Task<(Finances, Rating[])> GetRatings(School school)
-    {
-        var finances = await GetFinances(school);
-        var fsmBandings = await benchmarkApi.GetFreeSchoolMealBandings().GetResultOrThrow<Banding[]>();
-        
-        var sizeQuery = new ApiQuery()
-            .AddIfNotNull("phase", finances.OverallPhase)
-            .AddIfNotNull("hasSixthForm", finances.HasSixthForm.ToString())
-            .AddIfNotNull("noOfPupils", finances.NumberOfPupils.ToString(CultureInfo.InvariantCulture))
-            .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
-        var sizeBandings = await benchmarkApi.GetSchoolSizeBandings(sizeQuery).GetResultOrThrow<Banding[]>();
-        
-        var ratingsQuery = new ApiQuery()
-            .AddIfNotNull("phase", finances.OverallPhase)
-            .AddIfNotNull("size", fsmBandings.FirstOrDefault()?.Scale)
-            .AddIfNotNull("fsm", sizeBandings.FirstOrDefault()?.Scale)
-            .AddIfNotNull("term", $"{finances.YearEnd - 1}/{finances.YearEnd}");
-        var ratings = await insightApi.GetSchoolsRatings(ratingsQuery).GetResultOrThrow<Rating[]>();
-        
-        return (finances, ratings);
-    }
-
     public async Task<Finances> GetFinances(School school)
     {
         switch (school.FinanceType)
@@ -68,11 +43,6 @@ public class FinanceService(IInsightApi insightApi, IBenchmarkApi benchmarkApi) 
             default:
                 throw new ArgumentOutOfRangeException(nameof(school.Kind));
         }
-    }
-    
-    public async Task<Finances> GetFinances(Trust trust)
-    {
-        return new Finances();
     }
     
     private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<School> schools)

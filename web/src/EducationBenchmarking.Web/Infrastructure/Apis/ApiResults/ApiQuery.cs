@@ -19,7 +19,7 @@ public class ApiQuery : List<QueryParameter>
 
     private void Add(string key, string value)
     {
-        Add(new QueryParameter{Key = key, Value = value});
+        Add(new QueryParameter(key, value));
     }
     public ApiQuery AddIfNotNull(string key, string? value)
     {
@@ -31,8 +31,8 @@ public class ApiQuery : List<QueryParameter>
     }
 }
 
-public class QueryParameter
+public class QueryParameter(string key, string value)
 {
-    public string Key { get; set; }
-    public string Value { get; set;}
+    public string Key => key;
+    public string Value => value;
 }

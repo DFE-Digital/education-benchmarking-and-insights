@@ -8,10 +8,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="xunit.runner.visualstudio">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
+        <PackageReference Include="xunit.runner.visualstudio"/>
         <PackageReference Include="Deque.AxeCore.Playwright"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder"/>
@@ -20,18 +17,12 @@
         <PackageReference Include="Microsoft.Playwright"/>
         <PackageReference Include="Newtonsoft.Json"/>
         <PackageReference Include="FluentAssertions"/>
-        <PackageReference Include="xunit" />
-        <PackageReference Include="xunit.abstractions" />
+        <PackageReference Include="xunit"/>
+        <PackageReference Include="xunit.abstractions"/>
         <PackageReference Include="xunit.assert"/>
-        <None Update="appsettings.local.json">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
+        <ProjectReference Include="..\..\src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
-        <None Update="appsettings.local.json">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\src\EducationBenchmarking.Web\EducationBenchmarking.Web.csproj" />
+        <None Update="appsettings.local.json" CopyToOutputDirectory="Always"/>
+        <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
     </ItemGroup>
 </Project>

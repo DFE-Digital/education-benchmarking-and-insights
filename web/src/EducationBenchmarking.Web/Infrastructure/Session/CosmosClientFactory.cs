@@ -1,7 +1,9 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Cosmos;
 
 namespace EducationBenchmarking.Web.Infrastructure.Session;
 
+[ExcludeFromCodeCoverage]
 public static class CosmosClientFactory
 {
     public static CosmosClient Create(CosmosCacheSettings settings)

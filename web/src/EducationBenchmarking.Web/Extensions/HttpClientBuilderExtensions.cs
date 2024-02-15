@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using CorrelationId.HttpClient;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Web.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class HttpClientBuilderExtensions
 {
     public static IHttpClientBuilder ConfigureHttpClientForApi(this IHttpClientBuilder builder, string apiName)

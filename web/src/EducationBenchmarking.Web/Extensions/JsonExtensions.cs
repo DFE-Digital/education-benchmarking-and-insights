@@ -1,4 +1,5 @@
 
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
@@ -7,6 +8,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace EducationBenchmarking.Web.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class JsonExtensions
 {
 

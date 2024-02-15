@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Web.Infrastructure.Session;
 
+[ExcludeFromCodeCoverage]
 public class CosmosCacheSettings
 {
     public const string Section = nameof(CosmosCacheSettings);

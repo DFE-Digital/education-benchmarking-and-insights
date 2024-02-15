@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using JsonSubTypes;
 using Newtonsoft.Json;
 
@@ -17,6 +18,7 @@ public enum CharacteristicVariableTypes
     Value
 }
 
+[ExcludeFromCodeCoverage]
 public class PostBenchmarkSetRequest
 {
     public string? Urn { get; set; } //Lead (your) school
@@ -29,7 +31,7 @@ public class PostBenchmarkSetRequest
     public Dictionary<string, CharacteristicVariable>? Characteristics { get; set; }
 }
 
-
+[ExcludeFromCodeCoverage]
 [JsonConverter(typeof(JsonSubtypes), nameof(Kind))]
 [JsonSubtypes.FallBackSubTypeAttribute(typeof(ValueCharacteristic))]
 public abstract class CharacteristicVariable
@@ -37,12 +39,14 @@ public abstract class CharacteristicVariable
     public virtual CharacteristicVariableTypes? Kind => null;
 }
 
+[ExcludeFromCodeCoverage]
 public class ArrayCharacteristic : CharacteristicVariable
 {
     public override CharacteristicVariableTypes? Kind => CharacteristicVariableTypes.Array;
     public string[]? Values { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class RangeCharacteristic : CharacteristicVariable
 {
     public override CharacteristicVariableTypes? Kind => CharacteristicVariableTypes.Range;
@@ -50,6 +54,7 @@ public class RangeCharacteristic : CharacteristicVariable
     public string? ValueTo { get; set; }
 }
 
+[ExcludeFromCodeCoverage]
 public class ValueCharacteristic : CharacteristicVariable
 {
     public override CharacteristicVariableTypes? Kind => CharacteristicVariableTypes.Value;

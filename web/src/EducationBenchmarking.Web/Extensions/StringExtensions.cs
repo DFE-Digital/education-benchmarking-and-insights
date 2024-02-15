@@ -1,9 +1,11 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using System.Text.RegularExpressions;
 
 namespace EducationBenchmarking.Web.Extensions;
 
+[ExcludeFromCodeCoverage]
 public static class StringExtensions
 {
     private static readonly TextInfo TextInfo = CultureInfo.CurrentCulture.TextInfo;

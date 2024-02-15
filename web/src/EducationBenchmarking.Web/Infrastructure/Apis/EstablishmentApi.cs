@@ -1,17 +1,16 @@
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
 public class EstablishmentApi(HttpClient httpClient, string? key = default)
-    : BaseApi(httpClient, key), IEstablishmentApi
+    : ApiBase(httpClient, key), IEstablishmentApi
 {
-    public Task<ApiResult> GetSchool(string identifier)
+    public Task<ApiResult> GetSchool(string? identifier)
     {
         return GetAsync($"api/school/{identifier}");
     }
     
-    public async Task<ApiResult> GetTrust(string identifier)
+    public Task<ApiResult> GetTrust(string? identifier)
     {
-        //return GetAsync($"api/trust/{identifier}");
-        return ApiResult.Ok(new { name = "Dummy Trust" });
+        return GetAsync($"api/trust/{identifier}");
     }
 
     public Task<ApiResult> SuggestSchools(string search)
@@ -47,8 +46,8 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
 
 public interface IEstablishmentApi
 {
-    Task<ApiResult> GetSchool(string identifier);
-    Task<ApiResult> GetTrust(string identifier);
+    Task<ApiResult> GetSchool(string? identifier);
+    Task<ApiResult> GetTrust(string? identifier);
     Task<ApiResult> SuggestSchools(string search);
     Task<ApiResult> SuggestTrusts(string search);
     Task<ApiResult> SuggestOrganisations(string search);

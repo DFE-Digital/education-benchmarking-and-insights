@@ -12,13 +12,16 @@ public static class TestConfiguration
 #endif
         .Build();
 
-    public static ApiEndpoint Benchmark => Instance.GetSection(nameof(Benchmark)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Benchmark));
-    public static string School => Instance.GetValue<string>("SchoolUrn") ?? throw new Exception("Test school urn missing");
-    public static IEnumerable<string> Impacts => Instance.GetSection("Impacts").Get<string[]>() ?? ["critical",  "serious"];
-    public static string ServiceUrl => Instance.GetValue<string>("ServiceUrl") ?? throw new Exception("Service url missing");
+    public static ApiEndpoint Benchmark => Instance.GetSection(nameof(Benchmark)).Get<ApiEndpoint>() ??
+                                           throw new InvalidOperationException(
+                                               "Benchmark API missing from configuration");
+
+    public static string School => Instance.GetValue<string>("SchoolUrn") ??
+                                   throw new InvalidOperationException("School urn missing from configuration");
+
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
-    
-    public record  ApiEndpoint
+
+    public record ApiEndpoint
     {
         public string? Host { get; init; }
         public string? Key { get; init; }

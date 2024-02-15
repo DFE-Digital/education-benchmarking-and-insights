@@ -1,8 +1,10 @@
+using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
 namespace EducationBenchmarking.Web.Identity.Models;
 
 
+[ExcludeFromCodeCoverage]
 public class OperationClaim(string name, string context, string text)
     : Claim(ClaimNames.Operation, name), IEquatable<OperationClaim>
 {

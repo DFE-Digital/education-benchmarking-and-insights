@@ -5,10 +5,10 @@ namespace EducationBenchmarking.Web.Domain;
 [ExcludeFromCodeCoverage]
 public record SchoolExpenditure
 {
-    public string Urn { get; set; }
-    public string Name { get; set; }
-    public string SchoolType { get; set; }
-    public string LocalAuthority { get; set; }
+    public string? Urn { get; set; }
+    public string? Name { get; set; }
+    public string? SchoolType { get; set; }
+    public string? LocalAuthority { get; set; }
     
     public decimal TotalExpenditure { get; set; }
     public decimal NumberOfPupils { get; set; }
