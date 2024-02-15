@@ -21,6 +21,7 @@ public class SchoolPlanViewModel(School school)
     public decimal? TotalExpenditure => _plan?.TotalExpenditure;
     public decimal? TotalTeacherCosts => _plan?.TotalTeacherCosts;
     public decimal? TotalNumberOfTeachersFte => _plan?.TotalNumberOfTeachersFte;
+    public decimal? TotalEducationSupport => _plan?.TotalEducationSupport;
 }
 
 public class SchoolPlanFinancesViewModel(School school, Finances finances, int year, FinancialPlan? plan)
@@ -32,4 +33,5 @@ public class SchoolPlanFinancesViewModel(School school, Finances finances, int y
     public string CurrentTotalNumberOfTeachersFte => $"{finances.TotalNumberOfTeachersFte}";
     public string CurrentEducationSupportStaffCosts => $"{finances.EducationSupportStaffCosts:C}";
     public string FinancePeriod => $"{finances.YearEnd - 1} - {finances.YearEnd}";
+    
 }

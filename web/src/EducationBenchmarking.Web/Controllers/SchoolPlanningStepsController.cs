@@ -8,6 +8,7 @@ using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.TagHelpers;
 using Microsoft.FeatureManagement.Mvc;
 
+
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
@@ -428,6 +429,7 @@ public class SchoolPlanningStepsController(
         }
     }
     
+
     [HttpPost]
     [Route("total-number-teachers")]
     public async Task<IActionResult> TotalNumberTeachers(string urn, int year, decimal? totalNumberOfTeachersFte)
@@ -463,6 +465,69 @@ public class SchoolPlanningStepsController(
                     ? StatusCode((int)s.Status)
                     : StatusCode(500);
             }
+            
         }
     }
+
+    [HttpGet]
+[Route("total-education-support")]
+public async Task<IActionResult> TotalEducationSupport(string urn, int year)
+{
+    using (logger.BeginScope(new { urn, year, }))
+    {
+        try
+        {
+            ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalNumberTeachers", new { urn, year }));
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var support = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+            
+            var viewModel = new SchoolPlanViewModel(school, year, support);
+            return View(viewModel);
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error displaying school education support: {DisplayUrl}",
+                Request.GetDisplayUrl());
+            return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+        }
+    }
+}
+
+[HttpPost]
+[Route("total-education-support")]
+public async Task<IActionResult> TotalEducationSupport(string urn, int year, decimal? totalEducationSupport)
+{
+    using (logger.BeginScope(new { urn, year }))
+    {
+        try
+        {
+            ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+            plan.TotalEducationSupport = totalEducationSupport;
+
+            var viewModel = new SchoolPlanViewModel(school, year);
+            if (!totalEducationSupport.HasValue)
+            {
+                ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalEducationSupport), "Please enter a value");
+                return View(viewModel);
+            }
+            else if (totalEducationSupport <= 0 || totalEducationSupport % 1 != 0)
+            {
+                ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalEducationSupport), "Value must be a whole number");
+                return View(viewModel);
+            }
+
+            var request = PutFinancialPlanRequest.Create(plan);
+            await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+            return RedirectToAction("TotalNumberTeachers", new { urn, year });
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error occurred while processing total education support: {DisplayUrl}", Request.GetDisplayUrl());
+            return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+        }
+    }
+}
 }
