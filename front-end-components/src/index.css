@@ -41,6 +41,10 @@
   stroke: none;
 }
 
+.recharts-wrapper .recharts-cartesian-axis.recharts-yAxis > .recharts-label {
+  text-anchor: middle;
+}
+
 .recharts-wrapper .recharts-legend-item .recharts-legend-item-text {
   color: var(--label-colour);
 }
