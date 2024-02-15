@@ -20,6 +20,11 @@ variable "configuration" {
       zone_balancing_enabled = false
       worker_count           = 1
     }
+    test = {
+      sku_name               = "B1"
+      zone_balancing_enabled = false
+      worker_count           = 1
+    }
   }
 }
 
