@@ -68,6 +68,11 @@ stages:
         steps:
           - template: steps-platform-run-unit-tests.yaml
 
+      - job: BuildApiTests
+        displayName: 'Build platform api tests'
+        steps:
+          - template: steps-platform-build-api-tests.yaml
+
       - job: BuildPlatform
         dependsOn: [ SetBuildNumber ]
         displayName: 'Build platform'
