@@ -89,28 +89,15 @@ stages:
           environment: 'development'
           cipEnvironment: 'Dev'
 
-  - stage: DeployFunctionalTest
+  - stage: DeployAutomatedTest
     dependsOn: [ Build ]
-    displayName: 'Functional test'
+    displayName: 'Automated test'
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
     jobs:
       - template: jobs-platform-deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
-          environment: 'functional-test'
-          cipEnvironment: 'Dev'
-          runSearchApp: false
-
-  - stage: DeployAccessibilityTest
-    dependsOn: [ Build ]
-    displayName: 'Accessibility test'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    jobs:
-      - template: jobs-platform-deployment.yaml
-        parameters:
-          subscription: 's198d.azdo-deployment'
-          environmentPrefix: 's198d03'
-          environment: 'accessibility-test'
+          environment: 'automated-test'
           cipEnvironment: 'Dev'
           runSearchApp: false

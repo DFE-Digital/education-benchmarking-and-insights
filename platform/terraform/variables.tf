@@ -15,14 +15,7 @@ variable "configuration" {
         capabilities = []
       }
     }
-    functional-test = {
-      cosmos = {
-        capabilities = [
-          "EnableServerless"
-        ]
-      }
-    }
-    accessibility-test = {
+    automated-test = {
       cosmos = {
         capabilities = [
           "EnableServerless"
