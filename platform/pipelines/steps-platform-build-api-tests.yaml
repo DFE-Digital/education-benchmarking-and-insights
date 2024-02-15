@@ -1,0 +1,45 @@
+steps:
+  - task: NuGetAuthenticate@1
+  - bash: |
+      echo "##vso[task.setvariable variable=APITESTS_CACHE_RESTORED]false"
+      echo "##vso[task.setvariable variable=APITESTS_NUGET_CACHE]$(Pipeline.Workspace)/api-tests/.nuget"
+
+  - task: Cache@2
+    displayName: 'Cache NuGet packages'
+    inputs:
+      key: 'nuget | "$(Agent.OS)-api-tests" | platform/tests/EducationBenchmarking.Platform.ApiTests/packages.lock.json,!**/bin/**,!**/obj/**'
+      restoreKeys: |
+        nuget | "$(Agent.OS)-api-tests"
+      path: $(APITESTS_NUGET_CACHE)
+      cacheHitVar: APITESTS_CACHE_RESTORED
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore nuget packages'
+    condition: ne(variables.APITESTS_CACHE_RESTORED, 'true')
+    inputs:
+      command: restore
+      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/*EducationBenchmarking.Platform.ApiTests.csproj'
+      packagesDirectory: $(APITESTS_NUGET_CACHE)
+      feedsToUse: 'config'
+      nugetConfigPath: 'platform/nuget.config'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build api tests'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/*EducationBenchmarking.Platform.ApiTests.csproj'
+      arguments: '-c Release -o $(Pipeline.Workspace)/api-tests'
+      zipAfterPublish: false
+      modifyOutputPath: true
+
+  - task: ArchiveFiles@2
+    displayName: 'Zip api test files'
+    inputs:
+      rootFolderOrFile: '$(Pipeline.Workspace)/api-tests'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/api-tests.zip'
+
+  - publish: $(build.artifactstagingdirectory)/api-tests.zip
+    displayName: 'Publish api test artifacts'
+    artifact: api-tests
