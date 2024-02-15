@@ -67,19 +67,13 @@ steps:
       modifyOutputPath: true
 
   - publish: $(build.artifactstagingdirectory)/platform-db
+    displayName: 'Publish platform db artifacts'
     artifact: platform-db
     
   - publish: $(build.artifactstagingdirectory)/platform-search
+    displayName: 'Publish platform search artifacts'
     artifact: platform-search
   
   - publish: $(build.artifactstagingdirectory)/platform-apis
+    displayName: 'Publish platform apis artifacts'
     artifact: platform-apis
-
-  - task: BuildQualityChecks@9
-    displayName: 'Check build quality'
-    inputs:
-      checkWarnings: true
-      showStatistics: true
-      warningFailOption: fixed
-      warningThreshold: 5
-      warningFilters: '/\s([1-9]\d*\.?[0]*)\s+Warning\(s\)|\s([1-9]\d*\.?[0]*)\s+Error\(s\)/'

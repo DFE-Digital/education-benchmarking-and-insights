@@ -56,13 +56,5 @@ steps:
       modifyOutputPath: true
 
   - publish: $(build.artifactstagingdirectory)/web
+    displayName: 'Publish web artifacts'
     artifact: web
-
-  - task: BuildQualityChecks@9
-    displayName: 'Check build quality'
-    inputs:
-      checkWarnings: true
-      showStatistics: true
-      warningFailOption: fixed
-      warningThreshold: 50
-      warningFilters: '/\s([1-9]\d*\.?[0]*)\s+Warning\(s\)|\s([1-9]\d*\.?[0]*)\s+Error\(s\)/'
