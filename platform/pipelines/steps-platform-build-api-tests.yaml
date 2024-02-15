@@ -18,7 +18,7 @@ steps:
     condition: ne(variables.APITESTS_CACHE_RESTORED, 'true')
     inputs:
       command: restore
-      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/*EducationBenchmarking.Platform.ApiTests.csproj'
+      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/EducationBenchmarking.Platform.ApiTests.csproj'
       packagesDirectory: $(APITESTS_NUGET_CACHE)
       feedsToUse: 'config'
       nugetConfigPath: 'platform/nuget.config'
@@ -28,7 +28,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/*EducationBenchmarking.Platform.ApiTests.csproj'
+      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/EducationBenchmarking.Platform.ApiTests.csproj'
       arguments: '-c Release -o $(Pipeline.Workspace)/api-tests'
       zipAfterPublish: false
       modifyOutputPath: true

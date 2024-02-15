@@ -69,7 +69,7 @@ stages:
           - template: steps-platform-run-unit-tests.yaml
 
       - job: BuildApiTests
-        displayName: 'Build platform apt tests'
+        displayName: 'Build platform api tests'
         steps:
           - template: steps-platform-build-api-tests.yaml
 
