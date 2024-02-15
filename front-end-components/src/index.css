@@ -3,13 +3,16 @@
   height: 100%;
 }
 
+/* active colour is 8% darker */
 .recharts-wrapper {
   --grid-colour: #f0f0f0;
   --label-colour: #8c8c8c;
   --series-0-colour: #bfbfbf;
-  --series-0-active-colour: #acacac;
+  --series-0-active-colour: #ababab;
   --series-1-colour: #4c2c92;
-  --series-1-active-colour: #341e63;
+  --series-1-active-colour: #38187e;
+  --series-2-colour: #28a197;
+  --series-2-active-colour: #148d83;
   --series-highlight-colour: #12436d;
 }
 
@@ -50,6 +53,16 @@
 .recharts-wrapper
   .chart-cell.chart-cell-series-1.chart-cell-active:not(.chart-cell-highlight) {
   fill: var(--series-1-active-colour);
+}
+
+.recharts-wrapper .chart-cell.chart-cell-series-2,
+.recharts-wrapper .recharts-legend-item.legend-item-2 path {
+  fill: var(--series-2-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-2.chart-cell-active:not(.chart-cell-highlight) {
+  fill: var(--series-2-active-colour);
 }
 
 .recharts-wrapper .recharts-cartesian-grid line {
