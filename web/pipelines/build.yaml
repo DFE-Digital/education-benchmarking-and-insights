@@ -68,6 +68,11 @@ stages:
         steps:
           - template: steps-web-run-unit-tests.yaml
 
+      - job: BuildE2eA11yTests
+        displayName: 'Build web e2e & a11y tests'
+        steps:
+          - template: steps-web-build-tests.yaml
+
       - job: BuildWeb
         dependsOn: [ SetBuildNumber ]
         displayName: 'Build web'

@@ -1,0 +1,68 @@
+steps:
+  - task: NuGetAuthenticate@1
+  - bash: |
+      echo "##vso[task.setvariable variable=WEBTESTS_CACHE_RESTORED]false"
+      echo "##vso[task.setvariable variable=WEBTESTS_NUGET_CACHE]$(Pipeline.Workspace)/web-tests/.nuget"
+
+  - task: Cache@2
+    displayName: 'Cache NuGet packages'
+    inputs:
+      key: 'nuget | "$(Agent.OS)-web-tests" | web/tests/EducationBenchmarking.Web.E2ETests/packages.lock.json,web/tests/EducationBenchmarking.Web.A11yTests/packages.lock.json,!**/bin/**,!**/obj/**'
+      restoreKeys: |
+        nuget | "$(Agent.OS)-web-tests"
+      path: $(WEBTESTS_NUGET_CACHE)
+      cacheHitVar: WEBTESTS_CACHE_RESTORED
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Restore nuget packages'
+    condition: ne(variables.WEBTESTS_CACHE_RESTORED, 'true')
+    inputs:
+      command: restore
+      projects: |
+        web/tests/EducationBenchmarking.Web.E2ETests/EducationBenchmarking.Web.E2ETests.csproj      
+        web/tests/EducationBenchmarking.Web.A11yTests/EducationBenchmarking.Web.A11yTests.csproj
+      packagesDirectory: $(WEBTESTS_NUGET_CACHE)
+      feedsToUse: 'config'
+      nugetConfigPath: 'web/nuget.config'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build e2e tests'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: 'web/tests/EducationBenchmarking.Web.E2ETests/EducationBenchmarking.Web.E2ETests.csproj '
+      arguments: '-c Release -o $(Pipeline.Workspace)/e2e-tests'
+      zipAfterPublish: false
+      modifyOutputPath: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build a11y tests'
+    inputs:
+      command: publish
+      publishWebProjects: false
+      projects: 'web/tests/EducationBenchmarking.Web.A11yTests/EducationBenchmarking.Web.A11yTests.csproj'
+      arguments: '-c Release -o $(Pipeline.Workspace)/a11y-tests'
+      zipAfterPublish: false
+      modifyOutputPath: true
+
+  - task: ArchiveFiles@2
+    displayName: 'Zip e2e test files'
+    inputs:
+      rootFolderOrFile: '$(Pipeline.Workspace)/e2e-tests'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/e2e-tests.zip'
+
+  - task: ArchiveFiles@2
+    displayName: 'Zip a11y test files'
+    inputs:
+      rootFolderOrFile: '$(Pipeline.Workspace)/a11y-tests'
+      includeRootFolder: false
+      archiveFile: '$(Build.ArtifactStagingDirectory)/a11y-tests.zip'
+
+  - publish: $(build.artifactstagingdirectory)/e2e-tests.zip
+    displayName: 'Publish e2e test artifacts'
+    artifact: e2e-tests
+
+  - publish: $(build.artifactstagingdirectory)/a11y-tests.zip
+    displayName: 'Publish a11y test artifacts'
+    artifact: a11y-tests
