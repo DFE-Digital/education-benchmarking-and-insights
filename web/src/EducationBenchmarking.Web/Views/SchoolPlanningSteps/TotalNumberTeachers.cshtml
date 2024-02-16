@@ -21,7 +21,9 @@
                         <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TotalNumberOfTeachersFte)]?.Errors.First().ErrorMessage
                     </p>
                 }
-                <input class="@(ViewData.ModelState.HasError(nameof(Model.TotalIncome)) ? "govuk-input govuk-!-width-one-third govuk-input--error" : "govuk-input govuk-!-width-one-third")" 
+                <input class="@(ViewData.ModelState.HasError(nameof(Model.TotalNumberOfTeachersFte)) 
+                                  ? "govuk-input govuk-!-width-one-third govuk-input--error" 
+                                  : "govuk-input govuk-!-width-one-third")" 
                        id="total-number-teacher" 
                        name="@nameof(Model.TotalNumberOfTeachersFte)" 
                        type="number" 
