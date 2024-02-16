@@ -18,5 +18,5 @@ public record FinancialPlanDataObject
     [JsonProperty("totalNumberOfTeachersFte")] public decimal? TotalNumberOfTeachersFte { get; set; }
     [JsonProperty("educationSupportStaffCosts")] public decimal? EducationSupportStaffCosts { get; set; }
     [JsonProperty("useFigures")] public bool? UseFigures { get; set; }
-    [JsonProperty("timetableLength")] public int? TimetableLength { get; set; }
+    [JsonProperty("timetablePeriods")] public int? TimetablePeriods { get; set; }
 }
