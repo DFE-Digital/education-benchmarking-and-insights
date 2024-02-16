@@ -13,11 +13,13 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
     
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Academies, false)]
+    [InlineData(EstablishmentTypes.Maintained, true)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanDisplay(string financeType, bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType,isPrimary);
 
         AssertPageLayout(page, school);
     }
@@ -25,7 +27,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     [Fact]
     public async Task CanNavigateBack()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, false);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
@@ -51,7 +53,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
@@ -83,7 +85,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
@@ -104,7 +106,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     public async Task ShowsErrorOnInValidSubmit()
     {
         
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -125,11 +127,13 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     }
     
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanSubmit(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Academies, false)]
+    [InlineData(EstablishmentTypes.Maintained, true)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanSubmit(string financeType, bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, isPrimary);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -144,14 +148,18 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
         
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
+        var expectedPage = isPrimary 
+            ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute();
+        
+        DocumentAssert.AssertPageUrl(page, expectedPage);
     }
     
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)
     {
         var school = Fixture.Build<School>()
             .With(x => x.FinanceType, financeType)
+            .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
             .Create();
 
         var finances = Fixture.Build<Finances>()

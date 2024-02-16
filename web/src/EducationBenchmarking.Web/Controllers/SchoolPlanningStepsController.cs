@@ -8,10 +8,11 @@ using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.TagHelpers;
 using Microsoft.FeatureManagement.Mvc;
 
+
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.CurriculumFinancialPlanning)] 
+[FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning/steps")]
 public class SchoolPlanningStepsController(
     IEstablishmentApi establishmentApi,
@@ -43,7 +44,7 @@ public class SchoolPlanningStepsController(
             }
         }
     }
-    
+
     [HttpGet]
     [Route("select-year")]
     public async Task<IActionResult> SelectYear(string urn)
@@ -76,7 +77,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                if (year != null  && Constants.AvailableYears.Contains(year.Value))
+                if (year != null && Constants.AvailableYears.Contains(year.Value))
                 {
                     var plan = await benchmarkApi.GetFinancialPlan(urn, year.Value).GetResultOrDefault<FinancialPlan>();
                     if (plan == null)
@@ -84,17 +85,17 @@ public class SchoolPlanningStepsController(
                         var request = new PutFinancialPlanRequest { Urn = urn, Year = year.Value };
                         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
                     }
-                    
+
                     return RedirectToAction("PrePopulateData", new { urn, year });
                 }
 
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school, year);
-                
+
                 ModelState.AddModelError("year", "Select an academic year");
-                
+
                 return View(viewModel);
             }
             catch (Exception e)
@@ -129,7 +130,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 var finances = await financeService.GetFinances(school);
-                
+
                 var viewModel = new SchoolPlanFinancesViewModel(school, finances, year, plan);
 
                 return View(viewModel);
@@ -154,9 +155,9 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 var finances = await financeService.GetFinances(school);
-                
+
                 plan.UseFigures = useFigures;
-                
+
                 if (!plan.UseFigures.HasValue)
                 {
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
@@ -166,7 +167,7 @@ public class SchoolPlanningStepsController(
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
-                
+
                 if (plan.UseFigures.Value)
                 {
                     request.TotalIncome = finances.TotalIncome;
@@ -181,7 +182,7 @@ public class SchoolPlanningStepsController(
 
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
-                return  plan.UseFigures.Value
+                return plan.UseFigures.Value
                     ? RedirectToAction("Timetable", new { urn, year })
                     : RedirectToAction("TotalIncome", new { urn, year });
             }
@@ -223,10 +224,10 @@ public class SchoolPlanningStepsController(
             {
                 ViewData[ViewDataConstants.Backlink] =
                     new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                
+
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
             }
@@ -248,12 +249,13 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
+                ViewData[ViewDataConstants.Backlink] =
+                    new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TotalIncome = totalIncome;
-                
+
                 if (!totalIncome.HasValue)
                 {
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
@@ -263,7 +265,7 @@ public class SchoolPlanningStepsController(
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
+
                 return RedirectToAction("TotalExpenditure", new { urn, year });
             }
             catch (Exception e)
@@ -288,7 +290,7 @@ public class SchoolPlanningStepsController(
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                
+
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
             }
@@ -313,10 +315,9 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TotalExpenditure = totalExpenditure;
-                
+
                 if (!totalExpenditure.HasValue)
                 {
-                    
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalExpenditure), "Enter a total expenditure");
                     return View(viewModel);
@@ -324,7 +325,7 @@ public class SchoolPlanningStepsController(
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
+
                 return RedirectToAction("TotalTeacherCosts", new { urn, year });
             }
             catch (Exception e)
@@ -348,10 +349,10 @@ public class SchoolPlanningStepsController(
             {
                 ViewData[ViewDataConstants.Backlink] =
                     new BacklinkInfo(Url.Action("TotalExpenditure", new { urn, year }));
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                
+
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
             }
@@ -363,7 +364,7 @@ public class SchoolPlanningStepsController(
             }
         }
     }
-    
+
     [HttpPost]
     [Route("total-teacher-costs")]
     public async Task<IActionResult> TotalTeacherCosts(string urn, int year, decimal? totalTeacherCosts)
@@ -377,27 +378,27 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TotalTeacherCosts = totalTeacherCosts;
-                
+
                 if (!totalTeacherCosts.HasValue)
                 {
-                    
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
-                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalTeacherCosts), "Enter a total teacher cost");
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalTeacherCosts),
+                        "Enter a total teacher cost");
                     return View(viewModel);
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
-                return RedirectToAction("TotalNumberTeachers", new { urn, year });
+
+                return school.IsPrimary 
+                    ? RedirectToAction("TotalEducationSupport", new { urn, year })
+                    : RedirectToAction("TotalNumberTeachers", new { urn, year });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred while processing total teacher cost: {DisplayUrl}",
                     Request.GetDisplayUrl());
-                return e is StatusCodeException s
-                    ? StatusCode((int)s.Status)
-                    : StatusCode(500);
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
@@ -410,11 +411,12 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
-                    new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
-
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+
+                ViewData[ViewDataConstants.Backlink] = school.IsPrimary 
+                    ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
+                    : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                 
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
@@ -427,7 +429,7 @@ public class SchoolPlanningStepsController(
             }
         }
     }
-    
+
     [HttpPost]
     [Route("total-number-teachers")]
     public async Task<IActionResult> TotalNumberTeachers(string urn, int year, decimal? totalNumberOfTeachersFte)
@@ -436,32 +438,95 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
-                    new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
-
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TotalNumberOfTeachersFte = totalNumberOfTeachersFte;
-                
+
                 if (!totalNumberOfTeachersFte.HasValue)
                 {
+                    ViewData[ViewDataConstants.Backlink] = school.IsPrimary 
+                        ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
+                        : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
+                    
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
-                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalNumberOfTeachersFte), "Enter number of FTE teachers");
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalNumberOfTeachersFte),
+                        "Enter number of FTE teachers");
                     return View(viewModel);
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
+
                 return new OkResult();
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred while processing total teacher cost: {DisplayUrl}",
                     Request.GetDisplayUrl());
-                return e is StatusCodeException s
-                    ? StatusCode((int)s.Status)
-                    : StatusCode(500);
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("total-education-support")]
+    public async Task<IActionResult> TotalEducationSupport(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+
+                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school education support: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("total-education-support")]
+    public async Task<IActionResult> TotalEducationSupport(string urn, int year, decimal? educationSupportStaffCosts)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                plan.EducationSupportStaffCosts = educationSupportStaffCosts;
+                
+                if (educationSupportStaffCosts is null or <= 0)
+                {
+                    var msg = educationSupportStaffCosts is null
+                        ? "Total education support staff costs must be entered"
+                        : "Total education support staff costs must be greater than or equal zero";
+                    
+                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.EducationSupportStaffCosts), msg);
+                    
+                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    return View(viewModel);
+                }
+                
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+                return RedirectToAction("TotalNumberTeachers", new { urn, year });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred while processing total education support: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }

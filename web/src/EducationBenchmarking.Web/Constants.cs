@@ -18,7 +18,7 @@ public static class Constants
     public const string SectionInsightApi = "Apis:Insight";
     public const string SectionEstablishmentApi = "Apis:Establishment";
     public const string SectionBenchmarkApi = "Apis:Benchmark";
-    
+   
     public static string GiasSchoolUrl(string? urn) => $"https://www.get-information-schools.service.gov.uk/establishments/establishment/details/{urn}";
     public static string GiasTrustUrl(string? uid) => $"https://www.get-information-schools.service.gov.uk/groups/group/details/{uid}";
     
@@ -63,6 +63,7 @@ public static class PageTitleConstants
     public const string SchoolPlanningTotalExpenditure = "Total expenditure";
     public const string SchoolPlanningTotalTeacherCosts = "Total teacher costs";
     public const string SchoolPlanningTotalNumberTeachers = "Total number of teachers";
+    public const string SchoolPlanningTotalEducationSupport = "What is your total spend on education support staff?";
     public const string SchoolComparatorSet = "Comparator set";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
