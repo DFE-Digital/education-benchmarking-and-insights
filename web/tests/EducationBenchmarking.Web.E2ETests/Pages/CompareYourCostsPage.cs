@@ -73,7 +73,6 @@ public class CompareYourCostsPage(PageHook page)
 
     public async Task ClickOnSaveImg()
     {
-        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         var downloadTask = _page.WaitForDownloadAsync();
 
         await SaveImageTotalExpenditure.ClickAsync();
@@ -109,7 +108,6 @@ public class CompareYourCostsPage(PageHook page)
 
     public async Task CompareTableData(List<List<string>> expectedData)
     {
-        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await TotalExpenditureTable.ShouldHaveTableContent(expectedData, true);
     }
 
@@ -272,6 +270,7 @@ public class CompareYourCostsPage(PageHook page)
     public async Task GoToPage(string urn)
     {
         await _page.GotoAsync(PageUrl(urn));
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     private static string PageUrl(string urn)

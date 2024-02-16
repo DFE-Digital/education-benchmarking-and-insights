@@ -28,6 +28,7 @@ public class SelectYearPage(PageHook page)
     public async Task GoToPage(string urn)
     {
         await _page.GotoAsync(PageUrl(urn));
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
     
     private static string PageUrl(string urn)

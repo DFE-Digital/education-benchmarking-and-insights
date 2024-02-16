@@ -18,5 +18,6 @@ public class ServiceLandingPage(PageHook page)
     public async Task GoToPage()
     {
         await _page.GotoAsync($"{TestConfiguration.ServiceUrl}");
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 }
