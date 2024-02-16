@@ -25,9 +25,9 @@
             </h2>
         }
         <p class="govuk-body">
-            <a href="@Constants.GiasSchoolUrl(Model.Urn)" 
-               class="govuk-link govuk-link--no-visited-state" 
-               target="_blank" 
+            <a href="@Constants.GiasSchoolUrl(Model.Urn)"
+               class="govuk-link govuk-link--no-visited-state"
+               target="_blank"
                rel="noopener noreferrer external">
                 Get more information about this school
                 <span class="govuk-visually-hidden">Opens in a new window</span>
@@ -50,8 +50,7 @@
                     <a class="govuk-link govuk-link--no-visited-state"
                        rel="external noopener noreferrer"
                        target="_blank"
-                       href="https://www.google.co.uk/maps?q=@Model.Address"
-                       >
+                       href="https://www.google.co.uk/maps?q=@Model.Address">
                         @Model.Address
                         <span class="govuk-visually-hidden">
                             GoogleMaps link opens in a new window
@@ -65,9 +64,8 @@
                 </dt>
                 <dd class="govuk-summary-list__value">
                     <a class="govuk-link govuk-link--no-visited-state"
-                       href="tel:@Model.Telephone" 
-                       aria-label="Call telephone number @Model.Telephone"
-                       >
+                       href="tel:@Model.Telephone"
+                       aria-label="Call telephone number @Model.Telephone">
                         @Model.Telephone
                     </a>
                 </dd>
@@ -86,14 +84,16 @@
                     School website
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    <a rel="external noopener noreferrer"
-                       class="govuk-link govuk-link--no-visited-state"
-                       target="_blank"
-                       href="@Model.Website"
-                       >
-                        <span>@Model.Website</span>
-                        <span class="govuk-visually-hidden">Opens in a new window</span>
-                    </a>
+                    @if (!string.IsNullOrEmpty(@Model.Website))
+                    {
+                        <a rel="external noopener noreferrer"
+                           class="govuk-link govuk-link--no-visited-state"
+                           target="_blank"
+                           href="@Model.Website">
+                            <span>@Model.Website</span>
+                            <span class="govuk-visually-hidden">Opens in a new window</span>
+                        </a>
+                    }
                 </dd>
             </div>
             <div class="govuk-summary-list__row">

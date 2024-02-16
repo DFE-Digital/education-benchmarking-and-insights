@@ -11,6 +11,7 @@ public class GivenASchoolDetailsViewModel
     [InlineData("http://some-website", "http://some-website")]
     [InlineData("", "")]
     [InlineData("some-website", "http://some-website")]
+    [InlineData("ftp:some-website", "")]
     public void WhenSchoolWebsiteIs(string website, string expected)
     {
         var school = new School { Website = website };

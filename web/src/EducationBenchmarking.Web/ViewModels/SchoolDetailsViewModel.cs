@@ -18,7 +18,8 @@ public class SchoolDetailsViewModel(School school) : SchoolViewModel(school)
                 url = "http://" + url;
             }
 
-            return url;
+            
+            return Uri.IsWellFormedUriString(url, UriKind.Absolute) ? url : "";
         }
     }
 }
