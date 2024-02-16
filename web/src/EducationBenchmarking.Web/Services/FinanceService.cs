@@ -7,7 +7,7 @@ namespace EducationBenchmarking.Web.Services;
 public interface IFinanceService
 {
     Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools);
-    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School>schools);
+    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools);
     Task<Finances> GetFinances(School school);
     Task<FinanceYears> GetYears();
 }
@@ -44,7 +44,7 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
                 throw new ArgumentOutOfRangeException(nameof(school.Kind));
         }
     }
-    
+
     private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<School> schools)
     {
         var array = schools.ToArray();

@@ -11,7 +11,7 @@ public class WhenRequestingSchoolExpenditure(BenchmarkingWebAppClient client) : 
         const string urn = "12345";
         var response = await client.SetupBenchmarkWithException()
             .Get(Paths.ApiSchoolSchoolExpenditure(urn));
-        
+
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

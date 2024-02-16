@@ -39,7 +39,7 @@ public class GivenAHttpResponseMessage
     {
         var result = await CreateMessage(code, new StringContent("item/1")).ToApiResult();
         var body = result.GetResultOrThrow<string>();
-        
+
         Assert.Equal("item/1", body);
     }
 
@@ -50,7 +50,7 @@ public class GivenAHttpResponseMessage
     {
         var result = await CreateMessage(code, new JsonContent(new { Id = 1 })).ToApiResult();
         var body = result.GetResultOrThrow<JObject>();
-        
+
         Assert.NotNull(body);
         Assert.Equal(1, body.Value<int>("id"));
     }
@@ -62,7 +62,7 @@ public class GivenAHttpResponseMessage
     public async Task ShouldThrow(HttpStatusCode code)
     {
         var result = await CreateMessage(code).ToApiResult();
-        
+
         Assert.Throws<StatusCodeException>(() => result.EnsureSuccess());
     }
 
@@ -71,7 +71,7 @@ public class GivenAHttpResponseMessage
     {
         var result = await CreateMessage(HttpStatusCode.Conflict, new JsonContent(_fixture.Create<ConflictData>()))
             .ToApiResult();
-        
+
         Assert.Throws<DataConflictException>(() => result.EnsureSuccess());
     }
 
@@ -80,7 +80,7 @@ public class GivenAHttpResponseMessage
     {
         var result = await CreateMessage(HttpStatusCode.BadRequest,
             new JsonContent(_fixture.CreateMany<ValidationError>().ToArray())).ToApiResult();
-       
+
         Assert.Throws<ValidationException>(() => result.EnsureSuccess());
     }
 }

@@ -9,5 +9,5 @@ namespace EducationBenchmarking.Web.ViewModels
         public string AcademiesFinancePeriod => $"{years.Academies - 1} / {years.Academies}";
         public string MaintainedSchoolsFinancePeriod => $"{years.MaintainedSchools - 1} - {years.MaintainedSchools}";
     }
-    
+
 }

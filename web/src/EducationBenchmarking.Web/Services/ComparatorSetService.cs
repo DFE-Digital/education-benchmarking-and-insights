@@ -16,7 +16,7 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
 {
     public async Task<ComparatorSet<School>> ReadSchoolComparatorSet(string urn)
     {
-        var key = Key(urn); 
+        var key = Key(urn);
         var context = httpContextAccessor.HttpContext;
         var set = context?.Session.Get<ComparatorSet<School>>(key);
         if (set == null)
@@ -24,13 +24,13 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
             set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
             context?.Session.Set(key, set);
         }
-        
+
         return set;
     }
-    
+
     public async Task<ComparatorSet<School>> RemoveSchoolFromComparatorSet(string urn, string schoolUrnToRemove)
     {
-        var key = Key(urn); 
+        var key = Key(urn);
         var currentSet = await ReadSchoolComparatorSet(urn);
         var schools = currentSet.Results.ToList();
         schools.RemoveAll(x => x.Urn == schoolUrnToRemove);
@@ -44,7 +44,7 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
 
     public async Task<ComparatorSet<School>> ResetSchoolComparatorSet(string urn)
     {
-        var key = Key(urn); 
+        var key = Key(urn);
         var context = httpContextAccessor.HttpContext;
         context?.Session.Remove(key);
 

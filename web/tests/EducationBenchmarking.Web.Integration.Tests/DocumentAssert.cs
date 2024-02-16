@@ -132,7 +132,7 @@ public static class DocumentAssert
         }
 
         return;
-        
+
         [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
         void ValidateInputElement(string name, string value, bool isChecked, IHtmlInputElement e)
         {

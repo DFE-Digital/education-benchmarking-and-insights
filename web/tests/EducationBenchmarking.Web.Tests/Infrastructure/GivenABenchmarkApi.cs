@@ -11,24 +11,24 @@ public class GivenABenchmarkApi : ApiClientTestBase
         _ = new BenchmarkApi(HttpClient, "my-key");
         Assert.Equal("my-key", HttpClient.DefaultRequestHeaders.GetValues("x-functions-key").First());
     }
-    
+
     [Fact]
     public async Task UpsertFinancialPlanShouldCallCorrectUrl()
     {
         var api = new BenchmarkApi(HttpClient);
 
-        await api.UpsertFinancialPlan(new PutFinancialPlanRequest {Urn = "12345", Year = 2023});
-            
+        await api.UpsertFinancialPlan(new PutFinancialPlanRequest { Urn = "12345", Year = 2023 });
+
         VerifyCall(HttpMethod.Put, "api/financial-plan/12345/2023");
     }
-    
+
     [Fact]
     public async Task GetFinancialPlanShouldCallCorrectUrl()
     {
         var api = new BenchmarkApi(HttpClient);
 
-        await api.GetFinancialPlan("12345",2023);
-            
+        await api.GetFinancialPlan("12345", 2023);
+
         VerifyCall(HttpMethod.Get, "api/financial-plan/12345/2023");
     }
 }

@@ -10,12 +10,12 @@ public static class TestExtensions
         return new DiagnosticMessage(
             $"{message.RequestMessage?.Method} {message.RequestMessage?.RequestUri} [{message.StatusCode}]");
     }
-    
+
     public static DiagnosticMessage ToDiagnosticMessage(this IResponse message)
     {
         return new DiagnosticMessage($"{message.Request.Method} {message.Url} [{message.Status}]");
     }
-    
+
     public static DiagnosticMessage ToDiagnosticMessage(this string message)
     {
         return new DiagnosticMessage(message);

@@ -14,7 +14,7 @@ public class ApiClientTestBase
     protected HttpClient HttpClient => _httpClient ?? throw new InvalidOperationException();
 
     protected Uri Uri { get; set; } = new Uri("http://test.com/");
-        
+
     protected void CreateHttpClient(HttpStatusCode statusCode = HttpStatusCode.OK, HttpContent? content = null)
     {
         _handlerMock = new Mock<HttpMessageHandler>(MockBehavior.Strict);
@@ -34,7 +34,7 @@ public class ApiClientTestBase
                 })
             })
             .Verifiable();
-            
+
         _httpClient = new HttpClient(HandlerMock.Object)
         {
             BaseAddress = Uri,
@@ -54,7 +54,7 @@ public class ApiClientTestBase
             Times.Exactly(1),
             ItExpr.Is<HttpRequestMessage>(req =>
                 req.Method == method
-                && req.RequestUri ==  new Uri($"http://test.com/{uri}")
+                && req.RequestUri == new Uri($"http://test.com/{uri}")
             ),
             ItExpr.IsAny<CancellationToken>()
         );

@@ -16,7 +16,7 @@ public class GivenASchoolDetailsViewModel
     {
         var school = new School { Website = website };
         var vm = new SchoolDetailsViewModel(school);
-        
+
         Assert.Equal(expected, vm.Website);
     }
 }

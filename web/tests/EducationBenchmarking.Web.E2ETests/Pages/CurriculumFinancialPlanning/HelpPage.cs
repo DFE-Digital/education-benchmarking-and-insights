@@ -21,7 +21,7 @@ public class HelpPage(PageHook page)
 
     public async Task ClickBack()
     {
-       await BackLink.Click();
+        await BackLink.Click();
     }
 
     public async Task GoToPage(string urn)

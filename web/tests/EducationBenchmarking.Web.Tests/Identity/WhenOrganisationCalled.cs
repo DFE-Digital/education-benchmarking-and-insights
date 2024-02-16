@@ -27,10 +27,10 @@ public class WhenOrganisationCalledWithOrganisationInClaims
     public void ShouldReturnOrganisation()
     {
         var response = DoIt();
-            
+
         Assert.NotNull(response);
     }
-} 
+}
 
 
 public class WhenOrganisationCalledWithoutOrganisationInClaims

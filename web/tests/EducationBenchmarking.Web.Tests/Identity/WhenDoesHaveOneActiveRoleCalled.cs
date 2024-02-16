@@ -26,7 +26,7 @@ public class WhenDoesHaveOneActiveRoleCalledWithOneActiveRoleInClaims
     public void ShouldReturnTrue()
     {
         var response = DoIt();
-            
+
         Assert.True(response);
     }
 }
@@ -52,7 +52,7 @@ public class WhenDoesHaveOneActiveRoleCalledWithNoActiveRoleInClaims
     public void ShouldReturnFalse()
     {
         var response = DoIt();
-            
+
         Assert.False(response);
     }
 }

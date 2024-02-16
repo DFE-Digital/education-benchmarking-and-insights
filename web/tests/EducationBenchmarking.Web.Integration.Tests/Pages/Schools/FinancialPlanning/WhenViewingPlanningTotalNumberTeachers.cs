@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Web.Integration.Tests.Pages.Schools.FinancialPla
 public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient client) : PageBase(client)
 {
     private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]
     [InlineData(EstablishmentTypes.Academies, false)]
@@ -19,29 +19,29 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
     [InlineData(EstablishmentTypes.Maintained, false)]
     public async Task CanDisplay(string financeType, bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType,isPrimary);
+        var (page, school) = await SetupNavigateInitPage(financeType, isPrimary);
 
         AssertPageLayout(page, school);
     }
-    
+
     [Theory]
     [InlineData(true)]
     [InlineData(false)]
     public async Task CanNavigateBack(bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained,isPrimary);
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, isPrimary);
 
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
         var expectedPage = isPrimary
-            ?Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
-            :Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
-        
+            ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
+
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
-    
-        [Theory]
+
+    [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanSubmit(string financeType)
@@ -58,12 +58,12 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
                 { "TotalNumberOfTeachersFte",  "19.5"}
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -73,7 +73,7 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalNumberTeachers(urn, year));
 
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalNumberTeachers(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
@@ -97,7 +97,7 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
@@ -110,7 +110,7 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
@@ -138,13 +138,13 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
     [InlineData(0.9)]
     public async Task ShowsErrorOnInValidSubmit(double? value)
     {
-        
+
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
-        
-        
+
+
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
@@ -152,17 +152,17 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
                 { "TotalNumberOfTeachersFte",  value?.ToString() ?? "" }
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
 
-        var expectedMsg = value is null 
-            ? "Enter your number of full-time equivalent teachers" 
+        var expectedMsg = value is null
+            ? "Enter your number of full-time equivalent teachers"
             : "Number of full-time equivalent teachers must be 1 or more";
-        DocumentAssert.FormErrors(page, ("total-number-teacher",expectedMsg));
+        DocumentAssert.FormErrors(page, ("total-number-teacher", expectedMsg));
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)
     {
         var school = Fixture.Build<School>()
@@ -179,9 +179,9 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalNumberOfTeachersFte)
             .Create();
-        
+
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
@@ -192,11 +192,11 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        var expectedBackLink = school.IsPrimary 
-            ?Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
-            :Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
-        
-        DocumentAssert.BackLink(page, "Back",expectedBackLink );
+        var expectedBackLink = school.IsPrimary
+            ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
+
+        DocumentAssert.BackLink(page, "Back", expectedBackLink);
         DocumentAssert.TitleAndH1(page, "How many full-time equivalent teachers do you have? - Education benchmarking and insights - GOV.UK", "How many full-time equivalent teachers do you have?");
     }
 }

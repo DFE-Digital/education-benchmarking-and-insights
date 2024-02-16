@@ -17,15 +17,15 @@ public class SchoolController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn); 
-                
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolViewModel(school);
-                
+
                 return View(viewModel);
             }
             catch (Exception e)

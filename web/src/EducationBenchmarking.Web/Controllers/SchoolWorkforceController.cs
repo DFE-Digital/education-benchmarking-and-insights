@@ -19,16 +19,16 @@ public class SchoolWorkforceController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolWorkforce(urn); 
-                
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolWorkforce(urn);
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await financeService.GetYears();
                 var viewModel = new SchoolWorkforceViewModel(school, years);
-                
+
                 return View(viewModel);
             }
             catch (Exception e)

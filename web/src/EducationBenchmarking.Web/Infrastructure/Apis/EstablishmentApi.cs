@@ -7,7 +7,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
     {
         return GetAsync($"api/school/{identifier}");
     }
-    
+
     public Task<ApiResult> GetTrust(string? identifier)
     {
         return GetAsync($"api/trust/{identifier}");
@@ -19,27 +19,27 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/schools/suggest", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "school-suggester" })
+            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "school-suggester" })
         });
     }
-    
+
     public Task<ApiResult> SuggestTrusts(string search)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/trusts/suggest", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "trust-suggester" })
+            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "trust-suggester" })
         });
     }
-    
+
     public Task<ApiResult> SuggestOrganisations(string search)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
             RequestUri = new Uri("api/organisations/suggest", UriKind.Relative),
-            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName= "organisation-suggester" })
+            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "organisation-suggester" })
         });
     }
 }

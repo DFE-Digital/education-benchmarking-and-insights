@@ -18,7 +18,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
         var (page, school) = await SetupNavigateInitPage(financeType);
         AssertPageLayout(page, school);
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -30,7 +30,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -53,7 +53,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    
+
     [Fact]
     public async Task CanNavigateToCompareYourCosts()
     {
@@ -95,7 +95,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
@@ -106,11 +106,11 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
             .With(x => x.SchoolName, school.Name)
             .With(x => x.Urn, school.Urn)
             .Create();
-        
+
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-        
+
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school,finances)
+            .SetupInsights(school, finances)
             .SetupBenchmark(schools)
             .Navigate(Paths.SchoolFinancialPlanning(school.Urn));
 
@@ -126,14 +126,14 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
             ("Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK","Curriculum and financial planning (CFP)");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolFinancialPlanningStart(school.Urn));
-        
+
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[3]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
-        
+
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
 

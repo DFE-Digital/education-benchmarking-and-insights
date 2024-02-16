@@ -316,16 +316,16 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TotalExpenditure = totalExpenditure;
-                
+
                 if (totalExpenditure is null or < 0)
                 {
                     var msg = totalExpenditure is null
                         ? "Enter your total expenditure"
                         : "Total expenditure must be 0 or more";
-                    
+
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalExpenditure), msg);
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
-                    
+
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
                     return View(viewModel);
                 }
@@ -388,10 +388,10 @@ public class SchoolPlanningStepsController(
                     var msg = totalTeacherCosts is null
                         ? "Enter your total teacher costs"
                         : "Total teacher costs must be 0 or more";
-                    
-                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalTeacherCosts),msg);
+
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalTeacherCosts), msg);
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalExpenditure", new { urn, year }));
-                    
+
                     var viewModel = new SchoolPlanViewModel(school, year, plan);
                     return View(viewModel);
                 }
@@ -456,8 +456,8 @@ public class SchoolPlanningStepsController(
                     var msg = totalNumberOfTeachersFte is null
                         ? "Enter your number of full-time equivalent teachers"
                         : "Number of full-time equivalent teachers must be 1 or more";
-                    
-                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalNumberOfTeachersFte),msg);
+
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalNumberOfTeachersFte), msg);
                     ViewData[ViewDataConstants.Backlink] = school.IsPrimary
                         ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
                         : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));

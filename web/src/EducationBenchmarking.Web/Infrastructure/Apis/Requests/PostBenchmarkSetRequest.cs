@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Web.Infrastructure.Apis;
 
-public enum FinanceTypes	
+public enum FinanceTypes
 {
     MaintainedSchools,
     Academies,
@@ -22,12 +22,12 @@ public enum CharacteristicVariableTypes
 public class PostBenchmarkSetRequest
 {
     public string? Urn { get; set; } //Lead (your) school
-    
+
     public FinanceTypes FinanceType { get; set; }
     public bool ExcludeIncompleteDataSet { get; set; } = true; //Exclude schools that don't have a complete set of financial data
     public int? LocalAuthorityId { get; set; }
     public int? NoOfSchools { get; set; }
-    
+
     public Dictionary<string, CharacteristicVariable>? Characteristics { get; set; }
 }
 

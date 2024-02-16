@@ -19,13 +19,13 @@ public static class JsonExtensions
         settings.Converters.Add(new IsoDateTimeConverter());
         settings.Converters.Add(new StringEnumConverter());
     }
-    
-    
-    
+
+
+
     public static JsonSerializerSettings Settings => new()
     {
-        NullValueHandling = NullValueHandling.Ignore, 
-        ContractResolver = new CamelCasePropertyNamesContractResolver(), 
+        NullValueHandling = NullValueHandling.Ignore,
+        ContractResolver = new CamelCasePropertyNamesContractResolver(),
         CheckAdditionalContent = false,
         Converters = new List<JsonConverter>
         {
@@ -34,7 +34,7 @@ public static class JsonExtensions
         }
     };
 
-    public static string ToJson(this object? source,  Formatting formatting = Formatting.Indented)
+    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented)
     {
         return JsonConvert.SerializeObject(source, formatting, Settings);
     }
@@ -53,7 +53,7 @@ public static class JsonExtensions
         serializer.Serialize(jw, source, source.GetType());
         jw.Flush();
         jw.Close();
-            
+
         memoryStream.Seek(0, SeekOrigin.Begin);
         return memoryStream;
     }
@@ -97,16 +97,16 @@ public static class JsonExtensions
             return js.Deserialize<T>(jr);
         }
     }
-    
+
     public static async Task<T?> FromJsonAsync<T>(this Stream stream)
     {
         var streamCopy = new MemoryStream();
         await stream.CopyToAsync(streamCopy);
         streamCopy.Position = 0;
-        
+
         using var sr = new StreamReader(streamCopy);
         using var jr = new JsonTextReader(sr);
-        
+
         var js = JsonSerializer.CreateDefault(Settings);
 
         return js.Deserialize<T>(jr);

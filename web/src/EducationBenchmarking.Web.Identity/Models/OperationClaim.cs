@@ -16,7 +16,7 @@ public class OperationClaim(string name, string context, string text)
     {
         return new OperationClaim(op, "", "");
     }
-        
+
     public static implicit operator string(OperationClaim op)
     {
         return op.Name;
@@ -34,7 +34,7 @@ public class OperationClaim(string name, string context, string text)
         if (ReferenceEquals(null, obj)) return false;
         if (ReferenceEquals(this, obj)) return true;
         if (obj.GetType() != GetType()) return false;
-        return Equals((OperationClaim) obj);
+        return Equals((OperationClaim)obj);
     }
 
     public override int GetHashCode()

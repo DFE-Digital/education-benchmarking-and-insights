@@ -17,7 +17,7 @@ public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(clie
 
         AssertPageLayout(page, school);
     }
-    
+
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -28,25 +28,25 @@ public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(clie
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
         const string urn = "12345";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolDetails(urn));
-        
+
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(urn).ToAbsolute(), HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
         const string urn = "12345";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.SchoolDetails(urn));
-        
+
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
@@ -75,7 +75,7 @@ public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(clie
         DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Contact details - Education benchmarking and insights - GOV.UK",
             "Contact details");
-        
+
         if (school.IsPartOfTrust)
         {
             DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");

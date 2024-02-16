@@ -12,21 +12,21 @@ public class StaticContentController : Controller
     {
         return View();
     }
-    
+
     [HttpGet]
     [Route("submit-an-enquiry")]
     public IActionResult SubmitEnquiry()
     {
         return View();
     }
-    
+
     [HttpGet]
     [Route("ask-for-help")]
     public IActionResult AskForHelp()
     {
         return View();
     }
-    
+
     [HttpGet]
     [Route("find-commercial-resources")]
     public IActionResult CommercialResources()

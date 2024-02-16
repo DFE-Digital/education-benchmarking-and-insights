@@ -19,16 +19,16 @@ public class SchoolComparisonController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new {urn}))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn); 
-                
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await financeService.GetYears();
                 var viewModel = new SchoolComparisonViewModel(school, years);
-                
+
                 return View(viewModel);
             }
             catch (Exception e)

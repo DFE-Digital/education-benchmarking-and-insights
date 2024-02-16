@@ -65,7 +65,7 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
         _messageSink.OnMessage(response.ToDiagnosticMessage());
         return response;
     }
-    
+
     public async Task<IHtmlDocument> SubmitForm(
         IElement formElement,
         IElement submitButtonElement,

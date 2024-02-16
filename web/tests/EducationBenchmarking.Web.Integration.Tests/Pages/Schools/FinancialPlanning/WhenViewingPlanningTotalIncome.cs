@@ -40,12 +40,12 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
                 { "TotalIncome",  168794.ToString()}
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -66,7 +66,7 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalIncome(urn, year));
 
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalIncome(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
@@ -90,7 +90,7 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
@@ -103,7 +103,7 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
@@ -123,19 +123,19 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
             Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData(-1.0)]
     public async Task ShowsErrorOnInValidSubmit(double? value)
     {
-        
+
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
-        
-        
+
+
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
@@ -143,15 +143,15 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
                 { "TotalIncome",  value?.ToString() ?? "" }
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total income" : "Total income must be 0 or more";
-        DocumentAssert.FormErrors(page, ("total-income",expectedMsg));
+        DocumentAssert.FormErrors(page, ("total-income", expectedMsg));
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
@@ -167,9 +167,9 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalIncome)
             .Create();
-        
+
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)

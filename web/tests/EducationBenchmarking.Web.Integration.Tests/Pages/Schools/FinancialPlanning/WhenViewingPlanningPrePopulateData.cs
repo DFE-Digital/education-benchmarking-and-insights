@@ -249,19 +249,19 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         if (school.OverallPhase == OverallPhaseTypes.Primary)
         {
             Assert.Equal(5, values.Length);
-            DocumentAssert.TextEqual(values[0],$"{finances.TotalIncome:C}");
-            DocumentAssert.TextEqual(values[1],$"{finances.TotalExpenditure:C}");
-            DocumentAssert.TextEqual(values[2],$"{finances.TeachingStaffCosts:C}");
-            DocumentAssert.TextEqual(values[3],$"{finances.EducationSupportStaffCosts:C}");
-            DocumentAssert.TextEqual(values[4],$"{finances.TotalNumberOfTeachersFte:F1}");
+            DocumentAssert.TextEqual(values[0], $"{finances.TotalIncome:C}");
+            DocumentAssert.TextEqual(values[1], $"{finances.TotalExpenditure:C}");
+            DocumentAssert.TextEqual(values[2], $"{finances.TeachingStaffCosts:C}");
+            DocumentAssert.TextEqual(values[3], $"{finances.EducationSupportStaffCosts:C}");
+            DocumentAssert.TextEqual(values[4], $"{finances.TotalNumberOfTeachersFte:F1}");
         }
         else
         {
             Assert.Equal(4, values.Length);
-            DocumentAssert.TextEqual(values[0],$"{finances.TotalIncome:C}");
-            DocumentAssert.TextEqual(values[1],$"{finances.TotalExpenditure:C}");
-            DocumentAssert.TextEqual(values[2],$"{finances.TeachingStaffCosts:C}");
-            DocumentAssert.TextEqual(values[3],$"{finances.TotalNumberOfTeachersFte:F1}");
+            DocumentAssert.TextEqual(values[0], $"{finances.TotalIncome:C}");
+            DocumentAssert.TextEqual(values[1], $"{finances.TotalExpenditure:C}");
+            DocumentAssert.TextEqual(values[2], $"{finances.TeachingStaffCosts:C}");
+            DocumentAssert.TextEqual(values[3], $"{finances.TotalNumberOfTeachersFte:F1}");
         }
     }
 }
