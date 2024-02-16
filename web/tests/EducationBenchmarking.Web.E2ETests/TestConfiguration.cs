@@ -11,7 +11,7 @@ public static class TestConfiguration
         .AddJsonFile("appsettings.local.json", optional: false)
 #endif
         .Build();
-    
+
     public static string ServiceUrl => Instance.GetValue<string>("ServiceUrl") ?? throw new Exception("Service url missing");
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
     public static bool OutputPageResponse => Instance.GetValue<bool?>("OutputPageResponse") ?? false;

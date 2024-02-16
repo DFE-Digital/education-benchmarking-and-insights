@@ -16,12 +16,12 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
     [HttpGet]
     public async Task<IActionResult> Index(string urn, string referrer)
     {
-        using (logger.BeginScope(new {urn, referrer}))
+        using (logger.BeginScope(new { urn, referrer }))
         {
             try
             {
                 ViewData[ViewDataConstants.Backlink] = RefererBackInfo(referrer, urn);
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
                 var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
@@ -34,25 +34,25 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
             }
         }
     }
-    
+
     [HttpPost]
-    public async Task<IActionResult> Index(string urn, string referrer, [FromForm]string action)
+    public async Task<IActionResult> Index(string urn, string referrer, [FromForm] string action)
     {
-        using (logger.BeginScope(new {urn, referrer}))
+        using (logger.BeginScope(new { urn, referrer }))
         {
             try
             {
                 ViewData[ViewDataConstants.Backlink] = RefererBackInfo(referrer, urn);
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 ComparatorSetAction setAction = action;
                 var set = setAction.Action switch
                 {
                     ComparatorSetAction.Remove => await comparatorSetService.RemoveSchoolFromComparatorSet(urn, setAction.Urn ?? throw new ArgumentNullException(setAction.Urn)),
-                    ComparatorSetAction.Reset =>  await comparatorSetService.ResetSchoolComparatorSet(urn),
+                    ComparatorSetAction.Reset => await comparatorSetService.ResetSchoolComparatorSet(urn),
                     _ => throw new ArgumentOutOfRangeException(nameof(setAction.Action))
                 };
-                
+
                 var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
                 return View(viewModel);
             }

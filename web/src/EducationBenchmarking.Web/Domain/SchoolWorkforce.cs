@@ -9,7 +9,7 @@ public record SchoolWorkforce
     public string? Name { get; set; }
     public string? SchoolType { get; set; }
     public string? LocalAuthority { get; set; }
-    
+
     public decimal NumberOfPupils { get; set; }
 
     public decimal SchoolWorkforceFTE { get; set; }

@@ -13,7 +13,7 @@ internal class RoleOperationMap : Dictionary<string, List<OperationClaim>>
 public static class Operations
 {
     public static readonly OperationClaim AClaim = new(nameof(AClaim), "Context", "Some claim");
-    
+
     private static readonly RoleOperationMap RoleOperationMap = new()
     {
         {
@@ -23,7 +23,7 @@ public static class Operations
     };
 
     public static readonly string[] AllRoles = RoleOperationMap.Keys.ToArray();
-        
+
     public static readonly OperationClaim[] All = RoleOperationMap.Values.SelectMany(v => v).ToArray();
 
 
@@ -39,11 +39,11 @@ public static class Operations
 
     public static OperationClaim Get(string op)
     {
-        var opAsClaim = (OperationClaim) op;
+        var opAsClaim = (OperationClaim)op;
         return All.FirstOrDefault(o => o.Equals(opAsClaim)) ??
                throw new ArgumentOutOfRangeException($"Unable to find operation {op}");
     }
-        
+
     public static IEnumerable<Role> GetAllRoles()
     {
         return RoleOperationMap.Keys.Select(r => new Role { Name = r, Code = r });

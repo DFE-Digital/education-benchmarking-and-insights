@@ -25,7 +25,7 @@ public class PageHook(ISpecFlowOutputHelper output)
         _page = await browserContext.NewPageAsync();
         if (TestConfiguration.OutputPageResponse)
         {
-            _page.Response += (_, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");    
+            _page.Response += (_, r) => output.WriteLine($"{r.Request.Method} {r.Url} [{r.Status}]");
         }
     }
 

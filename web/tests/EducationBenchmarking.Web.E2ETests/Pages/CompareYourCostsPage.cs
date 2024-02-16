@@ -29,7 +29,7 @@ public class CompareYourCostsPage(PageHook page)
     private ILocator TotalExpenditureChart =>
         _page.Locator("xpath=//*[@id='compare-your-school']/div[3]/div/div/div/canvas");
 
-    private ILocator ViewAsTableRadioBtn =>  _page.Locator("#mode-table");
+    private ILocator ViewAsTableRadioBtn => _page.Locator("#mode-table");
     private ILocator ViewAsChartRadioBtn => _page.Locator("#mode-chart");
     private ILocator TotalExpenditureTable => _page.Locator("#compare-your-school table.govuk-table").First;
     private ILocator ShowOrHideAllSectionsCta => _page.Locator(".govuk-accordion__show-all-text");
@@ -135,7 +135,7 @@ public class CompareYourCostsPage(PageHook page)
         var actualText = await ShowOrHideAllSectionsCta.InnerTextAsync();
         LocatorAssert.AreEqual(actualText, expectedText);
     }
-    
+
     public async Task AssertTablesAreShowing()
     {
         var singleTable = await AllTables.AllAsync();

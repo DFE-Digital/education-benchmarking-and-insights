@@ -4,16 +4,16 @@ public class ApiQuery : List<QueryParameter>
 {
     public ApiQuery Page(int page = 1, int pageSize = 10)
     {
-        Add("page",page.ToString());
-        Add("pageSize",pageSize.ToString());
+        Add("page", page.ToString());
+        Add("pageSize", pageSize.ToString());
 
         return this;
     }
 
     public string ToQueryString()
     {
-        return Count > 0 
-            ? $"?{string.Join("&", this.Select(p => $"{p.Key}={Uri.EscapeDataString(p.Value.ToString())}"))}" 
+        return Count > 0
+            ? $"?{string.Join("&", this.Select(p => $"{p.Key}={Uri.EscapeDataString(p.Value.ToString())}"))}"
             : string.Empty;
     }
 
@@ -26,7 +26,7 @@ public class ApiQuery : List<QueryParameter>
         if (string.IsNullOrWhiteSpace(value))
             return this;
 
-        Add(key,value);
+        Add(key, value);
         return this;
     }
 }

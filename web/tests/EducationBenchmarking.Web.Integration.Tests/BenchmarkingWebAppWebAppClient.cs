@@ -7,9 +7,9 @@ namespace EducationBenchmarking.Web.Integration.Tests;
 
 public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBase<Program>(messageSink)
 {
-    public Mock<IInsightApi> InsightApi { get; }= new();
+    public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
-    public Mock<IBenchmarkApi> BenchmarkApi { get; }= new();
+    public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -32,7 +32,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupEstablishmentWithNotFound()
     {
         EstablishmentApi.Reset();
@@ -51,11 +51,11 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         EstablishmentApi.Setup(api => api.SuggestOrganisations(It.IsAny<string>())).Throws(new Exception());
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
     {
         InsightApi.Reset();
-        
+
         switch (school.FinanceType)
         {
             case EstablishmentTypes.Academies:
@@ -67,10 +67,10 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         }
 
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021}));
+        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021 }));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         BenchmarkApi.Reset();
@@ -79,7 +79,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlan? plan = null)
     {
         BenchmarkApi.Reset();
@@ -92,9 +92,9 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             ArgumentNullException.ThrowIfNull(plan.Urn);
             BenchmarkApi.Setup(api => api.GetFinancialPlan(plan.Urn, plan.Year)).ReturnsAsync(ApiResult.Ok(plan));
         }
-        
+
         BenchmarkApi.Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>())).ReturnsAsync(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
-        
+
         BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))
             .ReturnsAsync(ApiResult.Ok())

@@ -12,7 +12,7 @@ public class WebDriver(IMessageSink messageSink) : IDisposable
     public async Task<IPage> GetPage(string url, HttpStatusCode statusCode)
     {
         _browser ??= await InitialiseBrowser();
-        
+
         var contextOptions = new BrowserNewContextOptions { IgnoreHTTPSErrors = true };
         var browserContext = await _browser.NewContextAsync(contextOptions);
 
@@ -33,7 +33,7 @@ public class WebDriver(IMessageSink messageSink) : IDisposable
         var launchOptions = new BrowserTypeLaunchOptions { Headless = TestConfiguration.Headless };
         return await playwrightInstance.Chromium.LaunchAsync(launchOptions);
     }
-    
+
     public async void Dispose()
     {
         await Dispose(true);

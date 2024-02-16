@@ -13,7 +13,7 @@ public static class Paths
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
     public static string SchoolHome(string? urn) => $"/school/{urn}";
     public static string TrustHome(string? companyNumber) => $"/trust/{companyNumber}";
-    
+
     public static string SchoolComparatorSet(string? urn, string referrer) =>
         $"/school/{urn}/comparator-set?referrer={referrer}";
     public static string SchoolComparison(string? urn) => $"/school/{urn}/comparison";
@@ -22,7 +22,7 @@ public static class Paths
     public static string SchoolFinancialPlanning(string? urn) => $"/school/{urn}/financial-planning";
     public static string SchoolHistory(string? urn) => $"/school/{urn}/history";
     public static string SchoolDetails(string? urn) => $"/school/{urn}/details";
-    
+
     public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/steps/start";
     public static string SchoolFinancialPlanningSelectYear(string? urn) =>
         $"/school/{urn}/financial-planning/steps/select-year";
@@ -41,12 +41,12 @@ public static class Paths
         $"/school/{urn}/financial-planning/steps/total-number-teachers?year={year}";
     public static string SchoolFinancialPlanningTotalEducationSupport(string? urn, int year) =>
         $"/school/{urn}/financial-planning/steps/total-education-support?year={year}";
-    
-    
+
+
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiSchoolSchoolExpenditure(string? urn) => $"api/school/{urn}/expenditure";
     public static string ApiSchoolSchoolWorkforce(string? urn) => $"api/school/{urn}/workforce";
-    
+
     public static string ToAbsolute(this string path)
     {
         return $"https://localhost{path}";

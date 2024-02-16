@@ -24,7 +24,7 @@ public class Organisation
     public int? StatutoryHighAge { get; set; }
     public int? LegacyId { get; set; }
     public int? CompanyRegistrationNumber { get; set; }
-    
+
     [JsonIgnore] public UrnValue UrnValue => URN;
 }
 
@@ -37,8 +37,8 @@ public readonly struct UrnValue(int value)
     {
         return Value.ToString("000000");
     }
-    
+
     public static implicit operator UrnValue(int? urn) => new() { Value = urn ?? default };
-    
+
     public static implicit operator string(UrnValue urn) => urn.ToString();
 }

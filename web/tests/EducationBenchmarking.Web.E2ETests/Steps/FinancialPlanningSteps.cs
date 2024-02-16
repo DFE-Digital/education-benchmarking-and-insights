@@ -30,7 +30,7 @@ public class FinancialPlanningSteps(CurriculumFinancialPlanningPages pages)
     {
         await pages.Help.AssertPage();
     }
-    
+
     [Given("I am on start page for school with URN '(.*)'")]
     public async Task GivenIAmOnStartPageForSchoolWithUrn(string urn)
     {

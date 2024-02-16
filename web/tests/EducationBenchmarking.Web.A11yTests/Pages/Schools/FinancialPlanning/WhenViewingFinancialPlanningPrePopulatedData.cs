@@ -8,7 +8,7 @@ namespace EducationBenchmarking.Web.A11yTests.Pages.Schools.FinancialPlanning;
 public class WhenViewingFinancialPlanningPrePopulatedData(
     ITestOutputHelper outputHelper,
     WebDriver webDriver,
-    FinancialPlanFixture plan) 
+    FinancialPlanFixture plan)
     : PageBase(outputHelper, webDriver)
 {
     protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/pre-populate-data?year={plan.Year}";

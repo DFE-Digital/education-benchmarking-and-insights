@@ -13,7 +13,7 @@ public class SelectYearPage(PageHook page)
     private ILocator YearRadio(int year) => _page.Locator($"#year-{year}");
     private static int CurrentYear => DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
     private static IEnumerable<int> AvailableYears => Enumerable.Range(CurrentYear, 4).ToArray();
-    
+
     public async Task AssertPage()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -24,13 +24,13 @@ public class SelectYearPage(PageHook page)
             await YearRadio(year).ShouldBeVisible();
         }
     }
-    
+
     public async Task GoToPage(string urn)
     {
         await _page.GotoAsync(PageUrl(urn));
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
-    
+
     private static string PageUrl(string urn)
     {
         return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/select-year";

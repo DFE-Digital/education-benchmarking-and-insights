@@ -115,7 +115,7 @@ public static class LocatorAssert
         var l = await locator;
         return await l.ShouldBeEnabled();
     }
-    
+
     public static async Task<ILocator> ShouldBeEnabled(this ILocator locator)
     {
         await Assertions.Expect(locator).ToBeEnabledAsync();
@@ -227,7 +227,7 @@ public static class LocatorAssert
     {
         text1.Should().Be(text2, $"the expected text {text1} should match the actual text {text2}");
     }
-    
+
     public static async Task<ILocator> ShouldHaveSelectedOption(this ILocator dropdownLocator, string expectedValue)
     {
         var selectedValue =

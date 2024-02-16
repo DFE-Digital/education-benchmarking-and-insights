@@ -25,11 +25,11 @@ namespace EducationBenchmarking.Web.TagHelpers
             }
             else
             {
-                 await base.ProcessAsync(context, output);
+                await base.ProcessAsync(context, output);
             }
         }
     }
-    public class BacklinkInfo(string? action,string title = "Back")
+    public class BacklinkInfo(string? action, string title = "Back")
     {
         public string Action { get; } = action ?? throw new ArgumentNullException(nameof(action));
         public string Title { get; } = title;

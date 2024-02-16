@@ -29,7 +29,7 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : ApiBas
 
         return Task.FromResult(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
     }
-    
+
     public async Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request)
     {
         return await PutAsync($"api/financial-plan/{request.Urn}/{request.Year}", new JsonContent(request));

@@ -8,9 +8,9 @@ public abstract class ApiResponseBody(byte[] content)
     public static async Task<ApiResponseBody> FromHttpContent(HttpContent content)
     {
         if (content is not { Headers.ContentLength: > 0 }) return new EmptyResponseBody();
-        
+
         var bytes = await content.ReadAsByteArrayAsync();
-        
+
         return content.Headers.ContentType?.MediaType switch
         {
             "application/json" => new JsonResponseBody(bytes),

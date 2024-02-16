@@ -23,7 +23,7 @@ public class WhenDoesHaveOtherRolesCalledWithNoRoles
     public void ShouldReturnFalse()
     {
         var response = DoIt();
-            
+
         Assert.False(response);
     }
 }
@@ -50,11 +50,11 @@ public class WhenDoesHaveOtherRolesCalledWithOneRole
     public void ShouldReturnFalse()
     {
         var response = DoIt();
-            
+
         Assert.False(response);
     }
 }
-    
+
 
 public class WhenDoesHaveOtherRolesCalledWithMoreThanOneRole
 {
@@ -77,7 +77,7 @@ public class WhenDoesHaveOtherRolesCalledWithMoreThanOneRole
     public void ShouldReturnTrue()
     {
         var response = DoIt();
-            
+
         Assert.True(response);
     }
 }

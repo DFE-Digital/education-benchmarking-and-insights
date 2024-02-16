@@ -6,8 +6,8 @@ namespace EducationBenchmarking.Web.Identity.Models;
 public class DfeSignInOptions
 {
     public bool IsDevelopment { get; set; }
-        
+
     public DfeSignInEvents Events { get; } = new();
-        
+
     public DfeSignInSettings Settings { get; } = new();
 }

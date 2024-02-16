@@ -54,7 +54,7 @@ public class WhenViewingPlanningStart(BenchmarkingWebAppClient client) : PageBas
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {

@@ -11,7 +11,7 @@ public static class HttpResponseMessageExtensions
         var msg = await message;
         return await ApiResult.FromHttpResponse(msg);
     }
-        
+
     public static async Task<ApiResult> ToApiResult(this HttpResponseMessage message)
     {
         return await ApiResult.FromHttpResponse(message);

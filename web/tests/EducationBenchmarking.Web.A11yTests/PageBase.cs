@@ -19,7 +19,7 @@ public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver web
         TestConfiguration.Instance.GetSection("Impacts").Get<string[]>() ?? ["critical", "serious"];
 
     private IPage? _page;
-    
+
     protected abstract string PageUrl { get; }
 
     protected IPage Page =>
@@ -31,7 +31,7 @@ public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver web
     {
         Assert.False(string.IsNullOrEmpty(PageUrl));
         var fullUrl = $"{ServiceUrl}{PageUrl}";
-        
+
         _page = await webDriver.GetPage(fullUrl, statusCode);
 
         Assert.NotNull(_page);

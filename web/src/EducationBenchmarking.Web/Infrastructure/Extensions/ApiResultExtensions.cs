@@ -13,14 +13,14 @@ public static class ApiResultExtensions
         var rs = await result;
         rs.EnsureSuccess();
     }
-        
+
     public static async Task<T> GetResultOrThrow<T>(this Task<ApiResult> result)
     {
         var rs = await result;
         return rs.GetResultOrThrow<T>();
     }
-        
-    public static async Task<TRet> GetResult<TRet>(this Task<ApiResult> result, Func<ApiResponseBody,TRet> onSelect, Func<ApiResult, TRet> onError)
+
+    public static async Task<TRet> GetResult<TRet>(this Task<ApiResult> result, Func<ApiResponseBody, TRet> onSelect, Func<ApiResult, TRet> onError)
     {
         var rs = await result;
 
@@ -30,7 +30,7 @@ public static class ApiResultExtensions
             _ => onError(rs)
         };
     }
-        
+
     public static async Task<TRet?> GetResult<TRet>(this Task<ApiResult> result, Func<ApiResult, TRet> onError)
     {
         var rs = await result;
@@ -43,7 +43,7 @@ public static class ApiResultExtensions
             _ => default
         };
     }
-        
+
     public static async Task<string> GetString(this Task<ApiResult> result, Func<ApiResult, string> onError)
     {
         var rs = await result;
@@ -56,7 +56,7 @@ public static class ApiResultExtensions
             _ => ""
         };
     }
-        
+
     public static async Task<PagedResults<T>> GetPagedResultOrThrow<T>(this Task<ApiResult> result)
     {
         var rs = await result;
@@ -68,7 +68,7 @@ public static class ApiResultExtensions
         var rs = await result;
         return rs.GetResultOrDefault(defaultValue);
     }
-        
+
     public static T? GetResultOrDefault<T>(this ApiResult result, T? defaultValue = default)
     {
         if (result is not SuccessApiResult s) return defaultValue;
@@ -79,7 +79,7 @@ public static class ApiResultExtensions
             _ => defaultValue
         };
     }
-        
+
     public static T GetResultOrThrow<T>(this ApiResult result)
     {
         result.EnsureSuccess();
@@ -93,10 +93,10 @@ public static class ApiResultExtensions
                 _ => throw new ArgumentOutOfRangeException(s.Body.GetType().Name)
             };
         }
-        
+
         throw new ArgumentNullException();
     }
-        
+
     public static byte[] GetBodyOrThrow(this ApiResult result)
     {
         if (result is SuccessApiResult s)
@@ -107,13 +107,13 @@ public static class ApiResultExtensions
         result.EnsureSuccess();
         return Array.Empty<byte>();
     }
-    
+
     public static async Task<byte[]> GetBodyOrThrow(this Task<ApiResult> result)
     {
         var rs = await result;
         return GetBodyOrThrow(rs);
     }
-        
+
     public static PagedResults<T> GetPagedResultOrThrow<T>(this ApiResult result)
     {
         if (result is SuccessApiResult s)

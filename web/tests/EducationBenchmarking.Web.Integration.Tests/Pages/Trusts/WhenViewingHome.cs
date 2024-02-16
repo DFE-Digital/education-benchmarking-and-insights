@@ -12,28 +12,28 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     public async Task CanDisplay()
     {
         var (page, trust) = await SetupNavigateInitPage();
-            
+
         AssertPageLayout(page, trust);
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
         const string companyName = "12345678";
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.TrustHome(companyName));
-        
+
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.TrustHome(companyName).ToAbsolute(), HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
         const string companyName = "12345678";
         var page = await Client.SetupEstablishmentWithException()
             .Navigate(Paths.TrustHome(companyName));
-        
+
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.TrustHome(companyName).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
@@ -42,14 +42,14 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     {
         var trust = Fixture.Build<Trust>()
             .Create();
-        
-        
+
+
         var page = await Client.SetupEstablishment(trust)
             .Navigate(Paths.TrustHome(trust.CompanyNumber));
 
         return (page, trust);
     }
-    
+
     private static void AssertPageLayout(IHtmlDocument page, Trust trust)
     {
         var expectedBreadcrumbs = new[]
@@ -60,7 +60,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        
+
         Assert.NotNull(trust.Name);
         DocumentAssert.TitleAndH1(page, "Your trust - Education benchmarking and insights - GOV.UK", trust.Name);
     }

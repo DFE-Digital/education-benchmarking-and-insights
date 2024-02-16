@@ -10,14 +10,14 @@ public class PrePopulatedDataPage(PageHook page)
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BackLink => _page.Locator(".govuk-back-link");
     private ILocator ContinueButton => _page.Locator(".govuk-button", new PageLocatorOptions { HasText = "Continue" });
-    
+
     public async Task AssertPage()
     {
-       await PageH1Heading.ShouldBeVisible();
-       await BackLink.ShouldBeVisible();
-       await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
+        await PageH1Heading.ShouldBeVisible();
+        await BackLink.ShouldBeVisible();
+        await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
     }
-    
+
     private static string PageUrl(string urn, int year)
     {
         return $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/pre-populate-data?year={year}";

@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Web.Integration.Tests.Pages.Schools.FinancialPla
 public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient client) : PageBase(client)
 {
     private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]
     [InlineData(EstablishmentTypes.Academies, false)]
@@ -19,11 +19,11 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     [InlineData(EstablishmentTypes.Maintained, false)]
     public async Task CanDisplay(string financeType, bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType,isPrimary);
+        var (page, school) = await SetupNavigateInitPage(financeType, isPrimary);
 
         AssertPageLayout(page, school);
     }
-    
+
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -34,7 +34,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -44,12 +44,12 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalTeacherCost(urn, year));
 
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalTeacherCost(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
     }
-    
+
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
@@ -68,7 +68,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
@@ -81,7 +81,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
@@ -101,19 +101,19 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
             Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
-    
+
     [Theory]
     [InlineData(null)]
     [InlineData(-1.0)]
     public async Task ShowsErrorOnInValidSubmit(double? value)
     {
-        
+
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
-        
-        
+
+
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
             f.SetFormValues(new Dictionary<string, string>
@@ -121,15 +121,15 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
                 { "TotalTeacherCosts",  value?.ToString() ?? "" }
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
-        
+
         var expectedMsg = value is null ? "Enter your total teacher costs" : "Total teacher costs must be 0 or more";
-        DocumentAssert.FormErrors(page, ("total-teacher",expectedMsg));
+        DocumentAssert.FormErrors(page, ("total-teacher", expectedMsg));
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]
     [InlineData(EstablishmentTypes.Academies, false)]
@@ -151,14 +151,14 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
-        var expectedPage = isPrimary 
+
+        var expectedPage = isPrimary
             ? Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute();
-        
+
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)
     {
         var school = Fixture.Build<School>()
@@ -175,9 +175,9 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalTeacherCosts)
             .Create();
-        
+
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)

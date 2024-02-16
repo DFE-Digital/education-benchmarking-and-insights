@@ -13,8 +13,8 @@ namespace EducationBenchmarking.Web.Tests.Identity;
 public class WhenSetActiveRoleCalledWithOneActiveRoleInClaims : SetActiveRoleTestBase
 {
     private readonly ClaimsPrincipal _claimsPrincipal;
-    private readonly HttpContext _httpContext; 
-    
+    private readonly HttpContext _httpContext;
+
     public WhenSetActiveRoleCalledWithOneActiveRoleInClaims()
     {
         var roles = new List<Claim>
@@ -41,25 +41,25 @@ public class WhenSetActiveRoleCalledWithOneActiveRoleInClaims : SetActiveRoleTes
     public async Task ShouldNotThrowAnyExceptions()
     {
         var response = await DoIt();
-            
+
         Assert.True(true);
     }
     [Fact]
     public async Task ShouldReturnTrue()
     {
         var response = await DoIt();
-            
+
         Assert.True(response);
     }
-    
+
     [Fact]
     public async Task ShouldSetActiveRoleToThePassedRole()
     {
         var response = await DoIt();
-            
+
         Assert.Equal(RoleNames.SomeUserRole, _claimsPrincipal.ActiveRole().Name);
     }
-    
+
     [Fact]
     public async Task ShouldRemoveOtherActiveRoles()
     {
@@ -69,33 +69,33 @@ public class WhenSetActiveRoleCalledWithOneActiveRoleInClaims : SetActiveRoleTes
         Assert.Equal(2, currentActivePrincipals.ToList().Count);
 
         var response = await DoIt();
-            
+
         var updatedActivePrincipals = _claimsPrincipal.Claims
             .Where(c => c.Type == ClaimNames.ActiveRole).ToList();
-            
+
         Assert.Single(updatedActivePrincipals);
         Assert.Equal("some_role_name", updatedActivePrincipals.First().Value);
     }
-    
+
     [Fact]
     public async Task ShouldSetClaimPrincipalToHaveOnlyOneActiveRole()
     {
         var response = await DoIt();
-        
+
         Assert.True(_claimsPrincipal.DoesHaveOneActiveRole());
     }
-    
+
     [Fact]
     public async Task ShouldRefreshOperation()
     {
         var operationClaimsPrior = _claimsPrincipal.Claims.Where(c => c.Type == ClaimNames.Operation);
-            
+
         Assert.Empty(operationClaimsPrior.ToList());
 
         await DoIt();
 
         var operationClaims = _claimsPrincipal.Claims.Where(c => c.Type == ClaimNames.Operation);
-            
+
         Assert.Single(operationClaims.ToList());
     }
     [Fact]
@@ -113,8 +113,8 @@ public class WhenSetActiveRoleCalledWithOneActiveRoleInClaims : SetActiveRoleTes
 public class WhenSetActiveRoleCalledWithInvalidRole : SetActiveRoleTestBase
 {
     private readonly ClaimsPrincipal _claimsPrincipal;
-    private readonly HttpContext _httpContext; 
-    
+    private readonly HttpContext _httpContext;
+
     public WhenSetActiveRoleCalledWithInvalidRole()
     {
         var roles = new List<Claim>
@@ -149,7 +149,7 @@ public class SetActiveRoleTestBase
     {
         var mockTempDataDictionaryFactory = new Mock<ITempDataDictionaryFactory>();
         var mockUrlHelperFactory = new Mock<IUrlHelperFactory>();
-            
+
         AuthenticationService
             .Setup(_ => _.SignInAsync(It.IsAny<HttpContext>(), It.IsAny<string>(), It.IsAny<ClaimsPrincipal>(), It.IsAny<AuthenticationProperties>()))
             .Returns(Task.FromResult((object?)null));

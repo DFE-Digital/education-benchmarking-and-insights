@@ -4,14 +4,14 @@ namespace EducationBenchmarking.Web.ViewModels;
 
 public class SchoolPlanViewModel(School school)
 {
-    
+
     private readonly FinancialPlan? _plan;
     public SchoolPlanViewModel(School school, int? year, FinancialPlan? plan = null) : this(school)
     {
         SelectedYear = year;
         _plan = plan;
     }
-    
+
     public int? SelectedYear { get; }
     public string? Name => school.Name;
     public string? Urn => school.Urn;
@@ -33,5 +33,5 @@ public class SchoolPlanFinancesViewModel(School school, Finances finances, int y
     public string CurrentTotalNumberOfTeachersFte => $"{finances.TotalNumberOfTeachersFte}";
     public string CurrentEducationSupportStaffCosts => $"{finances.EducationSupportStaffCosts:C}";
     public string FinancePeriod => $"{finances.YearEnd - 1} - {finances.YearEnd}";
-    
+
 }

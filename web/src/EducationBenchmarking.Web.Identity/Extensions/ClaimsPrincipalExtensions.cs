@@ -13,11 +13,11 @@ public static class ClaimsPrincipalExtensions
     {
         var email = principal.Claims.SingleOrDefault(c => c.Type == "email");
 
-        return email != null 
-            ? email.Value 
+        return email != null
+            ? email.Value
             : "anonymous";
     }
-        
+
     public static Guid UserGuid(this ClaimsPrincipal principal)
     {
         if (principal.Identity is ClaimsIdentity identity)
@@ -30,7 +30,7 @@ public static class ClaimsPrincipalExtensions
 
         throw new ArgumentNullException(nameof(identity));
     }
-        
+
     public static Organisation Organisation(this ClaimsPrincipal principal)
     {
         if (principal.Identity is ClaimsIdentity identity)
@@ -38,7 +38,7 @@ public static class ClaimsPrincipalExtensions
             var organisation = identity.Claims.Where(c => c.Type == ClaimNames.Organisation)
                 .Select(c => c.Value)
                 .FirstOrDefault();
-            
+
             return string.IsNullOrWhiteSpace(organisation)
                 ? throw new ArgumentNullException(nameof(organisation))
                 : JsonConvert.DeserializeObject<Organisation>(organisation) ??
@@ -60,7 +60,7 @@ public static class ClaimsPrincipalExtensions
                     identity.RemoveClaim(o);
                 }
             }
-            
+
             identity.AddClaim(new Claim(ClaimNames.Organisation, JsonConvert.SerializeObject(org)));
         }
 
@@ -81,13 +81,13 @@ public static class ClaimsPrincipalExtensions
         {
             return false;
         }
-            
+
         var roles = principal.Claims.Where(c => c.Type == ClaimTypes.Role).ToArray();
         if (roles.All(role => role.Value != roleName))
         {
             return false;
         }
-            
+
         var currentActiveRoles = principal.Claims.Where(c => c.Type == ClaimNames.ActiveRole || c.Type == ClaimNames.Operation).ToArray();
         if (currentActiveRoles.Any())
         {
@@ -96,9 +96,9 @@ public static class ClaimsPrincipalExtensions
                 identity.RemoveClaim(activePrincipal);
             }
         }
-            
+
         identity.AddClaim(new Claim(ClaimNames.ActiveRole, roleName));
-            
+
         foreach (var op in Operations.ForRole(roleName))
         {
             identity.AddClaim(op);
@@ -107,7 +107,7 @@ public static class ClaimsPrincipalExtensions
         await httpContext.SignInAsync(principal);
         return true;
     }
-        
+
     public static Role ActiveRole(this ClaimsPrincipal principal)
     {
         return principal.Claims
@@ -115,12 +115,12 @@ public static class ClaimsPrincipalExtensions
             .Select(r => new Role { Name = r.Value })
             .FirstOrDefault();
     }
-        
+
     public static bool DoesHaveOneActiveRole(this ClaimsPrincipal principal)
     {
         return principal.Claims.Any(c => c.Type == ClaimNames.ActiveRole);
     }
-        
+
     public static bool DoesHaveOtherRoles(this ClaimsPrincipal principal)
     {
         var roleCount = principal.Claims.FirstOrDefault(c => c.Type == ClaimNames.RoleCount);
@@ -133,21 +133,21 @@ public static class ClaimsPrincipalExtensions
 
         return false;
     }
-        
+
     public static IEnumerable<Role> Roles(this ClaimsPrincipal principal)
     {
         return principal.Claims
             .Where(c => c.Type == ClaimTypes.Role && Operations.AllRoles.Contains(c.Value))
             .Select(r => new Role { Name = r.Value });
     }
-    
+
     private static IEnumerable<OperationClaim> GetOperations(this ClaimsPrincipal principal)
     {
         return principal.Claims.Where(c => c.Type == ClaimNames.Operation)
             .Select(c => Operations.Get(c.Value))
             .Distinct();
     }
-        
+
     public static bool HasAllOperations(this ClaimsPrincipal principal, params string[] operationClaims)
     {
         var ops = principal.GetOperations().Select(r => r.Name).ToHashSet();
@@ -190,7 +190,7 @@ public static class ClaimsPrincipalExtensions
             identity.AddClaim(new Claim(ClaimNames.Name, principal.UserName()));
             identity.AddClaim(new Claim(ClaimNames.AccessToken, accessToken));
         }
-            
+
         return principal;
     }
 }

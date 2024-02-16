@@ -12,7 +12,7 @@ public class ErrorController : Controller
     {
         return View();
     }
-    
+
     [HttpGet]
     [HttpPost]
     [Route("{statusCode:int}")]

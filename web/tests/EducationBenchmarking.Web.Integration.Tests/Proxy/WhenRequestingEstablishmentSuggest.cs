@@ -13,8 +13,8 @@ public class WhenRequestingEstablishmentSuggest(BenchmarkingWebAppClient client)
     {
         const string urn = "12345";
         var response = await client.SetupEstablishmentWithException()
-            .Get(Paths.ApiEstablishmentSuggest("12323",suggestType));
-        
+            .Get(Paths.ApiEstablishmentSuggest("12323", suggestType));
+
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
 }

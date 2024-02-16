@@ -31,7 +31,7 @@ public class FinancialPlanFixture : IDisposable
 
         SeedFinancialPlan().GetAwaiter().GetResult();
     }
-    
+
     public async void Dispose()
     {
         await Dispose(true);
@@ -46,11 +46,11 @@ public class FinancialPlanFixture : IDisposable
             _apiDriver.Dispose();
         }
     }
-    
+
     private async Task SeedFinancialPlan()
     {
         _messageSink.OnMessage($"Seeding financial plan [year:{Year}, school:{Urn}]".ToDiagnosticMessage());
-        
+
         var content = new { User = "ally-test-user" };
         _apiDriver.CreateRequest(CreateKey, new HttpRequestMessage
         {
@@ -62,7 +62,7 @@ public class FinancialPlanFixture : IDisposable
         await _apiDriver.Send();
         Assert.True(_apiDriver[CreateKey].Response.StatusCode is HttpStatusCode.Created or HttpStatusCode.NoContent);
     }
-    
+
     private async Task CleanupFinancialPlan()
     {
         _messageSink.OnMessage($"Cleaning up financial plan [year:{Year}, school:{Urn}]".ToDiagnosticMessage());

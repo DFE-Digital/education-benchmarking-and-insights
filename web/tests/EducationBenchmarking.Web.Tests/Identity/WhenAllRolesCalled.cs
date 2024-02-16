@@ -27,7 +27,7 @@ public class WhenAllRolesCalledWithAllRolesClaimsInClaims
     public void ShouldReturnTheAllClaims()
     {
         var response = DoIt();
-            
+
         Assert.NotNull(response);
         Assert.Single(response.ToList());
     }

@@ -12,7 +12,7 @@ public class WhenViewingFindOrganisation(
 {
     //known issues conditionally reveal https://design-system.service.gov.uk/components/radios/
     private readonly AxeRunContext _context = new()
-        { Exclude = [new AxeSelector("#school"), new AxeSelector("#trust")] };
+    { Exclude = [new AxeSelector("#school"), new AxeSelector("#trust")] };
 
     protected override string PageUrl => "/find-organisation";
 
