@@ -12,6 +12,7 @@ public class PutFinancialPlanRequest
     public decimal? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
+    public int? TimetablePeriods { get; set; }
 
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
@@ -24,7 +25,8 @@ public class PutFinancialPlanRequest
             TotalExpenditure = plan.TotalExpenditure,
             TotalTeacherCosts = plan.TotalTeacherCosts,
             TotalNumberOfTeachersFte = plan.TotalNumberOfTeachersFte,
-            EducationSupportStaffCosts = plan.EducationSupportStaffCosts
+            EducationSupportStaffCosts = plan.EducationSupportStaffCosts,
+            TimetablePeriods = plan.TimetablePeriods,
         };
     }
 }

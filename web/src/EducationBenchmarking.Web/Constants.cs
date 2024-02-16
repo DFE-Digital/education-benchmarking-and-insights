@@ -64,6 +64,7 @@ public static class PageTitleConstants
     public const string SchoolPlanningTotalTeacherCosts = "What is your total spend on teaching staff?";
     public const string SchoolPlanningTotalNumberTeachers = "How many full-time equivalent teachers do you have?";
     public const string SchoolPlanningTotalEducationSupport = "What is your total spend on education support staff?";
+    public const string SchoolPlanningTimetableCycle = "Timetable cycle";
     public const string SchoolComparatorSet = "Comparator set";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
