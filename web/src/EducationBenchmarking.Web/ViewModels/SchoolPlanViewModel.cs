@@ -21,7 +21,7 @@ public class SchoolPlanViewModel(School school)
     public decimal? TotalExpenditure => _plan?.TotalExpenditure;
     public decimal? TotalTeacherCosts => _plan?.TotalTeacherCosts;
     public decimal? TotalNumberOfTeachersFte => _plan?.TotalNumberOfTeachersFte;
-    public decimal? TotalEducationSupport => _plan?.TotalEducationSupport;
+    public decimal? EducationSupportStaffCosts => _plan?.EducationSupportStaffCosts;
 }
 
 public class SchoolPlanFinancesViewModel(School school, Finances finances, int year, FinancialPlan? plan)

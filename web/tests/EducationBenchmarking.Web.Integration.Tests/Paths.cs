@@ -39,7 +39,9 @@ public static class Paths
         $"/school/{urn}/financial-planning/steps/total-teacher-costs?year={year}";
     public static string SchoolFinancialPlanningTotalNumberTeachers(string? urn, int year) =>
         $"/school/{urn}/financial-planning/steps/total-number-teachers?year={year}";
-
+    public static string SchoolFinancialPlanningTotalEducationSupport(string? urn, int year) =>
+        $"/school/{urn}/financial-planning/steps/total-education-support?year={year}";
+    
     
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiSchoolSchoolExpenditure(string? urn) => $"api/school/{urn}/expenditure";
