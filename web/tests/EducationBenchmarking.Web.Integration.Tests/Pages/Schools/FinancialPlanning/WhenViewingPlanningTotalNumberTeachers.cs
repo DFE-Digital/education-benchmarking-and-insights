@@ -131,8 +131,12 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
             HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
-    public async Task ShowsErrorOnInValidSubmit()
+    [Theory]
+    [InlineData(null)]
+    [InlineData(-1.0)]
+    [InlineData(0.0)]
+    [InlineData(0.9)]
+    public async Task ShowsErrorOnInValidSubmit(double? value)
     {
         
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, false);
@@ -145,14 +149,18 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalNumberOfTeachersFte",  ""}
+                { "TotalNumberOfTeachersFte",  value?.ToString() ?? "" }
             });
         });
         
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("total-number-teacher","Enter number of FTE teachers"));
+
+        var expectedMsg = value is null 
+            ? "Enter your number of full-time equivalent teachers" 
+            : "Number of full-time equivalent teachers must be 1 or more";
+        DocumentAssert.FormErrors(page, ("total-number-teacher",expectedMsg));
     }
     
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)
@@ -189,6 +197,6 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
             :Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
         
         DocumentAssert.BackLink(page, "Back",expectedBackLink );
-        DocumentAssert.TitleAndH1(page, "Total number of teachers - Education benchmarking and insights - GOV.UK", "Total number of teachers");
+        DocumentAssert.TitleAndH1(page, "How many full-time equivalent teachers do you have? - Education benchmarking and insights - GOV.UK", "How many full-time equivalent teachers do you have?");
     }
 }

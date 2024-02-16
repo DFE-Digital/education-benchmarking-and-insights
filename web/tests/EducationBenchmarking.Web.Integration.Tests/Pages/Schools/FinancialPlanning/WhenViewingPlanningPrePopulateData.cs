@@ -114,7 +114,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         AssertPageLayout(page, school, finances);
-        DocumentAssert.FormErrors(page, ("use-figures", "Select whether to use the above figures in your plan"));
+        DocumentAssert.FormErrors(page, ("use-figures", "Select yes if you want to use these figures"));
     }
 
 

@@ -126,8 +126,10 @@ public class WhenViewingPlanningTotalExpenditure(BenchmarkingWebAppClient client
             HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
-    public async Task ShowsErrorOnInValidSubmit()
+    [Theory]
+    [InlineData(null)]
+    [InlineData(-1.0)]
+    public async Task ShowsErrorOnInValidSubmit(double? value)
     {
         
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
@@ -140,14 +142,16 @@ public class WhenViewingPlanningTotalExpenditure(BenchmarkingWebAppClient client
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalExpenditure",  ""}
+                { "TotalExpenditure",  value?.ToString() ?? "" }
             });
         });
         
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("total-expenditure","Enter a total expenditure"));
+
+        var expectedMsg = value is null ? "Enter your total expenditure" : "Total expenditure must be 0 or more";
+        DocumentAssert.FormErrors(page, ("total-expenditure",expectedMsg));
     }
     
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
@@ -180,6 +184,6 @@ public class WhenViewingPlanningTotalExpenditure(BenchmarkingWebAppClient client
     {
         DocumentAssert.BackLink(page, "Back",
             Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total expenditure - Education benchmarking and insights - GOV.UK", "Total expenditure");
+        DocumentAssert.TitleAndH1(page, "What is your total expenditure? - Education benchmarking and insights - GOV.UK", "What is your total expenditure?");
     }
 }

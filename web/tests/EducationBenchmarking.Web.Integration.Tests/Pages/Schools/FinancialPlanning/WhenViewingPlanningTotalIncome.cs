@@ -124,8 +124,10 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
             HttpStatusCode.InternalServerError);
     }
     
-    [Fact]
-    public async Task ShowsErrorOnInValidSubmit()
+    [Theory]
+    [InlineData(null)]
+    [InlineData(-1.0)]
+    public async Task ShowsErrorOnInValidSubmit(double? value)
     {
         
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
@@ -138,14 +140,16 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TotalIncome",  ""}
+                { "TotalIncome",  value?.ToString() ?? "" }
             });
         });
         
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("total-income","Enter a total income"));
+
+        var expectedMsg = value is null ? "Enter your total income" : "Total income must be 0 or more";
+        DocumentAssert.FormErrors(page, ("total-income",expectedMsg));
     }
     
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
@@ -177,6 +181,6 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total income - Education benchmarking and insights - GOV.UK", "Total income");
+        DocumentAssert.TitleAndH1(page, "What is your total income? - Education benchmarking and insights - GOV.UK", "What is your total income?");
     }
 }

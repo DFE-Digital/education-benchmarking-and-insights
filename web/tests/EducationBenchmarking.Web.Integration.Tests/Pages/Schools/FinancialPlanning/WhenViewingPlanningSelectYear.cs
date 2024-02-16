@@ -51,13 +51,14 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
+        
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
         
         page = await Client.SubmitForm(page.Forms[0], action);
         
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("year","Select an academic year"));
+        DocumentAssert.FormErrors(page, ("year","Select the academic year you want to plan"));
     }
     
     [Fact]
@@ -154,7 +155,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Select academic year to plan - Education benchmarking and insights - GOV.UK", "Select academic year to plan");
+        DocumentAssert.TitleAndH1(page, "Which academic year do you want to plan? - Education benchmarking and insights - GOV.UK", "Which academic year do you want to plan?");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.Urn));
