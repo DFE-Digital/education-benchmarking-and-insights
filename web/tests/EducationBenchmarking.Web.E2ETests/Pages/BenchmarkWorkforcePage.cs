@@ -32,7 +32,6 @@ public class BenchmarkWorkforcePage(PageHook page)
 
     public async Task AssertPage()
     {
-        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         await PageH1Heading.ShouldBeVisible();
         await BreadCrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
@@ -166,6 +165,7 @@ public class BenchmarkWorkforcePage(PageHook page)
     public async Task GotToPage(string urn)
     {
         await _page.GotoAsync($"{TestConfiguration.ServiceUrl}/school/{urn}/workforce");
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     public async Task ClickOnDimensionDropdown(string chartName)

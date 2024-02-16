@@ -23,6 +23,7 @@ public class StartPage(PageHook page)
     public async Task GoToPage(string urn)
     {
         await _page.GotoAsync(PageUrl(urn));
+        await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
     public async Task ClickHelp()
