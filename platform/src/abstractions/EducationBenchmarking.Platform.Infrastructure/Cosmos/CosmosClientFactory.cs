@@ -9,7 +9,7 @@ public static class CosmosClientFactory
     public static CosmosClient Create(string? connectionString, bool isDirect)
     {
         ArgumentNullException.ThrowIfNull(connectionString);
-        
+
         return new CosmosClient(connectionString, new CosmosClientOptions
         {
             ConnectionMode = isDirect ? ConnectionMode.Direct : ConnectionMode.Gateway

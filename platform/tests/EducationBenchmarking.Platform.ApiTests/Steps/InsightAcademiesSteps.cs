@@ -37,13 +37,13 @@ public class InsightAcademiesSteps
     public async Task ThenTheAcademiesResultShouldBeOk()
     {
         var response = _api[AcademyKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Finances>();
-        
+
         result.SchoolName.Should().Be("Mansel Primary");
         result.Urn.Should().Be("139137");
     }

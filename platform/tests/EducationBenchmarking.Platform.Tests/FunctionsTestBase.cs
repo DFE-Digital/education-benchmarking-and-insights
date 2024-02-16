@@ -16,14 +16,14 @@ public class FunctionsTestBase
         reqMock.Setup(req => req.Headers).Returns(new HeaderDictionary());
         reqMock.Setup(req => req.Scheme).Returns("https");
         reqMock.Setup(req => req.Host).Returns(new HostString("localhost"));
-            
+
         var pipe = new Pipe();
         await pipe.Writer.WriteAsync(Encoding.UTF8.GetBytes(body).AsMemory());
         await pipe.Writer.CompleteAsync();
 
         reqMock.Setup(req => req.HttpContext.RequestAborted).Returns(new CancellationToken());
         reqMock.Setup(req => req.BodyReader).Returns(pipe.Reader);
-            
+
         return reqMock.Object;
     }
 
@@ -31,7 +31,7 @@ public class FunctionsTestBase
     {
         return CreateRequestWithBody(item.ToJson(), query).Result;
     }
-    
+
     protected static HttpRequest CreateRequest(Dictionary<string, StringValues>? query = null, Stream? body = null)
     {
         var reqMock = new Mock<HttpRequest>();
@@ -48,7 +48,7 @@ public class FunctionsTestBase
 
         return reqMock.Object;
     }
-        
+
     public static HttpRequest CreateMultipartRequest(FormCollection formCollection)
     {
         var context = new DefaultHttpContext();
@@ -67,6 +67,6 @@ public class FunctionsTestBase
         {
             Headers = new HeaderDictionary(),
             ContentType = contentType
-        };  
+        };
     }
 }

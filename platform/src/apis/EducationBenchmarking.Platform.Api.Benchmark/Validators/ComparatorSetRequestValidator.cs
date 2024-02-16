@@ -14,7 +14,7 @@ public class ComparatorSetRequestValidator : AbstractValidator<ComparatorSetRequ
         RuleFor(p => p.Characteristics)
             .Must(x => x is null || x.Keys.All(key => Characteristics.AllCodes.Contains(key)))
             .WithMessage("Invalid characteristics");
-        
+
         RuleFor(x => x.SortMethod).SetInheritanceValidator(v =>
         {
             v.Add(new UnknownProximitySortValidator());

@@ -8,24 +8,24 @@ using Microsoft.Extensions.Options;
 
 var result = Parser.Default.ParseArguments<ProgramOptions>(args);
 
-await result.MapResult(RebuildIndexes,_ => HandleErrors(result));
+await result.MapResult(RebuildIndexes, _ => HandleErrors(result));
 
 static Task RebuildIndexes(ProgramOptions options)
 {
     var collectionServiceOptions = Options.Create(new CollectionServiceOptions
     {
-        DatabaseId = options.CosmosDatabaseId, 
+        DatabaseId = options.CosmosDatabaseId,
         ConnectionString = options.CosmosConnectionString,
         LookupCollectionName = options.LookupCollectionName
     });
-    
+
     var searchOptions = Options.Create(new SearchMaintenanceServiceOptions
     {
-        Key = options.SearchKey, 
-        Name = options.SearchName, 
+        Key = options.SearchKey,
+        Name = options.SearchName,
         Cosmos = new SearchMaintenanceServiceOptions.CosmosOptions
         {
-            ConnectionString = options.CosmosConnectionString, 
+            ConnectionString = options.CosmosConnectionString,
             DatabaseId = options.CosmosDatabaseId
         },
         Storage = new SearchMaintenanceServiceOptions.StorageOptions
@@ -34,13 +34,13 @@ static Task RebuildIndexes(ProgramOptions options)
             LocalAuthoritiesContainer = options.LocalAuthoritiesContainer,
         }
     });
-    
+
     var logger = BuilderLogger<SearchMaintenanceService>();
     var collectionService = new CollectionService(collectionServiceOptions);
     var service = new SearchMaintenanceService(searchOptions, logger, collectionService);
 
     return service.Rebuild();
-}    
+}
 
 static Task HandleErrors<T>(ParserResult<T> result)
 {

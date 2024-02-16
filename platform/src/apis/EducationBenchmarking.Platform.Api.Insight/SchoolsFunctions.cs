@@ -20,16 +20,16 @@ public class SchoolsFunctions
 {
     private readonly ILogger<SchoolsFunctions> _logger;
     private readonly ISchoolsDb _db;
-    
+
     public SchoolsFunctions(ILogger<SchoolsFunctions> logger, ISchoolsDb db)
     {
         _logger = logger;
         _db = db;
     }
-    
+
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
     [ProducesResponseType(typeof(PagedSchoolExpenditure), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
@@ -37,10 +37,10 @@ public class SchoolsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/expenditure")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
-        
+
         using (_logger.BeginScope(new Dictionary<string, object>
                {
-                   {"Application", Constants.ApplicationName}, 
+                   {"Application", Constants.ApplicationName},
                    {"CorrelationID", correlationId}
                }))
         {
@@ -48,9 +48,9 @@ public class SchoolsFunctions
             {
                 var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
-                
+
                 var result = await _db.Expenditure(urns, page, pageSize);
-                
+
                 return new JsonContentResult(result);
             }
             catch (Exception e)
@@ -60,10 +60,10 @@ public class SchoolsFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(QuerySchoolWorkforceAsync))]
     [ProducesResponseType(typeof(PagedSchoolWorkforce), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
@@ -71,10 +71,10 @@ public class SchoolsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/workforce")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
-        
+
         using (_logger.BeginScope(new Dictionary<string, object>
                {
-                   {"Application", Constants.ApplicationName}, 
+                   {"Application", Constants.ApplicationName},
                    {"CorrelationID", correlationId}
                }))
         {
@@ -82,9 +82,9 @@ public class SchoolsFunctions
             {
                 var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
-                
+
                 var result = await _db.Workforce(urns, page, pageSize);
-                
+
                 return new JsonContentResult(result);
             }
             catch (Exception e)
@@ -94,7 +94,7 @@ public class SchoolsFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(QuerySchoolRatingsAsync))]
     [ProducesResponseType(typeof(Rating[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -120,7 +120,7 @@ public class SchoolsFunctions
                 var term = req.Query["term"].ToString();
                 var size = req.Query["size"].ToString();
                 var fsm = req.Query["fsm"].ToString();
-                
+
                 var bandings = await _db.SchoolRatings(phase, term, size, fsm);
                 return new JsonContentResult(bandings);
             }

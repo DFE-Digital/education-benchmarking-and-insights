@@ -13,11 +13,11 @@ public record Finances
     public decimal NumberOfPupils { get; set; }
     public bool HasSixthForm { get; set; }
     public decimal TotalExpenditure { get; set; }
-    public decimal TeachingStaffCosts { get; set; } 
+    public decimal TeachingStaffCosts { get; set; }
     public decimal TotalIncome { get; set; }
     public decimal BreakdownEducationalSuppliesCosts { get; set; }
-    public decimal SupplyTeachingStaffCosts { get; set; } 
-    public decimal EducationSupportStaffCosts { get; set; } 
+    public decimal SupplyTeachingStaffCosts { get; set; }
+    public decimal EducationSupportStaffCosts { get; set; }
     public decimal AdministrativeClericalStaffCosts { get; set; }
     public decimal OtherStaffCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }

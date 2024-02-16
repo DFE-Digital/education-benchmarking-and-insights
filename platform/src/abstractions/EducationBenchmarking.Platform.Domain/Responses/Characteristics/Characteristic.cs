@@ -42,10 +42,10 @@ public static class Characteristics
     public static Characteristic SchoolPhase => new() { Code = nameof(SchoolPhase), Description = "School phase" };
 
     public static Characteristic PeriodCoveredByReturn => new()
-        { Code = nameof(PeriodCoveredByReturn), Description = "Period covered by return" };
+    { Code = nameof(PeriodCoveredByReturn), Description = "Period covered by return" };
 
     public static Characteristic SchoolOverallPhase => new()
-        { Code = nameof(SchoolOverallPhase), Description = "School overall phase" };
+    { Code = nameof(SchoolOverallPhase), Description = "School overall phase" };
 
     public static Characteristic TypeofEstablishment =>
         new() { Code = nameof(TypeofEstablishment), Description = "School type" };
@@ -53,7 +53,7 @@ public static class Characteristics
     public static Characteristic UrbanRural => new() { Code = nameof(UrbanRural), Description = "Urban/rural schools" };
 
     public static Characteristic GovernmentOffice => new()
-        { Code = nameof(GovernmentOffice), Description = "Government office region" };
+    { Code = nameof(GovernmentOffice), Description = "Government office region" };
 
     public static Characteristic LondonBorough =>
         new() { Code = nameof(LondonBorough), Description = "London borough" };
@@ -62,7 +62,7 @@ public static class Characteristics
         new() { Code = nameof(LondonWeighting), Description = "London weighting" };
 
     public static Characteristic PercentageOfEligibleFreeSchoolMeals => new()
-        { Code = nameof(PercentageOfEligibleFreeSchoolMeals), Description = "Eligibility for free school meals" };
+    { Code = nameof(PercentageOfEligibleFreeSchoolMeals), Description = "Eligibility for free school meals" };
 
     public static Characteristic PercentageOfPupilsWithStatementOfSen => new()
     {
@@ -78,7 +78,7 @@ public static class Characteristics
     };
 
     public static Characteristic PercentageOfPupilsWithEal => new()
-        { Code = nameof(PercentageOfPupilsWithEal), Description = "Pupils with English as an additional language" };
+    { Code = nameof(PercentageOfPupilsWithEal), Description = "Pupils with English as an additional language" };
 
     public static Characteristic PercentageBoarders =>
         new() { Code = nameof(PercentageBoarders), Description = "Boarders" };
@@ -87,10 +87,10 @@ public static class Characteristics
         new() { Code = nameof(AdmissionsPolicy), Description = "Admissions policy" };
 
     public static Characteristic Pfi => new()
-        { Code = nameof(Pfi), Description = "Part of a private finance initiative?" };
+    { Code = nameof(Pfi), Description = "Part of a private finance initiative?" };
 
     public static Characteristic DoesTheSchoolHave6Form => new()
-        { Code = nameof(DoesTheSchoolHave6Form), Description = "Does the school have a sixth form?" };
+    { Code = nameof(DoesTheSchoolHave6Form), Description = "Does the school have a sixth form?" };
 
     public static Characteristic NumberIn6Form =>
         new() { Code = nameof(NumberIn6Form), Description = "Number in sixth form" };
@@ -99,7 +99,7 @@ public static class Characteristics
         new() { Code = nameof(LowestAgePupils), Description = "Lowest age of pupils" };
 
     public static Characteristic HighestAgePupils => new()
-        { Code = nameof(HighestAgePupils), Description = "Highest age of pupils" };
+    { Code = nameof(HighestAgePupils), Description = "Highest age of pupils" };
 
     public static Characteristic PercentageQualifiedTeachers => new()
     {
@@ -108,7 +108,7 @@ public static class Characteristics
     };
 
     public static Characteristic FullTimeTa => new()
-        { Code = nameof(FullTimeTa), Description = "Number of teaching assistants (full time equivalent)" };
+    { Code = nameof(FullTimeTa), Description = "Number of teaching assistants (full time equivalent)" };
 
     public static Characteristic FullTimeOther => new()
     {
@@ -117,17 +117,18 @@ public static class Characteristics
     };
 
     public static Characteristic FullTimeAux => new()
-        { Code = nameof(FullTimeAux), Description = "Number of Auxiliary staff (Full Time Equivalent)" };
+    { Code = nameof(FullTimeAux), Description = "Number of Auxiliary staff (Full Time Equivalent)" };
 
     public static Characteristic SchoolWorkforceFte => new()
-        { Code = nameof(SchoolWorkforceFte), Description = "Number in the school workforce (full time equivalent)" };
+    { Code = nameof(SchoolWorkforceFte), Description = "Number in the school workforce (full time equivalent)" };
 
     public static Characteristic NumberOfTeachersFte => new()
-        { Code = nameof(NumberOfTeachersFte), Description = "Number of teachers (full time equivalent)" };
+    { Code = nameof(NumberOfTeachersFte), Description = "Number of teachers (full time equivalent)" };
 
     public static Characteristic SeniorLeadershipFte => new()
     {
-        Code = nameof(SeniorLeadershipFte), Description = "Number in the senior leadership team (full time equivalent)"
+        Code = nameof(SeniorLeadershipFte),
+        Description = "Number in the senior leadership team (full time equivalent)"
     };
 
     public static Characteristic OfstedRating => new() { Code = nameof(OfstedRating), Description = "Ofsted rating" };
@@ -139,28 +140,28 @@ public static class Characteristics
         new() { Code = nameof(Ks2Progress), Description = "Key Stage 2 progress" };
 
     public static Characteristic AverageAttainment8 => new()
-        { Code = nameof(AverageAttainment8), Description = "Average Attainment 8" };
+    { Code = nameof(AverageAttainment8), Description = "Average Attainment 8" };
 
     public static Characteristic Progress8Measure =>
         new() { Code = nameof(Progress8Measure), Description = "Progress 8 measure" };
 
     public static Characteristic SpecificLearningDifficulty => new()
-        { Code = nameof(SpecificLearningDifficulty), Description = "Specific learning difficulty" };
+    { Code = nameof(SpecificLearningDifficulty), Description = "Specific learning difficulty" };
 
     public static Characteristic ModerateLearningDifficulty => new()
-        { Code = nameof(ModerateLearningDifficulty), Description = "Moderate learning difficulty" };
+    { Code = nameof(ModerateLearningDifficulty), Description = "Moderate learning difficulty" };
 
     public static Characteristic SevereLearningDifficulty => new()
-        { Code = nameof(SevereLearningDifficulty), Description = "Severe learning difficulty" };
+    { Code = nameof(SevereLearningDifficulty), Description = "Severe learning difficulty" };
 
     public static Characteristic ProfLearningDifficulty => new()
-        { Code = nameof(ProfLearningDifficulty), Description = "Profound and multiple learning difficulty" };
+    { Code = nameof(ProfLearningDifficulty), Description = "Profound and multiple learning difficulty" };
 
     public static Characteristic SocialHealth => new()
-        { Code = nameof(SocialHealth), Description = "Social, emotional and mental health" };
+    { Code = nameof(SocialHealth), Description = "Social, emotional and mental health" };
 
     public static Characteristic SpeechNeeds => new()
-        { Code = nameof(SpeechNeeds), Description = "Speech, language and communications needs" };
+    { Code = nameof(SpeechNeeds), Description = "Speech, language and communications needs" };
 
     public static Characteristic HearingImpairment =>
         new() { Code = nameof(HearingImpairment), Description = "Hearing impairment" };
@@ -169,16 +170,16 @@ public static class Characteristics
         new() { Code = nameof(VisualImpairment), Description = "Visual impairment" };
 
     public static Characteristic MultiSensoryImpairment => new()
-        { Code = nameof(MultiSensoryImpairment), Description = "Multi-sensory impairment" };
+    { Code = nameof(MultiSensoryImpairment), Description = "Multi-sensory impairment" };
 
     public static Characteristic PhysicalDisability => new()
-        { Code = nameof(PhysicalDisability), Description = "Physical disability" };
+    { Code = nameof(PhysicalDisability), Description = "Physical disability" };
 
     public static Characteristic AutisticDisorder => new()
-        { Code = nameof(AutisticDisorder), Description = "Autistic spectrum disorder" };
+    { Code = nameof(AutisticDisorder), Description = "Autistic spectrum disorder" };
 
     public static Characteristic OtherLearningDiff => new()
-        { Code = nameof(OtherLearningDiff), Description = "Other learning difficulty" };
+    { Code = nameof(OtherLearningDiff), Description = "Other learning difficulty" };
 
     public static Characteristic PerPupilExp =>
         new() { Code = nameof(PerPupilExp), Description = "Expenditure per pupil" };

@@ -14,7 +14,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
         Db
             .Setup(d => d.SchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
             .ReturnsAsync(Array.Empty<Banding>());
-        
+
         var result =
             await Functions.QuerySchoolSizeBandingsAsync(CreateRequest()) as JsonContentResult;
 
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesGetSchoolSizeBandingsRequest : BandingsFunction
         Db
             .Setup(d => d.SchoolSizeBandings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<decimal?>(), It.IsAny<bool?>()))
             .Throws(new Exception());
-        
+
         var result = await Functions
             .QuerySchoolSizeBandingsAsync(CreateRequest()) as StatusCodeResult;
 

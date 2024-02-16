@@ -17,6 +17,6 @@ public class OrganisationsFunctionsTestBase : FunctionsTestBase
     {
         Search = new Mock<ISearchService<Organisation>>();
         Validator = new Mock<IValidator<PostSuggestRequest>>();
-        Functions = new OrganisationsFunctions(new NullLogger<OrganisationsFunctions>(),Search.Object, Validator.Object);
+        Functions = new OrganisationsFunctions(new NullLogger<OrganisationsFunctions>(), Search.Object, Validator.Object);
     }
 }

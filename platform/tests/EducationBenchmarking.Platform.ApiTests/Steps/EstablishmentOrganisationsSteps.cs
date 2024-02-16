@@ -45,13 +45,13 @@ public class EstablishmentOrganisationsSteps
     private async Task ThenTheOrganisationsSuggestResultShouldBe(Table table)
     {
         var response = _api[SuggestValidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestOutput<Organisation>>().Results;
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.Text, result.Document?.Identifier, result.Document?.Kind });
@@ -77,13 +77,13 @@ public class EstablishmentOrganisationsSteps
     private async Task ThenTheOrganisationsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
         var response = _api[SuggestInvalidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });

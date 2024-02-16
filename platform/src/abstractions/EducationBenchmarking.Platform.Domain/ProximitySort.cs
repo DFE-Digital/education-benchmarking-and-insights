@@ -13,7 +13,7 @@ public static class ProximitySortKinds
 }
 
 public abstract class ProximitySort
-{ 
+{
     public abstract string Kind { get; }
     public abstract IEnumerable<SchoolTrustFinance> Sort(IEnumerable<SchoolTrustFinance> set);
 }
@@ -67,7 +67,7 @@ public class BestInClassProximitySort : ProximitySort
     public override IEnumerable<SchoolTrustFinance> Sort(IEnumerable<SchoolTrustFinance> set)
     {
         var enumerable = set as SchoolTrustFinance[] ?? set.ToArray();
-        
+
         return enumerable
                 .OrderBy(x => Math.Abs(x.DecimalValueByName<SchoolTrustFinance>(SortBy).GetValueOrDefault() - Baseline))
                 .Take(Pool)

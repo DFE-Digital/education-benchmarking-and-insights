@@ -15,9 +15,9 @@ public record LocalAuthoritySearchServiceOptions : SearchServiceOptions
 [ExcludeFromCodeCoverage]
 public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAuthority>
 {
-    private static readonly string[] Facets = { ""};
+    private static readonly string[] Facets = { "" };
     private const string IndexName = "local-authority-index";
-    
+
     public LocalAuthoritySearchService(IOptions<LocalAuthoritySearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }

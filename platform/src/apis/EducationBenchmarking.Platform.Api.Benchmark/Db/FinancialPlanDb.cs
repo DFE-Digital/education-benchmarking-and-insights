@@ -30,7 +30,7 @@ public interface IFinancialPlanDb
 public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 {
     private readonly FinancialPlanDbOptions _options;
-    
+
     public FinancialPlanDb(IOptions<FinancialPlanDbOptions> options) : base(options.Value)
     {
         _options = options.Value;
@@ -39,16 +39,16 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
     public async Task<FinancialPlan?> FinancialPlan(string urn, int year)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-        
-       var response =  await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
-       return response.IsSuccessStatusCode ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
+
+        var response = await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
+        return response.IsSuccessStatusCode ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
     }
 
     public async Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-        
-        var response =  await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
+
+        var response = await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
         if (!response.IsSuccessStatusCode)
         {
             return await Create(urn, year, request);
@@ -58,10 +58,10 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         if (existing.Created > DateTimeOffset.UtcNow || existing.UpdatedAt > DateTimeOffset.UtcNow)
         {
             throw new DataConflictException(
-                existing.Id, 
-                nameof(Domain.Responses.FinancialPlan), 
+                existing.Id,
+                nameof(Domain.Responses.FinancialPlan),
                 existing.CreatedBy,
-                existing.Created, 
+                existing.Created,
                 existing.UpdatedBy,
                 existing.UpdatedAt);
         }
@@ -94,11 +94,11 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 
         return new DbResult { Status = DbResult.ResultStatus.Updated, Content = existing };
     }
-    
+
     private async Task<DbResult> Create(string urn, int year, FinancialPlanRequest request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-        
+
         var plan = new FinancialPlanDataObject
         {
             Id = year.ToString(),

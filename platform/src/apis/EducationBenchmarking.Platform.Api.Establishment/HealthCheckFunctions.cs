@@ -14,12 +14,12 @@ namespace EducationBenchmarking.Platform.Api.Establishment;
 public class HealthCheckFunctions
 {
     private readonly HealthCheckService _healthCheck;
-    
+
     public HealthCheckFunctions(HealthCheckService healthCheck)
     {
         _healthCheck = healthCheck;
     }
-    
+
     [FunctionName(nameof(HealthAsync))]
     public async Task<IActionResult> HealthAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequest req)

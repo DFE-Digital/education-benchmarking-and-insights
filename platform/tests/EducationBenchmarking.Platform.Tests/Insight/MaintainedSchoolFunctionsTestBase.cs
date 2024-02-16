@@ -13,6 +13,6 @@ public class MaintainedSchoolFunctionsTestBase : FunctionsTestBase
     protected MaintainedSchoolFunctionsTestBase()
     {
         Db = new Mock<IMaintainSchoolDb>();
-        Functions = new MaintainedSchoolFunctions(new NullLogger<MaintainedSchoolFunctions>(),Db.Object);
+        Functions = new MaintainedSchoolFunctions(new NullLogger<MaintainedSchoolFunctions>(), Db.Object);
     }
 }

@@ -20,7 +20,7 @@ public record EdubaseDataObject
 
     [JsonProperty(PropertyName = EdubaseFieldNames.TYPE_OF_ESTAB)]
     public string? TypeOfEstablishment { get; set; }
-    
+
     [JsonProperty(PropertyName = EdubaseFieldNames.ADDRESS)]
     public string? Address { get; set; }
 
@@ -32,7 +32,7 @@ public record EdubaseDataObject
 
     [JsonProperty(PropertyName = EdubaseFieldNames.COMPANY_NUMBER)]
     public int? CompanyNumber { get; set; }
-    
+
     [JsonProperty(PropertyName = EdubaseFieldNames.TRUST_NAME)]
     public string? TrustOrCompanyName { get; set; }
 
@@ -41,7 +41,7 @@ public record EdubaseDataObject
 
     [JsonProperty(PropertyName = EdubaseFieldNames.LA_CODE)]
     public int LaCode { get; set; }
-    
+
     [JsonProperty(PropertyName = EdubaseFieldNames.LA_NAME)]
     public string? La { get; set; }
 

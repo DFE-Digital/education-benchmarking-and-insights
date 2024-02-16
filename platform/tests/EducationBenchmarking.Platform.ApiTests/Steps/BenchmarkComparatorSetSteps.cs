@@ -41,11 +41,11 @@ public class BenchmarkComparatorSetSteps
 
         var responseBody = await response.Content.ReadAsStringAsync();
         var schoolComparatorSet = JsonConvert.DeserializeObject<JObject>(responseBody) ?? throw new ArgumentNullException();
-        
+
         schoolComparatorSet["results"].Should().NotBeNull();
-        
+
         var schools = schoolComparatorSet["results"]?.ToObject<List<JObject>>() ?? throw new ArgumentNullException();
-        
+
         foreach (var school in schools)
         {
             school.Should().ContainKey("urn");
@@ -63,7 +63,8 @@ public class BenchmarkComparatorSetSteps
     {
         var content = new
         {
-            includeSet = "true", size = comparatorSize
+            includeSet = "true",
+            size = comparatorSize
         };
 
         _api.CreateRequest(ComparatorSetKey, new HttpRequestMessage
@@ -79,7 +80,9 @@ public class BenchmarkComparatorSetSteps
     {
         var content = new
         {
-            includeSet = "true", size = "7", sortMethod = new { sortBy = "bad request" }
+            includeSet = "true",
+            size = "7",
+            sortMethod = new { sortBy = "bad request" }
         };
 
         _api.CreateRequest(ComparatorSetKey, new HttpRequestMessage

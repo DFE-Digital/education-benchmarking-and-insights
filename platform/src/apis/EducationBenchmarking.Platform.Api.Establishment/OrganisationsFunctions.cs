@@ -29,7 +29,7 @@ public class OrganisationsFunctions
         _search = search;
         _validator = validator;
     }
-    
+
     [FunctionName(nameof(SuggestOrganisationsAsync))]
     [ProducesResponseType(typeof(SuggestOutput<Organisation>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -50,13 +50,13 @@ public class OrganisationsFunctions
             try
             {
                 var body = req.ReadAsJson<PostSuggestRequest>();
-        
+
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
                 {
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
-        
+
                 var schools = await _search.SuggestAsync(body);
                 return new JsonContentResult(schools);
             }

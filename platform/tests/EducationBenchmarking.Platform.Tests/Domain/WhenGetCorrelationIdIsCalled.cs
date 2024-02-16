@@ -24,7 +24,7 @@ public class WhenGetGetDecimalValueByNameIsCalled
         var x = data.DecimalValueByName<TestData>("Bar");
         x.Should().BeNull();
     }
-    
+
     [Fact]
     public void ShouldReturnNullWhenNotSet()
     {
@@ -33,11 +33,11 @@ public class WhenGetGetDecimalValueByNameIsCalled
         var x = data.DecimalValueByName<TestData>(null);
         x.Should().BeNull();
     }
-    
+
     private class TestData
     {
         public decimal Foo { get; init; }
     }
-    
+
 }
 

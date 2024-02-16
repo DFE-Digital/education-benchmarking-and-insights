@@ -38,9 +38,9 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
         {
             return null;
         }
-        
+
         var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-        
+
         var school = await ItemEnumerableAsync<EdubaseDataObject>(
                 collection.Name,
                 q => q.Where(x => x.Urn == parsedUrn))
@@ -53,7 +53,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
     {
         var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
         var pageParams = query.GetPagingValues();
-        
+
         var establishments =
             await PagedItemEnumerableAsync<EdubaseDataObject>(collection.Name, pageParams.Page, pageParams.PageSize)
                 .ToArrayAsync();

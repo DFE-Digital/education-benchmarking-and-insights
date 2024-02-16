@@ -14,13 +14,13 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
         Db
             .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(new PagedSchoolExpenditure());
-        
+
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }
-    
+
 
     [Fact]
     public async Task ShouldReturn500OnError()
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
         Db
             .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);

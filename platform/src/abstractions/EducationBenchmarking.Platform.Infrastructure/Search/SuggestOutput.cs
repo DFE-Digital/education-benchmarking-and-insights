@@ -12,8 +12,8 @@ public record SuggestOutput<T>
 [ExcludeFromCodeCoverage]
 public record SuggestValue<T>
 {
-    public string? Text {get; set;}
-    public T? Document {get; set;}
+    public string? Text { get; set; }
+    public T? Document { get; set; }
 
     public static SuggestValue<T> Create(SearchSuggestion<T> suggestion)
     {

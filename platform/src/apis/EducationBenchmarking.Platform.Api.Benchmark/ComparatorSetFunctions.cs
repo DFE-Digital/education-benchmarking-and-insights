@@ -32,8 +32,8 @@ public class ComparatorSetFunctions
         _logger = logger;
         _validator = validator;
     }
-    
-    
+
+
     [FunctionName(nameof(ListCharacteristics))]
     [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
     public IActionResult ListCharacteristics(

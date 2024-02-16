@@ -13,19 +13,19 @@ public record PagedResults<T> : IPagedResults
     public int PageSize { get; set; }
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T>? Results { get; set; }
-        
-    public static PagedResults<T> Create(IEnumerable<T> results, int page, int pageSize,  long?  totalResults = null)
+
+    public static PagedResults<T> Create(IEnumerable<T> results, int page, int pageSize, long? totalResults = null)
     {
         var enumerable = results as T[] ?? results.ToArray();
         var resultCount = totalResults ?? enumerable.Length;
-            
+
         return new PagedResults<T>
         {
             Page = page,
             PageSize = pageSize,
             Results = enumerable,
             TotalResults = resultCount
-        };            
+        };
     }
 }
 

@@ -28,7 +28,7 @@ public class EstablishmentLocalAuthoritiesSteps
     private void ThenTheLocalAuthorityResultShouldBeOk()
     {
         var result = _api[RequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -77,7 +77,7 @@ public class EstablishmentLocalAuthoritiesSteps
     private void ThenTheLocalAuthoritiesSuggestResultShouldBeOk()
     {
         var result = _api[SuggestRequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -86,7 +86,7 @@ public class EstablishmentLocalAuthoritiesSteps
     private void ThenTheLocalAuthoritiesSearchResultShouldBeOk()
     {
         var result = _api[SearchRequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -95,7 +95,7 @@ public class EstablishmentLocalAuthoritiesSteps
     private void ThenTheLocalAuthoritiesQueryResultShouldBeOk()
     {
         var result = _api[QueryRequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }

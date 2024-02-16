@@ -26,7 +26,7 @@ public class BandingsFunctions
         _logger = logger;
         _db = db;
     }
-    
+
     [FunctionName(nameof(QueryFreeSchoolMealBandingsAsync))]
     [ProducesResponseType(typeof(Banding[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -58,7 +58,7 @@ public class BandingsFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(QuerySchoolSizeBandingsAsync))]
     [ProducesResponseType(typeof(Banding[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -82,10 +82,10 @@ public class BandingsFunctions
             {
                 decimal? noOfPupils = decimal.TryParse(req.Query["noOfPupils"].ToString(), out var noOfPupilsVal) ? noOfPupilsVal : null;
                 bool? hasSixthForm = bool.TryParse(req.Query["hasSixthForm"].ToString(), out var hasSixthFormVal) ? hasSixthFormVal : null;
-                
+
                 var phase = req.Query["phase"].ToString();
                 var term = req.Query["term"].ToString();
-                
+
                 var bandings = await _db.SchoolSizeBandings(phase, term, noOfPupils, hasSixthForm);
                 return new JsonContentResult(bandings);
             }

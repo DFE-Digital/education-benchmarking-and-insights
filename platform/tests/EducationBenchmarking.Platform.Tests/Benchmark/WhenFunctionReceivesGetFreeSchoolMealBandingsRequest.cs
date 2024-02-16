@@ -14,7 +14,7 @@ public class WhenFunctionReceivesGetFreeSchoolMealBandingsRequest : BandingsFunc
         Db
             .Setup(d => d.FreeSchoolMealBandings())
             .ReturnsAsync(Array.Empty<Banding>());
-        
+
         var result =
             await Functions.QueryFreeSchoolMealBandingsAsync(CreateRequest()) as JsonContentResult;
 
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesGetFreeSchoolMealBandingsRequest : BandingsFunc
         Db
             .Setup(d => d.FreeSchoolMealBandings())
             .Throws(new Exception());
-        
+
         var result = await Functions
             .QueryFreeSchoolMealBandingsAsync(CreateRequest()) as StatusCodeResult;
 

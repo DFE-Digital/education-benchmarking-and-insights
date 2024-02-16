@@ -25,11 +25,11 @@ public class WhenSenProximitySortIsCalled
             new() { SEN = value3 }
 
         };
-            
+
         var result = proximitySort.Sort(schools).ToArray();
-            
+
         proximitySort.Kind.Should().Be(ProximitySortKinds.Sen);
-            
+
         Assert.Equal(value3, result.ElementAt(0).SEN);
         Assert.Equal(value2, result.ElementAt(1).SEN);
         Assert.Equal(value1, result.ElementAt(2).SEN);

@@ -27,9 +27,9 @@ public class AcademyFunctions
     }
 
     [FunctionName(nameof(SingleAcademyAsync))]
-    [ProducesResponseType(typeof(Finances), (int) HttpStatusCode.OK)]
-    [ProducesResponseType((int) HttpStatusCode.NotFound)]
-    [ProducesResponseType((int) HttpStatusCode.InternalServerError)]
+    [ProducesResponseType(typeof(Finances), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleAcademyAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}")]
         HttpRequest req,

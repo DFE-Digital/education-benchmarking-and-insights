@@ -13,6 +13,6 @@ public class AcademyFunctionsTestBase : FunctionsTestBase
     protected AcademyFunctionsTestBase()
     {
         Db = new Mock<IAcademyDb>();
-        Functions = new AcademyFunctions(new NullLogger<AcademyFunctions>(),Db.Object);
+        Functions = new AcademyFunctions(new NullLogger<AcademyFunctions>(), Db.Object);
     }
 }

@@ -9,14 +9,14 @@ public static class HttpRequestExtensions
     {
         if (req.Headers.TryGetValue(Constants.CorrelationIdHeader, out var value))
         {
-            return Guid.TryParse(value.ToString(), out var guid) 
-                ? guid 
+            return Guid.TryParse(value.ToString(), out var guid)
+                ? guid
                 : Guid.NewGuid();
         }
-            
+
         return Guid.NewGuid();
     }
-    
+
     public static T ReadAsJson<T>(this HttpRequest req)
     {
         using (var bodyReader = new StreamReader(req.BodyReader.AsStream(true)))

@@ -16,14 +16,14 @@ public static class TestConfiguration
     public static ApiEndpoint Insight => Instance.GetSection(nameof(Insight)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Insight));
     public static ApiEndpoint Benchmark => Instance.GetSection(nameof(Benchmark)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Benchmark));
     public static ApiEndpoint Establishment => Instance.GetSection(nameof(Establishment)).Get<ApiEndpoint>() ?? throw new ArgumentNullException(nameof(Establishment));
-    
-    
+
+
 #nullable disable warnings
-    public record  ApiEndpoint
+    public record ApiEndpoint
     {
         public string Host { get; init; }
         public string Key { get; init; }
     }
 #nullable restore warnings
-    
+
 }

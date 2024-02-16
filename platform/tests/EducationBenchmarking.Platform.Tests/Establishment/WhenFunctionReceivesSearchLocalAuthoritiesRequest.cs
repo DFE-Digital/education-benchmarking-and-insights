@@ -9,7 +9,7 @@ public class WhenFunctionReceivesSearchLocalAuthoritiesRequest : LocalAuthoritie
     public void ShouldReturn200OnValidRequest()
     {
         var result = Functions.SearchLocalAuthoritiesAsync(CreateRequest()) as OkResult;
-        
+
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }

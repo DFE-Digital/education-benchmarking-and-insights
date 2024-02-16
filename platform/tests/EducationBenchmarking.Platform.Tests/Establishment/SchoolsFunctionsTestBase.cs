@@ -20,6 +20,6 @@ public class SchoolsFunctionsTestBase : FunctionsTestBase
         Db = new Mock<ISchoolDb>();
         Search = new Mock<ISearchService<School>>();
         Validator = new Mock<IValidator<PostSuggestRequest>>();
-        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(),Db.Object, Search.Object, Validator.Object);
+        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(), Db.Object, Search.Object, Validator.Object);
     }
 }

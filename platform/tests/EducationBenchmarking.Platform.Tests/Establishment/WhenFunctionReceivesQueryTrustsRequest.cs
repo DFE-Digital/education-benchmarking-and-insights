@@ -9,7 +9,7 @@ public class WhenFunctionReceivesQueryTrustsRequest : TrustsFunctionsTestBase
     public void ShouldReturn200OnValidRequest()
     {
         var result = Functions.QueryTrustsAsync(CreateRequest()) as OkResult;
-        
+
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }

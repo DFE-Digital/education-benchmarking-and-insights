@@ -22,7 +22,7 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
     {
         this[key] = new ApiMessage(request);
     }
-    
+
     public async Task Send()
     {
         foreach (var message in this.Where(m => m.Value.Pending))
@@ -40,7 +40,7 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
     public class ApiMessage
     {
         private HttpResponseMessage? _response;
-        
+
         public ApiMessage(HttpRequestMessage request)
         {
             Request = request;
@@ -52,7 +52,7 @@ public abstract class ApiDriver : Dictionary<string, ApiDriver.ApiMessage>
 
         public HttpResponseMessage Response
         {
-            get => _response ??  throw new InvalidOperationException($"{nameof(Response)} must be assigned a non-null value before being read");
+            get => _response ?? throw new InvalidOperationException($"{nameof(Response)} must be assigned a non-null value before being read");
             set => _response = value;
         }
     }

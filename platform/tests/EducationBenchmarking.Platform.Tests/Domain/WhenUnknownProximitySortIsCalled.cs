@@ -12,7 +12,7 @@ public class WhenUnknownProximitySortIsCalled
         var sortType = new UnknownProximitySort();
 
         sortType.Kind.Should().Be("");
-            
+
         Assert.Throws<NotImplementedException>(
             () => new UnknownProximitySort()
                 .Sort(Array.Empty<SchoolTrustFinance>()));

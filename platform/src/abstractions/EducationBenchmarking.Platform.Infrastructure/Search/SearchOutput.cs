@@ -12,12 +12,12 @@ public record SearchOutput<T> : IPagedResults
     public int PageSize { get; set; }
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T> Results { get; set; } = Array.Empty<T>();
-    
+
     public static SearchOutput<T> Create(IEnumerable<T> results, int page = 1, int pageSize = 10, long? totalResults = null, Dictionary<string, IList<FacetValue>>? facets = null)
     {
         var enumerable = results as T[] ?? results.ToArray();
         var resultCount = totalResults ?? enumerable.Length;
-            
+
         return new SearchOutput<T>
         {
             Page = page,
@@ -25,7 +25,7 @@ public record SearchOutput<T> : IPagedResults
             Results = enumerable,
             TotalResults = resultCount,
             Facets = facets
-        };         
+        };
     }
 }
 

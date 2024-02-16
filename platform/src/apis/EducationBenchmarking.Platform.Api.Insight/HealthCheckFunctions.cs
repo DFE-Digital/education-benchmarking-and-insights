@@ -20,7 +20,7 @@ public class HealthCheckFunctions
     {
         _healthCheck = healthCheck;
     }
-    
+
     [FunctionName(nameof(HealthAsync))]
     public async Task<IActionResult> HealthAsync(
         [HttpTrigger(AuthorizationLevel.Anonymous, "get", Route = "health")] HttpRequest req)

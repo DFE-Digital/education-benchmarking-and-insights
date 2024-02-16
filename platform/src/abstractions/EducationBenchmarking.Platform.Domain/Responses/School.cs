@@ -24,7 +24,7 @@ public record School
     public string? Address { get; set; }
     public string? Website { get; set; }
     public string? LocalAuthorityName { get; set; }
-    
+
     public static School Create(EdubaseDataObject edubase)
     {
         return new School

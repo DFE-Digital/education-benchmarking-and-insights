@@ -8,7 +8,7 @@ namespace EducationBenchmarking.Platform.Search.Organisation;
 public class OrganisationIndexBuilder : IndexBuilder
 {
     public override string Name => SearchResourceNames.Indexes.Organisation;
-    
+
     public override async Task Build(SearchIndexClient client)
     {
         var searchFields = new FieldBuilder().Build(typeof(OrganisationIndex));
@@ -28,7 +28,7 @@ public class OrganisationIndexBuilder : IndexBuilder
         var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Organisation, suggestFields);
 
         definition.Suggesters.Add(suggester);
-        
+
         await client.CreateOrUpdateIndexAsync(definition);
     }
 }

@@ -26,8 +26,8 @@ public class SchoolsFunctions
     private readonly IValidator<PostSuggestRequest> _validator;
 
     public SchoolsFunctions(
-        ILogger<SchoolsFunctions> logger, 
-        ISchoolDb db, 
+        ILogger<SchoolsFunctions> logger,
+        ISchoolDb db,
         ISearchService<School> search,
         IValidator<PostSuggestRequest> validator)
     {
@@ -151,13 +151,13 @@ public class SchoolsFunctions
             try
             {
                 var body = req.ReadAsJson<PostSuggestRequest>();
-        
+
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
                 {
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
-        
+
                 var schools = await _search.SuggestAsync(body);
                 return new JsonContentResult(schools);
             }
