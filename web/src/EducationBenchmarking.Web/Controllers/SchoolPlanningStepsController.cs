@@ -181,7 +181,7 @@ public class SchoolPlanningStepsController(
 
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
-                return  plan.UseFigures.Value
+                return plan.UseFigures.Value
                     ? RedirectToAction("TimetableCycle", new { urn, year })
                     : RedirectToAction("TotalIncome", new { urn, year });
             }
@@ -523,7 +523,7 @@ public class SchoolPlanningStepsController(
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
+
                 return RedirectToAction("TimetableCycle", new { urn, year });
             }
             catch (Exception e)
