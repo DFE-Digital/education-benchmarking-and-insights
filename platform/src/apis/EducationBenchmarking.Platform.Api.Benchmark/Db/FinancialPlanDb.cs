@@ -88,7 +88,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TotalTeacherCosts = request.TotalTeacherCosts;
         existing.TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte;
         existing.EducationSupportStaffCosts = request.EducationSupportStaffCosts;
-        existing.Timetable = request.Timetable;
+        existing.TimetableLength = request.TimetableLength;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -114,7 +114,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             TotalTeacherCosts = request.TotalTeacherCosts,
             TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte,
             EducationSupportStaffCosts = request.EducationSupportStaffCosts,
-            Timetable = request.Timetable,
+            TimetableLength = request.TimetableLength,
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
