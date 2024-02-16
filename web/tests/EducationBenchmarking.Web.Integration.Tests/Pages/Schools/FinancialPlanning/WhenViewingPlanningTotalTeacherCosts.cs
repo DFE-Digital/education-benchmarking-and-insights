@@ -177,6 +177,6 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total teacher costs", "Total teacher costs");
+        DocumentAssert.TitleAndH1(page, "Total teacher costs - Education benchmarking and insights - GOV.UK", "Total teacher costs");
     }
 }

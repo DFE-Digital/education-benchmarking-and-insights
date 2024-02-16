@@ -41,6 +41,9 @@ public record EdubaseDataObject
 
     [JsonProperty(PropertyName = EdubaseFieldNames.LA_CODE)]
     public int LaCode { get; set; }
+    
+    [JsonProperty(PropertyName = EdubaseFieldNames.LA_NAME)]
+    public string? La { get; set; }
 
     [JsonProperty(PropertyName = EdubaseFieldNames.ESTAB_NO)]
     public int EstablishmentNumber { get; set; }

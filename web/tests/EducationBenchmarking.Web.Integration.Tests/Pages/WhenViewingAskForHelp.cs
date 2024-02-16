@@ -13,6 +13,6 @@ public class WhenViewingAskForHelp(BenchmarkingWebAppClient client) : PageBase(c
 
         DocumentAssert.AssertPageUrl(page, Paths.AskForHelp.ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "", "Ask for help from an SRMA");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Ask for help from an SRMA");
     }
 }

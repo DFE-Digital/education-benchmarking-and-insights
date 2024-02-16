@@ -1,26 +1,32 @@
-﻿using EducationBenchmarking.Web.Infrastructure.Apis;
+﻿using EducationBenchmarking.Web.Domain;
+using EducationBenchmarking.Web.Infrastructure.Apis;
+using EducationBenchmarking.Web.Infrastructure.Extensions;
+using EducationBenchmarking.Web.TagHelpers;
+using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Nodes;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/details")]
-public class SchoolDetailsController : Controller
+public class SchoolDetailsController(ILogger<SchoolDetailsController> logger, IEstablishmentApi establishmentApi)
+    : Controller
 {
     [HttpGet]
-    public IActionResult Index(string urn)
+    public async Task<IActionResult> Index(string urn)
     {
-        var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-        var childNode = new MvcBreadcrumbNode("Index", "SchoolDetails", "School details")
+        try
         {
-            RouteValues = new { urn },
-            Parent = parentNode
-        };
+            ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
-        ViewData[ViewDataConstants.BreadcrumbNode] = childNode;
-
-        return View();
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            return View(new SchoolDetailsViewModel(school));
+        }
+        catch (Exception e)
+        {
+            logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+            return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+        }
     }
 }

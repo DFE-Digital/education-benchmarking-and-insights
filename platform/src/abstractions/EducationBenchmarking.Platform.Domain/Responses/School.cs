@@ -1,4 +1,3 @@
-using System;
 using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Domain.DataObjects;
 
@@ -21,7 +20,11 @@ public record School
     public string? Postcode { get; set; }
     public string? CompanyNumber { get; set; }
     public string? TrustOrCompanyName { get; set; }
-
+    public string? Telephone { get; set; }
+    public string? Address { get; set; }
+    public string? Website { get; set; }
+    public string? LocalAuthorityName { get; set; }
+    
     public static School Create(EdubaseDataObject edubase)
     {
         return new School
@@ -32,7 +35,11 @@ public record School
             Name = edubase.EstablishmentName,
             CompanyNumber = edubase.CompanyNumber.ToString(),
             TrustOrCompanyName = edubase.TrustOrCompanyName,
-            OverallPhase = edubase.OverallPhase
+            OverallPhase = edubase.OverallPhase,
+            Address = edubase.Address,
+            Telephone = edubase.TelephoneNum,
+            Website = edubase.SchoolWebsite,
+            LocalAuthorityName = edubase.La
         };
     }
 }

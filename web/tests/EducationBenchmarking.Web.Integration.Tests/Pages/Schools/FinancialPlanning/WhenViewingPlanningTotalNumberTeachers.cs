@@ -176,6 +176,6 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Total number of teachers", "Total number of teachers");
+        DocumentAssert.TitleAndH1(page, "Total number of teachers - Education benchmarking and insights - GOV.UK", "Total number of teachers");
     }
 }

@@ -6,6 +6,21 @@
   max-width: 100%
 }
 
+.app-tag-login {
+  @include govuk-font($size: 19);
+  display: block;
+  color: govuk-shade(govuk-colour("dark-grey"), 50%);
+  background-color: govuk-tint(govuk-colour("dark-grey"), 85%);
+  margin-top: -2px;
+  margin-bottom: -3px;
+  padding-top: 2px;
+  padding-right: 8px;
+  padding-bottom: 3px;
+  padding-left: 8px;
+  text-decoration: none;
+  overflow-wrap: break-word;
+}
+
 .app-links {
   display: flex;
   flex-wrap: wrap;

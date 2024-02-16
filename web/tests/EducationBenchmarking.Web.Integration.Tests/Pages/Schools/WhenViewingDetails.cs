@@ -1,3 +1,4 @@
+using System.Net;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using EducationBenchmarking.Web.Domain;
@@ -8,38 +9,76 @@ namespace EducationBenchmarking.Web.Integration.Tests.Pages.Schools;
 public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanDisplay(string financeType, bool isTrust)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
-            
+        var (page, school) = await SetupNavigateInitPage(financeType, isTrust);
+
         AssertPageLayout(page, school);
     }
     
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    [Fact]
+    public async Task CanNavigateBack()
     {
-        var school = Fixture.Build<School>()
-            .With(x => x.FinanceType, financeType)
-            .Create();
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, false);
+
+        var anchor = page.QuerySelector(".govuk-back-link");
+        page = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
+    }
+    
+    [Fact]
+    public async Task CanDisplayNotFound()
+    {
+        const string urn = "12345";
+        var page = await Client.SetupEstablishmentWithNotFound()
+            .Navigate(Paths.SchoolDetails(urn));
         
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(urn).ToAbsolute(), HttpStatusCode.NotFound);
+    }
+    
+    [Fact]
+    public async Task CanDisplayProblemWithService()
+    {
+        const string urn = "12345";
+        var page = await Client.SetupEstablishmentWithException()
+            .Navigate(Paths.SchoolDetails(urn));
+        
+        PageAssert.IsProblemPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isTrust)
+    {
+        var school = isTrust
+            ? Fixture.Build<School>()
+                .With(x => x.FinanceType, financeType)
+                .Create()
+            : Fixture.Build<School>()
+                .With(x => x.FinanceType, financeType)
+                .With(x => x.CompanyNumber, "1223545")
+                .With(x => x.TrustOrCompanyName, "Test Trust")
+                .Create();
+
         var page = await Client.SetupEstablishment(school)
             .Navigate(Paths.SchoolDetails(school.Urn));
 
         return (page, school);
     }
-    
+
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        var expectedBreadcrumbs = new[]
-        {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("School details", Paths.SchoolDetails(school.Urn).ToAbsolute())
-        };
-
         DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(school.Urn).ToAbsolute());
-        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "School details", "School details");
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Contact details - Education benchmarking and insights - GOV.UK",
+            "Contact details");
+        
+        if (school.IsPartOfTrust)
+        {
+            DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");
+        }
     }
 }

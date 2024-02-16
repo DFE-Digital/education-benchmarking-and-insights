@@ -23,14 +23,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
         {
             try
             {
-                var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-                var childNode = new MvcBreadcrumbNode("Index", "SchoolPlanning", "Curriculum and financial planning")
-                {
-                    RouteValues = new { urn },
-                    Parent = parentNode
-                };
-
-                ViewData[ViewDataConstants.BreadcrumbNode] = childNode;
+                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolPlanning(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanViewModel(school);

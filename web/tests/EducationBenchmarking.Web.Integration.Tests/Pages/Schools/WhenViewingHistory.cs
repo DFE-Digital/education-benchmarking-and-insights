@@ -40,6 +40,6 @@ public class WhenViewingHistory(BenchmarkingWebAppClient client) : PageBase(clie
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "", "Historic data");
+        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Historic data");
     }
 }

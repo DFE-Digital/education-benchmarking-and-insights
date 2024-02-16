@@ -1,7 +1,5 @@
-﻿using EducationBenchmarking.Web.Infrastructure.Apis;
-using Microsoft.AspNetCore.Http.Extensions;
-using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Nodes;
+﻿using Microsoft.AspNetCore.Mvc;
+
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -12,14 +10,7 @@ public class SchoolHistoryController : Controller
     [HttpGet]
     public IActionResult Index(string urn)
     {
-        var parentNode = new MvcBreadcrumbNode("Index", "School", "Your school") { RouteValues = new { urn } };
-        var childNode = new MvcBreadcrumbNode("Index", "SchoolHistory", "Historic data")
-        {
-            RouteValues = new { urn },
-            Parent = parentNode
-        };
-
-        ViewData[ViewDataConstants.BreadcrumbNode] = childNode;
+        ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.HistoricData(urn);
 
         return View();
     }
