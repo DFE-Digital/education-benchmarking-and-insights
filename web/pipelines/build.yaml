@@ -63,6 +63,13 @@ stages:
             parameters:
               TerraformFolder: $(TerraformFolder)
 
+      - job: RunFormat
+        displayName: 'Format solution'
+        steps:
+          - template: ..\..\shared\steps-dotnet-format.yaml
+            parameters:
+              SolutionDirectory: '$(System.DefaultWorkingDirectory)/web'
+
       - job: RunTests
         displayName: 'Run unit tests'
         steps:
