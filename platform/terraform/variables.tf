@@ -8,11 +8,17 @@ variable "configuration" {
     cosmos = object({
       capabilities = list(string)
     })
+    search = object({
+      sku = string
+    })
   }))
   default = {
     development = {
       cosmos = {
         capabilities = []
+      }
+      search = {
+        sku = "free"
       }
     }
     automated-test = {
@@ -21,12 +27,18 @@ variable "configuration" {
           "EnableServerless"
         ]
       }
+      search = {
+        sku = "free"
+      }
     }
     test = {
       cosmos = {
         capabilities = [
           "EnableServerless"
         ]
+      }
+      search = {
+        sku = "free"
       }
     }
   }
