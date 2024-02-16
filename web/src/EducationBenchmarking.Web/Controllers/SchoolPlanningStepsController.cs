@@ -235,7 +235,7 @@ public class SchoolPlanningStepsController(
             {
                 var parsed = int.TryParse(timetablePeriods, out var val);
                 int? parsedVal = parsed ? val : null;
-                
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 plan.TimetablePeriods = parsedVal;
@@ -247,22 +247,22 @@ public class SchoolPlanningStepsController(
                     var backAction = plan.UseFigures == true
                         ? Url.Action("PrePopulateData", new { urn, year })
                         : Url.Action("TotalNumberTeachers", new { urn, year });
-                    
+
                     var message = timetablePeriods is null
                         ? "Enter the number of periods in one timetable cycle"
-                        : parsed 
+                        : parsed
                             ? "Number of periods in one timetable cycle must be 1 or more"
                             : "Number of periods in one timetable cycle must be a whole number";
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TimetablePeriods), message);
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
-                    
+
                     var viewModel = new SchoolPlanTimetableViewModel(school, year, plan, timetablePeriods);
                     return View(viewModel);
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
-                
+
                 return new OkResult(); //TODO: update when next page is created in CFP journey
             }
             catch (Exception e)
