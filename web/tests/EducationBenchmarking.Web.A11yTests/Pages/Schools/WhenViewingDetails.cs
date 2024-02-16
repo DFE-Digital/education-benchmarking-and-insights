@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 namespace EducationBenchmarking.Web.A11yTests.Pages.Schools;
 
 public class WhenViewingDetails(
-    ITestOutputHelper testOutputHelper, 
+    ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {

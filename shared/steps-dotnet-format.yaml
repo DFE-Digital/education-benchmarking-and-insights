@@ -1,0 +1,11 @@
+parameters:
+  SolutionDirectory: ''
+
+steps:
+  - task: DotNetCoreCLI@2
+    displayName: 'Run dotnet format'
+    inputs:
+      command: custom
+      custom: 'format'
+      arguments: '--verify-no-changes --verbosity diagnostic'
+      workingDirectory: '${{ parameters.SolutionDirectory }}'
