@@ -28,7 +28,7 @@
                 </label>
                 @if (ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)))
                 {
-                    <p id="timetable-error" class="govuk-error-message">
+                    <p id="timetable-periods-error" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TimetablePeriods)]?.Errors.First().ErrorMessage
                     </p>
                 }
