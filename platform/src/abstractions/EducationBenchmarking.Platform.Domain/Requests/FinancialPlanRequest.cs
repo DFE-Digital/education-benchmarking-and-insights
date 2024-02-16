@@ -9,4 +9,5 @@ public record FinancialPlanRequest
     public decimal? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
+    public int? TimetablePeriods { get; set; }
 }

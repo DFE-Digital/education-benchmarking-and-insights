@@ -18,6 +18,7 @@ public record FinancialPlan
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
     public bool? UseFigures { get; set; }
+    public int? TimetablePeriods { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
@@ -35,7 +36,8 @@ public record FinancialPlan
             TotalExpenditure = dataObject.TotalExpenditure,
             TotalTeacherCosts = dataObject.TotalTeacherCosts,
             TotalNumberOfTeachersFte = dataObject.TotalNumberOfTeachersFte,
-            EducationSupportStaffCosts = dataObject.EducationSupportStaffCosts
+            EducationSupportStaffCosts = dataObject.EducationSupportStaffCosts,
+            TimetablePeriods = dataObject.TimetablePeriods,
         };
     }
 }
