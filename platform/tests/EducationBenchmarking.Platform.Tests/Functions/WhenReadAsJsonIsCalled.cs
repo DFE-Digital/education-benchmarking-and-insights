@@ -39,6 +39,6 @@ public class TestObjectType
     {
         TestProp = testProp;
     }
-    
+
     public string TestProp { get; }
 }

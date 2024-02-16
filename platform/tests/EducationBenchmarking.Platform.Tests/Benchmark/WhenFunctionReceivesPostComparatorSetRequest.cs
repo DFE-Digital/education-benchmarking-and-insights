@@ -52,7 +52,7 @@ public class WhenFunctionReceivesPostComparatorSetRequest : ComparatorSetFunctio
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<ComparatorSetRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
-        
+
         var result = await Functions
             .CreateComparatorSetAsync(CreateRequestWithBody(new ComparatorSetRequest())) as StatusCodeResult;
 

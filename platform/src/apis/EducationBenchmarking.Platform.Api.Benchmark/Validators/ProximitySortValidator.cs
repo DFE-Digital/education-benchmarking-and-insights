@@ -40,6 +40,6 @@ public class BestInClassProximitySortValidator : AbstractValidator<BestInClassPr
     public BestInClassProximitySortValidator()
     {
         RuleFor(p => p.Kind).Must(p => p == ProximitySortKinds.Bic);
-        RuleFor(p => p.SortBy).NotEmpty(); 
+        RuleFor(p => p.SortBy).NotEmpty();
     }
 }

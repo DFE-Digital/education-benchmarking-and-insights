@@ -25,7 +25,7 @@ public class WhenGetPagingValuesIsCalled
     [Fact]
     public void NoValuesPresent()
     {
-        var result =  new QueryCollection().GetPagingValues();
+        var result = new QueryCollection().GetPagingValues();
 
         Assert.Equal(1, result.Page);
         Assert.Equal(10, result.PageSize);

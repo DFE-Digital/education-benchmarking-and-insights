@@ -14,13 +14,13 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
         Db
             .Setup(d => d.Workforce(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
             .ReturnsAsync(new PagedSchoolWorkforce());
-        
+
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }
-    
+
 
     [Fact]
     public async Task ShouldReturn500OnError()
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
         Db
             .Setup(d => d.Workforce(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);

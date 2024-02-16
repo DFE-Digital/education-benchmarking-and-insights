@@ -17,7 +17,7 @@ public class OrganisationLaIndexerBuilder : IndexerBuilder
             targetIndexName: SearchResourceNames.Indexes.Organisation)
         {
             Schedule = new IndexingSchedule(TimeSpan.FromDays(1)),
-            Parameters = new IndexingParameters { Configuration = { new KeyValuePair<string, object>("parsingMode" , "jsonArray")}}
+            Parameters = new IndexingParameters { Configuration = { new KeyValuePair<string, object>("parsingMode", "jsonArray") } }
         };
 
         await client.CreateOrUpdateIndexerAsync(indexer);

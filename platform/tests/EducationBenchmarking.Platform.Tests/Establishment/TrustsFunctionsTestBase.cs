@@ -17,6 +17,6 @@ public class TrustsFunctionsTestBase : FunctionsTestBase
     {
         Search = new Mock<ISearchService<Trust>>();
         Validator = new Mock<IValidator<PostSuggestRequest>>();
-        Functions = new TrustsFunctions(new NullLogger<TrustsFunctions>(),Search.Object, Validator.Object);
+        Functions = new TrustsFunctions(new NullLogger<TrustsFunctions>(), Search.Object, Validator.Object);
     }
 }

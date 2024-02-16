@@ -5,5 +5,5 @@ namespace EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 [ExcludeFromCodeCoverage]
 public record CharacteristicValue
 {
-    
+
 }

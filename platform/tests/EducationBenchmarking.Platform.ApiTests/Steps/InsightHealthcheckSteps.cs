@@ -40,7 +40,7 @@ public class InsightHealthcheckSteps
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await result.Content.ReadAsStringAsync();
-        
+
         content.Should().Be("Healthy");
     }
 }

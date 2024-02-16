@@ -17,7 +17,7 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
 {
     private static readonly string[] Facets = Array.Empty<string>();
     private const string IndexName = "organisation-index";
-    
+
     public OrganisationSearchService(IOptions<SchoolSearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
@@ -26,18 +26,18 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
     {
         return SearchAsync<Organisation>(request, facets: Facets);
     }
-    
+
     public Task<SuggestOutput<Organisation>> SuggestAsync(PostSuggestRequest request)
     {
         var fields = new[]
         {
-            nameof(Organisation.Identifier), 
+            nameof(Organisation.Identifier),
             nameof(Organisation.Name),
             nameof(Organisation.Kind),
             nameof(Organisation.Town),
             nameof(Organisation.Postcode)
         };
-        
-        return SuggestAsync<Organisation>(request,  selectFields: fields);
+
+        return SuggestAsync<Organisation>(request, selectFields: fields);
     }
 }

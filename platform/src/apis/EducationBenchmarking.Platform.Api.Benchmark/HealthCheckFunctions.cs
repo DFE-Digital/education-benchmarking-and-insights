@@ -14,7 +14,7 @@ namespace EducationBenchmarking.Platform.Api.Benchmark;
 public class HealthCheckFunctions
 {
     private readonly HealthCheckService _healthCheck;
-    
+
     public HealthCheckFunctions(HealthCheckService healthCheck)
     {
         _healthCheck = healthCheck;

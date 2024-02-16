@@ -37,13 +37,13 @@ public class InsightMaintainedSchoolsSteps
     public async Task ThenTheMaintainedSchoolResultShouldBeOk()
     {
         var response = _api[MaintainedSchoolKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<Finances>();
-        
+
         result.SchoolName.Should().Be("Stockingford Maintained Nursery School");
         result.Urn.Should().Be("125491");
     }
@@ -62,7 +62,7 @@ public class InsightMaintainedSchoolsSteps
     public void ThenTheMaintainedSchoolResultShouldBeNotFound()
     {
         var response = _api[MaintainedSchoolKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }

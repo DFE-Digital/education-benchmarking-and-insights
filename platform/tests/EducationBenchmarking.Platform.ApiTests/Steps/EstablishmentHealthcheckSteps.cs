@@ -35,12 +35,12 @@ public class EstablishmentHealthcheckSteps
     private async Task ThenTheEstablishmentHealthCheckResultShouldBeHealthy()
     {
         var result = _api[RequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await result.Content.ReadAsStringAsync();
-        
+
         content.Should().Be("Healthy");
     }
 }

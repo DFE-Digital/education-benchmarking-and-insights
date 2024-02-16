@@ -23,20 +23,20 @@ public class SearchMaintenanceServiceOptions
     [Required] public StorageOptions? Storage { get; set; }
     [Required] public string? Name { get; set; }
     [Required] public string? Key { get; set; }
-    
+
     public Uri SearchEndPoint => new($"https://{Name}.search.windows.net/");
     public AzureKeyCredential SearchCredentials => new(Key ?? throw new ArgumentNullException());
-    
+
     public class CosmosOptions
     {
         [Required] public string? ConnectionString { get; set; }
-        [Required] public string? DatabaseId { get; set; } 
+        [Required] public string? DatabaseId { get; set; }
     }
-    
+
     public class StorageOptions
     {
         [Required] public string? ConnectionString { get; set; }
-        [Required] public string? LocalAuthoritiesContainer { get; set; } 
+        [Required] public string? LocalAuthoritiesContainer { get; set; }
     }
 }
 
@@ -55,7 +55,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         _options = options.Value;
         _indexerClient = new SearchIndexerClient(_options.SearchEndPoint, _options.SearchCredentials);
         _indexClient = new SearchIndexClient(_options.SearchEndPoint, _options.SearchCredentials);
-        
+
     }
 
     public async Task Rebuild()
@@ -100,7 +100,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             _logger.LogError(e, "Failed to delete data source connection : {Connection}", connection);
         }
     }
-    
+
     private async Task RemoveIndexers()
     {
         var indexers = await _indexerClient.GetIndexerNamesAsync();
@@ -125,15 +125,15 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             _logger.LogError(e, "Failed to delete indexer : {Indexer}", indexer);
         }
     }
-    
+
     private async Task RemoveIndexes()
     {
         var indexes = await _indexClient.GetIndexNamesAsync().ToArrayAsync();
-        
-            foreach (var index in indexes)
-            {
-                await RemoveIndex(index);
-            }
+
+        foreach (var index in indexes)
+        {
+            await RemoveIndex(index);
+        }
     }
 
     private async Task RemoveIndex(string index)
@@ -147,10 +147,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             _logger.LogError(e, "Failed to delete index : {Index}", index);
         }
     }
-    
+
     private async Task BuildIndexes()
     {
-        var builders = new IndexBuilder[] 
+        var builders = new IndexBuilder[]
         {
             new OrganisationIndexBuilder(),
             new TrustIndexBuilder(),
@@ -179,7 +179,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     {
         ArgumentNullException.ThrowIfNull(_options.Cosmos);
         ArgumentNullException.ThrowIfNull(_options.Storage);
-        
+
         var builders = new DataSourceConnectionBuilder[]
         {
             new OrganisationSchoolDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
@@ -206,7 +206,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             _logger.LogError(e, "Failed to build data source connection : {Connection}", builder.Name);
         }
     }
-    
+
     private async Task BuildIndexers()
     {
         var builders = new IndexerBuilder[]

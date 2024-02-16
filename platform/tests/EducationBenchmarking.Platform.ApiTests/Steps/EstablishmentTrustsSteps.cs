@@ -45,7 +45,7 @@ public class EstablishmentTrustsSteps
     private void ThenTheTrustResultShouldBeOk()
     {
         var result = _api[RequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -64,7 +64,7 @@ public class EstablishmentTrustsSteps
     private void ThenTheTrustsQueryResultShouldBeOk()
     {
         var result = _api[QueryRequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -83,7 +83,7 @@ public class EstablishmentTrustsSteps
     private void ThenTheTrustsSearchResultShouldBeOk()
     {
         var result = _api[SearchRequestKey].Response;
-        
+
         result.Should().NotBeNull();
         result.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -105,13 +105,13 @@ public class EstablishmentTrustsSteps
     private async Task ThenTheTrustsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
         var response = _api[SuggestInvalidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
@@ -137,13 +137,13 @@ public class EstablishmentTrustsSteps
     private async Task ThenTheTrustsSuggestResultShouldBe(Table table)
     {
         var response = _api[SuggestValidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestOutput<Trust>>().Results ;
+        var results = content.FromJson<SuggestOutput<Trust>>().Results;
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.Text, result.Document?.Name, result.Document?.CompanyNumber });

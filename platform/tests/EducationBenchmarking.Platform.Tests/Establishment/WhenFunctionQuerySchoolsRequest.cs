@@ -15,20 +15,20 @@ public class WhenFunctionQuerySchoolsRequest : SchoolsFunctionsTestBase
         Db
             .Setup(d => d.Query(It.IsAny<IQueryCollection>()))
             .ReturnsAsync(new PagedResults<School>());
-        
+
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }
-    
+
     [Fact]
     public async Task ShouldReturn500OnError()
     {
         Db
             .Setup(d => d.Query(It.IsAny<IQueryCollection>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);

@@ -23,7 +23,7 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
-        
+
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
 
@@ -32,7 +32,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<SchoolSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<TrustSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<OrganisationSearchService>().BindConfiguration("Search").ValidateDataAnnotations();
-        
+
         builder.Services.AddSingleton<ICollectionService, CollectionService>();
         builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
         builder.Services.AddSingleton<ISearchService<School>, SchoolSearchService>();

@@ -29,10 +29,10 @@ public class TrustSearchService : SearchService, ISearchService<Trust>
     {
         var fields = new[]
         {
-            nameof(Trust.CompanyNumber), 
+            nameof(Trust.CompanyNumber),
             nameof(Trust.Name)
         };
-        
+
         return SuggestAsync<Trust>(request, selectFields: fields);
     }
 

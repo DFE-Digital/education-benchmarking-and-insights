@@ -49,13 +49,13 @@ public class EstablishmentSchoolsSteps
     private async Task ThenTheSchoolsSuggestResultShouldHaveTheFollowValidationErrors(Table table)
     {
         var response = _api[SuggestInvalidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.BadRequest);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<ValidationError[]>();
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.PropertyName, result.ErrorMessage });
@@ -81,13 +81,13 @@ public class EstablishmentSchoolsSteps
     private async Task ThenTheSchoolsSuggestResultShouldBe(Table table)
     {
         var response = _api[SuggestValidRequestKey].Response;
-        
+
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var results = content.FromJson<SuggestOutput<School>>().Results;
         var set = new List<dynamic>();
-        
+
         foreach (var result in results)
         {
             set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
@@ -110,13 +110,13 @@ public class EstablishmentSchoolsSteps
     private async Task ThenTheSchoolResultShouldBeOk()
     {
         var response = _api[RequestKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<School>();
-        
+
         result.Name.Should().Be("Burscough Bridge St John's Church of England Primary School");
         result.Urn.Should().Be("119376");
     }
@@ -135,7 +135,7 @@ public class EstablishmentSchoolsSteps
     private void ThenTheSchoolResultShouldBeNotFound()
     {
         var response = _api[NotFoundRequestKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.NotFound);
     }
@@ -154,13 +154,13 @@ public class EstablishmentSchoolsSteps
     private async Task ThenTheSchoolsQueryResultShouldBePageWithRecords(int page, int pageSize)
     {
         var response = _api[QueryRequestKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<PagedResults<School>>();
-        
+
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
         result.Results?.Count().Should().Be(pageSize);
@@ -180,7 +180,7 @@ public class EstablishmentSchoolsSteps
     private void GivenAValidSchoolsSearchRequest()
     {
         var content = new { };
-        
+
         _api.CreateRequest(SearchRequestKey, new HttpRequestMessage
         {
             RequestUri = new Uri("/api/schools/search", UriKind.Relative),
@@ -193,13 +193,13 @@ public class EstablishmentSchoolsSteps
     private async Task ThenTheSchoolsSearchResultShouldBeOk()
     {
         var response = _api[SearchRequestKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
         var result = content.FromJson<SearchOutput<School>>();
-        
+
         result.Page.Should().Be(1);
         result.PageSize.Should().Be(15);
         result.Results.Count().Should().Be(15);

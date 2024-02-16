@@ -14,13 +14,13 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
         Db
             .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new List<Rating>());
-        
+
         var result = await Functions.QuerySchoolRatingsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }
-    
+
 
     [Fact]
     public async Task ShouldReturn500OnError()
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesGetSchoolRatingsRequest : SchoolsFunctionsTestB
         Db
             .Setup(d => d.SchoolRatings(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.QuerySchoolRatingsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);

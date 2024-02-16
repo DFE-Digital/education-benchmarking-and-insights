@@ -6,7 +6,7 @@ namespace EducationBenchmarking.Platform.Functions;
 public sealed class DataConflictException : Exception
 {
     public ConflictData Details { get; }
-    
+
     public DataConflictException(string? id, string? type, string? createdBy, DateTimeOffset? createdAt, string? updatedBy, DateTimeOffset? updatedAt)
         : this(new ConflictData
         {
@@ -19,9 +19,9 @@ public sealed class DataConflictException : Exception
             ConflictReason = ConflictData.Reason.Timestamp,
         })
     {
-            
+
     }
-    
+
 
     public DataConflictException(ConflictData data)
         : base($"Unable to create {data.Type} with {data.Id}. {data.Type}:{data.Id} already exists, originally created at {data.CreatedAt:G}")
@@ -38,7 +38,7 @@ public class ConflictData
     {
         Timestamp
     }
-        
+
     public string? Id { get; set; }
     public string? Type { get; set; }
     public string? CreatedBy { get; set; }

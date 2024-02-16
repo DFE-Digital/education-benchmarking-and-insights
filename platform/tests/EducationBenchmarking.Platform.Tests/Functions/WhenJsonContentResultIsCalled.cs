@@ -25,7 +25,7 @@ public class WhenJsonContentResultIsCalled
     {
         var data = new TestPagedResults();
         var result = new JsonContentResult(data);
-        
+
         Assert.Equal("application/json+paged", result.ContentType);
         Assert.Equal(data.ToJson(), result.Content);
         Assert.Equal(200, result.StatusCode);
@@ -37,20 +37,20 @@ public class WhenJsonContentResultIsCalled
     {
         var data = new { Test0 = "foo", Test1 = "bar" };
         var result = new JsonContentResult(data);
-        
+
         Assert.Equal("application/json", result.ContentType);
         Assert.Equal(data.ToJson(), result.Content);
         Assert.Equal(200, result.StatusCode);
     }
 
-    
+
     [Fact]
     public void ConstructorGets400StatusCode()
     {
         var data = new { Test0 = "foo", Test1 = "bar" };
         const HttpStatusCode statusCode = HttpStatusCode.BadRequest;
         var result = new JsonContentResult(data, statusCode);
-        
+
         Assert.Equal(400, result.StatusCode);
         Assert.Equal(data.ToJson(), result.Content);
     }

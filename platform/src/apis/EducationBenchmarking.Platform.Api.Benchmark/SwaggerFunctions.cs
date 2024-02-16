@@ -19,7 +19,7 @@ public static class SwaggerFunctions
     {
         return swashBuckleClient.CreateSwaggerJsonDocumentResponse(req);
     }
-    
+
     [SwaggerIgnore]
     [FunctionName("SwaggerUI")]
     public static HttpResponseMessage SwaggerUi(

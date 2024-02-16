@@ -24,7 +24,7 @@ public class SchoolIndexBuilder : IndexBuilder
             nameof(SchoolIndex.County),
             nameof(SchoolIndex.Postcode)
         };
-        
+
         var suggester = new SearchSuggester(SearchResourceNames.Suggesters.School, suggestFields);
         definition.Suggesters.Add(suggester);
         await client.CreateOrUpdateIndexAsync(definition);

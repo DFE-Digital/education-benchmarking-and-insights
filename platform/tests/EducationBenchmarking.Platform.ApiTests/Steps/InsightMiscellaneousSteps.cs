@@ -37,13 +37,13 @@ public class InsightMiscellaneousSteps
     public async Task ThenTheFinanceYearResultShouldBeOk()
     {
         var response = _api[FinanceYearKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
-        
+
         var content = await response.Content.ReadAsStringAsync();
         var jsonContent = JsonConvert.DeserializeObject<JObject>(content);
-        
+
         jsonContent.Should().ContainKey("academies");
         jsonContent.Should().ContainKey("maintainedSchools");
     }

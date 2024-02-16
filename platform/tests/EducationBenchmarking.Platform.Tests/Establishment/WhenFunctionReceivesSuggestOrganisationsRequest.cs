@@ -31,11 +31,11 @@ public class WhenFunctionReceivesSuggestOrganisationsRequest : OrganisationsFunc
     [Fact]
     public async Task ShouldReturn400OnInvalidRequest()
     {
-        
+
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(PostSuggestRequest.SuggesterName), "This error message") }));
-        
+
         var result = await Functions.SuggestOrganisationsAsync(CreateRequestWithBody(new PostSuggestRequest())) as ValidationErrorsResult;
 
         Assert.NotNull(result);
@@ -52,7 +52,7 @@ public class WhenFunctionReceivesSuggestOrganisationsRequest : OrganisationsFunc
         Validator
             .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.SuggestOrganisationsAsync(CreateRequestWithBody(new PostSuggestRequest())) as StatusCodeResult;
 
         Assert.NotNull(result);

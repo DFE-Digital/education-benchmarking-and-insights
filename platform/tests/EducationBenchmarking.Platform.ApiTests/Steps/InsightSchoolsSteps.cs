@@ -35,17 +35,17 @@ public class InsightSchoolsSteps
         var json = JObject.Parse(jsonString);
 
         json.Should().ContainKey("results");
-        
+
         var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
-        
+
         resultsArray.Should().NotBeEmpty();
 
         var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
-        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>()  ?? throw new ArgumentNullException();
-        
+        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
+
         firstResult.Name.Should().Be("Wells Free School");
         firstResult.Urn.Should().Be("139696");
-        
+
         secondResult.Name.Should().Be("Hadlow Rural Community School");
         secondResult.Urn.Should().Be("139697");
 
@@ -114,13 +114,13 @@ public class InsightSchoolsSteps
         var json = JObject.Parse(jsonString);
 
         json.Should().ContainKey("results");
-        
+
         var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
-        
+
         resultsArray.Should().NotBeEmpty();
 
         var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new ArgumentNullException();
-        
+
         result.Name.Should().Be("Wells Free School");
         result.Urn.Should().Be("139696");
     }

@@ -18,15 +18,15 @@ public class Startup : FunctionsStartup
     public override void Configure(IFunctionsHostBuilder builder)
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
-        
+
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
-        
+
         builder.Services.AddOptions<CollectionServiceOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<AcademyDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<MaintainSchoolDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        
+
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ICollectionService, CollectionService>();
         builder.Services.AddSingleton<IMaintainSchoolDb, MaintainSchoolDb>();

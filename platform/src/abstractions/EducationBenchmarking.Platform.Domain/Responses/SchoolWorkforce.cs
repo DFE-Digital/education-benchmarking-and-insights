@@ -10,7 +10,7 @@ public record SchoolWorkforce
     public string? Name { get; set; }
     public string? SchoolType { get; set; }
     public string? LocalAuthority { get; set; }
-    
+
     public decimal NumberOfPupils { get; set; }
 
     public decimal SchoolWorkforceFte { get; set; }
@@ -21,7 +21,7 @@ public record SchoolWorkforce
     public decimal NonClassroomSupportStaffFte { get; set; }
     public decimal AuxiliaryStaffFte { get; set; }
     public decimal SchoolWorkforceHeadcount { get; set; }
-    
+
     public static SchoolWorkforce Create(SchoolTrustFinancialDataObject dataObject)
     {
         return new SchoolWorkforce

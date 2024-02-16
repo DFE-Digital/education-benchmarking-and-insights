@@ -24,11 +24,11 @@ public class WhenSimpleProximitySortIsCalled
             new() { OtherIncome = value2 },
             new() { OtherIncome = value3 }
         };
-            
+
         var result = proximitySort.Sort(schools).ToArray();
-            
+
         proximitySort.Kind.Should().Be(ProximitySortKinds.Simple);
-            
+
         Assert.Equal(value3, result.ElementAt(0).OtherIncome);
         Assert.Equal(value2, result.ElementAt(1).OtherIncome);
         Assert.Equal(value1, result.ElementAt(2).OtherIncome);

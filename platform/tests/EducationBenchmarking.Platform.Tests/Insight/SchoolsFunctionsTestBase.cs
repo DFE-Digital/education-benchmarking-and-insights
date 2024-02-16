@@ -13,6 +13,6 @@ public class SchoolsFunctionsTestBase : FunctionsTestBase
     protected SchoolsFunctionsTestBase()
     {
         Db = new Mock<ISchoolsDb>();
-        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(),Db.Object);
+        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(), Db.Object);
     }
 }

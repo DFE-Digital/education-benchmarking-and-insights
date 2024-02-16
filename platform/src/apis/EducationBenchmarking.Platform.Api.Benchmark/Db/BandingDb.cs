@@ -29,13 +29,13 @@ public class BandingDbOptions : CosmosDatabaseOptions
 public class BandingDb : CosmosDatabase, IBandingDb
 {
     private readonly string _collectionName;
-    
+
     public BandingDb(IOptions<BandingDbOptions> options)
         : base(options.Value)
     {
         _collectionName = options.Value.SizingCollectionName ?? throw new ArgumentNullException(nameof(options.Value.SizingCollectionName));
     }
-    
+
     public Task<Banding[]> FreeSchoolMealBandings()
     {
         return Task.FromResult(Array.Empty<Banding>());
@@ -43,8 +43,8 @@ public class BandingDb : CosmosDatabase, IBandingDb
 
     public async Task<IEnumerable<Banding>> SchoolSizeBandings(string? phase = null, string? term = null, decimal? noOfPupils = null, bool? hasSixthForm = null)
     {
-        var sizes = await ItemEnumerableAsync<SizeLookupDataObject>(_collectionName,q => BuildSizeQueryable(q, phase, term, noOfPupils, hasSixthForm)).ToArrayAsync();
-        
+        var sizes = await ItemEnumerableAsync<SizeLookupDataObject>(_collectionName, q => BuildSizeQueryable(q, phase, term, noOfPupils, hasSixthForm)).ToArrayAsync();
+
         return sizes.Select(x => new Banding
         {
             OverallPhase = x.OverallPhase,
@@ -58,12 +58,12 @@ public class BandingDb : CosmosDatabase, IBandingDb
 
     private static IQueryable<SizeLookupDataObject> BuildSizeQueryable(IQueryable<SizeLookupDataObject> queryable, string? phase, string? term, decimal? noOfPupils, bool? hasSixthForm)
     {
-        
-            if (!string.IsNullOrEmpty(phase)) queryable = queryable.Where(x => x.OverallPhase == phase);
-            if (!string.IsNullOrEmpty(term)) queryable = queryable.Where(x => x.Term == term);
-            if (noOfPupils is > 0) queryable = queryable.Where(x => x.NoPupilsMin <= noOfPupils &&(!x.NoPupilsMax.IsDefined() || x.NoPupilsMax >= noOfPupils));
-            if (hasSixthForm != null) queryable = queryable.Where(x => x.HasSixthForm == hasSixthForm || (!hasSixthForm.GetValueOrDefault() && x.NoPupilsMax == null));
 
-            return queryable;
+        if (!string.IsNullOrEmpty(phase)) queryable = queryable.Where(x => x.OverallPhase == phase);
+        if (!string.IsNullOrEmpty(term)) queryable = queryable.Where(x => x.Term == term);
+        if (noOfPupils is > 0) queryable = queryable.Where(x => x.NoPupilsMin <= noOfPupils && (!x.NoPupilsMax.IsDefined() || x.NoPupilsMax >= noOfPupils));
+        if (hasSixthForm != null) queryable = queryable.Where(x => x.HasSixthForm == hasSixthForm || (!hasSixthForm.GetValueOrDefault() && x.NoPupilsMax == null));
+
+        return queryable;
     }
 }

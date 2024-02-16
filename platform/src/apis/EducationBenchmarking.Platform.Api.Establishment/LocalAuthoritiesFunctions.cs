@@ -11,7 +11,7 @@ namespace EducationBenchmarking.Platform.Api.Establishment;
 [ApiExplorerSettings(GroupName = "Local Authorities")]
 public class LocalAuthoritiesFunctions
 {
-    
+
     [FunctionName(nameof(SingleLocalAuthorityAsync))]
     public IActionResult SingleLocalAuthorityAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authority/{identifier}")] HttpRequest req,
@@ -19,25 +19,25 @@ public class LocalAuthoritiesFunctions
     {
         return new OkResult();
     }
-    
+
     [FunctionName(nameof(QueryLocalAuthoritiesAsync))]
     public IActionResult QueryLocalAuthoritiesAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authorities")] HttpRequest req)
     {
         return new OkResult();
     }
-    
+
     [FunctionName(nameof(SearchLocalAuthoritiesAsync))]
     public IActionResult SearchLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")] 
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")]
         [RequestBodyType(typeof(PostSearchRequest), "The search object")] HttpRequest req)
     {
         return new OkResult();
     }
-    
+
     [FunctionName(nameof(SuggestLocalAuthoritiesAsync))]
     public IActionResult SuggestLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")] 
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")]
         [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
         return new OkResult();

@@ -11,7 +11,7 @@ public record PagedSchoolWorkforce : PagedResults<SchoolWorkforce>
     public static PagedSchoolWorkforce Create(IEnumerable<SchoolTrustFinancialDataObject> results, int page,
         int pageSize)
     {
-   
+
         var schools = results.Select(SchoolWorkforce.Create).ToList();
         return new PagedSchoolWorkforce
         {

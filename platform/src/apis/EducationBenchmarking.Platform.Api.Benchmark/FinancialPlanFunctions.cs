@@ -51,7 +51,7 @@ public class FinancialPlanFunctions
             try
             {
                 var plan = await _db.FinancialPlan(urn, year);
-                return plan != null 
+                return plan != null
                     ? new JsonContentResult(plan)
                     : new NotFoundResult();
             }
@@ -64,7 +64,7 @@ public class FinancialPlanFunctions
     }
 
     [FunctionName(nameof(UpsertFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlan),(int)HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(FinancialPlan), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
@@ -110,7 +110,7 @@ public class FinancialPlanFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(RemoveFinancialPlanAsync))]
     [ProducesResponseType((int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

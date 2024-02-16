@@ -30,7 +30,7 @@ public record SchoolExpenditure
     public decimal AdministrativeSuppliesCosts { get; set; }
 
     public decimal LearningResourcesIctCosts { get; set; }
-    
+
 
     public decimal TotalEducationalSuppliesCosts { get; set; }
     public decimal ExaminationFeesCosts { get; set; }
@@ -44,7 +44,7 @@ public record SchoolExpenditure
     public decimal OtherStaffCosts { get; set; }
     public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
 
-    
+
     public decimal TotalPremisesStaffServiceCosts { get; set; }
     public decimal CleaningCaretakingCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }
@@ -95,7 +95,7 @@ public record SchoolExpenditure
             IncomeCatering = dataObject.IncomeFromCatering,
             AdministrativeSuppliesCosts = dataObject.AdministrativeSupplies,
             LearningResourcesIctCosts = dataObject.IctLearningResources,
-            TotalEducationalSuppliesCosts = dataObject.ExaminationFees + dataObject.EducationalSupplies + 
+            TotalEducationalSuppliesCosts = dataObject.ExaminationFees + dataObject.EducationalSupplies +
                                             dataObject.LearningResources,
             ExaminationFeesCosts = dataObject.ExaminationFees,
             BreakdownEducationalSuppliesCosts = dataObject.EducationalSupplies,
@@ -106,8 +106,8 @@ public record SchoolExpenditure
             AuditorsCosts = dataObject.AuditorCosts,
             OtherStaffCosts = dataObject.OtherStaffCosts,
             ProfessionalServicesNonCurriculumCosts = dataObject.BroughtProfessionalServices,
-            TotalPremisesStaffServiceCosts = dataObject.CleaningCaretaking + dataObject.PremisesStaff + 
-                                             dataObject.OtherOccupationCosts + dataObject.PremisesStaff, 
+            TotalPremisesStaffServiceCosts = dataObject.CleaningCaretaking + dataObject.PremisesStaff +
+                                             dataObject.OtherOccupationCosts + dataObject.PremisesStaff,
             CleaningCaretakingCosts = dataObject.CleaningCaretaking,
             MaintenancePremisesCosts = dataObject.Premises,
             OtherOccupationCosts = dataObject.OtherOccupationCosts,

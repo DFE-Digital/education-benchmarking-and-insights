@@ -10,15 +10,15 @@ public class WhenBestInClassProximitySortIsCalled
     [Theory]
     [ClassData(typeof(ProximitySortTestData))]
     public void OrderIsCorrectAndLengthMatchesPool(
-        BestInClassProximitySort proximitySort, 
-        List<SchoolTrustFinance> schools, 
-        List<string> expectedOrder, 
+        BestInClassProximitySort proximitySort,
+        List<SchoolTrustFinance> schools,
+        List<string> expectedOrder,
         int expectedCount)
     {
         var result = proximitySort.Sort(schools).ToArray();
-            
+
         proximitySort.Kind.Should().Be(ProximitySortKinds.Bic);
-            
+
         Assert.Equal(expectedOrder, result.Select(school => school.SchoolName));
         Assert.Equal(expectedCount, result.Length);
     }

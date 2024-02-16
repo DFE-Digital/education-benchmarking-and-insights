@@ -30,7 +30,7 @@ public class BenchmarkBandingsSteps
     public void ThenTheFreeSchoolMealBandingResultShouldBeOk()
     {
         var response = _api[FsmBandingKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }
@@ -45,7 +45,7 @@ public class BenchmarkBandingsSteps
     public void ThenTheSchoolSizeBandingResultShouldBeOk()
     {
         var response = _api[SchoolSizeBandingKey].Response;
-        
+
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
     }

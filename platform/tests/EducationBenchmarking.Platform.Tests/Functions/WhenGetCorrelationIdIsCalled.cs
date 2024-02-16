@@ -14,7 +14,7 @@ public class WhenGetCorrelationIdIsCalled
         context.Request.Headers.Add(Constants.CorrelationIdHeader, id.ToString());
 
         var result = context.Request.GetCorrelationId();
-            
+
         Assert.Equal(id, result);
     }
 
@@ -26,19 +26,19 @@ public class WhenGetCorrelationIdIsCalled
         context.Request.Headers.Add(Constants.CorrelationIdHeader, id);
 
         var result = context.Request.GetCorrelationId();
-            
+
         Assert.IsType<Guid>(result);
-        Assert.NotEqual(Guid.Empty, result);    
+        Assert.NotEqual(Guid.Empty, result);
     }
-        
-        
+
+
     [Fact]
     public void WithoutCorrelationIdHeader()
     {
         var context = new DefaultHttpContext();
-            
+
         var result = context.Request.GetCorrelationId();
-            
+
         Assert.IsType<Guid>(result);
         Assert.NotEqual(Guid.Empty, result);
     }

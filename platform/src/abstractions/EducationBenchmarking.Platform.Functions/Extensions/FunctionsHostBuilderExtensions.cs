@@ -31,7 +31,7 @@ public static class FunctionsHostBuilderExtensions
             };
             opts.ConfigureSwaggerGen = x =>
             {
-                
+
                 x.UseAllOfForInheritance();
                 x.UseOneOfForPolymorphism();
                 x.SelectSubTypesUsing(baseType =>
