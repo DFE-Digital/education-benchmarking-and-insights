@@ -88,7 +88,7 @@ resource "azurerm_search_service" "search" {
   name                = "${var.environment-prefix}-ebis-search"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
-  sku                 = "standard"
+  sku                 = var.configuration[var.environment].search.sku
   tags                = local.common-tags
 }
 
