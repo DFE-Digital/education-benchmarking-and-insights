@@ -18,7 +18,7 @@ variable "configuration" {
         capabilities = []
       }
       search = {
-        sku = "free"
+        sku = "basic"
       }
     }
     automated-test = {
@@ -28,7 +28,7 @@ variable "configuration" {
         ]
       }
       search = {
-        sku = "free"
+        sku = "basic"
       }
     }
     test = {
@@ -38,7 +38,7 @@ variable "configuration" {
         ]
       }
       search = {
-        sku = "free"
+        sku = "basic"
       }
     }
   }
