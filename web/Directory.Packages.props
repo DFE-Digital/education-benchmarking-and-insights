@@ -24,7 +24,7 @@
     <PackageVersion Include="AngleSharp" Version="0.17.1" />
     <PackageVersion Include="AngleSharp.Css" Version="0.17.0" />
     <PackageVersion Include="AngleSharp.XPath" Version="2.0.1" />
-    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
     <PackageVersion Include="FluentValidation" Version="11.9.0" />
