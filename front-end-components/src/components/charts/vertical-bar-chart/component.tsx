@@ -131,11 +131,13 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
                 const keys = props.xAxis.domain as string[];
                 const columnWidth =
                   (props.offset.width as number) / keys.length;
-                return Array.from({ length: keys.length + 2 }).map(
-                  (_x, i) =>
-                    i * columnWidth -
-                    (props.offset.left as number) / keys.length
-                );
+
+                const coords: number[] = [props.offset.left as number];
+                for (let i = 0; i < keys.length; i++) {
+                  coords.push(coords[i] + columnWidth);
+                }
+
+                return coords;
               }}
             />
           )}
