@@ -263,7 +263,7 @@ public class SchoolPlanningStepsController(
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
-                return school.IsPrimary 
+                return school.IsPrimary
                         ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
                         : new OkResult(); //TODO: update when next page is created in CFP journey
             }
@@ -554,7 +554,7 @@ public class SchoolPlanningStepsController(
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                
+
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
@@ -607,7 +607,7 @@ public class SchoolPlanningStepsController(
             }
         }
     }
-    
+
     [HttpGet]
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year)
@@ -618,7 +618,7 @@ public class SchoolPlanningStepsController(
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                
+
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
@@ -632,7 +632,7 @@ public class SchoolPlanningStepsController(
             }
         }
     }
-    
+
     [HttpPost]
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year, bool? hasMixedAgeClasses)

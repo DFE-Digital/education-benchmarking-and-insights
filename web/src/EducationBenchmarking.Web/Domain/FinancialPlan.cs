@@ -11,5 +11,5 @@ public class FinancialPlan
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
     public int? TimetablePeriods { get; set; }
-    public bool?HasMixedAgeClasses { get; set; }
+    public bool? HasMixedAgeClasses { get; set; }
 }

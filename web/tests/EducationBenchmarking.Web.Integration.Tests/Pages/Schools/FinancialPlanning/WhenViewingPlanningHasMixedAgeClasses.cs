@@ -120,7 +120,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("mixed-age",  "Select yes if you have mixed age classes"));
+        DocumentAssert.FormErrors(page, ("mixed-age", "Select yes if you have mixed age classes"));
     }
 
     [Theory]
@@ -142,7 +142,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
     }
 
@@ -160,7 +160,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
 
         DocumentAssert.Radios(radios, options);
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? hasMixedAgeClasses = null)
     {
         var school = Fixture.Build<School>()
