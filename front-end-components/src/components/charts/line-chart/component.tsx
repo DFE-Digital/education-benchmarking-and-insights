@@ -32,6 +32,7 @@ export function LineChart<TData extends ChartDataSeries>(
     seriesConfig,
     seriesLabel,
     seriesLabelField,
+    tooltip,
     valueLabel,
     valueUnit,
   } = props;
@@ -118,7 +119,9 @@ export function LineChart<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          <Tooltip content={<LineChartTooltip valueUnit={valueUnit} />} />
+          {tooltip && (
+            <Tooltip content={<LineChartTooltip valueUnit={valueUnit} />} />
+          )}
           {visibleSeriesNames.map(renderLine)}
         </RechartsLineChart>
       </ResponsiveContainer>

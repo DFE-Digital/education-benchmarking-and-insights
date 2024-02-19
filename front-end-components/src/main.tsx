@@ -11,6 +11,7 @@ import {
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
+import { Stat } from "./components/charts/stat";
 
 const compareYourSchoolElement = document.getElementById(
   CompareYourSchoolElementId
@@ -164,22 +165,39 @@ if (lineChart1SeriesElement) {
 
     root.render(
       <React.StrictMode>
-        <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
-          <LineChart
-            chartName="In-year balance"
-            data={data}
-            keyField="term"
-            margin={20}
-            seriesConfig={{
-              inYearBalance: {
-                label: "Pupils on roll",
-                visible: true,
-              },
-            }}
-            seriesLabel="Absolute total"
-            seriesLabelField="term"
-            valueUnit="currency"
-          />
+        <div className="govuk-grid-column-two-thirds">
+          <div
+            className="govuk-grid-column-three-quarters"
+            style={{ height: 400 }}
+          >
+            <LineChart
+              chartName="In-year balance"
+              data={data}
+              keyField="term"
+              margin={20}
+              seriesConfig={{
+                inYearBalance: {
+                  label: "Pupils on roll",
+                  visible: true,
+                },
+              }}
+              seriesLabel="Absolute total"
+              seriesLabelField="term"
+              valueUnit="currency"
+              tooltip
+            />
+          </div>
+          <aside className="govuk-grid-column-one-quarter desktop">
+            <Stat
+              chartName="Most recent in-year balance"
+              className="chart-stat-line-chart"
+              data={data}
+              displayIndex={data.length - 1}
+              seriesLabelField="term"
+              valueField="inYearBalance"
+              valueUnit="currency"
+            />
+          </aside>
         </div>
       </React.StrictMode>
     );

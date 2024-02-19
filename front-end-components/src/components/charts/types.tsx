@@ -35,6 +35,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
+  tooltip?: boolean;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
 }
