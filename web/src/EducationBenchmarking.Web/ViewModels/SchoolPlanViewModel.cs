@@ -22,6 +22,7 @@ public class SchoolPlanViewModel(School school)
     public decimal? TotalNumberOfTeachersFte => _plan?.TotalNumberOfTeachersFte;
     public decimal? EducationSupportStaffCosts => _plan?.EducationSupportStaffCosts;
     public string? TimetablePeriods => _plan?.TimetablePeriods.ToString();
+    public bool? HasMixedAgeClasses => _plan?.HasMixedAgeClasses;
 }
 
 public class SchoolPlanTimetableViewModel(School school, int year, FinancialPlan? plan, string? timetablePeriods = null)

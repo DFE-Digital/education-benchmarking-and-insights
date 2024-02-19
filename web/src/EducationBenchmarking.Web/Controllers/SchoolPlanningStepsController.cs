@@ -263,7 +263,9 @@ public class SchoolPlanningStepsController(
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
-                return new OkResult(); //TODO: update when next page is created in CFP journey
+                return school.IsPrimary 
+                        ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
+                        : new OkResult(); //TODO: update when next page is created in CFP journey
             }
             catch (Exception e)
             {
@@ -550,11 +552,10 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
-                    new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-
+                
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, year, plan);
                 return View(viewModel);
             }
@@ -602,6 +603,66 @@ public class SchoolPlanningStepsController(
             {
                 logger.LogError(e, "An error occurred while processing total education support: {DisplayUrl}",
                     Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpGet]
+    [Route("primary-has-mixed-age-classes")]
+    public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+    
+    [HttpPost]
+    [Route("primary-has-mixed-age-classes")]
+    public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year, bool? hasMixedAgeClasses)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                plan.HasMixedAgeClasses = hasMixedAgeClasses;
+
+                if (hasMixedAgeClasses is null)
+                {
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.HasMixedAgeClasses), "Select yes if you have mixed age classes");
+                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    return View(viewModel);
+                }
+
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+                return new OkResult();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
