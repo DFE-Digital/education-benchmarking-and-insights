@@ -108,7 +108,7 @@ public class BenchmarkComparatorSetSteps
     {
         await _api.Send();
     }
-    
+
 
     [Then("the comparator result should be bad request")]
     public void ThenTheComparatorResultShouldBeBadRequest()

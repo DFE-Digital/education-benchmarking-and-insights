@@ -14,7 +14,7 @@ public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetFunct
         Db
             .Setup(d => d.CreateSet())
             .ReturnsAsync(new ComparatorSet());
-        
+
         var result =
             await Functions.CreateComparatorSetAsync(CreateRequest()) as JsonContentResult;
 

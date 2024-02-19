@@ -22,7 +22,7 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
-        
+
         builder.Services.AddOptions<FinancialPlanDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
         builder.Services.AddSingleton<IComparatorSetDb, ComparatorSetDb>();

@@ -25,7 +25,7 @@ public class ComparatorSetFunctions
         _db = db;
         _logger = logger;
     }
-    
+
     [FunctionName(nameof(CreateComparatorSetAsync))]
     [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

@@ -14,6 +14,6 @@ public class FinancialPlanFunctionsTestBase : FunctionsTestBase
     protected FinancialPlanFunctionsTestBase()
     {
         Db = new Mock<IFinancialPlanDb>();
-        Functions = new FinancialPlanFunctions(new NullLogger<FinancialPlanFunctions>(),Db.Object);
+        Functions = new FinancialPlanFunctions(new NullLogger<FinancialPlanFunctions>(), Db.Object);
     }
 }

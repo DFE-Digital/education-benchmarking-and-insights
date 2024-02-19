@@ -15,7 +15,7 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
             .ReturnsAsync(new FinancialPlan());
 
         Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<FinancialPlan>()));
-        
+
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as OkResult;
 
         Assert.NotNull(result);
@@ -42,7 +42,7 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
         Db
             .Setup(d => d.FinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;
 
         Assert.NotNull(result);

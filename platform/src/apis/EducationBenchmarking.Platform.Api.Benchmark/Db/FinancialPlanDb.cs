@@ -57,14 +57,15 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         var existing = response.Content.FromJson<FinancialPlanDataObject>();
         if (existing.Created > DateTimeOffset.UtcNow || existing.UpdatedAt > DateTimeOffset.UtcNow)
         {
-            return new DataConflictResult {
+            return new DataConflictResult
+            {
                 ConflictReason = DataConflictResult.Reason.Timestamp,
                 Id = existing.Id,
                 Type = nameof(Domain.Responses.FinancialPlan),
                 CreatedBy = existing.CreatedBy,
                 CreatedAt = existing.Created,
                 UpdatedBy = existing.UpdatedBy,
-                UpdatedAt = existing.UpdatedAt 
+                UpdatedAt = existing.UpdatedAt
             };
         }
 
@@ -93,7 +94,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TimetablePeriods = request.TimetablePeriods;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
-        
+
         return new UpdatedResult();
     }
 

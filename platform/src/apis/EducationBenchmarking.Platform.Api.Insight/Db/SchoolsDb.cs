@@ -44,7 +44,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
 
         return PagedSchoolExpenditure.Create(finances, page, pageSize);
     }
-    
+
     private async Task<List<SchoolTrustFinancialDataObject>> Finances(IEnumerable<string> urns)
     {
         var collection = await _collectionService.LatestCollection(DataGroups.Edubase);

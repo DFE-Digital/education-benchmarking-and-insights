@@ -41,7 +41,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
         Db
             .Setup(d => d.FinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
-        
+
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;
 
         Assert.NotNull(result);
