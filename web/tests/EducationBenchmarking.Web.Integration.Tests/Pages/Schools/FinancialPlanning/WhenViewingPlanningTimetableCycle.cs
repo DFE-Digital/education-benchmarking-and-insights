@@ -26,6 +26,20 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
     }
 
     [Theory]
+    [InlineData(25)]
+    [InlineData(null)]
+    public async Task CanDisplayWithPreviousValue(int? timetablePeriods)
+    {
+        var (page, _) =
+            await SetupNavigateInitPage(EstablishmentTypes.Academies, timetablePeriods: timetablePeriods);
+
+        var input = page.GetElementById("timetable-periods");
+        Assert.NotNull(input);
+
+        Assert.Equal(input.GetAttribute("value"), timetablePeriods.ToString());
+    }
+
+    [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]
     [InlineData(EstablishmentTypes.Academies, false)]
     [InlineData(EstablishmentTypes.Maintained, true)]
@@ -47,7 +61,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        //TODO: update path once next page in icfp is created
+        //TODO: update path once next page in CFP is created
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
     }
@@ -55,15 +69,14 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
     [Theory]
     [InlineData("", "Enter the number of periods in one timetable cycle")]
     [InlineData("-1", "Number of periods in one timetable cycle must be 1 or more")]
+    [InlineData("0", "Number of periods in one timetable cycle must be 1 or more")]
     [InlineData("1.1", "Number of periods in one timetable cycle must be a whole number")]
     public async Task ShowsErrorOnInValidSubmit(string timetablePeriods, string expectedMsg)
     {
-
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
-
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
@@ -174,11 +187,11 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, int? timetablePeriods = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.FinanceType, financeType)
-            .Create();
+        .With(x => x.FinanceType, financeType)
+        .Create();
 
         var finances = Fixture.Build<Finances>()
             .Create();
@@ -187,7 +200,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, useFigures)
-            .Without(x => x.TimetablePeriods)
+            .With(x => x.TimetablePeriods, timetablePeriods)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
