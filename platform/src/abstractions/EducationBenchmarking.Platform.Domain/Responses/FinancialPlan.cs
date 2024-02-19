@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using EducationBenchmarking.Platform.Domain.DataObjects;
 
 namespace EducationBenchmarking.Platform.Domain.Responses;
 
+[ExcludeFromCodeCoverage]
 public record FinancialPlan
 {
     public int Year { get; set; }

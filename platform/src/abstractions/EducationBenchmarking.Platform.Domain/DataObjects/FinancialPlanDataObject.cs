@@ -1,8 +1,10 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Platform.Domain.DataObjects;
 
+[ExcludeFromCodeCoverage]
 public record FinancialPlanDataObject
 {
     [JsonProperty("id")] public string? Id { get; set; }

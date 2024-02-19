@@ -1,5 +1,8 @@
+using System.Diagnostics.CodeAnalysis;
+
 namespace EducationBenchmarking.Platform.Domain.Requests;
 
+[ExcludeFromCodeCoverage]
 public record FinancialPlanRequest
 {
     public string? User { get; set; }

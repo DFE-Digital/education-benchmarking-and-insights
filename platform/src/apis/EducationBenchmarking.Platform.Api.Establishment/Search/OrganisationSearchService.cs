@@ -8,9 +8,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public record OrganisationSearchServiceOptions : SearchServiceOptions
-{
-}
+public record OrganisationSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
 public class OrganisationSearchService : SearchService, ISearchService<Organisation>

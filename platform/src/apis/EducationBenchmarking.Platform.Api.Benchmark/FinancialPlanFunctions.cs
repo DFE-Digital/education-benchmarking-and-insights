@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
 using EducationBenchmarking.Platform.Domain;
+using EducationBenchmarking.Platform.Domain.DataObjects;
 using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
@@ -67,7 +68,6 @@ public class FinancialPlanFunctions
     [ProducesResponseType(typeof(FinancialPlan), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UpsertFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "financial-plan/{urn}/{year}")]
@@ -88,20 +88,10 @@ public class FinancialPlanFunctions
             {
                 var body = req.ReadAsJson<FinancialPlanRequest>();
 
-                //TODO : Add request validator
+                //TODO : Consider adding request validator
                 var result = await _db.UpsertFinancialPlan(urn, year, body);
 
-                return result.Status switch
-                {
-                    DbResult.ResultStatus.Created => new CreatedResult($"financial-plan/{urn}/{year}", result.Content),
-                    DbResult.ResultStatus.Updated => new NoContentResult(),
-                    _ => throw new ArgumentOutOfRangeException(nameof(result.Status))
-                };
-            }
-            catch (DataConflictException ex)
-            {
-                _logger.LogWarning(ex, "Upsert financial plan conflict");
-                return new ConflictObjectResult(ex.Details);
+                return result.CreateResponse();
             }
             catch (Exception e)
             {

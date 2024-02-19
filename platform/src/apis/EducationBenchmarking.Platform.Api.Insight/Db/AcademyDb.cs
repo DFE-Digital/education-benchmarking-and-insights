@@ -14,9 +14,7 @@ public interface IAcademyDb
 }
 
 [ExcludeFromCodeCoverage]
-public class AcademyDbOptions : CosmosDatabaseOptions
-{
-}
+public record AcademyDbOptions : CosmosDatabaseOptions;
 
 [ExcludeFromCodeCoverage]
 public class AcademyDb : CosmosDatabase, IAcademyDb

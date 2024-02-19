@@ -1,31 +1,38 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Domain.Responses;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
 public interface IComparatorSetDb
 {
-    Task<ComparatorSet> CreateSet(ComparatorSetRequest body);
+    Task<ComparatorSet> CreateSet();
 }
 
 [ExcludeFromCodeCoverage]
 public class ComparatorSetDb : IComparatorSetDb
 {
-    public async Task<ComparatorSet> CreateSet(ComparatorSetRequest body)
+    public async Task<ComparatorSet> CreateSet()
     {
         var schools = new School[]
         {
-            new() { Urn = "140558", Name = "St Joseph's Catholic Primary School, Moorthorpe", Kind ="Academy sponsor led", FinanceType = "Academies" },
-            new() { Urn = "135558", Name = "Hawkswood Primary Pru", Kind ="Pupil referral unit", FinanceType = "Maintained" },
-            new() { Urn = "105376", Name = "Cloughside College", Kind ="Community special school", FinanceType = "Maintained" },
-            new() { Urn = "112858", Name = "Stoney Middleton Cofe (C) Primary School", Kind ="Voluntary controlled school", FinanceType = "Maintained" },
-            new() { Urn = "122233", Name = "Kielder Primary School And Nursery", Kind ="Community school", FinanceType = "Maintained" },
-            new() { Urn = "118155", Name = "Chillerton And Rookley Primary School", Kind ="Community school", FinanceType = "Maintained" },
-            new() { Urn = "112267", Name = "Asby Endowed School", Kind ="Voluntary controlled school", FinanceType = "Maintained" }
+            new() { Urn = "140558", Name = "St Joseph's Catholic Primary School, Moorthorpe" },
+            new() { Urn = "143633", Name = "St Gregory's Catholic Primary School" },
+            new() { Urn = "142769", Name = "Horninglow Primary: A De Ferrers Trust Academy" },
+            new() { Urn = "141155", Name = "St Joseph's Catholic Primary School, Banbury" },
+            new() { Urn = "142424", Name = "Elm Road Primary School" },
+            new() { Urn = "146726", Name = "Braybrook Primary Academy" },
+            new() { Urn = "141197", Name = "Sandfield Primary School" },
+            new() { Urn = "141634", Name = "Robin Hood Primary And Nursery School" },
+            new() { Urn = "139696", Name = "Wells Free School" },
+            new() { Urn = "140327", Name = "Green Oaks Primary Academy" },
+            new() { Urn = "147334", Name = "St Edward's Catholic Primary School - Kettering" },
+            new() { Urn = "147380", Name = "Ashbrook School" },
+            new() { Urn = "143226", Name = "St George's Primary School" },
+            new() { Urn = "142197", Name = "Good Shepherd Catholic School" },
+            new() { Urn = "140183", Name = "St Thomas Cantilupe Cofe Academy" }
         };
 
-        return await Task.FromResult(ComparatorSet.Create(schools, includeResults: body.IncludeSet));
+        return await Task.FromResult(ComparatorSet.Create(schools));
     }
 }

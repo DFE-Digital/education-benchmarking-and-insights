@@ -2,14 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
-using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
-using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Domain.Responses;
-using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 using EducationBenchmarking.Platform.Functions;
 using EducationBenchmarking.Platform.Functions.Extensions;
-using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -23,33 +19,18 @@ public class ComparatorSetFunctions
 {
     private readonly ILogger<ComparatorSetFunctions> _logger;
     private readonly IComparatorSetDb _db;
-    private readonly IValidator<ComparatorSetRequest> _validator;
 
-    public ComparatorSetFunctions(IComparatorSetDb db, ILogger<ComparatorSetFunctions> logger,
-        IValidator<ComparatorSetRequest> validator)
+    public ComparatorSetFunctions(IComparatorSetDb db, ILogger<ComparatorSetFunctions> logger)
     {
         _db = db;
         _logger = logger;
-        _validator = validator;
     }
-
-
-    [FunctionName(nameof(ListCharacteristics))]
-    [ProducesResponseType(typeof(Characteristic[]), (int)HttpStatusCode.OK)]
-    public IActionResult ListCharacteristics(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/characteristics")]
-        HttpRequest req)
-    {
-        return new JsonContentResult(Characteristics.All);
-    }
-
+    
     [FunctionName(nameof(CreateComparatorSetAsync))]
     [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set")]
-        [RequestBodyType(typeof(ComparatorSetRequest), "The comparator set object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -62,15 +43,7 @@ public class ComparatorSetFunctions
         {
             try
             {
-                var body = req.ReadAsJson<ComparatorSetRequest>();
-
-                var validationResult = await _validator.ValidateAsync(body);
-                if (!validationResult.IsValid)
-                {
-                    return new ValidationErrorsResult(validationResult.Errors);
-                }
-
-                var set = await _db.CreateSet(body);
+                var set = await _db.CreateSet();
 
                 return new JsonContentResult(set);
             }

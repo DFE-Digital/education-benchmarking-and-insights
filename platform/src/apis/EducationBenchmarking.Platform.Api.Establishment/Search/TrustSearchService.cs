@@ -7,9 +7,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public record TrustSearchServiceOptions : SearchServiceOptions
-{
-}
+public record TrustSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
 public class TrustSearchService : SearchService, ISearchService<Trust>

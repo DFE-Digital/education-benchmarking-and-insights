@@ -35,7 +35,6 @@ Add configuration in `local.settings.json`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__SizingCollectionName" : "SizelookupTest",
     "Cosmos__FinancialPlanCollectionName" : "financial-plans"
   },
   "Host": {
@@ -55,8 +54,7 @@ Add configuration in `local.settings.json`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__LookupCollectionName" : "fibre-directory",
-    "Cosmos__RatingCollectionName" : "SADBandingTest"
+    "Cosmos__LookupCollectionName" : "fibre-directory"
   },
   "Host": {
     "CORS": "*",

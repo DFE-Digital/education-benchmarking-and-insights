@@ -7,7 +7,7 @@ using School = EducationBenchmarking.Platform.Domain.Responses.School;
 
 namespace EducationBenchmarking.Platform.Tests.Establishment;
 
-public class WhenFunctionQuerySchoolsRequest : SchoolsFunctionsTestBase
+public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()

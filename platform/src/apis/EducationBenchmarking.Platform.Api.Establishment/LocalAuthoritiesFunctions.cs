@@ -1,4 +1,3 @@
-using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Infrastructure.Search;
 using Microsoft.AspNetCore.Http;

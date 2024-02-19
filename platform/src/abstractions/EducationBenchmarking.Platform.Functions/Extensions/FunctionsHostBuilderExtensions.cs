@@ -34,20 +34,6 @@ public static class FunctionsHostBuilderExtensions
 
                 x.UseAllOfForInheritance();
                 x.UseOneOfForPolymorphism();
-                x.SelectSubTypesUsing(baseType =>
-                {
-                    if (baseType == typeof(ProximitySort))
-                    {
-                        return new[]
-                        {
-                            typeof(BestInClassProximitySort),
-                            typeof(SenProximitySort),
-                            typeof(SimpleProximitySort)
-                        };
-                    }
-
-                    return Array.Empty<Type>();
-                });
             };
         });
 

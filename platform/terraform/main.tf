@@ -113,7 +113,6 @@ module "benchmark-fa" {
     "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_sql_connection_string
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName"        = "fibre-directory"
-    "Cosmos__SizingCollectionName"        = "SizelookupTest"
     "Cosmos__FinancialPlanCollectionName" = "financial-plans"
   })
 }
@@ -133,7 +132,6 @@ module "insight-fa" {
     "Cosmos__ConnectionString"     = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
     "Cosmos__DatabaseId"           = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName" = "fibre-directory"
-    "Cosmos__RatingCollectionName" : "SADBandingTest"
   })
 }
 

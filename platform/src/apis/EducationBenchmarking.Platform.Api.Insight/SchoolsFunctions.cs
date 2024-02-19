@@ -94,41 +94,4 @@ public class SchoolsFunctions
             }
         }
     }
-
-    [FunctionName(nameof(QuerySchoolRatingsAsync))]
-    [ProducesResponseType(typeof(Rating[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("phase", "Overall school phase", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("term", "Term", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("size", "School size band", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("fsm", "Free school meals band", DataType = typeof(string), Required = true)]
-    public async Task<IActionResult> QuerySchoolRatingsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/ratings")]
-        HttpRequest req)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                var phase = req.Query["phase"].ToString();
-                var term = req.Query["term"].ToString();
-                var size = req.Query["size"].ToString();
-                var fsm = req.Query["fsm"].ToString();
-
-                var bandings = await _db.SchoolRatings(phase, term, size, fsm);
-                return new JsonContentResult(bandings);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get school ratings");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
 }

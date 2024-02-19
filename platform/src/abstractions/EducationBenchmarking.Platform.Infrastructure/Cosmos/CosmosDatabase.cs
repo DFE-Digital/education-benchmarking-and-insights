@@ -5,7 +5,8 @@ using Microsoft.Azure.Cosmos.Linq;
 
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
-public class CosmosDatabaseOptions
+[ExcludeFromCodeCoverage]
+public abstract record CosmosDatabaseOptions
 {
     [Required] public string? ConnectionString { get; set; }
     [Required] public string? DatabaseId { get; set; }

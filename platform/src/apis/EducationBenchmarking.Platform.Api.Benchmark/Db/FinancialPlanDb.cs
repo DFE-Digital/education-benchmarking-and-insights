@@ -2,7 +2,6 @@ using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using EducationBenchmarking.Platform.Domain;
 using EducationBenchmarking.Platform.Domain.DataObjects;
 using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Domain.Responses;
@@ -14,19 +13,20 @@ using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
+public interface IFinancialPlanDb
+{
+    Task<FinancialPlan?> FinancialPlan(string urn, int year);
+    Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
+    Task DeleteFinancialPlan(FinancialPlan plan);
+}
+
 [ExcludeFromCodeCoverage]
-public class FinancialPlanDbOptions : CosmosDatabaseOptions
+public record FinancialPlanDbOptions : CosmosDatabaseOptions
 {
     [Required] public string? FinancialPlanCollectionName { get; set; }
 }
 
-public interface IFinancialPlanDb
-{
-    Task<FinancialPlan?> FinancialPlan(string urn, int year);
-    Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
-    Task DeleteFinancialPlan(FinancialPlan plan);
-}
-
+[ExcludeFromCodeCoverage]
 public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 {
     private readonly FinancialPlanDbOptions _options;
@@ -44,7 +44,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         return response.IsSuccessStatusCode ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
     }
 
-    public async Task<DbResult> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
+    public async Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -57,13 +57,15 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         var existing = response.Content.FromJson<FinancialPlanDataObject>();
         if (existing.Created > DateTimeOffset.UtcNow || existing.UpdatedAt > DateTimeOffset.UtcNow)
         {
-            throw new DataConflictException(
-                existing.Id,
-                nameof(Domain.Responses.FinancialPlan),
-                existing.CreatedBy,
-                existing.Created,
-                existing.UpdatedBy,
-                existing.UpdatedAt);
+            return new DataConflictResult {
+                ConflictReason = DataConflictResult.Reason.Timestamp,
+                Id = existing.Id,
+                Type = nameof(Domain.Responses.FinancialPlan),
+                CreatedBy = existing.CreatedBy,
+                CreatedAt = existing.Created,
+                UpdatedBy = existing.UpdatedBy,
+                UpdatedAt = existing.UpdatedAt 
+            };
         }
 
         return await Update(request, existing);
@@ -75,7 +77,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         await DeleteItemAsync<FinancialPlan>(_options.FinancialPlanCollectionName, plan.Year.ToString(), new PartitionKey(plan.Urn));
     }
 
-    private async Task<DbResult> Update(FinancialPlanRequest request, FinancialPlanDataObject existing)
+    private async Task<Result> Update(FinancialPlanRequest request, FinancialPlanDataObject existing)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -91,11 +93,11 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TimetablePeriods = request.TimetablePeriods;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
-
-        return new DbResult { Status = DbResult.ResultStatus.Updated, Content = existing };
+        
+        return new UpdatedResult();
     }
 
-    private async Task<DbResult> Create(string urn, int year, FinancialPlanRequest request)
+    private async Task<Result> Create(string urn, int year, FinancialPlanRequest request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -119,6 +121,6 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
 
-        return new DbResult { Status = DbResult.ResultStatus.Created, Content = plan };
+        return new CreatedResult<FinancialPlanDataObject>(plan, $"financial-plan/{urn}/{year}");
     }
 }

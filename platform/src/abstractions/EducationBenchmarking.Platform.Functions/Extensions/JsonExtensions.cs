@@ -10,14 +10,6 @@ namespace EducationBenchmarking.Platform.Functions.Extensions;
 
 public static class JsonExtensions
 {
-    private static readonly JsonConverter ProximitySortConverter = JsonSubtypesConverterBuilder
-        .Of<ProximitySort>("Kind")
-        .RegisterSubtype<SenProximitySort>(ProximitySortKinds.Sen)
-        .RegisterSubtype<SimpleProximitySort>(ProximitySortKinds.Simple)
-        .RegisterSubtype<BestInClassProximitySort>(ProximitySortKinds.Bic)
-        .SetFallbackSubtype<UnknownProximitySort>()
-        .SerializeDiscriminatorProperty()
-        .Build();
 
     public static JsonSerializerSettings Settings => new()
     {
@@ -27,8 +19,7 @@ public static class JsonExtensions
         Converters = new List<JsonConverter>
         {
             new IsoDateTimeConverter(),
-            new StringEnumConverter(),
-            ProximitySortConverter
+            new StringEnumConverter()
         }
     };
 

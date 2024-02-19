@@ -11,9 +11,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public record SchoolSearchServiceOptions : SearchServiceOptions
-{
-}
+public record SchoolSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
 public class SchoolSearchService : SearchService, ISearchService<School>

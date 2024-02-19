@@ -17,9 +17,7 @@ public interface ISchoolDb
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolDbOptions : CosmosDatabaseOptions
-{
-}
+public record SchoolDbOptions : CosmosDatabaseOptions;
 
 [ExcludeFromCodeCoverage]
 public class SchoolDb : CosmosDatabase, ISchoolDb

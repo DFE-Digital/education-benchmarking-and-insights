@@ -14,9 +14,7 @@ public interface IMaintainSchoolDb
 }
 
 [ExcludeFromCodeCoverage]
-public class MaintainSchoolDbOptions : CosmosDatabaseOptions
-{
-}
+public record MaintainSchoolDbOptions : CosmosDatabaseOptions;
 
 [ExcludeFromCodeCoverage]
 public class MaintainSchoolDb : CosmosDatabase, IMaintainSchoolDb

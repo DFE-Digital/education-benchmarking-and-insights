@@ -5,7 +5,7 @@ using Microsoft.Extensions.Options;
 namespace EducationBenchmarking.Platform.Infrastructure.Cosmos;
 
 [ExcludeFromCodeCoverage]
-public class CollectionServiceOptions : CosmosDatabaseOptions
+public record CollectionServiceOptions : CosmosDatabaseOptions
 {
     [Required] public string? LookupCollectionName { get; set; }
 }

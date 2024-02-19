@@ -6,31 +6,33 @@ using Xunit;
 
 namespace EducationBenchmarking.Platform.Tests.Benchmark;
 
-public class WhenFunctionReceivesGetFreeSchoolMealBandingsRequest : BandingsFunctionsTestBase
+public class WhenFunctionReceivesCreateComparatorSetRequest : ComparatorSetFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.FreeSchoolMealBandings())
-            .ReturnsAsync(Array.Empty<Banding>());
-
+            .Setup(d => d.CreateSet())
+            .ReturnsAsync(new ComparatorSet());
+        
         var result =
-            await Functions.QueryFreeSchoolMealBandingsAsync(CreateRequest()) as JsonContentResult;
+            await Functions.CreateComparatorSetAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result?.StatusCode);
     }
 
+
+
     [Fact]
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.FreeSchoolMealBandings())
+            .Setup(d => d.CreateSet())
             .Throws(new Exception());
 
         var result = await Functions
-            .QueryFreeSchoolMealBandingsAsync(CreateRequest()) as StatusCodeResult;
+            .CreateComparatorSetAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result?.StatusCode);

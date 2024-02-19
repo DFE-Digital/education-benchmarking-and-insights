@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Text;
 using EducationBenchmarking.Platform.ApiTests.Drivers;
-using EducationBenchmarking.Platform.Domain.Responses.Characteristics;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using FluentAssertions;
 using Newtonsoft.Json;
@@ -109,25 +108,7 @@ public class BenchmarkComparatorSetSteps
     {
         await _api.Send();
     }
-
-    [Then("the comparator set characteristics result should be:")]
-    public async Task ThenTheComparatorSetCharacteristicsResultShouldBe(Table expectedTable)
-    {
-        var response = _api[ComparatorSetCharacteristicsKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsStringAsync();
-        var results = content.FromJson<List<Characteristic>>() ?? throw new ArgumentNullException(content);
-        var set = new List<dynamic>();
-        foreach (var result in results)
-        {
-            set.Add(new { result.Code, result.Description });
-        }
-
-        expectedTable.CompareToDynamicSet(set, false);
-    }
+    
 
     [Then("the comparator result should be bad request")]
     public void ThenTheComparatorResultShouldBeBadRequest()
