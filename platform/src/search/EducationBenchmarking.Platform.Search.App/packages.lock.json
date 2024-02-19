@@ -289,7 +289,7 @@
       "educationbenchmarking.platform.domain": {
         "type": "Project",
         "dependencies": {
-          "Newtonsoft.Json": "[13.0.1, )"
+          "Newtonsoft.Json": "[13.0.3, )"
         }
       },
       "educationbenchmarking.platform.infrastructure": {
@@ -298,9 +298,9 @@
           "Azure.Search.Documents": "[11.5.1, )",
           "EducationBenchmarking.Platform.Domain": "[1.0.0, )",
           "FluentValidation": "[11.9.0, )",
-          "Microsoft.Azure.Cosmos": "[3.37.1, )",
+          "Microsoft.Azure.Cosmos": "[3.38.1, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
-          "Newtonsoft.Json": "[13.0.1, )",
+          "Newtonsoft.Json": "[13.0.3, )",
           "System.Linq.Async": "[6.0.1, )"
         }
       },
@@ -320,9 +320,9 @@
       },
       "Microsoft.Azure.Cosmos": {
         "type": "CentralTransitive",
-        "requested": "[3.37.1, )",
-        "resolved": "3.37.1",
-        "contentHash": "pcEic62IyYdpTyqjSYBYSIoL9ZJqX4+B7PJ9aUJtJs9ZUPeTOlG1XIl3oGki6db6T0gLtCZRPOZ0d54UhiPf+g==",
+        "requested": "[3.38.1, )",
+        "resolved": "3.38.1",
+        "contentHash": "f71N+NQhmUPKcUXNMCg6gHcA5Buef8aSsCtZKXzrj5cGfDwOS9sQ2eLrGQiDcDSQI6g0MudPkdIQq/8KAzDMaQ==",
         "dependencies": {
           "Azure.Core": "1.19.0",
           "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
@@ -340,9 +340,9 @@
       },
       "Newtonsoft.Json": {
         "type": "CentralTransitive",
-        "requested": "[13.0.1, )",
-        "resolved": "13.0.1",
-        "contentHash": "ppPFpBcvxdsfUonNcvITKqLl3bqxWbDCZIzDWHzjpdAHRFfZe0Dw9HmA0+za13IdyrgJwpkDTDA9fHaxOrt20A=="
+        "requested": "[13.0.3, )",
+        "resolved": "13.0.3",
+        "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
       "System.Linq.Async": {
         "type": "CentralTransitive",
