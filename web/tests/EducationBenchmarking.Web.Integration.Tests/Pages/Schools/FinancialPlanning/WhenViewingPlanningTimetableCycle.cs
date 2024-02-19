@@ -173,7 +173,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
-       
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true)
     {
         var school = Fixture.Build<School>()
