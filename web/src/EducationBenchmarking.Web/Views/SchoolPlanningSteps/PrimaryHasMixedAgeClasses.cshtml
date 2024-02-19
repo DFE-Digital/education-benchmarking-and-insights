@@ -6,7 +6,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @using (Html.BeginForm("PrimaryHasMixedAgeClasses", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("PrimaryHasMixedAgeClasses", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
               <div class="@(ViewData.ModelState.HasError(nameof(Model.HasMixedAgeClasses)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">

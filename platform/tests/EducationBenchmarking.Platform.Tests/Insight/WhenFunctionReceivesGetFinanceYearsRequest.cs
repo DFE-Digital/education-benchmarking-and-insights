@@ -12,6 +12,6 @@ public class WhenFunctionReceivesGetFinanceYearsRequest : MiscFunctionsTestBase
         var result = Functions.SingleFinanceYearsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 }

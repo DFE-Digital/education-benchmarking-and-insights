@@ -25,7 +25,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
             await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 
     [Fact]
@@ -39,9 +39,9 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
         var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as ValidationErrorsResult;
 
         Assert.NotNull(result);
-        Assert.Equal(400, result?.StatusCode);
+        Assert.Equal(400, result.StatusCode);
 
-        var values = result?.Value as IEnumerable<ValidationError>;
+        var values = result.Value as IEnumerable<ValidationError>;
         Assert.NotNull(values);
         Assert.Contains(values, p => p.PropertyName == nameof(PostSuggestRequest.SuggesterName));
     }
@@ -56,6 +56,6 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
         var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }

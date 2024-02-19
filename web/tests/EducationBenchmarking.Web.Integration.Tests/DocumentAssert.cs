@@ -114,6 +114,45 @@ public static class DocumentAssert
         }
     }
 
+    public static void Checkboxes(IElement parent, params (string, string, bool)[] options)
+    {
+        var index = 0;
+        foreach (var checkItem in parent.Descendents<IElement>()
+                     .Where(c => c.ClassList.Contains("govuk-checkboxes__item")))
+        {
+            var (name, label, isChecked) = options[index];
+            var inputElement = Assert.IsAssignableFrom<IHtmlInputElement>(checkItem.Children[0]);
+            var labelElement = Assert.IsAssignableFrom<IHtmlLabelElement>(checkItem.Children[1]);
+
+            ValidateInputElement(name, isChecked, inputElement);
+            ValidateLabelElement(label, labelElement);
+
+            Assert.Equal(inputElement.Id, labelElement.HtmlFor);
+            index++;
+        }
+
+        return;
+
+        [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
+        void ValidateInputElement(string name, bool isChecked, IHtmlInputElement e)
+        {
+            Assert.Equal("checkbox", e.Type);
+            Assert.Equal(name, e.Name);
+            Assert.Equal(isChecked, e.IsChecked);
+            Assert.True(e.ClassList.Contains("govuk-checkboxes__input"),
+                "A checkbox input should have the 'govuk-checkboxes__input' class applied");
+        }
+
+        [SuppressMessage("ReSharper", "ParameterOnlyUsedForPreconditionCheck.Local")]
+        void ValidateLabelElement(string label, IElement e)
+        {
+            TextEqual(e, label);
+            Assert.True(e.ClassList.Contains("govuk-label") && e.ClassList.Contains("govuk-checkboxes__label"),
+                "A checkbox input should have the 'govuk-label' and 'govuk-checkboxes__label' classes applied");
+        }
+    }
+
+
     public static void Radios(IElement parent, params (string, string, string, bool)[] options)
     {
         var index = 0;

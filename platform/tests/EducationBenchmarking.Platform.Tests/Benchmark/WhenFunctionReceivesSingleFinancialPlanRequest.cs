@@ -18,7 +18,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
 
         Assert.NotNull(result);
-        Assert.Equal(404, result?.StatusCode);
+        Assert.Equal(404, result.StatusCode);
     }
 
     [Fact]
@@ -45,6 +45,6 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }

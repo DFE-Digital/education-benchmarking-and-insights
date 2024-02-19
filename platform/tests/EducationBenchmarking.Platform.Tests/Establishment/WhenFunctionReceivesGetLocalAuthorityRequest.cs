@@ -11,6 +11,6 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
         var result = Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as OkResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 }

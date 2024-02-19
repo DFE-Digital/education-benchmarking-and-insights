@@ -2,37 +2,58 @@ using EducationBenchmarking.Web.Domain;
 
 namespace EducationBenchmarking.Web.ViewModels;
 
-public class SchoolPlanViewModel(School school)
-{
-    private readonly FinancialPlan? _plan;
-    public SchoolPlanViewModel(School school, int? year, FinancialPlan? plan = null) : this(school)
-    {
-        SelectedYear = year;
-        _plan = plan;
-    }
 
-    public int? SelectedYear { get; }
+public class SchoolPlanSchoolViewModel(School school)
+{
     public string? Name => school.Name;
     public string? Urn => school.Urn;
-    public bool? UseFigures => _plan?.UseFigures;
     public bool IsPrimary => school.IsPrimary;
-    public decimal? TotalIncome => _plan?.TotalIncome;
-    public decimal? TotalExpenditure => _plan?.TotalExpenditure;
-    public decimal? TotalTeacherCosts => _plan?.TotalTeacherCosts;
-    public decimal? TotalNumberOfTeachersFte => _plan?.TotalNumberOfTeachersFte;
-    public decimal? EducationSupportStaffCosts => _plan?.EducationSupportStaffCosts;
-    public string? TimetablePeriods => _plan?.TimetablePeriods.ToString();
-    public bool? HasMixedAgeClasses => _plan?.HasMixedAgeClasses;
 }
 
-public class SchoolPlanTimetableViewModel(School school, int year, FinancialPlan? plan, string? timetablePeriods = null)
-    : SchoolPlanViewModel(school, year, plan)
+public class SchoolPlanSelectYearViewModel(School school, int? year = null) : SchoolPlanSchoolViewModel(school)
+{
+    public int? SelectedYear => year;
+}
+
+
+public class SchoolPlanViewModel(School school, FinancialPlan plan) : SchoolPlanSchoolViewModel(school)
+{
+    public int Year => plan.Year;
+    public bool? UseFigures => plan.UseFigures;
+    public decimal? TotalIncome => plan.TotalIncome;
+    public decimal? TotalExpenditure => plan.TotalExpenditure;
+    public decimal? TotalTeacherCosts => plan.TotalTeacherCosts;
+    public decimal? TotalNumberOfTeachersFte => plan.TotalNumberOfTeachersFte;
+    public decimal? EducationSupportStaffCosts => plan.EducationSupportStaffCosts;
+    public string? TimetablePeriods => plan.TimetablePeriods.ToString();
+    public bool? HasMixedAgeClasses => plan.HasMixedAgeClasses;
+    public bool MixedAgeReceptionYear1 => plan.MixedAgeReceptionYear1;
+    public bool MixedAgeYear1Year2 => plan.MixedAgeYear1Year2;
+    public bool MixedAgeYear2Year3 => plan.MixedAgeYear2Year3;
+    public bool MixedAgeYear3Year4 => plan.MixedAgeYear3Year4;
+    public bool MixedAgeYear4Year5 => plan.MixedAgeYear4Year5;
+    public bool MixedAgeYear5Year6 => plan.MixedAgeYear5Year6;
+}
+
+public class SchoolPlanTimetableViewModel(School school, FinancialPlan plan, string? timetablePeriods = null)
+    : SchoolPlanViewModel(school, plan)
 {
     public new string? TimetablePeriods => timetablePeriods ?? base.TimetablePeriods;
 }
 
-public class SchoolPlanFinancesViewModel(School school, Finances finances, int year, FinancialPlan? plan)
-    : SchoolPlanViewModel(school, year, plan)
+public class SchoolPlanMixedAgeClassesViewModel
+{
+    public bool MixedAgeReceptionYear1 { get; set; }
+    public bool MixedAgeYear1Year2 { get; set; }
+    public bool MixedAgeYear2Year3 { get; set; }
+    public bool MixedAgeYear3Year4 { get; set; }
+    public bool MixedAgeYear4Year5 { get; set; }
+    public bool MixedAgeYear5Year6 { get; set; }
+}
+
+
+public class SchoolPlanFinancesViewModel(School school, Finances finances, FinancialPlan plan)
+    : SchoolPlanViewModel(school, plan)
 {
     public string CurrentTotalIncome => $"{finances.TotalIncome:C}";
     public string CurrentTotalExpenditure => $"{finances.TotalExpenditure:C}";
@@ -40,5 +61,4 @@ public class SchoolPlanFinancesViewModel(School school, Finances finances, int y
     public string CurrentTotalNumberOfTeachersFte => $"{finances.TotalNumberOfTeachersFte}";
     public string CurrentEducationSupportStaffCosts => $"{finances.EducationSupportStaffCosts:C}";
     public string FinancePeriod => $"{finances.YearEnd - 1} - {finances.YearEnd}";
-
 }

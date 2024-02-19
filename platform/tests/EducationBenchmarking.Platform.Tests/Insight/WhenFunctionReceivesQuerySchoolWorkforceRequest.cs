@@ -18,7 +18,7 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 
 
@@ -32,6 +32,6 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }

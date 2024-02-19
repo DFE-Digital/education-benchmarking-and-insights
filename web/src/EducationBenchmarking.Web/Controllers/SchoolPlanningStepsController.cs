@@ -32,7 +32,7 @@ public class SchoolPlanningStepsController(
                     new BacklinkInfo(Url.Action("Index", "SchoolPlanning", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanViewModel(school);
+                var viewModel = new SchoolPlanSchoolViewModel(school);
 
                 return View(viewModel);
             }
@@ -55,7 +55,7 @@ public class SchoolPlanningStepsController(
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanViewModel(school);
+                var viewModel = new SchoolPlanSelectYearViewModel(school);
 
                 return View(viewModel);
             }
@@ -92,7 +92,7 @@ public class SchoolPlanningStepsController(
                 ModelState.AddModelError("year", "Select the academic year you want to plan");
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanViewModel(school, year);
+                var viewModel = new SchoolPlanSelectYearViewModel(school, year);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -128,7 +128,7 @@ public class SchoolPlanningStepsController(
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
                 var finances = await financeService.GetFinances(school);
 
-                var viewModel = new SchoolPlanFinancesViewModel(school, finances, year, plan);
+                var viewModel = new SchoolPlanFinancesViewModel(school, finances, plan);
 
                 return View(viewModel);
             }
@@ -160,7 +160,7 @@ public class SchoolPlanningStepsController(
                     ModelState.AddModelError("useFigures", "Select yes if you want to use these figures");
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
 
-                    var viewModel = new SchoolPlanFinancesViewModel(school, finances, year, plan);
+                    var viewModel = new SchoolPlanFinancesViewModel(school, finances, plan);
                     return View(viewModel);
                 }
 
@@ -212,7 +212,7 @@ public class SchoolPlanningStepsController(
 
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
 
-                var viewModel = new SchoolPlanTimetableViewModel(school, year, plan);
+                var viewModel = new SchoolPlanTimetableViewModel(school, plan);
 
                 return View(viewModel);
             }
@@ -256,7 +256,7 @@ public class SchoolPlanningStepsController(
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TimetablePeriods), message);
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
 
-                    var viewModel = new SchoolPlanTimetableViewModel(school, year, plan, timetablePeriods);
+                    var viewModel = new SchoolPlanTimetableViewModel(school, plan, timetablePeriods);
                     return View(viewModel);
                 }
 
@@ -290,7 +290,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -324,7 +324,7 @@ public class SchoolPlanningStepsController(
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalIncome), msg);
                     ViewData[ViewDataConstants.Backlink] =
                         new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
@@ -356,7 +356,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -390,7 +390,7 @@ public class SchoolPlanningStepsController(
                     ViewData[ViewDataConstants.Backlink] =
                         new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
 
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
@@ -422,7 +422,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -456,7 +456,7 @@ public class SchoolPlanningStepsController(
                     ViewData[ViewDataConstants.Backlink] =
                         new BacklinkInfo(Url.Action("TotalExpenditure", new { urn, year }));
 
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
@@ -491,7 +491,7 @@ public class SchoolPlanningStepsController(
                     ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
                     : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
 
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -526,7 +526,7 @@ public class SchoolPlanningStepsController(
                         ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
                         : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
 
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
@@ -556,7 +556,7 @@ public class SchoolPlanningStepsController(
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -590,7 +590,7 @@ public class SchoolPlanningStepsController(
                         new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.EducationSupportStaffCosts), msg);
 
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
@@ -620,7 +620,7 @@ public class SchoolPlanningStepsController(
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
                 ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
-                var viewModel = new SchoolPlanViewModel(school, year, plan);
+                var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -649,9 +649,67 @@ public class SchoolPlanningStepsController(
                 {
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.HasMixedAgeClasses), "Select yes if you have mixed age classes");
                     ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
-                    var viewModel = new SchoolPlanViewModel(school, year, plan);
+                    var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
+
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+                return hasMixedAgeClasses.Value
+                    ? RedirectToAction("PrimaryMixedAgeClasses", new { urn, year })
+                    : new OkResult();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("primary-mixed-age-classes")]
+    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+
+                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
+                var viewModel = new SchoolPlanViewModel(school, plan);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("primary-mixed-age-classes")]
+    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year, [FromForm] SchoolPlanMixedAgeClassesViewModel viewModel)
+    {
+        using (logger.BeginScope(new { urn, year, }))
+        {
+            try
+            {
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                plan.MixedAgeReceptionYear1 = viewModel.MixedAgeReceptionYear1;
+                plan.MixedAgeYear1Year2 = viewModel.MixedAgeYear1Year2;
+                plan.MixedAgeYear2Year3 = viewModel.MixedAgeYear2Year3;
+                plan.MixedAgeYear3Year4 = viewModel.MixedAgeYear3Year4;
+                plan.MixedAgeYear4Year5 = viewModel.MixedAgeYear4Year5;
+                plan.MixedAgeYear5Year6 = viewModel.MixedAgeYear5Year6;
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();

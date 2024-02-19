@@ -19,7 +19,7 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.UpsertFinancialPlanAsync(CreateRequestWithBody(new FinancialPlanRequest()), "1", 2021) as CreatedResult;
 
         Assert.NotNull(result);
-        Assert.Equal(201, result?.StatusCode);
+        Assert.Equal(201, result.StatusCode);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.UpsertFinancialPlanAsync(CreateRequestWithBody(new FinancialPlanRequest()), "1", 2021) as NoContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(204, result?.StatusCode);
+        Assert.Equal(204, result.StatusCode);
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.UpsertFinancialPlanAsync(CreateRequestWithBody(new FinancialPlanRequest()), "1", 2021) as ConflictObjectResult;
 
         Assert.NotNull(result);
-        Assert.Equal(409, result?.StatusCode);
+        Assert.Equal(409, result.StatusCode);
     }
 
     [Fact]
@@ -59,6 +59,6 @@ public class WhenFunctionReceivesUpsertFinancialPlanRequest : FinancialPlanFunct
         var result = await Functions.UpsertFinancialPlanAsync(CreateRequestWithBody(new FinancialPlanRequest()), "1", 2021) as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }

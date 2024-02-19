@@ -20,7 +20,7 @@
                 Enter an average if your school has a different timetable length for different years
             </p>
         </div>
-        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.SelectedYear }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <label class="govuk-label govuk-label--m" for="timetable-periods">
