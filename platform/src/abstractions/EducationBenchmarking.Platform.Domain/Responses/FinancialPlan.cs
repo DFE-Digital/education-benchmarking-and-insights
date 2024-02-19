@@ -21,7 +21,13 @@ public record FinancialPlan
     public decimal? EducationSupportStaffCosts { get; set; }
     public bool? UseFigures { get; set; }
     public int? TimetablePeriods { get; set; }
-
+    public bool? HasMixedAgeClasses { get; set; }
+    public bool MixedAgeReceptionYear1 { get; set; }
+    public bool MixedAgeYear1Year2 { get; set; }
+    public bool MixedAgeYear2Year3 { get; set; }
+    public bool MixedAgeYear3Year4 { get; set; }
+    public bool MixedAgeYear4Year5 { get; set; }
+    public bool MixedAgeYear5Year6 { get; set; }
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
         return new FinancialPlan
@@ -40,6 +46,13 @@ public record FinancialPlan
             TotalNumberOfTeachersFte = dataObject.TotalNumberOfTeachersFte,
             EducationSupportStaffCosts = dataObject.EducationSupportStaffCosts,
             TimetablePeriods = dataObject.TimetablePeriods,
+            HasMixedAgeClasses = dataObject.HasMixedAgeClasses,
+            MixedAgeReceptionYear1 = dataObject.MixedAgeReceptionYear1,
+            MixedAgeYear1Year2 = dataObject.MixedAgeYear1Year2,
+            MixedAgeYear2Year3 = dataObject.MixedAgeYear2Year3,
+            MixedAgeYear3Year4 = dataObject.MixedAgeYear3Year4,
+            MixedAgeYear4Year5 = dataObject.MixedAgeYear4Year5,
+            MixedAgeYear5Year6 = dataObject.MixedAgeYear5Year6
         };
     }
 }

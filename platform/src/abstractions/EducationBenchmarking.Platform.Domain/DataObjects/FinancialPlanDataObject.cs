@@ -21,4 +21,11 @@ public record FinancialPlanDataObject
     [JsonProperty("educationSupportStaffCosts")] public decimal? EducationSupportStaffCosts { get; set; }
     [JsonProperty("useFigures")] public bool? UseFigures { get; set; }
     [JsonProperty("timetablePeriods")] public int? TimetablePeriods { get; set; }
+    [JsonProperty("hasMixedAgeClasses")] public bool? HasMixedAgeClasses { get; set; }
+    [JsonProperty("mixedAgeReceptionYear1")] public bool MixedAgeReceptionYear1 { get; set; }
+    [JsonProperty("mixedAgeYear1Year2")] public bool MixedAgeYear1Year2 { get; set; }
+    [JsonProperty("mixedAgeYear2Year3")] public bool MixedAgeYear2Year3 { get; set; }
+    [JsonProperty("mixedAgeYear3Year4")] public bool MixedAgeYear3Year4 { get; set; }
+    [JsonProperty("mixedAgeYear4Year5")] public bool MixedAgeYear4Year5 { get; set; }
+    [JsonProperty("nixedAgeYear5Year6")] public bool MixedAgeYear5Year6 { get; set; }
 }

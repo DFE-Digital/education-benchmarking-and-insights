@@ -92,6 +92,13 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte;
         existing.EducationSupportStaffCosts = request.EducationSupportStaffCosts;
         existing.TimetablePeriods = request.TimetablePeriods;
+        existing.HasMixedAgeClasses = request.HasMixedAgeClasses;
+        existing.MixedAgeReceptionYear1 = request.MixedAgeReceptionYear1;
+        existing.MixedAgeYear1Year2 = request.MixedAgeYear1Year2;
+        existing.MixedAgeYear2Year3 = request.MixedAgeYear2Year3;
+        existing.MixedAgeYear3Year4 = request.MixedAgeYear3Year4;
+        existing.MixedAgeYear4Year5 = request.MixedAgeYear4Year5;
+        existing.MixedAgeYear5Year6 = request.MixedAgeYear5Year6;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -118,6 +125,13 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte,
             EducationSupportStaffCosts = request.EducationSupportStaffCosts,
             TimetablePeriods = request.TimetablePeriods,
+            HasMixedAgeClasses = request.HasMixedAgeClasses,
+            MixedAgeReceptionYear1 = request.MixedAgeReceptionYear1,
+            MixedAgeYear1Year2 = request.MixedAgeYear1Year2,
+            MixedAgeYear2Year3 = request.MixedAgeYear2Year3,
+            MixedAgeYear3Year4 = request.MixedAgeYear3Year4,
+            MixedAgeYear4Year5 = request.MixedAgeYear4Year5,
+            MixedAgeYear5Year6 = request.MixedAgeYear5Year6
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
