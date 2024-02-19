@@ -4,7 +4,8 @@
 }
 
 /* active colour is 8% darker */
-.recharts-wrapper {
+.recharts-wrapper,
+.chart-stat-wrapper {
   --grid-colour: #f0f0f0;
   --label-colour: #8c8c8c;
   --series-0-colour: #bfbfbf;
@@ -91,4 +92,18 @@
 
 .recharts-wrapper .chart-active-tooltip > p {
   margin: 0;
+}
+
+.chart-stat abbr.summary {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+}
+
+.chart-stat-wrapper .chart-stat-value {
+  border-top: 1px solid var(--label-colour);
+  padding-top: 0.5rem;
+}
+
+.chart-stat-line-chart .chart-stat-value {
+  color: var(--series-2-colour);
 }
