@@ -11,7 +11,6 @@ public class WhenRequestingEstablishmentSuggest(BenchmarkingWebAppClient client)
     [InlineData("organisation")]
     public async Task CanReturnInternalServerError(string suggestType)
     {
-        const string urn = "12345";
         var response = await client.SetupEstablishmentWithException()
             .Get(Paths.ApiEstablishmentSuggest("12323", suggestType));
 
