@@ -5,10 +5,12 @@ import { CompareYourSchool, CompareYourWorkforce } from "src/views";
 import {
   CompareWorkforceElementId,
   CompareYourSchoolElementId,
-  VerticalChart1SeriesElementId,
-  VerticalChart2SeriesElementId,
+  LineChart1SeriesElementId,
+  VerticalBarChart2SeriesElementId,
+  VerticalBarChart3SeriesElementId,
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
+import { LineChart } from "./components/charts/line-chart";
 
 const compareYourSchoolElement = document.getElementById(
   CompareYourSchoolElementId
@@ -53,7 +55,7 @@ if (compareWorkforceElement) {
 }
 
 const verticalChart1SeriesElement = document.getElementById(
-  VerticalChart1SeriesElementId
+  VerticalBarChart2SeriesElementId
 );
 
 if (verticalChart1SeriesElement) {
@@ -98,7 +100,7 @@ if (verticalChart1SeriesElement) {
 }
 
 const verticalChart2SeriesElement = document.getElementById(
-  VerticalChart2SeriesElementId
+  VerticalBarChart3SeriesElementId
 );
 
 if (verticalChart2SeriesElement) {
@@ -140,6 +142,43 @@ if (verticalChart2SeriesElement) {
             }}
             seriesLabelField="group"
             valueUnit="%"
+          />
+        </div>
+      </React.StrictMode>
+    );
+  }
+}
+
+const lineChart1SeriesElement = document.getElementById(
+  LineChart1SeriesElementId
+);
+
+if (lineChart1SeriesElement) {
+  const { json } = lineChart1SeriesElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(lineChart1SeriesElement);
+    const data = JSON.parse(json) as {
+      term: string;
+      inYearBalance: number;
+    }[];
+
+    root.render(
+      <React.StrictMode>
+        <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
+          <LineChart
+            chartName="In-year balance"
+            data={data}
+            keyField="term"
+            margin={20}
+            seriesConfig={{
+              inYearBalance: {
+                label: "Pupils on roll",
+                visible: true,
+              },
+            }}
+            seriesLabel="Absolute total"
+            seriesLabelField="term"
+            valueUnit="currency"
           />
         </div>
       </React.StrictMode>

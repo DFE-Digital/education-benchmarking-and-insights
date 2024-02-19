@@ -180,8 +180,13 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   );
 }
 
-const MultiLineAxisTick = (props: Partial<TickProps>) => {
-  const { x, y, payload, width, visibleTicksCount } = props;
+const MultiLineAxisTick = ({
+  x,
+  y,
+  payload,
+  width,
+  visibleTicksCount,
+}: Partial<TickProps>) => {
   return (
     <g transform={`translate(${x},${y})`}>
       <Text

@@ -30,7 +30,6 @@ export interface ChartProps<TData extends ChartDataSeries> {
   data: TData[];
   grid?: boolean;
   keyField: keyof TData;
-  legend?: boolean;
   margin?: number;
   multiLineAxisLabel?: boolean;
   seriesConfig?: ChartSeriesConfig<TData>;
@@ -53,7 +52,7 @@ type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
 
 type ChartSeriesName = string;
 export type ChartSeriesValue = string | number;
-type ChartSeriesValueUnit = "%";
+export type ChartSeriesValueUnit = "%" | "currency";
 export type ChartDataSeries = { [name: ChartSeriesName]: ChartSeriesValue };
 
 export type TickProps = SVGProps<SVGGElement> & {

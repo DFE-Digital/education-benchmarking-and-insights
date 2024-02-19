@@ -72,3 +72,23 @@
 .recharts-wrapper .recharts-cartesian-grid line {
   stroke: var(--grid-colour);
 }
+
+.recharts-wrapper .chart-line.chart-line-series-0 path,
+.recharts-wrapper .chart-line.chart-line-series-0 .recharts-line-dot {
+  stroke: var(--series-2-colour);
+  stroke-width: 5;
+}
+
+.recharts-wrapper .chart-active-dot.chart-active-dot-series-0 {
+  fill: var(--series-2-colour);
+}
+
+.recharts-wrapper .chart-active-tooltip {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 10px;
+  border-radius: 20px;
+}
+
+.recharts-wrapper .chart-active-tooltip > p {
+  margin: 0;
+}
