@@ -1,5 +1,7 @@
 # Platform
 
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=refs%2Fpull%2F267%2Fmerge)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=refs%2Fpull%2F267%2Fmerge)
+
 ## Getting started
 
 ### Running Platform APIs

@@ -2,6 +2,8 @@
 
 This project provides components to be consumed by the front-end ASP.NET Core web app.
 
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=refs%2Fpull%2F206%2Fmerge)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=refs%2Fpull%2F206%2Fmerge)
+
 ## Pre-requisites
 
 When developing this application in Visual Studio Code, the following extensions are recommended:
