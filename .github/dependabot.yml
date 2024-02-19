@@ -1,0 +1,121 @@
+  version: 2
+  updates:
+    - package-ecosystem: "terraform"
+      directory: "/core-infrastructure/terraform"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "npm"
+      directory: "/front-end-components"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "terraform"
+      directory: "/platform/terraform"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Domain"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/search/EducationBenchmarking.Platform.Search"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/search/EducationBenchmarking.Platform.Search.App"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/src/search/EducationBenchmarking.Platform.Search.Processor"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/tests/EducationBenchmarking.Platform.ApiTests"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/platform/tests/EducationBenchmarking.Platform.Tests"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "npm"
+      directory: "/prototype/src"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "terraform"
+      directory: "/prototype/terraform"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "npm"
+      directory: "/web/src/EducationBenchmarking.Web"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "terraform"
+      directory: "/web/terraform"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/src/EducationBenchmarking.Web"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/src/EducationBenchmarking.Web.Identity"
+      schedule:
+        interval: "daily"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/tests/EducationBenchmarking.Web.A11yTests"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/tests/EducationBenchmarking.Web.E2ETests"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/tests/EducationBenchmarking.Web.Integration.Tests"
+      schedule:
+        interval: "weekly"
+
+    - package-ecosystem: "nuget"
+      directory: "/web/tests/EducationBenchmarking.Web.Tests"
+      schedule:
+        interval: "weekly"
