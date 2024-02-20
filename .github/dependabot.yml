@@ -4,118 +4,221 @@
       directory: "/core-infrastructure/terraform"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[terraform] "
 
     - package-ecosystem: "npm"
       directory: "/front-end-components"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[npm] "
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Domain"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.App"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.Processor"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.ApiTests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.Tests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
+      ignore:
+        - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+        - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+        - dependency-name: "Microsoft.Extensions.Options"
+        - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
 
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[npm] "
 
     - package-ecosystem: "terraform"
       directory: "/prototype/terraform"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[terraform] "
 
     - package-ecosystem: "npm"
       directory: "/web/src/EducationBenchmarking.Web"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[npm] "
 
     - package-ecosystem: "terraform"
       directory: "/web/terraform"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
       directory: "/web/src/EducationBenchmarking.Web"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/src/EducationBenchmarking.Web.Identity"
       schedule:
         interval: "daily"
+      commit-message:
+        prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/EducationBenchmarking.Web.A11yTests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/EducationBenchmarking.Web.E2ETests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/EducationBenchmarking.Web.Integration.Tests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/EducationBenchmarking.Web.Tests"
       schedule:
         interval: "weekly"
+      commit-message:
+        prefix: "[nuget] "
