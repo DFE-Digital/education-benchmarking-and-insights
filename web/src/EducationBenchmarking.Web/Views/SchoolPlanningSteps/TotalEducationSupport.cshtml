@@ -21,8 +21,7 @@
                     <p id="total-education-support-error" class="govuk-error-message">
                         @if (ViewData.ModelState[nameof(Model.EducationSupportStaffCosts)]?.Errors.Count > 0)
                         {
-                            <span class="govuk-visually-hidden">Error:</span>
-                            @ViewData.ModelState[nameof(Model.EducationSupportStaffCosts)]?.Errors.First().ErrorMessage
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.EducationSupportStaffCosts)]?.Errors.First().ErrorMessage
                         }
                     </p>
                 }
