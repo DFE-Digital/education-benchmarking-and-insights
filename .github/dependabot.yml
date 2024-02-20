@@ -29,10 +29,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
@@ -42,10 +47,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
@@ -55,10 +65,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
@@ -68,10 +83,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
@@ -81,10 +101,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
@@ -94,10 +119,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search"
@@ -107,10 +137,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.App"
@@ -120,10 +155,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.Processor"
@@ -133,10 +173,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.ApiTests"
@@ -146,10 +191,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.Tests"
@@ -159,10 +209,15 @@
         prefix: "[nuget] "
       ignore:
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+          versions: ["7.x", "8.x"]
         - dependency-name: "Microsoft.Extensions.Configuration"
+          versions: ["7.x", "8.x"]
 
     - package-ecosystem: "npm"
       directory: "/prototype/src"
