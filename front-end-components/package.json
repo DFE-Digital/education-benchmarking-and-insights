@@ -36,7 +36,7 @@
     "@types/jest": "^29.5.11",
     "@types/node": "^20.11.19",
     "@types/react": "^18.2.45",
-    "@types/react-dom": "^18.2.15",
+    "@types/react-dom": "^18.2.19",
     "@types/testing-library__react": "^10.2.0",
     "@types/uuid": "^9.0.7",
     "@typescript-eslint/eslint-plugin": "^6.10.0",
