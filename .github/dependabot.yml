@@ -32,6 +32,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
@@ -44,6 +45,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
@@ -56,6 +58,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
@@ -68,6 +71,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
@@ -80,6 +84,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
@@ -92,6 +97,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search"
@@ -104,6 +110,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.App"
@@ -116,6 +123,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/EducationBenchmarking.Platform.Search.Processor"
@@ -128,6 +136,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.ApiTests"
@@ -140,6 +149,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/EducationBenchmarking.Platform.Tests"
@@ -152,6 +162,7 @@
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
         - dependency-name: "Microsoft.Extensions.Options"
         - dependency-name: "Microsoft.Extensions.Options.ConfigurationExtensions"
+        - dependency-name: "Microsoft.Extensions.Configuration"
 
     - package-ecosystem: "npm"
       directory: "/prototype/src"
