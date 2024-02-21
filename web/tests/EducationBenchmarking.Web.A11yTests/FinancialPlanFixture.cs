@@ -15,14 +15,14 @@ public class FinancialPlanMinimalDataCollection : ICollectionFixture<FinancialPl
 
 public class FinancialPlanFixture(IMessageSink messageSink)
     : FinancialPlanBaseFixture(
-        DateTime.UtcNow.Year + 1, 
-        new { User = "ally-test-user" }, 
+        DateTime.UtcNow.Year + 1,
+        new { User = "ally-test-user" },
         messageSink);
 
 public class FinancialPlanMinimalDataFixture(IMessageSink messageSink)
     : FinancialPlanBaseFixture(
-        DateTime.UtcNow.Year + 2, 
-        new { UseFigures = true, User = "ally-test-user" }, 
+        DateTime.UtcNow.Year + 2,
+        new { UseFigures = true, User = "ally-test-user" },
         messageSink);
 
 
@@ -63,7 +63,7 @@ public abstract class FinancialPlanBaseFixture : IDisposable
             _apiDriver.Dispose();
         }
     }
-    
+
     private async Task SeedFinancialPlan()
     {
         _messageSink.OnMessage($"Seeding financial plan [year:{Year}, school:{Urn}]".ToDiagnosticMessage());
