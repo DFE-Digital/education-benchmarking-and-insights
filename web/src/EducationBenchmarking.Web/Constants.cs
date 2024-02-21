@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using EducationBenchmarking.Web.Attributes;
 
 namespace EducationBenchmarking.Web;
 
@@ -75,4 +76,10 @@ public static class PageTitleConstants
 public static class FeatureFlags
 {
     public const string CurriculumFinancialPlanning = nameof(CurriculumFinancialPlanning);
+}
+
+public enum TrackedLinks
+{
+    [StringValue("gias-school-details")]
+    SchoolDetails
 }
