@@ -1,3 +1,4 @@
+@using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
     ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningMixedAgeClasses;
@@ -7,7 +8,7 @@
     <div class="govuk-grid-column-two-thirds">
         @using (Html.BeginForm("PrimaryMixedAgeClasses", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-            <div class="govuk-form-group">
+            <div class="@(ViewData.ModelState.HasError("MixedAgeClasses") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <span class="govuk-caption-l">@Model.Name</span>
@@ -18,6 +19,12 @@
                     <div id="mixing-classes-hint" class="govuk-hint">
                         Select all that apply.
                     </div>
+                    @if (ViewData.ModelState.HasError("MixedAgeClasses"))
+                    {
+                        <p id="mixing-classes-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["MixedAgeClasses"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input" id="@nameof(Model.MixedAgeReceptionYear1)" name="@nameof(Model.MixedAgeReceptionYear1)" value="true" type="checkbox" @(Model.MixedAgeReceptionYear1 ? "checked" : "")>

@@ -19,4 +19,12 @@ public class WhenViewingFinancialPlanningMixedClasses(
         await GoToPage();
         await EvaluatePage();
     }
+
+    [Fact]
+    public async Task ValidationErrorThenThereAreNoAccessibilityIssues()
+    {
+        await GoToPage();
+        await Page.Locator(":text('Continue')").ClickAsync();
+        await EvaluatePage();
+    }
 }
