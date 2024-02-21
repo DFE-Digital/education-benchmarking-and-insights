@@ -10,7 +10,7 @@
     - package-ecosystem: "npm"
       directory: "/front-end-components"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[npm] "
 
@@ -24,7 +24,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Domain"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -42,7 +42,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -60,7 +60,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -78,7 +78,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -96,7 +96,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -114,7 +114,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -222,7 +222,7 @@
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[npm] "
 
@@ -236,7 +236,7 @@
     - package-ecosystem: "npm"
       directory: "/web/src/EducationBenchmarking.Web"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[npm] "
 
@@ -250,14 +250,14 @@
     - package-ecosystem: "nuget"
       directory: "/web/src/EducationBenchmarking.Web"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/src/EducationBenchmarking.Web.Identity"
       schedule:
-        interval: "daily"
+        interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
