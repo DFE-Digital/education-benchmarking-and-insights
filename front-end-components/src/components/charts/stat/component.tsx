@@ -27,6 +27,7 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
     return { label: entry[1][seriesLabelField], value: entry[1][valueField] };
   }, [data, displayIndex, seriesLabelField, valueField]);
 
+  // do not render anything if a match could not be located based on the available data
   if (!entry) {
     return null;
   }
