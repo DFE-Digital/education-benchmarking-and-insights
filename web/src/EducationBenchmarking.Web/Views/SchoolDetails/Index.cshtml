@@ -1,4 +1,5 @@
 @using EducationBenchmarking.Web.ViewModels.Components
+@using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolDetailsViewModel
 @{
     ViewData[ViewDataConstants.Title] = PageTitleConstants.ContactDetails;
@@ -25,13 +26,15 @@
             </h2>
         }
         <p class="govuk-body">
-            <a href="@Constants.GiasSchoolUrl(Model.Urn)"
-               class="govuk-link govuk-link--no-visited-state"
-               target="_blank"
-               rel="noopener noreferrer external">
-                Get more information about this school
-                <span class="govuk-visually-hidden">Opens in a new window</span>
-            </a>
+            @{
+                await Html.TrackedAnchorAsync(
+                    TrackedLinks.SchoolDetails,
+                    Constants.GiasSchoolUrl(Model.Urn),
+                    "Get more information about this school",
+                    "Opens in a new window",
+                    "_blank",
+                    ["noopener", "noreferrer", "external"]);
+            }
         </p>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
