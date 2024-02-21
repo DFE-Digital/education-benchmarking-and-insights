@@ -143,7 +143,11 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
+        var expectedPage = value
+            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
+
+        DocumentAssert.AssertPageUrl(page, expectedPage);
     }
 
     [Theory]

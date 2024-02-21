@@ -11,6 +11,6 @@ public class WhenFunctionReceivesQueryTrustsRequest : TrustsFunctionsTestBase
         var result = Functions.QueryTrustsAsync(CreateRequest()) as OkResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 }

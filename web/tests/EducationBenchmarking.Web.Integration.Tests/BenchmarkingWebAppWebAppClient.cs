@@ -80,6 +80,13 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupBenchmarkWithNotFound()
+    {
+        BenchmarkApi.Reset();
+        BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(ApiResult.NotFound());
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlan? plan = null)
     {
         BenchmarkApi.Reset();

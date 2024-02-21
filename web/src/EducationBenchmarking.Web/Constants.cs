@@ -69,6 +69,7 @@ public static class PageTitleConstants
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
+    public const string SchoolPlanningMixedAgeClasses = "Which years have mixed age classes?";
 }
 
 public static class FeatureFlags

@@ -19,7 +19,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 
     [Fact]
@@ -32,6 +32,6 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }

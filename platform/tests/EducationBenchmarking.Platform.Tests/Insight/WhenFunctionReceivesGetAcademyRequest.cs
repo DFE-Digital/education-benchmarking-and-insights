@@ -18,7 +18,7 @@ public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
         var result = await Functions.SingleAcademyAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
-        Assert.Equal(200, result?.StatusCode);
+        Assert.Equal(200, result.StatusCode);
     }
 
     [Fact]
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
         var result = await Functions.SingleAcademyAsync(CreateRequest(), "1") as NotFoundResult;
 
         Assert.NotNull(result);
-        Assert.Equal(404, result?.StatusCode);
+        Assert.Equal(404, result.StatusCode);
     }
 
     [Fact]
@@ -45,6 +45,6 @@ public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
         var result = await Functions.SingleAcademyAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
-        Assert.Equal(500, result?.StatusCode);
+        Assert.Equal(500, result.StatusCode);
     }
 }
