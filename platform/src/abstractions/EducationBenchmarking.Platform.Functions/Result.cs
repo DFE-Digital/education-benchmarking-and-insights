@@ -1,4 +1,6 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 
 namespace EducationBenchmarking.Platform.Functions;
 
@@ -9,6 +11,7 @@ public enum ResultStatusCode
     Conflict
 }
 
+[ExcludeFromCodeCoverage]
 public abstract class Result(ResultStatusCode status)
 {
     public ResultStatusCode Status => status;
@@ -16,6 +19,7 @@ public abstract class Result(ResultStatusCode status)
     public abstract IActionResult CreateResponse();
 }
 
+[ExcludeFromCodeCoverage]
 public class CreatedResult<T>(T content, string location) : Result(ResultStatusCode.Created)
 {
     public object? Content { get; } = content;
@@ -27,6 +31,7 @@ public class CreatedResult<T>(T content, string location) : Result(ResultStatusC
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class UpdatedResult() : Result(ResultStatusCode.Updated)
 {
     public override NoContentResult CreateResponse()
@@ -35,6 +40,7 @@ public class UpdatedResult() : Result(ResultStatusCode.Updated)
     }
 }
 
+[ExcludeFromCodeCoverage]
 public class DataConflictResult() : Result(ResultStatusCode.Conflict)
 {
     public enum Reason

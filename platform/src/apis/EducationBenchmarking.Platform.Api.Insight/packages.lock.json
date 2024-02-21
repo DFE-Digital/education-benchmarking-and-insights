@@ -1753,7 +1753,6 @@
           "AzureExtensions.Swashbuckle": "[3.3.2, )",
           "EducationBenchmarking.Platform.Domain": "[1.0.0, )",
           "FluentValidation": "[11.9.0, )",
-          "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[6.0.0, )",
@@ -1796,15 +1795,6 @@
         "requested": "[11.9.0, )",
         "resolved": "11.9.0",
         "contentHash": "VneVlTvwYDkfHV5av3QrQ0amALgrLX6LV94wlYyEsh0B/klJBW7C8y2eAtj5tOZ3jH6CAVpr4s1ZGgew/QWyig=="
-      },
-      "JsonSubTypes": {
-        "type": "CentralTransitive",
-        "requested": "[2.0.1, )",
-        "resolved": "2.0.1",
-        "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
-        "dependencies": {
-          "Newtonsoft.Json": "13.0.1"
-        }
       },
       "Microsoft.Azure.Cosmos": {
         "type": "CentralTransitive",

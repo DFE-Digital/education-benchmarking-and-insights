@@ -1,5 +1,4 @@
 using System.Net;
-using EducationBenchmarking.Platform.Domain;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions.Extensions;
 using Microsoft.AspNetCore.Mvc;
