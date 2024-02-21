@@ -105,9 +105,14 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
 
     [Theory]
     [InlineData(true, true, true, true, true, true)]
-    [InlineData(false, false, false, false, false, false)]
     [InlineData(false, true, false, true, false, true)]
     [InlineData(true, false, true, false, true, false)]
+    [InlineData(true, false, false, false, false, false)]
+    [InlineData(false, true, false, false, false, false)]
+    [InlineData(false, false, true, false, false, false)]
+    [InlineData(false, false, false, true, false, false)]
+    [InlineData(false, false, false, false, true, false)]
+    [InlineData(false, false, false, false, true, true)]
     public async Task CanSubmit(bool mixedAgeReceptionYear1, bool mixedAgeYear1Year2, bool mixedAgeYear2Year3,
         bool mixedAgeYear3Year4, bool mixedAgeYear4Year5, bool mixedAgeYear5Year6)
     {
@@ -160,6 +165,24 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
         };
 
         DocumentAssert.Checkboxes(checkboxes, options);
+    }
+
+    [Fact]
+    public async Task ShowsErrorOnInValidSubmit()
+    {
+
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.FormErrors(page, ("mixing-classes", "Select which years have mixed age classes"));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType,

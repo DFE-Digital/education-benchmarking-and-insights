@@ -654,6 +654,16 @@ public class SchoolPlanningStepsController(
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
+                if (!hasMixedAgeClasses.Value)
+                {
+                    request.MixedAgeReceptionYear1 = false;
+                    request.MixedAgeYear1Year2 = false;
+                    request.MixedAgeYear2Year3 = false;
+                    request.MixedAgeYear3Year4 = false;
+                    request.MixedAgeYear4Year5 = false;
+                    request.MixedAgeYear5Year6 = false;
+                }
+
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
                 return hasMixedAgeClasses.Value
@@ -697,19 +707,28 @@ public class SchoolPlanningStepsController(
 
     [HttpPost]
     [Route("primary-mixed-age-classes")]
-    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year, [FromForm] SchoolPlanMixedAgeClassesViewModel viewModel)
+    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year, [FromForm] SchoolPlanMixedAgeClassesViewModel formModel)
     {
         using (logger.BeginScope(new { urn, year, }))
         {
             try
             {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
-                plan.MixedAgeReceptionYear1 = viewModel.MixedAgeReceptionYear1;
-                plan.MixedAgeYear1Year2 = viewModel.MixedAgeYear1Year2;
-                plan.MixedAgeYear2Year3 = viewModel.MixedAgeYear2Year3;
-                plan.MixedAgeYear3Year4 = viewModel.MixedAgeYear3Year4;
-                plan.MixedAgeYear4Year5 = viewModel.MixedAgeYear4Year5;
-                plan.MixedAgeYear5Year6 = viewModel.MixedAgeYear5Year6;
+                plan.MixedAgeReceptionYear1 = formModel.MixedAgeReceptionYear1;
+                plan.MixedAgeYear1Year2 = formModel.MixedAgeYear1Year2;
+                plan.MixedAgeYear2Year3 = formModel.MixedAgeYear2Year3;
+                plan.MixedAgeYear3Year4 = formModel.MixedAgeYear3Year4;
+                plan.MixedAgeYear4Year5 = formModel.MixedAgeYear4Year5;
+                plan.MixedAgeYear5Year6 = formModel.MixedAgeYear5Year6;
+
+                if (!formModel.HasSelection)
+                {
+                    ModelState.AddModelError("MixedAgeClasses", "Select which years have mixed age classes");
+                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    var viewModel = new SchoolPlanViewModel(school, plan);
+                    return View(viewModel);
+                }
 
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
