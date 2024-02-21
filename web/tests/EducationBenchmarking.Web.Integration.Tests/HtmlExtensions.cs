@@ -79,6 +79,6 @@ public static class HtmlExtensions
     {
         var main = doc.GetElementById("main-content");
         Assert.NotNull(main);
-        return main.Descendents().OfType<T>();
+        return main.Descendants<T>();
     }
 }

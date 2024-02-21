@@ -117,7 +117,7 @@ public static class DocumentAssert
     public static void Checkboxes(IElement parent, params (string, string, bool)[] options)
     {
         var index = 0;
-        foreach (var checkItem in parent.Descendents<IElement>()
+        foreach (var checkItem in parent.Descendants<IElement>()
                      .Where(c => c.ClassList.Contains("govuk-checkboxes__item")))
         {
             var (name, label, isChecked) = options[index];
@@ -156,7 +156,7 @@ public static class DocumentAssert
     public static void Radios(IElement parent, params (string, string, string, bool)[] options)
     {
         var index = 0;
-        foreach (var radioItem in parent.Descendents<IElement>()
+        foreach (var radioItem in parent.Descendants<IElement>()
                      .Where(c => c.ClassList.Contains("govuk-radios__item")))
         {
             var (name, value, label, isChecked) = options[index];
