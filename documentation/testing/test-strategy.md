@@ -146,7 +146,6 @@ These tests are the responsibility of the developers and test engineer(s) to wri
 ##### Technology Selected
 
 - [Xunit](https://github.com/xunit)
-- [Specflow](https://specflow.org/)
 
 
 #### Accessibility Testing
@@ -237,5 +236,5 @@ The unit and integration testing is performed by the developers to test their co
 
 ## Test data overview
 
-Dummy test data will be created and loaded in test environmnet. if there is a need for a test to seed more data then unique data will be used which will later be deleted at the end of the test. 
+Dummy test data will be created and loaded in test environment. if there is a need for a test to seed more data then unique data will be used which will later be deleted at the end of the test. 
 
