@@ -37,15 +37,16 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "EducationSupportStaffCosts", 168794.ToString()}
+                { "EducationSupportStaffCosts", 168794.ToString() }
             });
         });
-        
+
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
+
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear).ToAbsolute());
     }
-    
+
     [Fact]
     public async Task CanNavigateBack()
     {
@@ -54,7 +55,8 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -66,7 +68,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         var page = await Client.SetupEstablishmentWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalEducationSupport(urn, year));
 
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalEducationSupport(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
@@ -88,9 +90,10 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
+            Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute(),
+            HttpStatusCode.NotFound);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithService()
     {
@@ -103,7 +106,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
@@ -123,8 +126,41 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
             Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
-    
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, decimal? educationSupportStaffCosts = null)
+
+    [Theory]
+    [InlineData("168794.0")]
+    [InlineData(null)]
+    public async Task CanDisplayWithPreviousValue(string? educationSupportStaffCosts)
+    {
+        decimal? value = decimal.TryParse(educationSupportStaffCosts, out var parsed) ? parsed : null;
+
+        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, value);
+
+        var input = page.GetElementById("total-education-support");
+        Assert.NotNull(input);
+
+        Assert.Equal(educationSupportStaffCosts, input.GetAttribute("value"));
+    }
+
+    [Fact]
+    public async Task ShowsErrorOnInValidSubmit()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.FormErrors(page,
+            ("total-education-support", "Enter your total education support staff costs"));
+    }
+
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, decimal? educationSupportStaffCosts = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.FinanceType, financeType)
@@ -136,8 +172,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         var plan = Fixture.Build<FinancialPlan>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
-            .With(x => x.UseFigures, useFigures)
-            .With(x => x.EducationSupportStaffCosts,educationSupportStaffCosts )
+            .With(x => x.EducationSupportStaffCosts, educationSupportStaffCosts)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
@@ -149,55 +184,13 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
 
         return (page, school);
     }
-    
-    [Fact]
-         public async Task ShowsErrorOnInValidSubmit()
-         {
-             
-             var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-             AssertPageLayout(page, school);
-             var action = page.QuerySelector(".govuk-button");
-             Assert.NotNull(action);
-             
-             
-             page = await Client.SubmitForm(page.Forms[0], action, f =>
-             {
-                 f.SetFormValues(new Dictionary<string, string>
-                 {
-                     { "EducationSupportStaffCosts", null}
-                 });
-             });
-             
-             Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-             
-             DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute());
-             DocumentAssert.FormErrors(page,
-                 ("total-education-support", "Enter your total education support staff costs"));
-         }
-    
+
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "What is your total spend on education support staff? - Education benchmarking and insights - GOV.UK", "What is your total spend on education support staff?");
+        DocumentAssert.BackLink(page, "Back",
+            Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.TitleAndH1(page,
+            "What is your total spend on education support staff? - Education benchmarking and insights - GOV.UK",
+            "What is your total spend on education support staff?");
     }
-
-    [Theory]
-    [InlineData("168794.0")]
-    [InlineData(null)]
-    public async Task CanDisplayWithPreviousValue(string? educationSupportStaffCosts)
-    {
-
-        var (page, _) =
-
-            await SetupNavigateInitPage(EstablishmentTypes.Academies,
-                educationSupportStaffCosts: educationSupportStaffCosts == null ? (decimal?)null : decimal.Parse(educationSupportStaffCosts));
-
-        var input = page.GetElementById("total-education-support");
-        Assert.NotNull(input);
-
-        Assert.Equal(input.GetAttribute("value"), educationSupportStaffCosts);
-    }
-    
-    
-    
 }
