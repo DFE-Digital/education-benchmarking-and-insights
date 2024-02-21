@@ -77,7 +77,8 @@ The testing pyramid below shows the value of implementing different types of aut
 ![testing-pyramid](images\testing-pyramid.jpg)
 
 ## Automated Testing
-We have 2 solutions. One is Platform and other is Web. Both have their own tests. 
+We have 4 solutions. Core infrastructure, Front-end components, Platform & Web. 
+This test strategy document is focusing on platform and Web solutions which have their own separate set of tests. 
 
 ### Web Application Testing
 
@@ -92,7 +93,11 @@ be requested as appropriate.
 
 ##### Technology Selected
 
-[Xunit](https://github.com/xunit)
+- [Xunit](https://github.com/xunit)
+- [AutoFixture](https://github.com/AutoFixture/AutoFixture)
+- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
+- [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
+
 
 #### Integration Testing
 
@@ -105,9 +110,12 @@ These tests are the responsibility of the developers to write and maintain in co
 
 ##### Technology Selected
 
-[Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
+- [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
+- [Xunit](https://github.com/xunit)
+- [ASP.NET Integration Tests](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-8.0)
+- [AngleSharp](https://github.com/AngleSharp/AngleSharp)
+- [AutoFixture](https://github.com/AutoFixture/AutoFixture)
 
-[Xunit](https://github.com/xunit)
 
 #### Feature/E2E Testing
 
@@ -137,8 +145,8 @@ In the pipeline the tests are kicked off in the build stage after code changes i
 ##### Technology Selected
 
 - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
-
 - [Xunit](https://github.com/xunit)
+- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
 
 #### API Functional Tests
  These tests checks the functionality and behaviour of deployed APIs. These tests are kicked off after the build stage using the test environment after code changes are made.
@@ -146,6 +154,7 @@ These tests are the responsibility of the developers and test engineer(s) to wri
 ##### Technology Selected
 
 - [Xunit](https://github.com/xunit)
+- [Specflow](https://specflow.org/)
 
 
 #### Accessibility Testing
@@ -155,11 +164,10 @@ These tests will run every weekend in a separate pipeline using the testing envi
 
 ##### Technology Selected
 
-- [Dotnet SDK](https://dotnet.microsoft.com/download)
-- [.NET 7.0](https://dotnet.microsoft.com/download/dotnet/7.0)
 -  [Deque.axe.playwright 4.8.0](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
-- [SpecFlow 3.9.74](https://www.nuget.org/packages/SpecFlow/3.9.74)
-- [Playwright 1.4.0](https://playwright.dev/)
+- [Playwright](https://playwright.dev/)
+- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
+
 
 #### Performance Testing
 Performance testing is used to evaluate how the service is able to cope in terms of its stability, responsiveness and usability when put under different simulated workloads.
@@ -168,7 +176,7 @@ This ensures that the service copes with large amount of users accessing the ser
 
 ##### Technology Selected
 
-** *add technology here* **
+[will be added later on after implementation]
 
 #### Security Scans
 [need to check how we are going to implement - STA uses OWASP ZAP security scans] 
@@ -181,7 +189,7 @@ This testing will be carried out when:
 
 ##### Technology Selected
 
-** *add technology here* **
+[will be added later on after implementation]
 
 ### Manual Testing
 
@@ -205,9 +213,20 @@ for checking the compatability of the site with all required browsers and operat
 
 ### Supported Browsers
 
-** *Insert supported browsers* **
+| Operating System | Browser                      | Versions                     |
+|------------------|------------------------------|------------------------------|
+| Windows          | Edge                         | Latest                       |
+|                  | Google Chrome                | Latest                       |
+|                  | Mozilla Firefox              | Latest                       |
+| macOS            | Safari                       | 12 and later                 |
+|                  | Google Chrome                | Latest                       |
+|                  | Mozilla Firefox              | Latest                       |
+| iOS              | Safari for iOS               | 12.1 and later               |
+|                  | Google Chrome                | Latest                       |
+| Android          | Google Chrome                | Latest                       |
+|                  | Samsung Internet             | Latest                       |
 
-Any issues or discrepencies between browsers will be raised as defects and then assessed for priority and severity.
+Any issues or discrepancies between browsers will be raised as defects and then assessed for priority and severity.
 
 ## Environments
 
@@ -216,7 +235,7 @@ Any issues or discrepencies between browsers will be raised as defects and then 
 | Env Prefix | Env Name       | Azure License | Testing             | 
 |------------|----------------|---------------|---------------------|
 | -          | Local          | -             | Unit                |
-| TBC        | Dev            | Development   | Manual acceptance   |
+| d01        | Dev            | Development   | Manual acceptance   |
 | TBC        | Dev2           | Development   | Feature/e2e         |
 | TBC        | Test           | Test          | Non-functional tests |
 | TBC        | Production/Live | Production    | -                   |
@@ -226,7 +245,7 @@ Any issues or discrepencies between browsers will be raised as defects and then 
 The unit and integration testing is performed by the developers to test their code.
 
 ## Development
-** environments details will be added here ** 
+Currently we have one dev enviroment which is shared among manual and automated tests. This will be split later along the line.
 
 
 ## Path to live
