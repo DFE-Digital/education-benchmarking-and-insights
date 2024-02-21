@@ -14,7 +14,7 @@ public class GivenAnEnum
         var result = actual.GetStringValue();
         Assert.Equal(expected, result);
     }
-    
+
     public enum TestEnum
     {
         [StringValue("A")]
