@@ -14,7 +14,7 @@
     "babel-preset-react": "^6.24.1",
     "dart-sass": "^1.25.0",
     "front-end": "latest",
-    "govuk-frontend": "^5.0.0",
+    "govuk-frontend": "^5.2.0",
     "gulp": "^4.0.2",
     "gulp-autoprefixer": "^9.0.0",
     "gulp-babel": "^8.0.0",
