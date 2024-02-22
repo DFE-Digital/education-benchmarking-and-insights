@@ -32,6 +32,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   keyField: keyof TData;
   margin?: number;
   multiLineAxisLabel?: boolean;
+  onImageLoading?: (loading: boolean) => void;
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;

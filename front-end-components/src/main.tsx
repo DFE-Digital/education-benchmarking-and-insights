@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
 import { CompareYourSchool, CompareYourWorkforce } from "src/views";
@@ -9,7 +9,10 @@ import {
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
 } from "src/constants";
-import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
+import {
+  VerticalBarChart,
+  VerticalBarChartHandler,
+} from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { Stat } from "./components/charts/stat";
 
@@ -55,14 +58,68 @@ if (compareWorkforceElement) {
   }
 }
 
-const verticalChart1SeriesElement = document.getElementById(
+// eslint-disable-next-line react-refresh/only-export-components
+const VerticalChart2Series = ({
+  data,
+}: {
+  data: {
+    group: string;
+    pupilsOnRoll: number;
+    teacherCost: number;
+    id: number;
+  }[];
+}) => {
+  const verticalChart2SeriesRef = useRef<VerticalBarChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  return (
+    <div>
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => verticalChart2SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
+        <VerticalBarChart
+          chartName="Percentage of pupils on roll and teacher cost"
+          data={data}
+          grid
+          keyField="id"
+          legend
+          margin={20}
+          multiLineAxisLabel
+          onImageLoading={setImageLoading}
+          ref={verticalChart2SeriesRef}
+          seriesConfig={{
+            pupilsOnRoll: {
+              label: "Pupils on roll",
+              visible: true,
+            },
+            teacherCost: {
+              label: "Teacher cost",
+              visible: true,
+            },
+          }}
+          seriesLabelField="group"
+          valueUnit="%"
+        />
+      </div>
+    </div>
+  );
+};
+
+const verticalChart2SeriesElement = document.getElementById(
   VerticalBarChart2SeriesElementId
 );
 
-if (verticalChart1SeriesElement) {
-  const { json } = verticalChart1SeriesElement.dataset;
+if (verticalChart2SeriesElement) {
+  const { json } = verticalChart2SeriesElement.dataset;
   if (json) {
-    const root = ReactDOM.createRoot(verticalChart1SeriesElement);
+    const root = ReactDOM.createRoot(verticalChart2SeriesElement);
     const data = JSON.parse(json) as {
       group: string;
       pupilsOnRoll: number;
@@ -72,42 +129,20 @@ if (verticalChart1SeriesElement) {
 
     root.render(
       <React.StrictMode>
-        <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
-          <VerticalBarChart
-            chartName="Percentage of pupils on roll and teacher cost"
-            data={data}
-            grid
-            keyField="id"
-            legend
-            margin={20}
-            multiLineAxisLabel
-            seriesConfig={{
-              pupilsOnRoll: {
-                label: "Pupils on roll",
-                visible: true,
-              },
-              teacherCost: {
-                label: "Teacher cost",
-                visible: true,
-              },
-            }}
-            seriesLabelField="group"
-            valueUnit="%"
-          />
-        </div>
+        <VerticalChart2Series data={data} />
       </React.StrictMode>
     );
   }
 }
 
-const verticalChart2SeriesElement = document.getElementById(
+const verticalChart3SeriesElement = document.getElementById(
   VerticalBarChart3SeriesElementId
 );
 
-if (verticalChart2SeriesElement) {
-  const { json } = verticalChart2SeriesElement.dataset;
+if (verticalChart3SeriesElement) {
+  const { json } = verticalChart3SeriesElement.dataset;
   if (json) {
-    const root = ReactDOM.createRoot(verticalChart2SeriesElement);
+    const root = ReactDOM.createRoot(verticalChart3SeriesElement);
     const data = JSON.parse(json) as {
       group: string;
       pupilsOnRoll: number;
