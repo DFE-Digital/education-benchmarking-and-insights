@@ -3,6 +3,8 @@ import {
   ReactElement,
   Ref,
   forwardRef,
+  useCallback,
+  useEffect,
   useImperativeHandle,
   useMemo,
   useState,
@@ -26,6 +28,8 @@ import {
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
 import { ChartDataSeries, TickProps } from "src/components";
+import { useCurrentPng } from "recharts-to-png";
+import { saveAs } from "file-saver";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
   props: VerticalBarChartProps<TData>,
@@ -40,6 +44,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     legend,
     margin: _margin,
     multiLineAxisLabel,
+    onImageLoading,
     seriesConfig,
     seriesLabel,
     seriesLabelField,
@@ -49,7 +54,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
 
   useImperativeHandle(ref, () => ({
     download() {
-      alert("todo");
+      handleDownload();
     },
   }));
 
@@ -69,6 +74,22 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   };
 
   const margin = _margin || 5;
+
+  const [getPng, { ref: rechartsRef, isLoading }] = useCurrentPng({
+    backgroundColor: "#fff",
+  });
+
+  useEffect(() => {
+    onImageLoading && onImageLoading(isLoading);
+  }, [isLoading, onImageLoading]);
+
+  const handleDownload = useCallback(async () => {
+    const png = await getPng();
+
+    if (png) {
+      saveAs(png, `${chartName}.png`);
+    }
+  }, [getPng, chartName]);
 
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
@@ -119,6 +140,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             left: margin,
           }}
           onMouseMove={handleBarChartMouseMove}
+          ref={rechartsRef}
         >
           {grid && (
             <CartesianGrid
