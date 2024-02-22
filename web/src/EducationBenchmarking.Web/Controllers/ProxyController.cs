@@ -19,7 +19,7 @@ public class ProxyController(
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/expenditure")]
-    public async Task<IActionResult> EstablishmentExpenditure([FromQuery]string type, [FromQuery]string id)
+    public async Task<IActionResult> EstablishmentExpenditure([FromQuery] string type, [FromQuery] string id)
     {
         using (logger.BeginScope(new { type, id }))
         {
@@ -46,7 +46,7 @@ public class ProxyController(
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/workforce")]
-    public async Task<IActionResult> EstablishmentWorkforce([FromQuery]string type, [FromQuery]string id)
+    public async Task<IActionResult> EstablishmentWorkforce([FromQuery] string type, [FromQuery] string id)
     {
         using (logger.BeginScope(new { type, id }))
         {

@@ -61,7 +61,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             }
         }
     }
-    
+
     [HttpGet]
     [Route("v2")]
     public IActionResult V2()
