@@ -10,7 +10,7 @@ public class WhenRequestingSchoolWorkforce(BenchmarkingWebAppClient client) : IC
     {
         const string urn = "12345";
         var response = await client.SetupBenchmarkWithException()
-            .Get(Paths.ApiEstablishmentWorkforce("school",urn));
+            .Get(Paths.ApiEstablishmentWorkforce("school", urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }
