@@ -1,4 +1,4 @@
-﻿Feature: HomePage
+﻿Feature: School HomePage
 	School homepage feature
 
 Scenario: Go to contact details page
