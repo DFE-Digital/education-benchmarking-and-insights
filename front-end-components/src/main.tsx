@@ -1,10 +1,10 @@
 import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
-import { CompareYourSchool, CompareYourWorkforce } from "src/views";
+import { CompareYourCosts, CompareYourWorkforce } from "src/views";
 import {
   CompareWorkforceElementId,
-  CompareYourSchoolElementId,
+  CompareCostsElementId,
   LineChart1SeriesElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
@@ -14,19 +14,18 @@ import { LineChart } from "./components/charts/line-chart";
 import { Stat } from "./components/charts/stat";
 import { ChartHandler } from "./components";
 
-const compareYourSchoolElement = document.getElementById(
-  CompareYourSchoolElementId
-);
+const compareCostsElement = document.getElementById(CompareCostsElementId);
 
-if (compareYourSchoolElement) {
-  const { urn, academyYear, maintainedYear } = compareYourSchoolElement.dataset;
-  if (urn && academyYear && maintainedYear) {
-    const root = ReactDOM.createRoot(compareYourSchoolElement);
+if (compareCostsElement) {
+  const { type, id, academyYear, maintainedYear } = compareCostsElement.dataset;
+  if (type && id && academyYear && maintainedYear) {
+    const root = ReactDOM.createRoot(compareCostsElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourSchool
-          urn={urn}
+        <CompareYourCosts
+          type={type}
+          id={id}
           maintainedYear={maintainedYear}
           academyYear={academyYear}
         />
@@ -40,14 +39,16 @@ const compareWorkforceElement = document.getElementById(
 );
 
 if (compareWorkforceElement) {
-  const { urn, academyYear, maintainedYear } = compareWorkforceElement.dataset;
-  if (urn && academyYear && maintainedYear) {
+  const { type, id, academyYear, maintainedYear } =
+    compareWorkforceElement.dataset;
+  if (type && id && academyYear && maintainedYear) {
     const root = ReactDOM.createRoot(compareWorkforceElement);
 
     root.render(
       <React.StrictMode>
         <CompareYourWorkforce
-          urn={urn}
+          type={type}
+          id={id}
           maintainedYear={maintainedYear}
           academyYear={academyYear}
         />

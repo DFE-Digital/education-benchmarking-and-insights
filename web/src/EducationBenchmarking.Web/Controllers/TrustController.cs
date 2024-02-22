@@ -19,7 +19,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
 

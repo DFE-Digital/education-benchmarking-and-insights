@@ -20,7 +20,7 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
@@ -42,7 +42,7 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 ComparatorSetAction setAction = action;

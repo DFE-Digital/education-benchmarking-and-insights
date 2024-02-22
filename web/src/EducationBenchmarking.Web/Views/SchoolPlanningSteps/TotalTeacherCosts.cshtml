@@ -1,7 +1,7 @@
 @using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
-    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningTotalTeacherCosts;
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTotalTeacherCosts;
 }
 
 <div class="govuk-grid-row">
@@ -12,7 +12,7 @@
                 <span class="govuk-caption-l">@Model.Name</span>
                 <h1 class="govuk-label-wrapper">
                     <label class="govuk-label govuk-label--l" for="total-teacher">
-                        @ViewData[ViewDataConstants.Title]
+                        @ViewData[ViewDataKeys.Title]
                     </label>
                 </h1>
                 @if (ViewData.ModelState.HasError(nameof(Model.TotalTeacherCosts)))

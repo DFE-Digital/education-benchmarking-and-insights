@@ -8,7 +8,11 @@ import React, {
 //@ts-expect-error
 import { initAll } from "govuk-frontend";
 import { CompareYourWorkforceViewProps } from "src/views";
-import { SchoolApi, SchoolApiResult, Workforce } from "src/services";
+import {
+  EstablishmentsApi,
+  EstablishmentApiResult,
+  Workforce,
+} from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
   SelectedSchool,
@@ -25,13 +29,14 @@ import {
   TotalTeachers,
   TotalTeachersQualified,
 } from "src/views/compare-your-workforce/partials";
+import { SchoolEstablishment } from "src/constants.tsx";
 
 export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   props
 ) => {
-  const { urn, academyYear, maintainedYear } = props;
+  const { type, id, academyYear, maintainedYear } = props;
   const [workforceData, setWorkforceData] =
-    useState<SchoolApiResult<Workforce>>();
+    useState<EstablishmentApiResult<Workforce>>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({
     urn: "",
@@ -43,15 +48,17 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   }, []);
 
   const getWorkforceData = useCallback(async () => {
-    return await SchoolApi.getWorkforceBenchmarkData(urn);
-  }, [urn]);
+    return await EstablishmentsApi.getWorkforceBenchmarkData(type, id);
+  }, [type, id]);
 
   useEffect(
     () => {
       getWorkforceData().then((data) => {
         setWorkforceData(data);
 
-        const currentSchool = data.results.find((school) => school.urn == urn);
+        const currentSchool = data.results.find(
+          (school) => type == SchoolEstablishment && school.urn == id
+        );
         if (currentSchool) {
           setSelectedSchool({
             urn: currentSchool.urn,

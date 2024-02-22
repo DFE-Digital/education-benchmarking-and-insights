@@ -10,7 +10,7 @@ public class SchoolInvestigationAreaController : Controller
     [HttpGet]
     public IActionResult Index(string urn)
     {
-        ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.DataDashboard(urn);
+        ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.DataDashboard(urn);
 
         return View(new SchoolInvestigationViewModel { Urn = urn });
     }

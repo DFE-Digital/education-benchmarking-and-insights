@@ -2,13 +2,13 @@
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanTimetableViewModel
 
 @{
-    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningTimetableCycle;
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTimetableCycle;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataConstants.Title]</h1>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
                 The length of your timetable cycle is the number of periods before it repeats itself.

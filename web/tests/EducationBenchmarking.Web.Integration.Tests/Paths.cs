@@ -45,8 +45,8 @@ public static class Paths
     public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-mixed-age-classes?year={year}";
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
-    public static string ApiSchoolSchoolExpenditure(string? urn) => $"api/school/{urn}/expenditure";
-    public static string ApiSchoolSchoolWorkforce(string? urn) => $"api/school/{urn}/workforce";
+    public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
+    public static string ApiEstablishmentWorkforce(string? type, string? id) => $"api/establishments/workforce?type={type}&id={id}";
 
     public static string ToAbsolute(this string path)
     {

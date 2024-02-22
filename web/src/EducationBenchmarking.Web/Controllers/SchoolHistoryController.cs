@@ -10,7 +10,7 @@ public class SchoolHistoryController : Controller
     [HttpGet]
     public IActionResult Index(string urn)
     {
-        ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.HistoricData(urn);
+        ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.HistoricData(urn);
 
         return View();
     }

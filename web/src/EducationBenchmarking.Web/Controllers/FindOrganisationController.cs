@@ -23,7 +23,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             {
                 switch (viewModel.FindMethod.ToLower())
                 {
-                    case Constants.SchoolOrganisationType:
+                    case OrganisationTypes.School:
                         {
                             if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                             {
@@ -36,7 +36,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
 
                             return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
                         }
-                    case Constants.TrustOrganisationType:
+                    case OrganisationTypes.Trust:
                         {
                             if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) ||
                                 string.IsNullOrEmpty(viewModel.TrustInput))
@@ -61,7 +61,6 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             }
         }
     }
-
 
     [HttpGet]
     [Route("v2")]

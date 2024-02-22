@@ -16,7 +16,7 @@ public class NavigationTagHelper(
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
-        if (ViewContext.ViewData[ViewDataConstants.Backlink] is BacklinkInfo backlinkInfo)
+        if (ViewContext.ViewData[ViewDataKeys.Backlink] is BacklinkInfo backlinkInfo)
         {
             output.TagName = "a";
             output.Attributes.SetAttribute("href", backlinkInfo.Action);
