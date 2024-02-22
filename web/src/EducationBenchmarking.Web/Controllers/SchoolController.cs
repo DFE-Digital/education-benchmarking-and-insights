@@ -21,7 +21,7 @@ public class SchoolController(
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolViewModel(school);

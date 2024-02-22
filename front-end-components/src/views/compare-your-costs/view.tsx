@@ -11,8 +11,12 @@ import {
   TotalExpenditure,
   ExpenditureAccordion,
 } from "src/views/compare-your-costs/partials";
-import { CompareYourSchoolViewProps } from "src/views/compare-your-costs";
-import { SchoolApi, SchoolApiResult, Expenditure } from "src/services";
+import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
+import {
+  EstablishmentsApi,
+  EstablishmentApiResult,
+  Expenditure,
+} from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
   School,
@@ -20,13 +24,14 @@ import {
   SelectedSchoolContext,
   ChartModeContext,
 } from "src/contexts";
+import { SchoolEstablishment } from "src/constants.tsx";
 
-export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (
+export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
 ) => {
-  const { urn, academyYear, maintainedYear } = props;
+  const { type, id, academyYear, maintainedYear } = props;
   const [expenditureData, setExpenditureData] =
-    useState<SchoolApiResult<Expenditure>>();
+    useState<EstablishmentApiResult<Expenditure>>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(
     School.empty
@@ -37,15 +42,17 @@ export const CompareYourSchool: React.FC<CompareYourSchoolViewProps> = (
   }, []);
 
   const getExpenditure = useCallback(async () => {
-    return await SchoolApi.getSchoolExpenditure(urn);
-  }, [urn]);
+    return await EstablishmentsApi.getExpenditure(type, id);
+  }, [type, id]);
 
   useEffect(
     () => {
       getExpenditure().then((data) => {
         setExpenditureData(data);
 
-        const currentSchool = data.results.find((school) => school.urn == urn);
+        const currentSchool = data.results.find(
+          (school) => type == SchoolEstablishment && school.urn == id
+        );
         if (currentSchool) {
           setSelectedSchool({
             urn: currentSchool.urn,

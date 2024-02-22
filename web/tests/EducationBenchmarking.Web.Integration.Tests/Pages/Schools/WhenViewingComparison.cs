@@ -160,7 +160,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
         var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
         DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparatorSet(school.Urn, Referrer));
 
-        var comparisonComponent = page.GetElementById("compare-your-school");
+        var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
         var toolsListSection = page.Body.SelectSingleNode("//main/div/div[4]");

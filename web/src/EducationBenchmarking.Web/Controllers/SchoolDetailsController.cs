@@ -18,7 +18,7 @@ public class SchoolDetailsController(ILogger<SchoolDetailsController> logger, IE
     {
         try
         {
-            ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
+            ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             return View(new SchoolDetailsViewModel(school));

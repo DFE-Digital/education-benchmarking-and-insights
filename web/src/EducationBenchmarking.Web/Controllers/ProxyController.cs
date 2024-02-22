@@ -18,20 +18,26 @@ public class ProxyController(
 {
     [HttpGet]
     [Produces("application/json")]
-    [Route("school/{urn}/expenditure")]
-    public async Task<IActionResult> SchoolExpenditure(string urn)
+    [Route("establishments/expenditure")]
+    public async Task<IActionResult> EstablishmentExpenditure([FromQuery]string type, [FromQuery]string id)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new { type, id }))
         {
             try
             {
-                var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
-                var result = await financeService.GetExpenditure(set.Results);
-                return new JsonResult(result);
+                switch (type.ToLower())
+                {
+                    case OrganisationTypes.School:
+                        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+                        var result = await financeService.GetExpenditure(set.Results);
+                        return new JsonResult(result);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school expenditure: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error getting expenditure data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -39,20 +45,26 @@ public class ProxyController(
 
     [HttpGet]
     [Produces("application/json")]
-    [Route("school/{urn}/workforce")]
-    public async Task<IActionResult> SchoolWorkforce(string urn)
+    [Route("establishments/workforce")]
+    public async Task<IActionResult> EstablishmentWorkforce([FromQuery]string type, [FromQuery]string id)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new { type, id }))
         {
             try
             {
-                var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
-                var result = await financeService.GetWorkforce(set.Results);
-                return new JsonResult(result);
+                switch (type.ToLower())
+                {
+                    case OrganisationTypes.School:
+                        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+                        var result = await financeService.GetWorkforce(set.Results);
+                        return new JsonResult(result);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting school workforce: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error getting workforce data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }
@@ -69,8 +81,8 @@ public class ProxyController(
             {
                 return type.ToLower() switch
                 {
-                    Constants.SchoolOrganisationType => await SchoolSuggestions(search),
-                    Constants.TrustOrganisationType => await TrustSuggestions(search),
+                    OrganisationTypes.School => await SchoolSuggestions(search),
+                    OrganisationTypes.Trust => await TrustSuggestions(search),
                     _ => await OrganisationSuggestions(search)
                 };
             }

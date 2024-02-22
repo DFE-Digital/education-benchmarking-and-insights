@@ -161,7 +161,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set",
             Paths.SchoolComparatorSet(school.Urn, Referrer));
 
-        var workforceComponent = page.GetElementById("compare-workforce");
+        var workforceComponent = page.GetElementById("compare-your-workforce");
         Assert.NotNull(workforceComponent);
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");

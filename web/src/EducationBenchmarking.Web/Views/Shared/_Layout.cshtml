@@ -7,9 +7,9 @@
 <head>
     <meta charset="utf-8"/>
     <title>
-        @if (ViewData.ContainsKey(ViewDataConstants.Title))
+        @if (ViewData.ContainsKey(ViewDataKeys.Title))
         {
-            <text>@ViewData[ViewDataConstants.Title] - @Constants.ServiceName - GOV.UK</text>
+            <text>@ViewData[ViewDataKeys.Title] - @Constants.ServiceName - GOV.UK</text>
         }
         else
         {

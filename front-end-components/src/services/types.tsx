@@ -1,4 +1,4 @@
-export type SchoolApiResult<T> = {
+export type EstablishmentApiResult<T> = {
   totalResults: bigint;
   page: bigint;
   pageSize: bigint;

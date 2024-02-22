@@ -1,7 +1,7 @@
 @using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
-    ViewData[ViewDataConstants.Title] = PageTitleConstants.SchoolPlanningMixedAgeClasses;
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningMixedAgeClasses;
 }
 
 <div class="govuk-grid-row">
@@ -13,7 +13,7 @@
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
                         <span class="govuk-caption-l">@Model.Name</span>
                         <h1 class="govuk-fieldset__heading">
-                            @ViewData[ViewDataConstants.Title]
+                            @ViewData[ViewDataKeys.Title]
                         </h1>
                     </legend>
                     <div id="mixing-classes-hint" class="govuk-hint">

@@ -23,7 +23,7 @@ public class SchoolComparisonController(
         {
             try
             {
-                ViewData[ViewDataConstants.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var years = await financeService.GetYears();

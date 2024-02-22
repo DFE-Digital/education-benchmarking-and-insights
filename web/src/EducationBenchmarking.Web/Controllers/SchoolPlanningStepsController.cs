@@ -28,7 +28,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
+                ViewData[ViewDataKeys.Backlink] =
                     new BacklinkInfo(Url.Action("Index", "SchoolPlanning", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -52,7 +52,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolPlanSelectYearViewModel(school);
@@ -88,7 +88,7 @@ public class SchoolPlanningStepsController(
                     return RedirectToAction("PrePopulateData", new { urn, year });
                 }
 
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
                 ModelState.AddModelError("year", "Select the academic year you want to plan");
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -110,7 +110,7 @@ public class SchoolPlanningStepsController(
     [Route("help")]
     public IActionResult Help(string urn)
     {
-        ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
+        ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Start", new { urn }));
         return View();
     }
 
@@ -122,7 +122,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
@@ -158,7 +158,7 @@ public class SchoolPlanningStepsController(
                 if (!plan.UseFigures.HasValue)
                 {
                     ModelState.AddModelError("useFigures", "Select yes if you want to use these figures");
-                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("SelectYear", new { urn }));
 
                     var viewModel = new SchoolPlanFinancesViewModel(school, finances, plan);
                     return View(viewModel);
@@ -210,7 +210,7 @@ public class SchoolPlanningStepsController(
                     ? Url.Action("PrePopulateData", new { urn, year })
                     : Url.Action("TotalNumberTeachers", new { urn, year });
 
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
 
                 var viewModel = new SchoolPlanTimetableViewModel(school, plan);
 
@@ -254,7 +254,7 @@ public class SchoolPlanningStepsController(
                             ? "Number of periods in one timetable cycle must be 1 or more"
                             : "Number of periods in one timetable cycle must be a whole number";
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TimetablePeriods), message);
-                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(backAction);
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
 
                     var viewModel = new SchoolPlanTimetableViewModel(school, plan, timetablePeriods);
                     return View(viewModel);
@@ -284,7 +284,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
+                ViewData[ViewDataKeys.Backlink] =
                     new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -322,7 +322,7 @@ public class SchoolPlanningStepsController(
                         : "Total income must be 0 or more";
 
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalIncome), msg);
-                    ViewData[ViewDataConstants.Backlink] =
+                    ViewData[ViewDataKeys.Backlink] =
                         new BacklinkInfo(Url.Action("PrePopulateData", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
@@ -352,7 +352,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
@@ -387,7 +387,7 @@ public class SchoolPlanningStepsController(
                         : "Total expenditure must be 0 or more";
 
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalExpenditure), msg);
-                    ViewData[ViewDataConstants.Backlink] =
+                    ViewData[ViewDataKeys.Backlink] =
                         new BacklinkInfo(Url.Action("TotalIncome", new { urn, year }));
 
                     var viewModel = new SchoolPlanViewModel(school, plan);
@@ -416,7 +416,7 @@ public class SchoolPlanningStepsController(
         {
             try
             {
-                ViewData[ViewDataConstants.Backlink] =
+                ViewData[ViewDataKeys.Backlink] =
                     new BacklinkInfo(Url.Action("TotalExpenditure", new { urn, year }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -453,7 +453,7 @@ public class SchoolPlanningStepsController(
                         : "Total teacher costs must be 0 or more";
 
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalTeacherCosts), msg);
-                    ViewData[ViewDataConstants.Backlink] =
+                    ViewData[ViewDataKeys.Backlink] =
                         new BacklinkInfo(Url.Action("TotalExpenditure", new { urn, year }));
 
                     var viewModel = new SchoolPlanViewModel(school, plan);
@@ -487,7 +487,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                ViewData[ViewDataConstants.Backlink] = school.IsPrimary
+                ViewData[ViewDataKeys.Backlink] = school.IsPrimary
                     ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
                     : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
 
@@ -522,7 +522,7 @@ public class SchoolPlanningStepsController(
                         : "Number of full-time equivalent teachers must be 1 or more";
 
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.TotalNumberOfTeachersFte), msg);
-                    ViewData[ViewDataConstants.Backlink] = school.IsPrimary
+                    ViewData[ViewDataKeys.Backlink] = school.IsPrimary
                         ? new BacklinkInfo(Url.Action("TotalEducationSupport", new { urn, year }))
                         : new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
 
@@ -555,7 +555,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
@@ -586,7 +586,7 @@ public class SchoolPlanningStepsController(
                         ? "Enter your total education support staff costs"
                         : "Total education support staff costs must be 0 or more";
 
-                    ViewData[ViewDataConstants.Backlink] =
+                    ViewData[ViewDataKeys.Backlink] =
                         new BacklinkInfo(Url.Action("TotalTeacherCosts", new { urn, year }));
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.EducationSupportStaffCosts), msg);
 
@@ -619,7 +619,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
@@ -648,7 +648,7 @@ public class SchoolPlanningStepsController(
                 if (hasMixedAgeClasses is null)
                 {
                     ModelState.AddModelError(nameof(SchoolPlanViewModel.HasMixedAgeClasses), "Select yes if you have mixed age classes");
-                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
@@ -691,7 +691,7 @@ public class SchoolPlanningStepsController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
@@ -725,7 +725,7 @@ public class SchoolPlanningStepsController(
                 if (!formModel.HasSelection)
                 {
                     ModelState.AddModelError("MixedAgeClasses", "Select which years have mixed age classes");
-                    ViewData[ViewDataConstants.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
