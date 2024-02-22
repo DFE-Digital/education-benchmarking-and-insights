@@ -34,7 +34,7 @@
 .recharts-wrapper .recharts-cartesian-axis,
 .recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-line,
 .recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-tick-line {
-  stroke: var(--label-colour);
+  stroke: var(--grid-colour);
 }
 
 .recharts-wrapper .recharts-cartesian-axis .recharts-text {

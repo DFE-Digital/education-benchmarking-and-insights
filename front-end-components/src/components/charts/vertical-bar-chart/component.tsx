@@ -144,6 +144,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
 
                 return coords;
               }}
+              vertical={visibleSeriesNames.length > 1}
             />
           )}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (

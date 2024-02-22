@@ -118,7 +118,7 @@ function LineChartInner<TData extends ChartDataSeries>(
           }}
           ref={rechartsRef}
         >
-          {grid && <CartesianGrid />}
+          {grid && <CartesianGrid vertical={false} />}
           <XAxis
             type="category"
             dataKey={seriesLabelField as string}
@@ -132,6 +132,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             unit={valueUnit && valueUnit.length <= 1 ? valueUnit : undefined}
             domain={["auto", "auto"]}
             tickFormatter={(value) => valueFormatter(value, valueUnit)}
+            axisLine={!grid}
           >
             {valueLabel && (
               <Label

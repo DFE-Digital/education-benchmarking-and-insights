@@ -216,6 +216,7 @@ const LineChart1Series = ({
           <LineChart
             chartName="In-year balance"
             data={data}
+            grid
             keyField="term"
             margin={20}
             onImageLoading={setImageLoading}
