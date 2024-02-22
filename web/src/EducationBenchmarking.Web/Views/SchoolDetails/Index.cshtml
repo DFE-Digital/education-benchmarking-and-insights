@@ -26,15 +26,14 @@
             </h2>
         }
         <p class="govuk-body">
-            @{
-                await Html.TrackedAnchorAsync(
+            @Html.TrackedAnchor(
                     TrackedLinks.SchoolDetails,
                     Constants.GiasSchoolUrl(Model.Urn),
                     "Get more information about this school",
                     "Opens in a new window",
                     "_blank",
-                    ["noopener", "noreferrer", "external"]);
-            }
+                    ["noopener", "noreferrer", "external"])
+            
         </p>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
