@@ -9,12 +9,10 @@ import {
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
 } from "src/constants";
-import {
-  VerticalBarChart,
-  VerticalBarChartHandler,
-} from "./components/charts/vertical-bar-chart";
+import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { Stat } from "./components/charts/stat";
+import { ChartHandler } from "./components";
 
 const compareYourSchoolElement = document.getElementById(
   CompareYourSchoolElementId
@@ -69,11 +67,11 @@ const VerticalChart2Series = ({
     id: number;
   }[];
 }) => {
-  const verticalChart2SeriesRef = useRef<VerticalBarChartHandler>(null);
+  const verticalChart2SeriesRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
 
   return (
-    <div>
+    <div className="govuk-grid-row">
       <button
         className="govuk-button govuk-button--secondary"
         data-module="govuk-button"
@@ -153,37 +151,102 @@ if (verticalChart3SeriesElement) {
 
     root.render(
       <React.StrictMode>
-        <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
-          <VerticalBarChart
-            chartName="Percentage of pupils on roll and teacher cost"
-            data={data}
-            grid
-            keyField="id"
-            legend
-            margin={20}
-            multiLineAxisLabel
-            seriesConfig={{
-              pupilsOnRoll: {
-                label: "Pupils on roll",
-                visible: true,
-              },
-              teacherCost: {
-                label: "Teacher cost",
-                visible: true,
-              },
-              teachingAssistantCost: {
-                label: "Teaching assistant cost",
-                visible: true,
-              },
-            }}
-            seriesLabelField="group"
-            valueUnit="%"
-          />
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
+            <VerticalBarChart
+              chartName="Percentage of pupils on roll and teacher cost"
+              data={data}
+              grid
+              keyField="id"
+              legend
+              margin={20}
+              multiLineAxisLabel
+              seriesConfig={{
+                pupilsOnRoll: {
+                  label: "Pupils on roll",
+                  visible: true,
+                },
+                teacherCost: {
+                  label: "Teacher cost",
+                  visible: true,
+                },
+                teachingAssistantCost: {
+                  label: "Teaching assistant cost",
+                  visible: true,
+                },
+              }}
+              seriesLabelField="group"
+              valueUnit="%"
+            />
+          </div>
         </div>
       </React.StrictMode>
     );
   }
 }
+
+// eslint-disable-next-line react-refresh/only-export-components
+const LineChart1Series = ({
+  data,
+}: {
+  data: {
+    term: string;
+    inYearBalance: number;
+  }[];
+}) => {
+  const lineChart1SeriesRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => lineChart1SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds">
+        <div
+          className="govuk-grid-column-three-quarters"
+          style={{ height: 400 }}
+        >
+          <LineChart
+            chartName="In-year balance"
+            data={data}
+            keyField="term"
+            margin={20}
+            onImageLoading={setImageLoading}
+            ref={lineChart1SeriesRef}
+            seriesConfig={{
+              inYearBalance: {
+                label: "Pupils on roll",
+                visible: true,
+              },
+            }}
+            seriesLabel="Absolute total"
+            seriesLabelField="term"
+            valueUnit="currency"
+            tooltip
+          />
+        </div>
+        <aside className="govuk-grid-column-one-quarter desktop">
+          <Stat
+            chartName="Most recent in-year balance"
+            className="chart-stat-line-chart"
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="term"
+            valueField="inYearBalance"
+            valueUnit="currency"
+          />
+        </aside>
+      </div>
+    </div>
+  );
+};
 
 const lineChart1SeriesElement = document.getElementById(
   LineChart1SeriesElementId
@@ -200,40 +263,7 @@ if (lineChart1SeriesElement) {
 
     root.render(
       <React.StrictMode>
-        <div className="govuk-grid-column-two-thirds">
-          <div
-            className="govuk-grid-column-three-quarters"
-            style={{ height: 400 }}
-          >
-            <LineChart
-              chartName="In-year balance"
-              data={data}
-              keyField="term"
-              margin={20}
-              seriesConfig={{
-                inYearBalance: {
-                  label: "Pupils on roll",
-                  visible: true,
-                },
-              }}
-              seriesLabel="Absolute total"
-              seriesLabelField="term"
-              valueUnit="currency"
-              tooltip
-            />
-          </div>
-          <aside className="govuk-grid-column-one-quarter desktop">
-            <Stat
-              chartName="Most recent in-year balance"
-              className="chart-stat-line-chart"
-              data={data}
-              displayIndex={data.length - 1}
-              seriesLabelField="term"
-              valueField="inYearBalance"
-              valueUnit="currency"
-            />
-          </aside>
-        </div>
+        <LineChart1Series data={data} />
       </React.StrictMode>
     );
   }

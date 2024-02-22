@@ -3,16 +3,11 @@ import {
   ReactElement,
   Ref,
   forwardRef,
-  useCallback,
-  useEffect,
   useImperativeHandle,
   useMemo,
   useState,
 } from "react";
-import {
-  VerticalBarChartHandler,
-  VerticalBarChartProps,
-} from "src/components/charts/vertical-bar-chart";
+import { VerticalBarChartProps } from "src/components/charts/vertical-bar-chart";
 import {
   Bar,
   BarChart,
@@ -27,13 +22,12 @@ import {
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
-import { ChartDataSeries, TickProps } from "src/components";
-import { useCurrentPng } from "recharts-to-png";
-import { saveAs } from "file-saver";
+import { ChartDataSeries, ChartHandler, TickProps } from "src/components";
+import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
 function VerticalBarChartInner<TData extends ChartDataSeries>(
   props: VerticalBarChartProps<TData>,
-  ref: ForwardedRef<VerticalBarChartHandler>
+  ref: ForwardedRef<ChartHandler>
 ) {
   const {
     chartName,
@@ -52,9 +46,14 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     valueUnit,
   } = props;
 
+  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+    fileName: `${chartName}.png`,
+    onImageLoading,
+  });
+
   useImperativeHandle(ref, () => ({
     download() {
-      handleDownload();
+      downloadPng();
     },
   }));
 
@@ -74,22 +73,6 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   };
 
   const margin = _margin || 5;
-
-  const [getPng, { ref: rechartsRef, isLoading }] = useCurrentPng({
-    backgroundColor: "#fff",
-  });
-
-  useEffect(() => {
-    onImageLoading && onImageLoading(isLoading);
-  }, [isLoading, onImageLoading]);
-
-  const handleDownload = useCallback(async () => {
-    const png = await getPng();
-
-    if (png) {
-      saveAs(png, `${chartName}.png`);
-    }
-  }, [getPng, chartName]);
 
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
@@ -236,5 +219,5 @@ const MultiLineAxisTick = ({
 export const VerticalBarChart = forwardRef(VerticalBarChartInner) as <
   TData extends ChartDataSeries,
 >(
-  p: VerticalBarChartProps<TData> & { ref?: Ref<VerticalBarChartHandler> }
+  p: VerticalBarChartProps<TData> & { ref?: Ref<ChartHandler> }
 ) => ReactElement;

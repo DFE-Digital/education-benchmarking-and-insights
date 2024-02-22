@@ -66,7 +66,6 @@ function valueFormatter(
     return value || "";
   }
 
-  // todo: polyfill old browsers
   return new Intl.NumberFormat("en-GB", {
     notation: compact ? "compact" : undefined,
     compactDisplay: compact ? "short" : undefined,
@@ -74,5 +73,7 @@ function valueFormatter(
     currency: valueUnit === "currency" ? "GBP" : undefined,
     currencyDisplay: currencyAsName ? "name" : "symbol",
     maximumFractionDigits: compact ? undefined : 0,
-  }).format(value);
+  })
+    .format(value)
+    .toLowerCase();
 }

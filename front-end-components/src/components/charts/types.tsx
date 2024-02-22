@@ -1,4 +1,4 @@
-import React, { SVGProps } from "react";
+import React, { Ref, SVGProps } from "react";
 import { CartesianTickItem } from "recharts/types/util/types";
 
 export type HorizontalBarChartWrapperProps = {
@@ -33,6 +33,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageLoading?: (loading: boolean) => void;
+  ref?: Ref<ChartHandler>;
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
@@ -61,4 +62,8 @@ export type TickProps = SVGProps<SVGGElement> & {
   index: number;
   payload: CartesianTickItem;
   visibleTicksCount: number;
+};
+
+export type ChartHandler = {
+  download: () => void;
 };

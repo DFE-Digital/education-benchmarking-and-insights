@@ -1,4 +1,11 @@
-import { useMemo } from "react";
+import {
+  ForwardedRef,
+  ReactElement,
+  Ref,
+  forwardRef,
+  useImperativeHandle,
+  useMemo,
+} from "react";
 import { LineChartProps } from "src/components/charts/line-chart";
 import {
   CartesianGrid,
@@ -13,13 +20,16 @@ import {
 } from "recharts";
 import {
   ChartDataSeries,
+  ChartHandler,
   ChartSeriesValue,
   ChartSeriesValueUnit,
 } from "src/components";
 import classNames from "classnames";
+import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
-export function LineChart<TData extends ChartDataSeries>(
-  props: LineChartProps<TData>
+function LineChartInner<TData extends ChartDataSeries>(
+  props: LineChartProps<TData>,
+  ref: ForwardedRef<ChartHandler>
 ) {
   const {
     chartName,
@@ -29,6 +39,7 @@ export function LineChart<TData extends ChartDataSeries>(
     keyField,
     margin: _margin,
     multiLineAxisLabel,
+    onImageLoading,
     seriesConfig,
     seriesLabel,
     seriesLabelField,
@@ -36,6 +47,17 @@ export function LineChart<TData extends ChartDataSeries>(
     valueLabel,
     valueUnit,
   } = props;
+
+  const { downloadPng, ref: rechartsRef } = useDownloadPngImage({
+    fileName: `${chartName}.png`,
+    onImageLoading,
+  });
+
+  useImperativeHandle(ref, () => ({
+    download() {
+      downloadPng();
+    },
+  }));
 
   const visibleSeriesNames: (keyof TData)[] = useMemo(() => {
     return seriesConfig
@@ -94,6 +116,7 @@ export function LineChart<TData extends ChartDataSeries>(
               margin + (seriesLabel ? 10 : 0) + (multiLineAxisLabel ? 10 : 0),
             left: margin,
           }}
+          ref={rechartsRef}
         >
           {grid && <CartesianGrid />}
           <XAxis
@@ -156,11 +179,19 @@ function valueFormatter(
     return value || "";
   }
 
-  // todo: polyfill old browsers
   return new Intl.NumberFormat("en-GB", {
     notation: "compact",
     compactDisplay: "short",
     style: valueUnit === "currency" ? "currency" : undefined,
     currency: valueUnit === "currency" ? "GBP" : undefined,
-  }).format(value);
+  })
+    .format(value)
+    .toLowerCase();
 }
+
+// https://stackoverflow.com/a/58473012/504477
+export const LineChart = forwardRef(LineChartInner) as <
+  TData extends ChartDataSeries,
+>(
+  p: LineChartProps<TData> & { ref?: Ref<ChartHandler> }
+) => ReactElement;
