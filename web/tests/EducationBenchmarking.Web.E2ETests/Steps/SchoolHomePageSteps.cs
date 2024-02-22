@@ -16,4 +16,18 @@ public class SchoolHomePageSteps(SchoolHomePage schoolHomePage)
     {
         await schoolHomePage.ClickOnCompareYourCosts();
     }
+
+    [Given(@"I am on school homepage for school with urn '(.*)'")]
+    public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
+    {
+        await schoolHomePage.GotToPage(urn);
+        await schoolHomePage.AssertPage();
+    }
+
+    [When(@"I click on school details in resource section")]
+    public async Task WhenIClickOnSchoolDetailsInResourceSection()
+    {
+        await schoolHomePage.ClickLink("school details");
+        
+    }
 }
