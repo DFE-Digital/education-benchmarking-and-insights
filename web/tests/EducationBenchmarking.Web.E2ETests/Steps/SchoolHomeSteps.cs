@@ -60,6 +60,6 @@ public class SchoolHomeSteps(SchoolHomePage schoolHomePage, SchoolDetailsPage sc
     [Then("I am navigated to curriculum and financial planning page for school with urn '(.*)'")]
     public async Task ThenIAmNavigatedToCurriculumAndFinancialPlanningPageForSchoolWithUrn(string urn)
     {
-        await createNewFinancialPlan.IsPageDisplayed(urn);
+        await createNewFinancialPlan.WaitForPage(urn);
     }
 }
