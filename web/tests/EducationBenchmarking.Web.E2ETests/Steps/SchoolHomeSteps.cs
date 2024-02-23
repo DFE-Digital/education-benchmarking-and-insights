@@ -2,7 +2,7 @@ using EducationBenchmarking.Web.E2ETests.Pages;
 using EducationBenchmarking.Web.E2ETests.Pages.CurriculumFinancialPlanning;
 
 namespace EducationBenchmarking.Web.E2ETests.Steps;
-[Binding, Scope(Tag = "SchoolHomepage.feature")]
+[Binding, Scope(Tag = "SchoolHome.feature")]
 public class SchoolHomeSteps(SchoolHomePage schoolHomePage, SchoolDetailsPage schoolDetailsPage, CompareYourCostsPage compareYourCostsPage, CreateNewFinancialPlanPage createNewFinancialPlan)
 {
     [Then("I am taken to school '(.*)' home page")]

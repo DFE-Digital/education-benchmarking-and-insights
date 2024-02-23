@@ -1,4 +1,4 @@
-﻿@SchoolHomepage.feature
+﻿@SchoolHome.feature
 Feature: SchoolHome
 	School homepage feature
 
