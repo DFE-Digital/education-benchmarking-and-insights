@@ -10,11 +10,11 @@ public class SchoolHomePage(PageHook page)
     private ILocator PageH1Heading => _page.Locator("h1");
     private ILocator BreadCrumbs => _page.Locator(".govuk-breadcrumbs");
     private ILocator ChangeSchoolLink => _page.Locator(":text('Change school')");
-    private ILocator CompareYourCostsLink => _page.Locator("h3 a.govuk-link:has-text(\"Compare your costs\")");
-    private ILocator ViewAreasOfInvestigationLink => _page.Locator("h3 a.govuk-link:has-text(\"View your areas for investigation\")");
-    private ILocator CurriculumAndFinancialPlanningLink => _page.Locator("h3 a.govuk-link:has-text(\"Curriculum and financial planning\")");
-    private ILocator BenchmarkWorkforceDataLink => _page.Locator("h3 a.govuk-link:has-text(\"Benchmark workforce data\")");
-    private ILocator SchoolDetailsLink => _page.Locator("h3 a.govuk-link:has-text(\"School details\")");
+    private ILocator CompareYourCostsLink => _page.Locator("h3 a.govuk-link", new PageLocatorOptions{HasText = "Compare your costs"});
+    private ILocator ViewAreasOfInvestigationLink => _page.Locator("h3 a.govuk-link", new PageLocatorOptions{HasText = "View your areas for investigation"});
+    private ILocator CurriculumAndFinancialPlanningLink => _page.Locator("h3 a.govuk-link", new PageLocatorOptions{HasText = "Curriculum and financial planning"});
+    private ILocator BenchmarkWorkforceDataLink => _page.Locator("h3 a.govuk-link", new PageLocatorOptions{HasText = "Benchmark workforce data"});
+    private ILocator SchoolDetailsLink => _page.Locator("h3 a.govuk-link", new PageLocatorOptions{HasText = "School details"});
 
     public async Task ClickOnCompareYourCosts()
     {
