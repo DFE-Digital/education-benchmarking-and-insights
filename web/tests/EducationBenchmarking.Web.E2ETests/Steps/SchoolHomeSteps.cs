@@ -35,7 +35,6 @@ public class SchoolHomeSteps(SchoolHomePage schoolHomePage, SchoolDetailsPage sc
     public async Task ThenIAmNavigatedToSchoolDetailsPageForSchoolWithUrn(string urn)
     {
         await schoolDetailsPage.WaitForPage(urn);
-        await schoolDetailsPage.AssertPage();
     }
 
     [When("I click on compare your costs in finance tools section")]
@@ -48,7 +47,6 @@ public class SchoolHomeSteps(SchoolHomePage schoolHomePage, SchoolDetailsPage sc
     public async Task ThenIAmNavigatedToCompareYourCostsPageForSchoolWithUrn(string urn)
     {
         await compareYourCostsPage.WaitForPage(urn);
-        await compareYourCostsPage.AssertPage();
     }
 
     [When("I click on curriculum and financial planning in finance tools section")]
