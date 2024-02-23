@@ -26,6 +26,10 @@ public class StartPage(PageHook page)
         await _page.WaitForLoadStateAsync(LoadState.NetworkIdle);
     }
 
+    public async Task WaitForPage(string urn)
+    {
+        await _page.WaitForURLAsync(PageUrl(urn));
+    }
     public async Task ClickHelp()
     {
         await HelpLink.Click();

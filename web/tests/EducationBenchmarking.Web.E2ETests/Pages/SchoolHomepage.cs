@@ -4,7 +4,7 @@ using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class SchoolHomePage(PageHook page)
+public class SchoolHomepage(PageHook page)
 {
     private readonly IPage _page = page.Current;
     private ILocator PageH1Heading => _page.Locator("h1");
@@ -49,6 +49,8 @@ public class SchoolHomePage(PageHook page)
         var link = linkToClick switch
         {
             "school details" => SchoolDetailsLink,
+            "compare your costs" => CompareYourCostsLink,
+            "curriculum and financial planning" => CurriculumAndFinancialPlanningLink,
             _ => throw new ArgumentException($"Unsupported link name: {linkToClick}")
         };
        await link.Click();
