@@ -28,16 +28,16 @@
 
 {% set recsHtml %}
 <h2 class="govuk-heading-m">
-  Recommended resources
+  Recommended for this school
 </h2>
-<p>The following areas are where this school is furthest from the average spend of similar schools. The procurement frameworks below may help you better align your spending.</p>
+<p> Based on how spending compares to similar schools.</p>
 
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-s">
-      Premises staff resources
+      Premises staff 
     </h2>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -54,7 +54,7 @@
   </li>
 </ul>
 
-<p class="govuk-body-s">Your costs of £123.12 per pupil in this sub-cost category are 44% higher than the median for similar schools.</p>
+<p class="govuk-body-s">This school spends 44% more than similar schools.</p>
 
 <hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
 
@@ -62,7 +62,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <h2 class="govuk-heading-s">
-      Catering staff and services resources
+      Catering staff and services
     </h2>
   </div>
   <div class="govuk-grid-column-one-third">
@@ -82,7 +82,7 @@
   </li>
 </ul>
 
-<p class="govuk-body-s">Your costs of £13.12 per pupil in this sub-cost category are 12% higher than the median for similar schools.</p>
+<p class="govuk-body-s">This school spends 44% more than similar schools.</p>
 
 
 {% endset -%}
@@ -598,14 +598,14 @@
   <div class="govuk-grid-column-two-thirds">
 
     <span class="govuk-caption-l">Three Bears Secondary School</span>
-    <h1 class="govuk-heading-l">Cost reduction resources</h1>
+    <h1 class="govuk-heading-l">Find ways to spend less</h1>
 
-    <p class="govuk-body-l">Use these procurement frameworks to help reduce your spending in each cost category.</p>
+    <p class="govuk-body-m">Use these resources to help reduce costs.</p>
 
     {{ govukTabs({
       items: [
       {
-        label: "Recommended resources",
+        label: "Recommended for this school",
         id: "recs",
         panel: {
           html: recsHtml
