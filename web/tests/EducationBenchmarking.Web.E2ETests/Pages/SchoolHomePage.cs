@@ -4,7 +4,7 @@ using Microsoft.Playwright;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages;
 
-public class SchoolHomepage(PageHook page)
+public class SchoolHomePage(PageHook page)
 {
     private readonly IPage _page = page.Current;
     private ILocator PageH1Heading => _page.Locator("h1");

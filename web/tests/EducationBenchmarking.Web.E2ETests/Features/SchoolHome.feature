@@ -1,4 +1,5 @@
-﻿Feature: School Homepage
+﻿@SchoolHomepage.feature
+Feature: SchoolHome
 	School homepage feature
 
 Scenario: Go to contact details page
