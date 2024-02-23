@@ -43,6 +43,8 @@ public static class Paths
         $"/school/{urn}/financial-planning/steps/total-education-support?year={year}";
     public static string SchoolFinancialPlanningHasMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-has-mixed-age-classes?year={year}";
     public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-mixed-age-classes?year={year}";
+    public static string SchoolFinancialPlanningPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/steps/pupil-figures?year={year}";
+    public static string SchoolFinancialPlanningPrimaryPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-pupil-figures?year={year}";
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";

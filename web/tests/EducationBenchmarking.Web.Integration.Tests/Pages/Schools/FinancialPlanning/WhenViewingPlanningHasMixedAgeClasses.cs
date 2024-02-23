@@ -145,7 +145,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
 
         var expectedPage = value
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
+            : Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
