@@ -714,7 +714,7 @@ public class SchoolPlanningStepsController(
                 if (!formModel.HasSelection)
                 {
                     ModelState.AddModelError("MixedAgeClasses", "Select which years have mixed age classes");
-                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }

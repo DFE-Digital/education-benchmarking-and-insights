@@ -30,6 +30,20 @@ public class SchoolPlanViewModel(School school, FinancialPlan plan) : SchoolPlan
     public string? PupilsYear11 => plan.PupilsYear11.ToString();
     public decimal? PupilsYear12 => plan.PupilsYear12;
     public decimal? PupilsYear13 => plan.PupilsYear13;
+    public decimal? PupilsNursery => plan.PupilsNursery;
+    public string? PupilsMixedReceptionYear1 => plan.PupilsMixedReceptionYear1.ToString();
+    public string? PupilsMixedYear1Year2 => plan.PupilsMixedYear1Year2.ToString();
+    public string? PupilsMixedYear2Year3 => plan.PupilsMixedYear2Year3.ToString();
+    public string? PupilsMixedYear3Year4 => plan.PupilsMixedYear3Year4.ToString();
+    public string? PupilsMixedYear4Year5 => plan.PupilsMixedYear4Year5.ToString();
+    public string? PupilsMixedYear5Year6 => plan.PupilsMixedYear5Year6.ToString();
+    public string? PupilsReception => plan.PupilsReception.ToString();
+    public string? PupilsYear1 => plan.PupilsYear1.ToString();
+    public string? PupilsYear2 => plan.PupilsYear2.ToString();
+    public string? PupilsYear3 => plan.PupilsYear3.ToString();
+    public string? PupilsYear4 => plan.PupilsYear4.ToString();
+    public string? PupilsYear5 => plan.PupilsYear5.ToString();
+    public string? PupilsYear6 => plan.PupilsYear6.ToString();
 }
 
 
