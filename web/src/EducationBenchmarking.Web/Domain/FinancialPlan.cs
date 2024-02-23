@@ -18,4 +18,11 @@ public class FinancialPlan
     public bool MixedAgeYear3Year4 { get; set; }
     public bool MixedAgeYear4Year5 { get; set; }
     public bool MixedAgeYear5Year6 { get; set; }
+    public int? PupilsYear7 { get; set; }
+    public int? PupilsYear8 { get; set; }
+    public int? PupilsYear9 { get; set; }
+    public int? PupilsYear10 { get; set; }
+    public int? PupilsYear11 { get; set; }
+    public decimal? PupilsYear12 { get; set; }
+    public decimal? PupilsYear13 { get; set; }
 }

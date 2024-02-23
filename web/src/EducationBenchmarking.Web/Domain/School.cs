@@ -23,6 +23,7 @@ public record School
     public string? Telephone { get; set; }
     public string? Website { get; set; }
     public string? OverallPhase { get; set; }
+    public bool HasSixthForm { get; set; }
 
     public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
     public bool IsPartOfTrust => !string.IsNullOrEmpty(CompanyNumber);

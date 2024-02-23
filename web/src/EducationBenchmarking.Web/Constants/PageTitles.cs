@@ -27,4 +27,5 @@ public static class PageTitles
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
     public const string SchoolPlanningMixedAgeClasses = "Which years have mixed age classes?";
+    public const string SchoolPlanningPupilFigures = "What are your pupil figures?";
 }

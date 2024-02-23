@@ -116,7 +116,15 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
                         TotalIncome = request.TotalIncome,
                         TotalExpenditure = request.TotalExpenditure,
                         TotalTeacherCosts = request.TotalTeacherCosts,
-                        TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte
+                        TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte,
+                        HasMixedAgeClasses = request.HasMixedAgeClasses,
+                        MixedAgeReceptionYear1 = request.MixedAgeReceptionYear1,
+                        MixedAgeYear1Year2 = request.MixedAgeYear1Year2,
+                        MixedAgeYear2Year3 = request.MixedAgeYear2Year3,
+                        MixedAgeYear3Year4 = request.MixedAgeYear3Year4,
+                        MixedAgeYear4Year5 = request.MixedAgeYear4Year5,
+                        MixedAgeYear5Year6 = request.MixedAgeYear5Year6,
+                        TimetablePeriods = request.TimetablePeriods
                     })));
         return this;
     }

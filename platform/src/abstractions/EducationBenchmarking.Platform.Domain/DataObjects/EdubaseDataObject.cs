@@ -72,6 +72,9 @@ public record EdubaseDataObject
     [JsonProperty(PropertyName = EdubaseFieldNames.HEAD_LAST_NAME)]
     public string? HeadLastName { get; set; }
 
+    [JsonProperty(PropertyName = EdubaseFieldNames.OFFICIAL_6_FORM_CODE)]
+    public int? OfficialSixthFormCode { get; set; }
+    
     [JsonProperty(PropertyName = EdubaseFieldNames.OFFICIAL_6_FORM)]
     public string? OfficialSixthForm { get; set; }
 

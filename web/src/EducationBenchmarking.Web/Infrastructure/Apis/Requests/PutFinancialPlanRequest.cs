@@ -20,6 +20,13 @@ public class PutFinancialPlanRequest
     public bool MixedAgeYear3Year4 { get; set; }
     public bool MixedAgeYear4Year5 { get; set; }
     public bool MixedAgeYear5Year6 { get; set; }
+    public int? PupilsYear7 { get; set; }
+    public int? PupilsYear8 { get; set; }
+    public int? PupilsYear9 { get; set; }
+    public int? PupilsYear10 { get; set; }
+    public int? PupilsYear11 { get; set; }
+    public decimal? PupilsYear12 { get; set; }
+    public decimal? PupilsYear13 { get; set; }
 
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
@@ -35,12 +42,19 @@ public class PutFinancialPlanRequest
             EducationSupportStaffCosts = plan.EducationSupportStaffCosts,
             TimetablePeriods = plan.TimetablePeriods,
             HasMixedAgeClasses = plan.HasMixedAgeClasses,
-            MixedAgeReceptionYear1 = plan.MixedAgeReceptionYear1,
-            MixedAgeYear1Year2 = plan.MixedAgeYear1Year2,
-            MixedAgeYear2Year3 = plan.MixedAgeYear2Year3,
-            MixedAgeYear3Year4 = plan.MixedAgeYear3Year4,
-            MixedAgeYear4Year5 = plan.MixedAgeYear4Year5,
-            MixedAgeYear5Year6 = plan.MixedAgeYear5Year6
+            MixedAgeReceptionYear1 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeReceptionYear1,
+            MixedAgeYear1Year2 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear1Year2,
+            MixedAgeYear2Year3 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear2Year3,
+            MixedAgeYear3Year4 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear3Year4,
+            MixedAgeYear4Year5 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear4Year5,
+            MixedAgeYear5Year6 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear5Year6,
+            PupilsYear7 = plan.PupilsYear7,
+            PupilsYear8 = plan.PupilsYear8,
+            PupilsYear9 = plan.PupilsYear9,
+            PupilsYear10 = plan.PupilsYear10,
+            PupilsYear11 = plan.PupilsYear11,
+            PupilsYear12 = plan.PupilsYear12,
+            PupilsYear13 = plan.PupilsYear13
         };
     }
 }

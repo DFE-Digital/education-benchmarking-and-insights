@@ -204,6 +204,7 @@ public static class EdubaseFieldNames
     public const string HEAD_FIRST_NAME = "HeadFirstName";
     public const string HEAD_LAST_NAME = "HeadLastName";
     public const string OFFICIAL_6_FORM = "OfficialSixthForm";
+    public const string OFFICIAL_6_FORM_CODE = "OfficialSixthFormCode";
     public const string SCHOOL_WEB_SITE = "SchoolWebsite";
     public const string OFSTED_RATING = "OfstedRating";
     public const string OFSTE_LAST_INSP = "OfstedLastInsp";

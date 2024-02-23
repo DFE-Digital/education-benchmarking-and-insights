@@ -1,11 +1,11 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
-using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.TagHelpers;
+using EducationBenchmarking.Web.ViewModels.SchoolPlanning;
 using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
@@ -99,9 +99,7 @@ public class SchoolPlanningStepsController(
             {
                 logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
                     Request.GetDisplayUrl());
-                return e is StatusCodeException s
-                    ? StatusCode((int)s.Status)
-                    : StatusCode(500);
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
@@ -264,8 +262,8 @@ public class SchoolPlanningStepsController(
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
                 return school.IsPrimary
-                        ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
-                        : new OkResult(); //TODO: update when next page is created in CFP journey
+                    ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
+                    : RedirectToAction("PupilFigures", new { urn, year });
             }
             catch (Exception e)
             {
@@ -280,7 +278,7 @@ public class SchoolPlanningStepsController(
     [Route("total-income")]
     public async Task<IActionResult> TotalIncome(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -337,9 +335,7 @@ public class SchoolPlanningStepsController(
             {
                 logger.LogError(e, "An error occurred while processing total income: {DisplayUrl}",
                     Request.GetDisplayUrl());
-                return e is StatusCodeException s
-                    ? StatusCode((int)s.Status)
-                    : StatusCode(500);
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
@@ -348,7 +344,7 @@ public class SchoolPlanningStepsController(
     [Route("total-expenditure")]
     public async Task<IActionResult> TotalExpenditure(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -412,7 +408,7 @@ public class SchoolPlanningStepsController(
     [Route("total-teacher-costs")]
     public async Task<IActionResult> TotalTeacherCosts(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -480,7 +476,7 @@ public class SchoolPlanningStepsController(
     [Route("total-number-teachers")]
     public async Task<IActionResult> TotalNumberTeachers(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -548,7 +544,7 @@ public class SchoolPlanningStepsController(
     [Route("total-education-support")]
     public async Task<IActionResult> TotalEducationSupport(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -612,7 +608,7 @@ public class SchoolPlanningStepsController(
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -637,7 +633,7 @@ public class SchoolPlanningStepsController(
     [Route("primary-has-mixed-age-classes")]
     public async Task<IActionResult> PrimaryHasMixedAgeClasses(string urn, int year, bool? hasMixedAgeClasses)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -647,28 +643,19 @@ public class SchoolPlanningStepsController(
 
                 if (hasMixedAgeClasses is null)
                 {
-                    ModelState.AddModelError(nameof(SchoolPlanViewModel.HasMixedAgeClasses), "Select yes if you have mixed age classes");
+                    ModelState.AddModelError(nameof(SchoolPlanViewModel.HasMixedAgeClasses),
+                        "Select yes if you have mixed age classes");
                     ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
 
                 var request = PutFinancialPlanRequest.Create(plan);
-                if (!hasMixedAgeClasses.Value)
-                {
-                    request.MixedAgeReceptionYear1 = false;
-                    request.MixedAgeYear1Year2 = false;
-                    request.MixedAgeYear2Year3 = false;
-                    request.MixedAgeYear3Year4 = false;
-                    request.MixedAgeYear4Year5 = false;
-                    request.MixedAgeYear5Year6 = false;
-                }
-
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
                 return hasMixedAgeClasses.Value
                     ? RedirectToAction("PrimaryMixedAgeClasses", new { urn, year })
-                    : new OkResult();
+                    : RedirectToAction("PrimaryPupilFigures", new { urn, year });
             }
             catch (Exception e)
             {
@@ -684,14 +671,15 @@ public class SchoolPlanningStepsController(
     [Route("primary-mixed-age-classes")]
     public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
 
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
+                ViewData[ViewDataKeys.Backlink] =
+                    new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
                 var viewModel = new SchoolPlanViewModel(school, plan);
                 return View(viewModel);
             }
@@ -707,9 +695,10 @@ public class SchoolPlanningStepsController(
 
     [HttpPost]
     [Route("primary-mixed-age-classes")]
-    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year, [FromForm] SchoolPlanMixedAgeClassesViewModel formModel)
+    public async Task<IActionResult> PrimaryMixedAgeClasses(string urn, int year,
+        [FromForm] SchoolPlanMixedAgeClassesViewModel formModel)
     {
-        using (logger.BeginScope(new { urn, year, }))
+        using (logger.BeginScope(new { urn, year }))
         {
             try
             {
@@ -733,7 +722,112 @@ public class SchoolPlanningStepsController(
                 var request = PutFinancialPlanRequest.Create(plan);
                 await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
 
+                return RedirectToAction("PrimaryPupilFigures", new { urn, year });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("pupil-figures")]
+    public async Task<IActionResult> PupilFigures(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                var viewModel = new SchoolPlanPupilFiguresViewModel(school, plan);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("pupil-figures")]
+    public async Task<IActionResult> PupilFigures(string urn, int year,
+        [FromForm] PostPupilFiguresViewModel formModel)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                plan.PupilsYear7 = formModel.PupilsYear7Parsed;
+                plan.PupilsYear8 = formModel.PupilsYear8Parsed;
+                plan.PupilsYear9 = formModel.PupilsYear9Parsed;
+                plan.PupilsYear10 = formModel.PupilsYear10Parsed;
+                plan.PupilsYear11 = formModel.PupilsYear11Parsed;
+                plan.PupilsYear12 = formModel.PupilsYear12;
+                plan.PupilsYear13 = formModel.PupilsYear13;
+
+                var errors = formModel.Validate(school.HasSixthForm);
+
+                if (errors.Count > 0)
+                {
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError(error.Key, error.Value);
+                    }
+
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("TimetableCycle", new { urn, year }));
+                    var viewModel = new SchoolPlanPupilFiguresViewModel(school, plan, formModel);
+                    return View(viewModel);
+                }
+
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
                 return new OkResult();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("primary-pupil-figures")]
+    public async Task<IActionResult> PrimaryPupilFigures(string urn, int year)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+
+                ArgumentNullException.ThrowIfNull(plan.HasMixedAgeClasses, nameof(plan.HasMixedAgeClasses));
+
+                var backAction = plan.HasMixedAgeClasses.Value
+                    ? Url.Action("PrimaryMixedAgeClasses", new { urn, year })
+                    : Url.Action("PrimaryHasMixedAgeClasses", new { urn, year });
+
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
+
+                var viewModel = new SchoolPlanViewModel(school, plan);
+                return View(viewModel);
             }
             catch (Exception e)
             {
