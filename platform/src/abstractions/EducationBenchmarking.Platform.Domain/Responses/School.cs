@@ -41,7 +41,7 @@ public record School
             Telephone = edubase.TelephoneNum,
             Website = edubase.SchoolWebsite,
             LocalAuthorityName = edubase.La,
-            HasSixthForm = edubase.OfficialSixthFormCode is 1 
+            HasSixthForm = edubase.OfficialSixthFormCode is 1
         };
     }
 }

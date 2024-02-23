@@ -14,14 +14,14 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
 
-    
+
     public static TheoryData<bool, int?, int?, int?, int?, int?, decimal?, decimal?> PlanInput =>
         new()
         {
             { true, 123, 123, 123, 123, 123, 12.6M, 12.59M },
             { false, 123, 123, 123, 123, 123, null, null }
         };
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -79,7 +79,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
             HttpStatusCode.NotFound);
     }
 
-   [Fact]
+    [Fact]
     public async Task CanDisplayProblemWithService()
     {
         const string urn = "12345";
@@ -93,24 +93,24 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     }
 
     [Fact]
-   public async Task CanDisplayProblemWithServiceOnSubmit()
-   {
-       var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-       var action = page.QuerySelector(".govuk-button");
+    public async Task CanDisplayProblemWithServiceOnSubmit()
+    {
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
+        var action = page.QuerySelector(".govuk-button");
 
-       Assert.NotNull(action);
+        Assert.NotNull(action);
 
-       Client.SetupBenchmarkWithException();
+        Client.SetupBenchmarkWithException();
 
-       page = await Client.SubmitForm(page.Forms[0], action);
+        page = await Client.SubmitForm(page.Forms[0], action);
 
-       Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-       PageAssert.IsProblemPage(page);
-       DocumentAssert.AssertPageUrl(page,
-           Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
-           HttpStatusCode.InternalServerError);
-   }
+        PageAssert.IsProblemPage(page);
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
+            HttpStatusCode.InternalServerError);
+    }
 
 
     [Theory]
@@ -142,7 +142,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
             Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute());
     }
 
-    
+
     [Theory]
     [MemberData(nameof(PlanInput))]
     public async Task CanDisplayWithPreviousValue(bool hasSixth, int? year7, int? year8, int? year9, int? year10, int? year11, decimal? year12, decimal? year13)
@@ -155,10 +155,10 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
             .With(x => x.PupilsYear11, year11)
             .With(x => x.PupilsYear12, year12)
             .With(x => x.PupilsYear13, year13);
-        
+
         var (page, _) =
-            await SetupNavigateInitPage(EstablishmentTypes.Academies,hasSixth, composer);
-        
+            await SetupNavigateInitPage(EstablishmentTypes.Academies, hasSixth, composer);
+
         DocumentAssert.Input(page, "PupilsYear7", year7.ToString() ?? "");
         DocumentAssert.Input(page, "PupilsYear8", year8.ToString() ?? "");
         DocumentAssert.Input(page, "PupilsYear9", year9.ToString() ?? "");
@@ -249,7 +249,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
             .Create();
 
         planComposer ??= Fixture.Build<FinancialPlan>();
-        
+
         var plan = planComposer
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)

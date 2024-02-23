@@ -33,12 +33,12 @@ public class PostPupilFiguresViewModel
         {
             errors["PupilFigures"] = formMsg;
         }
-        
+
         if (!IsPupilsYear7Valid(out var pupil7Msg))
         {
             errors[nameof(PupilsYear7)] = pupil7Msg;
         }
-        
+
         if (!IsPupilsYear8Valid(out var pupil8Msg))
         {
             errors[nameof(PupilsYear8)] = pupil8Msg;

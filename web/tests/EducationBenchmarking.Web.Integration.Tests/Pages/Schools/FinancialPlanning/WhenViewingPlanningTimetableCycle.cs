@@ -64,12 +64,12 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
-        
+
         var expectedPage = school.IsPrimary
-            ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute() 
+            ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
-        
-        DocumentAssert.AssertPageUrl(page,expectedPage)
+
+        DocumentAssert.AssertPageUrl(page, expectedPage)
             ;
     }
 

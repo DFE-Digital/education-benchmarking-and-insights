@@ -120,7 +120,7 @@ public static class DocumentAssert
         Assert.NotNull(input);
         Assert.Equal(value, input.GetAttribute("value"));
     }
-    
+
     public static void Checkboxes(IElement parent, params (string, string, bool)[] options)
     {
         var index = 0;
