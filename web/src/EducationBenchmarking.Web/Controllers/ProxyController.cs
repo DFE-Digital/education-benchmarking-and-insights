@@ -28,9 +28,9 @@ public class ProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
-                        var result = await financeService.GetExpenditure(set.Results);
-                        return new JsonResult(result);
+                        return await SchoolExpenditure(id);
+                    case OrganisationTypes.Trust:
+                        return await TrustExpenditure(id);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -42,7 +42,7 @@ public class ProxyController(
             }
         }
     }
-
+    
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/workforce")]
@@ -55,9 +55,9 @@ public class ProxyController(
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
-                        var result = await financeService.GetWorkforce(set.Results);
-                        return new JsonResult(result);
+                        return await SchoolWorkforce(id);
+                    case OrganisationTypes.Trust:
+                        return await TrustWorkforce(id);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -69,7 +69,7 @@ public class ProxyController(
             }
         }
     }
-
+    
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/suggest")]
@@ -94,6 +94,34 @@ public class ProxyController(
         }
     }
 
+    private async Task<IActionResult> TrustExpenditure(string id)
+    {
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var result = await financeService.GetExpenditure(schools);
+        return new JsonResult(result);
+    }
+
+    private async Task<IActionResult> SchoolExpenditure(string id)
+    {
+        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+        var result = await financeService.GetExpenditure(set.Results);
+        return new JsonResult(result);
+    }
+    
+    private async Task<IActionResult> TrustWorkforce(string id)
+    {
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var result = await financeService.GetWorkforce(schools);
+        return new JsonResult(result);
+    }
+
+    private async Task<IActionResult> SchoolWorkforce(string id)
+    {
+        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+        var result = await financeService.GetWorkforce(set.Results);
+        return new JsonResult(result);
+    }
+    
     private async Task<IActionResult> SchoolSuggestions(string search)
     {
         var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();

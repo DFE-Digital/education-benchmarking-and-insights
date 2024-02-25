@@ -18,7 +18,7 @@ const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
   const { type, id, academyYear, maintainedYear } = compareCostsElement.dataset;
-  if (type && id && academyYear && maintainedYear) {
+  if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
 
     root.render(
@@ -41,7 +41,7 @@ const compareWorkforceElement = document.getElementById(
 if (compareWorkforceElement) {
   const { type, id, academyYear, maintainedYear } =
     compareWorkforceElement.dataset;
-  if (type && id && academyYear && maintainedYear) {
+  if (type && id) {
     const root = ReactDOM.createRoot(compareWorkforceElement);
 
     root.render(

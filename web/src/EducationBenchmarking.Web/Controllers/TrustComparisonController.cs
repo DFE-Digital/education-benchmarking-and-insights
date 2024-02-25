@@ -1,4 +1,4 @@
-using EducationBenchmarking.Web.Domain;
+﻿using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
@@ -10,8 +10,10 @@ namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
-[Route("trust/{companyNumber}")]
-public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi)
+[Route("trust/{companyNumber}/comparison")]
+public class TrustComparisonController(
+    IEstablishmentApi establishmentApi,
+    ILogger<TrustComparisonController> logger)
     : Controller
 {
     [HttpGet]
@@ -21,16 +23,16 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparison(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var viewModel = new TrustComparisonViewModel(trust);
 
-                var viewModel = new TrustViewModel(trust);
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying trust details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying trust comparison: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

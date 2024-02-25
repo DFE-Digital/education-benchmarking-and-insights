@@ -10,8 +10,8 @@ public static class PageTitles
     public const string ChooseOrganisation = "Choose your school, academy trust, local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
-    public const string SchoolComparison = "Compare your costs";
-    public const string SchoolWorkforce = "Benchmark workforce data";
+    public const string Comparison = "Compare your costs";
+    public const string Workforce = "Benchmark workforce data";
     public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
     public const string SchoolPlanningYearSelect = "Which academic year do you want to plan?";
     public const string SchoolPlanningYear = "Prepopulated data";

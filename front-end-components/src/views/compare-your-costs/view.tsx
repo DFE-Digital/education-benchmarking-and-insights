@@ -85,7 +85,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
       <ChartModeContext.Provider value={displayMode}>
         <TotalExpenditure
           schools={
-            expenditureData ? expenditureData.results : new Array<Expenditure>()
+            expenditureData ? expenditureData.results : new Array<Expenditure>(
           }
         />
         <ExpenditureAccordion

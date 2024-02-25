@@ -13,6 +13,11 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return GetAsync($"api/trust/{identifier}");
     }
 
+    public Task<ApiResult> GetTrustSchools(string? identifier)
+    {
+        return GetAsync($"api/trust/{identifier}/schools");
+    }
+    
     public Task<ApiResult> SuggestSchools(string search)
     {
         return SendAsync(new HttpRequestMessage
@@ -51,4 +56,5 @@ public interface IEstablishmentApi
     Task<ApiResult> SuggestSchools(string search);
     Task<ApiResult> SuggestTrusts(string search);
     Task<ApiResult> SuggestOrganisations(string search);
+    Task<ApiResult> GetTrustSchools(string id);
 }
