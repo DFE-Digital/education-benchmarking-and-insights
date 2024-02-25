@@ -17,7 +17,7 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
     {
         return GetAsync($"api/trust/{identifier}/schools");
     }
-    
+
     public Task<ApiResult> SuggestSchools(string search)
     {
         return SendAsync(new HttpRequestMessage

@@ -42,7 +42,7 @@ public class ProxyController(
             }
         }
     }
-    
+
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/workforce")]
@@ -69,7 +69,7 @@ public class ProxyController(
             }
         }
     }
-    
+
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/suggest")]
@@ -107,7 +107,7 @@ public class ProxyController(
         var result = await financeService.GetExpenditure(set.Results);
         return new JsonResult(result);
     }
-    
+
     private async Task<IActionResult> TrustWorkforce(string id)
     {
         var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
@@ -121,7 +121,7 @@ public class ProxyController(
         var result = await financeService.GetWorkforce(set.Results);
         return new JsonResult(result);
     }
-    
+
     private async Task<IActionResult> SchoolSuggestions(string search)
     {
         var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();

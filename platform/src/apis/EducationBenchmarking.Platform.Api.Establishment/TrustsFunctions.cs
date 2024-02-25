@@ -65,7 +65,7 @@ public class TrustsFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(TrustSchoolsAsync))]
     [ProducesResponseType(typeof(IEnumerable<School>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
