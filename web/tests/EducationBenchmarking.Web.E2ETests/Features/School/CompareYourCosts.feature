@@ -1,22 +1,22 @@
-Feature: School Compare Your Costs
+Feature: School compare your costs
 
     Scenario: Download total expenditure chart
         Given I am on compare your costs page for school with URN '139696'
-        When i click on save as image for total expenditure
-        Then chart image is downloaded
+        When I click on save as image for 'total expenditure'
+        Then the 'total expenditure' chart image is downloaded       
 
     Scenario: Change dimension of total expenditure and change view to table
         Given I am on compare your costs page for school with URN '139696'
-        And the total expenditure chart dimension in dimension dropdown is '£ per pupil'
-        When I change total expenditure dimension to 'actuals'
-        Then the total expenditure chart dimension in dimension dropdown is 'actuals'
+        And the 'total expenditure' dimension is '£ per pupil'
+        When I change 'total expenditure' dimension to 'actuals'
+        Then the 'total expenditure' dimension is 'actuals'
 
     Scenario: Change dimension in table view for total expenditure
         Given I am on compare your costs page for school with URN '139696'
-        And I click on view as table
-        And the total expenditure chart dimension in dimension dropdown is '£ per pupil'
-        When I change total expenditure dimension to 'actuals'
-        Then the following is showing in the Total expenditure
+        And table view is selected
+        And the 'total expenditure' dimension is '£ per pupil'
+        When I change 'total expenditure' dimension to 'actuals'
+        Then the following is shown for 'total expenditure'
           | School name                                     | Local Authority | School type         | Number of pupils | Amount     |
           | St George's Primary School                      | 810             | Academy converter   | 222              | 1380000.00 |
           | Robin Hood Primary And Nursery School           | 314             | Academy converter   | 181              | 1293000.00 |
@@ -33,38 +33,24 @@ Feature: School Compare Your Costs
           | Wells Free School                               | 886             | Free school         | 183              | 1042000.00 |
           | St Gregory's Catholic Primary School            | 937             | Academy converter   | 202              | 1015000.00 |         
           | St Edward's Catholic Primary School - Kettering | 940             | Academy converter   | 183              | 988000.00  |
-        And Save as image CTA is not showing
+        But save as image buttons are hidden
 
-    Scenario: Show all CTA should expand all accordions
+    Scenario: Show all should expand all sections
         Given I am on compare your costs page for school with URN '139696'
-        When I click on Show all sections
-        Then all accordions on the page are expanded
-        And the text of cta changes to hide all sections
+        When I click on show all sections
+        Then all sections on the page are expanded
+        And the show all text changes to hide all sections
         
     Scenario: Change all charts to table view
         Given I am on compare your costs page for school with URN '139696'
-        And I click on Show all sections
+        And all sections are shown
         When I click on view as table
-        Then all accordions are showing table view
-        And Save as image CTAs are not visible
+        Then all sections on the page are expanded
+        And are showing table view
+        But save as image buttons are hidden
 
-    Scenario: Hide single accordion in table view
+    Scenario: Hide single section
         Given I am on compare your costs page for school with URN '139696'
-        And I click on Show all sections
-        And I click on view as table
-        When I click hide for non educational support staff
-        Then the accordion non educational support staff is collapsed
-
-    Scenario: Hide single accordion in chart view
-        Given I am on compare your costs page for school with URN '139696'
-        And I click on Show all sections
-        When I click hide for teaching and teaching support staff
-        Then the accordion teaching and teaching support staff is collapsed
-
-    Scenario: Hide all sections closes all accordions
-        Given I am on compare your costs page for school with URN '139696'
-        And I click on Show all sections
-        When I click on Hide all sections
-        Then all accordions on the page are collapsed in charts view
-        When I click on view as table
-        Then all accordions on the page are collapsed in table view
+        And all sections are shown
+        When I click section link for 'non educational support staff'
+        Then the section 'non educational support staff' is hidden
