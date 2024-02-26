@@ -11,7 +11,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]
     [InlineData(EstablishmentTypes.Academies, false)]
@@ -37,7 +37,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
         var expectedPage = hasMixedClasses
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
-        
+
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
 
@@ -69,8 +69,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
-    private async Task<(IHtmlDocument page, School school, FinancialPlan plan)> SetupNavigateInitPage(string financeType, bool hasMixedClasses,IPostprocessComposer<FinancialPlan>? planComposer = null)
+
+    private async Task<(IHtmlDocument page, School school, FinancialPlan plan)> SetupNavigateInitPage(string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlan>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.FinanceType, financeType)
@@ -103,7 +103,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
         var expectedPage = plan.HasMixedAgeClasses.GetValueOrDefault()
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
-        
+
         DocumentAssert.BackLink(page, "Back", expectedPage);
         DocumentAssert.TitleAndH1(page,
             "What are your pupil figures? - Education benchmarking and insights - GOV.UK",
