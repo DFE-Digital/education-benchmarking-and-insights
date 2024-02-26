@@ -5,13 +5,13 @@ using Xunit.Abstractions;
 namespace EducationBenchmarking.Web.A11yTests.Pages.Schools.FinancialPlanning;
 
 [Collection(nameof(FinancialPlanMinimalDataCollection))]
-public class WhenViewingFinancialPlanningTimetableCycle(
+public class WhenViewingFinancialPlanningPrimaryPupilFigures(
     ITestOutputHelper outputHelper,
     WebDriver webDriver,
     FinancialPlanMinimalDataFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/timetable-cycle?year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/primary-pupil-figures?year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

@@ -22,7 +22,7 @@ public class FinancialPlanFixture(IMessageSink messageSink)
 public class FinancialPlanMinimalDataFixture(IMessageSink messageSink)
     : FinancialPlanBaseFixture(
         DateTime.UtcNow.Year + 2,
-        new { UseFigures = true, User = "ally-test-user" },
+        new { UseFigures = true, HasMixedAgeClasses = false, User = "ally-test-user" },
         messageSink);
 
 
