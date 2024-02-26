@@ -171,8 +171,8 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             PupilsMixedReceptionYear1 = request.PupilsMixedReceptionYear1,
             PupilsMixedYear1Year2 = request.PupilsMixedYear1Year2,
             PupilsMixedYear2Year3 = request.PupilsMixedYear2Year3,
-            PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4, 
-            PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5, 
+            PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4,
+            PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5,
             PupilsMixedYear5Year6 = request.PupilsMixedYear5Year6
         };
 

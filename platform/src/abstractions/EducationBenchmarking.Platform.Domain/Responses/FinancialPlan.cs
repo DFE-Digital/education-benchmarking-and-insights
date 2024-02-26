@@ -49,7 +49,7 @@ public record FinancialPlan
     public int? PupilsYear4 { get; set; }
     public int? PupilsYear5 { get; set; }
     public int? PupilsYear6 { get; set; }
-    
+
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
         return new FinancialPlan
@@ -93,8 +93,8 @@ public record FinancialPlan
             PupilsMixedReceptionYear1 = dataObject.PupilsMixedReceptionYear1,
             PupilsMixedYear1Year2 = dataObject.PupilsMixedYear1Year2,
             PupilsMixedYear2Year3 = dataObject.PupilsMixedYear2Year3,
-            PupilsMixedYear3Year4 = dataObject.PupilsMixedYear3Year4, 
-            PupilsMixedYear4Year5 = dataObject.PupilsMixedYear4Year5, 
+            PupilsMixedYear3Year4 = dataObject.PupilsMixedYear3Year4,
+            PupilsMixedYear4Year5 = dataObject.PupilsMixedYear4Year5,
             PupilsMixedYear5Year6 = dataObject.PupilsMixedYear5Year6
         };
     }
