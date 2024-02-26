@@ -3,7 +3,7 @@ using Xunit;
 
 namespace EducationBenchmarking.Web.E2ETests.Pages.School;
 
-public class SchoolDetailsPage(IPage page)
+public class DetailsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);

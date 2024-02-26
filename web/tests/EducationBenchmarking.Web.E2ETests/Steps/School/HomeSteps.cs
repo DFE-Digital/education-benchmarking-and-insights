@@ -10,9 +10,9 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 public class HomeSteps(PageDriver driver)
 {
     private HomePage? _schoolHomePage;
-    private SchoolDetailsPage? _schoolDetailsPage;
+    private DetailsPage? _schoolDetailsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    private CurriculumAndFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
+    private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
     private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
 
     [Given("I am on school homepage for school with urn '(.*)'")]

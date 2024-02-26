@@ -26,25 +26,25 @@ public class HomePage(IPage page)
         await SchoolDetailsLink.ShouldBeVisible();
     }
 
-    public async Task<SchoolDetailsPage> ClickSchoolDetails()
+    public async Task<DetailsPage> ClickSchoolDetails()
     {
         await SchoolDetailsLink.Click();
-        return new SchoolDetailsPage(page);
+        return new DetailsPage(page);
     }
 
-    public async Task<CompareYourCostsPage?> ClickCompareYourCosts()
+    public async Task<CompareYourCostsPage> ClickCompareYourCosts()
     {
         await CompareYourCostsLink.Click();
         return new CompareYourCostsPage(page);
     }
 
-    public async Task<CurriculumAndFinancialPlanningPage?> ClickFinancialPlanning()
+    public async Task<CurriculumFinancialPlanningPage> ClickFinancialPlanning()
     {
         await CurriculumAndFinancialPlanningLink.Click();
-        return new CurriculumAndFinancialPlanningPage(page);
+        return new CurriculumFinancialPlanningPage(page);
     }
 
-    public async Task<BenchmarkWorkforcePage?> ClickBenchmarkWorkforce()
+    public async Task<BenchmarkWorkforcePage> ClickBenchmarkWorkforce()
     {
         await BenchmarkWorkforceDataLink.Click();
         return new BenchmarkWorkforcePage(page);
