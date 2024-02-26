@@ -6,13 +6,13 @@ using Xunit;
 namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
-[Scope(Feature = "School Homepage")]
+[Scope(Feature = "School homepage")]
 public class HomeSteps(PageDriver driver)
 {
     private HomePage? _schoolHomePage;
     private SchoolDetailsPage? _schoolDetailsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    private CreateNewFinancialPlanPage? _createNewFinancialPlanPage;
+    private CurriculumAndFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
     private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
 
     [Given("I am on school homepage for school with urn '(.*)'")]
@@ -25,7 +25,7 @@ public class HomeSteps(PageDriver driver)
         _schoolHomePage = new HomePage(page);
         await _schoolHomePage.IsDisplayed();
     }
-    
+
     [When("I click on school details in resource section")]
     public async Task WhenIClickOnSchoolDetailsInResourceSection()
     {
@@ -58,14 +58,14 @@ public class HomeSteps(PageDriver driver)
     public async Task WhenIClickOnCurriculumAndFinancialPlanning()
     {
         Assert.NotNull(_schoolHomePage);
-        _createNewFinancialPlanPage = await _schoolHomePage.ClickFinancialPlanning();
+        _curriculumAndFinancialPlanningPage = await _schoolHomePage.ClickFinancialPlanning();
     }
 
-    [Then("the curriculum and financial planning start page is displayed")]
-    public async Task ThenTheCurriculumAndFinancialPlanningStartPageIsDisplayed()
+    [Then("the curriculum and financial planning page is displayed")]
+    public async Task ThenTheCurriculumAndFinancialPlanningPageIsDisplayed()
     {
-        Assert.NotNull(_createNewFinancialPlanPage);
-        await _createNewFinancialPlanPage.IsDisplayed();
+        Assert.NotNull(_curriculumAndFinancialPlanningPage);
+        await _curriculumAndFinancialPlanningPage.IsDisplayed();
     }
 
     [When("I click on benchmark workforce data")]

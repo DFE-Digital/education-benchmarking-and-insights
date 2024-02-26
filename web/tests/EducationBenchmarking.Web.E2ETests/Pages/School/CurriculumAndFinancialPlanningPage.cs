@@ -1,8 +1,8 @@
 ﻿using Microsoft.Playwright;
 
-namespace EducationBenchmarking.Web.E2ETests.Pages.School.CurriculumFinancialPlanningSteps;
+namespace EducationBenchmarking.Web.E2ETests.Pages.School;
 
-public class CreateNewFinancialPlanPage(IPage page)
+public class CurriculumAndFinancialPlanningPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator BreadCrumbs => page.Locator(Selectors.GovBreadcrumbs);

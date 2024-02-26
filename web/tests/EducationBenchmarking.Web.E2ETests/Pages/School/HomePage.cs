@@ -38,10 +38,10 @@ public class HomePage(IPage page)
         return new CompareYourCostsPage(page);
     }
 
-    public async Task<CreateNewFinancialPlanPage?> ClickFinancialPlanning()
+    public async Task<CurriculumAndFinancialPlanningPage?> ClickFinancialPlanning()
     {
         await CurriculumAndFinancialPlanningLink.Click();
-        return new CreateNewFinancialPlanPage(page);
+        return new CurriculumAndFinancialPlanningPage(page);
     }
 
     public async Task<BenchmarkWorkforcePage?> ClickBenchmarkWorkforce()

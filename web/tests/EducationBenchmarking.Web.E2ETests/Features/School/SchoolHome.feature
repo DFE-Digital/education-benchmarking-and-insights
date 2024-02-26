@@ -1,4 +1,4 @@
-﻿Feature: School Homepage
+﻿Feature: School homepage
 
 	Scenario: Go to contact details page
 		Given I am on school homepage for school with urn '139696'
@@ -13,7 +13,7 @@
 	Scenario: Go to curriculum and financial planning page
 		Given I am on school homepage for school with urn '139696'
 		When I click on curriculum and financial planning
-		Then the curriculum and financial planning start page is displayed
+		Then the curriculum and financial planning page is displayed
 		
 	Scenario: Go to benchmark workforce data page 
 		Given I am on school homepage for school with urn '139696'
