@@ -1,3 +1,5 @@
+using EducationBenchmarking.Web.Extensions;
+
 namespace EducationBenchmarking.Web.ViewModels.SchoolPlanning;
 
 public class PostPupilFiguresViewModel
@@ -10,20 +12,11 @@ public class PostPupilFiguresViewModel
     public decimal? PupilsYear12 { get; set; }
     public decimal? PupilsYear13 { get; set; }
 
-    public int? PupilsYear7Parsed =>
-        int.TryParse(PupilsYear7, out var val) ? val : null;
-
-    public int? PupilsYear8Parsed =>
-        int.TryParse(PupilsYear8, out var val) ? val : null;
-
-    public int? PupilsYear9Parsed =>
-        int.TryParse(PupilsYear9, out var val) ? val : null;
-
-    public int? PupilsYear10Parsed =>
-        int.TryParse(PupilsYear10, out var val) ? val : null;
-
-    public int? PupilsYear11Parsed =>
-        int.TryParse(PupilsYear11, out var val) ? val : null;
+    public int? PupilsYear7Parsed => PupilsYear7.ToInt();
+    public int? PupilsYear8Parsed => PupilsYear8.ToInt();
+    public int? PupilsYear9Parsed => PupilsYear9.ToInt();
+    public int? PupilsYear10Parsed => PupilsYear10.ToInt();
+    public int? PupilsYear11Parsed => PupilsYear11.ToInt();
 
     public Dictionary<string, string> Validate(bool isSixthForm)
     {
@@ -153,14 +146,14 @@ public class PostPupilFiguresViewModel
 
     private bool IsPupilsYear12Valid(bool isSixth, out string message)
     {
-        var valid = isSixth && PupilsYear12 is null or >= 0;
+        var valid = !isSixth || PupilsYear12 is null or >= 0;
         message = valid ? "" : "Pupil figures for year 12 must be 0 or more";
         return valid;
     }
 
     private bool IsPupilsYear13Valid(bool isSixth, out string message)
     {
-        var valid = isSixth && PupilsYear13 is null or >= 0;
+        var valid = !isSixth || PupilsYear13 is null or >= 0;
         message = valid ? "" : "Pupil figures for year 13 must be 0 or more";
         return valid;
     }
