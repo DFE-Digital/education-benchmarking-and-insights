@@ -22,5 +22,4 @@ public class CreateNewFinancialPlanPage(PageHook page)
         await BreadCrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
     }
-    
 }

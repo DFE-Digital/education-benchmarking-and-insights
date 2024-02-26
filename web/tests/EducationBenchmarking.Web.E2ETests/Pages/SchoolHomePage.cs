@@ -25,7 +25,7 @@ public class SchoolHomePage(PageHook page)
     {
         await _page.WaitForURLAsync($"{TestConfiguration.ServiceUrl}/school/{urn}");
     }
-    
+
     public async Task GotToPage(string urn)
     {
         await _page.GotoAsync($"{TestConfiguration.ServiceUrl}/school/{urn}");
@@ -41,7 +41,6 @@ public class SchoolHomePage(PageHook page)
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
         await BenchmarkWorkforceDataLink.ShouldBeVisible();
         await SchoolDetailsLink.ShouldBeVisible();
-
     }
 
     public async Task ClickLink(string linkToClick)
@@ -53,6 +52,6 @@ public class SchoolHomePage(PageHook page)
             "curriculum and financial planning" => CurriculumAndFinancialPlanningLink,
             _ => throw new ArgumentException($"Unsupported link name: {linkToClick}")
         };
-       await link.Click();
+        await link.Click();
     }
 }
