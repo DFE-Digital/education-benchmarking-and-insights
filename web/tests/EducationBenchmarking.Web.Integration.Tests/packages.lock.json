@@ -13,9 +13,9 @@
       },
       "AngleSharp.Css": {
         "type": "Direct",
-        "requested": "[1.0.0-alpha-111, )",
-        "resolved": "1.0.0-alpha-111",
-        "contentHash": "VfcK/hxiMni0w+IxbrH05lOa93+VWQaCJUhHWN4hKwLkmJc3nKXPlbuZrOgVxgXVpe5mGbyPMTj4lG2C/zRQ9g==",
+        "requested": "[1.0.0-beta.122, )",
+        "resolved": "1.0.0-beta.122",
+        "contentHash": "ruQxCuGozh2M8O9tEB40/ztZrMyhPlg4l7UO34hKCDL205wO3k5nOdtoDxw2lPcvaoWNhT+FA1or44XQXh74nQ==",
         "dependencies": {
           "AngleSharp": "[1.0.0, 2.0.0)"
         }
