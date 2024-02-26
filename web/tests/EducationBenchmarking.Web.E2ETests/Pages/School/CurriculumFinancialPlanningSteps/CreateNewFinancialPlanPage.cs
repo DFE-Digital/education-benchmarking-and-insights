@@ -12,11 +12,10 @@ public class CreateNewFinancialPlanPage(IPage page)
 
     public async Task IsDisplayed()
     {
-       await PageH1Heading.ShouldBeVisible();
-       await PageH1Heading.ShouldHaveText("Curriculum and financial planning (CFP)");
-       await BreadCrumbs.ShouldBeVisible();
-       await ChangeSchoolLink.ShouldBeVisible();
-       await CreateNewPlanBtn.ShouldBeVisible().ShouldBeEnabled();
+        await PageH1Heading.ShouldBeVisible();
+        await PageH1Heading.ShouldHaveText("Curriculum and financial planning (CFP)");
+        await BreadCrumbs.ShouldBeVisible();
+        await ChangeSchoolLink.ShouldBeVisible();
+        await CreateNewPlanBtn.ShouldBeVisible().ShouldBeEnabled();
     }
-    
 }

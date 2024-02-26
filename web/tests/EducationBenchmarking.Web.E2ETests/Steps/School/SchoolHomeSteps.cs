@@ -14,6 +14,7 @@ public class SchoolHomeSteps(PageDriver driver)
     private CompareYourCostsPage? _compareYourCostsPage;
     private CreateNewFinancialPlanPage? _createNewFinancialPlanPage;
     private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
+
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
     {
@@ -23,15 +24,15 @@ public class SchoolHomeSteps(PageDriver driver)
 
         _schoolHomePage = new SchoolHomePage(page);
         await _schoolHomePage.IsDisplayed();
-
     }
+
     private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
 
     [When("I click on school details in resource section")]
     public async Task WhenIClickOnSchoolDetailsInResourceSection()
     {
         Assert.NotNull(_schoolHomePage);
-        _schoolDetailsPage= await _schoolHomePage.ClickSchoolDetails();
+        _schoolDetailsPage = await _schoolHomePage.ClickSchoolDetails();
     }
 
     [Then("the school details page is displayed")]
@@ -45,7 +46,7 @@ public class SchoolHomeSteps(PageDriver driver)
     public async Task WhenIClickOnCompareYourCostsInFinanceToolsSection()
     {
         Assert.NotNull(_schoolHomePage);
-        _compareYourCostsPage= await _schoolHomePage.ClickCompareYourCosts();
+        _compareYourCostsPage = await _schoolHomePage.ClickCompareYourCosts();
     }
 
     [Then("the compare your costs page is displayed")]
@@ -60,7 +61,6 @@ public class SchoolHomeSteps(PageDriver driver)
     {
         Assert.NotNull(_schoolHomePage);
         _createNewFinancialPlanPage = await _schoolHomePage.ClickFinancialPlanning();
-
     }
 
     [Then("the curriculum and financial planning start page is displayed")]

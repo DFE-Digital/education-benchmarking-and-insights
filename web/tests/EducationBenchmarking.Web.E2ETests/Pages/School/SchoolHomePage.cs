@@ -8,11 +8,11 @@ public class SchoolHomePage(IPage page)
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator BreadCrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
-    private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions{ HasText = "Compare your costs"});
-    private ILocator ViewAreasOfInvestigationLink => page.Locator(Selectors.GovLink, new PageLocatorOptions{ HasText = "View your areas for investigation"});
-    private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions{ HasText = "Curriculum and financial planning"});
-    private ILocator BenchmarkWorkforceDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions{ HasText = "Benchmark workforce data"});
-    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions{ HasText = "School details"});
+    private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
+    private ILocator ViewAreasOfInvestigationLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "View your areas for investigation" });
+    private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
+    private ILocator BenchmarkWorkforceDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark workforce data" });
+    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School details" });
 
     public async Task IsDisplayed()
     {
@@ -25,7 +25,7 @@ public class SchoolHomePage(IPage page)
         await BenchmarkWorkforceDataLink.ShouldBeVisible();
         await SchoolDetailsLink.ShouldBeVisible();
     }
-    
+
     public async Task<SchoolDetailsPage> ClickSchoolDetails()
     {
         await SchoolDetailsLink.Click();
