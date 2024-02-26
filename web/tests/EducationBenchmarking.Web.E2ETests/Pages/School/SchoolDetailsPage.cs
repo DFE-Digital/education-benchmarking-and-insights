@@ -14,12 +14,12 @@ public class SchoolDetailsPage(IPage page)
 
     public async Task IsDisplayed()
     {
-      await PageH1Heading.ShouldBeVisible();
-      await ChangeSchoolLink.ShouldBeVisible();
-      await BackLink.ShouldBeVisible();
-      await GiasPageLink.ShouldBeVisible();
-     await EmailAddressField.ShouldHaveText("Log in to view contact information");
-     Assert.True(await GiasPageLink.GetAttributeAsync("target") == "_blank");
+        await PageH1Heading.ShouldBeVisible();
+        await ChangeSchoolLink.ShouldBeVisible();
+        await BackLink.ShouldBeVisible();
+        await GiasPageLink.ShouldBeVisible();
+        await EmailAddressField.ShouldHaveText("Log in to view contact information");
+        Assert.True(await GiasPageLink.GetAttributeAsync("target") == "_blank");
 
     }
 }
