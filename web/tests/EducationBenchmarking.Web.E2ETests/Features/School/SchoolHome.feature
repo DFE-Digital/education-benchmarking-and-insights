@@ -2,7 +2,7 @@
 
 	Scenario: Go to contact details page
 		Given I am on school homepage for school with urn '139696'
-		When I click on school details in resource section
+		When I click on school details
 		Then the school details page is displayed
 
 	Scenario: Go to compare your costs page

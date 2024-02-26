@@ -25,8 +25,8 @@ public class HomeSteps(PageDriver driver)
         await _schoolHomePage.IsDisplayed();
     }
 
-    [When("I click on school details in resource section")]
-    public async Task WhenIClickOnSchoolDetailsInResourceSection()
+    [When("I click on school details")]
+    public async Task WhenIClickOnSchoolDetails()
     {
         Assert.NotNull(_schoolHomePage);
         _schoolDetailsPage = await _schoolHomePage.ClickSchoolDetails();
