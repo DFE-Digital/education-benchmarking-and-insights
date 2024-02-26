@@ -7,9 +7,9 @@ namespace EducationBenchmarking.Web.E2ETests.Steps;
 
 [Binding]
 [Scope(Feature = "School Homepage")]
-public class SchoolHomeSteps(PageDriver driver)
+public class HomeSteps(PageDriver driver)
 {
-    private SchoolHomePage? _schoolHomePage;
+    private HomePage? _schoolHomePage;
     private SchoolDetailsPage? _schoolDetailsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CreateNewFinancialPlanPage? _createNewFinancialPlanPage;
@@ -22,12 +22,10 @@ public class SchoolHomeSteps(PageDriver driver)
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
-        _schoolHomePage = new SchoolHomePage(page);
+        _schoolHomePage = new HomePage(page);
         await _schoolHomePage.IsDisplayed();
     }
-
-    private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
-
+    
     [When("I click on school details in resource section")]
     public async Task WhenIClickOnSchoolDetailsInResourceSection()
     {
@@ -42,8 +40,8 @@ public class SchoolHomeSteps(PageDriver driver)
         await _schoolDetailsPage.IsDisplayed();
     }
 
-    [When("I click on compare your costs in finance tools section")]
-    public async Task WhenIClickOnCompareYourCostsInFinanceToolsSection()
+    [When("I click on compare your costs")]
+    public async Task WhenIClickOnCompareYourCosts()
     {
         Assert.NotNull(_schoolHomePage);
         _compareYourCostsPage = await _schoolHomePage.ClickCompareYourCosts();
@@ -56,8 +54,8 @@ public class SchoolHomeSteps(PageDriver driver)
         await _compareYourCostsPage.IsDisplayed();
     }
 
-    [When("I click on curriculum and financial planning in finance tools section")]
-    public async Task WhenIClickOnCurriculumAndFinancialPlanningInFinanceToolsSection()
+    [When("I click on curriculum and financial planning")]
+    public async Task WhenIClickOnCurriculumAndFinancialPlanning()
     {
         Assert.NotNull(_schoolHomePage);
         _createNewFinancialPlanPage = await _schoolHomePage.ClickFinancialPlanning();
@@ -70,8 +68,8 @@ public class SchoolHomeSteps(PageDriver driver)
         await _createNewFinancialPlanPage.IsDisplayed();
     }
 
-    [When("I click on benchmark workforce data in finance tools section")]
-    public async Task WhenIClickOnBenchmarkWorkforceDataInFinanceToolsSection()
+    [When("I click on benchmark workforce data")]
+    public async Task WhenIClickOnBenchmarkWorkforceData()
     {
         Assert.NotNull(_schoolHomePage);
         _benchmarkWorkforcePage = await _schoolHomePage.ClickBenchmarkWorkforce();
@@ -83,4 +81,6 @@ public class SchoolHomeSteps(PageDriver driver)
         Assert.NotNull(_benchmarkWorkforcePage);
         await _benchmarkWorkforcePage.IsDisplayed();
     }
+
+    private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
 }
