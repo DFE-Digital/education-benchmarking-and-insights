@@ -74,7 +74,7 @@ public class HomeSteps(PageDriver driver)
         _benchmarkWorkforcePage = await _schoolHomePage.ClickBenchmarkWorkforce();
     }
 
-    [Then(@"the benchmark workforce page is displayed")]
+    [Then("the benchmark workforce page is displayed")]
     public async Task ThenTheBenchmarkWorkforcePageIsDisplayed()
     {
         Assert.NotNull(_benchmarkWorkforcePage);
