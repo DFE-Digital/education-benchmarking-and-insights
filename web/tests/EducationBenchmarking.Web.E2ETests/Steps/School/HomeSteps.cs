@@ -1,9 +1,8 @@
 ﻿using EducationBenchmarking.Web.E2ETests.Drivers;
 using EducationBenchmarking.Web.E2ETests.Pages.School;
-using EducationBenchmarking.Web.E2ETests.Pages.School.CurriculumFinancialPlanningSteps;
 using Xunit;
 
-namespace EducationBenchmarking.Web.E2ETests.Steps;
+namespace EducationBenchmarking.Web.E2ETests.Steps.School;
 
 [Binding]
 [Scope(Feature = "School homepage")]
