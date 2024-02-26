@@ -28,7 +28,6 @@ public class SchoolHomeSteps(SchoolHomePage schoolHomePage, SchoolDetailsPage sc
     public async Task WhenIClickOnSchoolDetailsInResourceSection()
     {
         await schoolHomePage.ClickLink("school details");
-        
     }
 
     [Then("I am navigated to school details page for school with urn '(.*)'")]
