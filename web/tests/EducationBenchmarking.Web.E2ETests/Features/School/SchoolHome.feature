@@ -14,3 +14,8 @@
 		Given I am on school homepage for school with urn '139696'
 		When I click on curriculum and financial planning in finance tools section
 		Then the curriculum and financial planning start page is displayed
+		
+	Scenario: Go to benchmark workforce data page 
+		Given I am on school homepage for school with urn '139696'
+		When I click on benchmark workforce data in finance tools section
+		Then the benchmark workforce page is displayed

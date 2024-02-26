@@ -43,4 +43,10 @@ public class SchoolHomePage(IPage page)
         await CurriculumAndFinancialPlanningLink.Click();
         return new CreateNewFinancialPlanPage(page);
     }
+
+    public async Task<BenchmarkWorkforcePage?> ClickBenchmarkWorkforce()
+    {
+        await BenchmarkWorkforceDataLink.Click();
+        return new BenchmarkWorkforcePage(page);
+    }
 }

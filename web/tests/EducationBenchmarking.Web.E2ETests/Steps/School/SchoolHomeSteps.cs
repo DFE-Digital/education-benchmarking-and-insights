@@ -13,6 +13,7 @@ public class SchoolHomeSteps(PageDriver driver)
     private SchoolDetailsPage? _schoolDetailsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CreateNewFinancialPlanPage? _createNewFinancialPlanPage;
+    private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
     {
@@ -67,5 +68,19 @@ public class SchoolHomeSteps(PageDriver driver)
     {
         Assert.NotNull(_createNewFinancialPlanPage);
         await _createNewFinancialPlanPage.IsDisplayed();
+    }
+
+    [When("I click on benchmark workforce data in finance tools section")]
+    public async Task WhenIClickOnBenchmarkWorkforceDataInFinanceToolsSection()
+    {
+        Assert.NotNull(_schoolHomePage);
+        _benchmarkWorkforcePage = await _schoolHomePage.ClickBenchmarkWorkforce();
+    }
+
+    [Then(@"the benchmark workforce page is displayed")]
+    public async Task ThenTheBenchmarkWorkforcePageIsDisplayed()
+    {
+        Assert.NotNull(_benchmarkWorkforcePage);
+        await _benchmarkWorkforcePage.IsDisplayed();
     }
 }
