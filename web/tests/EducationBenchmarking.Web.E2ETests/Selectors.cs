@@ -39,5 +39,8 @@ public static class Selectors
     public const string NonClassRoomSupportStaffDimension = "#nonclassroom-support-dimension";
     public const string AuxiliaryStaffDimension = "#auxiliary-staff-dimension";
     public const string SchoolWorkforceHeadcountDimension = "#headcount-dimension";
+    public const string SchoolGiasPageLink = "a[data-id='gias-school-details']";
+
+    public const string SchoolDetailsEmailAddress = ".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value";
 
 }
