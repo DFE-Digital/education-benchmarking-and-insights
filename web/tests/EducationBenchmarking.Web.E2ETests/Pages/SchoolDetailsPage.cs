@@ -13,7 +13,7 @@ public class SchoolDetailsPage(PageHook page)
     private ILocator ChangeSchoolLink => _page.Locator(":text('Change school')");
     private ILocator GiasPageLink => _page.Locator("a[data-id='gias-school-details']");
     private ILocator EmailAddress => _page.Locator(".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value");
-    
+
     public async Task WaitForPage(string urn)
     {
         await _page.WaitForURLAsync($"{TestConfiguration.ServiceUrl}/school/{urn}/details");
