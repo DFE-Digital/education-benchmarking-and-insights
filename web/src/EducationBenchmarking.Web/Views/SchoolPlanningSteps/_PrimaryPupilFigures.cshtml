@@ -1,7 +1,6 @@
 @using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanning.SchoolPlanViewModel
 
-@if (!Model.MixedAgeReceptionYear1){}
 @if (Model is { MixedAgeReceptionYear1: false })
 {
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsReception)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
@@ -22,7 +21,7 @@
                value="@Model.PupilsReception">
     </div>
 }
-@if (!Model.MixedAgeReceptionYear1 && !Model.MixedAgeYear1Year2){}
+
 @if (Model is { MixedAgeYear1Year2: false, MixedAgeReceptionYear1: false })
 {
     <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
