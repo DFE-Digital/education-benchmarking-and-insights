@@ -1,217 +1,140 @@
 # Test Approach
 
-On this page:
-- [Project Background](#project-background)
-- [Test Objectives](#test-objectives)
-- [Project Management](#project-management)
-- [Test Engineer Roles and Responsibilities](#test-engineer-roles-and-responsibilities)
-- [Testing Activities](#testing-activities)
-    - [Overview](#overview)
-    - [Automated Testing](#automated-testing)
-    - [Manual Testing](#manual-testing)
-- [Testing Requirements](#testing-requirements)
-- [Environments](#environments)
-
 
 ## Project Background
+**Test Objectives**
+  - Confirm that the service performs as per the defined User Needs, outlined during the discovery phase.
+  - Verify that the service meets the business and technical requirements set out by the DfE.
+  - Deliver a quality product by finding defects/bugs so that they can be fixed before delivering the service to the end user.
 
-The developed system will replace View my financial Insights(VMFI) and School Financial Benchmarking (SFB) services. The system is to provide users with a unified platform where users can compare schooling institutions financial data, view school spending, and analyse expenditures in comparison with similar schools.
+**Project Management**
+  
+The product backlog and project sprints are managed within Azure DevOps using the scrum methodology.
+  - User Stories in DevOps go thrugh the following stages during the development process:
+    - To Do
+    - In Development
+    - In Review
+    - In Test
+    - Complete
+    - Closed
 
-## Test Objectives
-
-- Confirm that the service performs as per the defined User Needs, outlined during Discovery phase.
-- Verify that the service meets the business and technical requirements.
-- To deliver a quality product by finding defects/bugs so that they can be fixed before delivering the service to the end user.
-
-## Project Management
-
-The product backlog and project sprints are managed within Azure DevOps.
-
-User Story contained within DevOps go through the following statuses during the development process:
-* To Do
-* In Development
-* In Review
-* In Test
-* Complete
-* Closed
-
-Each status and Definition of Done acts as a control ‘gate’ for all work passing through this process.
-
-
-### Definition of Done
-* Development for the ticket is ‘code complete’. The functionality for the ticket has been tested and meets the acceptance criteria.
-* Ticket status is updated on Azure DevOps
-* A sign off is in place from the reporter and Product Owner.
-* If work is not correct or incomplete, tickets get moved back to ‘In Dev’ and the cycle starts again.
+    Development of user stories is managed on a sprint board and goes through the following stages:
+    - Ready
+    - In Progress
+    - Complete
+    - Closed
+Each status and Definition of Done act as control 'gates' for all work passing through this process.
+  
+  **Definition of Done**
+    
+  - Development for the ticket is 'code complete.'
+    - Work items have been linked (use AB#).
+    - Your code builds clean without any errors or warnings.
+    - You have run all unit/integration tests and they pass.
+    - Your branch has been rebased onto main.
+    - You have tested by running locally.
+    - PR raised, reviewed & approved.
+    - Code squash merged into main. 
+  - The functionality for the ticket has been tested and meets the acceptance criteria. 
+  - Ticket status is updated on Azure DevOps. 
+  - A sign-off is in place from the reporter and Product Owner (need to check if this is the expectation).
 
 ## Test Engineer Roles and Responsibilities
-As part of the project test engineer will be involved in the following activities.
-
-- **Involve in the refinement session** - The Test Engineer will identify the functional and non-functional requirements from the tickets refinement session
-  and will add the relevant scenarios and, review the acceptance criteria. Test Engineer will also identify the test data requirements at this stage.
-
-- **Review and add automated tests** - The Test Engineer will write automated feature/e2e tests ahead of/in step with the development of service. This shall be done
-  in collaboration with the developers. The Test Engineer will also maintain existing feature tests as well as reviewing unit and integration tests written by the
-  developers.
-
-- **Perform manual acceptance testing in Dev environment** - The Test Engineer will perform manual tests in the Dev environment to ensure
-  that edge case scenarios, and any other scenarios that cannot be automated, are tested.
-
-- **Perform ad-hoc exploratory testing in the Test Environment** - The Test Engineer will perform exploratory testing to ensure that all parts of the service
-  integrate together correctly.
-
-- **Contribute to overall quality** - The Test Engineer will work towards contributing to the overall quality of the systems, process and deliverables. This will
-  be by ensuring each status of the ticket satisfies the pass criteria.
-
+- As part of the project, the test engineer will be involved in the following activities:
+  - Involve in the refinement session - Identify functional and non-functional requirements from the tickets refinement session, add relevant scenarios, review acceptance criteria, and identify test data requirements.
+  - Review and add automated tests - Write automated feature/e2e tests ahead of/in step with the development of the service, maintain existing feature tests, and review unit and integration tests written by developers.
+  - Perform manual acceptance testing in Dev environment - Perform manual tests in the Dev environment to ensure that edge case scenarios and other scenarios that cannot be automated are tested.
+  - Perform ad-hoc exploratory testing in the Test Environment - Perform exploratory testing to ensure that all parts of the service integrate together correctly.
+  - Contribute to overall quality - Work towards contributing to the overall quality of the systems, process, and deliverables by ensuring each status of the ticket satisfies the pass criteria.
 
 ## Testing Activities
 ### Overview
-
-The following diagram shows the Agile Testing Quadrants which outlines where each different type of testing sits, it's order of implementation,
-and the categories that it is associated with.
-
+The following diagram shows the Agile Testing Quadrants outlining where each different type of testing sits, its order of implementation, and the associated categories.
 ![agile-testing-quadrants](images\agile-testing-quadrants.png)
-
 The testing pyramid below shows the value of implementing different types of automated testing within a software project.
+![testing-pyramid](images\testing-pyramid.png)
 
-![testing-pyramid](images\testing-pyramid.jpg)
-
-## Automated Testing
-We have 4 solutions. Core infrastructure, Front-end components, Platform & Web. 
-This test strategy document is focusing on platform and Web solutions which have their own separate set of tests. 
-
-### Web Application Testing
-
+### Automated Testing
 #### Unit Testing
+Unit Tests are developed by writing a test case to cover the requirement without any code supporting it. This test obviously fails. Then, the simplest code is written to pass the test. When another requirement comes along that alters the code, another test is written to satisfy this requirement, and the code is refactored as appropriate.
+These tests are the responsibility of developers to write and maintain. Reviews of the unit test coverage by test engineers or other members of the team should be requested as appropriate.
 
-Unit Tests are developed by writing a test case to cover the requirement, without any code supporting it, this test obviously fails. Then simplest
-code is written to pass the test. When another requirement comes along that alters the code then the another test is written to satisfy this
-requirement and the code is refactored as appropriate.
-
-These tests are the responsibility of developers to write and maintain. Reviews of the unit test coverage by test engineers or other members of the team should
-be requested as appropriate.
-
-##### Technology Selected
-
-- [Xunit](https://github.com/xunit)
-- [AutoFixture](https://github.com/AutoFixture/AutoFixture)
-- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
-- [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
-
+**Technology Selected**
+  - [Xunit](https://github.com/xunit)
+  - [AutoFixture](https://github.com/AutoFixture/AutoFixture)
+  - [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
+  - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
 
 #### Integration Testing
-
-Integration tests are used to ensure that parts of the code, and frameworks are work together in the correct way to create a working
-service. These work by compiling the code locally using mocked data on which actions and assertions are executed. Integration tests build upon
-the quality that is assured during unit testing but are faster and lighter than end-to-end tests allowing them to be run frequently, and earlier in CI.
-These tests will run in the build stage after code changes are made.
+Integration tests are used to ensure that parts of the code and frameworks work together in the correct way to create a working service. These tests build upon the quality assured during unit testing but are faster and lighter than end-to-end tests, allowing them to be run frequently and earlier in CI.
 These tests are the responsibility of the developers to write and maintain in collaboration with the test engineers.
-
-
-##### Technology Selected
-
+- **Technology Selected**
 - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
 - [Xunit](https://github.com/xunit)
 - [ASP.NET Integration Tests](https://learn.microsoft.com/en-us/aspnet/core/test/integration-tests?view=aspnetcore-8.0)
 - [AngleSharp](https://github.com/AngleSharp/AngleSharp)
 - [AutoFixture](https://github.com/AutoFixture/AutoFixture)
 
-
 #### Feature/E2E Testing
+Feature and end-to-end tests simulate the behavior of an end user. These tests are the responsibility of test engineers to write and maintain in collaboration with developers.
+**Technology Selected**
+  - [Playwright](https://playwright.dev/dotnet)
+  - [Xunit](https://github.com/xunit)
+  - [Specflow](https://specflow.org/)
 
-Feature and end-to-end tests are both designed to simulate the behaviour of an end user. Tests are written from an end-user perspective and run
-against deployed environments through a web-browser (such as Chrome, Safari, Firefox etc.) driven by web-drivers. This is the slowest type of (functional) automated
-testing are run later than unit and integration tests (see testing pyramid).
-
-These tests will run in testing environment after build stage in Testing environment. The testing environment will have pre loaded data to be used by tests. 
-These tests are the the responsibility of the test engineers to write and maintain in collaboration with the developers.
-
-##### Technology Selected
-
-- [Playwright](https://playwright.dev/dotnet)
-- [Xunit](https://github.com/xunit)
-- [Specflow](https://specflow.org/)
-
-### Platform API Testing
-
-API tests are designed to test that the correct responses are received from the API when requests are made to it. These tests are run as part of the fuctional testing
-which runs as part of the pipeline with each deployment. These tests are written by collaboration of dev and test engineer.
-We have 2 types of API Tests. 
-
-#### API Integration Test
-Same as Web Application Integrations tests these tests are the responsibility of the developers to write and maintain in collaboration with the test engineers.
-In the pipeline the tests are kicked off in the build stage after code changes in the platform project. 
-
-##### Technology Selected
-
-- [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
-- [Xunit](https://github.com/xunit)
-- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
-
-#### API Functional Tests
- These tests checks the functionality and behaviour of deployed APIs. These tests are kicked off after the build stage using the test environment after code changes are made.
-These tests are the responsibility of the developers and test engineer(s) to write and maintain with collaboration. 
-##### Technology Selected
-
-- [Xunit](https://github.com/xunit)
-- [Specflow](https://specflow.org/)
-
-
-#### Accessibility Testing
-Automated accessibility testing will be carried out using [Deque.axe.playwright](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
-library to generate feedback on whether the service meets high level accessibility requirements in line with WCAG 2.2 AA.
-These tests will run every weekend in a separate pipeline using the testing environment. 
-
-##### Technology Selected
-
--  [Deque.axe.playwright 4.8.0](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
-- [Playwright](https://playwright.dev/)
-- [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
-
+#### API Testing
+API tests are designed to test that the correct responses are received from the API when requests are made to it. These tests are written by collaboration of dev and test engineer.
+**Technology Selected**
+  - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
+  - [Xunit](https://github.com/xunit)
+  - [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
 
 #### Performance Testing
-Performance testing is used to evaluate how the service is able to cope in terms of its stability, responsiveness and usability when put under different simulated workloads.
-This ensures that the service copes with large amount of users accessing the service at one time.
+Performance testing is used to evaluate how the service is able to cope in terms of its stability, responsiveness, and usability when put under different simulated workloads. We yet have to implement it before going live. 
 
+**Technology Selected**
+  
+[will be added later on once we implement it]
 
-##### Technology Selected
+#### Accessibility Testing
+Automated accessibility testing will be carried out using Deque.axe.playwright library to generate feedback on whether the service meets high-level accessibility requirements in line with WCAG 2.2 AA. This will run as part of the pipeline in the later deployment steps from development to test and production.
 
-[will be added later on after implementation]
+**Technology Selected**
+  -  [Deque.axe.playwright](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
+  - [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
+  -  [Playwright](https://playwright.dev/)
 
 #### Security Scans
-[need to check how we are going to implement - STA uses OWASP ZAP security scans] 
-This testing will be carried out when:
-- A new API is created
-- A new Front End controller is added
-- A new Front End controller method is added / updated.
-- On a release to PRE-PROD
-- As a smoke test on a release to PROD.
+Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information.
+[Need to check how we are going to implement - STA uses OWASP ZAP security scans] This testing will be carried out when:
+  - A new API is created.
+  - A new Front End controller is added.
+  - A new Front End controller method is added/updated.
+  - On a release to PRE-PROD.
+  - As a smoke test on a release to PROD.
 
-##### Technology Selected
+**Technology Selected**
 
-[will be added later on after implementation]
-
+[will be added later on once we implement it]
 ### Manual Testing
 
 #### Acceptance Testing (exploratory)
 
-In order to compliment the automated testing being written and run for new features, acceptance testing is carried out to ensure that the requirements
-set out in the story are being correctly met. This is mostly used to test areas that cannot be covered by automated tests.
+In order to complement the automated testing being written and run for new features, acceptance testing is carried out to ensure that the requirements set out in the story are being correctly met. This is mostly used to test areas that cannot be covered by automated tests.
 
-Acceptance testing is be carried out in an exploratory format by the test engineer(s) and/or developers. Test charters are created based on the acceptance
-criteria outlined in the story. Findings are logged against the story and any defects raised as bug tickets.
+Acceptance testing is carried out in an exploratory format by the test engineer(s) and/or developers. Test charters are created based on the acceptance criteria outlined in the story. Findings are logged against the story, and any defects raised as bug tickets.
 
 #### Ad-hoc Exploratory Testing
 
-On an ad-hoc or release basis, exploratory testing is be carried out to ensure that the service integrates together correctly and works as expected on all supported devices.
+On an ad-hoc or release basis, exploratory testing is carried out to ensure that the service integrates together correctly and works as expected on all supported devices.
 
-This testing is carried out by test engineer(s) and/or developers when it is deemed that there is a high risk of integration or regression issues. This shall be also used
-for checking the compatability of the site with all required browsers and operating systems. Test charters are created outlining the areas of the service to be tested.
+This testing is carried out by test engineer(s) and/or developers when it is deemed that there is a high risk of integration or regression issues. This shall also be used for checking the compatibility of the site with all required browsers and operating systems. Test charters are created outlining the areas of the service to be tested.
 
+### Testing Requirements
 
-## Testing Requirements
+#### Supported Browsers
 
-### Supported Browsers
+**Insert supported browsers**
 
 | Operating System | Browser                      | Versions                     |
 |------------------|------------------------------|------------------------------|
@@ -227,33 +150,18 @@ for checking the compatability of the site with all required browsers and operat
 |                  | Samsung Internet             | Latest                       |
 
 Any issues or discrepancies between browsers will be raised as defects and then assessed for priority and severity.
+#### Environments
 
-## Environments
+| Env Prefix | Env Name       | Testing             |
+|------------|----------------|---------------------|
+| -          | Local          | -                   |
+| d01        | Dev            | Manual acceptance   |
+| TBC        | Dev2           | Feature/e2e         |
+| TBC        | Test           | Non-functional tests |
+| TBC        | Production/Live| -                   |
 
-### Definitions
+**Path to live**
 
-| Env Prefix | Env Name       | Azure License | Testing             | 
-|------------|----------------|---------------|---------------------|
-| -          | Local          | -             | Unit                |
-| d01        | Dev            | Development   | Manual acceptance   |
-| TBC        | Dev2           | Development   | Feature/e2e         |
-| TBC        | Test           | Test          | Non-functional tests |
-| TBC        | Production/Live | Production    | -                   |
-| TBC        | Showcase       | Production    | Security(flexible)  |
+[Will be added later on ]
 
-## Local
-The unit and integration testing is performed by the developers to test their code.
-
-## Development
-Currently we have one dev enviroment which is shared among manual and automated tests. This will be split later along the line.
-
-
-## Path to live
-
-![Path to Live](images\path-to-live.jpg)
-
-
-## Test data overview
-
-Dummy test data will be created and loaded in test environment. if there is a need for a test to seed more data then unique data will be used which will later be deleted at the end of the test. 
-
+//TODO: Create a path to live diagram, that visualizes the stage gates from ideation through to release
