@@ -5,7 +5,7 @@ namespace EducationBenchmarking.Web.E2ETests.Pages.School;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator BreadCrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
     private ILocator ViewAreasOfInvestigationLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "View your areas for investigation" });
@@ -16,7 +16,7 @@ public class HomePage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await BreadCrumbs.ShouldBeVisible();
+        await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
         await CompareYourCostsLink.ShouldBeVisible();
         await ViewAreasOfInvestigationLink.ShouldBeVisible();
