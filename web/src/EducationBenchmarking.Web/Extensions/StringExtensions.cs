@@ -14,6 +14,11 @@ public static class StringExtensions
         return TextInfo.ToTitleCase(Regex.Replace(source, @"\s{2,}", " ")).Trim();
     }
 
+    public static int? ToInt(this string? source)
+    {
+        return int.TryParse(source, out var val) ? val : null;
+    }
+
     public static string Truncate(this string value, int maxLength)
     {
         if (string.IsNullOrEmpty(value)) return value;

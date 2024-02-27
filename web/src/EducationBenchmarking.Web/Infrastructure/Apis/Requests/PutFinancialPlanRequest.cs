@@ -27,6 +27,20 @@ public class PutFinancialPlanRequest
     public int? PupilsYear11 { get; set; }
     public decimal? PupilsYear12 { get; set; }
     public decimal? PupilsYear13 { get; set; }
+    public decimal? PupilsNursery { get; set; }
+    public int? PupilsMixedReceptionYear1 { get; set; }
+    public int? PupilsMixedYear1Year2 { get; set; }
+    public int? PupilsMixedYear2Year3 { get; set; }
+    public int? PupilsMixedYear3Year4 { get; set; }
+    public int? PupilsMixedYear4Year5 { get; set; }
+    public int? PupilsMixedYear5Year6 { get; set; }
+    public int? PupilsReception { get; set; }
+    public int? PupilsYear1 { get; set; }
+    public int? PupilsYear2 { get; set; }
+    public int? PupilsYear3 { get; set; }
+    public int? PupilsYear4 { get; set; }
+    public int? PupilsYear5 { get; set; }
+    public int? PupilsYear6 { get; set; }
 
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
@@ -54,7 +68,21 @@ public class PutFinancialPlanRequest
             PupilsYear10 = plan.PupilsYear10,
             PupilsYear11 = plan.PupilsYear11,
             PupilsYear12 = plan.PupilsYear12,
-            PupilsYear13 = plan.PupilsYear13
+            PupilsYear13 = plan.PupilsYear13,
+            PupilsNursery = plan.PupilsNursery,
+            PupilsReception = plan.PupilsReception,
+            PupilsYear1 = plan.PupilsYear1,
+            PupilsYear2 = plan.PupilsYear2,
+            PupilsYear3 = plan.PupilsYear3,
+            PupilsYear4 = plan.PupilsYear4,
+            PupilsYear5 = plan.PupilsYear5,
+            PupilsYear6 = plan.PupilsYear6,
+            PupilsMixedReceptionYear1 = plan.PupilsMixedReceptionYear1,
+            PupilsMixedYear1Year2 = plan.PupilsMixedYear1Year2,
+            PupilsMixedYear2Year3 = plan.PupilsMixedYear2Year3,
+            PupilsMixedYear3Year4 = plan.PupilsMixedYear3Year4,
+            PupilsMixedYear4Year5 = plan.PupilsMixedYear4Year5,
+            PupilsMixedYear5Year6 = plan.PupilsMixedYear5Year6
         };
     }
 }

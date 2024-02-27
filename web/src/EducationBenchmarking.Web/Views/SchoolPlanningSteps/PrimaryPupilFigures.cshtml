@@ -1,5 +1,5 @@
 @using EducationBenchmarking.Web.Extensions
-@model EducationBenchmarking.Web.ViewModels.SchoolPlanning.SchoolPlanViewModel
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanning.SchoolPlanPrimaryPupilFiguresViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningPupilFigures;
 }
@@ -33,7 +33,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsNursery)))
                         {
-                            <p id="year-7-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsNursery)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsNursery)]?.Errors.First().ErrorMessage
                             </p>
                         }

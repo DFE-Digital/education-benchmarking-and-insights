@@ -714,7 +714,8 @@ public class SchoolPlanningStepsController(
                 if (!formModel.HasSelection)
                 {
                     ModelState.AddModelError("MixedAgeClasses", "Select which years have mixed age classes");
-                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
+                    ViewData[ViewDataKeys.Backlink] =
+                        new BacklinkInfo(Url.Action("PrimaryHasMixedAgeClasses", new { urn, year }));
                     var viewModel = new SchoolPlanViewModel(school, plan);
                     return View(viewModel);
                 }
@@ -826,8 +827,72 @@ public class SchoolPlanningStepsController(
 
                 ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
 
-                var viewModel = new SchoolPlanViewModel(school, plan);
+                var viewModel = new SchoolPlanPrimaryPupilFiguresViewModel(school, plan);
                 return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school curriculum and financial planning: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("primary-pupil-figures")]
+    public async Task<IActionResult> PrimaryPupilFigures(string urn, int year,
+        [FromForm] PostPrimaryPupilFiguresViewModel formModel)
+    {
+        using (logger.BeginScope(new { urn, year }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+                plan.PupilsNursery = formModel.PupilsNursery;
+                plan.PupilsMixedReceptionYear1 = formModel.PupilsMixedReceptionYear1Parsed;
+                plan.PupilsMixedYear1Year2 = formModel.PupilsMixedYear1Year2Parsed;
+                plan.PupilsMixedYear2Year3 = formModel.PupilsMixedYear2Year3Parsed;
+                plan.PupilsMixedYear3Year4 = formModel.PupilsMixedYear3Year4Parsed;
+                plan.PupilsMixedYear4Year5 = formModel.PupilsMixedYear4Year5Parsed;
+                plan.PupilsMixedYear5Year6 = formModel.PupilsMixedYear5Year6Parsed;
+                plan.PupilsReception = formModel.PupilsReceptionParsed;
+                plan.PupilsYear1 = formModel.PupilsYear1Parsed;
+                plan.PupilsYear2 = formModel.PupilsYear2Parsed;
+                plan.PupilsYear3 = formModel.PupilsYear3Parsed;
+                plan.PupilsYear4 = formModel.PupilsYear4Parsed;
+                plan.PupilsYear5 = formModel.PupilsYear5Parsed;
+                plan.PupilsYear6 = formModel.PupilsYear6Parsed;
+
+                ArgumentNullException.ThrowIfNull(plan.HasMixedAgeClasses, nameof(plan.HasMixedAgeClasses));
+
+                var errors = formModel.Validate(plan.MixedAgeReceptionYear1,
+                    plan.MixedAgeYear1Year2, plan.MixedAgeYear2Year3,
+                    plan.MixedAgeYear3Year4, plan.MixedAgeYear4Year5,
+                    plan.MixedAgeYear5Year6);
+
+                if (errors.Count > 0)
+                {
+                    foreach (var error in errors)
+                    {
+                        ModelState.AddModelError(error.Key, error.Value);
+                    }
+
+                    var backAction = plan.HasMixedAgeClasses.Value
+                        ? Url.Action("PrimaryMixedAgeClasses", new { urn, year })
+                        : Url.Action("PrimaryHasMixedAgeClasses", new { urn, year });
+                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
+
+                    var viewModel = new SchoolPlanPrimaryPupilFiguresViewModel(school, plan, formModel);
+                    return View(viewModel);
+                }
+
+                var request = PutFinancialPlanRequest.Create(plan);
+                await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+
+                return new OkResult();
             }
             catch (Exception e)
             {
