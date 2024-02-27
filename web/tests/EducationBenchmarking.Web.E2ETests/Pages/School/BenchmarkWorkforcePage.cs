@@ -17,7 +17,7 @@ public enum WorkforceChartNames
 public class BenchmarkWorkforcePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator BreadCrumbs => page.Locator(Selectors.GovBreadcrumbs);
+    private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
@@ -39,7 +39,7 @@ public class BenchmarkWorkforcePage(IPage page)
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
-        await BreadCrumbs.ShouldBeVisible();
+        await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
