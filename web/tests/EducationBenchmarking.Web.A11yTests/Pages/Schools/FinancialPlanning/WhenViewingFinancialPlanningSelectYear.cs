@@ -9,7 +9,7 @@ public class WhenViewingFinancialPlanningSelectYear(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{TestConfiguration.School}/financial-planning/steps/select-year";
+    protected override string PageUrl => $"/school/{TestConfiguration.School}/financial-planning/create?step=select-year";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

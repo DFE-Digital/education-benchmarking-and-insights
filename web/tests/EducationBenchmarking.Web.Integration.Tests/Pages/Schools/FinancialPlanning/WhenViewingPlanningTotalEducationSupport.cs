@@ -136,7 +136,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
 
         var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, value);
 
-        var input = page.GetElementById("total-education-support");
+        var input = page.GetElementById("EducationSupportStaffCosts");
         Assert.NotNull(input);
 
         Assert.Equal(educationSupportStaffCosts, input.GetAttribute("value"));
@@ -157,7 +157,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningTotalEducationSupport(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page,
-            ("total-education-support", "Enter your total education support staff costs"));
+            ("EducationSupportStaffCosts", "Enter your total education support staff costs"));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, decimal? educationSupportStaffCosts = null)

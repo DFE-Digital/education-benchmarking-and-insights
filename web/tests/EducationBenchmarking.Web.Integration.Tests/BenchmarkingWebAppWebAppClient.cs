@@ -110,7 +110,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
                     .ReturnsAsync(ApiResult.Ok(new FinancialPlan
                     {
                         Urn = request.Urn,
-                        Year = request.Year,
+                        Year = request.Year.GetValueOrDefault(),
                         UseFigures = request.UseFigures,
                         EducationSupportStaffCosts = request.EducationSupportStaffCosts,
                         TotalIncome = request.TotalIncome,

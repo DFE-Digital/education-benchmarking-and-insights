@@ -149,7 +149,7 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total income" : "Total income must be 0 or more";
-        DocumentAssert.FormErrors(page, ("total-income", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TotalIncome", expectedMsg));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)

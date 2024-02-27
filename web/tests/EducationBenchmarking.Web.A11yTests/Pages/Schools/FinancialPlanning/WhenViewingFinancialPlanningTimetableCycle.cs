@@ -11,7 +11,7 @@ public class WhenViewingFinancialPlanningTimetableCycle(
     FinancialPlanMinimalDataFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/timetable-cycle?year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create?step=timetable-cycle&year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

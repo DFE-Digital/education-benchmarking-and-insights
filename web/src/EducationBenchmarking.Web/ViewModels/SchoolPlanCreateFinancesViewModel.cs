@@ -1,9 +1,9 @@
 using EducationBenchmarking.Web.Domain;
 
-namespace EducationBenchmarking.Web.ViewModels.SchoolPlanning;
+namespace EducationBenchmarking.Web.ViewModels;
 
-public class SchoolPlanFinancesViewModel(School school, Finances finances, FinancialPlan plan)
-    : SchoolPlanViewModel(school, plan)
+public class SchoolPlanCreateFinancesViewModel(School school, FinancialPlan plan, Finances finances)
+    : SchoolPlanCreateViewModel(school, plan)
 {
     public string CurrentTotalIncome => $"{finances.TotalIncome:C}";
     public string CurrentTotalExpenditure => $"{finances.TotalExpenditure:C}";

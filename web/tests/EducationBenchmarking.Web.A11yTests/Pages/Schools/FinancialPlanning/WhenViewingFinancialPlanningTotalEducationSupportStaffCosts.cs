@@ -12,7 +12,7 @@ public class WhenViewingFinancialPlanningTotalEducationSupportStaffCosts(
     : PageBase(outputHelper, webDriver)
 {
     protected override string PageUrl =>
-        $"/school/{plan.Urn}/financial-planning/steps/total-education-support?year={plan.Year}";
+        $"/school/{plan.Urn}/financial-planning/create?step=total-education-support&year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

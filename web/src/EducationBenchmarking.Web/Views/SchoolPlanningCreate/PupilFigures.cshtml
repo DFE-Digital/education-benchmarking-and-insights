@@ -1,12 +1,12 @@
 @using EducationBenchmarking.Web.Extensions
-@model EducationBenchmarking.Web.ViewModels.SchoolPlanning.SchoolPlanPupilFiguresViewModel
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningPupilFigures;
 }
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @using (Html.BeginForm("PupilFigures", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.PupilFigures }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError("PupilFigures") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">
@@ -33,7 +33,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear7)))
                         {
-                            <p id="year-7-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsYear7)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear7)]?.Errors.First().ErrorMessage
                             </p>
                         }
@@ -51,7 +51,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear8)))
                         {
-                            <p id="year-8-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsYear8)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear8)]?.Errors.First().ErrorMessage
                             </p>
                         }
@@ -69,7 +69,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear9)))
                         {
-                            <p id="year-9-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsYear9)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear9)]?.Errors.First().ErrorMessage
                             </p>
                         }
@@ -87,7 +87,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear10)))
                         {
-                            <p id="year-10-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsYear10)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear10)]?.Errors.First().ErrorMessage
                             </p>
                         }
@@ -105,7 +105,7 @@
                         </label>
                         @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear11)))
                         {
-                            <p id="year-11-error" class="govuk-error-message">
+                            <p id="@nameof(Model.PupilsYear11)-error" class="govuk-error-message">
                                 <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear11)]?.Errors.First().ErrorMessage
                             </p>
                         }
@@ -125,7 +125,7 @@
                             </label>
                             @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear12)))
                             {
-                                <p id="year-12-error" class="govuk-error-message">
+                                <p id="@nameof(Model.PupilsYear12)-error" class="govuk-error-message">
                                     <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear12)]?.Errors.First().ErrorMessage
                                 </p>
                             }
@@ -143,7 +143,7 @@
                             </label>
                             @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear13)))
                             {
-                                <p id="year-13-error" class="govuk-error-message">
+                                <p id="@nameof(Model.PupilsYear13)-error" class="govuk-error-message">
                                     <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear13)]?.Errors.First().ErrorMessage
                                 </p>
                             }
