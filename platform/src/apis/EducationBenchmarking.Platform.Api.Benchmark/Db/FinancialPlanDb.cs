@@ -99,6 +99,27 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.MixedAgeYear3Year4 = request.MixedAgeYear3Year4;
         existing.MixedAgeYear4Year5 = request.MixedAgeYear4Year5;
         existing.MixedAgeYear5Year6 = request.MixedAgeYear5Year6;
+        existing.PupilsYear7 = request.PupilsYear7;
+        existing.PupilsYear8 = request.PupilsYear8;
+        existing.PupilsYear9 = request.PupilsYear9;
+        existing.PupilsYear10 = request.PupilsYear10;
+        existing.PupilsYear11 = request.PupilsYear11;
+        existing.PupilsYear12 = request.PupilsYear12;
+        existing.PupilsYear13 = request.PupilsYear13;
+        existing.PupilsNursery = request.PupilsNursery;
+        existing.PupilsReception = request.PupilsReception;
+        existing.PupilsYear1 = request.PupilsYear1;
+        existing.PupilsYear2 = request.PupilsYear2;
+        existing.PupilsYear3 = request.PupilsYear3;
+        existing.PupilsYear4 = request.PupilsYear4;
+        existing.PupilsYear5 = request.PupilsYear5;
+        existing.PupilsYear6 = request.PupilsYear6;
+        existing.PupilsMixedReceptionYear1 = request.PupilsMixedReceptionYear1;
+        existing.PupilsMixedYear1Year2 = request.PupilsMixedYear1Year2;
+        existing.PupilsMixedYear2Year3 = request.PupilsMixedYear2Year3;
+        existing.PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4;
+        existing.PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5;
+        existing.PupilsMixedYear5Year6 = request.PupilsMixedYear5Year6;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -131,7 +152,28 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             MixedAgeYear2Year3 = request.MixedAgeYear2Year3,
             MixedAgeYear3Year4 = request.MixedAgeYear3Year4,
             MixedAgeYear4Year5 = request.MixedAgeYear4Year5,
-            MixedAgeYear5Year6 = request.MixedAgeYear5Year6
+            MixedAgeYear5Year6 = request.MixedAgeYear5Year6,
+            PupilsYear7 = request.PupilsYear7,
+            PupilsYear8 = request.PupilsYear8,
+            PupilsYear9 = request.PupilsYear9,
+            PupilsYear10 = request.PupilsYear10,
+            PupilsYear11 = request.PupilsYear11,
+            PupilsYear12 = request.PupilsYear12,
+            PupilsYear13 = request.PupilsYear13,
+            PupilsNursery = request.PupilsNursery,
+            PupilsReception = request.PupilsReception,
+            PupilsYear1 = request.PupilsYear1,
+            PupilsYear2 = request.PupilsYear2,
+            PupilsYear3 = request.PupilsYear3,
+            PupilsYear4 = request.PupilsYear4,
+            PupilsYear5 = request.PupilsYear5,
+            PupilsYear6 = request.PupilsYear6,
+            PupilsMixedReceptionYear1 = request.PupilsMixedReceptionYear1,
+            PupilsMixedYear1Year2 = request.PupilsMixedYear1Year2,
+            PupilsMixedYear2Year3 = request.PupilsMixedYear2Year3,
+            PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4,
+            PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5,
+            PupilsMixedYear5Year6 = request.PupilsMixedYear5Year6
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
