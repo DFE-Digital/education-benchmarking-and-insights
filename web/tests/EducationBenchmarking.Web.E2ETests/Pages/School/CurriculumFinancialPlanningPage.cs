@@ -12,8 +12,7 @@ public class CurriculumFinancialPlanningPage(IPage page)
 
     public async Task IsDisplayed()
     {
-        await PageH1Heading.ShouldBeVisible();
-        await PageH1Heading.ShouldHaveText("Curriculum and financial planning (CFP)");
+        await PageH1Heading.ShouldBeVisible().ShouldHaveText("Curriculum and financial planning (CFP)");
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
         await CreateNewPlanBtn.ShouldBeVisible().ShouldBeEnabled();

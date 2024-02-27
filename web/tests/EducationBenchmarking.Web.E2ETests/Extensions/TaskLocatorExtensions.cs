@@ -21,4 +21,10 @@ public static class TaskLocatorExtensions
         var l = await locator;
         return await l.ShouldHaveAttribute(attributeName, value);
     }
+
+    public static async Task<ILocator> ShouldHaveText(this Task<ILocator> locator, string expectedText)
+    {
+        var l = await locator;
+        return await l.ShouldHaveText(expectedText);
+    }
 }
