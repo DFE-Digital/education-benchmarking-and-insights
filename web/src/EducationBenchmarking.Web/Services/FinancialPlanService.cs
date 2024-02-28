@@ -22,6 +22,7 @@ public interface IFinancialPlanService
     Task UpdatePupilFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdatePrimaryPupilFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdateTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model);
+    Task UpdateTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model);
 }
 
 public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
@@ -295,6 +296,29 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.TeachersYear11 = model.TeachersYear11.ToInt();
         request.TeachersYear12 = model.TeachersYear12.ToInt();
         request.TeachersYear13 = model.TeachersYear13.ToInt();
+
+        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+    }
+
+    public async Task UpdateTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await GetPlan(school.Urn, model.Year);
+        var request = PutFinancialPlanRequest.Create(plan);
+
+        request.AssistantsMixedReceptionYear1 = model.AssistantsMixedReceptionYear1;
+        request.AssistantsMixedYear1Year2 = model.AssistantsMixedYear1Year2;
+        request.AssistantsMixedYear2Year3 = model.AssistantsMixedYear2Year3;
+        request.AssistantsMixedYear3Year4 = model.AssistantsMixedYear3Year4;
+        request.AssistantsMixedYear4Year5 = model.AssistantsMixedYear4Year5;
+        request.AssistantsMixedYear5Year6 = model.AssistantsMixedYear5Year6;
+        request.AssistantsNursery = model.AssistantsNursery;
+        request.AssistantsReception = model.AssistantsReception;
+        request.AssistantsYear1 = model.AssistantsYear1;
+        request.AssistantsYear2 = model.AssistantsYear2;
+        request.AssistantsYear3 = model.AssistantsYear3;
+        request.AssistantsYear4 = model.AssistantsYear4;
+        request.AssistantsYear5 = model.AssistantsYear5;
+        request.AssistantsYear6 = model.AssistantsYear6;
 
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }

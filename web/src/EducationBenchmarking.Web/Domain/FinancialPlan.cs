@@ -60,4 +60,18 @@ public class FinancialPlan
     public int? TeachersYear11 { get; set; }
     public int? TeachersYear12 { get; set; }
     public int? TeachersYear13 { get; set; }
+    public decimal? AssistantsMixedReceptionYear1 { get; set; }
+    public decimal? AssistantsMixedYear1Year2 { get; set; }
+    public decimal? AssistantsMixedYear2Year3 { get; set; }
+    public decimal? AssistantsMixedYear3Year4 { get; set; }
+    public decimal? AssistantsMixedYear4Year5 { get; set; }
+    public decimal? AssistantsMixedYear5Year6 { get; set; }
+    public decimal? AssistantsNursery { get; set; }
+    public decimal? AssistantsReception { get; set; }
+    public decimal? AssistantsYear1 { get; set; }
+    public decimal? AssistantsYear2 { get; set; }
+    public decimal? AssistantsYear3 { get; set; }
+    public decimal? AssistantsYear4 { get; set; }
+    public decimal? AssistantsYear5 { get; set; }
+    public decimal? AssistantsYear6 { get; set; }
 }
