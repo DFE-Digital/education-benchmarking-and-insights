@@ -35,7 +35,7 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : ApiBas
         return await PutAsync($"api/financial-plan/{request.Urn}/{request.Year}", new JsonContent(request));
     }
 
-    public async Task<ApiResult> GetFinancialPlan(string urn, int year)
+    public async Task<ApiResult> GetFinancialPlan(string? urn, int? year)
     {
         return await GetAsync($"api/financial-plan/{urn}/{year}");
     }
@@ -45,5 +45,5 @@ public interface IBenchmarkApi
 {
     Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default);
     Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request);
-    Task<ApiResult> GetFinancialPlan(string urn, int year);
+    Task<ApiResult> GetFinancialPlan(string? urn, int? year);
 }

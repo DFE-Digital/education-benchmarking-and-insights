@@ -11,7 +11,7 @@ public class WhenViewingFinancialPlanningTotalNumberTeachers(
     FinancialPlanFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/total-number-teachers?year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create?step=total-number-teachers&year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

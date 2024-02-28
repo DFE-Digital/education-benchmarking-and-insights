@@ -160,7 +160,7 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
         var expectedMsg = value is null
             ? "Enter your number of full-time equivalent teachers"
             : "Number of full-time equivalent teachers must be 1 or more";
-        DocumentAssert.FormErrors(page, ("total-number-teacher", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TotalNumberOfTeachersFte", expectedMsg));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPrimary)

@@ -129,7 +129,7 @@ public class FinancialPlanningSteps(PageDriver driver)
         };
     }
 
-    private static string StartUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/start";
-    private static string HelpUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/help";
-    private static string SelectYearUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/steps/select-year";
+    private static string StartUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create?step=start";
+    private static string HelpUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create?step=help";
+    private static string SelectYearUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/financial-planning/create?step=select-year";
 }

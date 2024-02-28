@@ -38,7 +38,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
 
         var radios = page.QuerySelector(".govuk-radios--inline");
         Assert.NotNull(radios);
-        var options = new[] { ("useFigures", "true", "Yes", useFigures), ("useFigures", "false", "No", !useFigures) };
+        var options = new[] { ("UseFigures", "true", "Yes", useFigures), ("UseFigures", "false", "No", !useFigures) };
 
         DocumentAssert.Radios(radios, options);
     }
@@ -60,7 +60,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "useFigures", true.ToString() }
+                { "UseFigures", true.ToString() }
             });
         });
 
@@ -86,7 +86,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "useFigures", false.ToString() }
+                { "UseFigures", false.ToString() }
             });
         });
 
@@ -114,7 +114,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         AssertPageLayout(page, school, finances);
-        DocumentAssert.FormErrors(page, ("use-figures", "Select yes if you want to use these figures"));
+        DocumentAssert.FormErrors(page, ("UseFigures", "Select yes if you want to use these figures"));
     }
 
 
@@ -234,7 +234,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         var radios = page.QuerySelector(".govuk-radios--inline");
 
         Assert.NotNull(radios);
-        var options = new[] { ("useFigures", "true", "Yes", false), ("useFigures", "false", "No", false) };
+        var options = new[] { ("UseFigures", "true", "Yes", false), ("UseFigures", "false", "No", false) };
         DocumentAssert.Radios(radios, options);
 
         var cta = page.QuerySelector(".govuk-button");

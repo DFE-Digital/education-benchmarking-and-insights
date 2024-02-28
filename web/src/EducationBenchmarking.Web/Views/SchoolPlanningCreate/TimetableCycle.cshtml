@@ -1,5 +1,5 @@
 ﻿@using EducationBenchmarking.Web.Extensions
-@model EducationBenchmarking.Web.ViewModels.SchoolPlanning.SchoolPlanTimetableViewModel
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
 
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTimetableCycle;
@@ -20,7 +20,7 @@
                 Enter an average if your school has a different timetable length for different years
             </p>
         </div>
-        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningSteps", new { urn = Model.Urn, year = Model.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = "timetable-cycle" }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <label class="govuk-label govuk-label--m" for="timetable-periods">
@@ -28,7 +28,7 @@
                 </label>
                 @if (ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)))
                 {
-                    <p id="timetable-periods-error" class="govuk-error-message">
+                    <p id="@nameof(Model.TimetablePeriods)-error" class="govuk-error-message">
                         <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TimetablePeriods)]?.Errors.First().ErrorMessage
                     </p>
                 }

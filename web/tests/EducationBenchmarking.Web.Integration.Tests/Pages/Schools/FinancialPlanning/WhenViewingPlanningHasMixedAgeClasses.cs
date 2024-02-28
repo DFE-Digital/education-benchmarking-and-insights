@@ -120,7 +120,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("mixed-age", "Select yes if you have mixed age classes"));
+        DocumentAssert.FormErrors(page, ("HasMixedAgeClasses", "Select yes if you have mixed age classes"));
     }
 
     [Theory]

@@ -9,6 +9,9 @@ using EducationBenchmarking.Web.Identity.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
+using EducationBenchmarking.Web.Validators;
+using EducationBenchmarking.Web.ViewModels;
+using FluentValidation;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
@@ -33,7 +36,9 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 builder.Services.AddHealthChecks();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
+builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
 builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
+builder.Services.AddScoped<IValidator<SchoolPlanCreateViewModel>, CreatePlanValidator>();
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 

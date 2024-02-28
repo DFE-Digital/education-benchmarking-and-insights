@@ -11,7 +11,7 @@ public class WhenViewingFinancialPlanningPrimaryPupilFigures(
     FinancialPlanMinimalDataFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/primary-pupil-figures?year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create?step=primary-pupil-figures&year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

@@ -202,19 +202,19 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     }
 
     [Theory]
-    [InlineData("PupilsYear7", "0.5", "year-7", "Pupil figures for year 7 must be a whole number")]
-    [InlineData("PupilsYear7", "-1", "year-7", "Pupil figures for year 7 must be 0 or more")]
-    [InlineData("PupilsYear8", "0.5", "year-8", "Pupil figures for year 8 must be a whole number")]
-    [InlineData("PupilsYear8", "-1", "year-8", "Pupil figures for year 8 must be 0 or more")]
-    [InlineData("PupilsYear9", "0.5", "year-9", "Pupil figures for year 9 must be a whole number")]
-    [InlineData("PupilsYear9", "-1", "year-9", "Pupil figures for year 9 must be 0 or more")]
-    [InlineData("PupilsYear10", "0.5", "year-10", "Pupil figures for year 10 must be a whole number")]
-    [InlineData("PupilsYear10", "-1", "year-10", "Pupil figures for year 10 must be 0 or more")]
-    [InlineData("PupilsYear11", "0.5", "year-11", "Pupil figures for year 11 must be a whole number")]
-    [InlineData("PupilsYear11", "-1", "year-11", "Pupil figures for year 11 must be 0 or more")]
-    [InlineData("PupilsYear12", "-1", "year-12", "Pupil figures for year 12 must be 0 or more")]
-    [InlineData("PupilsYear13", "-1", "year-13", "Pupil figures for year 13 must be 0 or more")]
-    public async Task ShowsErrorOnInValidEntrySubmit(string prop, string value, string field, string error)
+    [InlineData("PupilsYear7", "0.5", "Pupil figures for year 7 must be a whole number")]
+    [InlineData("PupilsYear7", "-1", "Pupil figures for year 7 must be 0 or more")]
+    [InlineData("PupilsYear8", "0.5", "Pupil figures for year 8 must be a whole number")]
+    [InlineData("PupilsYear8", "-1", "Pupil figures for year 8 must be 0 or more")]
+    [InlineData("PupilsYear9", "0.5", "Pupil figures for year 9 must be a whole number")]
+    [InlineData("PupilsYear9", "-1", "Pupil figures for year 9 must be 0 or more")]
+    [InlineData("PupilsYear10", "0.5", "Pupil figures for year 10 must be a whole number")]
+    [InlineData("PupilsYear10", "-1", "Pupil figures for year 10 must be 0 or more")]
+    [InlineData("PupilsYear11", "0.5", "Pupil figures for year 11 must be a whole number")]
+    [InlineData("PupilsYear11", "-1", "Pupil figures for year 11 must be 0 or more")]
+    [InlineData("PupilsYear12", "-1", "Pupil figures for year 12 must be 0 or more")]
+    [InlineData("PupilsYear13", "-1", "Pupil figures for year 13 must be 0 or more")]
+    public async Task ShowsErrorOnInValidEntrySubmit(string prop, string value, string error)
     {
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true);
@@ -234,7 +234,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
 
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, (field, error));
+        DocumentAssert.FormErrors(page, (prop, error));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlan>? planComposer = null)

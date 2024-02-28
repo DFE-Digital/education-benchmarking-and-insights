@@ -151,7 +151,7 @@ public class WhenViewingPlanningTotalExpenditure(BenchmarkingWebAppClient client
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total expenditure" : "Total expenditure must be 0 or more";
-        DocumentAssert.FormErrors(page, ("total-expenditure", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TotalExpenditure", expectedMsg));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)

@@ -1,14 +1,9 @@
-using System.Net;
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
-using SmartBreadcrumbs.Nodes;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
-using EducationBenchmarking.Web.TagHelpers;
-using EducationBenchmarking.Web.ViewModels.SchoolPlanning;
-using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
@@ -27,7 +22,7 @@ public class SchoolPlanningController(IEstablishmentApi establishmentApi, ILogge
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolPlanning(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanSchoolViewModel(school);
+                var viewModel = new SchoolPlanViewModel(school);
 
                 return View(viewModel);
             }

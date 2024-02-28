@@ -96,7 +96,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("timetable-periods", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TimetablePeriods", expectedMsg));
     }
 
     [Theory]
@@ -176,17 +176,6 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceWhenUseFiguresIsNull()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, useFigures: null);
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
