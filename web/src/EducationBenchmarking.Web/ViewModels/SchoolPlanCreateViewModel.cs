@@ -57,6 +57,27 @@ public class SchoolPlanCreateViewModel
         PupilsYear11 = plan.PupilsYear11.ToString();
         PupilsYear12 = plan.PupilsYear12;
         PupilsYear13 = plan.PupilsYear13;
+        TeachersNursery = plan.TeachersNursery.ToString();
+        TeachersMixedReceptionYear1 = plan.TeachersMixedReceptionYear1.ToString();
+        TeachersMixedYear1Year2 = plan.TeachersMixedYear1Year2.ToString();
+        TeachersMixedYear2Year3 = plan.TeachersMixedYear2Year3.ToString();
+        TeachersMixedYear3Year4 = plan.TeachersMixedYear3Year4.ToString();
+        TeachersMixedYear4Year5 = plan.TeachersMixedYear4Year5.ToString();
+        TeachersMixedYear5Year6 = plan.TeachersMixedYear5Year6.ToString();
+        TeachersReception = plan.TeachersReception.ToString();
+        TeachersYear1 = plan.TeachersYear1.ToString();
+        TeachersYear2 = plan.TeachersYear2.ToString();
+        TeachersYear3 = plan.TeachersYear3.ToString();
+        TeachersYear4 = plan.TeachersYear4.ToString();
+        TeachersYear5 = plan.TeachersYear5.ToString();
+        TeachersYear6 = plan.TeachersYear6.ToString();
+        TeachersYear7 = plan.TeachersYear7.ToString();
+        TeachersYear8 = plan.TeachersYear8.ToString();
+        TeachersYear9 = plan.TeachersYear9.ToString();
+        TeachersYear10 = plan.TeachersYear10.ToString();
+        TeachersYear11 = plan.TeachersYear11.ToString();
+        TeachersYear12 = plan.TeachersYear12.ToString();
+        TeachersYear13 = plan.TeachersYear13.ToString();
     }
 
     public string? Name { get; set; }
@@ -99,4 +120,25 @@ public class SchoolPlanCreateViewModel
     public string? PupilsYear11 { get; set; }
     public decimal? PupilsYear12 { get; set; }
     public decimal? PupilsYear13 { get; set; }
+    public string? TeachersNursery { get; set; }
+    public string? TeachersMixedReceptionYear1 { get; set; }
+    public string? TeachersMixedYear1Year2 { get; set; }
+    public string? TeachersMixedYear2Year3 { get; set; }
+    public string? TeachersMixedYear3Year4 { get; set; }
+    public string? TeachersMixedYear4Year5 { get; set; }
+    public string? TeachersMixedYear5Year6 { get; set; }
+    public string? TeachersReception { get; set; }
+    public string? TeachersYear1 { get; set; }
+    public string? TeachersYear2 { get; set; }
+    public string? TeachersYear3 { get; set; }
+    public string? TeachersYear4 { get; set; }
+    public string? TeachersYear5 { get; set; }
+    public string? TeachersYear6 { get; set; }
+    public string? TeachersYear7 { get; set; }
+    public string? TeachersYear8 { get; set; }
+    public string? TeachersYear9 { get; set; }
+    public string? TeachersYear10 { get; set; }
+    public string? TeachersYear11 { get; set; }
+    public string? TeachersYear12 { get; set; }
+    public string? TeachersYear13 { get; set; }
 }

@@ -41,6 +41,27 @@ public class PutFinancialPlanRequest
     public int? PupilsYear4 { get; set; }
     public int? PupilsYear5 { get; set; }
     public int? PupilsYear6 { get; set; }
+    public int? TeachersNursery { get; set; }
+    public int? TeachersMixedReceptionYear1 { get; set; }
+    public int? TeachersMixedYear1Year2 { get; set; }
+    public int? TeachersMixedYear2Year3 { get; set; }
+    public int? TeachersMixedYear3Year4 { get; set; }
+    public int? TeachersMixedYear4Year5 { get; set; }
+    public int? TeachersMixedYear5Year6 { get; set; }
+    public int? TeachersReception { get; set; }
+    public int? TeachersYear1 { get; set; }
+    public int? TeachersYear2 { get; set; }
+    public int? TeachersYear3 { get; set; }
+    public int? TeachersYear4 { get; set; }
+    public int? TeachersYear5 { get; set; }
+    public int? TeachersYear6 { get; set; }
+    public int? TeachersYear7 { get; set; }
+    public int? TeachersYear8 { get; set; }
+    public int? TeachersYear9 { get; set; }
+    public int? TeachersYear10 { get; set; }
+    public int? TeachersYear11 { get; set; }
+    public int? TeachersYear12 { get; set; }
+    public int? TeachersYear13 { get; set; }
 
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
@@ -62,13 +83,6 @@ public class PutFinancialPlanRequest
             MixedAgeYear3Year4 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear3Year4,
             MixedAgeYear4Year5 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear4Year5,
             MixedAgeYear5Year6 = plan.HasMixedAgeClasses.GetValueOrDefault() && plan.MixedAgeYear5Year6,
-            PupilsYear7 = plan.PupilsYear7,
-            PupilsYear8 = plan.PupilsYear8,
-            PupilsYear9 = plan.PupilsYear9,
-            PupilsYear10 = plan.PupilsYear10,
-            PupilsYear11 = plan.PupilsYear11,
-            PupilsYear12 = plan.PupilsYear12,
-            PupilsYear13 = plan.PupilsYear13,
             PupilsNursery = plan.PupilsNursery,
             PupilsReception = plan.PupilsReception,
             PupilsYear1 = plan.PupilsYear1,
@@ -82,7 +96,35 @@ public class PutFinancialPlanRequest
             PupilsMixedYear2Year3 = plan.PupilsMixedYear2Year3,
             PupilsMixedYear3Year4 = plan.PupilsMixedYear3Year4,
             PupilsMixedYear4Year5 = plan.PupilsMixedYear4Year5,
-            PupilsMixedYear5Year6 = plan.PupilsMixedYear5Year6
+            PupilsMixedYear5Year6 = plan.PupilsMixedYear5Year6,
+            PupilsYear7 = plan.PupilsYear7,
+            PupilsYear8 = plan.PupilsYear8,
+            PupilsYear9 = plan.PupilsYear9,
+            PupilsYear10 = plan.PupilsYear10,
+            PupilsYear11 = plan.PupilsYear11,
+            PupilsYear12 = plan.PupilsYear12,
+            PupilsYear13 = plan.PupilsYear13,
+            TeachersNursery = plan.TeachersNursery,
+            TeachersMixedReceptionYear1 = plan.TeachersMixedReceptionYear1,
+            TeachersMixedYear1Year2 = plan.TeachersMixedYear1Year2,
+            TeachersMixedYear2Year3 = plan.TeachersMixedYear2Year3,
+            TeachersMixedYear3Year4 = plan.TeachersMixedYear3Year4,
+            TeachersMixedYear4Year5 = plan.TeachersMixedYear4Year5,
+            TeachersMixedYear5Year6 = plan.TeachersMixedYear5Year6,
+            TeachersReception = plan.TeachersReception,
+            TeachersYear1 = plan.TeachersYear1,
+            TeachersYear2 = plan.TeachersYear2,
+            TeachersYear3 = plan.TeachersYear3,
+            TeachersYear4 = plan.TeachersYear4,
+            TeachersYear5 = plan.TeachersYear5,
+            TeachersYear6 = plan.TeachersYear6,
+            TeachersYear7 = plan.TeachersYear7,
+            TeachersYear8 = plan.TeachersYear8,
+            TeachersYear9 = plan.TeachersYear9,
+            TeachersYear10 = plan.TeachersYear10,
+            TeachersYear11 = plan.TeachersYear11,
+            TeachersYear12 = plan.TeachersYear12,
+            TeachersYear13 = plan.TeachersYear13
         };
     }
 }
