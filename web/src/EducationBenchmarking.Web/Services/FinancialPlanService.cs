@@ -1,4 +1,5 @@
 using EducationBenchmarking.Web.Domain;
+using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
@@ -20,6 +21,7 @@ public interface IFinancialPlanService
     Task UpdatePrimaryMixedAgeClasses(School school, SchoolPlanCreateViewModel model);
     Task UpdatePupilFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdatePrimaryPupilFigures(School school, SchoolPlanCreateViewModel model);
+    Task UpdateTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model);
 }
 
 public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
@@ -188,11 +190,11 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         var plan = await GetPlan(school.Urn, model.Year);
         var request = PutFinancialPlanRequest.Create(plan);
 
-        request.PupilsYear7 = int.TryParse(model.PupilsYear7, out var y7Val) ? y7Val : null;
-        request.PupilsYear8 = int.TryParse(model.PupilsYear8, out var y8Val) ? y8Val : null;
-        request.PupilsYear9 = int.TryParse(model.PupilsYear9, out var y9Val) ? y9Val : null;
-        request.PupilsYear10 = int.TryParse(model.PupilsYear10, out var y10Val) ? y10Val : null;
-        request.PupilsYear11 = int.TryParse(model.PupilsYear11, out var y11Val) ? y11Val : null;
+        request.PupilsYear7 = model.PupilsYear7.ToInt();
+        request.PupilsYear8 = model.PupilsYear8.ToInt();
+        request.PupilsYear9 = model.PupilsYear9.ToInt();
+        request.PupilsYear10 = model.PupilsYear10.ToInt();
+        request.PupilsYear11 = model.PupilsYear11.ToInt();
         request.PupilsYear12 = model.PupilsYear12;
         request.PupilsYear13 = model.PupilsYear13;
 
@@ -205,19 +207,49 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         var request = PutFinancialPlanRequest.Create(plan);
 
         request.PupilsNursery = model.PupilsNursery;
-        request.PupilsMixedReceptionYear1 = int.TryParse(model.PupilsMixedReceptionYear1, out var recY1) ? recY1 : null;
-        request.PupilsMixedYear1Year2 = int.TryParse(model.PupilsMixedYear1Year2, out var y1Y2) ? y1Y2 : null;
-        request.PupilsMixedYear2Year3 = int.TryParse(model.PupilsMixedYear2Year3, out var y2Y3) ? y2Y3 : null;
-        request.PupilsMixedYear3Year4 = int.TryParse(model.PupilsMixedYear3Year4, out var y3Y4) ? y3Y4 : null;
-        request.PupilsMixedYear4Year5 = int.TryParse(model.PupilsMixedYear4Year5, out var y4Y5) ? y4Y5 : null;
-        request.PupilsMixedYear5Year6 = int.TryParse(model.PupilsMixedYear5Year6, out var y5Y6) ? y5Y6 : null;
-        request.PupilsReception = int.TryParse(model.PupilsReception, out var rec) ? rec : null;
-        request.PupilsYear1 = int.TryParse(model.PupilsYear1, out var y1) ? y1 : null;
-        request.PupilsYear2 = int.TryParse(model.PupilsYear2, out var y2) ? y2 : null;
-        request.PupilsYear3 = int.TryParse(model.PupilsYear3, out var y3) ? y3 : null;
-        request.PupilsYear4 = int.TryParse(model.PupilsYear4, out var y4) ? y4 : null;
-        request.PupilsYear5 = int.TryParse(model.PupilsYear5, out var y5) ? y5 : null;
-        request.PupilsYear6 = int.TryParse(model.PupilsYear6, out var y6) ? y6 : null;
+        request.PupilsMixedReceptionYear1 = model.PupilsMixedReceptionYear1.ToInt();
+        request.PupilsMixedYear1Year2 = model.PupilsMixedYear1Year2.ToInt();
+        request.PupilsMixedYear2Year3 = model.PupilsMixedYear2Year3.ToInt();
+        request.PupilsMixedYear3Year4 = model.PupilsMixedYear3Year4.ToInt();
+        request.PupilsMixedYear4Year5 = model.PupilsMixedYear4Year5.ToInt();
+        request.PupilsMixedYear5Year6 = model.PupilsMixedYear5Year6.ToInt();
+        request.PupilsReception = model.PupilsReception.ToInt();
+        request.PupilsYear1 = model.PupilsYear1.ToInt();
+        request.PupilsYear2 = model.PupilsYear2.ToInt();
+        request.PupilsYear3 = model.PupilsYear3.ToInt();
+        request.PupilsYear4 = model.PupilsYear4.ToInt();
+        request.PupilsYear5 = model.PupilsYear5.ToInt();
+        request.PupilsYear6 = model.PupilsYear6.ToInt();
+
+        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+    }
+
+    public async Task UpdateTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await GetPlan(school.Urn, model.Year);
+        var request = PutFinancialPlanRequest.Create(plan);
+
+        request.TeachersNursery = model.TeachersNursery.ToInt();
+        request.TeachersMixedReceptionYear1 = model.TeachersMixedReceptionYear1.ToInt();
+        request.TeachersMixedYear1Year2 = model.TeachersMixedYear1Year2.ToInt();
+        request.TeachersMixedYear2Year3 = model.TeachersMixedYear2Year3.ToInt();
+        request.TeachersMixedYear3Year4 = model.TeachersMixedYear3Year4.ToInt();
+        request.TeachersMixedYear4Year5 = model.TeachersMixedYear4Year5.ToInt();
+        request.TeachersMixedYear5Year6 = model.TeachersMixedYear5Year6.ToInt();
+        request.TeachersReception = model.TeachersReception.ToInt();
+        request.TeachersYear1 = model.TeachersYear1.ToInt();
+        request.TeachersYear2 = model.TeachersYear2.ToInt();
+        request.TeachersYear3 = model.TeachersYear3.ToInt();
+        request.TeachersYear4 = model.TeachersYear4.ToInt();
+        request.TeachersYear5 = model.TeachersYear5.ToInt();
+        request.TeachersYear6 = model.TeachersYear6.ToInt();
+        request.TeachersYear7 = model.TeachersYear7.ToInt();
+        request.TeachersYear8 = model.TeachersYear8.ToInt();
+        request.TeachersYear9 = model.TeachersYear9.ToInt();
+        request.TeachersYear10 = model.TeachersYear10.ToInt();
+        request.TeachersYear11 = model.TeachersYear11.ToInt();
+        request.TeachersYear12 = model.TeachersYear12.ToInt();
+        request.TeachersYear13 = model.TeachersYear13.ToInt();
 
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }

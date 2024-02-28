@@ -139,7 +139,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute());
     }
 
 

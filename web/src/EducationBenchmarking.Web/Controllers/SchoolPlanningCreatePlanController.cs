@@ -49,6 +49,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PrimaryMixedAgeClasses => await GetPrimaryMixedAgeClasses(school, year),
                     PlanSteps.PupilFigures => await GetPupilFigures(school, year),
                     PlanSteps.PrimaryPupilFigures => await GetPrimaryPupilFigures(school, year),
+                    PlanSteps.TeacherPeriodAllocation => await GetTeacherPeriodAllocation(school, year),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -84,6 +85,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PrimaryMixedAgeClasses => await PostPrimaryMixedAgeClasses(school, model),
                     PlanSteps.PupilFigures => await PostPupilFigures(school, model),
                     PlanSteps.PrimaryPupilFigures => await PostPrimaryPupilFigures(school, model),
+                    PlanSteps.TeacherPeriodAllocation => await PostTeacherPeriodAllocation(school, model),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -451,7 +453,7 @@ public class SchoolPlanningCreateController(
         if (results.IsValid)
         {
             await financialPlanService.UpdatePupilFigures(school, model);
-            return new OkResult();
+            return RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.TeacherPeriodAllocation });
         }
 
         results.AddToModelState(ModelState);
@@ -490,7 +492,7 @@ public class SchoolPlanningCreateController(
         if (results.IsValid)
         {
             await financialPlanService.UpdatePrimaryPupilFigures(school, model);
-            return new OkResult();
+            return RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.TeacherPeriodAllocation });
         }
 
         results.AddToModelState(ModelState);
@@ -520,6 +522,65 @@ public class SchoolPlanningCreateController(
         };
 
         return View("PrimaryPupilFigures", viewModel);
+    }
+
+    private async Task<IActionResult> GetTeacherPeriodAllocation(School school, int? year)
+    {
+        var plan = await financialPlanService.GetPlan(school.Urn, year);
+        var backAction = school.IsPrimary
+            ? PrimaryPupilFiguresBackLink(school, year)
+            : PupilFiguresBackLink(school, year);
+
+        ViewData[ViewDataKeys.Backlink] = backAction;
+
+        var viewModel = new SchoolPlanCreateViewModel(school, plan);
+        return View("TeacherPeriodAllocation", viewModel);
+    }
+
+
+    private async Task<IActionResult> PostTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model)
+    {
+        var results = await validator.ValidateAsync(model, Strategy.TeacherPeriodAllocation);
+        if (results.IsValid)
+        {
+            await financialPlanService.UpdateTeacherPeriodAllocation(school, model);
+            return new OkResult();
+        }
+
+        results.AddToModelState(ModelState);
+        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
+        var backAction = school.IsPrimary
+            ? PrimaryPupilFiguresBackLink(school, model.Year)
+            : PupilFiguresBackLink(school, model.Year);
+
+        ViewData[ViewDataKeys.Backlink] = backAction;
+
+        var viewModel = new SchoolPlanCreateViewModel(school, plan)
+        {
+            TeachersNursery = model.TeachersNursery,
+            TeachersMixedReceptionYear1 = model.TeachersMixedReceptionYear1,
+            TeachersMixedYear1Year2 = model.TeachersMixedYear1Year2,
+            TeachersMixedYear2Year3 = model.TeachersMixedYear2Year3,
+            TeachersMixedYear3Year4 = model.TeachersMixedYear3Year4,
+            TeachersMixedYear4Year5 = model.TeachersMixedYear4Year5,
+            TeachersMixedYear5Year6 = model.TeachersMixedYear5Year6,
+            TeachersReception = model.TeachersReception,
+            TeachersYear1 = model.TeachersYear1,
+            TeachersYear2 = model.TeachersYear2,
+            TeachersYear3 = model.TeachersYear3,
+            TeachersYear4 = model.TeachersYear4,
+            TeachersYear5 = model.TeachersYear5,
+            TeachersYear6 = model.TeachersYear6,
+            TeachersYear7 = model.TeachersYear7,
+            TeachersYear8 = model.TeachersYear8,
+            TeachersYear9 = model.TeachersYear9,
+            TeachersYear10 = model.TeachersYear10,
+            TeachersYear11 = model.TeachersYear11,
+            TeachersYear12 = model.TeachersYear12,
+            TeachersYear13 = model.TeachersYear13
+        };
+
+        return View("TeacherPeriodAllocation", viewModel);
     }
 
     private BacklinkInfo IndexBackLink(School school) =>
@@ -557,4 +618,10 @@ public class SchoolPlanningCreateController(
 
     private BacklinkInfo PrimaryMixedAgeClassesBackLink(School school, int? year) =>
         new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.PrimaryMixedAgeClasses }));
+
+    private BacklinkInfo PupilFiguresBackLink(School school, int? year) =>
+        new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.PupilFigures }));
+
+    private BacklinkInfo PrimaryPupilFiguresBackLink(School school, int? year) =>
+        new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.PrimaryPupilFigures }));
 }
