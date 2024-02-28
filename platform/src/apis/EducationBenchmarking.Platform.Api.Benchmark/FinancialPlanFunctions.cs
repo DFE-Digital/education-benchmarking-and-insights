@@ -4,8 +4,6 @@ using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using EducationBenchmarking.Platform.Api.Benchmark.Db;
-using EducationBenchmarking.Platform.Domain;
-using EducationBenchmarking.Platform.Domain.DataObjects;
 using EducationBenchmarking.Platform.Domain.Requests;
 using EducationBenchmarking.Platform.Domain.Responses;
 using EducationBenchmarking.Platform.Functions;
