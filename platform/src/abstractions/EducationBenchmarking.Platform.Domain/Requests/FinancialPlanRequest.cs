@@ -20,13 +20,6 @@ public record FinancialPlanRequest
     public bool MixedAgeYear3Year4 { get; set; }
     public bool MixedAgeYear4Year5 { get; set; }
     public bool MixedAgeYear5Year6 { get; set; }
-    public int? PupilsYear7 { get; set; }
-    public int? PupilsYear8 { get; set; }
-    public int? PupilsYear9 { get; set; }
-    public int? PupilsYear10 { get; set; }
-    public int? PupilsYear11 { get; set; }
-    public decimal? PupilsYear12 { get; set; }
-    public decimal? PupilsYear13 { get; set; }
     public decimal? PupilsNursery { get; set; }
     public int? PupilsMixedReceptionYear1 { get; set; }
     public int? PupilsMixedYear1Year2 { get; set; }
@@ -41,4 +34,32 @@ public record FinancialPlanRequest
     public int? PupilsYear4 { get; set; }
     public int? PupilsYear5 { get; set; }
     public int? PupilsYear6 { get; set; }
+    public int? PupilsYear7 { get; set; }
+    public int? PupilsYear8 { get; set; }
+    public int? PupilsYear9 { get; set; }
+    public int? PupilsYear10 { get; set; }
+    public int? PupilsYear11 { get; set; }
+    public decimal? PupilsYear12 { get; set; }
+    public decimal? PupilsYear13 { get; set; }
+    public int? TeachersNursery { get; set; }
+    public int? TeachersMixedReceptionYear1 { get; set; }
+    public int? TeachersMixedYear1Year2 { get; set; }
+    public int? TeachersMixedYear2Year3 { get; set; }
+    public int? TeachersMixedYear3Year4 { get; set; }
+    public int? TeachersMixedYear4Year5 { get; set; }
+    public int? TeachersMixedYear5Year6 { get; set; }
+    public int? TeachersReception { get; set; }
+    public int? TeachersYear1 { get; set; }
+    public int? TeachersYear2 { get; set; }
+    public int? TeachersYear3 { get; set; }
+    public int? TeachersYear4 { get; set; }
+    public int? TeachersYear5 { get; set; }
+    public int? TeachersYear6 { get; set; }
+    public int? TeachersYear7 { get; set; }
+    public int? TeachersYear8 { get; set; }
+    public int? TeachersYear9 { get; set; }
+    public int? TeachersYear10 { get; set; }
+    public int? TeachersYear11 { get; set; }
+    public int? TeachersYear12 { get; set; }
+    public int? TeachersYear13 { get; set; }
 }
