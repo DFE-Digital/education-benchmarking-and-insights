@@ -150,7 +150,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
             request.PupilsMixedYear3Year4 = null;
             request.PupilsMixedYear4Year5 = null;
             request.PupilsMixedYear5Year6 = null;
-            
+
             request.TeachersMixedReceptionYear1 = null;
             request.TeachersMixedYear1Year2 = null;
             request.TeachersMixedYear2Year3 = null;
@@ -195,7 +195,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.TeachersMixedYear3Year4 = model.MixedAgeYear3Year4 ? plan.TeachersMixedYear3Year4 : null;
         request.TeachersMixedYear4Year5 = model.MixedAgeYear4Year5 ? plan.TeachersMixedYear4Year5 : null;
         request.TeachersMixedYear5Year6 = model.MixedAgeYear5Year6 ? plan.TeachersMixedYear5Year6 : null;
-        
+
         request.TeachersReception = model.MixedAgeReceptionYear1 ? null : plan.TeachersReception;
         request.TeachersYear1 = model.MixedAgeReceptionYear1 || model.MixedAgeYear1Year2 ? null : plan.TeachersYear1;
         request.TeachersYear2 = model.MixedAgeYear1Year2 || model.MixedAgeYear2Year3 ? null : plan.TeachersYear2;
@@ -203,7 +203,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.TeachersYear4 = model.MixedAgeYear3Year4 || model.MixedAgeYear4Year5 ? null : plan.TeachersYear4;
         request.TeachersYear5 = model.MixedAgeYear4Year5 || model.MixedAgeYear5Year6 ? null : plan.TeachersYear5;
         request.TeachersYear6 = model.MixedAgeYear5Year6 ? null : plan.TeachersYear6;
-        
+
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }
 
@@ -219,7 +219,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.PupilsYear11 = model.PupilsYear11.ToInt();
         request.PupilsYear12 = model.PupilsYear12;
         request.PupilsYear13 = model.PupilsYear13;
-        
+
         request.TeachersYear7 = model.PupilsYear7.ToInt() > 0 ? request.TeachersYear7 : null;
         request.TeachersYear8 = model.PupilsYear8.ToInt() > 0 ? request.TeachersYear8 : null;
         request.TeachersYear9 = model.PupilsYear9.ToInt() > 0 ? request.TeachersYear9 : null;
@@ -250,7 +250,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.PupilsYear4 = model.PupilsYear4.ToInt();
         request.PupilsYear5 = model.PupilsYear5.ToInt();
         request.PupilsYear6 = model.PupilsYear6.ToInt();
-        
+
         request.TeachersNursery = model.PupilsNursery > 0 ? request.TeachersNursery : null;
         request.TeachersMixedReceptionYear1 = model.PupilsMixedReceptionYear1.ToInt() > 0 ? request.TeachersMixedReceptionYear1 : null;
         request.TeachersMixedYear1Year2 = model.PupilsMixedYear1Year2.ToInt() > 0 ? request.TeachersMixedYear1Year2 : null;

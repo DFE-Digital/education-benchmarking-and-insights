@@ -70,7 +70,7 @@ public record FinancialPlan
     public int? TeachersYear11 { get; set; }
     public int? TeachersYear12 { get; set; }
     public int? TeachersYear13 { get; set; }
-    
+
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
         return new FinancialPlan
