@@ -601,14 +601,7 @@ public class SchoolPlanningCreateController(
 
     private async Task<IActionResult> PostOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model)
     {
-        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
         FormAction action = model.Action;
-
-        if (action.Action == FormAction.Continue)
-        {
-            return new OkResult();
-        }
-
         switch (action.Action)
         {
             case FormAction.Add:
@@ -619,7 +612,15 @@ public class SchoolPlanningCreateController(
                 break;
         }
 
+        var results = await validator.ValidateAsync(model, Strategy.OtherTeachingPeriods);
+        if (results.IsValid && action.Action == FormAction.Continue)
+        {
+            return new OkResult();
+        }
+
+        results.AddToModelState(ModelState);
         ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, model.Year);
+        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
         var viewModel = new SchoolPlanCreateViewModel(school, plan)
         {
             OtherTeachingPeriods = model.OtherTeachingPeriods
