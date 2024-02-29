@@ -3,24 +3,26 @@ using System.Diagnostics.CodeAnalysis;
 namespace EducationBenchmarking.Web.Domain;
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSetAction
+public class FormAction
 {
     public const string Reset = "reset";
     public const string Remove = "remove";
+    public const string Add = "add";
+    public const string Continue = "continue";
 
     public string? Action { get; private set; }
-    public string? Urn { get; private set; }
+    public string? Identifier { get; private set; }
 
-    public static implicit operator ComparatorSetAction(string v)
+    public static implicit operator FormAction(string v)
     {
         if (v.StartsWith(Remove))
         {
             var comps = v.Split("-", StringSplitOptions.RemoveEmptyEntries);
-            var urn = comps[1];
+            var identifier = comps[1];
 
-            return new ComparatorSetAction { Action = Remove, Urn = urn };
+            return new FormAction { Action = Remove, Identifier = identifier };
         }
 
-        return new ComparatorSetAction { Action = Reset };
+        return new FormAction { Action = v };
     }
 }

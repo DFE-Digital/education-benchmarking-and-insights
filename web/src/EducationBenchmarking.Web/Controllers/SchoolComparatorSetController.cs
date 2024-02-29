@@ -45,11 +45,11 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
                 ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                ComparatorSetAction setAction = action;
+                FormAction setAction = action;
                 var set = setAction.Action switch
                 {
-                    ComparatorSetAction.Remove => await comparatorSetService.RemoveSchoolFromComparatorSet(urn, setAction.Urn ?? throw new ArgumentNullException(setAction.Urn)),
-                    ComparatorSetAction.Reset => await comparatorSetService.ResetSchoolComparatorSet(urn),
+                    FormAction.Remove => await comparatorSetService.RemoveSchoolFromComparatorSet(urn, setAction.Identifier ?? throw new ArgumentNullException(setAction.Identifier)),
+                    FormAction.Reset => await comparatorSetService.ResetSchoolComparatorSet(urn),
                     _ => throw new ArgumentOutOfRangeException(nameof(setAction.Action))
                 };
 

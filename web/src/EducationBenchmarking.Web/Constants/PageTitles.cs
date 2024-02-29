@@ -29,4 +29,5 @@ public static class PageTitles
     public const string SchoolPlanningMixedAgeClasses = "Which years have mixed age classes?";
     public const string SchoolPlanningPupilFigures = "What are your pupil figures?";
     public const string SchoolPlanningTeacherPeriodAllocation = "What are your teacher period allocation figures?";
+    public const string SchoolPlanningOtherTeacherPeriodsAdd = "Add other teaching periods";
 }

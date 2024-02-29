@@ -50,6 +50,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PupilFigures => await GetPupilFigures(school, year),
                     PlanSteps.PrimaryPupilFigures => await GetPrimaryPupilFigures(school, year),
                     PlanSteps.TeacherPeriodAllocation => await GetTeacherPeriodAllocation(school, year),
+                    PlanSteps.OtherTeachingPeriods => await GetOtherTeachingPeriods(school, year),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -86,6 +87,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PupilFigures => await PostPupilFigures(school, model),
                     PlanSteps.PrimaryPupilFigures => await PostPrimaryPupilFigures(school, model),
                     PlanSteps.TeacherPeriodAllocation => await PostTeacherPeriodAllocation(school, model),
+                    PlanSteps.OtherTeachingPeriods => await PostOtherTeachingPeriods(school, model),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -544,7 +546,9 @@ public class SchoolPlanningCreateController(
         if (results.IsValid)
         {
             await financialPlanService.UpdateTeacherPeriodAllocation(school, model);
-            return new OkResult();
+            return school.IsPrimary
+                ? new OkResult()
+                : RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.OtherTeachingPeriods });
         }
 
         results.AddToModelState(ModelState);
@@ -581,6 +585,47 @@ public class SchoolPlanningCreateController(
         };
 
         return View("TeacherPeriodAllocation", viewModel);
+    }
+
+    private async Task<IActionResult> GetOtherTeachingPeriods(School school, int? year)
+    {
+        var plan = await financialPlanService.GetPlan(school.Urn, year);
+        ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+        var viewModel = new SchoolPlanCreateViewModel(school, plan);
+        if (viewModel.OtherTeachingPeriods.Count == 0)
+        {
+            viewModel.OtherTeachingPeriods.Add(new SchoolPlanOtherTeachingPeriodsViewModel());
+        }
+        return View("OtherTeachingPeriods", viewModel);
+    }
+
+    private async Task<IActionResult> PostOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
+        FormAction action = model.Action;
+
+        if (action.Action == FormAction.Continue)
+        {
+            return new OkResult();
+        }
+
+        switch (action.Action)
+        {
+            case FormAction.Add:
+                model.OtherTeachingPeriods.Add(new SchoolPlanOtherTeachingPeriodsViewModel());
+                break;
+            case FormAction.Remove:
+                model.OtherTeachingPeriods.RemoveAt(int.Parse(action.Identifier ?? "0"));
+                break;
+        }
+
+        ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, model.Year);
+        var viewModel = new SchoolPlanCreateViewModel(school, plan)
+        {
+            OtherTeachingPeriods = model.OtherTeachingPeriods
+        };
+
+        return View("OtherTeachingPeriods", viewModel);
     }
 
     private BacklinkInfo IndexBackLink(School school) =>
@@ -624,4 +669,7 @@ public class SchoolPlanningCreateController(
 
     private BacklinkInfo PrimaryPupilFiguresBackLink(School school, int? year) =>
         new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.PrimaryPupilFigures }));
+
+    private BacklinkInfo TeacherPeriodAllocationBackLink(School school, int? year) =>
+        new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.TeacherPeriodAllocation }));
 }
