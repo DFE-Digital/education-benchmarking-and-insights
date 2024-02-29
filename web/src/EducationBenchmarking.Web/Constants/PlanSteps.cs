@@ -17,4 +17,5 @@ public class PlanSteps
     public const string PrimaryPupilFigures = "primary-pupil-figures";
     public const string PrimaryMixedAgeClasses = "primary-mixed-age-classes";
     public const string TeacherPeriodAllocation = "teacher-period-allocation";
+    public const string OtherTeachingPeriods = "other-teaching-periods";
 }

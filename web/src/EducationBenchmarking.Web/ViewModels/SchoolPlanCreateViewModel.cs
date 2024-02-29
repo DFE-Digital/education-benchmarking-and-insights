@@ -141,4 +141,6 @@ public class SchoolPlanCreateViewModel
     public string? TeachersYear11 { get; set; }
     public string? TeachersYear12 { get; set; }
     public string? TeachersYear13 { get; set; }
+    public List<SchoolPlanOtherTeachingPeriodsViewModel> OtherTeachingPeriods { get; set; } = new();
+    public string Action { get; set; } = "";
 }
