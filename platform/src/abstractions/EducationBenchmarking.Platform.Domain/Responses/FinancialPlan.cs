@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using EducationBenchmarking.Platform.Domain.DataObjects;
 
 namespace EducationBenchmarking.Platform.Domain.Responses;
@@ -70,6 +71,7 @@ public record FinancialPlan
     public int? TeachersYear11 { get; set; }
     public int? TeachersYear12 { get; set; }
     public int? TeachersYear13 { get; set; }
+    public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
@@ -137,7 +139,19 @@ public record FinancialPlan
             TeachersYear10 = dataObject.TeachersYear10,
             TeachersYear11 = dataObject.TeachersYear11,
             TeachersYear12 = dataObject.TeachersYear12,
-            TeachersYear13 = dataObject.TeachersYear13
+            TeachersYear13 = dataObject.TeachersYear13,
+            OtherTeachingPeriods = dataObject.OtherTeachingPeriods?
+                .Select(x => new OtherTeachingPeriod
+                {
+                    PeriodName = x.PeriodName,
+                    PeriodsPerTimetable = x.PeriodsPerTimetable
+                }).ToArray()
         };
+    }
+
+    public class OtherTeachingPeriod
+    {
+        public string? PeriodName { get; set; }
+        public string? PeriodsPerTimetable { get; set; }
     }
 }

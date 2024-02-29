@@ -92,6 +92,11 @@ public class SchoolPlanCreateViewModel
         AssistantsYear4 = plan.AssistantsYear4;
         AssistantsYear5 = plan.AssistantsYear5;
         AssistantsYear6 = plan.AssistantsYear6;
+        OtherTeachingPeriods = plan.OtherTeachingPeriods.Select(x => new SchoolPlanOtherTeachingPeriodsViewModel
+        {
+            PeriodName = x.PeriodName,
+            PeriodsPerTimetable = x.PeriodsPerTimetable
+        }).ToList();
     }
 
     public string? Name { get; set; }

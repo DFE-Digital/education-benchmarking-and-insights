@@ -1,6 +1,7 @@
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using EducationBenchmarking.Platform.Domain.DataObjects;
 using EducationBenchmarking.Platform.Domain.Requests;
@@ -41,7 +42,9 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
         var response = await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
-        return response.IsSuccessStatusCode ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>()) : null;
+        return response.IsSuccessStatusCode
+            ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>())
+            : null;
     }
 
     public async Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
@@ -75,7 +78,8 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
     public async Task DeleteFinancialPlan(FinancialPlan plan)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-        await DeleteItemAsync<FinancialPlan>(_options.FinancialPlanCollectionName, plan.Year.ToString(), new PartitionKey(plan.Urn));
+        await DeleteItemAsync<FinancialPlan>(_options.FinancialPlanCollectionName, plan.Year.ToString(),
+            new PartitionKey(plan.Urn));
     }
 
     private async Task<Result> Update(FinancialPlanRequest request, FinancialPlanDataObject existing)
@@ -141,7 +145,13 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TeachersYear11 = request.TeachersYear11;
         existing.TeachersYear12 = request.TeachersYear12;
         existing.TeachersYear13 = request.TeachersYear13;
-
+        existing.TeachersYear13 = request.TeachersYear13;
+        existing.OtherTeachingPeriods = request.OtherTeachingPeriods?
+            .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
+            {
+                PeriodName = x.PeriodName,
+                PeriodsPerTimetable = x.PeriodsPerTimetable
+            }).ToArray();
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -175,13 +185,12 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             MixedAgeYear3Year4 = request.MixedAgeYear3Year4,
             MixedAgeYear4Year5 = request.MixedAgeYear4Year5,
             MixedAgeYear5Year6 = request.MixedAgeYear5Year6,
-            PupilsYear7 = request.PupilsYear7,
-            PupilsYear8 = request.PupilsYear8,
-            PupilsYear9 = request.PupilsYear9,
-            PupilsYear10 = request.PupilsYear10,
-            PupilsYear11 = request.PupilsYear11,
-            PupilsYear12 = request.PupilsYear12,
-            PupilsYear13 = request.PupilsYear13,
+            PupilsMixedReceptionYear1 = request.PupilsMixedReceptionYear1,
+            PupilsMixedYear1Year2 = request.PupilsMixedYear1Year2,
+            PupilsMixedYear2Year3 = request.PupilsMixedYear2Year3,
+            PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4,
+            PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5,
+            PupilsMixedYear5Year6 = request.PupilsMixedYear5Year6,
             PupilsNursery = request.PupilsNursery,
             PupilsReception = request.PupilsReception,
             PupilsYear1 = request.PupilsYear1,
@@ -190,12 +199,40 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             PupilsYear4 = request.PupilsYear4,
             PupilsYear5 = request.PupilsYear5,
             PupilsYear6 = request.PupilsYear6,
-            PupilsMixedReceptionYear1 = request.PupilsMixedReceptionYear1,
-            PupilsMixedYear1Year2 = request.PupilsMixedYear1Year2,
-            PupilsMixedYear2Year3 = request.PupilsMixedYear2Year3,
-            PupilsMixedYear3Year4 = request.PupilsMixedYear3Year4,
-            PupilsMixedYear4Year5 = request.PupilsMixedYear4Year5,
-            PupilsMixedYear5Year6 = request.PupilsMixedYear5Year6
+            PupilsYear7 = request.PupilsYear7,
+            PupilsYear8 = request.PupilsYear8,
+            PupilsYear9 = request.PupilsYear9,
+            PupilsYear10 = request.PupilsYear10,
+            PupilsYear11 = request.PupilsYear11,
+            PupilsYear12 = request.PupilsYear12,
+            PupilsYear13 = request.PupilsYear13,
+            TeachersNursery = request.TeachersNursery,
+            TeachersMixedReceptionYear1 = request.TeachersMixedReceptionYear1,
+            TeachersMixedYear1Year2 = request.TeachersMixedYear1Year2,
+            TeachersMixedYear2Year3 = request.TeachersMixedYear2Year3,
+            TeachersMixedYear3Year4 = request.TeachersMixedYear3Year4,
+            TeachersMixedYear4Year5 = request.TeachersMixedYear4Year5,
+            TeachersMixedYear5Year6 = request.TeachersMixedYear5Year6,
+            TeachersReception = request.TeachersReception,
+            TeachersYear1 = request.TeachersYear1,
+            TeachersYear2 = request.TeachersYear2,
+            TeachersYear3 = request.TeachersYear3,
+            TeachersYear4 = request.TeachersYear4,
+            TeachersYear5 = request.TeachersYear5,
+            TeachersYear6 = request.TeachersYear6,
+            TeachersYear7 = request.TeachersYear7,
+            TeachersYear8 = request.TeachersYear8,
+            TeachersYear9 = request.TeachersYear9,
+            TeachersYear10 = request.TeachersYear10,
+            TeachersYear11 = request.TeachersYear11,
+            TeachersYear12 = request.TeachersYear12,
+            TeachersYear13 = request.TeachersYear13,
+            OtherTeachingPeriods = request.OtherTeachingPeriods?
+                .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
+                {
+                    PeriodName = x.PeriodName,
+                    PeriodsPerTimetable = x.PeriodsPerTimetable
+                }).ToArray()
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
