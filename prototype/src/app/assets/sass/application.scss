@@ -3,4 +3,73 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 // 
 
-// Add extra styles here
+//HOMEPAGE
+
+.headline-figures {
+    margin-bottom: 30px;
+}
+
+.headline-figures div div {
+    background: #5D7490;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.headline-figures div div p {
+    font-size: 24px;
+    color: white;
+}
+
+.headline-figures div div p:first-child {
+    font-weight: bold;
+}
+
+.app-links {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+}
+
+.app-links li {
+    width: calc((100% - 30px)/ 3);
+}
+
+.app-view-component {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.top-categories div {
+    background-color: #EEEFEF;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+//SPENDING AND COSTS
+
+
+// GENERIC
+.high-priority, .medium-priority {
+    margin-bottom: 0;
+}
+
+.high-priority, .high-priority .govuk-tag--red {
+    border: 1px solid #942514;
+}
+
+.medium-priority, .medium-priority .govuk-tag--yellow {
+    border: 1px solid #594D00;
+}
+
+.high-priority, .medium-priority {
+    border-left: none;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.high-priority .govuk-tag {
+    margin-right: 10px;
+}
