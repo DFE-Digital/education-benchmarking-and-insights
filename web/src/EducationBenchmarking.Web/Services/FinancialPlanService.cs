@@ -305,7 +305,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
     {
         var plan = await GetPlan(school.Urn, model.Year);
         var request = PutFinancialPlanRequest.Create(plan);
-        
+
         request.AssistantsMixedReceptionYear1 = model.AssistantsMixedReceptionYear1;
         request.AssistantsMixedYear1Year2 = model.AssistantsMixedYear1Year2;
         request.AssistantsMixedYear2Year3 = model.AssistantsMixedYear2Year3;

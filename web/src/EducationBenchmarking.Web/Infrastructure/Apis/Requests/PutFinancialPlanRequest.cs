@@ -77,7 +77,7 @@ public class PutFinancialPlanRequest
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
     public IEnumerable<OtherTeachingPeriod> OtherTeachingPeriods { get; set; } = Array.Empty<OtherTeachingPeriod>();
-    
+
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
         return new PutFinancialPlanRequest
