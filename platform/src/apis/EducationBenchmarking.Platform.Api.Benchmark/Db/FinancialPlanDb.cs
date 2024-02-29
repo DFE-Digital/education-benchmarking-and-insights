@@ -145,7 +145,20 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.TeachersYear11 = request.TeachersYear11;
         existing.TeachersYear12 = request.TeachersYear12;
         existing.TeachersYear13 = request.TeachersYear13;
-        existing.TeachersYear13 = request.TeachersYear13;
+        existing.AssistantsMixedReceptionYear1 = request.AssistantsMixedReceptionYear1;
+        existing.AssistantsMixedYear1Year2 = request.AssistantsMixedYear1Year2;
+        existing.AssistantsMixedYear2Year3 = request.AssistantsMixedYear2Year3;
+        existing.AssistantsMixedYear3Year4 = request.AssistantsMixedYear3Year4;
+        existing.AssistantsMixedYear4Year5 = request.AssistantsMixedYear4Year5;
+        existing.AssistantsMixedYear5Year6 = request.AssistantsMixedYear5Year6;
+        existing.AssistantsNursery = request.AssistantsNursery;
+        existing.AssistantsReception = request.AssistantsReception;
+        existing.AssistantsYear1 = request.AssistantsYear1;
+        existing.AssistantsYear2 = request.AssistantsYear2;
+        existing.AssistantsYear3 = request.AssistantsYear3;
+        existing.AssistantsYear4 = request.AssistantsYear4;
+        existing.AssistantsYear5 = request.AssistantsYear5;
+        existing.AssistantsYear6 = request.AssistantsYear6;
         existing.OtherTeachingPeriods = request.OtherTeachingPeriods?
             .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
             {
@@ -227,6 +240,20 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             TeachersYear11 = request.TeachersYear11,
             TeachersYear12 = request.TeachersYear12,
             TeachersYear13 = request.TeachersYear13,
+            AssistantsMixedReceptionYear1 = request.AssistantsMixedReceptionYear1,
+            AssistantsMixedYear1Year2 = request.AssistantsMixedYear1Year2,
+            AssistantsMixedYear2Year3 = request.AssistantsMixedYear2Year3,
+            AssistantsMixedYear3Year4 = request.AssistantsMixedYear3Year4,
+            AssistantsMixedYear4Year5 = request.AssistantsMixedYear4Year5,
+            AssistantsMixedYear5Year6 = request.AssistantsMixedYear5Year6,
+            AssistantsNursery = request.AssistantsNursery,
+            AssistantsReception = request.AssistantsReception,
+            AssistantsYear1 = request.AssistantsYear1,
+            AssistantsYear2 = request.AssistantsYear2,
+            AssistantsYear3 = request.AssistantsYear3,
+            AssistantsYear4 = request.AssistantsYear4,
+            AssistantsYear5 = request.AssistantsYear5,
+            AssistantsYear6 = request.AssistantsYear6,
             OtherTeachingPeriods = request.OtherTeachingPeriods?
                 .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
                 {

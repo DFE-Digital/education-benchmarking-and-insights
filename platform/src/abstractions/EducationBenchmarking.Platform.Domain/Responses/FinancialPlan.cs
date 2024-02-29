@@ -71,6 +71,20 @@ public record FinancialPlan
     public int? TeachersYear11 { get; set; }
     public int? TeachersYear12 { get; set; }
     public int? TeachersYear13 { get; set; }
+    public decimal? AssistantsMixedReceptionYear1 { get; set; }
+    public decimal? AssistantsMixedYear1Year2 { get; set; }
+    public decimal? AssistantsMixedYear2Year3 { get; set; }
+    public decimal? AssistantsMixedYear3Year4 { get; set; }
+    public decimal? AssistantsMixedYear4Year5 { get; set; }
+    public decimal? AssistantsMixedYear5Year6 { get; set; }
+    public decimal? AssistantsNursery { get; set; }
+    public decimal? AssistantsReception { get; set; }
+    public decimal? AssistantsYear1 { get; set; }
+    public decimal? AssistantsYear2 { get; set; }
+    public decimal? AssistantsYear3 { get; set; }
+    public decimal? AssistantsYear4 { get; set; }
+    public decimal? AssistantsYear5 { get; set; }
+    public decimal? AssistantsYear6 { get; set; }
     public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
@@ -140,6 +154,20 @@ public record FinancialPlan
             TeachersYear11 = dataObject.TeachersYear11,
             TeachersYear12 = dataObject.TeachersYear12,
             TeachersYear13 = dataObject.TeachersYear13,
+            AssistantsMixedReceptionYear1 = dataObject.AssistantsMixedReceptionYear1,
+            AssistantsMixedYear1Year2 = dataObject.AssistantsMixedYear1Year2,
+            AssistantsMixedYear2Year3 = dataObject.AssistantsMixedYear2Year3,
+            AssistantsMixedYear3Year4 = dataObject.AssistantsMixedYear3Year4,
+            AssistantsMixedYear4Year5 = dataObject.AssistantsMixedYear4Year5,
+            AssistantsMixedYear5Year6 = dataObject.AssistantsMixedYear5Year6,
+            AssistantsNursery = dataObject.AssistantsNursery,
+            AssistantsReception = dataObject.AssistantsReception,
+            AssistantsYear1 = dataObject.AssistantsYear1,
+            AssistantsYear2 = dataObject.AssistantsYear2,
+            AssistantsYear3 = dataObject.AssistantsYear3,
+            AssistantsYear4 = dataObject.AssistantsYear4,
+            AssistantsYear5 = dataObject.AssistantsYear5,
+            AssistantsYear6 = dataObject.AssistantsYear6,
             OtherTeachingPeriods = dataObject.OtherTeachingPeriods?
                 .Select(x => new OtherTeachingPeriod
                 {
