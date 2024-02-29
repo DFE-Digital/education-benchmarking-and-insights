@@ -51,6 +51,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PrimaryPupilFigures => await GetPrimaryPupilFigures(school, year),
                     PlanSteps.TeacherPeriodAllocation => await GetTeacherPeriodAllocation(school, year),
                     PlanSteps.OtherTeachingPeriods => await GetOtherTeachingPeriods(school, year),
+                    PlanSteps.TeachingAssistantFigures => await GetTeachingAssistantFigures(school, year),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -88,6 +89,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.PrimaryPupilFigures => await PostPrimaryPupilFigures(school, model),
                     PlanSteps.TeacherPeriodAllocation => await PostTeacherPeriodAllocation(school, model),
                     PlanSteps.OtherTeachingPeriods => await PostOtherTeachingPeriods(school, model),
+                    PlanSteps.TeachingAssistantFigures => await PostTeachingAssistantFigures(school, model),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -547,7 +549,7 @@ public class SchoolPlanningCreateController(
         {
             await financialPlanService.UpdateTeacherPeriodAllocation(school, model);
             return school.IsPrimary
-                ? new OkResult()
+                ? RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.TeachingAssistantFigures })
                 : RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.OtherTeachingPeriods });
         }
 
@@ -585,6 +587,51 @@ public class SchoolPlanningCreateController(
         };
 
         return View("TeacherPeriodAllocation", viewModel);
+    }
+
+    private async Task<IActionResult> GetTeachingAssistantFigures(School school, int? year)
+    {
+        ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+
+        var plan = await financialPlanService.GetPlan(school.Urn, year);
+
+        var viewModel = new SchoolPlanCreateViewModel(school, plan);
+        return View("TeachingAssistantFigures", viewModel);
+    }
+
+    private async Task<IActionResult> PostTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model)
+    {
+        var results = await validator.ValidateAsync(model, Strategy.TeachingAssistantsFigures);
+        if (results.IsValid)
+        {
+            await financialPlanService.UpdateTeachingAssistantFigures(school, model);
+            return RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.OtherTeachingPeriods });
+        }
+
+        results.AddToModelState(ModelState);
+        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
+
+        ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, model.Year);
+
+        var viewModel = new SchoolPlanCreateViewModel(school, plan)
+        {
+            AssistantsMixedReceptionYear1 = model.AssistantsMixedReceptionYear1,
+            AssistantsMixedYear1Year2 = model.AssistantsMixedYear1Year2,
+            AssistantsMixedYear2Year3 = model.AssistantsMixedYear2Year3,
+            AssistantsMixedYear3Year4 = model.AssistantsMixedYear3Year4,
+            AssistantsMixedYear4Year5 = model.AssistantsMixedYear4Year5,
+            AssistantsMixedYear5Year6 = model.AssistantsMixedYear5Year6,
+            AssistantsNursery = model.AssistantsNursery,
+            AssistantsReception = model.AssistantsReception,
+            AssistantsYear1 = model.AssistantsYear1,
+            AssistantsYear2 = model.AssistantsYear2,
+            AssistantsYear3 = model.AssistantsYear3,
+            AssistantsYear4 = model.AssistantsYear4,
+            AssistantsYear5 = model.AssistantsYear5,
+            AssistantsYear6 = model.AssistantsYear6,
+        };
+
+        return View("TeachingAssistantFigures", viewModel);
     }
 
     private async Task<IActionResult> GetOtherTeachingPeriods(School school, int? year)

@@ -78,6 +78,20 @@ public class SchoolPlanCreateViewModel
         TeachersYear11 = plan.TeachersYear11.ToString();
         TeachersYear12 = plan.TeachersYear12.ToString();
         TeachersYear13 = plan.TeachersYear13.ToString();
+        AssistantsMixedReceptionYear1 = plan.AssistantsMixedReceptionYear1;
+        AssistantsMixedYear1Year2 = plan.AssistantsMixedYear1Year2;
+        AssistantsMixedYear2Year3 = plan.AssistantsMixedYear2Year3;
+        AssistantsMixedYear3Year4 = plan.AssistantsMixedYear3Year4;
+        AssistantsMixedYear4Year5 = plan.AssistantsMixedYear4Year5;
+        AssistantsMixedYear5Year6 = plan.AssistantsMixedYear5Year6;
+        AssistantsNursery = plan.AssistantsNursery;
+        AssistantsReception = plan.AssistantsReception;
+        AssistantsYear1 = plan.AssistantsYear1;
+        AssistantsYear2 = plan.AssistantsYear2;
+        AssistantsYear3 = plan.AssistantsYear3;
+        AssistantsYear4 = plan.AssistantsYear4;
+        AssistantsYear5 = plan.AssistantsYear5;
+        AssistantsYear6 = plan.AssistantsYear6;
     }
 
     public string? Name { get; set; }
@@ -141,6 +155,20 @@ public class SchoolPlanCreateViewModel
     public string? TeachersYear11 { get; set; }
     public string? TeachersYear12 { get; set; }
     public string? TeachersYear13 { get; set; }
+    public decimal? AssistantsMixedReceptionYear1 { get; set; }
+    public decimal? AssistantsMixedYear1Year2 { get; set; }
+    public decimal? AssistantsMixedYear2Year3 { get; set; }
+    public decimal? AssistantsMixedYear3Year4 { get; set; }
+    public decimal? AssistantsMixedYear4Year5 { get; set; }
+    public decimal? AssistantsMixedYear5Year6 { get; set; }
+    public decimal? AssistantsNursery { get; set; }
+    public decimal? AssistantsReception { get; set; }
+    public decimal? AssistantsYear1 { get; set; }
+    public decimal? AssistantsYear2 { get; set; }
+    public decimal? AssistantsYear3 { get; set; }
+    public decimal? AssistantsYear4 { get; set; }
+    public decimal? AssistantsYear5 { get; set; }
+    public decimal? AssistantsYear6 { get; set; }
     public List<SchoolPlanOtherTeachingPeriodsViewModel> OtherTeachingPeriods { get; set; } = new();
     public string Action { get; set; } = "";
 }
