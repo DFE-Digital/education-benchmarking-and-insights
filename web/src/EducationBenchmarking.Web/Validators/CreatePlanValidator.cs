@@ -45,6 +45,9 @@ public static class Strategy
 
     public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> TeacherPeriodAllocation => o =>
         o.IncludeRuleSets(PlanSteps.TeacherPeriodAllocation);
+    
+    public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> OtherTeachingPeriods => o =>
+        o.IncludeRuleSets(PlanSteps.OtherTeachingPeriods);
 }
 
 public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
@@ -64,6 +67,34 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
         RulesForPupilFigures();
         RulesForPrimaryPupilFigures();
         RulesForTeacherPeriodAllocation();
+        RulesForOtherTeachingPeriods();
+    }
+
+    private void RulesForOtherTeachingPeriods()
+    {
+        RuleSet(PlanSteps.OtherTeachingPeriods, () =>
+        {
+            RuleForEach(p => p.OtherTeachingPeriods).ChildRules(period =>
+            {
+                period.When(p => !string.IsNullOrEmpty(p.PeriodsPerTimetable), () =>
+                {
+                    period.RuleFor(p => p.PeriodName)
+                        .NotEmpty()
+                        .WithMessage("Enter name of teaching period");
+                });
+                
+                period.When(p => !string.IsNullOrEmpty(p.PeriodName), () =>
+                {
+                    period.RuleFor(p => p.PeriodsPerTimetable)
+                        .NotEmpty()
+                        .WithMessage("Enter number of periods per timetable cycle")
+                        .Must(x => x.ToInt() is not null)
+                        .WithMessage("Number of periods per timetable cycle must be a whole number")
+                        .Must(x => x.ToInt() is > 0)
+                        .WithMessage("Number of periods per timetable cycle must be 0 or more");
+                });
+            }).WithName("OtherTeachingPeriods");
+        });
     }
 
     private void RulesForTeacherPeriodAllocation()

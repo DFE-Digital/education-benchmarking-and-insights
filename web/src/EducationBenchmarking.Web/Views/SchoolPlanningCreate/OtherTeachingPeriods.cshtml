@@ -1,7 +1,9 @@
 @using EducationBenchmarking.Web.Domain
+@using EducationBenchmarking.Web.Extensions
 @model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningOtherTeacherPeriodsAdd;
+    var errors = ViewData.ModelState.Where(x => x.Value is not null && x.Value.Errors.Any()).ToArray();
 }
 
 <div class="govuk-grid-row">
@@ -33,8 +35,14 @@
     <div class="govuk-grid-column-full">
         @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.OtherTeachingPeriods }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-            <div class="govuk-form-group">
+            <div class="@(ViewData.ModelState.IsValid ? "govuk-form-group" : "govuk-form-group govuk-form-group--error")">
                 <fieldset class="govuk-fieldset">
+                    @if (errors.Any())
+                    {
+                        <p id="OtherTeachingPeriods-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @errors.First().Value?.Errors.First().ErrorMessage
+                        </p>
+                    }
                     <table class="govuk-table">
                         <thead class="govuk-table__head">
                         <tr class="govuk-table__row">
