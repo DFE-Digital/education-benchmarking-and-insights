@@ -45,7 +45,7 @@ public static class Strategy
 
     public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> TeacherPeriodAllocation => o =>
         o.IncludeRuleSets(PlanSteps.TeacherPeriodAllocation);
-    
+
     public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> OtherTeachingPeriods => o =>
         o.IncludeRuleSets(PlanSteps.OtherTeachingPeriods);
 }
@@ -82,7 +82,7 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
                         .NotEmpty()
                         .WithMessage("Enter name of teaching period");
                 });
-                
+
                 period.When(p => !string.IsNullOrEmpty(p.PeriodName), () =>
                 {
                     period.RuleFor(p => p.PeriodsPerTimetable)
