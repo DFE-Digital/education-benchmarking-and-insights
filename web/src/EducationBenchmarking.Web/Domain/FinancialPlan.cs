@@ -74,4 +74,11 @@ public class FinancialPlan
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
+    public IEnumerable<OtherTeachingPeriod> OtherTeachingPeriods { get; set; } = Array.Empty<OtherTeachingPeriod>();
+
+    public class OtherTeachingPeriod
+    {
+        public string? PeriodName { get; set; }
+        public string? PeriodsPerTimetable { get; set; }
+    }
 }

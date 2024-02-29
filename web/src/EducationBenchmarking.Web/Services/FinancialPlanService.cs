@@ -23,6 +23,7 @@ public interface IFinancialPlanService
     Task UpdatePrimaryPupilFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdateTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model);
     Task UpdateTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model);
+    Task UpdateOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model);
 }
 
 public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
@@ -319,6 +320,24 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.AssistantsYear4 = model.AssistantsYear4;
         request.AssistantsYear5 = model.AssistantsYear5;
         request.AssistantsYear6 = model.AssistantsYear6;
+
+        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+    }
+
+    public async Task UpdateOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await GetPlan(school.Urn, model.Year);
+        var request = PutFinancialPlanRequest.Create(plan);
+        var periods = model.OtherTeachingPeriods
+            .Where(x => !string.IsNullOrEmpty(x.PeriodName))
+            .Select(period => new PutFinancialPlanRequest.OtherTeachingPeriod
+            {
+                PeriodName = period.PeriodName,
+                PeriodsPerTimetable = period.PeriodsPerTimetable
+            })
+            .ToArray();
+
+        request.OtherTeachingPeriods = periods;
 
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }

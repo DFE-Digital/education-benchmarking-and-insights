@@ -76,6 +76,7 @@ public class PutFinancialPlanRequest
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
+    public IEnumerable<OtherTeachingPeriod> OtherTeachingPeriods { get; set; } = Array.Empty<OtherTeachingPeriod>();
 
     public static PutFinancialPlanRequest Create(FinancialPlan plan)
     {
@@ -153,6 +154,18 @@ public class PutFinancialPlanRequest
             AssistantsYear4 = plan.AssistantsYear4,
             AssistantsYear5 = plan.AssistantsYear5,
             AssistantsYear6 = plan.AssistantsYear6,
+            OtherTeachingPeriods = plan.OtherTeachingPeriods
+                .Select(x => new OtherTeachingPeriod
+                {
+                    PeriodName = x.PeriodName,
+                    PeriodsPerTimetable = x.PeriodsPerTimetable
+                })
         };
+    }
+
+    public class OtherTeachingPeriod
+    {
+        public string? PeriodName { get; set; }
+        public string? PeriodsPerTimetable { get; set; }
     }
 }

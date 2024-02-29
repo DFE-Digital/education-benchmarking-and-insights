@@ -662,7 +662,10 @@ public class SchoolPlanningCreateController(
         var results = await validator.ValidateAsync(model, Strategy.OtherTeachingPeriods);
         if (results.IsValid && action.Action == FormAction.Continue)
         {
-            return new OkResult();
+            await financialPlanService.UpdateOtherTeachingPeriods(school, model);
+            return model.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
+                ? new AcceptedResult()
+                : new OkResult();
         }
 
         results.AddToModelState(ModelState);
