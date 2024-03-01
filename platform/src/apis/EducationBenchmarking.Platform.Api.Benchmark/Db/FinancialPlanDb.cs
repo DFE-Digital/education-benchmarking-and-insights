@@ -177,6 +177,18 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.ManagementRoleHeadLargeCurriculum = request.ManagementRoleHeadLargeCurriculum;
         existing.ManagementRolePastoralLeader = request.ManagementRolePastoralLeader;
         existing.ManagementRoleOtherMembers = request.ManagementRoleOtherMembers;
+        existing.NumberHeadteacher = request.NumberHeadteacher;
+        existing.NumberDeputyHeadteacher = request.NumberDeputyHeadteacher;
+        existing.NumberNumeracyLead = request.NumberNumeracyLead;
+        existing.NumberLiteracyLead = request.NumberLiteracyLead;
+        existing.NumberHeadSmallCurriculum = request.NumberHeadSmallCurriculum;
+        existing.NumberHeadKs1 = request.NumberHeadKs1;
+        existing.NumberHeadKs2 = request.NumberHeadKs2;
+        existing.NumberSenco = request.NumberSenco;
+        existing.NumberAssistantHeadteacher = request.NumberAssistantHeadteacher;
+        existing.NumberHeadLargeCurriculum = request.NumberHeadLargeCurriculum;
+        existing.NumberPastoralLeader = request.NumberPastoralLeader;
+        existing.NumberOtherMembers = request.NumberOtherMembers;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -283,7 +295,19 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             ManagementRoleAssistantHeadteacher = request.ManagementRoleAssistantHeadteacher,
             ManagementRoleHeadLargeCurriculum = request.ManagementRoleHeadLargeCurriculum,
             ManagementRolePastoralLeader = request.ManagementRolePastoralLeader,
-            ManagementRoleOtherMembers = request.ManagementRoleOtherMembers
+            ManagementRoleOtherMembers = request.ManagementRoleOtherMembers,
+            NumberHeadteacher = request.NumberHeadteacher,
+            NumberDeputyHeadteacher = request.NumberDeputyHeadteacher,
+            NumberNumeracyLead = request.NumberNumeracyLead,
+            NumberLiteracyLead = request.NumberLiteracyLead,
+            NumberHeadSmallCurriculum = request.NumberHeadSmallCurriculum,
+            NumberHeadKs1 = request.NumberHeadKs1,
+            NumberHeadKs2 = request.NumberHeadKs2,
+            NumberSenco = request.NumberSenco,
+            NumberAssistantHeadteacher = request.NumberAssistantHeadteacher,
+            NumberHeadLargeCurriculum = request.NumberHeadLargeCurriculum,
+            NumberPastoralLeader = request.NumberPastoralLeader,
+            NumberOtherMembers = request.NumberOtherMembers
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
