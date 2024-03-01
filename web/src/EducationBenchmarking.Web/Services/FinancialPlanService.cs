@@ -25,6 +25,7 @@ public interface IFinancialPlanService
     Task UpdateTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdateOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model);
     Task UpdateManagementRoles(School school, SchoolPlanCreateViewModel model);
+    Task UpdateManagersPerRole(School school, SchoolPlanCreateViewModel model);
 }
 
 public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
@@ -360,6 +361,40 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         request.ManagementRoleHeadLargeCurriculum = model.ManagementRoleHeadLargeCurriculum;
         request.ManagementRolePastoralLeader = model.ManagementRolePastoralLeader;
         request.ManagementRoleOtherMembers = model.ManagementRoleOtherMembers;
+
+        request.NumberHeadteacher = model.ManagementRoleHeadteacher ? request.NumberHeadteacher : null;
+        request.NumberDeputyHeadteacher = model.ManagementRoleDeputyHeadteacher ? request.NumberDeputyHeadteacher : null;
+        request.NumberNumeracyLead = model.ManagementRoleNumeracyLead ? request.NumberNumeracyLead : null;
+        request.NumberLiteracyLead = model.ManagementRoleLiteracyLead ? request.NumberLiteracyLead : null;
+        request.NumberHeadSmallCurriculum = model.ManagementRoleHeadSmallCurriculum ? request.NumberHeadSmallCurriculum : null;
+        request.NumberHeadKs1 = model.ManagementRoleHeadKs1 ? request.NumberHeadKs1 : null;
+        request.NumberHeadKs2 = model.ManagementRoleHeadKs2 ? request.NumberHeadKs2 : null;
+        request.NumberSenco = model.ManagementRoleSenco ? request.NumberSenco : null;
+        request.NumberAssistantHeadteacher = model.ManagementRoleAssistantHeadteacher ? request.NumberAssistantHeadteacher : null;
+        request.NumberHeadLargeCurriculum = model.ManagementRoleHeadLargeCurriculum ? request.NumberHeadLargeCurriculum : null;
+        request.NumberPastoralLeader = model.ManagementRolePastoralLeader ? request.NumberPastoralLeader : null;
+        request.NumberOtherMembers = model.ManagementRoleOtherMembers ? request.NumberOtherMembers : null;
+
+        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+    }
+
+    public async Task UpdateManagersPerRole(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await GetPlan(school.Urn, model.Year);
+        var request = PutFinancialPlanRequest.Create(plan);
+
+        request.NumberHeadteacher = model.NumberHeadteacher.ToInt();
+        request.NumberDeputyHeadteacher = model.NumberDeputyHeadteacher.ToInt();
+        request.NumberNumeracyLead = model.NumberNumeracyLead.ToInt();
+        request.NumberLiteracyLead = model.NumberLiteracyLead.ToInt();
+        request.NumberHeadSmallCurriculum = model.NumberHeadSmallCurriculum.ToInt();
+        request.NumberHeadKs1 = model.NumberHeadKs1.ToInt();
+        request.NumberHeadKs2 = model.NumberHeadKs2.ToInt();
+        request.NumberSenco = model.NumberSenco.ToInt();
+        request.NumberAssistantHeadteacher = model.NumberAssistantHeadteacher.ToInt();
+        request.NumberHeadLargeCurriculum = model.NumberHeadLargeCurriculum.ToInt();
+        request.NumberPastoralLeader = model.NumberPastoralLeader.ToInt();
+        request.NumberOtherMembers = model.NumberOtherMembers.ToInt();
 
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }
