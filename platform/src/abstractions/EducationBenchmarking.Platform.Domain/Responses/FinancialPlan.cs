@@ -86,6 +86,18 @@ public record FinancialPlan
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
     public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    public bool ManagementRoleHeadteacher { get; set; }
+    public bool ManagementRoleDeputyHeadteacher { get; set; }
+    public bool ManagementRoleNumeracyLead { get; set; }
+    public bool ManagementRoleLiteracyLead { get; set; }
+    public bool ManagementRoleHeadSmallCurriculum { get; set; }
+    public bool ManagementRoleHeadKs1 { get; set; }
+    public bool ManagementRoleHeadKs2 { get; set; }
+    public bool ManagementRoleSenco { get; set; }
+    public bool ManagementRoleAssistantHeadteacher { get; set; }
+    public bool ManagementRoleHeadLargeCurriculum { get; set; }
+    public bool ManagementRolePastoralLeader { get; set; }
+    public bool ManagementRoleOtherMembers { get; set; }
 
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
@@ -173,7 +185,19 @@ public record FinancialPlan
                 {
                     PeriodName = x.PeriodName,
                     PeriodsPerTimetable = x.PeriodsPerTimetable
-                }).ToArray()
+                }).ToArray(),
+            ManagementRoleHeadteacher = dataObject.ManagementRoleHeadteacher,
+            ManagementRoleDeputyHeadteacher = dataObject.ManagementRoleDeputyHeadteacher,
+            ManagementRoleNumeracyLead = dataObject.ManagementRoleNumeracyLead,
+            ManagementRoleLiteracyLead = dataObject.ManagementRoleLiteracyLead,
+            ManagementRoleHeadSmallCurriculum = dataObject.ManagementRoleHeadSmallCurriculum,
+            ManagementRoleHeadKs1 = dataObject.ManagementRoleHeadKs1,
+            ManagementRoleHeadKs2 = dataObject.ManagementRoleHeadKs2,
+            ManagementRoleSenco = dataObject.ManagementRoleSenco,
+            ManagementRoleAssistantHeadteacher = dataObject.ManagementRoleAssistantHeadteacher,
+            ManagementRoleHeadLargeCurriculum = dataObject.ManagementRoleHeadLargeCurriculum,
+            ManagementRolePastoralLeader = dataObject.ManagementRolePastoralLeader,
+            ManagementRoleOtherMembers = dataObject.ManagementRoleOtherMembers
         };
     }
 

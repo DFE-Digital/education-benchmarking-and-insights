@@ -77,6 +77,18 @@ public record FinancialPlanRequest
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
     public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    public bool ManagementRoleHeadteacher { get; set; }
+    public bool ManagementRoleDeputyHeadteacher { get; set; }
+    public bool ManagementRoleNumeracyLead { get; set; }
+    public bool ManagementRoleLiteracyLead { get; set; }
+    public bool ManagementRoleHeadSmallCurriculum { get; set; }
+    public bool ManagementRoleHeadKs1 { get; set; }
+    public bool ManagementRoleHeadKs2 { get; set; }
+    public bool ManagementRoleSenco { get; set; }
+    public bool ManagementRoleAssistantHeadteacher { get; set; }
+    public bool ManagementRoleHeadLargeCurriculum { get; set; }
+    public bool ManagementRolePastoralLeader { get; set; }
+    public bool ManagementRoleOtherMembers { get; set; }
 
     public class OtherTeachingPeriod
     {
