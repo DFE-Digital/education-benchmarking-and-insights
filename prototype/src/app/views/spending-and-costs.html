@@ -1,0 +1,101 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "templates/spend-category.njk" import spendCategory %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "#"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+<span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+<h1 class="govuk-heading-l">Spending and costs</h1>
+
+<p>
+    Find out how spending compares to similar schools.<br /> 
+    All data is 2022 to 2023 consistent financial reporting (CFR).
+</p>
+
+<details class="govuk-details">
+<summary class="govuk-details__summary">
+    <span class="govuk-details__summary-text">
+    How we choose similar schools
+    </span>
+</summary>
+<div class="govuk-details__text">
+    <p class="govuk-body">We choose 30 similar schools based on: </p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>school phase and type</li>
+        <li>London pay weighting</li>
+        <li>number of pupils</li>
+        <li>pupils eligible for free school meals (FSM)</li>
+        <li>building types and features</li>
+    </ul>
+    <p>Teacher contact ratio is not included.</p>
+    <p><a href="#">View or change which schools we compare you with</a></p>
+</div>
+</details>
+
+
+<h2 class="govuk-heading-m">Priority costs</h2>
+
+<p>This shows where spending is different to similar schools.</p>
+
+{{ spendCategory({
+    title: 'Teaching and teaching supply staff',
+    spendAmount: 735.64,
+    medianAmount: 478.61,
+    unit: 'pupil',
+    percentile: 92
+}) }}
+
+{{ spendCategory({
+    title: 'Premises staff and services',
+    spendAmount: 135.64,
+    medianAmount: 178.61,
+    unit: 'pupil',
+    percentile: 8
+}) }}
+
+{{ spendCategory({
+    title: 'Utilities',
+    spendAmount: 135.64,
+    medianAmount: 178.61,
+    unit: 'square metre',
+    percentile: 83
+}) }}
+
+{{ spendCategory({
+    title: 'Other',
+    spendAmount: 135.64,
+    medianAmount: 178.61,
+    unit: 'pupil',
+    percentile: 43
+}) }}
+
+</div>
+</div>
+{% endblock %}

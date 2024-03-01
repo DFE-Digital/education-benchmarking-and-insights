@@ -1,0 +1,42 @@
+{% macro spendCategory(params) %}
+
+{% if params.spendAmount > params.medianAmount %}
+    {% set difference = ( params.spendAmount - params.medianAmount ) | round(2) %}
+    {% set moreOrLess = 'more' %}
+{% else %}
+    {% set difference = ( params.medianAmount - params.spendAmount ) | round(2) %}
+    {% set moreOrLess = 'less' %}
+{% endif %}
+{% set differencePercentage = ( ( difference / params.medianAmount ) * 100 ) | round(1) %}
+
+
+{% if params.percentile >= 90 or params.percentile <= 10 %}
+    {% set priority = 'high' %}
+    {% set tag = 'red' %}
+{% elseif params.percentile >= 80 or params.percentile <= 20%}
+    {% set priority = 'medium' %}
+    {% set tag = 'yellow' %}
+{% else %}
+    {% set priority = 'low' %}
+    {% set tag = 'grey' %}
+{% endif %}
+
+<div class="spend-category">
+    <h3 class="govuk-heading-s">{{ params.title }}</h3>
+
+    <p class="{{ priority }} priority">
+        <strong class="govuk-tag govuk-tag--{{ tag }}">
+            {{ priority | capitalize }} priority
+        </strong>
+        Spends <!--<strong>£{{ params.spendAmount | round }}</strong> per {{ params.unit }}, - --> more than <strong>{{ params.percentile }}%</strong> of similar schools.
+    </p>
+
+    <img src="/public/images/costs-visual.png" width="" />
+
+    <div>
+        <p><span>This school spends</span> <strong>£{{ params.spendAmount }}</strong> per {{ params.unit }}</p>
+        <p><span>Similar schools spend</span> <strong>£{{ params.medianAmount }}</strong> per {{ params.unit }}, on average</p>
+        <p><span>This school spends</span> <strong>£{{ difference }} <span>({{differencePercentage}}%)</span></strong> <span>{{ moreOrLess }}</span> per {{ params.unit }}</p>
+    </div>
+</div>
+{% endmacro %}
