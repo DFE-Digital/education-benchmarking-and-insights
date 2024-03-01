@@ -127,7 +127,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total teacher costs" : "Total teacher costs must be 0 or more";
-        DocumentAssert.FormErrors(page, ("total-teacher", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TotalTeacherCosts", expectedMsg));
     }
 
     [Theory]

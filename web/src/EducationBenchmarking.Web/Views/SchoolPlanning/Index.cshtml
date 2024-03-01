@@ -1,5 +1,4 @@
-@using EducationBenchmarking.Web.ViewModels.Components
-@model EducationBenchmarking.Web.ViewModels.SchoolPlanSchoolViewModel
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanning;
 }
@@ -18,10 +17,10 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <a href="@Url.Action("Start", "SchoolPlanningSteps", new { urn = Model.Urn })" role="button" class="govuk-button">
+        <a href="@Url.Action("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, step = "start" })" role="button" class="govuk-button">
             Create new plan
         </a>
     </div>
 </div>
 
-@await Component.InvokeAsync("FinanceTools", new {identifier = Model.Urn, tools = new [] {FinanceTools.CompareYourCosts, FinanceTools.AreasOfInvestigation, FinanceTools.BenchmarkWorkforce}})
+@await Component.InvokeAsync("SchoolFinanceTools", new {identifier = Model.Urn, tools = new [] {FinanceTools.CompareYourCosts, FinanceTools.AreasOfInvestigation, FinanceTools.BenchmarkWorkforce}})

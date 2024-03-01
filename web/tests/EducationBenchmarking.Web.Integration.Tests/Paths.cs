@@ -23,26 +23,29 @@ public static class Paths
     public static string SchoolHistory(string? urn) => $"/school/{urn}/history";
     public static string SchoolDetails(string? urn) => $"/school/{urn}/details";
 
-    public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/steps/start";
+    public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/create?step=start";
     public static string SchoolFinancialPlanningSelectYear(string? urn) =>
-        $"/school/{urn}/financial-planning/steps/select-year";
+        $"/school/{urn}/financial-planning/create?step=select-year";
     public static string SchoolFinancialPlanningTotalIncome(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/total-income?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=total-income";
     public static string SchoolFinancialPlanningPrePopulatedData(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/pre-populate-data?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=pre-populate-data";
     public static string SchoolFinancialPlanningTimetableCycle(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/timetable-cycle?year={year}";
-    public static string SchoolFinancialPlanningHelp(string? urn) => $"/school/{urn}/financial-planning/steps/help";
+        $"/school/{urn}/financial-planning/create?year={year}&step=timetable-cycle";
+    public static string SchoolFinancialPlanningHelp(string? urn) => $"/school/{urn}/financial-planning/create?step=help";
     public static string SchoolFinancialPlanningTotalExpenditure(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/total-expenditure?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=total-expenditure";
     public static string SchoolFinancialPlanningTotalTeacherCost(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/total-teacher-costs?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=total-teacher-costs";
     public static string SchoolFinancialPlanningTotalNumberTeachers(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/total-number-teachers?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=total-number-teachers";
     public static string SchoolFinancialPlanningTotalEducationSupport(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/steps/total-education-support?year={year}";
-    public static string SchoolFinancialPlanningHasMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-has-mixed-age-classes?year={year}";
-    public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/steps/primary-mixed-age-classes?year={year}";
+        $"/school/{urn}/financial-planning/create?year={year}&step=total-education-support";
+    public static string SchoolFinancialPlanningHasMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-has-mixed-age-classes";
+    public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-mixed-age-classes";
+    public static string SchoolFinancialPlanningPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=pupil-figures";
+    public static string SchoolFinancialPlanningPrimaryPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-pupil-figures";
+    public static string SchoolFinancialPlanningTeacherPeriodAllocation(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=teacher-period-allocation";
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";

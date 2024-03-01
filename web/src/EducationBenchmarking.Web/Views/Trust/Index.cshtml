@@ -13,3 +13,6 @@
         </p>
     </div>
 </div>
+
+
+@await Component.InvokeAsync("TrustFinanceTools", new {identifier = Model.CompanyNumber, tools = new [] {FinanceTools.CompareYourCosts, FinanceTools.BenchmarkWorkforce}})

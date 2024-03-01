@@ -37,7 +37,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "year", CurrentYear.ToString() }
+                { "Year", CurrentYear.ToString() }
             });
         });
 
@@ -58,7 +58,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
         page = await Client.SubmitForm(page.Forms[0], action);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("year", "Select the academic year you want to plan"));
+        DocumentAssert.FormErrors(page, ("Year", "Select the academic year you want to plan"));
     }
 
     [Fact]

@@ -1,0 +1,58 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningPupilFigures;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.PrimaryPupilFigures }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError("PupilFigures") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    <div class="govuk-inset-text">
+                        <p class="govuk-body">
+                            Changing the figures here will not change the data already submitted as part of your school census.
+                        </p>
+                    </div>
+                    @if (ViewData.ModelState.HasError("PupilFigures"))
+                    {
+                        <p id="pupil-figures-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["PupilFigures"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
+                    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsNursery)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsNursery)">
+                            Full-time equivalent pupil figures for nursery
+                        </label>
+                        @if (ViewData.ModelState.HasError(nameof(Model.PupilsNursery)))
+                        {
+                            <p id="@nameof(Model.PupilsNursery)-error" class="govuk-error-message">
+                                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsNursery)]?.Errors.First().ErrorMessage
+                            </p>
+                        }
+                        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsNursery)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                               id="@nameof(Model.PupilsNursery)"
+                               name="@nameof(Model.PupilsNursery)"
+                               type="number"
+                               spellcheck="false"
+                               value="@Model.PupilsNursery">
+                    </div>
+
+                    @await Html.PartialAsync("_PupilFiguresPrimaryMixed", Model)
+                    @await Html.PartialAsync("_PupilFiguresPrimary", Model)
+
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

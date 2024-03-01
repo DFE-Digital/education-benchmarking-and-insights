@@ -4,10 +4,12 @@ using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.ViewModels;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
+[FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}")]
 public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi)
     : Controller

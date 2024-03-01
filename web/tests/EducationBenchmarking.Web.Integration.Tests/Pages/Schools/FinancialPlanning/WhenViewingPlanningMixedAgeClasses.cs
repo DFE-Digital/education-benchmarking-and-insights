@@ -130,14 +130,14 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
                 { "MixedAgeYear2Year3", mixedAgeYear2Year3.ToString() },
                 { "MixedAgeYear3Year4", mixedAgeYear3Year4.ToString() },
                 { "MixedAgeYear4Year5", mixedAgeYear4Year5.ToString() },
-                { "MixedAgeYear5Year6", mixedAgeYear5Year6.ToString() },
+                { "MixedAgeYear5Year6", mixedAgeYear5Year6.ToString() }
             });
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute());
     }
 
     [Theory]
@@ -199,6 +199,7 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
         var plan = Fixture.Build<FinancialPlan>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
+            .With(x => x.HasMixedAgeClasses, true)
             .With(x => x.MixedAgeReceptionYear1, mixedAgeReceptionYear1)
             .With(x => x.MixedAgeYear1Year2, mixedAgeYear1Year2)
             .With(x => x.MixedAgeYear2Year3, mixedAgeYear2Year3)

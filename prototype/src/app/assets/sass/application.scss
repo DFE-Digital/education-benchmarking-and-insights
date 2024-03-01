@@ -3,4 +3,126 @@
 // https://prototype-kit.service.gov.uk/docs/adding-css-javascript-and-images
 // 
 
-// Add extra styles here
+//HOMEPAGE
+
+.headline-figures {
+    margin-bottom: 30px;
+}
+
+.headline-figures div div {
+    background: #5D7490;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+
+.headline-figures div div p {
+    font-size: 24px;
+    color: white;
+}
+
+.headline-figures div div p:first-child {
+    font-weight: bold;
+}
+
+.app-links {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+}
+
+.app-links li {
+    width: calc((100% - 30px)/ 3);
+}
+
+.app-view-component {
+    max-width: 100%;
+    margin-bottom: 15px;
+}
+
+.top-categories div {
+    background-color: #EEEFEF;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+//SPENDING AND COSTS
+.spend-category {
+    margin-bottom: 40px;
+}
+
+.spend-category img {
+    margin: 14px 0;
+    width: 100%;
+}
+
+.spend-category div {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+}
+
+.spend-category div p:first-child {
+    color: govuk-colour("dark-blue");
+}
+
+.spend-category div p {
+    display: inline-block;
+    background-color: #DEE0E2;
+    font-size: 16px;
+    min-height: 85px;
+    padding: 8px 10px;
+    margin-bottom: 14px;
+}
+
+.spend-category div p strong {
+    display: block;
+    font-size: 32px;
+    font-weight: normal;
+}
+
+.spend-category div span {
+    font-weight: bold;
+}
+
+.spend-category div p:first-child strong {
+    font-weight: bold;
+}
+
+.spend-category div p strong span {
+    font-size: 26px;
+    font-weight: normal;
+    color: #6E777A;
+}
+
+// GENERIC
+.priority {
+    margin-bottom: 0;
+    border-left: none;
+    padding-top: 1px;
+    padding-bottom: 2px;
+}
+
+.priority.high, .priority.high .govuk-tag--red {
+    border: 1px solid #942514;
+}
+
+.priority.medium, .priority.medium .govuk-tag--yellow {
+    border: 1px solid #594D00;
+}
+
+.priority.low, .priority.low .govuk-tag--grey {
+    border: 2px solid #e5e6e7;
+}
+
+p.priority .govuk-tag {
+    margin-right: 10px;
+    border-left: none !important;
+}
+
+.govuk-caption-l a {
+    color: $govuk-secondary-text-colour
+}

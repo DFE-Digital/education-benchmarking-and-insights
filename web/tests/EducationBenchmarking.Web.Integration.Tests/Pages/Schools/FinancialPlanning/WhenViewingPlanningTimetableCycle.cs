@@ -40,13 +40,17 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
     }
 
     [Theory]
-    [InlineData(EstablishmentTypes.Academies, true)]
-    [InlineData(EstablishmentTypes.Academies, false)]
-    [InlineData(EstablishmentTypes.Maintained, true)]
-    [InlineData(EstablishmentTypes.Maintained, false)]
-    public async Task CanSubmit(string financeType, bool useFigures)
+    [InlineData(EstablishmentTypes.Academies, true, true)]
+    [InlineData(EstablishmentTypes.Academies, true, false)]
+    [InlineData(EstablishmentTypes.Academies, false, true)]
+    [InlineData(EstablishmentTypes.Academies, false, false)]
+    [InlineData(EstablishmentTypes.Maintained, true, true)]
+    [InlineData(EstablishmentTypes.Maintained, true, false)]
+    [InlineData(EstablishmentTypes.Maintained, false, true)]
+    [InlineData(EstablishmentTypes.Maintained, false, false)]
+    public async Task CanSubmit(string financeType, bool useFigures, bool isPrimary)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType, useFigures);
+        var (page, school) = await SetupNavigateInitPage(financeType, useFigures, isPrimary: isPrimary);
         AssertPageLayout(page, school, useFigures);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -61,9 +65,12 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        //TODO: update path once next page in CFP is created
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+        var expectedPage = school.IsPrimary
+            ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
+
+        DocumentAssert.AssertPageUrl(page, expectedPage)
+            ;
     }
 
     [Theory]
@@ -89,7 +96,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.FormErrors(page, ("timetable-periods", expectedMsg));
+        DocumentAssert.FormErrors(page, ("TimetablePeriods", expectedMsg));
     }
 
     [Theory]
@@ -176,21 +183,11 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    [Fact]
-    public async Task CanDisplayProblemWithServiceWhenUseFiguresIsNull()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, useFigures: null);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, int? timetablePeriods = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, int? timetablePeriods = null, bool isPrimary = false)
     {
         var school = Fixture.Build<School>()
         .With(x => x.FinanceType, financeType)
+        .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
         .Create();
 
         var finances = Fixture.Build<Finances>()

@@ -24,6 +24,7 @@ public record School
     public string? Address { get; set; }
     public string? Website { get; set; }
     public string? LocalAuthorityName { get; set; }
+    public bool HasSixthForm { get; set; }
 
     public static School Create(EdubaseDataObject edubase)
     {
@@ -39,7 +40,8 @@ public record School
             Address = edubase.Address,
             Telephone = edubase.TelephoneNum,
             Website = edubase.SchoolWebsite,
-            LocalAuthorityName = edubase.La
+            LocalAuthorityName = edubase.La,
+            HasSixthForm = edubase.OfficialSixthFormCode is 1
         };
     }
 }

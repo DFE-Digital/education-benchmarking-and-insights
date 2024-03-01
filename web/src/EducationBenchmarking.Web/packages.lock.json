@@ -20,6 +20,16 @@
         "resolved": "11.9.0",
         "contentHash": "VneVlTvwYDkfHV5av3QrQ0amALgrLX6LV94wlYyEsh0B/klJBW7C8y2eAtj5tOZ3jH6CAVpr4s1ZGgew/QWyig=="
       },
+      "FluentValidation.AspNetCore": {
+        "type": "Direct",
+        "requested": "[11.3.0, )",
+        "resolved": "11.3.0",
+        "contentHash": "jtFVgKnDFySyBlPS8bZbTKEEwJZnn11rXXJ2SQnjDhZ56rQqybBg9Joq4crRLz3y0QR8WoOq4iE4piV81w/Djg==",
+        "dependencies": {
+          "FluentValidation": "11.5.1",
+          "FluentValidation.DependencyInjectionExtensions": "11.5.1"
+        }
+      },
       "JsonSubTypes": {
         "type": "Direct",
         "requested": "[2.0.1, )",
@@ -175,6 +185,15 @@
           "System.Text.Encodings.Web": "4.7.2",
           "System.Text.Json": "4.6.0",
           "System.Threading.Tasks.Extensions": "4.5.2"
+        }
+      },
+      "FluentValidation.DependencyInjectionExtensions": {
+        "type": "Transitive",
+        "resolved": "11.5.1",
+        "contentHash": "iWM0LS1MDYX06pcjMEQKqHirl2zkjHlNV23mEJSoR1IZI7KQmTa0RcTtGEJpj5+iHvBCfrzP2mYKM4FtRKVb+A==",
+        "dependencies": {
+          "FluentValidation": "11.5.1",
+          "Microsoft.Extensions.Dependencyinjection.Abstractions": "2.1.0"
         }
       },
       "Microsoft.ApplicationInsights": {

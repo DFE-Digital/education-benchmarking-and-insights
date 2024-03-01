@@ -1,0 +1,150 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+
+@if (Model is { MixedAgeReceptionYear1: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsReception)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsReception)">
+            Pupil figures for reception
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsReception)))
+        {
+            <p id="@nameof(Model.PupilsReception)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsReception)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsReception)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsReception)"
+               name="@nameof(Model.PupilsReception)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsReception">
+    </div>
+}
+
+@if (Model is { MixedAgeYear1Year2: false, MixedAgeReceptionYear1: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear1)">
+            Pupil figures for year 1
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear1)))
+        {
+            <p id="@nameof(Model.PupilsYear1)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear1)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear1)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear1)"
+               name="@nameof(Model.PupilsYear1)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear1">
+    </div>
+}
+
+
+@if (Model is { MixedAgeYear2Year3: false, MixedAgeYear1Year2: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear2)">
+            Pupil figures for year 2
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear2)))
+        {
+            <p id="@nameof(Model.PupilsYear2)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear2)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear2)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear2)"
+               name="@nameof(Model.PupilsYear2)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear2">
+    </div>
+}
+
+@if (Model is { MixedAgeYear3Year4: false, MixedAgeYear2Year3: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear3)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear3)">
+            Pupil figures for year 3
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear3)))
+        {
+            <p id="@nameof(Model.PupilsYear3)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear3)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear3)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear3)"
+               name="@nameof(Model.PupilsYear3)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear3">
+    </div>
+}
+
+@if (Model is { MixedAgeYear4Year5: false, MixedAgeYear3Year4: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear4)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear4)">
+            Pupil figures for year 4
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear4)))
+        {
+            <p id="@nameof(Model.PupilsYear4)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear4)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear4)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear4)"
+               name="@nameof(Model.PupilsYear4)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear4">
+    </div>
+}
+
+@if (Model is { MixedAgeYear5Year6: false, MixedAgeYear4Year5: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear5)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear5)">
+            Pupil figures for year 5
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear5)))
+        {
+            <p id="@nameof(Model.PupilsYear5)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear5)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear5)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear5)"
+               name="@nameof(Model.PupilsYear5)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear5">
+    </div>
+}
+
+@if (Model is { MixedAgeYear5Year6: false })
+{
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear6)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.PupilsYear6)">
+            Pupil figures for year 6
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.PupilsYear6)))
+        {
+            <p id="@nameof(Model.PupilsYear6)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PupilsYear6)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.PupilsYear6)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.PupilsYear6)"
+               name="@nameof(Model.PupilsYear6)"
+               type="number"
+               spellcheck="false"
+               value="@Model.PupilsYear6">
+    </div>
+}

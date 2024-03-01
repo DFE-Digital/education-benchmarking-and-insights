@@ -1,5 +1,6 @@
 module.exports = {
 
-  // Insert values here
+  'school-name': 'Three Bears Secondary School',
+  'trust-name': 'Drummer Academy Trust'
 
 }

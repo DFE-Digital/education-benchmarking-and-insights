@@ -50,7 +50,6 @@
 
 ### Service principals
 
-
 | Id | Principal |Rationale|
 |:--------:|:----------|:-------|
 

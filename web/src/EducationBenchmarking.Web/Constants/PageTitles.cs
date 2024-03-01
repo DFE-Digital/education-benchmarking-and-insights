@@ -10,8 +10,8 @@ public static class PageTitles
     public const string ChooseOrganisation = "Choose your school, academy trust, local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
-    public const string SchoolComparison = "Compare your costs";
-    public const string SchoolWorkforce = "Benchmark workforce data";
+    public const string Comparison = "Compare your costs";
+    public const string Workforce = "Benchmark workforce data";
     public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
     public const string SchoolPlanningYearSelect = "Which academic year do you want to plan?";
     public const string SchoolPlanningYear = "Prepopulated data";
@@ -27,4 +27,10 @@ public static class PageTitles
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
     public const string SchoolPlanningMixedAgeClasses = "Which years have mixed age classes?";
+    public const string SchoolPlanningPupilFigures = "What are your pupil figures?";
+    public const string SchoolPlanningTeacherPeriodAllocation = "What are your teacher period allocation figures?";
+    public const string SchoolPlanningOtherTeacherPeriodsAdd = "Add other teaching periods";
+    public const string SchoolPlanningTeachingAssistantFigures = "What are your teaching assistant figures?";
+    public const string SchoolPlanningManagementRoles = "Management roles with teaching responsibilties";
+    public const string SchoolPlanningManagersPerRole = "Number of managers per role";
 }

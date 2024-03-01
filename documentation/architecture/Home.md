@@ -4,7 +4,7 @@
 3. [Non-Functional Requirements](Non-Functional-Requirements.md)
 4. [Logical Architeture](Logical-Architecture.md)
 5. [Business Architecture](Business-Architecture.md)
-6. Information Architecture
+6. [Information Architecture](Information-Architecture.md)
 7. [Application Architecture](Application-Architecture.md)
 8. Deployment Architecture
 9. Infrastructure Architecture

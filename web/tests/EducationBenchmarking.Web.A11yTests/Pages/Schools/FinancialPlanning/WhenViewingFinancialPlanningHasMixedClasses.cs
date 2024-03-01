@@ -11,7 +11,7 @@ public class WhenViewingFinancialPlanningHasMixedClasses(
     FinancialPlanFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/steps/primary-has-mixed-age-classes?year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create?step=primary-has-mixed-age-classes&year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

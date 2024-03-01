@@ -6,26 +6,31 @@
 
 ### Entities
 
-| Entity               | Scope          | Repository  | Description                                                                                      |
-|:---------------------|:---------------|:------------|:-------------------------------------------------------------------------------------------------|
-| School Details       | Transactional  | Platform DB | Holds general information specific to a school, academy or trust                                 |
-| Federation           | Transactional  | Platform DB |                                                                                                  |
-| Multi Academy Trusts | Transactional  | Platform DB |                                                                                                  |
-| Benchmarking Group   | Transactional  | Platform DB | Holds the set of similar establishments that a school, academy or trust will be compared against |
-| Workforce            | Transactional  | Platform DB | Holds information specific to the staff at a school, academy or trust                            |
-| Pupils               | Transactional  | Platform DB | Holds information specific to the pupils at a school, academy or trust                           |
-| SEN                  | Transactional  | Platform DB | Holds information specific to Special Educational Needs for a school, academy or trust           |
-| Academic Performance | Transactional  | Platform DB | Holds information specific to the academic performance of a school, academy or trust             |
-| Submission Details   | Transactional  | Platform DB | Holds information specific to the particular data submission for a school, academy or trust      |
-| Income | Transactional  | Platform DB | Holds information specific to income for a school, academy or trust                              |
-| Expenditure | Transactional  | Platform DB | Holds information specific to expenditure for a school, academy or trust                         |
-| Forecasting | Transactional | Platform DB | Holds information specific to future budgets for a school, academy or trust                      |
-| Event | Transactional | Platform DB | An event raised from a user or system interaction                                                |
-| Audit Header | Reporting | Operational DB | An audit header record                                                                           |
-| Audit Detail | Reporting | Operational DB | An audit detail record |
+| Entity             | Scope         | Repository  | Description                                                                                                 |
+|:-------------------|:--------------|:------------|:------------------------------------------------------------------------------------------------------------|
+| **Academies**          | Transactional | Platform DB | Holds information specific to an academies, including staff, pupil and financial                            |
+| **Comparator Sets**    | Transactional | Platform DB | Holds the sets of similar schools/academies that each school is compared to                                 |
+| **Fibre Directory**    | Transactional | Platform DB | Mapping directory                                                                                           |
+| **Financial Plans**    | Transactional | Platform DB | Holds financial plans for a school or academy designed using the Curriculum & Financial Planning (CFP) tool |
+| **Floor Area**         | Transactional | Platform DB | Holds building information specific to a school or academy                                                  |
+| **GIAS**               | Transactional | Platform DB | Holds information for a school, academy or trust taken from the Get Information About Schools service       |
+| **Maintained Schools** | Transactional | Platform DB | Holds information specific to an LEA maintained school, including staff, pupils and finances                |
+| **MAT Allocs**         | Transactional | Platform DB | Holds information about multi-academy trust allocations                                                     |
+| **MAT Central**        | Transactional | Platform DB | Holds information about centrally assigned multi-academy trust financials                                   |
+| **MAT Overview**       | Transactional | Platform DB | Holds general information regarding multi-academy trusts                                                    |
+| **MAT Totals**         | Transactional | Platform DB | Holds aggregate information specific to multi-academy trusts                                                |
 
 #### Schemas
-TBD
+Comparator Sets - Comparator sets are currently taken from the VMFI database, and transformed to a more usable format for the Non-SQL CosmosDB. Each school has 4 distinct comparator sets built, based upon a peer group and a cost group as described below, and this type is used as the partition key in the Comparator Sets.
+
+| Peer Group | Cost Group | Description |
+|:-----------|:-----------|:------------|
+| Default | Pupil | Comparator schools are of the same type (maintained or academy) as the base school, and are determined by pupil charateristics |
+| Default | Area | Comparator schools are of the same type (maintained or academy) as the base school, and are determined by building charateristics |
+| Mixed | Pupil | Comparator schools are a mix of maintained and academy schools, and are determined by pupil charateristics |
+| Mixed | Area | Comparator schools are a mix of maintained and academy schools, and are determined by building charateristics |
+
+ 
 
 ### Events
 TBD

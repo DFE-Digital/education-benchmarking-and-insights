@@ -10,6 +10,7 @@
     <ItemGroup>
         <PackageReference Include="CorrelationId"/>
         <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="FluentValidation.AspNetCore" />
         <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore"/>
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson"/>
@@ -24,5 +25,10 @@
         <PackageReference Include="Serilog.Sinks.ApplicationInsights"/>
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\EducationBenchmarking.Web.Identity\EducationBenchmarking.Web.Identity.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Shared\Components\TrustFinanceTools\Default.cshtml" />
+      <AdditionalFiles Include="Views\TrustComparison\Index.cshtml" />
+      <AdditionalFiles Include="Views\TrustWorkforce\Index.cshtml" />
     </ItemGroup>
 </Project>
