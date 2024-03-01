@@ -22,7 +22,7 @@
 {% endif %}
 
 <div class="spend-category">
-    <h3 class="govuk-heading-s">{{ params.title }}</h3>
+    <h3 class="govuk-heading-s govuk-!-font-size-27">{{ params.title }}</h3>
 
     <p class="{{ priority }} priority">
         <strong class="govuk-tag govuk-tag--{{ tag }}">
@@ -38,5 +38,7 @@
         <p><span>Similar schools spend</span> <strong>£{{ params.medianAmount }}</strong> per {{ params.unit }}, on average</p>
         <p><span>This school spends</span> <strong>£{{ difference }} <span>({{differencePercentage}}%)</span></strong> <span>{{ moreOrLess }}</span> per {{ params.unit }}</p>
     </div>
+
+    <p><a href="/spend-category">View all {{ params.title | lower }} costs</a></p>
 </div>
 {% endmacro %}
