@@ -2,9 +2,7 @@
 {% from "govuk/components/tag/macro.njk" import govukTag %}
 {% from "govuk/components/details/macro.njk" import govukDetails %}
 {% from "templates/spend-category.njk" import spendCategory %}
-{% from "templates/priority-banner.njk" import priorityBanner %}
-{% from "templates/spending-panel.njk" import spendingPanel %}
-{% from "govuk/components/radios/macro.njk" import govukRadios %}
+{% from "templates/spend-category-details.njk" import spendCategoryDetails %}
 
 
 {% extends "layouts/main.html" %}
@@ -69,64 +67,34 @@
     </div>
 </div>
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <h2 class="govuk-heading-m">Total costs</h2>
+{% set intCount = 0 %}
 
-        {{ priorityBanner({
-            percentile: 93
-        }) }}
+{{ spendCategoryDetails({
+    title: 'Total costs',
+    spendAmount: 735.64,
+    medianAmount: 478.61,
+    unit: 'pupil',
+    percentile: 92,
+    intCount: intCount
+}) }}
 
-        {{ spendingPanel({
-            spendAmount: 735.64,
-            medianAmount: 478.61,
-            unit: 'pupil'
-        }) }}
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Teaching staff costs',
+    spendAmount: 450.64,
+    medianAmount: 289.62,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
 
-    </div>
-</div>
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <img src="/public/images/chart.png" style="width: 100%;" />
-    </div>
-    <div class="govuk-grid-column-one-third">
-
-        {{ govukRadios({
-          classes: "govuk-radios--small",
-          name: "showSpend",
-          fieldset: {
-            legend: {
-              text: "Show spend as",
-              isPageHeading: false,
-              classes: "govuk-fieldset__legend--s"
-            }
-          },
-          items: [
-            {
-              value: "pupil",
-              text: "Amount per pupil",
-              checked: true
-            },
-            {
-              value: "amount",
-              text: "Amount spent"
-            },
-            {
-              value: "percent",
-              text: "Percentage of income"
-            }
-          ]
-        }) }}
-
-        <p class="govuk-body">
-            <a href="#" class="govuk-link">Download chart (PNG)</a>
-        </p>
-
-    </div>
-</div>
-
-<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+{% set intCount = intCount + 1 %}
+{{ spendCategoryDetails({
+    title: 'Support teaching staff costs    ',
+    spendAmount: 285.64,
+    medianAmount: 189.62,
+    unit: 'pupil',
+    intCount: intCount
+}) }}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
