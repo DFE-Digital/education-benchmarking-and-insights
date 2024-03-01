@@ -51,6 +51,9 @@ public static class Strategy
 
     public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> TeachingAssistantsFigures => o =>
         o.IncludeRuleSets(PlanSteps.TeachingAssistantFigures);
+
+    public static Action<ValidationStrategy<SchoolPlanCreateViewModel>> ManagementRoles => o =>
+        o.IncludeRuleSets(PlanSteps.ManagementRoles);
 }
 
 public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
@@ -72,8 +75,25 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
         RulesForTeacherPeriodAllocation();
         RulesForTeachingAssistantFigures();
         RulesForOtherTeachingPeriods();
+        RulesForOtherManagementRoles();
     }
 
+    private void RulesForOtherManagementRoles()
+    {
+        RuleSet(PlanSteps.ManagementRoles, () =>
+        {
+            RuleFor(p => p)
+                .Must(x => x.ManagementRoleHeadteacher || x.ManagementRoleDeputyHeadteacher || 
+                           x.ManagementRoleNumeracyLead || x.ManagementRoleLiteracyLead ||
+                           x.ManagementRoleHeadSmallCurriculum || x.ManagementRoleHeadKs1 ||
+                           x.ManagementRoleHeadKs2 || x.ManagementRoleSenco ||
+                           x.ManagementRoleAssistantHeadteacher || x.ManagementRoleHeadLargeCurriculum ||
+                           x.ManagementRolePastoralLeader || x.ManagementRoleOtherMembers)
+                .WithMessage("Select at least one management role")
+                .WithName("ManagementRoles");
+        });
+    }
+    
     private void RulesForOtherTeachingPeriods()
     {
         RuleSet(PlanSteps.OtherTeachingPeriods, () =>
@@ -105,7 +125,6 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
     {
         RuleSet(PlanSteps.TeacherPeriodAllocation, () =>
         {
-
             When(p => p.PupilsNursery > 0, () =>
             {
                 RuleFor(p => p.TeachersNursery)
@@ -342,206 +361,206 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
     private void RulesForPrimaryPupilFigures()
     {
         RuleSet(PlanSteps.PrimaryPupilFigures, () =>
-{
-    RuleFor(p => p)
-        .Must(HasPrimaryPupilFigures)
-        .WithMessage("Enter pupil figures for at least one year")
-        .WithName("PupilFigures");
+        {
+            RuleFor(p => p)
+                .Must(HasPrimaryPupilFigures)
+                .WithMessage("Enter pupil figures for at least one year")
+                .WithName("PupilFigures");
 
-    When(p => p.PupilsNursery is not null, () =>
-    {
-        RuleFor(p => p.PupilsNursery)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Pupil figures for nursery must be 0 or more");
-    });
+            When(p => p.PupilsNursery is not null, () =>
+            {
+                RuleFor(p => p.PupilsNursery)
+                    .GreaterThanOrEqualTo(0)
+                    .WithMessage("Pupil figures for nursery must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedReceptionYear1), () =>
-    {
-        RuleFor(p => p.PupilsMixedReceptionYear1)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for reception and year 1 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for reception and year 1 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedReceptionYear1), () =>
+            {
+                RuleFor(p => p.PupilsMixedReceptionYear1)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for reception and year 1 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for reception and year 1 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedYear1Year2), () =>
-    {
-        RuleFor(p => p.PupilsMixedYear1Year2)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 1 and year 2 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 1 and year 2 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedYear1Year2), () =>
+            {
+                RuleFor(p => p.PupilsMixedYear1Year2)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 1 and year 2 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 1 and year 2 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedYear2Year3), () =>
-    {
-        RuleFor(p => p.PupilsMixedYear2Year3)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 2 and year 3 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 2 and year 3 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedYear2Year3), () =>
+            {
+                RuleFor(p => p.PupilsMixedYear2Year3)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 2 and year 3 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 2 and year 3 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedYear3Year4), () =>
-    {
-        RuleFor(p => p.PupilsMixedYear3Year4)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 3 and year 4 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 3 and year 4 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedYear3Year4), () =>
+            {
+                RuleFor(p => p.PupilsMixedYear3Year4)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 3 and year 4 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 3 and year 4 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedYear4Year5), () =>
-    {
-        RuleFor(p => p.PupilsMixedYear4Year5)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 4 and year 5 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 4 and year 5 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedYear4Year5), () =>
+            {
+                RuleFor(p => p.PupilsMixedYear4Year5)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 4 and year 5 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 4 and year 5 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsMixedYear5Year6), () =>
-    {
-        RuleFor(p => p.PupilsMixedYear5Year6)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 5 and year 6 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 5 and year 6 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsMixedYear5Year6), () =>
+            {
+                RuleFor(p => p.PupilsMixedYear5Year6)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 5 and year 6 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 5 and year 6 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsReception), () =>
-    {
-        RuleFor(p => p.PupilsReception)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for reception must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for reception must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsReception), () =>
+            {
+                RuleFor(p => p.PupilsReception)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for reception must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for reception must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear1), () =>
-    {
-        RuleFor(p => p.PupilsYear1)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 1 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 1 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear1), () =>
+            {
+                RuleFor(p => p.PupilsYear1)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 1 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 1 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear2), () =>
-    {
-        RuleFor(p => p.PupilsYear2)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 2 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 2 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear2), () =>
+            {
+                RuleFor(p => p.PupilsYear2)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 2 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 2 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear3), () =>
-    {
-        RuleFor(p => p.PupilsYear3)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 3 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 3 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear3), () =>
+            {
+                RuleFor(p => p.PupilsYear3)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 3 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 3 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear4), () =>
-    {
-        RuleFor(p => p.PupilsYear4)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 4 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 4 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear4), () =>
+            {
+                RuleFor(p => p.PupilsYear4)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 4 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 4 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear5), () =>
-    {
-        RuleFor(p => p.PupilsYear5)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 5 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 5 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear5), () =>
+            {
+                RuleFor(p => p.PupilsYear5)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 5 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 5 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear6), () =>
-    {
-        RuleFor(p => p.PupilsYear6)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 6 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 6 must be 0 or more");
-    });
-});
+            When(p => !string.IsNullOrEmpty(p.PupilsYear6), () =>
+            {
+                RuleFor(p => p.PupilsYear6)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 6 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 6 must be 0 or more");
+            });
+        });
     }
 
     private void RulesForPupilFigures()
     {
         RuleSet(PlanSteps.PupilFigures, () =>
-{
-    RuleFor(p => p)
-        .Must(HasPupilFigures)
-        .WithMessage("Enter pupil figures for at least one year")
-        .WithName("PupilFigures");
+        {
+            RuleFor(p => p)
+                .Must(HasPupilFigures)
+                .WithMessage("Enter pupil figures for at least one year")
+                .WithName("PupilFigures");
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear7), () =>
-    {
-        RuleFor(p => p.PupilsYear7)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 7 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 7 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear7), () =>
+            {
+                RuleFor(p => p.PupilsYear7)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 7 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 7 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear8), () =>
-    {
-        RuleFor(p => p.PupilsYear8)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 8 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 8 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear8), () =>
+            {
+                RuleFor(p => p.PupilsYear8)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 8 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 8 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear9), () =>
-    {
-        RuleFor(p => p.PupilsYear9)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 9 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 9 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear9), () =>
+            {
+                RuleFor(p => p.PupilsYear9)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 9 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 9 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear10), () =>
-    {
-        RuleFor(p => p.PupilsYear10)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 10 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 10 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear10), () =>
+            {
+                RuleFor(p => p.PupilsYear10)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 10 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 10 must be 0 or more");
+            });
 
-    When(p => !string.IsNullOrEmpty(p.PupilsYear11), () =>
-    {
-        RuleFor(p => p.PupilsYear11)
-            .Must(x => x.ToInt() is not null)
-            .WithMessage("Pupil figures for year 11 must be a whole number")
-            .Must(x => x.ToInt() is >= 0)
-            .WithMessage("Pupil figures for year 11 must be 0 or more");
-    });
+            When(p => !string.IsNullOrEmpty(p.PupilsYear11), () =>
+            {
+                RuleFor(p => p.PupilsYear11)
+                    .Must(x => x.ToInt() is not null)
+                    .WithMessage("Pupil figures for year 11 must be a whole number")
+                    .Must(x => x.ToInt() is >= 0)
+                    .WithMessage("Pupil figures for year 11 must be 0 or more");
+            });
 
-    When(p => p.PupilsYear12 is not null, () =>
-    {
-        RuleFor(p => p.PupilsYear12)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Pupil figures for year 12 must be 0 or more");
-    });
+            When(p => p.PupilsYear12 is not null, () =>
+            {
+                RuleFor(p => p.PupilsYear12)
+                    .GreaterThanOrEqualTo(0)
+                    .WithMessage("Pupil figures for year 12 must be 0 or more");
+            });
 
-    When(p => p.PupilsYear13 is not null, () =>
-    {
-        RuleFor(p => p.PupilsYear13)
-            .GreaterThanOrEqualTo(0)
-            .WithMessage("Pupil figures for year 13 must be 0 or more");
-    });
-});
+            When(p => p.PupilsYear13 is not null, () =>
+            {
+                RuleFor(p => p.PupilsYear13)
+                    .GreaterThanOrEqualTo(0)
+                    .WithMessage("Pupil figures for year 13 must be 0 or more");
+            });
+        });
     }
 
     private void RulesForPrimaryMixedAgeClasses()
@@ -550,7 +569,8 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
         {
             RuleFor(p => p)
                 .Must(x => x.MixedAgeReceptionYear1 || x.MixedAgeYear1Year2
-                                                    || x.MixedAgeYear2Year3 || x.MixedAgeYear3Year4 || x.MixedAgeYear4Year5 || x.MixedAgeYear5Year6)
+                                                    || x.MixedAgeYear2Year3 || x.MixedAgeYear3Year4 ||
+                                                    x.MixedAgeYear4Year5 || x.MixedAgeYear5Year6)
                 .WithMessage("Select which years have mixed age classes")
                 .WithName("MixedAgeClasses");
         });

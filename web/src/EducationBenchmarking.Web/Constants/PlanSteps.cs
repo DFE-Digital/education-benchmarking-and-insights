@@ -19,4 +19,5 @@ public class PlanSteps
     public const string TeacherPeriodAllocation = "teacher-period-allocation";
     public const string OtherTeachingPeriods = "other-teaching-periods";
     public const string TeachingAssistantFigures = "teaching-assistant-figures";
+    public const string ManagementRoles = "management-roles";
 }

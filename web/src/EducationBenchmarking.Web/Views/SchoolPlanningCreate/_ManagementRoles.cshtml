@@ -1,0 +1,52 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+
+<div class="govuk-checkboxes" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleHeadteacher)" name="@nameof(Model.ManagementRoleHeadteacher)" value="true" type="checkbox" @(Model.ManagementRoleHeadteacher ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleHeadteacher)">
+            Headteacher
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleDeputyHeadteacher)" name="@nameof(Model.ManagementRoleDeputyHeadteacher)" value="true" type="checkbox" @(Model.ManagementRoleDeputyHeadteacher ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleDeputyHeadteacher)">
+            Deputy headteacher
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleAssistantHeadteacher)" name="@nameof(Model.ManagementRoleAssistantHeadteacher)" value="true" type="checkbox" @(Model.ManagementRoleAssistantHeadteacher ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleAssistantHeadteacher)">
+            Assistant headteacher
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleHeadLargeCurriculum)" name="@nameof(Model.ManagementRoleHeadLargeCurriculum)" value="true" type="checkbox" @(Model.ManagementRoleHeadLargeCurriculum ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleHeadLargeCurriculum)">
+            Head of large curriculum area
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleHeadSmallCurriculum)" name="@nameof(Model.ManagementRoleHeadSmallCurriculum)" value="true" type="checkbox" @(Model.ManagementRoleHeadSmallCurriculum ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleHeadSmallCurriculum)">
+            Head of small curriculum area
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleSenco)" name="@nameof(Model.ManagementRoleSenco)" value="true" type="checkbox" @(Model.ManagementRoleSenco ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleSenco)">
+            Special education needs coordinator (SENCO)
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRolePastoralLeader)" name="@nameof(Model.ManagementRolePastoralLeader)" value="true" type="checkbox" @(Model.ManagementRolePastoralLeader ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRolePastoralLeader)">
+            Pastoral leader
+        </label>
+    </div>
+    <div class="govuk-checkboxes__item">
+        <input class="govuk-checkboxes__input" id="@nameof(Model.ManagementRoleOtherMembers)" name="@nameof(Model.ManagementRoleOtherMembers)" value="true" type="checkbox" @(Model.ManagementRoleOtherMembers ? "checked" : "")>
+        <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.ManagementRoleOtherMembers)">
+            Other members of management or leadership staff
+        </label>
+    </div>    
+</div>
