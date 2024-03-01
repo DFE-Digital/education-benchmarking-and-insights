@@ -24,6 +24,7 @@ public interface IFinancialPlanService
     Task UpdateTeacherPeriodAllocation(School school, SchoolPlanCreateViewModel model);
     Task UpdateTeachingAssistantFigures(School school, SchoolPlanCreateViewModel model);
     Task UpdateOtherTeachingPeriods(School school, SchoolPlanCreateViewModel model);
+    Task UpdateManagementRoles(School school, SchoolPlanCreateViewModel model);
 }
 
 public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
@@ -338,6 +339,27 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
             .ToArray();
 
         request.OtherTeachingPeriods = periods;
+
+        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+    }
+
+    public async Task UpdateManagementRoles(School school, SchoolPlanCreateViewModel model)
+    {
+        var plan = await GetPlan(school.Urn, model.Year);
+        var request = PutFinancialPlanRequest.Create(plan);
+
+        request.ManagementRoleHeadteacher = model.ManagementRoleHeadteacher;
+        request.ManagementRoleDeputyHeadteacher = model.ManagementRoleDeputyHeadteacher;
+        request.ManagementRoleNumeracyLead = model.ManagementRoleNumeracyLead;
+        request.ManagementRoleLiteracyLead = model.ManagementRoleLiteracyLead;
+        request.ManagementRoleHeadSmallCurriculum = model.ManagementRoleHeadSmallCurriculum;
+        request.ManagementRoleHeadKs1 = model.ManagementRoleHeadKs1;
+        request.ManagementRoleHeadKs2 = model.ManagementRoleHeadKs2;
+        request.ManagementRoleSenco = model.ManagementRoleSenco;
+        request.ManagementRoleAssistantHeadteacher = model.ManagementRoleAssistantHeadteacher;
+        request.ManagementRoleHeadLargeCurriculum = model.ManagementRoleHeadLargeCurriculum;
+        request.ManagementRolePastoralLeader = model.ManagementRolePastoralLeader;
+        request.ManagementRoleOtherMembers = model.ManagementRoleOtherMembers;
 
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }

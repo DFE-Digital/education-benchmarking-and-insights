@@ -1,0 +1,43 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningManagementRoles;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.ManagementRoles }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError("ManagementRoles") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    <div id="management-roles-hint" class="govuk-hint">
+                        Select role to enter teaching period figures.
+                    </div>
+                    @if (ViewData.ModelState.HasError("ManagementRoles"))
+                    {
+                        <p id="management-roles-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["ManagementRoles"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
+                    @if (Model.IsPrimary)
+                    {
+                        @await Html.PartialAsync("_ManagementRolesPrimary", Model)
+                    }
+                    else
+                    {
+                        @await Html.PartialAsync("_ManagementRoles", Model)
+                    }
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

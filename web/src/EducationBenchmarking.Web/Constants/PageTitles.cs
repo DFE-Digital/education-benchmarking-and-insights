@@ -31,4 +31,5 @@ public static class PageTitles
     public const string SchoolPlanningTeacherPeriodAllocation = "What are your teacher period allocation figures?";
     public const string SchoolPlanningOtherTeacherPeriodsAdd = "Add other teaching periods";
     public const string SchoolPlanningTeachingAssistantFigures = "What are your teaching assistant figures?";
+    public const string SchoolPlanningManagementRoles = "Management roles with teaching responsibilties";
 }
