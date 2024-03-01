@@ -49,27 +49,80 @@
 }
 
 //SPENDING AND COSTS
+.spend-category {
+    margin-bottom: 40px;
+}
 
+.spend-category img {
+    margin: 14px 0;
+    width: 100%;
+}
+
+.spend-category div {
+    width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
+}
+
+.spend-category div p:first-child {
+    color: govuk-colour("dark-blue");
+}
+
+.spend-category div p {
+    display: inline-block;
+    background-color: #DEE0E2;
+    font-size: 16px;
+    min-height: 85px;
+    padding: 8px 10px;
+    margin-bottom: 14px;
+}
+
+.spend-category div p strong {
+    display: block;
+    font-size: 32px;
+    font-weight: normal;
+}
+
+.spend-category div span {
+    font-weight: bold;
+}
+
+.spend-category div p:first-child strong {
+    font-weight: bold;
+}
+
+.spend-category div p strong span {
+    font-size: 26px;
+    font-weight: normal;
+    color: #6E777A;
+}
 
 // GENERIC
-.high-priority, .medium-priority {
+.priority {
     margin-bottom: 0;
-}
-
-.high-priority, .high-priority .govuk-tag--red {
-    border: 1px solid #942514;
-}
-
-.medium-priority, .medium-priority .govuk-tag--yellow {
-    border: 1px solid #594D00;
-}
-
-.high-priority, .medium-priority {
     border-left: none;
     padding-top: 1px;
     padding-bottom: 2px;
 }
 
-.high-priority .govuk-tag {
+.priority.high, .priority.high .govuk-tag--red {
+    border: 1px solid #942514;
+}
+
+.priority.medium, .priority.medium .govuk-tag--yellow {
+    border: 1px solid #594D00;
+}
+
+.priority.low, .priority.low .govuk-tag--grey {
+    border: 2px solid #e5e6e7;
+}
+
+p.priority .govuk-tag {
     margin-right: 10px;
+    border-left: none !important;
+}
+
+.govuk-caption-l a {
+    color: $govuk-secondary-text-colour
 }
