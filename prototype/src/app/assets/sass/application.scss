@@ -54,22 +54,22 @@
 }
 
 .spend-category img {
-    margin: 14px 0;
+    margin-bottom: 14px;
     width: 100%;
 }
 
-.spend-category div {
+.spend-panel div {
     width: 100%;
     display: grid;
     grid-template-columns: auto auto auto;
     gap: 10px;
 }
 
-.spend-category div p:first-child {
+.spend-panel div p:first-child {
     color: govuk-colour("dark-blue");
 }
 
-.spend-category div p {
+.spend-panel div p {
     display: inline-block;
     background-color: #DEE0E2;
     font-size: 16px;
@@ -78,21 +78,21 @@
     margin-bottom: 14px;
 }
 
-.spend-category div p strong {
+.spend-panel div p strong {
     display: block;
     font-size: 32px;
     font-weight: normal;
 }
 
-.spend-category div span {
+.spend-panel div span {
     font-weight: bold;
 }
 
-.spend-category div p:first-child strong {
+.spend-panel div p:first-child strong {
     font-weight: bold;
 }
 
-.spend-category div p strong span {
+.spend-panel div p strong span {
     font-size: 26px;
     font-weight: normal;
     color: #6E777A;
@@ -100,7 +100,7 @@
 
 // GENERIC
 .priority {
-    margin-bottom: 0;
+    margin-bottom: 14px;
     border-left: none;
     padding-top: 1px;
     padding-bottom: 2px;
