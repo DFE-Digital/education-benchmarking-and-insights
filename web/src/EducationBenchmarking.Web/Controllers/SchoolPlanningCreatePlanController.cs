@@ -53,6 +53,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.OtherTeachingPeriods => await GetOtherTeachingPeriods(school, year),
                     PlanSteps.TeachingAssistantFigures => await GetTeachingAssistantFigures(school, year),
                     PlanSteps.ManagementRoles => await GetManagementRoles(school, year),
+                    PlanSteps.ManagersPerRole => await GetManagersPerRole(school, year),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -92,6 +93,7 @@ public class SchoolPlanningCreateController(
                     PlanSteps.OtherTeachingPeriods => await PostOtherTeachingPeriods(school, model),
                     PlanSteps.TeachingAssistantFigures => await PostTeachingAssistantFigures(school, model),
                     PlanSteps.ManagementRoles => await PostManagementRoles(school, model),
+                    PlanSteps.ManagersPerRole => await PostManagersPerRole(school, model),
                     _ => throw new ArgumentOutOfRangeException(nameof(step))
                 };
             }
@@ -697,7 +699,7 @@ public class SchoolPlanningCreateController(
         if (results.IsValid)
         {
             await financialPlanService.UpdateManagementRoles(school, model);
-            return new OkResult();
+            return RedirectToAction("CreatePlan", new { urn = school.Urn, year = model.Year, step = PlanSteps.ManagersPerRole });
         }
 
         results.AddToModelState(ModelState);
@@ -705,8 +707,62 @@ public class SchoolPlanningCreateController(
         //TODO: set back link when review page added
         //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
         var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
-        var viewModel = new SchoolPlanCreateViewModel(school, plan);
+        var viewModel = new SchoolPlanCreateViewModel(school, plan)
+        {
+            ManagementRoleHeadteacher = model.ManagementRoleHeadteacher,
+            ManagementRoleDeputyHeadteacher = model.ManagementRoleDeputyHeadteacher,
+            ManagementRoleNumeracyLead = model.ManagementRoleNumeracyLead,
+            ManagementRoleLiteracyLead = model.ManagementRoleLiteracyLead,
+            ManagementRoleHeadSmallCurriculum = model.ManagementRoleHeadSmallCurriculum,
+            ManagementRoleHeadKs1 = model.ManagementRoleHeadKs1,
+            ManagementRoleHeadKs2 = model.ManagementRoleHeadKs2,
+            ManagementRoleSenco = model.ManagementRoleSenco,
+            ManagementRoleAssistantHeadteacher = model.ManagementRoleAssistantHeadteacher,
+            ManagementRoleHeadLargeCurriculum = model.ManagementRoleHeadLargeCurriculum,
+            ManagementRolePastoralLeader = model.ManagementRolePastoralLeader,
+            ManagementRoleOtherMembers = model.ManagementRoleOtherMembers,
+        };
         return View("ManagementRoles", viewModel);
+    }
+
+
+    private async Task<IActionResult> GetManagersPerRole(School school, int? year)
+    {
+        var plan = await financialPlanService.GetPlan(school.Urn, year);
+        ViewData[ViewDataKeys.Backlink] = ManagementRolesBackLink(school, year);
+        var viewModel = new SchoolPlanCreateViewModel(school, plan);
+        return View("ManagersPerRole", viewModel);
+    }
+
+    private async Task<IActionResult> PostManagersPerRole(School school, SchoolPlanCreateViewModel model)
+    {
+        var results = await validator.ValidateAsync(model, Strategy.ManagersPerRole);
+        if (results.IsValid)
+        {
+            await financialPlanService.UpdateManagersPerRole(school, model);
+            return new OkResult();
+        }
+
+        results.AddToModelState(ModelState);
+
+        ViewData[ViewDataKeys.Backlink] = ManagementRolesBackLink(school, model.Year);
+        var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
+        var viewModel = new SchoolPlanCreateViewModel(school, plan)
+        {
+            NumberHeadteacher = model.NumberHeadteacher,
+            NumberDeputyHeadteacher = model.NumberDeputyHeadteacher,
+            NumberNumeracyLead = model.NumberNumeracyLead,
+            NumberLiteracyLead = model.NumberLiteracyLead,
+            NumberHeadSmallCurriculum = model.NumberHeadSmallCurriculum,
+            NumberHeadKs1 = model.NumberHeadKs1,
+            NumberHeadKs2 = model.NumberHeadKs2,
+            NumberSenco = model.NumberSenco,
+            NumberAssistantHeadteacher = model.NumberAssistantHeadteacher,
+            NumberHeadLargeCurriculum = model.NumberHeadLargeCurriculum,
+            NumberPastoralLeader = model.NumberPastoralLeader,
+            NumberOtherMembers = model.NumberOtherMembers
+        };
+        return View("ManagersPerRole", viewModel);
     }
 
     private BacklinkInfo IndexBackLink(School school) =>
@@ -753,4 +809,7 @@ public class SchoolPlanningCreateController(
 
     private BacklinkInfo TeacherPeriodAllocationBackLink(School school, int? year) =>
         new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.TeacherPeriodAllocation }));
+
+    private BacklinkInfo ManagementRolesBackLink(School school, int? year) =>
+        new(Url.Action("CreatePlan", new { urn = school.Urn, year, step = PlanSteps.ManagementRoles }));
 }
