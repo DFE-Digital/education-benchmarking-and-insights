@@ -62,4 +62,11 @@ public record FinancialPlanRequest
     public int? TeachersYear11 { get; set; }
     public int? TeachersYear12 { get; set; }
     public int? TeachersYear13 { get; set; }
+    public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+
+    public class OtherTeachingPeriod
+    {
+        public string? PeriodName { get; set; }
+        public string? PeriodsPerTimetable { get; set; }
+    }
 }

@@ -70,4 +70,11 @@ public record FinancialPlanDataObject
     [JsonProperty("teachersYear11")] public int? TeachersYear11 { get; set; }
     [JsonProperty("teachersYear12")] public int? TeachersYear12 { get; set; }
     [JsonProperty("teachersYear13")] public int? TeachersYear13 { get; set; }
+    [JsonProperty("otherTeachingPeriods")] public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+
+    public class OtherTeachingPeriod
+    {
+        [JsonProperty("periodName")] public string? PeriodName { get; set; }
+        [JsonProperty("periodsPerTimetable")] public string? PeriodsPerTimetable { get; set; }
+    }
 }
