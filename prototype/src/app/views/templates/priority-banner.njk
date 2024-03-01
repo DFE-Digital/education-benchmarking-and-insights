@@ -1,0 +1,20 @@
+{% macro priorityBanner(params) %}
+
+{% if params.percentile >= 90 or params.percentile <= 10 %}
+    {% set priority = 'high' %}
+    {% set tag = 'red' %}
+{% elseif params.percentile >= 80 or params.percentile <= 20%}
+    {% set priority = 'medium' %}
+    {% set tag = 'yellow' %}
+{% else %}
+    {% set priority = 'low' %}
+    {% set tag = 'grey' %}
+{% endif %}
+
+<p class="{{ priority }} priority">
+    <strong class="govuk-tag govuk-tag--{{ tag }}">
+        {{ priority | capitalize }} priority
+    </strong>
+    Spends <!--<strong>£{{ params.spendAmount | round }}</strong> per {{ params.unit }}, - --> more than <strong>{{ params.percentile }}%</strong> of similar schools.
+</p>
+{% endmacro %}
