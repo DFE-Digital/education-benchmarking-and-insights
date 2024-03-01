@@ -70,6 +70,20 @@ public record FinancialPlanDataObject
     [JsonProperty("teachersYear11")] public int? TeachersYear11 { get; set; }
     [JsonProperty("teachersYear12")] public int? TeachersYear12 { get; set; }
     [JsonProperty("teachersYear13")] public int? TeachersYear13 { get; set; }
+    [JsonProperty("assistantsMixedReceptionYear1")] public decimal? AssistantsMixedReceptionYear1 { get; set; }
+    [JsonProperty("assistantsMixedYear1Year2")] public decimal? AssistantsMixedYear1Year2 { get; set; }
+    [JsonProperty("assistantsMixedYear2Year3")] public decimal? AssistantsMixedYear2Year3 { get; set; }
+    [JsonProperty("assistantsMixedYear3Year4")] public decimal? AssistantsMixedYear3Year4 { get; set; }
+    [JsonProperty("assistantsMixedYear4Year5")] public decimal? AssistantsMixedYear4Year5 { get; set; }
+    [JsonProperty("assistantsMixedYear5Year6")] public decimal? AssistantsMixedYear5Year6 { get; set; }
+    [JsonProperty("assistantsNursery")] public decimal? AssistantsNursery { get; set; }
+    [JsonProperty("assistantsReception")] public decimal? AssistantsReception { get; set; }
+    [JsonProperty("assistantsYear1")] public decimal? AssistantsYear1 { get; set; }
+    [JsonProperty("assistantsYear2")] public decimal? AssistantsYear2 { get; set; }
+    [JsonProperty("assistantsYear3")] public decimal? AssistantsYear3 { get; set; }
+    [JsonProperty("assistantsYear4")] public decimal? AssistantsYear4 { get; set; }
+    [JsonProperty("assistantsYear5")] public decimal? AssistantsYear5 { get; set; }
+    [JsonProperty("assistantsYear6")] public decimal? AssistantsYear6 { get; set; }
     [JsonProperty("otherTeachingPeriods")] public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
 
     public class OtherTeachingPeriod
