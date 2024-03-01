@@ -83,7 +83,7 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
         RuleSet(PlanSteps.ManagementRoles, () =>
         {
             RuleFor(p => p)
-                .Must(x => x.ManagementRoleHeadteacher || x.ManagementRoleDeputyHeadteacher || 
+                .Must(x => x.ManagementRoleHeadteacher || x.ManagementRoleDeputyHeadteacher ||
                            x.ManagementRoleNumeracyLead || x.ManagementRoleLiteracyLead ||
                            x.ManagementRoleHeadSmallCurriculum || x.ManagementRoleHeadKs1 ||
                            x.ManagementRoleHeadKs2 || x.ManagementRoleSenco ||
@@ -93,7 +93,7 @@ public class CreatePlanValidator : AbstractValidator<SchoolPlanCreateViewModel>
                 .WithName("ManagementRoles");
         });
     }
-    
+
     private void RulesForOtherTeachingPeriods()
     {
         RuleSet(PlanSteps.OtherTeachingPeriods, () =>

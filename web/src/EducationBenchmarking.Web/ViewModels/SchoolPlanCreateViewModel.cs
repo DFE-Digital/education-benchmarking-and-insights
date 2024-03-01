@@ -199,6 +199,6 @@ public class SchoolPlanCreateViewModel
     public bool ManagementRoleHeadLargeCurriculum { get; set; }
     public bool ManagementRolePastoralLeader { get; set; }
     public bool ManagementRoleOtherMembers { get; set; }
-    
+
     public string Action { get; set; } = "";
 }

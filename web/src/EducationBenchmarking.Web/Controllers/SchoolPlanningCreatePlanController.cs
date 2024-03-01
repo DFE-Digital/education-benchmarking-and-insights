@@ -684,13 +684,13 @@ public class SchoolPlanningCreateController(
     private async Task<IActionResult> GetManagementRoles(School school, int? year)
     {
         var plan = await financialPlanService.GetPlan(school.Urn, year);
-        
+
         //TODO: set back link when review page added
         //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
         var viewModel = new SchoolPlanCreateViewModel(school, plan);
         return View("ManagementRoles", viewModel);
     }
-    
+
     private async Task<IActionResult> PostManagementRoles(School school, SchoolPlanCreateViewModel model)
     {
         var results = await validator.ValidateAsync(model, Strategy.ManagementRoles);
@@ -701,14 +701,14 @@ public class SchoolPlanningCreateController(
         }
 
         results.AddToModelState(ModelState);
-        
+
         //TODO: set back link when review page added
         //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
         var plan = await financialPlanService.GetPlan(school.Urn, model.Year);
         var viewModel = new SchoolPlanCreateViewModel(school, plan);
         return View("ManagementRoles", viewModel);
     }
-    
+
     private BacklinkInfo IndexBackLink(School school) =>
         new(Url.Action("Index", "SchoolPlanning", new { urn = school.Urn }));
 
