@@ -31,71 +31,116 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-<span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-<h1 class="govuk-heading-l">Spending and costs</h1>
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Spending and costs</h1>
 
-<p>
-    Find out how spending compares to similar schools.<br /> 
-    All data is 2022 to 2023 consistent financial reporting (CFR).
-</p>
+        <p>
+            Find out how spending compares to similar schools.<br /> 
+            All data is 2022 to 2023 consistent financial reporting (CFR).
+        </p>
 
-<details class="govuk-details">
-<summary class="govuk-details__summary">
-    <span class="govuk-details__summary-text">
-    How we choose similar schools
-    </span>
-</summary>
-<div class="govuk-details__text">
-    <p class="govuk-body">We choose 30 similar schools based on: </p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>school phase and type</li>
-        <li>London pay weighting</li>
-        <li>number of pupils</li>
-        <li>pupils eligible for free school meals (FSM)</li>
-        <li>building types and features</li>
-    </ul>
-    <p>Teacher contact ratio is not included.</p>
-    <p><a href="#">View or change which schools we compare you with</a></p>
-</div>
-</details>
+        <details class="govuk-details">
+        <summary class="govuk-details__summary">
+            <span class="govuk-details__summary-text">
+            How we choose similar schools
+            </span>
+        </summary>
+        <div class="govuk-details__text">
+            <p class="govuk-body">We choose 30 similar schools based on: </p>
+            <ul class="govuk-list govuk-list--bullet">
+                <li>school phase and type</li>
+                <li>London pay weighting</li>
+                <li>number of pupils</li>
+                <li>pupils eligible for free school meals (FSM)</li>
+                <li>building types and features</li>
+            </ul>
+            <p>Teacher contact ratio is not included.</p>
+            <p><a href="#">View or change which schools we compare you with</a></p>
+        </div>
+        </details>
 
 
-<h2 class="govuk-heading-m">Priority costs</h2>
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Priority costs</h2>
 
-<p>This shows where spending is different to similar schools.</p>
+        <p>This shows where spending is different to similar schools.</p>
 
-{{ spendCategory({
-    title: 'Teaching and teaching supply staff',
-    spendAmount: 735.64,
-    medianAmount: 478.61,
-    unit: 'pupil',
-    percentile: 92
-}) }}
+        {{ spendCategory({
+            title: 'Teaching and teaching supply staff',
+            spendAmount: 735.64,
+            medianAmount: 478.61,
+            unit: 'pupil',
+            percentile: 92
+        }) }}
 
-{{ spendCategory({
-    title: 'Premises staff and services',
-    spendAmount: 135.64,
-    medianAmount: 178.61,
-    unit: 'pupil',
-    percentile: 8
-}) }}
+        {{ spendCategory({
+            title: 'Premises staff and services',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 8
+        }) }}
 
-{{ spendCategory({
-    title: 'Utilities',
-    spendAmount: 135.64,
-    medianAmount: 178.61,
-    unit: 'square metre',
-    percentile: 83
-}) }}
+        {{ spendCategory({
+            title: 'Utilities',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'square metre',
+            percentile: 83
+        }) }}
 
-{{ spendCategory({
-    title: 'Other',
-    spendAmount: 135.64,
-    medianAmount: 178.61,
-    unit: 'pupil',
-    percentile: 43
-}) }}
 
-</div>
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Low priority costs</h2>
+
+        <p>This shows where spending is close to similar schools.</p>
+
+        {{ spendCategory({
+            title: 'Non-educational support staff',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational supplies',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational ICT',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+        {{ spendCategory({
+            title: 'Administrative supplies',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+        {{ spendCategory({
+            title: 'Catering staff and services',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+        {{ spendCategory({
+            title: 'Other',
+            spendAmount: 135.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 43
+        }) }}
+
+    </div>
 </div>
 {% endblock %}

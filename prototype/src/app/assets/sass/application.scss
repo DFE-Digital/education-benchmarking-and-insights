@@ -49,30 +49,33 @@
 }
 
 //SPENDING AND COSTS
+.spend-category {
+    margin-bottom: 40px;
+}
+
 .spend-category img {
     margin: 14px 0;
     width: 100%;
 }
 
-
 .spend-category div {
     width: 100%;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    gap: 10px;
 }
 
 .spend-category div p:first-child {
     color: govuk-colour("dark-blue");
 }
 
-.spend-category div p:nth-child(2) {
-    margin: 0 14px;
-}
-
 .spend-category div p {
     display: inline-block;
     background-color: #DEE0E2;
     font-size: 16px;
-    height: 85px;
+    min-height: 85px;
     padding: 8px 10px;
+    margin-bottom: 14px;
 }
 
 .spend-category div p strong {
@@ -90,6 +93,7 @@
 }
 
 .spend-category div p strong span {
+    font-size: 26px;
     font-weight: normal;
     color: #6E777A;
 }
