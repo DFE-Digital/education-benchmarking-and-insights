@@ -71,6 +71,18 @@ public record FinancialPlanDataObject
     [JsonProperty("teachersYear12")] public int? TeachersYear12 { get; set; }
     [JsonProperty("teachersYear13")] public int? TeachersYear13 { get; set; }
     [JsonProperty("otherTeachingPeriods")] public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    [JsonProperty("managementRoleHeadteacher")] public bool ManagementRoleHeadteacher { get; set; }
+    [JsonProperty("managementRoleDeputyHeadteacher")] public bool ManagementRoleDeputyHeadteacher { get; set; }
+    [JsonProperty("managementRoleNumeracyLead")] public bool ManagementRoleNumeracyLead { get; set; }
+    [JsonProperty("managementRoleLiteracyLead")] public bool ManagementRoleLiteracyLead { get; set; }
+    [JsonProperty("managementRoleHeadSmallCurriculum")] public bool ManagementRoleHeadSmallCurriculum { get; set; }
+    [JsonProperty("managementRoleHeadKs1")] public bool ManagementRoleHeadKs1 { get; set; }
+    [JsonProperty("managementRoleHeadKs2")] public bool ManagementRoleHeadKs2 { get; set; }
+    [JsonProperty("managementRoleSenco")] public bool ManagementRoleSenco { get; set; }
+    [JsonProperty("managementRoleAssistantHeadteacher")] public bool ManagementRoleAssistantHeadteacher { get; set; }
+    [JsonProperty("managementRoleHeadLargeCurriculum")] public bool ManagementRoleHeadLargeCurriculum { get; set; }
+    [JsonProperty("managementRolePastoralLeader")] public bool ManagementRolePastoralLeader { get; set; }
+    [JsonProperty("managementRoleOtherMembers")] public bool ManagementRoleOtherMembers { get; set; }
 
     public class OtherTeachingPeriod
     {
