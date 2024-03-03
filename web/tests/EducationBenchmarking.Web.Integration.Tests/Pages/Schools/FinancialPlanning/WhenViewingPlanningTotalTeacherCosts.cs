@@ -42,6 +42,7 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalTeacherCost(urn, year));
 
 

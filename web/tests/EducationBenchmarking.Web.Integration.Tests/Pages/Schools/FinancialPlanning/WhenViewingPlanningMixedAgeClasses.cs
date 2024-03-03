@@ -42,8 +42,8 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningMixedAgeClasses(urn, year));
-
 
         var expectedUrl = Paths.SchoolFinancialPlanningMixedAgeClasses(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);

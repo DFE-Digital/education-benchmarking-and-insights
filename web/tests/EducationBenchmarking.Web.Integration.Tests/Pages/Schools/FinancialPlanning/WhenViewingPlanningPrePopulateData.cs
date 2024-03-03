@@ -123,6 +123,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
     {
         const string urn = "12345";
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningPrePopulatedData(urn, PlanYear));
 
         PageAssert.IsNotFoundPage(page);

@@ -7,7 +7,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.Name</span>
+        <span class="govuk-caption-l">@Model.School.Name</span>
         <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
         <div class="govuk-inset-text">
             <p class="govuk-body">
@@ -20,26 +20,26 @@
                 Enter an average if your school has a different timetable length for different years
             </p>
         </div>
-        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = "timetable-cycle" }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <label class="govuk-label govuk-label--m" for="timetable-periods">
                     How many periods are there in one timetable cycle?
                 </label>
-                @if (ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)))
+                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)))
                 {
-                    <p id="@nameof(Model.TimetablePeriods)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.TimetablePeriods)]?.Errors.First().ErrorMessage
+                    <p id="@nameof(Model.Plan.TimetablePeriods)-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TimetablePeriods)]?.Errors.First().ErrorMessage
                     </p>
                 }
-                <input class="@(ViewData.ModelState.HasError(nameof(Model.TimetablePeriods)) 
+                <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)) 
                                                          ? "govuk-input govuk-!-width-one-third govuk-input--error" 
                                                          : "govuk-input govuk-!-width-one-third")" 
                        id="timetable-periods"
-                       name="@nameof(Model.TimetablePeriods)"
+                       name="@nameof(Model.Plan.TimetablePeriods)"
                        type="number"
                        spellcheck="false"
-                       value="@Model.TimetablePeriods">
+                       value="@Model.Plan?.TimetablePeriods">
             </div>
             <button type="submit" class="govuk-button" data-module="govuk-button">
                 Continue

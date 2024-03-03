@@ -51,6 +51,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningPupilFigures(urn, year));
 
 
@@ -85,6 +86,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         const string urn = "12345";
         const int year = 2024;
         var page = await Client.SetupEstablishmentWithException()
+            .SetupBenchmarkWithException()
             .Navigate(Paths.SchoolFinancialPlanningPupilFigures(urn, year));
 
         var expectedUrl = Paths.SchoolFinancialPlanningPupilFigures(urn, year).ToAbsolute();
@@ -123,7 +125,16 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     [InlineData("PupilsYear13", "3.8")]
     public async Task CanSubmit(string prop, string value)
     {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true);
+        var composer = Fixture.Build<FinancialPlan>()
+            .Without(x => x.PupilsYear7)
+            .Without(x => x.PupilsYear8)
+            .Without(x => x.PupilsYear9)
+            .Without(x => x.PupilsYear10)
+            .Without(x => x.PupilsYear11)
+            .Without(x => x.PupilsYear12)
+            .Without(x => x.PupilsYear13);
+
+        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, true, composer);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -132,7 +143,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { prop, value },
+                { prop, value }
             });
         });
 
@@ -148,11 +159,11 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     public async Task CanDisplayWithPreviousValue(bool hasSixth, int? year7, int? year8, int? year9, int? year10, int? year11, decimal? year12, decimal? year13)
     {
         var composer = Fixture.Build<FinancialPlan>()
-            .With(x => x.PupilsYear7, year7)
-            .With(x => x.PupilsYear8, year8)
-            .With(x => x.PupilsYear9, year9)
-            .With(x => x.PupilsYear10, year10)
-            .With(x => x.PupilsYear11, year11)
+            .With(x => x.PupilsYear7, year7.ToString)
+            .With(x => x.PupilsYear8, year8.ToString)
+            .With(x => x.PupilsYear9, year9.ToString)
+            .With(x => x.PupilsYear10, year10.ToString)
+            .With(x => x.PupilsYear11, year11.ToString)
             .With(x => x.PupilsYear12, year12)
             .With(x => x.PupilsYear13, year13);
 

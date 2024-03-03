@@ -26,9 +26,9 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
     }
 
     [Theory]
-    [InlineData(25)]
+    [InlineData("25")]
     [InlineData(null)]
-    public async Task CanDisplayWithPreviousValue(int? timetablePeriods)
+    public async Task CanDisplayWithPreviousValue(string? timetablePeriods)
     {
         var (page, _) =
             await SetupNavigateInitPage(EstablishmentTypes.Academies, timetablePeriods: timetablePeriods);
@@ -36,7 +36,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         var input = page.GetElementById("timetable-periods");
         Assert.NotNull(input);
 
-        Assert.Equal(input.GetAttribute("value"), timetablePeriods.ToString());
+        Assert.Equal(input.GetAttribute("value"), timetablePeriods);
     }
 
     [Theory]
@@ -69,8 +69,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
 
-        DocumentAssert.AssertPageUrl(page, expectedPage)
-            ;
+        DocumentAssert.AssertPageUrl(page, expectedPage);
     }
 
     [Theory]
@@ -123,6 +122,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(urn, year));
 
 
@@ -183,7 +183,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, int? timetablePeriods = null, bool isPrimary = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, string? timetablePeriods = null, bool isPrimary = false)
     {
         var school = Fixture.Build<School>()
         .With(x => x.FinanceType, financeType)

@@ -23,29 +23,29 @@ public static class Paths
     public static string SchoolHistory(string? urn) => $"/school/{urn}/history";
     public static string SchoolDetails(string? urn) => $"/school/{urn}/details";
 
-    public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/create?step=start";
+    public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/create/start";
     public static string SchoolFinancialPlanningSelectYear(string? urn) =>
-        $"/school/{urn}/financial-planning/create?step=select-year";
+        $"/school/{urn}/financial-planning/create/select-year";
     public static string SchoolFinancialPlanningTotalIncome(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=total-income";
+        $"/school/{urn}/financial-planning/create/total-income?year={year}";
     public static string SchoolFinancialPlanningPrePopulatedData(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=pre-populate-data";
+        $"/school/{urn}/financial-planning/create/pre-populate-data?year={year}";
     public static string SchoolFinancialPlanningTimetableCycle(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=timetable-cycle";
-    public static string SchoolFinancialPlanningHelp(string? urn) => $"/school/{urn}/financial-planning/create?step=help";
+        $"/school/{urn}/financial-planning/create/timetable-cycle?year={year}";
+    public static string SchoolFinancialPlanningHelp(string? urn) => $"/school/{urn}/financial-planning/create/help";
     public static string SchoolFinancialPlanningTotalExpenditure(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=total-expenditure";
+        $"/school/{urn}/financial-planning/create/total-expenditure?year={year}";
     public static string SchoolFinancialPlanningTotalTeacherCost(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=total-teacher-costs";
+        $"/school/{urn}/financial-planning/create/total-teacher-costs?year={year}";
     public static string SchoolFinancialPlanningTotalNumberTeachers(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=total-number-teachers";
+        $"/school/{urn}/financial-planning/create/total-number-teachers?year={year}";
     public static string SchoolFinancialPlanningTotalEducationSupport(string? urn, int year) =>
-        $"/school/{urn}/financial-planning/create?year={year}&step=total-education-support";
-    public static string SchoolFinancialPlanningHasMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-has-mixed-age-classes";
-    public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-mixed-age-classes";
-    public static string SchoolFinancialPlanningPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=pupil-figures";
-    public static string SchoolFinancialPlanningPrimaryPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=primary-pupil-figures";
-    public static string SchoolFinancialPlanningTeacherPeriodAllocation(string? urn, int year) => $"/school/{urn}/financial-planning/create?year={year}&step=teacher-period-allocation";
+        $"/school/{urn}/financial-planning/create/total-education-support?year={year}";
+    public static string SchoolFinancialPlanningHasMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create/primary-has-mixed-age-classes?year={year}";
+    public static string SchoolFinancialPlanningMixedAgeClasses(string? urn, int year) => $"/school/{urn}/financial-planning/create/primary-mixed-age-classes?year={year}";
+    public static string SchoolFinancialPlanningPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create/pupil-figures?year={year}";
+    public static string SchoolFinancialPlanningPrimaryPupilFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create/primary-pupil-figures?year={year}";
+    public static string SchoolFinancialPlanningTeacherPeriodAllocation(string? urn, int year) => $"/school/{urn}/financial-planning/create/teacher-period-allocation?year={year}";
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
