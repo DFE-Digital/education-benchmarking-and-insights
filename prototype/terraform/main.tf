@@ -62,7 +62,7 @@ resource "azurerm_linux_web_app" "web-app" {
 
   app_settings = {
     "NODE_ENV"                       = "production"
-    "PASSWORD"                       = "q"
+    "PASSWORD"                       = "education"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
   }
 }
