@@ -16,7 +16,7 @@
     "lint:fix": "eslint . --ext ts,tsx,cjs --fix"
   },
   "dependencies": {
-    "chart.js": "^4.4.1",
+    "chart.js": "^4.4.2",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.2.0",
