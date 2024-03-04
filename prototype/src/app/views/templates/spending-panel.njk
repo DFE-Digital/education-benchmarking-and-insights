@@ -15,9 +15,9 @@
 
 <div class="spend-panel{{ subcategory }}">
     <div>
-        <p><span>This school spends</span> <strong>£{{ params.spendAmount }}</strong> per {{ params.unit }}</p>
-        <p><span>Similar schools spend</span> <strong>£{{ params.medianAmount }}</strong> per {{ params.unit }}, on average</p>
-        <p><span>This school spends</span> <strong>£{{ difference }} <span>({{differencePercentage}}%)</span></strong> <span>{{ moreOrLess }}</span> per {{ params.unit }}</p>
+        <p><span>This school spends</span> <strong>£{{ params.spendAmount | addCommas }}</strong> per {{ params.unit }}</p>
+        <p><span>Similar schools spend</span> <strong>£{{ params.medianAmount | addCommas }}</strong> per {{ params.unit }}, on average</p>
+        <p><span>This school spends</span> <strong>£{{ difference | addCommas }} <span>({{differencePercentage}}%)</span></strong> <span>{{ moreOrLess }}</span> per {{ params.unit }}</p>
     </div>
 </div>
 {% endmacro %}
