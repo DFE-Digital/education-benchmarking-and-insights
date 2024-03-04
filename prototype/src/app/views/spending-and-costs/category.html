@@ -8,7 +8,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {{ data['school-name'] }} – {{ serviceName }}
+    Teaching and teaching support staff costs - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -71,8 +71,8 @@
 
 {{ spendCategoryDetails({
     title: 'Total costs',
-    spendAmount: 735.64,
-    medianAmount: 478.61,
+    spendAmount: 4746.93,
+    medianAmount: 3128.61,
     unit: 'pupil',
     percentile: 92,
     intCount: intCount
@@ -81,8 +81,8 @@
 {% set intCount = intCount + 1 %}
 {{ spendCategoryDetails({
     title: 'Teaching staff costs',
-    spendAmount: 450.64,
-    medianAmount: 289.62,
+    spendAmount: 3773.68,
+    medianAmount: 2789.62,
     unit: 'pupil',
     intCount: intCount
 }) }}
@@ -90,8 +90,8 @@
 {% set intCount = intCount + 1 %}
 {{ spendCategoryDetails({
     title: 'Education support staff costs',
-    spendAmount: 285.64,
-    medianAmount: 189.62,
+    spendAmount: 750.99,
+    medianAmount: 489.62,
     unit: 'pupil',
     intCount: intCount
 }) }}
@@ -99,8 +99,8 @@
 {% set intCount = intCount + 1 %}
 {{ spendCategoryDetails({
     title: 'Agency supply teaching staff costs',
-    spendAmount: 285.64,
-    medianAmount: 189.62,
+    spendAmount: 189.83,
+    medianAmount: 148.62,
     unit: 'pupil',
     intCount: intCount
 }) }}
@@ -108,8 +108,8 @@
 {% set intCount = intCount + 1 %}
 {{ spendCategoryDetails({
     title: 'Educational consultancy costs',
-    spendAmount: 285.64,
-    medianAmount: 189.62,
+    spendAmount: 10.62,
+    medianAmount: 7.62,
     unit: 'pupil',
     intCount: intCount
 }) }}
@@ -117,8 +117,8 @@
 {% set intCount = intCount + 1 %}
 {{ spendCategoryDetails({
     title: 'Supply teaching staff costs',
-    spendAmount: 285.64,
-    medianAmount: 189.62,
+    spendAmount: 21.81,
+    medianAmount: 14.62,
     unit: 'pupil',
     intCount: intCount
 }) }}

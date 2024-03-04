@@ -6,5 +6,6 @@
 const govukPrototypeKit = require('govuk-prototype-kit')
 const addFilter = govukPrototypeKit.views.addFilter
 
-// Add your filters here
-
+addFilter('addCommas', function (content) {
+    return content.toLocaleString()
+  })

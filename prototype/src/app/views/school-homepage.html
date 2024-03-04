@@ -5,7 +5,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  {{ data['school-name'] }} – {{ serviceName }}
+  Spending and costs - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -24,19 +24,21 @@
 
 <h1 class="govuk-heading-l">{{ data['school-name'] }}</h1>
 
+{% if data['trust-name'] %}
 <h2 class="govuk-heading-m">Part of <a href="#">{{ data['trust-name'] }}</a></h2>
+{% endif %}
 
 <div class="govuk-grid-row headline-figures">
     <div class="govuk-grid-column-one-quarter">
         <div>
             <p>In year balance</p>
-            <p>£1,000,000</p>
+            <p>£26,943</p>
         </div>
     </div>
     <div class="govuk-grid-column-one-quarter">
         <div>
             <p>Revenue reserve</p>
-            <p>£300,000</p>
+            <p>-£766,971</p>
         </div>
     </div>
     <div class="govuk-grid-column-one-quarter">
@@ -66,7 +68,7 @@
             <strong class="govuk-tag govuk-tag--red">
                 High priority
             </strong>
-            Spends <strong>£735</strong> per pupil -  more than <strong>92%</strong> of similar schools.
+            Spends <strong>£4,746.93</strong> per pupil - more than <strong>92%</strong> of similar schools.
         </p>
     </div>
 
@@ -76,7 +78,7 @@
             <strong class="govuk-tag govuk-tag--red">
                 High priority
             </strong>
-            Spends <strong>£201</strong> per pupil -  more than <strong>91%</strong> of similar schools.
+            Spends <strong>£155</strong> per pupil - more than <strong>91%</strong> of similar schools.
         </p>
     </div>
 
@@ -86,7 +88,7 @@
             <strong class="govuk-tag govuk-tag--yellow">
                 Medium priority
             </strong>
-            Spends <strong>£193</strong> per pupil -  more than <strong>81%</strong> of similar schools.
+            Spends <strong>£113</strong> per square metre - more than <strong>81%</strong> of similar schools.
         </p>
     </div>
 
