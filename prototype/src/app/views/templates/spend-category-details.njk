@@ -3,6 +3,11 @@
 {% from "govuk/components/radios/macro.njk" import govukRadios %}
 
 {% macro spendCategoryDetails(params) %}
+
+{% if params.intCount != 0 %}
+    {% set chartType = '-sub' %}
+{% endif %}
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-m">{{ params.title }}</h2>
@@ -16,7 +21,8 @@
         {{ spendingPanel({
             spendAmount: params.spendAmount,
             medianAmount: params.medianAmount,
-            unit: params.unit
+            unit: params.unit,
+            subcategory: params.intCount
         }) }}
 
     </div>
@@ -24,7 +30,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <img src="/public/images/chart.png" style="width: 100%;" />
+        <img src="/public/images/chart{{chartType}}.png" style="width: 100%;" />
     </div>
     <div class="govuk-grid-column-one-third">
 
