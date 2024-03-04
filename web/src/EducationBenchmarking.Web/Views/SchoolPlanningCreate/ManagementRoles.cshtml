@@ -6,12 +6,12 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.ManagementRoles }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("ManagementRoles", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError("ManagementRoles") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <span class="govuk-caption-l">@Model.Name</span>
+                        <span class="govuk-caption-l">@Model.School.Name</span>
                         <h1 class="govuk-fieldset__heading">
                             @ViewData[ViewDataKeys.Title]
                         </h1>
@@ -25,7 +25,7 @@
                             <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["ManagementRoles"]?.Errors.First().ErrorMessage
                         </p>
                     }
-                    @if (Model.IsPrimary)
+                    @if (Model.School.IsPrimary)
                     {
                         @await Html.PartialAsync("_ManagementRolesPrimary", Model)
                     }

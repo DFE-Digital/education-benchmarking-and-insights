@@ -6,32 +6,32 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @using (Html.BeginForm("CreatePlan", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, step = PlanSteps.PrimaryHasMixedAgeClasses }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("PrimaryHasMixedAgeClasses", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-              <div class="@(ViewData.ModelState.HasError(nameof(Model.HasMixedAgeClasses)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+              <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.HasMixedAgeClasses)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <span class="govuk-caption-l">@Model.Name</span>
+                        <span class="govuk-caption-l">@Model.School.Name</span>
                         <h1 class="govuk-fieldset__heading">
                             @ViewData[ViewDataKeys.Title]
                         </h1>
                     </legend>
-                    @if (ViewData.ModelState.HasError(nameof(Model.HasMixedAgeClasses)))
+                    @if (ViewData.ModelState.HasError(nameof(Model.Plan.HasMixedAgeClasses)))
                     {
-                        <p id="@nameof(Model.HasMixedAgeClasses)-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.HasMixedAgeClasses)]?.Errors.First().ErrorMessage
+                        <p id="@nameof(Model.Plan.HasMixedAgeClasses)-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.HasMixedAgeClasses)]?.Errors.First().ErrorMessage
                         </p>
                     }
                     <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="@nameof(Model.HasMixedAgeClasses)-Yes" name="@nameof(Model.HasMixedAgeClasses)" type="radio" value="true" @(Model.HasMixedAgeClasses == true ? "checked" : "")>
-                            <label class="govuk-label govuk-radios__label" for="@nameof(Model.HasMixedAgeClasses)-Yes">
+                            <input class="govuk-radios__input" id="@nameof(Model.Plan.HasMixedAgeClasses)-Yes" name="@nameof(Model.Plan.HasMixedAgeClasses)" type="radio" value="true" @(Model.Plan?.HasMixedAgeClasses == true ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label" for="@nameof(Model.Plan.HasMixedAgeClasses)-Yes">
                                 Yes
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="@nameof(Model.HasMixedAgeClasses)-No" name="@nameof(Model.HasMixedAgeClasses)" type="radio" value="false" @(Model.HasMixedAgeClasses == false ? "checked" : "")>
-                            <label class="govuk-label govuk-radios__label" for="@nameof(Model.HasMixedAgeClasses)-No">
+                            <input class="govuk-radios__input" id="@nameof(Model.Plan.HasMixedAgeClasses)-No" name="@nameof(Model.Plan.HasMixedAgeClasses)" type="radio" value="false" @(Model.Plan?.HasMixedAgeClasses == false ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label" for="@nameof(Model.Plan.HasMixedAgeClasses)-No">
                                 No
                             </label>
                         </div>

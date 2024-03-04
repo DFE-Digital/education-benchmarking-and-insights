@@ -50,6 +50,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningPrimaryPupilFigures(urn, year));
 
 

@@ -89,6 +89,18 @@ public record FinancialPlanRequest
     public bool ManagementRoleHeadLargeCurriculum { get; set; }
     public bool ManagementRolePastoralLeader { get; set; }
     public bool ManagementRoleOtherMembers { get; set; }
+    public int? NumberHeadteacher { get; set; }
+    public int? NumberDeputyHeadteacher { get; set; }
+    public int? NumberNumeracyLead { get; set; }
+    public int? NumberLiteracyLead { get; set; }
+    public int? NumberHeadSmallCurriculum { get; set; }
+    public int? NumberHeadKs1 { get; set; }
+    public int? NumberHeadKs2 { get; set; }
+    public int? NumberSenco { get; set; }
+    public int? NumberAssistantHeadteacher { get; set; }
+    public int? NumberHeadLargeCurriculum { get; set; }
+    public int? NumberPastoralLeader { get; set; }
+    public int? NumberOtherMembers { get; set; }
 
     public class OtherTeachingPeriod
     {

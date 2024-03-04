@@ -63,7 +63,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
     public async Task CanDisplayNotFoundOnSubmit()
     {
         var composer = Fixture.Build<FinancialPlan>()
-            .With(x => x.PupilsYear7, 145);
+            .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
         var action = page.QuerySelector(".govuk-button");
@@ -99,7 +99,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
         var composer = Fixture.Build<FinancialPlan>()
-            .With(x => x.PupilsYear7, 145);
+            .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
         var action = page.QuerySelector(".govuk-button");

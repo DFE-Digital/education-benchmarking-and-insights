@@ -97,6 +97,18 @@ public record FinancialPlanDataObject
     [JsonProperty("managementRoleHeadLargeCurriculum")] public bool ManagementRoleHeadLargeCurriculum { get; set; }
     [JsonProperty("managementRolePastoralLeader")] public bool ManagementRolePastoralLeader { get; set; }
     [JsonProperty("managementRoleOtherMembers")] public bool ManagementRoleOtherMembers { get; set; }
+    [JsonProperty("numberHeadteacher")] public int? NumberHeadteacher { get; set; }
+    [JsonProperty("numberDeputyHeadteacher")] public int? NumberDeputyHeadteacher { get; set; }
+    [JsonProperty("numberNumeracyLead")] public int? NumberNumeracyLead { get; set; }
+    [JsonProperty("numberLiteracyLead")] public int? NumberLiteracyLead { get; set; }
+    [JsonProperty("numberHeadSmallCurriculum")] public int? NumberHeadSmallCurriculum { get; set; }
+    [JsonProperty("numberHeadKs1")] public int? NumberHeadKs1 { get; set; }
+    [JsonProperty("numberHeadKs2")] public int? NumberHeadKs2 { get; set; }
+    [JsonProperty("numberSenco")] public int? NumberSenco { get; set; }
+    [JsonProperty("numberAssistantHeadteacher")] public int? NumberAssistantHeadteacher { get; set; }
+    [JsonProperty("numberHeadLargeCurriculum")] public int? NumberHeadLargeCurriculum { get; set; }
+    [JsonProperty("numberPastoralLeader")] public int? NumberPastoralLeader { get; set; }
+    [JsonProperty("numberOtherMembers")] public int? NumberOtherMembers { get; set; }
 
     public class OtherTeachingPeriod
     {

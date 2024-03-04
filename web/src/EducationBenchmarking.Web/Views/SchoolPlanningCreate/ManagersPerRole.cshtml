@@ -1,0 +1,303 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningManagersPerRole;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("ManagersPerRole", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.School.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    
+                    @if (Model.Plan?.ManagementRoleHeadteacher is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadteacher)" value="@Model.Plan.ManagementRoleHeadteacher.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberHeadteacher)">
+                                Total number of headteachers
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadteacher)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberHeadteacher)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberHeadteacher)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadteacher)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberHeadteacher)"
+                                   name="@nameof(Model.Plan.NumberHeadteacher)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberHeadteacher">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleDeputyHeadteacher is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleDeputyHeadteacher)" value="@Model.Plan.ManagementRoleDeputyHeadteacher.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberDeputyHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberDeputyHeadteacher)">
+                                Total number of deputy headteachers
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberDeputyHeadteacher)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberDeputyHeadteacher)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberDeputyHeadteacher)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberDeputyHeadteacher)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberDeputyHeadteacher)"
+                                   name="@nameof(Model.Plan.NumberDeputyHeadteacher)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberDeputyHeadteacher">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleNumeracyLead is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleNumeracyLead)" value="@Model.Plan.ManagementRoleNumeracyLead.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberNumeracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberNumeracyLead)">
+                                Total number of numeracy leads
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberNumeracyLead)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberNumeracyLead)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberNumeracyLead)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberNumeracyLead)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberNumeracyLead)"
+                                   name="@nameof(Model.Plan.NumberNumeracyLead)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberNumeracyLead">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleLiteracyLead is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleLiteracyLead)" value="@Model.Plan.ManagementRoleLiteracyLead.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberLiteracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberLiteracyLead)">
+                                Total number of literacy leads
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberLiteracyLead)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberLiteracyLead)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberLiteracyLead)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberLiteracyLead)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberLiteracyLead)"
+                                   name="@nameof(Model.Plan.NumberLiteracyLead)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberLiteracyLead">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleHeadSmallCurriculum is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadSmallCurriculum)" value="@Model.Plan.ManagementRoleHeadSmallCurriculum.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadSmallCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberHeadSmallCurriculum)">
+                                Total number of head of small curriculum areas
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadSmallCurriculum)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberHeadSmallCurriculum)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberHeadSmallCurriculum)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadSmallCurriculum)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberHeadSmallCurriculum)"
+                                   name="@nameof(Model.Plan.NumberHeadSmallCurriculum)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberHeadSmallCurriculum">
+                        </div>
+                    }
+
+                    @if (Model.Plan?.ManagementRoleHeadKs1 is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadKs1)" value="@Model.Plan.ManagementRoleHeadKs1.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberHeadKs1)">
+                                Total number of heads of KS1
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs1)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberHeadKs1)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberHeadKs1)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs1)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberHeadKs1)"
+                                   name="@nameof(Model.Plan.NumberHeadKs1)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberHeadKs1">
+                        </div>
+                    }
+
+                    @if (Model.Plan?.ManagementRoleHeadKs2 is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadKs2)" value="@Model.Plan.ManagementRoleHeadKs2.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberHeadKs2)">
+                                Total number of heads of KS2
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs2)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberHeadKs2)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberHeadKs2)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadKs2)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberHeadKs2)"
+                                   name="@nameof(Model.Plan.NumberHeadKs2)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberHeadKs2">
+                        </div>
+                    }
+
+
+                    @if (Model.Plan?.ManagementRoleSenco is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleSenco)" value="@Model.Plan.ManagementRoleSenco.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberSenco)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberSenco)">
+                                Total number of special education needs coordinators (SENCO)
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberSenco)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberSenco)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberSenco)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberSenco)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberSenco)"
+                                   name="@nameof(Model.Plan.NumberSenco)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberSenco">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleAssistantHeadteacher is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleAssistantHeadteacher)" value="@Model.Plan.ManagementRoleAssistantHeadteacher.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberAssistantHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberAssistantHeadteacher)">
+                                Total number of assistant headteachers
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberAssistantHeadteacher)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberAssistantHeadteacher)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberAssistantHeadteacher)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberAssistantHeadteacher)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberAssistantHeadteacher)"
+                                   name="@nameof(Model.Plan.NumberAssistantHeadteacher)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberAssistantHeadteacher">
+                        </div>
+                    }
+
+                    @if (Model.Plan?.ManagementRoleHeadLargeCurriculum is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadLargeCurriculum)" value="@Model.Plan.ManagementRoleHeadLargeCurriculum.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadLargeCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberHeadLargeCurriculum)">
+                                Total number of head of large curriculum areas
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadLargeCurriculum)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberHeadLargeCurriculum)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberHeadLargeCurriculum)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberHeadLargeCurriculum)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberHeadLargeCurriculum)"
+                                   name="@nameof(Model.Plan.NumberHeadLargeCurriculum)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberHeadLargeCurriculum">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRolePastoralLeader is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRolePastoralLeader)" value="@Model.Plan.ManagementRolePastoralLeader.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberPastoralLeader)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberPastoralLeader)">
+                                Total number of pastoral leaders
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberPastoralLeader)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberPastoralLeader)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberPastoralLeader)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberPastoralLeader)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberPastoralLeader)"
+                                   name="@nameof(Model.Plan.NumberPastoralLeader)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberPastoralLeader">
+                        </div>
+                    }
+                    
+                    @if (Model.Plan?.ManagementRoleOtherMembers is true)
+                    {
+                        <input type="hidden" name="@nameof(Model.Plan.ManagementRoleOtherMembers)" value="@Model.Plan.ManagementRoleOtherMembers.ToString().ToLower()"/>
+                        
+                        <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberOtherMembers)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                            <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.NumberOtherMembers)">
+                                Total number of other members of management or leadership staff
+                            </label>
+                            @if (ViewData.ModelState.HasError(nameof(Model.Plan.NumberOtherMembers)))
+                            {
+                                <p id="@nameof(Model.Plan.NumberOtherMembers)-error" class="govuk-error-message">
+                                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.NumberOtherMembers)]?.Errors.First().ErrorMessage
+                                </p>
+                            }
+                            <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.NumberOtherMembers)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+                                   id="@nameof(Model.Plan.NumberOtherMembers)"
+                                   name="@nameof(Model.Plan.NumberOtherMembers)"
+                                   type="number"
+                                   spellcheck="false"
+                                   value="@Model.Plan.NumberOtherMembers">
+                        </div>
+                    }
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

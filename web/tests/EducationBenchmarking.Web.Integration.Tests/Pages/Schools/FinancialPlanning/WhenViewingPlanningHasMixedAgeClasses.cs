@@ -40,6 +40,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(urn, year));
 
 

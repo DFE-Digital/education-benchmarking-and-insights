@@ -124,7 +124,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
                         MixedAgeYear3Year4 = request.MixedAgeYear3Year4,
                         MixedAgeYear4Year5 = request.MixedAgeYear4Year5,
                         MixedAgeYear5Year6 = request.MixedAgeYear5Year6,
-                        TimetablePeriods = request.TimetablePeriods
+                        TimetablePeriods = request.TimetablePeriods.ToString()
                     })));
         return this;
     }
