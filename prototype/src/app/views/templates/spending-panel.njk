@@ -9,7 +9,11 @@
 {% endif %}
 {% set differencePercentage = ( ( difference / params.medianAmount ) * 100 ) | round(1) %}
 
-<div class="spend-panel">
+{% if params.subcategory != 0 %}
+    {% set subcategory = ' sub' %}
+{% endif %}
+
+<div class="spend-panel{{ subcategory }}">
     <div>
         <p><span>This school spends</span> <strong>£{{ params.spendAmount }}</strong> per {{ params.unit }}</p>
         <p><span>Similar schools spend</span> <strong>£{{ params.medianAmount }}</strong> per {{ params.unit }}, on average</p>
