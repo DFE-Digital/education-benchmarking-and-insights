@@ -64,6 +64,7 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
+            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningTotalIncome(urn, year));
 
 

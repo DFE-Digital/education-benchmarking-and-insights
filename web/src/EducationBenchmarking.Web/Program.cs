@@ -10,8 +10,6 @@ using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Session;
 using EducationBenchmarking.Web.Services;
 using EducationBenchmarking.Web.Validators;
-using EducationBenchmarking.Web.ViewModels;
-using FluentValidation;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
@@ -22,7 +20,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); });
+builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
+{
+    options.SerializerSettings.SetJsonOptions();
+});
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
@@ -38,7 +39,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
 builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
 builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
-builder.Services.AddScoped<IValidator<SchoolPlanCreateViewModel>, CreatePlanValidator>();
+builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>();
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
@@ -116,4 +117,4 @@ app.Run();
 
 
 [ExcludeFromCodeCoverage]
-public partial class Program { } // required for integration tests
+public partial class Program; // required for integration tests
