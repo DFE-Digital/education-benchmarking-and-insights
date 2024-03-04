@@ -30,6 +30,7 @@ public static class PageTitles
     public const string SchoolPlanningPupilFigures = "What are your pupil figures?";
     public const string SchoolPlanningTeacherPeriodAllocation = "What are your teacher period allocation figures?";
     public const string SchoolPlanningOtherTeacherPeriodsAdd = "Add other teaching periods";
+    public const string SchoolPlanningOtherTeachingPeriodsConfirm = "Proceed without adding other teaching periods?";
     public const string SchoolPlanningTeachingAssistantFigures = "What are your teaching assistant figures?";
     public const string SchoolPlanningManagementRoles = "Management roles with teaching responsibilties";
     public const string SchoolPlanningManagersPerRole = "Number of managers per role";

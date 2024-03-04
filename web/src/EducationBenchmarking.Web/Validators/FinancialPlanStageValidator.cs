@@ -21,6 +21,7 @@ public class FinancialPlanStageValidator : IFinancialPlanStageValidator
     private static readonly TeacherPeriodAllocationStageValidator TeacherPeriodAllocation = new();
     private static readonly TeachingAssistantFiguresStageValidator TeachingAssistantFigures = new();
     private static readonly OtherTeachingPeriodsStageValidator OtherTeachingPeriods = new();
+    private static readonly OtherTeachingPeriodsConfirmStageValidator OtherTeachingPeriodsConfirm = new();
     private static readonly ManagementRolesStageValidator ManagementRoles = new();
     private static readonly ManagersPerRoleStageValidator ManagersPerRole = new();
     private static readonly TeachingPeriodsManagerStageValidator TeachingPeriodsManager = new();
@@ -100,6 +101,11 @@ public class FinancialPlanStageValidator : IFinancialPlanStageValidator
         return await OtherTeachingPeriods.ValidateAsync(stage);
     }
 
+    public async Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsConfirmStage stage)
+    {
+        return await OtherTeachingPeriodsConfirm.ValidateAsync(stage);
+    }
+
     public async Task<ValidationResult> ValidateAsync(ManagementRolesStage stage)
     {
         return await ManagementRoles.ValidateAsync(stage);
@@ -133,6 +139,7 @@ public interface IFinancialPlanStageValidator
     Task<ValidationResult> ValidateAsync(TeacherPeriodAllocationStage stage);
     Task<ValidationResult> ValidateAsync(TeachingAssistantFiguresStage stage);
     Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsStage stage);
+    Task<ValidationResult> ValidateAsync(OtherTeachingPeriodsConfirmStage stage);
     Task<ValidationResult> ValidateAsync(ManagementRolesStage stage);
     Task<ValidationResult> ValidateAsync(ManagersPerRoleStage stage);
     Task<ValidationResult> ValidateAsync(TeachingPeriodsManagerStage stage);

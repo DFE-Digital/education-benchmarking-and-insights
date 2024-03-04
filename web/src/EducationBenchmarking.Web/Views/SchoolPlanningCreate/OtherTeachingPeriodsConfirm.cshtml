@@ -1,0 +1,50 @@
+﻿@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningOtherTeachingPeriodsConfirm;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("OtherTeachingPeriodsConfirm", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError("Proceed") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.School.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    <div id="proceed-without-other-teaching-periods-hint" class="govuk-hint">
+                        Not adding other teaching periods could make your contact ratio less accurate.
+                    </div>
+                    @if (ViewData.ModelState.HasError("Proceed"))
+                    {
+                        <p id="proceed-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["Proceed"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
+                    <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="proceed-Yes" name="proceed" type="radio" value="true">
+                            <label class="govuk-label govuk-radios__label" for="proceed-Yes">
+                                Yes
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="proceed-No" name="proceed" type="radio" value="false">
+                            <label class="govuk-label govuk-radios__label" for="proceed-No">
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>
+    
