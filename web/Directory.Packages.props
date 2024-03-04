@@ -22,7 +22,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageVersion>
-    <PackageVersion Include="AngleSharp" Version="1.1.0" />
+    <PackageVersion Include="AngleSharp" Version="1.1.1" />
     <PackageVersion Include="AngleSharp.Css" Version="1.0.0-beta.122" />
     <PackageVersion Include="AngleSharp.XPath" Version="2.0.3" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.2" />
