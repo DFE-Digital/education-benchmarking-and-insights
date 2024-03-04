@@ -109,6 +109,18 @@ public record FinancialPlanDataObject
     [JsonProperty("numberHeadLargeCurriculum")] public int? NumberHeadLargeCurriculum { get; set; }
     [JsonProperty("numberPastoralLeader")] public int? NumberPastoralLeader { get; set; }
     [JsonProperty("numberOtherMembers")] public int? NumberOtherMembers { get; set; }
+    [JsonProperty("teachingPeriodsHeadteacher")] public int?[] TeachingPeriodsHeadteacher { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsDeputyHeadteacher")] public int?[] TeachingPeriodsDeputyHeadteacher { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsNumeracyLead")] public int?[] TeachingPeriodsNumeracyLead { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsLiteracyLead")] public int?[] TeachingPeriodsLiteracyLead { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsHeadSmallCurriculum")] public int?[] TeachingPeriodsHeadSmallCurriculum { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsHeadKs1")] public int?[] TeachingPeriodsHeadKs1 { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsHeadKs2")] public int?[] TeachingPeriodsHeadKs2 { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsSenco")] public int?[] TeachingPeriodsSenco { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsAssistantHeadteacher")] public int?[] TeachingPeriodsAssistantHeadteacher { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsHeadLargeCurriculum")] public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsPastoralLeader")] public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
+    [JsonProperty("teachingPeriodsOtherMembers")] public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
 
     public class OtherTeachingPeriod
     {

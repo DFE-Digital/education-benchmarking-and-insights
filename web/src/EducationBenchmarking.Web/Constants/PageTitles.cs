@@ -33,4 +33,5 @@ public static class PageTitles
     public const string SchoolPlanningTeachingAssistantFigures = "What are your teaching assistant figures?";
     public const string SchoolPlanningManagementRoles = "Management roles with teaching responsibilties";
     public const string SchoolPlanningManagersPerRole = "Number of managers per role";
+    public const string SchoolPlanningTeachingPeriodsManager = "Enter your teaching period figures for each manager";
 }

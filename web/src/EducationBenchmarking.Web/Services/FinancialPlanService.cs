@@ -1,5 +1,6 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Domain.FinancialPlanStages;
+using EducationBenchmarking.Web.Factories;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 
@@ -34,7 +35,7 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
         var plan = await Get(urn, year);
         stage.SetPlanValues(plan);
 
-        var request = PutFinancialPlanRequest.Create(plan);
+        var request = PutFinancialPlanRequestFactory.Create(plan);
         await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
     }
 }

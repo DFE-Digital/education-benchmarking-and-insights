@@ -99,6 +99,18 @@ public class FinancialPlan
     public string? NumberHeadLargeCurriculum { get; set; }
     public string? NumberPastoralLeader { get; set; }
     public string? NumberOtherMembers { get; set; }
+    public string[] TeachingPeriodsHeadteacher { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsDeputyHeadteacher { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsNumeracyLead { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsLiteracyLead { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsHeadSmallCurriculum { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsHeadKs1 { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsHeadKs2 { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsSenco { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsAssistantHeadteacher { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<string>();
+    public string[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<string>();
 
     public class OtherTeachingPeriod
     {
