@@ -39,4 +39,5 @@ public class FinancialPlan
     public int? PupilsYear4 { get; set; }
     public int? PupilsYear5 { get; set; }
     public int? PupilsYear6 { get; set; }
+    
 }

@@ -1,17 +1,45 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
+﻿using EducationBenchmarking.Web.Domain;
+using EducationBenchmarking.Web.Infrastructure.Apis;
+using Microsoft.AspNetCore.Http.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using EducationBenchmarking.Web.Infrastructure.Extensions;
+using EducationBenchmarking.Web.Services;
+using EducationBenchmarking.Web.TagHelpers;
+using EducationBenchmarking.Web.ViewModels;
+using Microsoft.FeatureManagement.Mvc;
 
 namespace EducationBenchmarking.Web.Controllers;
 
 [Controller]
 [Route("school/{urn}/history")]
-public class SchoolHistoryController : Controller
+public class SchoolHistoryController(
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService,
+    IBenchmarkApi benchmarkApi,
+    ILogger<SchoolPlanningStepsController> logger)
+    : Controller
 {
     [HttpGet]
-    public IActionResult Index(string urn)
+    public async Task<IActionResult> Index(string urn)
     {
-        ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.HistoricData(urn);
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] =
+                    new BacklinkInfo(Url.Action("Index", "FindOrganisation", new { urn }));
 
-        return View();
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolHistoryViewModel(school);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
     }
+    
+
 }

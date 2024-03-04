@@ -3,9 +3,6 @@ using EducationBenchmarking.Web.Domain;
 namespace EducationBenchmarking.Web.ViewModels.SchoolPlanning;
 
 
-
-
-
 public class SchoolPlanViewModel(School school, FinancialPlan plan) : SchoolPlanSchoolViewModel(school)
 {
     public int Year => plan.Year;
