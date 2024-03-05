@@ -31,7 +31,7 @@ public class WhenViewingHistory(BenchmarkingWebAppClient client) : PageBase(clie
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-      
+
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.Urn).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Historic data - Education benchmarking and insights - GOV.UK", "Historic data");
