@@ -806,7 +806,7 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, stage);
                 return stage.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
-                    ? new AcceptedResult()
+                    ? RedirectToAction("OtherTeachingPeriodsConfirm", new { urn, year })
                     : new OkResult();
             }
 
@@ -825,6 +825,55 @@ public class SchoolPlanningCreateController(
             results.AddToModelState(ModelState);
 
             return View("OtherTeachingPeriods", viewModel);
+        }
+    }
+
+    [HttpGet]
+    [Route("other-teaching-periods-confirmation")]
+    public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            return View("OtherTeachingPeriodsConfirm", viewModel);
+        }
+    }
+
+    [HttpPost]
+    [Route("other-teaching-periods-confirmation")]
+    public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year, OtherTeachingPeriodsConfirmStage stage)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            var results = await validator.ValidateAsync(stage);
+            if (results.IsValid)
+            {
+
+                return stage.Proceed is true
+                    ? RedirectToAction("ManagementRoles", new { urn, year })
+                    : RedirectToAction("OtherTeachingPeriods", new { urn, year });
+            }
+
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            results.AddToModelState(ModelState);
+
+            return View("OtherTeachingPeriodsConfirm", viewModel);
         }
     }
 
@@ -1003,6 +1052,7 @@ public class SchoolPlanningCreateController(
     private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year) => new(Url.Action("PrimaryPupilFigures", new { urn, year }));
     private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new { urn, year }));
     private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new { urn, year }));
+    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year) => new(Url.Action("OtherTeachingPeriods", new { urn, year }));
     private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new { urn, year }));
     private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new { urn, year }));
 }
