@@ -48,6 +48,8 @@ public static class Paths
     public static string SchoolFinancialPlanningTeacherPeriodAllocation(string? urn, int year) => $"/school/{urn}/financial-planning/create/teacher-period-allocation?year={year}";
     public static string SchoolFinancialPlanningTeachingAssistantFigures(string? urn, int year) => $"/school/{urn}/financial-planning/create/teaching-assistant-figures?year={year}";
     public static string SchoolFinancialPlanningOtherTeachingPeriods(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods?year={year}";
+    public static string SchoolFinancialPlanningOtherTeachingPeriodsConfirm(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-confirmation?year={year}";
+    public static string SchoolFinancialPlanningManagementRoles(string? urn, int year) => $"/school/{urn}/financial-planning/create/management-roles?year={year}";
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
