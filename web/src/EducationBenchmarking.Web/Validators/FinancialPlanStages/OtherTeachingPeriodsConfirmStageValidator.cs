@@ -9,8 +9,7 @@ namespace EducationBenchmarking.Web.Validators.FinancialPlanStages
         {
             RuleFor(p => p.Proceed)
                 .Must(x => x.HasValue)
-                .WithMessage("Please select yes or no")
-                .WithName("Proceed");
+                .WithMessage("Select yes if you want to continue without adding other teaching periods");
         }
     }
 }
