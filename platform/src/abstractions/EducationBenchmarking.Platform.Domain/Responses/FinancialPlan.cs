@@ -110,7 +110,18 @@ public record FinancialPlan
     public int? NumberHeadLargeCurriculum { get; set; }
     public int? NumberPastoralLeader { get; set; }
     public int? NumberOtherMembers { get; set; }
-
+    public int?[] TeachingPeriodsHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsDeputyHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsNumeracyLead { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsLiteracyLead { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadSmallCurriculum { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadKs1 { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadKs2 { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsSenco { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsAssistantHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
     public static FinancialPlan Create(FinancialPlanDataObject dataObject)
     {
         return new FinancialPlan
@@ -221,7 +232,19 @@ public record FinancialPlan
             NumberAssistantHeadteacher = dataObject.NumberAssistantHeadteacher,
             NumberHeadLargeCurriculum = dataObject.NumberHeadLargeCurriculum,
             NumberPastoralLeader = dataObject.NumberPastoralLeader,
-            NumberOtherMembers = dataObject.NumberOtherMembers
+            NumberOtherMembers = dataObject.NumberOtherMembers,
+            TeachingPeriodsHeadteacher = dataObject.TeachingPeriodsHeadteacher,
+            TeachingPeriodsDeputyHeadteacher = dataObject.TeachingPeriodsDeputyHeadteacher,
+            TeachingPeriodsNumeracyLead = dataObject.TeachingPeriodsNumeracyLead,
+            TeachingPeriodsLiteracyLead = dataObject.TeachingPeriodsLiteracyLead,
+            TeachingPeriodsHeadSmallCurriculum = dataObject.TeachingPeriodsHeadSmallCurriculum,
+            TeachingPeriodsHeadKs1 = dataObject.TeachingPeriodsHeadKs1,
+            TeachingPeriodsHeadKs2 = dataObject.TeachingPeriodsHeadKs2,
+            TeachingPeriodsSenco = dataObject.TeachingPeriodsSenco,
+            TeachingPeriodsAssistantHeadteacher = dataObject.TeachingPeriodsAssistantHeadteacher,
+            TeachingPeriodsHeadLargeCurriculum = dataObject.TeachingPeriodsHeadLargeCurriculum,
+            TeachingPeriodsPastoralLeader = dataObject.TeachingPeriodsPastoralLeader,
+            TeachingPeriodsOtherMembers = dataObject.TeachingPeriodsOtherMembers
         };
     }
 

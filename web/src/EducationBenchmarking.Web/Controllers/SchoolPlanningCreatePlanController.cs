@@ -1,5 +1,6 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Domain.FinancialPlanStages;
+using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.Services;
@@ -906,7 +907,7 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, stage);
-                return new OkResult();
+                return RedirectToAction("TeachingPeriodsManager", new { urn, year });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagementRolesBackLink(urn, year);
@@ -920,6 +921,53 @@ public class SchoolPlanningCreateController(
             results.AddToModelState(ModelState);
 
             return View("ManagersPerRole", viewModel);
+        }
+    }
+
+    [HttpGet]
+    [Route("teaching-periods-manager")]
+    public async Task<IActionResult> TeachingPeriodsManager(string urn, int year)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);
+
+            var plan = await financialPlanService.Get(urn, year);
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            return View("TeachingPeriodsManager", viewModel);
+        }
+    }
+
+    [HttpPost]
+    [Route("teaching-periods-manager")]
+    public async Task<IActionResult> TeachingPeriodsManager(string urn, int year, TeachingPeriodsManagerStage stage)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            var results = await validator.ValidateAsync(stage);
+            if (results.IsValid)
+            {
+                await financialPlanService.Update(urn, year, stage);
+                return new OkResult();
+            }
+
+            ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);
+
+            var plan = await financialPlanService.Get(urn, year);
+            stage.SetPlanValues(plan);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            results.AddToModelState(ModelState);
+
+            return View("TeachingPeriodsManager", viewModel);
         }
     }
 
@@ -956,4 +1004,5 @@ public class SchoolPlanningCreateController(
     private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new { urn, year }));
     private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new { urn, year }));
     private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new { urn, year }));
+    private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new { urn, year }));
 }

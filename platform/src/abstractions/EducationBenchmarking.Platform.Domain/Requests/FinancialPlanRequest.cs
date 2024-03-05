@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace EducationBenchmarking.Platform.Domain.Requests;
@@ -101,6 +102,18 @@ public record FinancialPlanRequest
     public int? NumberHeadLargeCurriculum { get; set; }
     public int? NumberPastoralLeader { get; set; }
     public int? NumberOtherMembers { get; set; }
+    public int?[] TeachingPeriodsHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsDeputyHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsNumeracyLead { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsLiteracyLead { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadSmallCurriculum { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadKs1 { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadKs2 { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsSenco { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsAssistantHeadteacher { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
+    public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
 
     public class OtherTeachingPeriod
     {

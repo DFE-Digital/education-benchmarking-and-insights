@@ -189,6 +189,18 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.NumberHeadLargeCurriculum = request.NumberHeadLargeCurriculum;
         existing.NumberPastoralLeader = request.NumberPastoralLeader;
         existing.NumberOtherMembers = request.NumberOtherMembers;
+        existing.TeachingPeriodsHeadteacher = request.TeachingPeriodsHeadteacher;
+        existing.TeachingPeriodsDeputyHeadteacher = request.TeachingPeriodsDeputyHeadteacher;
+        existing.TeachingPeriodsNumeracyLead = request.TeachingPeriodsNumeracyLead;
+        existing.TeachingPeriodsLiteracyLead = request.TeachingPeriodsLiteracyLead;
+        existing.TeachingPeriodsHeadSmallCurriculum = request.TeachingPeriodsHeadSmallCurriculum;
+        existing.TeachingPeriodsHeadKs1 = request.TeachingPeriodsHeadKs1;
+        existing.TeachingPeriodsHeadKs2 = request.TeachingPeriodsHeadKs2;
+        existing.TeachingPeriodsSenco = request.TeachingPeriodsSenco;
+        existing.TeachingPeriodsAssistantHeadteacher = request.TeachingPeriodsAssistantHeadteacher;
+        existing.TeachingPeriodsHeadLargeCurriculum = request.TeachingPeriodsHeadLargeCurriculum;
+        existing.TeachingPeriodsPastoralLeader = request.TeachingPeriodsPastoralLeader;
+        existing.TeachingPeriodsOtherMembers = request.TeachingPeriodsOtherMembers;
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, existing, new PartitionKey(existing.PartitionKey));
 
@@ -307,7 +319,19 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             NumberAssistantHeadteacher = request.NumberAssistantHeadteacher,
             NumberHeadLargeCurriculum = request.NumberHeadLargeCurriculum,
             NumberPastoralLeader = request.NumberPastoralLeader,
-            NumberOtherMembers = request.NumberOtherMembers
+            NumberOtherMembers = request.NumberOtherMembers,
+            TeachingPeriodsHeadteacher = request.TeachingPeriodsHeadteacher,
+            TeachingPeriodsDeputyHeadteacher = request.TeachingPeriodsDeputyHeadteacher,
+            TeachingPeriodsNumeracyLead = request.TeachingPeriodsNumeracyLead,
+            TeachingPeriodsLiteracyLead = request.TeachingPeriodsLiteracyLead,
+            TeachingPeriodsHeadSmallCurriculum = request.TeachingPeriodsHeadSmallCurriculum,
+            TeachingPeriodsHeadKs1 = request.TeachingPeriodsHeadKs1,
+            TeachingPeriodsHeadKs2 = request.TeachingPeriodsHeadKs2,
+            TeachingPeriodsSenco = request.TeachingPeriodsSenco,
+            TeachingPeriodsAssistantHeadteacher = request.TeachingPeriodsAssistantHeadteacher,
+            TeachingPeriodsHeadLargeCurriculum = request.TeachingPeriodsHeadLargeCurriculum,
+            TeachingPeriodsPastoralLeader = request.TeachingPeriodsPastoralLeader,
+            TeachingPeriodsOtherMembers = request.TeachingPeriodsOtherMembers
         };
 
         await UpsertItemAsync(_options.FinancialPlanCollectionName, plan, new PartitionKey(urn));
