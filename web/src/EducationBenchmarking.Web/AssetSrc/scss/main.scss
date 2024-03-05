@@ -52,3 +52,12 @@
     }
   }
 }
+
+.app-print-link__button {
+  @extend .govuk-button--inverse;
+  @extend .govuk-button;
+  border: 1px solid #505a5f;
+  background: url('/assets/images/icon-print.png') no-repeat 10px 50%;
+  background-size: 16px 18px;
+  padding: 9px 11px 8px 37px;
+}
