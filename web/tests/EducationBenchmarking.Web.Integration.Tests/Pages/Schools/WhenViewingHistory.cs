@@ -31,15 +31,9 @@ public class WhenViewingHistory(BenchmarkingWebAppClient client) : PageBase(clie
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        var expectedBreadcrumbs = new[]
-        {
-            ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Historic data", Paths.SchoolHistory(school.Urn).ToAbsolute())
-        };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.Urn).ToAbsolute());
-        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Historic data");
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.TitleAndH1(page, "Historic data - Education benchmarking and insights - GOV.UK", "Historic data");
     }
 }
