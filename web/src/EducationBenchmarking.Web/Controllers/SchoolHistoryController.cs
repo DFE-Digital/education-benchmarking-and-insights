@@ -16,7 +16,7 @@ public class SchoolHistoryController(
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
     IBenchmarkApi benchmarkApi,
-    ILogger<SchoolPlanningController> logger)
+    ILogger<SchoolHistoryController> logger)
     : Controller
 {
     [HttpGet]
@@ -35,7 +35,7 @@ public class SchoolHistoryController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school history: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
