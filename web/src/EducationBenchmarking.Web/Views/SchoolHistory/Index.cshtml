@@ -23,4 +23,122 @@
     </div>
 </div>
 
+
+<div class="govuk-tabs" data-module="govuk-tabs">
+  <ul class="govuk-tabs__list">
+    <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+      <a class="govuk-tabs__tab" href="#spending">
+        Spending      </a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#income">
+        Income
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#balance">
+        Balance
+      </a>
+    </li>
+    <li class="govuk-tabs__list-item">
+      <a class="govuk-tabs__tab" href="#workforce">
+        Workforce
+      </a>
+    </li>
+  </ul>
+  <div class="govuk-tabs__panel" id="spending">
+    <h2 class="govuk-heading-l">Spending</h2>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+         
+        </tr>
+        <tr class="govuk-table__row">
+     
+        </tr>
+        <tr class="govuk-table__row">
+          
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="income">
+    <h2 class="govuk-heading-l">Income</h2>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+         
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+        
+        </tr>
+        <tr class="govuk-table__row">
+         
+        </tr>
+        <tr class="govuk-table__row">
+         
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
+    <h2 class="govuk-heading-l">Balance</h2>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+       
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          
+        </tr>
+        <tr class="govuk-table__row">
+         
+        </tr>
+        <tr class="govuk-table__row">
+        
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="workforce">
+    <h2 class="govuk-heading-l">Workforce</h2>
+    <table class="govuk-table">
+      <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+          
+        </tr>
+      </thead>
+      <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          
+        </tr>
+        <tr class="govuk-table__row">
+      
+        </tr>
+        <tr class="govuk-table__row">
+     
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
+
+
+@section scripts
+{
+    script type="module"
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    /script
+}
