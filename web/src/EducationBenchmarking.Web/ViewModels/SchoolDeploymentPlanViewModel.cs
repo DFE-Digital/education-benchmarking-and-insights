@@ -71,7 +71,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     public decimal AssistantsYear4 => plan.AssistantsYear4 ?? 0;
     public decimal AssistantsYear5 => plan.AssistantsYear5 ?? 0;
     public decimal AssistantsYear6 => plan.AssistantsYear6 ?? 0;
-
+    public decimal TargetContactRatio => plan.TargetContactRatio;
     public decimal TotalPupils => PupilsNursery + PupilsReception + PupilsYear1 + PupilsYear2 + PupilsYear3 +
                                     PupilsYear4 + PupilsYear5 + PupilsYear6 + PupilsMixedReceptionYear1 +
                                     PupilsMixedYear1Year2 + PupilsMixedYear2Year3 + PupilsMixedYear3Year4 +
@@ -120,9 +120,147 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     public Rating InYearBalanceRating =>
         RatingCalculations.InYearBalancePercentIncome(InYearBalance / TotalIncome * 100);
 
-    public decimal CostPerLesson => TotalTeachingPeriods / TotalTeacherCosts;
+    public decimal CostPerLesson => TotalTeacherCosts / TotalTeachingPeriods;
 
     public decimal AverageTeacherCost => TotalTeacherCosts / TotalNumberOfTeachersFte;
 
     public decimal AverageTeachingAssistantCost => EducationSupportStaffCosts / TotalTeachingAssistants;
+
+    public ManagementRole[] ManagementRoles => BuildManagementRoles();
+
+    public ScenarioPlan[] ScenarioPlans => BuildScenarioPlans();
+
+
+    private ScenarioPlan[] BuildScenarioPlans()
+    {
+        var managementPeriods = ManagementRoles.Sum(x => x.TeachingPeriods);
+        var managementFte = ManagementRoles.Sum(x => x.FullTimeEquivalent);
+
+        var withoutManagementFteRequired = TotalTeachingPeriods / (TargetContactRatio * TimetablePeriods) - managementFte;
+        var plans = new List<ScenarioPlan>();
+        plans.Add(new(
+            "Teacher with management time",
+            managementPeriods,
+            managementFte,
+            managementFte));
+
+        plans.Add(new(
+            "Teacher without management time",
+            TotalTeachingPeriods - managementPeriods,
+            TotalNumberOfTeachersFte - managementFte,
+            withoutManagementFteRequired));
+
+        plans.Add(new(
+            "Total",
+            TotalTeachingPeriods,
+            TotalNumberOfTeachersFte,
+            managementFte + withoutManagementFteRequired));
+
+        return plans.ToArray();
+    }
+
+    private ManagementRole[] BuildManagementRoles()
+    {
+        var roles = new List<ManagementRole>();
+        if (plan.ManagementRoleHeadteacher)
+        {
+            roles.Add(new(
+                "Headteacher",
+                plan.NumberHeadteacher.ToInt() ?? 0,
+                plan.TeachingPeriodsHeadteacher.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleDeputyHeadteacher)
+        {
+            roles.Add(new(
+                "Deputy headteacher",
+                plan.NumberDeputyHeadteacher.ToInt() ?? 0,
+                plan.TeachingPeriodsDeputyHeadteacher.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleNumeracyLead)
+        {
+            roles.Add(new(
+                "Numeracy lead",
+                plan.NumberNumeracyLead.ToInt() ?? 0,
+                plan.TeachingPeriodsNumeracyLead.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleLiteracyLead)
+        {
+            roles.Add(new(
+                "Literacy lead",
+                plan.NumberLiteracyLead.ToInt() ?? 0,
+                plan.TeachingPeriodsLiteracyLead.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleHeadSmallCurriculum)
+        {
+            roles.Add(new(
+                "Head of small curriculum area",
+                plan.NumberHeadSmallCurriculum.ToInt() ?? 0,
+                plan.TeachingPeriodsHeadSmallCurriculum.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleHeadKs1)
+        {
+            roles.Add(new(
+                "Head of KS1",
+                plan.NumberHeadKs1.ToInt() ?? 0,
+                plan.TeachingPeriodsHeadKs1.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleHeadKs2)
+        {
+            roles.Add(new(
+                "Head of KS2",
+                plan.NumberHeadKs2.ToInt() ?? 0,
+                plan.TeachingPeriodsHeadKs2.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleSenco)
+        {
+            roles.Add(new(
+                "Special educational needs coordinator (SENCO)",
+                plan.NumberSenco.ToInt() ?? 0,
+                plan.TeachingPeriodsSenco.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleAssistantHeadteacher)
+        {
+            roles.Add(new(
+                "Assistant headteacher",
+                plan.NumberAssistantHeadteacher.ToInt() ?? 0,
+                plan.TeachingPeriodsAssistantHeadteacher.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleHeadLargeCurriculum)
+        {
+            roles.Add(new(
+                "Head of large curriculum area",
+                plan.NumberHeadLargeCurriculum.ToInt() ?? 0,
+                plan.TeachingPeriodsHeadLargeCurriculum.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRolePastoralLeader)
+        {
+            roles.Add(new(
+                "Pastoral leader",
+                plan.NumberPastoralLeader.ToInt() ?? 0,
+                plan.TeachingPeriodsPastoralLeader.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        if (plan.ManagementRoleOtherMembers)
+        {
+            roles.Add(new(
+                "Other members of management or leadership staff",
+                plan.NumberOtherMembers.ToInt() ?? 0,
+                plan.TeachingPeriodsOtherMembers.Sum(x => x.ToInt() ?? 0)));
+        }
+
+        return roles.ToArray();
+    }
+
+    public record ManagementRole(string Description, decimal FullTimeEquivalent, decimal TeachingPeriods);
+    public record ScenarioPlan(string Description, decimal TeachingPeriods, decimal ActualFte, decimal FteRequired);
 }

@@ -7,7 +7,7 @@
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Income per pupil</th>
         <td class="govuk-table__cell"></td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.IncomePerPupil.ToCurrency()
         </td>
     </tr>
@@ -16,14 +16,14 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "TO DO" })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TeacherCostPercentageExpenditure.ToPercent()
         </td>
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Teacher costs as a percentage of income</th>
         <td class="govuk-table__cell"></td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TeacherCostPercentageIncome.ToPercent()
         </td>
     </tr>
@@ -32,14 +32,14 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Model.InYearBalanceRating.Colour, Model.InYearBalanceRating.DisplayText })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.InYearBalance.ToCurrency()
         </td>
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Cost per lesson</th>
         <td class="govuk-table__cell"></td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.CostPerLesson.ToCurrency()
         </td>
     </tr>
@@ -48,7 +48,7 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "TO DO" })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.AverageTeacherCost.ToCurrency()
         </td>
     </tr>
@@ -57,7 +57,7 @@
         <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Average teaching assistant cost</th>
             <td class="govuk-table__cell"></td>
-            <td class="govuk-table__cell govuk-!-text-align-right">
+            <td class="govuk-table__cell govuk-table__cell--numeric">
                 @Model.AverageTeachingAssistantCost.ToCurrency()
             </td>
         </tr>

@@ -6,6 +6,7 @@ public class FinancialPlan
     public string? Urn { get; set; }
     public bool? UseFigures { get; set; }
     public decimal? TotalIncome { get; set; }
+    public decimal TargetContactRatio { get; set; } = 0.78M;
     public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }

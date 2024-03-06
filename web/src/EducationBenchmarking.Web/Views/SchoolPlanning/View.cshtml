@@ -26,7 +26,28 @@
     </div>
 </div>
 
-<div id="deployment-plan" data-urn="@Model.Urn" data-year="@Model.Year"></div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Management staff deployment</h2>
+        @await Html.PartialAsync("_ManagementStaff", Model)
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Scenario planner</h2>
+        <p class="govuk-body">
+            Work out how many full-time equipment teachers you need with no change in management time to reach a target contact ratio.
+        </p>
+        <h3 class="govuk-heading-s">Current contact ratio: @Model.TeacherContactRatio.ToSimpleDisplay()</h3>
+        <h3 class="govuk-heading-s">Target contact ratio: @Model.TargetContactRatio.ToSimpleDisplay()
+            <a class="govuk-link govuk-link--no-visited-state" href="#"> Change
+                <span class="govuk-visually-hidden"> target contact ratio</span>
+            </a>
+            </h3>
+        @await Html.PartialAsync("_ScenarioPlanner", Model)
+    </div>
+</div>
 
 @section scripts
 {
