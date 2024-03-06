@@ -1,0 +1,45 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "templates/spend-category.njk" import spendCategory %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Create a comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "#"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/comparators"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Create a comparator set</h1>
+
+        <h1 class="govuk-heading-m">Search for a school</h1>
+
+    </div>
+</div>
+{% endblock %}
