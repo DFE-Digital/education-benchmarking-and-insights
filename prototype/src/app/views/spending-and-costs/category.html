@@ -44,25 +44,7 @@
             All data is 2022 to 2023 consistent financial reporting (CFR).
         </p>
 
-        <details class="govuk-details">
-        <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-            How we choose similar schools
-            </span>
-        </summary>
-        <div class="govuk-details__text">
-            <p class="govuk-body">We choose 30 similar schools based on: </p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>school phase and type</li>
-                <li>London pay weighting</li>
-                <li>number of pupils</li>
-                <li>pupils eligible for free school meals (FSM)</li>
-                <li>building types and features</li>
-            </ul>
-            <p>Teacher contact ratio is not included.</p>
-            <p><a href="#">View or change which schools we compare you with</a></p>
-        </div>
-        </details>
+        {% include "templates/details-comparators.njk" %}
 
     </div>
 </div>
