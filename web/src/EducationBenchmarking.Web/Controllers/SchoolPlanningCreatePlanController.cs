@@ -1,6 +1,5 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Domain.FinancialPlanStages;
-using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.Services;

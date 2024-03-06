@@ -1,0 +1,66 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolDeploymentPlanViewModel
+
+<table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--s">Calculated financial metrics</caption>
+    <tbody class="govuk-table__body">
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Income per pupil</th>
+        <td class="govuk-table__cell"></td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.IncomePerPupil.ToCurrency()
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Teacher costs as a percentage of expenditure</th>
+        <td class="govuk-table__cell">
+            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "TO DO" })
+        </td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.TeacherCostPercentageExpenditure.ToPercent()
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Teacher costs as a percentage of income</th>
+        <td class="govuk-table__cell"></td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.TeacherCostPercentageIncome.ToPercent()
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">In-year balance</th>
+        <td class="govuk-table__cell">
+            @await Component.InvokeAsync("Tag", new { Model.InYearBalanceRating.Colour, Model.InYearBalanceRating.DisplayText })
+        </td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.InYearBalance.ToCurrency()
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Cost per lesson</th>
+        <td class="govuk-table__cell"></td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.CostPerLesson.ToCurrency()
+        </td>
+    </tr>
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Average teacher cost</th>
+        <td class="govuk-table__cell">
+            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "TO DO" })
+        </td>
+        <td class="govuk-table__cell govuk-!-text-align-right">
+            @Model.AverageTeacherCost.ToCurrency()
+        </td>
+    </tr>
+    @if (Model.IsPrimary)
+    {
+        <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">Average teaching assistant cost</th>
+            <td class="govuk-table__cell"></td>
+            <td class="govuk-table__cell govuk-!-text-align-right">
+                @Model.AverageTeachingAssistantCost.ToCurrency()
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

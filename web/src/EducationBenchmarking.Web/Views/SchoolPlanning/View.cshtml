@@ -1,0 +1,41 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolDeploymentPlanViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolDeploymentPlan;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+        <h2 class="govuk-heading-m">@Model.Year.ToFinanceYear()</h2>
+        <p class="govuk-body">
+            This is your deployment plan. It provides curriculum and financial analysis based on the figures you have provided.
+            Use the dashboard to create another plan or compare between years.
+        </p>
+        <a class="govuk-button govuk-button--inverse app-print-link__button" href="#">Print this page</a>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Calculated metrics</h2>
+        @await Html.PartialAsync("_InputMetrics", Model)
+        @await Html.PartialAsync("_CalculateCurriculumMetrics", Model)
+        @await Html.PartialAsync("_CalculateFinancialMetrics", Model)
+    </div>
+</div>
+
+<div id="deployment-plan" data-urn="@Model.Urn" data-year="@Model.Year"></div>
+
+@section scripts
+{
+    <script add-nonce="true">
+    document.querySelectorAll(".app-print-link__button").forEach((element) => {
+        element.addEventListener("click",(e) => {
+            e.preventDefault();
+            print();
+        })
+    })
+</script>
+}
