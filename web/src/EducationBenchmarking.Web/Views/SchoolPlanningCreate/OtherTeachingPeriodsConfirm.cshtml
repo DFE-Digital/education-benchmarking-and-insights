@@ -21,20 +21,20 @@
                     </div>
                     @if (ViewData.ModelState.HasError("Proceed"))
                     {
-                        <p id="proceed-error" class="govuk-error-message">
+                        <p id="Proceed-error" class="govuk-error-message">
                             <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["Proceed"]?.Errors.First().ErrorMessage
                         </p>
                     }
                     <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="proceed-Yes" name="proceed" type="radio" value="true">
-                            <label class="govuk-label govuk-radios__label" for="proceed-Yes">
+                            <input class="govuk-radios__input" id="Proceed-Yes" name="Proceed" type="radio" value="true">
+                            <label class="govuk-label govuk-radios__label" for="Proceed-Yes">
                                 Yes
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="proceed-No" name="proceed" type="radio" value="false">
-                            <label class="govuk-label govuk-radios__label" for="proceed-No">
+                            <input class="govuk-radios__input" id="Proceed-No" name="Proceed" type="radio" value="false">
+                            <label class="govuk-label govuk-radios__label" for="Proceed-No">
                                 No
                             </label>
                         </div>
