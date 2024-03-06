@@ -806,7 +806,7 @@ public class SchoolPlanningCreateController(
                 await financialPlanService.Update(urn, year, stage);
                 return stage.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
                     ? RedirectToAction("OtherTeachingPeriodsConfirm", new { urn, year })
-                    : new OkResult();
+                    : RedirectToAction("OtherTeachingPeriodsReview", new { urn, year });
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -877,6 +877,25 @@ public class SchoolPlanningCreateController(
     }
 
     [HttpGet]
+    [Route("other-teaching-periods-review")]
+    public async Task<IActionResult> OtherTeachingPeriodsReview(string urn, int year)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            return View("OtherTeachingPeriodsReview", viewModel);
+        }
+    }
+
+    [HttpGet]
     [Route("management-roles")]
     public async Task<IActionResult> ManagementRoles(string urn, int year)
     {
@@ -884,8 +903,7 @@ public class SchoolPlanningCreateController(
 
         async Task<IActionResult> Action()
         {
-            //TODO: set back link when review page added
-            //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -910,8 +928,7 @@ public class SchoolPlanningCreateController(
                 return RedirectToAction("ManagersPerRole", new { urn, year });
             }
 
-            //TODO: set back link when review page added
-            //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
