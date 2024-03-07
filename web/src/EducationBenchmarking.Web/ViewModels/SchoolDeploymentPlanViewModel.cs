@@ -1,5 +1,6 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Extensions;
+using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Web.ViewModels;
 
@@ -72,11 +73,12 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     public decimal AssistantsYear5 => plan.AssistantsYear5 ?? 0;
     public decimal AssistantsYear6 => plan.AssistantsYear6 ?? 0;
     public decimal TargetContactRatio => plan.TargetContactRatio;
+
     public decimal TotalPupils => PupilsNursery + PupilsReception + PupilsYear1 + PupilsYear2 + PupilsYear3 +
-                                    PupilsYear4 + PupilsYear5 + PupilsYear6 + PupilsMixedReceptionYear1 +
-                                    PupilsMixedYear1Year2 + PupilsMixedYear2Year3 + PupilsMixedYear3Year4 +
-                                    PupilsMixedYear4Year5 + PupilsMixedYear5Year6 + PupilsYear7 + PupilsYear8 +
-                                    PupilsYear9 + PupilsYear10 + PupilsYear11 + PupilsYear12 + PupilsYear13;
+                                  PupilsYear4 + PupilsYear5 + PupilsYear6 + PupilsMixedReceptionYear1 +
+                                  PupilsMixedYear1Year2 + PupilsMixedYear2Year3 + PupilsMixedYear3Year4 +
+                                  PupilsMixedYear4Year5 + PupilsMixedYear5Year6 + PupilsYear7 + PupilsYear8 +
+                                  PupilsYear9 + PupilsYear10 + PupilsYear11 + PupilsYear12 + PupilsYear13;
 
     public decimal TeachingPeriods => TeachersNursery + TeachersReception + TeachersYear1 + TeachersYear2 +
                                       TeachersYear3 + TeachersYear4 + TeachersYear5 + TeachersYear6 +
@@ -107,6 +109,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     public decimal AverageTeacherLoad => TotalTeachingPeriods / TotalNumberOfTeachersFte;
 
     public decimal TeacherContactRatio => TotalTeachingPeriods / (TimetablePeriods * TotalNumberOfTeachersFte);
+
     public Rating TeacherContactRatioRating =>
         RatingCalculations.ContactRatio(TeacherContactRatio);
 
@@ -117,6 +120,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     public decimal TeacherCostPercentageIncome => TotalTeacherCosts / TotalIncome * 100;
 
     public decimal InYearBalance => TotalIncome - TotalExpenditure;
+
     public Rating InYearBalanceRating =>
         RatingCalculations.InYearBalancePercentIncome(InYearBalance / TotalIncome * 100);
 
@@ -130,31 +134,375 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
 
     public ScenarioPlan[] ScenarioPlans => BuildScenarioPlans();
 
+    public PrimaryPupilGroup[] PrimaryStaffDeployment => BuildPrimaryStaffDeployment();
+
+    public PupilGroup[] StaffDeployment => BuildStaffDeployment();
+
+    public string ChartData => IsPrimary
+        ? PrimaryStaffDeployment.Select((x, i) => new
+            {
+                group = x.Description, pupilsOnRoll = x.PercentPupilsOnRoll, teacherCost = x.PercentTeacherCost, id = i
+            })
+            .ToArray().ToJson(Formatting.None)
+        : StaffDeployment.Select((x, i) => new
+            {
+                group = x.Description, pupilsOnRoll = x.PercentPupilsOnRoll, teacherCost = x.PercentTeacherCost, id = i
+            })
+            .ToArray().ToJson(Formatting.None);
+
+    private PupilGroup[] BuildStaffDeployment()
+    {
+        var groups = new List<PupilGroup>();
+
+        if (PupilsYear7 > 0)
+        {
+            groups.Add(new(
+                "Year 7",
+                PupilsYear7,
+                TeachersYear7,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear8 > 0)
+        {
+            groups.Add(new(
+                "Year 8",
+                PupilsYear8,
+                TeachersYear8,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear9 > 0)
+        {
+            groups.Add(new(
+                "Year 9",
+                PupilsYear9,
+                TeachersYear9,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear10 > 0)
+        {
+            groups.Add(new(
+                "Year 10",
+                PupilsYear10,
+                TeachersYear10,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear11 > 0)
+        {
+            groups.Add(new(
+                "Year 11",
+                PupilsYear11,
+                TeachersYear11,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear12 > 0)
+        {
+            groups.Add(new(
+                "Year 12",
+                PupilsYear12,
+                TeachersYear12,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear13 > 0)
+        {
+            groups.Add(new(
+                "Year 13",
+                PupilsYear13,
+                TeachersYear13,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                TotalPupils));
+        }
+
+        foreach (var period in plan.OtherTeachingPeriods)
+        {
+            var timetable = period.PeriodsPerTimetable.ToInt() ?? 0;
+            if (period.PeriodName is not null && timetable > 0)
+            {
+                groups.Add(new(
+                    period.PeriodName,
+                    0M,
+                    timetable,
+                    TotalTeachingPeriods,
+                    TotalNumberOfTeachersFte,
+                    TotalTeacherCosts,
+                    TotalPupils));
+            }
+        }
+
+        return groups.ToArray();
+    }
+
+    private PrimaryPupilGroup[] BuildPrimaryStaffDeployment()
+    {
+        var groups = new List<PrimaryPupilGroup>();
+
+        if (PupilsReception > 0)
+        {
+            groups.Add(new(
+                "Nursery",
+                PupilsReception,
+                TeachersReception,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsNursery,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear1 > 0)
+        {
+            groups.Add(new(
+                "Year 1",
+                PupilsYear1,
+                TeachersYear1,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear1,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear2 > 0)
+        {
+            groups.Add(new(
+                "Year 2",
+                PupilsYear2,
+                TeachersYear2,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear2,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear3 > 0)
+        {
+            groups.Add(new(
+                "Year 3",
+                PupilsYear3,
+                TeachersYear3,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear3,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear4 > 0)
+        {
+            groups.Add(new(
+                "Year 4",
+                PupilsYear4,
+                TeachersYear4,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear4,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear5 > 0)
+        {
+            groups.Add(new(
+                "Year 5",
+                PupilsYear5,
+                TeachersYear5,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear5,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsYear6 > 0)
+        {
+            groups.Add(new(
+                "Year 6",
+                PupilsYear6,
+                TeachersYear6,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsYear6,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedReceptionYear1 > 0)
+        {
+            groups.Add(new(
+                "Reception and year 1",
+                PupilsMixedReceptionYear1,
+                TeachersMixedReceptionYear1,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedReceptionYear1,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedYear1Year2 > 0)
+        {
+            groups.Add(new(
+                "Year 1 and year 2",
+                PupilsMixedYear1Year2,
+                TeachersMixedYear1Year2,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedYear1Year2,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedYear2Year3 > 0)
+        {
+            groups.Add(new(
+                "Year 2 and year 3",
+                PupilsMixedYear2Year3,
+                TeachersMixedYear2Year3,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedYear2Year3,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedYear3Year4 > 0)
+        {
+            groups.Add(new(
+                "Year 3 and year 4",
+                PupilsMixedYear3Year4,
+                TeachersMixedYear3Year4,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedYear3Year4,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedYear4Year5 > 0)
+        {
+            groups.Add(new(
+                "Year 4 and year 5",
+                PupilsMixedYear4Year5,
+                TeachersMixedYear4Year5,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedYear4Year5,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        if (PupilsMixedYear5Year6 > 0)
+        {
+            groups.Add(new(
+                "Year 5 and year 6",
+                PupilsMixedYear5Year6,
+                TeachersMixedYear5Year6,
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                TotalTeacherCosts,
+                AssistantsMixedYear5Year6,
+                TotalTeachingAssistants,
+                EducationSupportStaffCosts,
+                TotalPupils));
+        }
+
+        foreach (var period in plan.OtherTeachingPeriods)
+        {
+            var timetable = period.PeriodsPerTimetable.ToInt() ?? 0;
+            if (period.PeriodName is not null && timetable > 0)
+            {
+                groups.Add(new(
+                    period.PeriodName,
+                    0M,
+                    timetable,
+                    TotalTeachingPeriods,
+                    TotalNumberOfTeachersFte,
+                    TotalTeacherCosts,
+                    0,
+                    0,
+                    0,
+                    TotalPupils));
+            }
+        }
+
+        return groups.ToArray();
+    }
 
     private ScenarioPlan[] BuildScenarioPlans()
     {
         var managementPeriods = ManagementRoles.Sum(x => x.TeachingPeriods);
         var managementFte = ManagementRoles.Sum(x => x.FullTimeEquivalent);
 
-        var withoutManagementFteRequired = TotalTeachingPeriods / (TargetContactRatio * TimetablePeriods) - managementFte;
-        var plans = new List<ScenarioPlan>();
-        plans.Add(new(
-            "Teacher with management time",
-            managementPeriods,
-            managementFte,
-            managementFte));
-
-        plans.Add(new(
-            "Teacher without management time",
-            TotalTeachingPeriods - managementPeriods,
-            TotalNumberOfTeachersFte - managementFte,
-            withoutManagementFteRequired));
-
-        plans.Add(new(
-            "Total",
-            TotalTeachingPeriods,
-            TotalNumberOfTeachersFte,
-            managementFte + withoutManagementFteRequired));
+        var withoutManagementFteRequired =
+            TotalTeachingPeriods / (TargetContactRatio * TimetablePeriods) - managementFte;
+        var plans = new List<ScenarioPlan>
+        {
+            new(
+                "Teacher with management time",
+                managementPeriods,
+                managementFte,
+                managementFte),
+            new(
+                "Teacher without management time",
+                TotalTeachingPeriods - managementPeriods,
+                TotalNumberOfTeachersFte - managementFte,
+                withoutManagementFteRequired),
+            new(
+                "Total",
+                TotalTeachingPeriods,
+                TotalNumberOfTeachersFte,
+                managementFte + withoutManagementFteRequired)
+        };
 
         return plans.ToArray();
     }
@@ -262,5 +610,72 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
     }
 
     public record ManagementRole(string Description, decimal FullTimeEquivalent, decimal TeachingPeriods);
+
     public record ScenarioPlan(string Description, decimal TeachingPeriods, decimal ActualFte, decimal FteRequired);
+
+    public record PrimaryPupilGroup : PupilGroup
+    {
+        private readonly decimal _totalTeachingAssistants;
+        private readonly decimal _educationSupportStaffCosts;
+
+        public PrimaryPupilGroup(string description, decimal pupilsOnRoll, decimal periodAllocation,
+            decimal totalTeachingPeriods, decimal totalNumberOfTeachersFte, decimal totalTeacherCosts,
+            decimal teachingAssistants, decimal totalTeachingAssistants, decimal educationSupportStaffCosts,
+            decimal totalPupils) : base(
+            description, pupilsOnRoll, periodAllocation, totalTeachingPeriods, totalNumberOfTeachersFte,
+            totalTeacherCosts, totalPupils)
+        {
+            TeachingAssistants = teachingAssistants;
+            _totalTeachingAssistants = totalTeachingAssistants;
+            _educationSupportStaffCosts = educationSupportStaffCosts;
+        }
+
+        public decimal TeachingAssistants { get; }
+
+        public decimal TeachingAssistantCost => _totalTeachingAssistants == 0 || TeachingAssistants == 0
+            ? 0
+            : TeachingAssistants / _totalTeachingAssistants * _educationSupportStaffCosts;
+    }
+
+
+    public record PupilGroup
+    {
+        private readonly decimal _totalTeachingPeriods;
+        private readonly decimal _totalNumberOfTeachersFte;
+        private readonly decimal _totalTeacherCosts;
+        private readonly decimal _totalPupils;
+
+        public PupilGroup(string description, decimal pupilsOnRoll, decimal periodAllocation,
+            decimal totalTeachingPeriods, decimal totalNumberOfTeachersFte, decimal totalTeacherCosts,
+            decimal totalPupils)
+        {
+            Description = description;
+            PupilsOnRoll = pupilsOnRoll;
+            PeriodAllocation = periodAllocation;
+            _totalTeachingPeriods = totalTeachingPeriods;
+            _totalNumberOfTeachersFte = totalNumberOfTeachersFte;
+            _totalTeacherCosts = totalTeacherCosts;
+            _totalPupils = totalPupils;
+        }
+
+        public string Description { get; }
+        public decimal PupilsOnRoll { get; }
+        public decimal PeriodAllocation { get; }
+
+        public decimal FteTeachers => _totalTeachingPeriods == 0 || PeriodAllocation == 0
+            ? 0
+            : PeriodAllocation / _totalTeachingPeriods * _totalNumberOfTeachersFte;
+
+        public decimal TeacherCost => _totalTeachingPeriods == 0 || PeriodAllocation == 0
+            ? 0
+            : PeriodAllocation / _totalTeachingPeriods * _totalTeacherCosts;
+
+        public decimal PercentPupilsOnRoll => _totalPupils == 0 || PupilsOnRoll == 0
+            ? 0
+            : PupilsOnRoll / _totalPupils * 100;
+
+        public decimal PercentTeacherCost => _totalTeachingPeriods == 0 || PeriodAllocation == 0
+            ? 0
+            : PeriodAllocation / _totalTeachingPeriods * 100;
+    }
 }

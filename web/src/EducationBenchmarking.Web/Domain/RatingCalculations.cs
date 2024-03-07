@@ -28,13 +28,13 @@ public static class RatingCalculations
         };
     }
 
-    public static Rating InYearBalancePercentIncome(decimal value)
+    public static Rating InYearBalancePercentIncome(decimal value, bool withRatingText = false)
     {
         return value switch
         {
-            < -5.0M => HighRisk,
-            >= -5.0M and < 0M => MediumRisk,
-            >= 0M => LowRisk
+            < -5.0M => withRatingText ? HighRisk : Red,
+            >= -5.0M and < 0M => withRatingText ? MediumRisk : Amber,
+            >= 0M => withRatingText ? LowRisk : Green
         };
     }
 

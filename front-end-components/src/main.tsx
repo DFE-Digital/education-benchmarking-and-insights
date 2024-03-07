@@ -8,11 +8,13 @@ import {
   LineChart1SeriesElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
+  DeploymentPlanElementId,
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { Stat } from "./components/charts/stat";
 import { ChartHandler } from "./components";
+import { DeploymentPlan } from "src/views/deployment-plan";
 
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
@@ -52,6 +54,21 @@ if (compareWorkforceElement) {
           maintainedYear={maintainedYear}
           academyYear={academyYear}
         />
+      </React.StrictMode>
+    );
+  }
+}
+
+const deploymentPlanElement = document.getElementById(DeploymentPlanElementId);
+
+if (deploymentPlanElement) {
+  const { chartData } = deploymentPlanElement.dataset;
+  if (chartData) {
+    const root = ReactDOM.createRoot(deploymentPlanElement);
+
+    root.render(
+      <React.StrictMode>
+        <DeploymentPlan data={JSON.parse(chartData)} />
       </React.StrictMode>
     );
   }
