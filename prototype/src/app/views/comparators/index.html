@@ -1,8 +1,4 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "templates/spend-category.njk" import spendCategory %}
-
 
 {% extends "layouts/main.html" %}
 
@@ -15,7 +11,7 @@
     items: [
       {
         text: "Home",
-        href: "#"
+        href: "/find-school"
       },
       {
         text: "Your school",
@@ -49,6 +45,7 @@
 
         {{ govukButton({
           text: "Create a custom comparator set",
+          href: "/comparators/create",
           classes: "govuk-button--secondary"
         }) }}
 

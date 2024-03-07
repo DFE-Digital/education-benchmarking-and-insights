@@ -1,7 +1,5 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "templates/spend-category.njk" import spendCategory %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
 
 
 {% extends "layouts/main.html" %}
@@ -15,7 +13,7 @@
     items: [
       {
         text: "Home",
-        href: "#"
+        href: "/find-school"
       },
       {
         text: "Your school",
@@ -37,8 +35,6 @@
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <h1 class="govuk-heading-l">Pupil comparator set</h1>
-
-        {% from "govuk/components/table/macro.njk" import govukTable %}
 
         {{ govukTable({
           firstCellIsHeader: true,
