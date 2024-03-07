@@ -130,3 +130,17 @@ p.priority .govuk-tag {
 .govuk-caption-l a {
     color: $govuk-secondary-text-colour
 }
+
+// COMPARATOR SETS
+.school-search .govuk-form-group, .school-search button {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.school-search .govuk-form-group {
+    width: calc(100% - 140px)
+}
+.school-search button {
+    margin-top: 40px;
+    margin-left: 15px;
+}

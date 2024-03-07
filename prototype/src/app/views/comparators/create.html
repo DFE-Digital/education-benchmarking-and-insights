@@ -1,8 +1,4 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
-{% from "govuk/components/tag/macro.njk" import govukTag %}
-{% from "govuk/components/details/macro.njk" import govukDetails %}
-{% from "templates/spend-category.njk" import spendCategory %}
-
 
 {% extends "layouts/main.html" %}
 
@@ -15,7 +11,7 @@
     items: [
       {
         text: "Home",
-        href: "#"
+        href: "/find-school"
       },
       {
         text: "Your school",
@@ -32,14 +28,144 @@
 
 {% block content %}
 
+
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
+      
+    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <form action="/add-comparator-school" method="post">
 
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Create a comparator set</h1>
+      <h1 class="govuk-heading-l">Create a comparator set</h1>
 
-        <h1 class="govuk-heading-m">Search for a school</h1>
+      {{ govukInsetText({
+        text: "Custom comparator sets are not currently saved and will be lost when you end your session."
+      }) }}
+
+      <h2 class="govuk-heading-m">Search for a school</h2>
+      <div class="school-search">
+
+          {% include "templates/schools_postcodes.njk" %}
+
+          {{ govukButton({
+            text: "Add school"
+          }) }}
+      </div>
+
+      
+    </form>
+
+    <h1 class="govuk-heading-m">Your custom comparator set</h1>
+
+    {% if data['comparators'] %}
+
+    {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "School"
+        },
+        {
+          text: "Type"
+        },
+        {
+          text: "Number of pupils"
+        },
+        {
+          text: "Ofsted rating"
+        },
+        {
+          text: "Free school meals"
+        },
+        {
+          text: ""
+        }
+      ],
+      "rows": rows
+    }) }}
+
+    {{ govukButton({
+      text: "Create comparator set"
+    }) }}
+
+    {% else %}
+
+    <p class="govuk-body">No schools added</p>
+
+    {% endif %}
+
 
     </div>
 </div>
+
+<!--
+  <div class="govuk-grid-row">
+    <div class="govuk-grid-column-one-quarter">
+
+      {{ govukInput({
+        id: 'keywords',
+        name: 'keywords',
+        label: {
+          text: 'Keywords',
+          classes: 'govuk-label--m'
+        }
+      }) }}
+    
+      {{ govukCheckboxes({
+        idPrefix: 'type',
+        name: 'type',
+        classes: "govuk-checkboxes--small",
+        fieldset: {
+          legend: {
+            text: 'Type',
+            classes: 'govuk-fieldset__legend--s'
+          }
+        },
+        items: [
+          { text: 'Academy' },
+          { text: 'Maintained' }
+        ]
+      }) }}
+    
+      {{ govukCheckboxes({
+        idPrefix: 'phase',
+        name: 'phase',
+        classes: "govuk-checkboxes--small",
+        fieldset: {
+          legend: {
+            text: 'School phase',
+            classes: 'govuk-fieldset__legend--s'
+          }
+        },
+        items: [
+          { text: 'All-through' },
+          { text: 'Nursery' },
+          { text: 'Primary' },
+          { text: 'Secondary' },
+          { text: 'Alternative provision' },
+          { text: 'Special' },
+          { text: 'PRU' },
+          { text: 'UTC' }
+        ]
+      }) }}
+
+      {{ govukInput({
+        label: {
+          text: "Local authority, district, or ward",
+          classes: 'govuk-fieldset__legend--s'
+        },
+        id: "area",
+        name: "area"
+      }) }}
+
+    </div>
+    <div class="govuk-grid-column-three-quarters">
+      <h1 class="govuk-heading-m">Results</h1>
+      <p class="govuk-body">Search for a school by name, or use filters to see matching schools.</p>
+    </div>
+  </div>
+-->
+
+
+
+
 {% endblock %}
