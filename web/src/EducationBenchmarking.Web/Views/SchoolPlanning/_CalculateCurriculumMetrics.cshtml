@@ -9,7 +9,7 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "TO DO" })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.PupilTeacherRatio.ToSimpleDisplay()
         </td>
     </tr>
@@ -18,14 +18,14 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Model.AverageClassSizeRating.Colour, Model.AverageClassSizeRating.DisplayText })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.AverageClassSize.ToSimpleDisplay()
         </td>
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Average teacher load (periods)</th>
         <td class="govuk-table__cell"></td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.AverageTeacherLoad.ToSimpleDisplay()
         </td>
     </tr>
@@ -34,7 +34,7 @@
         <td class="govuk-table__cell">
             @await Component.InvokeAsync("Tag", new { Model.TeacherContactRatioRating.Colour, Model.TeacherContactRatioRating.DisplayText })
         </td>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TeacherContactRatio.ToSimpleDisplay()
         </td>
     </tr>

@@ -6,7 +6,7 @@
     <tbody class="govuk-table__body">
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Total income</th>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TotalIncome.ToCurrency()
         </td>
         <td class="govuk-table__cell">
@@ -17,7 +17,7 @@
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Total expenditure</th>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TotalExpenditure.ToCurrency()
         </td>
         <td class="govuk-table__cell">
@@ -28,7 +28,7 @@
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Total teacher costs</th>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TotalTeacherCosts.ToCurrency()
         </td>
         <td class="govuk-table__cell">
@@ -41,7 +41,7 @@
     {
         <tr class="govuk-table__row">
             <th scope="row" class="govuk-table__header">Total education support staff costs</th>
-            <td class="govuk-table__cell govuk-!-text-align-right">
+            <td class="govuk-table__cell govuk-table__cell--numeric">
                 @Model.EducationSupportStaffCosts.ToCurrency()
             </td>
             <td class="govuk-table__cell">
@@ -53,7 +53,7 @@
     }
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Full time equivalent teachers</th>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TotalNumberOfTeachersFte
         </td>
         <td class="govuk-table__cell">
@@ -64,7 +64,7 @@
     </tr>
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Length of your timetable cycle (periods)</th>
-        <td class="govuk-table__cell govuk-!-text-align-right">
+        <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TimetablePeriods
         </td>
         <td class="govuk-table__cell">

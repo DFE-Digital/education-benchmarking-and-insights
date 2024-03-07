@@ -1,0 +1,27 @@
+@model EducationBenchmarking.Web.ViewModels.SchoolDeploymentPlanViewModel
+
+<table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--s">Management roles and teaching periods</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Management role</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Full-time equivalent</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Teaching periods</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var role in Model.ManagementRoles)
+    {
+        <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">@role.Description</th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@role.FullTimeEquivalent</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@role.TeachingPeriods</td>
+        </tr>
+    }
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Totals</th>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ManagementRoles.Sum(x => x.FullTimeEquivalent)</td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.ManagementRoles.Sum(x => x.TeachingPeriods)</td>
+    </tr>
+    </tbody>
+</table>
