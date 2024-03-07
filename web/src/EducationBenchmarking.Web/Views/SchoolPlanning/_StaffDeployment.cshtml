@@ -1,0 +1,41 @@
+@using EducationBenchmarking.Web.Extensions
+@model EducationBenchmarking.Web.ViewModels.SchoolDeploymentPlanViewModel
+
+<table class="govuk-table">
+    <caption class="govuk-table__caption govuk-table__caption--s">Teaching staff deployment</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">Pupil group</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Pupil on roll</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Teacher period allocation</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">FTE teachers</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Teacher cost</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Percentage of pupils on roll</th>
+        <th scope="col" class="govuk-table__header govuk-table__header--numeric">Percentage of teacher cost</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var group in Model.StaffDeployment)
+    {
+        <tr class="govuk-table__row">
+            <th scope="row" class="govuk-table__header">@group.Description</th>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@(group.PupilsOnRoll > 0 ? group.PupilsOnRoll.ToString("##") : "-")</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@group.PeriodAllocation</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@group.FteTeachers.ToSimpleDisplay()</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@group.TeacherCost.ToCurrency()</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@(group.PupilsOnRoll > 0 ? @group.PercentPupilsOnRoll.ToPercent() : "-")</td>
+            <td class="govuk-table__cell govuk-table__cell--numeric">@group.PercentTeacherCost.ToPercent()</td>
+        </tr>
+    }
+
+    <tr class="govuk-table__row">
+        <th scope="row" class="govuk-table__header">Total</th>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.TotalPupils.ToString("##")</td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.TotalTeachingPeriods</td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.TotalNumberOfTeachersFte.ToSimpleDisplay()</td>
+        <td class="govuk-table__cell govuk-table__cell--numeric">@Model.TotalTeacherCosts.ToCurrency()</td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"></td>
+        <td class="govuk-table__cell govuk-table__cell--numeric"></td>
+    </tr>
+    </tbody>
+</table>

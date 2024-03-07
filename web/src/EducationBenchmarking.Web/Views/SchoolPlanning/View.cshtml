@@ -27,6 +27,22 @@
 </div>
 
 <div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Staff deployment</h2>
+        @if (Model.IsPrimary)
+        {
+            @await Html.PartialAsync("_StaffDeploymentPrimary", Model)
+        }
+        else
+        {
+            @await Html.PartialAsync("_StaffDeployment", Model)
+        }
+        <h3 class="govuk-heading-s">Percentage of pupils on roll and teacher cost</h3>
+        <div id="deployment-plan" data-chart-data="@Model.ChartData"></div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-m">Management staff deployment</h2>
         @await Html.PartialAsync("_ManagementStaff", Model)
@@ -40,11 +56,13 @@
             Work out how many full-time equipment teachers you need with no change in management time to reach a target contact ratio.
         </p>
         <h3 class="govuk-heading-s">Current contact ratio: @Model.TeacherContactRatio.ToSimpleDisplay()</h3>
-        <h3 class="govuk-heading-s">Target contact ratio: @Model.TargetContactRatio.ToSimpleDisplay()
-            <a class="govuk-link govuk-link--no-visited-state" href="#"> Change
+        <h3 class="govuk-heading-s">
+            Target contact ratio: @Model.TargetContactRatio.ToSimpleDisplay()
+            <a class="govuk-link govuk-link--no-visited-state" href="#">
+                Change
                 <span class="govuk-visually-hidden"> target contact ratio</span>
             </a>
-            </h3>
+        </h3>
         @await Html.PartialAsync("_ScenarioPlanner", Model)
     </div>
 </div>
