@@ -32,6 +32,24 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
       
+    {% if errorThisPage == 'true' %}
+
+      {% set errorText = 'Select a school to add' %}
+
+      {{ govukErrorSummary
+          ({
+              titleText: "There is a problem",
+              errorList:
+              [
+                  {
+                      text: errorText,
+                      href: "#school"
+                  }
+              ]
+          })
+      }}
+  {% endif %}
+
     <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
     <form action="/add-comparator-school" method="post">
 
@@ -56,7 +74,27 @@
 
     <h1 class="govuk-heading-m">Your custom comparator set</h1>
 
-    {% if data['comparators'] %}
+    {% if data['comparators'] | length %}
+
+      {% if confirmation == 'comparator-added' %}
+        {% set html %}
+        <p class="govuk-body"><strong>{{ ( data['comparators'] | last ).comparatorName }}</strong> added to your custom comparator set.</p>
+        {% endset %}
+      
+      {% elseif confirmation == 'comparator-removed' %}
+        {% set html %}
+        <p class="govuk-body"><strong>{{ data['school-removed'] }}</strong> removed from your custom comparator set - <a href="/comparators/undo-remove?schoolName={{ data['school-removed'] }}" class="govuk-link">Undo</a>.</p>
+        {% endset %}
+
+      {% endif %}
+
+      {% if confirmation %}
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        
+      {% endif %}
 
     {{ govukTable({
       firstCellIsHeader: false,
@@ -83,9 +121,7 @@
       "rows": rows
     }) }}
 
-    {{ govukButton({
-      text: "Create comparator set"
-    }) }}
+    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete custom comparator set</a></p>
 
     {% else %}
 
@@ -97,73 +133,18 @@
     </div>
 </div>
 
-<!--
-  <div class="govuk-grid-row">
-    <div class="govuk-grid-column-one-quarter">
+<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
 
-      {{ govukInput({
-        id: 'keywords',
-        name: 'keywords',
-        label: {
-          text: 'Keywords',
-          classes: 'govuk-label--m'
-        }
-      }) }}
-    
-      {{ govukCheckboxes({
-        idPrefix: 'type',
-        name: 'type',
-        classes: "govuk-checkboxes--small",
-        fieldset: {
-          legend: {
-            text: 'Type',
-            classes: 'govuk-fieldset__legend--s'
-          }
-        },
-        items: [
-          { text: 'Academy' },
-          { text: 'Maintained' }
-        ]
-      }) }}
-    
-      {{ govukCheckboxes({
-        idPrefix: 'phase',
-        name: 'phase',
-        classes: "govuk-checkboxes--small",
-        fieldset: {
-          legend: {
-            text: 'School phase',
-            classes: 'govuk-fieldset__legend--s'
-          }
-        },
-        items: [
-          { text: 'All-through' },
-          { text: 'Nursery' },
-          { text: 'Primary' },
-          { text: 'Secondary' },
-          { text: 'Alternative provision' },
-          { text: 'Special' },
-          { text: 'PRU' },
-          { text: 'UTC' }
-        ]
-      }) }}
+  <select style="height:30px;" onchange="window.location.href='?'+this.value">
 
-      {{ govukInput({
-        label: {
-          text: "Local authority, district, or ward",
-          classes: 'govuk-fieldset__legend--s'
-        },
-        id: "area",
-        name: "area"
-      }) }}
+      <option value="errorThisPage=false&errorNoSchool=false"
+              {% if errorThisPage != 'true' %}selected{% endif %}>Errors - Off</option>
 
-    </div>
-    <div class="govuk-grid-column-three-quarters">
-      <h1 class="govuk-heading-m">Results</h1>
-      <p class="govuk-body">Search for a school by name, or use filters to see matching schools.</p>
-    </div>
-  </div>
--->
+      <option value="errorThisPage=true&errorNoSchool=true"
+              {% if errorNoSchool == 'true' %}selected{% endif %}>Error: No answer entered</option>
+  </select>
+
+</form>
 
 
 
