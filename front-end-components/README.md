@@ -2,7 +2,7 @@
 
 This project provides components to be consumed by the front-end ASP.NET Core web app.
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=refs%2Fpull%2F206%2Fmerge)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=refs%2Fpull%2F206%2Fmerge)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
 
 ## Pre-requisites
 

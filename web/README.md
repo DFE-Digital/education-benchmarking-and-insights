@@ -4,7 +4,7 @@ This is the main front-end website project. This project will consume the output
 
 This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorization services, along with any static pages that need serving
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=refs%2Fpull%2F267%2Fmerge)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=refs%2Fpull%2F267%2Fmerge)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=main)
 
 ## Getting started
 
