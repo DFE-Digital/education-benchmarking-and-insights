@@ -29,5 +29,6 @@
         <PackageReference Include="Newtonsoft.Json" />
         <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj"/>
         <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj"/>
+        <ProjectReference Include="..\..\import\EducationBenchmarking.Platform.Import\EducationBenchmarking.Platform.Import.csproj" />
     </ItemGroup>
 </Project>
