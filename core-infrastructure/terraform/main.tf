@@ -23,9 +23,12 @@ resource "azurerm_key_vault" "key-vault" {
   enabled_for_template_deployment = true
   tenant_id                       = data.azurerm_client_config.client.tenant_id
   sku_name                        = "standard"
+  purge_protection_enabled        = true
+  soft_delete_retention_days      = 7
+  public_network_access_enabled   = false
 
   network_acls {
-    default_action = "Allow"
+    default_action = "Deny"
     bypass         = "AzureServices"
   }
 
