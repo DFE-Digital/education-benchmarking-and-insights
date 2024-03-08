@@ -43,6 +43,7 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   site_config {
+    always_on           = false
     http2_enabled       = true
     minimum_tls_version = "1.2"
     app_command_line    = "npm run start"
