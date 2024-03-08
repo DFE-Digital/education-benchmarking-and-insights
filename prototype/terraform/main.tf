@@ -47,6 +47,9 @@ resource "azurerm_linux_web_app" "web-app" {
     minimum_tls_version = "1.2"
     app_command_line    = "npm run start"
     ftps_state          = "Disabled"
+    application_stack {
+      node_version = "20-lts"
+    }
   }
 
   logs {
@@ -64,5 +67,7 @@ resource "azurerm_linux_web_app" "web-app" {
     "NODE_ENV"                       = "production"
     "PASSWORD"                       = var.prototype-password
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+    "WEBSITE_DYNAMIC_CACHE"          = 0
+    "WEBSITE_LOCAL_CACHE_OPTION"     = "Never"
   }
 }
