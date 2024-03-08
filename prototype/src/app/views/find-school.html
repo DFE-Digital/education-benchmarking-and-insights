@@ -1,0 +1,70 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Find a school - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block content %}
+
+
+{% set schoolsHtml %}
+{% include "templates/schools_postcodes.njk" %}
+{% endset -%}
+
+{% set trustsHtml %}
+
+{{ govukInput({
+    id: "trust-name",
+    name: "trustName",
+    hint: {
+      text: "Enter a name or company number"
+    }
+  }) }}
+{% endset -%}
+
+<form method="post" action="set-school" class="form">
+
+    <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+
+                {{ govukRadios({
+                name: "signIn",
+                fieldset: {
+                    legend: {
+                        text: "Select an organisation type",
+                        isPageHeading: true,
+                        classes: "govuk-fieldset__legend--l"
+                    }
+                },
+                items: [
+                    {
+                        value: "academy",
+                        text: "Academy or Local Authority maintained school",
+                        checked: true,
+                        conditional: {
+                            html: schoolsHtml
+                        }
+                    },
+                    {
+                        value: "trust",
+                        text: "Single or Multi-Academy Trust",
+                        conditional: {
+                            html: trustsHtml
+                        }
+                    }
+                ]
+                }) }}
+
+
+            {{ govukButton({
+                text: "Continue"
+            }) }}
+
+        </div>
+    </div>
+
+</form>
+{% endblock %}

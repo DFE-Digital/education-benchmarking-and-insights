@@ -1,0 +1,577 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Building comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      },
+      {
+        text: "Comparator sets",
+        href: "/comparators"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Building comparator set</h1>
+
+        {{ govukTable({
+          firstCellIsHeader: true,
+          head: [
+            {
+              text: "School"
+            },
+            {
+              text: "Type"
+            },
+            {
+              text: "Number of pupils"
+            },
+            {
+              text: "Ofsted rating"
+            },
+            {
+              text: "Percentage of free school meals"
+            }
+          ],
+          "rows": [
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Archbishop Blanch School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "960"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "7.3%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Archbishop Sentamu Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,701"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "8.2%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Ark Elvin Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "698"
+                },
+                {
+                "text": "Outstanding"
+                },
+                {
+                "text": "11.3%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Bluecoat Aspley Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,115"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "5.9%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Bourne Grammar School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "493"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "17.2%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Bristol Free School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,217"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "15.2%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Campion School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,172"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "15.6%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Cardinal Newman Catholic School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,432"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "12.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Castle Rock School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,040"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "7.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Chiltern Hills Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "453"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "8.3%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Clacton Coastal Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,061"
+                },
+                {
+                "text": "Requires improvement"
+                },
+                {
+                "text": "10.4%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Co-op Academy Stoke-on-Trent</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,399"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "10.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Dixons Trinity Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,608"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "17.2%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Eden Boys' School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,140"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "13.1%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Dale Girls' School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,210"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "17.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Folkestone Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,102"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "5.6%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">George Abbot School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "729"
+                },
+                {
+                "text": "Requires improvement"
+                },
+                {
+                "text": "5.6%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Goffs-Churchgate Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,551"
+                },
+                {
+                "text": "Outstanding"
+                },
+                {
+                "text": "18.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Harris Academy Battersea</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,318"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "5.5%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">King's College Guildford</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "951"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "8.4%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Litherland High School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "964"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "16.7%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Northampton School for Boys</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "782"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "11.4%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Campion Academy Enfield</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "713"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "5.1%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Oasis Academy Hadley</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,760"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "5.6%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Outwood Academy Adwick</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,989"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "12.7%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Roding Valley High School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,086"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "11.4%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">St Aidan's Catholic Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,865"
+                },
+                {
+                "text": "Requires improvement"
+                },
+                {
+                "text": "16.3%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">The Buckingham School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "1,407"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "8.0%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">The King's School</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,171"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "13.1%"
+                }
+            ],
+            [
+                {
+                "html": "<a href=\"#\" class=\"govuk-link\">Warden Park Academy</a>"
+                },
+                {
+                "text": "Secondary"
+                },
+                {
+                "text": "2,487"
+                },
+                {
+                "text": "Good"
+                },
+                {
+                "text": "7.6%"
+                }
+            ]
+            ]  
+        }) }}
+
+        <h2 class="govuk-heading-m">Custom comparator set</h2>
+        <p class="govuk-body">If you have a set of schools you would rather be compared with across all categories, you can <a href="/comparators/create">create your own custom comparator set</a> to be used across all categories.</p>
+
+    </div>
+</div>
+{% endblock %}

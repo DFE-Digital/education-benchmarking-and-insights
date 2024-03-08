@@ -1,6 +1,5 @@
 using EducationBenchmarking.Web.Domain;
 using EducationBenchmarking.Web.Domain.FinancialPlanStages;
-using EducationBenchmarking.Web.Extensions;
 using EducationBenchmarking.Web.Infrastructure.Apis;
 using EducationBenchmarking.Web.Infrastructure.Extensions;
 using EducationBenchmarking.Web.Services;
@@ -806,8 +805,8 @@ public class SchoolPlanningCreateController(
             {
                 await financialPlanService.Update(urn, year, stage);
                 return stage.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
-                    ? new AcceptedResult()
-                    : new OkResult();
+                    ? RedirectToAction("OtherTeachingPeriodsConfirm", new { urn, year })
+                    : RedirectToAction("OtherTeachingPeriodsReview", new { urn, year });
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -829,6 +828,74 @@ public class SchoolPlanningCreateController(
     }
 
     [HttpGet]
+    [Route("other-teaching-periods-confirmation")]
+    public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            return View("OtherTeachingPeriodsConfirm", viewModel);
+        }
+    }
+
+    [HttpPost]
+    [Route("other-teaching-periods-confirmation")]
+    public async Task<IActionResult> OtherTeachingPeriodsConfirm(string urn, int year, OtherTeachingPeriodsConfirmStage stage)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            var results = await validator.ValidateAsync(stage);
+            if (results.IsValid)
+            {
+
+                return stage.Proceed is true
+                    ? RedirectToAction("ManagementRoles", new { urn, year })
+                    : RedirectToAction("OtherTeachingPeriods", new { urn, year });
+            }
+
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            results.AddToModelState(ModelState);
+
+            return View("OtherTeachingPeriodsConfirm", viewModel);
+        }
+    }
+
+    [HttpGet]
+    [Route("other-teaching-periods-review")]
+    public async Task<IActionResult> OtherTeachingPeriodsReview(string urn, int year)
+    {
+        return await Executor(new { urn, year }, Action);
+
+        async Task<IActionResult> Action()
+        {
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
+
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
+            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+
+            return View("OtherTeachingPeriodsReview", viewModel);
+        }
+    }
+
+    [HttpGet]
     [Route("management-roles")]
     public async Task<IActionResult> ManagementRoles(string urn, int year)
     {
@@ -836,8 +903,7 @@ public class SchoolPlanningCreateController(
 
         async Task<IActionResult> Action()
         {
-            //TODO: set back link when review page added
-            //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -862,8 +928,7 @@ public class SchoolPlanningCreateController(
                 return RedirectToAction("ManagersPerRole", new { urn, year });
             }
 
-            //TODO: set back link when review page added
-            //ViewData[ViewDataKeys.Backlink] = TeacherPeriodAllocationBackLink(school, year);
+            ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
@@ -1003,6 +1068,7 @@ public class SchoolPlanningCreateController(
     private BacklinkInfo PrimaryPupilFiguresBackLink(string urn, int year) => new(Url.Action("PrimaryPupilFigures", new { urn, year }));
     private BacklinkInfo TeacherPeriodAllocationBackLink(string urn, int year) => new(Url.Action("TeacherPeriodAllocation", new { urn, year }));
     private BacklinkInfo TeachingAssistantFiguresBackLink(string urn, int year) => new(Url.Action("TeachingAssistantFigures", new { urn, year }));
+    private BacklinkInfo OtherTeachingPeriodsBackLink(string urn, int year) => new(Url.Action("OtherTeachingPeriods", new { urn, year }));
     private BacklinkInfo ManagementRolesBackLink(string urn, int year) => new(Url.Action("ManagementRoles", new { urn, year }));
     private BacklinkInfo ManagersPerRoleBackLink(string urn, int year) => new(Url.Action("ManagersPerRole", new { urn, year }));
 }

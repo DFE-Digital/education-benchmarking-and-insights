@@ -130,3 +130,34 @@ p.priority .govuk-tag {
 .govuk-caption-l a {
     color: $govuk-secondary-text-colour
 }
+
+// COMPARATOR SETS
+.school-search .govuk-form-group, .school-search button {
+    display: inline-block;
+    vertical-align: top;
+}
+
+.school-search .govuk-form-group.govuk-form-group--error {
+    width: calc(100% - 160px)
+}
+
+.school-search .govuk-form-group {
+    width: calc(100% - 140px)
+}
+
+.school-search button {
+    margin-top: 40px;
+    margin-left: 15px;
+}
+
+.school-search .govuk-form-group--error + button {
+    margin-top: 80px;
+}
+
+div.govuk-notification-banner {
+    margin-bottom: 20px;
+}
+
+div.govuk-notification-banner__content > * {
+    max-width: none;
+}

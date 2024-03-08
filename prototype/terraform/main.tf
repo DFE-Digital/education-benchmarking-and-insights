@@ -21,7 +21,7 @@ resource "azurerm_service_plan" "app-service-plan" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "B1"
+  sku_name            = "F1"
   tags                = local.common-tags
 }
 
@@ -43,10 +43,14 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   site_config {
+    always_on           = false
     http2_enabled       = true
     minimum_tls_version = "1.2"
     app_command_line    = "npm run start"
     ftps_state          = "Disabled"
+    application_stack {
+      node_version = "20-lts"
+    }
   }
 
   logs {
@@ -62,7 +66,9 @@ resource "azurerm_linux_web_app" "web-app" {
 
   app_settings = {
     "NODE_ENV"                       = "production"
-    "PASSWORD"                       = "education"
+    "PASSWORD"                       = var.prototype-password
+    "BUILD_FLAGS"                    = "Off"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+    "KIT_PROJECT_DIR"                = "d:/home/site/wwwroot"
   }
 }

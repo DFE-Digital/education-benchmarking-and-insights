@@ -52,6 +52,8 @@ stages:
   - stage: DeployDevelopment
     dependsOn: [Build]
     displayName: 'Deploy to prototype'
+    variables:
+      - group: 'prototype'
     jobs:
       - template: jobs-prototype.yaml
         parameters:
