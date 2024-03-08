@@ -72,3 +72,44 @@ resource "azurerm_linux_web_app" "web-app" {
     "KIT_PROJECT_DIR"                = "/home/site/wwwroot"
   }
 }
+
+resource "azurerm_service_plan" "app-service-plan-b" {
+  name                = "${var.environment-prefix}-ebis-asp-prototype-b"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  os_type             = "Windows"
+  sku_name            = "F1"
+  tags                = local.common-tags
+}
+
+resource "azurerm_windows_web_app" "web-app-b" {
+  name                = "${var.environment-prefix}-ebis-prototype-b"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  service_plan_id     = azurerm_service_plan.app-service-plan-b.id
+  tags                = local.common-tags
+  https_only          = true
+
+  identity {
+    type = "SystemAssigned"
+  }
+
+  site_config {
+    always_on           = false
+    http2_enabled       = true
+    minimum_tls_version = "1.2"
+    app_command_line    = "npm run start"
+    ftps_state          = "Disabled"
+    application_stack {
+      current_stack = "node"
+      node_version  = "~18"
+    }
+  }
+
+  app_settings = {
+    "NODE_ENV"                       = "production"
+    "PASSWORD"                       = var.prototype-password
+    "BUILD_FLAGS"                    = "Off"
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+  }
+}
