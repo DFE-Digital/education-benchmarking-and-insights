@@ -21,7 +21,7 @@ resource "azurerm_service_plan" "app-service-plan" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "B1"
+  sku_name            = "F1"
   tags                = local.common-tags
 }
 
@@ -64,12 +64,12 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   app_settings = {
-    "NODE_ENV"                       = "production"
-    "PASSWORD"                       = var.prototype-password
-    "ENABLE_ORYX_BUILD"              = false
+    "NODE_ENV" = "production"
+    "PASSWORD" = var.prototype-password
+    /*    "ENABLE_ORYX_BUILD"              = false
     "DISABLE_NODEJS_BUILD"           = true
     "WEBSITE_DYNAMIC_CACHE"          = 0
     "WEBSITE_LOCAL_CACHE_OPTION"     = "Never"
-    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false*/
   }
 }
