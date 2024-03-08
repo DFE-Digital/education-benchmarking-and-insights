@@ -64,11 +64,12 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   app_settings = {
-    "NODE_ENV"                   = "production"
-    "PASSWORD"                   = var.prototype-password
-    "ENABLE_ORYX_BUILD"          = false
-    "DISABLE_NODEJS_BUILD"       = true
-    "WEBSITE_DYNAMIC_CACHE"      = 0
-    "WEBSITE_LOCAL_CACHE_OPTION" = "Never"
+    "NODE_ENV"                       = "production"
+    "PASSWORD"                       = var.prototype-password
+    "ENABLE_ORYX_BUILD"              = false
+    "DISABLE_NODEJS_BUILD"           = true
+    "WEBSITE_DYNAMIC_CACHE"          = 0
+    "WEBSITE_LOCAL_CACHE_OPTION"     = "Never"
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
   }
 }
