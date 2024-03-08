@@ -31,14 +31,7 @@ resource "azurerm_key_vault" "key-vault" {
     default_action = "Deny"
     bypass         = "AzureServices"
   }
-
-  lifecycle {
-    ignore_changes = [
-      access_policy,
-      network_acls
-    ]
-  }
-
+  
   tags = local.common-tags
 }
 
