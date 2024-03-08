@@ -46,7 +46,7 @@ resource "azurerm_linux_web_app" "web-app" {
     always_on           = false
     http2_enabled       = true
     minimum_tls_version = "1.2"
-    app_command_line    = "npm run start"
+    app_command_line    = "npm i && npm run start"
     ftps_state          = "Disabled"
     application_stack {
       node_version = "20-lts"
@@ -65,11 +65,11 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   app_settings = {
-    "NODE_ENV"                       = "production"
-    "PASSWORD"                       = var.prototype-password
-    "BUILD_FLAGS"                    = "Off"
-    "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
-    /* "ENABLE_ORYX_BUILD"              = false
+    "NODE_ENV"    = "production"
+    "PASSWORD"    = var.prototype-password
+    "BUILD_FLAGS" = "Off"
+    /*"SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+     "ENABLE_ORYX_BUILD"              = false
   "DISABLE_NODEJS_BUILD"           = true
   "WEBSITE_DYNAMIC_CACHE"          = 0
   "WEBSITE_LOCAL_CACHE_OPTION"     = "Never"*/
