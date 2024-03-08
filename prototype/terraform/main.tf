@@ -64,10 +64,10 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   app_settings = {
-    "NODE_ENV"                       = "production"
-    "PASSWORD"                       = var.prototype-password
-    "WEBSITE_RUN_FROM_PACKAGE"       = 1
-    "WEBSITE_DYNAMIC_CACHE"          = 0
-    "WEBSITE_LOCAL_CACHE_OPTION"     = "Never"
+    "NODE_ENV"                   = "production"
+    "PASSWORD"                   = var.prototype-password
+    "WEBSITE_RUN_FROM_PACKAGE"   = 1
+    "WEBSITE_DYNAMIC_CACHE"      = 0
+    "WEBSITE_LOCAL_CACHE_OPTION" = "Never"
   }
 }
