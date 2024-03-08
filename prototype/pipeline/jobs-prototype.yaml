@@ -41,4 +41,5 @@ jobs:
                 appName: ${{ parameters.environmentPrefix }}-ebis-prototype
                 runtimeStack: 'NODE|20-lts'
                 package: $(Pipeline.Workspace)/prototype/prototype.zip
+                deploymentMethod: 'runFromPackage'
                 startUpCommand: 'npm run start'
