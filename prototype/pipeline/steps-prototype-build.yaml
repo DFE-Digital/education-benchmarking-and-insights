@@ -5,6 +5,12 @@ steps:
       command: 'install'
       workingDir: 'prototype/src'
 
+  - task: Npm@1
+    displayName: 'Build'
+    inputs:
+      command: 'build'
+      workingDir: 'prototype/src'
+
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
