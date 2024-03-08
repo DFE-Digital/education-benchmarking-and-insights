@@ -69,6 +69,6 @@ resource "azurerm_linux_web_app" "web-app" {
     "PASSWORD"                       = var.prototype-password
     "BUILD_FLAGS"                    = "Off"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
-    "KIT_PROJECT_DIR"                = "d:/home/site/wwwroot"
+    "KIT_PROJECT_DIR"                = "/home/site/wwwroot"
   }
 }
