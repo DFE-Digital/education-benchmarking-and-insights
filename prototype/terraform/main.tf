@@ -46,7 +46,7 @@ resource "azurerm_linux_web_app" "web-app" {
     always_on           = false
     http2_enabled       = true
     minimum_tls_version = "1.2"
-    app_command_line    = "npm i && npm run start"
+    app_command_line    = "npm run start"
     ftps_state          = "Disabled"
     application_stack {
       node_version = "20-lts"
@@ -69,5 +69,6 @@ resource "azurerm_linux_web_app" "web-app" {
     "PASSWORD"                       = var.prototype-password
     "BUILD_FLAGS"                    = "Off"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+    "KIT_PROJECT_DIR"                = "d:/home/site/wwwroot"
   }
 }
