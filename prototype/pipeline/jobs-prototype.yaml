@@ -40,4 +40,4 @@ jobs:
                 appType: webAppLinux
                 appName: ${{ parameters.environmentPrefix }}-ebis-prototype
                 package: $(Pipeline.Workspace)/prototype/prototype.zip
-                deploymentMethod: 'runFromPackage'
+                deploymentMethod: 'zipDeploy'

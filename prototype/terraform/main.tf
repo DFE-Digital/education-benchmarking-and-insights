@@ -69,7 +69,7 @@ resource "azurerm_linux_web_app" "web-app" {
     "NODE_ENV"                       = "production"
     "PASSWORD"                       = var.prototype-password
     "BUILD_FLAGS"                    = "Off"
-    "WEBSITE_RUN_FROM_PACKAGE"       = "1"
-    "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
+    "SCM_DO_BUILD_DURING_DEPLOYMENT" = true
+    "VERBOSE"                        = true
   }
 }
