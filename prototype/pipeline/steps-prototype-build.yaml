@@ -1,4 +1,10 @@
 steps:
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+      workingDir: 'prototype/src'
+
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
