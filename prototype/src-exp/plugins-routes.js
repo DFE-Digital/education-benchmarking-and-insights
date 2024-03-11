@@ -11,6 +11,10 @@ function setupPathsFor (item) {
       // TODO: Remove in v14
       requests.serveDirectory(
         paths.publicUrl.replace('plugin-assets', 'extension-assets'), paths.fileSystemPath)
+
+      //Fix for azure
+      requests.serveDirectory(
+        paths.publicUrl.replace('%40x-govuk%2F', '@x-govuk/'), paths.fileSystemPath)
     })
 }
 
