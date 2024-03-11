@@ -1,6 +1,6 @@
 export type SchoolHistoryViewProps = {
-    type: string;
-    id: string;
-    Name?: string;
-    Urn?: string;
+  type: string;
+  id: string;
+  Name?: string;
+  Urn?: string;
 };
