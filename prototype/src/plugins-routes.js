@@ -5,7 +5,6 @@ const plugins = require('govuk-prototype-kit/lib/plugins/plugins')
 function setupPathsFor (item) {
   plugins.getPublicUrlAndFileSystemPaths(item)
     .forEach(paths => {
-      console.log('plugin routes', paths)
       requests.serveDirectory(paths.publicUrl, paths.fileSystemPath)
       // Keep /extension-assets path for backwards compatibility
       // TODO: Remove in v14

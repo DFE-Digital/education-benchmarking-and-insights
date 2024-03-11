@@ -1,4 +1,10 @@
 steps:
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+      workingDir: 'prototype/src'
+
   - task: ArchiveFiles@2
     displayName: 'Archive files'
     inputs:
@@ -7,22 +13,5 @@ steps:
       archiveFile: $(Build.ArtifactStagingDirectory)/prototype.zip
       replaceExistingArchive: true
 
-  - task: Npm@1
-    displayName: 'Install dependencies'
-    inputs:
-      command: 'install'
-      workingDir: 'prototype/src-exp'
-
-  - task: ArchiveFiles@2
-    displayName: 'Archive files exp'
-    inputs:
-      rootFolderOrFile: 'prototype/src-exp'
-      includeRootFolder: false
-      archiveFile: $(Build.ArtifactStagingDirectory)/prototype-exp.zip
-      replaceExistingArchive: true
-
   - publish: $(Build.ArtifactStagingDirectory)/prototype.zip
     artifact: prototype
-
-  - publish: $(Build.ArtifactStagingDirectory)/prototype-exp.zip
-    artifact: prototype-exp

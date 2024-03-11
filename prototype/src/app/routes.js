@@ -22,6 +22,7 @@ function addSchool (req, res, schoolName) {
     
   }
 
+
 router.get( '/add-comparator-school', (req, res) => {
 
     var schoolName = req.session.data.school;

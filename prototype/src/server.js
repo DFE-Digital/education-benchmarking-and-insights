@@ -28,11 +28,6 @@ const routesApi = require('govuk-prototype-kit/lib/routes/api.js')
 const app = express()
 routesApi.setApp(app)
 
-app.use((req, res, next) => {
-  console.log(req.originalUrl);
-  next();
-});
-
 // Set up configuration variables
 const releaseVersion = packageJson.version
 
