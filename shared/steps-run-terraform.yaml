@@ -42,8 +42,8 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in terraform file'
     inputs:
-      targetFiles: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
-      escapeType: none
+      sources: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
+      escape: none
       tokenPrefix: '__'
       tokenSuffix: '__'
 
