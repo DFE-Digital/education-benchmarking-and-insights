@@ -27,23 +27,23 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(BenchmarkingWebAppCli
         yield return new object[]
         {
         new List<FinancialPlan.OtherTeachingPeriod>
-        {
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period1", PeriodsPerTimetable = "6" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period2", PeriodsPerTimetable = "7" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period3", PeriodsPerTimetable = "8" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period4", PeriodsPerTimetable = "9" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period5", PeriodsPerTimetable = "10" }
-        }
+            {
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period1", PeriodsPerTimetable = "6" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period2", PeriodsPerTimetable = "7" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period3", PeriodsPerTimetable = "8" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period4", PeriodsPerTimetable = "9" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period5", PeriodsPerTimetable = "10" }
+            }
         };
 
         yield return new object[]
         {
-        new List<FinancialPlan.OtherTeachingPeriod>
-        {
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period11", PeriodsPerTimetable = "14" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period12", PeriodsPerTimetable = "15" },
-            new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period13", PeriodsPerTimetable = "16" }
-        }
+            new List<FinancialPlan.OtherTeachingPeriod>
+            {
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period11", PeriodsPerTimetable = "14" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period12", PeriodsPerTimetable = "15" },
+                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period13", PeriodsPerTimetable = "16" }
+            }
         };
     }
 
