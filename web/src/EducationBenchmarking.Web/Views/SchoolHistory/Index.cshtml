@@ -23,4 +23,6 @@
     </div>
 </div>
 
+<div id="school-history"></div>
+
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
