@@ -43,7 +43,7 @@ steps:
     displayName: 'Replace tokens in terraform file'
     inputs:
       sources: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
-      escape: none
+      escape: off
       tokenPrefix: '__'
       tokenSuffix: '__'
 
