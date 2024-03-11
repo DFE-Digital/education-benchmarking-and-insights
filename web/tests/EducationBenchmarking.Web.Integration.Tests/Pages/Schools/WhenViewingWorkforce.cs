@@ -48,7 +48,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -153,7 +153,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);
-        
+
         DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());

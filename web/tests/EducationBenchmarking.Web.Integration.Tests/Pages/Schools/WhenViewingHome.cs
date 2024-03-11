@@ -35,7 +35,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
 
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]

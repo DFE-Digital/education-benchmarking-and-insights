@@ -7,7 +7,7 @@ namespace EducationBenchmarking.Web;
 public static class Constants
 {
     public const string ServiceName = "Financial Benchmarking and Insights Tool";
-    
+
     public const string InsightApi = "Insight";
     public const string EstablishmentApi = "Establishment";
     public const string BenchmarkApi = "Benchmark";

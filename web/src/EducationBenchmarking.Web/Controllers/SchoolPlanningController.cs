@@ -48,11 +48,11 @@ public class SchoolPlanningController(
         {
             try
             {
-                var backAction = referrer == Referrers.TeachingPeriodsManager 
-                    ? Url.Action("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn, year})
+                var backAction = referrer == Referrers.TeachingPeriodsManager
+                    ? Url.Action("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn, year })
                     : Url.Action("Index", new { urn });
-                    
-                
+
+
                 ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();

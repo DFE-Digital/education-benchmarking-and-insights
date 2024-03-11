@@ -52,7 +52,7 @@ public class ManagersPerRoleStage : Stage
         if (plan.TeachingPeriodsHeadteacher.Length != plan.NumberHeadteacher.ToInt())
         {
             var val = plan.NumberHeadteacher.ToInt() ?? 0;
-            var count = val > 0 ? val : 0; 
+            var count = val > 0 ? val : 0;
             plan.TeachingPeriodsHeadteacher = new string[count];
         }
 
