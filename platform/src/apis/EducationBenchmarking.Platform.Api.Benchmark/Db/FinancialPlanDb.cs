@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -16,7 +17,8 @@ namespace EducationBenchmarking.Platform.Api.Benchmark.Db;
 
 public interface IFinancialPlanDb
 {
-    Task<FinancialPlan?> FinancialPlan(string urn, int year);
+    Task<IEnumerable<FinancialPlan>> QueryFinancialPlan(string urn);
+    Task<FinancialPlan?> SingleFinancialPlan(string urn, int year);
     Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
     Task DeleteFinancialPlan(FinancialPlan plan);
 }
@@ -37,13 +39,24 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         _options = options.Value;
     }
 
-    public async Task<FinancialPlan?> FinancialPlan(string urn, int year)
+    public async Task<IEnumerable<FinancialPlan>> QueryFinancialPlan(string urn)
+    {
+        ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
+
+
+        var plans = await ItemEnumerableAsync<FinancialPlanDataObject>(_options.FinancialPlanCollectionName, q => q.Where(x => x.PartitionKey == urn)).ToArrayAsync();
+
+        return plans.Select(FinancialPlan.Create);
+    }
+
+
+    public async Task<FinancialPlan?> SingleFinancialPlan(string urn, int year)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
         var response = await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
         return response.IsSuccessStatusCode
-            ? Domain.Responses.FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>())
+            ? FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>())
             : null;
     }
 
@@ -64,7 +77,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             {
                 ConflictReason = DataConflictResult.Reason.Timestamp,
                 Id = existing.Id,
-                Type = nameof(Domain.Responses.FinancialPlan),
+                Type = nameof(FinancialPlan),
                 CreatedBy = existing.CreatedBy,
                 CreatedAt = existing.Created,
                 UpdatedBy = existing.UpdatedBy,

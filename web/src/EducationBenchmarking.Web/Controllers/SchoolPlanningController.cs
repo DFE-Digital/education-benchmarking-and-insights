@@ -27,7 +27,8 @@ public class SchoolPlanningController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolPlanning(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolPlanViewModel(school);
+                var plans = await financialPlanService.List(urn);
+                var viewModel = new SchoolPlanViewModel(school, plans);
 
                 return View(viewModel);
             }

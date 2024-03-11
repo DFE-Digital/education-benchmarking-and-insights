@@ -12,7 +12,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.FinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(new FinancialPlan());
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as JsonContentResult;
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     {
 
         Db
-            .Setup(d => d.FinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync((FinancialPlan?)null);
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
@@ -39,7 +39,7 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.FinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;

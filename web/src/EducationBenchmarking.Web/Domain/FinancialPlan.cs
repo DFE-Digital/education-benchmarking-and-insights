@@ -4,6 +4,10 @@ public class FinancialPlan
 {
     public int Year { get; set; }
     public string? Urn { get; set; }
+    public DateTimeOffset Created { get; set; }
+    public DateTimeOffset? UpdatedAt { get; set; }
+    public string? UpdatedBy { get; set; }
+    public string? CreatedBy { get; set; }
     public bool? UseFigures { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal TargetContactRatio { get; set; } = 0.78M;

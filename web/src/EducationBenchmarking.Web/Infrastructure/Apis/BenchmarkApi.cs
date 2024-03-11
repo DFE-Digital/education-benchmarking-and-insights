@@ -39,6 +39,11 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : ApiBas
     {
         return await GetAsync($"api/financial-plan/{urn}/{year}");
     }
+
+    public async Task<ApiResult> QueryFinancialPlan(string? urn, ApiQuery? query = null)
+    {
+        return await GetAsync($"api/financial-plan/{urn}{query?.ToQueryString()}");
+    }
 }
 
 public interface IBenchmarkApi
@@ -46,4 +51,5 @@ public interface IBenchmarkApi
     Task<ApiResult> CreateComparatorSet(PostBenchmarkSetRequest? request = default);
     Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request);
     Task<ApiResult> GetFinancialPlan(string? urn, int? year);
+    Task<ApiResult> QueryFinancialPlan(string? urn, ApiQuery? query = null);
 }

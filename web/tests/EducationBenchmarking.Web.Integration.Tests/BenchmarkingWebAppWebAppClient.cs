@@ -100,7 +100,13 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             BenchmarkApi.Setup(api => api.GetFinancialPlan(plan.Urn, plan.Year)).ReturnsAsync(ApiResult.Ok(plan));
         }
 
-        BenchmarkApi.Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>())).ReturnsAsync(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
+        BenchmarkApi
+            .Setup(api => api.QueryFinancialPlan(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
+
+        BenchmarkApi
+            .Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>()))
+            .ReturnsAsync(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
 
         BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))

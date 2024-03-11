@@ -10,6 +10,7 @@ public interface IFinancialPlanService
 {
     Task TryCreateEmpty(string? urn, int? year);
     Task<FinancialPlan> Get(string? urn, int? year);
+    Task<IEnumerable<FinancialPlan>> List(string? urn);
     Task Update(string? urn, int? year, Stage stage);
 }
 
@@ -28,6 +29,11 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
     public async Task<FinancialPlan> Get(string? urn, int? year)
     {
         return await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlan>();
+    }
+
+    public async Task<IEnumerable<FinancialPlan>> List(string? urn)
+    {
+        return await benchmarkApi.QueryFinancialPlan(urn).GetResultOrDefault<FinancialPlan[]>() ?? Array.Empty<FinancialPlan>();
     }
 
     public async Task Update(string? urn, int? year, Stage stage)

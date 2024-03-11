@@ -117,7 +117,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolFinancialPlanningStart(school.Urn));
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[3]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

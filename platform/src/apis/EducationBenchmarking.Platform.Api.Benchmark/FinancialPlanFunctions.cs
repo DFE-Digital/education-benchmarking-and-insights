@@ -49,7 +49,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var plan = await _db.FinancialPlan(urn, year);
+                var plan = await _db.SingleFinancialPlan(urn, year);
                 return plan != null
                     ? new JsonContentResult(plan)
                     : new NotFoundResult();
@@ -57,6 +57,35 @@ public class FinancialPlanFunctions
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to get financial plan");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(QueryFinancialPlanAsync))]
+    [ProducesResponseType(typeof(FinancialPlan), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> QueryFinancialPlanAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}")]
+        HttpRequest req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var plans = await _db.QueryFinancialPlan(urn);
+                return new JsonContentResult(plans);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to query financial plan");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -119,7 +148,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var plan = await _db.FinancialPlan(urn, year);
+                var plan = await _db.SingleFinancialPlan(urn, year);
                 if (plan == null) return new NotFoundResult();
 
                 await _db.DeleteFinancialPlan(plan);

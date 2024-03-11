@@ -244,7 +244,7 @@ public record FinancialPlan
             TeachingPeriodsAssistantHeadteacher = dataObject.TeachingPeriodsAssistantHeadteacher,
             TeachingPeriodsHeadLargeCurriculum = dataObject.TeachingPeriodsHeadLargeCurriculum,
             TeachingPeriodsPastoralLeader = dataObject.TeachingPeriodsPastoralLeader,
-            TeachingPeriodsOtherMembers = dataObject.TeachingPeriodsOtherMembers
+            TeachingPeriodsOtherMembers = dataObject.TeachingPeriodsOtherMembers,
         };
     }
 
