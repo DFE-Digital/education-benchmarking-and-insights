@@ -51,7 +51,6 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(BenchmarkingWebAppCli
     [MemberData(nameof(OtherTeachingPeriodsTestData))]
     public async Task CanDisplayWithValues(List<FinancialPlan.OtherTeachingPeriod> otherTeachingPeriods)
     {
-
         var composer = Fixture.Build<FinancialPlan>()
             .With(x => x.OtherTeachingPeriods, otherTeachingPeriods);
 
@@ -163,10 +162,10 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(BenchmarkingWebAppCli
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
-        
+
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear));
-        
+
         DocumentAssert.TitleAndH1(page,
             "Review other teaching periods - Education benchmarking and insights - GOV.UK",
             "Review other teaching periods");
