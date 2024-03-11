@@ -44,8 +44,7 @@ steps:
     inputs:
       sources: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
       escape: off
-      tokenPrefix: '__'
-      tokenSuffix: '__'
+      tokenPattern: doubleunderscores
 
   - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     displayName: 'Terraform : install'
