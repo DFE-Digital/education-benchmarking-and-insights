@@ -2,8 +2,14 @@
 
 {% extends "layouts/main.html" %}
 
+{% if data['comparators'] %}
+  {% set actionText = 'Manange your' %}
+{% else %}
+  {% set actionText = 'Create a' %}
+{% endif %}
+
 {% block pageTitle %}
-  Create a comparator set - {{ data['school-name'] }} – {{ serviceName }}
+  {{ actionText }} custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -53,7 +59,7 @@
     <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
     <form action="/add-comparator-school" method="post">
 
-      <h1 class="govuk-heading-l">Create a comparator set</h1>
+      <h1 class="govuk-heading-l">{{ actionText }} custom comparator set</h1>
 
       {{ govukInsetText({
         text: "Custom comparator sets are not currently saved and will be lost when you end your session."
@@ -121,7 +127,7 @@
       "rows": rows
     }) }}
 
-    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete custom comparator set</a></p>
+    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your custom comparator set</a></p>
 
     {% else %}
 
