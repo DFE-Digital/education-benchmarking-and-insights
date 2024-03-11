@@ -1,0 +1,69 @@
+{% from "templates/priority-banner.njk" import priorityBanner %}
+{% from "templates/spending-panel.njk" import spendingPanel %}
+{% from "govuk/components/radios/macro.njk" import govukRadios %}
+
+{% macro spendCategoryDetails(params) %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">{{ params.title }}</h2>
+
+        {% if params.percentile %}
+          {{ priorityBanner({
+              percentile: params.percentile
+          }) }}
+        {% endif %}
+
+        {{ spendingPanel({
+            spendAmount: params.spendAmount,
+            medianAmount: params.medianAmount,
+            unit: params.unit,
+            subcategory: params.intCount
+        }) }}
+
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <img src="/public/images/charts/{{ params.title }} chart.png" style="width: 100%;" />
+    </div>
+    <div class="govuk-grid-column-one-third">
+
+        {{ govukRadios({
+          classes: "govuk-radios--small",
+          name: "showSpend" + params.intCount,
+          fieldset: {
+            legend: {
+              text: "Show spend as",
+              isPageHeading: false,
+              classes: "govuk-fieldset__legend--s"
+            }
+          },
+          items: [
+            {
+              value: "pupil",
+              text: "Amount per pupil",
+              checked: true
+            },
+            {
+              value: "amount",
+              text: "Amount spent"
+            },
+            {
+              value: "percent",
+              text: "Percentage of income"
+            }
+          ]
+        }) }}
+
+        <p class="govuk-body">
+          <a href="/public/images/charts/{{ params.title }} chart.png" class="govuk-link" download>Download chart (PNG)</a>
+        </p>
+
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible" />
+
+{% endmacro %}

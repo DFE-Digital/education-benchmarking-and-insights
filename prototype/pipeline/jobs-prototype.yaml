@@ -41,3 +41,12 @@ jobs:
                 appName: ${{ parameters.environmentPrefix }}-ebis-prototype
                 package: $(Pipeline.Workspace)/prototype/prototype.zip
                 deploymentMethod: 'zipDeploy'
+
+            - task: AzureWebApp@1
+              displayName: 'Web app deploy exp'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: webAppLinux
+                appName: ${{ parameters.environmentPrefix }}-ebis-prototype-exp
+                package: $(Pipeline.Workspace)/prototype/prototype-exp.zip
+                deploymentMethod: 'zipDeploy'

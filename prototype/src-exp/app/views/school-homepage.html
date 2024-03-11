@@ -1,0 +1,221 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Spending and costs - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="govuk-heading-l">{{ data['school-name'] }}</h1>
+
+{% if data['trust-name'] %}
+<h2 class="govuk-heading-m">Part of <a href="#">{{ data['trust-name'] }}</a></h2>
+{% endif %}
+
+<div class="govuk-grid-row headline-figures">
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p>In year balance</p>
+            <p>£26,943</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p>Revenue reserve</p>
+            <p>-£766,971</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p>Ofsted rating</p>
+            <p>Good</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p>School phase</p>
+            <p>Secondary</p>
+        </div>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Spending and costs</h2>
+
+<h3 class="govuk-heading-s"><a href="/spending-and-costs">View all spending and costs</a></h3>
+
+<h3 class="govuk-heading-s">Top priority spending categories</h3>
+
+<div class="top-categories">
+    <div>
+        <h4 class="govuk-heading-s">Teaching and teaching supply staff</h4>
+        <p class="priority high">
+            <strong class="govuk-tag govuk-tag--red">
+                High priority
+            </strong>
+            Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
+        </p>
+    </div>
+
+    <div>
+        <h4 class="govuk-heading-s">Administrative supplies</h4>
+        <p class="priority high">
+            <strong class="govuk-tag govuk-tag--red">
+                High priority
+            </strong>
+            Spends <strong>£155</strong> per pupil - more than <strong>91%</strong> of similar schools.
+        </p>
+    </div>
+
+    <div>
+        <h4 class="govuk-heading-s">Utilities</h4>
+        <p class="priority medium">
+            <strong class="govuk-tag govuk-tag--yellow">
+                Medium priority
+            </strong>
+            Spends <strong>£113</strong> per square metre - more than <strong>81%</strong> of similar schools.
+        </p>
+    </div>
+
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Finance tools</h2>
+        <ul class="app-links">
+            <li>
+                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare against similar schools to yours or schools of your choise.
+                </p>
+            </li>
+            <!--
+            <li>
+                <img src="/public/images/areas-for-investigation.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View your areas for investigation</a>
+                </h3>
+                <p class="govuk-body">
+                    See areas where your school is looking healthy or may need to focus on.
+                </p>
+                <p class="govuk-body">
+                    Create a report to reflect potential spending.
+                </p>
+            </li>
+            -->
+            <li>
+                <img src="/public/images/curriculum-financial-planning.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+                </h3>
+                <p class="govuk-body">
+                    Measure expected curriculum spending and staffing structure
+                </p>
+                <strong class="govuk-tag govuk-tag--grey">
+                    Requires login
+                </strong>
+            </li>
+            <li>
+                <img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark workforce data</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare your workforce data with other schools.
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Resources</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="/find-ways-to-spend-less" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
+                </h3>
+                <p class="govuk-body">
+                    Use these to help reduce your spending and costs.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View historic data</a>
+                </h3>
+                <p class="govuk-body">
+                    View financial data from previous years.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">School contact details</a>
+                </h3>
+                <p class="govuk-body">
+                    View contact details for this school.
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Get help</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state app-view-component__link">Help with this service</a>
+                </h3>
+                <p class="govuk-body">
+                    If you're new to this website, new to school resource management, or are a non-finance person, take a look at our <a href="" class="govuk-link govuk-link--no-visited-state">user guide</a> to help you get started.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Ask for help from a school resource management advisor (SRMA)</a>
+                </h3>
+                <p class="govuk-body">
+                    You can request free, confidential advice from a SRMA.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Submit an enquiry</a>
+                </h3>
+                <p class="govuk-body">
+                    Let us know if you need help with any tools in this service
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

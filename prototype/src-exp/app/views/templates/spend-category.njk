@@ -1,0 +1,23 @@
+{% from "templates/priority-banner.njk" import priorityBanner %}
+{% from "templates/spending-panel.njk" import spendingPanel %}
+
+{% macro spendCategory(params) %}
+
+<div class="spend-category">
+    <h3 class="govuk-heading-s govuk-!-font-size-27">{{ params.title }}</h3>
+
+    {{ priorityBanner({
+        percentile: params.percentile
+    }) }}
+
+    <img src="/public/images/costs/{{ params.title }} costs.png" width="" />
+
+    {{ spendingPanel({
+        spendAmount: params.spendAmount,
+        medianAmount: params.medianAmount,
+        unit: params.unit
+    }) }}
+
+    <p><a href="/spending-and-costs/category">View all {{ params.title | lower }} costs</a></p>
+</div>
+{% endmacro %}

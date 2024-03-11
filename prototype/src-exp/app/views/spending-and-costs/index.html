@@ -1,0 +1,127 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "templates/spend-category.njk" import spendCategory %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Spending and costs</h1>
+
+        <p>
+            Find out how spending compares to similar schools.<br /> 
+            All data is 2022 to 2023 consistent financial reporting (CFR).
+        </p>
+
+        {% include "templates/details-comparators.njk" %}
+
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Priority costs</h2>
+
+        <p>This shows where spending is different to similar schools.</p>
+
+        {{ spendCategory({
+            title: 'Teaching and teaching supply staff',
+            spendAmount: 4746.93,
+            medianAmount: 3128.61,
+            unit: 'pupil',
+            percentile: 92
+        }) }}
+
+        {{ spendCategory({
+            title: 'Premises staff and services',
+            spendAmount: 323.64,
+            medianAmount: 478.61,
+            unit: 'pupil',
+            percentile: 8
+        }) }}
+
+        {{ spendCategory({
+            title: 'Utilities',
+            spendAmount: 341.64,
+            medianAmount: 228.61,
+            unit: 'square metre',
+            percentile: 83
+        }) }}
+
+
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Low priority costs</h2>
+
+        <p>This shows where spending is close to similar schools.</p>
+
+        {{ spendCategory({
+            title: 'Non-educational support staff',
+            spendAmount: 323.89,
+            medianAmount: 301.61,
+            unit: 'pupil',
+            percentile: 53
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational supplies',
+            spendAmount: 298.84,
+            medianAmount: 274.12,
+            unit: 'pupil',
+            percentile: 55
+        }) }}
+
+        {{ spendCategory({
+            title: 'Educational ICT',
+            spendAmount: 48.55,
+            medianAmount: 74.84,
+            unit: 'pupil',
+            percentile: 31
+        }) }}
+
+        {{ spendCategory({
+            title: 'Administrative supplies',
+            spendAmount: 96.76,
+            medianAmount: 94.18,
+            unit: 'pupil',
+            percentile: 51
+        }) }}
+
+        {{ spendCategory({
+            title: 'Catering staff and services',
+            spendAmount: 427.49,
+            medianAmount: 351.84,
+            unit: 'pupil',
+            percentile: 72
+        }) }}
+
+        {{ spendCategory({
+            title: 'Other',
+            spendAmount: 185.64,
+            medianAmount: 178.61,
+            unit: 'pupil',
+            percentile: 52
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

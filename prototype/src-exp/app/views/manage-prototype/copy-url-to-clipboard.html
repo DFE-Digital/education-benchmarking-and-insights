@@ -1,0 +1,65 @@
+
+<body onload="copytextandredirectback()">
+
+
+      <div style="padding: 100px;">
+          <div style="background: #00703c; padding: 150px;">
+
+            <h1 style="color: white; font-size: xxx-large; font-family: Arial, sans-serif; text-align:center; " >
+                Success
+                <br>
+                <br>
+                URL copied to the clipboard
+            </h1>
+
+          </div>
+      </div>
+
+      <div style="height: 500px;">
+        <br>
+      </div>
+
+
+      <p>URL being copied</p>
+
+      <p id="justshorturl">{{ data['redirecturl'] }}</p>
+
+      <p id="linkbeingcopied">{{ data['redirecturl'] }}{{ data['theoutputquerystring'] }}  </p>
+
+
+
+</body>
+
+
+
+<script>
+  function copytextandredirectback()
+  {
+      // getting the long URL and saving it to the clipboard
+      var urlbeingcopied = document.getElementById('linkbeingcopied');
+
+      // Format like a URL
+      var outputtext = encodeURI(urlbeingcopied.innerHTML);
+
+      // change HTML syntax to & where needed
+      outputtext = outputtext.replace(/&amp;/g, "&");
+
+      // Copy the text inside the text field
+      navigator.clipboard.writeText(outputtext);
+
+      //alert(outputtext);
+
+      // After a short time
+      window.setTimeout(
+          function()
+          {
+              // going back to the original page where the user pressed the copy button, and also wipe the temporary url data items
+              window.location.href = document.getElementById('justshorturl').innerHTML + "?redirecturl=&theoutputquerystring=&";
+          },
+      2500);
+  }
+
+
+
+</script>
+
