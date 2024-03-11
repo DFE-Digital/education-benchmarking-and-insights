@@ -70,6 +70,5 @@ resource "azurerm_linux_web_app" "web-app" {
     "PASSWORD"                       = var.prototype-password
     "BUILD_FLAGS"                    = "Off"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = false
-    "WEBSITE_RUN_FROM_PACKAGE"       = "1"
   }
 }
