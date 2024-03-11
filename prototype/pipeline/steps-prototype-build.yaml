@@ -7,6 +7,12 @@ steps:
       archiveFile: $(Build.ArtifactStagingDirectory)/prototype.zip
       replaceExistingArchive: true
 
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+      workingDir: 'prototype/src-exp'
+
   - task: ArchiveFiles@2
     displayName: 'Archive files exp'
     inputs:
