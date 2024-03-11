@@ -1,7 +1,11 @@
 import React, { useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
-import { CompareYourCosts, CompareYourWorkforce } from "src/views";
+import {
+  CompareYourCosts,
+  CompareYourWorkforce,
+  SchoolHistory,
+} from "src/views";
 import {
   CompareWorkforceElementId,
   CompareCostsElementId,
@@ -9,12 +13,23 @@ import {
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
   DeploymentPlanElementId,
+  SchoolHistoryElementId,
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { Stat } from "./components/charts/stat";
 import { ChartHandler } from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
+
+const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
+if (schoolHistoryElement) {
+  const root = ReactDOM.createRoot(schoolHistoryElement);
+  root.render(
+    <React.StrictMode>
+      <SchoolHistory />
+    </React.StrictMode>
+  );
+}
 
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
