@@ -48,5 +48,5 @@ jobs:
                 azureSubscription: ${{ parameters.subscription }}
                 appType: webAppLinux
                 appName: ${{ parameters.environmentPrefix }}-ebis-prototype-exp
-                package: $(Pipeline.Workspace)/prototype/prototype-exp.zip
+                package: $(Pipeline.Workspace)/prototype-exp/prototype-exp.zip
                 deploymentMethod: 'zipDeploy'

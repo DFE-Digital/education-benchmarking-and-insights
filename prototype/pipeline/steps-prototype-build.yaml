@@ -19,4 +19,4 @@ steps:
     artifact: prototype
 
   - publish: $(Build.ArtifactStagingDirectory)/prototype-exp.zip
-    artifact: prototype
+    artifact: prototype-exp
