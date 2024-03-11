@@ -176,7 +176,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(BenchmarkingWebAppCl
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
-            "Proceed without adding other teaching periods? - Education benchmarking and insights - GOV.UK",
+            "Proceed without adding other teaching periods? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Proceed without adding other teaching periods?");
     }
 }

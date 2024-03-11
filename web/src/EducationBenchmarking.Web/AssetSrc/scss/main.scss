@@ -1,6 +1,7 @@
 @import "../../node_modules/govuk-frontend/dist/govuk/all";
 
 @import "suggest";
+@import "headline-figures";
 
 .app-view-component {
   max-width: 100%
@@ -60,4 +61,34 @@
   background: url('/assets/images/icon-print.png') no-repeat 10px 50%;
   background-size: 16px 18px;
   padding: 9px 11px 8px 37px;
+}
+
+.priority {
+  margin-bottom: 14px;
+  border-left: none;
+  padding-top: 1px;
+  padding-bottom: 2px;
+}
+
+.priority.high, .priority.high .govuk-tag--red {
+  border: 1px solid #942514;
+}
+
+.priority.medium, .priority.medium .govuk-tag--yellow {
+  border: 1px solid #594D00;
+}
+
+.priority.low, .priority.low .govuk-tag--grey {
+  border: 2px solid #e5e6e7;
+}
+
+p.priority .govuk-tag {
+  margin-right: 10px;
+  border-left: none !important;
+}
+
+.top-categories div {
+  background-color: #EEEFEF;
+  padding: 20px;
+  margin-bottom: 20px;
 }

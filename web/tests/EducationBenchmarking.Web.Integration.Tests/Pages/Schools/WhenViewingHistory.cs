@@ -34,6 +34,6 @@ public class WhenViewingHistory(BenchmarkingWebAppClient client) : PageBase(clie
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.Urn).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Historic data - Education benchmarking and insights - GOV.UK", "Historic data");
+        DocumentAssert.TitleAndH1(page, "Historic data - Financial Benchmarking and Insights Tool - GOV.UK", "Historic data");
     }
 }

@@ -202,7 +202,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(BenchmarkingWebAppClien
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
-            "What are your teaching assistant figures? - Education benchmarking and insights - GOV.UK",
+            "What are your teaching assistant figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your teaching assistant figures?");
     }
 }

@@ -6,11 +6,8 @@ namespace EducationBenchmarking.Web;
 [ExcludeFromCodeCoverage]
 public static class Constants
 {
-    public const string ServiceName = "Education benchmarking and insights";
-    public const string CorrelationIdHeader = "X-Correlation-ID";
-
-
-
+    public const string ServiceName = "Financial Benchmarking and Insights Tool";
+    
     public const string InsightApi = "Insight";
     public const string EstablishmentApi = "Establishment";
     public const string BenchmarkApi = "Benchmark";

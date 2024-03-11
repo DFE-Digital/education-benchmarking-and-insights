@@ -25,7 +25,7 @@ public class OtherTeachingPeriodsStageValidator : AbstractValidator<OtherTeachin
                     .Must(x => x.ToInt() is not null)
                     .WithMessage("Number of periods per timetable cycle must be a whole number")
                     .Must(x => x.ToInt() is > 0)
-                    .WithMessage("Number of periods per timetable cycle must be 0 or more");
+                    .WithMessage("Number of periods per timetable cycle must be 1 or more");
             });
         }).WithName("OtherTeachingPeriods");
     }

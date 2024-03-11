@@ -197,6 +197,6 @@ public class WhenViewingPlanningTotalNumberTeachers(BenchmarkingWebAppClient cli
             : Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute();
 
         DocumentAssert.BackLink(page, "Back", expectedBackLink);
-        DocumentAssert.TitleAndH1(page, "How many full-time equivalent teachers do you have? - Education benchmarking and insights - GOV.UK", "How many full-time equivalent teachers do you have?");
+        DocumentAssert.TitleAndH1(page, "How many full-time equivalent teachers do you have? - Financial Benchmarking and Insights Tool - GOV.UK", "How many full-time equivalent teachers do you have?");
     }
 }

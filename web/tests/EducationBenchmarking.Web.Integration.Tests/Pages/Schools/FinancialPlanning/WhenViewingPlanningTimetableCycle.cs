@@ -217,6 +217,6 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear);
 
         DocumentAssert.BackLink(page, "Back", path.ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Timetable cycle - Education benchmarking and insights - GOV.UK", "Timetable cycle");
+        DocumentAssert.TitleAndH1(page, "Timetable cycle - Financial Benchmarking and Insights Tool - GOV.UK", "Timetable cycle");
     }
 }

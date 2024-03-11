@@ -48,23 +48,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToAreasForInvestigation(string financeType)
-    {
-        var (page, school) = await SetupNavigateInitPage(financeType);
-
-        var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[0].QuerySelector("h3 > a");
-        Assert.NotNull(anchor);
-
-        var newPage = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-    }
-
+    
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -73,7 +57,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[1].QuerySelector("h3 > a");
+        var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -89,7 +73,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[2].QuerySelector("h3 > a");
+        var anchor = liElements[1].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -151,7 +135,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark workforce data - Education benchmarking and insights - GOV.UK", "Benchmark workforce data");
+        DocumentAssert.TitleAndH1(page, "Benchmark workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark workforce data");
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
@@ -168,12 +152,10 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(3, toolsLinks.Count);
-
-        DocumentAssert.Link(toolsLinks[0], "View your areas for investigation",
-            Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning",
+        Assert.Equal(2, toolsLinks.Count);
+        
+        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 }

@@ -14,6 +14,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for headteachers")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods of headteachers must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods of headteachers must be 1 or more")
                 .WithName("TeachingPeriodsHeadteacher");
@@ -25,6 +27,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for deputy headteachers")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for deputy headteachers must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for deputy headteachers must be 1 or more")
                 .WithName("TeachingPeriodsDeputyHeadteacher");
@@ -36,6 +40,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for numeracy leads")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for numeracy leads must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for numeracy leads must be 1 or more")
                 .WithName("TeachingPeriodsNumeracyLead");
@@ -47,6 +53,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for literacy leads")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for literacy leads must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for literacy leads must be 1 or more")
                 .WithName("TeachingPeriodsLiteracyLead");
@@ -58,6 +66,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for heads of small curriculum")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for heads of small curriculum must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for heads of small curriculum must be 1 or more")
                 .WithName("TeachingPeriodsHeadSmallCurriculum");
@@ -69,6 +79,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for heads of KS1")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for heads of KS1 must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for heads of KS1 must be 1 or more")
                 .WithName("TeachingPeriodsHeadKs1");
@@ -80,6 +92,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for heads of KS2")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for heads of KS2 must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for heads of KS2 must be 1 or more")
                 .WithName("TeachingPeriodsHeadKs2");
@@ -91,6 +105,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for special education needs coordinators")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for special education needs coordinators must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for special education needs coordinators must be 1 or more")
                 .WithName("TeachingPeriodsSenco");
@@ -102,6 +118,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for assistant Headteachers")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for assistant Headteachers must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for assistant Headteachers must be 1 or more")
                 .WithName("TeachingPeriodsAssistantHeadteacher");
@@ -113,6 +131,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for heads of large curriculum")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for heads of large curriculum must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for heads of large curriculum must be 1 or more")
                 .WithName("TeachingPeriodsHeadLargeCurriculum");
@@ -124,6 +144,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for pastoral leaders")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for pastoral leaders must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for pastoral leaders must be 1 or more")
                 .WithName("TeachingPeriodsPastoralLeader");
@@ -135,6 +157,8 @@ public class TeachingPeriodsManagerStageValidator : AbstractValidator<TeachingPe
                 .OverrideIndexer((_, _, _, _) => string.Empty)
                 .NotEmpty()
                 .WithMessage("Enter the number of teaching periods for other members of management or leadership staff")
+                .Must(x => x.ToInt() is not null)
+                .WithMessage("Number of teaching periods for other members of management or leadership staff must be a whole number")
                 .Must(x => x.ToInt() > 0)
                 .WithMessage("Number of teaching periods for other members of management or leadership staff must be 1 or more")
                 .WithName("TeachingPeriodsOtherMembers");

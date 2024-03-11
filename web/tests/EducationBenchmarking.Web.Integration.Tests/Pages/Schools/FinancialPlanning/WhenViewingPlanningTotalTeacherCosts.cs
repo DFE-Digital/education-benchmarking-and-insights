@@ -190,6 +190,6 @@ public class WhenViewingPlanningTotalTeacherCosts(BenchmarkingWebAppClient clien
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "What is your total spend on teaching staff? - Education benchmarking and insights - GOV.UK", "What is your total spend on teaching staff?");
+        DocumentAssert.TitleAndH1(page, "What is your total spend on teaching staff? - Financial Benchmarking and Insights Tool - GOV.UK", "What is your total spend on teaching staff?");
     }
 }

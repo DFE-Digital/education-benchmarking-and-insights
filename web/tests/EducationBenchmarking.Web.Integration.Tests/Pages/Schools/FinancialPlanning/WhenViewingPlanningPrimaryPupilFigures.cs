@@ -258,7 +258,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
 
         DocumentAssert.BackLink(page, "Back", expectedPage);
         DocumentAssert.TitleAndH1(page,
-            "What are your pupil figures? - Education benchmarking and insights - GOV.UK",
+            "What are your pupil figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your pupil figures?");
     }
 }

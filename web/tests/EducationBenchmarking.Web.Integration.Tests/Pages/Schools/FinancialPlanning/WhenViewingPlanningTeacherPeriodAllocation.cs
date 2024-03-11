@@ -153,7 +153,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
 
         DocumentAssert.BackLink(page, "Back", expectBack);
         DocumentAssert.TitleAndH1(page,
-            "What are your teacher period allocation figures? - Education benchmarking and insights - GOV.UK",
+            "What are your teacher period allocation figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your teacher period allocation figures?");
     }
 }

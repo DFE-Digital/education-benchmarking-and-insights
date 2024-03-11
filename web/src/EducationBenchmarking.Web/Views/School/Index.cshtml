@@ -17,10 +17,6 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">
-            You can use this service to understand the finances of your chosen school, academy trust or local authority.
-            You can find areas for further investigation and relevant guidance and resources.
-        </p>
         @if (Model.IsPartOfTrust)
         {
             <h2 class="govuk-heading-m">
@@ -30,7 +26,82 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
+<div class="govuk-grid-row app-headline-figures">
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p class="govuk-body">In year balance</p>
+            <p class="govuk-body">xxxx</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p class="govuk-body">Revenue reserve</p>
+            <p class="govuk-body">xxxx</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p class="govuk-body">Ofsted rating</p>
+            <p class="govuk-body">xxxx</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <div>
+            <p class="govuk-body">School phase</p>
+            <p class="govuk-body">xxxxx</p>
+        </div>
+    </div>
+</div>
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Spending and costs</h2>
+        
+        <h3 class="govuk-heading-s">
+            <a href="#" class="govuk-link govuk-link--no-visited-state">
+                View all spending and costs
+            </a>
+        </h3>
+
+        <h3 class="govuk-heading-s">Top priority spending categories</h3>
+
+        <div class="top-categories">
+            <div>
+                <h4 class="govuk-heading-s">Teaching and teaching supply staff</h4>
+                <p class="priority high govuk-body">
+                    <strong class="govuk-tag govuk-tag--red">
+                        High priority
+                    </strong>
+                    Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="govuk-heading-s">Premises staff and services</h4>
+                <p class="priority high govuk-body">
+                    <strong class="govuk-tag govuk-tag--red">
+                        High priority
+                    </strong>
+                    Spends <strong>£323</strong> per pupil - more than <strong>8%</strong> of similar schools.
+                </p>
+            </div>
+
+            <div>
+                <h4 class="govuk-heading-s">Utilities</h4>
+                <p class="priority medium govuk-body">
+                    <strong class="govuk-tag govuk-tag--yellow">
+                        Medium priority
+                    </strong>
+                    Spends <strong>£342</strong> per square metre - more than <strong>83%</strong> of similar schools.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

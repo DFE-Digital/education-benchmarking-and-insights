@@ -51,62 +51,86 @@ public class ManagersPerRoleStage : Stage
     {
         if (plan.TeachingPeriodsHeadteacher.Length != plan.NumberHeadteacher.ToInt())
         {
-            plan.TeachingPeriodsHeadteacher = new string[plan.NumberHeadteacher.ToInt() ?? 0];
+            var val = plan.NumberHeadteacher.ToInt() ?? 0;
+            var count = val > 0 ? val : 0; 
+            plan.TeachingPeriodsHeadteacher = new string[count];
         }
 
         if (plan.TeachingPeriodsDeputyHeadteacher.Length != plan.NumberDeputyHeadteacher.ToInt())
         {
-            plan.TeachingPeriodsDeputyHeadteacher = new string[plan.NumberDeputyHeadteacher.ToInt() ?? 0];
+            var val = plan.NumberDeputyHeadteacher.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsDeputyHeadteacher = new string[count];
         }
 
         if (plan.TeachingPeriodsNumeracyLead.Length != plan.NumberNumeracyLead.ToInt())
         {
-            plan.TeachingPeriodsNumeracyLead = new string[plan.NumberNumeracyLead.ToInt() ?? 0];
+            var val = plan.NumberNumeracyLead.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsNumeracyLead = new string[count];
         }
 
         if (plan.TeachingPeriodsLiteracyLead.Length != plan.NumberLiteracyLead.ToInt())
         {
-            plan.TeachingPeriodsLiteracyLead = new string[plan.NumberLiteracyLead.ToInt() ?? 0];
+            var val = plan.NumberLiteracyLead.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsLiteracyLead = new string[count];
         }
 
         if (plan.TeachingPeriodsHeadSmallCurriculum.Length != plan.NumberHeadSmallCurriculum.ToInt())
         {
-            plan.TeachingPeriodsHeadSmallCurriculum = new string[plan.NumberHeadSmallCurriculum.ToInt() ?? 0];
+            var val = plan.NumberHeadSmallCurriculum.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsHeadSmallCurriculum = new string[count];
         }
 
         if (plan.TeachingPeriodsHeadKs1.Length != plan.NumberHeadKs1.ToInt())
         {
-            plan.TeachingPeriodsHeadKs1 = new string[plan.NumberHeadKs1.ToInt() ?? 0];
+            var val = plan.NumberHeadKs1.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsHeadKs1 = new string[count];
         }
 
         if (plan.TeachingPeriodsHeadKs2.Length != plan.NumberHeadKs2.ToInt())
         {
-            plan.TeachingPeriodsHeadKs2 = new string[plan.NumberHeadKs2.ToInt() ?? 0];
+            var val = plan.NumberHeadKs2.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsHeadKs2 = new string[count];
         }
 
         if (plan.TeachingPeriodsSenco.Length != plan.NumberSenco.ToInt())
         {
-            plan.TeachingPeriodsSenco = new string[plan.NumberSenco.ToInt() ?? 0];
+            var val = plan.NumberSenco.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsSenco = new string[count];
         }
 
         if (plan.TeachingPeriodsAssistantHeadteacher.Length != plan.NumberAssistantHeadteacher.ToInt())
         {
-            plan.TeachingPeriodsAssistantHeadteacher = new string[plan.NumberAssistantHeadteacher.ToInt() ?? 0];
+            var val = plan.NumberAssistantHeadteacher.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsAssistantHeadteacher = new string[count];
         }
 
         if (plan.TeachingPeriodsHeadLargeCurriculum.Length != plan.NumberHeadLargeCurriculum.ToInt())
         {
-            plan.TeachingPeriodsHeadLargeCurriculum = new string[plan.NumberHeadLargeCurriculum.ToInt() ?? 0];
+            var val = plan.NumberHeadLargeCurriculum.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsHeadLargeCurriculum = new string[count];
         }
 
         if (plan.TeachingPeriodsPastoralLeader.Length != plan.NumberPastoralLeader.ToInt())
         {
-            plan.TeachingPeriodsPastoralLeader = new string[plan.NumberPastoralLeader.ToInt() ?? 0];
+            var val = plan.NumberPastoralLeader.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsPastoralLeader = new string[count];
         }
 
         if (plan.TeachingPeriodsOtherMembers.Length != plan.NumberOtherMembers.ToInt())
         {
-            plan.TeachingPeriodsOtherMembers = new string[plan.NumberOtherMembers.ToInt() ?? 0];
+            var val = plan.NumberOtherMembers.ToInt() ?? 0;
+            var count = val > 0 ? val : 0;
+            plan.TeachingPeriodsOtherMembers = new string[count];
         }
     }
 }

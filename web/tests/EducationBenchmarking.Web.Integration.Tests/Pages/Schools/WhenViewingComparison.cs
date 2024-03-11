@@ -49,23 +49,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
     }
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToAreasForInvestigation(string financeType)
-    {
-        var (page, school) = await SetupNavigateInitPage(financeType);
-
-        var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[0].QuerySelector("h3 > a");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-    }
-
+    
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -74,7 +58,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[1].QuerySelector("h3 > a");
+        var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -90,7 +74,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
         var (page, school) = await SetupNavigateInitPage(financeType);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[2].QuerySelector("h3 > a");
+        var anchor = liElements[1].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -152,7 +136,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Compare your costs - Education benchmarking and insights - GOV.UK", "Compare your costs");
+        DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK", "Compare your costs");
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
@@ -167,10 +151,9 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
         DocumentAssert.Heading2(toolsListSection, "Finance tools");
 
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(3, toolsLinks.Count);
-
-        DocumentAssert.Link(toolsLinks[0], "View your areas for investigation", Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        Assert.Equal(2, toolsLinks.Count);
+        
+        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
 }

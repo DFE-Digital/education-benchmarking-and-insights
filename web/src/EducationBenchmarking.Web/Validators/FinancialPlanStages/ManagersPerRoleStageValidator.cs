@@ -16,7 +16,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of headteachers must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of headteachers must be 0 or more");
+                .WithMessage("Total number of headteachers must be 1 or more");
         });
 
         When(p => p.ManagementRoleDeputyHeadteacher, () =>
@@ -27,7 +27,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of deputy headteachers must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of deputy headteachers must be 0 or more");
+                .WithMessage("Total number of deputy headteachers must be 1 or more");
         });
 
         When(p => p.ManagementRoleNumeracyLead, () =>
@@ -38,7 +38,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of numeracy leads must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of numeracy leads must be 0 or more");
+                .WithMessage("Total number of numeracy leads must be 1 or more");
         });
 
         When(p => p.ManagementRoleLiteracyLead, () =>
@@ -49,7 +49,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of literacy leads must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of literacy leads must be 0 or more");
+                .WithMessage("Total number of literacy leads must be 1 or more");
         });
 
         When(p => p.ManagementRoleHeadSmallCurriculum, () =>
@@ -60,7 +60,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of head of small curriculum areas must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of head of small curriculum areas must be 0 or more");
+                .WithMessage("Total number of head of small curriculum areas must be 1 or more");
         });
 
         When(p => p.ManagementRoleHeadKs1, () =>
@@ -71,7 +71,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of heads of KS1 must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of heads of KS1 must be 0 or more");
+                .WithMessage("Total number of heads of KS1 must be 1 or more");
         });
 
         When(p => p.ManagementRoleHeadKs2, () =>
@@ -82,7 +82,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of heads of KS2 must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of heads of KS2 must be 0 or more");
+                .WithMessage("Total number of heads of KS2 must be 1 or more");
         });
 
         When(p => p.ManagementRoleSenco, () =>
@@ -93,7 +93,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of special education needs coordinators must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of special education needs coordinators must be 0 or more");
+                .WithMessage("Total number of special education needs coordinators must be 1 or more");
         });
 
         When(p => p.ManagementRoleAssistantHeadteacher, () =>
@@ -104,7 +104,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of assistant headteachers must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of assistant headteachers must be 0 or more");
+                .WithMessage("Total number of assistant headteachers must be 1 or more");
         });
 
         When(p => p.ManagementRoleHeadLargeCurriculum, () =>
@@ -115,7 +115,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of head of large curriculum areas must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of head of large curriculum areas must be 0 or more");
+                .WithMessage("Total number of head of large curriculum areas must be 1 or more");
         });
 
         When(p => p.ManagementRolePastoralLeader, () =>
@@ -126,7 +126,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of pastoral leaders must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of pastoral leaders must be 0 or more");
+                .WithMessage("Total number of pastoral leaders must be 1 or more");
         });
 
         When(p => p.ManagementRoleOtherMembers, () =>
@@ -137,7 +137,7 @@ public class ManagersPerRoleStageValidator : AbstractValidator<ManagersPerRoleSt
                 .Must(x => x.ToInt() is not null)
                 .WithMessage("Total number of other members of management or leadership staff must be a whole number")
                 .Must(x => x.ToInt() is > 0)
-                .WithMessage("Total number of other members of management or leadership staff must be 0 or more");
+                .WithMessage("Total number of other members of management or leadership staff must be 1 or more");
         });
     }
 }

@@ -194,6 +194,6 @@ public class WhenViewingPlanningHasMixedAgeClasses(BenchmarkingWebAppClient clie
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Do you have any mixed age classes? - Education benchmarking and insights - GOV.UK", "Do you have any mixed age classes?");
+        DocumentAssert.TitleAndH1(page, "Do you have any mixed age classes? - Financial Benchmarking and Insights Tool - GOV.UK", "Do you have any mixed age classes?");
     }
 }

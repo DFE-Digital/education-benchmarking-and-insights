@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace EducationBenchmarking.Web.ViewModels;
 
-public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
+public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, string? referrer)
 {
     public string? Name => school.Name;
     public bool IsPrimary => school.IsPrimary;
@@ -155,6 +155,8 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan)
             id = i
         })
             .ToArray().ToJson(Formatting.None);
+
+    public string? Referrer => referrer;
 
     private PupilGroup[] BuildStaffDeployment()
     {

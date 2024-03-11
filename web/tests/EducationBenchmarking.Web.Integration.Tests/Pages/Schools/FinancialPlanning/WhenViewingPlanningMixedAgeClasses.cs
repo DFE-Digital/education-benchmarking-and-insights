@@ -223,7 +223,7 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
         DocumentAssert.BackLink(page, "Back",
             Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
-            "Which years have mixed age classes? - Education benchmarking and insights - GOV.UK",
+            "Which years have mixed age classes? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Which years have mixed age classes?");
     }
 }

@@ -67,6 +67,20 @@
     </div>
 </div>
 
+@if (Model.Referrer == Referrers.TeachingPeriodsManager)
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <a href="@Url.Action("Index", new { urn = Model.Urn })" class="govuk-button">
+                Go to dashboard
+            </a>
+        </div>
+    </div>    
+}
+
+
+
+
 @section scripts
 {
     <script add-nonce="true">

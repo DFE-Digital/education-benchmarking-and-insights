@@ -25,4 +25,4 @@
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-academy-year="@Model.AcademiesFinancePeriod" data-maintained-year="@Model.MaintainedSchoolsFinancePeriod"></div>
 
-@await Component.InvokeAsync("SchoolFinanceTools", new {identifier = Model.Urn, tools = new [] {FinanceTools.AreasOfInvestigation, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce}})
+@await Component.InvokeAsync("SchoolFinanceTools", new {identifier = Model.Urn, tools = new [] { FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce}})

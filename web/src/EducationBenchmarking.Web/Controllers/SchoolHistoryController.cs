@@ -14,8 +14,6 @@ namespace EducationBenchmarking.Web.Controllers;
 [Route("school/{urn}/history")]
 public class SchoolHistoryController(
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
-    IBenchmarkApi benchmarkApi,
     ILogger<SchoolHistoryController> logger)
     : Controller
 {

@@ -13,6 +13,6 @@ public class WhenViewingServiceHelp(BenchmarkingWebAppClient client) : PageBase(
 
         DocumentAssert.AssertPageUrl(page, Paths.ServiceHelp.ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Education benchmarking and insights - GOV.UK", "Help with this service");
+        DocumentAssert.TitleAndH1(page, "Financial Benchmarking and Insights Tool - GOV.UK", "Help with this service");
     }
 }

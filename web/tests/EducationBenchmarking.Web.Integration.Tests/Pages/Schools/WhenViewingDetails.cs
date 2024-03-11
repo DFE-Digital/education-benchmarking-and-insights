@@ -73,7 +73,7 @@ public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(clie
     {
         DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(school.Urn).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Contact details - Education benchmarking and insights - GOV.UK",
+        DocumentAssert.TitleAndH1(page, "Contact details - Financial Benchmarking and Insights Tool - GOV.UK",
             "Contact details");
 
         if (school.IsPartOfTrust)

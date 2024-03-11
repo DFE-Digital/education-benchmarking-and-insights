@@ -191,7 +191,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
         DocumentAssert.BackLink(page, "Back",
             Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
-            "What is your total spend on education support staff? - Education benchmarking and insights - GOV.UK",
+            "What is your total spend on education support staff? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What is your total spend on education support staff?");
     }
 }

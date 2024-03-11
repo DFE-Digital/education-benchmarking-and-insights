@@ -42,17 +42,22 @@ public class SchoolPlanningController(
 
     [HttpGet]
     [Route("{year:int}")]
-    public async Task<IActionResult> View(string urn, int year)
+    public async Task<IActionResult> View(string urn, int year, string? referrer)
     {
-        using (logger.BeginScope(new { urn, year }))
+        using (logger.BeginScope(new { urn, year, referrer }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", new { urn }));
+                var backAction = referrer == Referrers.TeachingPeriodsManager 
+                    ? Url.Action("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn, year})
+                    : Url.Action("Index", new { urn });
+                    
+                
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var plan = await financialPlanService.Get(urn, year);
-                var viewModel = new SchoolDeploymentPlanViewModel(school, plan);
+                var viewModel = new SchoolDeploymentPlanViewModel(school, plan, referrer);
 
                 return View(viewModel);
             }

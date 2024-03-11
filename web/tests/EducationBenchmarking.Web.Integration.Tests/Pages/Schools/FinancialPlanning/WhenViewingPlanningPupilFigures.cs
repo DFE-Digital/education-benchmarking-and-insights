@@ -281,7 +281,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         DocumentAssert.BackLink(page, "Back",
             Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
-            "What are your pupil figures? - Education benchmarking and insights - GOV.UK",
+            "What are your pupil figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your pupil figures?");
     }
 }

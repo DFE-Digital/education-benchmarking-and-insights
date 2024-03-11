@@ -1019,7 +1019,7 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, stage);
-                return new OkResult();
+                return RedirectToAction("View", "SchoolPlanning",new { urn, year, referrer  = Referrers.TeachingPeriodsManager });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);

@@ -227,7 +227,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
     private static void AssertPageLayout(IHtmlDocument page, School school, Finances finances)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Prepopulated data - Education benchmarking and insights - GOV.UK", "Prepopulated data");
+        DocumentAssert.TitleAndH1(page, "Prepopulated data - Financial Benchmarking and Insights Tool - GOV.UK", "Prepopulated data");
         DocumentAssert.Heading2(page, $"Figures from {finances.YearEnd - 1} - {finances.YearEnd}");
 
         AssertCostsTable(page, school, finances);

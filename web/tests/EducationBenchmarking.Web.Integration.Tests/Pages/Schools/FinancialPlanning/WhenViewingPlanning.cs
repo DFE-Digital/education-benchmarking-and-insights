@@ -69,26 +69,12 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
     }
 
     [Fact]
-    public async Task CanNavigateToAreasForInvestigation()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-
-        var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[1].QuerySelector("h3 > a");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-    }
-
-    [Fact]
     public async Task CanNavigateToWorkforceBenchmark()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[2].QuerySelector("h3 > a");
+        var anchor = liElements[1].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
@@ -126,7 +112,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
             ("Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK", "Curriculum and financial planning (CFP)");
+        DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Financial Benchmarking and Insights Tool - GOV.UK", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolFinancialPlanningStart(school.Urn));
@@ -135,10 +121,9 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(3, toolsLinks.Count);
+        Assert.Equal(2, toolsLinks.Count);
 
         DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "View your areas for investigation", Paths.SchoolInvestigation(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
     }
 }

@@ -62,6 +62,6 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
         Assert.NotNull(trust.Name);
-        DocumentAssert.TitleAndH1(page, "Your trust - Education benchmarking and insights - GOV.UK", trust.Name);
+        DocumentAssert.TitleAndH1(page, "Your trust - Financial Benchmarking and Insights Tool - GOV.UK", trust.Name);
     }
 }

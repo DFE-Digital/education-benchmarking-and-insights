@@ -182,6 +182,6 @@ public class WhenViewingPlanningTotalIncome(BenchmarkingWebAppClient client) : P
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "What is your total income? - Education benchmarking and insights - GOV.UK", "What is your total income?");
+        DocumentAssert.TitleAndH1(page, "What is your total income? - Financial Benchmarking and Insights Tool - GOV.UK", "What is your total income?");
     }
 }

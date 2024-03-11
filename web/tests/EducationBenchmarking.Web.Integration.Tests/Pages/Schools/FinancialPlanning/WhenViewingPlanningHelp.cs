@@ -14,7 +14,7 @@ public class WhenViewingPlanningHelp(BenchmarkingWebAppClient client) : PageBase
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHelp(school.Urn).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Data required for curriculum and financial planning (CFP) - Education benchmarking and insights - GOV.UK", "Data required for curriculum and financial planning (CFP)");
+        DocumentAssert.TitleAndH1(page, "Data required for curriculum and financial planning (CFP) - Financial Benchmarking and Insights Tool - GOV.UK", "Data required for curriculum and financial planning (CFP)");
     }
 
     [Fact]
