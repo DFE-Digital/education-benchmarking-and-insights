@@ -59,6 +59,10 @@
           classes: "govuk-button--secondary"
         }) }}
 
+        {% if data['comparators'] %}
+          <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your custom comparator set</a></p>
+        {% endif %}
+
     </div>
 </div>
 {% endblock %}
