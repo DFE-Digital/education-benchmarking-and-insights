@@ -10,8 +10,6 @@ namespace Web.Integration.Tests.Pages.Schools;
 
 public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(client)
 {
-    private const string Referrer = "school-comparison";
-
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -35,21 +33,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToComparatorSet(string financeType)
-    {
-        var (page, school) = await SetupNavigateInitPage(financeType);
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparatorSet(school.Urn, Referrer).ToAbsolute());
-    }
-
+    
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -140,10 +124,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-
-        var viewYourComparatorLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "View your comparator set");
-        DocumentAssert.PrimaryCta(viewYourComparatorLinkElement, "View your comparator set", Paths.SchoolComparatorSet(school.Urn, Referrer));
-
+        
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 

@@ -8,9 +8,7 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
-    </div>
-    <div class="govuk-grid-column-one-third">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@ViewData[ViewDataKeys.Title]</h1>
         <p class="govuk-body">
             <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change school</a>
         </p>
@@ -27,13 +25,13 @@
         }
         <p class="govuk-body">
             @Html.TrackedAnchor(
-                    TrackedLinks.SchoolDetails,
-                    Constants.GiasSchoolUrl(Model.Urn),
-                    "Get more information about this school",
-                    "Opens in a new window",
-                    "_blank",
-                    ["noopener", "noreferrer", "external"])
-            
+                TrackedLinks.SchoolDetails,
+                Constants.GiasSchoolUrl(Model.Urn),
+                "Get more information about this school",
+                "Opens in a new window",
+                "_blank",
+                ["noopener", "noreferrer", "external"])
+
         </p>
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">

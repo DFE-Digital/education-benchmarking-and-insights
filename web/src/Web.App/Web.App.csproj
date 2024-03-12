@@ -26,9 +26,4 @@
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <AdditionalFiles Include="Views\Shared\Components\TrustFinanceTools\Default.cshtml" />
-      <AdditionalFiles Include="Views\TrustComparison\Index.cshtml" />
-      <AdditionalFiles Include="Views\TrustWorkforce\Index.cshtml" />
-    </ItemGroup>
 </Project>
