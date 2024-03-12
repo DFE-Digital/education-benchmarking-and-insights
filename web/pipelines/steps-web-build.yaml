@@ -8,7 +8,7 @@ steps:
     displayName: 'Install npm packages'
     inputs:
       command: 'install'
-      workingDir: 'web/src/Web'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - task: Npm@1
@@ -16,7 +16,7 @@ steps:
     inputs:
       command: 'custom'
       customCommand: 'run-script build'
-      workingDir: 'web/src/Web'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - bash: |
