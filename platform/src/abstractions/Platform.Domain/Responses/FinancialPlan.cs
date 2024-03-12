@@ -15,6 +15,8 @@ public record FinancialPlan
     public string? UpdatedBy { get; set; }
     public string? CreatedBy { get; set; }
     public int Version { get; set; }
+    public bool IsComplete { get; set; }
+    public decimal TargetContactRatio { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeacherCosts { get; set; }
@@ -133,6 +135,8 @@ public record FinancialPlan
             UpdatedBy = dataObject.UpdatedBy,
             CreatedBy = dataObject.CreatedBy,
             Version = dataObject.Version,
+            IsComplete = dataObject.IsComplete,
+            TargetContactRatio = dataObject.TargetContactRatio,
             UseFigures = dataObject.UseFigures,
             TotalIncome = dataObject.TotalIncome,
             TotalExpenditure = dataObject.TotalExpenditure,

@@ -102,6 +102,8 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.UpdatedAt = DateTimeOffset.UtcNow;
         existing.UpdatedBy = request.User;
         existing.Version += 1;
+        existing.IsComplete = request.IsComplete;
+        existing.TargetContactRatio = request.TargetContactRatio;
         existing.UseFigures = request.UseFigures;
         existing.TotalIncome = request.TotalIncome;
         existing.TotalExpenditure = request.TotalExpenditure;
@@ -233,6 +235,8 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             UpdatedBy = request.User,
             CreatedBy = request.User,
             Version = 1,
+            IsComplete = request.IsComplete,
+            TargetContactRatio = request.TargetContactRatio,
             UseFigures = request.UseFigures,
             TotalIncome = request.TotalIncome,
             TotalExpenditure = request.TotalExpenditure,

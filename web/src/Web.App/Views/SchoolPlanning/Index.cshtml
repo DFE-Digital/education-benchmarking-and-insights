@@ -33,6 +33,7 @@
                 <th scope="col" class="govuk-table__header">Financial year</th>
                 <th scope="col" class="govuk-table__header">Last updated</th>
                 <th scope="col" class="govuk-table__header">Updated by</th>
+                <th scope="col" class="govuk-table__header">Status</th>
                 <th scope="col" class="govuk-table__header"></th>
             </tr>
             </thead>
@@ -48,9 +49,22 @@
                         @(plan.UpdatedBy ?? plan.CreatedBy)
                     </td>
                     <td class="govuk-table__cell">
-                        <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })" class="govuk-link govuk-link--no-visited-state">
-                            View
-                        </a>
+                        @if (plan.IsComplete)
+                        {
+                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Green, DisplayText = "Complete" })
+                        }
+                        else
+                        {
+                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "Incomplete" })
+                        }
+                    </td>
+                    <td class="govuk-table__cell">
+                        @if (plan.IsComplete)
+                        {
+                            <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })" class="govuk-link govuk-link--no-visited-state">
+                                View
+                            </a>
+                        }
                     </td>
                 </tr>
             }

@@ -41,6 +41,9 @@ namespace Web.App.Domain.FinancialPlanStages
             plan.TeachingPeriodsHeadLargeCurriculum = TeachingPeriodsHeadLargeCurriculum;
             plan.TeachingPeriodsPastoralLeader = TeachingPeriodsPastoralLeader;
             plan.TeachingPeriodsOtherMembers = TeachingPeriodsOtherMembers;
+
+            plan.IsComplete = true;
+            plan.TargetContactRatio = plan.TargetContactRatio <=0 ? 0.78M : plan.TargetContactRatio;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace Web.App.Factories
             {
                 Year = plan.Year,
                 Urn = plan.Urn,
+                IsComplete = plan.IsComplete,
+                TargetContactRatio = plan.TargetContactRatio,
                 UseFigures = plan.UseFigures,
                 TotalIncome = plan.TotalIncome,
                 TotalExpenditure = plan.TotalExpenditure,

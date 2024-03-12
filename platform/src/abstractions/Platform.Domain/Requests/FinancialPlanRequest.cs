@@ -7,6 +7,8 @@ namespace Platform.Domain.Requests;
 public record FinancialPlanRequest
 {
     public string? User { get; set; }
+    public bool IsComplete { get; set; }
+    public decimal TargetContactRatio { get; set; }
     public bool? UseFigures { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalExpenditure { get; set; }
