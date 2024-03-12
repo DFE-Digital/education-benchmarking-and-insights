@@ -50,7 +50,7 @@ steps:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(WEB_NUGET_CACHE)
-      projects: 'web/src/Web/Web.App.csproj'
+      projects: 'web/src/Web.App/Web.App.csproj'
       arguments: '-c Release -r linux-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
