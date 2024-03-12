@@ -33,7 +33,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
     }
-    
+
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -124,7 +124,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-        
+
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 

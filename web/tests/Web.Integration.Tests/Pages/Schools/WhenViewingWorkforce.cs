@@ -122,7 +122,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-        
+
         var workforceComponent = page.GetElementById("compare-your-workforce");
         Assert.NotNull(workforceComponent);
 
