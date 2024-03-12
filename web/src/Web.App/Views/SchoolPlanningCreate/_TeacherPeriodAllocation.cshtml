@@ -1,0 +1,163 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+
+@if (Model.Plan?.PupilsYear7.ToInt() is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear7)" value="@Model.Plan.PupilsYear7"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear7)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear7)">
+            Teacher period allocation figures from year 7
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear7)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear7)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear7)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear7)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear7)"
+               name="@nameof(Model.Plan.TeachersYear7)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear7">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear8.ToInt() is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear8)" value="@Model.Plan.PupilsYear8"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear8)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear8)">
+            Teacher period allocation figures from year 8
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear8)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear8)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear8)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear8)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear8)"
+               name="@nameof(Model.Plan.TeachersYear8)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear8">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear9.ToInt() is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear9)" value="@Model.Plan.PupilsYear9"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear9)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear9)">
+            Teacher period allocation figures from year 9
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear9)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear9)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear9)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear9)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear9)"
+               name="@nameof(Model.Plan.TeachersYear9)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear9">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear10.ToInt() is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear10)" value="@Model.Plan.PupilsYear10"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear10)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear10)">
+            Teacher period allocation figures from year 10
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear10)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear10)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear10)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear10)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear10)"
+               name="@nameof(Model.Plan.TeachersYear10)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear10">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear11.ToInt() is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear11)" value="@Model.Plan.PupilsYear11"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear11)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear11)">
+            Teacher period allocation figures from year 11
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear11)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear11)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear11)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear11)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear11)"
+               name="@nameof(Model.Plan.TeachersYear11)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear11">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear12 is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear12)" value="@Model.Plan.PupilsYear12"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear12)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear12)">
+            Teacher period allocation figures from year 12
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear12)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear12)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear12)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear12)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear12)"
+               name="@nameof(Model.Plan.TeachersYear12)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear12">
+    </div>
+}
+
+@if (Model.Plan?.PupilsYear13 is > 0)
+{
+    <input type="hidden" name="@nameof(Model.Plan.PupilsYear13)" value="@Model.Plan.PupilsYear13"/>
+    
+    <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear13)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+        <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachersYear13)">
+            Teacher period allocation figures from year 13
+        </label>
+        @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear13)))
+        {
+            <p id="@nameof(Model.Plan.TeachersYear13)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachersYear13)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachersYear13)) ? "govuk-input govuk-input--width-5 govuk-input--error" : "govuk-input govuk-input--width-5")"
+               id="@nameof(Model.Plan.TeachersYear13)"
+               name="@nameof(Model.Plan.TeachersYear13)"
+               type="number"
+               spellcheck="false"
+               value="@Model.Plan.TeachersYear13">
+    </div>
+}

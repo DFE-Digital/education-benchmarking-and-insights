@@ -1,0 +1,132 @@
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
+@model Web.App.ViewModels.SchoolDetailsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.ContactDetails;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body">
+            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change school</a>
+        </p>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @if (Model.IsPartOfTrust)
+        {
+            <h2 class="govuk-heading-m">
+                <span>Part of </span><a href="@Url.Action("Index", "Trust", new { companyNumber = Model.TrustIdentifier })" class="govuk-link govuk-link--no-visited-state">@Model.TrustName</a>
+            </h2>
+        }
+        <p class="govuk-body">
+            @Html.TrackedAnchor(
+                    TrackedLinks.SchoolDetails,
+                    Constants.GiasSchoolUrl(Model.Urn),
+                    "Get more information about this school",
+                    "Opens in a new window",
+                    "_blank",
+                    ["noopener", "noreferrer", "external"])
+            
+        </p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    URN
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.Urn
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Address
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       rel="external noopener noreferrer"
+                       target="_blank"
+                       href="https://www.google.co.uk/maps?q=@Model.Address">
+                        @Model.Address
+                        <span class="govuk-visually-hidden">
+                            GoogleMaps link opens in a new window
+                        </span>
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Telephone number
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="tel:@Model.Telephone"
+                       aria-label="Call telephone number @Model.Telephone">
+                        @Model.Telephone
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Local Authority
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.LocalAuthorityName
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    School website
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @if (!string.IsNullOrEmpty(@Model.Website))
+                    {
+                        <a rel="external noopener noreferrer"
+                           class="govuk-link govuk-link--no-visited-state"
+                           target="_blank"
+                           href="@Model.Website">
+                            <span>@Model.Website</span>
+                            <span class="govuk-visually-hidden">Opens in a new window</span>
+                        </a>
+                    }
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Contact email
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="app-tag-login govuk-!-text-align-centre govuk-!-font-weight-bold">
+                        Log in to view contact information
+                    </strong>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.FindCommercialResources, Resources.HistoricData } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">How we can help</h2>
+        <ul class="app-links">
+            <li>@await Component.InvokeAsync("HelpWithThisService")</li>
+            <li>@await Component.InvokeAsync("AskForHelpFromAnSrma")</li>
+            <li>@await Component.InvokeAsync("SubmitAnEnquiry")</li>
+        </ul>
+    </div>
+</div>

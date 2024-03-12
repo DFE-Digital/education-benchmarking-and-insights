@@ -1,0 +1,25 @@
+﻿@model Web.App.ViewModels.TrustWorkforceViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Workforce;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <p class="govuk-body">
+            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change trust</a>
+        </p>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">Compare your schools workforce data</p>
+    </div>
+</div>
+
+<div id="compare-your-workforce" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber" ></div>
+
+@await Component.InvokeAsync("TrustFinanceTools", new {identifier = Model.CompanyNumber, tools = new [] {FinanceTools.CompareYourCosts}})

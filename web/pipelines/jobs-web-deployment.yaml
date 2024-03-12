@@ -42,6 +42,6 @@ jobs:
                 WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
                 deployToSlotOrASE: true
                 ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
-                packageForLinux: '${{ parameters.workspaceDir }}/web/EducationBenchmarking.Web.zip'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
                 enableCustomDeployment: true
                 DeploymentType: 'zipDeploy' 

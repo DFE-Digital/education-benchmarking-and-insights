@@ -1,0 +1,94 @@
+@using Web.App.Domain
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningOtherTeacherPeriodsAdd;
+    var errors = ViewData.ModelState.Where(x => x.Value is not null && x.Value.Errors.Any()).ToArray();
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+            <span class="govuk-caption-l">@Model.School.Name</span>
+            <h1 class="govuk-fieldset__heading">
+                @ViewData[ViewDataKeys.Title]
+            </h1>
+        </legend>
+        <div class="govuk-inset-text">
+            <p class="govuk-body">
+                These are additional periods that aren't accounted for in the core timetable where a teacher interacts with pupils.
+                For example, intervention, dyslexia support and career support periods.
+            </p>
+        </div>
+
+        <div class="govuk-warning-text">
+            <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+            <strong class="govuk-warning-text__text">
+                <span class="govuk-visually-hidden">Warning</span>
+                You should not include management or PPA time here.
+            </strong>
+        </div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @using (Html.BeginForm("OtherTeachingPeriods", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.IsValid ? "govuk-form-group" : "govuk-form-group govuk-form-group--error")">
+                <fieldset class="govuk-fieldset">
+                    @if (errors.Any())
+                    {
+                        <p id="OtherTeachingPeriods-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @errors.First().Value?.Errors.First().ErrorMessage
+                        </p>
+                    }
+                    <table class="govuk-table">
+                        <thead class="govuk-table__head">
+                        <tr class="govuk-table__row">
+                            <th scope="col" class="govuk-table__header">Name of teaching period</th>
+                            <th scope="col" class="govuk-table__header">Number of periods per timetable cycle</th>
+                            <th scope="col" class="govuk-table__header"></th>
+                        </tr>
+                        </thead>
+                        <tbody class="govuk-table__body">
+                        @for (var i = 0; i < Model.Plan?.OtherTeachingPeriods.Count; i++)
+                        {
+                            <tr class="govuk-table__row">
+                                <td class="govuk-table__cell">
+                                    <input class="govuk-input govuk-input--width-10"
+                                           id="OtherTeachingPeriods[@i].PeriodName"
+                                           name="OtherTeachingPeriods[@i].PeriodName"
+                                           aria-label="Name of teaching period"
+                                           type="text"
+                                           spellcheck="false"
+                                           value="@Model.Plan?.OtherTeachingPeriods[i].PeriodName">
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <input class="govuk-input govuk-input--width-5"
+                                           id="OtherTeachingPeriods[@i].PeriodsPerTimetable"
+                                           name="OtherTeachingPeriods[@i].PeriodsPerTimetable"
+                                           aria-label="Number of periods per timetable cycle"
+                                           type="number"
+                                           spellcheck="false"
+                                           value="@Model.Plan?.OtherTeachingPeriods[i].PeriodsPerTimetable">
+                                </td>
+                                <td class="govuk-table__cell">
+                                    <button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-0" data-module="govuk-button" name="action" value="@($"{FormAction.Remove}-{i}")">Remove</button>
+                                </td>
+                            </tr>
+                        }
+                        </tbody>
+                    </table>
+                </fieldset>
+            </div>
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                    Continue
+                </button>
+                <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action" value="@FormAction.Add">
+                    Add another
+                </button>
+            </div>
+        }
+    </div>
+</div>

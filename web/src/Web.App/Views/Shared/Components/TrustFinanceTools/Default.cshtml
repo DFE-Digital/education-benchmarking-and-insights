@@ -1,0 +1,37 @@
+@model Web.App.ViewModels.Components.FinanceToolsViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Finance tools</h2>
+        <ul class="app-links">
+            @foreach (var tool in Model.Tools)
+            {
+                switch (tool)
+                {
+                    case FinanceTools.CompareYourCosts:
+                        <li>
+                            <img src="/assets/images/compare-your-costs.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Compare your trust schools costs.
+                            </p>
+                        </li>
+                        break;
+                    case FinanceTools.BenchmarkWorkforce:
+                        <li>
+                            <img src="/assets/images/benchmark-workforce.png" alt="" class="app-view-component">
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "TrustWorkforce", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Benchmark workforce data</a>
+                            </h3>
+                            <p class="govuk-body">
+                                Lorem ipsum
+                            </p>
+                        </li>
+                        break;
+                }
+            }
+        </ul>
+    </div>
+</div>

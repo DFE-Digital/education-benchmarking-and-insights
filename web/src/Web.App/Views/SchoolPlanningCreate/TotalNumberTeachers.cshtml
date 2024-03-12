@@ -1,0 +1,38 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTotalNumberTeachers;
+}
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("TotalNumberTeachers", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year}, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TotalNumberOfTeachersFte)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+
+                <span class="govuk-caption-l">@Model.School.Name</span>
+                <h1 class="govuk-label-wrapper">
+                    <label class="govuk-label govuk-label--l" for="@nameof(Model.Plan.TotalNumberOfTeachersFte)">
+                        @ViewData[ViewDataKeys.Title]
+                    </label>
+                </h1>
+                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TotalNumberOfTeachersFte)))
+                {
+                    <p id="@nameof(Model.Plan.TotalNumberOfTeachersFte)-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TotalNumberOfTeachersFte)]?.Errors.First().ErrorMessage
+                    </p>
+                }
+                <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TotalNumberOfTeachersFte)) 
+                                  ? "govuk-input govuk-!-width-one-third govuk-input--error" 
+                                  : "govuk-input govuk-!-width-one-third")" 
+                       id="@nameof(Model.Plan.TotalNumberOfTeachersFte)" 
+                       name="@nameof(Model.Plan.TotalNumberOfTeachersFte)" 
+                       type="number" 
+                       spellcheck="false" 
+                       value="@Model.Plan?.TotalNumberOfTeachersFte">
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

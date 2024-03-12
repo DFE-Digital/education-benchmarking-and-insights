@@ -1,9 +1,0 @@
-@model EducationBenchmarking.Web.ViewModels.SchoolInvestigationViewModel
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <h1 class="govuk-heading-l">View your areas for investigation</h1>
-    </div>
-</div>
-
-@await Component.InvokeAsync("SchoolFinanceTools", new {identifier = Model.Urn, tools = new [] {FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce}})
