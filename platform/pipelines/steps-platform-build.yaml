@@ -36,7 +36,7 @@ steps:
     inputs:
         command: publish
         publishWebProjects: false
-        projects: 'platform/src/db/EducationBenchmarking.Platform.Database/EducationBenchmarking.Platform.Database.csproj'
+        projects: 'platform/src/db/Platform.Database/Platform.Database.csproj'
         packagesDirectory: $(PLATFORM_NUGET_CACHE)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/platform-db /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
         zipAfterPublish: true
@@ -49,8 +49,8 @@ steps:
       publishWebProjects: false
       packagesDirectory: $(PLATFORM_NUGET_CACHE)
       projects: |
-        platform/src/search/EducationBenchmarking.Platform.Search.App/EducationBenchmarking.Platform.Search.App.csproj
-        platform/src/search/EducationBenchmarking.Platform.Search.Processor/EducationBenchmarking.Platform.Search.Processor.csproj
+        platform/src/search/Platform.Search.App/Platform.Search.App.csproj
+        platform/src/search/Platform.Search.Processor/Platform.Search.Processor.csproj
       arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/platform-search /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true
