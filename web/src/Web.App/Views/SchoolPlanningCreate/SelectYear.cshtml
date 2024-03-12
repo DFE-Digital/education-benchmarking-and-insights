@@ -1,0 +1,48 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningYearSelect;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("SelectYear", "SchoolPlanningCreate", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.Year)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.School.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    <div class="govuk-hint">
+                        If you select an academic year with a plan, the previously entered data will appear
+                    </div>
+                    @if (ViewData.ModelState.HasError(nameof(Model.Plan.Year)))
+                    {
+                        <p id="@nameof(Model.Plan.Year)-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.Year)]?.Errors.First().ErrorMessage
+                        </p>
+                    }
+
+                    <div class="govuk-radios" data-module="govuk-radios">
+                        @foreach (var year in Constants.AvailableYears)
+                        {
+                            <div class="govuk-radios__item">
+
+                                <input class="govuk-radios__input" id="year-@year" name="@nameof(Model.Plan.Year)" type="radio" value="@year" @(Model.Plan?.Year == year ? "checked" : "")>
+                                <label class="govuk-label govuk-radios__label" for="year-@year">
+                                    @year.ToFinanceYear()
+                                </label>
+                            </div>
+                        }
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

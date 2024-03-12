@@ -7,7 +7,7 @@ steps:
   - task: Cache@2
     displayName: 'Cache NuGet packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-web-tests" | web/tests/EducationBenchmarking.Web.E2ETests/packages.lock.json,web/tests/EducationBenchmarking.Web.A11yTests/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-web-tests" | web/tests/Web.E2ETests/packages.lock.json,web/tests/Web.A11yTests/packages.lock.json,!**/bin/**,!**/obj/**'
       restoreKeys: |
         nuget | "$(Agent.OS)-web-tests"
       path: $(WEBTESTS_NUGET_CACHE)
@@ -19,8 +19,8 @@ steps:
     inputs:
       command: restore
       projects: |
-        web/tests/EducationBenchmarking.Web.E2ETests/EducationBenchmarking.Web.E2ETests.csproj      
-        web/tests/EducationBenchmarking.Web.A11yTests/EducationBenchmarking.Web.A11yTests.csproj
+        web/tests/Web.E2ETests/Web.E2ETests.csproj      
+        web/tests/Web.A11yTests/Web.A11yTests.csproj
       packagesDirectory: $(WEBTESTS_NUGET_CACHE)
       feedsToUse: 'config'
       nugetConfigPath: 'web/nuget.config'
@@ -30,7 +30,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      projects: 'web/tests/EducationBenchmarking.Web.E2ETests/EducationBenchmarking.Web.E2ETests.csproj '
+      projects: 'web/tests/Web.E2ETests/Web.E2ETests.csproj '
       arguments: '-c Release -o $(Pipeline.Workspace)/e2e-tests'
       zipAfterPublish: false
       modifyOutputPath: true
@@ -40,7 +40,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      projects: 'web/tests/EducationBenchmarking.Web.A11yTests/EducationBenchmarking.Web.A11yTests.csproj'
+      projects: 'web/tests/Web.A11yTests/Web.A11yTests.csproj'
       arguments: '-c Release -o $(Pipeline.Workspace)/a11y-tests'
       zipAfterPublish: false
       modifyOutputPath: true

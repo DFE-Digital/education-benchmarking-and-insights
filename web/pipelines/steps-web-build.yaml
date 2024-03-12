@@ -8,7 +8,7 @@ steps:
     displayName: 'Install npm packages'
     inputs:
       command: 'install'
-      workingDir: 'web/src/EducationBenchmarking.Web'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - task: Npm@1
@@ -16,7 +16,7 @@ steps:
     inputs:
       command: 'custom'
       customCommand: 'run-script build'
-      workingDir: 'web/src/EducationBenchmarking.Web'
+      workingDir: 'web/src/Web.App'
       verbose: false
 
   - bash: |
@@ -50,7 +50,7 @@ steps:
       command: publish
       publishWebProjects: false
       packagesDirectory: $(WEB_NUGET_CACHE)
-      projects: 'web/src/EducationBenchmarking.Web/EducationBenchmarking.Web.csproj'
+      projects: 'web/src/Web.App/Web.App.csproj'
       arguments: '-c Release -r linux-x64 -p:PublishReadyToRun=true -o $(Build.ArtifactStagingDirectory)/web /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
       zipAfterPublish: true
       modifyOutputPath: true

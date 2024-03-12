@@ -1,0 +1,94 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolDeploymentPlanViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolDeploymentPlan;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+        <h2 class="govuk-heading-m">@Model.Year.ToFinanceYear()</h2>
+        <p class="govuk-body">
+            This is your deployment plan. It provides curriculum and financial analysis based on the figures you have provided.
+            Use the dashboard to create another plan or compare between years.
+        </p>
+        <a class="govuk-button govuk-button--inverse app-print-link__button" href="#">Print this page</a>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Calculated metrics</h2>
+        @await Html.PartialAsync("_InputMetrics", Model)
+        @await Html.PartialAsync("_CalculateCurriculumMetrics", Model)
+        @await Html.PartialAsync("_CalculateFinancialMetrics", Model)
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Staff deployment</h2>
+        @if (Model.IsPrimary)
+        {
+            @await Html.PartialAsync("_StaffDeploymentPrimary", Model)
+        }
+        else
+        {
+            @await Html.PartialAsync("_StaffDeployment", Model)
+        }
+        <h3 class="govuk-heading-s">Percentage of pupils on roll and teacher cost</h3>
+        <div id="deployment-plan" data-chart-data="@Model.ChartData"></div>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Management staff deployment</h2>
+        @await Html.PartialAsync("_ManagementStaff", Model)
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m">Scenario planner</h2>
+        <p class="govuk-body">
+            Work out how many full-time equipment teachers you need with no change in management time to reach a target contact ratio.
+        </p>
+        <h3 class="govuk-heading-s">Current contact ratio: @Model.TeacherContactRatio.ToSimpleDisplay()</h3>
+        <h3 class="govuk-heading-s">
+            Target contact ratio: @Model.TargetContactRatio.ToSimpleDisplay()
+            <a class="govuk-link govuk-link--no-visited-state" href="#">
+                Change
+                <span class="govuk-visually-hidden"> target contact ratio</span>
+            </a>
+        </h3>
+        @await Html.PartialAsync("_ScenarioPlanner", Model)
+    </div>
+</div>
+
+@if (Model.Referrer == Referrers.TeachingPeriodsManager)
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-two-thirds">
+            <a href="@Url.Action("Index", new { urn = Model.Urn })" class="govuk-button">
+                Go to dashboard
+            </a>
+        </div>
+    </div>    
+}
+
+
+
+
+@section scripts
+{
+    <script add-nonce="true">
+    document.querySelectorAll(".app-print-link__button").forEach((element) => {
+        element.addEventListener("click",(e) => {
+            e.preventDefault();
+            print();
+        })
+    })
+</script>
+}

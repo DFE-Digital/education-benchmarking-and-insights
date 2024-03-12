@@ -1,0 +1,73 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningMixedAgeClasses;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @using (Html.BeginForm("PrimaryMixedAgeClasses", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year}, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError("MixedAgeClasses") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+                        <span class="govuk-caption-l">@Model.School.Name</span>
+                        <h1 class="govuk-fieldset__heading">
+                            @ViewData[ViewDataKeys.Title]
+                        </h1>
+                    </legend>
+                    <div id="mixing-classes-hint" class="govuk-hint">
+                        Select all that apply.
+                    </div>
+                    @if (ViewData.ModelState.HasError("MixedAgeClasses"))
+                    {
+                        <p id="mixing-classes-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState["MixedAgeClasses"]?.Errors.First().ErrorMessage
+                        </p>
+                    }
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeReceptionYear1)" name="@nameof(Model.Plan.MixedAgeReceptionYear1)" value="true" type="checkbox" @(Model.Plan?.MixedAgeReceptionYear1 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeReceptionYear1)">
+                                Reception and year 1
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeYear1Year2)" name="@nameof(Model.Plan.MixedAgeYear1Year2)" value="true" type="checkbox" @(Model.Plan?.MixedAgeYear1Year2 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeYear1Year2)">
+                                Year 1 and year 2
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeYear2Year3)" name="@nameof(Model.Plan.MixedAgeYear2Year3)" value="true" type="checkbox" @(Model.Plan?.MixedAgeYear2Year3 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeYear2Year3)">
+                                Year 2 and year 3
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeYear3Year4)" name="@nameof(Model.Plan.MixedAgeYear3Year4)" value="true" type="checkbox" @(Model.Plan?.MixedAgeYear3Year4 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeYear3Year4)">
+                                Year 3 and year 4
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeYear4Year5)" name="@nameof(Model.Plan.MixedAgeYear4Year5)" value="true" type="checkbox" @(Model.Plan?.MixedAgeYear4Year5 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeYear4Year5)">
+                                Year 4 and year 5
+                            </label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input" id="@nameof(Model.Plan.MixedAgeYear5Year6)" name="@nameof(Model.Plan.MixedAgeYear5Year6)" value="true" type="checkbox" @(Model.Plan?.MixedAgeYear5Year6 == true ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.Plan.MixedAgeYear5Year6)">
+                                Year 5 and year 6
+                            </label>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>

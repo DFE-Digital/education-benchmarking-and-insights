@@ -1,0 +1,38 @@
+@model Web.App.ViewModels.SchoolComparatorSetViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorSet;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        @using (Html.BeginForm("Index", "SchoolComparatorSet", new { urn = Model.Urn, referrer = Model.Referrer }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action" value="reset">Reset</button>
+            <div class="govuk-summary-card">
+                <div class="govuk-summary-card__title-wrapper">
+                </div>
+                <div class="govuk-summary-card__content">
+                    <dl class="govuk-summary-list">
+                        @foreach (var school in Model.Schools.Where(x => x.Urn != Model.Urn))
+                        {
+                            <div class="govuk-summary-list__row">
+                                <dd class="govuk-summary-list__value">
+                                    @school.Name
+                                </dd>
+                                <dd class="govuk-summary-list__actions">
+                                        
+                                </dd>
+                            </div>
+                        }
+                    </dl>
+                </div>
+            </div>
+        }
+    </div>
+</div>

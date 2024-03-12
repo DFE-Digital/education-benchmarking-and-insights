@@ -1,0 +1,49 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolPlanCreateViewModel
+
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanningTimetableCycle;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.School.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+        <div class="govuk-inset-text">
+            <p class="govuk-body">
+                The length of your timetable cycle is the number of periods before it repeats itself.
+            </p>
+            <p class="govuk-body">
+                For example, a timetable that repeats weekly with 5 periods per day would give you a cycle length of 25 periods
+            </p>
+            <p class="govuk-body">
+                Enter an average if your school has a different timetable length for different years
+            </p>
+        </div>
+        @using (Html.BeginForm("TimetableCycle", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        {
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <label class="govuk-label govuk-label--m" for="timetable-periods">
+                    How many periods are there in one timetable cycle?
+                </label>
+                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)))
+                {
+                    <p id="@nameof(Model.Plan.TimetablePeriods)-error" class="govuk-error-message">
+                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TimetablePeriods)]?.Errors.First().ErrorMessage
+                    </p>
+                }
+                <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TimetablePeriods)) 
+                                                         ? "govuk-input govuk-!-width-one-third govuk-input--error" 
+                                                         : "govuk-input govuk-!-width-one-third")" 
+                       id="timetable-periods"
+                       name="@nameof(Model.Plan.TimetablePeriods)"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.Plan?.TimetablePeriods">
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button">
+                Continue
+            </button>
+        }
+    </div>
+</div>
