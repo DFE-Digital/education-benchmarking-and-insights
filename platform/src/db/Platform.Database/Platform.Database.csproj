@@ -9,5 +9,6 @@
     <ItemGroup>
         <PackageReference Include="CommandLineParser"/>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+        <PackageReference Include="dbup-sqlserver" />
     </ItemGroup>
 </Project>

@@ -54,6 +54,17 @@ jobs:
               displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
               failOnStderr: true
+              
+            - task: ExtractFiles@1
+              displayName: 'Extract platform database'
+              inputs:
+                archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-db/Platform.Database.zip'
+                destinationFolder: '${{ parameters.workspaceDir }}/db'
+          
+#            - script: ./Platform.Database.exe "$(platform-db-connection-string)"
+#              workingDirectory: '${{ parameters.workspaceDir }}/db'
+#              failOnStderr: true
+#              displayName: 'Deploy platform database'              
 
             - task: AzureFunctionApp@1
               displayName: 'Deploy benchmarks function app'
