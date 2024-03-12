@@ -1,0 +1,33 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
+        <Nullable>enable</Nullable>
+        <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="AzureExtensions.Swashbuckle"/>
+        <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks"/>
+        <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions"/>
+        <PackageReference Include="Microsoft.NET.Sdk.Functions"/>
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="System.Linq.Async"/>
+        <None Update="host.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+        <None Update="local.settings.json">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+            <CopyToPublishDirectory>Never</CopyToPublishDirectory>
+        </None>
+        <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+    </ItemGroup>
+</Project>

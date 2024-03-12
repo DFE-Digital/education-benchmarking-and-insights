@@ -7,7 +7,7 @@ steps:
   - task: Cache@2
     displayName: 'Cache NuGet packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-api-tests" | platform/tests/EducationBenchmarking.Platform.ApiTests/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-api-tests" | platform/tests/Platform.ApiTests/packages.lock.json,!**/bin/**,!**/obj/**'
       restoreKeys: |
         nuget | "$(Agent.OS)-api-tests"
       path: $(APITESTS_NUGET_CACHE)
@@ -18,7 +18,7 @@ steps:
     condition: ne(variables.APITESTS_CACHE_RESTORED, 'true')
     inputs:
       command: restore
-      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/EducationBenchmarking.Platform.ApiTests.csproj'
+      projects: 'platform/tests/Platform.ApiTests/Platform.ApiTests.csproj'
       packagesDirectory: $(APITESTS_NUGET_CACHE)
       feedsToUse: 'config'
       nugetConfigPath: 'platform/nuget.config'
@@ -28,7 +28,7 @@ steps:
     inputs:
       command: publish
       publishWebProjects: false
-      projects: 'platform/tests/EducationBenchmarking.Platform.ApiTests/EducationBenchmarking.Platform.ApiTests.csproj'
+      projects: 'platform/tests/Platform.ApiTests/Platform.ApiTests.csproj'
       arguments: '-c Release -o $(Pipeline.Workspace)/api-tests'
       zipAfterPublish: false
       modifyOutputPath: true

@@ -46,10 +46,10 @@ jobs:
             - task: ExtractFiles@1
               displayName: 'Extract platform search app'
               inputs:
-                archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/EducationBenchmarking.Platform.Search.App.zip'
+                archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
             
-            - script: ./EducationBenchmarking.Platform.Search.App -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory" -p "$(platform-storage-connection-string)" -a "local-authorities"
+            - script: ./Platform.Search.App -s "${{ parameters.environmentPrefix }}-ebis-search" -k "$(ebis-search-admin-key)" -c "$(ebis-cdb-connection-string)" -d "ebis-data" -l "fibre-directory" -p "$(platform-storage-connection-string)" -a "local-authorities"
               condition: ${{ parameters.runSearchApp }}
               displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
@@ -63,7 +63,7 @@ jobs:
                 appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Benchmark.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Benchmark.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'
@@ -76,7 +76,7 @@ jobs:
                 appName: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Insight.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'
@@ -89,7 +89,7 @@ jobs:
                 appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
-                package: '${{ parameters.workspaceDir }}/platform-apis/EducationBenchmarking.Platform.Api.Establishment.zip'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'
