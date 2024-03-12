@@ -4,6 +4,8 @@ using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Extensions.Logging;
 //DO NOT REMOVE - require when !DEBUG
+using Serilog.Events;
+using Microsoft.ApplicationInsights;
 
 namespace Platform.Functions.Extensions;
 
