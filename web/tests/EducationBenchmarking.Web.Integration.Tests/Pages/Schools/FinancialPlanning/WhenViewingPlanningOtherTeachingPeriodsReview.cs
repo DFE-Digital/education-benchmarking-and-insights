@@ -167,7 +167,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(BenchmarkingWebAppCli
         DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear));
 
         DocumentAssert.TitleAndH1(page,
-            "Review other teaching periods - Education benchmarking and insights - GOV.UK",
+            "Review other teaching periods - Financial Benchmarking and Insights Tool - GOV.UK",
             "Review other teaching periods");
     }
 }
