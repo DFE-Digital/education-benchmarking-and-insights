@@ -94,4 +94,13 @@ public class SchoolsFunctions
             }
         }
     }
+    //
+    // public async Task<IActionResult> QuerySchoolHistoryAsync(
+    //     [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/history")]
+    //     HttpRequest req)
+    // {
+    //     
+    // }
+    
+    
 }
