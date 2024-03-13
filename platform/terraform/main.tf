@@ -107,7 +107,7 @@ resource "azurerm_mssql_server" "sql_server" {
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
   location                     = azurerm_resource_group.resource-group.location
-  administrator_login          = "ebis-sql-admin"
+  administrator_login          = azurerm_key_vault_secret.platform-sql-admin-username.value
   administrator_login_password = random_password.sql_admin_password.result
   tags                         = local.common-tags
 }
