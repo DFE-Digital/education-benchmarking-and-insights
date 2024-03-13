@@ -87,6 +87,7 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
 resource "random_password" "sql_admin_password" {
   length = 16
   special = true
+  override_special = "!@#$*()-_=+"
 }
 
 resource "azurerm_key_vault_secret" "platform-sql-admin-username" {
@@ -106,7 +107,7 @@ resource "azurerm_mssql_server" "sql_server" {
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
   location                     = azurerm_resource_group.resource-group.location
-  administrator_login          = "${var.environment-prefix}-ebis-sql-admin"
+  administrator_login          = "ebis-sql-admin"
   administrator_login_password = random_password.sql_admin_password.result
   tags                         = local.common-tags
 }
@@ -115,12 +116,7 @@ resource "azurerm_mssql_database" "sql_db" {
   name      = "ebis-data"
   server_id = azurerm_mssql_server.sql_server.id
   tags      = local.common-tags
-}
-
-resource "azurerm_key_vault_secret" "platform-sql-connection-string" {
-  name         = "ebis-sql-connection-string"
-  value        = "Server=tcp:${azurerm_mssql_server.sql_server.name}.database.windows.net,1433;Initial Catalog=${azurerm_mssql_database.sql_db.name};Persist Security Info=False;User ID=${var.environment-prefix}-ebis-sql-admin;Password=${random_password.sql_admin_password.result};MultipleActiveResultSets=True;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
+  sku_name = "GP_S_Gen5_1"
 }
 
 resource "azurerm_search_service" "search" {
