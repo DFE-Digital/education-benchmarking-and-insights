@@ -1,0 +1,33 @@
+@import "variables";
+
+.app-links {
+  display: flex;
+  flex-wrap: wrap;
+  list-style: none;
+  padding: 0;
+  gap: 15px;
+  li {
+    width: calc(calc(100% - 30px)/ 3);
+  }
+}
+
+@media (min-width: $break-small) and (max-width: $break-medium) {
+  .app-links {
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+    li {
+      width: calc(calc(100% - 15px)/ 2);
+    }
+  }
+}
+
+@media (max-width: $break-small) {
+  .app-links {
+    li {
+      width: 100%;
+    }
+  }
+}

@@ -54,7 +54,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         var tasks = new[]
         {
             FinancesForDataGroup(maintained, DataGroups.Maintained),
-            FinancesForDataGroup(academies, DataGroups.Academies)
+            FinancesForDataGroup(academies, DataGroups.MatAllocated)
         };
 
         var finances = await Task.WhenAll(tasks);

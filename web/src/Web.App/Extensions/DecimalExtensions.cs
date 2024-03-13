@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Web.App.Extensions
 {
     public static class DecimalExtensions
@@ -9,9 +11,11 @@ namespace Web.App.Extensions
                 : "";
         }
 
-        public static string ToCurrency(this decimal value)
+        public static string ToCurrency(this decimal value, int decimalDigits = 2)
         {
-            return $"{value:C}";
+            var nfi = new CultureInfo("en-GB").NumberFormat;
+            nfi.CurrencyDecimalDigits = decimalDigits;
+            return value.ToString("C", nfi);
         }
 
         public static string ToPercent(this decimal value)

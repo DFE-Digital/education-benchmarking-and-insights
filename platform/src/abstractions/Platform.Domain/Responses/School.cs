@@ -10,6 +10,7 @@ public record School
     public string? Name { get; set; }
     public string? FinanceType { get; set; }
     public string? OverallPhase { get; set; }
+    public string? OfstedRating { get; set; }
     public string? Kind { get; set; }
     public string? LaEstab { get; set; }
     public string? Street { get; set; }
@@ -37,6 +38,7 @@ public record School
             CompanyNumber = edubase.CompanyNumber.ToString(),
             TrustOrCompanyName = edubase.TrustOrCompanyName,
             OverallPhase = edubase.OverallPhase,
+            OfstedRating = edubase.OfstedRating,
             Address = edubase.Address,
             Telephone = edubase.TelephoneNum,
             Website = edubase.SchoolWebsite,

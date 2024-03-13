@@ -1,4 +1,6 @@
 @using Web.App.ViewModels.Components
+@using Web.App.Extensions
+@using Web.App.Domain
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -24,33 +26,29 @@
     </div>
 </div>
 
-<div class="govuk-grid-row app-headline-figures">
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">In year balance</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">Revenue reserve</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">Ofsted rating</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">School phase</p>
-            <p class="govuk-body">xxxxx</p>
-        </div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline-figures govuk-!-text-align-centre">
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
+                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
+                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
+                <p class="govuk-body">@OfstedRatings.GetDescription(Model.OfstedRating)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
+                <p class="govuk-body">@Model.OverallPhase</p>
+            </li>
+        </ul>
     </div>
 </div>
-
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">

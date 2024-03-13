@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers
@@ -11,7 +12,8 @@ namespace Web.App.Controllers
     [Route("school/{urn}")]
     public class SchoolController(
         ILogger<SchoolController> logger,
-        IEstablishmentApi establishmentApi)
+        IEstablishmentApi establishmentApi,
+        IFinanceService financeService)
         : Controller
     {
         [HttpGet]
@@ -24,7 +26,8 @@ namespace Web.App.Controllers
                     ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                     var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                    var viewModel = new SchoolViewModel(school);
+                    var finances = await financeService.GetFinances(school);
+                    var viewModel = new SchoolViewModel(school, finances);
 
                     return View(viewModel);
                 }

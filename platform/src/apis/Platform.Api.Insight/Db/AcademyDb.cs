@@ -28,7 +28,7 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
 
     public async Task<Finances?> Get(string urn)
     {
-        var collection = await _collectionService.LatestCollection(DataGroups.Academies);
+        var collection = await _collectionService.LatestCollection(DataGroups.MatAllocated);
 
         var finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(
                 collection.Name,
