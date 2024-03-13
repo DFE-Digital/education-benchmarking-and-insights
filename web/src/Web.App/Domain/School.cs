@@ -23,6 +23,7 @@ namespace Web.App.Domain
         public string? Telephone { get; set; }
         public string? Website { get; set; }
         public string? OverallPhase { get; set; }
+        public string? OfstedRating { get; set; }
         public bool HasSixthForm { get; set; }
 
         public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;

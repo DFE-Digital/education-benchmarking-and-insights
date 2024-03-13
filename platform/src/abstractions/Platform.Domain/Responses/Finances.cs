@@ -22,6 +22,7 @@ public record Finances
     public decimal OtherStaffCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }
     public decimal TotalNumberOfTeachersFte { get; set; }
+    public decimal RevenueReserve { get; set; }
 
     public static Finances Create(SchoolTrustFinancialDataObject dataObject, int term)
     {
@@ -42,7 +43,8 @@ public record Finances
             AdministrativeClericalStaffCosts = dataObject.AdministrativeClericalStaff,
             OtherStaffCosts = dataObject.OtherStaffCosts,
             MaintenancePremisesCosts = dataObject.Premises,
-            TotalNumberOfTeachersFte = dataObject.TeachersTotal
+            TotalNumberOfTeachersFte = dataObject.TeachersTotal,
+            RevenueReserve = dataObject.RevenueReserve
         };
     }
 }
