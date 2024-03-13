@@ -92,7 +92,7 @@ resource "random_password" "sql_admin_password" {
 
 resource "azurerm_key_vault_secret" "platform-sql-admin-username" {
   name         = "ebis-sql-admin-username"
-  value        = "${var.environment-prefix}-ebis-sql-admin"
+  value        = "ebis-sql-admin"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
 
