@@ -113,12 +113,10 @@ resource "azurerm_mssql_server" "sql_server" {
 }
 
 resource "azurerm_mssql_database" "sql_db" {
-  name         = "ebis-data"
-  server_id    = azurerm_mssql_server.sql_server.id
-  tags         = local.common-tags
-  sku_name     = "GP_S_Gen5_1"
-  min_capacity = 0.5
-  auto_pause_delay_in_minutes = 60
+  name      = "ebis-data"
+  server_id = azurerm_mssql_server.sql_server.id
+  tags      = local.common-tags
+  sku_name  = "Basic"
 }
 
 resource "azurerm_search_service" "search" {
