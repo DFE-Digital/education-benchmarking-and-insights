@@ -118,6 +118,7 @@ resource "azurerm_mssql_database" "sql_db" {
   tags         = local.common-tags
   sku_name     = "GP_S_Gen5_1"
   min_capacity = 0.5
+  auto_pause_delay_in_minutes = 60
 }
 
 resource "azurerm_search_service" "search" {
