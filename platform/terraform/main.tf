@@ -85,8 +85,8 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
 }
 
 resource "random_password" "sql_admin_password" {
-  length = 16
-  special = true
+  length           = 16
+  special          = true
   override_special = "!@#$*()-_=+"
 }
 
@@ -116,7 +116,7 @@ resource "azurerm_mssql_database" "sql_db" {
   name      = "ebis-data"
   server_id = azurerm_mssql_server.sql_server.id
   tags      = local.common-tags
-  sku_name = "GP_S_Gen5_1"
+  sku_name  = "GP_S_Gen5_1"
 }
 
 resource "azurerm_search_service" "search" {
