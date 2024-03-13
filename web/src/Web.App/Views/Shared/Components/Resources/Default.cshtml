@@ -11,30 +11,36 @@
                     case Resources.FindCommercialResources:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("CommercialResources", "StaticContent")" class="govuk-link govuk-link--no-visited-state">Find commercial resources</a>
+                                <a href="@Url.Action("CommercialResources", "StaticContent")" class="govuk-link govuk-link--no-visited-state">
+                                    Find ways to spend less
+                                </a>
                             </h3>
                             <p class="govuk-body">
-                                Find recommended resources to help manage your costs
+                                Use these to help reduce your spending and costs
                             </p>
                         </li>
                         break;
                     case Resources.HistoricData:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolHistory", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Historic data</a>
+                                <a href="@Url.Action("Index", "SchoolHistory", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    View historic data
+                                </a>
                             </h3>
                             <p class="govuk-body">
-                                SOME CONTENT HERE
+                                View financial data from previous years.
                             </p>
                         </li>
                         break;
                     case Resources.SchoolDetails:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolDetails", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">School details</a>
+                                <a href="@Url.Action("Index", "SchoolDetails", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    School contact details
+                                </a>
                             </h3>
                             <p class="govuk-body">
-                                SOME CONTENT HERE
+                                View contact details for this school.
                             </p>
                         </li>
                         break;

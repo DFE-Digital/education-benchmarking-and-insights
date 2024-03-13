@@ -6,36 +6,35 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
 
-namespace Web.App.Controllers
+namespace Web.App.Controllers;
+
+[Controller]
+[Route("school/{urn}")]
+public class SchoolController(
+    ILogger<SchoolController> logger,
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService)
+    : Controller
 {
-    [Controller]
-    [Route("school/{urn}")]
-    public class SchoolController(
-        ILogger<SchoolController> logger,
-        IEstablishmentApi establishmentApi,
-        IFinanceService financeService)
-        : Controller
+    [HttpGet]
+    public async Task<IActionResult> Index(string urn)
     {
-        [HttpGet]
-        public async Task<IActionResult> Index(string urn)
+        using (logger.BeginScope(new { urn }))
         {
-            using (logger.BeginScope(new { urn }))
+            try
             {
-                try
-                {
-                    ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
-                    var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                    var finances = await financeService.GetFinances(school);
-                    var viewModel = new SchoolViewModel(school, finances);
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var finances = await financeService.GetFinances(school);
+                var viewModel = new SchoolViewModel(school, finances);
 
-                    return View(viewModel);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
-                    return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-                }
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }

@@ -1,17 +1,16 @@
 using FluentValidation;
 using Web.App.Domain.FinancialPlanStages;
 
-namespace Web.App.Validators.FinancialPlanStages
+namespace Web.App.Validators.FinancialPlanStages;
+
+public class TotalIncomeStageValidator : AbstractValidator<TotalIncomeStage>
 {
-    public class TotalIncomeStageValidator : AbstractValidator<TotalIncomeStage>
+    public TotalIncomeStageValidator()
     {
-        public TotalIncomeStageValidator()
-        {
-            RuleFor(p => p.TotalIncome)
-                .NotEmpty()
-                .WithMessage("Enter your total income")
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("Total income must be 0 or more");
-        }
+        RuleFor(p => p.TotalIncome)
+            .NotEmpty()
+            .WithMessage("Enter your total income")
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Total income must be 0 or more");
     }
 }

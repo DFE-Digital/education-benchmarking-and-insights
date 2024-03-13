@@ -1,17 +1,16 @@
 using FluentValidation;
 using Web.App.Domain.FinancialPlanStages;
 
-namespace Web.App.Validators.FinancialPlanStages
+namespace Web.App.Validators.FinancialPlanStages;
+
+public class TotalTeacherCostsStageValidator : AbstractValidator<TotalTeacherCostsStage>
 {
-    public class TotalTeacherCostsStageValidator : AbstractValidator<TotalTeacherCostsStage>
+    public TotalTeacherCostsStageValidator()
     {
-        public TotalTeacherCostsStageValidator()
-        {
-            RuleFor(p => p.TotalTeacherCosts)
-                .NotEmpty()
-                .WithMessage("Enter your total teacher costs")
-                .GreaterThanOrEqualTo(0)
-                .WithMessage("Total teacher costs must be 0 or more");
-        }
+        RuleFor(p => p.TotalTeacherCosts)
+            .NotEmpty()
+            .WithMessage("Enter your total teacher costs")
+            .GreaterThanOrEqualTo(0)
+            .WithMessage("Total teacher costs must be 0 or more");
     }
 }
