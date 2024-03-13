@@ -84,6 +84,41 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   resource_group_name = azurerm_resource_group.resource-group.name
 }
 
+resource "random_password" "sql_admin_password" {
+  length           = 16
+  special          = true
+  override_special = "!@#$*()-_=+"
+}
+
+resource "azurerm_key_vault_secret" "platform-sql-admin-username" {
+  name         = "ebis-sql-admin-username"
+  value        = "ebis-sql-admin"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+resource "azurerm_key_vault_secret" "platform-sql-admin-password" {
+  name         = "ebis-sql-admin-password"
+  value        = random_password.sql_admin_password.result
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
+
+resource "azurerm_mssql_server" "sql_server" {
+  name                         = "${var.environment-prefix}-ebis-sql"
+  version                      = "12.0"
+  resource_group_name          = azurerm_resource_group.resource-group.name
+  location                     = azurerm_resource_group.resource-group.location
+  administrator_login          = azurerm_key_vault_secret.platform-sql-admin-username.value
+  administrator_login_password = random_password.sql_admin_password.result
+  tags                         = local.common-tags
+}
+
+resource "azurerm_mssql_database" "sql_db" {
+  name      = "ebis-data"
+  server_id = azurerm_mssql_server.sql_server.id
+  tags      = local.common-tags
+  sku_name  = "GP_S_Gen5_1"
+}
+
 resource "azurerm_search_service" "search" {
   name                = "${var.environment-prefix}-ebis-search"
   location            = azurerm_resource_group.resource-group.location
