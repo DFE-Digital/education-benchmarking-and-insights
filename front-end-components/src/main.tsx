@@ -18,10 +18,10 @@ import {
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import { Stat } from "./components/charts/stat";
 import { ChartHandler, ChartSortDirection } from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
+import { ResolvedStat } from "./components/charts/resolved-stat";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -272,9 +272,10 @@ const LineChart1Series = ({
           />
         </div>
         <aside className="govuk-grid-column-one-quarter desktop">
-          <Stat
+          <ResolvedStat
             chartName="Most recent in-year balance"
             className="chart-stat-line-chart"
+            compactValue
             data={data}
             displayIndex={data.length - 1}
             seriesLabelField="term"

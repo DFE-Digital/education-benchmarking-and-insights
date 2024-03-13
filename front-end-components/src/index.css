@@ -101,9 +101,62 @@
 
 .chart-stat-wrapper .chart-stat-value {
   border-top: 1px solid var(--label-colour);
-  padding-top: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.chart-stat-summary {
+  margin: 10px -7px 0 -7px;
+}
+
+.chart-stat-summary .chart-stat-wrapper {
+  background-color: var(--grid-colour);
+  padding: 12px;
+}
+
+.chart-stat-summary .chart-stat-wrapper .chart-stat-value {
+  border-top: none;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  overflow-wrap: break-word;
 }
 
 .chart-stat-line-chart .chart-stat-value {
   color: var(--series-2-colour);
+}
+
+.chart-stat-summary
+  .chart-stat-wrapper
+  .chart-stat-value
+  .chart-stat-value-suffix {
+  color: var(--label-colour);
+  margin-left: 10px;
+  font-size: 0.8em;
+}
+
+.chart-stat-wrapper.chart-stat-highlight {
+  color: var(--series-highlight-colour);
+}
+
+.chart-stat-wrapper.chart-stat-highlight .chart-stat-value {
+  font-weight: 700;
+}
+
+.chart-stat-wrapper .govuk-body-s,
+.chart-stat-wrapper .govuk-body-m,
+.chart-stat-wrapper .govuk-body-l {
+  color: inherit;
+}
+
+.composed-chart-wrapper {
+  height: 100%;
+}
+
+.composed-chart-wrapper,
+.composed-chart {
+  height: 100%;
+}
+
+.composed-chart-wrapper,
+.composed-chart > div {
+  height: 100%;
 }
