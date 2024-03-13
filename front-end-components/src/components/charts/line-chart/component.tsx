@@ -36,6 +36,9 @@ function LineChartInner<TData extends ChartDataSeries>(
     curveType,
     data,
     grid,
+    hideXAxis,
+    hideYAxis,
+    highlightActive,
     keyField,
     margin: _margin,
     multiLineAxisLabel,
@@ -87,13 +90,17 @@ function LineChartInner<TData extends ChartDataSeries>(
         type={curveType || "linear"}
         strokeWidth={3}
         className={className}
-        activeDot={{
-          r: 6,
-          className: classNames(
-            "chart-active-dot",
-            `chart-active-dot-series-${seriesIndex}`
-          ),
-        }}
+        activeDot={
+          highlightActive
+            ? {
+                r: 6,
+                className: classNames(
+                  "chart-active-dot",
+                  `chart-active-dot-series-${seriesIndex}`
+                ),
+              }
+            : false
+        }
       ></Line>
     );
   };
@@ -124,6 +131,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             dataKey={seriesLabelField as string}
             interval={0}
             padding={{ left: 50, right: 50 }}
+            hide={hideXAxis}
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
@@ -133,6 +141,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             domain={["auto", "auto"]}
             tickFormatter={(value) => valueFormatter(value, valueUnit)}
             axisLine={!grid}
+            hide={hideYAxis}
           >
             {valueLabel && (
               <Label
