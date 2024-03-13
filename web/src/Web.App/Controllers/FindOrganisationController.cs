@@ -24,32 +24,32 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                 switch (viewModel.FindMethod.ToLower())
                 {
                     case OrganisationTypes.School:
-                    {
-                        if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                         {
-                            var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                ? "Enter a school name select a school"
-                                : "Please select school from the suggester";
-                            ModelState.AddModelError("school-input", message);
-                            return View(viewModel);
-                        }
+                            if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
+                            {
+                                var message = string.IsNullOrEmpty(viewModel.SchoolInput)
+                                    ? "Enter a school name select a school"
+                                    : "Please select school from the suggester";
+                                ModelState.AddModelError("school-input", message);
+                                return View(viewModel);
+                            }
 
-                        return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
-                    }
+                            return RedirectToAction("Index", "School", new { urn = viewModel.Urn });
+                        }
                     case OrganisationTypes.Trust:
-                    {
-                        if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) ||
-                            string.IsNullOrEmpty(viewModel.TrustInput))
                         {
-                            var message = string.IsNullOrEmpty(viewModel.TrustInput)
-                                ? "Enter a trust name select a trust"
-                                : "Please select trust from the suggester";
-                            ModelState.AddModelError("trust-input", message);
-                            return View(viewModel);
-                        }
+                            if (string.IsNullOrWhiteSpace(viewModel.CompanyNumber) ||
+                                string.IsNullOrEmpty(viewModel.TrustInput))
+                            {
+                                var message = string.IsNullOrEmpty(viewModel.TrustInput)
+                                    ? "Enter a trust name select a trust"
+                                    : "Please select trust from the suggester";
+                                ModelState.AddModelError("trust-input", message);
+                                return View(viewModel);
+                            }
 
-                        return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
-                    }
+                            return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
+                        }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
                 }

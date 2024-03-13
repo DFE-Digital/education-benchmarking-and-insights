@@ -140,20 +140,20 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
 
     public string ChartData => IsPrimary
         ? PrimaryStaffDeployment.Select((x, i) => new
-            {
-                group = x.Description,
-                pupilsOnRoll = x.PercentPupilsOnRoll,
-                teacherCost = x.PercentTeacherCost,
-                id = i
-            })
+        {
+            group = x.Description,
+            pupilsOnRoll = x.PercentPupilsOnRoll,
+            teacherCost = x.PercentTeacherCost,
+            id = i
+        })
             .ToArray().ToJson(Formatting.None)
         : StaffDeployment.Select((x, i) => new
-            {
-                group = x.Description,
-                pupilsOnRoll = x.PercentPupilsOnRoll,
-                teacherCost = x.PercentTeacherCost,
-                id = i
-            })
+        {
+            group = x.Description,
+            pupilsOnRoll = x.PercentPupilsOnRoll,
+            teacherCost = x.PercentTeacherCost,
+            id = i
+        })
             .ToArray().ToJson(Formatting.None);
 
     public string? Referrer => referrer;
