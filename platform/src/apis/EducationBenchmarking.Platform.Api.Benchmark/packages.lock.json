@@ -1816,7 +1816,6 @@
         "type": "Project",
         "dependencies": {
           "Dapper": "[2.1.28, )",
-          "EducationBenchmarking.Platform.Functions": "[1.0.0, )",
           "EducationBenchmarking.Platform.Infrastructure": "[1.0.0, )",
           "Microsoft.Azure.Cosmos": "[3.38.1, )",
           "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )",

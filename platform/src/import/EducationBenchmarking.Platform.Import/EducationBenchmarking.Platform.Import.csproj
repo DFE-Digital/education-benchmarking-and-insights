@@ -14,7 +14,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Functions\EducationBenchmarking.Platform.Functions.csproj" />
+        
         <ProjectReference Include="..\..\abstractions\EducationBenchmarking.Platform.Infrastructure\EducationBenchmarking.Platform.Infrastructure.csproj"/>
     </ItemGroup>
 

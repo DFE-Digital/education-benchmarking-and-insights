@@ -2,6 +2,7 @@
 using CommandLine.Text;
 using EducationBenchmarking.Platform.Import;
 using EducationBenchmarking.Platform.Import.App;
+using EducationBenchmarking.Platform.Import.Db;
 using EducationBenchmarking.Platform.Infrastructure.Cosmos;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
@@ -24,10 +25,8 @@ static Task ImportComparatorSets(ProgramOptions options)
         Sql = new ComparatorImportServiceOptions.SqlOptions
         {
             ConnectionString = options.SqlConnectionString,
-            ComparatorTableName = options.SqlComparatorTableName,
-            ComparatorTableKey = options.SqlComparatorTableKey,
-            EntityTableName = options.SqlEntityTableName,
-            EntityTableKey = options.SqlEntityTableKey
+            TableName = options.SqlTableName,
+            TableKey = options.SqlTableKey
         },
         Cosmos = new ComparatorImportServiceOptions.CosmosOptions
         {

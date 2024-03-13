@@ -2,17 +2,15 @@ using System.ComponentModel.DataAnnotations;
 using System.Data.SqlClient;
 using System.Text;
 using Dapper;
-using EducationBenchmarking.Platform.Domain.Requests;
-using EducationBenchmarking.Platform.Infrastructure.Cosmos;
-using Microsoft.AspNetCore.Http.Features;
-using Microsoft.Azure.Cosmos;
+using EducationBenchmarking.Platform.Import.Abstractions;
+using EducationBenchmarking.Platform.Import.Db;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace EducationBenchmarking.Platform.Import;
 
 public interface IComparatorImportService
-{
+{ 
     Task Import();
 }
 
@@ -24,10 +22,8 @@ public class ComparatorImportServiceOptions
     public class SqlOptions
     {
         [Required] public string? ConnectionString { get; init; }
-        [Required] public string? ComparatorTableName { get; init; }
-        [Required] public string? ComparatorTableKey { get; init; }
-        [Required] public string? EntityTableName { get; init; }
-        [Required] public string? EntityTableKey { get; init; }
+        [Required] public string? TableName { get; init; }
+        [Required] public string? TableKey { get; init; }
     }
 
     public class CosmosOptions
@@ -75,45 +71,41 @@ public class ComparatorImportService : IComparatorImportService
     private async Task<List<string>> EntityUrns(ComparatorImportServiceOptions.SqlOptions options)
     {
         await using var connection = new SqlConnection(options.ConnectionString);
-        var sql = $"SELECT URN FROM {options.EntityTableName}";
+        var sql = $"SELECT DISTINCT (URN) FROM {options.TableName}";
         var entities = connection.Query<string>(sql).ToList();
         return entities;
     }
 
     private async Task UpsertComparatorSets(List<string> urns, ComparatorImportServiceOptions options)
     {
-        try
+        await using var connection = new SqlConnection(options.Sql.ConnectionString);
+        connection.Open();
+        foreach (var urn in urns)
         {
-            foreach (var urn in urns)
+            _logger.LogInformation($"Transferring comparator sets for school URN: {urn} at {DateTime.Now}");
+            var sql = new StringBuilder(
+                "SELECT c.all_comparators_all_Id, c.URN, c.UKPRN_URN1, c.UKPRN_URN2, c.UKPRN_URN_CG, c.PeerGroup, c.CostGroup, c.CompareNum, c.compare, c.RANK2, c.Comparator_code, ");
+            sql.Append(
+                $"c.RANK3, c.ReprocessFlag, c.UseAllCompFlag, c.Range_flag, c.DataReleaseId, c.PartYearDataFlag FROM [{options.Sql.TableName}] c ");
+            sql.Append($"WHERE c.URN = {urn}");
+
+            var comparatorData = connection.Query<ComparatorEntryData>(sql.ToString()).ToList();
+            _logger.LogInformation($"Query run at {DateTime.Now}");
+            var comparatorSets = BuildComparatorSets(comparatorData);
+            foreach (var set in comparatorSets)
             {
-                await using var connection = new SqlConnection(options.Sql.ConnectionString);
-                var sql = new StringBuilder(
-                    "SELECT c.all_comparators_all_Id, a.URN, c.UKPRN_URN1, c.UKPRN_URN2, c.UKPRN_URN_CG, c.PeerGroup, c.CostGroup, c.CompareNum, c.compare, c.RANK2, c.Comparator_code, ");
-                sql.Append(
-                    $"c.RANK3ReprocessFlag, c.UseAllCompFlag, c.Range_flag, c.DataReleaseId, c.PartYearDataFlag FROM [tabular].[{options.Sql.ComparatorTableName}] c");
-                sql.Append($"INNER JOIN [tabular].[{options.Sql.EntityTableName}] a ON c.{options.Sql.ComparatorTableKey} = a.{options.Sql.EntityTableKey}");
-                sql.Append($"WHERE a.URN = {urn}");
-                
-                var comparatorData = connection.Query<ComparatorEntryData>(sql.ToString()).ToList();
-                var comparatorSets = BuildComparatorSets(comparatorData);
-                foreach (var set in comparatorSets)
-                {
-                    await _db.UpsertComparatorSetLookup(urn, set);
-                }
-                
-                _logger.LogInformation($"Transferred comparator sets for school URN: {urn}");
+                await _db.UpsertComparatorSetLookup(urn, set);
             }
+
+            _logger.LogInformation($"Transferred comparator sets for school URN: {urn} at {DateTime.Now}");
         }
-        catch (Exception e)
-        {
-            throw new Exception("Failed to upsert data");
-        }
+        connection.Close();
     }
 
     private List<ComparatorSetLookupRequest> BuildComparatorSets(List<ComparatorEntryData> data)
     {
         // get a list of unique URNs
-        var baseSchoolUrns = data.Select(field => field.URN).Distinct().ToList();
+        var baseSchoolUrns = data.Select(field => field.URN).Distinct().OrderBy(o => o).ToList();
         var sets = new List<ComparatorSetLookupRequest>();
         
         foreach (var urn in baseSchoolUrns)
@@ -126,7 +118,7 @@ public class ComparatorImportService : IComparatorImportService
                 CostGroup = "Pupil",
                 Entries = data.Where(dp => dp.URN == urn
                                            && dp is { PeerGroup: "Default", CostGroup: "Pupil" })
-                    .Select(row => new EducationBenchmarking.Platform.Domain.Requests.ComparatorSetLookupEntry
+                    .Select(row => new Abstractions.ComparatorSetLookupEntry
                     {
                         ComparatorCode = row.Comparator_code,
                         Compare = row.compare,
@@ -153,7 +145,7 @@ public class ComparatorImportService : IComparatorImportService
                 CostGroup = "Area",
                 Entries = data.Where(dp => dp.URN == urn
                                            && dp is { PeerGroup: "Default", CostGroup: "Area" })
-                    .Select(row => new EducationBenchmarking.Platform.Domain.Requests.ComparatorSetLookupEntry
+                    .Select(row => new Abstractions.ComparatorSetLookupEntry
                     {
                         ComparatorCode = row.Comparator_code,
                         Compare = row.compare,
@@ -180,7 +172,7 @@ public class ComparatorImportService : IComparatorImportService
                 CostGroup = "Pupil",
                 Entries = data.Where(dp => dp.URN == urn
                                            && dp is { PeerGroup: "Mixed", CostGroup: "Pupil" })
-                    .Select(row => new EducationBenchmarking.Platform.Domain.Requests.ComparatorSetLookupEntry
+                    .Select(row => new Abstractions.ComparatorSetLookupEntry
                     {
                         ComparatorCode = row.Comparator_code,
                         Compare = row.compare,
@@ -207,7 +199,7 @@ public class ComparatorImportService : IComparatorImportService
                 CostGroup = "Area",
                 Entries = data.Where(dp => dp.URN == urn
                                            && dp is { PeerGroup: "Mixed", CostGroup: "Area" })
-                    .Select(row => new EducationBenchmarking.Platform.Domain.Requests.ComparatorSetLookupEntry
+                    .Select(row => new Abstractions.ComparatorSetLookupEntry
                     {
                         ComparatorCode = row.Comparator_code,
                         Compare = row.compare,

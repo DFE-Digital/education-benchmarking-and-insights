@@ -21,7 +21,7 @@ public class ComparatorSetLookupEntry
     public string Compare { get; set; }
     public int CompareNum { get; set; }
     public int? DataReleaseId { get; set; }
-    public bool PartYearDataFlag { get; set; }
+    public int PartYearDataFlag { get; set; }
     public int? RangeFlag { get; set; }
     public int? Rank2 { get; set; }
     public int? Rank3 { get; set; }
@@ -64,5 +64,5 @@ public class ComparatorEntryData
 
     public int? DataReleaseId { get; set; }
 
-    public bool PartYearDataFlag { get; set; }
+    public int PartYearDataFlag { get; set; }
 }

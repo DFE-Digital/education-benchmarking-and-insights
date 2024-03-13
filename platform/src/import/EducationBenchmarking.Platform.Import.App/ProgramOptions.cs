@@ -8,17 +8,11 @@ public class ProgramOptions
     [Option('s', "sqlConnectionString", Required = true)]
     public string? SqlConnectionString { get; set; }
 
-    [Option('n', "sqlComparatorTableName", Required = true)]
-    public string? SqlComparatorTableName { get; set; }
+    [Option('t', "sqlTableName", Required = true)]
+    public string? SqlTableName { get; set; }
 
-    [Option('k', "sqlComparatorTableKey", Required = true)]
-    public string? SqlComparatorTableKey { get; set; }
-    
-    [Option('e', "sqlEntityTableName", Required = true)]
-    public string? SqlEntityTableName { get; set; }
-    
-    [Option('t', "sqlEntityTableKey", Required = true)]
-    public string? SqlEntityTableKey { get; set; }
+    [Option('k', "sqlTableKey", Required = true)]
+    public string? SqlTableKey { get; set; }
 
     [Option('c', "cosmosConnectionString", Required = true)]
     public string? CosmosConnectionString { get; set; }

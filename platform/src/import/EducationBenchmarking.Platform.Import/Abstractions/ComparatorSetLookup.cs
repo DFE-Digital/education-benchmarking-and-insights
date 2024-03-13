@@ -1,10 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using EducationBenchmarking.Platform.Domain.DataObjects;
 
-namespace EducationBenchmarking.Platform.Domain.Responses;
+namespace EducationBenchmarking.Platform.Import.Abstractions;
 
 [ExcludeFromCodeCoverage]
 public record ComparatorSetLookup
@@ -21,7 +17,7 @@ public record ComparatorSetLookup
         public string Compare { get; set; }
         public int CompareNum { get; set; }
         public int? DataReleaseId { get; set; }
-        public bool PartYearDataFlag { get; set; }
+        public int PartYearDataFlag { get; set; }
         public int? RangeFlag { get; set; }
         public int? Rank2 { get; set; }
         public int? Rank3 { get; set; }
@@ -33,7 +29,7 @@ public record ComparatorSetLookup
     }
 
     
-    public static ComparatorSetLookup Create(ComparatorSetLookupDataObject dataObject)
+    /*public static ComparatorSetLookup Create(ComparatorSetLookupDataObject dataObject)
     {
         return new ComparatorSetLookup
         {
@@ -57,5 +53,5 @@ public record ComparatorSetLookup
                 UseAllCompFlag = e.UseAllCompFlag
             }).ToList()
         };
-    }
+    }*/
 }
