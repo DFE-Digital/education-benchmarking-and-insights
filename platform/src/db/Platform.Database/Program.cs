@@ -10,8 +10,11 @@ return;
 
 static Task Deploy(Options options)
 {
+    var connectionString =
+        $"Server=tcp:{options.Server},1433;Database={options.Database};User ID={options.User};Password={options.Password};Trusted_Connection=False;Encrypt=True;";
+    
     DeployChanges.To
-     .SqlDatabase(options.ConnectionString)
+     .SqlDatabase(connectionString)
      .JournalToSqlTable("dbo", "SchemaVersions")
      .WithScriptsEmbeddedInAssembly(Assembly.GetExecutingAssembly(), s => s.StartsWith("Platform.Database.Scripts"))
      .LogToConsole()

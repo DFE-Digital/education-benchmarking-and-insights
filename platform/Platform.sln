@@ -31,6 +31,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\main.tf = terraform\main.tf
 		terraform\provider.tf = terraform\provider.tf
 		terraform\terraform.tfvars = terraform\terraform.tfvars
+		terraform\search.tf = terraform\search.tf
+		terraform\storage.tf = terraform\storage.tf
+		terraform\databases.tf = terraform\databases.tf
+		terraform\functions.tf = terraform\functions.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{331196E5-A208-4344-8C07-321E17121CAE}"
