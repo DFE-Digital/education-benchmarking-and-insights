@@ -82,8 +82,9 @@ resource "azurerm_resource_group_template_deployment" "function_keys" {
   BODY
 }
 
+
 locals {
-  key  = var.requires-keys ? lookup(azurerm_resource_group_template_deployment.function_keys[0].output_content, "functionkey", "") : null
+  key  = var.requires-keys ? jsondecode(azurerm_resource_group_template_deployment.function_keys[0].output_content).functionkey.value : null
   host = "https://${azurerm_windows_function_app.func-app.default_hostname}"
 }
 
