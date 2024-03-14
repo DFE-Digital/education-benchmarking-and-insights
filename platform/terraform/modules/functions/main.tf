@@ -52,13 +52,15 @@ resource "azurerm_windows_function_app" "func-app" {
 resource "azurerm_resource_group_template_deployment" "function_keys" {
   count = var.requires-keys ? 1 : 0
   name  = "${var.function-name}-host-key"
-  parameters = {
-    "functionApp" = azurerm_windows_function_app.func-app.name
-  }
+  parameters_content = jsonencode({
+    "functionApp" = {
+      value = azurerm_windows_function_app.func-app.name
+    }
+  })
   resource_group_name = azurerm_windows_function_app.func-app.resource_group_name
   deployment_mode     = "Incremental"
 
-  template_body = <<BODY
+  template_content = <<BODY
   {
       "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
       "contentVersion": "1.0.0.0",
@@ -81,7 +83,7 @@ resource "azurerm_resource_group_template_deployment" "function_keys" {
 }
 
 locals {
-  key  = var.requires-keys ? lookup(azurerm_template_deployment.function_keys[0].outputs, "functionkey", "") : null
+  key  = var.requires-keys ? lookup(azurerm_resource_group_template_deployment.function_keys[0].output_content, "functionkey", "") : null
   host = "https://${azurerm_windows_function_app.func-app.default_hostname}"
 }
 
