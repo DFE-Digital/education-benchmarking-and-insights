@@ -7,19 +7,21 @@ import {
   SchoolHistory,
 } from "src/views";
 import {
-  CompareWorkforceElementId,
   CompareCostsElementId,
+  CompareWorkforceElementId,
+  DeploymentPlanElementId,
   LineChart1SeriesElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
-  DeploymentPlanElementId,
   SchoolHistoryElementId,
+  SpendingAndCostsComposedElementId,
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import { Stat } from "./components/charts/stat";
-import { ChartHandler } from "./components";
+import { ChartHandler, ChartSortDirection } from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
+import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
+import { ResolvedStat } from "./components/charts/resolved-stat";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -119,6 +121,7 @@ const VerticalChart2Series = ({
           chartName="Percentage of pupils on roll and teacher cost"
           data={data}
           grid
+          highlightActive
           keyField="id"
           legend
           margin={20}
@@ -190,6 +193,7 @@ if (verticalChart3SeriesElement) {
               chartName="Percentage of pupils on roll and teacher cost"
               data={data}
               grid
+              highlightActive
               keyField="id"
               legend
               margin={20}
@@ -250,6 +254,7 @@ const LineChart1Series = ({
             chartName="In-year balance"
             data={data}
             grid
+            highlightActive
             keyField="term"
             margin={20}
             onImageLoading={setImageLoading}
@@ -267,9 +272,10 @@ const LineChart1Series = ({
           />
         </div>
         <aside className="govuk-grid-column-one-quarter desktop">
-          <Stat
+          <ResolvedStat
             chartName="Most recent in-year balance"
             className="chart-stat-line-chart"
+            compactValue
             data={data}
             displayIndex={data.length - 1}
             seriesLabelField="term"
@@ -298,6 +304,40 @@ if (lineChart1SeriesElement) {
     root.render(
       <React.StrictMode>
         <LineChart1Series data={data} />
+      </React.StrictMode>
+    );
+  }
+}
+
+const spendingAndCostsComposedElement = document.getElementById(
+  SpendingAndCostsComposedElementId
+);
+
+if (spendingAndCostsComposedElement) {
+  const { highlight, json, sortDirection } =
+    spendingAndCostsComposedElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(spendingAndCostsComposedElement);
+    const data = JSON.parse(json) as {
+      urn: string;
+      amount: number;
+    }[];
+
+    root.render(
+      <React.StrictMode>
+        <div className="govuk-grid-row">
+          <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
+            <ComparisonChartSummary
+              chartName="Percentage of pupils on roll and teacher cost"
+              data={data}
+              highlightedItemKey={highlight}
+              keyField="urn"
+              sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+              valueField="amount"
+              valueUnit="currency"
+            />
+          </div>
+        </div>
       </React.StrictMode>
     );
   }

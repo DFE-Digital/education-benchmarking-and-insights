@@ -1,15 +1,14 @@
-namespace Web.App.ViewModels.Components
-{
-    public class ResourcesViewModel(string identifier, IEnumerable<Resources> resources)
-    {
-        public IEnumerable<Resources> Resources => resources;
-        public string Identifier => identifier;
-    }
+namespace Web.App.ViewModels.Components;
 
-    public enum Resources
-    {
-        FindCommercialResources,
-        HistoricData,
-        SchoolDetails
-    }
+public class ResourcesViewModel(string identifier, IEnumerable<Resources> resources)
+{
+    public IEnumerable<Resources> Resources => resources;
+    public string Identifier => identifier;
+}
+
+public enum Resources
+{
+    FindCommercialResources,
+    HistoricData,
+    SchoolDetails
 }

@@ -29,6 +29,9 @@ export interface ChartProps<TData extends ChartDataSeries> {
   chartName: string;
   data: TData[];
   grid?: boolean;
+  hideXAxis?: boolean;
+  hideYAxis?: boolean;
+  highlightActive?: boolean;
   keyField: keyof TData;
   margin?: number;
   multiLineAxisLabel?: boolean;
@@ -66,4 +69,11 @@ export type TickProps = SVGProps<SVGGElement> & {
 
 export type ChartHandler = {
   download: () => void;
+};
+
+export type ChartSortDirection = "asc" | "desc";
+
+export type ChartDataSeriesSortMode<TData extends ChartDataSeries> = {
+  dataPoint: keyof TData;
+  direction: ChartSortDirection;
 };

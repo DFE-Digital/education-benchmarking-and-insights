@@ -4,33 +4,19 @@ import {
   ChartSeriesValue,
   ChartSeriesValueUnit,
 } from "src/components";
-import { useMemo } from "react";
 import classNames from "classnames";
 
 export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
   const {
     chartName,
     className,
-    data,
-    displayIndex,
-    seriesLabelField,
-    valueField,
+    compactValue,
+    label,
+    suffix,
+    value,
+    valueSuffix,
     valueUnit,
   } = props;
-
-  const entry = useMemo(() => {
-    const entry = Object.entries(data)[displayIndex];
-    if (!entry) {
-      return null;
-    }
-
-    return { label: entry[1][seriesLabelField], value: entry[1][valueField] };
-  }, [data, displayIndex, seriesLabelField, valueField]);
-
-  // do not render anything if a match could not be located based on the available data
-  if (!entry) {
-    return null;
-  }
 
   return (
     <div
@@ -39,19 +25,29 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
       role="note"
     >
       <div className="chart-stat-label">
-        <span className="govuk-body-s govuk-!-font-weight-bold">
-          {entry.label}
-        </span>
+        <span className="govuk-body-s govuk-!-font-weight-bold">{label}</span>
       </div>
       <div className="chart-stat-value govuk-body-l govuk-!-font-size-36">
-        <abbr
-          className="summary"
-          title={valueFormatter(entry.value, valueUnit)}
-          aria-label={valueFormatter(entry.value, valueUnit, false, true)}
-        >
-          {valueFormatter(entry.value, valueUnit, true)}
-        </abbr>
+        {compactValue ? (
+          <abbr
+            className="summary"
+            title={valueFormatter(value, valueUnit)}
+            aria-label={valueFormatter(value, valueUnit, false, true)}
+          >
+            {valueFormatter(value, valueUnit, true)}
+          </abbr>
+        ) : (
+          <span>{valueFormatter(value, valueUnit)}</span>
+        )}
+        {valueSuffix && (
+          <span className="chart-stat-value-suffix">{valueSuffix}</span>
+        )}
       </div>
+      {suffix && (
+        <div className="chart-stat-suffix">
+          <span className="govuk-body-s">{suffix}</span>
+        </div>
+      )}
     </div>
   );
 }

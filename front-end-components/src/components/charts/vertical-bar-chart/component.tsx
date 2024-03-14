@@ -30,9 +30,13 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   ref: ForwardedRef<ChartHandler>
 ) {
   const {
+    barCategoryGap,
     chartName,
     data,
     grid,
+    hideXAxis,
+    hideYAxis,
+    highlightActive,
     highlightedItemKeys,
     keyField,
     legend,
@@ -89,7 +93,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
         "chart-cell-highlight": (highlightedItemKeys || []).includes(
           entry[keyField]
         ),
-        "chart-cell-active": dataIndex === activeItemIndex,
+        "chart-cell-active": highlightActive && dataIndex === activeItemIndex,
       },
       `chart-cell-series-${seriesIndex}`,
       config?.className
@@ -98,7 +102,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     return (
       <Cell
         key={`cell-${entry[keyField]}`}
-        cursor="pointer"
+        cursor={highlightActive ? "pointer" : "default"}
         className={className}
       />
     );
@@ -113,6 +117,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     >
       <ResponsiveContainer>
         <BarChart
+          barCategoryGap={barCategoryGap}
           data={data}
           layout="horizontal"
           margin={{
@@ -159,10 +164,11 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             dataKey={seriesLabelField as string}
             tick={multiLineAxisLabel ? <MultiLineAxisTick /> : undefined}
             interval={0}
+            hide={hideXAxis}
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
-          <YAxis type="number" unit={valueUnit}>
+          <YAxis type="number" unit={valueUnit} hide={hideYAxis}>
             {valueLabel && (
               <Label
                 value={valueLabel}

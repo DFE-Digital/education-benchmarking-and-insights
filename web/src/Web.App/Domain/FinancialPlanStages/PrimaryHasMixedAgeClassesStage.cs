@@ -1,38 +1,37 @@
-namespace Web.App.Domain.FinancialPlanStages
+namespace Web.App.Domain.FinancialPlanStages;
+
+public class PrimaryHasMixedAgeClassesStage : Stage
 {
-    public class PrimaryHasMixedAgeClassesStage : Stage
+    public bool? HasMixedAgeClasses { get; set; }
+
+    public override void SetPlanValues(FinancialPlan plan)
     {
-        public bool? HasMixedAgeClasses { get; set; }
+        plan.HasMixedAgeClasses = HasMixedAgeClasses;
 
-        public override void SetPlanValues(FinancialPlan plan)
+        if (HasMixedAgeClasses is false)
         {
-            plan.HasMixedAgeClasses = HasMixedAgeClasses;
+            plan.MixedAgeReceptionYear1 = false;
+            plan.MixedAgeYear1Year2 = false;
+            plan.MixedAgeYear2Year3 = false;
+            plan.MixedAgeYear3Year4 = false;
+            plan.MixedAgeYear4Year5 = false;
+            plan.MixedAgeYear5Year6 = false;
 
-            if (HasMixedAgeClasses is false)
-            {
-                plan.MixedAgeReceptionYear1 = false;
-                plan.MixedAgeYear1Year2 = false;
-                plan.MixedAgeYear2Year3 = false;
-                plan.MixedAgeYear3Year4 = false;
-                plan.MixedAgeYear4Year5 = false;
-                plan.MixedAgeYear5Year6 = false;
+            plan.PupilsMixedReceptionYear1 = null;
+            plan.PupilsMixedYear1Year2 = null;
+            plan.PupilsMixedYear2Year3 = null;
+            plan.PupilsMixedYear3Year4 = null;
+            plan.PupilsMixedYear4Year5 = null;
+            plan.PupilsMixedYear5Year6 = null;
 
-                plan.PupilsMixedReceptionYear1 = null;
-                plan.PupilsMixedYear1Year2 = null;
-                plan.PupilsMixedYear2Year3 = null;
-                plan.PupilsMixedYear3Year4 = null;
-                plan.PupilsMixedYear4Year5 = null;
-                plan.PupilsMixedYear5Year6 = null;
+            plan.TeachersMixedReceptionYear1 = null;
+            plan.TeachersMixedYear1Year2 = null;
+            plan.TeachersMixedYear2Year3 = null;
+            plan.TeachersMixedYear3Year4 = null;
+            plan.TeachersMixedYear4Year5 = null;
+            plan.TeachersMixedYear5Year6 = null;
 
-                plan.TeachersMixedReceptionYear1 = null;
-                plan.TeachersMixedYear1Year2 = null;
-                plan.TeachersMixedYear2Year3 = null;
-                plan.TeachersMixedYear3Year4 = null;
-                plan.TeachersMixedYear4Year5 = null;
-                plan.TeachersMixedYear5Year6 = null;
-
-                //TODO : Set teaching assistant figures 
-            }
+            //TODO : Set teaching assistant figures 
         }
     }
 }
