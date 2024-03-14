@@ -82,6 +82,6 @@ resource "azurerm_storage_account" "threat-storage" {
 
   sas_policy {
     expiration_period = "90.00:00:00"
-  expiration_action = "Log"
-}
+    expiration_action = "Log"
+  }
 }
