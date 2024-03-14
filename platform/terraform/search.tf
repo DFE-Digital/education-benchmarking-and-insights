@@ -7,7 +7,7 @@ resource "azurerm_search_service" "search" {
 }
 
 resource "azurerm_key_vault_secret" "platform-search-key" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration dto be reviewed
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
   name         = "ebis-search-admin-key"
   value        = azurerm_search_service.search.primary_key
   key_vault_id = data.azurerm_key_vault.key-vault.id

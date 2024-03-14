@@ -86,7 +86,7 @@ locals {
 }
 
 resource "azurerm_key_vault_secret" "fa-key" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration dto be reviewed
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
   count        = var.requires-keys ? 1 : 0
   name         = "${var.function-name}-host-key"
   value        = local.key
@@ -95,7 +95,7 @@ resource "azurerm_key_vault_secret" "fa-key" {
 }
 
 resource "azurerm_key_vault_secret" "fa-host" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration dto be reviewed
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
   count        = var.requires-keys ? 1 : 0
   name         = "${var.function-name}-host"
   value        = local.host
