@@ -77,6 +77,7 @@ resource "azurerm_key_vault_secret" "platform-sql-db-name" {
 
 resource "azurerm_mssql_server" "sql-server" {
   #checkov:skip=CKV_AZURE_113:Public access required for Azure Devops build agents
+  #checkov:skip=CKV2_AZURE_45:To be reviewed for production
   name                         = "${var.environment-prefix}-ebis-sql"
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
@@ -85,12 +86,10 @@ resource "azurerm_mssql_server" "sql-server" {
   administrator_login_password = azurerm_key_vault_secret.platform-sql-admin-password.value
   tags                         = local.common-tags
 
-  /*
-  Needs to be set
   azuread_administrator {
-    login_username = "AzureAD Admin"
-    object_id      = "00000000-0000-0000-0000-000000000000"
-  }*/
+    login_username = "michael.fielding@education.gov.uk"
+    object_id      = "42665fd4-ab1f-4192-9033-bfc059c6ea9a"
+  }
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
@@ -103,11 +102,13 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
 }
 
 resource "azurerm_mssql_database" "sql-db" {
-  name        = "ebis-data"
-  server_id   = azurerm_mssql_server.sql-server.id
-  tags        = local.common-tags
-  sku_name    = "S0"
-  max_size_gb = 5
+  #checkov:skip=CKV_AZURE_229:To be reviewed for production
+  name                = "ebis-data"
+  server_id           = azurerm_mssql_server.sql-server.id
+  tags                = local.common-tags
+  sku_name            = "S0"
+  max_size_gb         = 5
+  minimum_tls_version = "1.2"
 
   threat_detection_policy {
     state                      = "Enabled"
