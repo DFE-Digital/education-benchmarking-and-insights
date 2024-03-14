@@ -1,13 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.App.ViewModels.Components;
 
-namespace Web.App.ViewComponents
+namespace Web.App.ViewComponents;
+
+public class SchoolFinanceToolsViewComponent : ViewComponent
 {
-    public class SchoolFinanceToolsViewComponent : ViewComponent
+    public IViewComponentResult Invoke(string identifier, FinanceTools[] tools)
     {
-        public IViewComponentResult Invoke(string identifier, FinanceTools[] tools)
-        {
-            return View(new FinanceToolsViewModel(identifier, tools));
-        }
+        return View(new FinanceToolsViewModel(identifier, tools));
     }
 }

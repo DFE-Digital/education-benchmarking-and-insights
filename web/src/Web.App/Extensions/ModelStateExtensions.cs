@@ -1,17 +1,16 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 
-namespace Web.App.Extensions
-{
-    [ExcludeFromCodeCoverage]
-    public static class ModelStateExtensions
-    {
-        public static bool HasError(this ModelStateDictionary state, string key)
-        {
-            if (state.TryGetValue(key, out var entry))
-                return entry.ValidationState == ModelValidationState.Invalid;
+namespace Web.App.Extensions;
 
-            return false;
-        }
+[ExcludeFromCodeCoverage]
+public static class ModelStateExtensions
+{
+    public static bool HasError(this ModelStateDictionary state, string key)
+    {
+        if (state.TryGetValue(key, out var entry))
+            return entry.ValidationState == ModelValidationState.Invalid;
+
+        return false;
     }
 }

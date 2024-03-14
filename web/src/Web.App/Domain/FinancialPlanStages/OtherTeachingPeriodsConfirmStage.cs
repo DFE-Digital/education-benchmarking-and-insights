@@ -1,7 +1,6 @@
-﻿namespace Web.App.Domain.FinancialPlanStages
+﻿namespace Web.App.Domain.FinancialPlanStages;
+
+public class OtherTeachingPeriodsConfirmStage : Stage
 {
-    public class OtherTeachingPeriodsConfirmStage : Stage
-    {
-        public bool? Proceed { get; set; }
-    }
+    public bool? Proceed { get; set; }
 }

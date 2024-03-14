@@ -1,19 +1,18 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.App.Extensions
-{
-    [ExcludeFromCodeCoverage]
-    public static class SessionExtensions
-    {
-        public static void Set<T>(this ISession session, string key, T value)
-        {
-            session.SetString(key, value.ToJson());
-        }
+namespace Web.App.Extensions;
 
-        public static T? Get<T>(this ISession session, string key)
-        {
-            var value = session.GetString(key);
-            return value == null ? default : value.FromJson<T>();
-        }
+[ExcludeFromCodeCoverage]
+public static class SessionExtensions
+{
+    public static void Set<T>(this ISession session, string key, T value)
+    {
+        session.SetString(key, value.ToJson());
+    }
+
+    public static T? Get<T>(this ISession session, string key)
+    {
+        var value = session.GetString(key);
+        return value == null ? default : value.FromJson<T>();
     }
 }
