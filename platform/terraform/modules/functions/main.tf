@@ -49,7 +49,7 @@ resource "azurerm_windows_function_app" "func-app" {
   }
 }
 
-resource "azurerm_template_deployment" "function_keys" {
+resource "azurerm_resource_group_template_deployment" "function_keys" {
   count = var.requires-keys ? 1 : 0
   name  = "${var.function-name}-host-key"
   parameters = {

@@ -85,6 +85,7 @@ resource "azurerm_mssql_server" "sql-server" {
   administrator_login          = azurerm_key_vault_secret.platform-sql-admin-username.value
   administrator_login_password = azurerm_key_vault_secret.platform-sql-admin-password.value
   tags                         = local.common-tags
+  minimum_tls_version          = "1.2"
 
   azuread_administrator {
     login_username = "michael.fielding@education.gov.uk"
@@ -103,12 +104,11 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
 
 resource "azurerm_mssql_database" "sql-db" {
   #checkov:skip=CKV_AZURE_229:To be reviewed for production
-  name                = "ebis-data"
-  server_id           = azurerm_mssql_server.sql-server.id
-  tags                = local.common-tags
-  sku_name            = "S0"
-  max_size_gb         = 5
-  minimum_tls_version = "1.2"
+  name        = "ebis-data"
+  server_id   = azurerm_mssql_server.sql-server.id
+  tags        = local.common-tags
+  sku_name    = "S0"
+  max_size_gb = 5
 
   threat_detection_policy {
     state                      = "Enabled"
