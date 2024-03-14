@@ -8,7 +8,8 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="CommandLineParser"/>
-        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <PackageReference Include="dbup-sqlserver" />
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
+        <EmbeddedResource Include="Scripts/*.sql" />
     </ItemGroup>
 </Project>
