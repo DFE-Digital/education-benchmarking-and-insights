@@ -1,4 +1,7 @@
 resource "azurerm_storage_account" "platform-storage" {
+  #checkov:skip=CKV_AZURE_206:Only LRS required
+  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
+  #checkov:skip=CKV_AZURE_33:Storage queues not used
   name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -6,6 +9,7 @@ resource "azurerm_storage_account" "platform-storage" {
   account_replication_type        = "LRS"
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
+  min_tls_version                 = "TLS1_2"
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {
@@ -22,6 +26,9 @@ resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
 }
 
 resource "azurerm_storage_account" "audit-storage" {
+  #checkov:skip=CKV_AZURE_206:Only LRS required
+  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
+  #checkov:skip=CKV_AZURE_33:Storage queues not used
   name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -29,9 +36,13 @@ resource "azurerm_storage_account" "audit-storage" {
   account_replication_type        = "LRS"
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
+  min_tls_version                 = "TLS1_2"
 }
 
 resource "azurerm_storage_account" "threat-storage" {
+  #checkov:skip=CKV_AZURE_206:Only LRS required
+  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
+  #checkov:skip=CKV_AZURE_33:Storage queues not used
   name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -39,4 +50,5 @@ resource "azurerm_storage_account" "threat-storage" {
   account_replication_type        = "LRS"
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
+  min_tls_version                 = "TLS1_2"
 }
