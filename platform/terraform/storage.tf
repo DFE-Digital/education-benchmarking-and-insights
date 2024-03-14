@@ -10,6 +10,17 @@ resource "azurerm_storage_account" "platform-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
+
+  sas_policy {
+    expiration_period = "90.00:00:00"
+    expiration_action = "Log"
+  }
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {
@@ -37,6 +48,17 @@ resource "azurerm_storage_account" "audit-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
+
+  sas_policy {
+    expiration_period = "90.00:00:00"
+    expiration_action = "Log"
+  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -51,4 +73,15 @@ resource "azurerm_storage_account" "threat-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
+
+  blob_properties {
+    delete_retention_policy {
+      days = 7
+    }
+  }
+
+  sas_policy {
+    expiration_period = "90.00:00:00"
+  expiration_action = "Log"
+}
 }
