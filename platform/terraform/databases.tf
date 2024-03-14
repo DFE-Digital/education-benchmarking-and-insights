@@ -60,6 +60,7 @@ resource "azurerm_key_vault_secret" "platform-sql-admin-password" {
 }
 
 resource "azurerm_key_vault_secret" "platform-sql-server" {
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
   name         = "ebis-sql-server"
   value        = azurerm_mssql_server.sql-server.fully_qualified_domain_name
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -67,6 +68,7 @@ resource "azurerm_key_vault_secret" "platform-sql-server" {
 }
 
 resource "azurerm_key_vault_secret" "platform-sql-db-name" {
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
   name         = "ebis-sql-db-data"
   value        = azurerm_mssql_database.sql-db.name
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -74,6 +76,7 @@ resource "azurerm_key_vault_secret" "platform-sql-db-name" {
 }
 
 resource "azurerm_mssql_server" "sql-server" {
+  #checkov:skip=CKV_AZURE_113:Public access required for Azure Devops build agents
   name                         = "${var.environment-prefix}-ebis-sql"
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
@@ -96,6 +99,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
   storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 120
+  log_monitoring_enabled                  = true
 }
 
 resource "azurerm_mssql_database" "sql-db" {
@@ -119,6 +123,7 @@ resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
   storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 120
+  log_monitoring_enabled                  = true
 }
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe" {
@@ -133,20 +138,4 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
   server_id        = azurerm_mssql_server.sql-server.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
-}
-
-
-moved {
-  from = azurerm_mssql_server.sql_server
-  to   = azurerm_mssql_server.sql-server
-}
-
-moved {
-  from = azurerm_mssql_database.sql_db
-  to   = azurerm_mssql_database.sql-db
-}
-
-moved {
-  from = random_password.sql_admin_password
-  to   = random_password.sql-admin-password
 }
