@@ -52,3 +52,8 @@
           | non class room support staff | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | auxiliary staff              | total, headcount per FTE, percentage of workforce, pupils per staff role |
           | school workforce headcount   | total, pupils per staff role                                             |
+          
+Scenario: View how we choose similar school details
+    Given I am on workforce page for school with URN '139696'
+    When I click on how we choose similar schools
+    Then the details section is expanded

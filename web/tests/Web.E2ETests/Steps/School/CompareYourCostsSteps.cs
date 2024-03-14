@@ -130,6 +130,20 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), false, "Show", "chart");
     }
 
+    [When("I click on how we choose similar schools")]
+    public async Task WhenIClickOnHowWeChooseSimilarSchools()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.ClickHowWeChooseSimilarSchoolsBtn();
+    }
+
+    [Then("the details section is expanded")]
+    public async Task ThenTheDetailsSectionIsExpanded()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsDetailsSectionVisible();
+    }
+
     private void ChartDownloaded(string chartName)
     {
         Assert.NotNull(_download);

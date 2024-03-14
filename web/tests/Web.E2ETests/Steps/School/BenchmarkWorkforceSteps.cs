@@ -155,5 +155,21 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
         };
     }
 
+    [When("I click on how we choose similar schools")]
+    public async Task WhenIClickOnHowWeChooseSimilarSchools()
+    {
+        Assert.NotNull(_workforcePage);
+        await _workforcePage.ClickHowWeChooseSimilarSchoolsBtn();
+    }
+
+    [Then("the details section is expanded")]
+    public async Task ThenTheDetailsSectionIsExpanded()
+    {
+        Assert.NotNull(_workforcePage);
+        await _workforcePage.IsDetailsSectionVisible();
+    }
+
     private static string BenchmarkWorkforceUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/workforce";
+
+
 }
