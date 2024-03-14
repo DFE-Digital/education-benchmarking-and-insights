@@ -1,5 +1,6 @@
 parameters:
   TerraformDirectory: ''
+  ContinueOnError: false
 
 steps:
   - bash: docker pull bridgecrew/checkov
@@ -18,4 +19,4 @@ steps:
       testResultsFiles: "CheckovReport.xml"
       searchFolder: "${{ parameters.TerraformDirectory }}"
     displayName: "Publish results"
-    continueOnError: true
+    continueOnError: ${{ parameters.ContinueOnError }}

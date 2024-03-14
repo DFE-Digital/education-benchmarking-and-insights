@@ -54,6 +54,7 @@ stages:
           - template: ..\..\shared\steps-scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
+              ContinueOnError: true
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
