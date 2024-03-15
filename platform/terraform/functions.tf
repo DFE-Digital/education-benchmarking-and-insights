@@ -1,3 +1,7 @@
+locals {
+  db-connection-string = "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql-db.name};User ID=${azurerm_key_vault_secret.platform-sql-admin-username.value};Password=${azurerm_key_vault_secret.platform-sql-admin-password.value};Trusted_Connection=False;Encrypt=True;"
+}
+
 module "benchmark-fa" {
   source                                 = "./modules/functions"
   function-name                          = "benchmark"
@@ -14,6 +18,7 @@ module "benchmark-fa" {
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName"        = "fibre-directory"
     "Cosmos__FinancialPlanCollectionName" = "financial-plans"
+    "Sql__ConnectionString"               = local.db-connection-string
   })
 }
 

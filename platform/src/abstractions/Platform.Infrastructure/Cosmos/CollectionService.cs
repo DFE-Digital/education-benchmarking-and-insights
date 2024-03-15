@@ -11,14 +11,10 @@ public record CollectionServiceOptions : CosmosDatabaseOptions
 }
 
 [ExcludeFromCodeCoverage]
-public class CollectionService : CosmosDatabase, ICollectionService
+public class CollectionService(IOptions<CollectionServiceOptions> options)
+    : CosmosDatabase(options.Value), ICollectionService
 {
-    private readonly CollectionServiceOptions _options;
-
-    public CollectionService(IOptions<CollectionServiceOptions> options) : base(options.Value)
-    {
-        _options = options.Value;
-    }
+    private readonly CollectionServiceOptions _options = options.Value;
 
     private async Task<DataCollection[]> AllActiveCollections()
     {

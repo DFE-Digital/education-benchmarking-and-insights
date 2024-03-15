@@ -3,8 +3,8 @@ using System.Diagnostics.CodeAnalysis;
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSet<T>
+public record ComparatorSet
 {
     public int TotalResults { get; set; }
-    public IEnumerable<T> Results { get; set; } = Array.Empty<T>();
+    public IEnumerable<string> Results { get; set; } = Array.Empty<string>();
 }

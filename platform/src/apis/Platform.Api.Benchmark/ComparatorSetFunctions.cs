@@ -8,6 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.Db;
+using Platform.Domain;
 using Platform.Domain.Responses;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -26,30 +27,63 @@ public class ComparatorSetFunctions
         _logger = logger;
     }
 
-    [FunctionName(nameof(CreateComparatorSetAsync))]
+    [FunctionName(nameof(DefaultPupilComparatorSetAsync))]
     [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> CreateComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set")]
-        HttpRequest req)
+    public async Task<IActionResult> DefaultPupilComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/pupil/default/{urn}")]
+        HttpRequest req,
+        string urn)
     {
         var correlationId = req.GetCorrelationId();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
                }))
         {
             try
             {
-                var set = await _db.CreateSet();
+                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Pupil);
 
                 return new JsonContentResult(set);
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to create comparator set");
+                _logger.LogError(e, "Failed to get comparator set");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(DefaultAreaComparatorSetAsync))]
+    [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> DefaultAreaComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/area/default/{urn}")]
+        HttpRequest req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
+               }))
+        {
+            try
+            {
+                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Area);
+
+                return new JsonContentResult(set);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

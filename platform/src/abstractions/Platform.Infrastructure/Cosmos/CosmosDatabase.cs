@@ -15,38 +15,31 @@ public abstract record CosmosDatabaseOptions
 
 
 [ExcludeFromCodeCoverage]
-public abstract class CosmosDatabase
+public abstract class CosmosDatabase(CosmosDatabaseOptions options)
 {
-    private readonly CosmosDatabaseOptions _options;
-    private readonly CosmosClient _client;
-
-    protected CosmosDatabase(CosmosDatabaseOptions options)
-    {
-        _options = options;
-        _client = CosmosClientFactory.Create(options.ConnectionString, options.IsDirect);
-    }
+    private readonly CosmosClient _client = CosmosClientFactory.Create(options.ConnectionString, options.IsDirect);
 
     protected Task<ItemResponse<T>> ReadItemAsync<T>(string containerId, string id, string partitionKey)
     {
-        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        var container = _client.GetContainer(options.DatabaseId, containerId);
         return container.ReadItemAsync<T>(id, new PartitionKey(partitionKey));
     }
 
     protected Task<ResponseMessage> ReadItemStreamAsync(string containerId, string id, string partitionKey)
     {
-        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        var container = _client.GetContainer(options.DatabaseId, containerId);
         return container.ReadItemStreamAsync(id, new PartitionKey(partitionKey));
     }
 
     protected async Task UpsertItemAsync<T>(string containerId, T item, PartitionKey partitionKey)
     {
-        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        var container = _client.GetContainer(options.DatabaseId, containerId);
         await container.UpsertItemAsync(item, partitionKey);
     }
 
     protected async Task DeleteItemAsync<T>(string containerId, string identifier, PartitionKey partitionKey)
     {
-        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        var container = _client.GetContainer(options.DatabaseId, containerId);
         await container.DeleteItemAsync<T>(identifier, partitionKey);
     }
 
@@ -99,7 +92,7 @@ public abstract class CosmosDatabase
     private IQueryable<T> BuildQueryable<T>(string? containerId, Func<IQueryable<T>, IQueryable<T>>? withF = null)
     {
         ArgumentNullException.ThrowIfNull(containerId);
-        var container = _client.GetContainer(_options.DatabaseId, containerId);
+        var container = _client.GetContainer(options.DatabaseId, containerId);
         return withF != null ? withF(container.GetItemLinqQueryable<T>())
             : container.GetItemLinqQueryable<T>();
     }
