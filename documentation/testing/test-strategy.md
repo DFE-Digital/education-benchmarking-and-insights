@@ -159,13 +159,13 @@ We will be focusing on Chrome browser on Windows and MacOs and Edge on windows c
 Any issues or discrepancies between browsers will be raised as defects and then assessed for priority and severity.
 #### Environments
 
-| Env Prefix | Env Name       | Testing             |
-|------------|----------------|---------------------|
-| -          | Local          | -                   |
-| d01        | Dev            | Manual acceptance   |
-| d02        | Dev2           | Feature/e2e         |
-| TBC        | Test           | Non-functional tests |
-| TBC        | Production/Live| -                   |
+| Env Prefix | Env Name        | Testing                              |
+|------------|-----------------|--------------------------------------|
+| -          | Local           | -                                    |
+| d01        | development     | Manual acceptance                    |
+| d02        | automated-test  | all automated tests (API, E2E, A11y) |
+| t01        | test            | non functional tests                 |
+| TBC        | Production/Live | -                                    |
 
 **Path to live**
 

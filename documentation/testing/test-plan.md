@@ -10,7 +10,7 @@
 ## Project Overview
 
 ### Purpose
-The purpose of the software is to seamlessly integrate the functionalities of View My Financial Insights (VMFI) and School Financial Benchmarking (SFB). The end goal is to provide users with a unified platform where they can compare school financial data, view school spending, and analyse expenditures in comparison with similar schools. Another objective is to build ETL data pipelines to import and operate on raw data files and deposit them into some Azure storage solution.
+The purpose of the software is to seamlessly integrate the functionalities of View My Financial Insights (VMFI) and School Financial Benchmarking (SFB). The end goal is to provide users with a unified platform where they can compare school financial data, view school spending, and analyse expenditures in comparison with similar schools. Another objective is to build ETL data pipelines to import and operate on raw data files and deposit them into some storage solution.
 
 ### Key Features and Functionalities
 The software will empower users with the ability to conduct benchmarking by comparing school financial data. Additionally, users can easily view their own school's spending patterns and compare these expenditures with similar schools or academies. There would also be an option to see a forecast of spending. Implementation of data pipelines to ingest data in the pipeline.
