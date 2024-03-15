@@ -29,6 +29,11 @@ public class CompareYourCostsPage(IPage page)
 
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
+    private ILocator ComparatorSetDetails =>
+        page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose similar schools" });
+    private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
+    private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
 
     public async Task IsDisplayed()
     {
@@ -41,6 +46,9 @@ public class CompareYourCostsPage(IPage page)
         await ShowHideAllSectionsLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
+        await ComparatorSetDetails.ShouldBeVisible();
+        await ComparatorSetLink.ShouldNotBeVisible();
+        await ComparatorSetDetailsText.ShouldNotBeVisible();
 
         await HasDimensionValuesForChart(ComparisonChartNames.Premises,
             ["£ per m²", "actuals", "percentage of expenditure", "percentage of income"]);
@@ -147,6 +155,17 @@ public class CompareYourCostsPage(IPage page)
         await link.ShouldHaveAttribute("aria-expanded", visibility.ToString().ToLower());
         await link.Locator(Selectors.ToggleSectionText).ShouldHaveText(text);
         await IsSectionContentVisible(chartName, visibility, chartMode);
+    }
+
+    public async Task ClickComparatorSetDetails()
+    {
+        await ComparatorSetDetails.Click();
+    }
+
+    public async Task IsDetailsSectionVisible()
+    {
+        await ComparatorSetDetailsText.ShouldBeVisible();
+        await ComparatorSetLink.ShouldBeVisible();
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)

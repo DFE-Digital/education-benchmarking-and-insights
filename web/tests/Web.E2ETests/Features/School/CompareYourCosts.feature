@@ -54,3 +54,8 @@ Feature: School compare your costs
         And all sections are shown
         When I click section link for 'non educational support staff'
         Then the section 'non educational support staff' is hidden
+        
+    Scenario: View how we choose similar school details
+        Given I am on compare your costs page for school with URN '139696'
+        When I click on how we choose similar schools
+        Then the details section is expanded
