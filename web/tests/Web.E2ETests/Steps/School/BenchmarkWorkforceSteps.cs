@@ -159,7 +159,7 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
     public async Task WhenIClickOnHowWeChooseSimilarSchools()
     {
         Assert.NotNull(_workforcePage);
-        await _workforcePage.ClickHowWeChooseSimilarSchoolsBtn();
+        await _workforcePage.ClickComparatorSetDetails();
     }
 
     [Then("the details section is expanded")]

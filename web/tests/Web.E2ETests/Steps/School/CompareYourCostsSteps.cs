@@ -131,10 +131,10 @@ public class CompareYourCostsSteps(PageDriver driver)
     }
 
     [When("I click on how we choose similar schools")]
-    public async Task WhenIClickOnHowWeChooseSimilarSchools()
+    public async Task ClickComparatorSetDetails()
     {
         Assert.NotNull(_comparisonPage);
-        await _comparisonPage.ClickHowWeChooseSimilarSchoolsBtn();
+        await _comparisonPage.ClickComparatorSetDetails();
     }
 
     [Then("the details section is expanded")]

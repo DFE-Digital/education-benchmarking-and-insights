@@ -31,7 +31,7 @@ public class CompareYourCostsPage(IPage page)
         page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose similar schools" });
-    private ILocator ViewChangeComparatorSetLink => page.Locator(Selectors.GovLink,
+    private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
 
@@ -47,7 +47,7 @@ public class CompareYourCostsPage(IPage page)
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
         await ComparatorSetDetails.ShouldBeVisible();
-        await ViewChangeComparatorSetLink.ShouldNotBeVisible();
+        await ComparatorSetLink.ShouldNotBeVisible();
         await ComparatorSetDetailsText.ShouldNotBeVisible();
 
         await HasDimensionValuesForChart(ComparisonChartNames.Premises,
@@ -157,7 +157,7 @@ public class CompareYourCostsPage(IPage page)
         await IsSectionContentVisible(chartName, visibility, chartMode);
     }
 
-    public async Task ClickHowWeChooseSimilarSchoolsBtn()
+    public async Task ClickComparatorSetDetails()
     {
         await ComparatorSetDetails.Click();
     }
@@ -165,7 +165,7 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsDetailsSectionVisible()
     {
         await ComparatorSetDetailsText.ShouldBeVisible();
-        await ViewChangeComparatorSetLink.ShouldBeVisible();
+        await ComparatorSetLink.ShouldBeVisible();
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
