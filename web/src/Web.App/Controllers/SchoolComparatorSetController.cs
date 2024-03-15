@@ -23,37 +23,8 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
                 ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
-                var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
-                return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error displaying school comparator set: {DisplayUrl}", Request.GetDisplayUrl());
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-            }
-        }
-    }
-
-    [HttpPost]
-    public async Task<IActionResult> Index(string urn, string referrer, [FromForm] string action)
-    {
-        using (logger.BeginScope(new { urn, referrer }))
-        {
-            try
-            {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
-
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                FormAction setAction = action;
-                var set = setAction.Action switch
-                {
-                    FormAction.Remove => await comparatorSetService.RemoveSchoolFromComparatorSet(urn, setAction.Identifier ?? throw new ArgumentNullException(setAction.Identifier)),
-                    FormAction.Reset => await comparatorSetService.ResetSchoolComparatorSet(urn),
-                    _ => throw new ArgumentOutOfRangeException(nameof(setAction.Action))
-                };
-
-                var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
+                var set = await comparatorSetService.ReadDefaultPupilComparatorSet(urn);
+                var viewModel = new SchoolComparatorSetViewModel(school, set);
                 return View(viewModel);
             }
             catch (Exception e)

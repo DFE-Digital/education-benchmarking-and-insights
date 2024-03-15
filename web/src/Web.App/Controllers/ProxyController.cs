@@ -96,28 +96,28 @@ public class ProxyController(
 
     private async Task<IActionResult> TrustExpenditure(string id)
     {
-        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<string>>();
         var result = await financeService.GetExpenditure(schools);
         return new JsonResult(result);
     }
 
     private async Task<IActionResult> SchoolExpenditure(string id)
     {
-        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+        var set = await comparatorSetService.ReadDefaultPupilComparatorSet(id);
         var result = await financeService.GetExpenditure(set.Results);
         return new JsonResult(result);
     }
 
     private async Task<IActionResult> TrustWorkforce(string id)
     {
-        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<string>>();
         var result = await financeService.GetWorkforce(schools);
         return new JsonResult(result);
     }
 
     private async Task<IActionResult> SchoolWorkforce(string id)
     {
-        var set = await comparatorSetService.ReadSchoolComparatorSet(id);
+        var set = await comparatorSetService.ReadDefaultPupilComparatorSet(id);
         var result = await financeService.GetWorkforce(set.Results);
         return new JsonResult(result);
     }

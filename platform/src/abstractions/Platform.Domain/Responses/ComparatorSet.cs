@@ -8,17 +8,16 @@ namespace Platform.Domain.Responses;
 public record ComparatorSet
 {
     public int TotalResults { get; set; }
-    public IEnumerable<School>? Results { get; set; }
+    public IEnumerable<string>? Results { get; set; }
 
-    public static ComparatorSet Create(IEnumerable<School> results, int? totalResults = null, bool includeResults = true)
+    public static ComparatorSet Create(IEnumerable<string> results)
     {
-        var enumerable = results as School[] ?? results.ToArray();
-        var resultCount = totalResults ?? enumerable.Length;
+        var enumerable = results as string[] ?? results.ToArray();
 
         return new ComparatorSet
         {
-            Results = includeResults ? enumerable : null,
-            TotalResults = resultCount
+            Results = enumerable,
+            TotalResults = enumerable.Length
         };
     }
 }

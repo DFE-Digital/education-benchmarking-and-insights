@@ -6,8 +6,8 @@ namespace Web.App.Services;
 
 public interface IFinanceService
 {
-    Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools);
-    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools);
+    Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools);
+    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools);
     Task<Finances> GetFinances(School school);
     Task<FinanceYears> GetYears();
 }
@@ -19,13 +19,13 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
     }
 
-    public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools)
+    public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools)
     {
         var query = BuildApiQueryFromComparatorSet(schools);
         return await insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
     }
 
-    public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools)
+    public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools)
     {
         var query = BuildApiQueryFromComparatorSet(schools);
         return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
@@ -45,13 +45,13 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         }
     }
 
-    private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<School> schools)
+    private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<string> schools)
     {
         var array = schools.ToArray();
         var query = new ApiQuery().Page(1, array.Length);
         foreach (var school in array)
         {
-            query.AddIfNotNull("urns", school.Urn);
+            query.AddIfNotNull("urns", school);
         }
 
         return query;
