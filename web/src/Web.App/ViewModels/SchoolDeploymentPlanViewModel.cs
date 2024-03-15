@@ -128,7 +128,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
 
     public decimal AverageTeacherCost => TotalTeacherCosts / TotalNumberOfTeachersFte;
 
-    public decimal AverageTeachingAssistantCost => EducationSupportStaffCosts / TotalTeachingAssistants;
+    public decimal AverageTeachingAssistantCost => TotalTeachingAssistants > 0 ? EducationSupportStaffCosts / TotalTeachingAssistants : 0;
 
     public ManagementRole[] ManagementRoles => BuildManagementRoles();
 
