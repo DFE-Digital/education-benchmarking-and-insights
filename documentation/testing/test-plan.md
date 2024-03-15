@@ -120,7 +120,7 @@ Defects will be reported via DevOps task, closely linked to the respective user 
 The primary tester, Faizan Ahmad, will lead testing efforts. The entire team will share the responsibility for maintaining overall product quality.
 
 ## Communication Plan
-Communication will be facilitated through Teams or Slack. Discussions will primarily take place within DevOps tickets for the sake of visibility and back tracing.
+Communication will be facilitated through Teams or Slack. Decisions and outcomes will be logged in DevOps tickets to ensure visibility and traceability.
 
 ## Measurement of Success
 The success of the testing effort will be measured through metrics such as automated testing coverage, defect density, and overall adherence to acceptance criteria.
