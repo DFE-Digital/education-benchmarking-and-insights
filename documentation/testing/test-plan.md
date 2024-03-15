@@ -93,6 +93,10 @@ If the user story in progress has some non-GDS components developed, then cross-
 **API Functional Test:**
 If the user story has changes to the back end API, then API functional tests are added for the changes being made. They are normally done after the dev work is done.
 
+**User Acceptance Testing:**
+User Acceptance Testing (UAT) is the final phase of testing conducted before the system is released to the end-users. The purpose of UAT is to ensure that the system meets the specified requirements and that data has been successfully translated into the system. Testing will focus on checking the data integrity.
+UAT will be conducted in a dedicated testing environment that closely mirrors the production environment with real data. We'll use actual data files to check if the system works correctly and does the right calculations by writing automated tests/scripts. The schedule of UAT is yet to be defined. All team will be involved in UAT with tech team focusing on writing autoamted scripts and rest team on manual testing. 
+
 ## Test Data
 
 ### Required Test Data

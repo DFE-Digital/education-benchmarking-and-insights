@@ -89,12 +89,6 @@ API tests are designed to test that the correct responses are received from the 
   - [Xunit](https://github.com/xunit)
   - [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
 
-#### Performance Testing
-Performance testing is used to evaluate how the service is able to cope in terms of its stability, responsiveness, and usability when put under different simulated workloads. We yet have to implement it before going live. 
-
-**Technology Selected**
-  
-[will be added later on once we implement it]
 
 #### Accessibility Testing
 Automated accessibility testing will be carried out using Deque.axe.playwright library to generate feedback on whether the service meets high-level accessibility requirements in line with WCAG 2.2 AA. This will run as part of the pipeline in the later deployment steps from development to test and production.
@@ -103,6 +97,20 @@ Automated accessibility testing will be carried out using Deque.axe.playwright l
   -  [Deque.axe.playwright](https://github.com/dequelabs/axe-core-nuget/blob/develop/packages/playwright/README.md)
   - [FluentAssertion](https://github.com/fluentassertions/fluentassertions)
   -  [Playwright](https://playwright.dev/)
+
+**UAT Testing**
+UAT will be performed before release to ensure the system meets the requirements. This would also give assurance data has been successfully translated into the system.  
+
+**Technology Selected**
+
+[will be added later on once we implement it]
+
+#### Performance Testing
+Performance testing is used to evaluate how the service is able to cope in terms of its stability, responsiveness, and usability when put under different simulated workloads. We yet have to implement it before going live.
+
+**Technology Selected**
+
+[will be added later on once we implement it]
 
 #### Security Scans
 Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information.
@@ -133,8 +141,7 @@ This testing is carried out by test engineer(s) and/or developers when it is dee
 ### Testing Requirements
 
 #### Supported Browsers
-
-**Insert supported browsers**
+We will be focusing on Chrome browser on Windows and MacOs and Edge on windows considering the insights we have from the previous system. The rest of the browsers shown below will be checked on adhoc basis. 
 
 | Operating System | Browser                      | Versions                     |
 |------------------|------------------------------|------------------------------|
@@ -156,7 +163,7 @@ Any issues or discrepancies between browsers will be raised as defects and then 
 |------------|----------------|---------------------|
 | -          | Local          | -                   |
 | d01        | Dev            | Manual acceptance   |
-| TBC        | Dev2           | Feature/e2e         |
+| d02        | Dev2           | Feature/e2e         |
 | TBC        | Test           | Non-functional tests |
 | TBC        | Production/Live| -                   |
 
