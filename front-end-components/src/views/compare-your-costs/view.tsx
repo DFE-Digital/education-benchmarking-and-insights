@@ -12,11 +12,7 @@ import {
   ExpenditureAccordion,
 } from "src/views/compare-your-costs/partials";
 import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
-import {
-  EstablishmentsApi,
-  EstablishmentApiResult,
-  Expenditure,
-} from "src/services";
+import { EstablishmentsApi, Expenditure } from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
   School,
@@ -30,8 +26,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
 ) => {
   const { type, id, academyYear, maintainedYear } = props;
-  const [expenditureData, setExpenditureData] =
-    useState<EstablishmentApiResult<Expenditure>>();
+  const [expenditureData, setExpenditureData] = useState<Expenditure[]>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(
     School.empty
@@ -50,7 +45,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
       getExpenditure().then((data) => {
         setExpenditureData(data);
 
-        const currentSchool = data.results.find(
+        const currentSchool = data.find(
           (school) => type == SchoolEstablishment && school.urn == id
         );
         if (currentSchool) {
@@ -84,14 +79,10 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
       </div>
       <ChartModeContext.Provider value={displayMode}>
         <TotalExpenditure
-          schools={
-            expenditureData ? expenditureData.results : new Array<Expenditure>()
-          }
+          schools={expenditureData ? expenditureData : new Array<Expenditure>()}
         />
         <ExpenditureAccordion
-          schools={
-            expenditureData ? expenditureData.results : new Array<Expenditure>()
-          }
+          schools={expenditureData ? expenditureData : new Array<Expenditure>()}
         />
       </ChartModeContext.Provider>
     </SelectedSchoolContext.Provider>

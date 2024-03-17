@@ -8,11 +8,7 @@ import React, {
 //@ts-expect-error
 import { initAll } from "govuk-frontend";
 import { CompareYourWorkforceViewProps } from "src/views";
-import {
-  EstablishmentsApi,
-  EstablishmentApiResult,
-  Workforce,
-} from "src/services";
+import { EstablishmentsApi, Workforce } from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
   SelectedSchool,
@@ -35,8 +31,7 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   props
 ) => {
   const { type, id, academyYear, maintainedYear } = props;
-  const [workforceData, setWorkforceData] =
-    useState<EstablishmentApiResult<Workforce>>();
+  const [workforceData, setWorkforceData] = useState<Workforce[]>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({
     urn: "",
@@ -56,7 +51,7 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
       getWorkforceData().then((data) => {
         setWorkforceData(data);
 
-        const currentSchool = data.results.find(
+        const currentSchool = data.find(
           (school) => type == SchoolEstablishment && school.urn == id
         );
         if (currentSchool) {
@@ -91,44 +86,28 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
       </div>
       <ChartModeContext.Provider value={displayMode}>
         <SchoolWorkforce
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <TotalTeachers
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <TotalTeachersQualified
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <SeniorLeadership
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <TeachingAssistants
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <NonClassroomSupport
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <AuxiliaryStaff
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
         <Headcount
-          schools={
-            workforceData ? workforceData.results : new Array<Workforce>()
-          }
+          schools={workforceData ? workforceData : new Array<Workforce>()}
         />
       </ChartModeContext.Provider>
     </SelectedSchoolContext.Provider>

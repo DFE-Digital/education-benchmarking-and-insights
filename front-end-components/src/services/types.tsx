@@ -1,11 +1,3 @@
-export type EstablishmentApiResult<T> = {
-  totalResults: bigint;
-  page: bigint;
-  pageSize: bigint;
-  pageCount: bigint;
-  results: T[];
-};
-
 export type Expenditure = {
   urn: string;
   name: string;

@@ -43,6 +43,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   tooltip?: boolean;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
+  suffix?: string;
 }
 
 type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<

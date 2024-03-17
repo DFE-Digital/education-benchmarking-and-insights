@@ -309,36 +309,34 @@ if (lineChart1SeriesElement) {
   }
 }
 
-const spendingAndCostsComposedElement = document.getElementById(
-  SpendingAndCostsComposedElementId
+const spendingAndCostsComposedElements = document.querySelectorAll<HTMLElement>(
+  `[data-${SpendingAndCostsComposedElementId}]`
 );
 
-if (spendingAndCostsComposedElement) {
-  const { highlight, json, sortDirection } =
-    spendingAndCostsComposedElement.dataset;
-  if (json) {
-    const root = ReactDOM.createRoot(spendingAndCostsComposedElement);
-    const data = JSON.parse(json) as {
-      urn: string;
-      amount: number;
-    }[];
+if (spendingAndCostsComposedElements) {
+  spendingAndCostsComposedElements.forEach((element) => {
+    const { highlight, json, sortDirection, suffix } = element.dataset;
+    if (json) {
+      const root = ReactDOM.createRoot(element);
+      const data = JSON.parse(json) as {
+        urn: string;
+        amount: number;
+      }[];
 
-    root.render(
-      <React.StrictMode>
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
-            <ComparisonChartSummary
-              chartName="Percentage of pupils on roll and teacher cost"
-              data={data}
-              highlightedItemKey={highlight}
-              keyField="urn"
-              sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-              valueField="amount"
-              valueUnit="currency"
-            />
-          </div>
-        </div>
-      </React.StrictMode>
-    );
-  }
+      root.render(
+        <React.StrictMode>
+          <ComparisonChartSummary
+            chartName="Percentage of pupils on roll and teacher cost"
+            data={data}
+            highlightedItemKey={highlight}
+            keyField="urn"
+            suffix={suffix}
+            sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+            valueField="amount"
+            valueUnit="currency"
+          />
+        </React.StrictMode>
+      );
+    }
+  });
 }

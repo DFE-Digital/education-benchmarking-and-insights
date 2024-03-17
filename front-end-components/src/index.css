@@ -1,162 +1,166 @@
 .full-height-width {
-  width: 100%;
-  height: 100%;
+    width: 100%;
+    height: 100%;
 }
 
 /* active colour is 8% darker */
 .recharts-wrapper,
 .chart-stat-wrapper {
-  --grid-colour: #f0f0f0;
-  --label-colour: #8c8c8c;
-  --series-0-colour: #bfbfbf;
-  --series-0-active-colour: #ababab;
-  --series-1-colour: #4c2c92;
-  --series-1-active-colour: #38187e;
-  --series-2-colour: #28a197;
-  --series-2-active-colour: #148d83;
-  --series-highlight-colour: #12436d;
+    --grid-colour: #f0f0f0;
+    --label-colour: #8c8c8c;
+    --series-0-colour: #bfbfbf;
+    --series-0-active-colour: #ababab;
+    --series-1-colour: #4c2c92;
+    --series-1-active-colour: #38187e;
+    --series-2-colour: #28a197;
+    --series-2-active-colour: #148d83;
+    --series-highlight-colour: #12436d;
 }
 
 .recharts-wrapper .chart-cell,
 .recharts-wrapper .chart-cell.chart-cell-series-0,
 .recharts-wrapper .recharts-legend-item.legend-item-0 path {
-  fill: var(--series-0-colour);
+    fill: var(--series-0-colour);
 }
 
 .recharts-wrapper .chart-cell.chart-cell-highlight {
-  fill: var(--series-highlight-colour);
+    fill: var(--series-highlight-colour);
 }
 
 .recharts-wrapper .chart-cell.chart-cell-active:not(.chart-cell-highlight) {
-  fill: var(--series-0-active-colour);
+    fill: var(--series-0-active-colour);
 }
 
 .recharts-wrapper .recharts-cartesian-axis,
 .recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-line,
 .recharts-wrapper .recharts-cartesian-axis .recharts-cartesian-axis-tick-line {
-  stroke: var(--grid-colour);
+    stroke: var(--grid-colour);
 }
 
 .recharts-wrapper .recharts-cartesian-axis .recharts-text {
-  fill: var(--label-colour);
-  stroke: none;
+    fill: var(--label-colour);
+    stroke: none;
 }
 
 .recharts-wrapper .recharts-cartesian-axis.recharts-yAxis > .recharts-label {
-  text-anchor: middle;
+    text-anchor: middle;
 }
 
 .recharts-wrapper .recharts-legend-item .recharts-legend-item-text {
-  color: var(--label-colour);
+    color: var(--label-colour);
 }
 
 .recharts-wrapper .chart-cell.chart-cell-series-1,
 .recharts-wrapper .recharts-legend-item.legend-item-1 path {
-  fill: var(--series-1-colour);
+    fill: var(--series-1-colour);
 }
 
 .recharts-wrapper
-  .chart-cell.chart-cell-series-1.chart-cell-active:not(.chart-cell-highlight) {
-  fill: var(--series-1-active-colour);
+.chart-cell.chart-cell-series-1.chart-cell-active:not(.chart-cell-highlight) {
+    fill: var(--series-1-active-colour);
 }
 
 .recharts-wrapper .chart-cell.chart-cell-series-2,
 .recharts-wrapper .recharts-legend-item.legend-item-2 path {
-  fill: var(--series-2-colour);
+    fill: var(--series-2-colour);
 }
 
 .recharts-wrapper
-  .chart-cell.chart-cell-series-2.chart-cell-active:not(.chart-cell-highlight) {
-  fill: var(--series-2-active-colour);
+.chart-cell.chart-cell-series-2.chart-cell-active:not(.chart-cell-highlight) {
+    fill: var(--series-2-active-colour);
 }
 
 .recharts-wrapper .recharts-cartesian-grid line {
-  stroke: var(--grid-colour);
+    stroke: var(--grid-colour);
 }
 
 .recharts-wrapper .chart-line.chart-line-series-0 path,
 .recharts-wrapper .chart-line.chart-line-series-0 .recharts-line-dot {
-  stroke: var(--series-2-colour);
-  stroke-width: 5;
+    stroke: var(--series-2-colour);
+    stroke-width: 5;
 }
 
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0 {
-  fill: var(--series-2-colour);
+    fill: var(--series-2-colour);
 }
 
 .recharts-wrapper .chart-active-tooltip {
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px;
-  border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 10px;
+    border-radius: 20px;
 }
 
 .recharts-wrapper .chart-active-tooltip > p {
-  margin: 0;
+    margin: 0;
 }
 
 .chart-stat abbr.summary {
-  text-decoration: underline;
-  text-decoration-style: dotted;
+    text-decoration: underline;
+    text-decoration-style: dotted;
 }
 
 .chart-stat-wrapper .chart-stat-value {
-  border-top: 1px solid var(--label-colour);
-  margin-top: 0.5rem;
+    border-top: 1px solid var(--label-colour);
+    margin-top: 0.5rem;
 }
 
 .chart-stat-summary {
-  margin: 10px -7px 0 -7px;
+    display: grid;
+    grid-template-columns: auto auto auto;
+    padding: 0;
+    gap: 15px;
+    width: 100%;
 }
 
 .chart-stat-summary .chart-stat-wrapper {
-  background-color: var(--grid-colour);
-  padding: 12px;
+    background-color: var(--grid-colour);
+    padding: 10px;
 }
 
 .chart-stat-summary .chart-stat-wrapper .chart-stat-value {
-  border-top: none;
-  margin-top: 0.1rem;
-  margin-bottom: 0.1rem;
-  overflow-wrap: break-word;
+    border-top: none;
+    margin-top: 0.1rem;
+    margin-bottom: 0.1rem;
+    overflow-wrap: break-word;
 }
 
 .chart-stat-line-chart .chart-stat-value {
-  color: var(--series-2-colour);
+    color: var(--series-2-colour);
 }
 
 .chart-stat-summary
-  .chart-stat-wrapper
-  .chart-stat-value
-  .chart-stat-value-suffix {
-  color: var(--label-colour);
-  margin-left: 10px;
-  font-size: 0.8em;
+.chart-stat-wrapper
+.chart-stat-value
+.chart-stat-value-suffix {
+    color: var(--label-colour);
+    margin-left: 10px;
+    font-size: 0.8em;
 }
 
 .chart-stat-wrapper.chart-stat-highlight {
-  color: var(--series-highlight-colour);
+    color: var(--series-highlight-colour);
 }
 
 .chart-stat-wrapper.chart-stat-highlight .chart-stat-value {
-  font-weight: 700;
+    font-weight: 700;
 }
 
 .chart-stat-wrapper .govuk-body-s,
 .chart-stat-wrapper .govuk-body-m,
 .chart-stat-wrapper .govuk-body-l {
-  color: inherit;
+    color: inherit;
 }
 
 .composed-chart-wrapper {
-  height: 100%;
+    height: 100%;
 }
 
 .composed-chart-wrapper,
 .composed-chart {
-  height: 100%;
+    height: 200px;
 }
 
 .composed-chart-wrapper,
 .composed-chart > div {
-  height: 100%;
+    height: 100%;
 }

@@ -15,6 +15,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
     keyField,
     sortDirection,
     valueField,
+    suffix,
     ...rest
   } = props;
 
@@ -53,60 +54,52 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
 
   return (
     <div className="composed-chart-wrapper">
-      <div className="govuk-grid-row composed-chart">
-        <div className="govuk-grid-column-full">
-          <VerticalBarChart
-            barCategoryGap={3}
-            data={sortedData}
-            hideXAxis
-            hideYAxis
-            highlightedItemKeys={
-              highlightedItemKey ? [highlightedItemKey] : undefined
-            }
-            keyField={keyField}
-            seriesConfig={seriesConfig}
-            seriesLabelField={keyField}
-            {...rest}
-          />
-        </div>
+      <div className="composed-chart">
+        <VerticalBarChart
+          barCategoryGap={3}
+          data={sortedData}
+          hideXAxis
+          hideYAxis
+          highlightedItemKeys={
+            highlightedItemKey ? [highlightedItemKey] : undefined
+          }
+          keyField={keyField}
+          seriesConfig={seriesConfig}
+          seriesLabelField={keyField}
+          {...rest}
+        />
       </div>
-      <div className="govuk-grid-row chart-stat-summary">
-        <div className="govuk-grid-column-one-third">
-          <ResolvedStat
-            chartName="This school spends"
-            className="chart-stat-highlight"
-            data={data}
-            displayIndex={highlightedItemIndex}
-            seriesLabel="This school spends"
-            seriesLabelField="urn"
-            suffix="per pupil"
-            valueField={valueField}
-            valueUnit="currency"
-          />
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <Stat
-            chartName="Similar schools spend"
-            label="Similar schools spend"
-            suffix="per pupil, on average"
-            value={mean}
-            valueUnit="currency"
-          />
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <Stat
-            chartName="This school spends"
-            label="This school spends"
-            suffix={
-              <span>
-                <strong>{meanDiff < 0 ? "less" : "more"}</strong> per pupil
-              </span>
-            }
-            value={meanDiff}
-            valueSuffix={`(${meanDiffPercent.toFixed(1)}%)`}
-            valueUnit="currency"
-          />
-        </div>
+      <div className="chart-stat-summary">
+        <ResolvedStat
+          chartName="This school spends"
+          className="chart-stat-highlight"
+          data={data}
+          displayIndex={highlightedItemIndex}
+          seriesLabel="This school spends"
+          seriesLabelField="urn"
+          suffix={suffix}
+          valueField={valueField}
+          valueUnit="currency"
+        />
+        <Stat
+          chartName="Similar schools spend"
+          label="Similar schools spend"
+          suffix={`${suffix}, on average`}
+          value={mean}
+          valueUnit="currency"
+        />
+        <Stat
+          chartName="This school spends"
+          label="This school spends"
+          suffix={
+            <span>
+              <strong>{meanDiff < 0 ? "less" : "more"}</strong> {suffix}
+            </span>
+          }
+          value={Math.abs(meanDiff)}
+          valueSuffix={`(${Math.abs(meanDiffPercent).toFixed(1)}%)`}
+          valueUnit="currency"
+        />
       </div>
     </div>
   );
