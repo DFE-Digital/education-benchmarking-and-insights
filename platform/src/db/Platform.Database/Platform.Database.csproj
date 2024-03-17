@@ -11,5 +11,6 @@
         <PackageReference Include="dbup-sqlserver" />
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <EmbeddedResource Include="Scripts/*.sql" />
+        <PackageReference Include="Microsoft.Data.SqlClient" />
     </ItemGroup>
 </Project>
