@@ -1,8 +1,7 @@
 @import "../../node_modules/govuk-frontend/dist/govuk/all";
 
-@import "suggest";
 @import "headline-figures";
-@import "_link-list";
+@import "link-list";
 
 .app-view-component {
   max-width: 100%

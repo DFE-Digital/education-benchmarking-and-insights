@@ -61,44 +61,4 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             }
         }
     }
-
-    [HttpGet]
-    [Route("v2")]
-    public IActionResult V2()
-    {
-        return View(new FindOrganisationViewModelV2());
-    }
-
-    [HttpPost]
-    [Route("v2")]
-    public IActionResult V2([FromForm] FindOrganisationViewModelV2 viewModel)
-    {
-        using (logger.BeginScope(new { viewModel }))
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(viewModel.Identifier) ||
-                    string.IsNullOrWhiteSpace(viewModel.Kind) ||
-                    string.IsNullOrEmpty(viewModel.Input))
-                {
-                    var message = string.IsNullOrEmpty(viewModel.Input)
-                        ? "Enter a organisation name select a organisation"
-                        : "Please select organisation from the suggester";
-                    ModelState.AddModelError("organisation-input", message);
-                    return View(viewModel);
-                }
-
-                return viewModel.Kind.ToLower() switch
-                {
-                    "school" => RedirectToAction("Index", "School", new { urn = viewModel.Identifier }),
-                    _ => throw new ArgumentOutOfRangeException(nameof(viewModel.Kind))
-                };
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
 }
