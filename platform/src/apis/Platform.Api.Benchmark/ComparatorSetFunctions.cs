@@ -46,7 +46,7 @@ public class ComparatorSetFunctions
         {
             try
             {
-                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Pupil);
+                var set = await _db.Get(urn, ComparatorSetTypes.Default, ComparatorSetTypes.Pupil);
 
                 return new JsonContentResult(set);
             }
@@ -77,7 +77,7 @@ public class ComparatorSetFunctions
         {
             try
             {
-                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Area);
+                var set = await _db.Get(urn, ComparatorSetTypes.Default, ComparatorSetTypes.Area);
 
                 return new JsonContentResult(set);
             }

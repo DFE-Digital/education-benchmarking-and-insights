@@ -11,6 +11,7 @@ public static class PageTitles
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Compare your costs";
+    public const string Spending = "Spending and costs";
     public const string Workforce = "Benchmark workforce data";
     public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
     public const string SchoolPlanningYearSelect = "Which academic year do you want to plan?";

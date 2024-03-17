@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -12,35 +13,47 @@ namespace Platform.Api.Insight.Db;
 
 public interface ISchoolsDb
 {
-    Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize);
-    Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize);
+    Task<IEnumerable<SchoolExpenditure>> Expenditure(IEnumerable<string> urns);
+    Task<IEnumerable<SchoolWorkforce>> Workforce(IEnumerable<string> urns);
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolsDbOptions : CosmosDatabaseOptions;
+public record SchoolsDbOptions : CosmosDatabaseOptions
+{
+    public string? FloorAreaCollectionName { get; set; }
+};
 
 [ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
     private readonly ICollectionService _collectionService;
+    private readonly SchoolsDbOptions _options;
 
     public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService) : base(options.Value)
     {
+        _options = options.Value;
         _collectionService = collectionService;
     }
 
-    public async Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<IEnumerable<SchoolWorkforce>> Workforce(IEnumerable<string> urns)
     {
         var finances = await Finances(urns);
 
-        return PagedSchoolWorkforce.Create(finances, page, pageSize);
+        return finances.Select(SchoolWorkforce.Create);
     }
 
-    public async Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<IEnumerable<SchoolExpenditure>> Expenditure(IEnumerable<string> urns)
     {
-        var finances = await Finances(urns);
 
-        return PagedSchoolExpenditure.Create(finances, page, pageSize);
+        var areaCollection = _options.FloorAreaCollectionName;
+        ArgumentNullException.ThrowIfNull(areaCollection);
+
+        var schools = urns.ToArray();
+        var finances = await Finances(schools);
+
+        var floorArea = await ItemEnumerableAsync<FloorAreaDataObject>(areaCollection, q => q.Where(x => schools.Contains(x.Urn.ToString()))).ToListAsync();
+
+        return finances.Select(x => SchoolExpenditure.Create(x, floorArea));
     }
 
     private async Task<List<SchoolTrustFinancialDataObject>> Finances(IEnumerable<string> urns)
