@@ -43,7 +43,7 @@ public abstract class PupilCategory(decimal actual, SchoolExpenditure expenditur
     private readonly decimal _actual = actual;
     private readonly SchoolExpenditure _expenditure = expenditure;
 
-    public override decimal Value => _actual / _expenditure.NumberOfPupils;
+    public override decimal Value => decimal.Round(_actual / _expenditure.NumberOfPupils, 2, MidpointRounding.AwayFromZero);
 }
 
 public abstract class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
@@ -51,7 +51,7 @@ public abstract class AreaCategory(decimal actual, SchoolExpenditure expenditure
     private readonly decimal _actual = actual;
     private readonly SchoolExpenditure _expenditure = expenditure;
 
-    public override decimal Value => _actual / _expenditure.FloorArea;
+    public override decimal Value => decimal.Round(_actual / _expenditure.FloorArea, 2, MidpointRounding.AwayFromZero);
 }
 
 public class AdministrativeSupplies(SchoolExpenditure expenditure)
