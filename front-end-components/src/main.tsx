@@ -15,6 +15,7 @@ import {
   VerticalBarChart3SeriesElementId,
   SchoolHistoryElementId,
   SpendingAndCostsComposedElementId,
+  FindOrganisationElementId,
 } from "src/constants";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
@@ -22,6 +23,7 @@ import { ChartHandler, ChartSortDirection } from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
+import { FindOrganisation } from "src/views/find-organisation";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -31,6 +33,30 @@ if (schoolHistoryElement) {
       <SchoolHistory />
     </React.StrictMode>
   );
+}
+
+const findOrganisationElement = document.getElementById(
+  FindOrganisationElementId
+);
+
+if (findOrganisationElement) {
+  const { findMethod, schoolInput, schoolError, trustError, urn } =
+    findOrganisationElement.dataset;
+  if (findMethod) {
+    const root = ReactDOM.createRoot(findOrganisationElement);
+
+    root.render(
+      <React.StrictMode>
+        <FindOrganisation
+          findMethod={findMethod}
+          schoolInput={schoolInput}
+          schoolError={schoolError}
+          trustError={trustError}
+          urn={urn}
+        />
+      </React.StrictMode>
+    );
+  }
 }
 
 const compareCostsElement = document.getElementById(CompareCostsElementId);
