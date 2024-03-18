@@ -14,6 +14,6 @@ public class SpendingAndCostsPage(IPage page)
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
         
-        //add further assertions here
+        //further assertions will be added here once the page is dev is completed.
     }
 }
