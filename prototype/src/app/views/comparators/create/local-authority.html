@@ -1,0 +1,73 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create/phase"
+    }) }}
+{% endblock %}
+
+{% set authorityHtml %}
+{{ govukInput({
+  id: "local-authority",
+  name: "localAuthority",
+  type: "text",
+  label: {
+    text: "Local authority"
+  }
+}) }}
+{% endset %}
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form action="/comparators/create/characteristics" method="post">
+            <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+            {{  govukRadios({
+            name: "compareAuthority",
+            fieldset: {
+                legend: {
+                text: "Compare schools from",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [
+                {
+                    value: "all",
+                    text: "All of england",
+                    checked: checked("compareAuthority", "all")
+                },
+                {
+                    value: "localAuthority",
+                    text: "A local authority",
+                    checked: checked("compareAuthority", "localAuthority"),
+                    conditional: {
+                      html: authorityHtml
+                    }
+                }
+            ]
+            }) }}
+
+            {{ govukButton({
+            text: "Continue",
+            classes: "govuk-button--primary"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

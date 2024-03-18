@@ -1,0 +1,1655 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+{% from "govuk/components/accordion/macro.njk" import govukAccordion %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create/local-authority"
+    }) }}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+            <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+            <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
+
+
+
+
+            <div id="characteristics-accordion" class="govuk-accordion app-accordion--no-open-all" data-module="govuk-accordion">
+            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header app-accordion__section-header--no-border-top">
+                <h2 class="govuk-accordion__section-heading">
+
+                <button type="button" id="accordion-general-heading" aria-controls="characteristics-accordion-content-1" class="govuk-accordion__section-button" aria-expanded="false">
+                General characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> general characteristics</span> selected</span><span></span>)</span>
+                <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+                </div>
+
+                <div id="accordion-general-content" class="govuk-accordion__section-content" aria-labelledby="accordion-general-heading">
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1156 pupils</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoPupil">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1156 pupils</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number of pupils</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinNoPupil">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoPupil" id="MinNoPupil" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number of pupils">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxNoPupil">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number of pupils">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-OverallPhase" type="checkbox" aria-controls="phc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-OverallPhase" for="checkbox-OverallPhase">School phase <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Secondary</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="phc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Secondary</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">School phase</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item">
+                        <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Nursery" value="Nursery" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                        <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Nursery">Nursery</label>
+                    </div>
+
+                    
+
+                    <div class="govuk-checkboxes__item subQuestion">
+                        <input type="checkbox" name="PrimaryOverallPhase" id="PrimaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="prim-phases" aria-expanded="false">
+                        <label class="govuk-label govuk-checkboxes__label" for="PrimaryOverallPhase">Primary</label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="prim-phases">
+                        <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.IJ" value="Infant and junior" class="criteria-checkbox govuk-checkboxes__input" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.IJ">Infant and junior</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Infant" value="Infant" class="criteria-checkbox govuk-checkboxes__input" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Infant">Infant</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Junior" value="Junior" class="criteria-checkbox govuk-checkboxes__input" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Junior">Junior</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.MDP" value="Middle deemed primary" class="criteria-checkbox govuk-checkboxes__input" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.MDP">Middle deemed primary</label>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    
+
+                    <div class="govuk-checkboxes__item subQuestion">
+                        <input type="checkbox" name="SecondaryOverallPhase" id="SecondaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="sec-phases" aria-expanded="false">
+                        <label class="govuk-label govuk-checkboxes__label" for="SecondaryOverallPhase">Secondary</label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="sec-phases">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-form-group">
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.MDS" value="Middle deemed secondary" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.MDS">Middle deemed secondary</label>
+                                </div>
+                                <div class="govuk-checkboxes__item">
+                                    <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Secondary" value="Secondary" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                                    <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Secondary">Secondary</label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                    
+                    <div class="govuk-checkboxes__item">
+                        <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Special" value="Special" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                        <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Special">Special</label>
+                    </div>
+
+                    <div class="govuk-checkboxes__item">
+                        <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.PRU" value="Pupil referral unit" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                        <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.PRU">Pupil referral unit</label>
+                    </div>
+
+                    <div class="govuk-checkboxes__item">
+                        <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.AT" value="All-through" class="govuk-checkboxes__input criteria-checkbox" required="" data-msg-required="Choose an option to continue the comparison">
+                        <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.AT">All-through</label>
+                    </div>
+                </div>
+
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-TypeOfEstablishment" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-TypeOfEstablishment" for="checkbox-TypeOfEstablishment">School type <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Academy converter</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Academy converter</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">School type</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Nursery" value="Nursery" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Nursery">Nursery</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Community" value="Community school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Community">Community</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Community special" value="Community special school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Community special">Community special</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Foundation" value="Foundation school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Foundation">Foundation</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Foundation special" value="Foundation special school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Foundation special">Foundation special</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Voluntary aided" value="Voluntary aided school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Voluntary aided">Voluntary aided</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Voluntary controlled" value="Voluntary controlled school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Voluntary controlled">Voluntary controlled</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Pupil referral unit" value="Pupil referral unit" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Pupil referral unit">Pupil referral unit</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy converter" value="Academy converter" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy converter">Academy converter</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy special converter" value="Academy special converter" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy special converter">Academy special converter</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy sponsor led" value="Academy sponsor led" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy sponsor led">Academy sponsor led</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy special sponsor led" value="Academy special sponsor led" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy special sponsor led">Academy special sponsor led</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.City technology college" value="City technology college" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.City technology college">City technology college</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Free school" value="Free school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Free school">Free school</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.University technical college" value="University technical college" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.University technical college">University technical college</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Studio school" value="Studio school" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Studio school">Studio school</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Free school special" value="Free school special" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Free school special">Free school special</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Free school - alternative provision" value="Free school alternative provision" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Free school - alternative provision">Free school - alternative provision</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy alternative provision converter" value="Academy alternative provision converter" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy alternative provision converter">Academy alternative provision converter</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Academy alternative provision sponsor led" value="Academy alternative provision sponsor led" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Academy alternative provision sponsor led">Academy alternative provision sponsor led</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerFSM" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerFSM">Eligibility for free school meals <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.7</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.70%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPerFSM">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerFSM" id="MinPerFSM" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Eligibility for free school meals">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPerFSM">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerFSM" id="MaxPerFSM" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Eligibility for free school meals">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPerSENReg">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSENReg" id="MinPerSENReg" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPerSENReg">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSENReg" id="MaxPerSENReg" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerSEN" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSEN">Pupils with SEN who have statements or EHC plans <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.1</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPerSEN">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPerSEN">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerEAL" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerEAL">Pupils with English as an additional language <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 9.9</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">9.90%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPerEAL">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerEAL" id="MinPerEAL" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Pupils with English as an additional language">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPerEAL">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerEAL" id="MaxPerEAL" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Pupils with English as an additional language">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-UrbanRural" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-UrbanRural" for="checkbox-UrbanRural">Urban/rural schools <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Urban and city</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Urban and city</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Urban/rural schools</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.UrbanRural" id="UrbanRural.Hamlet and isolated dwelling" value="Hamlet and isolated dwelling" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="UrbanRural.Hamlet and isolated dwelling">Hamlet and isolated dwelling</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.UrbanRural" id="UrbanRural.Rural and village" value="Rural and village" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="UrbanRural.Rural and village">Rural and village</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.UrbanRural" id="UrbanRural.Town and fringe" value="Town and fringe" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="UrbanRural.Town and fringe">Town and fringe</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.UrbanRural" id="UrbanRural.Urban and city" value="Urban and city" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="UrbanRural.Urban and city">Urban and city</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.UrbanRural" id="UrbanRural.Conurbation" value="Conurbation" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="UrbanRural.Conurbation">Conurbation</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-LondonWeighting" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-LondonWeighting" for="checkbox-LondonWeighting">London weighting <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Neither</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Neither</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">London weighting</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.LondonWeighting" id="LondonWeighting.Inner" value="Inner" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="LondonWeighting.Inner">Inner</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.LondonWeighting" id="LondonWeighting.Outer" value="Outer" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="LondonWeighting.Outer">Outer</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.LondonWeighting" id="LondonWeighting.Neither" value="Neither" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="LondonWeighting.Neither">Neither</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-GovernmentOffice" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-GovernmentOffice" for="checkbox-GovernmentOffice">Government office region <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is South East</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">South East</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Government office region</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.East Midlands" value="East Midlands" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.East Midlands">East Midlands</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.East of England" value="East of England" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.East of England">East of England</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.London" value="London" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.London">London</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.North East" value="North East" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.North East">North East</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.North West" value="North West" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.North West">North West</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.South East" value="South East" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.South East">South East</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.South West" value="South West" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.South West">South West</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.West Midlands" value="West Midlands" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.West Midlands">West Midlands</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.GovernmentOffice" id="GovernmentOffice.Yorkshire and the Humber" value="Yorkshire and the Humber" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="GovernmentOffice.Yorkshire and the Humber">Yorkshire and the Humber</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-Pfi" type="checkbox" aria-controls="rbc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-Pfi">Part of a private finance initiative? <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Not Part Of PFI</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rbc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Not Part Of PFI</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Part of a private finance initiative?</legend>
+
+                <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
+                        <div class="govuk-radios__item">
+                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi0" value="Part of PFI" class="govuk-radios__input criteria-radio" required="" data-msg-required="Choose an option to continue the comparison" data-aria-controls="subs_Pfi">
+                            <label class="govuk-label govuk-radios__label" for="Pfi0">Part of PFI</label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi1" value="Not Part Of PFI" class="govuk-radios__input criteria-radio" required="" data-msg-required="Choose an option to continue the comparison" data-aria-controls="subs_Pfi">
+                            <label class="govuk-label govuk-radios__label" for="Pfi1">Not part of PFI</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinNoSixthForm" type="checkbox" aria-controls="rc_NoSixthForm" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoSixthForm">Number in sixth form <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 262</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoSixthForm">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">262</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number in sixth form</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinNoSixthForm">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoSixthForm" id="MinNoSixthForm" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number in sixth form">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxNoSixthForm">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoSixthForm" id="MaxNoSixthForm" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number in sixth form">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-Gender" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-Gender" for="checkbox-Gender">Gender of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Girls</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Girls</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Gender of pupils</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.Gender" id="Gender.Boys" value="Boys" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="Gender.Boys">Boys</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.Gender" id="Gender.Girls" value="Girls" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="Gender.Girls">Girls</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.Gender" id="Gender.Mixed" value="Mixed" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="Gender.Mixed">Mixed</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinLowestAgePupils" type="checkbox" aria-controls="rc_LowestAgePupils" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinLowestAgePupils">Lowest age of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 11</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_LowestAgePupils">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">11</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Lowest age of pupils</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinLowestAgePupils">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinLowestAgePupils" id="MinLowestAgePupils" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Lowest age of pupils">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxLowestAgePupils">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxLowestAgePupils" id="MaxLowestAgePupils" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Lowest age of pupils">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinHighestAgePupils" type="checkbox" aria-controls="rc_HighestAgePupils" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinHighestAgePupils">Highest age of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 18</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_HighestAgePupils">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">18</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Highest age of pupils</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinHighestAgePupils">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinHighestAgePupils" id="MinHighestAgePupils" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Highest age of pupils">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxHighestAgePupils">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxHighestAgePupils" id="MaxHighestAgePupils" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Highest age of pupils">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerBoarders" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerBoarders">Boarders <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPerBoarders">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerBoarders" id="MinPerBoarders" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Boarders">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPerBoarders">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerBoarders" id="MaxPerBoarders" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Boarders">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-AdmPolicy" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-AdmPolicy" for="checkbox-AdmPolicy">Admissions policy <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Selective</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Selective</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Admissions policy</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.AdmPolicy" id="AdmPolicy.Comprehensive" value="Comprehensive" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="AdmPolicy.Comprehensive">Comprehensive</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.AdmPolicy" id="AdmPolicy.Selective" value="Selective" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="AdmPolicy.Selective">Selective</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.AdmPolicy" id="AdmPolicy.Modern" value="Modern" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="AdmPolicy.Modern">Modern</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.AdmPolicy" id="AdmPolicy.Non-selective" value="Non-selective" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="AdmPolicy.Non-selective">Non-selective</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.AdmPolicy" id="AdmPolicy.N/A" value="N/A" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="AdmPolicy.N/A">N/A</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+                </div>
+                </div>
+
+                            
+                <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                <h2 class="govuk-accordion__section-heading">
+
+                <button type="button" id="SenHeader" aria-controls="characteristics-accordion-content-2" class="govuk-accordion__section-button" aria-expanded="false">
+                <abbr title="Special Education Needs" aria-label="Special Education Needs">SEN</abbr> characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> SEN characteristics</span> selected</span><span>)</span></span>
+                <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+                </div>
+                <div id="accordion-sen-content" class="govuk-accordion__section-content" aria-labelledby="SenHeader">
+                <p class="govuk-body">
+                The values here show the percentage of pupils in your default school who have these characteristics as a primary need.
+                </p>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSpecLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.04</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.04%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinSpecLearnDiff">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSpecLearnDiff" id="MinSpecLearnDiff" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Specific learning difficulty">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxSpecLearnDiff">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSpecLearnDiff" id="MaxSpecLearnDiff" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Specific learning difficulty">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinModLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinModLearnDiff">Moderate learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinModLearnDiff">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinModLearnDiff" id="MinModLearnDiff" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Moderate learning difficulty">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxModLearnDiff">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxModLearnDiff" id="MaxModLearnDiff" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Moderate learning difficulty">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSevLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSevLearnDiff">Severe learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinSevLearnDiff">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSevLearnDiff" id="MinSevLearnDiff" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Severe learning difficulty">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxSevLearnDiff">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSevLearnDiff" id="MaxSevLearnDiff" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Severe learning difficulty">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinProfLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinProfLearnDiff">Profound and multiple learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinProfLearnDiff">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinProfLearnDiff" id="MinProfLearnDiff" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Profound and multiple learning difficulty">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxProfLearnDiff">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxProfLearnDiff" id="MaxProfLearnDiff" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Profound and multiple learning difficulty">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSocialHealth" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSocialHealth">Social, emotional and mental health <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 6.06</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">6.06%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinSocialHealth">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSocialHealth" id="MinSocialHealth" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Social, emotional and mental health">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxSocialHealth">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSocialHealth" id="MaxSocialHealth" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Social, emotional and mental health">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSpeechNeeds" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpeechNeeds">Speech, language and communications needs <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinSpeechNeeds">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSpeechNeeds" id="MinSpeechNeeds" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Speech, language and communications needs">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxSpeechNeeds">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSpeechNeeds" id="MaxSpeechNeeds" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Speech, language and communications needs">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinHearingImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinHearingImpairment">Hearing impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinHearingImpairment">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinHearingImpairment" id="MinHearingImpairment" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Hearing impairment">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxHearingImpairment">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxHearingImpairment" id="MaxHearingImpairment" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Hearing impairment">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinVisualImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinVisualImpairment">Visual impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinVisualImpairment">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinVisualImpairment" id="MinVisualImpairment" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Visual impairment">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxVisualImpairment">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxVisualImpairment" id="MaxVisualImpairment" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Visual impairment">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinMSImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinMSImpairment">Multi-sensory impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.00%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinMSImpairment">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinMSImpairment" id="MinMSImpairment" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Multi-sensory impairment">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxMSImpairment">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxMSImpairment" id="MaxMSImpairment" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Multi-sensory impairment">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPhysicalDisability" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPhysicalDisability">Physical disability <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.09</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.09%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinPhysicalDisability">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPhysicalDisability" id="MinPhysicalDisability" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Physical disability">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxPhysicalDisability">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPhysicalDisability" id="MaxPhysicalDisability" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Physical disability">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinAutisticDisorder" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinAutisticDisorder">Autistic spectrum disorder <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.61</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.61%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinAutisticDisorder">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinAutisticDisorder" id="MinAutisticDisorder" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Autistic spectrum disorder">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxAutisticDisorder">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxAutisticDisorder" id="MaxAutisticDisorder" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Autistic spectrum disorder">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinOtherLearningDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinOtherLearningDiff">Other learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.09</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.09%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinOtherLearningDiff">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinOtherLearningDiff" id="MinOtherLearningDiff" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Other learning difficulty">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxOtherLearningDiff">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxOtherLearningDiff" id="MaxOtherLearningDiff" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Other learning difficulty">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
+
+
+                            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                <h2 class="govuk-accordion__section-heading">
+
+                <button type="button" id="PerformanceHeader" aria-controls="characteristics-accordion-content-3" class="govuk-accordion__section-button" aria-expanded="false">
+                Performance characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> performance characteristics</span> selected</span><span>)</span></span>
+                <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+                </div>
+                <div id="accordion-performance-content" class="govuk-accordion__section-content" aria-labelledby="PerformanceHeader">
+                <p class="govuk-body">
+                To compare schools across more performance characteristics visit the <a rel="external noopener noreferrer" class="govuk-link" target="_blank" href="https://www.find-school-performance-data.service.gov.uk">Find school and college performance data in England<span class="govuk-visually-hidden"> Opens in a new window</span></a> site.
+                </p>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinKs2Actual" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinKs2Actual">Key Stage 2 attainment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is </span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                                <span>No value was supplied for {{ data['school-name'] }}</span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinKs2Actual">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinKs2Actual" id="MinKs2Actual" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Key Stage 2 attainment">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxKs2Actual">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxKs2Actual" id="MaxKs2Actual" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Key Stage 2 attainment">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinKs2Progress" type="checkbox" aria-controls="rc_Ks2Progress" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinKs2Progress">Key Stage 2 progress <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is </span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_Ks2Progress">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>No value was supplied for {{ data['school-name'] }}</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Key Stage 2 progress</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinKs2Progress">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinKs2Progress" id="MinKs2Progress" class="govuk-input form-control criteria-input min-js" min="-20" max="20" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Key Stage 2 progress">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxKs2Progress">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxKs2Progress" id="MaxKs2Progress" class="govuk-input form-control criteria-input max-js" min="-20" max="20" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Key Stage 2 progress">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinAvAtt8" type="checkbox" aria-controls="rc_AvAtt8" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinAvAtt8">Average Attainment 8 <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 76.3</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_AvAtt8">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">76.3</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Average Attainment 8</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinAvAtt8">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinAvAtt8" id="MinAvAtt8" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Average Attainment 8">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxAvAtt8">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxAvAtt8" id="MaxAvAtt8" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Average Attainment 8">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinP8Mea" type="checkbox" aria-controls="rc_P8Mea" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinP8Mea">Progress 8 measure <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.63</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_P8Mea">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.63</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Progress 8 measure</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinP8Mea">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinP8Mea" id="MinP8Mea" class="govuk-input form-control criteria-input min-js" min="-5" max="5" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Progress 8 measure">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxP8Mea">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxP8Mea" id="MaxP8Mea" class="govuk-input form-control criteria-input max-js" min="-5" max="5" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Progress 8 measure">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-OfstedRating" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" id="label-OfstedRating" for="checkbox-OfstedRating">Ofsted rating <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Outstanding</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Outstanding</span></span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Ofsted rating</legend>
+
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Outstanding" value="Outstanding" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Outstanding">Outstanding</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Good" value="Good" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Good">Good</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Requires improvement" value="Requires improvement" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Requires improvement">Requires improvement</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Inadequate" value="Inadequate" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Inadequate">Inadequate</label>
+                        </div>
+                        <div class="govuk-checkboxes__item">
+                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Not rated" value="Not rated" required="" data-msg-required="Choose an option to continue the comparison">
+                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Not rated">Not rated</label>
+                        </div>
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                </div>
+                </div>
+                            <div class="govuk-accordion__section">
+                <div class="govuk-accordion__section-header">
+                <h2 class="govuk-accordion__section-heading">
+
+                <button type="button" id="WFHeader" aria-controls="characteristics-accordion-content-4" class="govuk-accordion__section-button" aria-expanded="false">
+                Workforce characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> workforce characteristics</span> selected</span><span>)</span></span>
+                <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
+                </div>
+                <div id="accordion-wf-content" class="govuk-accordion__section-content" aria-labelledby="WFHeader">
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTotalSchoolWorkforceFullTimeEquivalent" type="checkbox" aria-controls="rc_TotalSchoolWorkforceFullTimeEquivalent" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalSchoolWorkforceFullTimeEquivalent">Number in the school workforce (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 97.69</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalSchoolWorkforceFullTimeEquivalent">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">97.69</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number in the school workforce (full time equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinTotalSchoolWorkforceFullTimeEquivalent">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalSchoolWorkforceFullTimeEquivalent" id="MinTotalSchoolWorkforceFullTimeEquivalent" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number in the school workforce (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxTotalSchoolWorkforceFullTimeEquivalent">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalSchoolWorkforceFullTimeEquivalent" id="MaxTotalSchoolWorkforceFullTimeEquivalent" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number in the school workforce (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTotalNumberOfTeachersFullTimeEquivalent" type="checkbox" aria-controls="rc_TotalNumberOfTeachersFullTimeEquivalent" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalNumberOfTeachersFullTimeEquivalent">Number of teachers (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 62.66</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalNumberOfTeachersFullTimeEquivalent">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">62.66</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number of teachers (full time equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinTotalNumberOfTeachersFullTimeEquivalent">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalNumberOfTeachersFullTimeEquivalent" id="MinTotalNumberOfTeachersFullTimeEquivalent" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number of teachers (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxTotalNumberOfTeachersFullTimeEquivalent">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalNumberOfTeachersFullTimeEquivalent" id="MaxTotalNumberOfTeachersFullTimeEquivalent" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number of teachers (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTeachersWithQualifiedTeacherStatus" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTeachersWithQualifiedTeacherStatus">Percentage of teachers with qualified teacher status (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 98.6</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">98.60%</span></span>
+
+                </div>
+
+
+                <span class="govuk-error-message"></span>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinTeachersWithQualifiedTeacherStatus">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTeachersWithQualifiedTeacherStatus" id="MinTeachersWithQualifiedTeacherStatus" class="govuk-input form-control criteria-input min-js" min="0" max="100" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Percentage of teachers with qualified teacher status (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxTeachersWithQualifiedTeacherStatus">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTeachersWithQualifiedTeacherStatus" id="MaxTeachersWithQualifiedTeacherStatus" class="govuk-input form-control criteria-input max-js" min="0" max="100" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Percentage of teachers with qualified teacher status (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" type="checkbox" aria-controls="rc_TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent">Number in the senior leadership team (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 6</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">6</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number in the senior leadership team (full time equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" id="MinTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number in the senior leadership team (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" id="MaxTotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number in the senior leadership team (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTotalNumberOfTeachingAssistantsFullTimeEquivalent" type="checkbox" aria-controls="rc_TotalNumberOfTeachingAssistantsFullTimeEquivalent" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalNumberOfTeachingAssistantsFullTimeEquivalent">Number of teaching assistants (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 3.81</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalNumberOfTeachingAssistantsFullTimeEquivalent">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">3.81</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number of teaching assistants (full time equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinTotalNumberOfTeachingAssistantsFullTimeEquivalent">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalNumberOfTeachingAssistantsFullTimeEquivalent" id="MinTotalNumberOfTeachingAssistantsFullTimeEquivalent" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number of teaching assistants (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxTotalNumberOfTeachingAssistantsFullTimeEquivalent">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalNumberOfTeachingAssistantsFullTimeEquivalent" id="MaxTotalNumberOfTeachingAssistantsFullTimeEquivalent" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number of teaching assistants (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinFullTimeOther" type="checkbox" aria-controls="rc_FullTimeOther" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinFullTimeOther">Number of non-classroom support staff – excluding auxiliary staff (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 28.14</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_FullTimeOther">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">28.14</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number of non-classroom support staff – excluding auxiliary staff (full time equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinFullTimeOther">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinFullTimeOther" id="MinFullTimeOther" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number of non-classroom support staff – excluding auxiliary staff (full time equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxFullTimeOther">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxFullTimeOther" id="MaxFullTimeOther" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number of non-classroom support staff – excluding auxiliary staff (full time equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                <input class="govuk-checkboxes__input" id="checkbox-MinFullTimeAux" type="checkbox" aria-controls="rc_FullTimeAux" aria-expanded="false">
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinFullTimeAux">Number of Auxiliary staff (Full Time Equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 3.08</span></label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_FullTimeAux">
+                <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset">
+                <div class="govuk-hint">
+                        <span>The value for {{ data['school-name'] }} is </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">3.08</span>
+                </div>
+
+                <span class="govuk-error-message"></span>
+
+                <legend class="govuk-visually-hidden">Number of Auxiliary staff (Full Time Equivalent)</legend>
+
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MinFullTimeAux">From</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinFullTimeAux" id="MinFullTimeAux" class="govuk-input form-control criteria-input min-js" min="0" max="100000" data-msg-minlowerthanmax="'From' value can not be greater than the 'To' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Minimum value for Number of Auxiliary staff (Full Time Equivalent)">
+                </div>
+                <div class="govuk-grid-column-one-half">
+                    <label class="govuk-label" for="MaxFullTimeAux">To</label>
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxFullTimeAux" id="MaxFullTimeAux" class="govuk-input form-control criteria-input max-js" min="0" max="100000" data-msg-maxgreaterthanmin="'To' value can not be lower than the 'From' value" data-msg-minormaxrequired="Fill in at least one of the boxes if you want this characteristic to be included in the search." aria-label="Maximum value for Number of Auxiliary staff (Full Time Equivalent)">
+                </div>
+                </fieldset>
+                </div>
+                </div>
+                </div>
+
+
+                </div>
+                </div>
+                        </div>
+
+
+            {{ govukButton({
+            text: "Continue",
+            href: '/comparators/create/review',
+            classes: "govuk-button--primary"
+            }) }}
+
+
+    </div>
+</div>
+{% endblock %}

@@ -13,24 +13,11 @@
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBreadcrumbs({
-    items: [
-      {
-        text: "Home",
-        href: "/find-school"
-      },
-      {
-        text: "Your school",
-        href: "/school-homepage"
-      },
-      {
-        text: "Comparator sets",
-        href: "/comparators"
-      }
-    ]
-  }) }}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create"
+    }) }}
 {% endblock %}
-
 
 {% block content %}
 
