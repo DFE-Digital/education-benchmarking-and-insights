@@ -151,4 +151,10 @@ public static class LocatorExtensions
         await Assertions.Expect(locator).ToHaveClassAsync(locatorClass);
         return locator;
     }
+
+    public static async Task<ILocator> Fill(this ILocator locator, string inputValue)
+    {
+        await locator.FillAsync(inputValue);
+        return locator;
+    }
 }

@@ -13,6 +13,7 @@ public static class Selectors
     public const string GovLink = ".govuk-link";
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
+    public const string GovRadios = ".govuk-radios";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -45,6 +46,8 @@ public static class Selectors
     public const string SchoolGiasPageLink = "a[data-id='gias-school-details']";
 
     public const string SchoolDetailsEmailAddress = ".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value";
+    public const string SchoolSearchInput = "#school-input";
+    public const string SchoolSearchSuggester = "school-suggestions";
 
 
 }
