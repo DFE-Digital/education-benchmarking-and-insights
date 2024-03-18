@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Reflection;
 using CorrelationId.DependencyInjection;
 using Microsoft.FeatureManagement;
+using NodeReact;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App;
@@ -92,6 +93,28 @@ if (!builder.Environment.IsIntegration())
         opts.CosmosClient = CosmosClientFactory.Create(settings);
         opts.CreateIfNotExists = false;
     });
+    
+    builder.Services.AddNodeReact(
+        config =>
+        {
+            config.EnginesCount = 2;
+            config.ConfigureOutOfProcessNodeJSService(o =>
+            {
+                o.NumRetries = 0;
+                o.InvocationTimeoutMS = 10000;
+            });
+            
+            // todo: get server side as well as client side working as required
+            config.AddScriptWithoutTransform("~/js/server.cjs");
+            config.UseServerSideRendering = false; 
+
+            config.ConfigureSystemTextJsonPropsSerializer(_ => { });
+            config.ConfigureNodeJSProcess(p =>
+            {
+                p.Port = 9222;
+                p.NodeAndV8Options = "";
+            });
+        });
 }
 
 var app = builder.Build();

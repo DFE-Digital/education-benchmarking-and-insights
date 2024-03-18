@@ -6,6 +6,11 @@ import path from "path";
 export default defineConfig({
   appType: "mpa",
   plugins: [react()],
+  build: {
+    lib: {
+      entry: path.resolve(__dirname, "src/demo.tsx"),
+    },
+  },
   resolve: {
     alias: {
       src: "/src",

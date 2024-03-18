@@ -20,6 +20,7 @@
         <PackageReference Include="Microsoft.Extensions.Configuration.Json" />
         <PackageReference Include="Microsoft.FeatureManagement.AspNetCore" />
         <PackageReference Include="Newtonsoft.Json"/>
+        <PackageReference Include="NodeReact" />
         <PackageReference Include="Serilog.AspNetCore"/>
         <PackageReference Include="Serilog.Enrichers.CorrelationId"/>
         <PackageReference Include="Serilog.Sinks.ApplicationInsights"/>

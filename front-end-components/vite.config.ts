@@ -7,14 +7,22 @@ export default defineConfig({
   plugins: [react()],
   build: {
     lib: {
-      entry: path.resolve(__dirname, "src/main.tsx"),
+      entry: [
+        path.resolve(__dirname, "src/front-end.ts"),
+        path.resolve(__dirname, "src/server.ts"),
+      ],
       name: "Education Benchmarking - Front-end components",
-      formats: ["es"],
-      fileName: `front-end`,
+      formats: ["cjs", "es"],
     },
     rollupOptions: {
       output: {
         assetFileNames: "front-end.[ext]",
+        chunkFileNames: "[name]-[format].js",
+        globals: {
+          react: "React",
+          "react-dom": "ReactDOM",
+          "react-dom/server": "ReactDOMServer",
+        },
       },
     },
     sourcemap: true,

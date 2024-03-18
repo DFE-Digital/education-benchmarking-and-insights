@@ -1,3 +1,15 @@
+@using NodeReact.AspNetCore
+@functions {
+    public class TestDataItem(string urn, double value)
+    {
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once InconsistentNaming
+        public string urn { get; set; } = urn;
+        // ReSharper disable once UnusedMember.Global
+        // ReSharper disable once InconsistentNaming
+        public double value { get; set; } = value;
+    }
+}
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ServiceHome;
 }
@@ -58,5 +70,55 @@
                 <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z"/>
             </svg>
         </a>
+    </div>
+</div>
+
+<div className="govuk-grid-row">
+    <div className="govuk-grid-column-two-thirds">
+        @{
+            var data = new List<TestDataItem>
+            {
+                new("100000", 4746.93),
+                new("100001", 2500.00),
+                new("100002", 2800.00),
+                new("100003", 2900.00),
+                new("100004", 1000.00),
+                new("100005", 1000.00),
+                new("100006", 1250.00),
+                new("100007", 1100.00),
+                new("100008", 2200.00),
+                new("100009", 2700.00),
+                new("100010", 2150.00),
+                new("100011", 2000.00),
+                new("100012", 5500.00), 
+                new("100013", 5000.00), 
+                new("100014", 3500.00), 
+                new("100015", 3400.00), 
+                new("100016", 3800.00), 
+                new("100017", 3200.00), 
+                new("100018", 3200.00),
+                new("100019", 3400.00), 
+                new("100020", 3400.00), 
+                new("100021", 3300.00), 
+                new("100022", 3200.00), 
+                new("100023", 3100.00), 
+                new("100024", 3500.00), 
+                new("100025", 3450.00), 
+                new("100026", 3100.00), 
+                new("100027", 2900.00), 
+                new("100028", 2800.00),
+                new("100029", 4000.00)
+            };
+        }
+        @await Html.ReactAsync("Components.ComparisonChartSummary", new
+        {
+            chartName = "Percentage of pupils on roll and teacher cost",
+            data,
+            highlightedItemKey = "100000",
+            keyField = "urn",
+            sortDirection = "asc",
+            valueField = "value",
+            valueUnit = "currency"
+        }, containerClass: "react-wrapper react-wrapper-comparison-chart-summary")
     </div>
 </div>

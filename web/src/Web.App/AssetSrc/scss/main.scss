@@ -60,3 +60,10 @@ p.priority .govuk-tag {
   padding: 20px;
   margin-bottom: 20px;
 }
+
+.react-wrapper {
+  &.react-wrapper-comparison-chart-summary {
+    height: 200px;
+    margin-bottom: 120px;
+  }
+}
