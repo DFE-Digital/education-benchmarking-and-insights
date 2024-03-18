@@ -3,6 +3,7 @@ namespace Web.E2ETests;
 public static class Selectors
 {
     public const string H1 = "h1";
+    public const string H2 = "h2";
 
     public const string GovBreadcrumbs = ".govuk-breadcrumbs";
     public const string GovShowAllLinkText = ".govuk-accordion__show-all-text";

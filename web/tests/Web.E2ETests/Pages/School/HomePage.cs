@@ -5,21 +5,25 @@ namespace Web.E2ETests.Pages.School;
 public class HomePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
+    private ILocator PageH2Headings => page.Locator(Selectors.H2);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
-    private ILocator ViewAreasOfInvestigationLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "View your areas for investigation" });
     private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
     private ILocator BenchmarkWorkforceDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark workforce data" });
-    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School details" });
+    private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School contact details" });
+
+    private ILocator SpendingAndCostsLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "View all spending and costs" });
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible();
+        await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation");
+        await PageH2Headings.Filter(new LocatorFilterOptions { HasText = "Spending and costs" }).ShouldBeVisible();
+        await SpendingAndCostsLink.ShouldBeVisible();
         await CompareYourCostsLink.ShouldBeVisible();
-        await ViewAreasOfInvestigationLink.ShouldBeVisible();
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
         await BenchmarkWorkforceDataLink.ShouldBeVisible();
         await SchoolDetailsLink.ShouldBeVisible();
@@ -47,5 +51,11 @@ public class HomePage(IPage page)
     {
         await BenchmarkWorkforceDataLink.Click();
         return new BenchmarkWorkforcePage(page);
+    }
+
+    public async Task<SpendingAndCostsPage> ClickSpendingAndCosts()
+    {
+        await SpendingAndCostsLink.Click();
+        return new SpendingAndCostsPage(page);
     }
 }
