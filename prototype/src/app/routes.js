@@ -8,8 +8,92 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 
 
+
 // ADD SCHOOLS BY CHARACTERISTICS
 
+function generateComparators() {
+
+    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
+    var objSchools = objSchoolsFile.schools;
+    var comparators = [];
+
+    for (i=0; i<30; i++ ) {
+        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
+        comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
+        comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
+
+        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals });
+    }
+
+    return comparators;
+}
+
+router.post( '/comparators/create/review', (req, res) => {
+
+    var comparators = generateComparators();
+    comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
+
+    req.session.data['comparators'] = comparators;
+    req.session.data['confirmation'] = 'comparator-generated';
+
+    res.redirect( '/comparators/create/by-name' );
+
+})
+
+router.get( '/comparators/create/review', (req, res) => {
+    var rows = [];
+    var comparators = req.session.data.comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1) || [];
+    
+    for ( i=0; i<comparators.length; i++) {
+        var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
+    }
+    
+    res.render( '/comparators/create/review', { rows: rows } );
+
+})
+
+router.get( '/comparators/pupil', (req, res) => {
+    var rows = [];
+    var comparators;
+    
+    if ( !req.session.data['pupilComparators'] ) {
+        req.session.data['pupilComparators']  = generateComparators();
+    }
+    comparators = req.session.data['pupilComparators'];
+    
+    if ( comparators ) {
+        comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
+
+        for ( i=0; i<comparators.length; i++) {
+            var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+            rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
+        }
+    }
+
+    res.render( '/comparators/pupil', { rows: rows } );
+})
+
+router.get( '/comparators/building', (req, res) => {
+    var rows = [];
+    var comparators;
+    
+    if ( !req.session.data['buildingComparators'] ) {
+        req.session.data['buildingComparators']  = generateComparators();
+    }
+    comparators = req.session.data['buildingComparators'];
+    
+    if ( comparators ) {
+        comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
+
+        for ( i=0; i<comparators.length; i++) {
+            var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+            rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
+        }
+    }
+
+    res.render( '/comparators/building', { rows: rows } );
+})
 
 router.post( '/comparators/create', (req, res) => {
 
