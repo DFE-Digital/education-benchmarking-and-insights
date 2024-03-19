@@ -41,7 +41,8 @@ public class FindOrganisationSteps(PageDriver driver)
     public async Task GivenOrganisationTypeIsSelected(string organisationType)
     {
         Assert.NotNull(_findOrganisationPage);
-        await _findOrganisationPage.SelectOrganisationType(organisationType);
+        var parsed = Enum.TryParse(organisationType, out OrganisationTypes type);
+        await _findOrganisationPage.SelectOrganisationType(type);
     }
 
     private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";

@@ -3,6 +3,11 @@ using Web.E2ETests.Pages.School;
 
 namespace Web.E2ETests.Pages;
 
+public enum OrganisationTypes
+{
+    School,
+    Trust
+}
 public class FindOrganisationPage(IPage page)
 {
     private const string ArrowDownKey = "ArrowDown";
@@ -28,11 +33,11 @@ public class FindOrganisationPage(IPage page)
         return new HomePage(page);
     }
 
-    public async Task SelectOrganisationType(string type)
+    public async Task SelectOrganisationType(OrganisationTypes type)
     {
         var radioButton = type switch
         {
-            "school" => SchoolRadioButton,
+            OrganisationTypes.School => SchoolRadioButton,
             _ => throw new ArgumentOutOfRangeException(nameof(type))
         };
         await radioButton.Check();
