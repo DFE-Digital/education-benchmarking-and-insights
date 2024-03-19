@@ -232,7 +232,7 @@ function getLocalAuthorityList() {
     for (i=0; i<objAuthorities.length; i++ ) {
         objAuthority = objAuthorities[ i ];
 
-        lcoalAuthorities.push({'text':  objAuthority.authoritylName + " (" + objAuthority.authorityCode + ")" });
+        lcoalAuthorities.push({'text':  objAuthority.authorityName + " (" + objAuthority.authorityCode + ")" });
     }
 
     return lcoalAuthorities;
