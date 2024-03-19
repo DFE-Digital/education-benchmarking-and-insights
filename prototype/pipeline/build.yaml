@@ -52,7 +52,7 @@ stages:
 
   - stage: DeployDevelopment
     dependsOn: [Build]
-    condition: and(succeeded(), $(ShouldDeploy))
+    condition: and(succeeded(), eq($(ShouldDeploy),'true'))
     displayName: 'Deploy to prototype'
     variables:
       - group: 'prototype'
