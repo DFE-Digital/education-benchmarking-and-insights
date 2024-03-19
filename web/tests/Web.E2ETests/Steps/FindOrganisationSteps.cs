@@ -23,20 +23,21 @@ public class FindOrganisationSteps(PageDriver driver)
         await _findOrganisationPage.IsDisplayed();
     }
 
-    [When("I click continue after searching for '(.*)'")]
-    public async Task WhenIClickContinueAfterSearchingFor(string urn)
+    [When("I select the school with urn '(.*)' from suggester")]
+    public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
     {
         Assert.NotNull(_findOrganisationPage);
-        _findOrganisationPage = await _findOrganisationPage.SelectSchoolFromSuggester(urn);
-        _homePage = await _findOrganisationPage.ClickContinue();
+       _homePage= await _findOrganisationPage.SelectSchoolFromSuggester(urn);
     }
-
-    private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
-
+    
     [Then("the school homepage is displayed")]
     public async Task ThenTheSchoolHomepageIsDisplayed()
     {
         Assert.NotNull(_homePage);
         await _homePage.IsDisplayed();
     }
+
+    private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
+
+   
 }

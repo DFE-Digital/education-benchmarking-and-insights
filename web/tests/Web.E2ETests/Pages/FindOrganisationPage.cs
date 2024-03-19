@@ -9,7 +9,6 @@ public class FindOrganisationPage(IPage page)
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
-    private ILocator SchoolSuggester => page.Locator(Selectors.SchoolSearchSuggester);
     private ILocator ContinueCta => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
 
     public async Task IsDisplayed()
@@ -17,21 +16,13 @@ public class FindOrganisationPage(IPage page)
        await PageH1Heading.ShouldBeVisible();
        await Breadcrumbs.ShouldBeVisible();
        await OrganisationsTypeRadios.ShouldBeVisible();
+       await ContinueCta.ShouldBeVisible().ShouldBeEnabled();
     }
 
-    public async Task<FindOrganisationPage> SelectSchoolFromSuggester(string text)
+    public async Task<HomePage> SelectSchoolFromSuggester(string text)
     {
-       await SchoolSearchInputField.Fill(text);
-       await SchoolSuggester.Locator("li").First.Click();
-       return new FindOrganisationPage(page);
-    }
-
-    public async Task<HomePage> ClickContinue()
-    {
-        await ContinueCta.Click();
-        return new HomePage(page);
+       await SchoolSearchInputField.PressSequentially(text).Press("ArrowDown").Press("Enter");
+       return new HomePage(page);
     }
     
-    
-
 }

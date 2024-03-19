@@ -152,9 +152,15 @@ public static class LocatorExtensions
         return locator;
     }
 
-    public static async Task<ILocator> Fill(this ILocator locator, string inputValue)
+    public static async Task<ILocator> PressSequentially(this ILocator locator, string inputValue)
     {
-        await locator.FillAsync(inputValue);
+        await locator.PressSequentiallyAsync(inputValue, new (){Delay = 100});
+        return locator;
+    }
+
+    public static async Task<ILocator> Press(this ILocator locator, string key)
+    {
+        await locator.PressAsync(key);
         return locator;
     }
 }
