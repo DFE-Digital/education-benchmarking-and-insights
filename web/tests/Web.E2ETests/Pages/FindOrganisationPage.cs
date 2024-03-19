@@ -5,6 +5,8 @@ namespace Web.E2ETests.Pages;
 
 public class FindOrganisationPage(IPage page)
 {
+    private const string ArrowDownKey = "ArrowDown";
+    private const string EnterKey = "Enter";
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
@@ -22,7 +24,7 @@ public class FindOrganisationPage(IPage page)
 
     public async Task<HomePage> SelectSchoolFromSuggester(string text)
     {
-        await SchoolSearchInputField.PressSequentially(text).Press("ArrowDown").Press("Enter");
+        await SchoolSearchInputField.PressSequentially(text).Press(ArrowDownKey).Press(EnterKey);
         return new HomePage(page);
     }
 

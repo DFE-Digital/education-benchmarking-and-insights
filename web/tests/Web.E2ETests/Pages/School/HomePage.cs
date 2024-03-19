@@ -25,7 +25,7 @@ public class HomePage(IPage page)
         string[] expectedH2Texts = { "Spending and costs", "Finance tools", "Resources", "Get help" };
         for (int i = 0; i < await PageH2Headings.CountAsync(); i++)
         {
-           await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);
+            await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);
         }
         await SpendingAndCostsLink.ShouldBeVisible();
         await CompareYourCostsLink.ShouldBeVisible();

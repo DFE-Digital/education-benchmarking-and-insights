@@ -36,14 +36,14 @@ public class FindOrganisationSteps(PageDriver driver)
         Assert.NotNull(_schoolHomePage);
         await _schoolHomePage.IsDisplayed();
     }
-    
+
     [Given("'(.*)' organisation type is selected")]
     public async Task GivenOrganisationTypeIsSelected(string organisationType)
     {
         Assert.NotNull(_findOrganisationPage);
-       await _findOrganisationPage.SelectOrganisationType(organisationType);
+        await _findOrganisationPage.SelectOrganisationType(organisationType);
     }
 
     private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
-    
+
 }
