@@ -13,16 +13,16 @@ public class FindOrganisationPage(IPage page)
 
     public async Task IsDisplayed()
     {
-       await PageH1Heading.ShouldBeVisible();
-       await Breadcrumbs.ShouldBeVisible();
-       await OrganisationsTypeRadios.ShouldBeVisible();
-       await ContinueCta.ShouldBeVisible().ShouldBeEnabled();
+        await PageH1Heading.ShouldBeVisible();
+        await Breadcrumbs.ShouldBeVisible();
+        await OrganisationsTypeRadios.ShouldBeVisible();
+        await ContinueCta.ShouldBeVisible().ShouldBeEnabled();
     }
 
     public async Task<HomePage> SelectSchoolFromSuggester(string text)
     {
-       await SchoolSearchInputField.PressSequentially(text).Press("ArrowDown").Press("Enter");
-       return new HomePage(page);
+        await SchoolSearchInputField.PressSequentially(text).Press("ArrowDown").Press("Enter");
+        return new HomePage(page);
     }
-    
+
 }

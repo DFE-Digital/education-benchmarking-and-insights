@@ -154,7 +154,7 @@ public static class LocatorExtensions
 
     public static async Task<ILocator> PressSequentially(this ILocator locator, string inputValue)
     {
-        await locator.PressSequentiallyAsync(inputValue, new (){Delay = 100});
+        await locator.PressSequentiallyAsync(inputValue, new() { Delay = 100 });
         return locator;
     }
 

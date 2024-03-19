@@ -13,7 +13,7 @@ public class SpendingAndCostsPage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible();
-        
+
         //further assertions will be added here once the page is dev is completed.
     }
 }

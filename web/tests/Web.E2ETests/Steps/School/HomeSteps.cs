@@ -81,7 +81,7 @@ public class HomeSteps(PageDriver driver)
         Assert.NotNull(_benchmarkWorkforcePage);
         await _benchmarkWorkforcePage.IsDisplayed();
     }
-    
+
     [When("I click on view all spending and costs")]
     public async Task WhenIClickOnViewAllSpendingAndCosts()
     {

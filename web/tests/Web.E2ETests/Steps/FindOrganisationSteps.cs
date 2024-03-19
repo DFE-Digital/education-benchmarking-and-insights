@@ -27,9 +27,9 @@ public class FindOrganisationSteps(PageDriver driver)
     public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
     {
         Assert.NotNull(_findOrganisationPage);
-       _homePage= await _findOrganisationPage.SelectSchoolFromSuggester(urn);
+        _homePage = await _findOrganisationPage.SelectSchoolFromSuggester(urn);
     }
-    
+
     [Then("the school homepage is displayed")]
     public async Task ThenTheSchoolHomepageIsDisplayed()
     {
@@ -39,5 +39,5 @@ public class FindOrganisationSteps(PageDriver driver)
 
     private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
 
-   
+
 }
