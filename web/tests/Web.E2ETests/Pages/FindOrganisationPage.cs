@@ -9,14 +9,14 @@ public class FindOrganisationPage(IPage page)
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
-    private ILocator ContinueCta => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+    private ILocator ContinueButton => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
 
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await OrganisationsTypeRadios.ShouldBeVisible();
-        await ContinueCta.ShouldBeVisible().ShouldBeEnabled();
+        await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
     }
 
     public async Task<HomePage> SelectSchoolFromSuggester(string text)

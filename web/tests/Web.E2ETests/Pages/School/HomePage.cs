@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Xunit;
 
 namespace Web.E2ETests.Pages.School;
 
@@ -21,7 +22,11 @@ public class HomePage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation");
-        await PageH2Headings.Filter(new LocatorFilterOptions { HasText = "Spending and costs" }).ShouldBeVisible();
+        string[] expectedH2Texts = { "Spending and costs", "Finance tools", "Resources", "Get help" };
+        for (int i = 0; i < await PageH2Headings.CountAsync(); i++)
+        {
+           await PageH2Headings.Nth(i).ShouldBeVisible().ShouldHaveText(expectedH2Texts[i]);
+        }
         await SpendingAndCostsLink.ShouldBeVisible();
         await CompareYourCostsLink.ShouldBeVisible();
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
