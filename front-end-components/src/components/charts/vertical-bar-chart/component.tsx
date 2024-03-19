@@ -15,6 +15,7 @@ import {
   Cell,
   Label,
   Legend,
+  ReferenceLine,
   ResponsiveContainer,
   Text,
   XAxis,
@@ -39,6 +40,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     highlightActive,
     highlightedItemKeys,
     keyField,
+    includeNegativeValues,
     legend,
     margin: _margin,
     multiLineAxisLabel,
@@ -168,7 +170,12 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
-          <YAxis type="number" unit={valueUnit} hide={hideYAxis}>
+          <YAxis
+            type="number"
+            unit={valueUnit}
+            hide={hideYAxis}
+            domain={includeNegativeValues ? ["dataMin", "dataMax"] : undefined}
+          >
             {valueLabel && (
               <Label
                 value={valueLabel}
@@ -178,6 +185,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
+          {includeNegativeValues && hideXAxis && <ReferenceLine y={0} />}
           {legend && (
             <Legend
               align="right"
