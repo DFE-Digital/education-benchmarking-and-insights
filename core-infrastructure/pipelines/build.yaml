@@ -45,7 +45,7 @@ stages:
 
   - stage: DeployDevelopment
     dependsOn: [ Build ]
-    condition: and(succeeded(), eq($(ShouldDeploy),'true'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Development'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -57,7 +57,7 @@ stages:
 
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
-    condition: and(succeeded(), eq($(ShouldDeploy),'true'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Automated test'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -69,7 +69,7 @@ stages:
 
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
-    condition: and(succeeded(), eq($(ShouldDeploy),'true'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Test'
     jobs:
       - template: jobs-core-deployment.yaml
