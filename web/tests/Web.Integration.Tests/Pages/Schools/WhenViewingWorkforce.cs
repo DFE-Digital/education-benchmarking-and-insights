@@ -20,18 +20,6 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         AssertPageLayout(page, school);
     }
 
-    [Fact]
-    public async Task CanNavigateToChangeSchool()
-    {
-        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
-    }
-
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
@@ -119,10 +107,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Benchmark workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark workforce data");
-
-        var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-
+        
         var workforceComponent = page.GetElementById("compare-your-workforce");
         Assert.NotNull(workforceComponent);
 

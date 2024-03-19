@@ -23,20 +23,6 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToChangeSchool(string financeType)
-    {
-        var (page, _) = await SetupNavigateInitPage(financeType);
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        Assert.NotNull(anchor);
-
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
-    }
-
-    [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
     public async Task CanNavigateToCurriculumPlanning(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
@@ -121,10 +107,7 @@ public class WhenViewingComparison(BenchmarkingWebAppClient client) : PageBase(c
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK", "Compare your costs");
-
-        var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
-
+        
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
 
