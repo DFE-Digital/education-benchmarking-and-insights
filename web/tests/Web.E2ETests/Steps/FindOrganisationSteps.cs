@@ -10,7 +10,7 @@ namespace Web.E2ETests.Steps;
 public class FindOrganisationSteps(PageDriver driver)
 {
     private FindOrganisationPage? _findOrganisationPage;
-    private HomePage? _homePage;
+    private HomePage? _schoolHomePage;
 
     [Given(@"I am on find organisation page")]
     public async Task GivenIAmOnFindOrganisationPage()
@@ -27,14 +27,14 @@ public class FindOrganisationSteps(PageDriver driver)
     public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
     {
         Assert.NotNull(_findOrganisationPage);
-        _homePage = await _findOrganisationPage.SelectSchoolFromSuggester(urn);
+        _schoolHomePage = await _findOrganisationPage.SelectSchoolFromSuggester(urn);
     }
 
     [Then("the school homepage is displayed")]
     public async Task ThenTheSchoolHomepageIsDisplayed()
     {
-        Assert.NotNull(_homePage);
-        await _homePage.IsDisplayed();
+        Assert.NotNull(_schoolHomePage);
+        await _schoolHomePage.IsDisplayed();
     }
     
     [Given("'(.*)' organisation type is selected")]
