@@ -58,9 +58,9 @@ public class HomePage(IPage page)
         return new BenchmarkWorkforcePage(page);
     }
 
-    public async Task<SpendingAndCostsPage> ClickSpendingAndCosts()
+    public async Task<SpendingCostsPage> ClickSpendingAndCosts()
     {
         await SpendingAndCostsLink.Click();
-        return new SpendingAndCostsPage(page);
+        return new SpendingCostsPage(page);
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Web.E2ETests.Pages.School;
 
-public class SpendingAndCostsPage(IPage page)
+public class SpendingCostsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);

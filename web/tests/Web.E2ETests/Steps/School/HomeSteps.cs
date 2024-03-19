@@ -13,7 +13,7 @@ public class HomeSteps(PageDriver driver)
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
     private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
-    private SpendingAndCostsPage? _spendingAndCostsPage;
+    private SpendingCostsPage? _spendingCostsPage;
 
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
@@ -86,15 +86,15 @@ public class HomeSteps(PageDriver driver)
     public async Task WhenIClickOnViewAllSpendingAndCosts()
     {
         Assert.NotNull(_schoolHomePage);
-        _spendingAndCostsPage = await _schoolHomePage.ClickSpendingAndCosts();
+        _spendingCostsPage = await _schoolHomePage.ClickSpendingAndCosts();
     }
 
 
     [Then("the spending and costs page is displayed")]
     public async Task ThenTheSpendingAndCostsPageIsDisplayed()
     {
-        Assert.NotNull(_spendingAndCostsPage);
-        await _spendingAndCostsPage.IsDisplayed();
+        Assert.NotNull(_spendingCostsPage);
+        await _spendingCostsPage.IsDisplayed();
     }
     private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
 
