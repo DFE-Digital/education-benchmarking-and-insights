@@ -83,6 +83,7 @@
                 </div>
                 </div>
 
+                {% if data['comparePhase'] %}
                 {% if 'primary' in data['comparePhase'] %}
                 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
@@ -114,6 +115,7 @@
                 </div>
                 </div>
                 {% endif %}
+
                 {% if 'secondary' in data['comparePhase'] %}
 
                 
@@ -139,6 +141,7 @@
                 </div>
                 
 
+                {% endif %}
                 {% endif %}
 
 
