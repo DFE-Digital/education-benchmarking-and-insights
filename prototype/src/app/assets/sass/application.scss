@@ -161,3 +161,23 @@ div.govuk-notification-banner {
 div.govuk-notification-banner__content > * {
     max-width: none;
 }
+
+.sticky-div {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+}
+
+.matching-schools {
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background: white;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.matching-schools #countPart {
+    font-weight: bold;
+}

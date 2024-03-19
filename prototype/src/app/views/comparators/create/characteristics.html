@@ -26,7 +26,17 @@
 
             <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
 
-
+            <p class="govuk-body">You can compare against a maximum of 30 schools. If your chosen comparison characteristics give more than 30 results, we will chose the 30 schools whose comparison values are closest to {{ data['school-name'] }}.</p>
+        
+            <div class="sticky-div matching-schools">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-three-quarters">
+                        <div class="school-match-info">
+                            <span id="schoolCount" aria-live="assertive" role="alert" style="" class="govuk-body-s govuk-!-font-size-16"><span id="countPart" class="bold-xsmall">9,119</span><span id="rest"> matching schools found.</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
             <div id="characteristics-accordion" class="govuk-accordion app-accordion--no-open-all" data-module="govuk-accordion">
@@ -73,10 +83,67 @@
                 </div>
                 </div>
 
+                {% if 'primary' in data['comparePhase'] %}
+                
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                    <input type="checkbox" name="PrimaryOverallPhase" id="PrimaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="prim-phases" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="PrimaryOverallPhase">Primary school phase</label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="prim-phases">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.IJ" value="Infant and junior" class="criteria-checkbox govuk-checkboxes__input">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.IJ">Infant and junior</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Infant" value="Infant" class="criteria-checkbox govuk-checkboxes__input">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Infant">Infant</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Junior" value="Junior" class="criteria-checkbox govuk-checkboxes__input">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Junior">Junior</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.MDP" value="Middle deemed primary" class="criteria-checkbox govuk-checkboxes__input">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.MDP">Middle deemed primary</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                </div>
+                {% endif %}
+                {% if 'secondary' in data['comparePhase'] %}
+
+                
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                <div class="govuk-checkboxes__item question">
+                    <input type="checkbox" name="SecondaryOverallPhase" id="SecondaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="sec-phases" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="SecondaryOverallPhase">Secondary school phase</label>
+                </div>
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="sec-phases">
+                    <fieldset class="govuk-fieldset">
+                        <div class="govuk-form-group">
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.MDS" value="Middle deemed secondary" class="govuk-checkboxes__input criteria-checkbox">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.MDS">Middle deemed secondary</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Secondary" value="Secondary" class="govuk-checkboxes__input criteria-checkbox">
+                                <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Secondary">Secondary</label>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                </div>
+                
+
+                {% endif %}
 
 
 
-
+<!--
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-OverallPhase" type="checkbox" aria-controls="phc" aria-expanded="false">
@@ -171,14 +238,14 @@
                 </div>
 
 
-
+-->
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-TypeOfEstablishment" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-TypeOfEstablishment" type="checkbox" aria-controls="mcc6" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-TypeOfEstablishment" for="checkbox-TypeOfEstablishment">School type <span class="govuk-visually-hidden">{{ data['school-name'] }} is an Academy converter</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc6">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -313,10 +380,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc1" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -344,10 +411,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerSEN" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerSEN" type="checkbox" aria-controls="pc2" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSEN">Pupils with SEN who have statements or EHC plans <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.1</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc2">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -375,10 +442,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerEAL" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerEAL" type="checkbox" aria-controls="pc3" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerEAL">Pupils with English as an additional language <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 9.9</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc3">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -406,10 +473,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-UrbanRural" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-UrbanRural" type="checkbox" aria-controls="mcc7" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-UrbanRural" for="checkbox-UrbanRural">Urban/rural schools <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Urban and city</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc7">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -454,10 +521,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-LondonWeighting" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-LondonWeighting" type="checkbox" aria-controls="mcc1" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-LondonWeighting" for="checkbox-LondonWeighting">London weighting <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Neither</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc1">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -494,10 +561,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-GovernmentOffice" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-GovernmentOffice" type="checkbox" aria-controls="mcc2" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-GovernmentOffice" for="checkbox-GovernmentOffice">Government office region <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is South East</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc2">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -574,11 +641,11 @@
 
                 <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi0" value="Part of PFI" class="govuk-radios__input criteria-radio"    data-aria-controls="subs_Pfi">
+                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi0" value="Part of PFI" class="govuk-radios__input criteria-radio">
                             <label class="govuk-label govuk-radios__label" for="Pfi0">Part of PFI</label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi1" value="Not Part Of PFI" class="govuk-radios__input criteria-radio"    data-aria-controls="subs_Pfi">
+                            <input type="radio" name="AdvancedCriteria.Pfi" id="Pfi1" value="Not Part Of PFI" class="govuk-radios__input criteria-radio">
                             <label class="govuk-label govuk-radios__label" for="Pfi1">Not part of PFI</label>
                         </div>
                 </div>
@@ -627,10 +694,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-Gender" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-Gender" type="checkbox" aria-controls="mcc3" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-Gender" for="checkbox-Gender">Gender of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Girls</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc3">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -735,10 +802,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerBoarders" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPerBoarders" type="checkbox" aria-controls="pc4" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerBoarders">Boarders <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc4">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -766,10 +833,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-AdmPolicy" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-AdmPolicy" type="checkbox" aria-controls="mcc4" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-AdmPolicy" for="checkbox-AdmPolicy">Admissions policy <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Selective</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc4">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -831,10 +898,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinSpecLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSpecLearnDiff" type="checkbox" aria-controls="pc5" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.04</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc5">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -862,10 +929,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinModLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinModLearnDiff" type="checkbox" aria-controls="pc6" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinModLearnDiff">Moderate learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc6">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -893,10 +960,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinSevLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSevLearnDiff" type="checkbox" aria-controls="pc7" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSevLearnDiff">Severe learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc7">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -924,10 +991,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinProfLearnDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinProfLearnDiff" type="checkbox" aria-controls="pc8" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinProfLearnDiff">Profound and multiple learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc8">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -955,10 +1022,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinSocialHealth" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSocialHealth" type="checkbox" aria-controls="pc9" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSocialHealth">Social, emotional and mental health <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 6.06</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc9">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -986,10 +1053,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinSpeechNeeds" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinSpeechNeeds" type="checkbox" aria-controls="pc10" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpeechNeeds">Speech, language and communications needs <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc10">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1017,10 +1084,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinHearingImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinHearingImpairment" type="checkbox" aria-controls="pc11" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinHearingImpairment">Hearing impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc11">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1048,10 +1115,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinVisualImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinVisualImpairment" type="checkbox" aria-controls="pc12" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinVisualImpairment">Visual impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc12">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1079,10 +1146,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinMSImpairment" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinMSImpairment" type="checkbox" aria-controls="pc13" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinMSImpairment">Multi-sensory impairment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc13">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1110,10 +1177,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPhysicalDisability" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinPhysicalDisability" type="checkbox" aria-controls="pc14" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPhysicalDisability">Physical disability <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.09</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc14">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1141,10 +1208,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinAutisticDisorder" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinAutisticDisorder" type="checkbox" aria-controls="pc15" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinAutisticDisorder">Autistic spectrum disorder <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.61</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc15">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1172,10 +1239,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinOtherLearningDiff" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinOtherLearningDiff" type="checkbox" aria-controls="pc16" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinOtherLearningDiff">Other learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.09</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc16">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1219,10 +1286,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinKs2Actual" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinKs2Actual" type="checkbox" aria-controls="pc17" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinKs2Actual">Key Stage 2 attainment <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is </span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc17">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1351,10 +1418,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-OfstedRating" type="checkbox" aria-controls="mcc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-OfstedRating" type="checkbox" aria-controls="mcc5" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" id="label-OfstedRating" for="checkbox-OfstedRating">Ofsted rating <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Outstanding</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc5">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1477,10 +1544,10 @@
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinTeachersWithQualifiedTeacherStatus" type="checkbox" aria-controls="pc" aria-expanded="false">
+                <input class="govuk-checkboxes__input" id="checkbox-MinTeachersWithQualifiedTeacherStatus" type="checkbox" aria-controls="pc18" aria-expanded="false">
                 <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTeachersWithQualifiedTeacherStatus">Percentage of teachers with qualified teacher status (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 98.6</span></label>
                 </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc18">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
@@ -1649,6 +1716,36 @@
             classes: "govuk-button--primary"
             }) }}
         </form>
+
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+        <script>
+            intMatches = 9119;
+
+            $('.govuk-checkboxes.question input[type=text]').change( function() {
+                updateCounts( $(this).val(), $(this) );
+            })
+            
+            $('.govuk-checkboxes__conditional .govuk-checkboxes__input').click(function() {
+                updateCounts( $(this).is(':checked'), $(this) );
+            })
+
+            function updateCounts(blnCount, objPassed) {
+
+                intSelected = $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html();
+
+                if ( blnCount ) {
+                    intMatches = Math.floor( intMatches * 0.4 );
+                    intSelected++;
+                } else {
+                    intMatches = Math.floor( intMatches / 0.4 );
+                    intSelected--;
+                }
+                $('#countPart').text( intMatches.toLocaleString() );
+                $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html(intSelected);
+            
+            }
+
+        </script>
 
     </div>
 </div>
