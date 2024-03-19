@@ -109,6 +109,10 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             .ReturnsAsync(ApiResult.Ok(new ComparatorSet { TotalResults = schools.Length, Results = schools.Select(x => x.Urn ?? "Missing urn") }));
 
         BenchmarkApi
+            .Setup(api => api.GetDefaultAreaComparatorSet(It.IsAny<string?>()))
+            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { TotalResults = schools.Length, Results = schools.Select(x => x.Urn ?? "Missing urn") }));
+
+        BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))
             .ReturnsAsync(ApiResult.Ok())
             .Callback<PutFinancialPlanRequest>(request =>

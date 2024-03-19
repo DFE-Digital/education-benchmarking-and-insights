@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
@@ -9,12 +9,12 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[Route("school/{urn}")]
-public class SchoolController(
-    ILogger<SchoolController> logger,
-    IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
-    IComparatorSetService comparatorSetService)
+[Route("school/{urn}/spending-and-costs")]
+public class SchoolSpendingController(
+        ILogger<SchoolController> logger,
+        IEstablishmentApi establishmentApi,
+        IFinanceService financeService,
+        IComparatorSetService comparatorSetService)
     : Controller
 {
     [HttpGet]
@@ -24,10 +24,9 @@ public class SchoolController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(school);
 
                 var pupilSet = await comparatorSetService.ReadDefaultPupilComparatorSet(urn);
                 var areaSet = await comparatorSetService.ReadDefaultAreaComparatorSet(urn);
@@ -35,13 +34,13 @@ public class SchoolController(
                 var pupilExpenditure = await financeService.GetExpenditure(pupilSet.Results);
                 var areaExpenditure = await financeService.GetExpenditure(areaSet.Results);
 
-                var viewModel = new SchoolViewModel(school, finances, pupilExpenditure, areaExpenditure);
+                var viewModel = new SchoolSpendingViewModel(school, pupilExpenditure, areaExpenditure);
 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school details: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

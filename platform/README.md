@@ -57,7 +57,8 @@ Add configuration in `local.settings.json`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__LookupCollectionName" : "fibre-directory"
+    "Cosmos__LookupCollectionName" : "fibre-directory",
+    "Cosmos__FloorAreaCollectionName" : "Floor-Area-2021-2022"
   },
   "Host": {
     "CORS": "*",
@@ -72,7 +73,7 @@ Tests will run when creating new Pull Requests and when code is merged into the 
 #### Unit Tests
 Run:
 ```
-dotnet test tests\EducationBenchmarking.Platform.Tests
+dotnet test tests\Platform.Tests
 ```
 #### Functional Tests
 Add configuration in `appsetings.local.json`
@@ -94,5 +95,5 @@ Add configuration in `appsetings.local.json`
 ```
 Run:
 ```
-dotnet test tests\EducationBenchmarking.Platform.ApiTests
+dotnet test tests\Platform.ApiTests
 ```

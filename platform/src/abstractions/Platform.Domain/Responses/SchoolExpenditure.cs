@@ -1,4 +1,6 @@
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Platform.Domain.DataObjects;
 
 namespace Platform.Domain.Responses;
@@ -70,7 +72,9 @@ public record SchoolExpenditure
     public decimal EnergyCosts { get; set; }
     public decimal WaterSewerageCosts { get; set; }
 
-    public static SchoolExpenditure Create(SchoolTrustFinancialDataObject dataObject)
+    public int? FloorArea { get; set; }
+
+    public static SchoolExpenditure Create(SchoolTrustFinancialDataObject dataObject, List<FloorAreaDataObject> floorArea)
     {
         return new SchoolExpenditure
         {
@@ -133,7 +137,8 @@ public record SchoolExpenditure
             CommunityFocusedSchoolCosts = dataObject.CommunityFocusedSchoolCosts,
             TotalUtilitiesCosts = dataObject.Energy + dataObject.WaterSewerage,
             EnergyCosts = dataObject.Energy,
-            WaterSewerageCosts = dataObject.WaterSewerage
+            WaterSewerageCosts = dataObject.WaterSewerage,
+            FloorArea = floorArea.FirstOrDefault(x => x.Urn == dataObject.Urn)?.FloorArea
         };
     }
 }

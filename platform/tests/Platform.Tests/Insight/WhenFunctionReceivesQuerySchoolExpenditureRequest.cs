@@ -12,8 +12,8 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
-            .ReturnsAsync(new PagedSchoolExpenditure());
+            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>()))
+            .ReturnsAsync(Array.Empty<SchoolExpenditure>());
 
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as JsonContentResult;
 
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
+            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>()))
             .Throws(new Exception());
 
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as StatusCodeResult;
