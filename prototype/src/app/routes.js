@@ -21,56 +21,9 @@ router.get( '/comparators/create/local-authority', (req, res) => {
     res.render( '/comparators/create/local-authority', { rows: rows } );
 })
 
-function getSchoolList() {
-
-    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
-    var objSchools = objSchoolsFile.schools;
-    var schools = [];
-
-    for (i=0; i<objSchools.length; i++ ) {
-        objSchool = objSchools[ i ];
-
-        schools.push({'text':  objSchool.schoolName + " (" + objSchool.schoolLocation + ", " + objSchool.schoolPostcode + ")" });
-    }
-
-    return schools;
-}
-
-function getLocalAuthorityList() {
-
-    var objAuthorityFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/authorities.json');
-    var objAuthorities = objAuthorityFile.localAuthorities;
-    var lcoalAuthorities = [];
-
-    for (i=0; i<objAuthorities.length; i++ ) {
-        objAuthority = objAuthorities[ i ];
-
-        lcoalAuthorities.push({'text':  objAuthority.authoritylName + " (" + objAuthority.authorityCode + ")" });
-    }
-
-    return lcoalAuthorities;
-}
-
 
 
 // ADD SCHOOLS BY CHARACTERISTICS
-
-function generateComparators() {
-
-    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
-    var objSchools = objSchoolsFile.schools;
-    var comparators = [];
-
-    for (i=0; i<30; i++ ) {
-        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
-        comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
-        comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
-
-        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals });
-    }
-
-    return comparators;
-}
 
 router.post( '/comparators/create/review', (req, res) => {
 
@@ -83,21 +36,6 @@ router.post( '/comparators/create/review', (req, res) => {
     res.redirect( '/comparators/create/review' );
 
 })
-
-/*
-router.get( '/comparators/create/review', (req, res) => {
-    var rows = [];
-    var comparators = req.session.data.comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1) || [];
-    
-    for ( i=0; i<comparators.length; i++) {
-        var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
-    }
-    
-    res.render( '/comparators/create/review', { rows: rows } );
-
-})
-*/
 
 router.get( '/comparators/pupil', (req, res) => {
     var rows = [];
@@ -267,6 +205,55 @@ router.get( '/set-school', (req, res) => {
     res.redirect( '/school-homepage' );
 
 })
+
+// DUMMY DATA GENERATION
+
+function getSchoolList() {
+
+    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
+    var objSchools = objSchoolsFile.schools;
+    var schools = [];
+
+    for (i=0; i<objSchools.length; i++ ) {
+        objSchool = objSchools[ i ];
+
+        schools.push({'text':  objSchool.schoolName + " (" + objSchool.schoolLocation + ", " + objSchool.schoolPostcode + ")" });
+    }
+
+    return schools;
+}
+
+function getLocalAuthorityList() {
+
+    var objAuthorityFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/authorities.json');
+    var objAuthorities = objAuthorityFile.localAuthorities;
+    var lcoalAuthorities = [];
+
+    for (i=0; i<objAuthorities.length; i++ ) {
+        objAuthority = objAuthorities[ i ];
+
+        lcoalAuthorities.push({'text':  objAuthority.authoritylName + " (" + objAuthority.authorityCode + ")" });
+    }
+
+    return lcoalAuthorities;
+}
+
+function generateComparators() {
+
+    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
+    var objSchools = objSchoolsFile.schools;
+    var comparators = [];
+
+    for (i=0; i<30; i++ ) {
+        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
+        comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
+        comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
+
+        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals });
+    }
+
+    return comparators;
+}
 
 
 // viewing session data
