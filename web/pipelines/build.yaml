@@ -24,6 +24,7 @@ variables:
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
   TerraformFolder: 'web/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
 
 stages:
   - stage: Build
@@ -92,7 +93,7 @@ stages:
   - stage: DeployDevelopment
     dependsOn: [ Build ]
     displayName: 'Development'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:
@@ -106,7 +107,7 @@ stages:
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
     displayName: 'Automated test'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:
@@ -120,7 +121,7 @@ stages:
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
     displayName: 'Test'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:

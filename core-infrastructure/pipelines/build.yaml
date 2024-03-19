@@ -16,6 +16,7 @@ pr: none
 variables:
   TerraformFolder: 'core-infrastructure/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))
 
 stages:
   - stage: Build
@@ -44,6 +45,7 @@ stages:
 
   - stage: DeployDevelopment
     dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Development'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -55,6 +57,7 @@ stages:
 
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Automated test'
     jobs:
       - template: jobs-core-deployment.yaml
@@ -66,6 +69,7 @@ stages:
 
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Test'
     jobs:
       - template: jobs-core-deployment.yaml
