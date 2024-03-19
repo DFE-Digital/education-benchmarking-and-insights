@@ -210,7 +210,7 @@ router.get( '/set-school', (req, res) => {
 
 function getSchoolList() {
 
-    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
+    var objSchoolsFile = require('../app/data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var schools = [];
 
@@ -225,7 +225,7 @@ function getSchoolList() {
 
 function getLocalAuthorityList() {
 
-    var objAuthorityFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/authorities.json');
+    var objAuthorityFile = require('../app/data/authorities.json');
     var objAuthorities = objAuthorityFile.localAuthorities;
     var lcoalAuthorities = [];
 
@@ -240,7 +240,7 @@ function getLocalAuthorityList() {
 
 function generateComparators() {
 
-    var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
+    var objSchoolsFile = require('../app/data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var comparators = [];
 
