@@ -15,6 +15,12 @@ router.get( '/find-school', (req, res) => {
     res.render( '/find-school', { rows: rows } );
 })
 
+router.get( '/comparators/create/local-authority', (req, res) => {
+
+    var rows = getLocalAuthorityList();
+    res.render( '/comparators/create/local-authority', { rows: rows } );
+})
+
 function getSchoolList() {
 
     var objSchoolsFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/schools.json');
@@ -28,6 +34,21 @@ function getSchoolList() {
     }
 
     return schools;
+}
+
+function getLocalAuthorityList() {
+
+    var objAuthorityFile = require('/Users/petewilliams/Documents/education-benchmarking-and-insights/prototype/src/app/views/templates/authorities.json');
+    var objAuthorities = objAuthorityFile.localAuthorities;
+    var lcoalAuthorities = [];
+
+    for (i=0; i<objAuthorities.length; i++ ) {
+        objAuthority = objAuthorities[ i ];
+
+        lcoalAuthorities.push({'text':  objAuthority.authoritylName + " (" + objAuthority.authorityCode + ")" });
+    }
+
+    return lcoalAuthorities;
 }
 
 
