@@ -5,7 +5,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+  Create a custom comparator set – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -1681,7 +1681,7 @@
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-MinFullTimeAux" type="checkbox" aria-controls="rc_FullTimeAux" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinFullTimeAux">Number of Auxiliary staff (Full Time Equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 3.08</span></label>
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinFullTimeAux">Number of Auxiliary staff (full time equivalent) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 3.08</span></label>
                 </div>
                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_FullTimeAux">
                 <div class="govuk-form-group">
@@ -1715,7 +1715,7 @@
 
 
             {{ govukButton({
-            text: "Continue",
+            text: "Create comparison set",
             classes: "govuk-button--primary"
             }) }}
         </form>
