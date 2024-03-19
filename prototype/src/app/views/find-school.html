@@ -9,9 +9,19 @@
 
 {% block content %}
 
-
 {% set schoolsHtml %}
-{% include "templates/schools_postcodes.njk" %}
+
+{{ xGovukAutocomplete({
+    id: "school",
+    name: "school",
+    allowEmpty: false,
+    hint: {
+        text: "Search by name, URN, keyword or location"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: rows
+  }) }}
+  
 {% endset -%}
 
 {% set trustsHtml %}

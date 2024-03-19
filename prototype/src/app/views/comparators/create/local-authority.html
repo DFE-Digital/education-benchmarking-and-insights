@@ -21,6 +21,9 @@
   type: "text",
   label: {
     text: "Local authority"
+  },
+  hint: {
+      text: "Enter a local authority name or a three-digit LA code"
   }
 }) }}
 {% endset %}
@@ -52,7 +55,7 @@
                 },
                 {
                     value: "localAuthority",
-                    text: "A local authority",
+                    text: "A specific local authority",
                     checked: checked("compareAuthority", "localAuthority"),
                     conditional: {
                       html: authorityHtml

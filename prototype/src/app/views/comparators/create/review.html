@@ -2,8 +2,14 @@
 
 {% extends "layouts/main.html" %}
 
+{% if data['comparators'] %}
+  {% set actionText = 'Your' %}
+{% else %}
+  {% set actionText = 'Create a' %}
+{% endif %}
+
 {% block pageTitle %}
-  Your custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
+  {{ actionText }} custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,7 +20,6 @@
 {% endblock %}
 
 {% block content %}
-
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
@@ -38,16 +43,71 @@
   {% endif %}
 
     <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-    <h1 class="govuk-heading-l">Your custom comparator set</h1>
-      
-    {{ govukNotificationBanner({
-        text: "Comparator set generated",
-        type: "success"
-      }) }}
 
-    <p class="govuk-body">Here are the 30 schools who are the closest matches based on the criteria you selected.<br />
-        <a href="/comparators/create/characteristics">Change criteria and generate a new comparison set</a>
-    </p>
+      <h1 class="govuk-heading-l">{{ actionText }} custom comparator set</h1>
+
+
+      {% if confirmation != 'comparator-generated' %}
+      <form action="/add-comparator-school" method="post">
+        <h2 class="govuk-heading-m">Add a school</h2>
+        <div class="school-search">
+
+            {{ xGovukAutocomplete({
+              id: "school",
+              name: "school",
+              allowEmpty: false,
+              hint: {
+                  text: "Search by name, URN, keyword or location"
+              },
+              errorMessage: null if errorThisPage != 'true' else { html: errorText },
+              items: schoolRows
+            }) }}
+            
+
+            {{ govukButton({
+              text: "Add school"
+            }) }}
+        </div>
+      </form>
+      {% endif %}
+
+      
+
+    <h1 class="govuk-heading-m">Your custom comparator set</h1>
+
+    {% if data['comparators'] | length %}
+
+      {% if confirmation == 'comparator-generated' %}
+      {% set html %}
+      <p class="govuk-body"><strong>Comparator set generated</strong></p>
+      {% endset %}
+
+      {% elseif confirmation == 'comparator-added' %}
+        {% set html %}
+        <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to your custom comparator set.</p>
+        {% endset %}
+      
+      {% elseif confirmation == 'comparator-removed' %}
+        {% set html %}
+        <p class="govuk-body"><strong>{{ data['school-removed'] }}</strong> removed from your custom comparator set - <a href="/comparators/undo-remove?schoolName={{ data['school-removed'] }}" class="govuk-link">Undo</a>.</p>
+        {% endset %}
+
+      {% endif %}
+
+      {% if confirmation %}
+        {{ govukNotificationBanner({
+          html: html,
+          type: "success"
+        }) }}
+        
+
+        {% if confirmation == 'comparator-generated' %}
+        <p class="govuk-body">Here are the 30 schools who are the closest matches based on the criteria you selected.<br />
+          <a href="/comparators/create/characteristics">Change criteria and generate a new comparison set</a>
+      </p>
+        {% endif %}
+
+      {% endif %}
 
     {{ govukTable({
       firstCellIsHeader: false,
@@ -75,6 +135,11 @@
     }) }}
 
     <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Return to {{ data['school-name'] }} spending and costs</a></p>
+    {% else %}
+
+    <p class="govuk-body">No schools added</p>
+
+    {% endif %}
 
 
     </div>
