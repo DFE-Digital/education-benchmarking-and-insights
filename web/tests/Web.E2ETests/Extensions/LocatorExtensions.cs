@@ -163,4 +163,10 @@ public static class LocatorExtensions
         await locator.PressAsync(key);
         return locator;
     }
+
+    public static async Task<ILocator> Check(this ILocator locator)
+    {
+        await locator.CheckAsync();
+        return locator;
+    }
 }

@@ -10,6 +10,7 @@ public class FindOrganisationPage(IPage page)
     private ILocator OrganisationsTypeRadios => page.Locator(Selectors.GovRadios);
     private ILocator SchoolSearchInputField => page.Locator(Selectors.SchoolSearchInput);
     private ILocator ContinueButton => page.Locator(Selectors.GovButton, new PageLocatorOptions { HasText = "Continue" });
+    private ILocator SchoolRadioButton => page.Locator(Selectors.SchoolRadio);
 
     public async Task IsDisplayed()
     {
@@ -23,6 +24,16 @@ public class FindOrganisationPage(IPage page)
     {
         await SchoolSearchInputField.PressSequentially(text).Press("ArrowDown").Press("Enter");
         return new HomePage(page);
+    }
+
+    public async Task SelectOrganisationType(string type)
+    {
+        var radioButton = type switch
+        {
+            "school" => SchoolRadioButton,
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
+        await radioButton.Check();
     }
 
 }
