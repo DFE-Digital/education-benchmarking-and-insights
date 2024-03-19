@@ -151,4 +151,22 @@ public static class LocatorExtensions
         await Assertions.Expect(locator).ToHaveClassAsync(locatorClass);
         return locator;
     }
+
+    public static async Task<ILocator> PressSequentially(this ILocator locator, string inputValue)
+    {
+        await locator.PressSequentiallyAsync(inputValue, new() { Delay = 100 });
+        return locator;
+    }
+
+    public static async Task<ILocator> Press(this ILocator locator, string key)
+    {
+        await locator.PressAsync(key);
+        return locator;
+    }
+
+    public static async Task<ILocator> Check(this ILocator locator)
+    {
+        await locator.CheckAsync();
+        return locator;
+    }
 }
