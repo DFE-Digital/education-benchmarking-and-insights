@@ -46,14 +46,14 @@
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1156 pupils</span></label>
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">{{ data['school-name'] }} has 1,156 pupils</span></label>
                 </div>
                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoPupil">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
-                        <span>The value for {{ data['school-name'] }} is </span>
-                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1156 pupils</span>
+                        <span>{{ data['school-name'] }} has </span>
+                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1,156 pupils</span>
                 </div>
 
                 <span class="govuk-error-message"></span>
@@ -87,7 +87,7 @@
                 <fieldset class="govuk-fieldset">
 
                 <div class="govuk-hint">
-                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Secondary</span></span>
+                        <span>{{ data['school-name'] }} is a <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Secondary</span> school</span>
                 </div>
 
                 <span class="govuk-error-message"></span>
@@ -176,13 +176,13 @@
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-TypeOfEstablishment" type="checkbox" aria-controls="mcc" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" id="label-TypeOfEstablishment" for="checkbox-TypeOfEstablishment">School type <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Academy converter</span></label>
+                <label class="govuk-label govuk-checkboxes__label" id="label-TypeOfEstablishment" for="checkbox-TypeOfEstablishment">School type <span class="govuk-visually-hidden">{{ data['school-name'] }} is an Academy converter</span></label>
                 </div>
                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc">
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
-                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Academy converter</span></span>
+                        <span>{{ data['school-name'] }} is an <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Academy converter</span></span>
                 </div>
 
                 <span class="govuk-error-message"></span>
