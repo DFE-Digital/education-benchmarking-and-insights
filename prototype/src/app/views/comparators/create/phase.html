@@ -1,0 +1,84 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+    Create a custom comparator set – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create"
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form action="/comparators/create/local-authority" method="post">
+            <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+            {{ govukCheckboxes({
+            name: "comparePhase",
+            fieldset: {
+                legend: {
+                text: "Which phase of schools do you want to compare against?",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [
+                {
+                    value: "all",
+                    text: "All",
+                    checked: checked("comparePhase", "all")
+                },
+                {
+                    value: "nursery",
+                    text: "Nursery",
+                    checked: checked("comparePhase", "nursery")
+                },
+                {
+                    value: "primary",
+                    text: "Primary",
+                    checked: checked("comparePhase", "primary")
+                },
+                {
+                    value: "secondary",
+                    text: "Secondary",
+                    checked: checked("comparePhase", "secondary")
+                },
+                {
+                    value: "special",
+                    text: "Special",
+                    checked: checked("comparePhase", "special")
+                },
+                {
+                    value: "referral",
+                    text: "Pupil referral unit",
+                    checked: checked("comparePhase", "referral")
+                },
+                {
+                    value: "allThrough",
+                    text: "All-through",
+                    checked: checked("comparePhase", "allThrough")
+                }
+            ]
+            }) }}
+
+            {{ govukButton({
+            text: "Continue",
+            classes: "govuk-button--primary"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}
