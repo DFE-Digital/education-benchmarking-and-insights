@@ -63,6 +63,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
           highlightedItemKeys={
             highlightedItemKey ? [highlightedItemKey] : undefined
           }
+          includeNegativeValues
           keyField={keyField}
           seriesConfig={seriesConfig}
           seriesLabelField={keyField}
@@ -84,7 +85,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
         <Stat
           chartName="Similar schools spend"
           label="Similar schools spend"
-          suffix={`${suffix}, on average`}
+          suffix={suffix && `${suffix}, on average`}
           value={mean}
           valueUnit="currency"
         />
