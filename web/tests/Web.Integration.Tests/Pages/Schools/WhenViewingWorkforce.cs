@@ -107,7 +107,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Benchmark workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark workforce data");
-        
+
         var workforceComponent = page.GetElementById("compare-your-workforce");
         Assert.NotNull(workforceComponent);
 
