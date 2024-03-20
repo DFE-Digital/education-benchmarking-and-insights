@@ -8,7 +8,7 @@ public static class WebApplicationBuilderExtensions
     {
         var section = builder.Configuration.GetSection("SessionData");
         var storeType = section.GetValue<string>("Using");
-        
+
         switch (storeType?.ToLower())
         {
             case "cosmos":
@@ -27,7 +27,7 @@ public static class WebApplicationBuilderExtensions
                 builder.Services.AddDistributedMemoryCache();
                 break;
         }
-        
+
         return builder;
     }
 }
