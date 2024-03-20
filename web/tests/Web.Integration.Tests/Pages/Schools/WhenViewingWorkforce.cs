@@ -111,7 +111,7 @@ public class WhenViewingWorkforce(BenchmarkingWebAppClient client) : PageBase(cl
         var workforceComponent = page.GetElementById("compare-your-workforce");
         Assert.NotNull(workforceComponent);
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
