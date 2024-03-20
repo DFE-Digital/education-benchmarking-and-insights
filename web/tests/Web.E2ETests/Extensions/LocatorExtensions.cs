@@ -169,4 +169,9 @@ public static class LocatorExtensions
         await locator.CheckAsync();
         return locator;
     }
+
+    public static async Task<int> Count(this ILocator locator)
+    {
+        return await locator.CountAsync();
+    }
 }
