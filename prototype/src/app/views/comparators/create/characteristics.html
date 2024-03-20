@@ -26,6 +26,7 @@
 
             <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
 
+<!--
             <p class="govuk-body">You can compare against a maximum of 30 schools. If your chosen comparison characteristics give more than 30 results, we will chose the 30 schools whose comparison values are closest to {{ data['school-name'] }}.</p>
         
             <div class="sticky-div matching-schools">
@@ -38,14 +39,14 @@
                 </div>
             </div>
 
-
+-->
             <div id="characteristics-accordion" class="govuk-accordion app-accordion--no-open-all" data-module="govuk-accordion">
             <div class="govuk-accordion__section govuk-accordion__section--expanded">
                 <div class="govuk-accordion__section-header app-accordion__section-header--no-border-top">
                 <h2 class="govuk-accordion__section-heading">
 
                 <button type="button" id="accordion-general-heading" aria-controls="characteristics-accordion-content-1" class="govuk-accordion__section-button" aria-expanded="true">
-                General characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> general characteristics</span> selected</span><span></span>)</span>
+                General characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span><!--(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> general characteristics</span> selected</span><span></span>)--></span>
                 <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
                 </div>
 
@@ -393,7 +394,7 @@
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-MinPerFSM" type="checkbox" aria-controls="pc" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerFSM">Eligibility for free school meals <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.7</span></label>
+                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerFSM">Eligibility for free school meals (FSM) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.7</span></label>
                 </div>
                 <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
                 <div class="govuk-form-group">
@@ -557,6 +558,51 @@
                     </div>
                 </div>
 
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-OfstedRating" type="checkbox" aria-controls="mcc5" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" id="label-OfstedRating" for="checkbox-OfstedRating">Ofsted rating <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Outstanding</span></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc5">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Outstanding</span></span>
+                    </div>
+    
+                    <span class="govuk-error-message"></span>
+    
+                    <legend class="govuk-visually-hidden">Ofsted rating</legend>
+    
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Outstanding" value="Outstanding">
+                                <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Outstanding">Outstanding</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Good" value="Good">
+                                <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Good">Good</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Requires improvement" value="Requires improvement">
+                                <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Requires improvement">Requires improvement</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Inadequate" value="Inadequate">
+                                <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Inadequate">Inadequate</label>
+                            </div>
+                            <div class="govuk-checkboxes__item">
+                                <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Not rated" value="Not rated">
+                                <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Not rated">Not rated</label>
+                            </div>
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                    </div>
 
                 {% if data['comparePhase'] %}
                 {% if 'primary' in data['comparePhase'] %}
@@ -975,7 +1021,7 @@
                 <h2 class="govuk-accordion__section-heading">
 
                 <button type="button" id="SenHeader" aria-controls="characteristics-accordion-content-2" class="govuk-accordion__section-button" aria-expanded="false">
-                <abbr title="Special Education Needs" aria-label="Special Education Needs">SEN</abbr> characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> SEN characteristics</span> selected</span><span>)</span></span>
+                <abbr title="Special Education Needs" aria-label="Special Education Needs">SEN</abbr> characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span><!--(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> SEN characteristics</span> selected</span><span>)--></span></span>
                 <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
                 </div>
                 <div id="accordion-sen-content" class="govuk-accordion__section-content" aria-labelledby="SenHeader">
@@ -1363,13 +1409,10 @@
                 <h2 class="govuk-accordion__section-heading">
 
                 <button type="button" id="PerformanceHeader" aria-controls="characteristics-accordion-content-3" class="govuk-accordion__section-button" aria-expanded="false">
-                Performance characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> performance characteristics</span> selected</span><span>)</span></span>
+                Performance characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span><!--(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> performance characteristics</span> selected</span><span>)--></span></span>
                 <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
                 </div>
                 <div id="accordion-performance-content" class="govuk-accordion__section-content" aria-labelledby="PerformanceHeader">
-                <p class="govuk-body">
-                To compare schools across more performance characteristics visit the <a rel="external noopener noreferrer" class="govuk-link" target="_blank" href="https://www.find-school-performance-data.service.gov.uk">Find school and college performance data in England<span class="govuk-visually-hidden"> Opens in a new window</span></a> site.
-                </p>
 
 
 
@@ -1505,51 +1548,6 @@
 
 
 
-                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-OfstedRating" type="checkbox" aria-controls="mcc5" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" id="label-OfstedRating" for="checkbox-OfstedRating">Ofsted rating <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Outstanding</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="mcc5">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                <div class="govuk-hint">
-                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Outstanding</span></span>
-                </div>
-
-                <span class="govuk-error-message"></span>
-
-                <legend class="govuk-visually-hidden">Ofsted rating</legend>
-
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Outstanding" value="Outstanding">
-                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Outstanding">Outstanding</label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Good" value="Good">
-                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Good">Good</label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Requires improvement" value="Requires improvement">
-                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Requires improvement">Requires improvement</label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Inadequate" value="Inadequate">
-                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Inadequate">Inadequate</label>
-                        </div>
-                        <div class="govuk-checkboxes__item">
-                            <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.OfstedRating" id="OfstedRating.Not rated" value="Not rated">
-                            <label class="govuk-label govuk-checkboxes__label" for="OfstedRating.Not rated">Not rated</label>
-                        </div>
-                </div>
-                </fieldset>
-                </div>
-                </div>
-                </div>
-
-
-
                 </div>
                 </div>
                             <div class="govuk-accordion__section">
@@ -1557,7 +1555,7 @@
                 <h2 class="govuk-accordion__section-heading">
 
                 <button type="button" id="WFHeader" aria-controls="characteristics-accordion-content-4" class="govuk-accordion__section-button" aria-expanded="false">
-                Workforce characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span>(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> workforce characteristics</span> selected</span><span>)</span></span>
+                Workforce characteristics <span class="govuk-!-font-weight-regular govuk-!-font-size-19 break-in-mobile"><span><!--(</span><span role="status"><span class="selection-counter">0</span><span class="govuk-visually-hidden"> workforce characteristics</span> selected</span><span>)--></span></span>
                 <span class="govuk-accordion__icon" aria-hidden="true"></span></button></h2>
                 </div>
                 <div id="accordion-wf-content" class="govuk-accordion__section-content" aria-labelledby="WFHeader">
@@ -1805,7 +1803,7 @@
             classes: "govuk-button--primary"
             }) }}
         </form>
-
+<!--
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
         <script>
             intMatches = 9119;
@@ -1820,22 +1818,22 @@
 
             function updateCounts(blnCount, objPassed) {
 
-                intSelected = $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html();
+//              intSelected = $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html();
 
                 if ( blnCount ) {
                     intMatches = Math.floor( intMatches * 0.4 );
-                    intSelected++;
+//                  intSelected++;
                 } else {
                     intMatches = Math.floor( intMatches / 0.4 );
-                    intSelected--;
+//                  intSelected--;
                 }
                 $('#countPart').text( intMatches.toLocaleString() );
-                $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html(intSelected);
+//              $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html(intSelected);
             
             }
 
         </script>
-
+-->
     </div>
 </div>
 {% endblock %}

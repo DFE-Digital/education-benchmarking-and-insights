@@ -13,10 +13,30 @@
 {% endblock %}
 
 {% block beforeContent %}
+
+  {% if confirmation == 'comparator-generated' %}
+
     {{ govukBackLink({
         text: "Back",
         href: "/comparators/create"
     }) }}
+
+    {% else %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/find-school"
+        },
+        {
+          text: "Your school",
+          href: "/school-homepage"
+        }
+      ]
+    }) }}
+
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -91,18 +111,17 @@
       {% endif %}
 
       {% if confirmation %}
+      
         {{ govukNotificationBanner({
           html: html,
           type: "success"
         }) }}
         
-
-
       {% endif %}
       
       {% if comparatorSetType == 'generated' %}
-      <p class="govuk-body">Here are the 30 schools who are the closest matches based on the criteria you selected.<br />
-        <a href="/comparators/create/characteristics">Change criteria and generate a new comparison set</a>
+      <p class="govuk-body">These 30 schools are the closest matches based on the characteristics you selected.<br />
+        <a href="/comparators/create/characteristics">Change characteristics and generate a new comparison set</a>
     </p>
       {% endif %}
 

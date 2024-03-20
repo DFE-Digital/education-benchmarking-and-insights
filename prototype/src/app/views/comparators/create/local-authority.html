@@ -57,8 +57,13 @@
                     checked: checked("compareAuthority", "all")
                 },
                 {
+                    value: "all",
+                    html: "The same local authority <br/><span class=\"govuk-hint\">(North Yorkshire Council)</span>",
+                    checked: checked("compareAuthority", "all")
+                },
+                {
                     value: "localAuthority",
-                    text: "A specific local authority",
+                    text: "Another local authority",
                     checked: checked("compareAuthority", "localAuthority"),
                     conditional: {
                       html: authorityHtml
