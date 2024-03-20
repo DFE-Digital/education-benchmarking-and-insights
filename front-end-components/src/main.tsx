@@ -352,6 +352,7 @@ if (spendingAndCostsComposedElements) {
       root.render(
         <React.StrictMode>
           <ComparisonChartSummary
+            averageType="median"
             chartName="Percentage of pupils on roll and teacher cost"
             data={data}
             highlightedItemKey={highlight}

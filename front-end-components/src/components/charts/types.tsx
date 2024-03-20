@@ -78,3 +78,5 @@ export type ChartDataSeriesSortMode<TData extends ChartDataSeries> = {
   dataPoint: keyof TData;
   direction: ChartSortDirection;
 };
+
+export type ChartDataAverage = "mean" | "median" | "mode";
