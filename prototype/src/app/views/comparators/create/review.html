@@ -97,12 +97,13 @@
         }) }}
         
 
-        {% if confirmation == 'comparator-generated' %}
-        <p class="govuk-body">Here are the 30 schools who are the closest matches based on the criteria you selected.<br />
-          <a href="/comparators/create/characteristics">Change criteria and generate a new comparison set</a>
-      </p>
-        {% endif %}
 
+      {% endif %}
+      
+      {% if comparatorSetType == 'generated' %}
+      <p class="govuk-body">Here are the 30 schools who are the closest matches based on the criteria you selected.<br />
+        <a href="/comparators/create/characteristics">Change criteria and generate a new comparison set</a>
+    </p>
       {% endif %}
 
     {{ govukTable({
@@ -131,6 +132,7 @@
     }) }}
 
     <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Return to {{ data['school-name'] }} spending and costs</a></p>
+    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your custom comparator set</a></p>
     {% else %}
 
     <p class="govuk-body">No schools added</p>
