@@ -9,7 +9,6 @@ using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Session;
 using Web.App.Services;
 using Web.App.Validators;
 using Web.Identity.Extensions;
@@ -49,6 +48,8 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
+builder.AddCacheService();
+
 if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
@@ -81,17 +82,6 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddCosmosCache(opts =>
-    {
-        var settings = builder.Configuration.GetSection(CosmosCacheSettings.Section).Get<CosmosCacheSettings>();
-        ArgumentNullException.ThrowIfNull(settings);
-
-        opts.ContainerName = settings.ContainerName ?? throw new ArgumentNullException(nameof(settings.ContainerName));
-        opts.DatabaseName = settings.DatabaseName ?? throw new ArgumentNullException(nameof(settings.DatabaseName));
-        opts.CosmosClient = CosmosClientFactory.Create(settings);
-        opts.CreateIfNotExists = false;
-    });
 }
 
 var app = builder.Build();
@@ -114,7 +104,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
 
 
 [ExcludeFromCodeCoverage]
