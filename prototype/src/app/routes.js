@@ -32,6 +32,7 @@ router.post( '/comparators/create/review', (req, res) => {
 
     req.session.data['comparators'] = comparators;
     req.session.data['confirmation'] = 'comparator-generated';
+    req.session.data['comparatorSetType'] = 'generated';
 
     res.redirect( '/comparators/create/review' );
 
@@ -148,7 +149,7 @@ router.get( '/comparators/create/review', (req, res) => {
         rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
-    res.render( '/comparators/create/review', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+    res.render( '/comparators/create/review', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
 
     // clear confirmation/errors
     req.session.data['confirmation'] = '';
@@ -177,9 +178,10 @@ router.get( '/comparators/remove', (req, res) => {
 router.get( '/comparators/reset-confirmed', (req, res) => {
 
     req.session.data.comparators = null;
-    req.session.data['confirmation'] = 'comparator-reset';
+    req.session.data.comparatorSetType = null;
 
-    res.redirect( '/comparators' );
+    res.render( '/school-homepage', {confirmation: 'comparator-reset' } );
+
 
 })
 
@@ -191,6 +193,16 @@ router.get( '/comparators', (req, res) => {
     // clear confirmation/errors
     req.session.data['confirmation'] = '';
 
+})
+
+
+router.get( '/comparators/create', (req, res) => {
+
+    if (req.session.data.comparators ) {
+        res.redirect( '/comparators/create/review' );
+    } else {
+        res.render( '/comparators/create/index' );
+    }
 })
 
 

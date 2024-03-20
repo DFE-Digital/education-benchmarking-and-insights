@@ -29,6 +29,15 @@
 <h2 class="govuk-heading-m">Part of <a href="#">{{ data['trust-name'] }}</a></h2>
 {% endif %}
 
+{% if confirmation == 'comparator-reset' %}
+
+{{ govukNotificationBanner({
+  html: '<strong>Your custom comparator set has been deleted.</strong><br/>Comparisons will now be made against the default set for this school.',
+  type: "success"
+}) }}
+
+{% endif %}
+
 <div class="govuk-grid-row headline-figures">
     <div class="govuk-grid-column-one-quarter">
         <div>
