@@ -32,7 +32,16 @@ However, if you are using deployed instances of the Platform APIs then having in
 #### DfE Sign-in (DSI) authentication
 Having initialised secret storage, in a console window:
 1. Navigate to `Web.App` project root
-2. Set XXXX user secret: `dotnet user-secrets set "XXXX" "xxxxx"`
+2. Set DSI Sign-out URI user secret: `dotnet user-secrets set "DFESignInSettings:SignOutUri" "[INSERT URL VALUE]"`
+3. Set DSI Signed out callback path user secret: `dotnet user-secrets set "DFESignInSettings:SignedOutCallbackPath" "[INSERT PATH VALUE]"`
+4. Set DSI Metadata address user secret: `dotnet user-secrets set "DFESignInSettings:MetadataAddress" "[INSERT URL VALUE]"`
+5. Set DSI Issuer user secret: `dotnet user-secrets set "DFESignInSettings:Issuer" "[INSERT SECRET VALUE]"`
+6. Set DSI Client Secret user secret: `dotnet user-secrets set "DFESignInSettings:ClientSecret" "[INSERT CLIENT SECRET VALUE]"`
+7. Set DSI Client ID user secret: `dotnet user-secrets set "DFESignInSettings:ClientID" "[INSERT ID VALUE]"`
+8. Set DSI Callback path user secret: `dotnet user-secrets set "DFESignInSettings:CallbackPath" "[INSERT PATH VALUE]"`
+9. Set DSI Audience user secret: `dotnet user-secrets set "DFESignInSettings:Audience" "[INSERT AUDIENCE VALUE]"`
+10. Set DSI API Url user secret: `dotnet user-secrets set "DFESignInSettings:APIUri" "[INSERT AUDIENCE VALUE]"`
+11. Set DSI API Secret user secret: `dotnet user-secrets set "DFESignInSettings:APISecret" "[INSERT API SECRET VALUE]"`
 
 #### Session cache
 Having initialised secret storage, in a console window:
