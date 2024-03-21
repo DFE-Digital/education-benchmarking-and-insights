@@ -15,6 +15,8 @@ In a console window:
 1. Navigate to `Web.App` project root
 2. Run `dotnet user-secrets init` to initialise secrets in the directory
 
+> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init` will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER". This will create a `secrets.json` file in the folder location described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works). At this point you can update the `secrets.json` by hand with all of the required settings.
+
 #### Platform APIs
 If running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json`.
 
@@ -30,7 +32,16 @@ However, if you are using deployed instances of the Platform APIs then having in
 #### DfE Sign-in (DSI) authentication
 Having initialised secret storage, in a console window:
 1. Navigate to `Web.App` project root
-2. Set XXXX user secret: `dotnet user-secrets set "XXXX" "xxxxx"`
+2. Set DSI Sign-out URI user secret: `dotnet user-secrets set "DFESignInSettings:SignOutUri" "[INSERT URL VALUE]"`
+3. Set DSI Signed out callback path user secret: `dotnet user-secrets set "DFESignInSettings:SignedOutCallbackPath" "[INSERT PATH VALUE]"`
+4. Set DSI Metadata address user secret: `dotnet user-secrets set "DFESignInSettings:MetadataAddress" "[INSERT URL VALUE]"`
+5. Set DSI Issuer user secret: `dotnet user-secrets set "DFESignInSettings:Issuer" "[INSERT SECRET VALUE]"`
+6. Set DSI Client Secret user secret: `dotnet user-secrets set "DFESignInSettings:ClientSecret" "[INSERT CLIENT SECRET VALUE]"`
+7. Set DSI Client ID user secret: `dotnet user-secrets set "DFESignInSettings:ClientID" "[INSERT ID VALUE]"`
+8. Set DSI Callback path user secret: `dotnet user-secrets set "DFESignInSettings:CallbackPath" "[INSERT PATH VALUE]"`
+9. Set DSI Audience user secret: `dotnet user-secrets set "DFESignInSettings:Audience" "[INSERT AUDIENCE VALUE]"`
+10. Set DSI API Url user secret: `dotnet user-secrets set "DFESignInSettings:APIUri" "[INSERT AUDIENCE VALUE]"`
+11. Set DSI API Secret user secret: `dotnet user-secrets set "DFESignInSettings:APISecret" "[INSERT API SECRET VALUE]"`
 
 #### Session cache
 Having initialised secret storage, in a console window:

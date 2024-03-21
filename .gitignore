@@ -415,3 +415,5 @@ local.settings.json
 
 # OSX
 .DS_Store
+
+**/docker/sql
