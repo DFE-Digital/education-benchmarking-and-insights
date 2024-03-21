@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
 import {
@@ -10,13 +10,15 @@ import {
   CompareCostsElementId,
   CompareWorkforceElementId,
   DeploymentPlanElementId,
+  FindOrganisationElementId,
+  HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
-  VerticalBarChart2SeriesElementId,
-  VerticalBarChart3SeriesElementId,
   SchoolHistoryElementId,
   SpendingAndCostsComposedElementId,
-  FindOrganisationElementId,
+  VerticalBarChart2SeriesElementId,
+  VerticalBarChart3SeriesElementId,
 } from "src/constants";
+import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart-2";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { ChartHandler, ChartSortDirection } from "./components";
@@ -24,6 +26,8 @@ import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
 import { FindOrganisation } from "src/views/find-organisation";
+import { chartSeriesComparer } from "./components/charts/utils";
+import { SchoolTick } from "./components/charts/school-tick";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -112,6 +116,132 @@ if (deploymentPlanElement) {
     root.render(
       <React.StrictMode>
         <DeploymentPlan data={JSON.parse(chartData)} />
+      </React.StrictMode>
+    );
+  }
+}
+
+// todo: moved to composed components
+// eslint-disable-next-line react-refresh/only-export-components
+const HorizontalChart1Series = ({
+  data,
+  highlightedItemKey,
+  sortDirection,
+}: {
+  data: {
+    urn: string;
+    name: string;
+    schoolType: string;
+    localAuthority: string;
+    numberOfPupils: number;
+    schoolWorkforceFTE: number;
+    totalNumberOfTeachersFTE: number;
+    teachersWithQTSFTE: number;
+    seniorLeadershipFTE: number;
+    teachingAssistantsFTE: number;
+    nonClassroomSupportStaffFTE: number;
+    auxiliaryStaffFTE: number;
+    schoolWorkforceHeadcount: number;
+  }[];
+  highlightedItemKey?: string;
+  sortDirection: ChartSortDirection;
+}) => {
+  const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  const sortedData = useMemo(() => {
+    return data.sort((a, b) =>
+      chartSeriesComparer(a, b, {
+        dataPoint: "schoolWorkforceFTE",
+        direction: sortDirection,
+      })
+    );
+  }, [data, sortDirection]);
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => horizontalChart2SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height: 800 }}>
+        <HorizontalBarChart
+          barCategoryGap={2}
+          chartName="School workforce (Full Time Equivalent)"
+          data={sortedData}
+          highlightActive
+          highlightedItemKeys={
+            highlightedItemKey ? [highlightedItemKey] : undefined
+          }
+          keyField="urn"
+          margin={20}
+          onImageLoading={setImageLoading}
+          ref={horizontalChart2SeriesRef}
+          seriesConfig={{
+            schoolWorkforceFTE: {
+              label: "total",
+              visible: true,
+            },
+          }}
+          seriesLabelField="name"
+          tickWidth={400}
+          tick={(t) => (
+            <SchoolTick
+              {...t}
+              highlightedItemKey={highlightedItemKey}
+              linkToSchool
+              onClick={(urn) => {
+                urn && (window.location.href = `/school/${urn}`);
+              }}
+              schoolUrnResolver={(name) =>
+                data.find((d) => d.name === name)?.urn
+              }
+            />
+          )}
+          valueLabel="total"
+        />
+      </div>
+    </div>
+  );
+};
+
+const horizontalChart1SeriesElement = document.getElementById(
+  HorizontalBarChart1SeriesElementId
+);
+
+if (horizontalChart1SeriesElement) {
+  const { json, highlight, sortDirection } =
+    horizontalChart1SeriesElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
+    const data = JSON.parse(json) as {
+      urn: string;
+      name: string;
+      schoolType: string;
+      localAuthority: string;
+      numberOfPupils: number;
+      schoolWorkforceFTE: number;
+      totalNumberOfTeachersFTE: number;
+      teachersWithQTSFTE: number;
+      seniorLeadershipFTE: number;
+      teachingAssistantsFTE: number;
+      nonClassroomSupportStaffFTE: number;
+      auxiliaryStaffFTE: number;
+      schoolWorkforceHeadcount: number;
+    }[];
+
+    root.render(
+      <React.StrictMode>
+        <HorizontalChart1Series
+          data={data}
+          highlightedItemKey={highlight}
+          sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+        />
       </React.StrictMode>
     );
   }
