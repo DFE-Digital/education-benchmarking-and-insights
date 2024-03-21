@@ -12,7 +12,7 @@ services:
     volumes:
       - "./azurite/data:/data"
   sqldata:
-    image: mcr.microsoft.com/mssql/server:2017-latest
+    image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - SA_PASSWORD=Pass@word
       - ACCEPT_EULA=Y
