@@ -1,7 +1,7 @@
 import { Text } from "recharts";
-import { YTickProps } from "src/components/charts/school-tick";
+import { SchoolTickProps } from "src/components/charts/school-tick";
 
-export function SchoolTick(props: YTickProps) {
+export function SchoolTick(props: SchoolTickProps) {
   const {
     highlightedItemKey,
     linkToSchool,

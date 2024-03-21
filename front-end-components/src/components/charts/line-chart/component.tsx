@@ -152,7 +152,7 @@ function LineChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          {tooltip && (
+          {!!tooltip && (
             <Tooltip content={<LineChartTooltip valueUnit={valueUnit} />} />
           )}
           {visibleSeriesNames.map(renderLine)}

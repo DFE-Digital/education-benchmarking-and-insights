@@ -28,6 +28,7 @@ import { ResolvedStat } from "./components/charts/resolved-stat";
 import { FindOrganisation } from "src/views/find-organisation";
 import { chartSeriesComparer } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
+import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -203,6 +204,7 @@ const HorizontalChart1Series = ({
               }
             />
           )}
+          tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
           valueLabel="total"
         />
       </div>

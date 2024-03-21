@@ -1,4 +1,9 @@
 import React, { Ref, SVGProps } from "react";
+import {
+  NameType,
+  ValueType,
+} from "recharts/types/component/DefaultTooltipContent";
+import { ContentType } from "recharts/types/component/Tooltip";
 import { CartesianTickItem } from "recharts/types/util/types";
 
 export type HorizontalBarChartWrapperProps = {
@@ -40,7 +45,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
-  tooltip?: boolean;
+  tooltip?: boolean | ContentType<ValueType, NameType>;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
   suffix?: string;
