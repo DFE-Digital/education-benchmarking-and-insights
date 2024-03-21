@@ -18,7 +18,6 @@ public class BenchmarkWorkforcePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
-    private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
     private ILocator Charts => page.Locator(Selectors.Canvas);
@@ -48,7 +47,6 @@ public class BenchmarkWorkforcePage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
         await ComparatorSetDetails.ShouldBeVisible();
