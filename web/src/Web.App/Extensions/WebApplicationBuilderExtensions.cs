@@ -15,11 +15,11 @@ public static class WebApplicationBuilderExtensions
                 builder.Services.AddCosmosCache(opts =>
                 {
                     var settings = section.GetSection("Settings").Get<CosmosCacheSettings>();
-                    
+
                     ArgumentNullException.ThrowIfNull(settings);
                     ArgumentNullException.ThrowIfNull(settings.ContainerName);
                     ArgumentNullException.ThrowIfNull(settings.DatabaseName);
-                    
+
                     opts.ContainerName = settings.ContainerName;
                     opts.DatabaseName = settings.DatabaseName;
                     opts.CosmosClient = CosmosClientFactory.Create(settings);
