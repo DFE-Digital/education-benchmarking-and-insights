@@ -19,6 +19,7 @@
   --series-highlight-colour: #12436d;
   --link-colour: #1d70b8;
   --link-hover-colour: #003078;
+  --table-grid-colour: #b1b4b6;
 }
 
 .recharts-wrapper .chart-cell,
@@ -186,6 +187,87 @@
   .recharts-text.school-tick
   > tspan:not(:first-child) {
   display: none;
+}
+
+.recharts-wrapper .recharts-tooltip-cursor {
+  fill: var(--grid-colour);
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper {
+  background-color: #fff;
+  border: 1px solid var(--table-grid-colour);
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table {
+  margin-bottom: 0;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > tbody {
+  font-size: 0.8em;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > caption {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > th {
+  width: 150px;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > caption,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:first-child
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:first-child
+  > td {
+  border-top: 1px solid var(--table-grid-colour);
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:last-child
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:last-child
+  > td {
+  border-bottom: none;
 }
 
 /* end recharts */

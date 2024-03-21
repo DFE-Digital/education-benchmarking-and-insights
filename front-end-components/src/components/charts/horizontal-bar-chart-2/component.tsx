@@ -16,6 +16,7 @@ import {
   Label,
   Legend,
   ResponsiveContainer,
+  Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
@@ -45,6 +46,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     seriesLabelField,
     tick,
     tickWidth,
+    tooltip,
     valueLabel,
     valueUnit,
   } = props;
@@ -129,6 +131,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           ref={rechartsRef}
         >
           {grid && <CartesianGrid />}
+          {!!tooltip && tooltip !== true && (
+            <Tooltip content={tooltip} position={{ x: 0, y: 0 }} />
+          )}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (
             <Bar key={seriesName as string} dataKey={seriesName as string}>
               {data.map((entry, dataIndex) =>

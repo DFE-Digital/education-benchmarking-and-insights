@@ -1,6 +1,6 @@
 import { BaseAxisProps, CartesianTickItem } from "recharts/types/util/types";
 
-export interface YTickProps extends Omit<BaseAxisProps, "scale"> {
+export interface SchoolTickProps extends Omit<BaseAxisProps, "scale"> {
   highlightedItemKey?: string;
   linkToSchool?: boolean;
   onClick?: (urn: string) => void;
