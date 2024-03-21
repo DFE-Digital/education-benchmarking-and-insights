@@ -117,6 +117,11 @@ stages:
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
+      - job: RunE2ETests
+        displayName: 'Run automated e2e tests'
+        dependsOn: DeployAutomatedTest
+        steps:
+          -script: dotnet test .\web\tests\Web.E2ETests\Web.E2ETests.csproj
 
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
