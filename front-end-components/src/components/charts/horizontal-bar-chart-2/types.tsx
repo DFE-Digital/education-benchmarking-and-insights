@@ -1,5 +1,11 @@
+import { LabelProps } from "recharts";
 import { BaseAxisProps } from "recharts/types/util/types";
-import { ChartDataSeries, ChartProps, ChartSeriesValue } from "src/components";
+import {
+  ChartDataSeries,
+  ChartProps,
+  ChartSeriesConfigItem,
+  ChartSeriesValue,
+} from "src/components";
 
 export interface HorizontalBarChartProps<TData extends ChartDataSeries>
   extends ChartProps<TData>,
@@ -9,3 +15,7 @@ export interface HorizontalBarChartProps<TData extends ChartDataSeries>
   legend?: boolean;
   tickWidth?: number;
 }
+
+export interface LabelListContentProps
+  extends Omit<LabelProps, "formatter">,
+    Pick<ChartSeriesConfigItem, "formatter"> {}

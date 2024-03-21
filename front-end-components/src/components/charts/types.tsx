@@ -38,6 +38,7 @@ export interface ChartProps<TData extends ChartDataSeries> {
   hideYAxis?: boolean;
   highlightActive?: boolean;
   keyField: keyof TData;
+  labels?: boolean;
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageLoading?: (loading: boolean) => void;
@@ -51,15 +52,15 @@ export interface ChartProps<TData extends ChartDataSeries> {
   suffix?: string;
 }
 
+export interface ChartSeriesConfigItem {
+  className?: string;
+  label?: string;
+  visible: boolean;
+  formatter?: (value: ChartSeriesValue) => ChartSeriesValue;
+}
+
 type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
-  Record<
-    keyof TData,
-    {
-      className?: string;
-      label?: string;
-      visible: boolean;
-    }
-  >
+  Record<keyof TData, ChartSeriesConfigItem>
 >;
 
 type ChartSeriesName = string;

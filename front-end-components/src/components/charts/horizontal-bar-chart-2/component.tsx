@@ -7,22 +7,31 @@ import {
   useMemo,
   useState,
 } from "react";
-import { HorizontalBarChartProps } from "src/components/charts/horizontal-bar-chart-2";
+import {
+  HorizontalBarChartProps,
+  LabelListContentProps,
+} from "src/components/charts/horizontal-bar-chart-2";
 import {
   Bar,
   BarChart,
   CartesianGrid,
   Cell,
   Label,
+  LabelList,
   Legend,
   ResponsiveContainer,
+  Text,
   Tooltip,
   XAxis,
   YAxis,
 } from "recharts";
 import { CategoricalChartState } from "recharts/types/chart/types";
 import classNames from "classnames";
-import { ChartDataSeries, ChartHandler } from "src/components";
+import {
+  ChartDataSeries,
+  ChartHandler,
+  ChartSeriesValue,
+} from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
 function HorizontalBarChartInner<TData extends ChartDataSeries>(
@@ -39,6 +48,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     highlightActive,
     highlightedItemKeys,
     keyField,
+    labels,
     legend,
     margin: _margin,
     onImageLoading,
@@ -139,6 +149,17 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               {data.map((entry, dataIndex) =>
                 renderCell(entry, dataIndex, seriesName, seriesIndex)
               )}
+              {labels && (
+                <LabelList
+                  dataKey={seriesName as string}
+                  content={(c) => (
+                    <LabelListContent
+                      {...c}
+                      formatter={seriesConfig?.[seriesName]?.formatter}
+                    />
+                  )}
+                />
+              )}
             </Bar>
           ))}
           <XAxis type="number" hide={hideXAxis} unit={valueUnit}>
@@ -167,6 +188,23 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         </BarChart>
       </ResponsiveContainer>
     </div>
+  );
+}
+
+function LabelListContent(props: LabelListContentProps) {
+  const { formatter, height, value, width, x, y } = props;
+
+  return (
+    <g>
+      <Text
+        x={(x as number) + (width as number) + (height as number) / 2}
+        y={(y as number) + (height as number) / 2}
+        textAnchor="start"
+        dominantBaseline="middle"
+      >
+        {formatter ? formatter(value as ChartSeriesValue) : value}
+      </Text>
+    </g>
   );
 }
 

@@ -29,6 +29,7 @@ import { FindOrganisation } from "src/views/find-organisation";
 import { chartSeriesComparer } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
+import { Workforce } from "./services";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -129,21 +130,7 @@ const HorizontalChart1Series = ({
   highlightedItemKey,
   sortDirection,
 }: {
-  data: {
-    urn: string;
-    name: string;
-    schoolType: string;
-    localAuthority: string;
-    numberOfPupils: number;
-    schoolWorkforceFTE: number;
-    totalNumberOfTeachersFTE: number;
-    teachersWithQTSFTE: number;
-    seniorLeadershipFTE: number;
-    teachingAssistantsFTE: number;
-    nonClassroomSupportStaffFTE: number;
-    auxiliaryStaffFTE: number;
-    schoolWorkforceHeadcount: number;
-  }[];
+  data: Workforce[];
   highlightedItemKey?: string;
   sortDirection: ChartSortDirection;
 }) => {
@@ -180,6 +167,7 @@ const HorizontalChart1Series = ({
             highlightedItemKey ? [highlightedItemKey] : undefined
           }
           keyField="urn"
+          labels
           margin={20}
           onImageLoading={setImageLoading}
           ref={horizontalChart2SeriesRef}
@@ -187,6 +175,7 @@ const HorizontalChart1Series = ({
             schoolWorkforceFTE: {
               label: "total",
               visible: true,
+              formatter: (value) => parseFloat(value.toString()).toFixed(1),
             },
           }}
           seriesLabelField="name"
@@ -221,21 +210,7 @@ if (horizontalChart1SeriesElement) {
     horizontalChart1SeriesElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
-    const data = JSON.parse(json) as {
-      urn: string;
-      name: string;
-      schoolType: string;
-      localAuthority: string;
-      numberOfPupils: number;
-      schoolWorkforceFTE: number;
-      totalNumberOfTeachersFTE: number;
-      teachersWithQTSFTE: number;
-      seniorLeadershipFTE: number;
-      teachingAssistantsFTE: number;
-      nonClassroomSupportStaffFTE: number;
-      auxiliaryStaffFTE: number;
-      schoolWorkforceHeadcount: number;
-    }[];
+    const data = JSON.parse(json) as Workforce[];
 
     root.render(
       <React.StrictMode>
