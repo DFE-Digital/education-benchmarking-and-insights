@@ -56,7 +56,7 @@ export type Workforce = {
   name: string;
   schoolType: string;
   localAuthority: string;
-  numberOfPupils: bigint;
+  numberOfPupils: number;
   schoolWorkforceFTE: number;
   totalNumberOfTeachersFTE: number;
   teachersWithQTSFTE: number;
