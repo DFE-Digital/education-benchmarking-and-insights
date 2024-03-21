@@ -1,7 +1,12 @@
 import { CurveType } from "recharts/types/shape/Curve";
-import { ChartDataSeries, ChartProps } from "src/components";
+import {
+  ChartDataSeries,
+  ChartProps,
+  ValueFormatterProps,
+} from "src/components";
 
 export interface LineChartProps<TData extends ChartDataSeries>
-  extends ChartProps<TData> {
+  extends ChartProps<TData>,
+    ValueFormatterProps {
   curveType?: CurveType;
 }

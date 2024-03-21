@@ -141,9 +141,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           ref={rechartsRef}
         >
           {grid && <CartesianGrid />}
-          {!!tooltip && tooltip !== true && (
-            <Tooltip content={tooltip} position={{ x: 0, y: 0 }} />
-          )}
+          {!!tooltip && <Tooltip content={tooltip} position={{ x: 0, y: 0 }} />}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (
             <Bar key={seriesName as string} dataKey={seriesName as string}>
               {data.map((entry, dataIndex) =>
@@ -155,7 +153,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                   content={(c) => (
                     <LabelListContent
                       {...c}
-                      formatter={seriesConfig?.[seriesName]?.formatter}
+                      valueFormatter={
+                        seriesConfig?.[seriesName]?.valueFormatter
+                      }
                     />
                   )}
                 />
@@ -192,7 +192,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 }
 
 function LabelListContent(props: LabelListContentProps) {
-  const { formatter, height, value, width, x, y } = props;
+  const { valueFormatter, height, value, width, x, y } = props;
 
   return (
     <g>
@@ -202,7 +202,9 @@ function LabelListContent(props: LabelListContentProps) {
         textAnchor="start"
         dominantBaseline="middle"
       >
-        {formatter ? formatter(value as ChartSeriesValue) : value}
+        {valueFormatter
+          ? valueFormatter(value as ChartSeriesValue)
+          : String(value)}
       </Text>
     </g>
   );
