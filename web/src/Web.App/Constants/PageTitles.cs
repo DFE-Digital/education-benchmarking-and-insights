@@ -7,11 +7,11 @@ public static class PageTitles
     public const string ErrorProblem = "Sorry, there is a problem with the service";
     public const string ErrorAccessDenied = "Access denied";
     public const string FindOrganisation = "Find an educational organisation";
-    public const string ChooseOrganisation = "Choose your school, academy trust, local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Compare your costs";
     public const string Spending = "Spending and costs";
+    public const string Resources = "Find ways to spend less";
     public const string Workforce = "Benchmark workforce data";
     public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
     public const string SchoolPlanningYearSelect = "Which academic year do you want to plan?";
