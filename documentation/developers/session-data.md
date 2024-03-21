@@ -16,7 +16,7 @@ Two configuration have been implemented;
 This is the default option when no configuration has been set.
 
 ### Cosmos
-This follow settings will enable Cosmos Db to be used as the backing data store. 
+The follow settings will enable Cosmos Db to be used as the backing data store. 
 
 ```
 "SessionData" : {

@@ -43,11 +43,6 @@ Having initialised secret storage, in a console window:
 10. Set DSI API Url user secret: `dotnet user-secrets set "DFESignInSettings:APIUri" "[INSERT AUDIENCE VALUE]"`
 11. Set DSI API Secret user secret: `dotnet user-secrets set "DFESignInSettings:APISecret" "[INSERT API SECRET VALUE]"`
 
-#### Session cache
-Having initialised secret storage, in a console window:
-1. Navigate to `Web.App` project root
-2. Set session cache connection string user secret: `dotnet user-secrets set "CosmosCacheSettings:ConnectionString" "[INSERT CONNECTION STRING VALUE]"`
-3. Optional, direct mode is preferred however if you have issues run the follow to set the mode to gateway: `dotnet user-secrets set "CosmosCacheSettings:IsDirect" false`
 
 ### Running tests
 
