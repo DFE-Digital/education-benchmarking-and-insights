@@ -46,17 +46,16 @@ export interface ChartProps<TData extends ChartDataSeries> {
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
-  tooltip?: boolean | ContentType<ValueType, NameType>;
+  tooltip?: ContentType<ValueType, NameType>;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
   suffix?: string;
 }
 
-export interface ChartSeriesConfigItem {
+export interface ChartSeriesConfigItem extends ValueFormatterProps {
   className?: string;
   label?: string;
   visible: boolean;
-  formatter?: (value: ChartSeriesValue) => ChartSeriesValue;
 }
 
 type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
@@ -64,7 +63,7 @@ type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
 >;
 
 type ChartSeriesName = string;
-export type ChartSeriesValue = string | number;
+export type ChartSeriesValue = string | number | bigint;
 export type ChartSeriesValueUnit = "%" | "currency";
 export type ChartDataSeries = { [name: ChartSeriesName]: ChartSeriesValue };
 
@@ -86,3 +85,10 @@ export type ChartDataSeriesSortMode<TData extends ChartDataSeries> = {
 };
 
 export type ChartDataAverage = "mean" | "median" | "mode";
+
+export interface ValueFormatterProps {
+  valueFormatter?: (
+    value: ChartSeriesValue | ValueType | undefined,
+    valueUnit?: ChartSeriesValueUnit
+  ) => string;
+}

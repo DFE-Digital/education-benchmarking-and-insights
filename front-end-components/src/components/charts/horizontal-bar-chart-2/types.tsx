@@ -3,8 +3,8 @@ import { BaseAxisProps } from "recharts/types/util/types";
 import {
   ChartDataSeries,
   ChartProps,
-  ChartSeriesConfigItem,
   ChartSeriesValue,
+  ValueFormatterProps,
 } from "src/components";
 
 export interface HorizontalBarChartProps<TData extends ChartDataSeries>
@@ -18,4 +18,4 @@ export interface HorizontalBarChartProps<TData extends ChartDataSeries>
 
 export interface LabelListContentProps
   extends Omit<LabelProps, "formatter">,
-    Pick<ChartSeriesConfigItem, "formatter"> {}
+    ValueFormatterProps {}

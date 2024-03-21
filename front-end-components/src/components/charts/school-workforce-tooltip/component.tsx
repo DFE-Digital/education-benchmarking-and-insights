@@ -44,7 +44,9 @@ export function SchoolWorkforceTooltip<
             <th scope="row" className="govuk-table__header">
               Number of pupils
             </th>
-            <td className="govuk-table__cell">{workforce.numberOfPupils}</td>
+            <td className="govuk-table__cell">
+              {String(workforce.numberOfPupils)}
+            </td>
           </tr>
         </tbody>
       </table>
