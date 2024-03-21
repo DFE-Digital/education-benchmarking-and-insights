@@ -14,7 +14,30 @@
     }) }}
 {% endblock %}
 
+
 {% block content %}
+
+
+{% set sameAuthorityHtml %}
+
+  {{ govukInput({
+    label: {
+      text: "District (optional)"
+    },
+    id: "district",
+    name: "district"
+  }) }}
+
+{{ govukInput({
+    label: {
+        text: "Ward (optional)"
+    },
+    id: "ward",
+    name: "ward"
+  }) }}
+
+
+{% endset %}
 
 {% set authorityHtml %}
 
@@ -32,7 +55,25 @@
     items: rows
   }) }}
   
+  {{ govukInput({
+    label: {
+      text: "District (optional)"
+    },
+    id: "district",
+    name: "district"
+  }) }}
+
+{{ govukInput({
+    label: {
+        text: "Ward (optional)"
+    },
+    id: "ward",
+    name: "ward"
+  }) }}
+
+
 {% endset %}
+
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -57,9 +98,12 @@
                     checked: checked("compareAuthority", "all")
                 },
                 {
-                    value: "all",
+                    value: "same",
                     html: "The same local authority <br/><span class=\"govuk-hint\">(North Yorkshire Council)</span>",
-                    checked: checked("compareAuthority", "all")
+                    checked: checked("compareAuthority", "all"),
+                    conditional: {
+                      html: sameAuthorityHtml
+                    }
                 },
                 {
                     value: "localAuthority",
