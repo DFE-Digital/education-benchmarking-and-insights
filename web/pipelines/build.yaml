@@ -122,6 +122,11 @@ stages:
         dependsOn: DeployAutomatedTest
         steps:
           -script: dotnet test .\web\tests\Web.E2ETests\Web.E2ETests.csproj
+      - job: RunA11yTests
+        displayName: 'Run automated a11y tests'
+        dependsOn: DeployAutomatedTest
+        steps:
+          -script: dotnet test .\web\tests\Web.A11yTests\Web.A11yTests.csproj
 
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
