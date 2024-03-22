@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import { PremisesStaffServicesProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  PremisesStaffServicesData,
+  PremisesStaffServicesProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculatePremisesValue,
   DimensionHeading,
   PoundsPerMetreSq,
   PremisesCategories,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
   schools,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const tableHeadings = useMemo(
+    () => [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      DimensionHeading(dimension),
+    ],
+    [dimension]
+  );
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -29,105 +37,90 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
     setDimension(event.target.value);
   };
 
-  const totalPremisesStaffServiceCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const totalPremisesStaffServiceCostsBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.totalPremisesStaffServiceCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.totalPremisesStaffServiceCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const cleaningCaretakingBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const cleaningCaretakingBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.cleaningCaretakingCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.cleaningCaretakingCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const maintenanceBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const maintenanceBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.maintenancePremisesCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.maintenancePremisesCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const otherOccupationBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const otherOccupationBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.otherOccupationCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.otherOccupationCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const premisesStaffBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const premisesStaffBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.premisesStaffCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.premisesStaffCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
