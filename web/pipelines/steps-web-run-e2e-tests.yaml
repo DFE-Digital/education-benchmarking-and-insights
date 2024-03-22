@@ -1,0 +1,10 @@
+parameters:
+  workspaceDir: ''
+steps:
+  - checkout: none
+  - download: current
+  - task: ExtractFiles@1
+    displayName: 'Extract e2e test files'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/e2e-tests.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'

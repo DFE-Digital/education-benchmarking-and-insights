@@ -1,0 +1,10 @@
+parameters:
+  workspaceDir: ''
+steps:
+  - checkout: none
+  - download: current
+  - task: ExtractFiles@1
+    displayName: 'Extract a11y test files'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/a11y-tests.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/a11y-tests-files'
