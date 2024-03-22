@@ -76,7 +76,7 @@ public class GivenValuesDecileHandler
     [InlineData(2218.47, 10)]
     [InlineData(2225.12, 10)]
     [InlineData(2500, 10)]
-    public void FindsDecileCorrectlyWithRealisticValues(decimal value, int expected)
+    public void FindsDecileCorrectlyWithValues(decimal value, int expected)
     {
         var values = new decimal[]
         {
@@ -102,6 +102,65 @@ public class GivenValuesDecileHandler
             2220.37m,
             2190.45m,
             2078.34m,
+        };
+        var decileCalculator = new DecileHandler(value, values);
+
+        var result = decileCalculator.FindDecile();
+
+        Assert.Equal(expected, result);
+    }
+
+    [Theory]
+    [InlineData(2000, 1)]
+    [InlineData(3131.02, 1)]
+    [InlineData(3132.03, 2)]
+    [InlineData(3169.48, 2)]
+    [InlineData(3169.49, 3)]
+    [InlineData(3299.83, 3)]
+    [InlineData(3299.84, 4)]
+    [InlineData(3367.19, 4)]
+    [InlineData(3367.20, 5)]
+    [InlineData(3488.97, 5)]
+    [InlineData(3488.98, 6)]
+    [InlineData(3571.52, 6)]
+    [InlineData(3571.53, 7)]
+    [InlineData(3701.28, 7)]
+    [InlineData(3701.29, 8)]
+    [InlineData(3812.05, 8)]
+    [InlineData(3812.06, 9)]
+    [InlineData(3951.14, 9)]
+    [InlineData(3951.15, 10)]
+    [InlineData(3974.75, 10)]
+    [InlineData(5000, 10)]
+    public void FindsDecileCorrectlyWithDifferentValues(decimal value, int expected)
+    {
+        var values = new decimal[]
+        {
+            3169.48m,
+            3276.75m,
+            3343.99m,
+            3478.12m,
+            3571.52m,
+            3619.73m,
+            3701.28m,
+            3812.05m,
+            3951.14m,
+            3974.75m,
+            3076.64m,
+            3131.02m,
+            3299.83m,
+            3367.19m,
+            3488.97m,
+            3556.67m,
+            3650.88m,
+            3715.69m,
+            3872.34m,
+            3960.00m,
+            3025.44m,
+            3142.75m,
+            3258.13m,
+            3390.85m,
+            3942.16m,
         };
         var decileCalculator = new DecileHandler(value, values);
 
