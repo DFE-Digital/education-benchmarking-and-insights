@@ -52,8 +52,8 @@ function LineChartInner<TData extends ChartDataSeries>(
   });
 
   useImperativeHandle(ref, () => ({
-    download() {
-      downloadPng();
+    async download() {
+      await downloadPng();
     },
   }));
 

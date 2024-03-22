@@ -1,4 +1,4 @@
-import { createRef, useContext, useMemo } from "react";
+import { createRef, useContext, useMemo, useState } from "react";
 import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
 import { TableChart, SchoolChartData } from "src/components/charts/table-chart";
 import {
@@ -25,6 +25,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   const dimension = useContext(ChartDimensionContext);
   const selectedSchool = useContext(SelectedSchoolContext);
   const ref = createRef<ChartHandler>();
+  const [imageLoading, setImageLoading] = useState<boolean>();
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
@@ -53,7 +54,10 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
             <button
               className="govuk-button govuk-button--secondary"
               data-module="govuk-button"
-              onClick={() => ref.current && ref.current.download()}
+              data-prevent-double-click="true"
+              onClick={() => ref.current?.download()}
+              disabled={imageLoading}
+              aria-disabled={imageLoading}
             >
               Save as image
             </button>
@@ -75,6 +79,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                       selectedSchool ? [selectedSchool.urn] : undefined
                     }
                     keyField="urn"
+                    onImageLoading={setImageLoading}
                     labels
                     margin={20}
                     ref={ref}
