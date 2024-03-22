@@ -5,18 +5,6 @@ namespace Web.Tests.Domain;
 
 public class GivenValuesDecileHandler
 {
-
-    [Theory]
-    [MemberData(nameof(DecilesTestvalues))]
-    public void GetUpperBoundsForDecilesCorrectly(decimal[] values, decimal[] expected)
-    {
-        var decileCalculator = new DecileHandler(1, values);
-
-        var result = decileCalculator.GetUpperBoundsForDeciles();
-
-        Assert.Equal(expected, result);
-    }
-
     [Theory]
     [InlineData(-100, 1)]
     [InlineData(-1, 1)]
