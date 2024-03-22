@@ -1,5 +1,15 @@
-import { ChartDataPoint, ChartSortMode } from ".";
-import { chartComparer, chartSeriesComparer } from "./utils";
+import {
+  ChartDataPoint,
+  ChartSortMode,
+  ValueFormatterOptions,
+  ValueFormatterValue,
+} from ".";
+import {
+  chartComparer,
+  chartSeriesComparer,
+  lineChartValueFormatter,
+  statValueFormatter,
+} from "./utils";
 
 describe("Chart utils", () => {
   describe("chartComparer()", () => {
@@ -125,6 +135,125 @@ describe("Chart utils", () => {
           { school: "School C", urn: "3", value: 40 },
           { school: "School D", urn: "4", value: 10 },
           { school: "School E", urn: "5", value: 25 },
+        ]);
+      });
+    });
+  });
+
+  const values: ValueFormatterValue[] = [
+    -987.65,
+    0,
+    1,
+    2.3456789,
+    12345.67,
+    890123456,
+    "not-a-number",
+  ];
+
+  describe("lineChartValueFormatter()", () => {
+    describe("with default options", () => {
+      const options: Partial<ValueFormatterOptions> = {};
+
+      it("formats the values using compact notation", () => {
+        const result = values.map((v) => lineChartValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988",
+          "0",
+          "1",
+          "2.3",
+          "12k",
+          "890m",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with currency option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
+
+      it("formats the values using compact notation as GBP", () => {
+        const result = values.map((v) => lineChartValueFormatter(v, options));
+        expect(result).toEqual([
+          "-£988",
+          "£0",
+          "£1",
+          "£2.3",
+          "£12k",
+          "£890m",
+          "not-a-number",
+        ]);
+      });
+    });
+  });
+
+  describe("statValueFormatter()", () => {
+    describe("with default options", () => {
+      const options: Partial<ValueFormatterOptions> = {};
+
+      it("formats the values using number separators only", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988",
+          "0",
+          "1",
+          "2",
+          "12,346",
+          "890,123,456",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with compact option", () => {
+      const options: Partial<ValueFormatterOptions> = { compact: true };
+
+      it("formats the values using compact notation", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988",
+          "0",
+          "1",
+          "2.3",
+          "12k",
+          "890m",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with currency option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
+
+      it("formats the values as GBP", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-£988",
+          "£0",
+          "£1",
+          "£2",
+          "£12,346",
+          "£890,123,456",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with currency as name option", () => {
+      const options: Partial<ValueFormatterOptions> = {
+        valueUnit: "currency",
+        currencyAsName: true,
+      };
+
+      it("formats the values as GBP in words", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988 british pounds",
+          "0 british pounds",
+          "1 british pound",
+          "2 british pounds",
+          "12,346 british pounds",
+          "890,123,456 british pounds",
+          "not-a-number",
         ]);
       });
     });

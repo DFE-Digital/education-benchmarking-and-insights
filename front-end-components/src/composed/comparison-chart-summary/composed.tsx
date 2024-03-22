@@ -2,7 +2,10 @@ import { VerticalBarChart } from "src/components/charts/vertical-bar-chart";
 import { ComparisonChartSummaryComposedProps } from "./types";
 import { ChartDataSeries } from "src/components";
 import { useMemo } from "react";
-import { chartSeriesComparer } from "src/components/charts/utils";
+import {
+  chartSeriesComparer,
+  statValueFormatter,
+} from "src/components/charts/utils";
 import { Stat } from "src/components/charts/stat";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import stats from "stats-lite";
@@ -91,6 +94,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
           seriesLabelField="urn"
           suffix={suffix}
           valueField={valueField}
+          valueFormatter={statValueFormatter}
           valueUnit="currency"
         />
         <Stat
@@ -98,6 +102,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
           label="Similar schools spend"
           suffix={suffix && `${suffix}, on average`}
           value={average}
+          valueFormatter={statValueFormatter}
           valueUnit="currency"
         />
         {!isNaN(averageDiff) && (
@@ -110,6 +115,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
               </span>
             }
             value={Math.abs(averageDiff)}
+            valueFormatter={statValueFormatter}
             valueSuffix={
               isNaN(averageDiffPercent) || !isFinite(averageDiffPercent)
                 ? undefined

@@ -135,7 +135,9 @@ function LineChartInner<TData extends ChartDataSeries>(
             unit={valueUnit && valueUnit.length <= 1 ? valueUnit : undefined}
             domain={["auto", "auto"]}
             tickFormatter={(value) =>
-              valueFormatter ? valueFormatter(value, valueUnit) : value
+              valueFormatter
+                ? valueFormatter(value, { valueUnit })
+                : String(value)
             }
             axisLine={!grid}
             hide={hideYAxis}

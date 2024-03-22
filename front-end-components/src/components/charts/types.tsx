@@ -30,7 +30,8 @@ export type ChartSortMode = {
   direction: "asc" | "desc";
 };
 
-export interface ChartProps<TData extends ChartDataSeries> {
+export interface ChartProps<TData extends ChartDataSeries>
+  extends ValueFormatterProps {
   chartName: string;
   data: TData[];
   grid?: boolean;
@@ -86,9 +87,17 @@ export type ChartDataSeriesSortMode<TData extends ChartDataSeries> = {
 
 export type ChartDataAverage = "mean" | "median" | "mode";
 
+export type ValueFormatterValue = ChartSeriesValue | ValueType | undefined;
+
+export interface ValueFormatterOptions {
+  valueUnit: ChartSeriesValueUnit;
+  compact: boolean;
+  currencyAsName: boolean;
+}
+
 export interface ValueFormatterProps {
   valueFormatter?: (
-    value: ChartSeriesValue | ValueType | undefined,
-    valueUnit?: ChartSeriesValueUnit
+    value: ValueFormatterValue,
+    options?: Partial<ValueFormatterOptions>
   ) => string;
 }

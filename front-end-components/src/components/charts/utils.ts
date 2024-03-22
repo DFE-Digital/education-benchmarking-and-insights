@@ -3,6 +3,8 @@ import {
   ChartDataSeries,
   ChartDataSeriesSortMode,
   ChartSortMode,
+  ValueFormatterOptions,
+  ValueFormatterValue,
 } from ".";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -39,4 +41,42 @@ export function chartSeriesComparer<TData extends ChartDataSeries>(
   sortMode: ChartDataSeriesSortMode<TData>
 ): number {
   return chartComparerCommon(a, b, sortMode);
+}
+
+export function lineChartValueFormatter(
+  value: ValueFormatterValue,
+  options?: Partial<ValueFormatterOptions>
+): string {
+  if (typeof value !== "number") {
+    return String(value) || "";
+  }
+
+  return new Intl.NumberFormat("en-GB", {
+    notation: "compact",
+    compactDisplay: "short",
+    style: options?.valueUnit === "currency" ? "currency" : undefined,
+    currency: options?.valueUnit === "currency" ? "GBP" : undefined,
+  })
+    .format(value)
+    .toLowerCase();
+}
+
+export function statValueFormatter(
+  value: ValueFormatterValue,
+  options?: Partial<ValueFormatterOptions>
+): string {
+  if (typeof value !== "number") {
+    return String(value) || "";
+  }
+
+  return new Intl.NumberFormat("en-GB", {
+    notation: options?.compact ? "compact" : undefined,
+    compactDisplay: options?.compact ? "short" : undefined,
+    style: options?.valueUnit === "currency" ? "currency" : undefined,
+    currency: options?.valueUnit === "currency" ? "GBP" : undefined,
+    currencyDisplay: options?.currencyAsName ? "name" : "symbol",
+    maximumFractionDigits: options?.compact ? undefined : 0,
+  })
+    .format(value)
+    .toLowerCase();
 }

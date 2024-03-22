@@ -21,22 +21,19 @@ import {
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart-2";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import {
-  ChartHandler,
-  ChartSeriesValue,
-  ChartSeriesValueUnit,
-  ChartSortDirection,
-} from "./components";
+import { ChartHandler, ChartSortDirection } from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
 import { FindOrganisation } from "src/views/find-organisation";
-import { chartSeriesComparer } from "./components/charts/utils";
+import {
+  chartSeriesComparer,
+  lineChartValueFormatter,
+} from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
 import { Workforce } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
-import { ValueType } from "recharts/types/component/DefaultTooltipContent";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -130,7 +127,7 @@ if (deploymentPlanElement) {
   }
 }
 
-// todo: moved to composed components
+// todo: move to composed components
 // eslint-disable-next-line react-refresh/only-export-components
 const HorizontalChart1Series = ({
   data,
@@ -202,7 +199,7 @@ const HorizontalChart1Series = ({
             />
           )}
           tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
-          valueLabel="total"
+          valueLabel="Total"
         />
       </div>
     </div>
@@ -363,6 +360,7 @@ if (verticalChart3SeriesElement) {
   }
 }
 
+// todo: move to composed components
 // eslint-disable-next-line react-refresh/only-export-components
 const LineChart1Series = ({
   data,
@@ -408,13 +406,13 @@ const LineChart1Series = ({
             }}
             seriesLabel="Absolute total"
             seriesLabelField="term"
-            valueFormatter={lineChartCurrencyValueFormatter}
+            valueFormatter={lineChartValueFormatter}
             valueUnit="currency"
             tooltip={(t) => (
               <LineChartTooltip
                 {...t}
                 valueFormatter={(v) =>
-                  lineChartCurrencyValueFormatter(v, "currency")
+                  lineChartValueFormatter(v, { valueUnit: "currency" })
                 }
               />
             )}
@@ -429,6 +427,7 @@ const LineChart1Series = ({
             displayIndex={data.length - 1}
             seriesLabelField="term"
             valueField="inYearBalance"
+            valueFormatter={lineChartValueFormatter}
             valueUnit="currency"
           />
         </aside>
@@ -436,24 +435,6 @@ const LineChart1Series = ({
     </div>
   );
 };
-
-function lineChartCurrencyValueFormatter(
-  value: ChartSeriesValue | ValueType | undefined,
-  valueUnit?: ChartSeriesValueUnit
-): string {
-  if (typeof value !== "number") {
-    return value?.toString() || "";
-  }
-
-  return new Intl.NumberFormat("en-GB", {
-    notation: "compact",
-    compactDisplay: "short",
-    style: valueUnit === "currency" ? "currency" : undefined,
-    currency: valueUnit === "currency" ? "GBP" : undefined,
-  })
-    .format(value)
-    .toLowerCase();
-}
 
 const lineChart1SeriesElement = document.getElementById(
   LineChart1SeriesElementId

@@ -16,8 +16,8 @@ export function LineChartTooltip<
       <div className="chart-active-tooltip">
         <p className="govuk-body-s">
           {valueFormatter
-            ? valueFormatter(payload[0].value, valueUnit)
-            : payload[0].value}
+            ? valueFormatter(payload[0].value, { valueUnit })
+            : String(payload[0].value)}
         </p>
       </div>
     );
