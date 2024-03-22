@@ -8,7 +8,7 @@ public interface IDecileHandler
 public class DecileHandler : IDecileHandler
 {
     private readonly decimal _value;
-    private readonly IOrderedEnumerable<decimal> _values;
+    private readonly IReadOnlyList<decimal> _values;
     private readonly bool _searchTopDown;
 
     public DecileHandler(decimal value, IReadOnlyCollection<decimal> values, bool searchTopDown = false)
@@ -19,7 +19,7 @@ public class DecileHandler : IDecileHandler
         }
         
         _value = value;
-        _values = values.Order();
+        _values = values.Order().ToArray();
         _searchTopDown = searchTopDown;
     }
 
@@ -62,12 +62,13 @@ public class DecileHandler : IDecileHandler
     private decimal[] GetUpperBoundsForDeciles()
     {
         var values = _values.ToArray();
+        var count = _values.Count;
         
         var bounds = new decimal[9];
         for (var i = 0; i <= 8; i++)
         {
             var decile = i + 1;
-            var valueIndex = CountInDecile(decile) - 1;
+            var valueIndex = CountInDecile(decile, count) - 1;
             
             bounds[i] = values[valueIndex];
         }
@@ -75,9 +76,9 @@ public class DecileHandler : IDecileHandler
         return bounds;
     }
 
-    private int CountInDecile(int decile)
+    private static int CountInDecile(int decile, int count)
     {
-        var perDecile = _values.Count() / 10.0;
+        var perDecile = count / 10.0;
         return (int)Math.Round(perDecile * decile);
     }
 }
