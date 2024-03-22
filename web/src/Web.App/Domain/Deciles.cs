@@ -55,7 +55,7 @@ public class DecileHandler : IDecileHandler
         for (int i = 1; i <= 9; i++)
         {
             var currentDecileSize = (int)Math.Round((decileSize * i) / i);
-            
+
             upperBounds[i - 1] = _values.Skip(sum).Take(currentDecileSize).Max();
 
             sum += currentDecileSize;
