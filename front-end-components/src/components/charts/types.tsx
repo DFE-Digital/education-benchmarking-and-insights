@@ -51,7 +51,7 @@ export type TickProps = SVGProps<SVGGElement> & {
 };
 
 export type ChartHandler = {
-  download: () => void;
+  download: () => Promise<void>;
 };
 
 export type ChartSortDirection = "asc" | "desc";
