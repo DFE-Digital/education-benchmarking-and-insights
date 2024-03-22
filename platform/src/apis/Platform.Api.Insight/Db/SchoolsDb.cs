@@ -45,7 +45,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     {
         var finances = await Finances(urns);
         var floorArea = await FloorArea(urns);
-        
+
         return finances.Select(x => SchoolExpenditure.Create(x, floorArea));
     }
 
@@ -59,10 +59,10 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
 
         var finances = await Task.WhenAll(tasks);
         var combined = new List<SchoolTrustFinancialDataObject>();
-        
+
         combined.AddRange(finances[0]);
         combined.AddRange(finances[1]);
-        
+
         return combined;
     }
 
@@ -77,10 +77,10 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     private async Task<FloorAreaDataObject[]> FloorArea(IReadOnlyCollection<string> urns)
     {
         if (urns.Count <= 0) return Array.Empty<FloorAreaDataObject>();
-        
+
         var areaCollection = _options.FloorAreaCollectionName;
-        ArgumentNullException.ThrowIfNull(areaCollection); 
-            
+        ArgumentNullException.ThrowIfNull(areaCollection);
+
         return await ItemEnumerableAsync<FloorAreaDataObject>(areaCollection, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
     }
 }

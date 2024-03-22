@@ -26,7 +26,7 @@ public class ComparatorSetDb : IComparatorSetDb
     {
         const string sql = "SELECT * from ComparatorSets where URN = @URN";
         var parameters = new { URN = int.Parse(urn) };
-        
+
         using var conn = await _dbFactory.GetConnection();
         var results = conn.Query<ComparatorDataObject>(sql, parameters);
 

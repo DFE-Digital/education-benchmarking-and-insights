@@ -16,9 +16,9 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
     {
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
-        
+
         var set = context?.Session.Get<ComparatorSet>(key);
-        
+
         return set ?? await SetComparatorSet(urn);
     }
 
@@ -26,11 +26,11 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
     {
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
-        
+
         var set = await benchmarkApi.GetComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
-        
+
         context?.Session.Set(key, set);
-        
+
         return set;
     }
 }

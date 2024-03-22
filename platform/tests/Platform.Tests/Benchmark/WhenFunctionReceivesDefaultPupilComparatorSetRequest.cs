@@ -12,7 +12,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.Get(It.IsAny<string>()))
             .ReturnsAsync(new ComparatorSet());
 
         var result =
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.Get(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions

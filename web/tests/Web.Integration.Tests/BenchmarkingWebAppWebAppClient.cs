@@ -74,7 +74,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         BenchmarkApi.Reset();
-        BenchmarkApi.Setup(api => api.GetDefaultPupilComparatorSet(It.IsAny<string?>())).Throws(new Exception());
+        BenchmarkApi.Setup(api => api.GetComparatorSet(It.IsAny<string?>())).Throws(new Exception());
         BenchmarkApi.Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
         BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
         return this;
@@ -105,12 +105,8 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
 
         BenchmarkApi
-            .Setup(api => api.GetDefaultPupilComparatorSet(It.IsAny<string?>()))
-            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { TotalResults = schools.Length, Results = schools.Select(x => x.Urn ?? "Missing urn") }));
-
-        BenchmarkApi
-            .Setup(api => api.GetDefaultAreaComparatorSet(It.IsAny<string?>()))
-            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { TotalResults = schools.Length, Results = schools.Select(x => x.Urn ?? "Missing urn") }));
+            .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
+            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { DefaultArea = schools.Select(x => x.Urn ?? "Missing urn"), DefaultPupil = schools.Select(x => x.Urn ?? "Missing urn") }));
 
         BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))

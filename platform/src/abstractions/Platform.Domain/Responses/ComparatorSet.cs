@@ -14,23 +14,23 @@ public record ComparatorSet
     {
         var defaultPupil = new List<string>();
         var defaultArea = new List<string>();
-        
+
         foreach (var result in results)
         {
             var urn = result.UKPRN_URN2.Split("_")[1];
             if (urn == null) continue;
-            
+
             if (result is { PeerGroup: ComparatorSetTypes.Default, CostGroup: ComparatorSetTypes.Pupil })
             {
                 defaultPupil.Add(urn);
             }
-                
+
             if (result is { PeerGroup: ComparatorSetTypes.Default, CostGroup: ComparatorSetTypes.Area })
             {
                 defaultArea.Add(urn);
             }
         }
-        
+
         return new ComparatorSet
         {
             DefaultPupil = defaultPupil,
