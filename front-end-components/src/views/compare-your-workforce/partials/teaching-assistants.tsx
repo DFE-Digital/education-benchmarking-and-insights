@@ -1,48 +1,51 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import {
   CalculateWorkforceValue,
   ChartDimensions,
   DimensionHeading,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import { TeachingAssistantsProps } from "src/views/compare-your-workforce/partials";
+import {
+  TeachingAssistantsData,
+  TeachingAssistantsProps,
+} from "src/views/compare-your-workforce/partials";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
   props
 ) => {
   const { schools } = props;
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
 
-  const chartData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const chartData: HorizontalBarChartWrapperData<TeachingAssistantsData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        DimensionHeading(dimension),
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateWorkforceValue({
-          dimension: dimension,
-          value: school.teachingAssistantsFTE,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateWorkforceValue({
+              dimension,
+              value: school.teachingAssistantsFTE,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

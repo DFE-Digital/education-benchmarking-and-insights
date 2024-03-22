@@ -1,27 +1,25 @@
-import React, { useState } from "react";
-import { AdministrativeSuppliesProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  AdministrativeSuppliesData,
+  AdministrativeSuppliesProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculateCostValue,
   CostCategories,
   DimensionHeading,
   PoundsPerPupil,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
   schools,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -29,25 +27,30 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
     setDimension(event.target.value);
   };
 
-  const administrativeSuppliesBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const administrativeSuppliesBarData: HorizontalBarChartWrapperData<AdministrativeSuppliesData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        DimensionHeading(dimension),
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.administrativeSuppliesCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.administrativeSuppliesCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
