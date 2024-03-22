@@ -25,60 +25,38 @@ public class DecileHandler : IDecileHandler
 
     public int FindDecile()
     {
-        var bounds = GetUpperBoundsForDeciles();
-
-        return _searchTopDown
-            ? TopDown(bounds)
-            : BottomUp(bounds);
+        return _searchTopDown ? TopDown() : BottomUp();
     }
-
     
-    private int TopDown(IReadOnlyList<decimal> bounds)
+    private int TopDown()
     {
-        for (var i = bounds.Count; i > 0; i--)
+        for (var decile = 10; decile > 1; decile--)
         {
-            var bound = bounds[i];
-            if (_value > bound) continue;
+            var valueIndex = CountInDecile(decile) - 1;
+            if (_value < _values[valueIndex]) continue;
             
-            return i;
+            return decile;
         }
 
         return 1;
     }
     
-    private int BottomUp(IReadOnlyList<decimal> bounds)
+    private int BottomUp()
     {
-        for (var i = 0; i < bounds.Count; i++)
+        for (var decile = 1; decile < 10; decile++)
         {
-            var bound = bounds[i];
-            if (_value > bound) continue;
+            var valueIndex = CountInDecile(decile) - 1;
+            if (_value > _values[valueIndex]) continue;
             
-            return i + 1;
+            return decile;
         }
 
         return 10;
     }
-
-    private decimal[] GetUpperBoundsForDeciles()
+    
+    private int CountInDecile(int decile)
     {
-        var values = _values.ToArray();
-        var count = _values.Count;
-        
-        var bounds = new decimal[9];
-        for (var i = 0; i <= 8; i++)
-        {
-            var decile = i + 1;
-            var valueIndex = CountInDecile(decile, count) - 1;
-            
-            bounds[i] = values[valueIndex];
-        }
-        
-        return bounds;
-    }
-
-    private static int CountInDecile(int decile, int count)
-    {
-        var perDecile = count / 10.0;
+        var perDecile = _values.Count / 10.0;
         return (int)Math.Round(perDecile * decile);
     }
 }
