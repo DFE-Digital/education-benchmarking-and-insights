@@ -57,6 +57,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     tick,
     tickWidth,
     tooltip,
+    valueFormatter,
     valueLabel,
     valueUnit,
   } = props;
@@ -133,7 +134,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           layout="vertical"
           margin={{
             top: margin,
-            right: margin,
+            right: margin + (labels ? 20 : 0),
             bottom: margin,
             left: margin,
           }}
@@ -162,7 +163,15 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               )}
             </Bar>
           ))}
-          <XAxis type="number" hide={hideXAxis} unit={valueUnit}>
+          <XAxis
+            type="number"
+            hide={hideXAxis}
+            tickFormatter={(value) =>
+              valueFormatter
+                ? valueFormatter(value, { valueUnit })
+                : String(value)
+            }
+          >
             {valueLabel && (
               <Label value={valueLabel} offset={0} position="bottom" />
             )}
@@ -171,9 +180,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             dataKey={seriesLabelField as string}
             hide={hideYAxis}
             interval={0}
-            width={tickWidth}
             tick={tick}
             type="category"
+            width={tickWidth}
           ></YAxis>
           {legend && (
             <Legend

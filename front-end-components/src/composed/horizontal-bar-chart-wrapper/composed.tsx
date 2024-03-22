@@ -10,14 +10,17 @@ import { Loading } from "src/components/loading";
 import { ChartHandler } from "src/components/charts";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartModeChart, ChartModeTable } from "src/components";
-import { chartSeriesComparer } from "src/components/charts/utils";
+import {
+  chartSeriesComparer,
+  shortValueFormatter,
+} from "src/components/charts/utils";
 import { SchoolTick } from "src/components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "src/components/charts/school-workforce-tooltip";
 
 export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   props: HorizontalBarChartWrapperProps<TData>
 ) {
-  const { data, children, chartName, sort } = props;
+  const { chartName, children, data, sort, valueUnit } = props;
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
   const selectedSchool = useContext(SelectedSchoolContext);
@@ -25,16 +28,20 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
-    return data.dataPoints.sort((a, b) =>
-      chartSeriesComparer(
-        a,
-        b,
-        sort ?? {
-          direction: "desc",
-          dataPoint: "value",
-        }
+    return data.dataPoints
+      .map((d) =>
+        isFinite(d.value) && !isNaN(d.value) ? d : { ...d, value: 0 }
       )
-    );
+      .sort((a, b) =>
+        chartSeriesComparer(
+          a,
+          b,
+          sort ?? {
+            direction: "desc",
+            dataPoint: "value",
+          }
+        )
+      );
   }, [data.dataPoints, sort]);
 
   return (
@@ -75,10 +82,8 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                       {
                         value: {
                           visible: true,
-                          valueFormatter: (value: string) =>
-                            value
-                              ? parseFloat(value.toString()).toFixed(1)
-                              : String(value),
+                          valueFormatter: (v: number) =>
+                            shortValueFormatter(v, { valueUnit }),
                         },
                       } as object // todo: fix typing issue
                     }
@@ -98,7 +103,9 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                       />
                     )}
                     tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+                    valueFormatter={shortValueFormatter}
                     valueLabel={dimension}
+                    valueUnit={valueUnit}
                   />
                 </div>
               )}

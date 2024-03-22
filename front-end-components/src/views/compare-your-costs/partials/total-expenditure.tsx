@@ -55,7 +55,11 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="total expenditure"
+        valueUnit="currency"
+      >
         <h2 className="govuk-heading-m">Total Expenditure</h2>
         <ChartDimensions
           dimensions={CostCategories.filter(function (category) {
