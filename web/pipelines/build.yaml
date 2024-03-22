@@ -111,6 +111,7 @@ stages:
     variables:
       - group: 'dsi pre-prod'
     jobs:
+      - Job: DeployAutomatedTests
       - template: jobs-web-deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
@@ -118,21 +119,21 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
-  - job: RunE2ETests
-    displayName: 'Run automated e2e tests'
-    dependsOn: DeployAutomatedTest
-    steps:
-      - template: steps-web-run-e2e-tests.yaml
-        parameters:
-          workspaceDir: '${{ parameters.workspaceDir }}'
-
-  - job: RunA11YTests
-    displayName: 'Run automated a11y tests'
-    dependsOn: DeployAutomatedTest
-    steps:
-      - template: steps-web-run-a11y-tests.yaml
-        parameters:
-          workspaceDir: '${{ parameters.workspaceDir }}'
+      - job: RunE2ETests
+        displayName: 'Run automated e2e tests'
+        dependsOn: DeployAutomatedTest
+        steps:
+          - template: steps-web-run-e2e-tests.yaml
+            parameters:
+              workspaceDir: '${{ parameters.workspaceDir }}'
+    
+      - job: RunA11YTests
+        displayName: 'Run automated a11y tests'
+        dependsOn: DeployAutomatedTest
+        steps:
+          - template: steps-web-run-a11y-tests.yaml
+            parameters:
+              workspaceDir: '${{ parameters.workspaceDir }}'
   
 
   - stage: DeployTest
