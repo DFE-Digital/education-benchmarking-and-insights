@@ -111,7 +111,7 @@ stages:
     variables:
       - group: 'dsi pre-prod'
     jobs:
-      - Job: DeployAutomatedTests
+      - job: DeployAutomatedTests
       - template: jobs-web-deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
