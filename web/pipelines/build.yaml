@@ -111,7 +111,6 @@ stages:
     variables:
       - group: 'dsi pre-prod'
     jobs:
-      - job: DeployAutomatedTests
       - template: jobs-web-deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
@@ -121,7 +120,6 @@ stages:
 
       - job: RunE2ETests
         displayName: 'Run automated e2e tests'
-        dependsOn: DeployAutomatedTest
         steps:
           - template: steps-web-run-e2e-tests.yaml
             parameters:
@@ -129,7 +127,6 @@ stages:
     
       - job: RunA11YTests
         displayName: 'Run automated a11y tests'
-        dependsOn: DeployAutomatedTest
         steps:
           - template: steps-web-run-a11y-tests.yaml
             parameters:
