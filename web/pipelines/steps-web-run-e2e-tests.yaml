@@ -11,8 +11,6 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in appsettings.json'
     inputs:
-      rootDirectory: '${{ parameters.workspaceDir }}/e2e-tests-files'
-      targetFiles: '**/appsettings.json'
+      rootDirectory: '${{ parameters.workspaceDir }}/e2e-tests-files/appsettings.json'
       escape: off
-      tokenPrefix: '__'
-      tokenSuffix: '__'
+      tokenPattern: doubleunderscores
