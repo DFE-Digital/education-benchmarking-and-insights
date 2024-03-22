@@ -110,7 +110,7 @@ stages:
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
-      - group: 'environment variables'
+      - group: 'testing configurations'
     jobs:
       - template: jobs-web-deployment.yaml
         parameters:

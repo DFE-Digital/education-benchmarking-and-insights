@@ -8,7 +8,7 @@ steps:
     inputs:
       archiveFilePatterns: '${{ parameters.workspaceDir }}/a11y-tests/a11y-tests.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/a11y-tests-files'
-  - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in appsettings.json'
     inputs:
       rootDirectory: '${{ parameters.workspaceDir }}/a11y-tests-files' 
