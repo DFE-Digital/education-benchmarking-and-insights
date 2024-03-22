@@ -11,7 +11,7 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in appsettings.json'
     inputs:
-      sources: '${{ parameters.workspaceDir }}/a11y-tests-files/appsettings.json'
+      sources: '${{ parameters.workspaceDir }}/a11y-tests-files/Web.A11yTests/appsettings.json'
       escape: off
       tokenPattern: doubleunderscores
 
