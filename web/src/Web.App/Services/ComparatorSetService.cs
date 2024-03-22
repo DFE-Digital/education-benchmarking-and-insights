@@ -7,40 +7,30 @@ namespace Web.App.Services;
 
 public interface IComparatorSetService
 {
-    Task<ComparatorSet> ReadDefaultPupilComparatorSet(string urn);
-    Task<ComparatorSet> ReadDefaultAreaComparatorSet(string urn);
+    Task<ComparatorSet> ReadComparatorSet(string urn);
 }
 
 public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBenchmarkApi benchmarkApi) : IComparatorSetService
 {
-    public async Task<ComparatorSet> ReadDefaultPupilComparatorSet(string urn)
+    public async Task<ComparatorSet> ReadComparatorSet(string urn)
     {
-        var key = DefaultPupilKey(urn);
+        var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
+        
         var set = context?.Session.Get<ComparatorSet>(key);
-        if (set == null || set.TotalResults == 0)
-        {
-            set = await benchmarkApi.GetDefaultPupilComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
-            context?.Session.Set(key, set);
-        }
-
-        return set;
+        
+        return set ?? await SetComparatorSet(urn);
     }
 
-    public async Task<ComparatorSet> ReadDefaultAreaComparatorSet(string urn)
+    private async Task<ComparatorSet> SetComparatorSet(string urn)
     {
-        var key = DefaultAreaKey(urn);
+        var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
-        var set = context?.Session.Get<ComparatorSet>(key);
-        if (set == null || set.TotalResults == 0)
-        {
-            set = await benchmarkApi.GetDefaultAreaComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
-            context?.Session.Set(key, set);
-        }
-
+        
+        var set = await benchmarkApi.GetComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
+        
+        context?.Session.Set(key, set);
+        
         return set;
     }
-
-    private static string DefaultPupilKey(string urn) => SessionKeys.DefaultPupilComparatorSet(urn);
-    private static string DefaultAreaKey(string urn) => SessionKeys.DefaultAreaComparatorSet(urn);
 }

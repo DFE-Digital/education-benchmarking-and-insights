@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Platform.Domain.DataObjects;
@@ -10,7 +9,7 @@ namespace Platform.Api.Benchmark.Db;
 
 public interface IComparatorSetDb
 {
-    Task<ComparatorSet> Get(string urn, string peerGroup, string costGroup);
+    Task<ComparatorSet> Get(string urn);
 }
 
 [ExcludeFromCodeCoverage]
@@ -23,14 +22,14 @@ public class ComparatorSetDb : IComparatorSetDb
         _dbFactory = dbFactory;
     }
 
-    public async Task<ComparatorSet> Get(string urn, string peerGroup, string costGroup)
+    public async Task<ComparatorSet> Get(string urn)
     {
-        var parameters = new { URN = int.Parse(urn), PeerGroup = peerGroup, CostGroup = costGroup };
-        const string sql = "SELECT * from ComparatorSets where URN = @URN AND PeerGroup = @PeerGroup AND CostGroup = @CostGroup";
-
+        const string sql = "SELECT * from ComparatorSets where URN = @URN";
+        var parameters = new { URN = int.Parse(urn) };
+        
         using var conn = await _dbFactory.GetConnection();
-        var result = conn.Query<ComparatorDataObject>(sql, parameters);
+        var results = conn.Query<ComparatorDataObject>(sql, parameters);
 
-        return ComparatorSet.Create(result.Select(x => x.UKPRN_URN2.Split("_")[1]));
+        return ComparatorSet.Create(results);
     }
 }

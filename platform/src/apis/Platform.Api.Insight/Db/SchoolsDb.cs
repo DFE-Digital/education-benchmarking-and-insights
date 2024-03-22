@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain;
 using Platform.Domain.DataObjects;
 using Platform.Domain.Responses;
 using Platform.Infrastructure.Cosmos;
@@ -13,8 +12,8 @@ namespace Platform.Api.Insight.Db;
 
 public interface ISchoolsDb
 {
-    Task<IEnumerable<SchoolExpenditure>> Expenditure(IEnumerable<string> urns);
-    Task<IEnumerable<SchoolWorkforce>> Workforce(IEnumerable<string> urns);
+    Task<IEnumerable<SchoolExpenditure>> Expenditure(string[] urns);
+    Task<IEnumerable<SchoolWorkforce>> Workforce(string[] urns);
 }
 
 [ExcludeFromCodeCoverage]
@@ -35,56 +34,53 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         _collectionService = collectionService;
     }
 
-    public async Task<IEnumerable<SchoolWorkforce>> Workforce(IEnumerable<string> urns)
+    public async Task<IEnumerable<SchoolWorkforce>> Workforce(string[] urns)
     {
         var finances = await Finances(urns);
 
         return finances.Select(SchoolWorkforce.Create);
     }
 
-    public async Task<IEnumerable<SchoolExpenditure>> Expenditure(IEnumerable<string> urns)
+    public async Task<IEnumerable<SchoolExpenditure>> Expenditure(string[] urns)
     {
-
-        var areaCollection = _options.FloorAreaCollectionName;
-        ArgumentNullException.ThrowIfNull(areaCollection);
-
-        var schools = urns.ToArray();
-        var finances = await Finances(schools);
-
-        var floorArea = await ItemEnumerableAsync<FloorAreaDataObject>(areaCollection, q => q.Where(x => schools.Contains(x.Urn.ToString()))).ToListAsync();
-
+        var finances = await Finances(urns);
+        var floorArea = await FloorArea(urns);
+        
         return finances.Select(x => SchoolExpenditure.Create(x, floorArea));
     }
 
-    private async Task<List<SchoolTrustFinancialDataObject>> Finances(IEnumerable<string> urns)
+    private async Task<IEnumerable<SchoolTrustFinancialDataObject>> Finances(IReadOnlyCollection<string> urns)
     {
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-        var schools = await ItemEnumerableAsync<EdubaseDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
-
-        var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.Urn.ToString()).ToArray();
-        var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.Urn.ToString()).ToArray();
-
         var tasks = new[]
         {
-            FinancesForDataGroup(maintained, DataGroups.Maintained),
-            FinancesForDataGroup(academies, DataGroups.MatAllocated)
+            FinancesForDataGroup(urns, DataGroups.Maintained),
+            FinancesForDataGroup(urns, DataGroups.MatAllocated)
         };
 
         var finances = await Task.WhenAll(tasks);
-
-        finances[0].AddRange(finances[1]);
-        return finances[0];
+        var combined = new List<SchoolTrustFinancialDataObject>();
+        
+        combined.AddRange(finances[0]);
+        combined.AddRange(finances[1]);
+        
+        return combined;
     }
 
-    private async Task<List<SchoolTrustFinancialDataObject>> FinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
+    private async Task<SchoolTrustFinancialDataObject[]> FinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
     {
-        var finances = new List<SchoolTrustFinancialDataObject>();
-        if (urns.Count > 0)
-        {
-            var collection = await _collectionService.LatestCollection(dataGroup);
-            finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
-        }
+        if (urns.Count <= 0) return Array.Empty<SchoolTrustFinancialDataObject>();
 
-        return finances;
+        var collection = await _collectionService.LatestCollection(dataGroup);
+        return await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
+    }
+
+    private async Task<FloorAreaDataObject[]> FloorArea(IReadOnlyCollection<string> urns)
+    {
+        if (urns.Count <= 0) return Array.Empty<FloorAreaDataObject>();
+        
+        var areaCollection = _options.FloorAreaCollectionName;
+        ArgumentNullException.ThrowIfNull(areaCollection); 
+            
+        return await ItemEnumerableAsync<FloorAreaDataObject>(areaCollection, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
     }
 }

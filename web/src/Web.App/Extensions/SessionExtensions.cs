@@ -1,4 +1,5 @@
 using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Web.App.Extensions;
 
@@ -7,7 +8,7 @@ public static class SessionExtensions
 {
     public static void Set<T>(this ISession session, string key, T value)
     {
-        session.SetString(key, value.ToJson());
+        session.SetString(key, value.ToJson(Formatting.None));
     }
 
     public static T? Get<T>(this ISession session, string key)

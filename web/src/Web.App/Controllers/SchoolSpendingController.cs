@@ -28,11 +28,10 @@ public class SchoolSpendingController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
 
-                var pupilSet = await comparatorSetService.ReadDefaultPupilComparatorSet(urn);
-                var areaSet = await comparatorSetService.ReadDefaultAreaComparatorSet(urn);
+                var set = await comparatorSetService.ReadComparatorSet(urn);
 
-                var pupilExpenditure = await financeService.GetExpenditure(pupilSet.Results);
-                var areaExpenditure = await financeService.GetExpenditure(areaSet.Results);
+                var pupilExpenditure = await financeService.GetExpenditure(set.DefaultPupil);
+                var areaExpenditure = await financeService.GetExpenditure(set.DefaultArea);
 
                 var viewModel = new SchoolSpendingViewModel(school, pupilExpenditure, areaExpenditure);
 

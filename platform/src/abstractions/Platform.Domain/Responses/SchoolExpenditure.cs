@@ -74,7 +74,7 @@ public record SchoolExpenditure
 
     public int? FloorArea { get; set; }
 
-    public static SchoolExpenditure Create(SchoolTrustFinancialDataObject dataObject, List<FloorAreaDataObject> floorArea)
+    public static SchoolExpenditure Create(SchoolTrustFinancialDataObject dataObject, FloorAreaDataObject[] floorArea)
     {
         return new SchoolExpenditure
         {

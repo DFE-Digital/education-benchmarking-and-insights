@@ -48,7 +48,7 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
     private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<string> schools)
     {
         var array = schools.ToArray();
-        var query = new ApiQuery().Page(1, array.Length);
+        var query = new ApiQuery();
         foreach (var school in array)
         {
             query.AddIfNotNull("urns", school);
