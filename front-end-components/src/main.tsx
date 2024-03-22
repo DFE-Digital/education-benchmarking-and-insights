@@ -28,7 +28,7 @@ import { ResolvedStat } from "./components/charts/resolved-stat";
 import { FindOrganisation } from "src/views/find-organisation";
 import {
   chartSeriesComparer,
-  lineChartValueFormatter,
+  shortValueFormatter,
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
@@ -406,13 +406,13 @@ const LineChart1Series = ({
             }}
             seriesLabel="Absolute total"
             seriesLabelField="term"
-            valueFormatter={lineChartValueFormatter}
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
             tooltip={(t) => (
               <LineChartTooltip
                 {...t}
                 valueFormatter={(v) =>
-                  lineChartValueFormatter(v, { valueUnit: "currency" })
+                  shortValueFormatter(v, { valueUnit: "currency" })
                 }
               />
             )}
@@ -427,7 +427,7 @@ const LineChart1Series = ({
             displayIndex={data.length - 1}
             seriesLabelField="term"
             valueField="inYearBalance"
-            valueFormatter={lineChartValueFormatter}
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
           />
         </aside>

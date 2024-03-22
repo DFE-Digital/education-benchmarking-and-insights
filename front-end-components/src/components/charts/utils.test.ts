@@ -5,7 +5,7 @@ import {
 } from ".";
 import {
   chartSeriesComparer,
-  lineChartValueFormatter,
+  shortValueFormatter,
   statValueFormatter,
 } from "./utils";
 
@@ -84,19 +84,19 @@ describe("Chart utils", () => {
     "not-a-number",
   ];
 
-  describe("lineChartValueFormatter()", () => {
+  describe("shortValueFormatter()", () => {
     describe("with default options", () => {
       const options: Partial<ValueFormatterOptions> = {};
 
       it("formats the values using compact notation", () => {
-        const result = values.map((v) => lineChartValueFormatter(v, options));
+        const result = values.map((v) => shortValueFormatter(v, options));
         expect(result).toEqual([
-          "-988",
+          "-987.7",
           "0",
           "1",
           "2.3",
-          "12k",
-          "890m",
+          "12.3k",
+          "890.1m",
           "not-a-number",
         ]);
       });
@@ -106,7 +106,7 @@ describe("Chart utils", () => {
       const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
 
       it("formats the values using compact notation as GBP", () => {
-        const result = values.map((v) => lineChartValueFormatter(v, options));
+        const result = values.map((v) => shortValueFormatter(v, options));
         expect(result).toEqual([
           "-£988",
           "£0",

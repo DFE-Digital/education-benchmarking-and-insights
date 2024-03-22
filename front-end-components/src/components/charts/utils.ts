@@ -21,7 +21,7 @@ export function chartSeriesComparer<TData extends ChartDataSeries>(
   return 0;
 }
 
-export function lineChartValueFormatter(
+export function shortValueFormatter(
   value: ValueFormatterValue,
   options?: Partial<ValueFormatterOptions>
 ): string {
@@ -34,6 +34,7 @@ export function lineChartValueFormatter(
     compactDisplay: "short",
     style: options?.valueUnit === "currency" ? "currency" : undefined,
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
+    maximumFractionDigits: options?.valueUnit === "currency" ? undefined : 1,
   })
     .format(value)
     .toLowerCase();
