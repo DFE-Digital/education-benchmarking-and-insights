@@ -141,7 +141,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           ref={rechartsRef}
         >
           {grid && <CartesianGrid />}
-          {!!tooltip && <Tooltip content={tooltip} position={{ x: 0, y: 0 }} />}
+          {!!tooltip && <Tooltip content={tooltip} />}
           {visibleSeriesNames.map((seriesName, seriesIndex) => (
             <Bar key={seriesName as string} dataKey={seriesName as string}>
               {data.map((entry, dataIndex) =>
