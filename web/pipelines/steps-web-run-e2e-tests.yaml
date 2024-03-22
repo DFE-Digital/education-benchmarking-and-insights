@@ -8,3 +8,9 @@ steps:
     inputs:
       archiveFilePatterns: '${{ parameters.workspaceDir }}/e2e-tests/e2e-tests.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in appsettings.json'
+    inputs:
+      rootDirectory: '${{ parameters.workspaceDir }}/e2e-tests-files/appsettings.json'
+      escape: off
+      tokenPattern: doubleunderscores
