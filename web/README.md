@@ -20,29 +20,40 @@ In a console window:
 #### Platform APIs
 If running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json`.
 
-However, if you are using deployed instances of the Platform APIs then having initialised secret storage in a console window:
-1. Navigate to `Web.App` project root
-2. Set Insight API url user secret: `dotnet user-secrets set "Apis:Insight:Url" "[INSERT URL VALUE]"`
-3. Set Insight API key user secret: `dotnet user-secrets set "Apis:Insight:Key" "[INSERT KEY VALUE]"`
-4. Set Benchmark API url user secret: `dotnet user-secrets set "Apis:Benchmark:Url" "[INSERT URL VALUE]"`
-5. Set Benchmark API key user secret: `dotnet user-secrets set "Apis:Benchmark:Key" "[INSERT KEY VALUE]"`
-6. Set Establishment API url user secret: `dotnet user-secrets set "Apis:Establishment:Url" "[INSERT URL VALUE]"`
-7. Set Establishment API key user secret: `dotnet user-secrets set "Apis:Establishment:Key" "[INSERT KEY VALUE]"`
+However, if you are using deployed instances of the Platform APIs then having initialised secret storage add the following section to `secrets.json`:
+```
+  "Apis": {
+    "Insight": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    },
+    "Benchmark": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    },
+    "Establishment": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    }
+  }
+```
 
 #### DfE Sign-in (DSI) authentication
-Having initialised secret storage, in a console window:
-1. Navigate to `Web.App` project root
-2. Set DSI Sign-out URI user secret: `dotnet user-secrets set "DFESignInSettings:SignOutUri" "[INSERT URL VALUE]"`
-3. Set DSI Signed out callback path user secret: `dotnet user-secrets set "DFESignInSettings:SignedOutCallbackPath" "[INSERT PATH VALUE]"`
-4. Set DSI Metadata address user secret: `dotnet user-secrets set "DFESignInSettings:MetadataAddress" "[INSERT URL VALUE]"`
-5. Set DSI Issuer user secret: `dotnet user-secrets set "DFESignInSettings:Issuer" "[INSERT SECRET VALUE]"`
-6. Set DSI Client Secret user secret: `dotnet user-secrets set "DFESignInSettings:ClientSecret" "[INSERT CLIENT SECRET VALUE]"`
-7. Set DSI Client ID user secret: `dotnet user-secrets set "DFESignInSettings:ClientID" "[INSERT ID VALUE]"`
-8. Set DSI Callback path user secret: `dotnet user-secrets set "DFESignInSettings:CallbackPath" "[INSERT PATH VALUE]"`
-9. Set DSI Audience user secret: `dotnet user-secrets set "DFESignInSettings:Audience" "[INSERT AUDIENCE VALUE]"`
-10. Set DSI API Url user secret: `dotnet user-secrets set "DFESignInSettings:APIUri" "[INSERT AUDIENCE VALUE]"`
-11. Set DSI API Secret user secret: `dotnet user-secrets set "DFESignInSettings:APISecret" "[INSERT API SECRET VALUE]"`
-
+Having initialised secret storage, then add the following section to `secrets.json`:
+```
+"DFESignInSettings": {
+    "APISecret": "[INSERT API SECRET VALUE]",
+    "APIUri": "[INSERT URL VALUE]",
+    "Audience": "[INSERT AUDIENCE VALUE]",
+    "CallbackPath": "[INSERT PATH VALUE]",
+    "ClientID": "[INSERT ID VALUE]",
+    "ClientSecret": "[INSERT SECRET VALUE]",
+    "Issuer": "[INSERT SECRET VALUE]",
+    "MetadataAddress": "[INSERT URL VALUE]",
+    "SignedOutCallbackPath": "[INSERT PATH VALUE]",
+    "SignOutUri": "[INSERT URL VALUE]"
+  }
+```
 
 ### Running tests
 
@@ -59,7 +70,7 @@ dotnet test tests\Web.Integration.Tests
 ```
 
 #### End-to-end Tests
-Add configuration in `appsetings.local.json`
+Add the following configuration in `appsetings.local.json`
 ```
 {
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",
@@ -71,7 +82,7 @@ Run:
 dotnet test tests\Web.E2ETests
 ```
 #### Accessibility Tests
-Add configuration in `appsetings.local.json`
+Add the following configuration in `appsetings.local.json`
 ```
 {
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",
