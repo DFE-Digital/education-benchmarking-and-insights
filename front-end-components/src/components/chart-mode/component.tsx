@@ -25,7 +25,6 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
               name="changedChartMode"
               type="radio"
               value={ChartModeChart}
-              defaultChecked={displayMode == ChartModeChart}
               onChange={handleChange}
               checked={displayMode == ChartModeChart}
             />
@@ -43,7 +42,6 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
               name="changedChartMode"
               type="radio"
               value={ChartModeTable}
-              defaultChecked={displayMode == ChartModeTable}
               onChange={handleChange}
               checked={displayMode == ChartModeTable}
             />

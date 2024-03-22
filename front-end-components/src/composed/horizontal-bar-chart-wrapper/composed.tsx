@@ -57,54 +57,51 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
         <div className="govuk-grid-column-full">
           {sortedDataPoints.length > 0 ? (
             <>
-              <div
-                className={
-                  mode == ChartModeChart ? "" : "govuk-visually-hidden"
-                }
-                style={{ height: 700 }}
-              >
-                <HorizontalBarChart
-                  barCategoryGap={2}
-                  chartName={chartName}
-                  data={sortedDataPoints}
-                  highlightActive
-                  highlightedItemKeys={
-                    selectedSchool ? [selectedSchool.urn] : undefined
-                  }
-                  keyField="urn"
-                  labels
-                  margin={20}
-                  ref={ref}
-                  seriesConfig={
-                    {
-                      value: {
-                        visible: true,
-                        valueFormatter: (value: string) =>
-                          value
-                            ? parseFloat(value.toString()).toFixed(1)
-                            : String(value),
-                      },
-                    } as object // todo: fix typing issue
-                  }
-                  seriesLabelField="name"
-                  tickWidth={400}
-                  tick={(t) => (
-                    <SchoolTick
-                      {...t}
-                      highlightedItemKey={selectedSchool?.urn}
-                      linkToSchool
-                      onClick={(urn) => {
-                        urn && (window.location.href = `/school/${urn}`);
-                      }}
-                      schoolUrnResolver={(name) =>
-                        data.dataPoints.find((d) => d.name === name)?.urn
-                      }
-                    />
-                  )}
-                  tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
-                  valueLabel={dimension}
-                />
-              </div>
+              {mode == ChartModeChart && (
+                <div style={{ height: 700 }}>
+                  <HorizontalBarChart
+                    barCategoryGap={2}
+                    chartName={chartName}
+                    data={sortedDataPoints}
+                    highlightActive
+                    highlightedItemKeys={
+                      selectedSchool ? [selectedSchool.urn] : undefined
+                    }
+                    keyField="urn"
+                    labels
+                    margin={20}
+                    ref={ref}
+                    seriesConfig={
+                      {
+                        value: {
+                          visible: true,
+                          valueFormatter: (value: string) =>
+                            value
+                              ? parseFloat(value.toString()).toFixed(1)
+                              : String(value),
+                        },
+                      } as object // todo: fix typing issue
+                    }
+                    seriesLabelField="name"
+                    tickWidth={400}
+                    tick={(t) => (
+                      <SchoolTick
+                        {...t}
+                        highlightedItemKey={selectedSchool?.urn}
+                        linkToSchool
+                        onClick={(urn) => {
+                          urn && (window.location.href = `/school/${urn}`);
+                        }}
+                        schoolUrnResolver={(name) =>
+                          data.dataPoints.find((d) => d.name === name)?.urn
+                        }
+                      />
+                    )}
+                    tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+                    valueLabel={dimension}
+                  />
+                </div>
+              )}
               <div
                 className={
                   mode == ChartModeTable ? "" : "govuk-visually-hidden"
