@@ -1,5 +1,5 @@
 import { createRef, useContext, useMemo } from "react";
-import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart-2";
+import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
 import { TableChart, SchoolChartData } from "src/components/charts/table-chart";
 import {
   ChartDimensionContext,

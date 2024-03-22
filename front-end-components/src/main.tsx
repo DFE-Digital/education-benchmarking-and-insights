@@ -18,7 +18,7 @@ import {
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
 } from "src/constants";
-import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart-2";
+import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import { ChartHandler, ChartSortDirection } from "./components";
