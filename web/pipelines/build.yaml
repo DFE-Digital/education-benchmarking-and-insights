@@ -25,7 +25,6 @@ variables:
   TerraformFolder: 'web/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
-  workspaceDir: '$(Pipeline.Workspace)'
 
 stages:
   - stage: Build
@@ -124,14 +123,14 @@ stages:
         steps:
           - template: steps-web-run-e2e-tests.yaml
             parameters:
-              workspaceDir: '${{ parameters.workspaceDir }}'
+              workspaceDir: '$(Pipeline.Workspace)'
       - job: RunA11yTests
         displayName: 'Run automated a11y tests'
         dependsOn: DeployAutomatedTest
         steps:
           - template: steps-web-run-a11y-tests.yaml
             parameters:
-              workspaceDir: '${{ parameters.workspaceDir }}'
+              workspaceDir: '$(Pipeline.Workspace)'
        
 
   - stage: DeployTest
