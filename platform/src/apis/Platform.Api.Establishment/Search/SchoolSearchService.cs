@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
@@ -13,7 +13,7 @@ namespace Platform.Api.Establishment.Search;
 public record SchoolSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
-public class SchoolSearchService : SearchService, ISearchService<School>
+public class SchoolSearchService : SearchService, ISearchService<SchoolResponseModel>
 {
     private static readonly string[] Facets = Array.Empty<string>();
     private const string IndexName = "school-index";
@@ -22,25 +22,25 @@ public class SchoolSearchService : SearchService, ISearchService<School>
     {
     }
 
-    public Task<SearchOutput<School>> SearchAsync(PostSearchRequest request)
+    public Task<SearchResponseModel<SchoolResponseModel>> SearchAsync(PostSearchRequestModel request)
     {
-        return SearchAsync<School>(request, CreateFilterExpression, Facets);
+        return SearchAsync<SchoolResponseModel>(request, CreateFilterExpression, Facets);
     }
 
-    public Task<SuggestOutput<School>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponseModel<SchoolResponseModel>> SuggestAsync(PostSuggestRequestModel request)
     {
         var fields = new[]
         {
-            nameof(School.Urn),
-            nameof(School.Name),
-            nameof(School.Town),
-            nameof(School.Postcode)
+            nameof(SchoolResponseModel.Urn),
+            nameof(SchoolResponseModel.Name),
+            nameof(SchoolResponseModel.Town),
+            nameof(SchoolResponseModel.Postcode)
         };
 
-        return SuggestAsync<School>(request, selectFields: fields);
+        return SuggestAsync<SchoolResponseModel>(request, selectFields: fields);
     }
 
-    private static string? CreateFilterExpression(FilterCriteria[] filters)
+    private static string? CreateFilterExpression(FilterCriteriaRequestModel[] filters)
     {
         if (filters is not { Length: > 0 })
         {

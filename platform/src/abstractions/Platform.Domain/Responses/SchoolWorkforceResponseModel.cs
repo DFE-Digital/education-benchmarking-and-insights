@@ -1,18 +1,15 @@
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record SchoolWorkforce
+public record SchoolWorkforceResponseModel
 {
     public string? Urn { get; set; }
     public string? Name { get; set; }
     public string? SchoolType { get; set; }
     public string? LocalAuthority { get; set; }
-
     public decimal NumberOfPupils { get; set; }
-
     public decimal SchoolWorkforceFte { get; set; }
     public decimal TotalNumberOfTeachersFte { get; set; }
     public decimal TeachersWithQtsfte { get; set; }
@@ -22,9 +19,9 @@ public record SchoolWorkforce
     public decimal AuxiliaryStaffFte { get; set; }
     public decimal SchoolWorkforceHeadcount { get; set; }
 
-    public static SchoolWorkforce Create(SchoolTrustFinancialDataObject dataObject)
+    public static SchoolWorkforceResponseModel Create(SchoolTrustFinancialDataObject dataObject)
     {
-        return new SchoolWorkforce
+        return new SchoolWorkforceResponseModel
         {
             Urn = dataObject.Urn.ToString(),
             Name = dataObject.SchoolName,

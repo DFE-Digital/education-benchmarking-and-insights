@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record Finances
+public record FinancesResponseModel
 {
     public string? Urn { get; set; }
     public string? SchoolName { get; set; }
@@ -24,9 +23,9 @@ public record Finances
     public decimal TotalNumberOfTeachersFte { get; set; }
     public decimal RevenueReserve { get; set; }
 
-    public static Finances Create(SchoolTrustFinancialDataObject dataObject, int term)
+    public static FinancesResponseModel Create(SchoolTrustFinancialDataObject dataObject, int term)
     {
-        return new Finances
+        return new FinancesResponseModel
         {
             YearEnd = term,
             Urn = dataObject.Urn.ToString(),

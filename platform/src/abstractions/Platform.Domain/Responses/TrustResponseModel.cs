@@ -1,18 +1,16 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record Trust
+public record TrustResponseModel
 {
     public string? CompanyNumber { get; set; }
     public string? Name { get; set; }
 
-
-    public static Trust Create(EdubaseDataObject edubase)
+    public static TrustResponseModel Create(EdubaseDataObject edubase)
     {
-        return new Trust
+        return new TrustResponseModel
         {
             CompanyNumber = edubase.CompanyNumber.ToString(),
             Name = edubase.TrustOrCompanyName

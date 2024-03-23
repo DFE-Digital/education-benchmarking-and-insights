@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
     {
         Db
             .Setup(d => d.Expenditure(It.IsAny<string[]>()))
-            .ReturnsAsync(Array.Empty<SchoolExpenditure>());
+            .ReturnsAsync(Array.Empty<SchoolExpenditureResponseModel>());
 
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as JsonContentResult;
 

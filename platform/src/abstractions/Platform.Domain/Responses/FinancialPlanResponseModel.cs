@@ -1,12 +1,11 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record FinancialPlan
+public record FinancialPlanResponseModel
 {
     public int Year { get; set; }
     public string? Urn { get; set; }
@@ -87,7 +86,7 @@ public record FinancialPlan
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
-    public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    public TeachingPeriodResponseModel[]? OtherTeachingPeriods { get; set; }
     public bool ManagementRoleHeadteacher { get; set; }
     public bool ManagementRoleDeputyHeadteacher { get; set; }
     public bool ManagementRoleNumeracyLead { get; set; }
@@ -124,9 +123,10 @@ public record FinancialPlan
     public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
-    public static FinancialPlan Create(FinancialPlanDataObject dataObject)
+
+    public static FinancialPlanResponseModel Create(FinancialPlanDataObject dataObject)
     {
-        return new FinancialPlan
+        return new FinancialPlanResponseModel
         {
             Year = int.Parse(dataObject.Id ?? throw new ArgumentNullException(nameof(dataObject.Id))),
             Urn = dataObject.PartitionKey,
@@ -208,7 +208,7 @@ public record FinancialPlan
             AssistantsYear5 = dataObject.AssistantsYear5,
             AssistantsYear6 = dataObject.AssistantsYear6,
             OtherTeachingPeriods = dataObject.OtherTeachingPeriods?
-                .Select(x => new OtherTeachingPeriod
+                .Select(x => new TeachingPeriodResponseModel
                 {
                     PeriodName = x.PeriodName,
                     PeriodsPerTimetable = x.PeriodsPerTimetable
@@ -250,11 +250,5 @@ public record FinancialPlan
             TeachingPeriodsPastoralLeader = dataObject.TeachingPeriodsPastoralLeader,
             TeachingPeriodsOtherMembers = dataObject.TeachingPeriodsOtherMembers,
         };
-    }
-
-    public class OtherTeachingPeriod
-    {
-        public string? PeriodName { get; set; }
-        public string? PeriodsPerTimetable { get; set; }
     }
 }

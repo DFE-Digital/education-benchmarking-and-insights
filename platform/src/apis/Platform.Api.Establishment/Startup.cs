@@ -7,11 +7,10 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment;
 using Platform.Api.Establishment.Db;
 using Platform.Api.Establishment.Search;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Search;
-using Platform.Infrastructure.Search.Validators;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -37,10 +36,10 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ICollectionService, CollectionService>();
         builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
         builder.Services.AddSingleton<ITrustDb, TrustDb>();
-        builder.Services.AddSingleton<ISearchService<School>, SchoolSearchService>();
-        builder.Services.AddSingleton<ISearchService<Trust>, TrustSearchService>();
-        builder.Services.AddSingleton<ISearchService<Organisation>, OrganisationSearchService>();
+        builder.Services.AddSingleton<ISearchService<SchoolResponseModel>, SchoolSearchService>();
+        builder.Services.AddSingleton<ISearchService<TrustResponseModel>, TrustSearchService>();
+        builder.Services.AddSingleton<ISearchService<OrganisationResponseModel>, OrganisationSearchService>();
 
-        builder.Services.AddTransient<IValidator<PostSuggestRequest>, PostSuggestRequestValidator>();
+        builder.Services.AddTransient<IValidator<PostSuggestRequestModel>, PostSuggestRequestValidator>();
     }
 }

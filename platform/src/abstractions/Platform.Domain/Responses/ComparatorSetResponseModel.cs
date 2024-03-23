@@ -1,16 +1,15 @@
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record ComparatorSet
+public record ComparatorSetResponseModel
 {
     public IEnumerable<string>? DefaultPupil { get; set; }
     public IEnumerable<string>? DefaultArea { get; set; }
 
-    public static ComparatorSet Create(IEnumerable<ComparatorDataObject> results)
+    public static ComparatorSetResponseModel Create(IEnumerable<ComparatorDataObject> results)
     {
         var defaultPupil = new List<string>();
         var defaultArea = new List<string>();
@@ -31,7 +30,7 @@ public record ComparatorSet
             }
         }
 
-        return new ComparatorSet
+        return new ComparatorSetResponseModel
         {
             DefaultPupil = defaultPupil,
             DefaultArea = defaultArea

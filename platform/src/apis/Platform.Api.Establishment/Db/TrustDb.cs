@@ -4,16 +4,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Cosmos;
 
 namespace Platform.Api.Establishment.Db;
 
 public interface ITrustDb
 {
-    Task<Trust?> Get(string identifier);
-    Task<IEnumerable<School>> Schools(string identifier);
+    Task<TrustResponseModel?> Get(string identifier);
+    Task<IEnumerable<SchoolResponseModel>> Schools(string identifier);
 }
 
 [ExcludeFromCodeCoverage]
@@ -29,7 +28,7 @@ public class TrustDb : CosmosDatabase, ITrustDb
         _collectionService = collectionService;
     }
 
-    public async Task<Trust?> Get(string identifier)
+    public async Task<TrustResponseModel?> Get(string identifier)
     {
         var canParse = long.TryParse(identifier, out var parsedIdentifier);
         if (!canParse)
@@ -44,15 +43,15 @@ public class TrustDb : CosmosDatabase, ITrustDb
                 q => q.Where(x => x.CompanyNumber == parsedIdentifier))
             .FirstOrDefaultAsync();
 
-        return trust == null ? null : Trust.Create(trust);
+        return trust == null ? null : TrustResponseModel.Create(trust);
     }
 
-    public async Task<IEnumerable<School>> Schools(string identifier)
+    public async Task<IEnumerable<SchoolResponseModel>> Schools(string identifier)
     {
         var canParse = long.TryParse(identifier, out var parsedIdentifier);
         if (!canParse)
         {
-            return Array.Empty<School>();
+            return Array.Empty<SchoolResponseModel>();
         }
 
         var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
@@ -61,6 +60,6 @@ public class TrustDb : CosmosDatabase, ITrustDb
                 collection.Name,
                 q => q.Where(x => x.CompanyNumber == parsedIdentifier)).ToListAsync();
 
-        return schools.Select(School.Create);
+        return schools.Select(SchoolResponseModel.Create);
     }
 }

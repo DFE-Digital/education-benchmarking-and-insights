@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
     {
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new ComparatorSet());
+            .ReturnsAsync(new ComparatorSetResponseModel());
 
         var result =
             await Functions.DefaultPupilComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;

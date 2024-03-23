@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record PagedResults<T> : IPagedResults
+public record PagedResponseModel<T> : IPagedResponse
 {
     public long TotalResults { get; set; }
     public int Page { get; set; }
@@ -14,12 +14,12 @@ public record PagedResults<T> : IPagedResults
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T>? Results { get; set; }
 
-    public static PagedResults<T> Create(IEnumerable<T> results, int page, int pageSize, long? totalResults = null)
+    public static PagedResponseModel<T> Create(IEnumerable<T> results, int page, int pageSize, long? totalResults = null)
     {
         var enumerable = results as T[] ?? results.ToArray();
         var resultCount = totalResults ?? enumerable.Length;
 
-        return new PagedResults<T>
+        return new PagedResponseModel<T>
         {
             Page = page,
             PageSize = pageSize,
@@ -29,7 +29,7 @@ public record PagedResults<T> : IPagedResults
     }
 }
 
-public interface IPagedResults
+public interface IPagedResponse
 {
     long TotalResults { get; set; }
     int Page { get; set; }

@@ -1,24 +1,24 @@
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.Responses;
+using Platform.Domain;
 
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public record SearchOutput<T> : IPagedResults
+public record SearchResponseModel<T> : IPagedResponse
 {
-    public Dictionary<string, IList<FacetValue>>? Facets { get; set; }
+    public Dictionary<string, IList<FacetValueResponseModel>>? Facets { get; set; }
     public long TotalResults { get; set; }
     public int Page { get; set; }
     public int PageSize { get; set; }
     public int PageCount => (int)Math.Ceiling(TotalResults / (float)Math.Max(1, PageSize));
     public IEnumerable<T> Results { get; set; } = Array.Empty<T>();
 
-    public static SearchOutput<T> Create(IEnumerable<T> results, int page = 1, int pageSize = 10, long? totalResults = null, Dictionary<string, IList<FacetValue>>? facets = null)
+    public static SearchResponseModel<T> Create(IEnumerable<T> results, int page = 1, int pageSize = 10, long? totalResults = null, Dictionary<string, IList<FacetValueResponseModel>>? facets = null)
     {
         var enumerable = results as T[] ?? results.ToArray();
         var resultCount = totalResults ?? enumerable.Length;
 
-        return new SearchOutput<T>
+        return new SearchResponseModel<T>
         {
             Page = page,
             PageSize = pageSize,
@@ -30,7 +30,7 @@ public record SearchOutput<T> : IPagedResults
 }
 
 [ExcludeFromCodeCoverage]
-public record FacetValue
+public record FacetValueResponseModel
 {
     public string? Value { get; set; }
     public long? Count { get; set; }

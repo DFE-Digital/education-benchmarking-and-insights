@@ -1,10 +1,10 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Domain.Requests;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record FinancialPlanRequest
+public record FinancialPlanRequestModel
 {
     public string? User { get; set; }
     public bool IsComplete { get; set; }
@@ -79,7 +79,7 @@ public record FinancialPlanRequest
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
-    public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    public TeachingPeriodRequestModel[]? OtherTeachingPeriods { get; set; }
     public bool ManagementRoleHeadteacher { get; set; }
     public bool ManagementRoleDeputyHeadteacher { get; set; }
     public bool ManagementRoleNumeracyLead { get; set; }
@@ -116,10 +116,4 @@ public record FinancialPlanRequest
     public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
-
-    public class OtherTeachingPeriod
-    {
-        public string? PeriodName { get; set; }
-        public string? PeriodsPerTimetable { get; set; }
-    }
 }

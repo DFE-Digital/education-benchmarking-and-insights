@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Insight.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -28,7 +28,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(SchoolExpenditure[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> QuerySchoolExpenditureAsync(
@@ -59,7 +59,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolWorkforceAsync))]
-    [ProducesResponseType(typeof(SchoolWorkforce[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> QuerySchoolWorkforceAsync(

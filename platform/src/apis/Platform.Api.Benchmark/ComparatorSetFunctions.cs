@@ -9,7 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.Db;
 using Platform.Domain;
-using Platform.Domain.Responses;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -28,7 +27,7 @@ public class ComparatorSetFunctions
     }
 
     [FunctionName(nameof(DefaultPupilComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> DefaultPupilComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/{urn}")]

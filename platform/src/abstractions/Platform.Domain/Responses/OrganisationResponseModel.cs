@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record Organisation
+public record OrganisationResponseModel
 {
     public string? Id { get; set; }
     public string? Name { get; set; }

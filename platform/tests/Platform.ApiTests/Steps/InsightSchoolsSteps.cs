@@ -2,7 +2,7 @@
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Drivers;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 
 namespace Platform.ApiTests.Steps;
@@ -40,8 +40,8 @@ public class InsightSchoolsSteps
 
         resultsArray.Should().NotBeEmpty();
 
-        var firstResult = resultsArray[0].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
-        var secondResult = resultsArray[1].ToObject<SchoolExpenditure>() ?? throw new ArgumentNullException();
+        var firstResult = resultsArray[0].ToObject<SchoolExpenditureResponseModel>() ?? throw new ArgumentNullException();
+        var secondResult = resultsArray[1].ToObject<SchoolExpenditureResponseModel>() ?? throw new ArgumentNullException();
 
         firstResult.Name.Should().Be("Wells Free School");
         firstResult.Urn.Should().Be("139696");
@@ -79,7 +79,7 @@ public class InsightSchoolsSteps
         response.Should().NotBeNull();
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<Finances>>() ?? throw new ArgumentNullException();
+        var result = content.FromJson<PagedResponseModel<FinancesResponseModel>>() ?? throw new ArgumentNullException();
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }
@@ -119,7 +119,7 @@ public class InsightSchoolsSteps
 
         resultsArray.Should().NotBeEmpty();
 
-        var result = resultsArray[0].ToObject<SchoolWorkforce>() ?? throw new ArgumentNullException();
+        var result = resultsArray[0].ToObject<SchoolWorkforceResponseModel>() ?? throw new ArgumentNullException();
 
         result.Name.Should().Be("Wells Free School");
         result.Urn.Should().Be("139696");
@@ -144,7 +144,7 @@ public class InsightSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
         var content = await response.Content.ReadAsByteArrayAsync();
         //todo troubleshoot the reason of failure 
-        var result = content.FromJson<PagedResults<SchoolWorkforce>>() ?? throw new ArgumentNullException();
+        var result = content.FromJson<PagedResponseModel<SchoolWorkforceResponseModel>>() ?? throw new ArgumentNullException();
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
     }

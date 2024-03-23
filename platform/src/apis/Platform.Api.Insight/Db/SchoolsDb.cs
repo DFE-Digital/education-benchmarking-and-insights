@@ -4,16 +4,15 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Cosmos;
 
 namespace Platform.Api.Insight.Db;
 
 public interface ISchoolsDb
 {
-    Task<IEnumerable<SchoolExpenditure>> Expenditure(string[] urns);
-    Task<IEnumerable<SchoolWorkforce>> Workforce(string[] urns);
+    Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns);
+    Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns);
 }
 
 [ExcludeFromCodeCoverage]
@@ -34,19 +33,19 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         _collectionService = collectionService;
     }
 
-    public async Task<IEnumerable<SchoolWorkforce>> Workforce(string[] urns)
+    public async Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns)
     {
         var finances = await Finances(urns);
 
-        return finances.Select(SchoolWorkforce.Create);
+        return finances.Select(SchoolWorkforceResponseModel.Create);
     }
 
-    public async Task<IEnumerable<SchoolExpenditure>> Expenditure(string[] urns)
+    public async Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns)
     {
         var finances = await Finances(urns);
         var floorArea = await FloorArea(urns);
 
-        return finances.Select(x => SchoolExpenditure.Create(x, floorArea));
+        return finances.Select(x => SchoolExpenditureResponseModel.Create(x, floorArea));
     }
 
     private async Task<IEnumerable<SchoolTrustFinancialDataObject>> Finances(IReadOnlyCollection<string> urns)

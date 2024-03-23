@@ -3,8 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
 
@@ -12,8 +11,8 @@ namespace Platform.Api.Establishment.Db;
 
 public interface ISchoolDb
 {
-    Task<School?> Get(string urn);
-    Task<PagedResults<School>> Query(IQueryCollection query);
+    Task<SchoolResponseModel?> Get(string urn);
+    Task<PagedResponseModel<SchoolResponseModel>> Query(IQueryCollection query);
 }
 
 [ExcludeFromCodeCoverage]
@@ -29,7 +28,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
         _collectionService = collectionService;
     }
 
-    public async Task<School?> Get(string urn)
+    public async Task<SchoolResponseModel?> Get(string urn)
     {
         var canParse = long.TryParse(urn, out var parsedUrn);
         if (!canParse)
@@ -44,10 +43,10 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 q => q.Where(x => x.Urn == parsedUrn))
             .FirstOrDefaultAsync();
 
-        return school == null ? null : School.Create(school);
+        return school == null ? null : SchoolResponseModel.Create(school);
     }
 
-    public async Task<PagedResults<School>> Query(IQueryCollection query)
+    public async Task<PagedResponseModel<SchoolResponseModel>> Query(IQueryCollection query)
     {
         var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
         var pageParams = query.GetPagingValues();
@@ -57,7 +56,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 .ToArrayAsync();
         var establishmentsTotalCount = await ItemCountAsync<EdubaseDataObject>(collection.Name);
 
-        var schools = establishments.Select(School.Create);
-        return PagedResults<School>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);
+        var schools = establishments.Select(SchoolResponseModel.Create);
+        return PagedResponseModel<SchoolResponseModel>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);
     }
 }

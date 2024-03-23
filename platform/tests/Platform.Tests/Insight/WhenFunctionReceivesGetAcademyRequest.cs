@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
     {
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new Finances());
+            .ReturnsAsync(new FinancesResponseModel());
 
         var result = await Functions.SingleAcademyAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -27,7 +27,7 @@ public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
 
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((Finances?)null);
+            .ReturnsAsync((FinancesResponseModel?)null);
 
         var result = await Functions.SingleAcademyAsync(CreateRequest(), "1") as NotFoundResult;
 

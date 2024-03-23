@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain.DataObjects;
 
-namespace Platform.Domain.Responses;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record School
+public record SchoolResponseModel
 {
     public string? Urn { get; set; }
     public string? Name { get; set; }
@@ -27,9 +26,9 @@ public record School
     public string? LocalAuthorityName { get; set; }
     public bool HasSixthForm { get; set; }
 
-    public static School Create(EdubaseDataObject edubase)
+    public static SchoolResponseModel Create(EdubaseDataObject edubase)
     {
-        return new School
+        return new SchoolResponseModel
         {
             Urn = edubase.Urn.ToString(),
             Kind = edubase.TypeOfEstablishment,

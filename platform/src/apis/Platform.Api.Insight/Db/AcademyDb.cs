@@ -2,15 +2,14 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Cosmos;
 
 namespace Platform.Api.Insight.Db;
 
 public interface IAcademyDb
 {
-    Task<Finances?> Get(string urn);
+    Task<FinancesResponseModel?> Get(string urn);
 }
 
 [ExcludeFromCodeCoverage]
@@ -26,7 +25,7 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
         _collectionService = collectionService;
     }
 
-    public async Task<Finances?> Get(string urn)
+    public async Task<FinancesResponseModel?> Get(string urn)
     {
         var collection = await _collectionService.LatestCollection(DataGroups.MatAllocated);
 
@@ -37,6 +36,6 @@ public class AcademyDb : CosmosDatabase, IAcademyDb
 
         return finances == null
             ? null
-            : Finances.Create(finances, collection.Term);
+            : FinancesResponseModel.Create(finances, collection.Term);
     }
 }
