@@ -2,6 +2,7 @@ parameters:
   workspaceDir: ''
   environmentPrefix: ''
   subscription: ''
+  Library : 'Web.A11yTests'
 steps:
   - checkout: none
   - download: current
@@ -25,3 +26,16 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
+  - task: VSTest@2
+    displayName: 'Run A11y Tests'
+    inputs:
+      testAssemblyVer2: |
+        **\${{ parameters.Library }}.dll            
+        !**\*TestAdapter.dll
+        !**\obj\**
+      searchFolder: '${{ parameters.workspaceDir }}/a11y-tests-files'
+      testRunTitle: 'A11y Tests - Build $(Build.BuildNumber) - $(FormatDateTime:yyyyMMddHHmmss)'
+      rerunFailedTests: true
+      uiTests: true
+      rerunType: 'basedOnTestFailurePercentage'
+      rerunMaxAttempts: '1'
