@@ -55,6 +55,12 @@ Having initialised secret storage, then add the following section to `secrets.js
   }
 ```
 
+### Build front-end library
+To use the GOV.UK Design System and front-end components locally then:
+- Navigate to the root of the Web APP `.\web\src\Web.App`
+- Install the required packages `npm i`
+- Run the gulp script to build ssas and copy assets `npm run-script build`
+
 ### Running tests
 
 Tests will run when creating new Pull Requests and when code is merged into the main branch.

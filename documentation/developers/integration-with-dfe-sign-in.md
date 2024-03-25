@@ -1,12 +1,29 @@
-# Integrating with DfE Sign In
+# Integration with DfE Sign In (DSI)
 
 ## The authorization flow (‘code’ response type)
 
-![Authentication flow](./dfe_sign_in_intergation.png)
+```mermaid
+sequenceDiagram;
+    participant User;
+    participant Web App;
+    participant DfE Sign-In login;
+    participant DfE Sign-In token;
+    Note over User,Web App: User tries to access protected content in service;
+    Web App->>User: Display "login required";
+    Note over User: User clicks "Sign In";
+    User->>Web App: Initiate authenication;
+    Web App->>DfE Sign-In login: Redirect user DfE Sign auth endpoint;
+    Note over DfE Sign-In login: User signs in;
+    DfE Sign-In login->>Web App: Redirect user back with an authcode;
+    Web App->>DfE Sign-In token: Request tokens w/ authcode;
+    Note over Web App: Exchange authcode for tokens;
+    DfE Sign-In token->>Web App: Respond with access, ID wand refresh token;
+    Note over Web App: Verify tokens;
+    Web App->>User:Grant access to protected content;
+```
 
 
-
-## Setting up our service configuration in DfE sign in
+## Setting up our service configuration in DSI
 
 1. **Receive manage access to DfE manage console.**
 2. **Register our service as a ‘relying party’.**
@@ -21,7 +38,7 @@
    - h. client secret
    - i. token endpoint authentication method
 
-4. **Once set up we can then use DfE sign in’s API to interact with it:** [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
+4. **Once set up we can then use DSI’s API to interact with it:** [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
 5. **Any edits to our services configuration can be done via the manage console.**
 
 ### Home URL:
