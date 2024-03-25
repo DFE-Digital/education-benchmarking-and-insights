@@ -12,7 +12,6 @@
     <PackageVersion Include="Microsoft.Extensions.Caching.Cosmos" Version="1.6.0" />
     <PackageVersion Include="Microsoft.FeatureManagement.AspNetCore" Version="3.2.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
-    <PackageVersion Include="SpecFlow.Internal.Json" Version="1.0.8" />
     <PackageVersion Include="xunit" Version="2.7.0" />
     <PackageVersion Include="xunit.abstractions" Version="2.0.3" />
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.5.7">

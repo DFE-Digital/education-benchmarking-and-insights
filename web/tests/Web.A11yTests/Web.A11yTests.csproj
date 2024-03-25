@@ -8,7 +8,6 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="SpecFlow.Internal.Json" />
         <PackageReference Include="xunit.runner.visualstudio"/>
         <PackageReference Include="Deque.AxeCore.Playwright"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>

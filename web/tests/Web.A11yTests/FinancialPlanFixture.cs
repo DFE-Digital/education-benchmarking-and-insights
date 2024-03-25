@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
-using SpecFlow.Internal.Json;
 using Web.A11yTests.Drivers;
+using Web.A11yTests.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
