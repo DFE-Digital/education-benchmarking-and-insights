@@ -81,12 +81,6 @@
         "resolved": "13.0.3",
         "contentHash": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ=="
       },
-      "SpecFlow.Internal.Json": {
-        "type": "Direct",
-        "requested": "[1.0.8, )",
-        "resolved": "1.0.8",
-        "contentHash": "lVCC/Rie7N5rFoc7YxPS0nneLfsWSTIMMlkndwxhaD8MxBp3Bsv1HeiVjVwXCjWaQeoqZcvIy52fF5Xit00ZLw=="
-      },
       "xunit": {
         "type": "Direct",
         "requested": "[2.7.0, )",
