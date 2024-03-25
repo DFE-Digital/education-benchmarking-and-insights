@@ -18,5 +18,5 @@ public class SchoolViewModel(
     public decimal InYearBalance => finances.TotalIncome - finances.TotalExpenditure;
     public decimal RevenueReserve => finances.RevenueReserve;
 
-    public Dictionary<string, Dictionary<string, Category>> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure);
+    public IEnumerable<CostCategory> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure);
 }

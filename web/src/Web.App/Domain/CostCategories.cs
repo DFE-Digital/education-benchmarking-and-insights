@@ -1,131 +1,259 @@
-﻿namespace Web.App.Domain;
+﻿using System.Collections.ObjectModel;
+
+namespace Web.App.Domain;
 
 public abstract class Category(decimal actual, SchoolExpenditure expenditure)
 {
     public abstract decimal Value { get; }
     public decimal Actual => actual;
-    public decimal PercentageExpenditure => Actual / expenditure.TotalExpenditure * 100;
-    public decimal PercentageIncome => Actual / expenditure.TotalExpenditure * 100;
+    public decimal PercentageExpenditure => decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+    public decimal PercentageIncome => decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+}
 
-    public const string AdministrativeSupplies = "Administrative supplies";
-    public const string CateringStaffServices = "Catering staff and services";
-    public const string EducationalIct = "Educational ICT";
-    public const string EducationalSupplies = "Educational supplies";
-    public const string NonEducationalSupportStaff = "Non-educational support staff";
-    public const string Other = "Other";
-    public const string PremisesStaffServices = "Premises staff and services";
-    public const string TeachingStaff = "Teaching and teaching supply staff";
-    public const string Utilities = "Utilities";
+public class PupilCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
+{
+    private readonly decimal _actual = actual;
+    private readonly SchoolExpenditure _expenditure = expenditure;
 
-    public const string PerPupil = "per pupil";
-    public const string PerSquareMetre = "per square metre";
+    public override decimal Value => decimal.Round(_actual / _expenditure.NumberOfPupils, 0, MidpointRounding.AwayFromZero);
+}
 
-    public static string LookUpLabel(string description)
+public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
+{
+    private readonly decimal _actual = actual;
+    private readonly SchoolExpenditure _expenditure = expenditure;
+
+    public override decimal Value => decimal.Round(_actual / _expenditure.FloorArea, 0, MidpointRounding.AwayFromZero);
+}
+
+
+public abstract class CostCategory
+{
+    public abstract string Name { get; }
+    public abstract string Label { get; }
+    public abstract void Add(string urn, SchoolExpenditure expenditure);
+    
+    public abstract ReadOnlyDictionary<string, Category> Values { get; }
+}
+
+
+public class AdministrativeSupplies : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Administrative supplies";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        string label;
-        switch (description)
-        {
-            case Utilities:
-            case PremisesStaffServices:
-                label = PerSquareMetre;
-                break;
-            default:
-                label = PerPupil;
-                break;
-        }
-
-        return label;
+        _values[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
     }
 }
 
-public abstract class PupilCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
+public class CateringStaffServices : CostCategory
 {
-    private readonly decimal _actual = actual;
-    private readonly SchoolExpenditure _expenditure = expenditure;
-
-    public override decimal Value => decimal.Round(_actual / _expenditure.NumberOfPupils, 2, MidpointRounding.AwayFromZero);
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Catering staff and services";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.CateringStaffCosts, expenditure);
+    }
 }
 
-public abstract class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
+public class EducationalIct : CostCategory
 {
-    private readonly decimal _actual = actual;
-    private readonly SchoolExpenditure _expenditure = expenditure;
-
-    public override decimal Value => decimal.Round(_actual / _expenditure.FloorArea, 2, MidpointRounding.AwayFromZero);
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Educational ICT";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.LearningResourcesIctCosts, expenditure);
+    }
 }
 
-public class AdministrativeSupplies(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
+public class EducationalSupplies : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Educational supplies";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.TotalEducationalSuppliesCosts, expenditure);
+    }
+}
 
-public class CateringStaffServices(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.CateringStaffCosts, expenditure);
+public class NonEducationalSupportStaff : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Non-educational support staff";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts, expenditure);
+    }
+}
 
-public class EducationalIct(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.LearningResourcesIctCosts, expenditure);
+public class TeachingStaff : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Teaching and teaching supply staff";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.TotalTeachingSupportStaffCosts, expenditure);
+    }
+}
 
-public class EducationalSupplies(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.TotalEducationalSuppliesCosts, expenditure);
+public class Other : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Other";
+    public override string Label => "per pupil";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new PupilCategory(expenditure.TotalOtherCosts, expenditure);
+    }
+}
 
-public class NonEducationalSupportStaff(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts, expenditure);
+public class PremisesStaffServices : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Premises staff and services";
+    public override string Label => "per square metre";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new AreaCategory(expenditure.TotalPremisesStaffServiceCosts, expenditure);
+    }
+}
 
-public class Other(SchoolExpenditure expenditure) : PupilCategory(expenditure.TotalOtherCosts, expenditure);
-
-public class PremisesStaffServices(SchoolExpenditure expenditure)
-    : AreaCategory(expenditure.TotalPremisesStaffServiceCosts, expenditure);
-
-public class TeachingStaff(SchoolExpenditure expenditure)
-    : PupilCategory(expenditure.TotalTeachingSupportStaffCosts, expenditure);
-
-public class Utilities(SchoolExpenditure expenditure) : AreaCategory(expenditure.TotalUtilitiesCosts, expenditure);
+public class Utilities : CostCategory
+{
+    private readonly Dictionary<string, Category> _values = new();
+    
+    public override string Name  => "Utilities";
+    public override string Label => "per square metre";
+    public override ReadOnlyDictionary<string, Category> Values =>  _values.AsReadOnly();
+    
+    public override void Add(string urn, SchoolExpenditure expenditure)
+    {
+        _values[urn] = new AreaCategory(expenditure.TotalUtilitiesCosts, expenditure);
+    }
+}
 
 public static class CategoryBuilder
 {
-    public static Dictionary<string, Dictionary<string, Category>> Build(
+    public static IEnumerable<CostCategory> Build(
         IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure)
     {
-        var teachingStaff = new Dictionary<string, Category>();
-        var administrativeSupplies = new Dictionary<string, Category>();
-        var cateringStaffServices = new Dictionary<string, Category>();
-        var educationalIct = new Dictionary<string, Category>();
-        var educationalSupplies = new Dictionary<string, Category>();
-        var nonEducationalSupportStaff = new Dictionary<string, Category>();
-        var other = new Dictionary<string, Category>();
-        var premisesStaffServices = new Dictionary<string, Category>();
-        var utilities = new Dictionary<string, Category>();
+        var teachingStaff = new TeachingStaff();
+        var administrativeSupplies = new AdministrativeSupplies();
+        var cateringStaffServices = new CateringStaffServices();
+        var educationalIct = new EducationalIct();
+        var educationalSupplies = new EducationalSupplies();
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
+        var other = new Other();
+        var premisesStaffServices = new PremisesStaffServices();
+        var utilities = new Utilities();
 
         foreach (var expenditure in pupilExpenditure)
         {
-            ArgumentNullException.ThrowIfNull(expenditure.Urn);
+            var urn = expenditure.Urn;
+            ArgumentNullException.ThrowIfNull(urn);
 
-            teachingStaff[expenditure.Urn] = new TeachingStaff(expenditure);
-            administrativeSupplies[expenditure.Urn] = new AdministrativeSupplies(expenditure);
-            cateringStaffServices[expenditure.Urn] = new CateringStaffServices(expenditure);
-            educationalIct[expenditure.Urn] = new EducationalIct(expenditure);
-            educationalSupplies[expenditure.Urn] = new EducationalSupplies(expenditure);
-            nonEducationalSupportStaff[expenditure.Urn] = new NonEducationalSupportStaff(expenditure);
-            other[expenditure.Urn] = new Other(expenditure);
+            teachingStaff.Add(urn,expenditure);
+            administrativeSupplies.Add(urn,expenditure);
+            cateringStaffServices.Add(urn,expenditure);
+            educationalIct.Add(urn,expenditure);
+            educationalSupplies.Add(urn,expenditure);
+            nonEducationalSupportStaff.Add(urn,expenditure);
+            other.Add(urn,expenditure);
         }
 
         foreach (var expenditure in areaExpenditure)
         {
-            ArgumentNullException.ThrowIfNull(expenditure.Urn);
+            var urn = expenditure.Urn;
+            ArgumentNullException.ThrowIfNull(urn);
 
-            premisesStaffServices[expenditure.Urn] = new PremisesStaffServices(expenditure);
-            utilities[expenditure.Urn] = new Utilities(expenditure);
+            premisesStaffServices.Add(urn,expenditure);
+            utilities.Add(urn,expenditure);
         }
 
-        return new Dictionary<string, Dictionary<string, Category>>
+        return new CostCategory[]
         {
-            [Category.TeachingStaff] = teachingStaff,
-            [Category.AdministrativeSupplies] = administrativeSupplies,
-            [Category.CateringStaffServices] = cateringStaffServices,
-            [Category.EducationalIct] = educationalIct,
-            [Category.EducationalSupplies] = educationalSupplies,
-            [Category.NonEducationalSupportStaff] = nonEducationalSupportStaff,
-            [Category.Other] = other,
-            [Category.PremisesStaffServices] = premisesStaffServices,
-            [Category.Utilities] = utilities
+            teachingStaff,
+            administrativeSupplies,
+            cateringStaffServices,
+            educationalIct,
+            educationalSupplies,
+            nonEducationalSupportStaff,
+            other,
+            premisesStaffServices,
+            utilities
+        };
+    }
+    
+    public static IEnumerable<CostCategory> Build(IEnumerable<SchoolExpenditure> expenditure)
+    {
+        var teachingStaff = new TeachingStaff();
+        var administrativeSupplies = new AdministrativeSupplies();
+        var cateringStaffServices = new CateringStaffServices();
+        var educationalIct = new EducationalIct();
+        var educationalSupplies = new EducationalSupplies();
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
+        var other = new Other();
+        var premisesStaffServices = new PremisesStaffServices();
+        var utilities = new Utilities();
+
+        foreach (var value in expenditure)
+        {
+            var urn = value.Urn;
+            ArgumentNullException.ThrowIfNull(urn);
+
+            teachingStaff.Add(urn,value);
+            administrativeSupplies.Add(urn,value);
+            cateringStaffServices.Add(urn,value);
+            educationalIct.Add(urn,value);
+            educationalSupplies.Add(urn,value);
+            nonEducationalSupportStaff.Add(urn,value);
+            other.Add(urn,value);
+            premisesStaffServices.Add(urn,value);
+            utilities.Add(urn,value);
+        }
+        
+        return new CostCategory[]
+        {
+            teachingStaff,
+            administrativeSupplies,
+            cateringStaffServices,
+            educationalIct,
+            educationalSupplies,
+            nonEducationalSupportStaff,
+            other,
+            premisesStaffServices,
+            utilities
         };
     }
 }

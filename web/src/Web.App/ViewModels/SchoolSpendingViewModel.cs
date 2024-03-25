@@ -10,5 +10,5 @@ public class SchoolSpendingViewModel(
     public string? Name => school.Name;
     public string? Urn => school.Urn;
 
-    public Dictionary<string, Dictionary<string, Category>> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure);
+    public IEnumerable<CostCategory> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure);
 }
