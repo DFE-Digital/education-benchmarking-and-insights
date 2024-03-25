@@ -19,6 +19,7 @@ import {
   Label,
   LabelList,
   Legend,
+  ReferenceLine,
   ResponsiveContainer,
   Text,
   Tooltip,
@@ -90,6 +91,14 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
 
   const margin = _margin || 5;
 
+  const hasNegativeValues = useMemo(() => {
+    return data.some((d) => {
+      return visibleSeriesNames.some(
+        (name) => parseFloat(String(d[name]) || "") < 0
+      );
+    });
+  }, [data, visibleSeriesNames]);
+
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
     entry: TData,
@@ -134,7 +143,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           layout="vertical"
           margin={{
             top: margin,
-            right: margin + (labels ? 20 : 0),
+            right: margin + (labels ? 25 : 0),
             bottom: margin,
             left: margin,
           }}
@@ -164,6 +173,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             </Bar>
           ))}
           <XAxis
+            domain={hasNegativeValues ? ["dataMin", "dataMax"] : undefined}
             type="number"
             hide={hideXAxis}
             tickFormatter={(value) =>
@@ -183,7 +193,10 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
             tick={tick}
             type="category"
             width={tickWidth}
+            axisLine={hasNegativeValues ? false : undefined}
+            tickLine={hasNegativeValues ? false : undefined}
           ></YAxis>
+          {hasNegativeValues && <ReferenceLine x={0} />}
           {legend && (
             <Legend
               align="right"
@@ -206,7 +219,11 @@ function LabelListContent(props: LabelListContentProps) {
   return (
     <g>
       <Text
-        x={(x as number) + (width as number) + (height as number) / 2}
+        x={
+          (x as number) +
+          ((width as number) > 0 ? (width as number) : 0) +
+          (height as number) / 2
+        }
         y={(y as number) + (height as number) / 2}
         textAnchor="start"
         dominantBaseline="middle"

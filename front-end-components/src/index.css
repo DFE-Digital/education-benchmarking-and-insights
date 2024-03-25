@@ -270,6 +270,14 @@
   border-bottom: none;
 }
 
+.recharts-wrapper .recharts-reference-line > line {
+  stroke: var(--grid-colour);
+}
+
+.recharts-wrapper tspan::selection {
+  background-color: var(--grid-colour);
+}
+
 /* end recharts */
 
 .suggest-input {

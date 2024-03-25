@@ -77,7 +77,6 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
           highlightedItemKeys={
             highlightedItemKey ? [highlightedItemKey] : undefined
           }
-          includeNegativeValues
           keyField={keyField}
           seriesConfig={seriesConfig}
           seriesLabelField={keyField}
