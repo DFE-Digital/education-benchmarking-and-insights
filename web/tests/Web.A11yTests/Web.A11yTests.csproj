@@ -8,6 +8,7 @@
         <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="SpecFlow.Internal.Json" />
         <PackageReference Include="xunit.runner.visualstudio"/>
         <PackageReference Include="Deque.AxeCore.Playwright"/>
         <PackageReference Include="Microsoft.Extensions.Configuration"/>
@@ -20,7 +21,6 @@
         <PackageReference Include="xunit"/>
         <PackageReference Include="xunit.abstractions"/>
         <PackageReference Include="xunit.assert"/>
-        <ProjectReference Include="..\..\src\Web.App\Web.App.csproj" />
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
         <None Update="appsettings.local.json" CopyToOutputDirectory="Always"/>
         <Content Include="xunit.runner.json" CopyToOutputDirectory="PreserveNewest"/>
