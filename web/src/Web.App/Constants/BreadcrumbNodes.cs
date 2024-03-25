@@ -7,6 +7,7 @@ public static class BreadcrumbNodes
     public static MvcBreadcrumbNode SchoolHome(string urn) => new("Index", "School", PageTitles.SchoolHome) { RouteValues = new { urn } };
     public static MvcBreadcrumbNode SchoolComparison(string urn) => new("Index", "SchoolComparison", PageTitles.Comparison) { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     public static MvcBreadcrumbNode SchoolSpending(string urn) => new("Index", "SchoolSpending", PageTitles.Spending) { RouteValues = new { urn }, Parent = SchoolHome(urn) };
+    public static MvcBreadcrumbNode SchoolResources(string urn) => new("Index", "SchoolResources", PageTitles.Resources) { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     public static MvcBreadcrumbNode HistoricData(string urn) => new("Index", "SchoolHistory", PageTitles.HistoricData) { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     public static MvcBreadcrumbNode DataDashboard(string urn) => new("Index", "SchoolDashboard", "View your data dashboard") { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     public static MvcBreadcrumbNode SchoolPlanning(string urn) => new("Index", "SchoolPlanning", "Curriculum and financial planning") { RouteValues = new { urn }, Parent = SchoolHome(urn) };

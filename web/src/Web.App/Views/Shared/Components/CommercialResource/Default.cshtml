@@ -1,0 +1,29 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.Components.CommercialResourceViewModel
+
+<h2 class="govuk-heading-s">
+    @Model.Section
+</h2>
+@if (Model.Links.Any())
+{
+    <ul class="govuk-list">
+        @foreach (var link in Model.Links)
+        {
+            <li>
+                @Html.TrackedAnchor(
+                    TrackedLinks.CommercialResource,
+                    link.Url,
+                    link.Title,
+                    "Opens in a new window",
+                    "_blank",
+                    ["noopener", "noreferrer", "external"])
+            </li>
+        }
+    </ul>    
+}
+else
+{
+    <p class="govuk-body">
+        All frameworks expired
+    </p>
+}

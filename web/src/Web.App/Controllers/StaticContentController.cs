@@ -26,11 +26,4 @@ public class StaticContentController : Controller
     {
         return View();
     }
-
-    [HttpGet]
-    [Route("find-commercial-resources")]
-    public IActionResult CommercialResources()
-    {
-        return View();
-    }
 }
