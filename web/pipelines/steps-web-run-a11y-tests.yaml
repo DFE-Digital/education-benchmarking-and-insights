@@ -25,15 +25,8 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
-  - task: VSTest@2
-    displayName: 'Run A11y Tests'
+  - task: DotNetCoreCLI@2
+    displayName: 'Run a11y tests'
     inputs:
-      testAssemblyVer2: |
-        **\Web.A11yTests.dll            
-        !**\*TestAdapter.dll
-        !**\obj\**
-      searchFolder: '${{ parameters.workspaceDir }}/a11y-tests-files'
-      rerunFailedTests: true
-      uiTests: true
-      rerunType: 'basedOnTestFailurePercentage'
-      rerunMaxAttempts: '1'
+      command: test
+      projects: '${{ parameters.workspaceDir }}/a11y-tests-files/Web.A11yTests/Web.A11yTests.dll'
