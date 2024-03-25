@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using Web.A11yTests.Drivers;
-using Web.App.Extensions;
+using Web.A11yTests.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
