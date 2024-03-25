@@ -21,7 +21,11 @@ import {
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import { ChartHandler, ChartSortDirection } from "./components";
+import {
+  ChartHandler,
+  ChartSeriesValueUnit,
+  ChartSortDirection,
+} from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
@@ -32,7 +36,7 @@ import {
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { Workforce } from "./services";
+import { Expenditure, Workforce } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
@@ -132,11 +136,17 @@ if (deploymentPlanElement) {
 const HorizontalChart1Series = ({
   data,
   highlightedItemKey,
+  keyField,
   sortDirection,
+  valueField,
+  valueUnit,
 }: {
-  data: Workforce[];
+  data: (Workforce | Expenditure)[];
   highlightedItemKey?: string;
+  keyField: keyof Workforce & keyof Expenditure;
   sortDirection: ChartSortDirection;
+  valueField: keyof Workforce & keyof Expenditure;
+  valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
   const [imageLoading, setImageLoading] = useState<boolean>();
@@ -144,11 +154,11 @@ const HorizontalChart1Series = ({
   const sortedData = useMemo(() => {
     return data.sort((a, b) =>
       chartSeriesComparer(a, b, {
-        dataPoint: "schoolWorkforceFTE",
+        dataPoint: valueField,
         direction: sortDirection,
       })
     );
-  }, [data, sortDirection]);
+  }, [data, sortDirection, valueField]);
 
   return (
     <div className="govuk-grid-row">
@@ -170,17 +180,17 @@ const HorizontalChart1Series = ({
           highlightedItemKeys={
             highlightedItemKey ? [highlightedItemKey] : undefined
           }
-          keyField="urn"
+          keyField={keyField}
           labels
           margin={20}
           onImageLoading={setImageLoading}
           ref={horizontalChart2SeriesRef}
           seriesConfig={{
-            schoolWorkforceFTE: {
+            [valueField]: {
               label: "total",
               visible: true,
-              valueFormatter: (value) =>
-                value ? parseFloat(value.toString()).toFixed(1) : String(value),
+              valueFormatter: (v: number) =>
+                shortValueFormatter(v, { valueUnit }),
             },
           }}
           seriesLabelField="name"
@@ -199,7 +209,9 @@ const HorizontalChart1Series = ({
             />
           )}
           tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+          valueFormatter={shortValueFormatter}
           valueLabel="Total"
+          valueUnit={valueUnit}
         />
       </div>
     </div>
@@ -211,7 +223,7 @@ const horizontalChart1SeriesElement = document.getElementById(
 );
 
 if (horizontalChart1SeriesElement) {
-  const { json, highlight, sortDirection } =
+  const { json, highlight, keyField, sortDirection, valueField, valueUnit } =
     horizontalChart1SeriesElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
@@ -222,7 +234,10 @@ if (horizontalChart1SeriesElement) {
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
+          keyField={keyField as keyof Workforce & keyof Expenditure}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+          valueField={valueField as keyof Workforce & keyof Expenditure}
+          valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>
     );

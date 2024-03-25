@@ -40,7 +40,6 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     highlightActive,
     highlightedItemKeys,
     keyField,
-    includeNegativeValues,
     legend,
     margin: _margin,
     multiLineAxisLabel,
@@ -79,6 +78,14 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   };
 
   const margin = _margin || 5;
+
+  const hasNegativeValues = useMemo(() => {
+    return data.some((d) => {
+      return visibleSeriesNames.some(
+        (name) => parseFloat(String(d[name]) || "") < 0
+      );
+    });
+  }, [data, visibleSeriesNames]);
 
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
@@ -174,7 +181,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             type="number"
             unit={valueUnit}
             hide={hideYAxis}
-            domain={includeNegativeValues ? ["dataMin", "dataMax"] : undefined}
+            domain={hasNegativeValues ? ["dataMin", "dataMax"] : undefined}
           >
             {valueLabel && (
               <Label
@@ -185,7 +192,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          {includeNegativeValues && hideXAxis && <ReferenceLine y={0} />}
+          {hasNegativeValues && hideXAxis && <ReferenceLine y={0} />}
           {legend && (
             <Legend
               align="right"
