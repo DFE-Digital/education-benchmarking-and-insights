@@ -15,16 +15,8 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
-  - task: VSTest@2
-    displayName: 'Run End-to-End Tests'
+  - task: DotNetCoreCLI@2
+    displayName: 'Run e2e tests'
     inputs:
-      testAssemblyVer2: |
-        **\Web.E2ETests.dll            
-        !**\*TestAdapter.dll
-        !**\obj\**
-      searchFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'
-      rerunFailedTests: true
-      uiTests: true
-      rerunType: 'basedOnTestFailurePercentage'
-      rerunMaxAttempts: '1'
-  
+      command: test
+      projects: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/Web.E2ETests.dll'

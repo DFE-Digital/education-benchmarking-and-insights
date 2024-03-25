@@ -119,16 +119,16 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
-#      - job: RunE2ETests
-#        pool:
-#          vmImage: 'windows-latest'
-#        displayName: 'Run automated e2e tests'
-#        steps:
-#          - template: steps-web-run-e2e-tests.yaml
-#            parameters:
-#              workspaceDir: '$(Pipeline.Workspace)'
+      - job: RunE2ETests
+        dependsOn: [ RunTerraform, Deploy ]
+        displayName: 'Run automated e2e tests'
+        steps:
+          - template: steps-web-run-e2e-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
     
       - job: RunA11YTests
+        dependsOn: [ RunTerraform, Deploy ]
         displayName: 'Run automated a11y tests'
         steps:
           - template: steps-web-run-a11y-tests.yaml
