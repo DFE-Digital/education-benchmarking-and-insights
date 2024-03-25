@@ -132,6 +132,8 @@ stages:
           - template: steps-web-run-a11y-tests.yaml
             parameters:
               workspaceDir: '$(Pipeline.Workspace)'
+              subscription: 's198d.azdo-deployment'
+              environmentPrefix: 's198d02'
   
 
   - stage: DeployTest
