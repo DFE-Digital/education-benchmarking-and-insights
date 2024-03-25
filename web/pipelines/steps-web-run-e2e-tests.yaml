@@ -1,6 +1,5 @@
 parameters:
   workspaceDir: ''
-  Library : 'Web.E2ETests'
 steps:
   - checkout: none
   - download: current
@@ -20,11 +19,10 @@ steps:
     displayName: 'Run End-to-End Tests'
     inputs:
       testAssemblyVer2: |
-        **\${{ parameters.Library }}.dll            
+        **\Web.E2ETests.dll            
         !**\*TestAdapter.dll
         !**\obj\**
       searchFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'
-      testRunTitle: 'End-to-End Tests - Build $(Build.BuildNumber) - $(FormatDateTime:yyyyMMddHHmmss)'
       rerunFailedTests: true
       uiTests: true
       rerunType: 'basedOnTestFailurePercentage'
