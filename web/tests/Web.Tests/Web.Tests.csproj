@@ -15,7 +15,7 @@
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="xunit" />
         <PackageReference Include="xunit.assert" />
-        <PackageReference Include="xunit.runner.visualstudio"/>
+        <PackageReference Include="xunit.runner.visualstudio" />
         <PackageReference Include="coverlet.collector" />
         <ProjectReference Include="..\..\src\Web.App\Web.App.csproj" />
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
