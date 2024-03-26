@@ -46,12 +46,12 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  - task: TerraformInstaller@1
     displayName: 'Terraform : install'
     inputs:
       terraformVersion: 1.7.4
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: TerraformCLI@1
     displayName: 'Terraform : init'
     inputs:
       command: init
@@ -65,7 +65,7 @@ steps:
       backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: TerraformCLI@1
     displayName: 'Terraform : plan'
     inputs:
       command: plan
@@ -81,7 +81,7 @@ steps:
       publishPlanResults: '${{ parameters.environmentPrefix }}-${{ parameters.module }}-plan'
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: TerraformCLI@1
     displayName: 'Terraform : apply'
     inputs:
       command: apply
