@@ -32,8 +32,8 @@ public abstract class FinancialPlanBaseFixture : IDisposable
     private const string RemoveKey = nameof(RemoveKey);
     private readonly IMessageSink _messageSink;
     private readonly BenchmarkApiDriver _apiDriver;
-    
-    public bool Initiated { get; protected set;  }
+
+    public bool Initiated { get; protected set; }
     public Task Initialize { get; }
     public object Content { get; }
     public int Year { get; }
@@ -50,17 +50,17 @@ public abstract class FinancialPlanBaseFixture : IDisposable
 
         Initialize = CreateInstanceAsync();
     }
-    
+
     private async Task CreateInstanceAsync()
     {
         if (!Initiated)
         {
-            await SeedFinancialPlan();    
+            await SeedFinancialPlan();
         }
-        
+
         Initiated = true;
     }
-    
+
     public async void Dispose()
     {
         await Dispose(true);
