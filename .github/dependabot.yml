@@ -47,6 +47,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Functions"
@@ -66,6 +74,14 @@
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
@@ -87,6 +103,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
@@ -106,6 +130,14 @@
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
@@ -127,6 +159,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/api/Platform.Api.Insight"
@@ -146,6 +186,14 @@
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
@@ -167,6 +215,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
@@ -186,6 +242,14 @@
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
@@ -207,6 +271,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Console"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
@@ -227,6 +299,14 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
@@ -247,7 +327,15 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
-
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
+          
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
