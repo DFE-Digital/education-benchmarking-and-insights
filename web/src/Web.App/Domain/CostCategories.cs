@@ -29,137 +29,118 @@ public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Categ
 
 public abstract class CostCategory
 {
+    private readonly Dictionary<string, Category> _values = new();
+
+    protected Category this[string index]
+    {
+        get => _values[index];
+        set => _values[index] = value;
+    }
+
     public abstract string Name { get; }
     public abstract string Label { get; }
     public abstract void Add(string urn, SchoolExpenditure expenditure);
 
-    public abstract ReadOnlyDictionary<string, Category> Values { get; }
+    public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 }
 
 
 public class AdministrativeSupplies : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Administrative supplies";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
-
+    
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
     }
 }
 
 public class CateringStaffServices : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Catering staff and services";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.CateringStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.CateringStaffCosts, expenditure);
     }
 }
 
 public class EducationalIct : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Educational ICT";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.LearningResourcesIctCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.LearningResourcesIctCosts, expenditure);
     }
 }
 
 public class EducationalSupplies : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Educational supplies";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.TotalEducationalSuppliesCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalEducationalSuppliesCosts, expenditure);
     }
 }
 
 public class NonEducationalSupportStaff : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Non-educational support staff";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts, expenditure);
     }
 }
 
 public class TeachingStaff : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Teaching and teaching supply staff";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.TotalTeachingSupportStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalTeachingSupportStaffCosts, expenditure);
     }
 }
 
 public class Other : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Other";
     public override string Label => "per pupil";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new PupilCategory(expenditure.TotalOtherCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalOtherCosts, expenditure);
     }
 }
 
 public class PremisesStaffServices : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Premises staff and services";
     public override string Label => "per square metre";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new AreaCategory(expenditure.TotalPremisesStaffServiceCosts, expenditure);
+        this[urn] = new AreaCategory(expenditure.TotalPremisesStaffServiceCosts, expenditure);
     }
 }
 
 public class Utilities : CostCategory
 {
-    private readonly Dictionary<string, Category> _values = new();
-
     public override string Name => "Utilities";
     public override string Label => "per square metre";
-    public override ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        _values[urn] = new AreaCategory(expenditure.TotalUtilitiesCosts, expenditure);
+        this[urn] = new AreaCategory(expenditure.TotalUtilitiesCosts, expenditure);
     }
 }
 
