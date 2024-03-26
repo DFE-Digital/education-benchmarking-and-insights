@@ -20,7 +20,7 @@ public class BenchmarkWorkforcePage(IPage page)
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
-    private ILocator Charts => page.Locator(Selectors.Canvas);
+    private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator SchoolWorkforceDimension => page.Locator(Selectors.SchoolWorkforceDimension);
     private ILocator TotalNumberOfTeacherDimension => page.Locator(Selectors.TotalNumberOfTeacherDimension);
     private ILocator SeniorLeadershipDimension => page.Locator(Selectors.SeniorLeadershipDimension);

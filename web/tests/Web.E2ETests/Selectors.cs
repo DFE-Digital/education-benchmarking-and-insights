@@ -22,7 +22,7 @@ public static class Selectors
     public const string SectionHeadingTwo = "#accordion-heading-2";
     public const string SectionContentTwo = "#accordion-content-2";
     public const string ToggleSectionText = ".govuk-accordion__section-toggle-text";
-    public const string Canvas = "canvas";
+    public const string Charts = ".recharts-surface";
     public const string Table = "table";
     public const string Button = "button";
 
@@ -30,7 +30,7 @@ public static class Selectors
 
     public const string TotalExpenditureSaveAsImage = "xpath=//*[@id='compare-your-costs']/div[2]/div[2]/button";
     public const string TotalExpenditureDimension = "#total-expenditure-dimension";
-    public const string TotalExpenditureChart = "xpath=//*[@id='compare-your-costs']/div[3]/div/div/div/canvas";
+    public const string TotalExpenditureChart = "//*[@id=\"compare-your-costs\"]/div[3]/div/div[1]/div";
 
     public const string PremisesDimension = "#total-premises-staff-service-costs-dimension";
 
