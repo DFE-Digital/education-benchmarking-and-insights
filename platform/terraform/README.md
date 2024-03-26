@@ -26,6 +26,7 @@
 | Name | Type |
 |------|------|
 | [azurerm_cosmosdb_account.cosmosdb-account](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_account) | resource |
+| [azurerm_cosmosdb_sql_container.cosmosdb-fp-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_container) | resource |
 | [azurerm_cosmosdb_sql_database.cosmosdb-container](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/cosmosdb_sql_database) | resource |
 | [azurerm_key_vault_secret.platform-cosmos-connection-string](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.platform-search-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
@@ -55,7 +56,7 @@
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    cosmos = object({<br>      capabilities = list(string)<br>    })<br>    search = object({<br>      sku = string<br>    })<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "cosmos": {<br>      "capabilities": [<br>        "EnableServerless"<br>      ]<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  },<br>  "development": {<br>    "cosmos": {<br>      "capabilities": []<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  },<br>  "test": {<br>    "cosmos": {<br>      "capabilities": [<br>        "EnableServerless"<br>      ]<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    cosmos = object({<br>      capabilities = list(string)<br>    })<br>    search = object({<br>      sku = string<br>    })<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "cosmos": {<br>      "capabilities": [<br>        "EnableServerless"<br>      ]<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  },<br>  "development": {<br>    "cosmos": {<br>      "capabilities": [<br>        "EnableServerless"<br>      ]<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  },<br>  "test": {<br>    "cosmos": {<br>      "capabilities": [<br>        "EnableServerless"<br>      ]<br>    },<br>    "search": {<br>      "sku": "basic"<br>    }<br>  }<br>}</pre> | no |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |
 | <a name="input_location"></a> [location](#input\_location) | n/a | `any` | n/a | yes |

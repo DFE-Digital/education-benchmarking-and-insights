@@ -17,7 +17,7 @@ module "benchmark-fa" {
     "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_sql_connection_string
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__LookupCollectionName"        = "fibre-directory"
-    "Cosmos__FinancialPlanCollectionName" = "financial-plans"
+    "Cosmos__FinancialPlanCollectionName" = azurerm_cosmosdb_sql_container.cosmosdb-fp-container.name
     "Sql__ConnectionString"               = local.db-connection-string
   })
 }
