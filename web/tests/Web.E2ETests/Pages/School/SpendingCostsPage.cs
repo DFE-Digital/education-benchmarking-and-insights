@@ -73,13 +73,11 @@ public class SpendingCostsPage(IPage page)
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
         Assert.Equal(await PageH3Headings.Count(), _h3Names.Length);
-        await AssertHeading3(_h3Names);
+        await AssertChartNames(_h3Names);
         Assert.Equal(9, await AllCharts.Count());
         Assert.Equal(9, await AllChartsStats.Count());
         await CheckVisibility(AllChartsStats);
         await CheckVisibility(AllCharts);
-
-        //add assertions for the presence of links 
     }
 
     public async Task ClickComparatorSetDetails()
@@ -104,7 +102,7 @@ public class SpendingCostsPage(IPage page)
         Assert.Equal(actualOrder, expectedOrder);
     }
 
-    private async Task AssertHeading3(string[] expected)
+    private async Task AssertChartNames(string[] expected)
     {
         var allContent = await PageH3Headings.AllTextContentsAsync();
 

@@ -20,7 +20,7 @@ public class SpendingCostsSteps(PageDriver driver)
         _spendingCostsPage = new SpendingCostsPage(page);
         await _spendingCostsPage.IsDisplayed();
     }
-    
+
     [When("I click on how we choose similar schools")]
     public async Task WhenIClickOnHowWeChooseSimilarSchools()
     {
@@ -39,19 +39,19 @@ public class SpendingCostsSteps(PageDriver driver)
     public async Task GivenTheOrderOfChartsIs(Table table)
     {
         Assert.NotNull(_spendingCostsPage);
-        var expectedOrder = new List<string>(); 
+        var expectedOrder = new List<string>();
         foreach (var row in table.Rows)
         {
             expectedOrder.Add(row["Name"]);
         }
         await _spendingCostsPage.CheckOrderOfCharts(expectedOrder);
     }
-    
+
     [When("I click on view all '(.*)' link")]
     public async Task WhenIClickOnViewAllLink(string linkToClick)
     {
         Assert.NotNull(_spendingCostsPage);
-        _compareYourCostsPage =await _spendingCostsPage.ClickOnLink(CostCategoryFromFriendlyName(linkToClick));
+        _compareYourCostsPage = await _spendingCostsPage.ClickOnLink(CostCategoryFromFriendlyName(linkToClick));
     }
 
     private static CostCategoryNames CostCategoryFromFriendlyName(string linkName)
@@ -86,5 +86,5 @@ public class SpendingCostsSteps(PageDriver driver)
     }
     private static string SpendingCostsUrl(string urn) =>
         $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
-    
+
 }
