@@ -71,9 +71,9 @@
       },
       "Microsoft.Extensions.Caching.Cosmos": {
         "type": "Direct",
-        "requested": "[1.6.0, )",
-        "resolved": "1.6.0",
-        "contentHash": "prMCbd2+d1yIPSNnvFPuhaoQFha7fq/d5BWbZivI1j2t5ValbMQVZLeL7zqIJOxbAsqhJsZfyzXfk4HaczyKRA==",
+        "requested": "[1.6.1, )",
+        "resolved": "1.6.1",
+        "contentHash": "RqSCR69nS9qcVsCybZ9eDR6Gi5iDI5faP4gAI8smvm0cA+4lf/umdC8R9ONqw0QyV7zNFvIpXVLktInB73iLSA==",
         "dependencies": {
           "Microsoft.Azure.Cosmos": "3.35.4",
           "Microsoft.Extensions.Caching.Abstractions": "6.0.0",
