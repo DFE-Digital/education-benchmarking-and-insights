@@ -63,7 +63,7 @@ public class CateringStaffServices : CostCategory
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.CateringStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.NetCateringCosts, expenditure);
     }
 }
 
