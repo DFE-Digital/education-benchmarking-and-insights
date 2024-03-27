@@ -28,8 +28,8 @@ steps:
       escape: off
       tokenPattern: doubleunderscores
 
-#  - task: DotNetCoreCLI@2
-#    displayName: 'Run api tests'
-#    inputs:
-#      command: test
-#      projects: '${{ parameters.workspaceDir }}/tests/Platform.ApiTests/Platform.ApiTests.dll'
+  - task: DotNetCoreCLI@2
+    displayName: 'Run api tests'
+    inputs:
+      command: test
+      projects: '${{ parameters.workspaceDir }}/tests/Platform.ApiTests/Platform.ApiTests.dll'
