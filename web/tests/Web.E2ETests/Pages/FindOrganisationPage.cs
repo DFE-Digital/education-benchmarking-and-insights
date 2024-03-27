@@ -30,6 +30,7 @@ public class FindOrganisationPage(IPage page)
     public async Task<HomePage> SelectSchoolFromSuggester(string text)
     {
         await SchoolSearchInputField.PressSequentially(text).Press(ArrowDownKey).Press(EnterKey);
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         return new HomePage(page);
     }
 
