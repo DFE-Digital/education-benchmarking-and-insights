@@ -141,7 +141,7 @@
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/api/Platform.Api.Establishment"
+      directory: "/platform/src/apis/Platform.Api.Establishment"
       schedule:
         interval: "weekly"
       commit-message:
@@ -169,7 +169,7 @@
           versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/api/Platform.Api.Insight"
+      directory: "/platform/src/apis/Platform.Api.Insight"
       schedule:
         interval: "weekly"
       commit-message:
