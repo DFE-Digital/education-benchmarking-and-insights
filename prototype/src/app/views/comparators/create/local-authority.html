@@ -1,0 +1,128 @@
+{% from "govuk/components/input/macro.njk" import govukInput %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+    Create a custom comparator set – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create/phase"
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+{% set sameAuthorityHtml %}
+
+  {{ govukInput({
+    label: {
+      text: "District (optional)"
+    },
+    id: "district",
+    name: "district"
+  }) }}
+
+{{ govukInput({
+    label: {
+        text: "Ward (optional)"
+    },
+    id: "ward",
+    name: "ward"
+  }) }}
+
+
+{% endset %}
+
+{% set authorityHtml %}
+
+{{ xGovukAutocomplete({
+    id: "local-authority",
+    name: "localAuthority",
+    type: "text",
+    value: data['localAuthority'],
+    label: {
+      text: "Local authority"
+    },
+    hint: {
+        text: "Enter a local authority name or a three-digit LA code"
+    },
+    items: rows
+  }) }}
+  
+  {{ govukInput({
+    label: {
+      text: "District (optional)"
+    },
+    id: "district",
+    name: "district"
+  }) }}
+
+{{ govukInput({
+    label: {
+        text: "Ward (optional)"
+    },
+    id: "ward",
+    name: "ward"
+  }) }}
+
+
+{% endset %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <form action="/comparators/create/characteristics" method="post">
+            <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+
+            {{  govukRadios({
+            name: "compareAuthority",
+            fieldset: {
+                legend: {
+                text: "Compare schools from",
+                isPageHeading: false,
+                classes: "govuk-fieldset__legend--m"
+                }
+            },
+            items: [
+                {
+                    value: "all",
+                    text: "All of england",
+                    checked: checked("compareAuthority", "all")
+                },
+                {
+                    value: "same",
+                    html: "The same local authority <br/><span class=\"govuk-hint\">(North Yorkshire Council)</span>",
+                    checked: checked("compareAuthority", "all"),
+                    conditional: {
+                      html: sameAuthorityHtml
+                    }
+                },
+                {
+                    value: "localAuthority",
+                    text: "Another local authority",
+                    checked: checked("compareAuthority", "localAuthority"),
+                    conditional: {
+                      html: authorityHtml
+                    }
+                }
+            ]
+            }) }}
+
+            {{ govukButton({
+            text: "Continue",
+            classes: "govuk-button--primary"
+            }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

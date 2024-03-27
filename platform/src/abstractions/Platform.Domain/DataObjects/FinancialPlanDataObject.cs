@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace Platform.Domain.DataObjects;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
 public record FinancialPlanDataObject
@@ -86,7 +86,7 @@ public record FinancialPlanDataObject
     [JsonProperty("assistantsYear4")] public decimal? AssistantsYear4 { get; set; }
     [JsonProperty("assistantsYear5")] public decimal? AssistantsYear5 { get; set; }
     [JsonProperty("assistantsYear6")] public decimal? AssistantsYear6 { get; set; }
-    [JsonProperty("otherTeachingPeriods")] public OtherTeachingPeriod[]? OtherTeachingPeriods { get; set; }
+    [JsonProperty("otherTeachingPeriods")] public TeachingPeriodDataObject[]? OtherTeachingPeriods { get; set; }
     [JsonProperty("managementRoleHeadteacher")] public bool ManagementRoleHeadteacher { get; set; }
     [JsonProperty("managementRoleDeputyHeadteacher")] public bool ManagementRoleDeputyHeadteacher { get; set; }
     [JsonProperty("managementRoleNumeracyLead")] public bool ManagementRoleNumeracyLead { get; set; }
@@ -123,10 +123,4 @@ public record FinancialPlanDataObject
     [JsonProperty("teachingPeriodsHeadLargeCurriculum")] public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
     [JsonProperty("teachingPeriodsPastoralLeader")] public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
     [JsonProperty("teachingPeriodsOtherMembers")] public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
-
-    public class OtherTeachingPeriod
-    {
-        [JsonProperty("periodName")] public string? PeriodName { get; set; }
-        [JsonProperty("periodsPerTimetable")] public string? PeriodsPerTimetable { get; set; }
-    }
 }

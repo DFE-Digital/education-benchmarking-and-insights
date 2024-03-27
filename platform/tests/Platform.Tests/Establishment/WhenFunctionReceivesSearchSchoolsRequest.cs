@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Infrastructure.Search;
 using Xunit;
@@ -13,10 +13,10 @@ public class WhenFunctionReceivesSearchSchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Search
-            .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequest>()))
-            .ReturnsAsync(new SearchOutput<School>());
+            .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequestModel>()))
+            .ReturnsAsync(new SearchResponseModel<SchoolResponseModel>());
 
-        var result = await Functions.SearchSchoolsAsync(CreateRequestWithBody(new PostSearchRequest())) as JsonContentResult;
+        var result = await Functions.SearchSchoolsAsync(CreateRequestWithBody(new PostSearchRequestModel())) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -26,10 +26,10 @@ public class WhenFunctionReceivesSearchSchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn500OnError()
     {
         Search
-            .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequest>()))
+            .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequestModel>()))
             .Throws(new Exception());
 
-        var result = await Functions.SearchSchoolsAsync(CreateRequestWithBody(new PostSearchRequest())) as StatusCodeResult;
+        var result = await Functions.SearchSchoolsAsync(CreateRequestWithBody(new PostSearchRequestModel())) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

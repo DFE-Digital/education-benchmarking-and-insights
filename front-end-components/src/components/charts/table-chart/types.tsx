@@ -1,6 +1,13 @@
-import { ChartDataPoint } from "src/components/charts";
-
-export type TableChartProps = {
+export type TableChartProps<TData extends SchoolChartData> = {
   tableHeadings: string[];
-  data?: ChartDataPoint[];
+  data?: TData[];
+};
+
+export type SchoolChartData = {
+  urn: string;
+  name: string;
+  value: number;
+  schoolType: string;
+  localAuthority: string;
+  numberOfPupils: bigint;
 };

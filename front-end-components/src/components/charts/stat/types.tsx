@@ -2,7 +2,10 @@ import { ReactNode } from "react";
 import { ChartDataSeries, ChartProps, ChartSeriesValue } from "src/components";
 
 export interface StatProps<TData extends ChartDataSeries>
-  extends Pick<ChartProps<TData>, "chartName" | "valueUnit"> {
+  extends Pick<
+    ChartProps<TData>,
+    "chartName" | "valueFormatter" | "valueUnit"
+  > {
   className?: string;
   compactValue?: boolean;
   label: string;

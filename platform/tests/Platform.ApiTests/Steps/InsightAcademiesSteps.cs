@@ -1,7 +1,7 @@
 ﻿using System.Net;
 using FluentAssertions;
 using Platform.ApiTests.Drivers;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions.Extensions;
 
 namespace Platform.ApiTests.Steps;
@@ -42,7 +42,7 @@ public class InsightAcademiesSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<Finances>();
+        var result = content.FromJson<FinancesResponseModel>();
 
         result.SchoolName.Should().Be("Mansel Primary");
         result.Urn.Should().Be("139137");

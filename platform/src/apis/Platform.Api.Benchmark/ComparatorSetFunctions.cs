@@ -9,7 +9,6 @@ using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Benchmark.Db;
 using Platform.Domain;
-using Platform.Domain.Responses;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -28,10 +27,10 @@ public class ComparatorSetFunctions
     }
 
     [FunctionName(nameof(DefaultPupilComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> DefaultPupilComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/pupil/default/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/{urn}")]
         HttpRequest req,
         string urn)
     {
@@ -46,38 +45,7 @@ public class ComparatorSetFunctions
         {
             try
             {
-                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Pupil);
-
-                return new JsonContentResult(set);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get comparator set");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
-
-    [FunctionName(nameof(DefaultAreaComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSet), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> DefaultAreaComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/area/default/{urn}")]
-        HttpRequest req,
-        string urn)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn }
-               }))
-        {
-            try
-            {
-                var set = await _db.Get(urn, ComparatorSetTypes.Area, ComparatorSetTypes.Area);
+                var set = await _db.Get(urn);
 
                 return new JsonContentResult(set);
             }

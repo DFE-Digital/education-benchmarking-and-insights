@@ -8,7 +8,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Insight.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -27,7 +27,7 @@ public class AcademyFunctions
     }
 
     [FunctionName(nameof(SingleAcademyAsync))]
-    [ProducesResponseType(typeof(Finances), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(FinancesResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleAcademyAsync(

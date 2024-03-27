@@ -1,0 +1,13 @@
+﻿@model Web.App.ViewModels.Components.SchoolHeadingViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">
+            <a class="govuk-link--no-underline"
+               href="@Url.Action("Index", "School", new { urn = Model.Urn})">
+                @Model.SchoolName
+            </a>
+        </span>
+        <h1 class="govuk-heading-l">@Model.PageTitle</h1>
+    </div>
+</div>

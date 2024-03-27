@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
@@ -10,7 +10,7 @@ namespace Platform.Api.Establishment.Search;
 public record TrustSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
-public class TrustSearchService : SearchService, ISearchService<Trust>
+public class TrustSearchService : SearchService, ISearchService<TrustResponseModel>
 {
     private static readonly string[] Facets = { "" };
     private const string IndexName = "trust-index";
@@ -18,23 +18,23 @@ public class TrustSearchService : SearchService, ISearchService<Trust>
     {
     }
 
-    public Task<SearchOutput<Trust>> SearchAsync(PostSearchRequest request)
+    public Task<SearchResponseModel<TrustResponseModel>> SearchAsync(PostSearchRequestModel request)
     {
-        return SearchAsync<Trust>(request, CreateFilterExpression, Facets);
+        return SearchAsync<TrustResponseModel>(request, CreateFilterExpression, Facets);
     }
 
-    public Task<SuggestOutput<Trust>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponseModel<TrustResponseModel>> SuggestAsync(PostSuggestRequestModel request)
     {
         var fields = new[]
         {
-            nameof(Trust.CompanyNumber),
-            nameof(Trust.Name)
+            nameof(TrustResponseModel.CompanyNumber),
+            nameof(TrustResponseModel.Name)
         };
 
-        return SuggestAsync<Trust>(request, selectFields: fields);
+        return SuggestAsync<TrustResponseModel>(request, selectFields: fields);
     }
 
-    private static string? CreateFilterExpression(FilterCriteria[] requestFilters)
+    private static string? CreateFilterExpression(FilterCriteriaRequestModel[] requestFilters)
     {
         return null;
     }

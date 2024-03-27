@@ -1,27 +1,35 @@
-import React, { useState } from "react";
-import { CateringStaffServicesProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  CateringStaffServicesData,
+  CateringStaffServicesProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculateCostValue,
   CostCategories,
   DimensionHeading,
   PoundsPerPupil,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
   schools,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const tableHeadings = useMemo(
+    () => [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      DimensionHeading(dimension),
+    ],
+    [dimension]
+  );
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -29,85 +37,73 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
     setDimension(event.target.value);
   };
 
-  const netCateringBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const netCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.netCateringCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.netCateringCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const cateringStaffBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const cateringStaffBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.cateringStaffCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.cateringStaffCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const cateringSuppliesBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const cateringSuppliesBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.cateringSuppliesCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.cateringSuppliesCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const incomeCateringBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const incomeCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.incomeCatering,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.incomeCatering,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
@@ -131,6 +127,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           <HorizontalBarChartWrapper
             data={netCateringBarData}
             chartName="net catering costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Net catering costs</h3>
             <ChartDimensions
@@ -143,18 +140,21 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           <HorizontalBarChartWrapper
             data={cateringStaffBarData}
             chartName="catering staff costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Catering staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={cateringSuppliesBarData}
             chartName="catering supplies costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Catering supplies costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={incomeCateringBarData}
             chartName="income from catering"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Income from catering</h3>
           </HorizontalBarChartWrapper>

@@ -23,7 +23,7 @@ public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController
                 ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = await comparatorSetService.ReadDefaultPupilComparatorSet(urn);
+                var set = await comparatorSetService.ReadComparatorSet(urn);
                 var viewModel = new SchoolComparatorSetViewModel(school, set);
                 return View(viewModel);
             }

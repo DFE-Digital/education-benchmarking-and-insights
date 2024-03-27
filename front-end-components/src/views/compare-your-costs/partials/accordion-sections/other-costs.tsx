@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import { OtherCostsProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  OtherCostsData,
+  OtherCostsProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculateCostValue,
   CostCategories,
   DimensionHeading,
   PoundsPerPupil,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const tableHeadings = useMemo(
+    () => [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      DimensionHeading(dimension),
+    ],
+    [dimension]
+  );
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -27,286 +35,243 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
     setDimension(event.target.value);
   };
 
-  const totalOtherCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const totalOtherCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.totalOtherCosts,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const otherInsurancePremiumsCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.otherInsurancePremiumsCosts,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.directRevenueFinancingCosts,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.groundsMaintenanceCosts,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const indirectEmployeeExpensesBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.indirectEmployeeExpenses,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const interestChargesLoanBankBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.interestChargesLoanBank,
-          ...school,
-        }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
-      };
-    }),
-    tableHeadings: tableHeadings,
-  };
-
-  const privateFinanceInitiativeChargesBarData: HorizontalBarChartWrapperData =
-    {
-      dataPoints: schools.map((school) => {
-        return {
-          school: school.name,
-          urn: school.urn,
-          value: CalculateCostValue({
-            dimension: dimension,
-            value: school.privateFinanceInitiativeCharges,
+        dataPoints: schools.map((school) => {
+          return {
             ...school,
-          }),
-          additionalData: [
-            school.localAuthority,
-            school.schoolType,
-            school.numberOfPupils,
-          ],
-        };
-      }),
-      tableHeadings: tableHeadings,
-    };
-
-  const rentRatesCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
-      return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.rentRatesCosts,
-          ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.totalOtherCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const specialFacilitiesCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const otherInsurancePremiumsCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.specialFacilitiesCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.otherInsurancePremiumsCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const staffDevelopmentTrainingCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.staffDevelopmentTrainingCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.directRevenueFinancingCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const staffRelatedInsuranceCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.staffRelatedInsuranceCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.groundsMaintenanceCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const supplyTeacherInsurableCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const indirectEmployeeExpensesBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.supplyTeacherInsurableCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.indirectEmployeeExpenses,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const communityFocusedSchoolStaffBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const interestChargesLoanBankBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.communityFocusedSchoolStaff,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.interestChargesLoanBank,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const communityFocusedSchoolCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const privateFinanceInitiativeChargesBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.communityFocusedSchoolCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.privateFinanceInitiativeCharges,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
+
+  const rentRatesCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.rentRatesCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const specialFacilitiesCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.specialFacilitiesCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const staffDevelopmentTrainingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.staffDevelopmentTrainingCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const staffRelatedInsuranceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.staffRelatedInsuranceCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const supplyTeacherInsurableCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.supplyTeacherInsurableCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const communityFocusedSchoolStaffBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.communityFocusedSchoolStaff,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
+
+  const communityFocusedSchoolCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
+    useMemo(() => {
+      return {
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension,
+              value: school.communityFocusedSchoolCosts,
+              ...school,
+            }),
+          };
+        }),
+        tableHeadings,
+      };
+    }, [dimension, schools, tableHeadings]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
@@ -330,6 +295,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={totalOtherCostsBarData}
             chartName="total other costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Total other costs</h3>
             <ChartDimensions
@@ -342,30 +308,35 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={otherInsurancePremiumsCostsBarData}
             chartName="other insurance premiums costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Other insurance premiums costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={directRevenueFinancingCostsBarData}
             chartName="direct revenue financing costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Direct revenue financing costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={groundsMaintenanceCostsBarData}
             chartName="ground maintenance costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Ground maintenance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={indirectEmployeeExpensesBarData}
             chartName="indirect employee expenses"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Indirect employee expenses</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={interestChargesLoanBankBarData}
             chartName="interest charges for loan and bank"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Interest charges for loan and bank
@@ -374,24 +345,28 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={privateFinanceInitiativeChargesBarData}
             chartName="PFI charges"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">PFI charges</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={rentRatesCostsBarData}
             chartName="rent and rates costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Rent and rates costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={specialFacilitiesCostsBarData}
             chartName="special facilities costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Special facilities costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={staffDevelopmentTrainingCostsBarData}
             chartName="staff development and training costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Staff development and training costs
@@ -400,18 +375,21 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={staffRelatedInsuranceCostsBarData}
             chartName="staff-related insurance costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Staff-related insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeacherInsurableCostsBarData}
             chartName="supply teacher insurance costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Supply teacher insurance costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolStaffBarData}
             chartName="community focused school staff (maintained schools only)"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Community focused school staff (maintained schools only)
@@ -420,6 +398,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={communityFocusedSchoolCostsBarData}
             chartName="community focused school costs (maintained schools only)"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Community focused school costs (maintained schools only)

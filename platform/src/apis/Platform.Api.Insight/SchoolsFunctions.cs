@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Insight.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -28,11 +28,9 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(PagedSchoolExpenditure), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
     public async Task<IActionResult> QuerySchoolExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/expenditure")] HttpRequest req)
     {
@@ -46,10 +44,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
 
-                var result = await _db.Expenditure(urns, page, pageSize);
+                var result = await _db.Expenditure(urns);
 
                 return new JsonContentResult(result);
             }
@@ -62,11 +59,9 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolWorkforceAsync))]
-    [ProducesResponseType(typeof(PagedSchoolWorkforce), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
     public async Task<IActionResult> QuerySchoolWorkforceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/workforce")] HttpRequest req)
     {
@@ -80,10 +75,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
 
-                var result = await _db.Workforce(urns, page, pageSize);
+                var result = await _db.Workforce(urns);
 
                 return new JsonContentResult(result);
             }

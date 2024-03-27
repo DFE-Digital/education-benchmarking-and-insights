@@ -1,25 +1,33 @@
-import React, { useState } from "react";
-import { UtilitiesProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  UtilitiesData,
+  UtilitiesProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculatePremisesValue,
   DimensionHeading,
   PoundsPerMetreSq,
   PremisesCategories,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const tableHeadings = useMemo(
+    () => [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      DimensionHeading(dimension),
+    ],
+    [dimension]
+  );
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -27,65 +35,56 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
     setDimension(event.target.value);
   };
 
-  const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData<UtilitiesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.totalUtilitiesCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.totalUtilitiesCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const energyBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const energyBarData: HorizontalBarChartWrapperData<UtilitiesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.energyCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.energyCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const waterSewerageBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const waterSewerageBarData: HorizontalBarChartWrapperData<UtilitiesData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculatePremisesValue({
-          dimension: dimension,
-          value: school.waterSewerageCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculatePremisesValue({
+              dimension,
+              value: school.waterSewerageCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>

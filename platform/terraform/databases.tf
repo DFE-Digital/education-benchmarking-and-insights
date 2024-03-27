@@ -31,10 +31,31 @@ resource "azurerm_key_vault_secret" "platform-cosmos-connection-string" {
   content_type = "connection-string"
 }
 
+#TODO: rename resource - it's database not container
 resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   name                = "ebis-data"
   account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
   resource_group_name = azurerm_resource_group.resource-group.name
+}
+
+resource "azurerm_cosmosdb_sql_container" "cosmosdb-fp-container" {
+  name                = "financial-plans"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
+  database_name       = azurerm_cosmosdb_sql_database.cosmosdb-container.name
+  partition_key_path  = "/partitionKey"
+
+  indexing_policy {
+    indexing_mode = "consistent"
+
+    included_path {
+      path = "/*"
+    }
+
+    excluded_path {
+      path = "/\"_etag\"/?"
+    }
+  }
 }
 
 resource "random_password" "sql-admin-password" {

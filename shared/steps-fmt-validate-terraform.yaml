@@ -2,26 +2,26 @@ parameters:
   TerraformDirectory: ''
 
 steps:
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     displayName: 'Terraform : install'
     inputs:
       terraformVersion: 1.7.4
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Terraform : fmt'
     inputs:
       command: fmt
       commandOptions: '-recursive -check'
       workingDirectory: '${{ parameters.TerraformDirectory }}'
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Terraform : init'
     inputs:
       command: init
       commandOptions: '-backend=false'
       workingDirectory: '${{ parameters.TerraformDirectory }}'
 
-  - task: charleszipp.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Terraform : validate'
     inputs:
       command: validate

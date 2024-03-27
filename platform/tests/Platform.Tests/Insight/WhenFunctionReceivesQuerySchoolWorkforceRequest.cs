@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -12,8 +12,8 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Workforce(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
-            .ReturnsAsync(new PagedSchoolWorkforce());
+            .Setup(d => d.Workforce(It.IsAny<string[]>()))
+            .ReturnsAsync(Array.Empty<SchoolWorkforceResponseModel>());
 
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as JsonContentResult;
 
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesQuerySchoolWorkforceRequest : SchoolsFunctionsT
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Workforce(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
+            .Setup(d => d.Workforce(It.IsAny<string[]>()))
             .Throws(new Exception());
 
         var result = await Functions.QuerySchoolWorkforceAsync(CreateRequest()) as StatusCodeResult;

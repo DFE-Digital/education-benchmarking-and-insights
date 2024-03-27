@@ -14,7 +14,6 @@ public class CompareYourCostsPage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
-    private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator SaveImageTotalExpenditure => page.Locator(Selectors.TotalExpenditureSaveAsImage);
     private ILocator TotalExpenditureDimension => page.Locator(Selectors.TotalExpenditureDimension);
     private ILocator TotalExpenditureChart => page.Locator(Selectors.TotalExpenditureChart);
@@ -39,7 +38,6 @@ public class CompareYourCostsPage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible();
         await SaveImageTotalExpenditure.ShouldBeVisible();
         await TotalExpenditureDimension.ShouldBeVisible();
         await TotalExpenditureChart.ShouldBeVisible();

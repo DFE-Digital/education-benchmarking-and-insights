@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -12,8 +12,8 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ComparatorSet());
+            .Setup(d => d.Get(It.IsAny<string>()))
+            .ReturnsAsync(new ComparatorSetResponseModel());
 
         var result =
             await Functions.DefaultPupilComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.Get(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions

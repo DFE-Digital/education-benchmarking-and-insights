@@ -6,8 +6,8 @@ namespace Web.App.Services;
 
 public interface IFinanceService
 {
-    Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools);
-    Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools);
+    Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools);
+    Task<IEnumerable<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools);
     Task<Finances> GetFinances(School school);
     Task<FinanceYears> GetYears();
 }
@@ -19,16 +19,16 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
     }
 
-    public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools)
+    public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools)
     {
         var query = BuildApiQueryFromComparatorSet(schools);
-        return await insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
+        return await insightApi.GetSchoolsExpenditure(query).GetResultOrDefault<IEnumerable<SchoolExpenditure>>() ?? Array.Empty<SchoolExpenditure>();
     }
 
-    public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools)
+    public async Task<IEnumerable<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools)
     {
         var query = BuildApiQueryFromComparatorSet(schools);
-        return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
+        return await insightApi.GetSchoolsWorkforce(query).GetResultOrDefault<IEnumerable<SchoolWorkforce>>() ?? Array.Empty<SchoolWorkforce>();
     }
 
     public async Task<Finances> GetFinances(School school)
@@ -48,7 +48,7 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
     private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<string> schools)
     {
         var array = schools.ToArray();
-        var query = new ApiQuery().Page(1, array.Length);
+        var query = new ApiQuery();
         foreach (var school in array)
         {
             query.AddIfNotNull("urns", school);

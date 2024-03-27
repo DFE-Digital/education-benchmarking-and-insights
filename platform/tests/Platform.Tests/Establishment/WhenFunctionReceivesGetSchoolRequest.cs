@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     {
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new School());
+            .ReturnsAsync(new SchoolResponseModel());
 
         var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -27,7 +27,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
 
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((School?)null);
+            .ReturnsAsync((SchoolResponseModel?)null);
 
         var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as NotFoundResult;
 

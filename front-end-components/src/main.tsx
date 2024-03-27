@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
 import {
@@ -10,20 +10,34 @@ import {
   CompareCostsElementId,
   CompareWorkforceElementId,
   DeploymentPlanElementId,
+  FindOrganisationElementId,
+  HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
-  VerticalBarChart2SeriesElementId,
-  VerticalBarChart3SeriesElementId,
   SchoolHistoryElementId,
   SpendingAndCostsComposedElementId,
-  FindOrganisationElementId,
+  VerticalBarChart2SeriesElementId,
+  VerticalBarChart3SeriesElementId,
 } from "src/constants";
+import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import { ChartHandler, ChartSortDirection } from "./components";
+import {
+  ChartHandler,
+  ChartSeriesValueUnit,
+  ChartSortDirection,
+} from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
 import { FindOrganisation } from "src/views/find-organisation";
+import {
+  chartSeriesComparer,
+  shortValueFormatter,
+} from "./components/charts/utils";
+import { SchoolTick } from "./components/charts/school-tick";
+import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
+import { Expenditure, Workforce } from "./services";
+import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
@@ -112,6 +126,119 @@ if (deploymentPlanElement) {
     root.render(
       <React.StrictMode>
         <DeploymentPlan data={JSON.parse(chartData)} />
+      </React.StrictMode>
+    );
+  }
+}
+
+// todo: move to composed components
+// eslint-disable-next-line react-refresh/only-export-components
+const HorizontalChart1Series = ({
+  data,
+  highlightedItemKey,
+  keyField,
+  sortDirection,
+  valueField,
+  valueUnit,
+}: {
+  data: (Workforce | Expenditure)[];
+  highlightedItemKey?: string;
+  keyField: keyof Workforce & keyof Expenditure;
+  sortDirection: ChartSortDirection;
+  valueField: keyof Workforce & keyof Expenditure;
+  valueUnit?: ChartSeriesValueUnit;
+}) => {
+  const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  const sortedData = useMemo(() => {
+    return data.sort((a, b) =>
+      chartSeriesComparer(a, b, {
+        dataPoint: valueField,
+        direction: sortDirection,
+      })
+    );
+  }, [data, sortDirection, valueField]);
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => horizontalChart2SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height: 800 }}>
+        <HorizontalBarChart
+          barCategoryGap={2}
+          chartName="School workforce (Full Time Equivalent)"
+          data={sortedData}
+          highlightActive
+          highlightedItemKeys={
+            highlightedItemKey ? [highlightedItemKey] : undefined
+          }
+          keyField={keyField}
+          labels
+          margin={20}
+          onImageLoading={setImageLoading}
+          ref={horizontalChart2SeriesRef}
+          seriesConfig={{
+            [valueField]: {
+              label: "total",
+              visible: true,
+              valueFormatter: (v: number) =>
+                shortValueFormatter(v, { valueUnit }),
+            },
+          }}
+          seriesLabelField="name"
+          tickWidth={400}
+          tick={(t) => (
+            <SchoolTick
+              {...t}
+              highlightedItemKey={highlightedItemKey}
+              linkToSchool
+              onClick={(urn) => {
+                urn && (window.location.href = `/school/${urn}`);
+              }}
+              schoolUrnResolver={(name) =>
+                data.find((d) => d.name === name)?.urn
+              }
+            />
+          )}
+          tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+          valueFormatter={shortValueFormatter}
+          valueLabel="Total"
+          valueUnit={valueUnit}
+        />
+      </div>
+    </div>
+  );
+};
+
+const horizontalChart1SeriesElement = document.getElementById(
+  HorizontalBarChart1SeriesElementId
+);
+
+if (horizontalChart1SeriesElement) {
+  const { json, highlight, keyField, sortDirection, valueField, valueUnit } =
+    horizontalChart1SeriesElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
+    const data = JSON.parse(json) as Workforce[];
+
+    root.render(
+      <React.StrictMode>
+        <HorizontalChart1Series
+          data={data}
+          highlightedItemKey={highlight}
+          keyField={keyField as keyof Workforce & keyof Expenditure}
+          sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+          valueField={valueField as keyof Workforce & keyof Expenditure}
+          valueUnit={valueUnit as ChartSeriesValueUnit}
+        />
       </React.StrictMode>
     );
   }
@@ -248,6 +375,7 @@ if (verticalChart3SeriesElement) {
   }
 }
 
+// todo: move to composed components
 // eslint-disable-next-line react-refresh/only-export-components
 const LineChart1Series = ({
   data,
@@ -293,8 +421,16 @@ const LineChart1Series = ({
             }}
             seriesLabel="Absolute total"
             seriesLabelField="term"
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
-            tooltip
+            tooltip={(t) => (
+              <LineChartTooltip
+                {...t}
+                valueFormatter={(v) =>
+                  shortValueFormatter(v, { valueUnit: "currency" })
+                }
+              />
+            )}
           />
         </div>
         <aside className="govuk-grid-column-one-quarter desktop">
@@ -306,6 +442,7 @@ const LineChart1Series = ({
             displayIndex={data.length - 1}
             seriesLabelField="term"
             valueField="inYearBalance"
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
           />
         </aside>
@@ -352,6 +489,7 @@ if (spendingAndCostsComposedElements) {
       root.render(
         <React.StrictMode>
           <ComparisonChartSummary
+            averageType="median"
             chartName="Percentage of pupils on roll and teacher cost"
             data={data}
             highlightedItemKey={highlight}
