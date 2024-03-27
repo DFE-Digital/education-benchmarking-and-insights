@@ -4,6 +4,7 @@ public static class Selectors
 {
     public const string H1 = "h1";
     public const string H2 = "h2";
+    public const string H3 = "h3";
 
     public const string GovBreadcrumbs = ".govuk-breadcrumbs";
     public const string GovShowAllLinkText = ".govuk-accordion__show-all-text";
@@ -48,6 +49,9 @@ public static class Selectors
     public const string SchoolDetailsEmailAddress = ".govuk-summary-list__key:has-text('Contact email') + .govuk-summary-list__value";
     public const string SchoolSearchInput = "#school-input";
     public const string SchoolRadio = ".govuk-radios__input#school";
+
+    public const string ReactChartContainer = ".recharts-responsive-container";
+    public const string ReactChartStats = ".chart-stat-summary";
 
 
 }
