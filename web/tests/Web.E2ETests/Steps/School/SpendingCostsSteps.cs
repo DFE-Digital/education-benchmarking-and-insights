@@ -34,6 +34,18 @@ public class SpendingCostsSteps(PageDriver driver)
         await _spendingCostsPage.IsDetailsSectionVisible();
     }
 
+    [Given("the order of charts is")]
+    public async Task GivenTheOrderOfChartsIs(Table table)
+    {
+        Assert.NotNull(_spendingCostsPage);
+        var expectedOrder = new List<string>(); 
+        foreach (var row in table.Rows)
+        {
+            expectedOrder.Add(row["Name"]);
+        }
+        await _spendingCostsPage.CheckOrderOfCharts(expectedOrder);
+    }
     private static string SpendingCostsUrl(string urn) =>
         $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
+    
 }

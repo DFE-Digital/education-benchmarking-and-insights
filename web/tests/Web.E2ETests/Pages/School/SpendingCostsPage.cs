@@ -51,6 +51,18 @@ public class SpendingCostsPage(IPage page)
         await ComparatorSetDetailsText.ShouldBeVisible();
         await ComparatorSetLink.ShouldBeVisible();
     }
+    
+    public async Task CheckOrderOfCharts(List<string> expectedOrder)
+    {
+        var actualOrder = new List<string>();
+        foreach (var h3 in await PageH3Headings.AllAsync())
+        {
+            actualOrder.Add(await h3.TextContentAsync() ?? throw new InvalidOperationException());
+        }
+
+        Assert.Equal(actualOrder, expectedOrder);
+
+    }
 
     private async Task AssertHeading3(string[] expected)
     {
