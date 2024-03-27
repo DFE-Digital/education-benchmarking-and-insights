@@ -49,7 +49,7 @@ public class AdministrativeSupplies : CostCategory
 {
     public override string Name => "Administrative supplies";
     public override string Label => "per pupil";
-    
+
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
         this[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
