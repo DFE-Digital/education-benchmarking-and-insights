@@ -2047,7 +2047,7 @@
       },
       "Microsoft.Extensions.Caching.Cosmos": {
         "type": "CentralTransitive",
-        "requested": "[1.6.0, )",
+        "requested": "[1.6.1, )",
         "resolved": "1.6.1",
         "contentHash": "RqSCR69nS9qcVsCybZ9eDR6Gi5iDI5faP4gAI8smvm0cA+4lf/umdC8R9ONqw0QyV7zNFvIpXVLktInB73iLSA==",
         "dependencies": {
