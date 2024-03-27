@@ -19,12 +19,12 @@ steps:
     displayName: 'Extract api test files'
     inputs:
       archiveFilePatterns: '${{ parameters.workspaceDir }}/api-tests/api-tests.zip'
-      destinationFolder: '${{ parameters.workspaceDir }}'
+      destinationFolder: '${{ parameters.workspaceDir }}/tests'
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in appsettings.json'
     inputs:
-      sources: '${{ parameters.workspaceDir }}/Platform.ApiTests/appsettings.json'
+      sources: '${{ parameters.workspaceDir }}/tests/Platform.ApiTests/appsettings.json'
       escape: off
       tokenPattern: doubleunderscores
 
@@ -32,4 +32,4 @@ steps:
 #    displayName: 'Run api tests'
 #    inputs:
 #      command: test
-#      projects: '${{ parameters.workspaceDir }}/Platform.ApiTests/Platform.ApiTests.dll'
+#      projects: '${{ parameters.workspaceDir }}/tests/Platform.ApiTests/Platform.ApiTests.dll'
