@@ -1,3 +1,5 @@
+using System;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,16 +18,20 @@ public interface ISchoolDb
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolDbOptions : CosmosDatabaseOptions;
+public record SchoolDbOptions : CosmosDatabaseOptions
+{
+    [Required] public string? EstablishmentCollectionName { get; set; }
+}
 
 [ExcludeFromCodeCoverage]
 public class SchoolDb : CosmosDatabase, ISchoolDb
 {
-    private readonly ICollectionService _collectionService;
+    private readonly string _collectionName;
 
-    public SchoolDb(IOptions<SchoolDbOptions> options, ICollectionService collectionService) : base(options.Value)
+    public SchoolDb(IOptions<SchoolDbOptions> options) : base(options.Value)
     {
-        _collectionService = collectionService;
+        ArgumentNullException.ThrowIfNull(options.Value.EstablishmentCollectionName);
+        _collectionName = options.Value.EstablishmentCollectionName;
     }
 
     public async Task<SchoolResponseModel?> Get(string urn)
@@ -36,10 +42,8 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
             return null;
         }
 
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-
         var school = await ItemEnumerableAsync<EdubaseDataObject>(
-                collection.Name,
+                _collectionName,
                 q => q.Where(x => x.Urn == parsedUrn))
             .FirstOrDefaultAsync();
 
@@ -48,15 +52,15 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
 
     public async Task<PagedResponseModel<SchoolResponseModel>> Query(IQueryCollection query)
     {
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
         var pageParams = query.GetPagingValues();
 
         var establishments =
-            await PagedItemEnumerableAsync<EdubaseDataObject>(collection.Name, pageParams.Page, pageParams.PageSize)
+            await PagedItemEnumerableAsync<EdubaseDataObject>(_collectionName, pageParams.Page, pageParams.PageSize)
                 .ToArrayAsync();
-        var establishmentsTotalCount = await ItemCountAsync<EdubaseDataObject>(collection.Name);
+        var establishmentsTotalCount = await ItemCountAsync<EdubaseDataObject>(_collectionName);
 
         var schools = establishments.Select(SchoolResponseModel.Create);
-        return PagedResponseModel<SchoolResponseModel>.Create(schools, pageParams.Page, pageParams.PageSize, establishmentsTotalCount);
+        return PagedResponseModel<SchoolResponseModel>.Create(schools, pageParams.Page, pageParams.PageSize,
+            establishmentsTotalCount);
     }
 }

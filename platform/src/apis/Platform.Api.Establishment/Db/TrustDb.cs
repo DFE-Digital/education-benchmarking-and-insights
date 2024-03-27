@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,16 +17,20 @@ public interface ITrustDb
 }
 
 [ExcludeFromCodeCoverage]
-public record TrustDbOptions : CosmosDatabaseOptions;
+public record TrustDbOptions : CosmosDatabaseOptions
+{
+    [Required] public string? EstablishmentCollectionName { get; set; }
+}
 
 [ExcludeFromCodeCoverage]
 public class TrustDb : CosmosDatabase, ITrustDb
 {
-    private readonly ICollectionService _collectionService;
+    private readonly string _collectionName;
 
-    public TrustDb(IOptions<TrustDbOptions> options, ICollectionService collectionService) : base(options.Value)
+    public TrustDb(IOptions<TrustDbOptions> options) : base(options.Value)
     {
-        _collectionService = collectionService;
+        ArgumentNullException.ThrowIfNull(options.Value.EstablishmentCollectionName);
+        _collectionName = options.Value.EstablishmentCollectionName;
     }
 
     public async Task<TrustResponseModel?> Get(string identifier)
@@ -36,10 +41,8 @@ public class TrustDb : CosmosDatabase, ITrustDb
             return null;
         }
 
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-
         var trust = await ItemEnumerableAsync<EdubaseDataObject>(
-                collection.Name,
+                _collectionName,
                 q => q.Where(x => x.CompanyNumber == parsedIdentifier))
             .FirstOrDefaultAsync();
 
@@ -54,10 +57,8 @@ public class TrustDb : CosmosDatabase, ITrustDb
             return Array.Empty<SchoolResponseModel>();
         }
 
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-
         var schools = await ItemEnumerableAsync<EdubaseDataObject>(
-                collection.Name,
+            _collectionName,
                 q => q.Where(x => x.CompanyNumber == parsedIdentifier)).ToListAsync();
 
         return schools.Select(SchoolResponseModel.Create);

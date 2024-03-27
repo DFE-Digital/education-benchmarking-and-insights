@@ -16,7 +16,7 @@ public interface ISchoolsDb
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolsDbOptions : CosmosDatabaseOptions
+public record SchoolsDbOptions : FinancialReturnOptions
 {
     public string? FloorAreaCollectionName { get; set; }
 };
@@ -24,13 +24,19 @@ public record SchoolsDbOptions : CosmosDatabaseOptions
 [ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
-    private readonly ICollectionService _collectionService;
-    private readonly SchoolsDbOptions _options;
+    private readonly string _maintainedCollectionName;
+    private readonly string _academyCollectionName;
+    private readonly string _floorAreaCollectionName;
 
-    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService) : base(options.Value)
+    public SchoolsDb(IOptions<SchoolsDbOptions> options) : base(options.Value)
     {
-        _options = options.Value;
-        _collectionService = collectionService;
+        ArgumentNullException.ThrowIfNull(options.Value.FloorAreaCollectionName);
+        ArgumentNullException.ThrowIfNull(options.Value.CfrLatestYear);
+        ArgumentNullException.ThrowIfNull(options.Value.AarLatestYear);
+
+        _academyCollectionName = options.Value.LatestMatAllocated;
+        _maintainedCollectionName = options.Value.LatestMaintained;
+        _floorAreaCollectionName = options.Value.FloorAreaCollectionName;
     }
 
     public async Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns)
@@ -52,8 +58,8 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     {
         var tasks = new[]
         {
-            FinancesForDataGroup(urns, DataGroups.Maintained),
-            FinancesForDataGroup(urns, DataGroups.MatAllocated)
+            FinancesFor(urns, _maintainedCollectionName),
+            FinancesFor(urns, _academyCollectionName)
         };
 
         var finances = await Task.WhenAll(tasks);
@@ -65,21 +71,17 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         return combined;
     }
 
-    private async Task<SchoolTrustFinancialDataObject[]> FinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
+    private async Task<SchoolTrustFinancialDataObject[]> FinancesFor(IReadOnlyCollection<string> urns, string collectionName)
     {
         if (urns.Count <= 0) return Array.Empty<SchoolTrustFinancialDataObject>();
 
-        var collection = await _collectionService.LatestCollection(dataGroup);
-        return await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
+        return await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collectionName, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
     }
 
     private async Task<FloorAreaDataObject[]> FloorArea(IReadOnlyCollection<string> urns)
     {
         if (urns.Count <= 0) return Array.Empty<FloorAreaDataObject>();
 
-        var areaCollection = _options.FloorAreaCollectionName;
-        ArgumentNullException.ThrowIfNull(areaCollection);
-
-        return await ItemEnumerableAsync<FloorAreaDataObject>(areaCollection, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
+        return await ItemEnumerableAsync<FloorAreaDataObject>(_floorAreaCollectionName, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
     }
 }

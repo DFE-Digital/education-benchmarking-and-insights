@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -13,29 +14,28 @@ public interface IAcademyDb
 }
 
 [ExcludeFromCodeCoverage]
-public record AcademyDbOptions : CosmosDatabaseOptions;
-
-[ExcludeFromCodeCoverage]
 public class AcademyDb : CosmosDatabase, IAcademyDb
 {
-    private readonly ICollectionService _collectionService;
+    private readonly string _collectionName;
+    private readonly int _latestYear;
 
-    public AcademyDb(IOptions<AcademyDbOptions> options, ICollectionService collectionService) : base(options.Value)
+    public AcademyDb(IOptions<FinancialReturnOptions> options) : base(options.Value)
     {
-        _collectionService = collectionService;
+        ArgumentNullException.ThrowIfNull(options.Value.AarLatestYear);
+
+        _collectionName = options.Value.LatestMatAllocated;
+        _latestYear = options.Value.AarLatestYear.Value;
     }
 
     public async Task<FinancesResponseModel?> Get(string urn)
     {
-        var collection = await _collectionService.LatestCollection(DataGroups.MatAllocated);
-
         var finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(
-                collection.Name,
+                _collectionName,
                 q => q.Where(x => x.Urn == long.Parse(urn)))
             .FirstOrDefaultAsync();
 
         return finances == null
             ? null
-            : FinancesResponseModel.Create(finances, collection.Term);
+            : FinancesResponseModel.Create(finances, _latestYear);
     }
 }
