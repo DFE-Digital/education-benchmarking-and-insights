@@ -114,7 +114,7 @@ stages:
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
-          runSearchApp: false
+          runSearchApp: true
 
       - job: RunApiTests
         dependsOn: [ RunTerraform, Deploy ]
