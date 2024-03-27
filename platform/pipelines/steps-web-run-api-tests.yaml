@@ -1,0 +1,35 @@
+parameters:
+  workspaceDir: ''
+  environmentPrefix: ''
+  subscription: ''
+
+steps:
+  - checkout: none
+
+  - download: current
+
+  - task: AzureKeyVault@2
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+      SecretsFilter: '*'
+      RunAsPreJob: true
+
+  - task: ExtractFiles@1
+    displayName: 'Extract api test files'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/api-tests/api-tests.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}'
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in appsettings.json'
+    inputs:
+      sources: '${{ parameters.workspaceDir }}/Platform.ApiTests/appsettings.json'
+      escape: off
+      tokenPattern: doubleunderscores
+
+#  - task: DotNetCoreCLI@2
+#    displayName: 'Run api tests'
+#    inputs:
+#      command: test
+#      projects: '${{ parameters.workspaceDir }}/Platform.ApiTests/Platform.ApiTests.dll'

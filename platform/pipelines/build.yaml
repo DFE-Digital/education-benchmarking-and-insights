@@ -116,6 +116,16 @@ stages:
           cipEnvironment: 'Dev'
           runSearchApp: false
 
+      - job: RunApiTests
+        dependsOn: [ RunTerraform, Deploy ]
+        displayName: 'Run automated api tests'
+        steps:
+          - template: steps-web-run-api-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
+              subscription: 's198d.azdo-deployment'
+              environmentPrefix: 's198d02'
+
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
     displayName: 'Test'
