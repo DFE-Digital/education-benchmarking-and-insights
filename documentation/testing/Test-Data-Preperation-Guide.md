@@ -97,8 +97,8 @@ Update the "TrustOrCompanyName" from MAT files to "GroupName" from TrustHistory 
 ### Step 18
 Update the TrustOrCompanyName of academies file to GroupName of trusthistory file whose UID matches.
 
-### Step 19: 
-///todo : add step to add comparator set data
-
 ### Finally
-once the data is filtered and udpated it can be updated into the testing environment using DMT. 
+once the data is filtered and udpated it can be updated into the testing environment using DMT.
+
+### Adding Comparator set data
+Comparator set data from development environment is copied to automated testing environment. The SQL database is then edited to update with the URNs that we have filtered in the above steps. This can be edited as of need base to add/update comparator sets for a particular school. 
