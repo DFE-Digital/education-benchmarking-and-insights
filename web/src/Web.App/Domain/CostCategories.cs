@@ -36,19 +36,47 @@ public abstract class CostCategory
         get => _values[index];
         set => _values[index] = value;
     }
+    protected CostCategory(string? baseUrn)
+    {
+        BaseUrn = baseUrn;
+        CalculateRating();
+    }
 
+    protected string? BaseUrn { get; }
     public abstract string Name { get; }
     public abstract string Label { get; }
-    public abstract void Add(string urn, SchoolExpenditure expenditure);
-
+    public TagColour Colour { get; protected set; }
+    public string? DisplayText { get; protected set; }
+    public string? Priority { get; protected set; }
+    public int Decile { get; protected set; }
+    public decimal Value => Values.SingleOrDefault(x => BaseUrn == x.Key).Value?.Actual ?? throw new ArgumentNullException(nameof(Value));
+    protected decimal[] ValuesAsArray => Values.Select(x => x.Value.Actual).ToArray();
+    public int Percentage => (int)Math.Round((decimal)Values.Count(x => x.Value.Actual < Value) / ValuesAsArray.Length * 100, 0, MidpointRounding.AwayFromZero);
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
+    protected virtual void CalculateRating()
+    {
+        Colour = TagColour.Yellow;
+        DisplayText = "Medium priority";
+        Priority = "priority medium";
+        Decile = 3;
+    }
+
+    public abstract void Add(string urn, SchoolExpenditure expenditure);
 }
 
 
-public class AdministrativeSupplies : CostCategory
+public class AdministrativeSupplies(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Administrative supplies";
     public override string Label => "per pupil";
+
+    protected override void CalculateRating()
+    {
+        Colour = TagColour.Red;
+        DisplayText = "High priority";
+        Priority = "priority high";
+        Decile = 3;
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -56,10 +84,18 @@ public class AdministrativeSupplies : CostCategory
     }
 }
 
-public class CateringStaffServices : CostCategory
+public class CateringStaffServices(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Catering staff and services";
     public override string Label => "per pupil";
+
+    protected override void CalculateRating()
+    {
+        Colour = TagColour.Grey;
+        DisplayText = "Low priority";
+        Priority = "priority low";
+        Decile = 3;
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -67,7 +103,7 @@ public class CateringStaffServices : CostCategory
     }
 }
 
-public class EducationalIct : CostCategory
+public class EducationalIct(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Educational ICT";
     public override string Label => "per pupil";
@@ -78,7 +114,7 @@ public class EducationalIct : CostCategory
     }
 }
 
-public class EducationalSupplies : CostCategory
+public class EducationalSupplies(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Educational supplies";
     public override string Label => "per pupil";
@@ -89,7 +125,7 @@ public class EducationalSupplies : CostCategory
     }
 }
 
-public class NonEducationalSupportStaff : CostCategory
+public class NonEducationalSupportStaff(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Non-educational support staff";
     public override string Label => "per pupil";
@@ -100,7 +136,7 @@ public class NonEducationalSupportStaff : CostCategory
     }
 }
 
-public class TeachingStaff : CostCategory
+public class TeachingStaff(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Teaching and teaching supply staff";
     public override string Label => "per pupil";
@@ -111,7 +147,7 @@ public class TeachingStaff : CostCategory
     }
 }
 
-public class Other : CostCategory
+public class Other(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Other";
     public override string Label => "per pupil";
@@ -122,7 +158,7 @@ public class Other : CostCategory
     }
 }
 
-public class PremisesStaffServices : CostCategory
+public class PremisesStaffServices(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Premises staff and services";
     public override string Label => "per square metre";
@@ -133,7 +169,7 @@ public class PremisesStaffServices : CostCategory
     }
 }
 
-public class Utilities : CostCategory
+public class Utilities(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Utilities";
     public override string Label => "per square metre";
@@ -147,17 +183,17 @@ public class Utilities : CostCategory
 public static class CategoryBuilder
 {
     public static IEnumerable<CostCategory> Build(
-        IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure)
+        IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure, string? baseUrn)
     {
-        var teachingStaff = new TeachingStaff();
-        var administrativeSupplies = new AdministrativeSupplies();
-        var cateringStaffServices = new CateringStaffServices();
-        var educationalIct = new EducationalIct();
-        var educationalSupplies = new EducationalSupplies();
-        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
-        var other = new Other();
-        var premisesStaffServices = new PremisesStaffServices();
-        var utilities = new Utilities();
+        var teachingStaff = new TeachingStaff(baseUrn);
+        var administrativeSupplies = new AdministrativeSupplies(baseUrn);
+        var cateringStaffServices = new CateringStaffServices(baseUrn);
+        var educationalIct = new EducationalIct(baseUrn);
+        var educationalSupplies = new EducationalSupplies(baseUrn);
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff(baseUrn);
+        var other = new Other(baseUrn);
+        var premisesStaffServices = new PremisesStaffServices(baseUrn);
+        var utilities = new Utilities(baseUrn);
 
         foreach (var expenditure in pupilExpenditure)
         {
@@ -196,17 +232,17 @@ public static class CategoryBuilder
         };
     }
 
-    public static IEnumerable<CostCategory> Build(IEnumerable<SchoolExpenditure> expenditure)
+    public static IEnumerable<CostCategory> Build(IEnumerable<SchoolExpenditure> expenditure, string baseUrn)
     {
-        var teachingStaff = new TeachingStaff();
-        var administrativeSupplies = new AdministrativeSupplies();
-        var cateringStaffServices = new CateringStaffServices();
-        var educationalIct = new EducationalIct();
-        var educationalSupplies = new EducationalSupplies();
-        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
-        var other = new Other();
-        var premisesStaffServices = new PremisesStaffServices();
-        var utilities = new Utilities();
+        var teachingStaff = new TeachingStaff(baseUrn);
+        var administrativeSupplies = new AdministrativeSupplies(baseUrn);
+        var cateringStaffServices = new CateringStaffServices(baseUrn);
+        var educationalIct = new EducationalIct(baseUrn);
+        var educationalSupplies = new EducationalSupplies(baseUrn);
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff(baseUrn);
+        var other = new Other(baseUrn);
+        var premisesStaffServices = new PremisesStaffServices(baseUrn);
+        var utilities = new Utilities(baseUrn);
 
         foreach (var value in expenditure)
         {
