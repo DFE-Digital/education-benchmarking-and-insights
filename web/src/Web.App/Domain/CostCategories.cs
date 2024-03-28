@@ -49,9 +49,9 @@ public abstract class CostCategory
     public string? DisplayText { get; protected set; }
     public string? Priority { get; protected set; }
     public int Decile { get; protected set; }
-    public decimal Value => Values.SingleOrDefault(x => BaseUrn == x.Key).Value?.Actual ?? throw new ArgumentNullException(nameof(Value));
-    protected decimal[] ValuesAsArray => Values.Select(x => x.Value.Actual).ToArray();
-    public int Percentage => (int)Math.Round((decimal)Values.Count(x => x.Value.Actual < Value) / ValuesAsArray.Length * 100, 0, MidpointRounding.AwayFromZero);
+    public decimal Value => Values.SingleOrDefault(x => BaseUrn == x.Key).Value?.Value ?? throw new ArgumentNullException(nameof(Value));
+    protected decimal[] ValuesAsArray => Values.Select(x => x.Value.Value).ToArray();
+    public int Percentage => (int)Math.Round((decimal)Values.Count(x => x.Value.Value < Value) / ValuesAsArray.Length * 100, 0, MidpointRounding.AwayFromZero);
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
     protected virtual void CalculateRating()
     {
