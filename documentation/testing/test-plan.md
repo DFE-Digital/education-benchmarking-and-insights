@@ -1,12 +1,5 @@
 # Test Plan
 
-## History and Approvals
-
-| Version | Name         | Role         | Date       | Remarks                              |
-|---------|--------------|--------------|------------|--------------------------------------|
-| 1.1     | Faizan Ahmad | Test Engineer | 29/11/2023 | Need to be reviewed by other team members |
-| 1.2     | Faizan Ahmad | Test Engineer | 27/02/2024 |                                      |
-
 ## Project Overview
 
 ### Purpose
@@ -30,9 +23,6 @@ A dedicated focus will be placed on ensuring conformance with the required input
 
 ### Primary Goals
 The primary testing objectives include verifying that the product successfully combines the features of SFB and VMFI. Additionally, it aims to confirm the implementation of all acceptance criteria and ensure comprehensive logging, fixing, or backlog management of issues and bugs discovered during testing.
-
-### Stakeholders
-Key business stakeholders include Daniel Tovey (Product Owner) and representatives from the Department for Education, Keld Oshea and Gavin Monument.
 
 ## Testing Environment
 The project will utilise multiple environments, including development, testing (for automated testing), pre-production, and production. Cross-browser testing will require a subscription to Browserstack. (details of the environment will later be added here)
