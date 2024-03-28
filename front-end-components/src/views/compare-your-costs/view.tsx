@@ -54,6 +54,8 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
             name: currentSchool.name,
           });
         }
+
+        //setLoaded(true);
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -63,6 +65,28 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayMode(e.target.value);
   };
+
+  // todo: move somewhere common to all views
+  useLayoutEffect(() => {
+    const href = window?.location?.href;
+    if (!href) {
+      return;
+    }
+
+    // https://github.com/alphagov/govuk-design-system-backlog/issues/1#issuecomment-1187038700
+    if (href.split("#")?.length === 2) {
+      // Split the string and get the ID
+      const anchorId = href.split("#")[1];
+
+      // Check for the requested ID within the accordion
+      const accordion = document.querySelector(
+        `.govuk-accordion__section#${anchorId}`
+      );
+      if (accordion) {
+        accordion.scrollIntoView();
+      }
+    }
+  });
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>

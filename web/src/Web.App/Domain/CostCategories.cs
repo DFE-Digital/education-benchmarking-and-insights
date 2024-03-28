@@ -39,6 +39,7 @@ public abstract class CostCategory
 
     public abstract string Name { get; }
     public abstract string Label { get; }
+    public string Id => string.IsNullOrWhiteSpace(Name) ? string.Empty : Name.ToLower().Replace(" ", "-");
     public abstract void Add(string urn, SchoolExpenditure expenditure);
 
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();

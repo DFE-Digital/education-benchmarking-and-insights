@@ -83,6 +83,7 @@ export type PremisesStaffServicesData = {
 };
 
 export type NonEducationalSupportStaffProps = {
+  id: string; // move to shared props
   schools: NonEducationalSupportStaffData[];
 };
 
