@@ -161,7 +161,7 @@ maintained_schools_master_list = {
     'E21  Exam fees': 'float',
     'E22 Administrative supplies': 'float',
     'E23  Other insurance premiums': 'float',
-    'E24  Special facilities': 'float',
+    'E24  Special facilities ': 'float',
     'E25  Catering supplies': 'float',
     'E26 Agency supply teaching staff': 'float',
     'E27  Bought in professional services - curriculum': 'float',
@@ -233,12 +233,32 @@ pupil_census = {
     'URN': 'Int64',
     'headcount of pupils': 'float',
     '% of pupils known to be eligible for and claiming free school me': 'float',
-    'number of pupils whose first language is known or believed to be other than English': 'float'
+    'number of pupils whose first language is known or believed to be other than English': 'float',
+    'full time pupils': 'float'
 }
 
 cfr_index_col = 'URN'
 cfr = {
-    'URN': 'Int64',
+    'URN': 'Int64'
+}
 
+ar_cell_mapping_index_col = 'cell'
+ar_cell_mapping = {
+    'cell': 'string',
+    'Description L1': 'string',
+    'Metric': 'string',
+    'Metric ID': 'Int64',
+    'Cost Pool': 'string',
+    'Presentation name': 'string',
+    'Cost Pool ID': 'Int64'
+}
+
+ar_index_col = 'academyupin'
+ar = {
+    'academyupin': 'Int64',
+    'trustupin': 'Int64',
+    'companynumber': 'Int64',
+    'aruniquereference': 'string',
+    'value': 'float'
 }
 
