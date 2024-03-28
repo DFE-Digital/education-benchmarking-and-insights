@@ -23,6 +23,26 @@ public class GivenAnInsightApi : ApiClientTestBase
     }
 
     [Fact]
+    public async Task GetMaintainedSchoolWorkforceHistoryShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetMaintainedSchoolWorkforceHistory("123213");
+
+        VerifyCall(HttpMethod.Get, "api/maintained-school/123213/workforce/history");
+    }
+    
+    [Fact]
+    public async Task GetMaintainedSchoolBalanceHistoryShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetMaintainedSchoolBalanceHistory("123213");
+
+        VerifyCall(HttpMethod.Get, "api/maintained-school/123213/balance/history");
+    }
+    
+    [Fact]
     public async Task GetAcademyFinancesShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
@@ -30,6 +50,26 @@ public class GivenAnInsightApi : ApiClientTestBase
         await api.GetAcademyFinances("123213");
 
         VerifyCall(HttpMethod.Get, "api/academy/123213");
+    }
+    
+    [Fact]
+    public async Task GetAcademyWorkforceHistoryShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetAcademyWorkforceHistory("123213");
+
+        VerifyCall(HttpMethod.Get, "api/academy/123213/workforce/history");
+    }
+    
+    [Fact]
+    public async Task GetAcademyBalanceHistoryShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetAcademyBalanceHistory("123213");
+
+        VerifyCall(HttpMethod.Get, "api/academy/123213/balance/history");
     }
 
     [Fact]
@@ -70,8 +110,8 @@ public class GivenAnInsightApi : ApiClientTestBase
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetFinanceYears();
+        await api.GetCurrentReturnYears();
 
-        VerifyCall(HttpMethod.Get, "api/finance-years");
+        VerifyCall(HttpMethod.Get, "api/current-return-years");
     }
 }

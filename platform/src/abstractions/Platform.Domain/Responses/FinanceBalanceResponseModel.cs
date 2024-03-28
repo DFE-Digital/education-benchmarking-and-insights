@@ -6,7 +6,7 @@ namespace Platform.Domain;
 [ExcludeFromCodeCoverage]
 public record FinanceBalanceResponseModel
 {
-    public int YearEnd { get; set; }
+    public int YearEnd { get; private set; }
     public string? Urn { get; private set; }
     public string? Name { get; private set; }
     public string? SchoolType { get; private set; }

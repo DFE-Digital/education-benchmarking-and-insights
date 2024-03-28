@@ -10,6 +10,7 @@ public class SpendingCostsSteps(PageDriver driver)
 {
     private SpendingCostsPage? _spendingCostsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
+    
     [Given(@"I am on spending and costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnSpendingAndCostsPageForSchoolWithUrn(string urn)
     {
@@ -72,7 +73,7 @@ public class SpendingCostsSteps(PageDriver driver)
     }
 
     [Then("I am directed to compare your costs page")]
-    public async Task ThenIAmDirectedToCompareYourCostsPage()
+    public void ThenIAmDirectedToCompareYourCostsPage()
     {
         /*Assert.NotNull(_compareYourCostsPage);
         await _compareYourCostsPage.IsDisplayed();*/

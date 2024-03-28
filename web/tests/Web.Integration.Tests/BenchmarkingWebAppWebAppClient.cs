@@ -67,7 +67,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         }
 
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021 }));
+        InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Aar = 2022, Cfr = 2021 }));
         return this;
     }
 
