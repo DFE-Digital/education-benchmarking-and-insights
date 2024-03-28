@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Platform.Tests.Insight;
 
-public class WhenFunctionReceivesGetAcademyRequest : AcademyFunctionsTestBase
+public class WhenFunctionReceivesGetAcademyRequest : AcademySchoolFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()

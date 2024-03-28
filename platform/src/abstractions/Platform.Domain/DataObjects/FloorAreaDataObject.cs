@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using System.Diagnostics.CodeAnalysis;
+using Newtonsoft.Json;
 
 namespace Platform.Domain;
 
+[ExcludeFromCodeCoverage]
 public record FloorAreaDataObject
 {
     [JsonProperty(PropertyName = "URN")] public int Urn { get; set; }

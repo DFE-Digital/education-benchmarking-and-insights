@@ -31,6 +31,9 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<SchoolSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<TrustSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<OrganisationSearchService>().BindConfiguration("Search").ValidateDataAnnotations();
+        builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+
+        builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
 
         builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
         builder.Services.AddSingleton<ITrustDb, TrustDb>();

@@ -15,24 +15,24 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight;
 
-[ApiExplorerSettings(GroupName = "Maintained Schools")]
-public class MaintainedSchoolFunctions
+[ApiExplorerSettings(GroupName = "Academies")]
+public class AcademySchoolFunctions
 {
-    private readonly ILogger<MaintainedSchoolFunctions> _logger;
-    private readonly ISchoolFinancesDb<Maintained> _db;
+    private readonly ILogger<AcademySchoolFunctions> _logger;
+    private readonly ISchoolFinancesDb<Academy> _db;
 
-    public MaintainedSchoolFunctions(ILogger<MaintainedSchoolFunctions> logger, ISchoolFinancesDb<Maintained> db)
+    public AcademySchoolFunctions(ILogger<AcademySchoolFunctions> logger, ISchoolFinancesDb<Academy> db)
     {
         _logger = logger;
         _db = db;
     }
 
-    [FunctionName(nameof(SingleMaintainedSchoolAsync))]
+    [FunctionName(nameof(SingleAcademyAsync))]
     [ProducesResponseType(typeof(FinancesResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SingleMaintainedSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "maintained-school/{urn}")]
+    public async Task<IActionResult> SingleAcademyAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}")]
         HttpRequest req,
         string urn)
     {
@@ -41,8 +41,7 @@ public class MaintainedSchoolFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "Urn", urn }
+                   { "CorrelationID", correlationId }
                }))
         {
             try
@@ -55,19 +54,19 @@ public class MaintainedSchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get maintained school");
+                _logger.LogError(e, "Failed to get academy");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
-    [FunctionName(nameof(BalanceHistoryMaintainedSchoolAsync))]
+    [FunctionName(nameof(BalanceHistoryAcademyAsync))]
     [ProducesResponseType(typeof(FinanceBalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> BalanceHistoryMaintainedSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "maintained-school/{urn}/balance/history")]
+    public async Task<IActionResult> BalanceHistoryAcademyAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}/balance/history")]
         HttpRequest req,
         string urn)
     {
@@ -91,19 +90,19 @@ public class MaintainedSchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get maintained school balance history");
+                _logger.LogError(e, "Failed to get academy balance history");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
-    [FunctionName(nameof(WorkforceHistoryMaintainedSchoolAsync))]
+    [FunctionName(nameof(WorkforceHistoryAcademyAsync))]
     [ProducesResponseType(typeof(FinanceWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> WorkforceHistoryMaintainedSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "maintained-school/{urn}/workforce/history")]
+    public async Task<IActionResult> WorkforceHistoryAcademyAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}/workforce/history")]
         HttpRequest req,
         string urn)
     {
@@ -127,7 +126,7 @@ public class MaintainedSchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get maintained school workforce history");
+                _logger.LogError(e, "Failed to get academy workforce history");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

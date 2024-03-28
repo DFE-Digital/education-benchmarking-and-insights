@@ -19,7 +19,7 @@ public interface ISchoolsDb
 public record SchoolsDbOptions : FinancialReturnOptions
 {
     public string? FloorAreaCollectionName { get; set; }
-};
+}
 
 [ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
@@ -28,7 +28,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     private readonly string _academyCollectionName;
     private readonly string _floorAreaCollectionName;
 
-    public SchoolsDb(IOptions<SchoolsDbOptions> options) : base(options.Value)
+    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         ArgumentNullException.ThrowIfNull(options.Value.FloorAreaCollectionName);
         ArgumentNullException.ThrowIfNull(options.Value.CfrLatestYear);
