@@ -24,7 +24,10 @@ export const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({
           id="accordion"
         >
           <TeachingSupportStaff schools={schools} />
-          <NonEducationalSupportStaff schools={schools} />
+          <NonEducationalSupportStaff
+            id="non-educational-support-staff"
+            schools={schools}
+          />
           <EducationalSupplies schools={schools} />
           <EducationalIct schools={schools} />
           <PremisesStaffServices schools={schools} />

@@ -15,10 +15,11 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import classNames from "classnames";
 
 export const NonEducationalSupportStaff: React.FC<
   NonEducationalSupportStaffProps
-> = ({ schools }) => {
+> = ({ id, schools }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const tableHeadings = useMemo(
     () => [
@@ -122,9 +123,20 @@ export const NonEducationalSupportStaff: React.FC<
       };
     }, [dimension, schools, tableHeadings]);
 
+  let expanded = false;
+  if (window?.location?.href && window.location.href.split("#").length === 2) {
+    const anchorId = window.location.href.split("#")[1];
+    expanded = id === anchorId;
+  }
+
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <div className="govuk-accordion__section">
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": expanded,
+        })}
+        id={id}
+      >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
             <span
