@@ -39,11 +39,15 @@
 }
 
 .priority.high, .priority.high .govuk-tag--red {
-  border: 1px solid #942514;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    border: 1px solid #942514;
 }
 
 .priority.medium, .priority.medium .govuk-tag--yellow {
-  border: 1px solid #594D00;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    border: 1px solid #594D00;
 }
 
 .priority.low, .priority.low .govuk-tag--grey {

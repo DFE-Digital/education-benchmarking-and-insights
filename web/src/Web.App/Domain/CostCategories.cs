@@ -27,7 +27,7 @@ public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Categ
 }
 
 
-public abstract class CostCategory
+public abstract class CostCategory(string? baseUrn)
 {
     private readonly Dictionary<string, Category> _values = new();
 
@@ -37,18 +37,77 @@ public abstract class CostCategory
         set => _values[index] = value;
     }
 
+    protected string? BaseUrn = baseUrn;
+    protected bool IsGoodOrOutstanding { get; set; }
+    protected bool UsingCloseComparators { get; set; }
     public abstract string Name { get; }
     public abstract string Label { get; }
-    public abstract void Add(string urn, SchoolExpenditure expenditure);
-
+    public TagColour Colour { get; protected set; }
+    public string? DisplayText { get; protected set; }
+    public string? Priority { get; protected set; }
+    public int Decile { get; protected set; }
+    public decimal Value { get; protected set; }
+    protected decimal[]? ValuesAsArray { get; private set; }
+    public int? Percentage { get; protected set; }
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
+
+    public abstract void CalculateRating();
+
+    protected virtual void SetValues()
+    {
+        Value = _values.SingleOrDefault(x => BaseUrn == x.Key).Value.Value;
+        ValuesAsArray = _values.Select(x => x.Value.Value).ToArray();
+        Percentage = (int)Math.Round((decimal)ValuesAsArray.Count(x => x < Value) / ValuesAsArray.Length * 100, 0, MidpointRounding.AwayFromZero);
+    }
+
+    protected virtual void SetRatingValues(int[] highRiskDeciles, int[] mediumRiskDeciles, int[] lowRiskDeciles)
+    {
+        switch (Decile)
+        {
+            case var val when highRiskDeciles.Contains(val):
+                Colour = TagColour.Red;
+                DisplayText = "High priority";
+                Priority = "priority high";
+                break;
+            case var val when mediumRiskDeciles.Contains(val):
+                Colour = TagColour.Yellow;
+                DisplayText = "Medium priority";
+                Priority = "priority medium";
+                break;
+            case var val when lowRiskDeciles.Contains(val):
+                Colour = TagColour.Grey;
+                DisplayText = "Low priority";
+                Priority = "priority low";
+                break;
+            default:
+                throw new ArgumentException($"decile: {nameof(Decile)} is not valid");
+        }
+    }
+
+    public abstract void Add(string urn, SchoolExpenditure expenditure);
 }
 
 
-public class AdministrativeSupplies : CostCategory
+public class AdministrativeSupplies(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Administrative supplies";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = [9, 10];
+        int[] mediumRiskDeciles = [4, 5, 6, 7, 8];
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -58,8 +117,34 @@ public class AdministrativeSupplies : CostCategory
 
 public class CateringStaffServices : CostCategory
 {
+    public CateringStaffServices(string? baseUrn, bool usingCloseComparators) : base(baseUrn)
+    {
+        UsingCloseComparators = usingCloseComparators;
+    }
     public override string Name => "Catering staff and services";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = UsingCloseComparators
+            ? [9, 10]
+            : [10];
+
+        int[] mediumRiskDeciles = UsingCloseComparators
+            ? [4, 5, 6, 7, 8]
+            : [4, 5, 6, 7, 8, 9];
+
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -69,8 +154,48 @@ public class CateringStaffServices : CostCategory
 
 public class EducationalIct : CostCategory
 {
+    public EducationalIct(string? baseUrn, string? ofstedRating, bool usingCloseComparators) : base(baseUrn)
+    {
+        if (ofstedRating == "Good" || ofstedRating == "Outstanding")
+        {
+            IsGoodOrOutstanding = true;
+        }
+        
+        UsingCloseComparators = usingCloseComparators;
+    }
+
     public override string Name => "Educational ICT";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [9, 10]
+                : [10]
+            : UsingCloseComparators
+                ? [1, 2, 9, 10]
+                : [1, 10];
+
+        int[] mediumRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [1, 2, 3, 7, 8]
+                : [1, 2, 3, 7, 8, 9]
+            : UsingCloseComparators
+                ? [3, 7, 8]
+                : [2, 3, 7, 8, 9];
+
+        int[] lowRiskDeciles = [4, 5, 6];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -80,8 +205,47 @@ public class EducationalIct : CostCategory
 
 public class EducationalSupplies : CostCategory
 {
+    public EducationalSupplies(string? baseUrn, string? ofstedRating, bool usingCloseComparators) : base(baseUrn)
+    {
+        if (ofstedRating == "Good" || ofstedRating == "Outstanding")
+        {
+            IsGoodOrOutstanding = true;
+        }
+        UsingCloseComparators = UsingCloseComparators;
+    }
+
     public override string Name => "Educational supplies";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [9, 10]
+                : [10]
+            : UsingCloseComparators
+                ? [1, 2, 9, 10]
+                : [1, 10];
+
+        int[] mediumRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [1, 2, 3, 7, 8]
+                : [1, 2, 3, 7, 8, 9]
+            : UsingCloseComparators
+                ? [3, 7, 8]
+                : [2, 3, 7, 8, 9];
+
+        int[] lowRiskDeciles = [4, 5, 6];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -89,10 +253,26 @@ public class EducationalSupplies : CostCategory
     }
 }
 
-public class NonEducationalSupportStaff : CostCategory
+public class NonEducationalSupportStaff(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Non-educational support staff";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = [9, 10];
+        int[] mediumRiskDeciles = [4, 5, 6, 7, 8];
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -102,8 +282,47 @@ public class NonEducationalSupportStaff : CostCategory
 
 public class TeachingStaff : CostCategory
 {
+    public TeachingStaff(string? baseUrn, string? ofstedRating, bool usingCloseComparators) : base(baseUrn)
+    {
+        if (ofstedRating == "Good" || ofstedRating == "Outstanding")
+        {
+            IsGoodOrOutstanding = true;
+        }
+        UsingCloseComparators = UsingCloseComparators;
+    }
+
     public override string Name => "Teaching and teaching supply staff";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [9, 10]
+                : [10]
+            : UsingCloseComparators
+                ? [1, 2, 9, 10]
+                : [1, 10];
+
+        int[] mediumRiskDeciles = IsGoodOrOutstanding
+            ? UsingCloseComparators
+                ? [1, 2, 3, 7, 8]
+                : [1, 2, 3, 7, 8, 9]
+            : UsingCloseComparators
+                ? [3, 7, 8]
+                : [2, 3, 7, 8, 9];
+
+        int[] lowRiskDeciles = [4, 5, 6];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -111,10 +330,26 @@ public class TeachingStaff : CostCategory
     }
 }
 
-public class Other : CostCategory
+public class Other(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Other";
     public override string Label => "per pupil";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = [10];
+        int[] mediumRiskDeciles = [4, 5, 6, 7, 8, 9];
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -122,10 +357,26 @@ public class Other : CostCategory
     }
 }
 
-public class PremisesStaffServices : CostCategory
+public class PremisesStaffServices(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Premises staff and services";
     public override string Label => "per square metre";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = [9, 10];
+        int[] mediumRiskDeciles = [4, 5, 6, 7, 8];
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -133,10 +384,26 @@ public class PremisesStaffServices : CostCategory
     }
 }
 
-public class Utilities : CostCategory
+public class Utilities(string? baseUrn) : CostCategory(baseUrn)
 {
     public override string Name => "Utilities";
     public override string Label => "per square metre";
+
+    public override void CalculateRating()
+    {
+        SetValues();
+
+        ArgumentNullException.ThrowIfNull(ValuesAsArray);
+
+        IDecileFinder decileCalculator = new FindFromLowest(Value, ValuesAsArray);
+        Decile = decileCalculator.Find();
+
+        int[] highRiskDeciles = [9, 10];
+        int[] mediumRiskDeciles = [4, 5, 6, 7, 8];
+        int[] lowRiskDeciles = [1, 2, 3];
+
+        SetRatingValues(highRiskDeciles, mediumRiskDeciles, lowRiskDeciles);
+    }
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
@@ -147,17 +414,17 @@ public class Utilities : CostCategory
 public static class CategoryBuilder
 {
     public static IEnumerable<CostCategory> Build(
-        IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure)
+        IEnumerable<SchoolExpenditure> pupilExpenditure, IEnumerable<SchoolExpenditure> areaExpenditure, string? baseUrn, string? ofstedRating, bool usingCloseComparators)
     {
-        var teachingStaff = new TeachingStaff();
-        var administrativeSupplies = new AdministrativeSupplies();
-        var cateringStaffServices = new CateringStaffServices();
-        var educationalIct = new EducationalIct();
-        var educationalSupplies = new EducationalSupplies();
-        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
-        var other = new Other();
-        var premisesStaffServices = new PremisesStaffServices();
-        var utilities = new Utilities();
+        var teachingStaff = new TeachingStaff(baseUrn, ofstedRating, usingCloseComparators);
+        var administrativeSupplies = new AdministrativeSupplies(baseUrn);
+        var cateringStaffServices = new CateringStaffServices(baseUrn, usingCloseComparators);
+        var educationalIct = new EducationalIct(baseUrn, ofstedRating, usingCloseComparators);
+        var educationalSupplies = new EducationalSupplies(baseUrn, ofstedRating, usingCloseComparators);
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff(baseUrn);
+        var other = new Other(baseUrn);
+        var premisesStaffServices = new PremisesStaffServices(baseUrn);
+        var utilities = new Utilities(baseUrn);
 
         foreach (var expenditure in pupilExpenditure)
         {
@@ -182,6 +449,16 @@ public static class CategoryBuilder
             utilities.Add(urn, expenditure);
         }
 
+        teachingStaff.CalculateRating();
+        administrativeSupplies.CalculateRating();
+        cateringStaffServices.CalculateRating();
+        educationalIct.CalculateRating();
+        educationalSupplies.CalculateRating();
+        nonEducationalSupportStaff.CalculateRating();
+        other.CalculateRating();
+        premisesStaffServices.CalculateRating();
+        utilities.CalculateRating();
+
         return new CostCategory[]
         {
             teachingStaff,
@@ -196,17 +473,17 @@ public static class CategoryBuilder
         };
     }
 
-    public static IEnumerable<CostCategory> Build(IEnumerable<SchoolExpenditure> expenditure)
+    public static IEnumerable<CostCategory> Build(IEnumerable<SchoolExpenditure> expenditure, string baseUrn, string? ofstedRating, bool usingCloseComparators)
     {
-        var teachingStaff = new TeachingStaff();
-        var administrativeSupplies = new AdministrativeSupplies();
-        var cateringStaffServices = new CateringStaffServices();
-        var educationalIct = new EducationalIct();
-        var educationalSupplies = new EducationalSupplies();
-        var nonEducationalSupportStaff = new NonEducationalSupportStaff();
-        var other = new Other();
-        var premisesStaffServices = new PremisesStaffServices();
-        var utilities = new Utilities();
+        var teachingStaff = new TeachingStaff(baseUrn, ofstedRating, usingCloseComparators);
+        var administrativeSupplies = new AdministrativeSupplies(baseUrn);
+        var cateringStaffServices = new CateringStaffServices(baseUrn, usingCloseComparators);
+        var educationalIct = new EducationalIct(baseUrn, ofstedRating, usingCloseComparators);
+        var educationalSupplies = new EducationalSupplies(baseUrn, ofstedRating, usingCloseComparators);
+        var nonEducationalSupportStaff = new NonEducationalSupportStaff(baseUrn);
+        var other = new Other(baseUrn);
+        var premisesStaffServices = new PremisesStaffServices(baseUrn);
+        var utilities = new Utilities(baseUrn);
 
         foreach (var value in expenditure)
         {
@@ -223,6 +500,16 @@ public static class CategoryBuilder
             premisesStaffServices.Add(urn, value);
             utilities.Add(urn, value);
         }
+
+        teachingStaff.CalculateRating();
+        administrativeSupplies.CalculateRating();
+        cateringStaffServices.CalculateRating();
+        educationalIct.CalculateRating();
+        educationalSupplies.CalculateRating();
+        nonEducationalSupportStaff.CalculateRating();
+        other.CalculateRating();
+        premisesStaffServices.CalculateRating();
+        utilities.CalculateRating();
 
         return new CostCategory[]
         {
