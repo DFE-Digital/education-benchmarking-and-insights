@@ -10,7 +10,7 @@ public class SpendingCostsSteps(PageDriver driver)
 {
     private SpendingCostsPage? _spendingCostsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
-    
+
     [Given(@"I am on spending and costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnSpendingAndCostsPageForSchoolWithUrn(string urn)
     {

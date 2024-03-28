@@ -9,7 +9,7 @@ public record Workforce
     public string? LocalAuthority { get; set; }
     public decimal NumberPupils { get; set; }
     public WorkforcePayload? Payload { get; set; }
-    
+
     public record WorkforcePayload
     {
         public string? Dimension { get; set; }

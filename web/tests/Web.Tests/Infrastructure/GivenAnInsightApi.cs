@@ -31,7 +31,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/maintained-school/123213/workforce/history");
     }
-    
+
     [Fact]
     public async Task GetMaintainedSchoolBalanceHistoryShouldCallCorrectUrl()
     {
@@ -41,7 +41,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/maintained-school/123213/balance/history");
     }
-    
+
     [Fact]
     public async Task GetAcademyFinancesShouldCallCorrectUrl()
     {
@@ -51,7 +51,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/academy/123213");
     }
-    
+
     [Fact]
     public async Task GetAcademyWorkforceHistoryShouldCallCorrectUrl()
     {
@@ -61,7 +61,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/academy/123213/workforce/history");
     }
-    
+
     [Fact]
     public async Task GetAcademyBalanceHistoryShouldCallCorrectUrl()
     {

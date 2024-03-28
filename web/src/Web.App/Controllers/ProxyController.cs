@@ -69,11 +69,11 @@ public class ProxyController(
             }
         }
     }
-    
+
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/workforce/history")]
-    public async Task<IActionResult> EstablishmentWorkforceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension="")
+    public async Task<IActionResult> EstablishmentWorkforceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension = "")
     {
         using (logger.BeginScope(new { type, id }))
         {
@@ -98,7 +98,7 @@ public class ProxyController(
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/balance/history")]
-    public async Task<IActionResult> EstablishmentBalanceHistory([FromQuery]string type, [FromQuery]string id, [FromQuery]string dimension)
+    public async Task<IActionResult> EstablishmentBalanceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
     {
         using (logger.BeginScope(new { type, id }))
         {
@@ -119,7 +119,7 @@ public class ProxyController(
             }
         }
     }
-    
+
     [HttpGet]
     [Produces("application/json")]
     [Route("establishments/suggest")]
@@ -178,14 +178,14 @@ public class ProxyController(
         var result = await financeService.GetWorkforceHistory(school, dimension);
         return new JsonResult(result);
     }
-    
+
     private async Task<IActionResult> SchoolBalanceHistory(string id, string dimension)
     {
         var school = await establishmentApi.GetSchool(id).GetResultOrThrow<School>();
         var result = await financeService.GetBalanceHistory(school, dimension);
         return new JsonResult(result);
     }
-    
+
     private async Task<IActionResult> SchoolSuggestions(string search)
     {
         var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();
