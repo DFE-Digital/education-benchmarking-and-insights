@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Platform.Tests.Benchmark;
 
-public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSetFunctionsTestBase
+public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
@@ -16,7 +16,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
             .ReturnsAsync(new ComparatorSetResponseModel());
 
         var result =
-            await Functions.DefaultPupilComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
+            await Functions.ComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -32,7 +32,7 @@ public class WhenFunctionReceivesDefaultPupilComparatorSetRequest : ComparatorSe
             .Throws(new Exception());
 
         var result = await Functions
-            .DefaultPupilComparatorSetAsync(CreateRequest(), "12313") as StatusCodeResult;
+            .ComparatorSetAsync(CreateRequest(), "12313") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

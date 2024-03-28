@@ -32,7 +32,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 {
     private readonly FinancialPlanDbOptions _options;
 
-    public FinancialPlanDb(IOptions<FinancialPlanDbOptions> options) : base(options.Value)
+    public FinancialPlanDb(IOptions<FinancialPlanDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         _options = options.Value;
     }

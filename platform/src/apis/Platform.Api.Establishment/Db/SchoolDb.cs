@@ -28,7 +28,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
 {
     private readonly string _collectionName;
 
-    public SchoolDb(IOptions<SchoolDbOptions> options) : base(options.Value)
+    public SchoolDb(IOptions<SchoolDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         ArgumentNullException.ThrowIfNull(options.Value.EstablishmentCollectionName);
         _collectionName = options.Value.EstablishmentCollectionName;

@@ -9,7 +9,7 @@ public class WhenFunctionReceivesGetFinanceYearsRequest : MiscFunctionsTestBase
     public void ShouldReturn200OnValidRequest()
     {
 
-        var result = Functions.SingleFinanceYearsAsync(CreateRequest()) as JsonContentResult;
+        var result = Functions.SingleCurrentReturnYearsAsync(CreateRequest()) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
