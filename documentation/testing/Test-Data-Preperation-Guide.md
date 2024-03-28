@@ -55,7 +55,7 @@ Now that we have extracted the data, it's time to keep only the filtered records
 Filter out MAT allocations data and only keep the records that match with the URN of step 2 data.
 
 ### Step 5
-Filter and copy TrustHistoryxxx.json and only keep the records of the trust which we have filtered in step 2. Match the URNs from TrustHistory with the academies file and keep the matching records.
+If the TrustHistory.json exists then filter and copy TrustHistoryxxx.json and only keep the records of the trust which we have filtered in step 2. Match the URNs from TrustHistory with the academies file and keep the matching records.
 
 ### Step 6
 Filter out Floor Area with matching URN from step 1 and step 2.
@@ -86,10 +86,10 @@ Match the floor area URNs with maintained schools and replace the school name wi
 Match floor area URNs with academies schools and replace the school name in floor area with the updated academy school name.
 
 ### Step 15
-Match the TrustHistory URNs with the academies schools and replace the EstablishmentName with the academy name.
+If trusthistory.json exists then match the TrustHistory URNs with the academies schools and replace the EstablishmentName with the academy name.
 
 ### Step 16
-Update GroupName in filtered TrustHistory to dummy names.
+if TrustHistory.json exists then update GroupName in filtered TrustHistory to dummy names.
 
 ### Step 17
 Update the "TrustOrCompanyName" from MAT files to "GroupName" from TrustHistory whose UID matches with TrustHistory file.
