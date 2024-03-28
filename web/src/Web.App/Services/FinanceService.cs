@@ -10,13 +10,45 @@ public interface IFinanceService
     Task<IEnumerable<SchoolWorkforce>> GetWorkforce(IEnumerable<string> schools);
     Task<Finances> GetFinances(School school);
     Task<FinanceYears> GetYears();
+    Task<IEnumerable<Workforce>> GetWorkforceHistory(School school, string dimension);
+    Task<IEnumerable<Balance>> GetBalanceHistory(School school, string dimension);
 }
 
 public class FinanceService(IInsightApi insightApi) : IFinanceService
 {
     public async Task<FinanceYears> GetYears()
     {
-        return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
+        return await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
+    }
+
+    public async Task<IEnumerable<Workforce>> GetWorkforceHistory(School school, string dimension)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        switch (school.FinanceType)
+        {
+            case EstablishmentTypes.Academies:
+                return await insightApi.GetAcademyWorkforceHistory(school.Urn, query).GetResultOrDefault<IEnumerable<Workforce>>() ?? Array.Empty<Workforce>();
+            case EstablishmentTypes.Federation:
+            case EstablishmentTypes.Maintained:
+                return await insightApi.GetMaintainedSchoolWorkforceHistory(school.Urn, query).GetResultOrDefault<IEnumerable<Workforce>>() ?? Array.Empty<Workforce>();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(school.Kind));
+        }
+    }
+
+    public async Task<IEnumerable<Balance>> GetBalanceHistory(School school, string dimension)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        switch (school.FinanceType)
+        {
+            case EstablishmentTypes.Academies:
+                return await insightApi.GetAcademyBalanceHistory(school.Urn, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
+            case EstablishmentTypes.Federation:
+            case EstablishmentTypes.Maintained:
+                return await insightApi.GetMaintainedSchoolBalanceHistory(school.Urn, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
+            default:
+                throw new ArgumentOutOfRangeException(nameof(school.Kind));
+        }
     }
 
     public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> schools)

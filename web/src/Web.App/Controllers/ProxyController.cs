@@ -72,6 +72,56 @@ public class ProxyController(
 
     [HttpGet]
     [Produces("application/json")]
+    [Route("establishments/workforce/history")]
+    public async Task<IActionResult> EstablishmentWorkforceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension = "")
+    {
+        using (logger.BeginScope(new { type, id }))
+        {
+            try
+            {
+                switch (type.ToLower())
+                {
+                    case OrganisationTypes.School:
+                        return await SchoolWorkforceHistory(id, dimension);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting workforce history data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
+    [Route("establishments/balance/history")]
+    public async Task<IActionResult> EstablishmentBalanceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
+    {
+        using (logger.BeginScope(new { type, id }))
+        {
+            try
+            {
+                switch (type.ToLower())
+                {
+                    case OrganisationTypes.School:
+                        return await SchoolBalanceHistory(id, dimension);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting balance history data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Produces("application/json")]
     [Route("establishments/suggest")]
     public async Task<IActionResult> EstablishmentSuggest([FromQuery] string search, [FromQuery] string type)
     {
@@ -119,6 +169,20 @@ public class ProxyController(
     {
         var set = await comparatorSetService.ReadComparatorSet(id);
         var result = await financeService.GetWorkforce(set.DefaultPupil);
+        return new JsonResult(result);
+    }
+
+    private async Task<IActionResult> SchoolWorkforceHistory(string id, string dimension)
+    {
+        var school = await establishmentApi.GetSchool(id).GetResultOrThrow<School>();
+        var result = await financeService.GetWorkforceHistory(school, dimension);
+        return new JsonResult(result);
+    }
+
+    private async Task<IActionResult> SchoolBalanceHistory(string id, string dimension)
+    {
+        var school = await establishmentApi.GetSchool(id).GetResultOrThrow<School>();
+        var result = await financeService.GetBalanceHistory(school, dimension);
         return new JsonResult(result);
     }
 
