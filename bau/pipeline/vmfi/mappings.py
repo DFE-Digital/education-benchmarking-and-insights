@@ -131,3 +131,16 @@ def map_school_website(url: str):
         return None
     else:
         return "https://" + url
+
+
+def map_is_pfi_school(pfi_charges: float):
+    return 'PFI School' if pfi_charges > 0 else 'Non-PFI school'
+
+
+def map_is_surplus_deficit(closing_balance: float):
+    if pd.isna(closing_balance):
+        return 'Unknown'
+    if closing_balance > 0:
+        return 'Surplus'
+    else:
+        return 'Deficit'
