@@ -144,3 +144,40 @@ def map_is_surplus_deficit(closing_balance: float):
         return 'Surplus'
     else:
         return 'Deficit'
+
+
+def map_school_phase_type(establishment_code: int, phase_type: str):
+    if phase_type.lower() == 'primary':
+        match establishment_code:
+            case 33 | 36 | 44:
+                return 'Special'
+            case 38 | 42 | 43:
+                return 'Alternative Provision'
+            case _:
+                return phase_type
+    elif phase_type.lower() == 'secondary':
+        match establishment_code:
+            case 33 | 36 | 44:
+                return 'Special'
+            case 38 | 42 | 43:
+                return 'Alternative Provision'
+            case 40:
+                return 'UTC'
+            case _:
+                return phase_type
+    elif phase_type.lower() == 'all-through' or phase_type.lower() == 'all through':
+        match establishment_code:
+            case 33 | 36 | 44:
+                return 'Special'
+            case 38 | 42 | 43:
+                return 'Alternative Provision'
+            case 40:
+                return 'UTC'
+            case _:
+                return 'Secondary'
+    elif phase_type.lower() == '16 plus':
+        return 'Secondary'
+    else:
+        return phase_type
+
+
