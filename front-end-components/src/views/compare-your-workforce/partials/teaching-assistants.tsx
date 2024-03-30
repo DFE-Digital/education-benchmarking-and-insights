@@ -20,7 +20,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
   props
 ) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<TeachingAssistantsData> =
     useMemo(() => {

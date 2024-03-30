@@ -3,13 +3,15 @@ import React, { useLayoutEffect } from "react";
 //@ts-expect-error
 import { initAll } from "govuk-frontend";
 import {
-  Balance,
+  BalanceSection,
   Income,
   Spending,
-  Workforce,
+  WorkforceSection,
 } from "src/views/school-history/partials";
+import { SchoolHistoryViewProps } from "src/views";
 
-export const SchoolHistory: React.FC = () => {
+export const SchoolHistory: React.FC<SchoolHistoryViewProps> = (props) => {
+  const { urn } = props;
   useLayoutEffect(() => {
     initAll();
   }, []);
@@ -45,13 +47,13 @@ export const SchoolHistory: React.FC = () => {
         <Income />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
-        <Balance />
+        <BalanceSection urn={urn} />
       </div>
       <div
         className="govuk-tabs__panel govuk-tabs__panel--hidden"
         id="workforce"
       >
-        <Workforce />
+        <WorkforceSection urn={urn} />
       </div>
     </div>
   );

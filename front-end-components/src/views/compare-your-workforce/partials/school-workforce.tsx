@@ -19,7 +19,7 @@ import {
 
 export const SchoolWorkforce: React.FC<SchoolWorkforceProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<SchoolWorkforceData> =
     useMemo(() => {

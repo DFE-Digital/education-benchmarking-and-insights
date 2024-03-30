@@ -18,7 +18,7 @@ import {
 
 export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<SeniorLeadershipData> =
     useMemo(() => {

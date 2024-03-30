@@ -19,7 +19,7 @@ import {
 export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
   const tableHeadings = useMemo(
     () => [
       "School name",

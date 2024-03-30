@@ -19,7 +19,7 @@ import {
 export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerMetreSq);
+  const [dimension, setDimension] = useState(PoundsPerMetreSq.value);
   const tableHeadings = useMemo(
     () => [
       "School name",

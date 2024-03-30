@@ -19,7 +19,7 @@ import {
 export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

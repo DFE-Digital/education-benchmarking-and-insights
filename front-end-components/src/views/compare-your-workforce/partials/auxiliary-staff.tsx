@@ -18,7 +18,7 @@ import {
 
 export const AuxiliaryStaff: React.FC<AuxiliaryStaffProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<AuxiliaryStaffData> =
     useMemo(() => {

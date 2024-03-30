@@ -20,7 +20,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
   props
 ) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<NonClassroomSupportData> =
     useMemo(() => {

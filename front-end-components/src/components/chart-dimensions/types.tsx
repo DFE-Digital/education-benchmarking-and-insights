@@ -1,5 +1,10 @@
 import React from "react";
 
+export type Dimension = {
+  label: string;
+  value: string;
+};
+
 export type CostValue = {
   dimension: string;
   totalExpenditure: number;
@@ -24,7 +29,7 @@ export type WorkforceValue = {
 };
 
 export type ChartDimensionsProps = {
-  dimensions: string[];
+  dimensions: Dimension[];
   handleChange: React.ChangeEventHandler<HTMLSelectElement>;
   elementId: string;
   defaultValue: string;

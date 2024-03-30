@@ -1,14 +1,15 @@
+import { Balance, Workforce } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
-import { Expenditure, WorkforceBenchmark } from "src/services";
 
-export class EstablishmentsApi {
-  static async getExpenditure(
+export class HistoryApi {
+  static async getBalance(
     type: string,
-    id: string
-  ): Promise<Expenditure[]> {
+    id: string,
+    dimension: string
+  ): Promise<Balance[]> {
     return fetch(
-      "/api/establishments/expenditure?" +
-        new URLSearchParams({ type: type, id: id }),
+      "/api/establishments/balance/history?" +
+        new URLSearchParams({ type: type, id: id, dimension: dimension }),
       {
         redirect: "manual",
         method: "GET",
@@ -28,13 +29,14 @@ export class EstablishmentsApi {
       });
   }
 
-  static async getWorkforceBenchmarkData(
+  static async getWorkforce(
     type: string,
-    id: string
-  ): Promise<WorkforceBenchmark[]> {
+    id: string,
+    dimension: string
+  ): Promise<Workforce[]> {
     return fetch(
-      "/api/establishments/workforce?" +
-        new URLSearchParams({ type: type, id: id }),
+      "/api/establishments/workforce/history?" +
+        new URLSearchParams({ type: type, id: id, dimension: dimension }),
       {
         redirect: "manual",
         method: "GET",

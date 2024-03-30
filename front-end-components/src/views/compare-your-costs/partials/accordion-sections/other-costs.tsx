@@ -17,7 +17,7 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 
 export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
   const tableHeadings = useMemo(
     () => [
       "School name",

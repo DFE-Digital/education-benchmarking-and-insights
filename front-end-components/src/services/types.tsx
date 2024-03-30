@@ -51,7 +51,7 @@ export type Expenditure = {
   waterSewerageCosts: number;
 };
 
-export type Workforce = {
+export type WorkforceBenchmark = {
   urn: string;
   name: string;
   schoolType: string;
@@ -65,4 +65,24 @@ export type Workforce = {
   nonClassroomSupportStaffFTE: number;
   auxiliaryStaffFTE: number;
   schoolWorkforceHeadcount: number;
+};
+
+export type Balance = {
+  yearEnd: string;
+  dimension: string;
+  inYearBalance: number;
+  revenueReserve: number;
+};
+
+export type Workforce = {
+  yearEnd: string;
+  dimension: string;
+  workforceFte: number;
+  teachersFte: number;
+  seniorLeadershipFte: number;
+  teachingAssistantsFte: number;
+  nonClassroomSupportStaffFte: number;
+  auxiliaryStaffFte: number;
+  workforceHeadcount: number;
+  teachersWithQts: number;
 };

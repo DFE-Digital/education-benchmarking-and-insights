@@ -19,7 +19,7 @@ import {
 export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
   const tableHeadings = useMemo(
     () => [
       "School name",

@@ -17,7 +17,7 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 
 export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

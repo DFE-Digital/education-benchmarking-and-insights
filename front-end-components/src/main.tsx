@@ -36,17 +36,20 @@ import {
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { Expenditure, Workforce } from "./services";
+import { Expenditure, Workforce, WorkforceBenchmark } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
-  const root = ReactDOM.createRoot(schoolHistoryElement);
-  root.render(
-    <React.StrictMode>
-      <SchoolHistory />
-    </React.StrictMode>
-  );
+  const { urn } = schoolHistoryElement.dataset;
+  if (urn) {
+    const root = ReactDOM.createRoot(schoolHistoryElement);
+    root.render(
+      <React.StrictMode>
+        <SchoolHistory urn={urn} />
+      </React.StrictMode>
+    );
+  }
 }
 
 const findOrganisationElement = document.getElementById(
@@ -141,7 +144,7 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (Workforce | Expenditure)[];
+  data: (WorkforceBenchmark | Expenditure)[];
   highlightedItemKey?: string;
   keyField: keyof Workforce & keyof Expenditure;
   sortDirection: ChartSortDirection;
@@ -227,7 +230,7 @@ if (horizontalChart1SeriesElement) {
     horizontalChart1SeriesElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
-    const data = JSON.parse(json) as Workforce[];
+    const data = JSON.parse(json) as WorkforceBenchmark[];
 
     root.render(
       <React.StrictMode>

@@ -8,7 +8,7 @@ import React, {
 //@ts-expect-error
 import { initAll } from "govuk-frontend";
 import { CompareYourWorkforceViewProps } from "src/views";
-import { EstablishmentsApi, Workforce } from "src/services";
+import { EstablishmentsApi, WorkforceBenchmark } from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
   SelectedSchool,
@@ -31,7 +31,9 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   props
 ) => {
   const { type, id, academyYear, maintainedYear } = props;
-  const [workforceData, setWorkforceData] = useState<Workforce[]>();
+  const [workforceData, setWorkforceData] = useState<WorkforceBenchmark[]>(
+    new Array<WorkforceBenchmark>()
+  );
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({
     urn: "",
@@ -85,30 +87,14 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
         </div>
       </div>
       <ChartModeContext.Provider value={displayMode}>
-        <SchoolWorkforce
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TotalTeachers
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TotalTeachersQualified
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <SeniorLeadership
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TeachingAssistants
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <NonClassroomSupport
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <AuxiliaryStaff
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <Headcount
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
+        <SchoolWorkforce schools={workforceData} />
+        <TotalTeachers schools={workforceData} />
+        <TotalTeachersQualified schools={workforceData} />
+        <SeniorLeadership schools={workforceData} />
+        <TeachingAssistants schools={workforceData} />
+        <NonClassroomSupport schools={workforceData} />
+        <AuxiliaryStaff schools={workforceData} />
+        <Headcount schools={workforceData} />
       </ChartModeContext.Provider>
     </SelectedSchoolContext.Provider>
   );

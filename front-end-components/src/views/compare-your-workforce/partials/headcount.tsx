@@ -20,7 +20,7 @@ import {
 
 export const Headcount: React.FC<HeadcountProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
 
   const chartData: HorizontalBarChartWrapperData<HeadcountData> =
     useMemo(() => {

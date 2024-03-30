@@ -20,7 +20,7 @@ import {
 export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil);
+  const [dimension, setDimension] = useState(PoundsPerPupil.value);
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {

@@ -8,15 +8,30 @@ import {
 export * from "src/components/chart-dimensions/types";
 export * from "src/components/chart-dimensions/component";
 
-export const PoundsPerPupil = "£ per pupil";
-export const PoundsPerMetreSq = "£ per m²";
-export const Actual = "actuals";
-export const PercentageExpenditure = "percentage of expenditure";
-export const PercentageIncome = "percentage of income";
-export const Total = "total";
-export const HeadcountPerFTE = "headcount per FTE";
-export const PercentageOfWorkforce = "percentage of workforce";
-export const PupilsPerStaffRole = "pupils per staff role";
+export const PoundsPerPupil = { label: "£ per pupil", value: "PoundPerPupil" };
+export const PoundsPerMetreSq = { label: "£ per m²", value: "PoundPerSqMetre" };
+export const Actual = { label: "actuals", value: "Actuals" };
+export const PercentageExpenditure = {
+  label: "percentage of expenditure",
+  value: "PercentExpenditure",
+};
+export const PercentageIncome = {
+  label: "percentage of income",
+  value: "PercentIncome",
+};
+export const Total = { label: "total", value: "Total" };
+export const HeadcountPerFTE = {
+  label: "headcount per FTE",
+  value: "HeadcountPerFte",
+};
+export const PercentageOfWorkforce = {
+  label: "percentage of workforce",
+  value: "PercentWorkforce",
+};
+export const PupilsPerStaffRole = {
+  label: "pupils per staff role",
+  value: "PupilsPerStaffRole",
+};
 
 export const CostCategories = [
   PoundsPerPupil,
@@ -39,13 +54,13 @@ export const WorkforceCategories = [
 
 export function CalculateCostValue(costValue: CostValue): number {
   switch (costValue.dimension) {
-    case PoundsPerPupil:
+    case PoundsPerPupil.value:
       return costValue.value / Number(costValue.numberOfPupils);
-    case PercentageExpenditure:
+    case PercentageExpenditure.value:
       return (costValue.value / costValue.totalExpenditure) * 100;
-    case PercentageIncome:
+    case PercentageIncome.value:
       return (costValue.value / costValue.totalIncome) * 100;
-    case Actual:
+    case Actual.value:
       return costValue.value;
     default:
       return 0;
@@ -54,15 +69,15 @@ export function CalculateCostValue(costValue: CostValue): number {
 
 export function DimensionHeading(dimension: string): string {
   switch (dimension) {
-    case PercentageExpenditure:
-    case PercentageIncome:
-    case PercentageOfWorkforce:
+    case PercentageExpenditure.value:
+    case PercentageIncome.value:
+    case PercentageOfWorkforce.value:
       return "Percentage";
-    case Total:
+    case Total.value:
       return "Count";
-    case HeadcountPerFTE:
+    case HeadcountPerFTE.value:
       return "Ratio";
-    case PupilsPerStaffRole:
+    case PupilsPerStaffRole.value:
       return "Pupils per staff role";
     default:
       return "Amount";
@@ -71,11 +86,11 @@ export function DimensionHeading(dimension: string): string {
 
 export function CalculatePremisesValue(premisesValue: PremisesValue): number {
   switch (premisesValue.dimension) {
-    case PercentageExpenditure:
+    case PercentageExpenditure.value:
       return (premisesValue.value / premisesValue.totalExpenditure) * 100;
-    case PercentageIncome:
+    case PercentageIncome.value:
       return (premisesValue.value / premisesValue.totalIncome) * 100;
-    case Actual:
+    case Actual.value:
       return premisesValue.value;
     default:
       return 0;
@@ -86,13 +101,13 @@ export function CalculateWorkforceValue(
   workforceValue: WorkforceValue
 ): number {
   switch (workforceValue.dimension) {
-    case Total:
+    case Total.value:
       return workforceValue.value;
-    case HeadcountPerFTE:
+    case HeadcountPerFTE.value:
       return workforceValue.schoolWorkforceHeadcount / workforceValue.value;
-    case PercentageOfWorkforce:
+    case PercentageOfWorkforce.value:
       return (workforceValue.value / workforceValue.schoolWorkforceFTE) * 100;
-    case PupilsPerStaffRole:
+    case PupilsPerStaffRole.value:
       return Number(workforceValue.numberOfPupils) / workforceValue.value;
     default:
       return 0;
