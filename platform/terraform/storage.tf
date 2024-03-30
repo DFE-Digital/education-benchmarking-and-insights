@@ -17,6 +17,11 @@ resource "azurerm_storage_account" "platform-storage" {
       days = 7
     }
   }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {

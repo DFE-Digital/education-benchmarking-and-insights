@@ -96,7 +96,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     detailed_error_messages = true
     http_logs {
       file_system {
-        retention_in_days = 4
+        retention_in_days = 0
         retention_in_mb   = 25
       }
     }

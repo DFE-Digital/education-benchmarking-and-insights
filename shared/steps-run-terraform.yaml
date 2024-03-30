@@ -49,7 +49,7 @@ steps:
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
     displayName: 'Terraform : install'
     inputs:
-      terraformVersion: 1.7.4
+      terraformVersion: 1.7.5
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Terraform : init'
