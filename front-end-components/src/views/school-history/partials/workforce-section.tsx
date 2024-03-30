@@ -12,6 +12,7 @@ import { SchoolEstablishment } from "src/constants.tsx";
 import { LineChart } from "src/components/charts/line-chart";
 import { shortValueFormatter } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
+import { ResolvedStat } from "src/components/charts/resolved-stat";
 
 export type WorkforceSectionProps = {
   urn: string;
@@ -75,30 +76,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         School workforce (full time equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="School workforce (full time equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            workforceFte: {
-              label: "School workforce",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="School workforce (full time equivalent)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                workforceFte: {
+                  label: "School workforce",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent school workforce"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="workforceFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -121,30 +138,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         Total number of teachers (full time equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Total number of teachers (full time equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            teachersFte: {
-              label: "Total number of teachers",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Total number of teachers (full time equivalent)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                teachersFte: {
+                  label: "Total number of teachers",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent total number of teachers"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="teachersFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -162,31 +195,50 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         Teachers with qualified teacher status
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Teachers with qualified teacher status"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            teachersWithQts: {
-              label: "Teachers with qualified teacher status",
-              visible: true,
-            },
-          }}
-          seriesLabel="percentage"
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          valueUnit="%"
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, { valueUnit: "%" })}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Teachers with qualified teacher status"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                teachersWithQts: {
+                  label: "Teachers with qualified teacher status",
+                  visible: true,
+                },
+              }}
+              seriesLabel="percentage"
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              valueUnit="%"
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) =>
+                    shortValueFormatter(v, { valueUnit: "%" })
+                  }
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent teachers with qualified teacher status"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="teachersWithQts"
+            valueFormatter={shortValueFormatter}
+            valueUnit="%"
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -204,30 +256,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         Senior leadership (full time equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Senior leadership (full time equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            seniorLeadershipFte: {
-              label: "Senior leadership",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Senior leadership (full time equivalent)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                seniorLeadershipFte: {
+                  label: "Senior leadership",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent senior leadership"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="seniorLeadershipFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -251,30 +319,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         Teaching assistants (full time equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Teaching assistants (full time equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            teachingAssistantsFte: {
-              label: "Teaching assistants",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Teaching assistants (full time equivalent)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                teachingAssistantsFte: {
+                  label: "Teaching assistants",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent teaching assistants"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="teachingAssistantsFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -297,31 +381,47 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
         Non-classroom support staff - excluding auxiliary staff (full time
         equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Non-classroom support staff - excluding auxiliary staff (full time
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Non-classroom support staff - excluding auxiliary staff (full time
         equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            nonClassroomSupportStaffFte: {
-              label: "Non-classroom support staff",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                nonClassroomSupportStaffFte: {
+                  label: "Non-classroom support staff",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent non-classroom support staff"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="nonClassroomSupportStaffFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -343,30 +443,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
       <h2 className="govuk-heading-m">
         Auxiliary staff (full time equivalent)
       </h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="Auxiliary staff (full time equivalent)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            auxiliaryStaffFte: {
-              label: "Auxiliary staff (full time equivalent)",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="Auxiliary staff (full time equivalent)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                auxiliaryStaffFte: {
+                  label: "Auxiliary staff (full time equivalent)",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter desktop">
+          <ResolvedStat
+            chartName="Most recent auxiliary staff"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="auxiliaryStaffFte"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">
@@ -385,30 +501,46 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
         </div>
       </details>
       <h2 className="govuk-heading-m">School workforce (headcount)</h2>
-      <div style={{ height: 200 }}>
-        <LineChart
-          chartName="School workforce (headcount)"
-          data={data}
-          grid
-          highlightActive
-          keyField="yearEnd"
-          margin={20}
-          seriesConfig={{
-            workforceHeadcount: {
-              label: "School workforce (headcount)",
-              visible: true,
-            },
-          }}
-          seriesLabel={dimension.label}
-          seriesLabelField="yearEnd"
-          valueFormatter={shortValueFormatter}
-          tooltip={(t) => (
-            <LineChartTooltip
-              {...t}
-              valueFormatter={(v) => shortValueFormatter(v, {})}
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-three-quarters">
+          <div style={{ height: 200 }}>
+            <LineChart
+              chartName="School workforce (headcount)"
+              data={data}
+              grid
+              highlightActive
+              keyField="yearEnd"
+              margin={20}
+              seriesConfig={{
+                workforceHeadcount: {
+                  label: "School workforce (headcount)",
+                  visible: true,
+                },
+              }}
+              seriesLabel={dimension.label}
+              seriesLabelField="yearEnd"
+              valueFormatter={shortValueFormatter}
+              tooltip={(t) => (
+                <LineChartTooltip
+                  {...t}
+                  valueFormatter={(v) => shortValueFormatter(v, {})}
+                />
+              )}
             />
-          )}
-        />
+          </div>
+        </div>
+        <aside className="govuk-grid-column-one-quarter">
+          <ResolvedStat
+            chartName="Most recent school workforce (headcount)"
+            className="chart-stat-line-chart"
+            compactValue
+            data={data}
+            displayIndex={data.length - 1}
+            seriesLabelField="yearEnd"
+            valueField="workforceHeadcount"
+            valueFormatter={shortValueFormatter}
+          />
+        </aside>
       </div>
       <details className="govuk-details">
         <summary className="govuk-details__summary">

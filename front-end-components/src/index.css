@@ -129,7 +129,7 @@
   overflow-wrap: break-word;
 }
 
-.chart-stat-line-chart .chart-stat-value {
+.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value{
   color: var(--series-2-colour);
 }
 
