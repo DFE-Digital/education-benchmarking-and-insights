@@ -105,8 +105,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   app_settings = {
     "ASPNETCORE_ENVIRONMENT"                         = "Production"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"          = data.azurerm_application_insights.application-insights.connection_string
-    "FeatureManagement__CurriculumFinancialPlanning" = true
-    "FeatureManagement__Trusts"                      = false
+    "FeatureManagement__CurriculumFinancialPlanning" = var.configuration[var.environment].features.CurriculumFinancialPlanning
+    "FeatureManagement__Trusts"                      = var.configuration[var.environment].features.Trusts
     "Apis__Insight__Url"                             = data.azurerm_key_vault_secret.insight-api-host.value
     "Apis__Insight__Key"                             = data.azurerm_key_vault_secret.insight-api-key.value
     "Apis__Establishment__Url"                       = data.azurerm_key_vault_secret.establishment-api-host.value
