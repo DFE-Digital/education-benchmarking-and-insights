@@ -146,8 +146,8 @@ public class ProxyController(
 
     private async Task<IActionResult> TrustExpenditure(string id)
     {
-        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<string>>();
-        var result = await financeService.GetExpenditure(schools);
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
         return new JsonResult(result);
     }
 
@@ -160,8 +160,8 @@ public class ProxyController(
 
     private async Task<IActionResult> TrustWorkforce(string id)
     {
-        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<string>>();
-        var result = await financeService.GetWorkforce(schools);
+        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var result = await financeService.GetWorkforce(schools.Select(x => x.Urn).OfType<string>());
         return new JsonResult(result);
     }
 

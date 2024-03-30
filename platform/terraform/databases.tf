@@ -51,10 +51,6 @@ resource "azurerm_cosmosdb_sql_container" "cosmosdb-fp-container" {
     included_path {
       path = "/*"
     }
-
-    excluded_path {
-      path = "/\"_etag\"/?"
-    }
   }
 }
 

@@ -51,6 +51,10 @@ resource "azurerm_storage_account" "audit-storage" {
       days = 7
     }
   }
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -71,5 +75,10 @@ resource "azurerm_storage_account" "threat-storage" {
     delete_retention_policy {
       days = 7
     }
+  }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
   }
 }

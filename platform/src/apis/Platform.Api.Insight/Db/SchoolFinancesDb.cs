@@ -65,7 +65,7 @@ public abstract class SchoolFinancesDb<T> : CosmosDatabase, ISchoolFinancesDb<T>
         var schools = await GetHistoryFinances(urn);
 
         return schools
-            .OfType<(int, SchoolTrustFinancialDataObject)>()
+            .OfType<(int, SchoolTrustFinancialDataObject?)>()
             .Select(school => WorkforceResponseModel.Create(school.Item2, school.Item1, dimension));
     }
 
