@@ -4,34 +4,9 @@ using System.Diagnostics.CodeAnalysis;
 namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record FinanceWorkforceResponseModel
+public record WorkforceResponseModel
 {
     public int YearEnd { get; private set; }
-    public string? Urn { get; private set; }
-    public string? Name { get; private set; }
-    public string? SchoolType { get; private set; }
-    public string? LocalAuthority { get; private set; }
-    public decimal NumberPupils { get; private set; }
-    public WorkforcePayloadResponseModel? Payload { get; private set; }
-
-    public static FinanceWorkforceResponseModel Create(SchoolTrustFinancialDataObject dataObject, int term, Dimension dimension = Dimension.Total)
-    {
-        return new FinanceWorkforceResponseModel
-        {
-            YearEnd = term,
-            Urn = dataObject.Urn.ToString(),
-            Name = dataObject.SchoolName,
-            SchoolType = dataObject.Type,
-            LocalAuthority = dataObject.La.ToString(),
-            NumberPupils = dataObject.NoPupils,
-            Payload = WorkforcePayloadResponseModel.Create(dataObject, dimension)
-        };
-    }
-}
-
-[ExcludeFromCodeCoverage]
-public record WorkforcePayloadResponseModel
-{
     public Dimension Dimension { get; private set; }
     public decimal WorkforceFte { get; private set; }
     public decimal TeachersFte { get; private set; }
@@ -42,10 +17,11 @@ public record WorkforcePayloadResponseModel
     public decimal WorkforceHeadcount { get; private set; }
     public decimal TeachersWithQts { get; private set; }
 
-    public static WorkforcePayloadResponseModel Create(SchoolTrustFinancialDataObject dataObject, Dimension dimension)
+    public static WorkforceResponseModel Create(SchoolTrustFinancialDataObject dataObject, int term, Dimension dimension = Dimension.Total)
     {
-        return new WorkforcePayloadResponseModel
+        return new WorkforceResponseModel
         {
+            YearEnd = term,
             Dimension = dimension,
             TeachersWithQts = dataObject.PercentageQualifiedTeachers,
             WorkforceFte = CalculationValue(dataObject.WorkforceTotal, dataObject, dimension),
@@ -63,9 +39,9 @@ public record WorkforcePayloadResponseModel
         return dimension switch
         {
             Dimension.Total => value,
-            Dimension.HeadcountPerFte => dataObject.WorkforceHeadcount / value,
-            Dimension.PercentWorkforce => value / dataObject.WorkforceTotal * 100,
-            Dimension.PupilsPerStaffRole => dataObject.NoPupils / value,
+            Dimension.HeadcountPerFte => value != 0 ? dataObject.WorkforceHeadcount / value : 0,
+            Dimension.PercentWorkforce => dataObject.WorkforceTotal != 0 ? value / dataObject.WorkforceTotal * 100 : 0,
+            Dimension.PupilsPerStaffRole => value != 0 ? dataObject.NoPupils / value : 0,
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, "Unknown value dimension")
         };
     }

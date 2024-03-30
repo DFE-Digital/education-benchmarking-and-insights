@@ -61,7 +61,7 @@ public class AcademySchoolFunctions
     }
 
     [FunctionName(nameof(BalanceHistoryAcademyAsync))]
-    [ProducesResponseType(typeof(FinanceBalanceResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
@@ -97,7 +97,7 @@ public class AcademySchoolFunctions
     }
 
     [FunctionName(nameof(WorkforceHistoryAcademyAsync))]
-    [ProducesResponseType(typeof(FinanceWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]

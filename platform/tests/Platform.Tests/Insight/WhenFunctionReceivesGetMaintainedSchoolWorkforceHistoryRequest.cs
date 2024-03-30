@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetMaintainedSchoolWorkforceHistoryRequest : Ma
     {
         Db
             .Setup(d => d.GetWorkforceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
-            .ReturnsAsync(Array.Empty<FinanceWorkforceResponseModel>());
+            .ReturnsAsync(Array.Empty<WorkforceResponseModel>());
 
         var result = await Functions.WorkforceHistoryMaintainedSchoolAsync(CreateRequest(), "1") as JsonContentResult;
 

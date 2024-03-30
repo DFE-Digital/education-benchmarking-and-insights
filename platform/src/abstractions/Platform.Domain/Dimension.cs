@@ -6,6 +6,7 @@ public enum Dimension
     PoundPerPupil,
     PercentIncome,
     PercentExpenditure,
+    PoundPerSqMetre,
     HeadcountPerFte,
     Total,
     PercentWorkforce,

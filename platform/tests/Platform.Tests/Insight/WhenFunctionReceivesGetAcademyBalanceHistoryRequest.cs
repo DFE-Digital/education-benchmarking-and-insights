@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetAcademyBalanceHistoryRequest : AcademySchool
     {
         Db
             .Setup(d => d.GetBalanceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
-            .ReturnsAsync(Array.Empty<FinanceBalanceResponseModel>());
+            .ReturnsAsync(Array.Empty<BalanceResponseModel>());
 
         var result = await Functions.BalanceHistoryAcademyAsync(CreateRequest(), "1") as JsonContentResult;
 

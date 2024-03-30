@@ -28,8 +28,8 @@ public abstract record SchoolFinancesDbOptions : CosmosDatabaseOptions
 public interface ISchoolFinancesDb<T>
 {
     Task<FinancesResponseModel?> Get(string urn);
-    Task<IEnumerable<FinanceBalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension);
-    Task<IEnumerable<FinanceWorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension);
+    Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension);
+    Task<IEnumerable<WorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension);
 }
 
 [ExcludeFromCodeCoverage]
@@ -51,22 +51,22 @@ public abstract class SchoolFinancesDb<T> : CosmosDatabase, ISchoolFinancesDb<T>
             ? null
             : FinancesResponseModel.Create(finances.dataObject, finances.year);
     }
-    public async Task<IEnumerable<FinanceBalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension)
+    public async Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension)
     {
         var schools = await GetHistoryFinances(urn);
 
         return schools
             .OfType<(int, SchoolTrustFinancialDataObject)>()
-            .Select(school => FinanceBalanceResponseModel.Create(school.Item2, school.Item1, dimension));
+            .Select(school => BalanceResponseModel.Create(school.Item2, school.Item1, dimension));
     }
 
-    public async Task<IEnumerable<FinanceWorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension)
+    public async Task<IEnumerable<WorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension)
     {
         var schools = await GetHistoryFinances(urn);
 
         return schools
             .OfType<(int, SchoolTrustFinancialDataObject)>()
-            .Select(school => FinanceWorkforceResponseModel.Create(school.Item2, school.Item1, dimension));
+            .Select(school => WorkforceResponseModel.Create(school.Item2, school.Item1, dimension));
     }
 
     private async Task<(int year, SchoolTrustFinancialDataObject? dataObject)[]> GetHistoryFinances(string urn)

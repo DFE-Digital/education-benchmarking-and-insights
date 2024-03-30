@@ -62,7 +62,7 @@ public class MaintainedSchoolFunctions
     }
 
     [FunctionName(nameof(BalanceHistoryMaintainedSchoolAsync))]
-    [ProducesResponseType(typeof(FinanceBalanceResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
@@ -98,7 +98,7 @@ public class MaintainedSchoolFunctions
     }
 
     [FunctionName(nameof(WorkforceHistoryMaintainedSchoolAsync))]
-    [ProducesResponseType(typeof(FinanceWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]

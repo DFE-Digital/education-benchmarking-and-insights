@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetAcademyWorkforceHistoryRequest : AcademyScho
     {
         Db
             .Setup(d => d.GetWorkforceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
-            .ReturnsAsync(Array.Empty<FinanceWorkforceResponseModel>());
+            .ReturnsAsync(Array.Empty<WorkforceResponseModel>());
 
         var result = await Functions.WorkforceHistoryAcademyAsync(CreateRequest(), "1") as JsonContentResult;
 
