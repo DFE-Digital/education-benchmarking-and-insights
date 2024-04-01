@@ -18,5 +18,5 @@ public class SchoolViewModel(
     public decimal InYearBalance => finances.TotalIncome - finances.TotalExpenditure;
     public decimal RevenueReserve => finances.RevenueReserve;
 
-    public IEnumerable<CostCategory> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure, school.Urn, school.OfstedRating, false);
+    public IEnumerable<(CostCategory, CostRating)> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure, school.Urn, school.OfstedRating, false);
 }

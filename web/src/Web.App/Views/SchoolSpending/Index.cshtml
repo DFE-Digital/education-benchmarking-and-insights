@@ -18,23 +18,24 @@
 {
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
         <div class="govuk-grid-column-two-thirds">
-            <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Name</h3>
+            <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Item1.Name</h3>
 
-            <p class="@category.Priority govuk-body">
-                <strong class="govuk-tag govuk-tag--@category.Colour.ToString().ToLower()">
-                    @category.DisplayText
+            @* TODO : Add RAG calculations *@
+            <p class="@category.Item2.Priority govuk-body">
+                <strong class="govuk-tag govuk-tag--@category.Item2.Colour.ToString().ToLower()">
+                    @category.Item2.DisplayText
                 </strong>
-                Spends more than <strong>@category.Percentage%</strong> of similar schools.
+                Spends more than <strong>@category.Item2.Percentage%</strong> of similar schools.
             </p>
             <div class="govuk-!-margin-bottom-2"
                  data-spending-and-costs-composed
-                 data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
+                 data-json="@category.Item1.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                  data-highlight="@Model.Urn"
-                 data-suffix="@category.Label"
+                 data-suffix="@category.Item1.Label"
                  data-sort-direction="asc">
             </div>
             <p class="govuk-body">
-                <a href="#" class="govuk-link govuk-link--no-visited-state">View all @category.Name.ToLower() costs</a>
+                <a href="#" class="govuk-link govuk-link--no-visited-state">View all @category.Item1.Name.ToLower() costs</a>
             </p>
         </div>
     </div>

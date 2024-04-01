@@ -10,5 +10,5 @@ public class SchoolSpendingViewModel(
     public string? Name => school.Name;
     public string? Urn => school.Urn;
 
-    public IEnumerable<CostCategory> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure, school.Urn, school.OfstedRating, false);
+    public IEnumerable<(CostCategory, CostRating)> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure, school.Urn, school.OfstedRating, false);
 }
