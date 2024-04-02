@@ -47,7 +47,7 @@
                     case Resources.TrustResources:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustResources", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Index", "TrustResources", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     Find ways to spend less
                                 </a>
                             </h3>
@@ -59,7 +59,7 @@
                     case Resources.TrustHistoricData:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustHistory", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Index", "TrustHistory", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     View historic data
                                 </a>
                             </h3>
