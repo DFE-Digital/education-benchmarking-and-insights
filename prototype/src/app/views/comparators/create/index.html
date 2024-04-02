@@ -30,7 +30,7 @@
 
       <form action="/comparators/create" method="post">
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+        <h1 class="govuk-heading-l">Choose your own similar schools</h1>
 
         {{ govukInsetText({
           text: "Custom comparator sets are not currently saved and will be lost when you end your session."
@@ -39,6 +39,13 @@
 
         {{ govukRadios({
           name: "compareRoute",
+          fieldset: {
+            legend: {
+              text: "Where do you live?",
+              isPageHeading: true,
+              classes: "govuk-fieldset__legend--m"
+            }
+          },
           items: [
             {
               value: "review",
