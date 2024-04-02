@@ -81,7 +81,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   }
 
   site_config {
-    http2_enabled = true
+    http2_enabled          = true
+    vnet_route_all_enabled = true
     application_stack {
       dotnet_version = "8.0"
     }
@@ -90,6 +91,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     health_check_path                 = "/health"
     health_check_eviction_time_in_min = 10
   }
+
+  virtual_network_subnet_id = data.azurerm_subnet.web-app-subnet.id
 
   logs {
     failed_request_tracing  = true

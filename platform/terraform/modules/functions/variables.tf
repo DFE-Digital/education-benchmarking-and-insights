@@ -63,3 +63,7 @@ variable "storage-account-key" {
 variable "common-tags" {
   type = map(string)
 }
+
+variable "enable-restrictions" {
+  type = bool
+}
