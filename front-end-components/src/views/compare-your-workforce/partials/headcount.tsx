@@ -20,7 +20,7 @@ import {
 
 export const Headcount: React.FC<HeadcountProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
 
   const chartData: HorizontalBarChartWrapperData<HeadcountData> =
     useMemo(() => {
@@ -29,7 +29,7 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -37,7 +37,7 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
           return {
             ...school,
             value: CalculateWorkforceValue({
-              dimension,
+              dimension: dimension.value,
               value: school.schoolWorkforceHeadcount,
               ...school,
             }),
@@ -50,7 +50,10 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -67,7 +70,7 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
           )}
           handleChange={handleSelectChange}
           elementId="headcount"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

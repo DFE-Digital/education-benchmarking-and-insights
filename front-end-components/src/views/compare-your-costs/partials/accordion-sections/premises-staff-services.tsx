@@ -19,14 +19,14 @@ import {
 export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerMetreSq.value);
+  const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const tableHeadings = useMemo(
     () => [
       "School name",
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      DimensionHeading(dimension.value),
     ],
     [dimension]
   );
@@ -34,7 +34,10 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      PremisesCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerMetreSq;
+    setDimension(dimension);
   };
 
   const totalPremisesStaffServiceCostsBarData: HorizontalBarChartWrapperData<PremisesStaffServicesData> =
@@ -44,7 +47,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalPremisesStaffServiceCosts,
               ...school,
             }),
@@ -61,7 +64,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.cleaningCaretakingCosts,
               ...school,
             }),
@@ -78,7 +81,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.maintenancePremisesCosts,
               ...school,
             }),
@@ -95,7 +98,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.otherOccupationCosts,
               ...school,
             }),
@@ -112,7 +115,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.premisesStaffCosts,
               ...school,
             }),
@@ -153,7 +156,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-premises-staff-service-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

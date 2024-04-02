@@ -8,6 +8,7 @@ import {
   TotalTeachersQualifiedData,
   TotalTeachersQualifiedProps,
 } from "src/views/compare-your-workforce/partials";
+import { Percent } from "src/components";
 
 export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
   props
@@ -36,7 +37,7 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
     }, [schools]);
 
   return (
-    <ChartDimensionContext.Provider value={"percent"}>
+    <ChartDimensionContext.Provider value={Percent}>
       <HorizontalBarChartWrapper
         data={chartData}
         chartName="teachers with qualified teacher status (%)"

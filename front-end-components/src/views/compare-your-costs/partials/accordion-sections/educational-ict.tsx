@@ -17,12 +17,15 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 
 export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil.value);
+  const [dimension, setDimension] = useState(PoundsPerPupil);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   const learningResourcesBarData: HorizontalBarChartWrapperData<EducationalIctData> =
@@ -32,7 +35,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -40,7 +43,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.learningResourcesIctCosts,
               ...school,
             }),
@@ -81,7 +84,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="eductional-learning-resources-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

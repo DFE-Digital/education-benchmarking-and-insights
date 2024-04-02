@@ -20,7 +20,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
   props
 ) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
 
   const chartData: HorizontalBarChartWrapperData<NonClassroomSupportData> =
     useMemo(() => {
@@ -29,7 +29,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -37,7 +37,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
           return {
             ...school,
             value: CalculateWorkforceValue({
-              dimension,
+              dimension: dimension.value,
               value: school.nonClassroomSupportStaffFTE,
               ...school,
             }),
@@ -50,7 +50,10 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -67,7 +70,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
           elementId="nonclassroom-support"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

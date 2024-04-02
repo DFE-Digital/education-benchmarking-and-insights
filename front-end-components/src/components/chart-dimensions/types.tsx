@@ -1,8 +1,10 @@
 import React from "react";
+import { ChartSeriesValueUnit } from "src/components";
 
 export type Dimension = {
   label: string;
   value: string;
+  unit?: ChartSeriesValueUnit;
 };
 
 export type CostValue = {

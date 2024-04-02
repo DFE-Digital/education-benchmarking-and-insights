@@ -1,5 +1,6 @@
 import {
   CostValue,
+  Dimension,
   PremisesValue,
   WorkforceValue,
 } from "src/components/chart-dimensions";
@@ -8,27 +9,48 @@ import {
 export * from "src/components/chart-dimensions/types";
 export * from "src/components/chart-dimensions/component";
 
-export const PoundsPerPupil = { label: "£ per pupil", value: "PoundPerPupil" };
-export const PoundsPerMetreSq = { label: "£ per m²", value: "PoundPerSqMetre" };
-export const Actual = { label: "actuals", value: "Actuals" };
-export const PercentageExpenditure = {
+export const PoundsPerPupil: Dimension = {
+  label: "£ per pupil",
+  value: "PoundPerPupil",
+  unit: "currency",
+};
+export const PoundsPerMetreSq: Dimension = {
+  label: "£ per m²",
+  value: "PoundPerSqMetre",
+  unit: "currency",
+};
+export const Actual: Dimension = {
+  label: "actuals",
+  value: "Actuals",
+  unit: "currency",
+};
+export const Percent: Dimension = {
+  label: "percent",
+  value: "Percent",
+  unit: "%",
+};
+
+export const PercentageExpenditure: Dimension = {
   label: "percentage of expenditure",
   value: "PercentExpenditure",
+  unit: "%",
 };
-export const PercentageIncome = {
+export const PercentageIncome: Dimension = {
   label: "percentage of income",
   value: "PercentIncome",
+  unit: "%",
 };
-export const Total = { label: "total", value: "Total" };
-export const HeadcountPerFTE = {
+export const Total: Dimension = { label: "total", value: "Total" };
+export const HeadcountPerFTE: Dimension = {
   label: "headcount per FTE",
   value: "HeadcountPerFte",
 };
-export const PercentageOfWorkforce = {
+export const PercentageOfWorkforce: Dimension = {
   label: "percentage of workforce",
   value: "PercentWorkforce",
+  unit: "%",
 };
-export const PupilsPerStaffRole = {
+export const PupilsPerStaffRole: Dimension = {
   label: "pupils per staff role",
   value: "PupilsPerStaffRole",
 };

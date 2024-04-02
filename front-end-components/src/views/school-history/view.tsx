@@ -4,7 +4,7 @@ import React, { useLayoutEffect } from "react";
 import { initAll } from "govuk-frontend";
 import {
   BalanceSection,
-  Income,
+  IncomeSection,
   Spending,
   WorkforceSection,
 } from "src/views/school-history/partials";
@@ -44,7 +44,7 @@ export const SchoolHistory: React.FC<SchoolHistoryViewProps> = (props) => {
         <Spending />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="income">
-        <Income />
+        <IncomeSection urn={urn} />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
         <BalanceSection urn={urn} />

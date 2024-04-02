@@ -86,3 +86,25 @@ export type Workforce = {
   workforceHeadcount: number;
   teachersWithQts: number;
 };
+
+export type Income = {
+  yearEnd: string;
+  dimension: string;
+  totalIncome: number;
+  totalGrantFunding: number;
+  totalSelfGeneratedFunding: number;
+  directRevenueFinancing: number;
+  directGrants: number;
+  prePost16Funding: number;
+  otherDfeGrants: number;
+  otherIncomeGrants: number;
+  governmentSource: number;
+  communityGrants: number;
+  academies: number;
+  incomeFacilitiesServices: number;
+  incomeCatering: number;
+  donationsVoluntaryFunds: number;
+  receiptsSupplyTeacherInsuranceClaims: number;
+  investmentIncome: number;
+  otherSelfGeneratedIncome: number;
+};

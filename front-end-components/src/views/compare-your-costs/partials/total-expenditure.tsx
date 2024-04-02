@@ -20,7 +20,7 @@ import {
 export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil.value);
+  const [dimension, setDimension] = useState(PoundsPerPupil);
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {
@@ -29,7 +29,7 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -37,7 +37,7 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalExpenditure,
               ...school,
             }),
@@ -50,7 +50,10 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   return (
@@ -67,7 +70,7 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
           })}
           handleChange={handleSelectChange}
           elementId="total-expenditure"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

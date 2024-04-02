@@ -20,7 +20,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
   props
 ) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
 
   const chartData: HorizontalBarChartWrapperData<TeachingAssistantsData> =
     useMemo(() => {
@@ -29,7 +29,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -37,7 +37,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
           return {
             ...school,
             value: CalculateWorkforceValue({
-              dimension,
+              dimension: dimension.value,
               value: school.teachingAssistantsFTE,
               ...school,
             }),
@@ -50,7 +50,10 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -66,7 +69,7 @@ export const TeachingAssistants: React.FC<TeachingAssistantsProps> = (
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
           elementId="teaching-assistants"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

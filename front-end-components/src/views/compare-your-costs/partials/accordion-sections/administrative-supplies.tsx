@@ -19,12 +19,15 @@ import {
 export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil.value);
+  const [dimension, setDimension] = useState(PoundsPerPupil);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   const administrativeSuppliesBarData: HorizontalBarChartWrapperData<AdministrativeSuppliesData> =
@@ -34,7 +37,7 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -42,7 +45,7 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.administrativeSuppliesCosts,
               ...school,
             }),
@@ -83,7 +86,7 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="administrative-supplies-non-eductional"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

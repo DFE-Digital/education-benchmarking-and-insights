@@ -18,7 +18,7 @@ import {
 
 export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
   const { schools } = props;
-  const [dimension, setDimension] = useState(PupilsPerStaffRole.value);
+  const [dimension, setDimension] = useState(PupilsPerStaffRole);
 
   const chartData: HorizontalBarChartWrapperData<TotalTeachersData> =
     useMemo(() => {
@@ -27,7 +27,7 @@ export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        DimensionHeading(dimension.value),
       ];
 
       return {
@@ -35,7 +35,7 @@ export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
           return {
             ...school,
             value: CalculateWorkforceValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalNumberOfTeachersFTE,
               ...school,
             }),
@@ -48,7 +48,10 @@ export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -64,7 +67,7 @@ export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
           elementId="total-teachers"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

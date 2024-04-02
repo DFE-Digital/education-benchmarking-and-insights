@@ -99,6 +99,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -118,6 +119,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="workforceFte"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -161,6 +163,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -179,6 +182,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
                 valueField="teachersFte"
+                valueUnit={dimension.unit}
                 valueFormatter={shortValueFormatter}
               />
             </aside>
@@ -279,6 +283,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -298,6 +303,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="seniorLeadershipFte"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -342,6 +348,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -361,6 +368,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="teachingAssistantsFte"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -406,6 +414,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -425,6 +434,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="nonClassroomSupportStaffFte"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -467,6 +477,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -486,6 +497,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="auxiliaryStaffFte"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -525,6 +537,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
@@ -544,6 +557,7 @@ export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
                 seriesLabelField="yearEnd"
                 valueField="workforceHeadcount"
                 valueFormatter={shortValueFormatter}
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>

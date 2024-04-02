@@ -19,14 +19,14 @@ import {
 export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
   schools,
 }) => {
-  const [dimension, setDimension] = useState(PoundsPerPupil.value);
+  const [dimension, setDimension] = useState(PoundsPerPupil);
   const tableHeadings = useMemo(
     () => [
       "School name",
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      DimensionHeading(dimension.value),
     ],
     [dimension]
   );
@@ -34,7 +34,10 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   const totalEducationalSuppliesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
@@ -44,7 +47,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalEducationalSuppliesCosts,
               ...school,
             }),
@@ -61,7 +64,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.examinationFeesCosts,
               ...school,
             }),
@@ -78,7 +81,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.breakdownEducationalSuppliesCosts,
               ...school,
             }),
@@ -95,7 +98,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.learningResourcesNonIctCosts,
               ...school,
             }),
@@ -136,7 +139,7 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-educational-supplies-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

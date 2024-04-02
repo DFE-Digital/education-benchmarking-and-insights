@@ -17,14 +17,14 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 
 export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
-  const [dimension, setDimension] = useState(PoundsPerMetreSq.value);
+  const [dimension, setDimension] = useState(PoundsPerMetreSq);
   const tableHeadings = useMemo(
     () => [
       "School name",
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      DimensionHeading(dimension.value),
     ],
     [dimension]
   );
@@ -32,7 +32,10 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      PremisesCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerMetreSq;
+    setDimension(dimension);
   };
 
   const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData<UtilitiesData> =
@@ -42,7 +45,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalUtilitiesCosts,
               ...school,
             }),
@@ -59,7 +62,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.energyCosts,
               ...school,
             }),
@@ -76,7 +79,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.waterSewerageCosts,
               ...school,
             }),
@@ -114,7 +117,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-utilities-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

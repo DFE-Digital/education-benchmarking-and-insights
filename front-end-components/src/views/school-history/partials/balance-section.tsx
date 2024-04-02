@@ -92,12 +92,12 @@ export const BalanceSection: React.FC<{ urn: string }> = ({ urn }) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
-                  valueUnit="currency"
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
                       valueFormatter={(v) =>
-                        shortValueFormatter(v, { valueUnit: "currency" })
+                        shortValueFormatter(v, { valueUnit: dimension.unit })
                       }
                     />
                   )}
@@ -114,7 +114,7 @@ export const BalanceSection: React.FC<{ urn: string }> = ({ urn }) => {
                 seriesLabelField="yearEnd"
                 valueField="inYearBalance"
                 valueFormatter={shortValueFormatter}
-                valueUnit="currency"
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
@@ -138,12 +138,12 @@ export const BalanceSection: React.FC<{ urn: string }> = ({ urn }) => {
                   seriesLabel={dimension.label}
                   seriesLabelField="yearEnd"
                   valueFormatter={shortValueFormatter}
-                  valueUnit="currency"
+                  valueUnit={dimension.unit}
                   tooltip={(t) => (
                     <LineChartTooltip
                       {...t}
                       valueFormatter={(v) =>
-                        shortValueFormatter(v, { valueUnit: "currency" })
+                        shortValueFormatter(v, { valueUnit: dimension.unit })
                       }
                     />
                   )}
@@ -160,7 +160,7 @@ export const BalanceSection: React.FC<{ urn: string }> = ({ urn }) => {
                 seriesLabelField="yearEnd"
                 valueField="revenueReserve"
                 valueFormatter={shortValueFormatter}
-                valueUnit="currency"
+                valueUnit={dimension.unit}
               />
             </aside>
           </div>
