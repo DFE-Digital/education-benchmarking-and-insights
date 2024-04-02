@@ -13,75 +13,45 @@ public class GivenAnInsightApi : ApiClientTestBase
     }
 
     [Fact]
-    public async Task GetMaintainedSchoolFinancesShouldCallCorrectUrl()
+    public async Task GetSchoolFinancesShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetMaintainedSchoolFinances("123213");
+        await api.GetSchoolFinances("123213");
 
-        VerifyCall(HttpMethod.Get, "api/maintained-school/123213");
+        VerifyCall(HttpMethod.Get, "api/school/123213");
     }
 
     [Fact]
-    public async Task GetMaintainedSchoolWorkforceHistoryShouldCallCorrectUrl()
+    public async Task GetSchoolWorkforceHistoryShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetMaintainedSchoolWorkforceHistory("123213");
+        await api.GetSchoolWorkforceHistory("123213");
 
-        VerifyCall(HttpMethod.Get, "api/maintained-school/123213/workforce/history");
+        VerifyCall(HttpMethod.Get, "api/school/123213/workforce/history");
     }
 
     [Fact]
-    public async Task GetMaintainedSchoolBalanceHistoryShouldCallCorrectUrl()
+    public async Task GetSchoolBalanceHistoryShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetMaintainedSchoolBalanceHistory("123213");
+        await api.GetSchoolBalanceHistory("123213");
 
-        VerifyCall(HttpMethod.Get, "api/maintained-school/123213/balance/history");
+        VerifyCall(HttpMethod.Get, "api/school/123213/balance/history");
     }
 
     [Fact]
-    public async Task GetAcademyFinancesShouldCallCorrectUrl()
+    public async Task GetSchoolIncomeHistoryShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetAcademyFinances("123213");
+        await api.GetSchoolIncomeHistory("123213");
 
-        VerifyCall(HttpMethod.Get, "api/academy/123213");
+        VerifyCall(HttpMethod.Get, "api/school/123213/income/history");
     }
 
-    [Fact]
-    public async Task GetAcademyWorkforceHistoryShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetAcademyWorkforceHistory("123213");
-
-        VerifyCall(HttpMethod.Get, "api/academy/123213/workforce/history");
-    }
-
-    [Fact]
-    public async Task GetAcademyBalanceHistoryShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetAcademyBalanceHistory("123213");
-
-        VerifyCall(HttpMethod.Get, "api/academy/123213/balance/history");
-    }
-
-    [Fact]
-    public async Task GetAcademyFinancesWithQueryShouldCallCorrectUrl()
-    {
-        var query = new ApiQuery().AddIfNotNull("Name", "Foo");
-        var api = new InsightApi(HttpClient);
-
-        await api.GetAcademyFinances("123213", query);
-
-        VerifyCall(HttpMethod.Get, "api/academy/123213?Name=Foo");
-    }
 
     [Fact]
     public async Task GetSchoolsExpenditureShouldCallCorrectUrl()

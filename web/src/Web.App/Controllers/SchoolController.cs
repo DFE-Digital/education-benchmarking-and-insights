@@ -27,7 +27,7 @@ public class SchoolController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(school);
+                var finances = await financeService.GetFinances(urn);
 
                 var set = await comparatorSetService.ReadComparatorSet(urn);
 

@@ -55,17 +55,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
     public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
     {
         InsightApi.Reset();
-
-        switch (school.FinanceType)
-        {
-            case EstablishmentTypes.Academies:
-                InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
-                break;
-            case EstablishmentTypes.Maintained:
-                InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
-                break;
-        }
-
+        InsightApi.Setup(api => api.GetSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Aar = 2022, Cfr = 2021 }));
         return this;
