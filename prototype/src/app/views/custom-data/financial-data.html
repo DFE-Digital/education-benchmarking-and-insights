@@ -1,0 +1,268 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Customise your data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      },
+      {
+        text: "Customise your data",
+        href: "/custom-data"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Customise your data</h1>
+
+        <h2 class="govuk-heading-m">Update your fianancial data</h2>
+
+        {% set tableHtml %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Administrative and clerical staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Auditor costs"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Other staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Professional services (non-curriculum)"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+        {{ govukAccordion({
+          id: "accordion-default",
+          items: [
+            {
+              heading: {
+                text: "Administrative supplies"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Catering"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Catering income"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Educational supplies"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "IT"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Non-educational support staff"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Other costs"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Premises and services"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Teaching and teaching support"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Utilities"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Workforce"
+              },
+              content: {
+                html: tableHtml
+              }
+            },
+            {
+              heading: {
+                text: "Totals"
+              },
+              content: {
+                html: tableHtml
+              }
+            }
+          ]
+        }) }}
+        
+        {{ govukButton({
+          href: '/custom-data/non-financial-data',
+          text: "Continue"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+{% from "govuk/components/details/macro.njk" import govukDetails %}
+{% from "templates/spend-category.njk" import spendCategory %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Customise your data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your school",
+        href: "/school-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Customise your data</h1>
+
+        <p>
+            You can customise the data we use to compare this school against other schools.
+        </p>
+
+        <p>This allows you to:</p>
+
+        <ul class="govuk-list govuk-list--bullet">
+          <li>see how changes to your spending would effect your benchmark position</li>
+          <li>correct any inaccuracies to see make a more accurate comparison </li>
+        </ul>
+
+        <p>In order to save your data, you will need to sign in with a <a href="https://profile.signin.education.gov.uk/register">DfE Sign-in account</a>.</p>
+                
+        {{ govukButton({
+          href: '/custom-data/sign-in',
+          text: "Continue to sign in"
+        }) }}
+
+        <p><a href="/custom-data/financial-data">Or continue without logging in</a></p>
+    </div>
+</div>
+{% endblock %}
