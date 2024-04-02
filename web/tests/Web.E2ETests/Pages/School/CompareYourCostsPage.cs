@@ -189,7 +189,7 @@ public class CompareYourCostsPage(IPage page)
 
     private async Task HasDimensionValuesForChart(ComparisonChartNames chartName, string[] expected)
     {
-        const string exp = "(select) => Array.from(select.options).map(option => option.value)";
+        const string exp = "(select) => Array.from(select.options).map(option => option.label)";
         var dropdown = ChartDimensionDropdown(chartName);
         var actual = await dropdown.EvaluateAsync<string[]>(exp);
 
