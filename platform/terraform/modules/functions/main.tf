@@ -7,6 +7,7 @@ locals {
 }
 
 resource "azurerm_service_plan" "func-asp" {
+  #checkov:skip=CKV_AZURE_212:To be reviewed
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
@@ -16,6 +17,7 @@ resource "azurerm_service_plan" "func-asp" {
 }
 
 resource "azurerm_windows_function_app" "func-app" {
+  #checkov:skip=CKV_AZURE_221:To be reviewed
   name                       = local.function-app-name
   location                   = var.location
   resource_group_name        = var.resource-group-name

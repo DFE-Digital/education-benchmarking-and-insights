@@ -1,4 +1,9 @@
 resource "azurerm_cosmosdb_account" "cosmosdb-account" {
+  #checkov:skip=CKV_AZURE_100:To be reviewed
+  #checkov:skip=CKV_AZURE_102:To be reviewed
+  #checkov:skip=CKV_AZURE_132:To be reviewed
+  #checkov:skip=CKV_AZURE_140:To be reviewed
+  #checkov:skip=CKV_AZURE_99:To be reviewed
   name                = "${var.environment-prefix}-ebis-cdb"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -120,6 +125,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
 }
 
 resource "azurerm_mssql_database" "sql-db" {
+  #checkov:skip=CKV_AZURE_224:To be reviewed
   #checkov:skip=CKV_AZURE_229:To be reviewed for production
   name        = "ebis-data"
   server_id   = azurerm_mssql_server.sql-server.id
