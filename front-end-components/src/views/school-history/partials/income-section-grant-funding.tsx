@@ -108,6 +108,29 @@ export const IncomeSectionGrantFunding: React.FC<{ data: Income[] }> = ({
               />
             </aside>
           </div>
+          <details className="govuk-details">
+            <summary className="govuk-details__summary">
+              <span className="govuk-details__summary-text">
+                More about direct grants
+              </span>
+            </summary>
+            <div className="govuk-details__text">
+              <p>Where there is funding, direct grants include:</p>
+              <ul className="govuk-list govuk-list--bullet">
+                <li>pre-16 funding</li>
+                <li>post-16 funding</li>
+                <li>
+                  Department of Education (DfE)/Education Funding Agency (EFA)
+                  revenue grants
+                </li>
+                <li>other DfE or EFA revenue grants</li>
+                <li>
+                  other income (local authority and other government grants)
+                </li>
+                <li>government source (non-grant)</li>
+              </ul>
+            </div>
+          </details>
           <h3 className="govuk-heading-s">Pre-16 and post-16 funding</h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
