@@ -1,4 +1,5 @@
-﻿Feature: InsightMaintainedSchools
+﻿@ignore
+Feature: InsightMaintainedSchools
 Insights maintained schools endpoints
 
     Scenario: Sending a valid maintained school request

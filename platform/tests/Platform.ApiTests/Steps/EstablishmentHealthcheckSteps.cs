@@ -4,7 +4,7 @@ using Platform.ApiTests.Drivers;
 
 namespace Platform.ApiTests.Steps;
 
-[Binding]
+[Binding, Scope(Feature = "Establishment healthcheck endpoint")]
 public class EstablishmentHealthcheckSteps
 {
     private const string RequestKey = "health-check";

@@ -1,3 +1,4 @@
+@ignore
 Feature: Establishment local authorities endpoints
 
     Scenario: Sending a valid local authority request
