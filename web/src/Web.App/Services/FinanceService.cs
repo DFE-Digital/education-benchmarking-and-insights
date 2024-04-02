@@ -52,7 +52,7 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         var query = new ApiQuery().AddIfNotNull("dimension", dimension);
         return await insightApi.GetSchoolIncomeHistory(urn, query).GetResultOrDefault<IEnumerable<Income>>() ?? Array.Empty<Income>();
     }
-    
+
     public Task<IEnumerable<Income>> GetTrustIncomeHistory(string companyNo, string dimension)
     {
         throw new NotImplementedException();
