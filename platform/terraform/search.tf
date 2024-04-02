@@ -3,7 +3,6 @@ resource "azurerm_search_service" "search" {
   #checkov:skip=CKV_AZURE_207:To be reviewed
   #checkov:skip=CKV_AZURE_208:To be reviewed
   #checkov:skip=CKV_AZURE_209:To be reviewed
-  #checkov:skip=CKV_AZURE_225:To be reviewed
   name                = "${var.environment-prefix}-ebis-search"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name

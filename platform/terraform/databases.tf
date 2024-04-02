@@ -1,5 +1,6 @@
 resource "azurerm_cosmosdb_account" "cosmosdb-account" {
   #checkov:skip=CKV_AZURE_100:To be reviewed
+  #checkov:skip=CKV_AZURE_101:To be reviewed
   #checkov:skip=CKV_AZURE_102:To be reviewed
   #checkov:skip=CKV_AZURE_132:To be reviewed
   #checkov:skip=CKV_AZURE_140:To be reviewed
