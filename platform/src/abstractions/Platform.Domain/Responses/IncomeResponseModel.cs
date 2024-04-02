@@ -16,13 +16,13 @@ public class IncomeResponseModel
     public decimal? OtherIncomeGrants { get; private set; }
     public decimal? GovernmentSource { get; private set; }
     public decimal? CommunityGrants { get; private set; }
-    public decimal? Academies  { get; private set; }
-    public decimal? IncomeFacilitiesServices  { get; private set; }
-    public decimal? IncomeCatering  { get; private set; }
-    public decimal? DonationsVoluntaryFunds  { get; private set; }
-    public decimal? ReceiptsSupplyTeacherInsuranceClaims  { get; private set; }
-    public decimal? InvestmentIncome  { get; private set; }
-    public decimal? OtherSelfGeneratedIncome  { get; private set; }
+    public decimal? Academies { get; private set; }
+    public decimal? IncomeFacilitiesServices { get; private set; }
+    public decimal? IncomeCatering { get; private set; }
+    public decimal? DonationsVoluntaryFunds { get; private set; }
+    public decimal? ReceiptsSupplyTeacherInsuranceClaims { get; private set; }
+    public decimal? InvestmentIncome { get; private set; }
+    public decimal? OtherSelfGeneratedIncome { get; private set; }
 
     public static IncomeResponseModel Create(SchoolTrustFinancialDataObject? dataObject, int term, Dimension dimension = Dimension.Actuals)
     {

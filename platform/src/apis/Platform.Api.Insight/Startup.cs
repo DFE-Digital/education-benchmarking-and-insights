@@ -28,7 +28,7 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
         builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
-        
+
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
     }
 }

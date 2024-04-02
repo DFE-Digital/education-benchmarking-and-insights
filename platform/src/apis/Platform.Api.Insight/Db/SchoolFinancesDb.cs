@@ -35,22 +35,22 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
     private const string MatCentralCollectionPrefix = "MAT-Central"; //MAT only figures
     private const string MatTotalsCollectionPrefix = "MAT-Totals"; //Total of Academy only figures of the MAT
     private const string MatOverviewCollectionPrefix = "MAT-Overview"; //MAT + all of its Academies' figures
-    
+
     private readonly int _cfrLatestYear;
     private readonly int _aarLatestYear;
     private readonly string _establishmentCollectionName;
-    
+
     public SchoolFinancesDb(IOptions<SchoolFinancesDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         ArgumentNullException.ThrowIfNull(options.Value.CfrLatestYear);
         ArgumentNullException.ThrowIfNull(options.Value.AarLatestYear);
         ArgumentNullException.ThrowIfNull(options.Value.EstablishmentCollectionName);
-        
+
         _cfrLatestYear = options.Value.CfrLatestYear.Value;
         _aarLatestYear = options.Value.AarLatestYear.Value;
         _establishmentCollectionName = options.Value.EstablishmentCollectionName;
     }
-    
+
     public async Task<FinancesResponseModel?> Get(string urn)
     {
         var (prefix, year) = await GetLatestCollectionForSchool(urn);
@@ -87,13 +87,13 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             .OfType<(int, SchoolTrustFinancialDataObject?)>()
             .Select(school => IncomeResponseModel.Create(school.Item2, school.Item1, dimension));
     }
-    
+
     private async Task<(int year, SchoolTrustFinancialDataObject? dataObject)[]> GetHistoryFinances(string urn)
     {
         var (prefix, years) = await GetHistoryCollectionForSchool(urn);
         var tasks = years.Select(year =>
         {
-            var collection = BuildFinanceCollectionName(prefix,year);
+            var collection = BuildFinanceCollectionName(prefix, year);
 
             return GetFinances(year, urn, collection);
         }).ToArray();
@@ -109,17 +109,17 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
                 q => q.Where(x => x.Urn == long.Parse(urn)))
             .FirstOrDefaultAsync());
     }
-    
+
     private static IEnumerable<int> HistoricYears(int currentYear)
     {
-        return Enumerable.Range(currentYear - NumberPreviousYears, NumberPreviousYears + 1); 
+        return Enumerable.Range(currentYear - NumberPreviousYears, NumberPreviousYears + 1);
     }
-    
+
     private static string BuildFinanceCollectionName(string prefix, int year)
     {
         return $"{prefix}-{year - 1}-{year}";
     }
-    
+
     private async Task<(string Prefix, int Year)> GetLatestCollectionForSchool(string urn)
     {
         var school = await GetEstablishment(urn);
@@ -134,7 +134,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
                 throw new ArgumentOutOfRangeException(nameof(school.FinanceType));
         }
     }
-    
+
     private async Task<(string Prefix, IEnumerable<int> Years)> GetHistoryCollectionForSchool(string urn)
     {
         var school = await GetEstablishment(urn);
