@@ -26,4 +26,19 @@
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_AdministrativeSuppliesResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_CateringStaffServicesResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_EducationalIctResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_EducationalSuppliesResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_NonEducationalSupportStaffResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_OtherCostsResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_PremisesStaffServicesResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_TeachingStaffResources.cshtml" />
+      <AdditionalFiles Include="Views\Shared\CommercialResource\_UtilitiesResources.cshtml" />
+      <AdditionalFiles Include="Views\TrustHistory\Index.cshtml" />
+      <AdditionalFiles Include="Views\TrustResources\Index.cshtml" />
+      <AdditionalFiles Include="Views\TrustResources\_AllResources.cshtml" />
+      <AdditionalFiles Include="Views\TrustResources\_RecommendedResources.cshtml" />
+    </ItemGroup>
 </Project>

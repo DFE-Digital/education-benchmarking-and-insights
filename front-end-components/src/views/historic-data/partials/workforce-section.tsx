@@ -8,31 +8,24 @@ import {
 } from "src/components";
 import { ChartModeContext } from "src/contexts";
 import { HistoryApi, Workforce } from "src/services";
-import { SchoolEstablishment } from "src/constants.tsx";
 import { LineChart } from "src/components/charts/line-chart";
 import { shortValueFormatter } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
 
-export type WorkforceSectionProps = {
-  urn: string;
-};
-
-export const WorkforceSection: React.FC<WorkforceSectionProps> = (props) => {
-  const { urn } = props;
+export const WorkforceSection: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const defaultDimension = PupilsPerStaffRole;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<Workforce>());
   const getData = useCallback(async () => {
     setData(new Array<Workforce>());
-    return await HistoryApi.getWorkforce(
-      SchoolEstablishment,
-      urn,
-      dimension.value
-    );
-  }, [urn, dimension]);
+    return await HistoryApi.getWorkforce(type, id, dimension.value);
+  }, [type, id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {

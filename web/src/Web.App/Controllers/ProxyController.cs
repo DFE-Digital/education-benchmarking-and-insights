@@ -79,14 +79,14 @@ public class ProxyController(
         {
             try
             {
-                switch (type.ToLower())
+                var result = type.ToLower() switch
                 {
-                    case OrganisationTypes.School:
-                        var result = await financeService.GetWorkforceHistory(id, dimension);
-                        return new JsonResult(result);
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type));
-                }
+                    OrganisationTypes.School => await financeService.GetSchoolWorkforceHistory(id, dimension),
+                    OrganisationTypes.Trust => await financeService.GetTrustWorkforceHistory(id, dimension),
+                    _ => throw new ArgumentOutOfRangeException(nameof(type))
+                };
+
+                return new JsonResult(result);
             }
             catch (Exception e)
             {
@@ -105,14 +105,14 @@ public class ProxyController(
         {
             try
             {
-                switch (type.ToLower())
+                var result = type.ToLower() switch
                 {
-                    case OrganisationTypes.School:
-                        var result = await financeService.GetBalanceHistory(id, dimension);
-                        return new JsonResult(result);
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type));
-                }
+                    OrganisationTypes.School => await financeService.GetSchoolBalanceHistory(id, dimension),
+                    OrganisationTypes.Trust => await financeService.GetTrustBalanceHistory(id, dimension),
+                    _ => throw new ArgumentOutOfRangeException(nameof(type))
+                };
+
+                return new JsonResult(result);
             }
             catch (Exception e)
             {
@@ -131,14 +131,14 @@ public class ProxyController(
         {
             try
             {
-                switch (type.ToLower())
+                var result = type.ToLower() switch
                 {
-                    case OrganisationTypes.School:
-                        var result = await financeService.GetIncomeHistory(id, dimension);
-                        return new JsonResult(result);
-                    default:
-                        throw new ArgumentOutOfRangeException(nameof(type));
-                }
+                    OrganisationTypes.School => await financeService.GetSchoolIncomeHistory(id, dimension),
+                    OrganisationTypes.Trust => await financeService.GetTrustIncomeHistory(id, dimension),
+                    _ => throw new ArgumentOutOfRangeException(nameof(type))
+                };
+
+                return new JsonResult(result);
             }
             catch (Exception e)
             {

@@ -4,16 +4,18 @@ import "src/index.css";
 import {
   CompareYourCosts,
   CompareYourWorkforce,
-  SchoolHistory,
+  DeploymentPlan,
+  FindOrganisation,
+  HistoricData,
 } from "src/views";
 import {
   CompareCostsElementId,
   CompareWorkforceElementId,
   DeploymentPlanElementId,
   FindOrganisationElementId,
+  HistoricDataElementId,
   HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
-  SchoolHistoryElementId,
   SpendingAndCostsComposedElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
@@ -26,10 +28,8 @@ import {
   ChartSeriesValueUnit,
   ChartSortDirection,
 } from "./components";
-import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
-import { FindOrganisation } from "src/views/find-organisation";
 import {
   chartSeriesComparer,
   shortValueFormatter,
@@ -39,14 +39,14 @@ import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-too
 import { Expenditure, Workforce, WorkforceBenchmark } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
-const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
-if (schoolHistoryElement) {
-  const { urn } = schoolHistoryElement.dataset;
-  if (urn) {
-    const root = ReactDOM.createRoot(schoolHistoryElement);
+const historicDataElement = document.getElementById(HistoricDataElementId);
+if (historicDataElement) {
+  const { type, id } = historicDataElement.dataset;
+  if (type && id) {
+    const root = ReactDOM.createRoot(historicDataElement);
     root.render(
       <React.StrictMode>
-        <SchoolHistory urn={urn} />
+        <HistoricData type={type} id={id} />
       </React.StrictMode>
     );
   }

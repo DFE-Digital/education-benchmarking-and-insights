@@ -7,30 +7,28 @@ import {
   CostCategories,
 } from "src/components";
 import { HistoryApi, Income } from "src/services";
-import { SchoolEstablishment } from "src/constants.tsx";
 import { ChartModeContext, ChartDimensionContext } from "src/contexts";
 import { LineChart } from "src/components/charts/line-chart";
 import { shortValueFormatter } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
-import { IncomeSectionDirectRevenue } from "src/views/school-history/partials/income-section-direct-revenue.tsx";
-import { IncomeSectionSelfGenerated } from "src/views/school-history/partials/income-section-self-generated.tsx";
-import { IncomeSectionGrantFunding } from "src/views/school-history/partials/income-section-grant-funding.tsx";
+import { IncomeSectionGrantFunding } from "src/views/historic-data/partials/income-section-grant-funding";
+import { IncomeSectionSelfGenerated } from "src/views/historic-data/partials/income-section-self-generated";
+import { IncomeSectionDirectRevenue } from "src/views/historic-data/partials/income-section-direct-revenue";
 
-export const IncomeSection: React.FC<{ urn: string }> = ({ urn }) => {
+export const IncomeSection: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const defaultDimension = Actual;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<Income>());
   const getData = useCallback(async () => {
     setData(new Array<Income>());
-    return await HistoryApi.getIncome(
-      SchoolEstablishment,
-      urn,
-      dimension.value
-    );
-  }, [urn, dimension]);
+    return await HistoryApi.getIncome(type, id, dimension.value);
+  }, [type, id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {

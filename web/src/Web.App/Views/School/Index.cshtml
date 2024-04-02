@@ -85,7 +85,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.FindCommercialResources, Resources.HistoricData, Resources.SchoolDetails } })
+@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.SchoolResources, Resources.SchoolHistoricData, Resources.SchoolDetails } })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

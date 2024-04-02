@@ -7,11 +7,11 @@ import {
   IncomeSection,
   Spending,
   WorkforceSection,
-} from "src/views/school-history/partials";
-import { SchoolHistoryViewProps } from "src/views";
+} from "src/views/historic-data/partials";
+import { HistoricDataViewProps } from "src/views/historic-data/types";
 
-export const SchoolHistory: React.FC<SchoolHistoryViewProps> = (props) => {
-  const { urn } = props;
+export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
+  const { type, id } = props;
   useLayoutEffect(() => {
     initAll();
   }, []);
@@ -44,16 +44,16 @@ export const SchoolHistory: React.FC<SchoolHistoryViewProps> = (props) => {
         <Spending />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="income">
-        <IncomeSection urn={urn} />
+        <IncomeSection type={type} id={id} />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
-        <BalanceSection urn={urn} />
+        <BalanceSection type={type} id={id} />
       </div>
       <div
         className="govuk-tabs__panel govuk-tabs__panel--hidden"
         id="workforce"
       >
-        <WorkforceSection urn={urn} />
+        <WorkforceSection type={type} id={id} />
       </div>
     </div>
   );

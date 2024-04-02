@@ -1,0 +1,23 @@
+@model Web.App.ViewModels.TrustHistoryViewModel
+
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.HistoricData;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+    </div>
+</div>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">View data from previous financial years.</p>
+        <p class="govuk-body">All data is from consistent financial reporting (CFR).</p>
+    </div>
+</div>
+
+<div id="historic-data" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber"></div>
+
+@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkWorkforce } })

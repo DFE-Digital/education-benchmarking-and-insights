@@ -1,3 +1,4 @@
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.TrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustHome;
@@ -12,5 +13,14 @@
     </div>
 </div>
 
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkWorkforce } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("Resources", new { identifier = Model.CompanyNumber, resources = new[] { Resources.TrustResources, Resources.TrustHistoricData } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("GetHelp")

@@ -7,7 +7,6 @@ import {
   CostCategories,
 } from "src/components";
 import { ChartModeContext } from "src/contexts";
-import { SchoolEstablishment } from "src/constants";
 import { Balance, HistoryApi } from "src/services";
 import { LineChart } from "src/components/charts/line-chart";
 import { shortValueFormatter } from "src/components/charts/utils.ts";
@@ -15,19 +14,18 @@ import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
 
-export const BalanceSection: React.FC<{ urn: string }> = ({ urn }) => {
+export const BalanceSection: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const defaultDimension = Actual;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<Balance>());
   const getData = useCallback(async () => {
     setData(new Array<Balance>());
-    return await HistoryApi.getBalance(
-      SchoolEstablishment,
-      urn,
-      dimension.value
-    );
-  }, [urn, dimension]);
+    return await HistoryApi.getBalance(type, id, dimension.value);
+  }, [type, id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {

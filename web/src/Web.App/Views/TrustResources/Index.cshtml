@@ -1,0 +1,24 @@
+﻿@model Web.App.ViewModels.TrustResourcesViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Resources;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <span class="govuk-caption-l">@Model.Name</span>
+        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
+    </div>
+</div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("CommercialResource/AllResources")
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}
