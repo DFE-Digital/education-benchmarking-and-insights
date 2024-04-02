@@ -26,8 +26,4 @@
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <_ContentIncludedByDefault Remove="Views\Shared\Components\SubmitAnEnquiry\Default.cshtml" />
-      <_ContentIncludedByDefault Remove="Views\Shared\Components\AskForHelpFromAnSrma\Default.cshtml" />
-    </ItemGroup>
 </Project>
