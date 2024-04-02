@@ -181,3 +181,11 @@ div.govuk-notification-banner__content > * {
 .matching-schools #countPart {
     font-weight: bold;
 }
+
+.govuk-password-input__toggle {
+    flex-grow: unset;
+}
+
+.custom-data td {
+    vertical-align: middle;
+}
