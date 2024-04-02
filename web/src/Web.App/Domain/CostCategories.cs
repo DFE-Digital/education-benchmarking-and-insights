@@ -197,17 +197,17 @@ public static class CategoryBuilder
         var premisesStaffServicesRating = new PremisesStaffServicesRating(premisesStaffServices, baseUrn);
         var utilitiesRating = new UtilitiesRating(utilities, baseUrn);
 
-        return new List<(CostCategory CostCategory, CostRating CostRating)>
+        return new List<(CostCategory, CostRating)>
         {
-            (CostCategory: teachingStaff, CostRating: teachingStaffRating),
-            (CostCategory: administrativeSupplies, CostRating: administrativeSuppliesRating),
-            (CostCategory: cateringStaffServices, CostRating: cateringStaffServicesRating),
-            (CostCategory: educationalIct, CostRating: educationalIctRating),
-            (CostCategory: educationalSupplies, CostRating: educationalSuppliesRating),
-            (CostCategory: nonEducationalSupportStaff, CostRating: nonEducationalSupportStaffRating),
-            (CostCategory: other, CostRating: otherRating),
-            (CostCategory: premisesStaffServices, CostRating: premisesStaffServicesRating),
-            (CostCategory: utilities, CostRating: utilitiesRating),
+            (teachingStaff, teachingStaffRating),
+            (administrativeSupplies, administrativeSuppliesRating),
+            (cateringStaffServices, cateringStaffServicesRating),
+            (educationalIct, educationalIctRating),
+            (educationalSupplies, educationalSuppliesRating),
+            (nonEducationalSupportStaff, nonEducationalSupportStaffRating),
+            (other, otherRating),
+            (premisesStaffServices, premisesStaffServicesRating),
+            (utilities, utilitiesRating),
         };
     }
 
