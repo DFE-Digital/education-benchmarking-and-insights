@@ -15,24 +15,24 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight;
 
-[ApiExplorerSettings(GroupName = "Academies")]
-public class AcademySchoolFunctions
+[ApiExplorerSettings(GroupName = "School Finances")]
+public class SchoolFinanceFunctions
 {
-    private readonly ILogger<AcademySchoolFunctions> _logger;
-    private readonly ISchoolFinancesDb<Academy> _db;
+    private readonly ILogger<SchoolFinanceFunctions> _logger;
+    private readonly ISchoolFinancesDb _db;
 
-    public AcademySchoolFunctions(ILogger<AcademySchoolFunctions> logger, ISchoolFinancesDb<Academy> db)
+    public SchoolFinanceFunctions(ILogger<SchoolFinanceFunctions> logger, ISchoolFinancesDb db)
     {
         _logger = logger;
         _db = db;
     }
 
-    [FunctionName(nameof(SingleAcademyAsync))]
+    [FunctionName(nameof(SingleAsync))]
     [ProducesResponseType(typeof(FinancesResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SingleAcademyAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}")]
+    public async Task<IActionResult> SingleAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}")]
         HttpRequest req,
         string urn)
     {
@@ -54,19 +54,19 @@ public class AcademySchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get academy");
+                _logger.LogError(e, "Failed to get school");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
-    [FunctionName(nameof(BalanceHistoryAcademyAsync))]
+    [FunctionName(nameof(BalanceHistoryAsync))]
     [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> BalanceHistoryAcademyAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}/balance/history")]
+    public async Task<IActionResult> BalanceHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/balance/history")]
         HttpRequest req,
         string urn)
     {
@@ -90,19 +90,19 @@ public class AcademySchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get academy balance history");
+                _logger.LogError(e, "Failed to get school balance history");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
-    [FunctionName(nameof(WorkforceHistoryAcademyAsync))]
+    [FunctionName(nameof(WorkforceHistoryAsync))]
     [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> WorkforceHistoryAcademyAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "academy/{urn}/workforce/history")]
+    public async Task<IActionResult> WorkforceHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/workforce/history")]
         HttpRequest req,
         string urn)
     {
@@ -126,7 +126,43 @@ public class AcademySchoolFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get academy workforce history");
+                _logger.LogError(e, "Failed to get school workforce history");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+    
+    [FunctionName(nameof(IncomeHistoryAsync))]
+    [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    public async Task<IActionResult> IncomeHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/income/history")]
+        HttpRequest req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var queryDimension = req.Query["dimension"].ToString();
+                var dimension = Enum.TryParse(queryDimension, true, out Dimension dimensionValue)
+                    ? dimensionValue
+                    : Dimension.Actuals;
+
+                var finances = await _db.GetIncomeHistory(urn, dimension);
+                return new JsonContentResult(finances);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get school income history");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

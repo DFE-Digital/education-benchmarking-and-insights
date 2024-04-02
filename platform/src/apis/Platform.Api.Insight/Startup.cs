@@ -22,15 +22,13 @@ public class Startup : FunctionsStartup
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddOptions<MaintainSchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<AcademyFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
         builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
-        builder.Services.AddSingleton<ISchoolFinancesDb<Maintained>, MaintainSchoolFinancesDb>();
-        builder.Services.AddSingleton<ISchoolFinancesDb<Academy>, AcademyFinancesDb>();
-
+        builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
+        
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
     }
 }

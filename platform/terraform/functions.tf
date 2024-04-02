@@ -33,11 +33,12 @@ module "insight-fa" {
   location                               = var.location
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"        = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
-    "Cosmos__DatabaseId"              = azurerm_cosmosdb_sql_database.cosmosdb-container.name
-    "Cosmos__FloorAreaCollectionName" = "Floor-Area-2021-2022"
-    "Cosmos__CfrLatestYear"           = 2023,
-    "Cosmos__AarLatestYear"           = 2022
+    "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
+    "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
+    "Cosmos__FloorAreaCollectionName"     = "Floor-Area-2021-2022"
+    "Cosmos__CfrLatestYear"               = 2023,
+    "Cosmos__AarLatestYear"               = 2022,
+    "Cosmos__EstablishmentCollectionName" = "GIAS"
   })
 }
 

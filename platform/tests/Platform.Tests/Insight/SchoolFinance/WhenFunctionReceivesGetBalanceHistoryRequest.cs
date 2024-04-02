@@ -4,9 +4,9 @@ using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
-namespace Platform.Tests.Insight;
+namespace Platform.Tests.Insight.SchoolFinance;
 
-public class WhenFunctionReceivesGetMaintainedSchoolBalanceHistoryRequest : MaintainedSchoolFunctionsTestBase
+public class WhenFunctionReceivesGetBalanceHistoryRequest : SchoolFinanceFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
@@ -15,11 +15,12 @@ public class WhenFunctionReceivesGetMaintainedSchoolBalanceHistoryRequest : Main
             .Setup(d => d.GetBalanceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .ReturnsAsync(Array.Empty<BalanceResponseModel>());
 
-        var result = await Functions.BalanceHistoryMaintainedSchoolAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.BalanceHistoryAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
     }
+
 
     [Fact]
     public async Task ShouldReturn500OnError()
@@ -28,7 +29,7 @@ public class WhenFunctionReceivesGetMaintainedSchoolBalanceHistoryRequest : Main
             .Setup(d => d.GetBalanceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .Throws(new Exception());
 
-        var result = await Functions.BalanceHistoryMaintainedSchoolAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.BalanceHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);
