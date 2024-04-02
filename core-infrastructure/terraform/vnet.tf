@@ -1,3 +1,15 @@
+resource "azurerm_network_security_group" "network-security-group" {
+  name                = "${var.environment-prefix}-nsg"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+  tags                = local.common-tags
+}
+
+resource "azurerm_subnet_network_security_group_association" "web-app-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.web-app-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
 resource "azurerm_virtual_network" "app-service-network" {
   name                = "${var.environment-prefix}-app-service-network"
   address_space       = ["10.0.0.0/16"]
