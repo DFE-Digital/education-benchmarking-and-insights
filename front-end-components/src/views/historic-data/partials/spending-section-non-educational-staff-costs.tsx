@@ -7,7 +7,7 @@ import { ChartDimensionContext } from "src/contexts";
 import { Expenditure } from "src/services";
 import { Loading } from "src/components/loading";
 
-export const SpendingSectionTeachingCosts: React.FC<{
+export const SpendingSectionNonEducationalStaffCosts: React.FC<{
   data: Expenditure[];
 }> = ({ data }) => {
   const dimension = useContext(ChartDimensionContext);
@@ -17,21 +17,21 @@ export const SpendingSectionTeachingCosts: React.FC<{
       {data.length > 0 ? (
         <>
           <h3 className="govuk-heading-s">
-            Total Teaching and teaching support staff costs
+            Total Non-educational support staff costs
           </h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Total Teaching and teaching support staff costs"
+                  chartName="Total Non-educational support staff costs"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    totalTeachingSupportStaffCosts: {
-                      label: "Total Teaching and teaching support staff costs",
+                    totalNonEducationalSupportStaffCosts: {
+                      label: "Total Non-educational support staff costs",
                       visible: true,
                     },
                   }}
@@ -52,32 +52,34 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent total Teaching and teaching support staff costs"
+                chartName="Most recent otal Non-educational support staff costs"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="totalTeachingSupportStaffCosts"
+                valueField="totalNonEducationalSupportStaffCosts"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
               />
             </aside>
           </div>
-          <h3 className="govuk-heading-s">Teaching staff costs</h3>
+          <h3 className="govuk-heading-s">
+            Administrative and clerical staff costs
+          </h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Teaching staff costs"
+                  chartName="Administrative and clerical staff costs"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    teachingStaffCosts: {
-                      label: "Teaching staff costs",
+                    administrativeClericalStaffCosts: {
+                      label: "Administrative and clerical staff costs",
                       visible: true,
                     },
                   }}
@@ -98,32 +100,32 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent teaching staff costs"
+                chartName="Most recent administrative and clerical staff costs"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="teachingStaffCosts"
+                valueField="administrativeClericalStaffCosts"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
               />
             </aside>
           </div>
-          <h3 className="govuk-heading-s">Supply teaching staff</h3>
+          <h3 className="govuk-heading-s">Auditor costs</h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Supply teaching staff"
+                  chartName="Auditor costs"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    supplyTeachingStaffCosts: {
-                      label: "Supply teaching staff",
+                    auditorsCosts: {
+                      label: "Auditor costs",
                       visible: true,
                     },
                   }}
@@ -144,32 +146,32 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent supply teaching staff"
+                chartName="Most recent auditor costs"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="supplyTeachingStaffCosts"
+                valueField="auditorsCosts"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
               />
             </aside>
           </div>
-          <h3 className="govuk-heading-s">Educational consultancy</h3>
+          <h3 className="govuk-heading-s">Other staff costs</h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Educational consultancy"
+                  chartName="Other staff costs"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    educationalConsultancyCosts: {
-                      label: "Educational consultancy",
+                    otherStaffCosts: {
+                      label: "Other staff costs",
                       visible: true,
                     },
                   }}
@@ -190,32 +192,34 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent educational consultancy"
+                chartName="Most recent other staff costs"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="educationalConsultancyCosts"
+                valueField="otherStaffCosts"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
               />
             </aside>
           </div>
-          <h3 className="govuk-heading-s">Education support staff</h3>
+          <h3 className="govuk-heading-s">
+            Professional services (non-curriculum) cost
+          </h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Education support staff"
+                  chartName="Professional services (non-curriculum) cost"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    educationSupportStaffCosts: {
-                      label: "Education support staff",
+                    professionalServicesNonCurriculumCosts: {
+                      label: "Professional services (non-curriculum) cost",
                       visible: true,
                     },
                   }}
@@ -236,59 +240,13 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent education support staff"
+                chartName="Most recent professional services (non-curriculum) cost"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="educationSupportStaffCosts"
-                valueFormatter={shortValueFormatter}
-                valueUnit={dimension.unit}
-              />
-            </aside>
-          </div>
-          <h3 className="govuk-heading-s">Agency supply teaching staff</h3>
-          <div className="govuk-grid-row">
-            <div className="govuk-grid-column-three-quarters">
-              <div style={{ height: 200 }}>
-                <LineChart
-                  chartName="Agency supply teaching staff"
-                  data={data}
-                  grid
-                  highlightActive
-                  keyField="yearEnd"
-                  margin={20}
-                  seriesConfig={{
-                    agencySupplyTeachingStaffCosts: {
-                      label: "Agency supply teaching staff",
-                      visible: true,
-                    },
-                  }}
-                  seriesLabel={dimension.label}
-                  seriesLabelField="yearEnd"
-                  valueFormatter={shortValueFormatter}
-                  valueUnit={dimension.unit}
-                  tooltip={(t) => (
-                    <LineChartTooltip
-                      {...t}
-                      valueFormatter={(v) =>
-                        shortValueFormatter(v, { valueUnit: dimension.unit })
-                      }
-                    />
-                  )}
-                />
-              </div>
-            </div>
-            <aside className="govuk-grid-column-one-quarter">
-              <ResolvedStat
-                chartName="Most recent agency supply teaching staff"
-                className="chart-stat-line-chart"
-                compactValue
-                data={data}
-                displayIndex={data.length - 1}
-                seriesLabelField="yearEnd"
-                valueField="agencySupplyTeachingStaffCosts"
+                valueField="professionalServicesNonCurriculumCosts"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
               />

@@ -14,6 +14,9 @@ import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
 import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs.tsx";
+import {
+  SpendingSectionNonEducationalStaffCosts
+} from "src/views/historic-data/partials/spending-section-non-educational-staff-costs.tsx";
 
 export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   type,
@@ -154,7 +157,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
                   className="govuk-accordion__section-button"
                   id="accordion-expenditure-heading-2"
                 >
-                  Self-generated
+                  Non-educational support staff
                 </span>
               </h2>
             </div>
@@ -162,7 +165,9 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
               id="accordion-expenditure-content-2"
               className="govuk-accordion__section-content"
             >
-              <p className="govuk-body"></p>
+              <p className="govuk-body">
+                <SpendingSectionNonEducationalStaffCosts data={data} />
+              </p>
             </div>
           </div>
           <div className="govuk-accordion__section">

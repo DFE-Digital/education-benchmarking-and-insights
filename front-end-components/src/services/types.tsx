@@ -119,4 +119,9 @@ export type Expenditure = {
   educationalConsultancyCosts: number;
   educationSupportStaffCosts: number;
   agencySupplyTeachingStaffCosts: number;
+  totalNonEducationalSupportStaffCosts: number;
+  administrativeClericalStaffCosts: number;
+  auditorsCosts: number;
+  otherStaffCosts: number;
+  professionalServicesNonCurriculumCosts: number;
 };
