@@ -19,6 +19,7 @@ public interface ITrustFinancesDb
 {
     Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string companyNumber, Dimension dimension);
     Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string companyNumber, Dimension dimension);
+    Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension);
 }
 
 [ExcludeFromCodeCoverage]
@@ -49,6 +50,15 @@ public class TrustFinancesDb : CosmosDatabase, ITrustFinancesDb
         return finances
             .OfType<(int, SchoolTrustFinancialDataObject?)>()
             .Select(x => IncomeResponseModel.Create(x.Item2, x.Item1, dimension));
+    }
+
+    public async Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string companyNumber, Dimension dimension)
+    {
+        var finances = await GetHistoryFinances(companyNumber);
+
+        return finances
+            .OfType<(int, SchoolTrustFinancialDataObject?)>()
+            .Select(x => ExpenditureResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     private async Task<(int year, SchoolTrustFinancialDataObject? dataObject)[]> GetHistoryFinances(string companyNumber)
