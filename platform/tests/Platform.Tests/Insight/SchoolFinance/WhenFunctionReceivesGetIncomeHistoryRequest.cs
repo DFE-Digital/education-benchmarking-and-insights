@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : SchoolFinanceFunction
             .Setup(d => d.GetIncomeHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .ReturnsAsync(Array.Empty<IncomeResponseModel>());
 
-        var result = await Functions.IncomeHistoryAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : SchoolFinanceFunction
             .Setup(d => d.GetIncomeHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .Throws(new Exception());
 
-        var result = await Functions.IncomeHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

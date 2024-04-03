@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -21,7 +22,7 @@ public class SchoolResourcesController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolResources(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolResourcesViewModel(school);

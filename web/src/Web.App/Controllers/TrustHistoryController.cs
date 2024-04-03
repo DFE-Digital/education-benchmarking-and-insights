@@ -22,8 +22,7 @@ public class TrustHistoryController(
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] =
-                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "Trust", new { companyNumber }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "Trust", new { companyNumber }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var viewModel = new TrustHistoryViewModel(trust);

@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetRequest : SchoolFinanceFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .ReturnsAsync(new FinancesResponseModel());
 
-        var result = await Functions.SingleAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SchoolSingleAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -29,7 +29,7 @@ public class WhenFunctionReceivesGetRequest : SchoolFinanceFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .ReturnsAsync((FinancesResponseModel?)null);
 
-        var result = await Functions.SingleAsync(CreateRequest(), "1") as NotFoundResult;
+        var result = await Functions.SchoolSingleAsync(CreateRequest(), "1") as NotFoundResult;
 
         Assert.NotNull(result);
         Assert.Equal(404, result.StatusCode);
@@ -42,7 +42,7 @@ public class WhenFunctionReceivesGetRequest : SchoolFinanceFunctionsTestBase
             .Setup(d => d.Get(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.SingleAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SchoolSingleAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

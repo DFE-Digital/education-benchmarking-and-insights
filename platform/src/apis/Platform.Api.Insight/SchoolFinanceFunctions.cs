@@ -27,11 +27,11 @@ public class SchoolFinanceFunctions
         _db = db;
     }
 
-    [FunctionName(nameof(SingleAsync))]
+    [FunctionName(nameof(SchoolSingleAsync))]
     [ProducesResponseType(typeof(FinancesResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SingleAsync(
+    public async Task<IActionResult> SchoolSingleAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}")]
         HttpRequest req,
         string urn)
@@ -60,12 +60,12 @@ public class SchoolFinanceFunctions
         }
     }
 
-    [FunctionName(nameof(BalanceHistoryAsync))]
+    [FunctionName(nameof(SchoolBalanceHistoryAsync))]
     [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> BalanceHistoryAsync(
+    public async Task<IActionResult> SchoolBalanceHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/balance/history")]
         HttpRequest req,
         string urn)
@@ -96,12 +96,12 @@ public class SchoolFinanceFunctions
         }
     }
 
-    [FunctionName(nameof(WorkforceHistoryAsync))]
+    [FunctionName(nameof(SchoolWorkforceHistoryAsync))]
     [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> WorkforceHistoryAsync(
+    public async Task<IActionResult> SchoolWorkforceHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/workforce/history")]
         HttpRequest req,
         string urn)
@@ -132,12 +132,12 @@ public class SchoolFinanceFunctions
         }
     }
 
-    [FunctionName(nameof(IncomeHistoryAsync))]
+    [FunctionName(nameof(SchoolIncomeHistoryAsync))]
     [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> IncomeHistoryAsync(
+    public async Task<IActionResult> SchoolIncomeHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/income/history")]
         HttpRequest req,
         string urn)

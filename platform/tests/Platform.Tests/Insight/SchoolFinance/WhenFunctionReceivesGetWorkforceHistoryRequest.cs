@@ -15,7 +15,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : SchoolFinanceFunct
             .Setup(d => d.GetWorkforceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .ReturnsAsync(Array.Empty<WorkforceResponseModel>());
 
-        var result = await Functions.WorkforceHistoryAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SchoolWorkforceHistoryAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : SchoolFinanceFunct
             .Setup(d => d.GetWorkforceHistory(It.IsAny<string>(), It.IsAny<Dimension>()))
             .Throws(new Exception());
 
-        var result = await Functions.WorkforceHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SchoolWorkforceHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

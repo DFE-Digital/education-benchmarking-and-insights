@@ -1,5 +1,4 @@
 @using Web.App.Extensions
-@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolDetailsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ContactDetails;
@@ -101,13 +100,3 @@
         </dl>
     </div>
 </div>
-
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.SchoolResources, Resources.SchoolHistoricData } })
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-@await Component.InvokeAsync("GetHelp")

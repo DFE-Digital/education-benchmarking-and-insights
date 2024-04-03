@@ -82,7 +82,6 @@ public class ProxyController(
                 var result = type.ToLower() switch
                 {
                     OrganisationTypes.School => await financeService.GetSchoolWorkforceHistory(id, dimension),
-                    OrganisationTypes.Trust => await financeService.GetTrustWorkforceHistory(id, dimension),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 

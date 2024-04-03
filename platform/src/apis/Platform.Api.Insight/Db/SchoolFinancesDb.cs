@@ -28,13 +28,7 @@ public interface ISchoolFinancesDb
 [ExcludeFromCodeCoverage]
 public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
 {
-    private const int NumberPreviousYears = 4; //Excludes current years
-    private const string MaintainedCollectionPrefix = "Maintained";
-    private const string MatAllocatedCollectionPrefix = "MAT-Allocations"; //Academy + its MAT's allocated figures
-    private const string AcademiesCollectionPrefix = "Academies"; //Academy's own figures 
-    private const string MatCentralCollectionPrefix = "MAT-Central"; //MAT only figures
-    private const string MatTotalsCollectionPrefix = "MAT-Totals"; //Total of Academy only figures of the MAT
-    private const string MatOverviewCollectionPrefix = "MAT-Overview"; //MAT + all of its Academies' figures
+
 
     private readonly int _cfrLatestYear;
     private readonly int _aarLatestYear;
@@ -63,29 +57,29 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
     }
     public async Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension)
     {
-        var schools = await GetHistoryFinances(urn);
+        var finances = await GetHistoryFinances(urn);
 
-        return schools
+        return finances
             .OfType<(int, SchoolTrustFinancialDataObject)>()
-            .Select(school => BalanceResponseModel.Create(school.Item2, school.Item1, dimension));
+            .Select(x => BalanceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     public async Task<IEnumerable<WorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension)
     {
-        var schools = await GetHistoryFinances(urn);
+        var finances = await GetHistoryFinances(urn);
 
-        return schools
+        return finances
             .OfType<(int, SchoolTrustFinancialDataObject?)>()
-            .Select(school => WorkforceResponseModel.Create(school.Item2, school.Item1, dimension));
+            .Select(x => WorkforceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     public async Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string urn, Dimension dimension)
     {
-        var schools = await GetHistoryFinances(urn);
+        var finances = await GetHistoryFinances(urn);
 
-        return schools
+        return finances
             .OfType<(int, SchoolTrustFinancialDataObject?)>()
-            .Select(school => IncomeResponseModel.Create(school.Item2, school.Item1, dimension));
+            .Select(x => IncomeResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     private async Task<(int year, SchoolTrustFinancialDataObject? dataObject)[]> GetHistoryFinances(string urn)
@@ -98,8 +92,8 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             return GetFinances(year, urn, collection);
         }).ToArray();
 
-        var schools = await Task.WhenAll(tasks);
-        return schools;
+        var finances = await Task.WhenAll(tasks);
+        return finances;
     }
 
     private async Task<(int year, SchoolTrustFinancialDataObject? dataObject)> GetFinances(int year, string urn, string collection)
@@ -112,7 +106,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
 
     private static IEnumerable<int> HistoricYears(int currentYear)
     {
-        return Enumerable.Range(currentYear - NumberPreviousYears, NumberPreviousYears + 1);
+        return Enumerable.Range(currentYear - Constants.NumberPreviousYears, Constants.NumberPreviousYears + 1);
     }
 
     private static string BuildFinanceCollectionName(string prefix, int year)
@@ -126,10 +120,10 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
         switch (school?.FinanceType)
         {
             case EstablishmentTypes.Academies:
-                return (MatAllocatedCollectionPrefix, _aarLatestYear);
+                return (Constants.MatAllocatedCollectionPrefix, _aarLatestYear);
             case EstablishmentTypes.Federation:
             case EstablishmentTypes.Maintained:
-                return (MaintainedCollectionPrefix, _cfrLatestYear);
+                return (Constants.MaintainedCollectionPrefix, _cfrLatestYear);
             default:
                 throw new ArgumentOutOfRangeException(nameof(school.FinanceType));
         }
@@ -141,10 +135,10 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
         switch (school?.FinanceType)
         {
             case EstablishmentTypes.Academies:
-                return (MatAllocatedCollectionPrefix, HistoricYears(_aarLatestYear));
+                return (Constants.MatAllocatedCollectionPrefix, HistoricYears(_aarLatestYear));
             case EstablishmentTypes.Federation:
             case EstablishmentTypes.Maintained:
-                return (MaintainedCollectionPrefix, HistoricYears(_cfrLatestYear));
+                return (Constants.MaintainedCollectionPrefix, HistoricYears(_cfrLatestYear));
             default:
                 throw new ArgumentOutOfRangeException(nameof(school.FinanceType));
         }

@@ -11,7 +11,6 @@ public interface IFinanceService
     Task<Finances> GetFinances(string urns);
     Task<FinanceYears> GetYears();
     Task<IEnumerable<Workforce>> GetSchoolWorkforceHistory(string urn, string dimension);
-    Task<IEnumerable<Workforce>> GetTrustWorkforceHistory(string companyNo, string dimension);
     Task<IEnumerable<Balance>> GetSchoolBalanceHistory(string urn, string dimension);
     Task<IEnumerable<Balance>> GetTrustBalanceHistory(string companyNo, string dimension);
     Task<IEnumerable<Income>> GetSchoolIncomeHistory(string urn, string dimension);
@@ -31,20 +30,16 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         return await insightApi.GetSchoolWorkforceHistory(urn, query).GetResultOrDefault<IEnumerable<Workforce>>() ?? Array.Empty<Workforce>();
     }
 
-    public Task<IEnumerable<Workforce>> GetTrustWorkforceHistory(string companyNo, string dimension)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<IEnumerable<Balance>> GetSchoolBalanceHistory(string urn, string dimension)
     {
         var query = new ApiQuery().AddIfNotNull("dimension", dimension);
         return await insightApi.GetSchoolBalanceHistory(urn, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
     }
 
-    public Task<IEnumerable<Balance>> GetTrustBalanceHistory(string companyNo, string dimension)
+    public async Task<IEnumerable<Balance>> GetTrustBalanceHistory(string companyNo, string dimension)
     {
-        throw new NotImplementedException();
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        return await insightApi.GetTrustBalanceHistory(companyNo, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
     }
 
     public async Task<IEnumerable<Income>> GetSchoolIncomeHistory(string urn, string dimension)
@@ -53,9 +48,10 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         return await insightApi.GetSchoolIncomeHistory(urn, query).GetResultOrDefault<IEnumerable<Income>>() ?? Array.Empty<Income>();
     }
 
-    public Task<IEnumerable<Income>> GetTrustIncomeHistory(string companyNo, string dimension)
+    public async Task<IEnumerable<Income>> GetTrustIncomeHistory(string companyNo, string dimension)
     {
-        throw new NotImplementedException();
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        return await insightApi.GetTrustIncomeHistory(companyNo, query).GetResultOrDefault<IEnumerable<Income>>() ?? Array.Empty<Income>();
     }
 
     public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns)

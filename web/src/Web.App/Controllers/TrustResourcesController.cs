@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -21,7 +22,7 @@ public class TrustResourcesController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustResources(companyNumber);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "Trust", new { companyNumber }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var viewModel = new TrustResourcesViewModel(trust);
