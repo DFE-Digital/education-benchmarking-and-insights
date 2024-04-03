@@ -5,7 +5,7 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
 
-@await Component.InvokeAsync("DataSource", new { isPartOfTrust = true, additionText = new [] {"Compare your schools spending costs."}})
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new [] {"Compare your schools spending costs."}})
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber"></div>
 
