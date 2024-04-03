@@ -5,7 +5,9 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
 
-@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+
+@await Component.InvokeAsync("DataSource", new { isPartOfTrust = Model.IsPartOfTrust, additionText = new [] {"Find out how spending compares to similar schools."}})
 
 @await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn })
 

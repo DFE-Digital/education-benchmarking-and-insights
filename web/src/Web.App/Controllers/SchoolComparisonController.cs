@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -12,8 +11,7 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/comparison")]
 public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
-    ILogger<SchoolComparisonController> logger,
-    IFinanceService financeService)
+    ILogger<SchoolComparisonController> logger)
     : Controller
 {
     [HttpGet]
@@ -26,8 +24,7 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var years = await financeService.GetYears();
-                var viewModel = new SchoolComparisonViewModel(school, years);
+                var viewModel = new SchoolComparisonViewModel(school);
 
                 return View(viewModel);
             }

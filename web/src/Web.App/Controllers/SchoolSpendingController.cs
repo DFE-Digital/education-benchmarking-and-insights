@@ -32,8 +32,9 @@ public class SchoolSpendingController(
 
                 var pupilExpenditure = await financeService.GetExpenditure(set.DefaultPupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.DefaultArea);
+                var latestYears = await financeService.GetYears();
 
-                var viewModel = new SchoolSpendingViewModel(school, pupilExpenditure, areaExpenditure);
+                var viewModel = new SchoolSpendingViewModel(school, pupilExpenditure, areaExpenditure, latestYears);
 
                 return View(viewModel);
             }
