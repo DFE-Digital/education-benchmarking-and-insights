@@ -1,11 +1,11 @@
 import { v4 as uuidv4 } from "uuid";
-import { Expenditure, WorkforceBenchmark } from "src/services";
+import { ExpenditureData, WorkforceBenchmark } from "src/services";
 
 export class EstablishmentsApi {
   static async getExpenditure(
     type: string,
     id: string
-  ): Promise<Expenditure[]> {
+  ): Promise<ExpenditureData[]> {
     return fetch(
       "/api/establishments/expenditure?" +
         new URLSearchParams({ type: type, id: id }),

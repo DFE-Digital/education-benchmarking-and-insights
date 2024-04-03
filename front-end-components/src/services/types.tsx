@@ -1,4 +1,4 @@
-export type Expenditure = {
+export type ExpenditureData = {
   urn: string;
   name: string;
   schoolType: string;
@@ -107,4 +107,16 @@ export type Income = {
   receiptsSupplyTeacherInsuranceClaims: number;
   investmentIncome: number;
   otherSelfGeneratedIncome: number;
+};
+
+export type Expenditure = {
+  yearEnd: string;
+  dimension: string;
+  totalExpenditure: number;
+  totalTeachingSupportStaffCosts: number;
+  teachingStaffCosts: number;
+  supplyTeachingStaffCosts: number;
+  educationalConsultancyCosts: number;
+  educationSupportStaffCosts: number;
+  agencySupplyTeachingStaffCosts: number;
 };

@@ -36,7 +36,7 @@ import {
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { Expenditure, Workforce, WorkforceBenchmark } from "./services";
+import { ExpenditureData, WorkforceBenchmark } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
@@ -144,11 +144,11 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (WorkforceBenchmark | Expenditure)[];
+  data: (WorkforceBenchmark | ExpenditureData)[];
   highlightedItemKey?: string;
-  keyField: keyof Workforce & keyof Expenditure;
+  keyField: keyof WorkforceBenchmark & keyof ExpenditureData;
   sortDirection: ChartSortDirection;
-  valueField: keyof Workforce & keyof Expenditure;
+  valueField: keyof WorkforceBenchmark & keyof ExpenditureData;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
@@ -237,9 +237,13 @@ if (horizontalChart1SeriesElement) {
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof Workforce & keyof Expenditure}
+          keyField={
+            keyField as keyof WorkforceBenchmark & keyof ExpenditureData
+          }
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          valueField={valueField as keyof Workforce & keyof Expenditure}
+          valueField={
+            valueField as keyof WorkforceBenchmark & keyof ExpenditureData
+          }
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

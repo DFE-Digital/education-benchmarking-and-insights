@@ -5,7 +5,7 @@ import { initAll } from "govuk-frontend";
 import {
   BalanceSection,
   IncomeSection,
-  Spending,
+  SpendingSection,
   WorkforceSection,
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
@@ -44,7 +44,7 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
         )}
       </ul>
       <div className="govuk-tabs__panel" id="spending">
-        <Spending />
+        <SpendingSection type={type} id={id} />
       </div>
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="income">
         <IncomeSection type={type} id={id} />

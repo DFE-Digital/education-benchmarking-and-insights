@@ -1,4 +1,4 @@
-import { Expenditure } from "src/services";
+import { ExpenditureData } from "src/services";
 
 export type TotalExpenditureProps = {
   schools: TotalExpenditureData[];
@@ -15,5 +15,5 @@ export type TotalExpenditureData = {
 };
 
 export type ExpenditureAccordionProps = {
-  schools: Expenditure[];
+  schools: ExpenditureData[];
 };
