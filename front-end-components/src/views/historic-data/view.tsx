@@ -9,6 +9,7 @@ import {
   WorkforceSection,
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
+import { SchoolEstablishment } from "src/constants.tsx";
 
 export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
   const { type, id } = props;
@@ -34,11 +35,13 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
             Balance
           </a>
         </li>
-        <li className="govuk-tabs__list-item">
-          <a className="govuk-tabs__tab" href="#workforce">
-            Workforce
-          </a>
-        </li>
+        {type === SchoolEstablishment && (
+          <li className="govuk-tabs__list-item">
+            <a className="govuk-tabs__tab" href="#workforce">
+              Workforce
+            </a>
+          </li>
+        )}
       </ul>
       <div className="govuk-tabs__panel" id="spending">
         <Spending />
@@ -49,12 +52,14 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
       <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
         <BalanceSection type={type} id={id} />
       </div>
-      <div
-        className="govuk-tabs__panel govuk-tabs__panel--hidden"
-        id="workforce"
-      >
-        <WorkforceSection type={type} id={id} />
-      </div>
+      {type === SchoolEstablishment && (
+        <div
+          className="govuk-tabs__panel govuk-tabs__panel--hidden"
+          id="workforce"
+        >
+          <WorkforceSection type={type} id={id} />
+        </div>
+      )}
     </div>
   );
 };
