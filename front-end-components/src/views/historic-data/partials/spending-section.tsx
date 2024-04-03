@@ -13,10 +13,8 @@ import { shortValueFormatter } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
-import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs.tsx";
-import {
-  SpendingSectionNonEducationalStaffCosts
-} from "src/views/historic-data/partials/spending-section-non-educational-staff-costs.tsx";
+import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs";
+import { SpendingSectionNonEducationalStaffCosts } from "src/views/historic-data/partials/spending-section-non-educational-staff-costs";
 
 export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   type,
