@@ -11,4 +11,9 @@ public record Expenditure
     public decimal? EducationalConsultancyCosts { get; set; }
     public decimal? EducationSupportStaffCosts { get; set; }
     public decimal? AgencySupplyTeachingStaffCosts { get; set; }
+    public decimal? TotalNonEducationalSupportStaffCosts { get; set; }
+    public decimal? AdministrativeClericalStaffCosts { get; set; }
+    public decimal? AuditorsCosts { get; set; }
+    public decimal? OtherStaffCosts { get; set; }
+    public decimal? ProfessionalServicesNonCurriculumCosts { get; set; }
 }

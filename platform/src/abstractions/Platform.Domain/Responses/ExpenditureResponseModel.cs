@@ -15,6 +15,12 @@ public record ExpenditureResponseModel
     public decimal? EducationalConsultancyCosts { get; private set; }
     public decimal? EducationSupportStaffCosts { get; private set; }
     public decimal? AgencySupplyTeachingStaffCosts { get; private set; }
+    public decimal? TotalNonEducationalSupportStaffCosts { get; private set; }
+    public decimal? AdministrativeClericalStaffCosts { get; private set; }
+    public decimal? AuditorsCosts { get; private set; }
+    public decimal? OtherStaffCosts { get; private set; }
+    public decimal? ProfessionalServicesNonCurriculumCosts { get; private set; }
+
     /*public decimal NetCateringCosts { get; set; }
     public decimal CateringStaffCosts { get; set; }
     public decimal CateringSuppliesCosts { get; set; }
@@ -25,11 +31,7 @@ public record ExpenditureResponseModel
     public decimal ExaminationFeesCosts { get; set; }
     public decimal BreakdownEducationalSuppliesCosts { get; set; }
     public decimal LearningResourcesNonIctCosts { get; set; }
-    public decimal TotalNonEducationalSupportStaffCosts { get; set; }
-    public decimal AdministrativeClericalStaffCosts { get; set; }
-    public decimal AuditorsCosts { get; set; }
-    public decimal OtherStaffCosts { get; set; }
-    public decimal ProfessionalServicesNonCurriculumCosts { get; set; }
+
     public decimal TotalPremisesStaffServiceCosts { get; set; }
     public decimal CleaningCaretakingCosts { get; set; }
     public decimal MaintenancePremisesCosts { get; set; }
@@ -73,6 +75,11 @@ public record ExpenditureResponseModel
                 EducationalConsultancyCosts = CalculationValue(dataObject.EducationalConsultancy, dataObject, dimension),
                 EducationSupportStaffCosts = CalculationValue(dataObject.EducationSupportStaff, dataObject, dimension),
                 AgencySupplyTeachingStaffCosts = CalculationValue(dataObject.AgencyTeachingStaff, dataObject, dimension),
+                TotalNonEducationalSupportStaffCosts = CalculationValue(CalcTotalNonEducationalSupportStaffCosts(dataObject), dataObject, dimension),
+                AdministrativeClericalStaffCosts = CalculationValue(dataObject.AdministrativeClericalStaff, dataObject, dimension),
+                AuditorsCosts = CalculationValue(dataObject.AuditorCosts, dataObject, dimension),
+                OtherStaffCosts = CalculationValue(dataObject.OtherStaffCosts, dataObject, dimension),
+                ProfessionalServicesNonCurriculumCosts = CalculationValue(dataObject.BroughtProfessionalServices, dataObject, dimension),
                 /*NetCateringCosts = dataObject.CateringExp,
                 CateringStaffCosts = dataObject.CateringStaff,
                 CateringSuppliesCosts = dataObject.CateringSupplies,
@@ -84,12 +91,7 @@ public record ExpenditureResponseModel
                 ExaminationFeesCosts = dataObject.ExaminationFees,
                 BreakdownEducationalSuppliesCosts = dataObject.EducationalSupplies,
                 LearningResourcesNonIctCosts = dataObject.LearningResources,
-                TotalNonEducationalSupportStaffCosts = dataObject.AdministrativeClericalStaff + dataObject.AuditorCosts +
-                                                       dataObject.OtherStaffCosts + dataObject.BroughtProfessionalServices,
-                AdministrativeClericalStaffCosts = dataObject.AdministrativeClericalStaff,
-                AuditorsCosts = dataObject.AuditorCosts,
-                OtherStaffCosts = dataObject.OtherStaffCosts,
-                ProfessionalServicesNonCurriculumCosts = dataObject.BroughtProfessionalServices,
+                
                 TotalPremisesStaffServiceCosts = dataObject.CleaningCaretaking + dataObject.PremisesStaff +
                                                  dataObject.OtherOccupationCosts + dataObject.PremisesStaff,
                 CleaningCaretakingCosts = dataObject.CleaningCaretaking,
@@ -128,6 +130,14 @@ public record ExpenditureResponseModel
             : dataObject.TeachingStaff + dataObject.SupplyTeachingStaff +
               dataObject.EducationalConsultancy + dataObject.EducationSupportStaff +
               dataObject.AgencyTeachingStaff;
+    }
+
+    private static decimal CalcTotalNonEducationalSupportStaffCosts(SchoolTrustFinancialDataObject? dataObject)
+    {
+        return dataObject == null
+            ? 0
+            : dataObject.AdministrativeClericalStaff + dataObject.AuditorCosts +
+              dataObject.OtherStaffCosts + dataObject.BroughtProfessionalServices;
     }
 
     private static decimal CalculationValue(decimal value, SchoolTrustFinancialDataObject dataObject, Dimension dimension)
