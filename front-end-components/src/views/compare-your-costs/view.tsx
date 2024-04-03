@@ -25,7 +25,7 @@ import { SchoolEstablishment } from "src/constants.tsx";
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
 ) => {
-  const { type, id, academyYear, maintainedYear } = props;
+  const { type, id } = props;
   const [expenditureData, setExpenditureData] = useState<ExpenditureData[]>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(
@@ -66,16 +66,8 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">
-          <p className="govuk-body">
-            The data below is from the latest year available. For maintained
-            schools this is {maintainedYear}, academies for {academyYear}
-          </p>
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
-        </div>
+      <div className="view-as-toggle">
+        <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
       </div>
       <ChartModeContext.Provider value={displayMode}>
         <TotalExpenditure

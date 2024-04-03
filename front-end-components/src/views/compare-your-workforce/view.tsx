@@ -30,7 +30,7 @@ import { SchoolEstablishment } from "src/constants.tsx";
 export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   props
 ) => {
-  const { type, id, academyYear, maintainedYear } = props;
+  const { type, id } = props;
   const [workforceData, setWorkforceData] = useState<WorkforceBenchmark[]>(
     new Array<WorkforceBenchmark>()
   );
@@ -75,16 +75,8 @@ export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">
-          <p className="govuk-body">
-            The data below is from the latest year available. For maintained
-            schools this is {maintainedYear}, academies for {academyYear}
-          </p>
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
-        </div>
+      <div className="view-as-toggle">
+        <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
       </div>
       <ChartModeContext.Provider value={displayMode}>
         <SchoolWorkforce schools={workforceData} />

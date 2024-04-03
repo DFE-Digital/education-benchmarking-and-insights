@@ -311,3 +311,17 @@
 .suggest-form-group a.active {
   background: lightgray;
 }
+
+.view-as-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .view-as-toggle {
+    width: 100%;
+    display: block;
+  }
+}

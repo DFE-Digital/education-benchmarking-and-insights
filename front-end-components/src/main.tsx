@@ -79,18 +79,13 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id, academyYear, maintainedYear } = compareCostsElement.dataset;
+  const { type, id } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourCosts
-          type={type}
-          id={id}
-          maintainedYear={maintainedYear}
-          academyYear={academyYear}
-        />
+        <CompareYourCosts type={type} id={id} />
       </React.StrictMode>
     );
   }
@@ -101,19 +96,13 @@ const compareWorkforceElement = document.getElementById(
 );
 
 if (compareWorkforceElement) {
-  const { type, id, academyYear, maintainedYear } =
-    compareWorkforceElement.dataset;
+  const { type, id } = compareWorkforceElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareWorkforceElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourWorkforce
-          type={type}
-          id={id}
-          maintainedYear={maintainedYear}
-          academyYear={academyYear}
-        />
+        <CompareYourWorkforce type={type} id={id} />
       </React.StrictMode>
     );
   }
