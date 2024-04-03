@@ -16,4 +16,4 @@
 | Component | Description |
 |:---------|:-----------|
 | Loggining and Analytics | Azure Application Insights |
-| Authentication and AUthorization | DfE Sign-In
+| Authentication and AUthorization | DfE Sign-In |
