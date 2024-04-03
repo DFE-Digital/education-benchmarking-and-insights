@@ -15,7 +15,7 @@ public abstract class SearchService
         _client = new SearchClient(searchEndpoint, indexName, credential);
     }
 
-    protected async Task<SearchOutput<T>> SearchAsync<T>(PostSearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
+    protected async Task<SearchResponseModel<T>> SearchAsync<T>(PostSearchRequestModel request, Func<FilterCriteriaRequestModel[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
@@ -43,10 +43,10 @@ public abstract class SearchService
         var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : default;
         var results = searchResults.GetResults().Select(result => result.Document);
 
-        return SearchOutput<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
+        return SearchResponseModel<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
-    protected async Task<SuggestOutput<T>> SuggestAsync<T>(PostSuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected async Task<SuggestResponseModel<T>> SuggestAsync<T>(PostSuggestRequestModel request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
         var options = new SuggestOptions
         {
@@ -69,9 +69,9 @@ public abstract class SearchService
         }
 
         var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
-        var results = response.Value.Results.Select(SuggestValue<T>.Create);
+        var results = response.Value.Results.Select(SuggestValueResponseModel<T>.Create);
 
-        return new SuggestOutput<T>
+        return new SuggestResponseModel<T>
         {
             Results = results
         };
@@ -85,13 +85,13 @@ public abstract class SearchService
         return query;
     }
 
-    private static Dictionary<string, IList<FacetValue>> BuildFacetOutput(IDictionary<string, IList<FacetResult>> facetResults)
+    private static Dictionary<string, IList<FacetValueResponseModel>> BuildFacetOutput(IDictionary<string, IList<FacetResult>> facetResults)
     {
-        var facetOutput = new Dictionary<string, IList<FacetValue>>();
+        var facetOutput = new Dictionary<string, IList<FacetValueResponseModel>>();
         foreach (var facetResult in facetResults)
         {
             facetOutput[facetResult.Key] = facetResult.Value
-                .Select(x => new FacetValue { Value = x.Value.ToString(), Count = x.Count }).ToList();
+                .Select(x => new FacetValueResponseModel { Value = x.Value.ToString(), Count = x.Count }).ToList();
         }
 
         return facetOutput;

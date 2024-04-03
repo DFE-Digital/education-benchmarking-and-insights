@@ -1,7 +1,6 @@
-namespace Web.App.Domain.FinancialPlanStages
+namespace Web.App.Domain.FinancialPlanStages;
+
+public class SelectYearStage : Stage
 {
-    public class SelectYearStage : Stage
-    {
-        public int? Year { get; set; }
-    }
+    public int? Year { get; set; }
 }

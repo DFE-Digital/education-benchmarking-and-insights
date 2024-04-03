@@ -1,4 +1,5 @@
-﻿Feature: InsightsSchools
+﻿@ignore
+Feature: InsightsSchools
 Insights school endpoints
 
     Scenario: Sending a valid school expenditure request

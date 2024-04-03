@@ -1,133 +1,129 @@
-import React, { useState } from "react";
-import { NonEducationalSupportStaffProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  NonEducationalSupportStaffData,
+  NonEducationalSupportStaffProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculateCostValue,
   CostCategories,
   DimensionHeading,
   PoundsPerPupil,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
 
 export const NonEducationalSupportStaff: React.FC<
   NonEducationalSupportStaffProps
 > = ({ schools }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const tableHeadings = useMemo(
+    () => [
+      "School name",
+      "Local Authority",
+      "School type",
+      "Number of pupils",
+      DimensionHeading(dimension.value),
+    ],
+    [dimension]
+  );
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
-  const administrativeClericalBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const administrativeClericalBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.administrativeClericalStaffCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.administrativeClericalStaffCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const totalNonEducationalBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const totalNonEducationalBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.totalNonEducationalSupportStaffCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.totalNonEducationalSupportStaffCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const auditorsCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const auditorsCostsBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.auditorsCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.auditorsCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const otherStaffCostsBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const otherStaffCostsBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.otherStaffCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.otherStaffCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
-  const professionalServicesBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const professionalServicesBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
+    useMemo(() => {
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.professionalServicesNonCurriculumCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.professionalServicesNonCurriculumCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools, tableHeadings]);
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
@@ -151,6 +147,7 @@ export const NonEducationalSupportStaff: React.FC<
           <HorizontalBarChartWrapper
             data={totalNonEducationalBarData}
             chartName="total non-educational support staff costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Total non-educational support staff costs
@@ -159,12 +156,13 @@ export const NonEducationalSupportStaff: React.FC<
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-non-educational-support-staff-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={administrativeClericalBarData}
             chartName="administrative and clerical staff costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Administrative and clerical staff costs
@@ -173,18 +171,21 @@ export const NonEducationalSupportStaff: React.FC<
           <HorizontalBarChartWrapper
             data={auditorsCostsBarData}
             chartName="auditors costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Auditors costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherStaffCostsBarData}
             chartName="other staff costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Other staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={professionalServicesBarData}
             chartName="profession services (non-curriculum) costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Professional services (non-curriculum) costs

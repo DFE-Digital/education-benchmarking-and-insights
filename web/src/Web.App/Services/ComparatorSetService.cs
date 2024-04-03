@@ -3,54 +3,34 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 
-namespace Web.App.Services
+namespace Web.App.Services;
+
+public interface IComparatorSetService
 {
-    public interface IComparatorSetService
+    Task<ComparatorSet> ReadComparatorSet(string urn);
+}
+
+public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBenchmarkApi benchmarkApi) : IComparatorSetService
+{
+    public async Task<ComparatorSet> ReadComparatorSet(string urn)
     {
-        Task<ComparatorSet<School>> ReadSchoolComparatorSet(string urn);
-        Task<ComparatorSet<School>> RemoveSchoolFromComparatorSet(string urn, string schoolUrnToRemove);
-        Task<ComparatorSet<School>> ResetSchoolComparatorSet(string urn);
+        var key = SessionKeys.ComparatorSet(urn);
+        var context = httpContextAccessor.HttpContext;
+
+        var set = context?.Session.Get<ComparatorSet>(key);
+
+        return set ?? await SetComparatorSet(urn);
     }
 
-    public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBenchmarkApi benchmarkApi) : IComparatorSetService
+    private async Task<ComparatorSet> SetComparatorSet(string urn)
     {
-        public async Task<ComparatorSet<School>> ReadSchoolComparatorSet(string urn)
-        {
-            var key = Key(urn);
-            var context = httpContextAccessor.HttpContext;
-            var set = context?.Session.Get<ComparatorSet<School>>(key);
-            if (set == null)
-            {
-                set = await benchmarkApi.CreateComparatorSet().GetResultOrThrow<ComparatorSet<School>>();
-                context?.Session.Set(key, set);
-            }
+        var key = SessionKeys.ComparatorSet(urn);
+        var context = httpContextAccessor.HttpContext;
 
-            return set;
-        }
+        var set = await benchmarkApi.GetComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
 
-        public async Task<ComparatorSet<School>> RemoveSchoolFromComparatorSet(string urn, string schoolUrnToRemove)
-        {
-            var key = Key(urn);
-            var currentSet = await ReadSchoolComparatorSet(urn);
-            var schools = currentSet.Results.ToList();
-            schools.RemoveAll(x => x.Urn == schoolUrnToRemove);
+        context?.Session.Set(key, set);
 
-            var newSet = new ComparatorSet<School> { TotalResults = schools.Count, Results = schools };
-            var context = httpContextAccessor.HttpContext;
-            context?.Session.Set(key, newSet);
-
-            return newSet;
-        }
-
-        public async Task<ComparatorSet<School>> ResetSchoolComparatorSet(string urn)
-        {
-            var key = Key(urn);
-            var context = httpContextAccessor.HttpContext;
-            context?.Session.Remove(key);
-
-            return await ReadSchoolComparatorSet(urn);
-        }
-
-        private static string Key(string urn) => SessionKeys.SchoolComparatorSet(urn);
+        return set;
     }
 }

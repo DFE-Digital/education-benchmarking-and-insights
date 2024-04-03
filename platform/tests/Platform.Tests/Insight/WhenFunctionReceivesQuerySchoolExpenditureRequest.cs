@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -12,8 +12,8 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
-            .ReturnsAsync(new PagedSchoolExpenditure());
+            .Setup(d => d.Expenditure(It.IsAny<string[]>()))
+            .ReturnsAsync(Array.Empty<SchoolExpenditureResponseModel>());
 
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as JsonContentResult;
 
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesQuerySchoolExpenditureRequest : SchoolsFunction
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Expenditure(It.IsAny<IEnumerable<string>>(), It.IsAny<int>(), It.IsAny<int>()))
+            .Setup(d => d.Expenditure(It.IsAny<string[]>()))
             .Throws(new Exception());
 
         var result = await Functions.QuerySchoolExpenditureAsync(CreateRequest()) as StatusCodeResult;

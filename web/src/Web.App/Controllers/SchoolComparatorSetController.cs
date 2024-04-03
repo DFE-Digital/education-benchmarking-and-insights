@@ -7,71 +7,41 @@ using Web.App.Services;
 using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
-namespace Web.App.Controllers
+namespace Web.App.Controllers;
+
+[Controller]
+[Route("school/{urn}/comparator-set")]
+public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController> logger, IComparatorSetService comparatorSetService, IEstablishmentApi establishmentApi) : Controller
 {
-    [Controller]
-    [Route("school/{urn}/comparator-set")]
-    public class SchoolComparatorSetController(ILogger<SchoolComparatorSetController> logger, IComparatorSetService comparatorSetService, IEstablishmentApi establishmentApi) : Controller
+    [HttpGet]
+    public async Task<IActionResult> Index(string urn, string referrer)
     {
-        [HttpGet]
-        public async Task<IActionResult> Index(string urn, string referrer)
+        using (logger.BeginScope(new { urn, referrer }))
         {
-            using (logger.BeginScope(new { urn, referrer }))
+            try
             {
-                try
-                {
-                    ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
 
-                    var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                    var set = await comparatorSetService.ReadSchoolComparatorSet(urn);
-                    var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
-                    return View(viewModel);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError(e, "An error displaying school comparator set: {DisplayUrl}", Request.GetDisplayUrl());
-                    return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-                }
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var set = await comparatorSetService.ReadComparatorSet(urn);
+                var viewModel = new SchoolComparatorSetViewModel(school, set);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school comparator set: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
 
-        [HttpPost]
-        public async Task<IActionResult> Index(string urn, string referrer, [FromForm] string action)
+    private BacklinkInfo RefererBackInfo(string referrer, string urn)
+    {
+        return referrer switch
         {
-            using (logger.BeginScope(new { urn, referrer }))
-            {
-                try
-                {
-                    ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
-
-                    var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                    FormAction setAction = action;
-                    var set = setAction.Action switch
-                    {
-                        FormAction.Remove => await comparatorSetService.RemoveSchoolFromComparatorSet(urn, setAction.Identifier ?? throw new ArgumentNullException(setAction.Identifier)),
-                        FormAction.Reset => await comparatorSetService.ResetSchoolComparatorSet(urn),
-                        _ => throw new ArgumentOutOfRangeException(nameof(setAction.Action))
-                    };
-
-                    var viewModel = new SchoolComparatorSetViewModel(school, set, referrer);
-                    return View(viewModel);
-                }
-                catch (Exception e)
-                {
-                    logger.LogError(e, "An error displaying school comparator set: {DisplayUrl}", Request.GetDisplayUrl());
-                    return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-                }
-            }
-        }
-
-        private BacklinkInfo RefererBackInfo(string referrer, string urn)
-        {
-            return referrer switch
-            {
-                Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn })),
-                Referrers.SchoolWorkforce => new BacklinkInfo(Url.Action("Index", "SchoolWorkforce", new { urn })),
-                _ => throw new ArgumentOutOfRangeException(nameof(referrer))
-            };
-        }
+            Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn })),
+            Referrers.SchoolWorkforce => new BacklinkInfo(Url.Action("Index", "SchoolWorkforce", new { urn })),
+            _ => throw new ArgumentOutOfRangeException(nameof(referrer))
+        };
     }
 }

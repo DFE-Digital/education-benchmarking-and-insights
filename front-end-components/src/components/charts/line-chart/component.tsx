@@ -14,16 +14,10 @@ import {
   LineChart as RechartsLineChart,
   ResponsiveContainer,
   Tooltip,
-  TooltipProps,
   XAxis,
   YAxis,
 } from "recharts";
-import {
-  ChartDataSeries,
-  ChartHandler,
-  ChartSeriesValue,
-  ChartSeriesValueUnit,
-} from "src/components";
+import { ChartDataSeries, ChartHandler } from "src/components";
 import classNames from "classnames";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
 
@@ -36,6 +30,9 @@ function LineChartInner<TData extends ChartDataSeries>(
     curveType,
     data,
     grid,
+    hideXAxis,
+    hideYAxis,
+    highlightActive,
     keyField,
     margin: _margin,
     multiLineAxisLabel,
@@ -44,6 +41,7 @@ function LineChartInner<TData extends ChartDataSeries>(
     seriesLabel,
     seriesLabelField,
     tooltip,
+    valueFormatter,
     valueLabel,
     valueUnit,
   } = props;
@@ -54,8 +52,8 @@ function LineChartInner<TData extends ChartDataSeries>(
   });
 
   useImperativeHandle(ref, () => ({
-    download() {
-      downloadPng();
+    async download() {
+      await downloadPng();
     },
   }));
 
@@ -87,13 +85,17 @@ function LineChartInner<TData extends ChartDataSeries>(
         type={curveType || "linear"}
         strokeWidth={3}
         className={className}
-        activeDot={{
-          r: 6,
-          className: classNames(
-            "chart-active-dot",
-            `chart-active-dot-series-${seriesIndex}`
-          ),
-        }}
+        activeDot={
+          highlightActive
+            ? {
+                r: 6,
+                className: classNames(
+                  "chart-active-dot",
+                  `chart-active-dot-series-${seriesIndex}`
+                ),
+              }
+            : false
+        }
       ></Line>
     );
   };
@@ -124,6 +126,7 @@ function LineChartInner<TData extends ChartDataSeries>(
             dataKey={seriesLabelField as string}
             interval={0}
             padding={{ left: 50, right: 50 }}
+            hide={hideXAxis}
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
@@ -131,8 +134,13 @@ function LineChartInner<TData extends ChartDataSeries>(
             type="number"
             unit={valueUnit && valueUnit.length <= 1 ? valueUnit : undefined}
             domain={["auto", "auto"]}
-            tickFormatter={(value) => valueFormatter(value, valueUnit)}
+            tickFormatter={(value) =>
+              valueFormatter
+                ? valueFormatter(value, { valueUnit })
+                : String(value)
+            }
             axisLine={!grid}
+            hide={hideYAxis}
           >
             {valueLabel && (
               <Label
@@ -143,51 +151,12 @@ function LineChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
-          {tooltip && (
-            <Tooltip content={<LineChartTooltip valueUnit={valueUnit} />} />
-          )}
+          {!!tooltip && <Tooltip content={tooltip} />}
           {visibleSeriesNames.map(renderLine)}
         </RechartsLineChart>
       </ResponsiveContainer>
     </div>
   );
-}
-
-function LineChartTooltip<TData extends ChartDataSeries>({
-  active,
-  payload,
-  valueUnit,
-}: Partial<TooltipProps<string, number>> &
-  Pick<LineChartProps<TData>, "valueUnit">) {
-  if (active && payload && payload.length) {
-    return (
-      <div className="chart-active-tooltip">
-        <p className="govuk-body-s">
-          {valueFormatter(payload[0].value, valueUnit)}
-        </p>
-      </div>
-    );
-  }
-
-  return null;
-}
-
-function valueFormatter(
-  value: ChartSeriesValue | undefined,
-  valueUnit?: ChartSeriesValueUnit
-) {
-  if (typeof value !== "number") {
-    return value || "";
-  }
-
-  return new Intl.NumberFormat("en-GB", {
-    notation: "compact",
-    compactDisplay: "short",
-    style: valueUnit === "currency" ? "currency" : undefined,
-    currency: valueUnit === "currency" ? "GBP" : undefined,
-  })
-    .format(value)
-    .toLowerCase();
 }
 
 // https://stackoverflow.com/a/58473012/504477

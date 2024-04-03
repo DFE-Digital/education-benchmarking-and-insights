@@ -1,15 +1,14 @@
 using FluentValidation;
 using Web.App.Domain.FinancialPlanStages;
 
-namespace Web.App.Validators.FinancialPlanStages
+namespace Web.App.Validators.FinancialPlanStages;
+
+public class PrimaryHasMixedAgeClassesStageValidator : AbstractValidator<PrimaryHasMixedAgeClassesStage>
 {
-    public class PrimaryHasMixedAgeClassesStageValidator : AbstractValidator<PrimaryHasMixedAgeClassesStage>
+    public PrimaryHasMixedAgeClassesStageValidator()
     {
-        public PrimaryHasMixedAgeClassesStageValidator()
-        {
-            RuleFor(p => p.HasMixedAgeClasses)
-                .NotNull()
-                .WithMessage("Select yes if you have mixed age classes");
-        }
+        RuleFor(p => p.HasMixedAgeClasses)
+            .NotNull()
+            .WithMessage("Select yes if you have mixed age classes");
     }
 }

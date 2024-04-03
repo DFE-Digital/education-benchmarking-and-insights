@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     {
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new Trust());
+            .ReturnsAsync(new TrustResponseModel());
 
         var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -27,7 +27,7 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
 
         Db
             .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((Trust?)null);
+            .ReturnsAsync((TrustResponseModel?)null);
 
         var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as NotFoundResult;
 

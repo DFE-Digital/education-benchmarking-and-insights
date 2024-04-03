@@ -61,9 +61,20 @@ public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(clie
                 .With(x => x.FinanceType, financeType)
                 .With(x => x.CompanyNumber, "1223545")
                 .With(x => x.TrustOrCompanyName, "Test Trust")
+                .With(x => x.OfstedRating, "0")
                 .Create();
 
-        var page = await Client.SetupEstablishment(school)
+        var finances = Fixture.Build<Finances>()
+            .With(x => x.SchoolName, school.Name)
+            .With(x => x.Urn, school.Urn)
+            .Create();
+
+        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
+
+        var page = await Client
+            .SetupEstablishment(school)
+            .SetupBenchmark(schools)
+            .SetupInsights(school, finances)
             .Navigate(Paths.SchoolDetails(school.Urn));
 
         return (page, school);

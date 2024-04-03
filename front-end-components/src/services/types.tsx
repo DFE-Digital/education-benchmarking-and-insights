@@ -1,11 +1,3 @@
-export type EstablishmentApiResult<T> = {
-  totalResults: bigint;
-  page: bigint;
-  pageSize: bigint;
-  pageCount: bigint;
-  results: T[];
-};
-
 export type Expenditure = {
   urn: string;
   name: string;
@@ -59,7 +51,7 @@ export type Expenditure = {
   waterSewerageCosts: number;
 };
 
-export type Workforce = {
+export type WorkforceBenchmark = {
   urn: string;
   name: string;
   schoolType: string;
@@ -73,4 +65,46 @@ export type Workforce = {
   nonClassroomSupportStaffFTE: number;
   auxiliaryStaffFTE: number;
   schoolWorkforceHeadcount: number;
+};
+
+export type Balance = {
+  yearEnd: string;
+  dimension: string;
+  inYearBalance: number;
+  revenueReserve: number;
+};
+
+export type Workforce = {
+  yearEnd: string;
+  dimension: string;
+  workforceFte: number;
+  teachersFte: number;
+  seniorLeadershipFte: number;
+  teachingAssistantsFte: number;
+  nonClassroomSupportStaffFte: number;
+  auxiliaryStaffFte: number;
+  workforceHeadcount: number;
+  teachersWithQts: number;
+};
+
+export type Income = {
+  yearEnd: string;
+  dimension: string;
+  totalIncome: number;
+  totalGrantFunding: number;
+  totalSelfGeneratedFunding: number;
+  directRevenueFinancing: number;
+  directGrants: number;
+  prePost16Funding: number;
+  otherDfeGrants: number;
+  otherIncomeGrants: number;
+  governmentSource: number;
+  communityGrants: number;
+  academies: number;
+  incomeFacilitiesServices: number;
+  incomeCatering: number;
+  donationsVoluntaryFunds: number;
+  receiptsSupplyTeacherInsuranceClaims: number;
+  investmentIncome: number;
+  otherSelfGeneratedIncome: number;
 };

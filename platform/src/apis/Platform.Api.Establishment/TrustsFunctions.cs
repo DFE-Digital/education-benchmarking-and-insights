@@ -10,7 +10,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Establishment.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
@@ -21,11 +21,11 @@ namespace Platform.Api.Establishment;
 public class TrustsFunctions
 {
     private readonly ILogger<TrustsFunctions> _logger;
-    private readonly ISearchService<Trust> _search;
-    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ISearchService<TrustResponseModel> _search;
+    private readonly IValidator<PostSuggestRequestModel> _validator;
     private readonly ITrustDb _db;
 
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ISearchService<Trust> search, IValidator<PostSuggestRequest> validator, ITrustDb db)
+    public TrustsFunctions(ILogger<TrustsFunctions> logger, ISearchService<TrustResponseModel> search, IValidator<PostSuggestRequestModel> validator, ITrustDb db)
     {
         _logger = logger;
         _search = search;
@@ -35,7 +35,7 @@ public class TrustsFunctions
 
 
     [FunctionName(nameof(SingleTrustAsync))]
-    [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(TrustResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleTrustAsync(
@@ -67,7 +67,7 @@ public class TrustsFunctions
     }
 
     [FunctionName(nameof(TrustSchoolsAsync))]
-    [ProducesResponseType(typeof(IEnumerable<School>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<SchoolResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> TrustSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}/schools")] HttpRequest req,
@@ -105,18 +105,18 @@ public class TrustsFunctions
     [FunctionName(nameof(SearchTrustsAsync))]
     public IActionResult SearchTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/search")]
-        [RequestBodyType(typeof(PostSearchRequest), "The search object")]  HttpRequest req)
+        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")]  HttpRequest req)
     {
         return new OkResult();
     }
 
     [FunctionName(nameof(SuggestTrustsAsync))]
-    [ProducesResponseType(typeof(SuggestOutput<Trust>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuggestResponseModel<TrustResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
+        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -128,7 +128,7 @@ public class TrustsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequest>();
+                var body = req.ReadAsJson<PostSuggestRequestModel>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)

@@ -9,7 +9,7 @@ public class WhenViewingFinancialPlanningHelp(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{TestConfiguration.School}/financial-planning/create?step=help";
+    protected override string PageUrl => $"/school/{TestConfiguration.School}/financial-planning/create/help";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()

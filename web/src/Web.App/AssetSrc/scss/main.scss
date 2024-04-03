@@ -1,7 +1,7 @@
 @import "../../node_modules/govuk-frontend/dist/govuk/all";
 
-@import "suggest";
 @import "headline-figures";
+@import "link-list";
 
 .app-view-component {
   max-width: 100%
@@ -20,38 +20,6 @@
   padding-left: 8px;
   text-decoration: none;
   overflow-wrap: break-word;
-}
-
-.app-links {
-  display: flex;
-  flex-wrap: wrap;
-  list-style: none;
-  padding: 0;
-  gap: 15px;
-  li {
-    width: calc(calc(100% - 30px)/ 3);
-  }
-}
-
-@media (max-width: 576px) {
-  .app-links {
-    li {
-      width: 100%;
-    }
-  }
-}
-
-@media (min-width: 576px) and (max-width: 768px) {
-  .app-links {
-    display: flex;
-    flex-wrap: wrap;
-    list-style: none;
-    padding: 0;
-    gap: 15px;
-    li {
-      width: calc(calc(100% - 15px)/ 2);
-    }
-  }
 }
 
 .app-print-link__button {
@@ -91,4 +59,8 @@ p.priority .govuk-tag {
   background-color: #EEEFEF;
   padding: 20px;
   margin-bottom: 20px;
+}
+
+.govuk-caption-l a {
+  color: $govuk-secondary-text-colour
 }

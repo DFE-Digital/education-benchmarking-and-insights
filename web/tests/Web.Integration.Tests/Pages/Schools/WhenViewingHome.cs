@@ -106,6 +106,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     {
         var school = Fixture.Build<School>()
             .With(x => x.FinanceType, financeType)
+            .With(x => x.OfstedRating, "0")
             .Create();
 
         var finances = Fixture.Build<Finances>()

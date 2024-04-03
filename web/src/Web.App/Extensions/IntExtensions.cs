@@ -1,10 +1,9 @@
-namespace Web.App.Extensions
+namespace Web.App.Extensions;
+
+public static class IntExtensions
 {
-    public static class IntExtensions
+    public static string ToFinanceYear(this int value)
     {
-        public static string ToFinanceYear(this int value)
-        {
-            return $"{value - 1} - {value}";
-        }
+        return $"{value - 1} - {value}";
     }
 }

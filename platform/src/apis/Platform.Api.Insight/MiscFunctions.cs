@@ -1,3 +1,4 @@
+using System;
 using System.Net;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,13 +12,19 @@ namespace Platform.Api.Insight;
 public class MiscFunctions
 {
 
-    [FunctionName(nameof(SingleFinanceYearsAsync))]
+    [FunctionName(nameof(SingleCurrentReturnYearsAsync))]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public IActionResult SingleFinanceYearsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "finance-years")]
+    public IActionResult SingleCurrentReturnYearsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "current-return-years")]
         HttpRequest req)
     {
-        return new JsonContentResult(new { Academies = 2022, MaintainedSchools = 2021 });
+        var aar = Environment.GetEnvironmentVariable("Cosmos__AarLatestYear");
+        var cfr = Environment.GetEnvironmentVariable("Cosmos__CfrLatestYear");
+
+        return new JsonContentResult(new
+        {
+            aar,
+            cfr
+        });
     }
 }

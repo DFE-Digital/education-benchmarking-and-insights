@@ -1,7 +1,7 @@
 using System.Net;
 using System.Text;
 using Web.A11yTests.Drivers;
-using Web.App.Extensions;
+using Web.A11yTests.Extensions;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -33,6 +33,8 @@ public abstract class FinancialPlanBaseFixture : IDisposable
     private readonly IMessageSink _messageSink;
     private readonly BenchmarkApiDriver _apiDriver;
 
+    public bool Initiated { get; protected set; }
+    public Task Initialize { get; }
     public object Content { get; }
     public int Year { get; }
     public string Urn { get; }
@@ -46,7 +48,17 @@ public abstract class FinancialPlanBaseFixture : IDisposable
         Content = content;
         Urn = TestConfiguration.School;
 
-        SeedFinancialPlan().GetAwaiter().GetResult();
+        Initialize = CreateInstanceAsync();
+    }
+
+    private async Task CreateInstanceAsync()
+    {
+        if (!Initiated)
+        {
+            await SeedFinancialPlan();
+        }
+
+        Initiated = true;
     }
 
     public async void Dispose()

@@ -1,15 +1,14 @@
 ﻿using FluentValidation;
 using Web.App.Domain.FinancialPlanStages;
 
-namespace Web.App.Validators.FinancialPlanStages
+namespace Web.App.Validators.FinancialPlanStages;
+
+public class OtherTeachingPeriodsConfirmStageValidator : AbstractValidator<OtherTeachingPeriodsConfirmStage>
 {
-    public class OtherTeachingPeriodsConfirmStageValidator : AbstractValidator<OtherTeachingPeriodsConfirmStage>
+    public OtherTeachingPeriodsConfirmStageValidator()
     {
-        public OtherTeachingPeriodsConfirmStageValidator()
-        {
-            RuleFor(p => p.Proceed)
-                .Must(x => x.HasValue)
-                .WithMessage("Select yes if you want to continue without adding other teaching periods");
-        }
+        RuleFor(p => p.Proceed)
+            .Must(x => x.HasValue)
+            .WithMessage("Select yes if you want to continue without adding other teaching periods");
     }
 }

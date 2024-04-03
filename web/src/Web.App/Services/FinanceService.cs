@@ -2,59 +2,69 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 
-namespace Web.App.Services
+namespace Web.App.Services;
+
+public interface IFinanceService
 {
-    public interface IFinanceService
+    Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns);
+    Task<IEnumerable<SchoolWorkforce>> GetWorkforce(IEnumerable<string> urns);
+    Task<Finances> GetFinances(string urns);
+    Task<FinanceYears> GetYears();
+    Task<IEnumerable<Workforce>> GetWorkforceHistory(string urn, string dimension);
+    Task<IEnumerable<Balance>> GetBalanceHistory(string urn, string dimension);
+    Task<IEnumerable<Income>> GetIncomeHistory(string urn, string dimension);
+}
+
+public class FinanceService(IInsightApi insightApi) : IFinanceService
+{
+    public async Task<FinanceYears> GetYears()
     {
-        Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools);
-        Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools);
-        Task<Finances> GetFinances(School school);
-        Task<FinanceYears> GetYears();
+        return await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
     }
 
-    public class FinanceService(IInsightApi insightApi) : IFinanceService
+    public async Task<IEnumerable<Workforce>> GetWorkforceHistory(string urn, string dimension)
     {
-        public async Task<FinanceYears> GetYears()
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        return await insightApi.GetSchoolWorkforceHistory(urn, query).GetResultOrDefault<IEnumerable<Workforce>>() ?? Array.Empty<Workforce>();
+    }
+
+    public async Task<IEnumerable<Balance>> GetBalanceHistory(string urn, string dimension)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        return await insightApi.GetSchoolBalanceHistory(urn, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
+    }
+
+    public async Task<IEnumerable<Income>> GetIncomeHistory(string urn, string dimension)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
+        return await insightApi.GetSchoolIncomeHistory(urn, query).GetResultOrDefault<IEnumerable<Income>>() ?? Array.Empty<Income>();
+    }
+
+    public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns)
+    {
+        var query = BuildApiQueryFromComparatorSet(urns);
+        return await insightApi.GetSchoolsExpenditure(query).GetResultOrDefault<IEnumerable<SchoolExpenditure>>() ?? Array.Empty<SchoolExpenditure>();
+    }
+
+    public async Task<IEnumerable<SchoolWorkforce>> GetWorkforce(IEnumerable<string> urns)
+    {
+        var query = BuildApiQueryFromComparatorSet(urns);
+        return await insightApi.GetSchoolsWorkforce(query).GetResultOrDefault<IEnumerable<SchoolWorkforce>>() ?? Array.Empty<SchoolWorkforce>();
+    }
+
+    public async Task<Finances> GetFinances(string urn)
+    {
+        return await insightApi.GetSchoolFinances(urn).GetResultOrThrow<Finances>();
+    }
+
+    private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<string> urns)
+    {
+        var query = new ApiQuery();
+        foreach (var urn in urns)
         {
-            return await insightApi.GetFinanceYears().GetResultOrThrow<FinanceYears>();
+            query.AddIfNotNull("urns", urn);
         }
 
-        public async Task<PagedResults<SchoolExpenditure>> GetExpenditure(IEnumerable<School> schools)
-        {
-            var query = BuildApiQueryFromComparatorSet(schools);
-            return await insightApi.GetSchoolsExpenditure(query).GetPagedResultOrThrow<SchoolExpenditure>();
-        }
-
-        public async Task<PagedResults<SchoolWorkforce>> GetWorkforce(IEnumerable<School> schools)
-        {
-            var query = BuildApiQueryFromComparatorSet(schools);
-            return await insightApi.GetSchoolsWorkforce(query).GetPagedResultOrThrow<SchoolWorkforce>();
-        }
-
-        public async Task<Finances> GetFinances(School school)
-        {
-            switch (school.FinanceType)
-            {
-                case EstablishmentTypes.Academies:
-                    return await insightApi.GetAcademyFinances(school.Urn).GetResultOrThrow<Finances>();
-                case EstablishmentTypes.Federation:
-                case EstablishmentTypes.Maintained:
-                    return await insightApi.GetMaintainedSchoolFinances(school.Urn).GetResultOrThrow<Finances>();
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(school.Kind));
-            }
-        }
-
-        private static ApiQuery BuildApiQueryFromComparatorSet(IEnumerable<School> schools)
-        {
-            var array = schools.ToArray();
-            var query = new ApiQuery().Page(1, array.Length);
-            foreach (var school in array)
-            {
-                query.AddIfNotNull("urns", school.Urn);
-            }
-
-            return query;
-        }
+        return query;
     }
 }

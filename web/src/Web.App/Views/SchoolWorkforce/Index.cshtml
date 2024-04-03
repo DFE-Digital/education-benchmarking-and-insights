@@ -3,21 +3,15 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Workforce;
 }
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@ViewData[ViewDataKeys.Title]</h1>
-        <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change school</a>
-        </p>
-    </div>
-</div>
+@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <p class="govuk-body">Compare your workforce data against similar schools</p>
-        @await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn })
     </div>
 </div>
+
+@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn })
 
 <div id="compare-your-workforce" data-type="@OrganisationTypes.School" data-id="@Model.Urn" data-academy-year="@Model.AcademiesFinancePeriod" data-maintained-year="@Model.MaintainedSchoolsFinancePeriod"></div>
 

@@ -415,3 +415,6 @@ local.settings.json
 
 # OSX
 .DS_Store
+
+**/docker/sql
+front-end-components/vite.config-dev.js.timestamp-*

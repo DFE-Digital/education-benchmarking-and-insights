@@ -6,9 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Options;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Requests;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
@@ -17,10 +15,10 @@ namespace Platform.Api.Benchmark.Db;
 
 public interface IFinancialPlanDb
 {
-    Task<IEnumerable<FinancialPlan>> QueryFinancialPlan(string urn);
-    Task<FinancialPlan?> SingleFinancialPlan(string urn, int year);
-    Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request);
-    Task DeleteFinancialPlan(FinancialPlan plan);
+    Task<IEnumerable<FinancialPlanResponseModel>> QueryFinancialPlan(string urn);
+    Task<FinancialPlanResponseModel?> SingleFinancialPlan(string urn, int year);
+    Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequestModel request);
+    Task DeleteFinancialPlan(FinancialPlanResponseModel plan);
 }
 
 [ExcludeFromCodeCoverage]
@@ -34,33 +32,33 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
 {
     private readonly FinancialPlanDbOptions _options;
 
-    public FinancialPlanDb(IOptions<FinancialPlanDbOptions> options) : base(options.Value)
+    public FinancialPlanDb(IOptions<FinancialPlanDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         _options = options.Value;
     }
 
-    public async Task<IEnumerable<FinancialPlan>> QueryFinancialPlan(string urn)
+    public async Task<IEnumerable<FinancialPlanResponseModel>> QueryFinancialPlan(string urn)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
 
         var plans = await ItemEnumerableAsync<FinancialPlanDataObject>(_options.FinancialPlanCollectionName, q => q.Where(x => x.PartitionKey == urn)).ToArrayAsync();
 
-        return plans.Select(FinancialPlan.Create);
+        return plans.Select(FinancialPlanResponseModel.Create);
     }
 
 
-    public async Task<FinancialPlan?> SingleFinancialPlan(string urn, int year)
+    public async Task<FinancialPlanResponseModel?> SingleFinancialPlan(string urn, int year)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
         var response = await ReadItemStreamAsync(_options.FinancialPlanCollectionName, year.ToString(), urn);
         return response.IsSuccessStatusCode
-            ? FinancialPlan.Create(response.Content.FromJson<FinancialPlanDataObject>())
+            ? FinancialPlanResponseModel.Create(response.Content.FromJson<FinancialPlanDataObject>())
             : null;
     }
 
-    public async Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequest request)
+    public async Task<Result> UpsertFinancialPlan(string urn, int year, FinancialPlanRequestModel request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -77,7 +75,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             {
                 ConflictReason = DataConflictResult.Reason.Timestamp,
                 Id = existing.Id,
-                Type = nameof(FinancialPlan),
+                Type = nameof(FinancialPlanDataObject),
                 CreatedBy = existing.CreatedBy,
                 CreatedAt = existing.Created,
                 UpdatedBy = existing.UpdatedBy,
@@ -88,14 +86,14 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         return await Update(request, existing);
     }
 
-    public async Task DeleteFinancialPlan(FinancialPlan plan)
+    public async Task DeleteFinancialPlan(FinancialPlanResponseModel plan)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
-        await DeleteItemAsync<FinancialPlan>(_options.FinancialPlanCollectionName, plan.Year.ToString(),
+        await DeleteItemAsync<FinancialPlanDataObject>(_options.FinancialPlanCollectionName, plan.Year.ToString(),
             new PartitionKey(plan.Urn));
     }
 
-    private async Task<Result> Update(FinancialPlanRequest request, FinancialPlanDataObject existing)
+    private async Task<Result> Update(FinancialPlanRequestModel request, FinancialPlanDataObject existing)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -175,7 +173,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         existing.AssistantsYear5 = request.AssistantsYear5;
         existing.AssistantsYear6 = request.AssistantsYear6;
         existing.OtherTeachingPeriods = request.OtherTeachingPeriods?
-            .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
+            .Select(x => new TeachingPeriodDataObject
             {
                 PeriodName = x.PeriodName,
                 PeriodsPerTimetable = x.PeriodsPerTimetable
@@ -222,7 +220,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
         return new UpdatedResult();
     }
 
-    private async Task<Result> Create(string urn, int year, FinancialPlanRequest request)
+    private async Task<Result> Create(string urn, int year, FinancialPlanRequestModel request)
     {
         ArgumentNullException.ThrowIfNull(_options.FinancialPlanCollectionName);
 
@@ -308,7 +306,7 @@ public class FinancialPlanDb : CosmosDatabase, IFinancialPlanDb
             AssistantsYear5 = request.AssistantsYear5,
             AssistantsYear6 = request.AssistantsYear6,
             OtherTeachingPeriods = request.OtherTeachingPeriods?
-                .Select(x => new FinancialPlanDataObject.OtherTeachingPeriod
+                .Select(x => new TeachingPeriodDataObject
                 {
                     PeriodName = x.PeriodName,
                     PeriodsPerTimetable = x.PeriodsPerTimetable

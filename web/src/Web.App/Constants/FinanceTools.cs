@@ -1,9 +1,8 @@
-namespace Web.App
+namespace Web.App;
+
+public enum FinanceTools
 {
-    public enum FinanceTools
-    {
-        CompareYourCosts,
-        FinancialPlanning,
-        BenchmarkWorkforce
-    }
+    CompareYourCosts,
+    FinancialPlanning,
+    BenchmarkWorkforce
 }

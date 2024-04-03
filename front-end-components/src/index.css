@@ -3,6 +3,8 @@
   height: 100%;
 }
 
+/* start recharts */
+
 /* active colour is 8% darker */
 .recharts-wrapper,
 .chart-stat-wrapper {
@@ -15,6 +17,9 @@
   --series-2-colour: #28a197;
   --series-2-active-colour: #148d83;
   --series-highlight-colour: #12436d;
+  --link-colour: #1d70b8;
+  --link-hover-colour: #003078;
+  --table-grid-colour: #b1b4b6;
 }
 
 .recharts-wrapper .chart-cell,
@@ -101,9 +106,208 @@
 
 .chart-stat-wrapper .chart-stat-value {
   border-top: 1px solid var(--label-colour);
-  padding-top: 0.5rem;
+  margin-top: 0.5rem;
 }
 
-.chart-stat-line-chart .chart-stat-value {
+.chart-stat-summary {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  padding: 0;
+  gap: 15px;
+  width: 100%;
+}
+
+.chart-stat-summary .chart-stat-wrapper {
+  background-color: var(--grid-colour);
+  padding: 10px;
+}
+
+.chart-stat-summary .chart-stat-wrapper .chart-stat-value {
+  border-top: none;
+  margin-top: 0.1rem;
+  margin-bottom: 0.1rem;
+  overflow-wrap: break-word;
+}
+
+.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value{
   color: var(--series-2-colour);
+}
+
+.chart-stat-summary
+  .chart-stat-wrapper
+  .chart-stat-value
+  .chart-stat-value-suffix {
+  color: var(--label-colour);
+  margin-left: 10px;
+  font-size: 0.8em;
+}
+
+.chart-stat-wrapper.chart-stat-highlight {
+  color: var(--series-highlight-colour);
+}
+
+.chart-stat-wrapper.chart-stat-highlight .chart-stat-value {
+  font-weight: 700;
+}
+
+.chart-stat-wrapper .govuk-body-s,
+.chart-stat-wrapper .govuk-body-m,
+.chart-stat-wrapper .govuk-body-l {
+  color: inherit;
+}
+
+.composed-chart-wrapper {
+  height: 100%;
+}
+
+.composed-chart-wrapper,
+.composed-chart {
+  height: 200px;
+}
+
+.composed-chart-wrapper,
+.composed-chart > div {
+  height: 100%;
+}
+
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link {
+  fill: var(--link-colour);
+}
+
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:hover {
+  fill: var(--link-hover-colour);
+}
+
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.school-tick {
+  transform: translate(-0.1em, 0.3em);
+}
+
+.recharts-wrapper
+  .recharts-cartesian-axis
+  .recharts-text.school-tick
+  > tspan:not(:first-child) {
+  display: none;
+}
+
+.recharts-wrapper .recharts-tooltip-cursor {
+  fill: var(--grid-colour);
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper {
+  background-color: #fff;
+  border: 1px solid var(--table-grid-colour);
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table {
+  margin-bottom: 0;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > tbody {
+  font-size: 0.8em;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > caption {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > th {
+  width: 150px;
+}
+
+.recharts-wrapper .recharts-tooltip-wrapper .tooltip-table > caption,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row
+  > td {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:first-child
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:first-child
+  > td {
+  border-top: 1px solid var(--table-grid-colour);
+}
+
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:last-child
+  > th,
+.recharts-wrapper
+  .recharts-tooltip-wrapper
+  .tooltip-table
+  > tbody
+  .govuk-table__row:last-child
+  > td {
+  border-bottom: none;
+}
+
+.recharts-wrapper .recharts-reference-line > line {
+  stroke: var(--grid-colour);
+}
+
+.recharts-wrapper tspan::selection {
+  background-color: var(--grid-colour);
+}
+
+/* end recharts */
+
+.suggest-input {
+  position: relative;
+}
+
+.suggest-form-group ul {
+  position: absolute;
+  height: auto;
+  box-sizing: border-box;
+  border: 2px solid;
+  border-top: 0;
+  padding: 3px 0;
+  z-index: 3;
+  background: #fff;
+  list-style-type: none;
+}
+
+.suggest-form-group input {
+  padding-right: 36px;
+}
+
+.suggest-form-group a {
+  text-decoration: none;
+  padding: 8px 11px;
+  display: block;
+  color: #000;
+  box-shadow: none;
+}
+
+.suggest-form-group a.active {
+  background: lightgray;
 }

@@ -1,0 +1,42 @@
+﻿@using Web.App.Extensions
+@using Newtonsoft.Json
+@model Web.App.ViewModels.SchoolSpendingViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Spending;
+}
+
+@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+
+@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn })
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h2 class="govuk-heading-m govuk-!-font-size-36">Priority costs</h2>
+    </div>
+</div>
+@foreach (var category in Model.Categories)
+{
+    <div class="govuk-grid-row govuk-!-margin-bottom-4">
+        <div class="govuk-grid-column-two-thirds">
+            <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Name</h3>
+
+            @*TODO : Add RAG calculations
+            <p class="priority high govuk-body">
+                <strong class="govuk-tag govuk-tag--red">
+                    High priority
+                </strong>
+                Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
+            </p>*@
+            <div class="govuk-!-margin-bottom-2"
+                 data-spending-and-costs-composed
+                 data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
+                 data-highlight="@Model.Urn"
+                 data-suffix="@category.Label"
+                 data-sort-direction="asc">
+            </div>
+            <p class="govuk-body">
+                <a href="#" class="govuk-link govuk-link--no-visited-state">View all @category.Name.ToLower() costs</a>
+            </p>
+        </div>
+    </div>
+}

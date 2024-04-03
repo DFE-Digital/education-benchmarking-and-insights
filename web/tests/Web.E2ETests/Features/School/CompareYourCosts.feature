@@ -1,48 +1,52 @@
 Feature: School compare your costs
 
     Scenario: Download total expenditure chart
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         When I click on save as image for 'total expenditure'
         Then the 'total expenditure' chart image is downloaded       
 
     Scenario: Change dimension of total expenditure and change view to table
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         And the 'total expenditure' dimension is '£ per pupil'
         When I change 'total expenditure' dimension to 'actuals'
         Then the 'total expenditure' dimension is 'actuals'
 
     Scenario: Change dimension in table view for total expenditure
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         And table view is selected
         And the 'total expenditure' dimension is '£ per pupil'
         When I change 'total expenditure' dimension to 'actuals'
         Then the following is shown for 'total expenditure'
-          | School name                                     | Local Authority | School type         | Number of pupils | Amount     |
-          | St George's Primary School                      | 810             | Academy converter   | 222              | 1380000.00 |
-          | Robin Hood Primary And Nursery School           | 314             | Academy converter   | 181              | 1293000.00 |
-          | Green Oaks Primary Academy                      | 941             | Academy sponsor led | 217              | 1265000.00 |
-          | Good Shepherd Catholic School                   | 331             | Academy converter   | 225              | 1204000.00 |
-          | Horninglow Primary: A De Ferrers Trust Academy  | 860             | Academy sponsor led | 204              | 1190000.00 |
-          | Braybrook Primary Academy                       | 874             | Academy converter   | 208              | 1186000.00 |
-          | St Thomas Cantilupe Cofe Academy                | 884             | Academy sponsor led | 226              | 1171000.00 |
-          | St Joseph's Catholic Primary School, Banbury    | 931             | Academy converter   | 204.5            | 1161000.00 |
-          | Sandfield Primary School                        | 936             | Academy sponsor led | 210              | 1089000.00 |
-          | Elm Road Primary School                         | 873             | Academy converter   | 206              | 1075000.00 |
-          | Ashbrook School                                 | 826             | Academy converter   | 176              | 1051000.00 |
-          | St Joseph's Catholic Primary School, Moorthorpe | 384             | Academy sponsor led | 199              | 1043000.00 |
-          | Wells Free School                               | 886             | Free school         | 183              | 1042000.00 |
-          | St Gregory's Catholic Primary School            | 937             | Academy converter   | 202              | 1015000.00 |         
-          | St Edward's Catholic Primary School - Kettering | 940             | Academy converter   | 183              | 988000.00  |
+          | School name     | Local Authority | School type            | Number of pupils | Amount      |
+          | Test school 227 | 301             | Community school       | 2657             | 21041452.77 |
+          | Test school 83  | 301             | Community school       | 2325             | 18254060.76 |
+          | Test school 207 | 301             | Community school       | 2143             | 16899892.72 |
+          | Test school 225 | 383             | Community school       | 2522             | 16310325.63 |
+          | Test school 210 | 317             | Community school       | 2227             | 14156455.30 |
+          | Test school 75  | 308             | Community school       | 1677             | 11808070.45 |
+          | Test school 223 | 302             | Voluntary aided school | 1647             | 10853782.49 |
+          | Test school 220 | 825             | Voluntary aided school | 2096.5           | 10438274.94 |
+          | Test school 9   | 307             | Community school       | 378.5            | 3282931.02  |
+          | Test school 5   | 891             | Community school       | 424.5            | 2714677.23  |
+          | Test school 7   | 888             | Community school       | 435              | 2697218.49  |
+          | Test school 1   | 921             | Community school       | 409              | 2233310.74  |
+          | Test school 8   | 886             | Community school       | 392              | 2078214.12  |
+          | Test school 3   | 925             | Community school       | 205              | 1384594.94  |
+          | Test school 6   | 893             | Foundation school      | 205              | 1326720.90  |
+          | Test school 10  | 921             | Community school       | 204              | 1039250.48  |
+          | Test school 4   | 885             | Community school       | 83               | 668841.00   |
+
+
         But save as image buttons are hidden
 
     Scenario: Show all should expand all sections
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         When I click on show all sections
         Then all sections on the page are expanded
         And the show all text changes to hide all sections
         
     Scenario: Change all charts to table view
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         And all sections are shown
         When I click on view as table
         Then all sections on the page are expanded
@@ -50,7 +54,12 @@ Feature: School compare your costs
         But save as image buttons are hidden
 
     Scenario: Hide single section
-        Given I am on compare your costs page for school with URN '139696'
+        Given I am on compare your costs page for school with URN '101241'
         And all sections are shown
         When I click section link for 'non educational support staff'
         Then the section 'non educational support staff' is hidden
+        
+    Scenario: View how we choose similar school details
+        Given I am on compare your costs page for school with URN '101241'
+        When I click on how we choose similar schools
+        Then the details section is expanded

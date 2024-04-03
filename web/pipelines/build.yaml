@@ -24,6 +24,7 @@ variables:
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
   TerraformFolder: 'web/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 stages:
   - stage: Build
@@ -92,7 +93,7 @@ stages:
   - stage: DeployDevelopment
     dependsOn: [ Build ]
     displayName: 'Development'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:
@@ -106,9 +107,10 @@ stages:
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
     displayName: 'Automated test'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
+      - group: 'automated test app settings'
     jobs:
       - template: jobs-web-deployment.yaml
         parameters:
@@ -117,10 +119,28 @@ stages:
           environment: 'automated-test'
           cipEnvironment: 'Dev'
 
+      - job: RunE2ETests
+        dependsOn: [ RunTerraform, Deploy ]
+        displayName: 'Run automated e2e tests'
+        steps:
+          - template: steps-web-run-e2e-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
+    
+      - job: RunA11YTests
+        dependsOn: [ RunTerraform, Deploy ]
+        displayName: 'Run automated a11y tests'
+        steps:
+          - template: steps-web-run-a11y-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
+              subscription: 's198d.azdo-deployment'
+              environmentPrefix: 's198d02'
+
   - stage: DeployTest
     dependsOn: [ Build, DeployAutomatedTest ]
     displayName: 'Test'
-    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:

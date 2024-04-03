@@ -1,11 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.App.Domain
+namespace Web.App.Domain;
+
+[ExcludeFromCodeCoverage]
+public record ComparatorSet
 {
-    [ExcludeFromCodeCoverage]
-    public class ComparatorSet<T>
-    {
-        public int TotalResults { get; set; }
-        public IEnumerable<T> Results { get; set; } = Array.Empty<T>();
-    }
+    public IEnumerable<string> DefaultPupil { get; set; } = Array.Empty<string>();
+    public IEnumerable<string> DefaultArea { get; set; } = Array.Empty<string>();
 }

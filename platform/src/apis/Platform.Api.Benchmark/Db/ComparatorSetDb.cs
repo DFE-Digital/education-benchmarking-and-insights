@@ -1,38 +1,34 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
-using Platform.Domain.Responses;
+using Dapper;
+using Platform.Domain;
+using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Benchmark.Db;
 
 public interface IComparatorSetDb
 {
-    Task<ComparatorSet> CreateSet();
+    Task<ComparatorSetResponseModel> Get(string urn);
 }
 
 [ExcludeFromCodeCoverage]
 public class ComparatorSetDb : IComparatorSetDb
 {
-    public async Task<ComparatorSet> CreateSet()
-    {
-        var schools = new School[]
-        {
-            new() { Urn = "140558", Name = "St Joseph's Catholic Primary School, Moorthorpe" },
-            new() { Urn = "143633", Name = "St Gregory's Catholic Primary School" },
-            new() { Urn = "142769", Name = "Horninglow Primary: A De Ferrers Trust Academy" },
-            new() { Urn = "141155", Name = "St Joseph's Catholic Primary School, Banbury" },
-            new() { Urn = "142424", Name = "Elm Road Primary School" },
-            new() { Urn = "146726", Name = "Braybrook Primary Academy" },
-            new() { Urn = "141197", Name = "Sandfield Primary School" },
-            new() { Urn = "141634", Name = "Robin Hood Primary And Nursery School" },
-            new() { Urn = "139696", Name = "Wells Free School" },
-            new() { Urn = "140327", Name = "Green Oaks Primary Academy" },
-            new() { Urn = "147334", Name = "St Edward's Catholic Primary School - Kettering" },
-            new() { Urn = "147380", Name = "Ashbrook School" },
-            new() { Urn = "143226", Name = "St George's Primary School" },
-            new() { Urn = "142197", Name = "Good Shepherd Catholic School" },
-            new() { Urn = "140183", Name = "St Thomas Cantilupe Cofe Academy" }
-        };
+    private readonly IDatabaseFactory _dbFactory;
 
-        return await Task.FromResult(ComparatorSet.Create(schools));
+    public ComparatorSetDb(IDatabaseFactory dbFactory)
+    {
+        _dbFactory = dbFactory;
+    }
+
+    public async Task<ComparatorSetResponseModel> Get(string urn)
+    {
+        const string sql = "SELECT * from ComparatorSets where URN = @URN";
+        var parameters = new { URN = int.Parse(urn) };
+
+        using var conn = await _dbFactory.GetConnection();
+        var results = conn.Query<ComparatorDataObject>(sql, parameters);
+
+        return ComparatorSetResponseModel.Create(results);
     }
 }

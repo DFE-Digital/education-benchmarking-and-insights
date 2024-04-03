@@ -18,10 +18,9 @@ public class BenchmarkWorkforcePage(IPage page)
 {
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator Breadcrumbs => page.Locator(Selectors.GovBreadcrumbs);
-    private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator ViewAsTableRadio => page.Locator(Selectors.ModeTable);
     private ILocator ViewAsChartRadio => page.Locator(Selectors.ModeChart);
-    private ILocator Charts => page.Locator(Selectors.Canvas);
+    private ILocator Charts => page.Locator(Selectors.Charts);
     private ILocator SchoolWorkforceDimension => page.Locator(Selectors.SchoolWorkforceDimension);
     private ILocator TotalNumberOfTeacherDimension => page.Locator(Selectors.TotalNumberOfTeacherDimension);
     private ILocator SeniorLeadershipDimension => page.Locator(Selectors.SeniorLeadershipDimension);
@@ -36,13 +35,23 @@ public class BenchmarkWorkforcePage(IPage page)
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
 
+    private ILocator ComparatorSetDetails =>
+        page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose similar schools" });
+
+    private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
+
+    private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible();
         await ViewAsTableRadio.ShouldBeVisible().ShouldBeChecked(false);
         await ViewAsChartRadio.ShouldBeVisible().ShouldBeChecked();
+        await ComparatorSetDetails.ShouldBeVisible();
+        await ComparatorSetLink.ShouldNotBeVisible();
+        await ComparatorSetDetailsText.ShouldNotBeVisible();
 
         await AreSaveAsImageButtonsDisplayed();
         await AreChartsDisplayed();
@@ -126,11 +135,22 @@ public class BenchmarkWorkforcePage(IPage page)
 
     public async Task HasDimensionValuesForChart(WorkforceChartNames chartName, string[] expected)
     {
-        const string exp = "(select) => Array.from(select.options).map(option => option.value)";
+        const string exp = "(select) => Array.from(select.options).map(option => option.label)";
         var dropdown = ChartDimensionDropdown(chartName);
         var actual = await dropdown.EvaluateAsync<string[]>(exp);
 
         Assert.Equal(expected, actual);
+    }
+
+    public async Task ClickComparatorSetDetails()
+    {
+        await ComparatorSetDetails.Click();
+    }
+
+    public async Task IsDetailsSectionVisible()
+    {
+        await ComparatorSetDetailsText.ShouldBeVisible();
+        await ComparatorSetLink.ShouldBeVisible();
     }
 
     private ILocator ChartDimensionDropdown(WorkforceChartNames chartName)
@@ -149,4 +169,5 @@ public class BenchmarkWorkforcePage(IPage page)
 
         return chart;
     }
+
 }

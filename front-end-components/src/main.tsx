@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
 import {
@@ -7,28 +7,73 @@ import {
   SchoolHistory,
 } from "src/views";
 import {
-  CompareWorkforceElementId,
   CompareCostsElementId,
+  CompareWorkforceElementId,
+  DeploymentPlanElementId,
+  FindOrganisationElementId,
+  HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
+  SchoolHistoryElementId,
+  SpendingAndCostsComposedElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
-  DeploymentPlanElementId,
-  SchoolHistoryElementId,
 } from "src/constants";
+import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
-import { Stat } from "./components/charts/stat";
-import { ChartHandler } from "./components";
+import {
+  ChartHandler,
+  ChartSeriesValueUnit,
+  ChartSortDirection,
+} from "./components";
 import { DeploymentPlan } from "src/views/deployment-plan";
+import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
+import { ResolvedStat } from "./components/charts/resolved-stat";
+import { FindOrganisation } from "src/views/find-organisation";
+import {
+  chartSeriesComparer,
+  shortValueFormatter,
+} from "./components/charts/utils";
+import { SchoolTick } from "./components/charts/school-tick";
+import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
+import { Expenditure, Workforce, WorkforceBenchmark } from "./services";
+import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
 if (schoolHistoryElement) {
-  const root = ReactDOM.createRoot(schoolHistoryElement);
-  root.render(
-    <React.StrictMode>
-      <SchoolHistory />
-    </React.StrictMode>
-  );
+  const { urn } = schoolHistoryElement.dataset;
+  if (urn) {
+    const root = ReactDOM.createRoot(schoolHistoryElement);
+    root.render(
+      <React.StrictMode>
+        <SchoolHistory urn={urn} />
+      </React.StrictMode>
+    );
+  }
+}
+
+const findOrganisationElement = document.getElementById(
+  FindOrganisationElementId
+);
+
+if (findOrganisationElement) {
+  const { findMethod, schoolInput, schoolError, trustError, urn } =
+    findOrganisationElement.dataset;
+  if (findMethod) {
+    const root = ReactDOM.createRoot(findOrganisationElement);
+
+    root.render(
+      <React.StrictMode>
+        <FindOrganisation
+          findMethod={findMethod}
+          schoolInput={schoolInput}
+          schoolError={schoolError}
+          trustError={trustError}
+          urn={urn}
+        />
+      </React.StrictMode>
+    );
+  }
 }
 
 const compareCostsElement = document.getElementById(CompareCostsElementId);
@@ -89,6 +134,119 @@ if (deploymentPlanElement) {
   }
 }
 
+// todo: move to composed components
+// eslint-disable-next-line react-refresh/only-export-components
+const HorizontalChart1Series = ({
+  data,
+  highlightedItemKey,
+  keyField,
+  sortDirection,
+  valueField,
+  valueUnit,
+}: {
+  data: (WorkforceBenchmark | Expenditure)[];
+  highlightedItemKey?: string;
+  keyField: keyof Workforce & keyof Expenditure;
+  sortDirection: ChartSortDirection;
+  valueField: keyof Workforce & keyof Expenditure;
+  valueUnit?: ChartSeriesValueUnit;
+}) => {
+  const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  const sortedData = useMemo(() => {
+    return data.sort((a, b) =>
+      chartSeriesComparer(a, b, {
+        dataPoint: valueField,
+        direction: sortDirection,
+      })
+    );
+  }, [data, sortDirection, valueField]);
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => horizontalChart2SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height: 800 }}>
+        <HorizontalBarChart
+          barCategoryGap={2}
+          chartName="School workforce (Full Time Equivalent)"
+          data={sortedData}
+          highlightActive
+          highlightedItemKeys={
+            highlightedItemKey ? [highlightedItemKey] : undefined
+          }
+          keyField={keyField}
+          labels
+          margin={20}
+          onImageLoading={setImageLoading}
+          ref={horizontalChart2SeriesRef}
+          seriesConfig={{
+            [valueField]: {
+              label: "total",
+              visible: true,
+              valueFormatter: (v: number) =>
+                shortValueFormatter(v, { valueUnit }),
+            },
+          }}
+          seriesLabelField="name"
+          tickWidth={400}
+          tick={(t) => (
+            <SchoolTick
+              {...t}
+              highlightedItemKey={highlightedItemKey}
+              linkToSchool
+              onClick={(urn) => {
+                urn && (window.location.href = `/school/${urn}`);
+              }}
+              schoolUrnResolver={(name) =>
+                data.find((d) => d.name === name)?.urn
+              }
+            />
+          )}
+          tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+          valueFormatter={shortValueFormatter}
+          valueLabel="Total"
+          valueUnit={valueUnit}
+        />
+      </div>
+    </div>
+  );
+};
+
+const horizontalChart1SeriesElement = document.getElementById(
+  HorizontalBarChart1SeriesElementId
+);
+
+if (horizontalChart1SeriesElement) {
+  const { json, highlight, keyField, sortDirection, valueField, valueUnit } =
+    horizontalChart1SeriesElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
+    const data = JSON.parse(json) as WorkforceBenchmark[];
+
+    root.render(
+      <React.StrictMode>
+        <HorizontalChart1Series
+          data={data}
+          highlightedItemKey={highlight}
+          keyField={keyField as keyof Workforce & keyof Expenditure}
+          sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+          valueField={valueField as keyof Workforce & keyof Expenditure}
+          valueUnit={valueUnit as ChartSeriesValueUnit}
+        />
+      </React.StrictMode>
+    );
+  }
+}
+
 // eslint-disable-next-line react-refresh/only-export-components
 const VerticalChart2Series = ({
   data,
@@ -119,6 +277,7 @@ const VerticalChart2Series = ({
           chartName="Percentage of pupils on roll and teacher cost"
           data={data}
           grid
+          highlightActive
           keyField="id"
           legend
           margin={20}
@@ -190,6 +349,7 @@ if (verticalChart3SeriesElement) {
               chartName="Percentage of pupils on roll and teacher cost"
               data={data}
               grid
+              highlightActive
               keyField="id"
               legend
               margin={20}
@@ -218,6 +378,7 @@ if (verticalChart3SeriesElement) {
   }
 }
 
+// todo: move to composed components
 // eslint-disable-next-line react-refresh/only-export-components
 const LineChart1Series = ({
   data,
@@ -250,6 +411,7 @@ const LineChart1Series = ({
             chartName="In-year balance"
             data={data}
             grid
+            highlightActive
             keyField="term"
             margin={20}
             onImageLoading={setImageLoading}
@@ -262,18 +424,28 @@ const LineChart1Series = ({
             }}
             seriesLabel="Absolute total"
             seriesLabelField="term"
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
-            tooltip
+            tooltip={(t) => (
+              <LineChartTooltip
+                {...t}
+                valueFormatter={(v) =>
+                  shortValueFormatter(v, { valueUnit: "currency" })
+                }
+              />
+            )}
           />
         </div>
         <aside className="govuk-grid-column-one-quarter desktop">
-          <Stat
+          <ResolvedStat
             chartName="Most recent in-year balance"
             className="chart-stat-line-chart"
+            compactValue
             data={data}
             displayIndex={data.length - 1}
             seriesLabelField="term"
             valueField="inYearBalance"
+            valueFormatter={shortValueFormatter}
             valueUnit="currency"
           />
         </aside>
@@ -301,4 +473,37 @@ if (lineChart1SeriesElement) {
       </React.StrictMode>
     );
   }
+}
+
+const spendingAndCostsComposedElements = document.querySelectorAll<HTMLElement>(
+  `[data-${SpendingAndCostsComposedElementId}]`
+);
+
+if (spendingAndCostsComposedElements) {
+  spendingAndCostsComposedElements.forEach((element) => {
+    const { highlight, json, sortDirection, suffix } = element.dataset;
+    if (json) {
+      const root = ReactDOM.createRoot(element);
+      const data = JSON.parse(json) as {
+        urn: string;
+        amount: number;
+      }[];
+
+      root.render(
+        <React.StrictMode>
+          <ComparisonChartSummary
+            averageType="median"
+            chartName="Percentage of pupils on roll and teacher cost"
+            data={data}
+            highlightedItemKey={highlight}
+            keyField="urn"
+            suffix={suffix}
+            sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+            valueField="amount"
+            valueUnit="currency"
+          />
+        </React.StrictMode>
+      );
+    }
+  });
 }

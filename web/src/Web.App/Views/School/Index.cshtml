@@ -1,4 +1,6 @@
 @using Web.App.ViewModels.Components
+@using Web.App.Extensions
+@using Web.App.Domain
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -24,40 +26,35 @@
     </div>
 </div>
 
-<div class="govuk-grid-row app-headline-figures">
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">In year balance</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">Revenue reserve</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">Ofsted rating</p>
-            <p class="govuk-body">xxxx</p>
-        </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <div>
-            <p class="govuk-body">School phase</p>
-            <p class="govuk-body">xxxxx</p>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline-figures govuk-!-text-align-centre">
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
+                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
+                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
+                <p class="govuk-body">@OfstedRatings.GetDescription(Model.OfstedRating)</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
+                <p class="govuk-body">@Model.OverallPhase</p>
+            </li>
+        </ul>
     </div>
 </div>
-
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Spending and costs</h2>
 
         <h3 class="govuk-heading-s">
-            <a href="#" class="govuk-link govuk-link--no-visited-state">
+            <a href="@Url.Action("Index", "SchoolSpending", new {urn = Model.Urn})" class="govuk-link govuk-link--no-visited-state">
                 View all spending and costs
             </a>
         </h3>
@@ -65,39 +62,24 @@
         <h3 class="govuk-heading-s">Top priority spending categories</h3>
 
         <div class="top-categories">
-            <div>
-                <h4 class="govuk-heading-s">Teaching and teaching supply staff</h4>
-                <p class="priority high govuk-body">
-                    <strong class="govuk-tag govuk-tag--red">
-                        High priority
-                    </strong>
-                    Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
-                </p>
-            </div>
-
-            <div>
-                <h4 class="govuk-heading-s">Premises staff and services</h4>
-                <p class="priority high govuk-body">
-                    <strong class="govuk-tag govuk-tag--red">
-                        High priority
-                    </strong>
-                    Spends <strong>£323</strong> per pupil - more than <strong>8%</strong> of similar schools.
-                </p>
-            </div>
-
-            <div>
-                <h4 class="govuk-heading-s">Utilities</h4>
-                <p class="priority medium govuk-body">
-                    <strong class="govuk-tag govuk-tag--yellow">
-                        Medium priority
-                    </strong>
-                    Spends <strong>£342</strong> per square metre - more than <strong>83%</strong> of similar schools.
-                </p>
-            </div>
-
+            @foreach (var category in Model.Categories)
+            {
+                @*TODO : Add calculations and display top 3 categories
+                <div>
+                    <h4 class="govuk-heading-s">@category.Key</h4>
+                    <p class="priority high govuk-body">
+                        <strong class="govuk-tag govuk-tag--red">
+                            High priority
+                        </strong>
+                        Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
+                    </p>
+                </div>*@
+            }
         </div>
     </div>
 </div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
 
@@ -107,13 +89,4 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">How we can help</h2>
-        <ul class="app-links">
-            <li>@await Component.InvokeAsync("HelpWithThisService")</li>
-            <li>@await Component.InvokeAsync("AskForHelpFromAnSrma")</li>
-            <li>@await Component.InvokeAsync("SubmitAnEnquiry")</li>
-        </ul>
-    </div>
-</div>
+@await Component.InvokeAsync("GetHelp")

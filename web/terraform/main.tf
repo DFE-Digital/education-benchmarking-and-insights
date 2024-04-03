@@ -96,7 +96,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     detailed_error_messages = true
     http_logs {
       file_system {
-        retention_in_days = 4
+        retention_in_days = 0
         retention_in_mb   = 25
       }
     }
@@ -105,8 +105,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   app_settings = {
     "ASPNETCORE_ENVIRONMENT"                         = "Production"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"          = data.azurerm_application_insights.application-insights.connection_string
-    "FeatureManagement__CurriculumFinancialPlanning" = true
-    "FeatureManagement__Trusts"                      = false
+    "FeatureManagement__CurriculumFinancialPlanning" = var.configuration[var.environment].features.CurriculumFinancialPlanning
+    "FeatureManagement__Trusts"                      = var.configuration[var.environment].features.Trusts
     "Apis__Insight__Url"                             = data.azurerm_key_vault_secret.insight-api-host.value
     "Apis__Insight__Key"                             = data.azurerm_key_vault_secret.insight-api-key.value
     "Apis__Establishment__Url"                       = data.azurerm_key_vault_secret.establishment-api-host.value
@@ -123,9 +123,10 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     "DFESignInSettings__MetadataAddress"             = var.dfe-signin.metadata-address
     "DFESignInSettings__SignedOutCallbackPath"       = var.dfe-signin.signed-out-callback-path
     "DFESignInSettings__SignOutUri"                  = var.dfe-signin.sign-out-uri
-    "CosmosCacheSettings__ConnectionString"          = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
-    "CosmosCacheSettings__ContainerName"             = azurerm_cosmosdb_sql_container.session-cache-container.name
-    "CosmosCacheSettings__DatabaseName"              = azurerm_cosmosdb_sql_database.session-cache-database.name
+    "SessionData__Using"                             = "Cosmos"
+    "SessionData__Settings__ConnectionString"        = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
+    "SessionData__Settings__ContainerName"           = azurerm_cosmosdb_sql_container.session-cache-container.name
+    "SessionData__Settings__DatabaseName"            = azurerm_cosmosdb_sql_database.session-cache-database.name
   }
   tags = local.common-tags
 }

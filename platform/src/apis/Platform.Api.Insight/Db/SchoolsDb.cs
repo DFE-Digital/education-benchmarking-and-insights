@@ -1,77 +1,87 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
 using Platform.Domain;
-using Platform.Domain.DataObjects;
-using Platform.Domain.Responses;
 using Platform.Infrastructure.Cosmos;
 
 namespace Platform.Api.Insight.Db;
 
 public interface ISchoolsDb
 {
-    Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize);
-    Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize);
+    Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns);
+    Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns);
 }
 
 [ExcludeFromCodeCoverage]
-public record SchoolsDbOptions : CosmosDatabaseOptions;
+public record SchoolsDbOptions : FinancialReturnOptions
+{
+    public string? FloorAreaCollectionName { get; set; }
+}
 
 [ExcludeFromCodeCoverage]
 public class SchoolsDb : CosmosDatabase, ISchoolsDb
 {
-    private readonly ICollectionService _collectionService;
+    private readonly string _maintainedCollectionName;
+    private readonly string _academyCollectionName;
+    private readonly string _floorAreaCollectionName;
 
-    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICollectionService collectionService) : base(options.Value)
+    public SchoolsDb(IOptions<SchoolsDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
-        _collectionService = collectionService;
+        ArgumentNullException.ThrowIfNull(options.Value.FloorAreaCollectionName);
+        ArgumentNullException.ThrowIfNull(options.Value.CfrLatestYear);
+        ArgumentNullException.ThrowIfNull(options.Value.AarLatestYear);
+
+        _academyCollectionName = options.Value.LatestMatAllocated;
+        _maintainedCollectionName = options.Value.LatestMaintained;
+        _floorAreaCollectionName = options.Value.FloorAreaCollectionName;
     }
 
-    public async Task<PagedSchoolWorkforce> Workforce(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns)
     {
         var finances = await Finances(urns);
 
-        return PagedSchoolWorkforce.Create(finances, page, pageSize);
+        return finances.Select(SchoolWorkforceResponseModel.Create);
     }
 
-    public async Task<PagedSchoolExpenditure> Expenditure(IEnumerable<string> urns, int page, int pageSize)
+    public async Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns)
     {
         var finances = await Finances(urns);
+        var floorArea = await FloorArea(urns);
 
-        return PagedSchoolExpenditure.Create(finances, page, pageSize);
+        return finances.Select(x => SchoolExpenditureResponseModel.Create(x, floorArea));
     }
 
-    private async Task<List<SchoolTrustFinancialDataObject>> Finances(IEnumerable<string> urns)
+    private async Task<IEnumerable<SchoolTrustFinancialDataObject>> Finances(IReadOnlyCollection<string> urns)
     {
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
-        var schools = await ItemEnumerableAsync<EdubaseDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
-
-        var academies = schools.Where(x => x.FinanceType == EstablishmentTypes.Academies).Select(x => x.Urn.ToString()).ToArray();
-        var maintained = schools.Where(x => x.FinanceType is EstablishmentTypes.Maintained or EstablishmentTypes.Federation).Select(x => x.Urn.ToString()).ToArray();
-
         var tasks = new[]
         {
-            FinancesForDataGroup(maintained, DataGroups.Maintained),
-            FinancesForDataGroup(academies, DataGroups.Academies)
+            FinancesFor(urns, _maintainedCollectionName),
+            FinancesFor(urns, _academyCollectionName)
         };
 
         var finances = await Task.WhenAll(tasks);
+        var combined = new List<SchoolTrustFinancialDataObject>();
 
-        finances[0].AddRange(finances[1]);
-        return finances[0];
+        combined.AddRange(finances[0]);
+        combined.AddRange(finances[1]);
+
+        return combined;
     }
 
-    private async Task<List<SchoolTrustFinancialDataObject>> FinancesForDataGroup(IReadOnlyCollection<string> urns, string dataGroup)
+    private async Task<SchoolTrustFinancialDataObject[]> FinancesFor(IReadOnlyCollection<string> urns, string collectionName)
     {
-        var finances = new List<SchoolTrustFinancialDataObject>();
-        if (urns.Count > 0)
-        {
-            var collection = await _collectionService.LatestCollection(dataGroup);
-            finances = await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collection.Name, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToListAsync();
-        }
+        if (urns.Count <= 0) return Array.Empty<SchoolTrustFinancialDataObject>();
 
-        return finances;
+        return await ItemEnumerableAsync<SchoolTrustFinancialDataObject>(collectionName, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
+    }
+
+    private async Task<FloorAreaDataObject[]> FloorArea(IReadOnlyCollection<string> urns)
+    {
+        if (urns.Count <= 0) return Array.Empty<FloorAreaDataObject>();
+
+        return await ItemEnumerableAsync<FloorAreaDataObject>(_floorAreaCollectionName, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync();
     }
 }

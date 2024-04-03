@@ -29,7 +29,7 @@ public class LocalAuthoritiesFunctions
     [FunctionName(nameof(SearchLocalAuthoritiesAsync))]
     public IActionResult SearchLocalAuthoritiesAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")]
-        [RequestBodyType(typeof(PostSearchRequest), "The search object")] HttpRequest req)
+        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")] HttpRequest req)
     {
         return new OkResult();
     }
@@ -37,7 +37,7 @@ public class LocalAuthoritiesFunctions
     [FunctionName(nameof(SuggestLocalAuthoritiesAsync))]
     public IActionResult SuggestLocalAuthoritiesAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
+        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")] HttpRequest req)
     {
         return new OkResult();
     }

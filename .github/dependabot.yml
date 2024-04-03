@@ -1,4 +1,11 @@
   version: 2
+  registries:
+    npm-azure-artifacts:
+      type: npm-registry
+      url: https://dfe-ssp.pkgs.visualstudio.com/s198-DfE-Benchmarking-service/_packaging/education-benchmarking/npm/registry/
+      username: ${{ secrets.AZURE_DEVOPS_USER }}
+      password: ${{ secrets.AZURE_DEVOPS_PAT }}
+
   updates:
     - package-ecosystem: "terraform"
       directory: "/core-infrastructure/terraform"
@@ -22,7 +29,7 @@
         prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Domain"
+      directory: "/platform/src/abstractions/Platform.Domain"
       schedule:
         interval: "weekly"
       commit-message:
@@ -38,9 +45,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Functions"
+      directory: "/platform/src/abstractions/Platform.Functions"
       schedule:
         interval: "weekly"
       commit-message:
@@ -56,9 +73,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/abstractions/EducationBenchmarking.Platform.Infrastructure"
+      directory: "/platform/src/abstractions/Platform.Infrastructure"
       schedule:
         interval: "weekly"
       commit-message:
@@ -74,9 +101,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/apis/EducationBenchmarking.Platform.Api.Benchmark"
+      directory: "/platform/src/apis/Platform.Api.Benchmark"
       schedule:
         interval: "weekly"
       commit-message:
@@ -92,9 +129,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Establishment"
+      directory: "/platform/src/apis/Platform.Api.Establishment"
       schedule:
         interval: "weekly"
       commit-message:
@@ -110,9 +157,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/api/EducationBenchmarking.Platform.Api.Insight"
+      directory: "/platform/src/apis/Platform.Api.Insight"
       schedule:
         interval: "weekly"
       commit-message:
@@ -128,9 +185,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/search/EducationBenchmarking.Platform.Search"
+      directory: "/platform/src/search/Platform.Search"
       schedule:
         interval: "weekly"
       commit-message:
@@ -146,9 +213,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/search/EducationBenchmarking.Platform.Search.App"
+      directory: "/platform/src/search/Platform.Search.App"
       schedule:
         interval: "weekly"
       commit-message:
@@ -164,9 +241,19 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/src/search/EducationBenchmarking.Platform.Search.Processor"
+      directory: "/platform/src/search/Platform.Search.Processor"
       schedule:
         interval: "weekly"
       commit-message:
@@ -182,14 +269,26 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/tests/EducationBenchmarking.Platform.ApiTests"
+      directory: "/platform/tests/Platform.ApiTests"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
@@ -200,14 +299,24 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
 
     - package-ecosystem: "nuget"
-      directory: "/platform/tests/EducationBenchmarking.Platform.Tests"
+      directory: "/platform/tests/Platform.Tests"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
       ignore:
+        - dependency-name: "Microsoft.Extensions.Logging.Console"
+          versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Binder"
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Logging.Abstractions"
@@ -218,7 +327,15 @@
           versions: ["7.*", "8.*"]
         - dependency-name: "Microsoft.Extensions.Configuration"
           versions: ["7.*", "8.*"]
-
+        - dependency-name: "Microsoft.Extensions.Diagnostics.HealthChecks"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Serilog.AspNetCore"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Logging"
+          versions: [ "7.*", "8.*" ]
+        - dependency-name: "Microsoft.Extensions.Configuration.Json"
+          versions: [ "7.*", "8.*" ]
+          
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
@@ -234,7 +351,9 @@
         prefix: "[terraform] "
 
     - package-ecosystem: "npm"
-      directory: "/web/src/EducationBenchmarking.Web"
+      directory: "/web/src/Web.App"
+      registries:
+        - npm-azure-artifacts
       schedule:
         interval: "weekly"
       commit-message:
@@ -248,42 +367,42 @@
         prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/src/EducationBenchmarking.Web"
+      directory: "/web/src/Web.App"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/src/EducationBenchmarking.Web.Identity"
+      directory: "/web/src/Web.Identity"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/tests/EducationBenchmarking.Web.A11yTests"
+      directory: "/web/tests/Web.A11yTests"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/tests/EducationBenchmarking.Web.E2ETests"
+      directory: "/web/tests/Web.E2ETests"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/tests/EducationBenchmarking.Web.Integration.Tests"
+      directory: "/web/tests/Web.Integration.Tests"
       schedule:
         interval: "weekly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/tests/EducationBenchmarking.Web.Tests"
+      directory: "/web/tests/Web.Tests"
       schedule:
         interval: "weekly"
       commit-message:

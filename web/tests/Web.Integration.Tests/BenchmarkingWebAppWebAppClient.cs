@@ -55,26 +55,16 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
     public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
     {
         InsightApi.Reset();
-
-        switch (school.FinanceType)
-        {
-            case EstablishmentTypes.Academies:
-                InsightApi.Setup(api => api.GetAcademyFinances(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(finances));
-                break;
-            case EstablishmentTypes.Maintained:
-                InsightApi.Setup(api => api.GetMaintainedSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
-                break;
-        }
-
+        InsightApi.Setup(api => api.GetSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetFinanceYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Academies = 2022, MaintainedSchools = 2021 }));
+        InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Aar = 2022, Cfr = 2021 }));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         BenchmarkApi.Reset();
-        BenchmarkApi.Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>())).Throws(new Exception());
+        BenchmarkApi.Setup(api => api.GetComparatorSet(It.IsAny<string?>())).Throws(new Exception());
         BenchmarkApi.Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
         BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
         return this;
@@ -105,8 +95,8 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
 
         BenchmarkApi
-            .Setup(api => api.CreateComparatorSet(It.IsAny<PostBenchmarkSetRequest?>()))
-            .ReturnsAsync(ApiResult.Ok(new ComparatorSet<School> { TotalResults = schools.Length, Results = schools }));
+            .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
+            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { DefaultArea = schools.Select(x => x.Urn ?? "Missing urn"), DefaultPupil = schools.Select(x => x.Urn ?? "Missing urn") }));
 
         BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))

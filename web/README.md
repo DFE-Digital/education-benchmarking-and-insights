@@ -15,28 +15,51 @@ In a console window:
 1. Navigate to `Web.App` project root
 2. Run `dotnet user-secrets init` to initialise secrets in the directory
 
+> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init` will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER". This will create a `secrets.json` file in the folder location described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works). At this point you can update the `secrets.json` by hand with all of the required settings.
+
 #### Platform APIs
 If running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json`.
 
-However, if you are using deployed instances of the Platform APIs then having initialised secret storage in a console window:
-1. Navigate to `Web.App` project root
-2. Set Insight API url user secret: `dotnet user-secrets set "Apis:Insight:Url" "[INSERT URL VALUE]"`
-3. Set Insight API key user secret: `dotnet user-secrets set "Apis:Insight:Key" "[INSERT KEY VALUE]"`
-4. Set Benchmark API url user secret: `dotnet user-secrets set "Apis:Benchmark:Url" "[INSERT URL VALUE]"`
-5. Set Benchmark API key user secret: `dotnet user-secrets set "Apis:Benchmark:Key" "[INSERT KEY VALUE]"`
-6. Set Establishment API url user secret: `dotnet user-secrets set "Apis:Establishment:Url" "[INSERT URL VALUE]"`
-7. Set Establishment API key user secret: `dotnet user-secrets set "Apis:Establishment:Key" "[INSERT KEY VALUE]"`
+However, if you are using deployed instances of the Platform APIs then having initialised secret storage add the following section to `secrets.json`:
+```
+  "Apis": {
+    "Insight": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    },
+    "Benchmark": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    },
+    "Establishment": {
+      "Url": "[INSERT URL VALUE]",
+      "Key": "[INSERT KEY VALUE]"
+    }
+  }
+```
 
 #### DfE Sign-in (DSI) authentication
-Having initialised secret storage, in a console window:
-1. Navigate to `Web.App` project root
-2. Set XXXX user secret: `dotnet user-secrets set "XXXX" "xxxxx"`
+Having initialised secret storage, then add the following section to `secrets.json`:
+```
+"DFESignInSettings": {
+    "APISecret": "[INSERT API SECRET VALUE]",
+    "APIUri": "[INSERT URL VALUE]",
+    "Audience": "[INSERT AUDIENCE VALUE]",
+    "CallbackPath": "[INSERT PATH VALUE]",
+    "ClientID": "[INSERT ID VALUE]",
+    "ClientSecret": "[INSERT SECRET VALUE]",
+    "Issuer": "[INSERT SECRET VALUE]",
+    "MetadataAddress": "[INSERT URL VALUE]",
+    "SignedOutCallbackPath": "[INSERT PATH VALUE]",
+    "SignOutUri": "[INSERT URL VALUE]"
+  }
+```
 
-#### Session cache
-Having initialised secret storage, in a console window:
-1. Navigate to `Web.App` project root
-2. Set session cache connection string user secret: `dotnet user-secrets set "CosmosCacheSettings:ConnectionString" "[INSERT CONNECTION STRING VALUE]"`
-3. Optional, direct mode is preferred however if you have issues run the follow to set the mode to gateway: `dotnet user-secrets set "CosmosCacheSettings:IsDirect" false`
+### Build front-end library
+To use the GOV.UK Design System and front-end components locally then:
+- Navigate to the root of the Web APP `.\web\src\Web.App`
+- Install the required packages `npm i`
+- Run the gulp script to build ssas and copy assets `npm run-script build`
 
 ### Running tests
 
@@ -53,7 +76,7 @@ dotnet test tests\Web.Integration.Tests
 ```
 
 #### End-to-end Tests
-Add configuration in `appsetings.local.json`
+Add the following configuration in `appsetings.local.json`
 ```
 {
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",
@@ -65,7 +88,7 @@ Run:
 dotnet test tests\Web.E2ETests
 ```
 #### Accessibility Tests
-Add configuration in `appsetings.local.json`
+Add the following configuration in `appsetings.local.json`
 ```
 {
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",

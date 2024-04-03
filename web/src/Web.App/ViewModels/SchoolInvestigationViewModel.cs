@@ -1,7 +1,6 @@
-namespace Web.App.ViewModels
+namespace Web.App.ViewModels;
+
+public class SchoolInvestigationViewModel
 {
-    public class SchoolInvestigationViewModel
-    {
-        public string? Urn { get; set; }
-    }
+    public string? Urn { get; set; }
 }

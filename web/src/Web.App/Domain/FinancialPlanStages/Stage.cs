@@ -1,9 +1,8 @@
-namespace Web.App.Domain.FinancialPlanStages
+namespace Web.App.Domain.FinancialPlanStages;
+
+public abstract class Stage
 {
-    public abstract class Stage
+    public virtual void SetPlanValues(FinancialPlan plan)
     {
-        public virtual void SetPlanValues(FinancialPlan plan)
-        {
-        }
     }
 }

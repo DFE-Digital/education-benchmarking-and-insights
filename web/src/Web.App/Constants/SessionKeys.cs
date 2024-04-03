@@ -1,7 +1,6 @@
-namespace Web.App
+namespace Web.App;
+
+public static class SessionKeys
 {
-    public static class SessionKeys
-    {
-        public static string SchoolComparatorSet(string urn) => $"school-comparator-set-{urn}";
-    }
+    public static string ComparatorSet(string urn) => $"comparator-set-{urn}";
 }

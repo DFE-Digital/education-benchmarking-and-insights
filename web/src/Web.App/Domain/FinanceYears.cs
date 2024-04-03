@@ -1,11 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.App.Domain
+namespace Web.App.Domain;
+
+[ExcludeFromCodeCoverage]
+public class FinanceYears
 {
-    [ExcludeFromCodeCoverage]
-    public class FinanceYears
-    {
-        public int Academies { get; set; }
-        public int MaintainedSchools { get; set; }
-    }
+    public int Aar { get; set; }
+    public int Cfr { get; set; }
 }

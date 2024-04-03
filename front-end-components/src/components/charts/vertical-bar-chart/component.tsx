@@ -15,6 +15,7 @@ import {
   Cell,
   Label,
   Legend,
+  ReferenceLine,
   ResponsiveContainer,
   Text,
   XAxis,
@@ -30,9 +31,13 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   ref: ForwardedRef<ChartHandler>
 ) {
   const {
+    barCategoryGap,
     chartName,
     data,
     grid,
+    hideXAxis,
+    hideYAxis,
+    highlightActive,
     highlightedItemKeys,
     keyField,
     legend,
@@ -52,8 +57,8 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
   });
 
   useImperativeHandle(ref, () => ({
-    download() {
-      downloadPng();
+    async download() {
+      await downloadPng();
     },
   }));
 
@@ -74,6 +79,14 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
 
   const margin = _margin || 5;
 
+  const hasNegativeValues = useMemo(() => {
+    return data.some((d) => {
+      return visibleSeriesNames.some(
+        (name) => parseFloat(String(d[name]) || "") < 0
+      );
+    });
+  }, [data, visibleSeriesNames]);
+
   // https://stackoverflow.com/a/61373602/504477
   const renderCell = (
     entry: TData,
@@ -89,7 +102,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
         "chart-cell-highlight": (highlightedItemKeys || []).includes(
           entry[keyField]
         ),
-        "chart-cell-active": dataIndex === activeItemIndex,
+        "chart-cell-active": highlightActive && dataIndex === activeItemIndex,
       },
       `chart-cell-series-${seriesIndex}`,
       config?.className
@@ -98,7 +111,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     return (
       <Cell
         key={`cell-${entry[keyField]}`}
-        cursor="pointer"
+        cursor={highlightActive ? "pointer" : "default"}
         className={className}
       />
     );
@@ -113,6 +126,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
     >
       <ResponsiveContainer>
         <BarChart
+          barCategoryGap={barCategoryGap}
           data={data}
           layout="horizontal"
           margin={{
@@ -159,10 +173,16 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
             dataKey={seriesLabelField as string}
             tick={multiLineAxisLabel ? <MultiLineAxisTick /> : undefined}
             interval={0}
+            hide={hideXAxis}
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
-          <YAxis type="number" unit={valueUnit}>
+          <YAxis
+            type="number"
+            unit={valueUnit}
+            hide={hideYAxis}
+            domain={hasNegativeValues ? ["dataMin", "dataMax"] : undefined}
+          >
             {valueLabel && (
               <Label
                 value={valueLabel}
@@ -172,6 +192,7 @@ function VerticalBarChartInner<TData extends ChartDataSeries>(
               />
             )}
           </YAxis>
+          {hasNegativeValues && hideXAxis && <ReferenceLine y={0} />}
           {legend && (
             <Legend
               align="right"

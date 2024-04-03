@@ -11,19 +11,16 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        @using (Html.BeginForm("Index", "SchoolComparatorSet", new { urn = Model.Urn, referrer = Model.Referrer }, FormMethod.Post, true, new { novalidate = "novalidate" }))
-        {
-            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="action" value="reset">Reset</button>
             <div class="govuk-summary-card">
                 <div class="govuk-summary-card__title-wrapper">
                 </div>
                 <div class="govuk-summary-card__content">
                     <dl class="govuk-summary-list">
-                        @foreach (var school in Model.Schools.Where(x => x.Urn != Model.Urn))
+                        @foreach (var school in Model.Schools.Where(x => x != Model.Urn))
                         {
                             <div class="govuk-summary-list__row">
                                 <dd class="govuk-summary-list__value">
-                                    @school.Name
+                                    @school
                                 </dd>
                                 <dd class="govuk-summary-list__actions">
                                         
@@ -33,6 +30,5 @@
                     </dl>
                 </div>
             </div>
-        }
     </div>
 </div>

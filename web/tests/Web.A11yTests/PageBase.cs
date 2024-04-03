@@ -57,17 +57,17 @@ public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver web
         {
             foreach (var impact in Impacts)
             {
-                TestOutputHelper.WriteLine($"{impact} issues: {violations.Count(x => x.Impact == impact)}");
+                TestOutputHelper.WriteLine($"{impact}: {violations.Count(x => x.Impact == impact)} issues");
             }
 
             for (var i = 0; i < violations.Count; i++)
             {
                 var violation = violations[i];
-                TestOutputHelper.WriteLine($"Issue {i + 1}: {violation.Description}");
+                TestOutputHelper.WriteLine($"issue {i + 1}: {violation.Description}");
                 for (var j = 0; j < violation.Nodes.Length; j++)
                 {
                     var node = violation.Nodes[j];
-                    TestOutputHelper.WriteLine($"Occurrence {j + 1}: {node.Html}");
+                    TestOutputHelper.WriteLine($"occurrence {j + 1}: {node.Html}");
                 }
             }
         }

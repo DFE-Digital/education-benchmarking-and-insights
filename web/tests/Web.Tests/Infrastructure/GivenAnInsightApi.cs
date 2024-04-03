@@ -13,35 +13,45 @@ public class GivenAnInsightApi : ApiClientTestBase
     }
 
     [Fact]
-    public async Task GetMaintainedSchoolFinancesShouldCallCorrectUrl()
+    public async Task GetSchoolFinancesShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetMaintainedSchoolFinances("123213");
+        await api.GetSchoolFinances("123213");
 
-        VerifyCall(HttpMethod.Get, "api/maintained-school/123213");
+        VerifyCall(HttpMethod.Get, "api/school/123213");
     }
 
     [Fact]
-    public async Task GetAcademyFinancesShouldCallCorrectUrl()
+    public async Task GetSchoolWorkforceHistoryShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetAcademyFinances("123213");
+        await api.GetSchoolWorkforceHistory("123213");
 
-        VerifyCall(HttpMethod.Get, "api/academy/123213");
+        VerifyCall(HttpMethod.Get, "api/school/123213/workforce/history");
     }
 
     [Fact]
-    public async Task GetAcademyFinancesWithQueryShouldCallCorrectUrl()
+    public async Task GetSchoolBalanceHistoryShouldCallCorrectUrl()
     {
-        var query = new ApiQuery().AddIfNotNull("Name", "Foo");
         var api = new InsightApi(HttpClient);
 
-        await api.GetAcademyFinances("123213", query);
+        await api.GetSchoolBalanceHistory("123213");
 
-        VerifyCall(HttpMethod.Get, "api/academy/123213?Name=Foo");
+        VerifyCall(HttpMethod.Get, "api/school/123213/balance/history");
     }
+
+    [Fact]
+    public async Task GetSchoolIncomeHistoryShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetSchoolIncomeHistory("123213");
+
+        VerifyCall(HttpMethod.Get, "api/school/123213/income/history");
+    }
+
 
     [Fact]
     public async Task GetSchoolsExpenditureShouldCallCorrectUrl()
@@ -70,8 +80,8 @@ public class GivenAnInsightApi : ApiClientTestBase
     {
         var api = new InsightApi(HttpClient);
 
-        await api.GetFinanceYears();
+        await api.GetCurrentReturnYears();
 
-        VerifyCall(HttpMethod.Get, "api/finance-years");
+        VerifyCall(HttpMethod.Get, "api/current-return-years");
     }
 }

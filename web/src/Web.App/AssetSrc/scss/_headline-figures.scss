@@ -1,19 +1,47 @@
+@import "variables";
+
 .app-headline-figures {
-    margin-bottom: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 0;
+    gap: 15px;
+    li {
+        background: #5D7490;
+        padding: 15px;
+        width: calc(calc(100% - 165px)/ 4);
+    }
+    p {
+        color: white;
+    }
 }
 
-.app-headline-figures div div {
-    background: #5D7490;
-    color: white;
-    text-align: center;
-    padding: 15px;
+@media (min-width: $break-small) and (max-width: $break-medium) {
+    .app-headline-figures {
+        display: flex;
+        flex-wrap: wrap;
+        list-style: none;
+        padding: 0;
+        gap: 15px;
+        li {
+            background: #5D7490;
+            padding: 15px;
+            width: calc(calc(100% - 75px)/ 2);
+        }
+        p {
+            color: white;
+        }
+    }
 }
 
-.app-headline-figures div div p {
-    font-size: 24px;
-    color: white;
-}
-
-.app-headline-figures div div p:first-child {
-    font-weight: bold;
+@media (max-width: $break-small) {
+    .app-headline-figures {
+        li {
+            background: #5D7490;
+            width: 100%;
+        }
+        p {
+            color: white;
+        }
+    }
 }

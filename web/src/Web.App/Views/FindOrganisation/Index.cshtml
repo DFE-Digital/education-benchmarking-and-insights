@@ -10,7 +10,7 @@
 </div>
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        <div id="find-organisation-view"
+        <div id="find-organisation"
              data-find-method="@Model.FindMethod"
              data-urn="@Model.Urn"
              data-company-number="@Model.CompanyNumber"
@@ -21,11 +21,3 @@
         </div>
     </div>
 </div>
-
-@section scripts
-{
-    <script type="module">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
-    </script>
-}

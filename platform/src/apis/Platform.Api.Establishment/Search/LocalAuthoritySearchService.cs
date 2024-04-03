@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
@@ -10,7 +10,7 @@ namespace Platform.Api.Establishment.Search;
 public record LocalAuthoritySearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
-public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAuthority>
+public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAuthorityResponseModel>
 {
     private static readonly string[] Facets = { "" };
     private const string IndexName = "local-authority-index";
@@ -19,17 +19,17 @@ public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAu
     {
     }
 
-    public async Task<SearchOutput<LocalAuthority>> SearchAsync(PostSearchRequest request)
+    public async Task<SearchResponseModel<LocalAuthorityResponseModel>> SearchAsync(PostSearchRequestModel request)
     {
-        return await SearchAsync<LocalAuthority>(request, CreateFilterExpression, Facets);
+        return await SearchAsync<LocalAuthorityResponseModel>(request, CreateFilterExpression, Facets);
     }
 
-    public Task<SuggestOutput<LocalAuthority>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponseModel<LocalAuthorityResponseModel>> SuggestAsync(PostSuggestRequestModel request)
     {
         throw new System.NotImplementedException();
     }
 
-    private static string? CreateFilterExpression(FilterCriteria[] requestFilters)
+    private static string? CreateFilterExpression(FilterCriteriaRequestModel[] requestFilters)
     {
         return null;
     }
