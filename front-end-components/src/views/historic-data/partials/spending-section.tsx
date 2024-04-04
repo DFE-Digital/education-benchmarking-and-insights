@@ -142,7 +142,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
                   className="govuk-accordion__section-button"
                   id="accordion-expenditure-heading-1"
                 >
-                  Teaching and teaching support costs
+                  Teaching and teaching support staff
                 </span>
               </h2>
             </div>
