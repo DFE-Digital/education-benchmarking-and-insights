@@ -80,21 +80,22 @@
 
         <form action="/comparators/create/characteristics" method="post">
             <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+           <!--- <h1 class="govuk-heading-l">Create a custom comparator set</h1>--->
 
             {{  govukRadios({
             name: "compareAuthority",
             fieldset: {
                 legend: {
-                text: "Compare schools from",
+                text: "Where should these schools be from?",
                 isPageHeading: false,
-                classes: "govuk-fieldset__legend--m"
+                classes: "govuk-fieldset__legend--l
+              "
                 }
             },
             items: [
                 {
                     value: "all",
-                    text: "All of england",
+                    text: "All of England",
                     checked: checked("compareAuthority", "all")
                 },
                 {
