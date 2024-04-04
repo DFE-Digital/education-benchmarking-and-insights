@@ -52,6 +52,11 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
         return await GetAsync($"api/schools/workforce{query?.ToQueryString()}");
     }
 
+    public async Task<ApiResult> GetRatings(ApiQuery? query = null)
+    {
+        return await GetAsync($"api/ratings{query?.ToQueryString()}");
+    }
+
     public async Task<ApiResult> GetCurrentReturnYears()
     {
         return await GetAsync("api/current-return-years");
@@ -73,6 +78,7 @@ public interface IInsightApi
     Task<ApiResult> GetTrustIncomeHistory(string? companyNo, ApiQuery? query = null);
     Task<ApiResult> GetTrustExpenditureHistory(string? companyNo, ApiQuery? query = null);
 
+    Task<ApiResult> GetRatings(ApiQuery? query = null);
     Task<ApiResult> GetCurrentReturnYears();
 
 }

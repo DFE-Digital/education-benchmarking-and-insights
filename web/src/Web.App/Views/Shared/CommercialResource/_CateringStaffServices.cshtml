@@ -1,9 +1,12 @@
-﻿@await Component.InvokeAsync("CommercialResource", new
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
 {
     section = "Catering Staff",
     links = new []
     {
         ("Building in use","https://find-dfe-approved-framework.service.gov.uk/list/fm-support-service")
-    }
+    },
+    displayHeading = Model.DisplayHeading
 })
 

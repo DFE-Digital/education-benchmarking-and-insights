@@ -41,6 +41,7 @@ module "insight-fa" {
     "Cosmos__CfrLatestYear"               = 2023,
     "Cosmos__AarLatestYear"               = 2022,
     "Cosmos__EstablishmentCollectionName" = "GIAS"
+    "Sql__ConnectionString"               = local.db-connection-string
   })
 }
 

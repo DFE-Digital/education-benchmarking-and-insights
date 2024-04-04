@@ -1,1 +1,30 @@
-﻿
+﻿@using Web.App.Domain
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolResourcesViewModel
+
+
+<p class="govuk-body">
+    Based on how spending and costs compare to similar schools.
+</p>
+
+@foreach (var rating in Model.Ratings)
+{
+    {
+        var tag = rating.Status != null ? Lookups.StatusPriorityMap[rating.Status] : (TagColour.Grey, "Unknown");
+
+        <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <h2 class="govuk-heading-s">
+                    @rating.CostCategory
+                </h2>
+            </div>
+            <div class="govuk-grid-column-one-third">
+                @await Component.InvokeAsync("Tag", new { colour = tag.Item1, displayText = tag.Item2 })
+            </div>
+        </div>
+    }
+    
+    @await Html.PartialAsync(Lookups.CategoryResourcePartialMap[rating.CostCategoryId], new ResourceViewModel(false))
+}
