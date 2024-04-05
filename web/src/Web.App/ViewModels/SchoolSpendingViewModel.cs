@@ -4,13 +4,25 @@ namespace Web.App.ViewModels;
 
 public class SchoolSpendingViewModel(
     School school,
+    IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
-    IEnumerable<SchoolExpenditure> areaExpenditure,
-    FinanceYears latestYears)
+    IEnumerable<SchoolExpenditure> areaExpenditure)
 {
+    private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
+
     public string? Name => school.Name;
     public string? Urn => school.Urn;
-    public FinanceYears LatestYears => latestYears;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public IEnumerable<CostCategory> Categories => CategoryBuilder.Build(pupilExpenditure, areaExpenditure);
+
+    public IEnumerable<CostCategory> PriorityCosts => _categories
+        .Where(x => x.Rating.Status is "Red" or "Amber")
+        .OrderBy(x => x.Rating.StatusOrder)
+        .ThenByDescending(x => x.Rating.Decile)
+        .ThenByDescending(x => x.Rating.Value);
+
+    public IEnumerable<CostCategory> LowPriorityCosts => _categories
+        .Where(x => x.Rating.Status is "Green")
+        .OrderBy(x => x.Rating.StatusOrder)
+        .ThenByDescending(x => x.Rating.Decile)
+        .ThenByDescending(x => x.Rating.Value);
 }

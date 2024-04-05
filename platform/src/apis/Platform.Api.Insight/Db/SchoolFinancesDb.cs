@@ -21,7 +21,6 @@ public interface ISchoolFinancesDb
 {
     Task<FinancesResponseModel?> Get(string urn);
     Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension);
-    Task<IEnumerable<WorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension);
     Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string urn, Dimension dimension);
     Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension);
 }
@@ -29,8 +28,6 @@ public interface ISchoolFinancesDb
 [ExcludeFromCodeCoverage]
 public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
 {
-
-
     private readonly int _cfrLatestYear;
     private readonly int _aarLatestYear;
     private readonly string _establishmentCollectionName;
@@ -72,15 +69,6 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
         return finances
             .OfType<(int, SchoolTrustFinancialDataObject)>()
             .Select(x => ExpenditureResponseModel.Create(x.Item2, x.Item1, dimension));
-    }
-
-    public async Task<IEnumerable<WorkforceResponseModel>> GetWorkforceHistory(string urn, Dimension dimension)
-    {
-        var finances = await GetHistoryFinances(urn);
-
-        return finances
-            .OfType<(int, SchoolTrustFinancialDataObject?)>()
-            .Select(x => WorkforceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     public async Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string urn, Dimension dimension)

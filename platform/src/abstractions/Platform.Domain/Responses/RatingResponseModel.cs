@@ -5,6 +5,7 @@ public record RatingResponseModel
     public string? Urn { get; private set; }
     public int CostCategoryId { get; private set; }
     public string? CostCategory { get; private set; }
+    public string? CostGroup { get; private set; }
     public decimal Value { get; private set; }
     public decimal Median { get; private set; }
     public int Decile { get; private set; }
@@ -18,11 +19,12 @@ public record RatingResponseModel
             Urn = dataObject.URN,
             CostCategoryId = dataObject.CostPoolID,
             CostCategory = CostCategories.Mapping[dataObject.CostPoolID],
+            CostGroup = dataObject.CostGroup,
             Value = dataObject.PerUnit,
             Median = dataObject.MidDecile,
             Decile = dataObject.Decile,
             Status = dataObject.RAGWord,
-            StatusOrder = dataObject.RAGOrder
+            StatusOrder = dataObject.RAGOrder,
         };
     }
 }

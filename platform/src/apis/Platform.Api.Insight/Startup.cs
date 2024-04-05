@@ -25,6 +25,7 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<FinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<TrustFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
@@ -35,6 +36,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
         builder.Services.AddSingleton<ITrustFinancesDb, TrustFinancesDb>();
         builder.Services.AddSingleton<IRatingsDb, RatingsDb>();
+        builder.Services.AddSingleton<IWorkforceDb, WorkforceDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
     }
 }

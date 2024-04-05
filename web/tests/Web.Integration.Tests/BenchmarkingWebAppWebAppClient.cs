@@ -10,6 +10,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
+    public Mock<IWorkforceApi> WorkforceApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -17,6 +18,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
+        services.AddSingleton(WorkforceApi.Object);
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
@@ -52,12 +54,21 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupWorkforceWithException()
+    {
+        WorkforceApi.Reset();
+        WorkforceApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
+        WorkforceApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Aar = 2022, Cfr = 2021 }));
+        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
         return this;
     }
 

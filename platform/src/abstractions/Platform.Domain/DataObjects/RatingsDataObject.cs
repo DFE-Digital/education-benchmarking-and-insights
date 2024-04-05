@@ -27,7 +27,7 @@ public record RatingsDataObject
     public int OverallAcademyRank { get; set; }
     public int OverallCostPoolRank { get; set; }
     public int PerUnitRank { get; set; }
-    public string Comparators { get; set; }
+    public string? Comparators { get; set; }
     public string PoundDiffText { get; set; }
     public string PercentDiffText { get; set; }
     public string HomepageText { get; set; }

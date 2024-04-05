@@ -23,16 +23,6 @@ public class GivenAnInsightApi : ApiClientTestBase
     }
 
     [Fact]
-    public async Task GetSchoolWorkforceHistoryShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolWorkforceHistory("123213");
-
-        VerifyCall(HttpMethod.Get, "api/school/123213/workforce/history");
-    }
-
-    [Fact]
     public async Task GetSchoolBalanceHistoryShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
@@ -64,16 +54,6 @@ public class GivenAnInsightApi : ApiClientTestBase
         VerifyCall(HttpMethod.Get, "api/schools/expenditure?Name=Foo");
     }
 
-    [Fact]
-    public async Task GetSchoolsWorkforceShouldCallCorrectUrl()
-    {
-        var query = new ApiQuery().AddIfNotNull("Name", "Foo");
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolsWorkforce(query);
-
-        VerifyCall(HttpMethod.Get, "api/schools/workforce?Name=Foo");
-    }
 
     [Fact]
     public async Task GetFinanceYearsShouldCallCorrectUrl()
