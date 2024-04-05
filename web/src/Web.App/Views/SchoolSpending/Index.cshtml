@@ -24,6 +24,7 @@
             <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.CostCategory</h3>
             <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
                 @await Component.InvokeAsync("Tag", new { category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText })
+                @category.Rating.Value
                 Spends <strong>@category.Rating.FromMedian.Difference.ToCurrency()</strong> @category.Rating.Unit @category.Rating.FromMedian.Description the median of similar schools.
             </p>
             <div class="govuk-!-margin-bottom-2"
