@@ -6,7 +6,6 @@ import {
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
@@ -24,7 +23,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension.value),
+      dimension.heading,
     ],
     [dimension]
   );

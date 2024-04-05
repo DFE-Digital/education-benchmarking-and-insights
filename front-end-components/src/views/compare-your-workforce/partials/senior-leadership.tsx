@@ -1,24 +1,38 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import {
-  SeniorLeadershipData,
-  SeniorLeadershipProps,
-} from "src/views/compare-your-workforce/partials";
+import { SeniorLeadershipData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
-  const { schools } = props;
+export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(
+      type,
+      id,
+      dimension.value,
+      "senior-leadership-fte"
+    );
+  }, [id, dimension, type]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<SeniorLeadershipData> =
     useMemo(() => {
@@ -27,23 +41,19 @@ export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension.value),
+        dimension.heading,
       ];
 
       return {
-        dataPoints: schools.map((school) => {
+        dataPoints: data.map((school) => {
           return {
             ...school,
-            value: CalculateWorkforceValue({
-              dimension: dimension.value,
-              value: school.seniorLeadershipFTE,
-              ...school,
-            }),
+            value: school.seniorLeadershipFte,
           };
         }),
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

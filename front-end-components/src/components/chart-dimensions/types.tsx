@@ -4,6 +4,7 @@ import { ChartSeriesValueUnit } from "src/components";
 export type Dimension = {
   label: string;
   value: string;
+  heading: string;
   unit?: ChartSeriesValueUnit;
 };
 
@@ -20,14 +21,6 @@ export type PremisesValue = {
   totalExpenditure: number;
   totalIncome: number;
   value: number;
-};
-
-export type WorkforceValue = {
-  dimension: string;
-  schoolWorkforceFTE: number;
-  numberOfPupils: bigint;
-  value: number;
-  schoolWorkforceHeadcount: number;
 };
 
 export type ChartDimensionsProps = {

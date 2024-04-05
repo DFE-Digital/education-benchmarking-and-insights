@@ -5,7 +5,6 @@ import {
 } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculatePremisesValue,
-  DimensionHeading,
   PoundsPerMetreSq,
   PremisesCategories,
   ChartDimensions,
@@ -24,7 +23,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension.value),
+      dimension.heading,
     ],
     [dimension]
   );

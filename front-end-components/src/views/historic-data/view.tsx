@@ -57,7 +57,7 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
           id="workforce"
         >
-          <WorkforceSection type={type} id={id} />
+          <WorkforceSection id={id} />
         </div>
       )}
     </div>

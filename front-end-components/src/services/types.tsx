@@ -51,22 +51,6 @@ export type ExpenditureData = {
   waterSewerageCosts: number;
 };
 
-export type WorkforceBenchmark = {
-  urn: string;
-  name: string;
-  schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  totalNumberOfTeachersFTE: number;
-  teachersWithQTSFTE: number;
-  seniorLeadershipFTE: number;
-  teachingAssistantsFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  auxiliaryStaffFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
 export type Balance = {
   yearEnd: string;
   dimension: string;
@@ -75,6 +59,11 @@ export type Balance = {
 };
 
 export type Workforce = {
+  urn: string;
+  name: string;
+  schoolType: string;
+  localAuthority: string;
+  numberOfPupils: bigint;
   yearEnd: string;
   dimension: string;
   workforceFte: number;
@@ -84,7 +73,7 @@ export type Workforce = {
   nonClassroomSupportStaffFte: number;
   auxiliaryStaffFte: number;
   workforceHeadcount: number;
-  teachersWithQts: number;
+  teachersQualified: number;
 };
 
 export type Income = {

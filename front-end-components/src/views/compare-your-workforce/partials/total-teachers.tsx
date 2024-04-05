@@ -1,24 +1,33 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import {
-  TotalTeachersData,
-  TotalTeachersProps,
-} from "src/views/compare-your-workforce/partials";
+import { TotalTeachersData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
-  const { schools } = props;
+export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(type, id, dimension.value, "teachers-fte");
+  }, [id, dimension, type]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<TotalTeachersData> =
     useMemo(() => {
@@ -27,23 +36,19 @@ export const TotalTeachers: React.FC<TotalTeachersProps> = (props) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension.value),
+        dimension.heading,
       ];
 
       return {
-        dataPoints: schools.map((school) => {
+        dataPoints: data.map((school) => {
           return {
             ...school,
-            value: CalculateWorkforceValue({
-              dimension: dimension.value,
-              value: school.totalNumberOfTeachersFTE,
-              ...school,
-            }),
+            value: school.teachersFte,
           };
         }),
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

@@ -1,26 +1,38 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import {
-  NonClassroomSupportData,
-  NonClassroomSupportProps,
-} from "src/views/compare-your-workforce/partials";
+import { NonClassroomSupportData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
-  props
-) => {
-  const { schools } = props;
+export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(
+      type,
+      id,
+      dimension.value,
+      "non-classroom-support-staff-fte"
+    );
+  }, [id, dimension, type]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<NonClassroomSupportData> =
     useMemo(() => {
@@ -29,23 +41,19 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension.value),
+        dimension.heading,
       ];
 
       return {
-        dataPoints: schools.map((school) => {
+        dataPoints: data.map((school) => {
           return {
             ...school,
-            value: CalculateWorkforceValue({
-              dimension: dimension.value,
-              value: school.nonClassroomSupportStaffFTE,
-              ...school,
-            }),
+            value: school.nonClassroomSupportStaffFte,
           };
         }),
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
