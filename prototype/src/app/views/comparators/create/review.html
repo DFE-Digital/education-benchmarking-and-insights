@@ -62,14 +62,13 @@
       }}
   {% endif %}
 
-    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-
-      <h1 class="govuk-heading-l">{{ actionText }} custom comparator set</h1>
+  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+  <h1 class="govuk-heading-l">Choose your own similar schools</h1>
 
 
       {% if confirmation != 'comparator-generated' %}
       <form action="/add-comparator-school" method="post">
-        <h2 class="govuk-heading-m">Add a school</h2>
+        <h2 class="govuk-heading-m">Enter a school name, address or URN</h2>
         <div class="school-search">
 
             {{ xGovukAutocomplete({
@@ -77,7 +76,7 @@
               name: "school",
               allowEmpty: false,
               hint: {
-                  text: "Enter a name, address or unique reference number (URN)."
+                  text: ""
               },
               errorMessage: null if errorThisPage != 'true' else { html: errorText },
               items: schoolRows
@@ -85,7 +84,7 @@
             
 
             {{ govukButton({
-              text: "Add school"
+              text: "Choose"
             }) }}
         </div>
       </form>
