@@ -59,7 +59,9 @@ Add configuration in `local.settings.json`
     "Cosmos__DatabaseId" : "ebis-data",
     "Cosmos__FloorAreaCollectionName" : "Floor-Area-2021-2022",
     "Cosmos__CfrLatestYear" : "[INSERT LATEST YEAR]",
-    "Cosmos__AarLatestYear" : "[INSERT LATEST YEAR]"
+    "Cosmos__AarLatestYear" : "[INSERT LATEST YEAR]",
+    "Cosmos__EstablishmentCollectionName" : "GIAS",
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {
     "CORS": "*",

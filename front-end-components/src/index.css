@@ -81,12 +81,12 @@
 
 .recharts-wrapper .chart-line.chart-line-series-0 path,
 .recharts-wrapper .chart-line.chart-line-series-0 .recharts-line-dot {
-  stroke: var(--series-2-colour);
+  stroke: var(--series-highlight-colour);
   stroke-width: 5;
 }
 
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0 {
-  fill: var(--series-2-colour);
+  fill: var(--series-highlight-colour);
 }
 
 .recharts-wrapper .chart-active-tooltip {
@@ -129,8 +129,8 @@
   overflow-wrap: break-word;
 }
 
-.chart-stat-line-chart .chart-stat-value {
-  color: var(--series-2-colour);
+.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value{
+  color: var(--series-highlight-colour);
 }
 
 .chart-stat-summary
@@ -310,4 +310,18 @@
 
 .suggest-form-group a.active {
   background: lightgray;
+}
+
+.view-as-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+@media (max-width: 640px) {
+  .view-as-toggle {
+    width: 100%;
+    display: block;
+  }
 }

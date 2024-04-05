@@ -1,22 +1,71 @@
 import {
   CostValue,
+  Dimension,
   PremisesValue,
-  WorkforceValue,
 } from "src/components/chart-dimensions";
 
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/components/chart-dimensions/types";
 export * from "src/components/chart-dimensions/component";
 
-export const PoundsPerPupil = "£ per pupil";
-export const PoundsPerMetreSq = "£ per m²";
-export const Actual = "actuals";
-export const PercentageExpenditure = "percentage of expenditure";
-export const PercentageIncome = "percentage of income";
-export const Total = "total";
-export const HeadcountPerFTE = "headcount per FTE";
-export const PercentageOfWorkforce = "percentage of workforce";
-export const PupilsPerStaffRole = "pupils per staff role";
+export const PoundsPerPupil: Dimension = {
+  label: "£ per pupil",
+  value: "PoundPerPupil",
+  unit: "currency",
+  heading: "Percentage",
+};
+export const PoundsPerMetreSq: Dimension = {
+  label: "£ per m²",
+  value: "PoundPerSqMetre",
+  unit: "currency",
+  heading: "Amount",
+};
+export const Actual: Dimension = {
+  label: "actuals",
+  value: "Actuals",
+  unit: "currency",
+  heading: "Amount",
+};
+export const Percent: Dimension = {
+  label: "percent",
+  value: "Percent",
+  unit: "%",
+  heading: "Percentage",
+};
+
+export const PercentageExpenditure: Dimension = {
+  label: "percentage of expenditure",
+  value: "PercentExpenditure",
+  unit: "%",
+  heading: "Percentage",
+};
+export const PercentageIncome: Dimension = {
+  label: "percentage of income",
+  value: "PercentIncome",
+  unit: "%",
+  heading: "Percentage",
+};
+export const Total: Dimension = {
+  label: "total",
+  value: "Total",
+  heading: "Count",
+};
+export const HeadcountPerFTE: Dimension = {
+  label: "headcount per FTE",
+  value: "HeadcountPerFte",
+  heading: "Ratio",
+};
+export const PercentageOfWorkforce: Dimension = {
+  label: "percentage of workforce",
+  value: "PercentWorkforce",
+  unit: "%",
+  heading: "Percentage",
+};
+export const PupilsPerStaffRole: Dimension = {
+  label: "pupils per staff role",
+  value: "PupilsPerStaffRole",
+  heading: "Pupils per staff role",
+};
 
 export const CostCategories = [
   PoundsPerPupil,
@@ -39,61 +88,27 @@ export const WorkforceCategories = [
 
 export function CalculateCostValue(costValue: CostValue): number {
   switch (costValue.dimension) {
-    case PoundsPerPupil:
+    case PoundsPerPupil.value:
       return costValue.value / Number(costValue.numberOfPupils);
-    case PercentageExpenditure:
+    case PercentageExpenditure.value:
       return (costValue.value / costValue.totalExpenditure) * 100;
-    case PercentageIncome:
+    case PercentageIncome.value:
       return (costValue.value / costValue.totalIncome) * 100;
-    case Actual:
+    case Actual.value:
       return costValue.value;
     default:
       return 0;
   }
 }
 
-export function DimensionHeading(dimension: string): string {
-  switch (dimension) {
-    case PercentageExpenditure:
-    case PercentageIncome:
-    case PercentageOfWorkforce:
-      return "Percentage";
-    case Total:
-      return "Count";
-    case HeadcountPerFTE:
-      return "Ratio";
-    case PupilsPerStaffRole:
-      return "Pupils per staff role";
-    default:
-      return "Amount";
-  }
-}
-
 export function CalculatePremisesValue(premisesValue: PremisesValue): number {
   switch (premisesValue.dimension) {
-    case PercentageExpenditure:
+    case PercentageExpenditure.value:
       return (premisesValue.value / premisesValue.totalExpenditure) * 100;
-    case PercentageIncome:
+    case PercentageIncome.value:
       return (premisesValue.value / premisesValue.totalIncome) * 100;
-    case Actual:
+    case Actual.value:
       return premisesValue.value;
-    default:
-      return 0;
-  }
-}
-
-export function CalculateWorkforceValue(
-  workforceValue: WorkforceValue
-): number {
-  switch (workforceValue.dimension) {
-    case Total:
-      return workforceValue.value;
-    case HeadcountPerFTE:
-      return workforceValue.schoolWorkforceHeadcount / workforceValue.value;
-    case PercentageOfWorkforce:
-      return (workforceValue.value / workforceValue.schoolWorkforceFTE) * 100;
-    case PupilsPerStaffRole:
-      return Number(workforceValue.numberOfPupils) / workforceValue.value;
     default:
       return 0;
   }

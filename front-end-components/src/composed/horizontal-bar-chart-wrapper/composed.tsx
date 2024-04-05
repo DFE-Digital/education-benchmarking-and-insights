@@ -109,7 +109,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     )}
                     tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
                     valueFormatter={shortValueFormatter}
-                    valueLabel={dimension}
+                    valueLabel={dimension.label}
                     valueUnit={valueUnit}
                   />
                 </div>

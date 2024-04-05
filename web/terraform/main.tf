@@ -81,7 +81,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   }
 
   site_config {
-    http2_enabled = true
+    http2_enabled          = true
+    vnet_route_all_enabled = true
     application_stack {
       dotnet_version = "8.0"
     }
@@ -91,12 +92,14 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     health_check_eviction_time_in_min = 10
   }
 
+  virtual_network_subnet_id = data.azurerm_subnet.web-app-subnet.id
+
   logs {
     failed_request_tracing  = true
     detailed_error_messages = true
     http_logs {
       file_system {
-        retention_in_days = 4
+        retention_in_days = 0
         retention_in_mb   = 25
       }
     }
@@ -105,8 +108,8 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   app_settings = {
     "ASPNETCORE_ENVIRONMENT"                         = "Production"
     "APPLICATIONINSIGHTS_CONNECTION_STRING"          = data.azurerm_application_insights.application-insights.connection_string
-    "FeatureManagement__CurriculumFinancialPlanning" = true
-    "FeatureManagement__Trusts"                      = false
+    "FeatureManagement__CurriculumFinancialPlanning" = var.configuration[var.environment].features.CurriculumFinancialPlanning
+    "FeatureManagement__Trusts"                      = var.configuration[var.environment].features.Trusts
     "Apis__Insight__Url"                             = data.azurerm_key_vault_secret.insight-api-host.value
     "Apis__Insight__Key"                             = data.azurerm_key_vault_secret.insight-api-key.value
     "Apis__Establishment__Url"                       = data.azurerm_key_vault_secret.establishment-api-host.value

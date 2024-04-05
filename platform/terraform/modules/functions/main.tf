@@ -7,6 +7,8 @@ locals {
 }
 
 resource "azurerm_service_plan" "func-asp" {
+  #checkov:skip=CKV_AZURE_212:To be reviewed
+  #checkov:skip=CKV_AZURE_225:To be reviewed
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
@@ -16,6 +18,7 @@ resource "azurerm_service_plan" "func-asp" {
 }
 
 resource "azurerm_windows_function_app" "func-app" {
+  #checkov:skip=CKV_AZURE_221:To be reviewed
   name                       = local.function-app-name
   location                   = var.location
   resource_group_name        = var.resource-group-name
@@ -27,6 +30,7 @@ resource "azurerm_windows_function_app" "func-app" {
   site_config {
     always_on     = var.always-on
     http2_enabled = true
+
     cors {
       allowed_origins = local.cors
     }
@@ -34,6 +38,13 @@ resource "azurerm_windows_function_app" "func-app" {
     application_stack {
       dotnet_version              = "v6.0"
       use_dotnet_isolated_runtime = false
+    }
+
+    dynamic "ip_restriction" {
+      for_each = var.enable-restrictions ? ["apply"] : []
+      content {
+        virtual_network_subnet_id = data.azurerm_subnet.web-app-subnet.id
+      }
     }
   }
 

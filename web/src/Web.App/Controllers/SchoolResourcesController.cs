@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -11,6 +12,7 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/find-ways-to-spend-less")]
 public class SchoolResourcesController(
     IEstablishmentApi establishmentApi,
+    IInsightApi insightApi,
     ILogger<SchoolResourcesController> logger) : Controller
 {
     [HttpGet]
@@ -21,10 +23,11 @@ public class SchoolResourcesController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolResources(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolResourcesViewModel(school);
+                var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var viewModel = new SchoolResourcesViewModel(school, ratings);
 
                 return View(viewModel);
             }

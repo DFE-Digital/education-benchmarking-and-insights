@@ -3,17 +3,9 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
 }
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <span class="govuk-caption-l">@Model.Name</span>
-        <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
-    </div>
-</div>
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">Compare your schools spending costs against</p>
-    </div>
-</div>
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
+
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new [] {"Compare your schools spending costs."}})
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber"></div>
 

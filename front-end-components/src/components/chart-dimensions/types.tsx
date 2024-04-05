@@ -1,4 +1,12 @@
 import React from "react";
+import { ChartSeriesValueUnit } from "src/components";
+
+export type Dimension = {
+  label: string;
+  value: string;
+  heading: string;
+  unit?: ChartSeriesValueUnit;
+};
 
 export type CostValue = {
   dimension: string;
@@ -15,16 +23,8 @@ export type PremisesValue = {
   value: number;
 };
 
-export type WorkforceValue = {
-  dimension: string;
-  schoolWorkforceFTE: number;
-  numberOfPupils: bigint;
-  value: number;
-  schoolWorkforceHeadcount: number;
-};
-
 export type ChartDimensionsProps = {
-  dimensions: string[];
+  dimensions: Dimension[];
   handleChange: React.ChangeEventHandler<HTMLSelectElement>;
   elementId: string;
   defaultValue: string;

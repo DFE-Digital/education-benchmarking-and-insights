@@ -3,7 +3,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Resources;
 }
 
-@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -24,10 +24,12 @@
                 </li>
             </ul>
             <div class="govuk-tabs__panel" id="recommended">
+                <h2 class="govuk-heading-m">Recommended for this school</h2>
                 @await Html.PartialAsync("_RecommendedResources")
             </div>
             <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="all">
-                @await Html.PartialAsync("_AllResources")
+                <h2 class="govuk-heading-m">All resources</h2>
+                @await Html.PartialAsync("CommercialResource/AllResources")
             </div>
         </div>
     </div>

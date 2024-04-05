@@ -1,3 +1,4 @@
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.TrustViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustHome;
@@ -12,5 +13,33 @@
     </div>
 </div>
 
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline-figures app-headline-figures-3 govuk-!-text-align-centre">
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
+                <p class="govuk-body">-£171,977</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
+                <p class="govuk-body">£1,175,418</p>
+            </li>
+            <li>
+                <p class="govuk-body govuk-!-font-weight-bold">Schools</p>
+                <p class="govuk-body">5</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkWorkforce } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("Resources", new { identifier = Model.CompanyNumber, resources = new[] { Resources.TrustResources, Resources.TrustHistoricData } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("GetHelp")

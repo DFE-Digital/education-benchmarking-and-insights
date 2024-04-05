@@ -26,10 +26,10 @@ public class ComparatorSetFunctions
         _logger = logger;
     }
 
-    [FunctionName(nameof(DefaultPupilComparatorSetAsync))]
+    [FunctionName(nameof(ComparatorSetAsync))]
     [ProducesResponseType(typeof(ComparatorSetResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> DefaultPupilComparatorSetAsync(
+    public async Task<IActionResult> ComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/{urn}")]
         HttpRequest req,
         string urn)

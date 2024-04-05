@@ -1,18 +1,28 @@
-import { useMemo } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartDimensionContext } from "src/contexts";
-import {
-  TotalTeachersQualifiedData,
-  TotalTeachersQualifiedProps,
-} from "src/views/compare-your-workforce/partials";
+import { TotalTeachersQualifiedData } from "src/views/compare-your-workforce/partials";
+import { Percent } from "src/components";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
-  props
-) => {
-  const { schools } = props;
+export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(type, id, "Percent", "teachers-qualified");
+  }, [id, type]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<TotalTeachersQualifiedData> =
     useMemo(() => {
@@ -25,24 +35,24 @@ export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
       ];
 
       return {
-        dataPoints: schools.map((school) => {
+        dataPoints: data.map((school) => {
           return {
             ...school,
-            value: school.teachersWithQTSFTE,
+            value: school.teachersQualified,
           };
         }),
         tableHeadings,
       };
-    }, [schools]);
+    }, [data]);
 
   return (
-    <ChartDimensionContext.Provider value={"percent"}>
+    <ChartDimensionContext.Provider value={Percent}>
       <HorizontalBarChartWrapper
         data={chartData}
         chartName="teachers with qualified teacher status (%)"
       >
         <h2 className="govuk-heading-m">
-          Teachers with qualified Teacher Status (%)
+          Teachers with qualified teacher status (%)
         </h2>
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

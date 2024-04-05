@@ -5,7 +5,6 @@ import {
 } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculatePremisesValue,
-  DimensionHeading,
   PoundsPerMetreSq,
   PremisesCategories,
   ChartDimensions,
@@ -24,7 +23,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      dimension.heading,
     ],
     [dimension]
   );
@@ -32,7 +31,10 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      PremisesCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerMetreSq;
+    setDimension(dimension);
   };
 
   const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData<UtilitiesData> =
@@ -42,7 +44,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalUtilitiesCosts,
               ...school,
             }),
@@ -59,7 +61,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.energyCosts,
               ...school,
             }),
@@ -76,7 +78,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculatePremisesValue({
-              dimension,
+              dimension: dimension.value,
               value: school.waterSewerageCosts,
               ...school,
             }),
@@ -114,7 +116,7 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-utilities-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

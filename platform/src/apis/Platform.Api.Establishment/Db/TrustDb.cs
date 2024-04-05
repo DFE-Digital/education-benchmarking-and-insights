@@ -27,7 +27,7 @@ public class TrustDb : CosmosDatabase, ITrustDb
 {
     private readonly string _collectionName;
 
-    public TrustDb(IOptions<TrustDbOptions> options) : base(options.Value)
+    public TrustDb(IOptions<TrustDbOptions> options, ICosmosClientFactory factory) : base(factory)
     {
         ArgumentNullException.ThrowIfNull(options.Value.EstablishmentCollectionName);
         _collectionName = options.Value.EstablishmentCollectionName;

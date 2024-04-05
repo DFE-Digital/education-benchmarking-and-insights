@@ -34,13 +34,14 @@ No modules.
 | [azurerm_key_vault_secret.establishment-api-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.insight-api-host](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
 | [azurerm_key_vault_secret.insight-api-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/key_vault_secret) | data source |
+| [azurerm_subnet.web-app-subnet](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/data-sources/subnet) | data source |
 
 ## Inputs
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
 | <a name="input_cip-environment"></a> [cip-environment](#input\_cip-environment) | n/a | `any` | n/a | yes |
-| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    sku_name               = string<br>    zone_balancing_enabled = bool<br>    worker_count           = number<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  },<br>  "development": {<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  },<br>  "test": {<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  }<br>}</pre> | no |
+| <a name="input_configuration"></a> [configuration](#input\_configuration) | n/a | <pre>map(object({<br>    sku_name               = string<br>    zone_balancing_enabled = bool<br>    worker_count           = number<br>    features = object({<br>      CurriculumFinancialPlanning = bool<br>      Trusts                      = bool<br>    })<br>  }))</pre> | <pre>{<br>  "automated-test": {<br>    "features": {<br>      "CurriculumFinancialPlanning": true,<br>      "Trusts": false<br>    },<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  },<br>  "development": {<br>    "features": {<br>      "CurriculumFinancialPlanning": true,<br>      "Trusts": true<br>    },<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  },<br>  "test": {<br>    "features": {<br>      "CurriculumFinancialPlanning": false,<br>      "Trusts": false<br>    },<br>    "sku_name": "B1",<br>    "worker_count": 1,<br>    "zone_balancing_enabled": false<br>  }<br>}</pre> | no |
 | <a name="input_dfe-signin"></a> [dfe-signin](#input\_dfe-signin) | n/a | `any` | n/a | yes |
 | <a name="input_environment"></a> [environment](#input\_environment) | n/a | `any` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `any` | n/a | yes |

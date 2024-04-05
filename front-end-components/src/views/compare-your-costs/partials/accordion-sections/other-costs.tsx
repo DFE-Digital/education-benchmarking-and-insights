@@ -6,7 +6,6 @@ import {
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
@@ -24,7 +23,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      dimension.heading,
     ],
     [dimension]
   );
@@ -32,7 +31,10 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   const totalOtherCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
@@ -42,7 +44,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.totalOtherCosts,
               ...school,
             }),
@@ -59,7 +61,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.otherInsurancePremiumsCosts,
               ...school,
             }),
@@ -76,7 +78,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.directRevenueFinancingCosts,
               ...school,
             }),
@@ -93,7 +95,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.groundsMaintenanceCosts,
               ...school,
             }),
@@ -110,7 +112,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.indirectEmployeeExpenses,
               ...school,
             }),
@@ -127,7 +129,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.interestChargesLoanBank,
               ...school,
             }),
@@ -144,7 +146,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.privateFinanceInitiativeCharges,
               ...school,
             }),
@@ -161,7 +163,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.rentRatesCosts,
               ...school,
             }),
@@ -178,7 +180,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.specialFacilitiesCosts,
               ...school,
             }),
@@ -195,7 +197,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.staffDevelopmentTrainingCosts,
               ...school,
             }),
@@ -212,7 +214,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.staffRelatedInsuranceCosts,
               ...school,
             }),
@@ -229,7 +231,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.supplyTeacherInsurableCosts,
               ...school,
             }),
@@ -246,7 +248,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.communityFocusedSchoolStaff,
               ...school,
             }),
@@ -263,7 +265,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.communityFocusedSchoolCosts,
               ...school,
             }),
@@ -302,7 +304,7 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-otehr-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

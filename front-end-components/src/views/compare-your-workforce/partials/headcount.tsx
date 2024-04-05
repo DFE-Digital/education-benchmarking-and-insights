@@ -1,26 +1,40 @@
-import React, { useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
   HeadcountPerFTE,
   PercentageOfWorkforce,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import {
-  HeadcountData,
-  HeadcountProps,
-} from "src/views/compare-your-workforce/partials";
+import { HeadcountData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const Headcount: React.FC<HeadcountProps> = (props) => {
-  const { schools } = props;
+export const Headcount: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(
+      type,
+      id,
+      dimension.value,
+      "workforce-headcount"
+    );
+  }, [id, dimension, type]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<HeadcountData> =
     useMemo(() => {
@@ -29,28 +43,27 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension),
+        dimension.heading,
       ];
 
       return {
-        dataPoints: schools.map((school) => {
+        dataPoints: data.map((school) => {
           return {
             ...school,
-            value: CalculateWorkforceValue({
-              dimension,
-              value: school.schoolWorkforceHeadcount,
-              ...school,
-            }),
+            value: school.workforceHeadcount,
           };
         }),
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -67,7 +80,7 @@ export const Headcount: React.FC<HeadcountProps> = (props) => {
           )}
           handleChange={handleSelectChange}
           elementId="headcount"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

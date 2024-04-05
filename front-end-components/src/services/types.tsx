@@ -1,4 +1,4 @@
-export type Expenditure = {
+export type ExpenditureData = {
   urn: string;
   name: string;
   schoolType: string;
@@ -51,18 +51,96 @@ export type Expenditure = {
   waterSewerageCosts: number;
 };
 
+export type Balance = {
+  yearEnd: string;
+  dimension: string;
+  inYearBalance: number;
+  revenueReserve: number;
+};
+
 export type Workforce = {
   urn: string;
   name: string;
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  totalNumberOfTeachersFTE: number;
-  teachersWithQTSFTE: number;
-  seniorLeadershipFTE: number;
-  teachingAssistantsFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  auxiliaryStaffFTE: number;
-  schoolWorkforceHeadcount: number;
+  yearEnd: string;
+  dimension: string;
+  workforceFte: number;
+  teachersFte: number;
+  seniorLeadershipFte: number;
+  teachingAssistantsFte: number;
+  nonClassroomSupportStaffFte: number;
+  auxiliaryStaffFte: number;
+  workforceHeadcount: number;
+  teachersQualified: number;
+};
+
+export type Income = {
+  yearEnd: string;
+  dimension: string;
+  totalIncome: number;
+  totalGrantFunding: number;
+  totalSelfGeneratedFunding: number;
+  directRevenueFinancing: number;
+  directGrants: number;
+  prePost16Funding: number;
+  otherDfeGrants: number;
+  otherIncomeGrants: number;
+  governmentSource: number;
+  communityGrants: number;
+  academies: number;
+  incomeFacilitiesServices: number;
+  incomeCatering: number;
+  donationsVoluntaryFunds: number;
+  receiptsSupplyTeacherInsuranceClaims: number;
+  investmentIncome: number;
+  otherSelfGeneratedIncome: number;
+};
+
+export type Expenditure = {
+  yearEnd: string;
+  dimension: string;
+  totalExpenditure: number;
+  totalTeachingSupportStaffCosts: number;
+  teachingStaffCosts: number;
+  supplyTeachingStaffCosts: number;
+  educationalConsultancyCosts: number;
+  educationSupportStaffCosts: number;
+  agencySupplyTeachingStaffCosts: number;
+  totalNonEducationalSupportStaffCosts: number;
+  administrativeClericalStaffCosts: number;
+  auditorsCosts: number;
+  otherStaffCosts: number;
+  professionalServicesNonCurriculumCosts: number;
+  totalEducationalSuppliesCosts: number;
+  examinationFeesCosts: number;
+  learningResourcesNonIctCosts: number;
+  learningResourcesIctCosts: number;
+  totalPremisesStaffServiceCosts: number;
+  cleaningCaretakingCosts: number;
+  maintenancePremisesCosts: number;
+  otherOccupationCosts: number;
+  premisesStaffCosts: number;
+  totalUtilitiesCosts: number;
+  energyCosts: number;
+  waterSewerageCosts: number;
+  administrativeSuppliesCosts: number;
+  totalGrossCateringCosts: number;
+  cateringStaffCosts: number;
+  cateringSuppliesCosts: number;
+  totalOtherCosts: number;
+  otherInsurancePremiumsCosts: number;
+  directRevenueFinancingCosts: number;
+  groundsMaintenanceCosts: number;
+  indirectEmployeeExpenses: number;
+  interestChargesLoanBank: number;
+  privateFinanceInitiativeCharges: number;
+  rentRatesCosts: number;
+  specialFacilitiesCosts: number;
+  staffDevelopmentTrainingCosts: number;
+  staffRelatedInsuranceCosts: number;
+  supplyTeacherInsurableCosts: number;
+  communityFocusedSchoolStaff: number;
+  communityFocusedSchoolCosts: number;
 };

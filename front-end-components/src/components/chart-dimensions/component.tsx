@@ -19,10 +19,10 @@ export const ChartDimensions: React.FC<ChartDimensionsProps> = (props) => {
         onChange={handleChange}
         defaultValue={defaultValue}
       >
-        {dimensions.map((dimension, idx) => {
+        {dimensions.map((dimension) => {
           return (
-            <option key={idx} value={dimension}>
-              {dimension}
+            <option key={dimension.value} value={dimension.value}>
+              {dimension.label}
             </option>
           );
         })}

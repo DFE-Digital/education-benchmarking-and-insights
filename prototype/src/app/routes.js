@@ -81,8 +81,13 @@ router.get( '/comparators/building', (req, res) => {
 })
 
 router.post( '/comparators/create', (req, res) => {
+    
+    var compareRoute = 'review';
+    if ( req.session.data['compareRoute'] ) {
+        compareRoute = req.session.data['compareRoute'];
+    }
 
-    res.redirect( '/comparators/create/' + req.session.data['compareRoute'] );
+    res.redirect( '/comparators/create/' + compareRoute );
 
 })
 

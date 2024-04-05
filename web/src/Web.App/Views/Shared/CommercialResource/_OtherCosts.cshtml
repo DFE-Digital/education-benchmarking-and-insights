@@ -1,0 +1,31 @@
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
+{
+    section = "Staff development and training",
+    links = new []
+    {
+        ("National professional qualification (NPQ) framework","https://find-dfe-approved-framework.service.gov.uk/list/npq")
+    },
+    displayHeading = Model.DisplayHeading
+})
+
+@await Component.InvokeAsync("CommercialResource", new
+{
+    section = "Staff related insurance",
+    links = new []
+    {
+        ("Staff absence protection and reimbursement","https://find-dfe-approved-framework.service.gov.uk/list/staff-absence")
+    },
+    displayHeading = Model.DisplayHeading
+})
+
+@await Component.InvokeAsync("CommercialResource", new
+{
+    section = "Other insurance premiums",
+    links = new []
+    {
+        ("Risk protection arrangement","https://find-dfe-approved-framework.service.gov.uk/list/rpa")
+    },
+    displayHeading = Model.DisplayHeading
+})

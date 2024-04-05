@@ -6,7 +6,6 @@ import {
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
@@ -26,7 +25,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension),
+      dimension.heading,
     ],
     [dimension]
   );
@@ -34,7 +33,10 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
   const netCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
@@ -44,7 +46,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.netCateringCosts,
               ...school,
             }),
@@ -61,7 +63,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.cateringStaffCosts,
               ...school,
             }),
@@ -78,7 +80,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.cateringSuppliesCosts,
               ...school,
             }),
@@ -95,7 +97,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           return {
             ...school,
             value: CalculateCostValue({
-              dimension,
+              dimension: dimension.value,
               value: school.incomeCatering,
               ...school,
             }),
@@ -134,7 +136,7 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="net-catering-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

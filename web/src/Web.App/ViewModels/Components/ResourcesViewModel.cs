@@ -8,7 +8,9 @@ public class ResourcesViewModel(string identifier, IEnumerable<Resources> resour
 
 public enum Resources
 {
-    FindCommercialResources,
-    HistoricData,
+    SchoolResources,
+    SchoolHistoricData,
+    TrustResources,
+    TrustHistoricData,
     SchoolDetails
 }

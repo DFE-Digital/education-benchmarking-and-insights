@@ -1,11 +1,10 @@
 @using Web.App.Extensions
-@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolDetailsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.ContactDetails;
 }
 
-@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
@@ -101,13 +100,3 @@
         </dl>
     </div>
 </div>
-
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.FindCommercialResources, Resources.HistoricData } })
-
-<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
-
-@await Component.InvokeAsync("GetHelp")

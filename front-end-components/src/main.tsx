@@ -4,16 +4,18 @@ import "src/index.css";
 import {
   CompareYourCosts,
   CompareYourWorkforce,
-  SchoolHistory,
+  DeploymentPlan,
+  FindOrganisation,
+  HistoricData,
 } from "src/views";
 import {
   CompareCostsElementId,
   CompareWorkforceElementId,
   DeploymentPlanElementId,
   FindOrganisationElementId,
+  HistoricDataElementId,
   HorizontalBarChart1SeriesElementId,
   LineChart1SeriesElementId,
-  SchoolHistoryElementId,
   SpendingAndCostsComposedElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
@@ -26,27 +28,28 @@ import {
   ChartSeriesValueUnit,
   ChartSortDirection,
 } from "./components";
-import { DeploymentPlan } from "src/views/deployment-plan";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
-import { FindOrganisation } from "src/views/find-organisation";
 import {
   chartSeriesComparer,
   shortValueFormatter,
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { Expenditure, Workforce } from "./services";
+import { ExpenditureData, Workforce } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
-const schoolHistoryElement = document.getElementById(SchoolHistoryElementId);
-if (schoolHistoryElement) {
-  const root = ReactDOM.createRoot(schoolHistoryElement);
-  root.render(
-    <React.StrictMode>
-      <SchoolHistory />
-    </React.StrictMode>
-  );
+const historicDataElement = document.getElementById(HistoricDataElementId);
+if (historicDataElement) {
+  const { type, id } = historicDataElement.dataset;
+  if (type && id) {
+    const root = ReactDOM.createRoot(historicDataElement);
+    root.render(
+      <React.StrictMode>
+        <HistoricData type={type} id={id} />
+      </React.StrictMode>
+    );
+  }
 }
 
 const findOrganisationElement = document.getElementById(
@@ -76,18 +79,13 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id, academyYear, maintainedYear } = compareCostsElement.dataset;
+  const { type, id } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourCosts
-          type={type}
-          id={id}
-          maintainedYear={maintainedYear}
-          academyYear={academyYear}
-        />
+        <CompareYourCosts type={type} id={id} />
       </React.StrictMode>
     );
   }
@@ -98,19 +96,13 @@ const compareWorkforceElement = document.getElementById(
 );
 
 if (compareWorkforceElement) {
-  const { type, id, academyYear, maintainedYear } =
-    compareWorkforceElement.dataset;
+  const { type, id } = compareWorkforceElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareWorkforceElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourWorkforce
-          type={type}
-          id={id}
-          maintainedYear={maintainedYear}
-          academyYear={academyYear}
-        />
+        <CompareYourWorkforce type={type} id={id} />
       </React.StrictMode>
     );
   }
@@ -141,11 +133,11 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (Workforce | Expenditure)[];
+  data: (Workforce | ExpenditureData)[];
   highlightedItemKey?: string;
-  keyField: keyof Workforce & keyof Expenditure;
+  keyField: keyof Workforce & keyof ExpenditureData;
   sortDirection: ChartSortDirection;
-  valueField: keyof Workforce & keyof Expenditure;
+  valueField: keyof Workforce & keyof ExpenditureData;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
@@ -234,9 +226,9 @@ if (horizontalChart1SeriesElement) {
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof Workforce & keyof Expenditure}
+          keyField={keyField as keyof Workforce & keyof ExpenditureData}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          valueField={valueField as keyof Workforce & keyof Expenditure}
+          valueField={valueField as keyof Workforce & keyof ExpenditureData}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

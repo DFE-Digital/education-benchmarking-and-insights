@@ -1,20 +1,7 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { initAll } from "govuk-frontend";
+import React, { useState } from "react";
 import { CompareYourWorkforceViewProps } from "src/views";
-import { EstablishmentsApi, Workforce } from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
-import {
-  SelectedSchool,
-  SelectedSchoolContext,
-  ChartModeContext,
-} from "src/contexts";
+import { SelectedSchoolContext, ChartModeContext } from "src/contexts";
 import {
   AuxiliaryStaff,
   Headcount,
@@ -25,90 +12,31 @@ import {
   TotalTeachers,
   TotalTeachersQualified,
 } from "src/views/compare-your-workforce/partials";
-import { SchoolEstablishment } from "src/constants.tsx";
 
 export const CompareYourWorkforce: React.FC<CompareYourWorkforceViewProps> = (
   props
 ) => {
-  const { type, id, academyYear, maintainedYear } = props;
-  const [workforceData, setWorkforceData] = useState<Workforce[]>();
+  const { type, id } = props;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
-  const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>({
-    urn: "",
-    name: "",
-  });
 
-  useLayoutEffect(() => {
-    initAll();
-  }, []);
-
-  const getWorkforceData = useCallback(async () => {
-    return await EstablishmentsApi.getWorkforceBenchmarkData(type, id);
-  }, [type, id]);
-
-  useEffect(
-    () => {
-      getWorkforceData().then((data) => {
-        setWorkforceData(data);
-
-        const currentSchool = data.find(
-          (school) => type == SchoolEstablishment && school.urn == id
-        );
-        if (currentSchool) {
-          setSelectedSchool({
-            urn: currentSchool.urn,
-            name: currentSchool.name,
-          });
-        }
-      });
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [getWorkforceData]
-  );
-
-  // Function to toggle between chart and table display modes
   const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayMode(e.target.value);
   };
 
   return (
-    <SelectedSchoolContext.Provider value={selectedSchool}>
-      <div className="govuk-grid-row">
-        <div className="govuk-grid-column-two-thirds">
-          <p className="govuk-body">
-            The data below is from the latest year available. For maintained
-            schools this is {maintainedYear}, academies for {academyYear}
-          </p>
-        </div>
-        <div className="govuk-grid-column-one-third">
-          <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
-        </div>
+    <SelectedSchoolContext.Provider value={{ urn: id, name: "" }}>
+      <div className="view-as-toggle">
+        <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
       </div>
       <ChartModeContext.Provider value={displayMode}>
-        <SchoolWorkforce
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TotalTeachers
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TotalTeachersQualified
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <SeniorLeadership
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <TeachingAssistants
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <NonClassroomSupport
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <AuxiliaryStaff
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
-        <Headcount
-          schools={workforceData ? workforceData : new Array<Workforce>()}
-        />
+        <SchoolWorkforce id={id} type={type} />
+        <TotalTeachers id={id} type={type} />
+        <TotalTeachersQualified id={id} type={type} />
+        <SeniorLeadership id={id} type={type} />
+        <TeachingAssistants id={id} type={type} />
+        <NonClassroomSupport id={id} type={type} />
+        <AuxiliaryStaff id={id} type={type} />
+        <Headcount id={id} type={type} />
       </ChartModeContext.Provider>
     </SelectedSchoolContext.Provider>
   );

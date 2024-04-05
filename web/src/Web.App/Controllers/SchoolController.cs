@@ -14,7 +14,7 @@ public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
-    IComparatorSetService comparatorSetService)
+    IInsightApi insightApi)
     : Controller
 {
     [HttpGet]
@@ -27,14 +27,9 @@ public class SchoolController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(school);
-
-                var set = await comparatorSetService.ReadComparatorSet(urn);
-
-                var pupilExpenditure = await financeService.GetExpenditure(set.DefaultPupil);
-                var areaExpenditure = await financeService.GetExpenditure(set.DefaultArea);
-
-                var viewModel = new SchoolViewModel(school, finances, pupilExpenditure, areaExpenditure);
+                var finances = await financeService.GetFinances(urn);
+                var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var viewModel = new SchoolViewModel(school, finances, ratings);
                 return View(viewModel);
             }
             catch (Exception e)

@@ -8,7 +8,7 @@
             {
                 switch (resource)
                 {
-                    case Resources.FindCommercialResources:
+                    case Resources.SchoolResources:
                         <li>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "SchoolResources", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
@@ -20,7 +20,7 @@
                             </p>
                         </li>
                         break;
-                    case Resources.HistoricData:
+                    case Resources.SchoolHistoricData:
                         <li>
                             <h3 class="govuk-heading-s">
                                 <a href="@Url.Action("Index", "SchoolHistory", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
@@ -44,6 +44,30 @@
                             </p>
                         </li>
                         break;
+                    case Resources.TrustResources:
+                        <li>
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "TrustResources", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    Find ways to spend less
+                                </a>
+                            </h3>
+                            <p class="govuk-body">
+                                Use these to help reduce your spending and costs
+                            </p>
+                        </li>
+                        break;
+                    case Resources.TrustHistoricData:
+                        <li>
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "TrustHistory", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    View historic data
+                                </a>
+                            </h3>
+                            <p class="govuk-body">
+                                View financial data from previous years.
+                            </p>
+                        </li>
+                        break;                        
                 }
             }
         </ul>

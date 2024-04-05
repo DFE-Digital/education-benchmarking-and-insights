@@ -4,7 +4,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanning;
 }
 
-@await Component.InvokeAsync("SchoolHeading", new { pageTitle = ViewData[ViewDataKeys.Title], schoolName = Model.Name, urn = Model.Urn })
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">

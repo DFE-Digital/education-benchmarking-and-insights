@@ -6,6 +6,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight;
 using Platform.Api.Insight.Db;
 using Platform.Functions.Extensions;
+using Platform.Infrastructure.Cosmos;
+using Platform.Infrastructure.Sql;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
@@ -21,11 +23,20 @@ public class Startup : FunctionsStartup
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddOptions<FinancialReturnOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
+        builder.Services.AddOptions<SchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<FinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<TrustFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
+        builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
+        builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
+        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
+
+        builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
+        builder.Services.AddSingleton<ITrustFinancesDb, TrustFinancesDb>();
+        builder.Services.AddSingleton<IRatingsDb, RatingsDb>();
+        builder.Services.AddSingleton<IWorkforceDb, WorkforceDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
-        builder.Services.AddSingleton<IMaintainSchoolDb, MaintainSchoolDb>();
-        builder.Services.AddSingleton<IAcademyDb, AcademyDb>();
     }
 }

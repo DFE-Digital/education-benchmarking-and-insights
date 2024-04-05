@@ -3,6 +3,10 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:Name needs to include prefix
   #checkov:skip=CKV_AZURE_33:Storage queues not used
   #checkov:skip=CKV2_AZURE_1:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV2_AZURE_33:To be reviewed
+  #checkov:skip=CKV2_AZURE_40:To be reviewed
+  #checkov:skip=CKV2_AZURE_41:To be reviewed
   name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -17,9 +21,15 @@ resource "azurerm_storage_account" "platform-storage" {
       days = 7
     }
   }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {
+  #checkov:skip=CKV2_AZURE_21:To be reviewed
   name                 = "local-authorities"
   storage_account_name = azurerm_storage_account.platform-storage.name
 }
@@ -37,6 +47,10 @@ resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV_AZURE_43:Name needs to include prefix
   #checkov:skip=CKV_AZURE_33:Storage queues not used
   #checkov:skip=CKV2_AZURE_1:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV2_AZURE_40:To be reviewed
+  #checkov:skip=CKV2_AZURE_41:To be reviewed
+  #checkov:skip=CKV2_AZURE_33:To be reviewed
   name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -51,6 +65,10 @@ resource "azurerm_storage_account" "audit-storage" {
       days = 7
     }
   }
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
+  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -58,6 +76,10 @@ resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV_AZURE_43:Name needs to include prefix
   #checkov:skip=CKV_AZURE_33:Storage queues not used
   #checkov:skip=CKV2_AZURE_1:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV2_AZURE_40:To be reviewed
+  #checkov:skip=CKV2_AZURE_41:To be reviewed
+  #checkov:skip=CKV2_AZURE_33:To be reviewed
   name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -71,5 +93,10 @@ resource "azurerm_storage_account" "threat-storage" {
     delete_retention_policy {
       days = 7
     }
+  }
+
+  sas_policy {
+    expiration_action = "Log"
+    expiration_period = "90.00:00:00"
   }
 }

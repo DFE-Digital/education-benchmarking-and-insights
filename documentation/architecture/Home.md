@@ -8,7 +8,7 @@
 7. [Application Architecture](Application-Architecture.md)
 8. Deployment Architecture
 9. Infrastructure Architecture
-10. Security Architecture
+10. [Security Architecture](Security-Architecture.md)
 11. Support Architecture
 12. [Decisions and Options](Decisions-Options.md)
 13. Service Design
