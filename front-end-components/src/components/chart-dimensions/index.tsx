@@ -12,7 +12,7 @@ export const PoundsPerPupil: Dimension = {
   label: "£ per pupil",
   value: "PoundPerPupil",
   unit: "currency",
-  heading: "Percentage",
+  heading: "Amount",
 };
 export const PoundsPerMetreSq: Dimension = {
   label: "£ per m²",
