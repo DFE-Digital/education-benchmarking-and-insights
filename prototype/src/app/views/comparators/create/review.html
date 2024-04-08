@@ -46,7 +46,7 @@
       
     {% if errorThisPage == 'true' %}
 
-      {% set errorText = 'Select a school to add' %}
+      {% set errorText = 'Enter a school name, address or URN' %}
 
       {{ govukErrorSummary
           ({
@@ -68,7 +68,7 @@
 
       {% if confirmation != 'comparator-generated' %}
       <form action="/add-comparator-school" method="post">
-        <h2 class="govuk-heading-m">Enter a school name, address or URN</h2>
+        <h2 class="govuk-heading-m">School name, address or URN</h2>
         <div class="school-search">
 
             {{ xGovukAutocomplete({
@@ -153,7 +153,7 @@
     <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your custom comparator set</a></p>
     {% else %}
 
-    <p class="govuk-body">No schools added</p>
+    <p class="govuk-body">No schools chosen</p>
 
     {% endif %}
 
