@@ -93,6 +93,7 @@ public class BenchmarkWorkforcePage(IPage page)
 
     public async Task AreTableHeadersForChartDisplayed(WorkforceChartNames chartName, string[] expected)
     {
+        await page.WaitForRequestFinishedAsync();
         var table = chartName switch
         {
             WorkforceChartNames.TotalNumberOfTeacher => TotalTeachersTable,
