@@ -168,7 +168,7 @@ public class CompareYourCostsPage(IPage page)
         await ComparatorSetDetailsText.ShouldBeVisible();
         await ComparatorSetLink.ShouldBeVisible();
     }
-    
+
     public async Task IsSchoolDetailsPopUpVisible()
     {
         await AdditionalDetailsPopUps.First.ShouldBeVisible();
@@ -183,7 +183,7 @@ public class CompareYourCostsPage(IPage page)
     {
         await SchoolLinksInCharts.First.Click();
         return new HomePage(page);
-        
+
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)

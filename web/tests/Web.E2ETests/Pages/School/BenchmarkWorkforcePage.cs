@@ -170,9 +170,9 @@ public class BenchmarkWorkforcePage(IPage page)
     {
         await SchoolLinksInCharts.First.Click();
         return new HomePage(page);
-        
+
     }
-    
+
     private ILocator ChartDimensionDropdown(WorkforceChartNames chartName)
     {
         var chart = chartName switch

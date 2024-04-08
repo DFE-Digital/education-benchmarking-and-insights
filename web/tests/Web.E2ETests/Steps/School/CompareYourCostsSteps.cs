@@ -168,14 +168,14 @@ public class CompareYourCostsSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
     }
-    
+
     [Then(@"additional information is displayed")]
     public async Task ThenAdditionalInformationIsDisplayed()
     {
         Assert.NotNull(_comparisonPage);
         await _comparisonPage.IsSchoolDetailsPopUpVisible();
     }
-    
+
     [When("I hover over a chart bar")]
     public async Task WhenIHoverOverChartBar()
     {
@@ -183,14 +183,14 @@ public class CompareYourCostsSteps(PageDriver driver)
         await _comparisonPage.HoverOnGraphBar();
 
     }
-    
+
     [When("I select the school name on the chart")]
     public async Task WhenISelectTheSchoolNameOnTheChart()
     {
         Assert.NotNull(_comparisonPage);
-        _schoolHomePage =await _comparisonPage.ClickSchoolName();
+        _schoolHomePage = await _comparisonPage.ClickSchoolName();
     }
-    
+
     [Then("I am navigated to selected school home page")]
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {

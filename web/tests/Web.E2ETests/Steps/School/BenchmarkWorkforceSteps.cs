@@ -169,14 +169,14 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
         Assert.NotNull(_workforcePage);
         await _workforcePage.IsDetailsSectionVisible();
     }
-    
+
     [Then(@"additional information is displayed")]
     public async Task ThenAdditionalInformationIsDisplayed()
     {
         Assert.NotNull(_workforcePage);
         await _workforcePage.IsSchoolDetailsPopUpVisible();
     }
-    
+
     [When("I hover over a chart bar")]
     public async Task WhenIHoverOverChartBar()
     {
@@ -184,14 +184,14 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
         await _workforcePage.HoverOnGraphBar();
 
     }
-    
+
     [When("I select the school name on the chart")]
     public async Task WhenISelectTheSchoolNameOnTheChart()
     {
         Assert.NotNull(_workforcePage);
-        _schoolHomePage =await _workforcePage.ClickSchoolName();
+        _schoolHomePage = await _workforcePage.ClickSchoolName();
     }
-    
+
     [Then("I am navigated to selected school home page")]
     public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
     {
