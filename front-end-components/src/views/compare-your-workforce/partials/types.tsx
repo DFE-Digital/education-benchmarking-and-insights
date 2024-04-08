@@ -1,19 +1,10 @@
-export type SchoolWorkforceProps = {
-  schools: SchoolWorkforceData[];
-};
-
 export type SchoolWorkforceData = {
   urn: string;
   name: string;
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type AuxiliaryStaffProps = {
-  schools: AuxiliaryStaffData[];
+  workforceFte: number;
 };
 
 export type AuxiliaryStaffData = {
@@ -22,13 +13,7 @@ export type AuxiliaryStaffData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  auxiliaryStaffFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type HeadcountProps = {
-  schools: HeadcountData[];
+  auxiliaryStaffFte: number;
 };
 
 export type HeadcountData = {
@@ -37,12 +22,7 @@ export type HeadcountData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type NonClassroomSupportProps = {
-  schools: NonClassroomSupportData[];
+  workforceHeadcount: number;
 };
 
 export type NonClassroomSupportData = {
@@ -51,13 +31,7 @@ export type NonClassroomSupportData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type SeniorLeadershipProps = {
-  schools: SeniorLeadershipData[];
+  nonClassroomSupportStaffFte: number;
 };
 
 export type SeniorLeadershipData = {
@@ -66,13 +40,7 @@ export type SeniorLeadershipData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  seniorLeadershipFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type TeachingAssistantsProps = {
-  schools: TeachingAssistantsData[];
+  seniorLeadershipFte: number;
 };
 
 export type TeachingAssistantsData = {
@@ -81,13 +49,7 @@ export type TeachingAssistantsData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  teachingAssistantsFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type TotalTeachersProps = {
-  schools: TotalTeachersData[];
+  teachingAssistantsFte: number;
 };
 
 export type TotalTeachersData = {
@@ -96,13 +58,7 @@ export type TotalTeachersData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  totalNumberOfTeachersFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
-export type TotalTeachersQualifiedProps = {
-  schools: TotalTeachersQualifiedData[];
+  teachersFte: number;
 };
 
 export type TotalTeachersQualifiedData = {
@@ -111,6 +67,5 @@ export type TotalTeachersQualifiedData = {
   schoolType: string;
   localAuthority: string;
   numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  teachersWithQTSFTE: number;
+  teachersQualified: number;
 };

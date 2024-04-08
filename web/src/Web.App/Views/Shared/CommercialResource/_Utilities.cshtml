@@ -1,10 +1,13 @@
-﻿@await Component.InvokeAsync("CommercialResource", new
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
 {
     section = "Energy",
     links = new []
     {
         ("Electricity","https://www.gov.uk/guidance/buying-for-schools--2")
-    }
+    },
+    displayHeading = Model.DisplayHeading
 })
 
 @await Component.InvokeAsync("CommercialResource", new
@@ -13,5 +16,6 @@
     links = new []
     {
         ("Water, wastewater and ancillary services 2","https://find-dfe-approved-framework.service.gov.uk/list/water")
-    }
+    },
+    displayHeading = Model.DisplayHeading
 })

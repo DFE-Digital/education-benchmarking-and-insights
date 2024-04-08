@@ -81,12 +81,12 @@
 
 .recharts-wrapper .chart-line.chart-line-series-0 path,
 .recharts-wrapper .chart-line.chart-line-series-0 .recharts-line-dot {
-  stroke: var(--series-2-colour);
+  stroke: var(--series-highlight-colour);
   stroke-width: 5;
 }
 
 .recharts-wrapper .chart-active-dot.chart-active-dot-series-0 {
-  fill: var(--series-2-colour);
+  fill: var(--series-highlight-colour);
 }
 
 .recharts-wrapper .chart-active-tooltip {
@@ -130,7 +130,7 @@
 }
 
 .chart-stat-wrapper.chart-stat-line-chart .chart-stat-value{
-  color: var(--series-2-colour);
+  color: var(--series-highlight-colour);
 }
 
 .chart-stat-summary

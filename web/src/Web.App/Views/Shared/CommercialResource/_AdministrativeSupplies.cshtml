@@ -1,4 +1,6 @@
-﻿@await Component.InvokeAsync("CommercialResource", new
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
 {
     section = "Administrative supplies (non-educational)",
     links = new []
@@ -8,6 +10,7 @@
         ("Software licenses and associated services for academies and schools","https://find-dfe-approved-framework.service.gov.uk/list/software-licenses"),
         ("Audio visual solutions","https://find-dfe-approved-framework.service.gov.uk/list/av-solutions"),
         ("Office supplies","https://find-dfe-approved-framework.service.gov.uk/list/office-supplies")
-    }
+    },
+    displayHeading = Model.DisplayHeading
 })
 

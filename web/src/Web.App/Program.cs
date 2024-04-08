@@ -77,6 +77,9 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IInsightApi, InsightApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 
+    builder.Services.AddHttpClient<IWorkforceApi, WorkforceApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
         .ConfigureHttpClientForApi(Constants.EstablishmentApi);
 

@@ -17,13 +17,13 @@ export const SpendingSectionTeachingCosts: React.FC<{
       {data.length > 0 ? (
         <>
           <h3 className="govuk-heading-s">
-            Total Teaching and teaching support staff costs{" "}
+            Total teaching and teaching support staff costs
           </h3>
           <div className="govuk-grid-row">
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Total Teaching and teaching support staff costs"
+                  chartName="Total teaching and teaching support staff costs"
                   data={data}
                   grid
                   highlightActive
@@ -31,7 +31,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
                   margin={20}
                   seriesConfig={{
                     totalTeachingSupportStaffCosts: {
-                      label: "Total Teaching and teaching support staff costs",
+                      label: "Total teaching and teaching support staff costs",
                       visible: true,
                     },
                   }}
@@ -52,7 +52,7 @@ export const SpendingSectionTeachingCosts: React.FC<{
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent total Teaching and teaching support staff costs"
+                chartName="Most recent total teaching and teaching support staff costs"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}

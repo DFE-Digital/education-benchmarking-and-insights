@@ -9,10 +9,21 @@
     li {
         background: #5D7490;
         padding: 15px;
-        width: calc(calc(100% - 165px)/ 4);
     }
     p {
         color: white;
+    }
+}
+
+.app-headline-figures-4 {
+    li {
+        width: calc(calc(100% - 165px)/ 4);
+    }
+}
+
+.app-headline-figures-3 {
+    li {
+        width: calc(calc(100% - 120px)/ 3);
     }
 }
 

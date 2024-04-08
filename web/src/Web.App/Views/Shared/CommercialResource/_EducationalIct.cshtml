@@ -1,4 +1,6 @@
-﻿@await Component.InvokeAsync("CommercialResource", new
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
 {
     section = "Educational ICT",
     links = new []
@@ -6,5 +8,6 @@
         ("Audio visual solutions","https://find-dfe-approved-framework.service.gov.uk/list/av-solutions"),
         ("Network connectivity and telecommunication solutions","https://find-dfe-approved-framework.service.gov.uk/list/network-telecomms"),
         ("Print market place","https://find-dfe-approved-framework.service.gov.uk/list/print-marketplace")
-    }
+    },
+    displayHeading = Model.DisplayHeading
 })

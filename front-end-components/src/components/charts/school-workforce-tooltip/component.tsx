@@ -3,7 +3,7 @@ import {
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
 import { SchoolTooltipProps } from "src/components/charts/school-workforce-tooltip";
-import { WorkforceBenchmark } from "src/services";
+import { Workforce } from "src/services";
 
 export function SchoolWorkforceTooltip<
   TValue extends ValueType,
@@ -11,7 +11,7 @@ export function SchoolWorkforceTooltip<
 >(props: SchoolTooltipProps<TValue, TName>) {
   const { active, payload } = props;
   if (active && payload && payload.length) {
-    const workforce = payload[0].payload as WorkforceBenchmark;
+    const workforce = payload[0].payload as Workforce;
     return (
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
         <caption className="govuk-table__caption govuk-table__caption--s">

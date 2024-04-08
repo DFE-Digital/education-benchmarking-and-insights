@@ -7,25 +7,22 @@ import {
   WorkforceCategories,
 } from "src/components";
 import { ChartModeContext } from "src/contexts";
-import { HistoryApi, Workforce } from "src/services";
+import { Workforce, WorkforceApi } from "src/services";
 import { LineChart } from "src/components/charts/line-chart";
 import { shortValueFormatter } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { Loading } from "src/components/loading";
 
-export const WorkforceSection: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const WorkforceSection: React.FC<{ id: string }> = ({ id }) => {
   const defaultDimension = PupilsPerStaffRole;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<Workforce>());
   const getData = useCallback(async () => {
     setData(new Array<Workforce>());
-    return await HistoryApi.getWorkforce(type, id, dimension.value);
-  }, [type, id, dimension]);
+    return await WorkforceApi.history(id, dimension.value);
+  }, [id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -200,15 +197,15 @@ export const WorkforceSection: React.FC<{ type: string; id: string }> = ({
             <div className="govuk-grid-column-three-quarters">
               <div style={{ height: 200 }}>
                 <LineChart
-                  chartName="Teachers with qualified teacher status"
+                  chartName="Teachers with qualified teacher status (%)"
                   data={data}
                   grid
                   highlightActive
                   keyField="yearEnd"
                   margin={20}
                   seriesConfig={{
-                    teachersWithQts: {
-                      label: "Teachers with qualified teacher status",
+                    teachersQualified: {
+                      label: "Teachers with qualified teacher status (%)",
                       visible: true,
                     },
                   }}
@@ -229,13 +226,13 @@ export const WorkforceSection: React.FC<{ type: string; id: string }> = ({
             </div>
             <aside className="govuk-grid-column-one-quarter">
               <ResolvedStat
-                chartName="Most recent teachers with qualified teacher status"
+                chartName="Most recent teachers with qualified teacher status (%)"
                 className="chart-stat-line-chart"
                 compactValue
                 data={data}
                 displayIndex={data.length - 1}
                 seriesLabelField="yearEnd"
-                valueField="teachersWithQts"
+                valueField="teachersQualified"
                 valueFormatter={shortValueFormatter}
                 valueUnit="%"
               />

@@ -5,7 +5,6 @@ import {
 } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculatePremisesValue,
-  DimensionHeading,
   PoundsPerMetreSq,
   PremisesCategories,
   ChartDimensions,
@@ -15,6 +14,8 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { useHash } from "src/hooks/useHash";
+import classNames from "classnames";
 
 export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
   schools,
@@ -26,7 +27,7 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension.value),
+      dimension.heading,
     ],
     [dimension]
   );
@@ -125,9 +126,17 @@ export const PremisesStaffServices: React.FC<PremisesStaffServicesProps> = ({
       };
     }, [dimension, schools, tableHeadings]);
 
+  const id = "premises-and-services";
+  const [hash] = useHash();
+
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <div className="govuk-accordion__section">
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${id}`,
+        })}
+        id={id}
+      >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
             <span

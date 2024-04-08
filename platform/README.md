@@ -61,6 +61,7 @@ Add configuration in `local.settings.json`
     "Cosmos__CfrLatestYear" : "[INSERT LATEST YEAR]",
     "Cosmos__AarLatestYear" : "[INSERT LATEST YEAR]",
     "Cosmos__EstablishmentCollectionName" : "GIAS",
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {
     "CORS": "*",

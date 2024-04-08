@@ -13,5 +13,6 @@ export const ChartModeContext = createContext(ChartModeChart);
 export const ChartDimensionContext = createContext<Dimension>({
   label: "",
   value: "",
+  heading: "",
 });
 export const SelectedSchoolContext = createContext(School.empty());

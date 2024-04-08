@@ -5,21 +5,9 @@
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBreadcrumbs({
-    items: [
-      {
-        text: "Home",
-        href: "/find-school"
-      },
-      {
-        text: "Your school",
-        href: "/school-homepage"
-      },
-      {
-        text: "Customise your data",
-        href: "/custom-data"
-      }
-    ]
+  {{ govukBackLink({
+    text: "Back",
+    href: "/custom-data"
   }) }}
 {% endblock %}
 
@@ -33,14 +21,308 @@
         <h1 class="govuk-heading-l">Customise your data</h1>
 
         <h2 class="govuk-heading-m">Update your fianancial data</h2>
+        
 
-        {% set tableHtml %}
+        {% set tableAdminSupplies %}
 
         {{ govukTable({
           classes: "custom-data",
           head: [
             {
-              text: "Category"
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Administrative supplies (non educational)"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Administrative supplies (non educational)",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+            ]
+        }) }}
+
+        {% endset %}
+
+
+
+        {% set tableCatering %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Catering staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Catering staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Catering supplies"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Catering supplies",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+        {% set tableCateringIncome %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Income from catering"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Income from catering",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+        {% set tableEducationalSupplies %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Examination fees"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Examination fees",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Learning resources (not ICT equipment)"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Learning resources (not ICT equipment)",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+
+        {% set tableIT %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "ICT learning resources"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "ICT learning resources",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+        {% set tableSupportStaff %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
             },
             {
               text: "Existing value"
@@ -60,7 +342,7 @@
               {
                 html: govukInput({
                   label: {
-                    text: "What is the name of the event?",
+                    text: "Administrative and clerical staff",
                     classes: "govuk-visually-hidden"
                   },
                   id: "event-name",
@@ -85,7 +367,7 @@
               {
                 html: govukInput({
                   label: {
-                    text: "What is the name of the event?",
+                    text: "Auditor costs",
                     classes: "govuk-visually-hidden"
                   },
                   id: "event-name",
@@ -110,7 +392,7 @@
               {
                 html: govukInput({
                   label: {
-                    text: "What is the name of the event?",
+                    text: "Other staff",
                     classes: "govuk-visually-hidden"
                   },
                   id: "event-name",
@@ -135,7 +417,728 @@
               {
                 html: govukInput({
                   label: {
-                    text: "What is the name of the event?",
+                    text: "Professional services (non-curriculum)",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+
+
+        {% set tableOther %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Administrative and clerical staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Administrative and clerical staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Direct revenue financing"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Direct revenue financing",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Grounds maintenance"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Grounds maintenance",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Indirect employee expenses"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Indirect employee expenses",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Interest charges for loan and bank"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Interest charges for loan and bank",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Other insurance premiums"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Other insurance premiums",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "PFI charges"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "PFI charges",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Rent and rates"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Rent and rates",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Special facilities"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Special facilities",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Staff development and training"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Staff development and training",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Staff-related insurance"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Staff-related insurance",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Supply teacher insurance"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Supply teacher insurance",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+        
+
+        {% set tablePremises %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Cleaning and caretaking"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Cleaning and caretaking",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Maintenance of premises"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Maintenance of premises",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Other occupation costs"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Other occupation costs",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Premises staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Premises staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+        {% set tableStaff %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Agency supply teaching staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Agency supply teaching staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Education support staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Education support staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Educational consultancy"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Educational consultancy",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Supply teaching staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Supply teaching staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Teaching staff"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Teaching staff",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+        {% set tableTotals %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Total income"
+              },
+              {
+                text: "£1,123,234.48"
+              },
+              {
+                text: "£1,123,234.48"
+              }
+            ],
+            [
+              {
+                text: "Total expenditure"
+              },
+              {
+                text: "£1,123,234.48"
+              },
+              {
+                text: "£,123,234.48"
+              }
+            ],
+            [
+              {
+                text: "Revenue reserve"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                text: "£123,234.48"
+              }
+            ]
+          ]
+        }) }}
+
+        {% endset %}
+
+        {% set tableUtilities %}
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Category",
+              classes: "govuk-!-width-one-half"
+            },
+            {
+              text: "Existing value"
+            },
+            {
+              text: "Custom value"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "Energy"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Energy",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-10",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  },
+                  prefix: {
+                    text: '£'
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Water and sewerage"
+              },
+              {
+                text: "£123,234.48"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "Water and sewerage",
                     classes: "govuk-visually-hidden"
                   },
                   id: "event-name",
@@ -164,7 +1167,7 @@
                 text: "Administrative supplies"
               },
               content: {
-                html: tableHtml
+                html: tableAdminSupplies
               }
             },
             {
@@ -172,7 +1175,7 @@
                 text: "Catering"
               },
               content: {
-                html: tableHtml
+                html: tableCatering
               }
             },
             {
@@ -180,7 +1183,7 @@
                 text: "Catering income"
               },
               content: {
-                html: tableHtml
+                html: tableCateringIncome
               }
             },
             {
@@ -188,7 +1191,7 @@
                 text: "Educational supplies"
               },
               content: {
-                html: tableHtml
+                html: tableEducationalSupplies
               }
             },
             {
@@ -196,7 +1199,7 @@
                 text: "IT"
               },
               content: {
-                html: tableHtml
+                html: tableIT
               }
             },
             {
@@ -204,15 +1207,7 @@
                 text: "Non-educational support staff"
               },
               content: {
-                html: tableHtml
-              }
-            },
-            {
-              heading: {
-                text: "Other costs"
-              },
-              content: {
-                html: tableHtml
+                html: tableSupportStaff
               }
             },
             {
@@ -220,7 +1215,7 @@
                 text: "Premises and services"
               },
               content: {
-                html: tableHtml
+                html: tablePremises
               }
             },
             {
@@ -228,7 +1223,7 @@
                 text: "Teaching and teaching support"
               },
               content: {
-                html: tableHtml
+                html: tableStaff
               }
             },
             {
@@ -236,15 +1231,15 @@
                 text: "Utilities"
               },
               content: {
-                html: tableHtml
+                html: tableUtilities
               }
             },
             {
               heading: {
-                text: "Workforce"
+                text: "Other costs"
               },
               content: {
-                html: tableHtml
+                html: tableOther
               }
             },
             {
@@ -252,14 +1247,14 @@
                 text: "Totals"
               },
               content: {
-                html: tableHtml
+                html: tableTotals
               }
             }
           ]
         }) }}
         
         {{ govukButton({
-          href: '/custom-data/non-financial-data',
+          href: '/custom-data/school-characteristics',
           text: "Continue"
         }) }}
 

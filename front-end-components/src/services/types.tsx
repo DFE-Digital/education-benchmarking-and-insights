@@ -51,22 +51,6 @@ export type ExpenditureData = {
   waterSewerageCosts: number;
 };
 
-export type WorkforceBenchmark = {
-  urn: string;
-  name: string;
-  schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  schoolWorkforceFTE: number;
-  totalNumberOfTeachersFTE: number;
-  teachersWithQTSFTE: number;
-  seniorLeadershipFTE: number;
-  teachingAssistantsFTE: number;
-  nonClassroomSupportStaffFTE: number;
-  auxiliaryStaffFTE: number;
-  schoolWorkforceHeadcount: number;
-};
-
 export type Balance = {
   yearEnd: string;
   dimension: string;
@@ -75,6 +59,11 @@ export type Balance = {
 };
 
 export type Workforce = {
+  urn: string;
+  name: string;
+  schoolType: string;
+  localAuthority: string;
+  numberOfPupils: bigint;
   yearEnd: string;
   dimension: string;
   workforceFte: number;
@@ -84,7 +73,7 @@ export type Workforce = {
   nonClassroomSupportStaffFte: number;
   auxiliaryStaffFte: number;
   workforceHeadcount: number;
-  teachersWithQts: number;
+  teachersQualified: number;
 };
 
 export type Income = {
@@ -119,4 +108,39 @@ export type Expenditure = {
   educationalConsultancyCosts: number;
   educationSupportStaffCosts: number;
   agencySupplyTeachingStaffCosts: number;
+  totalNonEducationalSupportStaffCosts: number;
+  administrativeClericalStaffCosts: number;
+  auditorsCosts: number;
+  otherStaffCosts: number;
+  professionalServicesNonCurriculumCosts: number;
+  totalEducationalSuppliesCosts: number;
+  examinationFeesCosts: number;
+  learningResourcesNonIctCosts: number;
+  learningResourcesIctCosts: number;
+  totalPremisesStaffServiceCosts: number;
+  cleaningCaretakingCosts: number;
+  maintenancePremisesCosts: number;
+  otherOccupationCosts: number;
+  premisesStaffCosts: number;
+  totalUtilitiesCosts: number;
+  energyCosts: number;
+  waterSewerageCosts: number;
+  administrativeSuppliesCosts: number;
+  totalGrossCateringCosts: number;
+  cateringStaffCosts: number;
+  cateringSuppliesCosts: number;
+  totalOtherCosts: number;
+  otherInsurancePremiumsCosts: number;
+  directRevenueFinancingCosts: number;
+  groundsMaintenanceCosts: number;
+  indirectEmployeeExpenses: number;
+  interestChargesLoanBank: number;
+  privateFinanceInitiativeCharges: number;
+  rentRatesCosts: number;
+  specialFacilitiesCosts: number;
+  staffDevelopmentTrainingCosts: number;
+  staffRelatedInsuranceCosts: number;
+  supplyTeacherInsurableCosts: number;
+  communityFocusedSchoolStaff: number;
+  communityFocusedSchoolCosts: number;
 };

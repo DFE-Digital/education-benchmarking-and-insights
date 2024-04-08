@@ -36,7 +36,7 @@ import {
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { ExpenditureData, WorkforceBenchmark } from "./services";
+import { ExpenditureData, Workforce } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
@@ -133,11 +133,11 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (WorkforceBenchmark | ExpenditureData)[];
+  data: (Workforce | ExpenditureData)[];
   highlightedItemKey?: string;
-  keyField: keyof WorkforceBenchmark & keyof ExpenditureData;
+  keyField: keyof Workforce & keyof ExpenditureData;
   sortDirection: ChartSortDirection;
-  valueField: keyof WorkforceBenchmark & keyof ExpenditureData;
+  valueField: keyof Workforce & keyof ExpenditureData;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
@@ -219,20 +219,16 @@ if (horizontalChart1SeriesElement) {
     horizontalChart1SeriesElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
-    const data = JSON.parse(json) as WorkforceBenchmark[];
+    const data = JSON.parse(json) as Workforce[];
 
     root.render(
       <React.StrictMode>
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
-          keyField={
-            keyField as keyof WorkforceBenchmark & keyof ExpenditureData
-          }
+          keyField={keyField as keyof Workforce & keyof ExpenditureData}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          valueField={
-            valueField as keyof WorkforceBenchmark & keyof ExpenditureData
-          }
+          valueField={valueField as keyof Workforce & keyof ExpenditureData}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

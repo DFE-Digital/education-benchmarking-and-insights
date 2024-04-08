@@ -7,7 +7,6 @@ import { ChartDimensionContext } from "src/contexts";
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
   ChartDimensions,
   PercentageExpenditure,
@@ -29,7 +28,7 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
         "Local Authority",
         "School type",
         "Number of pupils",
-        DimensionHeading(dimension.value),
+        dimension.heading,
       ];
 
       return {

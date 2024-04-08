@@ -1,9 +1,13 @@
 ﻿@using Web.App.Extensions
 @model Web.App.ViewModels.Components.CommercialResourceViewModel
 
-<h2 class="govuk-heading-s">
-    @Model.Section
-</h2>
+@if (Model.DisplayHeading)
+{
+    <h2 class="govuk-heading-s">
+        @Model.Section
+    </h2>
+}
+
 @if (Model.Links.Any())
 {
     <ul class="govuk-list">

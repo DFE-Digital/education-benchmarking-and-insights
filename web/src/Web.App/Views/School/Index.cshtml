@@ -28,7 +28,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <ul class="app-headline-figures govuk-!-text-align-centre">
+        <ul class="app-headline-figures app-headline-figures-4 govuk-!-text-align-centre">
             <li>
                 <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
                 <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
@@ -54,7 +54,7 @@
         <h2 class="govuk-heading-m">Spending and costs</h2>
 
         <h3 class="govuk-heading-s">
-            <a href="@Url.Action("Index", "SchoolSpending", new {urn = Model.Urn})" class="govuk-link govuk-link--no-visited-state">
+            <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
                 View all spending and costs
             </a>
         </h3>
@@ -62,18 +62,15 @@
         <h3 class="govuk-heading-s">Top priority spending categories</h3>
 
         <div class="top-categories">
-            @foreach (var category in Model.Categories)
+            @foreach (var rating in Model.Ratings)
             {
-                @*TODO : Add calculations and display top 3 categories
                 <div>
-                    <h4 class="govuk-heading-s">@category.Key</h4>
-                    <p class="priority high govuk-body">
-                        <strong class="govuk-tag govuk-tag--red">
-                            High priority
-                        </strong>
-                        Spends <strong>£4,747</strong> per pupil - more than <strong>92%</strong> of similar schools.
+                    <h4 class="govuk-heading-s">@rating.CostCategory</h4>
+                    <p class="priority @rating.PriorityTag?.Class govuk-body">
+                        @await Component.InvokeAsync("Tag", new { rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText })
+                        Spends <strong>@rating.FromMedian.Difference.ToCurrency()</strong> @rating.Unit @rating.FromMedian.Description the median of similar schools.
                     </p>
-                </div>*@
+                </div>
             }
         </div>
     </div>

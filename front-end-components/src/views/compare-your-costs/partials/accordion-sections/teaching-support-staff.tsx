@@ -6,7 +6,6 @@ import {
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
@@ -15,6 +14,8 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { useHash } from "src/hooks/useHash";
+import classNames from "classnames";
 
 export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
   schools,
@@ -26,7 +27,7 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
       "Local Authority",
       "School type",
       "Number of pupils",
-      DimensionHeading(dimension.value),
+      dimension.heading,
     ],
     [dimension]
   );
@@ -142,9 +143,17 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
       };
     }, [dimension, schools, tableHeadings]);
 
+  const id = "teaching-and-teaching-support-staff";
+  const [hash] = useHash();
+
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <div className="govuk-accordion__section">
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${id}`,
+        })}
+        id={id}
+      >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
             <span
