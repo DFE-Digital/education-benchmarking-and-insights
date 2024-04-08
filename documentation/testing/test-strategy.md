@@ -112,18 +112,9 @@ Performance testing is used to evaluate how the service is able to cope in terms
 
 [will be added later on once we implement it]
 
-#### Security Scans
-Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information.
-[Need to check how we are going to implement - STA uses OWASP ZAP security scans] This testing will be carried out when:
-  - A new API is created.
-  - A new Front End controller is added.
-  - A new Front End controller method is added/updated.
-  - On a release to PRE-PROD.
-  - As a smoke test on a release to PROD.
+#### Security Testing
+Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information. Further details can be found [here.](security-testing.md)
 
-**Technology Selected**
-
-[will be added later on once we implement it]
 ### Manual Testing
 
 #### Acceptance Testing (exploratory)
