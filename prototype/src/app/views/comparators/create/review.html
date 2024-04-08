@@ -99,12 +99,12 @@
 
       {% elseif confirmation == 'comparator-added' %}
         {% set html %}
-        <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to your custom comparator set.</p>
+        <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to similar schools.</p>
         {% endset %}
       
       {% elseif confirmation == 'comparator-removed' %}
         {% set html %}
-        <p class="govuk-body"><strong>{{ data['school-removed'] }}</strong> removed from your custom comparator set - <a href="/comparators/undo-remove?schoolName={{ data['school-removed'] }}" class="govuk-link">Undo</a>.</p>
+        <p class="govuk-body"><strong>{{ data['school-removed'] }}</strong> removed from similar schools. <a href="/comparators/undo-remove?schoolName={{ data['school-removed'] }}" class="govuk-link">Undo</a>.</p>
         {% endset %}
 
       {% endif %}
@@ -149,8 +149,8 @@
       "rows": rows
     }) }}
 
-    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Return to {{ data['school-name'] }} spending and costs</a></p>
-    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your custom comparator set</a></p>
+    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Back to {{ data['school-name'] }} spending and costs</a></p>
+    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete the schools you chose </a></p>
     {% else %}
 
     <p class="govuk-body">No schools chosen</p>
