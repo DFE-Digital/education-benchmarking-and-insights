@@ -9,6 +9,7 @@ using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.Infrastructure.Apis;
+using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
 using Web.Identity.Extensions;
@@ -94,6 +95,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 }
 
+app.UseMiddleware<CustomResponseHeadersMiddleware>();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
