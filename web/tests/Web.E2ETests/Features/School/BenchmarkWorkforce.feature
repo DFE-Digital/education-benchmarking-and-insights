@@ -57,3 +57,13 @@
         Given I am on workforce page for school with URN '101241'
         When I click on how we choose similar schools
         Then the details section is expanded
+        
+    Scenario: View additional details upon hover
+        Given I am on workforce page for school with URN '101241'
+        When I hover over a chart bar
+        Then additional information is displayed
+        
+     Scenario: Clicking school name in chart directs to homepage
+        Given I am on workforce page for school with URN '101241'
+        When I select the school name on the chart
+        Then I am navigated to selected school home page

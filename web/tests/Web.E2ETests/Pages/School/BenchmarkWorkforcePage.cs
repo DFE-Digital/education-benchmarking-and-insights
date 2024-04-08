@@ -42,6 +42,9 @@ public class BenchmarkWorkforcePage(IPage page)
         new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
 
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
+    private ILocator ChartBars => page.Locator(Selectors.ChartBars);
+    private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
+    private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
 
     public async Task IsDisplayed()
     {
@@ -153,6 +156,23 @@ public class BenchmarkWorkforcePage(IPage page)
         await ComparatorSetLink.ShouldBeVisible();
     }
 
+    public async Task IsSchoolDetailsPopUpVisible()
+    {
+        await AdditionalDetailsPopUps.First.ShouldBeVisible();
+    }
+
+    public async Task HoverOnGraphBar()
+    {
+        await ChartBars.First.HoverAsync();
+    }
+
+    public async Task<HomePage> ClickSchoolName()
+    {
+        await SchoolLinksInCharts.First.Click();
+        return new HomePage(page);
+        
+    }
+    
     private ILocator ChartDimensionDropdown(WorkforceChartNames chartName)
     {
         var chart = chartName switch
