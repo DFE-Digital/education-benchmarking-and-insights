@@ -25,6 +25,7 @@
     "recharts": "^2.12.4",
     "recharts-to-png": "^2.3.1",
     "stats-lite": "^2.2.0",
+    "usehooks-ts": "^3.1.0",
     "uuid": "^9.0.1"
   },
   "devDependencies": {

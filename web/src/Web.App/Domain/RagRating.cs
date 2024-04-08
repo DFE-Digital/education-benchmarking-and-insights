@@ -10,6 +10,7 @@ public record RagRating
     public string? Urn { get; set; }
     public int CostCategoryId { get; set; }
     public string? CostCategory { get; set; }
+    public string CostCategoryAnchorId => string.IsNullOrWhiteSpace(CostCategory) ? string.Empty : CostCategory.ToLower().Replace(" ", "-");
     public string? CostGroup { get; private set; }
     public decimal Value { get; set; }
     public decimal Median { get; set; }

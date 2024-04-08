@@ -1,12 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { initAll } from "govuk-frontend";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -21,6 +13,7 @@ import {
   ChartModeContext,
 } from "src/contexts";
 import { SchoolEstablishment } from "src/constants.tsx";
+import { useGovUk } from "src/hooks/useGovUk";
 
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
@@ -32,9 +25,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     School.empty
   );
 
-  useLayoutEffect(() => {
-    initAll();
-  }, []);
+  useGovUk();
 
   const getExpenditure = useCallback(async () => {
     return await EstablishmentsApi.getExpenditure(type, id);
