@@ -26,8 +26,9 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
   }
 
   site_config {
-    http2_enabled          = true
-    vnet_route_all_enabled = true
+    ip_restriction_default_action = "Deny"
+    http2_enabled                 = true
+    vnet_route_all_enabled        = true
     application_stack {
       dotnet_version = "8.0"
     }
