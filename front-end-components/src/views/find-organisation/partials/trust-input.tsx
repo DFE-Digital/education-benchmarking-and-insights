@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   SuggestResult,
   TrustDocument,
   TrustInputProps,
 } from "src/views/find-organisation/types";
+import { useDebounceCallback } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
 
 const TrustInput: React.FC<TrustInputProps> = (props) => {
@@ -19,6 +20,8 @@ const TrustInput: React.FC<TrustInputProps> = (props) => {
   const [selectedCompanyNumber, setSelectedCompanyNumber] =
     useState<string>(companyNumber);
   const [lastInput, setLastInput] = useState<string>("");
+  const [fetchValue, setFetchValue] = useState<string>();
+  const debounceFetchValue = useDebounceCallback(setFetchValue, 500);
 
   let controller = new AbortController();
 
@@ -52,7 +55,7 @@ const TrustInput: React.FC<TrustInputProps> = (props) => {
     controller.abort();
     controller = new AbortController();
 
-    if (inputValue === lastInput) {
+    if (inputValue === lastInput?.trim()) {
       setOptionsVisible(true);
       return;
     } else if (!optionsVisible) {
@@ -67,10 +70,17 @@ const TrustInput: React.FC<TrustInputProps> = (props) => {
 
     setOptionMode(false);
     setLastInput(inputValue);
+    debounceFetchValue(inputValue);
+  }
+
+  useEffect(() => {
+    if (!fetchValue) {
+      return;
+    }
 
     fetch(
       "/api/establishments/suggest?" +
-        new URLSearchParams({ type: "trust", search: inputValue }),
+        new URLSearchParams({ type: "trust", search: fetchValue }),
       {
         signal: controller.signal,
         redirect: "manual",
@@ -98,7 +108,8 @@ const TrustInput: React.FC<TrustInputProps> = (props) => {
         setOptions(optsLocal);
       })
       .catch(() => {});
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchValue]);
 
   function hideOptions() {
     setOptionsVisible(false);

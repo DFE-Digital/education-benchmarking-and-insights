@@ -22,11 +22,11 @@
       },
       "AngleSharp.XPath": {
         "type": "Direct",
-        "requested": "[2.0.3, )",
-        "resolved": "2.0.3",
-        "contentHash": "A1LuEgTfRoAmesx2JOLTOmcoWgu/wB03NjDs7cKESUTcwjhIqTy1PQxquMwoV6ZxWguW3H5a+eokEVm73Jy6Fw==",
+        "requested": "[2.0.4, )",
+        "resolved": "2.0.4",
+        "contentHash": "aL/axnwB5PeVBlYw6D9KREt2laJAlHOTO01NbLVmhN/6hFEvG3RAyUFXRyxWYSRHc6mgnh5UoOJ+E5jiJ2nyPQ==",
         "dependencies": {
-          "AngleSharp": "1.0.2"
+          "AngleSharp": "1.1.2"
         }
       },
       "AutoFixture": {
