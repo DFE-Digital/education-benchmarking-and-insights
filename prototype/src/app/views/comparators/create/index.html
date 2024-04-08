@@ -30,33 +30,33 @@
 
       <form action="/comparators/create" method="post">
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Choose your own similar schools</h1>
+        <!---<h1 class="govuk-heading-l">How do you want to choose similar schools?</h1>
 
         {{ govukInsetText({
           text: "Custom comparator sets are not currently saved and will be lost when you end your session."
-        }) }}
+        }) }} --->
         
 
         {{ govukRadios({
           name: "compareRoute",
           fieldset: {
             legend: {
-              text: "Where do you live?",
+              text: "How do you want to choose similar schools?",
               isPageHeading: true,
-              classes: "govuk-fieldset__legend--m"
+              classes: "govuk-fieldset__legend--l"
             }
           },
           items: [
             {
               value: "review",
-              text: "Add schools by name",
+              text: "By name",
               checked: checked("compareRoute", "review")
             },
             {
               value: "type",
-              text: "Find schools by characteristic",
+              text: "By characteristic",
               checked: checked("compareRoute", "type"),
-              hint: { text: "For example by number of pupils or building size" }
+              hint: { text: "For example, number of pupils or building size." }
             }
           ]
         }) }}

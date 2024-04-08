@@ -22,23 +22,18 @@
 
         <form action="/comparators/create/local-authority" method="post">
             <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+            <!---<h1 class="govuk-heading-l">Create a custom comparator set</h1>--->
 
             {{ govukCheckboxes({
             name: "comparePhase",
             fieldset: {
                 legend: {
-                text: "Which phase of schools do you want to compare against?",
+                text: "Which school phases do you want to choose?",
                 isPageHeading: false,
-                classes: "govuk-fieldset__legend--m"
+                classes: "govuk-fieldset__legend--l"
                 }
             },
             items: [
-                {
-                    value: "all",
-                    text: "All",
-                    checked: checked("comparePhase", "all")
-                },
                 {
                     value: "nursery",
                     text: "Nursery",
