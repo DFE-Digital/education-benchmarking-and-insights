@@ -22,15 +22,15 @@
 
       <form action="/comparators/create/phase" method="post">
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Create a custom comparator set</h1>
+       <!-----<h1 class="govuk-heading-l">Create a custom comparator set</h1>--->
 
         {{ govukRadios({
           name: "compareType",
           fieldset: {
             legend: {
-              text: "Which type of schools do you want to compare against?",
+              text: "Which types of school do you want to choose?",
               isPageHeading: false,
-              classes: "govuk-fieldset__legend--m"
+              classes: "govuk-fieldset__legend--l"
             }
           },
           items: [

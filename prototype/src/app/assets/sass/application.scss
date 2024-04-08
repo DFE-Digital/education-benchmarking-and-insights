@@ -142,16 +142,16 @@ p.priority .govuk-tag {
 }
 
 .school-search .govuk-form-group {
-    width: calc(100% - 140px)
+    width: calc(100% - 170px) 
 }
 
 .school-search button {
-    margin-top: 40px;
+    margin-top: 15px;
     margin-left: 15px;
 }
 
 .school-search .govuk-form-group--error + button {
-    margin-top: 80px;
+    margin-top: 55px;
 }
 
 div.govuk-notification-banner {
