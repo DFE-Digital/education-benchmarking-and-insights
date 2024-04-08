@@ -1,7 +1,3 @@
-import React, { useLayoutEffect } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { initAll } from "govuk-frontend";
 import {
   BalanceSection,
   IncomeSection,
@@ -10,12 +6,11 @@ import {
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
 import { SchoolEstablishment } from "src/constants.tsx";
+import { useGovUk } from "src/hooks/useGovUk";
 
 export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
   const { type, id } = props;
-  useLayoutEffect(() => {
-    initAll();
-  }, []);
+  useGovUk();
 
   return (
     <div className="govuk-tabs" data-module="govuk-tabs">
