@@ -48,7 +48,7 @@ resource "azurerm_frontdoor" "web-app-frontdoor" {
 }
 
 resource "azurerm_frontdoor_firewall_policy" "firewall-policy" {
-  name                = "${var.environment-prefix}-firewall-policy"
+  name                = "WebAppFirewallPolicy"
   resource_group_name = azurerm_resource_group.resource-group.name
   tags                = local.common-tags
   mode                = "Detection"
