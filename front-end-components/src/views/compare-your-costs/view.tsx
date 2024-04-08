@@ -4,9 +4,6 @@ import React, {
   useLayoutEffect,
   useState,
 } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { initAll } from "govuk-frontend";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -21,6 +18,8 @@ import {
   ChartModeContext,
 } from "src/contexts";
 import { SchoolEstablishment } from "src/constants.tsx";
+import useGovUk from "src/hooks/useGovUk";
+import useHash from "src/hooks/useHash";
 
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
@@ -32,9 +31,8 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     School.empty
   );
 
-  useLayoutEffect(() => {
-    initAll();
-  }, []);
+  const { reInit } = useGovUk();
+  const [hash] = useHash();
 
   const getExpenditure = useCallback(async () => {
     return await EstablishmentsApi.getExpenditure(type, id);
@@ -54,8 +52,6 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
             name: currentSchool.name,
           });
         }
-
-        //setLoaded(true);
       });
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -66,27 +62,20 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     setDisplayMode(e.target.value);
   };
 
-  // todo: move somewhere common to all views
   useLayoutEffect(() => {
-    const href = window?.location?.href;
-    if (!href) {
+    if (!hash) {
       return;
     }
 
-    // https://github.com/alphagov/govuk-design-system-backlog/issues/1#issuecomment-1187038700
-    if (href.split("#")?.length === 2) {
-      // Split the string and get the ID
-      const anchorId = href.split("#")[1];
+    const accordion = document.querySelector(
+      `.govuk-accordion__section${hash}`
+    );
 
-      // Check for the requested ID within the accordion
-      const accordion = document.querySelector(
-        `.govuk-accordion__section#${anchorId}`
-      );
-      if (accordion) {
-        accordion.scrollIntoView();
-      }
+    if (accordion) {
+      accordion.scrollIntoView();
+      reInit(accordion);
     }
-  });
+  }, [hash, reInit]);
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>

@@ -1,10 +1,8 @@
-import React, { useLayoutEffect, useRef } from "react";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-expect-error
-import { initAll } from "govuk-frontend";
+import { useRef } from "react";
 import SchoolInput from "src/views/find-organisation/partials/school-input";
 import { FindOrganisationProps } from "src/views/find-organisation";
 import TrustInput from "src/views/find-organisation/partials/trust-input";
+import useGovUk from "src/hooks/useGovUk";
 
 export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
   const {
@@ -19,9 +17,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
 
   const formElem = useRef(null);
 
-  useLayoutEffect(() => {
-    initAll();
-  }, []);
+  useGovUk();
 
   return (
     <form action="" method="POST" role="search" ref={formElem}>

@@ -15,10 +15,11 @@ import {
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import classNames from "classnames";
+import useHash from "src/hooks/useHash";
 
 export const NonEducationalSupportStaff: React.FC<
   NonEducationalSupportStaffProps
-> = ({ id, schools }) => {
+> = ({ schools }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const tableHeadings = useMemo(
     () => [
@@ -125,17 +126,14 @@ export const NonEducationalSupportStaff: React.FC<
       };
     }, [dimension, schools, tableHeadings]);
 
-  let expanded = false;
-  if (window?.location?.href && window.location.href.split("#").length === 2) {
-    const anchorId = window.location.href.split("#")[1];
-    expanded = id === anchorId;
-  }
+  const id = "non-educational-support-staff";
+  const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": expanded,
+          "govuk-accordion__section--expanded": hash === `#${id}`,
         })}
         id={id}
       >
