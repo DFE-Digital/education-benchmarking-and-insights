@@ -13,8 +13,7 @@ import {
   ChartModeContext,
 } from "src/contexts";
 import { SchoolEstablishment } from "src/constants.tsx";
-import useGovUk from "src/hooks/useGovUk";
-import useHash from "src/hooks/useHash";
+import { useGovUk } from "src/hooks/useGovUk";
 
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
@@ -26,12 +25,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     School.empty
   );
 
-  const [hash] = useHash();
-  useGovUk({
-    accordionSection: document.querySelector(
-      `.govuk-accordion__section${hash}`
-    ),
-  });
+  useGovUk();
 
   const getExpenditure = useCallback(async () => {
     return await EstablishmentsApi.getExpenditure(type, id);

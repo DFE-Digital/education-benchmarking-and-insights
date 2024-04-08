@@ -1,48 +1,27 @@
-import { useEffect, useLayoutEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { initAll } from "govuk-frontend";
-import { useSessionStorage } from "usehooks-ts";
-
-interface InitConfig {
-  accordionSection: Element | null;
-}
 
 // https://frontend.design-system.service.gov.uk/javascript-api-reference/
-export default function useGovUk(config?: Partial<InitConfig>) {
+export function useGovUk() {
   const [isLoaded, setIsLoaded] = useState<boolean>();
-  const [accordionId, setAccordionId] = useState<string>();
-  const [
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _accordionSessionValue,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    _setAccordionSessionValue,
-    removeAccordionSessionValue,
-  ] = useSessionStorage<string>(accordionId || "undefined", "");
 
   useLayoutEffect(() => {
-    if (config?.accordionSection) {
-      const region =
-        config?.accordionSection.querySelector("div[role='region']");
-      setAccordionId(region?.id);
-    } else {
+    if (!isLoaded) {
       initAll();
-      setIsLoaded(true);
     }
-    // no - will init multiple times which borks the UI
-  }, [config]);
 
+    setIsLoaded(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * See https://frontend.design-system.service.gov.uk/configure-components/#initialise-only-part-of-a-page
+   */
   const reInit = (scope: Element) => {
     if (scope) {
       initAll({ scope });
     }
   };
-
-  useEffect(() => {
-    if (accordionId) {
-      removeAccordionSessionValue();
-      initAll();
-      setIsLoaded(true);
-    }
-  }, [accordionId, removeAccordionSessionValue]);
 
   return {
     isLoaded,

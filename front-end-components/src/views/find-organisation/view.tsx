@@ -2,7 +2,7 @@ import { useRef } from "react";
 import SchoolInput from "src/views/find-organisation/partials/school-input";
 import { FindOrganisationProps } from "src/views/find-organisation";
 import TrustInput from "src/views/find-organisation/partials/trust-input";
-import useGovUk from "src/hooks/useGovUk";
+import { useGovUk } from "src/hooks/useGovUk";
 
 export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
   const {

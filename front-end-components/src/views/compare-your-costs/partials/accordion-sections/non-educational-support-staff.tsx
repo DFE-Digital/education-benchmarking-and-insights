@@ -15,7 +15,7 @@ import {
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import classNames from "classnames";
-import useHash from "src/hooks/useHash";
+import { useHash } from "src/hooks/useHash";
 
 export const NonEducationalSupportStaff: React.FC<
   NonEducationalSupportStaffProps

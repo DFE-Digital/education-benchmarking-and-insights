@@ -1,7 +1,8 @@
 import { useState, useCallback } from "react";
 import { useEventListener } from "usehooks-ts";
 
-export default function useHash() {
+// get and set the 'hash' value from the browser URL
+export function useHash() {
   const [hash, setHash] = useState(() => window.location.hash);
 
   const hashChangeHandler = useCallback(() => {

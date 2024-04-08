@@ -6,7 +6,7 @@ import {
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
 import { SchoolEstablishment } from "src/constants.tsx";
-import useGovUk from "src/hooks/useGovUk";
+import { useGovUk } from "src/hooks/useGovUk";
 
 export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
   const { type, id } = props;
