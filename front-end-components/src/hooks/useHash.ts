@@ -1,4 +1,5 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback } from "react";
+import { useEventListener } from "usehooks-ts";
 
 export default function useHash() {
   const [hash, setHash] = useState(() => window.location.hash);
@@ -7,13 +8,7 @@ export default function useHash() {
     setHash(window.location.hash);
   }, []);
 
-  useEffect(() => {
-    window.addEventListener("hashchange", hashChangeHandler);
-    return () => {
-      window.removeEventListener("hashchange", hashChangeHandler);
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEventListener("hashchange", hashChangeHandler);
 
   const updateHash = useCallback(
     (newHash: string) => {

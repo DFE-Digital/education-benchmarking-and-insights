@@ -1,3 +1,17 @@
 declare module "govuk-frontend" {
-  export function initAll(options?: Partial<{ scope: Element }>): void;
+  interface Config {
+    accordion: Partial<{
+      i18n: {
+        hideAllSections: string;
+        hideSection: string;
+        hideSectionAriaLabel: string;
+        showAllSections: string;
+        showSection: string;
+        showSectionAriaLabel: string;
+      };
+      rememberExpanded: boolean;
+    }>;
+  }
+
+  export function initAll(config?: Partial<Config> & { scope?: Element }): void;
 }

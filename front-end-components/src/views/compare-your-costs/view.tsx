@@ -1,9 +1,4 @@
-import React, {
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import {
   TotalExpenditure,
   ExpenditureAccordion,
@@ -31,8 +26,12 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     School.empty
   );
 
-  const { reInit } = useGovUk();
   const [hash] = useHash();
+  useGovUk({
+    accordionSection: document.querySelector(
+      `.govuk-accordion__section${hash}`
+    ),
+  });
 
   const getExpenditure = useCallback(async () => {
     return await EstablishmentsApi.getExpenditure(type, id);
@@ -61,21 +60,6 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   const toggleChartMode = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDisplayMode(e.target.value);
   };
-
-  useLayoutEffect(() => {
-    if (!hash) {
-      return;
-    }
-
-    const accordion = document.querySelector(
-      `.govuk-accordion__section${hash}`
-    );
-
-    if (accordion) {
-      accordion.scrollIntoView();
-      reInit(accordion);
-    }
-  }, [hash, reInit]);
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
