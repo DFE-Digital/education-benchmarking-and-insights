@@ -1,4 +1,6 @@
-﻿Feature: School spending and costs
+﻿@Ignore
+#ignoring until RAG data is imported in d02
+Feature: School spending and costs
 
     Scenario: View how we choose similar school details
         Given I am on spending and costs page for school with URN '101241'
