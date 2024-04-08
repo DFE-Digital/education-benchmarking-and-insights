@@ -11,6 +11,7 @@ public class CompareYourCostsSteps(PageDriver driver)
 {
     private CompareYourCostsPage? _comparisonPage;
     private IDownload? _download;
+    private HomePage? _schoolHomePage;
 
     [Given("I am on compare your costs page for school with URN '(.*)'")]
     public async Task GivenIAmOnCompareYourCostsPageForSchoolWithUrn(string urn)
@@ -166,6 +167,35 @@ public class CompareYourCostsSteps(PageDriver driver)
             "non educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
+    }
+
+    [Then(@"additional information is displayed")]
+    public async Task ThenAdditionalInformationIsDisplayed()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.IsSchoolDetailsPopUpVisible();
+    }
+
+    [When("I hover over a chart bar")]
+    public async Task WhenIHoverOverChartBar()
+    {
+        Assert.NotNull(_comparisonPage);
+        await _comparisonPage.HoverOnGraphBar();
+
+    }
+
+    [When("I select the school name on the chart")]
+    public async Task WhenISelectTheSchoolNameOnTheChart()
+    {
+        Assert.NotNull(_comparisonPage);
+        _schoolHomePage = await _comparisonPage.ClickSchoolName();
+    }
+
+    [Then("I am navigated to selected school home page")]
+    public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
+    {
+        Assert.NotNull(_schoolHomePage);
+        await _schoolHomePage.IsDisplayed();
     }
 
     private static string CompareYourCostsUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/comparison";

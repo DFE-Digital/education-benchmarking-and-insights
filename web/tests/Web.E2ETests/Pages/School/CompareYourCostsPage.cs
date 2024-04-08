@@ -33,6 +33,9 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
+    private ILocator ChartBars => page.Locator(Selectors.ChartBars);
+    private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
+    private ILocator SchoolLinksInCharts => page.Locator(Selectors.SchoolNamesLinksInCharts);
 
     public async Task IsDisplayed()
     {
@@ -164,6 +167,23 @@ public class CompareYourCostsPage(IPage page)
     {
         await ComparatorSetDetailsText.ShouldBeVisible();
         await ComparatorSetLink.ShouldBeVisible();
+    }
+
+    public async Task IsSchoolDetailsPopUpVisible()
+    {
+        await AdditionalDetailsPopUps.First.ShouldBeVisible();
+    }
+
+    public async Task HoverOnGraphBar()
+    {
+        await ChartBars.First.HoverAsync();
+    }
+
+    public async Task<HomePage> ClickSchoolName()
+    {
+        await SchoolLinksInCharts.First.Click();
+        return new HomePage(page);
+
     }
 
     private async Task IsSectionContentVisible(ComparisonChartNames chartName, bool visibility, string chartMode)
