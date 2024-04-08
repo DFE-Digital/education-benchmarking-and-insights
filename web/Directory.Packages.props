@@ -24,7 +24,7 @@
     </PackageVersion>
     <PackageVersion Include="AngleSharp" Version="1.1.2" />
     <PackageVersion Include="AngleSharp.Css" Version="1.0.0-beta.139" />
-    <PackageVersion Include="AngleSharp.XPath" Version="2.0.3" />
+    <PackageVersion Include="AngleSharp.XPath" Version="2.0.4" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.3" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="CorrelationId" Version="3.0.1" />
