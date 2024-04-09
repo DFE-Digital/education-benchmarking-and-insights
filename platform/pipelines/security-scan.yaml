@@ -83,13 +83,13 @@ jobs:
       - task: qetza.replacetokens.replacetokens-task.replacetokens@6
         displayName: 'Replace tokens in terraform file'
         inputs:
-          sources: '$(Build.SourcesDirectory)/src/pipelines/zaproxy/*.prop'
+          sources: '$(Build.SourcesDirectory)/src/platform/pipelines/zaproxy/*.prop'
           escape: off
           tokenPattern: doubleunderscores
 
       - task: CmdLine@2
         inputs:
-          script: 'cp $(Build.SourcesDirectory)/src/pipelines/zaproxy/$(key).prop $(zapDir)'
+          script: 'cp $(Build.SourcesDirectory)/src/platform/pipelines/zaproxy/$(key).prop $(zapDir)'
         displayName: "Copy options file to docker volume"
 
       - task: Docker@2
