@@ -28,3 +28,16 @@ The follow settings will enable Cosmos Db to be used as the backing data store.
     }
 }
 ```
+
+### Redis
+The follow settings will enable Redis to be used as the backing data store.
+
+```
+"SessionData" : {
+    "Using" : "Redis",
+    "Settings" : {
+        "ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+        "InstanceName": "[INSERT INSTANCE NAME VALUE]"
+    }
+}
+```

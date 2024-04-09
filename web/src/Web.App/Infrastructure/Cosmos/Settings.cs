@@ -1,9 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.App.Infrastructure.Session;
+namespace Web.App.Infrastructure.Cosmos;
 
 [ExcludeFromCodeCoverage]
-public class CosmosCacheSettings
+public record Settings
 {
     public string? ConnectionString { get; set; }
     public bool IsDirect { get; set; } = true;

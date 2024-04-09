@@ -43,13 +43,7 @@ builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValid
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(3600);
-    options.Cookie.IsEssential = true;
-});
-
-builder.AddCacheService();
+builder.AddSessionService();
 
 if (!builder.Environment.IsIntegration())
 {
