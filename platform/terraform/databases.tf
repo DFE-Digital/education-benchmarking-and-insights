@@ -31,7 +31,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
 
 resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
   #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-cdb-read-connection-string-r"
+  name         = "ebis-cdb-connection-string-r"
   value        = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
