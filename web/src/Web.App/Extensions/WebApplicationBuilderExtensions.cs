@@ -24,14 +24,14 @@ public static class WebApplicationBuilderExtensions
                     opts.CreateIfNotExists = false;
                 });
                 break;
-            
+
             case "redis":
                 builder.Services.AddStackExchangeRedisCache(opts =>
                 {
                     var settings = section.GetSection("Settings").Get<Infrastructure.Redis.Settings>();
-                    
+
                     ArgumentNullException.ThrowIfNull(settings);
-                    
+
                     opts.Configuration = settings.ConnectionString;
                     opts.InstanceName = settings.InstanceName;
                 });
@@ -46,7 +46,7 @@ public static class WebApplicationBuilderExtensions
             options.IdleTimeout = TimeSpan.FromSeconds(3600);
             options.Cookie.IsEssential = true;
         });
-        
+
         return builder;
     }
 }
