@@ -1,6 +1,4 @@
-locals {
-  db-connection-string = "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql-db.name};User ID=${azurerm_key_vault_secret.platform-sql-admin-username.value};Password=${azurerm_key_vault_secret.platform-sql-admin-password.value};Trusted_Connection=False;Encrypt=True;"
-}
+
 
 module "benchmark-fa" {
   source                                 = "./modules/functions"
@@ -12,14 +10,15 @@ module "benchmark-fa" {
   storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) == "dev"
+  enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_sql_connection_string
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__FinancialPlanCollectionName" = azurerm_cosmosdb_sql_container.cosmosdb-fp-container.name
-    "Sql__ConnectionString"               = local.db-connection-string
+    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
   })
+  subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
 
 module "insight-fa" {
@@ -32,17 +31,18 @@ module "insight-fa" {
   storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) == "dev"
+  enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__FloorAreaCollectionName"     = "Floor-Area-2021-2022"
     "Cosmos__CfrLatestYear"               = 2023,
     "Cosmos__AarLatestYear"               = 2022,
     "Cosmos__EstablishmentCollectionName" = "GIAS"
-    "Sql__ConnectionString"               = local.db-connection-string
+    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
   })
+  subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
 
 module "establishment-fa" {
@@ -55,13 +55,14 @@ module "establishment-fa" {
   storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
-  enable-restrictions                    = lower(var.cip-environment) == "dev"
+  enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__EstablishmentCollectionName" = "GIAS"
     "Search__Name"                        = azurerm_search_service.search.name
-    "Search__Key"                         = azurerm_search_service.search.query_keys[0].key
+    "Search__Key"                         = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
   })
+  subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
