@@ -104,9 +104,9 @@ jobs:
           command: run
           arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r $(key).html -d -z "-configfile /zap/wrk/$(key).prop"
 
-      - task: PublishBuildArtifacts@1
+      - publish:
         displayName: "Publish reports"
         inputs:
-          PathToPublish: '$(zapDir)'
-          artifactName: 'zap'
-          Parallel: true
+          targetPath: '$(zapDir)'
+          artifact: 'zap'
+          publishLocation: 'pipeline'
