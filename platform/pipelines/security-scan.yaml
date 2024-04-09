@@ -97,11 +97,11 @@ jobs:
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r $(key).html -d -z "-configfile /zap/wrk/$(key).prop"
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r report/$(key).html -d -z "-configfile /zap/wrk/$(key).prop"
 
       - task: PublishBuildArtifacts@1
         displayName: "Publish reports"
         inputs:
-          PathToPublish: '$(zapDir)'
+          PathToPublish: '$(zapDir)/report'
           artifactName: 'zap'
           Parallel: true
