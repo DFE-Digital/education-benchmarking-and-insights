@@ -19,7 +19,7 @@
                     Total income
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @($"{Model.Finances?.TotalIncome:C}")
+                    @Model.Finances?.TotalIncome.ToCurrency(0)
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -27,7 +27,7 @@
                     Total expenditure
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @($"{Model.Finances?.TotalExpenditure:C}")
+                    @Model.Finances?.TotalExpenditure.ToCurrency(0)
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -35,7 +35,7 @@
                     Total teacher costs
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @($"{Model.Finances?.TeachingStaffCosts:C}")
+                    @Model.Finances?.TeachingStaffCosts.ToCurrency(0)
                 </dd>
             </div>
             @if (Model.School.IsPrimary)
@@ -45,7 +45,7 @@
                         Total education support staff costs
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                        @($"{Model.Finances?.EducationSupportStaffCosts:C}")
+                        @Model.Finances?.EducationSupportStaffCosts.ToCurrency(0)
                     </dd>
                 </div>
             }
@@ -68,10 +68,10 @@
                             Do you want to use these figures in your plan?
                         </h2>
                     </legend>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalIncome)" value="@Model.Finances?.TotalIncome"/>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalExpenditure)" value="@Model.Finances?.TotalExpenditure"/>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalTeacherCosts)" value="@Model.Finances?.TeachingStaffCosts"/>
-                    <input type="hidden" name="@nameof(Model.Plan.EducationSupportStaffCosts)" value="@Model.Finances?.EducationSupportStaffCosts"/>
+                    <input type="hidden" name="@nameof(Model.Plan.TotalIncome)" value="@($"{Model.Finances?.TotalIncome:0}")"/>
+                    <input type="hidden" name="@nameof(Model.Plan.TotalExpenditure)" value="@($"{Model.Finances?.TotalExpenditure:0}")"/>
+                    <input type="hidden" name="@nameof(Model.Plan.TotalTeacherCosts)" value="@($"{Model.Finances?.TeachingStaffCosts:0}")"/>
+                    <input type="hidden" name="@nameof(Model.Plan.EducationSupportStaffCosts)" value="@($"{Model.Finances?.EducationSupportStaffCosts:0}")"/>
                     <input type="hidden" name="@nameof(Model.Plan.TotalNumberOfTeachersFte)" value="@Model.Finances?.TotalNumberOfTeachersFte"/>
                     
                     @if (ViewData.ModelState.HasError(nameof(Model.Plan.UseFigures)))
