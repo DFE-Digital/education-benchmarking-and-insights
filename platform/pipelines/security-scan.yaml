@@ -81,7 +81,7 @@ jobs:
         displayName: "Set chmod permissions"
 
       - task: qetza.replacetokens.replacetokens-task.replacetokens@6
-        displayName: 'Replace tokens in terraform file'
+        displayName: 'Replace tokens in file'
         inputs:
           sources: '$(Build.SourcesDirectory)/platform/pipelines/zaproxy/*.prop'
           escape: off
@@ -90,18 +90,23 @@ jobs:
       - task: CmdLine@2
         inputs:
           script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/$(key).prop $(zapDir)'
-        displayName: "Copy options file to docker volume"
+        displayName: "Copy options file"
+
+      - task: CmdLine@2
+        inputs:
+          script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/.artifactignore $(zapDir)'
+        displayName: "Copy ignore file"
 
       - task: Docker@2
         displayName: 'Execute scan'
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r report/$(key).html -d -z "-configfile /zap/wrk/$(key).prop"
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r $(key).html -d -z "-configfile /zap/wrk/$(key).prop"
 
       - task: PublishBuildArtifacts@1
         displayName: "Publish reports"
         inputs:
-          PathToPublish: '$(zapDir)/report'
+          PathToPublish: '$(zapDir)'
           artifactName: 'zap'
           Parallel: true
