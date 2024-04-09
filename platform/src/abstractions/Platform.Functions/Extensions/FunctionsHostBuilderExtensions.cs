@@ -17,7 +17,7 @@ public static class FunctionsHostBuilderExtensions
         var assemblyDetails = FileVersionInfo.GetVersionInfo(assembly.Location);
         builder.AddSwashBuckle(assembly, opts =>
         {
-            opts.AddCodeParameter = true;
+            opts.AddCodeParameter = false;
             opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
             opts.Documents = new[]
             {
