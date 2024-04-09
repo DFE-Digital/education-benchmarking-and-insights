@@ -61,7 +61,7 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-db/Platform.Database.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/db'
           
-            - script: ./Platform.Database -s '$(ebis-sql-server)' -d '$(ebis-sql-db-data)' -u '$(ebis-sql-admin-username)' -p '$(ebis-sql-admin-password)'
+            - script: ./Platform.Database -c '$(ebis-sql-connection-string)'
               workingDirectory: '${{ parameters.workspaceDir }}/db'
               failOnStderr: true
               displayName: 'Deploy platform database'              
