@@ -6,12 +6,12 @@ locals {
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
 
-/*resource "azurerm_key_vault_access_policy" "keyvault_policy" {
+resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   key_vault_id       = var.key-vault-id
   tenant_id          = azurerm_windows_function_app.func-app.identity[0].tenant_id
   object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
   secret_permissions = ["Get"]
-}*/
+}
 
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:To be reviewed
