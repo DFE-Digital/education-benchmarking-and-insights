@@ -5,5 +5,20 @@
             "default": "Information",
             "Microsoft": "Warning"
         }
+    },
+    "extensions": {
+        "http": {
+            "routePrefix": "api",
+            "customHeaders": {
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "SAMEORIGIN",
+                "X-XSS-Protection": "0",
+                "Referrer-Policy": "strict-origin",
+                "Feature-Policy" : "payment 'none'",
+                "Cross-Origin-Resource-Policy" : "cross-origin",
+                "Cross-Origin-Embedder-Policy" : "unsafe-none",
+                "Cross-Origin-Opener-Policy" : "same-origin"
+            }
+        }
     }
 }

@@ -29,7 +29,7 @@
     @if (!string.IsNullOrEmpty(connString))
     {
         <script type="text/javascript" src="https://js.monitor.azure.com/scripts/b/ext/ai.clck.2.min.js"></script>
-        <script type="text/javascript">
+        <script type="text/javascript" add-nonce="true">
             var clickPluginInstance = new Microsoft.ApplicationInsights.ClickAnalyticsPlugin();
             var clickPluginConfig = {
                     autoCapture : true,
@@ -55,7 +55,7 @@
     }
 </head>
 <body class="govuk-template__body govuk-frontend-supported">
-<script>
+<script add-nonce="true">
     document.body.className = ((document.body.className) ? document.body.className + ' js-enabled' : 'js-enabled');
 </script>
 
@@ -150,7 +150,7 @@
     </div>
 </footer>
 
-<script type="module" src="/js/front-end.js"></script>
+<script type="module" src="/js/front-end.js" asp-append-version="true"></script>
 <script type="module" src="/js/govuk-frontend.min.js"></script>
 @await RenderSectionAsync("scripts", required: false)
 
