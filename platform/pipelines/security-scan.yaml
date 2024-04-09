@@ -1,6 +1,12 @@
 pool:
   vmImage: 'ubuntu-20.04'
 
+variables:
+  - name: 'zapDir'
+    value: '$(Pipeline.Workspace)/zap'
+  - name: 'cacheKey'
+    value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
+
 trigger: none
 
 jobs:
