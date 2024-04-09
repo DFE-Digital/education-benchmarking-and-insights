@@ -1,6 +1,7 @@
 export type TableChartProps<TData extends SchoolChartData> = {
   tableHeadings: string[];
   data?: TData[];
+  preventFocus?: boolean;
 };
 
 export type SchoolChartData = {
