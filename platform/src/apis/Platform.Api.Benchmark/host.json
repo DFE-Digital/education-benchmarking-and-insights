@@ -9,6 +9,10 @@
     "extensions": {
         "http": {
             "routePrefix": "api",
+            "hsts": {
+                "isEnabled": true,
+                "maxAge": "10"
+            },
             "customHeaders": {
                 "X-Content-Type-Options": "nosniff",
                 "X-Frame-Options": "SAMEORIGIN",
@@ -17,7 +21,8 @@
                 "Feature-Policy" : "payment 'none'",
                 "Cross-Origin-Resource-Policy" : "cross-origin",
                 "Cross-Origin-Embedder-Policy" : "unsafe-none",
-                "Cross-Origin-Opener-Policy" : "same-origin"
+                "Cross-Origin-Opener-Policy" : "same-origin",
+                "Access-Control-Allow-Credentials" : true
             }
         }
     }
