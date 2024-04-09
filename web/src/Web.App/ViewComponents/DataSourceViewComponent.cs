@@ -9,7 +9,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
     public async Task<IViewComponentResult> InvokeAsync(string kind, bool isPartOfTrust, string[]? additionText)
     {
         var years = await financeService.GetYears();
-        
+
         var dataSource = kind switch
         {
             OrganisationTypes.School when isPartOfTrust =>
