@@ -133,9 +133,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
     [InlineData(null)]
     public async Task CanDisplayWithPreviousValue(string? educationSupportStaffCosts)
     {
-        decimal? value = decimal.TryParse(educationSupportStaffCosts, out var parsed) ? parsed : null;
-
-        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, value);
+        var (page, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, educationSupportStaffCosts);
 
         var input = page.GetElementById("EducationSupportStaffCosts");
         Assert.NotNull(input);
@@ -161,7 +159,7 @@ public class WhenViewingPlanningTotalEducationSupport(BenchmarkingWebAppClient c
             ("EducationSupportStaffCosts", "Enter your total education support staff costs"));
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, decimal? educationSupportStaffCosts = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string? educationSupportStaffCosts = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.FinanceType, financeType)

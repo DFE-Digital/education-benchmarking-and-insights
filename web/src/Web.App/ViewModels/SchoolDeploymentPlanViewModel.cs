@@ -10,10 +10,10 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
     public bool IsPrimary => school.IsPrimary;
     public int Year => plan.Year;
     public string? Urn => plan.Urn;
-    public decimal TotalIncome => plan.TotalIncome ?? 0;
-    public decimal TotalExpenditure => plan.TotalExpenditure ?? 0;
-    public decimal TotalTeacherCosts => plan.TotalTeacherCosts ?? 0;
-    public decimal EducationSupportStaffCosts => plan.EducationSupportStaffCosts ?? 0;
+    public int TotalIncome => plan.TotalIncome.ToInt() ?? 0;
+    public int TotalExpenditure => plan.TotalExpenditure.ToInt() ?? 0;
+    public int TotalTeacherCosts => plan.TotalTeacherCosts.ToInt() ?? 0;
+    public int EducationSupportStaffCosts => plan.EducationSupportStaffCosts.ToInt() ?? 0;
     public decimal TotalNumberOfTeachersFte => plan.TotalNumberOfTeachersFte ?? 0;
     public int TimetablePeriods => plan.TimetablePeriods.ToInt() ?? 0;
     public decimal PupilsNursery => plan.PupilsNursery ?? 0;
