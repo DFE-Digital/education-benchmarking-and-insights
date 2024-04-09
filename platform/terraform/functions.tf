@@ -13,7 +13,7 @@ module "benchmark-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-readwrite-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__FinancialPlanCollectionName" = azurerm_cosmosdb_sql_container.cosmosdb-fp-container.name
     "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
@@ -34,7 +34,7 @@ module "insight-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-read-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__FloorAreaCollectionName"     = "Floor-Area-2021-2022"
     "Cosmos__CfrLatestYear"               = 2023,
@@ -58,7 +58,7 @@ module "establishment-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-connection-string.versionless_id})"
+    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-read-connection-string.versionless_id})"
     "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
     "Cosmos__EstablishmentCollectionName" = "GIAS"
     "Search__Name"                        = azurerm_search_service.search.name
