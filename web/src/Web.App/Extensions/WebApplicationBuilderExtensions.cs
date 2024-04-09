@@ -1,10 +1,8 @@
-﻿using Web.App.Infrastructure.Session;
-
-namespace Web.App.Extensions;
+﻿namespace Web.App.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
-    public static WebApplicationBuilder AddCacheService(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddSessionService(this WebApplicationBuilder builder)
     {
         var section = builder.Configuration.GetSection("SessionData");
         var storeType = section.GetValue<string>("Using");
@@ -14,7 +12,7 @@ public static class WebApplicationBuilderExtensions
             case "cosmos":
                 builder.Services.AddCosmosCache(opts =>
                 {
-                    var settings = section.GetSection("Settings").Get<CosmosCacheSettings>();
+                    var settings = section.GetSection("Settings").Get<Infrastructure.Cosmos.Settings>();
 
                     ArgumentNullException.ThrowIfNull(settings);
                     ArgumentNullException.ThrowIfNull(settings.ContainerName);
@@ -22,8 +20,20 @@ public static class WebApplicationBuilderExtensions
 
                     opts.ContainerName = settings.ContainerName;
                     opts.DatabaseName = settings.DatabaseName;
-                    opts.CosmosClient = CosmosClientFactory.Create(settings);
+                    opts.CosmosClient = Infrastructure.Cosmos.ClientFactory.Create(settings);
                     opts.CreateIfNotExists = false;
+                });
+                break;
+            
+            case "redis":
+                builder.Services.AddStackExchangeRedisCache(opts =>
+                {
+                    var settings = section.GetSection("Settings").Get<Infrastructure.Redis.Settings>();
+                    
+                    ArgumentNullException.ThrowIfNull(settings);
+                    
+                    opts.Configuration = settings.ConnectionString;
+                    opts.InstanceName = settings.InstanceName;
                 });
                 break;
             default:
@@ -31,6 +41,12 @@ public static class WebApplicationBuilderExtensions
                 break;
         }
 
+        builder.Services.AddSession(options =>
+        {
+            options.IdleTimeout = TimeSpan.FromSeconds(3600);
+            options.Cookie.IsEssential = true;
+        });
+        
         return builder;
     }
 }

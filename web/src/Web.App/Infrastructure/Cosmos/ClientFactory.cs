@@ -1,12 +1,12 @@
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Azure.Cosmos;
 
-namespace Web.App.Infrastructure.Session;
+namespace Web.App.Infrastructure.Cosmos;
 
 [ExcludeFromCodeCoverage]
-public static class CosmosClientFactory
+public static class ClientFactory
 {
-    public static CosmosClient Create(CosmosCacheSettings settings)
+    public static CosmosClient Create(Settings settings)
     {
         ArgumentNullException.ThrowIfNull(settings.ConnectionString);
 
