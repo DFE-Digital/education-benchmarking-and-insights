@@ -19,10 +19,10 @@
                 "X-XSS-Protection": "0",
                 "Referrer-Policy": "strict-origin",
                 "Feature-Policy" : "payment 'none'",
-                "Cross-Origin-Resource-Policy" : "cross-origin",
+                "Cross-Origin-Resource-Policy" : "same-origin",
                 "Cross-Origin-Embedder-Policy" : "unsafe-none",
                 "Cross-Origin-Opener-Policy" : "same-origin",
-                "Access-Control-Allow-Credentials" : true
+                "Access-Control-Allow-Credentials" : false
             }
         }
     }
