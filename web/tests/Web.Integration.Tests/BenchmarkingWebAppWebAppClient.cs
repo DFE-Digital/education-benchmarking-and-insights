@@ -72,6 +72,14 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupInsights()
+    {
+        InsightApi.Reset();
+        InsightApi.Setup(api => api.GetSchoolFinances(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
+        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         BenchmarkApi.Reset();
