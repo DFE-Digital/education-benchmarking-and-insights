@@ -9,6 +9,8 @@ variables:
 
 trigger: none
 
+pr: none
+
 jobs:
   - job: Setup
     displayName: 'Pull and cache docker image'
