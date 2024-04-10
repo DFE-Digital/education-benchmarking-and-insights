@@ -11,8 +11,10 @@ const router = govukPrototypeKit.requests.setupRouter()
 
 router.get( '/find-school', (req, res) => {
 
-    var rows = getSchoolList();
-    res.render( '/find-school', { rows: rows } );
+    var schools = getSchoolList();
+    var authorities = getLocalAuthorityList();
+
+    res.render( '/find-school', { schools: schools, authorities: authorities } );
 })
 
 router.get( '/comparators/create/local-authority', (req, res) => {
@@ -20,7 +22,6 @@ router.get( '/comparators/create/local-authority', (req, res) => {
     var rows = getLocalAuthorityList();
     res.render( '/comparators/create/local-authority', { rows: rows } );
 })
-
 
 
 // ADD SCHOOLS BY CHARACTERISTICS
@@ -218,6 +219,13 @@ router.get( '/set-school', (req, res) => {
             req.session.data['trust-name'] = req.session.data.trustName;
         }
         res.redirect( '/trust-homepage' );
+        
+    } else if ( req.session.data.signIn == 'authority') {
+        if ( req.session.data.authorityName ) {
+            req.session.data['authority-name'] = req.session.data.authorityName.substring( 0, req.session.data.authorityName.lastIndexOf(' (') );
+        }
+        res.redirect( '/authority-homepage' );
+    
     } else {
         var schoolName = req.session.data.school;
 

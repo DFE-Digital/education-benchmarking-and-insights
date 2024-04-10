@@ -19,7 +19,7 @@
         text: "Search by name, URN, keyword or location"
     },
     errorMessage: null if errorThisPage != 'true' else { html: errorText },
-    items: rows
+    items: schools
   }) }}
   
 {% endset -%}
@@ -33,6 +33,21 @@
       text: "Enter a name or company number"
     }
   }) }}
+{% endset -%}
+
+{% set authorityHtml %}
+
+{{ xGovukAutocomplete({
+    id: "authority-name",
+    name: "authorityName",
+    allowEmpty: false,
+    hint: {
+        text: "Enter a local authority name or a three-digit LA code"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: authorities
+  }) }}
+  
 {% endset -%}
 
 <form method="post" action="set-school" class="form">
@@ -66,6 +81,14 @@
                             html: trustsHtml
                         },
                         checked: checked("signIn", "trust")
+                    },
+                    {
+                        value: "authority",
+                        text: "Local authority",
+                        conditional: {
+                            html: authorityHtml
+                        },
+                        checked: checked("signIn", "authority")
                     }
                 ]
                 }) }}
