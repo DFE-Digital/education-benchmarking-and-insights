@@ -1,6 +1,6 @@
 module.exports = {
 
   'school-name': 'Boroughbridge High School',
-  'trust-name': ''
+  'trust-name': 'Drummer Academy Trust'
 
 }
