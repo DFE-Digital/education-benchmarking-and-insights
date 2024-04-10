@@ -20,6 +20,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\terraform.tfvars = terraform\terraform.tfvars
 		terraform\variables.tf = terraform\variables.tf
 		terraform\cache.tf = terraform\cache.tf
+		terraform\data.tf = terraform\data.tf
+		terraform\README.md = terraform\README.md
+		terraform\front-door.tf = terraform\front-door.tf
+		terraform\app-service.tf = terraform\app-service.tf
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{FAEF5E55-1BF1-40C6-ACED-560351518D95}"
