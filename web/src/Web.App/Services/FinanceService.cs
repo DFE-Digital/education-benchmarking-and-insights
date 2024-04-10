@@ -7,6 +7,7 @@ namespace Web.App.Services;
 public interface IFinanceService
 {
     Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns);
+    Task<IEnumerable<Finances>> GetFinances(IEnumerable<string> urns);
     Task<Finances> GetFinances(string urns);
     Task<FinanceYears> GetYears();
     Task<IEnumerable<Balance>> GetSchoolBalanceHistory(string urn, string dimension);
@@ -66,6 +67,12 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         return await insightApi.GetSchoolsExpenditure(query).GetResultOrDefault<IEnumerable<SchoolExpenditure>>() ?? Array.Empty<SchoolExpenditure>();
     }
 
+    public async Task<IEnumerable<Finances>> GetFinances(IEnumerable<string> urns)
+    {
+        var query = BuildApiQueryForComparatorSet(urns);
+        return await insightApi.GetSchoolFinances(query).GetResultOrDefault<IEnumerable<Finances>>() ?? Array.Empty<Finances>();
+    }
+    
     public async Task<Finances> GetFinances(string urn)
     {
         return await insightApi.GetSchoolFinances(urn).GetResultOrThrow<Finances>();

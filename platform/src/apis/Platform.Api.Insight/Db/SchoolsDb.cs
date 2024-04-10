@@ -13,6 +13,7 @@ public interface ISchoolsDb
 {
     Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns);
     Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns);
+    Task<IEnumerable<FinancesResponseModel>> Finances(string[] urns);
 }
 
 [ExcludeFromCodeCoverage]
@@ -41,20 +42,27 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
 
     public async Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns)
     {
-        var finances = await Finances(urns);
+        var finances = await QueryFinances(urns);
 
         return finances.Select(SchoolWorkforceResponseModel.Create);
     }
 
     public async Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns)
     {
-        var finances = await Finances(urns);
+        var finances = await QueryFinances(urns);
         var floorArea = await FloorArea(urns);
 
         return finances.Select(x => SchoolExpenditureResponseModel.Create(x, floorArea));
     }
 
-    private async Task<IEnumerable<SchoolTrustFinancialDataObject>> Finances(IReadOnlyCollection<string> urns)
+    public async Task<IEnumerable<FinancesResponseModel>> Finances(string[] urns)
+    {
+        var finances = await QueryFinances(urns);
+  
+        return finances.Select(x => FinancesResponseModel.Create(x));
+    }
+    
+    private async Task<IEnumerable<SchoolTrustFinancialDataObject>> QueryFinances(IReadOnlyCollection<string> urns)
     {
         var tasks = new[]
         {

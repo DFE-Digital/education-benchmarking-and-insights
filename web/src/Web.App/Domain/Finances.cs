@@ -22,4 +22,6 @@ public record Finances
     public decimal MaintenancePremisesCosts { get; set; }
     public decimal TotalNumberOfTeachersFte { get; set; }
     public decimal RevenueReserve { get; set; }
+    public string? OfstedRatingName { get; set; }
+    public decimal FreeSchoolMealPercent { get; set; }
 }

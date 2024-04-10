@@ -23,7 +23,9 @@ public static class PageTitles
     public const string SchoolPlanningTotalNumberTeachers = "How many full-time equivalent teachers do you have?";
     public const string SchoolPlanningTotalEducationSupport = "What is your total spend on education support staff?";
     public const string SchoolPlanningTimetableCycle = "Timetable cycle";
-    public const string SchoolComparatorSet = "Comparator set";
+    public const string SchoolComparators = "Choose your own similar schools";
+    public const string SchoolComparatorsPupil = "Pupil comparator set";
+    public const string SchoolComparatorsBuilding = "Building comparator set";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
