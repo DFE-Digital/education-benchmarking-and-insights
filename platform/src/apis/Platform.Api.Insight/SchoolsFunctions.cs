@@ -57,8 +57,8 @@ public class SchoolsFunctions
             }
         }
     }
-    
-    
+
+
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
     [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

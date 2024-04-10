@@ -58,10 +58,10 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
     public async Task<IEnumerable<FinancesResponseModel>> Finances(string[] urns)
     {
         var finances = await QueryFinances(urns);
-  
+
         return finances.Select(x => FinancesResponseModel.Create(x));
     }
-    
+
     private async Task<IEnumerable<SchoolTrustFinancialDataObject>> QueryFinances(IReadOnlyCollection<string> urns)
     {
         var tasks = new[]

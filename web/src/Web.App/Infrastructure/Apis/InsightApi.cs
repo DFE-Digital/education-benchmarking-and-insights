@@ -51,7 +51,7 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
     {
         return await GetAsync($"api/schools{query?.ToQueryString()}");
     }
-    
+
     public async Task<ApiResult> GetCurrentReturnYears()
     {
         return await GetAsync("api/current-return-years");

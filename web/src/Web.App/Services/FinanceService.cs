@@ -72,7 +72,7 @@ public class FinanceService(IInsightApi insightApi) : IFinanceService
         var query = BuildApiQueryForComparatorSet(urns);
         return await insightApi.GetSchoolFinances(query).GetResultOrDefault<IEnumerable<Finances>>() ?? Array.Empty<Finances>();
     }
-    
+
     public async Task<Finances> GetFinances(string urn)
     {
         return await insightApi.GetSchoolFinances(urn).GetResultOrThrow<Finances>();

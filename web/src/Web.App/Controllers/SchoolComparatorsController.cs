@@ -36,7 +36,7 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
             }
         }
     }
-    
+
     [HttpGet]
     [Route("pupil")]
     public async Task<IActionResult> Pupil(string urn, string referrer)
@@ -81,8 +81,8 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
             }
         }
     }
-    
-    
+
+
     [HttpGet]
     [Route("custom/create")]
     public async Task<IActionResult> Create(string urn, string referrer)
@@ -103,7 +103,7 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
             }
         }
     }
-    
+
     /*[HttpPost]
     [Route("Create")]
     public async Task<IActionResult> Create(string urn)
@@ -124,7 +124,7 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
             }
         }
     }*/
-    
+
     private BacklinkInfo RefererBackInfo(string referrer, string urn)
     {
         return referrer switch
