@@ -89,20 +89,15 @@ jobs:
 
       - task: CmdLine@2
         inputs:
-          script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/$(key).prop $(zapDir)'
-        displayName: "Copy options file"
-
-      - task: CmdLine@2
-        inputs:
-          script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/.artifactignore $(zapDir)'
-        displayName: "Copy ignore file"
+          script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/{$(key).prop,.artifactignore,config.conf} $(zapDir)'
+        displayName: "Copy files"
 
       - task: Docker@2
         displayName: 'Execute scan'
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -f openapi -r report.html -z "-configfile /zap/wrk/$(key).prop"
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-api-scan.py -t $(url) -c config.conf -f openapi -r $(key)-report.html -z "-configfile /zap/wrk/$(key).prop"
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish reports"

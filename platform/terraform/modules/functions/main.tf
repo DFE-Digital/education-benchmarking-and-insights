@@ -1,8 +1,8 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
+    "AzureWebJobsDisableHomepage" = true
   })
-  cors              = var.cors
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
 
@@ -42,9 +42,6 @@ resource "azurerm_windows_function_app" "func-app" {
     always_on     = var.always-on
     http2_enabled = true
 
-    cors {
-      allowed_origins = local.cors
-    }
     application_insights_connection_string = var.application-insights-connection-string
     application_stack {
       dotnet_version              = "v6.0"

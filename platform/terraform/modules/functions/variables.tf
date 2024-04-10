@@ -27,11 +27,6 @@ variable "always-on" {
   default = false
 }
 
-variable "cors" {
-  type    = list(string)
-  default = ["*"]
-}
-
 variable "environment-prefix" {
   type = string
 }
