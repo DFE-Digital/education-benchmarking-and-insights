@@ -1,7 +1,6 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
-    "AzureWebJobsDisableHomepage" = true
+    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
   })
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
