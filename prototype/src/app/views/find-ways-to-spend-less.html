@@ -628,6 +628,8 @@
 
   {% if data['signIn'] == 'trust' %}
     <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+  {% elseif data['signIn'] == 'authority' %}
+  <span class="govuk-caption-l"><a href="/authority-homepage" class="govuk-link--no-underline">{{ data['authority-name'] }}</a></span>
   {% else %}
     <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
   {% endif %}
@@ -636,7 +638,7 @@
 
     <!---<p class="govuk-body-m">Use these resources to help reduce costs.</p>--->
 
-  {% if data['signIn'] == 'trust' %}
+  {% if data['signIn'] == 'trust' or data['signIn'] == 'authority' %}
   {{ allHtml | safe }}
 
   {% else %}
