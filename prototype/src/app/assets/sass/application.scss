@@ -236,3 +236,19 @@ div.govuk-notification-banner__content > * {
 .custom-data td {
     vertical-align: middle;
 }
+
+div.sortWrapper {
+    position: relative;
+}
+
+.sortSelect {
+    position: absolute;
+    right: 0;
+    top: -8px;
+    width: 295px;
+}
+
+.sortSelect label {
+    display: inline-block;
+    margin-right: 5px;
+}

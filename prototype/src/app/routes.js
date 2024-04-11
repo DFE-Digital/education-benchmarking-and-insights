@@ -24,6 +24,16 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 })
 
 
+
+router.get( '/authority-homepage', (req, res) => {
+
+    req.session.data.signIn = 'authority';
+
+    res.render( '/authority-homepage' );
+
+
+})
+
 // ADD SCHOOLS BY CHARACTERISTICS
 
 router.post( '/comparators/create/review', (req, res) => {
