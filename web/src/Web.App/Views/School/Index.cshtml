@@ -28,20 +28,20 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <ul class="app-headline-figures app-headline-figures-4 govuk-!-text-align-centre">
-            <li>
+        <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
                 <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
             </li>
-            <li>
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
                 <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
             </li>
-            <li>
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
                 <p class="govuk-body">@OfstedRatings.GetDescription(Model.OfstedRating)</p>
             </li>
-            <li>
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
                 <p class="govuk-body">@Model.OverallPhase</p>
             </li>

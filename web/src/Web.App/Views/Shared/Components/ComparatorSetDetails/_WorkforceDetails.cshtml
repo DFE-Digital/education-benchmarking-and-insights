@@ -1,15 +1,18 @@
 ﻿@model Web.App.ViewModels.Components.ComparatorSetDetailsViewModel
 
-<div class="govuk-details__text">
-    <h3 class="govuk-heading-s">Workforce</h3>
-    <p class="govuk-body">For this data, we choose <a class="govuk-link" href="/comparators/building">30 similar schools</a> based on:</p>
-    <ul class="govuk-list govuk-list--bullet">
-        <li>school phase or type</li>
-        <li>boarding or non-boarding type</li>
-        <li>region</li>
-        <li>number of pupils</li>
-        <li>pupils eligible for free school meals (FSM)</li>
-        <li>pupils with special educational needs (SEN)</li>
-    </ul>
-    <p class="govuk-body">These costs are measured per square metre.</p>
-</div>
+<h3 class="govuk-heading-s">Workforce</h3>
+<p class="govuk-body">
+    For this data, we choose
+    <a class="govuk-link govuk-link--no-visited-state"
+       href="@Url.Action("Pupil", "SchoolComparators", new { urn = Model.Identifier, referrer = Model.Referrer })">
+        30 similar schools
+    </a> based on:
+</p>
+<ul class="govuk-list govuk-list--bullet">
+    <li>school phase or type</li>
+    <li>boarding or non-boarding type</li>
+    <li>region</li>
+    <li>number of pupils</li>
+    <li>pupils eligible for free school meals (FSM)</li>
+    <li>pupils with special educational needs (SEN)</li>
+</ul>

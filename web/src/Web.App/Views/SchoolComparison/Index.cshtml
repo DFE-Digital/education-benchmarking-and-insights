@@ -7,7 +7,7 @@
 
 @await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust, additionText = new [] {"Compare your spending costs against similar schools."}})
 
-@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn })
+@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, referrer = Referrers.SchoolComparison })
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
 

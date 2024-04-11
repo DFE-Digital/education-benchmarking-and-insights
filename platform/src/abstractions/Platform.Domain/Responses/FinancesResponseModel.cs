@@ -7,7 +7,7 @@ public record FinancesResponseModel
 {
     public string? Urn { get; set; }
     public string? SchoolName { get; set; }
-    public int YearEnd { get; set; }
+    public int? YearEnd { get; set; }
     public string? OverallPhase { get; set; }
     public decimal NumberOfPupils { get; set; }
     public bool HasSixthForm { get; set; }
@@ -22,8 +22,10 @@ public record FinancesResponseModel
     public decimal MaintenancePremisesCosts { get; set; }
     public decimal TotalNumberOfTeachersFte { get; set; }
     public decimal RevenueReserve { get; set; }
+    public string? OfstedRatingName { get; set; }
+    public decimal FreeSchoolMealPercent { get; set; }
 
-    public static FinancesResponseModel Create(SchoolTrustFinancialDataObject dataObject, int term)
+    public static FinancesResponseModel Create(SchoolTrustFinancialDataObject dataObject, int? term = null)
     {
         return new FinancesResponseModel
         {
@@ -43,7 +45,9 @@ public record FinancesResponseModel
             OtherStaffCosts = dataObject.OtherStaffCosts,
             MaintenancePremisesCosts = dataObject.Premises,
             TotalNumberOfTeachersFte = dataObject.TeachersTotal,
-            RevenueReserve = dataObject.RevenueReserve
+            RevenueReserve = dataObject.RevenueReserve,
+            OfstedRatingName = dataObject.OfstedRatingName,
+            FreeSchoolMealPercent = dataObject.PercentageFsm
         };
     }
 }
