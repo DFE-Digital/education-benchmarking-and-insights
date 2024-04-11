@@ -299,7 +299,7 @@ function generateComparators() {
 
 
 // viewing session data
-router.get('*/manage-prototype/view-data', function(req, res){
+router.get('*/manage-prototype-data/view-data', function(req, res){
 
     querystring = '';
     for ( var key in req.session.data )
@@ -307,14 +307,14 @@ router.get('*/manage-prototype/view-data', function(req, res){
         querystring += key +'=' + req.session.data[key] + '&';
     }
 
-    res.render('manage-prototype/view-data', { data: JSON.stringify( req.session, null, 2), querystring: querystring } );
+    res.render('manage-prototype-data/view-data', { data: JSON.stringify( req.session, null, 2), querystring: querystring } );
 })
 
 
 
 // Saving the session data to the clipboard using another page
 
-router.get('*/manage-prototype/update-session-data', function(req, res){
+router.get('*/manage-prototype-data/update-session-data', function(req, res){
 
     var querystringtemp = '';
     for ( var key in req.session.data )
@@ -326,5 +326,5 @@ router.get('*/manage-prototype/update-session-data', function(req, res){
     req.session.data['theoutputquerystring'] = "?" + querystringtemp;
 
 
-    res.redirect('../manage-prototype/copy-url-to-clipboard');
+    res.redirect('../manage-prototype-data/copy-url-to-clipboard');
 })
