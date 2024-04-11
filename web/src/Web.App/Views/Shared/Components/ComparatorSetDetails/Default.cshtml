@@ -22,7 +22,7 @@
             @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolWorkforce)
             {
                 <p class="govuk-body">
-                    <a class="govuk-link"
+                    <a class="govuk-link govuk-link--no-visited-state"
                        href="@Url.Action("Custom", "SchoolComparators", new { urn = Model.Identifier, referrer = Model.Referrer })">
                         Choose your own similar schools
                     </a>

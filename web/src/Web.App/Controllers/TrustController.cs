@@ -32,7 +32,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 }
 
                 var ratings = await insightApi.GetRatings(query).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustViewModel(trust, ratings);
+                var viewModel = new TrustViewModel(trust, schools, ratings);
                 return View(viewModel);
             }
             catch (Exception e)
