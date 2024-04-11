@@ -27,16 +27,15 @@ variable "always-on" {
   default = false
 }
 
-variable "cors" {
-  type    = list(string)
-  default = ["*"]
-}
-
 variable "environment-prefix" {
   type = string
 }
 
 variable "key-vault-id" {
+  type = string
+}
+
+variable "subnet_id" {
   type = string
 }
 

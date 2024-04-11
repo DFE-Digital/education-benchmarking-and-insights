@@ -56,14 +56,16 @@
                         checked: true,
                         conditional: {
                             html: schoolsHtml
-                        }
+                        },
+                        checked: checked("signIn", "academy")
                     },
                     {
                         value: "trust",
                         text: "Single or Multi-Academy Trust",
                         conditional: {
                             html: trustsHtml
-                        }
+                        },
+                        checked: checked("signIn", "trust")
                     }
                 ]
                 }) }}

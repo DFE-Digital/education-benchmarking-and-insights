@@ -45,6 +45,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{
 		pipelines\steps-platform-run-unit-tests.yaml = pipelines\steps-platform-run-unit-tests.yaml
 		pipelines\steps-platform-build-api-tests.yaml = pipelines\steps-platform-build-api-tests.yaml
 		pipelines\steps-web-run-api-tests.yaml = pipelines\steps-web-run-api-tests.yaml
+		pipelines\security-scan.yaml = pipelines\security-scan.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
@@ -75,6 +76,15 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Functions", "src\abstractions\Platform.Functions\Platform.Functions.csproj", "{AD3DC4F8-B866-40FE-A456-B18BA3158403}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Domain", "src\abstractions\Platform.Domain\Platform.Domain.csproj", "{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC}"
+	ProjectSection(SolutionItems) = preProject
+		pipelines\zaproxy\.artifactignore = pipelines\zaproxy\.artifactignore
+		pipelines\zaproxy\benchmark.prop = pipelines\zaproxy\benchmark.prop
+		pipelines\zaproxy\config.conf = pipelines\zaproxy\config.conf
+		pipelines\zaproxy\establishment.prop = pipelines\zaproxy\establishment.prop
+		pipelines\zaproxy\insight.prop = pipelines\zaproxy\insight.prop
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -146,5 +156,6 @@ Global
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{AD3DC4F8-B866-40FE-A456-B18BA3158403} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C} = {D52455F1-3BF5-46F4-9833-633817248295}
+		{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC} = {331196E5-A208-4344-8C07-321E17121CAE}
 	EndGlobalSection
 EndGlobal

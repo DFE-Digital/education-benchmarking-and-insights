@@ -72,6 +72,14 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupInsights()
+    {
+        InsightApi.Reset();
+        InsightApi.Setup(api => api.GetSchoolFinances(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
+        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         BenchmarkApi.Reset();
@@ -119,10 +127,10 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
                         Urn = request.Urn,
                         Year = request.Year.GetValueOrDefault(),
                         UseFigures = request.UseFigures,
-                        EducationSupportStaffCosts = request.EducationSupportStaffCosts,
-                        TotalIncome = request.TotalIncome,
-                        TotalExpenditure = request.TotalExpenditure,
-                        TotalTeacherCosts = request.TotalTeacherCosts,
+                        EducationSupportStaffCosts = request.EducationSupportStaffCosts.ToString(),
+                        TotalIncome = request.TotalIncome.ToString(),
+                        TotalExpenditure = request.TotalExpenditure.ToString(),
+                        TotalTeacherCosts = request.TotalTeacherCosts.ToString(),
                         TotalNumberOfTeachersFte = request.TotalNumberOfTeachersFte,
                         HasMixedAgeClasses = request.HasMixedAgeClasses,
                         MixedAgeReceptionYear1 = request.MixedAgeReceptionYear1,

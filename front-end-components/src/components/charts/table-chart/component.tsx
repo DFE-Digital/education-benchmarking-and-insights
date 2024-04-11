@@ -8,13 +8,14 @@ import { SelectedSchoolContext } from "src/contexts";
 export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
   props
 ) => {
-  const { tableHeadings, data } = props;
+  const { tableHeadings, data, preventFocus } = props;
   const selectedSchool = useContext(SelectedSchoolContext);
 
   const renderSchoolAnchor = (row: SchoolChartData) => (
     <a
       className="govuk-link govuk-link--no-visited-state"
       href={`/school/${row.urn}`}
+      tabIndex={preventFocus ? -1 : undefined}
     >
       {row.name}
     </a>

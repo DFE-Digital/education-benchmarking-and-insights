@@ -20,6 +20,7 @@
   --link-colour: #1d70b8;
   --link-hover-colour: #003078;
   --table-grid-colour: #b1b4b6;
+  --focus-colour: #fd0;
 }
 
 .recharts-wrapper .chart-cell,
@@ -129,7 +130,7 @@
   overflow-wrap: break-word;
 }
 
-.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value{
+.chart-stat-wrapper.chart-stat-line-chart .chart-stat-value {
   color: var(--series-highlight-colour);
 }
 
@@ -174,12 +175,25 @@
   fill: var(--link-colour);
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:hover {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:hover,
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:focus {
   fill: var(--link-hover-colour);
+  text-decoration: underline;
 }
 
 .recharts-wrapper .recharts-cartesian-axis .recharts-text.school-tick {
   transform: translate(-0.1em, 0.3em);
+}
+
+.recharts-wrapper .recharts-cartesian-axis line.school-tick-focus:has(~ text) {
+  stroke: transparent;
+  stroke-width: 1.5em;
+}
+
+.recharts-wrapper
+  .recharts-cartesian-axis
+  line.school-tick-focus:has(~ text:focus) {
+  stroke: var(--focus-colour);
 }
 
 .recharts-wrapper

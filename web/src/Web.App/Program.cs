@@ -9,6 +9,7 @@ using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.Infrastructure.Apis;
+using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
 using Web.Identity.Extensions;
@@ -42,13 +43,7 @@ builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValid
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(3600);
-    options.Cookie.IsEssential = true;
-});
-
-builder.AddCacheService();
+builder.AddSessionService();
 
 if (!builder.Environment.IsIntegration())
 {
@@ -94,6 +89,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 }
 
+app.UseMiddleware<CustomResponseHeadersMiddleware>();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();

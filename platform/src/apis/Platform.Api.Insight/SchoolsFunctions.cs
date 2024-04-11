@@ -27,6 +27,38 @@ public class SchoolsFunctions
         _db = db;
     }
 
+    [FunctionName(nameof(QuerySchoolFinancesAsync))]
+    [ProducesResponseType(typeof(FinancesResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
+    public async Task<IActionResult> QuerySchoolFinancesAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")] HttpRequest req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   {"Application", Constants.ApplicationName},
+                   {"CorrelationID", correlationId}
+               }))
+        {
+            try
+            {
+                var urns = req.Query["urns"].ToString().Split(",");
+
+                var result = await _db.Finances(urns);
+
+                return new JsonContentResult(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed school finances query");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
     [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

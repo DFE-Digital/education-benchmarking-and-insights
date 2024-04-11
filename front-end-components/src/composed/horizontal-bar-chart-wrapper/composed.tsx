@@ -122,6 +122,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                 <TableChart
                   tableHeadings={data.tableHeadings}
                   data={sortedDataPoints}
+                  preventFocus={mode !== ChartModeTable}
                 />
               </div>
             </>

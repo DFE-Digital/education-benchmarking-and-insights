@@ -213,13 +213,20 @@ router.get( '/comparators/create', (req, res) => {
 
 router.get( '/set-school', (req, res) => {
 
-    var schoolName = req.session.data.school;
+    if ( req.session.data.signIn == 'trust') {
+        if ( req.session.data.trustName ) {
+            req.session.data['trust-name'] = req.session.data.trustName;
+        }
+        res.redirect( '/trust-homepage' );
+    } else {
+        var schoolName = req.session.data.school;
 
-    if (schoolName) {
-        req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
+        if (schoolName) {
+            req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
+        }
+
+        res.redirect( '/school-homepage' );
     }
-
-    res.redirect( '/school-homepage' );
 
 })
 

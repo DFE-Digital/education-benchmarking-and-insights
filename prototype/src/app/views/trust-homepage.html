@@ -1,0 +1,477 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/tag/macro.njk" import govukTag %}
+
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+    {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['trust-name'] }}</h1>
+<p><a href="/find-school" class="govuk-link">Change trust</a></p>
+
+{% if confirmation == 'comparator-reset' %}
+
+{{ govukNotificationBanner({
+  html: '<strong>You have deleted the similar schools you chose.</strong><br/>We will now choose similar schools for you.',
+  type: "success"
+}) }}
+
+{% endif %}
+
+<div class="govuk-grid-row headline-figures">
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>In year balance</p>
+            <p>£826,943</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>Revenue reserve</p>
+            <p>£466,971</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third">
+        <div>
+            <p>Number of academies</p>
+            <p>23</p>
+        </div>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Trust-wide cost overview</h2>
+
+<div class="govuk-grid-row priority-figures">
+    <div class="govuk-grid-column-one-third high">
+        <div>
+            <p>32</p>
+            <p>High priority costs</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third medium">
+        <div>
+            <p>76</p>
+            <p>Medium priority costs</p>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-third low">
+        <div>
+            <p>321</p>
+            <p>Low priority costs</p>
+        </div>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Top priority costs</h2>
+
+<div class="top-categories">
+    <div>
+        <h4 class="govuk-heading-s">Teaching and teaching supply staff</h4>
+        <p class="priority high">
+            <strong class="govuk-tag govuk-tag--red">
+                High priority
+            </strong>
+            6 out of 23 academics are in the high priority range.
+        </p>
+    </div>
+
+    <div>
+        <h4 class="govuk-heading-s">Premises staff and services</h4>
+        <p class="priority high">
+            <strong class="govuk-tag govuk-tag--red">
+                High priority
+            </strong>
+            5 out of 23 academics are in the high priority range.
+        </p>
+    </div>
+</div>
+
+<h3 class="govuk-heading-s"><a href="#">View all spending and costs</a></h3>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+{% set currentHtml %}
+
+<h2 class="govuk-heading-s">Schools currently in trust</h2>
+
+<ul class="govuk-list">
+    <li>
+        <a class="govuk-link" href="#">Alderwood Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Castle Hill Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Castle Manor Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">City of Peterborough Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Coldfair Green Community Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Delius Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Dulwich Preparatory School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Gesher Primary Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Heath Lane Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Holy Family Catholic Primary School, Warton</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Ilfracombe Church of England Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Iqra Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Kehelland Village School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Kennall Vale School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Khalsa College London</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Minet Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Overton St Helen's Church of England Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Pound Park Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">St Agnes' Catholic Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">St Johns Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">The Ramsey Academy, Halstead</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Windmill CofE (VC) Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Winthorpe Primary School</a>
+    </li>
+  </ul>
+
+{% endset %}
+
+{% set returnHtml %}
+
+<h2 class="govuk-heading-s">Schools in trust’s 2022 to 2023 return</h2>
+
+<ul class="govuk-list">
+    <li>
+        <a class="govuk-link" href="#">Alderwood Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Castle Manor Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">City of Peterborough Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Coldfair Green Community Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Delius Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Dulwich Preparatory School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Gesher Primary Special School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Hall and Oates Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Holy Family Catholic Primary School, Warton</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Ilfracombe Church of England Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Iqra Academy</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Kennall Vale School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Khalsa College London</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Minet Junior School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Overton St Helen's Church of England Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Pound Park Nursery School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">St Agnes' Catholic Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">St Johns Primary School</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">The Ramsey Academy, Halstead</a>
+    </li>
+    <li>
+        <a class="govuk-link" href="#">Winthorpe Primary School</a>
+    </li>
+  </ul>
+
+{% endset %}
+
+{% set historyHtml %}
+
+<table class="govuk-table govuk-table--small-text-until-tablet">
+    <caption class="govuk-table__caption govuk-table__caption--m">Trust history</caption>
+    <thead class="govuk-table__head">
+      <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header">School year</th>
+        <th scope="col" class="govuk-table__header">Date</th>
+        <th scope="col" class="govuk-table__header">School</th>
+        <th scope="col" class="govuk-table__header">Event</th>
+      </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border">2023-2024</th>
+          <td class="govuk-table__cell no-border">01 Sep 2023</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">The Ramsey Academy, Halstead</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell no-border"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Pound Park Nursery School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Minet Junior School</a></td>
+          <td class="govuk-table__cell">Left trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell no-border">01 Apr 2023</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">St Johns Primary School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header"></th>
+          <td class="govuk-table__cell"></td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Dulwich Preparatory School</a></td>
+          <td class="govuk-table__cell">Left trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border">2022-2023</th>
+          <td class="govuk-table__cell">01 Oct 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Windmill CofE (VC) Primary School</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell">01 Sep 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Castle Manor Academy</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+        <tr class="govuk-table__row">
+          <th scope="row" class="govuk-table__header no-border"></th>
+          <td class="govuk-table__cell">01 Apr 2022</td>
+          <td class="govuk-table__cell"><a class="govuk-link" href="#">Iqra Academy</a></td>
+          <td class="govuk-table__cell">Joined trust</td>
+        </tr>
+    </tbody>
+  </table>
+
+{% endset %}
+
+{{ govukTabs({
+    items: [
+      {
+        label: "Schools currently in trust",
+        id: "current",
+        panel: {
+          html: currentHtml
+        }
+      },
+      {
+        label: "Schools in trust’s 2022 to 2023 return",
+        id: "return",
+        panel: {
+          html: returnHtml
+        }
+      },
+      {
+        label: "Trust history",
+        id: "history",
+        panel: {
+          html: historyHtml
+        }
+      }
+    ]
+  }) }}
+
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Finance tools</h2>
+        <ul class="app-links">
+            <li>
+                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare spending between the schools in this trust.
+                </p>
+            </li>
+            <!--
+            <li>
+                <img src="/public/images/areas-for-investigation.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View your areas for investigation</a>
+                </h3>
+                <p class="govuk-body">
+                    See areas where your school is looking healthy or may need to focus on.
+                </p>
+                <p class="govuk-body">
+                    Create a report to reflect potential spending.
+                </p>
+            </li>
+            <li>
+                <img src="/public/images/curriculum-financial-planning.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Curriculum and financial planning</a>
+                </h3>
+                <p class="govuk-body">
+                    Measure expected curriculum spending and staffing structure
+                </p>
+                <strong class="govuk-tag govuk-tag--grey">
+                    Requires login
+                </strong>
+            </li>
+        -->
+            <li>
+                <img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark workforce data</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare workforce between schools in this trust.
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Resources</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="/find-ways-to-spend-less?signIn=trust" class="govuk-link govuk-link--no-visited-state">Find ways to spend less</a>
+                </h3>
+                <p class="govuk-body">
+                    Use these to help reduce spending and costs across this trust.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">View historic data</a>
+                </h3>
+                <p class="govuk-body">
+                    View trust-wide financial data from previous years.
+                </p>
+            </li>
+        <!--
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">School contact details</a>
+                </h3>
+                <p class="govuk-body">
+                    View contact details for this school.
+                </p>
+            </li>
+        -->
+        </ul>
+    </div>
+</div>
+
+
+<hr class="govuk-section-break govuk-section-break--m govuk-section-break--visible">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Get help</h2>
+        <ul class="app-links">
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state app-view-component__link">Help with this service</a>
+                </h3>
+                <p class="govuk-body">
+                    If you're new to this website, new to school resource management, or are a non-finance person, take a look at our <a href="" class="govuk-link govuk-link--no-visited-state">user guide</a> to help you get started.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Ask for help from a school resource management advisor (SRMA)</a>
+                </h3>
+                <p class="govuk-body">
+                    You can request free, confidential advice from a SRMA.
+                </p>
+            </li>
+            <li>
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Submit an enquiry</a>
+                </h3>
+                <p class="govuk-body">
+                    Let us know if you need help with any tools in this service
+                </p>
+            </li>
+        </ul>
+    </div>
+</div>
+{% endblock %}

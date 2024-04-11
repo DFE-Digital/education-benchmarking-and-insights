@@ -90,7 +90,7 @@
       </form>
       {% endif %}
 
-    {% if data['comparators'] | length %}
+    {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
 
       {% if confirmation == 'comparator-generated' %}
       {% set html %}
@@ -148,8 +148,11 @@
       ],
       "rows": rows
     }) }}
+    
+    {% endif %}
 
-    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Go to {{ data['school-name'] }} spending and costs</a></p>
+    {% if data['comparators'] | length %}
+    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Back to {{ data['school-name'] }} spending and costs</a></p>
     <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your school choices </a></p>
     {% else %}
 

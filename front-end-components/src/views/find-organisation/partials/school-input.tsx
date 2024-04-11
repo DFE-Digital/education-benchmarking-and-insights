@@ -1,9 +1,10 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   SchoolDocument,
   SchoolInputProps,
   SuggestResult,
 } from "src/views/find-organisation";
+import { useDebounceCallback } from "usehooks-ts";
 import { v4 as uuidv4 } from "uuid";
 
 const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
@@ -18,6 +19,8 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedUrn, setSelectedUrn] = useState<string>(urn);
   const [lastInput, setLastInput] = useState<string>("");
+  const [fetchValue, setFetchValue] = useState<string>();
+  const debounceFetchValue = useDebounceCallback(setFetchValue, 500);
 
   let controller = new AbortController();
 
@@ -51,7 +54,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
     controller.abort();
     controller = new AbortController();
 
-    if (inputValue === lastInput) {
+    if (inputValue === lastInput?.trim()) {
       setOptionsVisible(true);
       return;
     } else if (!optionsVisible) {
@@ -66,10 +69,17 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
 
     setOptionMode(false);
     setLastInput(inputValue);
+    debounceFetchValue(inputValue);
+  }
+
+  useEffect(() => {
+    if (!fetchValue) {
+      return;
+    }
 
     fetch(
       "/api/establishments/suggest?" +
-        new URLSearchParams({ type: "school", search: inputValue }),
+        new URLSearchParams({ type: "school", search: fetchValue }),
       {
         signal: controller.signal,
         redirect: "manual",
@@ -97,7 +107,9 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
         setOptions(optsLocal);
       })
       .catch(() => {});
-  }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fetchValue]);
+
   function hideOptions() {
     setOptionsVisible(false);
   }

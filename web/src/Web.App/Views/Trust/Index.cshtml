@@ -1,3 +1,4 @@
+@using Web.App.Domain
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.TrustViewModel
 @{
@@ -15,20 +16,100 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        <ul class="app-headline-figures app-headline-figures-3 govuk-!-text-align-centre">
-            <li>
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
-                <p class="govuk-body">-£171,977</p>
+                <p class="govuk-body">XXXXX</p>
             </li>
-            <li>
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
-                <p class="govuk-body">£1,175,418</p>
+                <p class="govuk-body">XXXXX</p>
             </li>
-            <li>
+            <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">Schools</p>
-                <p class="govuk-body">5</p>
+                <p class="govuk-body">@Model.NumberSchools</p>
             </li>
         </ul>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Trust-wide cost overview</h2>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+            <li class="app-headline-high">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.High</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">High priority costs</p>
+            </li>
+            <li class="app-headline-medium">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Medium</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Medium priority costs</p>
+            </li>
+            <li class="app-headline-low">
+                <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">@Model.Low</p>
+                <p class="govuk-body govuk-!-margin-bottom-1">Low priority costs</p>
+            </li>
+        </ul>
+    </div>
+</div>
+
+<h2 class="govuk-heading-m">Top priority costs</h2>
+<div class="top-categories">
+    @foreach (var rating in Model.Ratings)
+    {
+        <div>
+            @{
+                (TagColour Colour, string DisplayText, string Class)?  tag = rating.Status != null ? Lookups.StatusPriorityMap[rating.Status] : null;
+            }
+            <h4 class="govuk-heading-s">@rating.Category</h4>
+            <p class="priority @tag?.Class govuk-body">
+                @await Component.InvokeAsync("Tag", new { tag?.Colour, tag?.DisplayText })
+                @rating.Count out of @Model.NumberSchools academies are in the @tag?.DisplayText.ToLower() range.
+            </p>
+        </div>
+    }
+</div>
+<h3 class="govuk-heading-s"><a href="#" class="govuk-link govuk-link--no-visited-state">View all spending and costs</a></h3>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+        Contents
+    </h2>
+    <ul class="govuk-tabs__list" role="tablist">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+            <a class="govuk-tabs__tab" href="#current" id="tab_current" role="tab" aria-controls="current" aria-selected="true" tabindex="0">
+                Schools currently in trust
+            </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#return" id="tab_return" role="tab" aria-controls="return" aria-selected="false" tabindex="-1">
+                Schools in trust’s 2022 to 2023 return
+            </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#history" id="tab_history" role="tab" aria-controls="history" aria-selected="false" tabindex="-1">
+                Trust history
+            </a>
+        </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="current" role="tabpanel" aria-labelledby="tab_current">
+        <h2 class="govuk-heading-s">Schools currently in trust</h2>
+        <ul class="govuk-list">
+            @foreach (var school in Model.Schools)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="return" role="tabpanel" aria-labelledby="tab_return">
+    </div>
+    <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="history" role="tabpanel" aria-labelledby="tab_history">
     </div>
 </div>
 
@@ -43,3 +124,11 @@
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("GetHelp")
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

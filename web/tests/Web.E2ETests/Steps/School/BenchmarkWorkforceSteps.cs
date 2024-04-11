@@ -11,6 +11,7 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
 {
     private BenchmarkWorkforcePage? _workforcePage;
     private IDownload? _download;
+    private HomePage? _schoolHomePage;
 
     [Given("I am on workforce page for school with URN '(.*)'")]
     public async Task GivenIAmOnWorkforcePageForSchoolWithUrn(string urn)
@@ -167,6 +168,35 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
     {
         Assert.NotNull(_workforcePage);
         await _workforcePage.IsDetailsSectionVisible();
+    }
+
+    [Then(@"additional information is displayed")]
+    public async Task ThenAdditionalInformationIsDisplayed()
+    {
+        Assert.NotNull(_workforcePage);
+        await _workforcePage.IsSchoolDetailsPopUpVisible();
+    }
+
+    [When("I hover over a chart bar")]
+    public async Task WhenIHoverOverChartBar()
+    {
+        Assert.NotNull(_workforcePage);
+        await _workforcePage.HoverOnGraphBar();
+
+    }
+
+    [When("I select the school name on the chart")]
+    public async Task WhenISelectTheSchoolNameOnTheChart()
+    {
+        Assert.NotNull(_workforcePage);
+        _schoolHomePage = await _workforcePage.ClickSchoolName();
+    }
+
+    [Then("I am navigated to selected school home page")]
+    public async Task ThenIAmNavigatedToSelectedSchoolHomePage()
+    {
+        Assert.NotNull(_schoolHomePage);
+        await _schoolHomePage.IsDisplayed();
     }
 
     private static string BenchmarkWorkforceUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/workforce";

@@ -5,22 +5,29 @@
         <details class="govuk-details">
             <summary class="govuk-details__summary">
                 <span class="govuk-details__summary-text">
-                    How we choose similar schools
+                    How we choose and compare similar schools
                 </span>
             </summary>
             <div class="govuk-details__text">
-                <p class="govuk-body">We choose 30 similar schools based on: </p>
-                <ul class="govuk-list govuk-list--bullet">
-                    <li>school phase and type</li>
-                    <li>London pay weighting</li>
-                    <li>number of pupils</li>
-                    <li>pupils eligible for free school meals (FSM)</li>
-                    <li>building types and features</li>
-                </ul>
-                <p>Teacher contact ratio is not included.</p>
-                <p>
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">View or change which schools we compare you with</a>
+            @switch (Model.Referrer)
+            {
+                case Referrers.SchoolWorkforce:
+                    @await Html.PartialAsync("Components/ComparatorSetDetails/_WorkforceDetails", Model)
+                    break;
+                case Referrers.SchoolSpending:
+                case Referrers.SchoolComparison:
+                    @await Html.PartialAsync("Components/ComparatorSetDetails/_CostDetails", Model)
+                    break;
+            }
+            @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolWorkforce)
+            {
+                <p class="govuk-body">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("Custom", "SchoolComparators", new { urn = Model.Identifier, referrer = Model.Referrer })">
+                        Choose your own similar schools
+                    </a>
                 </p>
+            }
             </div>
         </details>
     </div>
