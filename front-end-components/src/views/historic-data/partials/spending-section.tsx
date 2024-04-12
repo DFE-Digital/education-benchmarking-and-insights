@@ -8,10 +8,7 @@ import {
 } from "src/components";
 import { Expenditure, HistoryApi } from "src/services";
 import { ChartDimensionContext, ChartModeContext } from "src/contexts";
-import { LineChart } from "src/components/charts/line-chart";
-import { shortValueFormatter } from "src/components/charts/utils.ts";
-import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
-import { ResolvedStat } from "src/components/charts/resolved-stat";
+import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs";
 import { SpendingSectionNonEducationalStaffCosts } from "src/views/historic-data/partials/spending-section-non-educational-staff-costs";
@@ -79,54 +76,19 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
         </div>
         <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
         {data.length > 0 ? (
-          <>
+          <HistoricChart
+            chartName="Total spending and costs"
+            data={data}
+            seriesConfig={{
+              totalExpenditure: {
+                label: "Total spending and costs",
+                visible: true,
+              },
+            }}
+            valueField="totalExpenditure"
+          >
             <h2 className="govuk-heading-m">Total spending and costs</h2>
-            <div className="govuk-grid-row">
-              <div className="govuk-grid-column-three-quarters">
-                <div style={{ height: 200 }}>
-                  <LineChart
-                    chartName="Total spending and costs"
-                    data={data}
-                    grid
-                    highlightActive
-                    keyField="yearEnd"
-                    margin={20}
-                    seriesConfig={{
-                      totalExpenditure: {
-                        label: "Total expenditure",
-                        visible: true,
-                      },
-                    }}
-                    seriesLabel={dimension.label}
-                    seriesLabelField="yearEnd"
-                    valueFormatter={shortValueFormatter}
-                    valueUnit={dimension.unit}
-                    tooltip={(t) => (
-                      <LineChartTooltip
-                        {...t}
-                        valueFormatter={(v) =>
-                          shortValueFormatter(v, { valueUnit: dimension.unit })
-                        }
-                      />
-                    )}
-                  />
-                </div>
-              </div>
-              <aside className="govuk-grid-column-one-quarter">
-                <ResolvedStat
-                  chartName="Most recent total spending and costs"
-                  className="chart-stat-line-chart"
-                  compactValue
-                  data={data}
-                  displayIndex={data.length - 1}
-                  seriesLabelField="yearEnd"
-                  valueField="totalExpenditure"
-                  valueFormatter={shortValueFormatter}
-                  valueUnit={dimension.unit}
-                />
-              </aside>
-            </div>
-          </>
+          </HistoricChart>
         ) : (
           <Loading />
         )}
