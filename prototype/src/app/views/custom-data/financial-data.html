@@ -138,30 +138,7 @@
                   }
                 })
               }
-            ]
-          ]
-        }) }}
-
-        {% endset %}
-
-
-        {% set tableCateringIncome %}
-
-        {{ govukTable({
-          classes: "custom-data",
-          head: [
-            {
-              text: "Category",
-              classes: "govuk-!-width-one-half"
-            },
-            {
-              text: "Existing value"
-            },
-            {
-              text: "Custom value"
-            }
-          ],
-          rows: [
+            ],
             [
               {
                 text: "Income from catering"
@@ -1176,14 +1153,6 @@
               },
               content: {
                 html: tableCatering
-              }
-            },
-            {
-              heading: {
-                text: "Catering income"
-              },
-              content: {
-                html: tableCateringIncome
               }
             },
             {

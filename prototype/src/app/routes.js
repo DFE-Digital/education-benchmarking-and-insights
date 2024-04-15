@@ -62,7 +62,7 @@ router.get( '/comparators/pupil', (req, res) => {
         comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
         for ( i=0; i<comparators.length; i++) {
-            var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=pupil&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
             rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
         }
     }
@@ -83,7 +83,7 @@ router.get( '/comparators/building', (req, res) => {
         comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
         for ( i=0; i<comparators.length; i++) {
-            var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
             rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
         }
     }
@@ -161,7 +161,7 @@ router.get( '/comparators/create/review', (req, res) => {
     var comparators = req.session.data.comparators || [];
     
     for ( i=0; i<comparators.length; i++) {
-        var nameHtml = "<a href=\"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
         rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
@@ -221,6 +221,26 @@ router.get( '/comparators/create', (req, res) => {
     }
 })
 
+
+
+router.get( '/comparators/view-school', (req, res) => {
+
+    if ( req.session.data.comparatorType == 'pupil' && req.session.data.pupilComparators ) {
+        arrComparators = req.session.data.pupilComparators;
+    } else if ( req.session.data.comparatorType == 'building' && req.session.data.buildingComparators ) {
+        arrComparators = req.session.data.buildingComparators;
+    } else if ( req.session.data.comparatorType == 'custom' && req.session.data.comparators) {
+        arrComparators = req.session.data.comparators;
+    } 
+    
+    if ( typeof arrComparators !== 'undefined' && arrComparators[req.session.data.comparatorId]) {
+        objSchool = arrComparators[req.session.data.comparatorId];
+    } else {
+        objSchool = { comparatorName: 'Test school', comparatorLocation: 'Sheffield', comparatorPostcode: 'S13 9ZD', comparatorPupils: 1408, comparatorMeals: 14.7 };
+    }
+
+    res.render( '/comparators/view-school', { comparatorName: objSchool.comparatorName, comparatorLocation: objSchool.comparatorLocation, comparatorPostcode: objSchool.comparatorPostcode, comparatorPupils: objSchool.comparatorPupils.toLocaleString(), comparatorMeals: objSchool.comparatorMeals }  );
+})
 
 router.get( '/set-school', (req, res) => {
 
