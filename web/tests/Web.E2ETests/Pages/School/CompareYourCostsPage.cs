@@ -29,9 +29,11 @@ public class CompareYourCostsPage(IPage page)
     private ILocator SaveAsImageButtons =>
         page.Locator(Selectors.Button, new PageLocatorOptions { HasText = "Save as image" });
     private ILocator ComparatorSetDetails =>
-        page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose similar schools" });
+        page.Locator(Selectors.GovDetailsSummaryText, new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
+        new PageLocatorOptions { HasText = "Choose your own similar schools" });
+    private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "30 similar schools" });
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator ChartBars => page.Locator(Selectors.ChartBars);
     private ILocator AdditionalDetailsPopUps => page.Locator(Selectors.AdditionalDetailsPopUps);
@@ -166,6 +168,11 @@ public class CompareYourCostsPage(IPage page)
     public async Task IsDetailsSectionVisible()
     {
         await ComparatorSetDetailsText.ShouldBeVisible();
+        Assert.Equal(2, await SimilarSchoolLink.CountAsync());
+        foreach (var similarSchoolLink in await SimilarSchoolLink.AllAsync())
+        {
+            await similarSchoolLink.ShouldBeVisible();
+        }
         await ComparatorSetLink.ShouldBeVisible();
     }
 
