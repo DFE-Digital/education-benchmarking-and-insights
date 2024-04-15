@@ -32,27 +32,26 @@
     <div class="govuk-grid-column-two-thirds">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Customise your data</h1>
+        <h1 class="govuk-heading-l">Change data used to compare this school to others</h1>
 
-        <p>
-            You can customise the data we use to compare this school against other schools.
-        </p>
-
-        <p>This allows you to:</p>
+        <p>Use this to:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          <li>see how changes to your spending would effect your benchmark position</li>
-          <li>correct any inaccuracies to see make a more accurate comparison </li>
+          <li>see how spending more or less affects your benchmark position</li>
+          <li>correct any errors for a more accurate comparison </li>
         </ul>
 
-        <p>In order to save your data, you will need to sign in with a <a href="https://profile.signin.education.gov.uk/register">DfE Sign-in account</a>.</p>
-                
+        <!---<p>In order to save your data, you will need to sign in with a <a href="https://profile.signin.education.gov.uk/register">DfE Sign-in account</a>.</p>--->
+
+        <div class="govuk-inset-text">
+          We will delete your choices when you leave the service. 
+        </div>
+
         {{ govukButton({
-          href: 'sign-in?goTo=/custom-data/financial-data',
-          text: "Continue to sign in"
+          href: '/custom-data/financial-data',
+          text: "Start now"
         }) }}
 
-        <p><a href="/custom-data/financial-data">Or continue without logging in</a></p>
     </div>
 </div>
 {% endblock %}
