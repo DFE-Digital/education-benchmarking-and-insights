@@ -75,7 +75,7 @@ jobs:
         continueOnError: true
         inputs:
           command: run
-          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -c config.conf -I -m 10 -T 60 -d -t https://s198d01-education-benchmarking-fd.azurefd.net/school/135966 -r web.html
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -I -m 10 -T 60 -d -t https://s198d01-education-benchmarking-fd.azurefd.net/school/135966 -r web.html
 
       - task: PublishPipelineArtifact@1
         displayName: "Publish reports"
