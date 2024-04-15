@@ -233,7 +233,7 @@ router.get( '/comparators/view-school', (req, res) => {
         arrComparators = req.session.data.comparators;
     } 
     
-    if (arrComparators[req.session.data.comparatorId]) {
+    if ( typeof arrComparators !== 'undefined' && arrComparators[req.session.data.comparatorId]) {
         objSchool = arrComparators[req.session.data.comparatorId];
     } else {
         objSchool = { comparatorName: 'Test school', comparatorLocation: 'Sheffield', comparatorPostcode: 'S13 9ZD', comparatorPupils: 1408, comparatorMeals: 14.7 };

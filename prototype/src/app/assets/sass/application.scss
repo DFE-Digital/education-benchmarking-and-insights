@@ -252,3 +252,7 @@ div.sortWrapper {
     display: inline-block;
     margin-right: 5px;
 }
+
+.govuk-accordion__section table.custom-data tr:last-child td {
+    border-bottom: 0;
+}

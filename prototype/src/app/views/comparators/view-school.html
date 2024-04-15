@@ -22,8 +22,19 @@
 {% endblock %}
 
 
-{% block content %}
+{% if data['signedIn'] == 'true' %}
 
+{% set arrArea = [ { text: "Gross internal floor area" }, { text: "10,130 square metres" }, { text: "14,163 square metres" } ] %}
+{% set arrAge = [ { text: "Average building age" }, { text: "73 years" }, { text: "46 years" } ] %}
+
+{% else %}
+
+{% set arrArea = [ { text: "Gross internal floor area" }, { html: "<a href=\"/sign-in?goTo=/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 2, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
+{% set arrAge = [ { text: "Average building age" } ] %}
+
+{% endif %}
+
+{% block content %}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -49,98 +60,88 @@
                 }
             ],
             rows: [
-                [
-                    { text: "School phase" },
-                    { text: "Secondary" },
-                    { text: "Secondary" }
-                ],
-                [
-                    { text: "Number of pupils" },
-                    { text: "1,408" },
-                    { text: comparatorPupils }
-                ],
-                [
-                    { text: "Percentage of free school meals" },
-                    { text: "12.7%" },
-                    { text: comparatorMeals + "%" }
-                ],
-                [
-                    { text: "Percentage special education needs" },
-                    { text: "7.4%" },
-                    { text: "4.9%" }
-                ],
-                [
-                    { text: "Ofsted rating" },
-                    { text: "Good" },
-                    { text: "Good" }
-                ],
-                [
-                    { text: "Region" },
-                    { text: "London" },
-                    { text: "West Midlands" }
-                ],
-                [
-                    { text: "School financial position" },
-                    { text: "Surplus" },
-                    { text: "Surplus" }
-                ],
-                [
-                    { text: "Trust/LA financial position" },
-                    { text: "Surplus" },
-                    { text: "Surplus" }
-                ],
-                [
-                    { text: "Sector" },
-                    { text: "Academy" },
-                    { text: "Academy" }
-                ],
-                [
-                    { text: "Sixth form" },
-                    { text: "No sixth form" },
-                    { text: "No sixth form" }
-                ],
-                [
-                    { text: "Nursery" },
-                    { text: "No nursery" },
-                    { text: "No nursery" }
-                ],
-                [
-                    { text: "Private financial incentive school" },
-                    { text: "Non-PFI school" },
-                    { text: "Non-PFI school" }
-                ],
-                [
-                    { text: "Trust/LA name" },
-                    { text: data['trust-name'] },
-                    { text: "Harbone Academy" }
-                ],
-                [
-                    { text: "Local authority" },
-                    { text: data['authority-name'] },
-                    { text: "Birmingham" }
-                ],
-                [
-                    { text: "Contact" },
-                    {
-                        html: "<a href=\"mailto:stevesmith@" + data['school-name'] | lower | replace( " ", "" )+ ".org.uk\">stevesmith@&#8203;" + data['school-name'] | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
-                    },
-                    {
-                        html: "<a href=\"mailto:janet.moss@" + comparatorName | lower | replace( " ", "" )+ ".org.uk\">janet.moss@&#8203;" + comparatorName | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
-                    }
-                ],
-                [
-                    { text: "Gross internal floor area" },
-                    {
-                        html: "<a href=\"/custom-data/sign-in\">Sign in</a> to see",
-                        colspan: 2,
-                        rowspan: 2,
-                        attributes: { style: "text-align: center; vertical-align: middle;" }
-                    }
-                ],
-                [
-                    { text: "Average building age" }
-                ]
-            ]
+            [
+                { text: "School phase" },
+                { text: "Secondary" },
+                { text: "Secondary" }
+            ],
+            [
+                { text: "Number of pupils" },
+                { text: "1,408" },
+                { text: comparatorPupils }
+            ],
+            [
+                { text: "Percentage of free school meals" },
+                { text: "12.7%" },
+                { text: comparatorMeals + "%" }
+            ],
+            [
+                { text: "Percentage special education needs" },
+                { text: "7.4%" },
+                { text: "4.9%" }
+            ],
+            [
+                { text: "Ofsted rating" },
+                { text: "Good" },
+                { text: "Good" }
+            ],
+            [
+                { text: "Region" },
+                { text: "London" },
+                { text: "West Midlands" }
+            ],
+            [
+                { text: "School financial position" },
+                { text: "Surplus" },
+                { text: "Surplus" }
+            ],
+            [
+                { text: "Trust/LA financial position" },
+                { text: "Surplus" },
+                { text: "Surplus" }
+            ],
+            [
+                { text: "Sector" },
+                { text: "Academy" },
+                { text: "Academy" }
+            ],
+            [
+                { text: "Sixth form" },
+                { text: "No sixth form" },
+                { text: "No sixth form" }
+            ],
+            [
+                { text: "Nursery" },
+                { text: "No nursery" },
+                { text: "No nursery" }
+            ],
+            [
+                { text: "Private financial incentive school" },
+                { text: "Non-PFI school" },
+                { text: "Non-PFI school" }
+            ],
+            [
+                { text: "Trust/LA name" },
+                { text: data['trust-name'] },
+                { text: "Harbone Academy" }
+            ],
+            [
+                { text: "Local authority" },
+                { text: data['authority-name'] },
+                { text: "Birmingham" }
+            ],
+            [
+                { text: "Contact" },
+                {
+                    html: "<a href=\"mailto:stevesmith@" + data['school-name'] | lower | replace( " ", "" )+ ".org.uk\">stevesmith@&#8203;" + data['school-name'] | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
+                },
+                {
+                    html: "<a href=\"mailto:janet.moss@" + comparatorName | lower | replace( " ", "" )+ ".org.uk\">janet.moss@&#8203;" + comparatorName | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
+                }
+            ],
+            arrArea,
+            arrAge
+        ]
             }) }}
 
 
