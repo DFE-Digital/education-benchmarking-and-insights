@@ -18,12 +18,13 @@
     <div class="govuk-grid-column-full">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Customise your data</h1>
+        <h1 class="govuk-heading-l">Change non-financial data</h1>
 
-        <h2 class="govuk-heading-m">Update your school characteristics</h2>
+        <!--<h2 class="govuk-heading-m">Update your school characteristics</h2>-->
 
         {{ govukWarningText({
-          text: "Changing your school characteristics information will change the set of schools we compare you with",
+          text: "Changing this will create a new set of similar schools",
+          
           iconFallbackText: "Warning"
         }) }}
 
@@ -31,10 +32,10 @@
           classes: "custom-data",
           head: [
             {
-              text: "Item"
+              text: "Type of data"
             },
             {
-              text: "Existing value"
+              text: "Current value"
             },
             {
               text: "Custom value"
@@ -43,7 +44,7 @@
           rows: [
             [
               {
-                text: "Number of pupils (Full time equivalent)"
+                text: "Number of pupils (full time equivalent)"
               },
               {
                 text: "8,712"
@@ -65,7 +66,7 @@
             ],
             [
               {
-                text: "Eligibility for free school meals (FSM)"
+                text: "Pupils eligible for free school meals (FSM)"
               },
               {
                 text: "6.4%"
@@ -115,7 +116,7 @@
             ],
             [
               {
-                text: "Predicted percentage pupil change 3-5 years"
+                text: "Predicted percentage pupil change 3 to 5 years"
               },
               {
                 text: "5.3%"
