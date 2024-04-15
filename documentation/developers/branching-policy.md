@@ -24,3 +24,5 @@ Branches should be named using the following pattern `category/<reference>/descr
 - `test` is for experimenting outside of an issue/ticket
 - `tech-debt` is for technical debt 
 - `doc` is for documentation changes
+
+Reference should be the user story and/or bug id, avoid using task, feature or epic id. If you have no ticket then leave off the reference.
