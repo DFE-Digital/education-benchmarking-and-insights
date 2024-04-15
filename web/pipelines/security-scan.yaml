@@ -1,0 +1,85 @@
+pool:
+  vmImage: 'ubuntu-20.04'
+
+variables:
+  - name: 'zapDir'
+    value: '$(Pipeline.Workspace)/zap'
+  - name: 'cacheKey'
+    value: $[format('{0:yyyyMMdd}', pipeline.startTime)]
+
+trigger: none
+
+pr: none
+
+jobs:
+  - job: Setup
+    displayName: 'Pull and cache docker image'
+    steps:
+      - checkout: none
+      - task: Cache@2
+        displayName: Cache task
+        inputs:
+          key: 'docker | "$(Agent.OS)" | zap-$(cacheKey)'
+          path: $(Pipeline.Workspace)/docker
+          cacheHitVar: CACHE_RESTORED
+
+      - task: Docker@2
+        displayName: Docker pull
+        condition: ne(variables.CACHE_RESTORED, 'true')
+        inputs:
+          command: pull
+          arguments: ictu/zap2docker-weekly
+
+      - script: |
+          mkdir -p $(Pipeline.Workspace)/docker
+          docker save -o $(Pipeline.Workspace)/docker/zap.tar ictu/zap2docker-weekly
+        displayName: Docker save
+        condition: ne(variables.CACHE_RESTORED, 'true')
+
+  - job: RunScan
+    displayName: 'Run scan'
+    dependsOn: [ Setup ]
+    timeoutInMinutes: 0
+    steps:
+      - task: AzureKeyVault@1
+        inputs:
+          azureSubscription: 's198d.azdo-deployment'
+          KeyVaultName: 's198d01-ebis-keyvault'
+          SecretsFilter: '*'
+          RunAsPreJob: true
+
+      - task: Cache@2
+        displayName: 'Cache restore'
+        inputs:
+          key: 'docker | "$(Agent.OS)" | zap-$(cacheKey)'
+          path: $(Pipeline.Workspace)/docker
+          cacheHitVar: CACHE_RESTORED
+
+      - script: |
+          docker load -i $(Pipeline.Workspace)/docker/zap.tar
+        displayName: 'Docker restore'
+        condition: eq(variables.CACHE_RESTORED, 'true')
+
+      - task: CmdLine@2
+        inputs:
+          script: 'mkdir $(zapDir)'
+        displayName: "Create zap directory"
+
+      - task: CmdLine@2
+        inputs:
+          script: 'chmod 777 -R $(zapDir)'
+        displayName: "Set chmod permissions"
+
+      - task: Docker@2
+        displayName: 'Execute scan'
+        continueOnError: true
+        inputs:
+          command: run
+          arguments: --rm -v $(zapDir):/zap/wrk/:rw -t ictu/zap2docker-weekly zap-full-scan.py -c config.conf -I -m 10 -T 60 -d -t https://s198d01-education-benchmarking-fd.azurefd.net/school/135966 -r web.html
+
+      - task: PublishPipelineArtifact@1
+        displayName: "Publish reports"
+        inputs:
+          targetPath: '$(zapDir)'
+          artifact: 'web'
+          publishLocation: 'pipeline'
