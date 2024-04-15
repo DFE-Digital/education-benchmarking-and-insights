@@ -10,7 +10,8 @@ Session state is being used for storage of user data while the user browses a we
 
 Two configuration have been implemented;
 1. In-memory
-2. Cosmos
+2. Cosmos 
+3. Redis
 
 ### In-memory
 This is the default option when no configuration has been set.
