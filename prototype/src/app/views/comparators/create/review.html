@@ -140,7 +140,7 @@
           text: "Ofsted rating"
         },
         {
-          text: "Percentage of free school meals"
+          text: "Pupils eligible for free school meals (FSM) "
         },
         {
           text: ""
@@ -152,8 +152,8 @@
     {% endif %}
 
     {% if data['comparators'] | length %}
-    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Back to {{ data['school-name'] }} spending and costs</a></p>
-    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete your school choices </a></p>
+    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Go to {{ data['school-name'] }} spending and costs</a></p>
+    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Delete all your choices </a></p>
     {% else %}
 
     <p class="govuk-body">No schools chosen</p>
