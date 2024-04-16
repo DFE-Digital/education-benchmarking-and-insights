@@ -1,10 +1,10 @@
 ﻿# Application Architecture
 
-![Application Architecture](images/Application-Architecture.png)
+![Application Architecture](../images/Application-Architecture.png)
 
 ## Interaction Viewpoint 
 
-![Interaction viewpoint](images/Interaction-Viewpoint.png)
+![Interaction viewpoint](../images/Interaction-Viewpoint.png)
 
 The calculations below are based on the latest available SLA summary provided by Microsoft available [here (Nov 2023)](https://www.microsoft.com/licensing/docs/view/Service-Level-Agreements-SLA-for-Online-Services?lang=1)
 

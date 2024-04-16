@@ -1,6 +1,4 @@
-# Developer Guide
-
-## Getting started
+# Getting started
 
 The repository is a monorepo which contains multiple components. 
 
