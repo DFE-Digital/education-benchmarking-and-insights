@@ -236,7 +236,7 @@ router.get( '/comparators/view-school', (req, res) => {
     if ( typeof arrComparators !== 'undefined' && arrComparators[req.session.data.comparatorId]) {
         objSchool = arrComparators[req.session.data.comparatorId];
     } else {
-        objSchool = { comparatorName: 'Test school', comparatorLocation: 'Sheffield', comparatorPostcode: 'S13 9ZD', comparatorPupils: 1408, comparatorMeals: 14.7 };
+        objSchool = { comparatorName: 'Burngreave High School', comparatorLocation: 'Sheffield', comparatorPostcode: 'S13 9ZD', comparatorPupils: 1408, comparatorMeals: 14.7 };
     }
 
     res.render( '/comparators/view-school', { comparatorName: objSchool.comparatorName, comparatorLocation: objSchool.comparatorLocation, comparatorPostcode: objSchool.comparatorPostcode, comparatorPupils: objSchool.comparatorPupils.toLocaleString(), comparatorMeals: objSchool.comparatorMeals }  );

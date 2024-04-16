@@ -256,3 +256,11 @@ div.sortWrapper {
 .govuk-accordion__section table.custom-data tr:last-child td {
     border-bottom: 0;
 }
+
+.govuk-tabs .sortSelect {
+    width: 345px;
+}
+
+.govuk-tabs__panel#spending .govuk-grid-row {
+    margin-top: 48px;
+}

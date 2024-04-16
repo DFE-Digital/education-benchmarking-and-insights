@@ -1,9 +1,11 @@
 {% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+{% from "govuk/components/table/macro.njk" import govukTable %}
+{% from "govuk/components/select/macro.njk" import govukSelect %}
 
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Comparator sets - {{ data['school-name'] }} – {{ serviceName }}
+    {{ comparatorName }} comparison – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -34,16 +36,14 @@
 
 {% endif %}
 
-{% block content %}
 
+{% set charsHtml %}
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        
-        <h1 class="govuk-heading-l">{{ comparatorName }}</h1>
 
             {{ govukTable({
             caption: "Compare characteristics",
-            captionClasses: "govuk-table__caption--m",
+            captionClasses: "govuk-table__caption--l",
             firstCellIsHeader: true,
             head: [
                 {
@@ -144,7 +144,124 @@
         ]
             }) }}
 
-
     </div>
 </div>
+{% endset %}
+
+
+{% set spendingHtml %}
+
+<h2 class="govuk-heading-l">Compare spendings and costs</h2>
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Pupil-based cost categories</h3>
+    </div>
+
+    <div class="govuk-grid-column-one-third sortWrapper">
+
+        {{ govukSelect({
+            id: "showAs",
+            name: "showAs",
+            label: {
+                text: "Show as"
+            },
+            formGroup: {
+                classes: 'sortSelect'
+            },
+            items: [
+            {
+                value: "amount",
+                text: "Amount per pupil",
+                selected: true
+            },
+            {
+                value: "spend",
+                text: "Amount spent"
+            },
+            {
+                value: "income",
+                text: "Percetatage of income"
+            },
+            {
+                value: "expenditure",
+                text: "Percetatage of expenditure"
+            }
+            ]
+        }) }}
+    </div>
+</div> 
+
+<p><img src="/public/images/school-comparison-pupil.png" /></p>
+
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h3 class="govuk-heading-m">Building-based cost categories</h3>
+    </div>
+
+    <div class="govuk-grid-column-one-third sortWrapper">
+
+        {{ govukSelect({
+            id: "showAs",
+            name: "showAs",
+            label: {
+                text: "Show as"
+            },
+            formGroup: {
+                classes: 'sortSelect'
+            },
+            items: [
+            {
+                value: "amount",
+                text: "Amount per square metre",
+                selected: true
+            },
+            {
+                value: "spend",
+                text: "Amount spent"
+            },
+            {
+                value: "income",
+                text: "Percetatage of income"
+            },
+            {
+                value: "expenditure",
+                text: "Percetatage of expenditure"
+            }
+            ]
+        }) }}
+    </div>
+</div> 
+
+<p><img src="/public/images/school-comparison-buildings.png" /></p>
+
+{% endset %}
+
+
+{% block content %}
+
+    <h1 class="govuk-heading-l">{{ comparatorName }} comparison</h1>
+
+    {{ govukTabs({
+    items: [
+      {
+        label: "Characteristics",
+        id: "characteristics",
+        panel: {
+          html: charsHtml
+        }
+      },
+      {
+        label: "Spending",
+        id: "spending",
+        panel: {
+          html: spendingHtml
+        }
+      }
+    ]
+  }) }}
+
+
 {% endblock %}
