@@ -41,22 +41,22 @@ The testing approach will encompass manual testing for acceptance criteria valid
 ### Test Entry Criteria
 Entry criteria to start the testing of a particular feature will be dependent on the following. The automated tests for the new feature will be written along with the dev work when possible.
 
-| No  | Entry Criteria                  |
-|-----|---------------------------------|
-| 1   | Dev ticket has been completed   |
-| 2   | All integration tests are passing |
-| 3   | All unit tests are passing      |
+| No | Entry Criteria                    |
+|----|-----------------------------------|
+| 1  | Dev ticket has been completed     |
+| 2  | All integration tests are passing |
+| 3  | All unit tests are passing        |
 
 ### Exit Criteria
 The testing phase will be considered complete when all acceptance criteria have been successfully implemented and tested, automated tests have been integrated, and accessibility testing has been comprehensively conducted.
 
 ### Pass and Fail Criteria
-| Test Status | Definition                              |
-|-------------|-----------------------------------------|
-| Passed      | Test Outcome meets the Expected Test Outcome |
+| Test Status | Definition                                           |
+|-------------|------------------------------------------------------|
+| Passed      | Test Outcome meets the Expected Test Outcome         |
 | Failed      | Test Outcome DOES NOT meet the Expected Test Outcome |
-| Blocked     | Existing Defect Blocks Test Execution   |
-| Untested    | Yet to be Tested                        |
+| Blocked     | Existing Defect Blocks Test Execution                |
+| Untested    | Yet to be Tested                                     |
 
 ## Test Case Design and Execution
 
