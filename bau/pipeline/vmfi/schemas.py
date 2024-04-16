@@ -81,7 +81,7 @@ academy_master_list = {
     'Academy Status': 'string',
     'Academy Trust Status': 'string',
     'Number of Academies in Trust': 'Int64',
-    'Number of Pupils': 'Int64',
+    'Number of Pupils': 'Int64'
 }
 
 maintained_schools_master_list_index_col = 'URN'
