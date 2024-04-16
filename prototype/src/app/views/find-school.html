@@ -16,7 +16,7 @@
     name: "school",
     allowEmpty: false,
     hint: {
-        text: "Search by name, URN, keyword or location"
+        text: "Name, address or unique reference number (URN)"
     },
     errorMessage: null if errorThisPage != 'true' else { html: errorText },
     items: schools
@@ -30,7 +30,7 @@
     id: "trust-name",
     name: "trustName",
     hint: {
-      text: "Enter a name or company number"
+      text: "Name or company number"
     }
   }) }}
 {% endset -%}
@@ -42,7 +42,7 @@
     name: "authorityName",
     allowEmpty: false,
     hint: {
-        text: "Enter a local authority name or a three-digit LA code"
+        text: "Name or 3 digit code"
     },
     errorMessage: null if errorThisPage != 'true' else { html: errorText },
     items: authorities
@@ -50,24 +50,28 @@
   
 {% endset -%}
 
+
+
 <form method="post" action="set-school" class="form">
 
     <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
+                <h1 class="govuk-heading-l">Find a school, trust or local authority</h1>
+
                 {{ govukRadios({
                 name: "signIn",
                 fieldset: {
                     legend: {
-                        text: "Select an organisation type",
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
+                        text: "What are you looking for?",
+                        isPageHeading: false,
+                        classes: "govuk-fieldset__legend--m"
                     }
                 },
                 items: [
                     {
                         value: "academy",
-                        text: "Academy or Local Authority maintained school",
+                        text: "School or academy",
                         checked: true,
                         conditional: {
                             html: schoolsHtml
@@ -76,7 +80,7 @@
                     },
                     {
                         value: "trust",
-                        text: "Single or Multi-Academy Trust",
+                        text: "Trust",
                         conditional: {
                             html: trustsHtml
                         },
