@@ -9,6 +9,38 @@ A service that allows you to compare school metrics against similar schools
 
 ## Documentation
 
-- Developer guides are located in `.\documentation\developers`
-- Architecture and decision documentation is located in `.\documentation\architecture`
-- Testing strategy and plans are located in `.\documentation\testing`
+1. [Introduction and Goals](documentation/introduction-goals.md)
+2. [Repository Access Policy](documentation/repository-access-policy.md)
+3. [Branching policy](documentation/branching-policy.md)
+4. Architecture
+   1. [Constraints and Principals](documentation/architecture/constraints-principals.md)
+   2. [Non-Functional Requirements](documentation/architecture/non-Functional-requirements.md)
+   3. [Logical Architecture](documentation/architecture/logical-architecture.md)
+   4. [Business Architecture](documentation/architecture/business-architecture.md)
+   5. [Information Architecture](documentation/architecture/information-architecture.md)
+   6. [Application Architecture](documentation/architecture/application-architecture.md)
+   7. Deployment Architecture
+   8. Infrastructure Architecture
+   9. [Security Architecture](documentation/architecture/security-architecture.md)
+   10. Support Architecture
+   11. [Decisions and Options](documentation/architecture/decisions-options.md)
+   12. Service Design
+5. Architecture decision records
+   1. [API Architecture](documentation/architecture-decision-records/api-architecture.md)
+   2. [Front End Framework](documentation/architecture-decision-records/front-end-framework.md)
+   3. [Data Storage](documentation/architecture-decision-records/data-storage.md)
+   4. [Development Data](documentation/architecture-decision-records/development-data.md)
+6. Developers
+   1. [Getting Started](documentation/developers/getting-started.md)
+   2. [Session Data](documentation/developers/session-data.md)
+   3. [Integration with DfE Sign-in](documentation/developers/integration-with-dfe-sign-in.md)
+   4. Features
+      1. ...
+      2. ...
+      3. ...
+7. Testing
+   1. [Test Approach](documentation/testing/test-approach.md)
+   2. [Test Plan](documentation/testing/test-plan.md)
+   3. [Test Data Preparation and Transformation Process](documentation/testing/test-data-prep.md)
+   4. [Security and Penetration Testing](documentation/testing/security-testing.md)
+8. Glossary

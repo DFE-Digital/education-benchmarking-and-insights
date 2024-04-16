@@ -19,3 +19,9 @@ This testing is currently carried out manually when:
 
 [![Build Status](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20security%20scan?branchName=main&label=Platform)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_build/latest?definitionId=2851&branchName=main)
 [![Build Status](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20security%20scan?branchName=main&label=Web)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_build/latest?definitionId=2858&branchName=main)
+
+## Known issues
+
+- Sub Resource Integrity Attribute Missing (ai.clck.2.min.js) - at the moment "integrity" attribute is not existing currently.
+- CSP: style-src unsafe-inline - required by front-end libraries
+- Proxy Disclosure - limit control over function apps

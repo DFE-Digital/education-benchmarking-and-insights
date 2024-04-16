@@ -2,7 +2,7 @@
 
 ## Logical Viewpoint
 
-![Logical Architecture](images/Logical-Architecture.png)
+![Logical Architecture](../images/Logical-Architecture.png)
 
 | Component | Description |
 |:---------|:-----------|

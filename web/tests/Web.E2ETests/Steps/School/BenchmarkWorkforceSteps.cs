@@ -62,7 +62,7 @@ public class BenchmarkWorkforceSteps(PageDriver driver)
     {
         Assert.NotNull(_workforcePage);
         await _workforcePage.AreTableHeadersForChartDisplayed(ChartNameFromFriendlyName(chartName),
-            table.Header.ToArray());
+            table.Header.ToArray(), !table.Header.Contains("Pupils per staff role"));
     }
 
     [Then("the table view is showing")]

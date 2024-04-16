@@ -16,20 +16,20 @@ Both of these services allow users to compare a selected school with similar sch
 
 ![Goals and drivers](images/Goals-and-Drivers.png)
 
-| Type      | Description |
-|:---------:|:------------|       
-| **Goal** | Provide a robust, stable platform that enables the viewing of default benchmarked data |
-| **Goal** | Provide a robust, stable platform that enables the creation of custom comparator sets |
-| **Goal** | Provide reporting and insights to enable improvement of the service |
-| **Driver** | Reduce the total cost of ownership  |
-| **Driver** | Reduce the time taken to import new yearly data |
+|    Type    | Description                                                                            |
+|:----------:|:---------------------------------------------------------------------------------------|       
+|  **Goal**  | Provide a robust, stable platform that enables the viewing of default benchmarked data |
+|  **Goal**  | Provide a robust, stable platform that enables the creation of custom comparator sets  |
+|  **Goal**  | Provide reporting and insights to enable improvement of the service                    |
+| **Driver** | Reduce the total cost of ownership                                                     |
+| **Driver** | Reduce the time taken to import new yearly data                                        |
 
 ## Requirements Overview
 
 The requirements for a Minimum Viable Product (MVP) are:
 
 - A single service that replaces both SFB and VMFI, whilst retaining all the features of both systems. Where there is a currentl overlap of feature, a decision will be made and logged as to which functionality will be retained
-- A reduction and simplicifcation of the infrastructure hosting the service
+- A reduction and simplification of the infrastructure hosting the service
 - A CI/CD pipeline enabling automated testing and deployment of changes to the system in the most effective manner
 
 The project is run in an Agile manner, and the backlog is managed in [Azure DevOps](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service).

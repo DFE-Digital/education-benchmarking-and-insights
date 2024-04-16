@@ -50,9 +50,9 @@ Each status and Definition of Done act as control 'gates' for all work passing t
 ## Testing Activities
 ### Overview
 The following diagram shows the Agile Testing Quadrants outlining where each different type of testing sits, its order of implementation, and the associated categories.
-![agile-testing-quadrants](images\agile-testing-quadrants.png)
+![agile-testing-quadrants](..\images\agile-testing-quadrants.png)
 The testing pyramid below shows the value of implementing different types of automated testing within a software project.
-![testing-pyramid](images\testing-pyramid.png)
+![testing-pyramid](..\images\testing-pyramid.png)
 
 ### Automated Testing
 #### Unit Testing

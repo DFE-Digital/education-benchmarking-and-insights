@@ -2,7 +2,7 @@
 
 ## Logical Data Model
 
-![Logical Data Model](images/Logical-Data-Model.png)
+![Logical Data Model](../images/Logical-Data-Model.png)
 
 ### Entities
 
