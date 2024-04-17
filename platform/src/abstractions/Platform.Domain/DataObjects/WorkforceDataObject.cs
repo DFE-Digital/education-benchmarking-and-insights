@@ -41,4 +41,8 @@ public record WorkforceDataObject : QueryableFinancesDataObject
 
     [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.WORKFORCE_HEADCOUNT)]
     public decimal WorkforceHeadcount { get; set; }
+
+    [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.PERIOD_COVERED_BY_RETURN)]
+    public int PeriodCoveredByReturn { get; set; }
+
 }
