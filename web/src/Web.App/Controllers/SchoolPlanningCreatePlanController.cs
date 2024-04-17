@@ -110,7 +110,7 @@ public class SchoolPlanningCreateController(
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var finances = await financeService.GetFinances(school);
+            var finances = await financeService.GetFinances(urn);
             var viewModel = new SchoolPlanCreateViewModel(school, plan, finances);
 
             return View("PrePopulateData", viewModel);
@@ -141,7 +141,7 @@ public class SchoolPlanningCreateController(
             stage.SetPlanValues(plan);
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var finances = await financeService.GetFinances(school);
+            var finances = await financeService.GetFinances(urn);
             var viewModel = new SchoolPlanCreateViewModel(school, plan, finances);
 
             results.AddToModelState(ModelState);

@@ -6,6 +6,7 @@ using AzureFunctions.Extensions.Swashbuckle.Settings;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.OpenApi;
+using Microsoft.OpenApi.Models;
 
 namespace Platform.Functions.Extensions;
 
@@ -17,7 +18,7 @@ public static class FunctionsHostBuilderExtensions
         var assemblyDetails = FileVersionInfo.GetVersionInfo(assembly.Location);
         builder.AddSwashBuckle(assembly, opts =>
         {
-            opts.AddCodeParameter = true;
+            opts.AddCodeParameter = false;
             opts.SpecVersion = OpenApiSpecVersion.OpenApi3_0;
             opts.Documents = new[]
             {
@@ -33,6 +34,12 @@ public static class FunctionsHostBuilderExtensions
 
                 x.UseAllOfForInheritance();
                 x.UseOneOfForPolymorphism();
+                x.AddSecurityDefinition("ApiKey", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Name = "x-functions-key",
+                    Type = SecuritySchemeType.ApiKey
+                });
             };
         });
 

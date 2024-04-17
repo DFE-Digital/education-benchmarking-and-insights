@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
@@ -11,7 +11,7 @@ namespace Platform.Api.Establishment.Search;
 public record OrganisationSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
-public class OrganisationSearchService : SearchService, ISearchService<Organisation>
+public class OrganisationSearchService : SearchService, ISearchService<OrganisationResponseModel>
 {
     private static readonly string[] Facets = Array.Empty<string>();
     private const string IndexName = "organisation-index";
@@ -20,22 +20,22 @@ public class OrganisationSearchService : SearchService, ISearchService<Organisat
     {
     }
 
-    public Task<SearchOutput<Organisation>> SearchAsync(PostSearchRequest request)
+    public Task<SearchResponseModel<OrganisationResponseModel>> SearchAsync(PostSearchRequestModel request)
     {
-        return SearchAsync<Organisation>(request, facets: Facets);
+        return SearchAsync<OrganisationResponseModel>(request, facets: Facets);
     }
 
-    public Task<SuggestOutput<Organisation>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponseModel<OrganisationResponseModel>> SuggestAsync(PostSuggestRequestModel request)
     {
         var fields = new[]
         {
-            nameof(Organisation.Identifier),
-            nameof(Organisation.Name),
-            nameof(Organisation.Kind),
-            nameof(Organisation.Town),
-            nameof(Organisation.Postcode)
+            nameof(OrganisationResponseModel.Identifier),
+            nameof(OrganisationResponseModel.Name),
+            nameof(OrganisationResponseModel.Kind),
+            nameof(OrganisationResponseModel.Town),
+            nameof(OrganisationResponseModel.Postcode)
         };
 
-        return SuggestAsync<Organisation>(request, selectFields: fields);
+        return SuggestAsync<OrganisationResponseModel>(request, selectFields: fields);
     }
 }

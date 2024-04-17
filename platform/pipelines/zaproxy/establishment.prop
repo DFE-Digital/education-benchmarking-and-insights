@@ -1,0 +1,6 @@
+  -config replacer.full_list\\(0\\).description=authkey \
+  -config replacer.full_list\\(0\\).enabled=true \
+  -config replacer.full_list\\(0\\).matchtype=REQ_HEADER \
+  -config replacer.full_list\\(0\\).matchstr=x-functions-key \
+  -config replacer.full_list\\(0\\).regex=false \
+  -config replacer.full_list\\(0\\).replacement=__establishment-host-key__

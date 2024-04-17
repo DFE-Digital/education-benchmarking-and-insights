@@ -4,9 +4,9 @@
     "net8.0": {
       "IdentityModel": {
         "type": "Direct",
-        "requested": "[6.2.0, )",
-        "resolved": "6.2.0",
-        "contentHash": "4AXZ6Tp+DNwrSSeBziiX/231i8ZpD77A9nEMyc68gLSCWG0kgWsIBeFquYcBebiIPkfB7GEXzCYuuLeR1QZJIQ=="
+        "requested": "[7.0.0, )",
+        "resolved": "7.0.0",
+        "contentHash": "to99aLL5Gev1GOb2gUao/UZXT/uXMyjEmHPNrf/vJI2HBD1LMCTeC4SBCe/cqMIB12V9v+eSieq7ff0lju9pOQ=="
       },
       "JWT": {
         "type": "Direct",
@@ -20,9 +20,9 @@
       },
       "Microsoft.AspNetCore.Authentication.OpenIdConnect": {
         "type": "Direct",
-        "requested": "[8.0.3, )",
-        "resolved": "8.0.3",
-        "contentHash": "23d/HjzJQN2CJrBpCDqSjbZQMBPpHEhTFXAN5Xoo3CODsJVcAZBqluobUjVoRtlGcn3/C9vRzAfqN53ATRd1UA==",
+        "requested": "[8.0.4, )",
+        "resolved": "8.0.4",
+        "contentHash": "REVWecEYp7b9xuZzRgq09QjeQTlpA478AEZYWsjc7aa8zu+/TrAGRQbZW2YT3VpsdNl/Fv592sKt0gAnt+0hEw==",
         "dependencies": {
           "Microsoft.IdentityModel.Protocols.OpenIdConnect": "7.1.2"
         }

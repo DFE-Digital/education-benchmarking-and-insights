@@ -1,5 +1,5 @@
 using System.Net;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Xunit;
@@ -56,7 +56,7 @@ public class WhenJsonContentResultIsCalled
     }
 }
 
-public class TestPagedResults : IPagedResults
+public class TestPagedResults : IPagedResponse
 {
     public long TotalResults { get; set; }
     public int Page { get; set; }

@@ -1,53 +1,67 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import { NonClassroomSupportProps } from "src/views/compare-your-workforce/partials";
+import { NonClassroomSupportData } from "src/views/compare-your-workforce/partials";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
-  props
-) => {
-  const { schools } = props;
+export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(
+      type,
+      id,
+      dimension.value,
+      "non-classroom-support-staff-fte"
+    );
+  }, [id, dimension, type]);
 
-  const chartData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
+  const chartData: HorizontalBarChartWrapperData<NonClassroomSupportData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        dimension.heading,
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateWorkforceValue({
-          dimension: dimension,
-          value: school.nonClassroomSupportStaffFTE,
-          ...school,
+        dataPoints: data.map((school) => {
+          return {
+            ...school,
+            value: school.nonClassroomSupportStaffFte,
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -64,7 +78,7 @@ export const NonClassroomSupport: React.FC<NonClassroomSupportProps> = (
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
           elementId="nonclassroom-support"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

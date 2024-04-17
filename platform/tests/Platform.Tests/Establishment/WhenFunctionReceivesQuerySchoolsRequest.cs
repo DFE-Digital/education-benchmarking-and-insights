@@ -1,9 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Xunit;
-using School = Platform.Domain.Responses.School;
 
 namespace Platform.Tests.Establishment;
 
@@ -14,7 +13,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
     {
         Db
             .Setup(d => d.Query(It.IsAny<IQueryCollection>()))
-            .ReturnsAsync(new PagedResults<School>());
+            .ReturnsAsync(new PagedResponseModel<SchoolResponseModel>());
 
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
 

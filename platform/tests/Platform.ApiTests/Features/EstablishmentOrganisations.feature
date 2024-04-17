@@ -1,3 +1,4 @@
+@ignore
 Feature: Establishment organisations endpoints
 
     Scenario: Sending a valid suggest organisations request

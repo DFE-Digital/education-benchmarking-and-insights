@@ -11,11 +11,12 @@ public class WhenViewingFinancialPlanningTotalExpenditure(
     FinancialPlanFixture plan)
     : PageBase(outputHelper, webDriver)
 {
-    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create?step=total-expenditure&year={plan.Year}";
+    protected override string PageUrl => $"/school/{plan.Urn}/financial-planning/create/total-expenditure?year={plan.Year}";
 
     [Fact]
     public async Task ThenThereAreNoAccessibilityIssues()
     {
+        await plan.Initialize;
         await GoToPage();
         await EvaluatePage();
     }
@@ -23,6 +24,7 @@ public class WhenViewingFinancialPlanningTotalExpenditure(
     [Fact]
     public async Task ValidationErrorThenThereAreNoAccessibilityIssues()
     {
+        await plan.Initialize;
         await GoToPage();
         await Page.Locator(":text('Continue')").ClickAsync();
         await EvaluatePage();

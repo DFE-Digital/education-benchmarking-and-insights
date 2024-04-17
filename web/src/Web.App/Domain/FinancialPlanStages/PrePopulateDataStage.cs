@@ -3,11 +3,11 @@ namespace Web.App.Domain.FinancialPlanStages;
 public class PrePopulateDataStage : Stage
 {
     public bool? UseFigures { get; set; }
-    public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
-    public decimal? TotalTeacherCosts { get; set; }
+    public string? TotalIncome { get; set; }
+    public string? TotalExpenditure { get; set; }
+    public string? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
-    public decimal? EducationSupportStaffCosts { get; set; }
+    public string? EducationSupportStaffCosts { get; set; }
 
     public override void SetPlanValues(FinancialPlan plan)
     {

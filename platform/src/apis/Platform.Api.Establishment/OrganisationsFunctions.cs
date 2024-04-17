@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
@@ -20,10 +20,10 @@ namespace Platform.Api.Establishment;
 public class OrganisationsFunctions
 {
     private readonly ILogger<OrganisationsFunctions> _logger;
-    private readonly ISearchService<Organisation> _search;
-    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ISearchService<OrganisationResponseModel> _search;
+    private readonly IValidator<PostSuggestRequestModel> _validator;
 
-    public OrganisationsFunctions(ILogger<OrganisationsFunctions> logger, ISearchService<Organisation> search, IValidator<PostSuggestRequest> validator)
+    public OrganisationsFunctions(ILogger<OrganisationsFunctions> logger, ISearchService<OrganisationResponseModel> search, IValidator<PostSuggestRequestModel> validator)
     {
         _logger = logger;
         _search = search;
@@ -31,12 +31,12 @@ public class OrganisationsFunctions
     }
 
     [FunctionName(nameof(SuggestOrganisationsAsync))]
-    [ProducesResponseType(typeof(SuggestOutput<Organisation>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuggestResponseModel<OrganisationResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestOrganisationsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "organisations/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")]
+        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -49,7 +49,7 @@ public class OrganisationsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequest>();
+                var body = req.ReadAsJson<PostSuggestRequestModel>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)

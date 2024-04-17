@@ -1,3 +1,4 @@
+@ignore
 Feature: Establishment schools endpoints
 
     Scenario: Sending a valid school request

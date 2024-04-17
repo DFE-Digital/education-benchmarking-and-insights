@@ -1,6 +1,5 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
-using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Search;
 using Platform.Search.Builders;
 
@@ -12,11 +11,9 @@ public class SchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
 
     private readonly string _connectionString;
     private readonly string _databaseId;
-    private readonly ICollectionService _collectionService;
 
-    public SchoolDataSourceConnectionBuilder(ICollectionService collectionService, string? connectionString, string? databaseId)
+    public SchoolDataSourceConnectionBuilder(string? connectionString, string? databaseId)
     {
-        _collectionService = collectionService;
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         _databaseId = databaseId ?? throw new ArgumentNullException(nameof(databaseId));
     }
@@ -24,13 +21,13 @@ public class SchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var fullConnString = $"{_connectionString}Database={_databaseId};";
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
+        const string collection = "GIAS";
 
         var cosmosDbDataSource = new SearchIndexerDataSourceConnection(
             name: Name,
             type: SearchIndexerDataSourceType.CosmosDb,
             connectionString: fullConnString,
-            container: new SearchIndexerDataContainer(collection.Name));
+            container: new SearchIndexerDataContainer(collection));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(cosmosDbDataSource);
     }

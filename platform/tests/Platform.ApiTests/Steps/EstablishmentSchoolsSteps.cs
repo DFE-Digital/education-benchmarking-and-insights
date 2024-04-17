@@ -2,7 +2,7 @@ using System.Net;
 using System.Text;
 using FluentAssertions;
 using Platform.ApiTests.Drivers;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
@@ -85,7 +85,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestOutput<School>>().Results;
+        var results = content.FromJson<SuggestResponseModel<SchoolResponseModel>>().Results;
         var set = new List<dynamic>();
 
         foreach (var result in results)
@@ -115,7 +115,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<School>();
+        var result = content.FromJson<SchoolResponseModel>();
 
         result.Name.Should().Be("Burscough Bridge St John's Church of England Primary School");
         result.Urn.Should().Be("119376");
@@ -159,7 +159,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResults<School>>();
+        var result = content.FromJson<PagedResponseModel<SchoolResponseModel>>();
 
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
@@ -198,7 +198,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SearchOutput<School>>();
+        var result = content.FromJson<SearchResponseModel<SchoolResponseModel>>();
 
         result.Page.Should().Be(1);
         result.PageSize.Should().Be(15);

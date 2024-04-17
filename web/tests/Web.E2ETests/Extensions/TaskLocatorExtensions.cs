@@ -27,4 +27,10 @@ public static class TaskLocatorExtensions
         var l = await locator;
         return await l.ShouldHaveText(expectedText);
     }
+
+    public static async Task<ILocator> Press(this Task<ILocator> locator, string key)
+    {
+        var l = await locator;
+        return await l.Press(key);
+    }
 }

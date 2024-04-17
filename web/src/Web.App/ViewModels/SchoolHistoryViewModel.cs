@@ -6,4 +6,5 @@ public class SchoolHistoryViewModel(School school)
 {
     public string? Name => school.Name;
     public string? Urn => school.Urn;
+    public bool IsPartOfTrust => school.IsPartOfTrust;
 }

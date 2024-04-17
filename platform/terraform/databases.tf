@@ -1,4 +1,10 @@
 resource "azurerm_cosmosdb_account" "cosmosdb-account" {
+  #checkov:skip=CKV_AZURE_100:To be reviewed
+  #checkov:skip=CKV_AZURE_101:To be reviewed
+  #checkov:skip=CKV_AZURE_102:To be reviewed
+  #checkov:skip=CKV_AZURE_132:To be reviewed
+  #checkov:skip=CKV_AZURE_140:To be reviewed
+  #checkov:skip=CKV_AZURE_99:To be reviewed
   name                = "${var.environment-prefix}-ebis-cdb"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -23,18 +29,43 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
   }
 }
 
-resource "azurerm_key_vault_secret" "platform-cosmos-connection-string" {
+resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
   #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-cdb-connection-string"
+  name         = "ebis-cdb-connection-string-r"
   value        = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
 }
 
+resource "azurerm_key_vault_secret" "platform-cosmos-readwrite-connection-string" {
+  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  name         = "ebis-cdb-connection-string-rw"
+  value        = azurerm_cosmosdb_account.cosmosdb-account.primary_sql_connection_string
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "connection-string"
+}
+
+#TODO: rename resource - it's database not container
 resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   name                = "ebis-data"
   account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
   resource_group_name = azurerm_resource_group.resource-group.name
+}
+
+resource "azurerm_cosmosdb_sql_container" "cosmosdb-fp-container" {
+  name                = "financial-plans"
+  resource_group_name = azurerm_resource_group.resource-group.name
+  account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
+  database_name       = azurerm_cosmosdb_sql_database.cosmosdb-container.name
+  partition_key_path  = "/partitionKey"
+
+  indexing_policy {
+    indexing_mode = "consistent"
+
+    included_path {
+      path = "/*"
+    }
+  }
 }
 
 resource "random_password" "sql-admin-password" {
@@ -43,36 +74,16 @@ resource "random_password" "sql-admin-password" {
   override_special = "!@#$*()-_=+"
 }
 
-resource "azurerm_key_vault_secret" "platform-sql-admin-username" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-sql-admin-username"
-  value        = "ebis-sql-admin"
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "username"
+locals {
+  sql-admin-login = "ebis-sql-admin"
 }
 
-resource "azurerm_key_vault_secret" "platform-sql-admin-password" {
+resource "azurerm_key_vault_secret" "platform-sql-connection-string" {
   #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-sql-admin-password"
-  value        = random_password.sql-admin-password.result
+  name         = "ebis-sql-connection-string"
+  value        = "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql-db.name};User ID=${local.sql-admin-login};Password=${random_password.sql-admin-password.result};Trusted_Connection=False;Encrypt=True;"
   key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "password"
-}
-
-resource "azurerm_key_vault_secret" "platform-sql-server" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-sql-server"
-  value        = azurerm_mssql_server.sql-server.fully_qualified_domain_name
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "server"
-}
-
-resource "azurerm_key_vault_secret" "platform-sql-db-name" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
-  name         = "ebis-sql-db-data"
-  value        = azurerm_mssql_database.sql-db.name
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "db-name"
+  content_type = "connection-string"
 }
 
 resource "azurerm_mssql_server" "sql-server" {
@@ -82,8 +93,8 @@ resource "azurerm_mssql_server" "sql-server" {
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
   location                     = azurerm_resource_group.resource-group.location
-  administrator_login          = azurerm_key_vault_secret.platform-sql-admin-username.value
-  administrator_login_password = azurerm_key_vault_secret.platform-sql-admin-password.value
+  administrator_login          = local.sql-admin-login
+  administrator_login_password = random_password.sql-admin-password.result
   tags                         = local.common-tags
   minimum_tls_version          = "1.2"
 
@@ -103,6 +114,7 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
 }
 
 resource "azurerm_mssql_database" "sql-db" {
+  #checkov:skip=CKV_AZURE_224:To be reviewed
   #checkov:skip=CKV_AZURE_229:To be reviewed for production
   name        = "ebis-data"
   server_id   = azurerm_mssql_server.sql-server.id

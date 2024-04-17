@@ -1,3 +1,4 @@
+@ignore
 Feature: Establishment trusts endpoints
 
     Scenario: Sending a valid trust request

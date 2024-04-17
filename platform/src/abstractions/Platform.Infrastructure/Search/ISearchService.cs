@@ -2,6 +2,6 @@ namespace Platform.Infrastructure.Search;
 
 public interface ISearchService<T>
 {
-    Task<SearchOutput<T>> SearchAsync(PostSearchRequest request);
-    Task<SuggestOutput<T>> SuggestAsync(PostSuggestRequest request);
+    Task<SearchResponseModel<T>> SearchAsync(PostSearchRequestModel request);
+    Task<SuggestResponseModel<T>> SuggestAsync(PostSuggestRequestModel request);
 }

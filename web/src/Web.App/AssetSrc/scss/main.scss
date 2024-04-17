@@ -1,6 +1,6 @@
 @import "../../node_modules/govuk-frontend/dist/govuk/all";
 
-@import "headline-figures";
+@import "headlines";
 @import "link-list";
 
 .app-view-component {
@@ -61,9 +61,6 @@ p.priority .govuk-tag {
   margin-bottom: 20px;
 }
 
-.react-wrapper {
-  &.react-wrapper-comparison-chart-summary {
-    height: 200px;
-    margin-bottom: 120px;
-  }
+.govuk-caption-l a {
+  color: $govuk-secondary-text-colour
 }

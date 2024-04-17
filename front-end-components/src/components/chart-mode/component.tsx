@@ -6,7 +6,7 @@ import {
 } from "src/components/chart-mode";
 
 export const ChartMode: React.FC<ChartModeProps> = (props) => {
-  const { displayMode, handleChange } = props;
+  const { displayMode, handleChange, prefix } = props;
 
   return (
     <div className="govuk-form-group">
@@ -21,17 +21,16 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
           <div className="govuk-radios__item">
             <input
               className="govuk-radios__input"
-              id="mode-chart"
-              name="changedChartMode"
+              id={prefix ? `${prefix}-mode-chart` : "mode-chart"}
+              name={prefix ? `${prefix}ChangedChartMode` : "changedChartMode"}
               type="radio"
               value={ChartModeChart}
-              defaultChecked={displayMode == ChartModeChart}
               onChange={handleChange}
               checked={displayMode == ChartModeChart}
             />
             <label
               className="govuk-label govuk-radios__label"
-              htmlFor="mode-chart"
+              htmlFor={prefix ? `${prefix}-mode-chart` : "mode-chart"}
             >
               {ChartModeChart}
             </label>
@@ -39,17 +38,16 @@ export const ChartMode: React.FC<ChartModeProps> = (props) => {
           <div className="govuk-radios__item">
             <input
               className="govuk-radios__input"
-              id="mode-table"
-              name="changedChartMode"
+              id={prefix ? `${prefix}-mode-table` : "mode-table"}
+              name={prefix ? `${prefix}ChangedChartMode` : "changedChartMode"}
               type="radio"
               value={ChartModeTable}
-              defaultChecked={displayMode == ChartModeTable}
               onChange={handleChange}
               checked={displayMode == ChartModeTable}
             />
             <label
               className="govuk-label govuk-radios__label"
-              htmlFor="mode-table"
+              htmlFor={prefix ? `${prefix}-mode-table` : "mode-table"}
             >
               {ChartModeTable}
             </label>

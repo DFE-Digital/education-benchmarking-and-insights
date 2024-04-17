@@ -22,8 +22,7 @@ public class SchoolHistoryController(
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] =
-                    ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolHistoryViewModel(school);

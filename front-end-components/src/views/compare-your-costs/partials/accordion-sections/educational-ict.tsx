@@ -1,55 +1,70 @@
-import React, { useState } from "react";
-import { EducationalIctProps } from "src/views/compare-your-costs/partials/accordion-sections/types";
+import React, { useMemo, useState } from "react";
+import {
+  EducationalIctData,
+  EducationalIctProps,
+} from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
   CalculateCostValue,
   CostCategories,
-  DimensionHeading,
   PoundsPerPupil,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   ChartDimensions,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
+import { useHash } from "src/hooks/useHash";
+import classNames from "classnames";
 
 export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      CostCategories.find((x) => x.value === event.target.value) ??
+      PoundsPerPupil;
+    setDimension(dimension);
   };
 
-  const learningResourcesBarData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  const learningResourcesBarData: HorizontalBarChartWrapperData<EducationalIctData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        dimension.heading,
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateCostValue({
-          dimension: dimension,
-          value: school.learningResourcesIctCosts,
-          ...school,
+        dataPoints: schools.map((school) => {
+          return {
+            ...school,
+            value: CalculateCostValue({
+              dimension: dimension.value,
+              value: school.learningResourcesIctCosts,
+              ...school,
+            }),
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, schools]);
+
+  const id = "educational-ict";
+  const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <div className="govuk-accordion__section">
+      <div
+        className={classNames("govuk-accordion__section", {
+          "govuk-accordion__section--expanded": hash === `#${id}`,
+        })}
+        id={id}
+      >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
             <span
@@ -69,6 +84,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="eductional learning resources costs"
+            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Educational learning resources costs
@@ -77,7 +93,7 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="eductional-learning-resources-costs"
-              defaultValue={dimension}
+              defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

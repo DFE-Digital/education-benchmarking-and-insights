@@ -1,9 +1,5 @@
 import { StatProps } from "src/components/charts/stat";
-import {
-  ChartDataSeries,
-  ChartSeriesValue,
-  ChartSeriesValueUnit,
-} from "src/components";
+import { ChartDataSeries } from "src/components";
 import classNames from "classnames";
 
 export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
@@ -14,6 +10,7 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
     label,
     suffix,
     value,
+    valueFormatter,
     valueSuffix,
     valueUnit,
   } = props;
@@ -31,13 +28,27 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
         {compactValue ? (
           <abbr
             className="summary"
-            title={valueFormatter(value, valueUnit)}
-            aria-label={valueFormatter(value, valueUnit, false, true)}
+            title={
+              valueFormatter
+                ? valueFormatter(value, { valueUnit })
+                : String(value)
+            }
+            aria-label={
+              valueFormatter
+                ? valueFormatter(value, { valueUnit, currencyAsName: true })
+                : String(value)
+            }
           >
-            {valueFormatter(value, valueUnit, true)}
+            {valueFormatter
+              ? valueFormatter(value, { valueUnit, compact: true })
+              : String(value)}
           </abbr>
         ) : (
-          <span>{valueFormatter(value, valueUnit)}</span>
+          <span>
+            {valueFormatter
+              ? valueFormatter(value, { valueUnit })
+              : String(value)}
+          </span>
         )}
         {valueSuffix && (
           <span className="chart-stat-value-suffix">{valueSuffix}</span>
@@ -50,26 +61,4 @@ export function Stat<TData extends ChartDataSeries>(props: StatProps<TData>) {
       )}
     </div>
   );
-}
-
-function valueFormatter(
-  value: ChartSeriesValue | undefined,
-  valueUnit?: ChartSeriesValueUnit,
-  compact?: boolean,
-  currencyAsName?: boolean
-) {
-  if (typeof value !== "number") {
-    return value || "";
-  }
-
-  return new Intl.NumberFormat("en-GB", {
-    notation: compact ? "compact" : undefined,
-    compactDisplay: compact ? "short" : undefined,
-    style: valueUnit === "currency" ? "currency" : undefined,
-    currency: valueUnit === "currency" ? "GBP" : undefined,
-    currencyDisplay: currencyAsName ? "name" : "symbol",
-    maximumFractionDigits: compact ? undefined : 0,
-  })
-    .format(value)
-    .toLowerCase();
 }

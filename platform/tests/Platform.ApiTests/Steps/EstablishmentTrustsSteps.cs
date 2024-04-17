@@ -2,7 +2,7 @@ using System.Net;
 using System.Text;
 using FluentAssertions;
 using Platform.ApiTests.Drivers;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
@@ -141,7 +141,7 @@ public class EstablishmentTrustsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestOutput<Trust>>().Results;
+        var results = content.FromJson<SuggestResponseModel<TrustResponseModel>>().Results;
         var set = new List<dynamic>();
 
         foreach (var result in results)

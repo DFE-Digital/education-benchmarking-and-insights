@@ -10,7 +10,7 @@ using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Session;
+using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
 using Web.Identity.Extensions;
@@ -44,11 +44,7 @@ builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValid
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(3600);
-    options.Cookie.IsEssential = true;
-});
+builder.AddSessionService();
 
 if (!builder.Environment.IsIntegration())
 {
@@ -77,23 +73,15 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IInsightApi, InsightApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 
+    builder.Services.AddHttpClient<IWorkforceApi, WorkforceApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
         .ConfigureHttpClientForApi(Constants.EstablishmentApi);
 
     builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddCosmosCache(opts =>
-    {
-        var settings = builder.Configuration.GetSection(CosmosCacheSettings.Section).Get<CosmosCacheSettings>();
-        ArgumentNullException.ThrowIfNull(settings);
-
-        opts.ContainerName = settings.ContainerName ?? throw new ArgumentNullException(nameof(settings.ContainerName));
-        opts.DatabaseName = settings.DatabaseName ?? throw new ArgumentNullException(nameof(settings.DatabaseName));
-        opts.CosmosClient = CosmosClientFactory.Create(settings);
-        opts.CreateIfNotExists = false;
-    });
-    
+   
     builder.Services.AddNodeReact(
         config =>
         {
@@ -124,6 +112,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 }
 
+app.UseMiddleware<CustomResponseHeadersMiddleware>();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseHttpsRedirection();
 app.UseStaticFiles();
@@ -137,7 +126,6 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
-
 
 
 [ExcludeFromCodeCoverage]

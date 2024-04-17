@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Domain.DataObjects;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public class ComparatorDataObject
+public record ComparatorDataObject
 {
     public int all_comparators_all_Id { get; set; }
     public int trust_academy_Id { get; set; }

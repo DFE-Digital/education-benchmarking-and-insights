@@ -9,7 +9,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Insight.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -27,12 +27,42 @@ public class SchoolsFunctions
         _db = db;
     }
 
-    [FunctionName(nameof(QuerySchoolExpenditureAsync))]
-    [ProducesResponseType(typeof(PagedSchoolExpenditure), (int)HttpStatusCode.OK)]
+    [FunctionName(nameof(QuerySchoolFinancesAsync))]
+    [ProducesResponseType(typeof(FinancesResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
+    public async Task<IActionResult> QuerySchoolFinancesAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")] HttpRequest req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   {"Application", Constants.ApplicationName},
+                   {"CorrelationID", correlationId}
+               }))
+        {
+            try
+            {
+                var urns = req.Query["urns"].ToString().Split(",");
+
+                var result = await _db.Finances(urns);
+
+                return new JsonContentResult(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed school finances query");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+
+    [FunctionName(nameof(QuerySchoolExpenditureAsync))]
+    [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> QuerySchoolExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/expenditure")] HttpRequest req)
     {
@@ -46,10 +76,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
 
-                var result = await _db.Expenditure(urns, page, pageSize);
+                var result = await _db.Expenditure(urns);
 
                 return new JsonContentResult(result);
             }
@@ -62,11 +91,9 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolWorkforceAsync))]
-    [ProducesResponseType(typeof(PagedSchoolWorkforce), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page", DataType = typeof(int), Required = false)]
     public async Task<IActionResult> QuerySchoolWorkforceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/workforce")] HttpRequest req)
     {
@@ -80,10 +107,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var (page, pageSize) = req.Query.GetPagingValues();
                 var urns = req.Query["urns"].ToString().Split(",");
 
-                var result = await _db.Workforce(urns, page, pageSize);
+                var result = await _db.Workforce(urns);
 
                 return new JsonContentResult(result);
             }

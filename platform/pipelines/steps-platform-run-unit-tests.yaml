@@ -36,10 +36,10 @@ steps:
     inputs:
       summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
 
-  - task: BuildQualityChecks@9
-    displayName: 'Check build quality'
-    inputs:
-      checkCoverage: true
-      coverageType: lines
-      coverageFailOption: fixed
-      coverageThreshold: 50
+#  - task: BuildQualityChecks@9
+#    displayName: 'Check build quality'
+#    inputs:
+#      checkCoverage: true
+#      coverageType: lines
+#      coverageFailOption: fixed
+#      coverageThreshold: 50

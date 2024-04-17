@@ -1,0 +1,11 @@
+﻿@model Web.App.ViewModels.Components.DataSourceViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @foreach (var text in Model.AdditionText)
+        {
+            <p class="govuk-body">@text</p>    
+        }
+        <p class="govuk-body">@Model.DataSource</p>
+    </div>
+</div>

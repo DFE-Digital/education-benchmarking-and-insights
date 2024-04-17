@@ -45,6 +45,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
 
 
         var page = await Client.SetupEstablishment(trust)
+            .SetupInsights()
             .Navigate(Paths.TrustHome(trust.CompanyNumber));
 
         return (page, trust);

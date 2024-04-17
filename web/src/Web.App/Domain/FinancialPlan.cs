@@ -11,11 +11,11 @@ public class FinancialPlan
     public bool IsComplete { get; set; }
     public decimal TargetContactRatio { get; set; }
     public bool? UseFigures { get; set; }
-    public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
-    public decimal? TotalTeacherCosts { get; set; }
+    public string? TotalIncome { get; set; }
+    public string? TotalExpenditure { get; set; }
+    public string? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
-    public decimal? EducationSupportStaffCosts { get; set; }
+    public string? EducationSupportStaffCosts { get; set; }
     public string? TimetablePeriods { get; set; }
     public bool? HasMixedAgeClasses { get; set; }
     public bool MixedAgeReceptionYear1 { get; set; }

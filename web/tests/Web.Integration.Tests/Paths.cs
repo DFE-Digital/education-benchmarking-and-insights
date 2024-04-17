@@ -7,7 +7,6 @@ public static class Paths
     public const string ServiceHelp = "/help-with-this-service";
     public const string SubmitEnquiry = "/submit-an-enquiry";
     public const string AskForHelp = "/ask-for-help";
-    public const string CommercialResources = "/find-commercial-resources";
     public const string Error = "/error";
 
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
@@ -54,7 +53,7 @@ public static class Paths
 
     public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
-    public static string ApiEstablishmentWorkforce(string? type, string? id) => $"api/establishments/workforce?type={type}&id={id}";
+    public static string ApiWorkforce(string id, string type, string category, string dimension) => $"api/workforce?id={id}&type={type}&category={category}&dimension={dimension}";
 
     public static string ToAbsolute(this string path)
     {

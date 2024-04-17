@@ -17,9 +17,6 @@ public class ProgramOptions
     [Option('d', "cosmosDatabaseId", Required = true)]
     public string? CosmosDatabaseId { get; set; }
 
-    [Option('l', "lookupCollectionName", Required = true)]
-    public string? LookupCollectionName { get; set; }
-
     [Option('p', "platformStorageConnectionString", Required = true)]
     public string? PlatformStorageConnectionString { get; set; }
 

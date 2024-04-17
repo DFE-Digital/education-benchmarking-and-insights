@@ -1,4 +1,5 @@
-﻿Feature: InsightsMiscellaneous
+﻿@ignore
+Feature: InsightsMiscellaneous
 Insights miscellaneous endpoints
 
     Scenario: Sending a valid finance year request

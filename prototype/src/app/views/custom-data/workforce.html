@@ -1,0 +1,159 @@
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Customise your data - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+    {{ govukBackLink({
+    text: "Back",
+    href: "/custom-data/school-characteristics"
+    }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Change workforce data</h1>
+
+       <!---<h2 class="govuk-heading-m">Update your workforce data</h2>--->
+
+        {{ govukTable({
+          classes: "custom-data",
+          head: [
+            {
+              text: "Type of data"
+            },
+            {
+              text: "Current data"
+            },
+            {
+              text: "Custom data"
+            }
+          ],
+          rows: [
+            [
+              {
+                text: "School workforce (full time equivalent)"
+              },
+              {
+                text: "84"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Number of teachers (full time equivalent)"
+              },
+              {
+                text: "63"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Senior leadership (full time equivalent)"
+              },
+              {
+                text: "12"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Teacher contact ratio (less than 1)"
+              },
+              {
+                text: "0.75"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ],
+            [
+              {
+                text: "Average class size"
+              },
+              {
+                text: "32"
+              },
+              {
+                html: govukInput({
+                  label: {
+                    text: "What is the name of the event?",
+                    classes: "govuk-visually-hidden"
+                  },
+                  id: "event-name",
+                  name: "eventName",
+                  classes: "govuk-input--width-3",
+                  formGroup: {
+                    classes: "govuk-!-margin-bottom-0"
+                  }
+                })
+              }
+            ]
+          ]
+        }) }}
+        
+        {{ govukButton({
+          href: '/custom-data/non-financial-data',
+          text: "Save changes to data"
+        }) }}
+
+    </div>
+</div>
+{% endblock %}

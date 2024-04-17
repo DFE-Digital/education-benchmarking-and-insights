@@ -1,0 +1,12 @@
+﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+
+@if (Model.Referrer is Referrers.SchoolWorkforce or Referrers.SchoolComparison)
+{
+    <h2 class="govuk-heading-m">Custom comparator set</h2>
+    <p class="govuk-body">
+        If you have a set of schools you would rather be compared with across all categories, you can
+        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Custom", "SchoolComparators", new { urn = Model.Urn, referrer = Model.Referrer })">
+            create your own custom comparator set
+        </a> to be used across all categories.
+    </p>
+}

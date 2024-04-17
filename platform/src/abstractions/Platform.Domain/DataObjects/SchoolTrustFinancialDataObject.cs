@@ -2,13 +2,11 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace Platform.Domain.DataObjects;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record SchoolTrustFinancialDataObject
+public record SchoolTrustFinancialDataObject : QueryableFinancesDataObject
 {
-    [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.URN)]
-    public long Urn { get; set; }
 
     [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.SCHOOL_NAME)]
     public string? SchoolName { get; set; }

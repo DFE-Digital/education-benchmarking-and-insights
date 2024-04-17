@@ -5,15 +5,18 @@
 
 //HOMEPAGE
 
-.headline-figures {
+.headline-figures, .priority-figures {
     margin-bottom: 30px;
 }
 
 .headline-figures div div {
     background: #5D7490;
     color: white;
+}
+
+.headline-figures div div, .priority-figures div div {
     text-align: center;
-    padding: 15px;
+    padding: 10px;
 }
 
 .headline-figures div div p {
@@ -23,6 +26,14 @@
 
 .headline-figures div div p:first-child {
     font-weight: bold;
+}
+
+.priority-figures div div p:first-child {
+    font-size: 48px;
+}
+
+.priority-figures div div p:nth-child(2) {
+    font-size: 21px;
 }
 
 .app-links {
@@ -110,16 +121,48 @@
     padding-bottom: 2px;
 }
 
-.priority.high, .priority.high .govuk-tag--red {
+.top-categories .priority {
+    margin-bottom: 0;
+}
+
+.priority.high, .priority.high .govuk-tag--red, .priority-figures .high div {
     border: 1px solid #942514;
 }
 
-.priority.medium, .priority.medium .govuk-tag--yellow {
+.priority.medium, .priority.medium .govuk-tag--yellow, .priority-figures .medium div {
     border: 1px solid #594D00;
 }
 
-.priority.low, .priority.low .govuk-tag--grey {
+.priority.low, .priority.low .govuk-tag--grey, .priority-figures .low div {
     border: 2px solid #e5e6e7;
+}
+
+.priority-figures .high div {
+    background-color: #f4cdc6;
+    border-color: #942514;
+}
+
+.priority-figures .high div p {
+    color: #942514;
+}
+
+.priority-figures .medium div {
+    background-color: #FFF7BF;
+    border-color: #594D00;
+}
+
+.priority-figures .medium div p {
+    color: #594D00;
+}
+
+.priority-figures .low div {
+    background-color: #e5e6e7;
+    border-color: #505A5F;
+    border-width: 1px;
+}
+
+.priority-figures div p {
+    margin-bottom: 5px;
 }
 
 p.priority .govuk-tag {
@@ -138,20 +181,20 @@ p.priority .govuk-tag {
 }
 
 .school-search .govuk-form-group.govuk-form-group--error {
-    width: calc(100% - 160px)
+    width: calc(100% - 126px)
 }
 
 .school-search .govuk-form-group {
-    width: calc(100% - 140px)
+    width: calc(100% - 106px) 
 }
 
 .school-search button {
-    margin-top: 40px;
+    margin-top: 15px;
     margin-left: 15px;
 }
 
 .school-search .govuk-form-group--error + button {
-    margin-top: 80px;
+    margin-top: 55px;
 }
 
 div.govuk-notification-banner {
@@ -160,4 +203,64 @@ div.govuk-notification-banner {
 
 div.govuk-notification-banner__content > * {
     max-width: none;
+}
+
+.no-border {
+    border-bottom: 0;
+}
+
+.sticky-div {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    z-index: 10000;
+}
+
+.matching-schools {
+    width: 100%;
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+    background: white;
+    padding: 10px 0;
+    margin-bottom: 20px;
+}
+
+.matching-schools #countPart {
+    font-weight: bold;
+}
+
+.govuk-password-input__toggle {
+    flex-grow: unset;
+}
+
+.custom-data td {
+    vertical-align: middle;
+}
+
+div.sortWrapper {
+    position: relative;
+}
+
+.sortSelect {
+    position: absolute;
+    right: 0;
+    top: -8px;
+    width: 295px;
+}
+
+.sortSelect label {
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.govuk-accordion__section table.custom-data tr:last-child td {
+    border-bottom: 0;
+}
+
+.govuk-tabs .sortSelect {
+    width: 345px;
+}
+
+.govuk-tabs__panel#spending .govuk-grid-row {
+    margin-top: 48px;
 }

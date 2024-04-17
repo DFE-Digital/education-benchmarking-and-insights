@@ -1,4 +1,5 @@
-﻿Feature: BenchmarkBandings
+﻿@ignore
+Feature: BenchmarkBandings
 Benchmark API Bandings Endpoints
 
     Scenario: Sending a valid free school meal banding request

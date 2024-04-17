@@ -65,4 +65,6 @@ public record SchoolExpenditure
     public decimal TotalUtilitiesCosts { get; set; }
     public decimal EnergyCosts { get; set; }
     public decimal WaterSewerageCosts { get; set; }
+
+    public int FloorArea { get; set; }
 }

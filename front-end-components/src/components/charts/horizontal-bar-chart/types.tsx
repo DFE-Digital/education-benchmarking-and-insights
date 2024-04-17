@@ -1,15 +1,21 @@
-export type BarChartProps = {
-  chartName: string;
-  data: BarDataPoint[];
-  ref?: DownloadHandle;
-};
+import { LabelProps } from "recharts";
+import { BaseAxisProps } from "recharts/types/util/types";
+import {
+  ChartDataSeries,
+  ChartProps,
+  ChartSeriesValue,
+  ValueFormatterProps,
+} from "src/components";
 
-type BarDataPoint = {
-  school: string;
-  urn: string;
-  value: number;
-};
+export interface HorizontalBarChartProps<TData extends ChartDataSeries>
+  extends ChartProps<TData>,
+    Pick<BaseAxisProps, "tick"> {
+  barCategoryGap?: string | number;
+  highlightedItemKeys?: ChartSeriesValue[];
+  legend?: boolean;
+  tickWidth?: number;
+}
 
-export type DownloadHandle = {
-  download: () => void;
-};
+export interface LabelListContentProps
+  extends Omit<LabelProps, "formatter">,
+    ValueFormatterProps {}

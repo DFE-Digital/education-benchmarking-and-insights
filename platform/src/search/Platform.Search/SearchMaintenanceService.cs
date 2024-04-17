@@ -3,7 +3,6 @@ using Azure;
 using Azure.Search.Documents.Indexes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
-using Platform.Infrastructure.Cosmos;
 using Platform.Search.Builders;
 using Platform.Search.Organisation;
 using Platform.Search.School;
@@ -46,12 +45,10 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     private readonly SearchIndexClient _indexClient;
     private readonly ILogger<SearchMaintenanceService> _logger;
     private readonly SearchMaintenanceServiceOptions _options;
-    private readonly ICollectionService _collectionService;
 
-    public SearchMaintenanceService(IOptions<SearchMaintenanceServiceOptions> options, ILogger<SearchMaintenanceService> logger, ICollectionService collectionService)
+    public SearchMaintenanceService(IOptions<SearchMaintenanceServiceOptions> options, ILogger<SearchMaintenanceService> logger)
     {
         _logger = logger;
-        _collectionService = collectionService;
         _options = options.Value;
         _indexerClient = new SearchIndexerClient(_options.SearchEndPoint, _options.SearchCredentials);
         _indexClient = new SearchIndexClient(_options.SearchEndPoint, _options.SearchCredentials);
@@ -182,11 +179,11 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         var builders = new DataSourceConnectionBuilder[]
         {
-            new OrganisationSchoolDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new OrganisationTrustDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new OrganisationSchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new OrganisationTrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
             new OrganisationLaDataSourceConnectionBuilder(_options.Storage.ConnectionString, _options.Storage.LocalAuthoritiesContainer),
-            new SchoolDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new TrustDataSourceConnectionBuilder(_collectionService, _options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
+            new SchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
         };
 
         foreach (var builder in builders)

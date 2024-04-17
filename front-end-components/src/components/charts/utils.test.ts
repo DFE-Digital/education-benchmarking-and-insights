@@ -1,9 +1,17 @@
-import { ChartDataPoint, ChartSortMode } from ".";
-import { chartComparer, chartSeriesComparer } from "./utils";
+import {
+  ChartDataSeriesSortMode,
+  ValueFormatterOptions,
+  ValueFormatterValue,
+} from ".";
+import {
+  chartSeriesComparer,
+  shortValueFormatter,
+  statValueFormatter,
+} from "./utils";
 
 describe("Chart utils", () => {
-  describe("chartComparer()", () => {
-    const data: ChartDataPoint[] = [
+  describe("chartSeriesComparer()", () => {
+    const data = [
       { school: "School A", urn: "1", value: 20 },
       { school: "School B", urn: "2", value: 30 },
       { school: "School C", urn: "3", value: 40 },
@@ -12,13 +20,13 @@ describe("Chart utils", () => {
     ];
 
     describe("with default sort", () => {
-      const sort: ChartSortMode = {
+      const sort: ChartDataSeriesSortMode<{ value: number }> = {
         dataPoint: "value",
         direction: "desc",
       };
 
       it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartComparer(a, b, sort));
+        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
         expect(result).toEqual([
           { school: "School C", urn: "3", value: 40 },
           { school: "School B", urn: "2", value: 30 },
@@ -30,13 +38,13 @@ describe("Chart utils", () => {
     });
 
     describe("by value ascending", () => {
-      const sort: ChartSortMode = {
+      const sort: ChartDataSeriesSortMode<{ value: number }> = {
         dataPoint: "value",
         direction: "asc",
       };
 
       it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartComparer(a, b, sort));
+        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
         expect(result).toEqual([
           { school: "School D", urn: "4", value: 10 },
           { school: "School A", urn: "1", value: 20 },
@@ -48,13 +56,13 @@ describe("Chart utils", () => {
     });
 
     describe("by school ascending", () => {
-      const sort: ChartSortMode = {
+      const sort: ChartDataSeriesSortMode<{ school: string }> = {
         dataPoint: "school",
         direction: "asc",
       };
 
       it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartComparer(a, b, sort));
+        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
         expect(result).toEqual([
           { school: "School A", urn: "1", value: 20 },
           { school: "School B", urn: "2", value: 30 },
@@ -66,65 +74,120 @@ describe("Chart utils", () => {
     });
   });
 
-  describe("chartSeriesComparer()", () => {
-    const data = [
-      { school: "School A", urn: "1", value: 20 },
-      { school: "School B", urn: "2", value: 30 },
-      { school: "School C", urn: "3", value: 40 },
-      { school: "School D", urn: "4", value: 10 },
-      { school: "School E", urn: "5", value: 25 },
-    ];
+  const values: ValueFormatterValue[] = [
+    -987.65,
+    0,
+    1,
+    2.3456789,
+    12345.67,
+    890123456,
+    "not-a-number",
+  ];
 
-    describe("with default sort", () => {
-      const sort: ChartSortMode = {
-        dataPoint: "value",
-        direction: "desc",
-      };
+  describe("shortValueFormatter()", () => {
+    describe("with default options", () => {
+      const options: Partial<ValueFormatterOptions> = {};
 
-      it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
+      it("formats the values using compact notation", () => {
+        const result = values.map((v) => shortValueFormatter(v, options));
         expect(result).toEqual([
-          { school: "School C", urn: "3", value: 40 },
-          { school: "School B", urn: "2", value: 30 },
-          { school: "School E", urn: "5", value: 25 },
-          { school: "School A", urn: "1", value: 20 },
-          { school: "School D", urn: "4", value: 10 },
+          "-987.7",
+          "0",
+          "1",
+          "2.3",
+          "12.3k",
+          "890.1m",
+          "not-a-number",
         ]);
       });
     });
 
-    describe("by value ascending", () => {
-      const sort: ChartSortMode = {
-        dataPoint: "value",
-        direction: "asc",
-      };
+    describe("with currency option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
 
-      it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
+      it("formats the values using compact notation as GBP", () => {
+        const result = values.map((v) => shortValueFormatter(v, options));
         expect(result).toEqual([
-          { school: "School D", urn: "4", value: 10 },
-          { school: "School A", urn: "1", value: 20 },
-          { school: "School E", urn: "5", value: 25 },
-          { school: "School B", urn: "2", value: 30 },
-          { school: "School C", urn: "3", value: 40 },
+          "-£988",
+          "£0",
+          "£1",
+          "£2.3",
+          "£12k",
+          "£890m",
+          "not-a-number",
+        ]);
+      });
+    });
+  });
+
+  describe("statValueFormatter()", () => {
+    describe("with default options", () => {
+      const options: Partial<ValueFormatterOptions> = {};
+
+      it("formats the values using number separators only", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988",
+          "0",
+          "1",
+          "2",
+          "12,346",
+          "890,123,456",
+          "not-a-number",
         ]);
       });
     });
 
-    describe("by school ascending", () => {
-      const sort: ChartSortMode = {
-        dataPoint: "school",
-        direction: "asc",
+    describe("with compact option", () => {
+      const options: Partial<ValueFormatterOptions> = { compact: true };
+
+      it("formats the values using compact notation", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988",
+          "0",
+          "1",
+          "2.3",
+          "12k",
+          "890m",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with currency option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "currency" };
+
+      it("formats the values as GBP", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-£988",
+          "£0",
+          "£1",
+          "£2",
+          "£12,346",
+          "£890,123,456",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("with currency as name option", () => {
+      const options: Partial<ValueFormatterOptions> = {
+        valueUnit: "currency",
+        currencyAsName: true,
       };
 
-      it("sorts the data points", () => {
-        const result = data.sort((a, b) => chartSeriesComparer(a, b, sort));
+      it("formats the values as GBP in words", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
         expect(result).toEqual([
-          { school: "School A", urn: "1", value: 20 },
-          { school: "School B", urn: "2", value: 30 },
-          { school: "School C", urn: "3", value: 40 },
-          { school: "School D", urn: "4", value: 10 },
-          { school: "School E", urn: "5", value: 25 },
+          "-988 british pounds",
+          "0 british pounds",
+          "1 british pound",
+          "2 british pounds",
+          "12,346 british pounds",
+          "890,123,456 british pounds",
+          "not-a-number",
         ]);
       });
     });

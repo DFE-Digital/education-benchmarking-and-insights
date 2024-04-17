@@ -1,10 +1,10 @@
 using System.Diagnostics.CodeAnalysis;
 using FluentValidation;
 
-namespace Platform.Infrastructure.Search.Validators;
+namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public class PostSuggestRequestValidator : AbstractValidator<PostSuggestRequest>
+public class PostSuggestRequestValidator : AbstractValidator<PostSuggestRequestModel>
 {
     public PostSuggestRequestValidator()
     {

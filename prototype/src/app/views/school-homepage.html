@@ -26,7 +26,16 @@
 <p><a href="/find-school" class="govuk-link">Change school</a></p>
 
 {% if data['trust-name'] %}
-<h2 class="govuk-heading-m">Part of <a href="#">{{ data['trust-name'] }}</a></h2>
+<h2 class="govuk-heading-m">Part of <a href="/trust-homepage">{{ data['trust-name'] }}</a></h2>
+{% endif %}
+
+{% if confirmation == 'comparator-reset' %}
+
+{{ govukNotificationBanner({
+  html: '<strong>You have deleted the similar schools you chose.</strong><br/>We will now choose similar schools for you.',
+  type: "success"
+}) }}
+
 {% endif %}
 
 <div class="govuk-grid-row headline-figures">
@@ -60,7 +69,7 @@
 
 <h3 class="govuk-heading-s"><a href="/spending-and-costs">View all spending and costs</a></h3>
 
-<h3 class="govuk-heading-s">Top priority spending categories</h3>
+<h3 class="govuk-heading-s">Top priority spending and costs</h3>
 
 <div class="top-categories">
     <div>

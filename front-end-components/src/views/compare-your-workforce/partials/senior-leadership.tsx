@@ -1,51 +1,67 @@
-import React, { useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
-  CalculateWorkforceValue,
   ChartDimensions,
-  DimensionHeading,
-  HorizontalBarChartWrapper,
-  HorizontalBarChartWrapperData,
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
 import { ChartDimensionContext } from "src/contexts";
-import { SeniorLeadershipProps } from "src/views/compare-your-workforce/partials";
+import { SeniorLeadershipData } from "src/views/compare-your-workforce/partials";
+import {
+  HorizontalBarChartWrapper,
+  HorizontalBarChartWrapperData,
+} from "src/composed/horizontal-bar-chart-wrapper";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
-  const { schools } = props;
+export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    DimensionHeading(dimension),
-  ];
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(
+      type,
+      id,
+      dimension.value,
+      "senior-leadership-fte"
+    );
+  }, [id, dimension, type]);
 
-  const chartData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
+  const chartData: HorizontalBarChartWrapperData<SeniorLeadershipData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        dimension.heading,
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: CalculateWorkforceValue({
-          dimension: dimension,
-          value: school.seniorLeadershipFTE,
-          ...school,
+        dataPoints: data.map((school) => {
+          return {
+            ...school,
+            value: school.seniorLeadershipFte,
+          };
         }),
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    setDimension(event.target.value);
+    const dimension =
+      WorkforceCategories.find((x) => x.value === event.target.value) ??
+      PupilsPerStaffRole;
+    setDimension(dimension);
   };
 
   return (
@@ -61,7 +77,7 @@ export const SeniorLeadership: React.FC<SeniorLeadershipProps> = (props) => {
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
           elementId="senior-leadership"
-          defaultValue={dimension}
+          defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

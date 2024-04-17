@@ -9,9 +9,19 @@
 
 {% block content %}
 
-
 {% set schoolsHtml %}
-{% include "templates/schools_postcodes.njk" %}
+
+{{ xGovukAutocomplete({
+    id: "school",
+    name: "school",
+    allowEmpty: false,
+    hint: {
+        text: "Name, address or unique reference number (URN)"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: schools
+  }) }}
+  
 {% endset -%}
 
 {% set trustsHtml %}
@@ -20,40 +30,69 @@
     id: "trust-name",
     name: "trustName",
     hint: {
-      text: "Enter a name or company number"
+      text: "Name or company number"
     }
   }) }}
 {% endset -%}
+
+{% set authorityHtml %}
+
+{{ xGovukAutocomplete({
+    id: "authority-name",
+    name: "authorityName",
+    allowEmpty: false,
+    hint: {
+        text: "Name or 3 digit code"
+    },
+    errorMessage: null if errorThisPage != 'true' else { html: errorText },
+    items: authorities
+  }) }}
+  
+{% endset -%}
+
+
 
 <form method="post" action="set-school" class="form">
 
     <div class="govuk-grid-row">
             <div class="govuk-grid-column-two-thirds">
 
+                <h1 class="govuk-heading-l">Find a school, trust or local authority</h1>
+
                 {{ govukRadios({
                 name: "signIn",
                 fieldset: {
                     legend: {
-                        text: "Select an organisation type",
-                        isPageHeading: true,
-                        classes: "govuk-fieldset__legend--l"
+                        text: "What are you looking for?",
+                        isPageHeading: false,
+                        classes: "govuk-fieldset__legend--m"
                     }
                 },
                 items: [
                     {
                         value: "academy",
-                        text: "Academy or Local Authority maintained school",
+                        text: "School or academy",
                         checked: true,
                         conditional: {
                             html: schoolsHtml
-                        }
+                        },
+                        checked: checked("signIn", "academy")
                     },
                     {
                         value: "trust",
-                        text: "Single or Multi-Academy Trust",
+                        text: "Trust",
                         conditional: {
                             html: trustsHtml
-                        }
+                        },
+                        checked: checked("signIn", "trust")
+                    },
+                    {
+                        value: "authority",
+                        text: "Local authority",
+                        conditional: {
+                            html: authorityHtml
+                        },
+                        checked: checked("signIn", "authority")
                     }
                 ]
                 }) }}

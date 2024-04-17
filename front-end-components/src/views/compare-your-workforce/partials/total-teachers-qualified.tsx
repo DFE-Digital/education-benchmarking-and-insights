@@ -1,46 +1,58 @@
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
-} from "src/components";
+} from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartDimensionContext } from "src/contexts";
-import { TotalTeachersQualifiedProps } from "src/views/compare-your-workforce/partials";
+import { TotalTeachersQualifiedData } from "src/views/compare-your-workforce/partials";
+import { Percent } from "src/components";
+import { Workforce, WorkforceApi } from "src/services";
 
-export const TotalTeachersQualified: React.FC<TotalTeachersQualifiedProps> = (
-  props
-) => {
-  const { schools } = props;
-  const tableHeadings = [
-    "School name",
-    "Local Authority",
-    "School type",
-    "Number of pupils",
-    "Percent",
-  ];
+export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
+}) => {
+  const [data, setData] = useState(new Array<Workforce>());
+  const getData = useCallback(async () => {
+    setData(new Array<Workforce>());
+    return await WorkforceApi.query(type, id, "Percent", "teachers-qualified");
+  }, [id, type]);
 
-  const chartData: HorizontalBarChartWrapperData = {
-    dataPoints: schools.map((school) => {
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
+  const chartData: HorizontalBarChartWrapperData<TotalTeachersQualifiedData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "School name",
+        "Local Authority",
+        "School type",
+        "Number of pupils",
+        "Percent",
+      ];
+
       return {
-        school: school.name,
-        urn: school.urn,
-        value: school.teachersWithQTSFTE,
-        additionalData: [
-          school.localAuthority,
-          school.schoolType,
-          school.numberOfPupils,
-        ],
+        dataPoints: data.map((school) => {
+          return {
+            ...school,
+            value: school.teachersQualified,
+          };
+        }),
+        tableHeadings,
       };
-    }),
-    tableHeadings: tableHeadings,
-  };
+    }, [data]);
 
   return (
-    <ChartDimensionContext.Provider value={"percent"}>
+    <ChartDimensionContext.Provider value={Percent}>
       <HorizontalBarChartWrapper
         data={chartData}
         chartName="teachers with qualified teacher status (%)"
       >
         <h2 className="govuk-heading-m">
-          Teachers with qualified Teacher Status (%)
+          Teachers with qualified teacher status (%)
         </h2>
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

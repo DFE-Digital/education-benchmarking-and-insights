@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Xunit;
 
 namespace Platform.Tests.Benchmark;
@@ -12,9 +12,9 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
     {
         Db
             .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new FinancialPlan());
+            .ReturnsAsync(new FinancialPlanResponseModel());
 
-        Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<FinancialPlan>()));
+        Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<FinancialPlanResponseModel>()));
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as OkResult;
 
@@ -28,7 +28,7 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
 
         Db
             .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync((FinancialPlan?)null);
+            .ReturnsAsync((FinancialPlanResponseModel?)null);
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
 

@@ -10,7 +10,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Establishment.Db;
-using Platform.Domain.Responses;
+using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
@@ -22,14 +22,14 @@ public class SchoolsFunctions
 {
     private readonly ILogger<SchoolsFunctions> _logger;
     private readonly ISchoolDb _db;
-    private readonly ISearchService<School> _search;
-    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ISearchService<SchoolResponseModel> _search;
+    private readonly IValidator<PostSuggestRequestModel> _validator;
 
     public SchoolsFunctions(
         ILogger<SchoolsFunctions> logger,
         ISchoolDb db,
-        ISearchService<School> search,
-        IValidator<PostSuggestRequest> validator)
+        ISearchService<SchoolResponseModel> search,
+        IValidator<PostSuggestRequestModel> validator)
     {
         _logger = logger;
         _db = db;
@@ -38,7 +38,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(SingleSchoolAsync))]
-    [ProducesResponseType(typeof(School), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleSchoolAsync(
@@ -71,7 +71,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolsAsync))]
-    [ProducesResponseType(typeof(PagedResults<School>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(PagedResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("pageSize", "Size of page ", DataType = typeof(int), Required = false)]
@@ -102,11 +102,11 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(SearchSchoolsAsync))]
-    [ProducesResponseType(typeof(SearchOutput<School>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SearchResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SearchSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/search")]
-        [RequestBodyType(typeof(PostSearchRequest), "The search object")]
+        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -119,7 +119,7 @@ public class SchoolsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSearchRequest>();
+                var body = req.ReadAsJson<PostSearchRequestModel>();
                 var schools = await _search.SearchAsync(body);
                 return new JsonContentResult(schools);
             }
@@ -132,12 +132,12 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(SuggestSchoolsAsync))]
-    [ProducesResponseType(typeof(SuggestOutput<School>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuggestResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")]
+        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -150,7 +150,7 @@ public class SchoolsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequest>();
+                var body = req.ReadAsJson<PostSuggestRequestModel>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)

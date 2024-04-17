@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useLayoutEffect } from "react";
+import { useHash } from "src/hooks/useHash";
 import { ExpenditureAccordionProps } from "src/views/compare-your-costs/partials";
 import {
   AdministrativeSupplies,
@@ -15,12 +16,26 @@ import {
 export const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({
   schools,
 }) => {
+  const [hash] = useHash();
+
+  useLayoutEffect(() => {
+    if (!hash) {
+      return;
+    }
+
+    // scroll section into view if expanded accordion contents have been rendered out of position
+    document
+      .querySelector(`.govuk-accordion__section${hash}`)
+      ?.scrollIntoView();
+  }, [hash]);
+
   return (
     <div className="govuk-grid-row">
       <div className="govuk-grid-column-full">
         <div
           className="govuk-accordion"
           data-module="govuk-accordion"
+          data-remember-expanded="false"
           id="accordion"
         >
           <TeachingSupportStaff schools={schools} />

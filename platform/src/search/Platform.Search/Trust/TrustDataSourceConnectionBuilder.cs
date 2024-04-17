@@ -1,6 +1,5 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
-using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Search;
 using Platform.Search.Builders;
 
@@ -12,11 +11,9 @@ public class TrustDataSourceConnectionBuilder : DataSourceConnectionBuilder
 
     private readonly string _connectionString;
     private readonly string _databaseId;
-    private readonly ICollectionService _collectionService;
 
-    public TrustDataSourceConnectionBuilder(ICollectionService collectionService, string? connectionString, string? databaseId)
+    public TrustDataSourceConnectionBuilder(string? connectionString, string? databaseId)
     {
-        _collectionService = collectionService;
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
         _databaseId = databaseId ?? throw new ArgumentNullException(nameof(databaseId));
     }
@@ -24,10 +21,9 @@ public class TrustDataSourceConnectionBuilder : DataSourceConnectionBuilder
     public override async Task Build(SearchIndexerClient client)
     {
         var fullConnString = $"{_connectionString}Database={_databaseId};";
-        var collection = await _collectionService.LatestCollection(DataGroups.Edubase);
+        const string collection = "GIAS";
 
-
-        var container = new SearchIndexerDataContainer(collection.Name)
+        var container = new SearchIndexerDataContainer(collection)
         {
             Query =
                 "SELECT * FROM c WHERE c._ts >= @HighWaterMark AND IS_DEFINED(c.CompanyNumber) ORDER BY c._ts"

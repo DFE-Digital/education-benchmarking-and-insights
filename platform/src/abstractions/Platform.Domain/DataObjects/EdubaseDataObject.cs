@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Newtonsoft.Json;
 
-namespace Platform.Domain.DataObjects;
+namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
 public record EdubaseDataObject

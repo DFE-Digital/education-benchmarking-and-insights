@@ -17,6 +17,7 @@ No modules.
 
 | Name | Type |
 |------|------|
+| [azurerm_key_vault_access_policy.keyvault_policy](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_access_policy) | resource |
 | [azurerm_key_vault_secret.fa-host](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_key_vault_secret.fa-key](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/key_vault_secret) | resource |
 | [azurerm_resource_group_template_deployment.function_keys](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/resource_group_template_deployment) | resource |
@@ -31,7 +32,7 @@ No modules.
 | <a name="input_app-settings"></a> [app-settings](#input\_app-settings) | n/a | `map(string)` | n/a | yes |
 | <a name="input_application-insights-connection-string"></a> [application-insights-connection-string](#input\_application-insights-connection-string) | n/a | `string` | n/a | yes |
 | <a name="input_common-tags"></a> [common-tags](#input\_common-tags) | n/a | `map(string)` | n/a | yes |
-| <a name="input_cors"></a> [cors](#input\_cors) | n/a | `list(string)` | <pre>[<br>  "*"<br>]</pre> | no |
+| <a name="input_enable-restrictions"></a> [enable-restrictions](#input\_enable-restrictions) | n/a | `bool` | n/a | yes |
 | <a name="input_environment-prefix"></a> [environment-prefix](#input\_environment-prefix) | n/a | `string` | n/a | yes |
 | <a name="input_function-name"></a> [function-name](#input\_function-name) | n/a | `string` | n/a | yes |
 | <a name="input_key-vault-id"></a> [key-vault-id](#input\_key-vault-id) | n/a | `string` | n/a | yes |
@@ -41,6 +42,7 @@ No modules.
 | <a name="input_sku"></a> [sku](#input\_sku) | n/a | <pre>object({<br>    tier = string<br>    size = string<br>  })</pre> | <pre>{<br>  "size": "Y1",<br>  "tier": "Dynamic"<br>}</pre> | no |
 | <a name="input_storage-account-key"></a> [storage-account-key](#input\_storage-account-key) | n/a | `string` | n/a | yes |
 | <a name="input_storage-account-name"></a> [storage-account-name](#input\_storage-account-name) | n/a | `string` | n/a | yes |
+| <a name="input_subnet_id"></a> [subnet\_id](#input\_subnet\_id) | n/a | `string` | n/a | yes |
 
 ## Outputs
 

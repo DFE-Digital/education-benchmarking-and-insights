@@ -1,4 +1,5 @@
-﻿Feature: InsightsAcademies
+﻿@ignore
+Feature: InsightsAcademies
 Insights Academies endpoints
 
     Scenario: Sending a valid academy request

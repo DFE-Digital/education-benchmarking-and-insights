@@ -5,5 +5,19 @@
             "default": "Information",
             "Microsoft": "Warning"
         }
+    },
+    "extensions": {
+        "http": {
+            "routePrefix": "api",
+            "hsts": {
+                "isEnabled": true,
+                "maxAge": "10"
+            },
+            "customHeaders": {
+                "X-Content-Type-Options": "nosniff",
+                "X-Frame-Options": "SAMEORIGIN",
+                "X-XSS-Protection": "0"
+            }
+        }
     }
 }

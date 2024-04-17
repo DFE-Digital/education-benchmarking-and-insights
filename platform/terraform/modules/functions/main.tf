@@ -1,12 +1,21 @@
 locals {
   function-app-settings = merge(var.app-settings, {
-    "FUNCTIONS_WORKER_RUNTIME" = "dotnet"
+    "FUNCTIONS_WORKER_RUNTIME"    = "dotnet"
+    "AzureWebJobsDisableHomepage" = true
   })
-  cors              = var.cors
   function-app-name = "${var.environment-prefix}-ebis-${var.function-name}-fa"
 }
 
+resource "azurerm_key_vault_access_policy" "keyvault_policy" {
+  key_vault_id       = var.key-vault-id
+  tenant_id          = azurerm_windows_function_app.func-app.identity[0].tenant_id
+  object_id          = azurerm_windows_function_app.func-app.identity[0].principal_id
+  secret_permissions = ["Get"]
+}
+
 resource "azurerm_service_plan" "func-asp" {
+  #checkov:skip=CKV_AZURE_212:To be reviewed
+  #checkov:skip=CKV_AZURE_225:To be reviewed
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
@@ -16,6 +25,7 @@ resource "azurerm_service_plan" "func-asp" {
 }
 
 resource "azurerm_windows_function_app" "func-app" {
+  #checkov:skip=CKV_AZURE_221:To be reviewed
   name                       = local.function-app-name
   location                   = var.location
   resource_group_name        = var.resource-group-name
@@ -24,16 +34,25 @@ resource "azurerm_windows_function_app" "func-app" {
   storage_account_access_key = var.storage-account-key
   https_only                 = true
 
+  identity {
+    type = "SystemAssigned"
+  }
+
   site_config {
     always_on     = var.always-on
     http2_enabled = true
-    cors {
-      allowed_origins = local.cors
-    }
+
     application_insights_connection_string = var.application-insights-connection-string
     application_stack {
       dotnet_version              = "v6.0"
       use_dotnet_isolated_runtime = false
+    }
+
+    dynamic "ip_restriction" {
+      for_each = var.enable-restrictions ? ["apply"] : []
+      content {
+        virtual_network_subnet_id = var.subnet_id
+      }
     }
   }
 

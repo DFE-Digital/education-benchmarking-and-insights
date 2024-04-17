@@ -1,0 +1,22 @@
+parameters:
+  workspaceDir: ''
+steps:
+  - checkout: none
+  - download: current
+  - task: ExtractFiles@1
+    displayName: 'Extract e2e test files'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/e2e-tests/e2e-tests.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/e2e-tests-files'
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in appsettings.json'
+    inputs:
+      sources: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/appsettings.json'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run e2e tests'
+    inputs:
+      command: test
+      projects: '${{ parameters.workspaceDir }}/e2e-tests-files/Web.E2ETests/Web.E2ETests.dll'

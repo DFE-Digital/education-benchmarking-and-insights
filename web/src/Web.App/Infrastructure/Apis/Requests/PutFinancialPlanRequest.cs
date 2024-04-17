@@ -7,11 +7,11 @@ public class PutFinancialPlanRequest
     public bool IsComplete { get; set; }
     public decimal TargetContactRatio { get; set; }
     public bool? UseFigures { get; set; }
-    public decimal? TotalIncome { get; set; }
-    public decimal? TotalExpenditure { get; set; }
-    public decimal? TotalTeacherCosts { get; set; }
+    public int? TotalIncome { get; set; }
+    public int? TotalExpenditure { get; set; }
+    public int? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
-    public decimal? EducationSupportStaffCosts { get; set; }
+    public int? EducationSupportStaffCosts { get; set; }
     public int? TimetablePeriods { get; set; }
     public bool? HasMixedAgeClasses { get; set; }
     public bool MixedAgeReceptionYear1 { get; set; }

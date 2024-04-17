@@ -1,0 +1,7 @@
+﻿@model Web.App.ViewModels.ResourceViewModel
+
+@await Component.InvokeAsync("CommercialResource", new
+{
+    section = "Non-educational support staff",
+    displayHeading = Model.DisplayHeading
+})

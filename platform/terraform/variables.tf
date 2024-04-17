@@ -15,7 +15,9 @@ variable "configuration" {
   default = {
     development = {
       cosmos = {
-        capabilities = []
+        capabilities = [
+          "EnableServerless"
+        ]
       }
       search = {
         sku = "basic"
