@@ -1,7 +1,7 @@
 import {
   CompareYourCosts,
   CompareYourWorkforce,
-  SchoolHistory,
+  HistoricData,
 } from "src/views";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
@@ -15,9 +15,9 @@ export const components = {
   CompareYourWorkforce,
   ComparisonChartSummary,
   DeploymentPlan,
-  SchoolHistory,
-  VerticalBarChart,
+  HistoricData,
   LineChart,
   ResolvedStat,
   Stat,
+  VerticalBarChart,
 };
