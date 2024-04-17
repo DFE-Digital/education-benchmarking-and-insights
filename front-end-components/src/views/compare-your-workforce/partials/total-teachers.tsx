@@ -10,6 +10,7 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { WarningBanner } from "src/components/warning-banner";
 import { Workforce, WorkforceApi } from "src/services";
 
 export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
@@ -59,6 +60,8 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
+  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <HorizontalBarChartWrapper
@@ -68,6 +71,13 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
         <h2 className="govuk-heading-m">
           Total number of teachers (Full Time Equivalent)
         </h2>
+        {hasIncompleteData ? (
+          <WarningBanner
+            icon="!"
+            visuallyHiddenText="Warning"
+            message="Some schools don't have a complete set of financial data for this period"
+          />
+        ) : null}
         <ChartDimensions
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}

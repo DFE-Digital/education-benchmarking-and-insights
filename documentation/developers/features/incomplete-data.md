@@ -1,43 +1,104 @@
-# Developer Feature Documentation: Incomplete Data - WiP
+# Developer Feature Documentation: Incomplete Data
 
 ## Introduction
+
 This document provides detailed information for developers about the implementation, usage, and integration of the Incomplete Data feature within the system.
 
 ## Overview
-The intention of this feature is to provide warning text for users of the service flagging when the data they are viewing contains incomplete data for the year. This will be used in school to school comparisons on the Spending and Costs, Workforce and Compare your Costs pages.
 
-In Cosmos DB the record for a school has a field "Periods covered by return". This has a value as an int representing the number of months the school has submitted data for.
+The intention of this feature is to provide a warning for users of the service flagging when the data they are viewing contains incomplete data for the year. This will be used in school to school comparisons on the Spending and Costs, Workforce and Compare your Costs pages.
 
-In the platform api response models [here for expenditure](../../../platform/src/abstractions/Platform.Domain/Responses/SchoolExpenditureResponseModel.cs) and [here for workforce](../../../platform/src/abstractions/Platform.Domain/Responses/WorkforceResponseModel.cs) this is used to create HasIncompleteData prop for use in the web app or front end components.  
+In Cosmos DB the record for a school has a field "Periods covered by return". This has an int value representing the number of months the school has submitted data for.
 
-[add more as feature is built]
+This is used to create a HasIncompleteData prop which is used to flag when financial data is incomplete. See the Usage section for a list of where this is used relating to this feature [here](#usage).
+
+For the Spending and costs page this is used to conditionally render a warning text banner in the Razor view.
+
+For the Compare your costs and Benchmark workforce data this is again conditionally rendered but in the React components.
 
 ## Goals
-### Primary Goal
-When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons so they can make informed decisions with how they proceed with the information we provide
-### Secondary Goals
-[List any additional objectives or improvements that this feature may achieve.]
 
-## Prerequisites/Dependencies
-[List any prerequisites or dependencies that developers need to install or configure before working with the feature.]
-### External Dependencies
-[Identify any external dependencies, third-party services, or components that the feature relies on.]
-### Internal Dependencies
-[Specify any internal dependencies or dependencies on other features within the system.]
+### Primary Goal
+
+When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons so they can make informed decisions with how they proceed with the information we provide
 
 ## Usage
-[Explain how developers can use the feature, including any APIs, libraries, or components that they need to interact with.]
 
-[Identify the key components or modules that comprise the feature and describe their responsibilities.]
+### HasIncompleteData prop
 
-## API Reference
-[If applicable, provide a detailed API reference for the feature, including endpoints, request/response formats, and authentication mechanisms.]
+This feature currently makes a HasIncompleteData prop available in the following:
 
-## Configuration
-[Document any configuration settings or parameters that developers can customize to tailor the behavior of the feature.]
+In platform
 
-## Deployment
-[Describe the deployment process for releasing the feature to production or staging environments.]
+- [Expenditure](../../../platform/src/abstractions/Platform.Domain/Responses/SchoolExpenditureResponseModel.cs)
+- [Workforce](../../../platform/src/abstractions/Platform.Domain/Responses/WorkforceResponseModel.cs)
 
-## Known Issues
-[List any known issues or limitations of the feature, along with any workarounds or plans for resolution.]
+In web app
+
+- [SchoolExpenditure](../../../web/src/Web.App/Domain/SchoolExpenditure.cs)
+- [Workforce](../../../web/src/Web.App/Domain/Workforce.cs)
+- [SchoolSpendingViewModel](../../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
+
+In front-end-components
+
+- [Workforce and ExpenditureData](../../../front-end-components/src/services/types.tsx)
+
+### Views
+
+A warning banner is rendered in the Razor view for the Spending and costs page here
+
+- [SchoolSpending view](../../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
+
+A warning banner is rendered within the React component for the Workforce benchmark data page here
+
+- [SchoolWorkforce view](../../../web/src/Web.App/Views/SchoolWorkforce/Index.cshtml)
+- [compare-your-workforce front-end-components](../../../front-end-components/src/views/compare-your-workforce)
+
+A warning banner is rendered within the React component for the Compare your costs page here
+
+- [SchoolComparion view](../../../web/src/Web.App/Views/SchoolComparion/Index.cshtml)
+- [compare-your-costs front-end-components](../../../front-end-components/src/views/compare-your-costs)
+
+### WarningBanner
+
+A React component is used in front-end-components which is used to display the warning if the HasIncompleteData is true. This is styled as per GDS guidelines.
+
+[warning-banner](../../../front-end-components/src/components/warning-banner)
+
+#### WarningBanner Props
+
+- **icon**
+  - *Type:* String
+  - *Description:* This is used for the warning icon
+
+- **visuallyHiddenText**
+  - *Type:* String
+  - *Description:* This is for screen readers
+
+- **message**
+  - *Type:* String
+  - *Description:* The warning text that will be displayed
+
+#### WarningBanner Example
+
+The below JSX
+
+```jsx
+<WarningBanner
+    icon="!"
+    visuallyHiddenText="Warning"
+    message="Some schools don't have a complete set of financial data for this period"
+/>
+```
+
+is rendered as the below HTML
+
+```html
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">Warning</span>
+        Some schools don't have a complete set of financial data for this period
+    </strong>
+</div>
+```

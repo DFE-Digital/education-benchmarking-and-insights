@@ -3,6 +3,7 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { WarningBanner } from "src/components/warning-banner";
 import { ChartDimensionContext } from "src/contexts";
 import { TotalTeachersQualifiedData } from "src/views/compare-your-workforce/partials";
 import { Percent } from "src/components";
@@ -45,6 +46,8 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
       };
     }, [data]);
 
+  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+
   return (
     <ChartDimensionContext.Provider value={Percent}>
       <HorizontalBarChartWrapper
@@ -54,6 +57,13 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
         <h2 className="govuk-heading-m">
           Teachers with qualified teacher status (%)
         </h2>
+        {hasIncompleteData ? (
+          <WarningBanner
+            icon="!"
+            visuallyHiddenText="Warning"
+            message="Some schools don't have a complete set of financial data for this period"
+          />
+        ) : null}
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>
   );

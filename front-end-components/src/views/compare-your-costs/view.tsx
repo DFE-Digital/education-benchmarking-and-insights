@@ -6,6 +6,7 @@ import {
 import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
 import { EstablishmentsApi, ExpenditureData } from "src/services";
 import { ChartMode, ChartModeChart } from "src/components";
+import { WarningBanner } from "src/components/warning-banner";
 import {
   School,
   SelectedSchool,
@@ -55,8 +56,17 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     setDisplayMode(e.target.value);
   };
 
+  const hasIncompleteData = expenditureData?.some((x) => x.hasIncompleteData);
+
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
+      {hasIncompleteData ? (
+        <WarningBanner
+          icon="!"
+          visuallyHiddenText="Warning"
+          message="Some schools don't have a complete set of financial data for this period"
+        />
+      ) : null}
       <div className="view-as-toggle">
         <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
       </div>

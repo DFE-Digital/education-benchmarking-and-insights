@@ -17,4 +17,5 @@ public record Workforce
     public decimal? AuxiliaryStaffFte { get; set; }
     public decimal? WorkforceHeadcount { get; set; }
     public decimal? TeachersQualified { get; set; }
+    public bool HasIncompleteData { get; set; }
 }
