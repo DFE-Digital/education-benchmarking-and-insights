@@ -20,9 +20,9 @@ public class SpendingCostsPage(IPage page)
 {
     private readonly string[] _h3Names =
     {
-        "Teaching and teaching supply staff", "Administrative supplies", "Catering staff and services",
+        "Utilities and premises costs", "All other costs","Teaching and teaching support staff", "Administrative supplies", "Catering staff and services",
         "Educational ICT", "Educational supplies", "Non-educational support staff", "Other",
-        "Premises staff and services", "Utilities",
+        "Premises and services", "Utilities",
     };
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
@@ -30,10 +30,10 @@ public class SpendingCostsPage(IPage page)
 
     private ILocator ComparatorSetDetails =>
         page.Locator(Selectors.GovDetailsSummaryText,
-            new PageLocatorOptions { HasText = "How we choose similar schools" });
+            new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
 
     private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View or change which schools we compare you with" });
+        new PageLocatorOptions { HasText = "Choose your own similar schools" });
 
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator PageH3Headings => page.Locator(Selectors.H3);
@@ -41,13 +41,13 @@ public class SpendingCostsPage(IPage page)
     private ILocator AllChartsStats => page.Locator(Selectors.ReactChartStats);
 
     private ILocator TeachingAndTeachingSupplyStaffLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all teaching and teaching supply staff" });
+        new PageLocatorOptions { HasText = "View all teaching and teaching support staff" });
 
     private ILocator AdministrativeSuppliesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all administrative supplies" });
 
     private ILocator CateringStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all catering staff and services" });
+        new PageLocatorOptions { HasText = "View all catering staff and services costs" });
 
     private ILocator EducationalIctLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all educational ICT" });
@@ -62,10 +62,12 @@ public class SpendingCostsPage(IPage page)
         new PageLocatorOptions { HasText = "View all other" });
 
     private ILocator PremisesStaffAndServicesLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "View all premises staff and services" });
+        new PageLocatorOptions { HasText = "View all premises and services costs" });
 
     private ILocator UtilitiesLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all utilities" });
+
+    private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
 
 
     public async Task IsDisplayed()
@@ -91,15 +93,41 @@ public class SpendingCostsPage(IPage page)
         await ComparatorSetLink.ShouldBeVisible();
     }
 
-    public async Task CheckOrderOfCharts(List<string> expectedOrder)
+    public async Task CheckOrderOfCharts(List<string[]> expectedOrder)
     {
-        var actualOrder = new List<string>();
-        foreach (var h3 in await PageH3Headings.AllAsync())
+        var actualOrder = new List<string[]>();
+        var chartNames = await GetCategoryNames();
+        var priorityTags = await PriorityTags.AllAsync();
+        for (int i = 0; i < chartNames.Count; i++)
         {
-            actualOrder.Add(await h3.TextContentAsync() ?? throw new InvalidOperationException());
+            if (i < priorityTags.Count)
+            {
+                var chartName = chartNames[i];
+                var priorityTag = await priorityTags[i].TextContentAsync() ?? string.Empty;
+                var chartDetails = new[] { chartName, priorityTag.Trim() };
+                actualOrder.Add(chartDetails);
+            }
+            else
+            {
+                Assert.Fail("chart name and priority tag count doesn't match");
+                break;
+            }
+        }
+        Assert.Equal(expectedOrder, actualOrder);
+    }
+
+    private async Task<List<string>> GetCategoryNames()
+    {
+        var h3Elements = await PageH3Headings.AllAsync();
+        var categoryNames = new List<string>();
+
+        foreach (var h3 in h3Elements.Skip(2))
+        {
+            var chartName = await h3.TextContentAsync() ?? string.Empty;
+            categoryNames.Add(chartName.Trim());
         }
 
-        Assert.Equal(actualOrder, expectedOrder);
+        return categoryNames;
     }
 
     private async Task AssertChartNames(string[] expected)
