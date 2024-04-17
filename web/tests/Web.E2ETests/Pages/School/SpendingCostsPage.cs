@@ -32,9 +32,6 @@ public class SpendingCostsPage(IPage page)
         page.Locator(Selectors.GovDetailsSummaryText,
             new PageLocatorOptions { HasText = "How we choose and compare similar schools" });
 
-    private ILocator ComparatorSetLink => page.Locator(Selectors.GovLink,
-        new PageLocatorOptions { HasText = "Choose your own similar schools" });
-
     private ILocator ComparatorSetDetailsText => page.Locator(Selectors.GovDetailsText);
     private ILocator PageH3Headings => page.Locator(Selectors.H3);
     private ILocator AllCharts => page.Locator(Selectors.ReactChartContainer);
@@ -68,6 +65,8 @@ public class SpendingCostsPage(IPage page)
         new PageLocatorOptions { HasText = "View all utilities" });
 
     private ILocator PriorityTags => page.Locator($"{Selectors.MainContent} {Selectors.GovukTag}");
+    private ILocator SimilarSchoolLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "30 similar schools" });
 
 
     public async Task IsDisplayed()
@@ -90,7 +89,11 @@ public class SpendingCostsPage(IPage page)
     public async Task IsDetailsSectionVisible()
     {
         await ComparatorSetDetailsText.ShouldBeVisible();
-        await ComparatorSetLink.ShouldBeVisible();
+        Assert.Equal(2, await SimilarSchoolLink.CountAsync());
+        foreach (var similarSchoolLink in await SimilarSchoolLink.AllAsync())
+        {
+            await similarSchoolLink.ShouldBeVisible();
+        }
     }
 
     public async Task CheckOrderOfCharts(List<string[]> expectedOrder)
@@ -116,30 +119,6 @@ public class SpendingCostsPage(IPage page)
         Assert.Equal(expectedOrder, actualOrder);
     }
 
-    private async Task<List<string>> GetCategoryNames()
-    {
-        var h3Elements = await PageH3Headings.AllAsync();
-        var categoryNames = new List<string>();
-
-        foreach (var h3 in h3Elements.Skip(2))
-        {
-            var chartName = await h3.TextContentAsync() ?? string.Empty;
-            categoryNames.Add(chartName.Trim());
-        }
-
-        return categoryNames;
-    }
-
-    private async Task AssertChartNames(string[] expected)
-    {
-        var allContent = await PageH3Headings.AllTextContentsAsync();
-
-        foreach (var expectedHeading in expected)
-        {
-            Assert.Contains(expectedHeading, allContent);
-        }
-    }
-
     public async Task<CompareYourCostsPage> ClickOnLink(CostCategoryNames costCategory)
     {
         var linkToClick = costCategory switch
@@ -159,11 +138,35 @@ public class SpendingCostsPage(IPage page)
         return new CompareYourCostsPage(page);
     }
 
+    private async Task<List<string>> GetCategoryNames()
+    {
+        var h3Elements = await PageH3Headings.AllAsync();
+        var categoryNames = new List<string>();
+
+        foreach (var h3 in h3Elements.Skip(2))
+        {
+            var chartName = await h3.TextContentAsync() ?? string.Empty;
+            categoryNames.Add(chartName.Trim());
+        }
+
+        return categoryNames;
+    }
+
     private async Task CheckVisibility(ILocator locator)
     {
         foreach (var element in await locator.AllAsync())
         {
             await element.ShouldBeVisible();
+        }
+    }
+
+    private async Task AssertChartNames(string[] expected)
+    {
+        var allContent = await PageH3Headings.AllTextContentsAsync();
+
+        foreach (var expectedHeading in expected)
+        {
+            Assert.Contains(expectedHeading, allContent);
         }
     }
 }
