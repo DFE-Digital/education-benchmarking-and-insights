@@ -876,18 +876,6 @@
         "resolved": "2.11.0",
         "contentHash": "ysv+hBzTul6Dp+Hvm10FlhJO3yMQcFKSAleus+LpiIzvNstpeV4Z7gGuIZ1OPNfIMulSHOjmLuGAEDKzpnV8ZQ=="
       },
-      "Serilog.Extensions.Hosting": {
-        "type": "Transitive",
-        "resolved": "5.0.1",
-        "contentHash": "o0VUyt3npAqOJaZ6CiWLFeLYs3CYJwfcAqaUqprzsmj7qYIvorcn8cZLVR8AQX6vzX7gee2bD0sQeA17iO2/Aw==",
-        "dependencies": {
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.8",
-          "Microsoft.Extensions.Hosting.Abstractions": "3.1.8",
-          "Microsoft.Extensions.Logging.Abstractions": "3.1.8",
-          "Serilog": "2.10.0",
-          "Serilog.Extensions.Logging": "3.1.0"
-        }
-      },
       "Serilog.Extensions.Logging": {
         "type": "Transitive",
         "resolved": "3.1.0",
@@ -1908,26 +1896,6 @@
           "Platform.Infrastructure": "[1.0.0, )"
         }
       },
-      "platform.api.establishment": {
-        "type": "Project",
-        "dependencies": {
-          "AzureExtensions.Swashbuckle": "[3.3.2, )",
-          "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
-          "Microsoft.Extensions.Configuration": "[6.0.1, )",
-          "Microsoft.Extensions.Configuration.Binder": "[6.0.0, )",
-          "Microsoft.Extensions.Configuration.Json": "[6.0.0, )",
-          "Microsoft.Extensions.Diagnostics.HealthChecks": "[6.0.29, )",
-          "Microsoft.Extensions.Logging": "[6.0.0, )",
-          "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )",
-          "Microsoft.Extensions.Options": "[6.0.0, )",
-          "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
-          "Microsoft.NET.Sdk.Functions": "[4.3.0, )",
-          "Newtonsoft.Json": "[13.0.3, )",
-          "Platform.Functions": "[1.0.0, )",
-          "Platform.Infrastructure": "[1.0.0, )",
-          "System.Linq.Async": "[6.0.1, )"
-        }
-      },
       "platform.api.insight": {
         "type": "Project",
         "dependencies": {
@@ -2204,6 +2172,19 @@
         "dependencies": {
           "Microsoft.AspNetCore.Http": "2.2.2",
           "Serilog": "2.9.0"
+        }
+      },
+      "Serilog.Extensions.Hosting": {
+        "type": "CentralTransitive",
+        "requested": "[5.0.1, )",
+        "resolved": "5.0.1",
+        "contentHash": "o0VUyt3npAqOJaZ6CiWLFeLYs3CYJwfcAqaUqprzsmj7qYIvorcn8cZLVR8AQX6vzX7gee2bD0sQeA17iO2/Aw==",
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "3.1.8",
+          "Microsoft.Extensions.Hosting.Abstractions": "3.1.8",
+          "Microsoft.Extensions.Logging.Abstractions": "3.1.8",
+          "Serilog": "2.10.0",
+          "Serilog.Extensions.Logging": "3.1.0"
         }
       },
       "Serilog.Sinks.ApplicationInsights": {

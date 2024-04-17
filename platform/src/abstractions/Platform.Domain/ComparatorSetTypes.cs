@@ -1,6 +1,6 @@
 ﻿namespace Platform.Domain;
 
-public class ComparatorSetTypes
+public static class ComparatorSetTypes
 {
     public const string Default = nameof(Default);
     public const string Pupil = nameof(Pupil);

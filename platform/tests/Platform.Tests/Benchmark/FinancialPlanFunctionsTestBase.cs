@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Benchmark;
 using Platform.Api.Benchmark.Db;
 
 namespace Platform.Tests.Benchmark;

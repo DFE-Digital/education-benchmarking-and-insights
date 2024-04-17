@@ -14,12 +14,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Search.App", "src\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Tests", "tests\Platform.Tests\Platform.Tests.csproj", "{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Establishment", "src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj", "{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Insight", "src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj", "{346579AA-839E-485D-A8AE-B04DD14BDBCE}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Benchmark", "src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj", "{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{613E31FE-85E5-48F4-83CA-8C7BC094A95C}"
 	ProjectSection(SolutionItems) = preProject
 		docker\docker-compose.yml = docker\docker-compose.yml
@@ -35,17 +29,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{
 		terraform\storage.tf = terraform\storage.tf
 		terraform\databases.tf = terraform\databases.tf
 		terraform\functions.tf = terraform\functions.tf
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{331196E5-A208-4344-8C07-321E17121CAE}"
-	ProjectSection(SolutionItems) = preProject
-		pipelines\build.yaml = pipelines\build.yaml
-		pipelines\jobs-platform-deployment.yaml = pipelines\jobs-platform-deployment.yaml
-		pipelines\steps-platform-build.yaml = pipelines\steps-platform-build.yaml
-		pipelines\steps-platform-run-unit-tests.yaml = pipelines\steps-platform-run-unit-tests.yaml
-		pipelines\steps-platform-build-api-tests.yaml = pipelines\steps-platform-build-api-tests.yaml
-		pipelines\steps-web-run-api-tests.yaml = pipelines\steps-web-run-api-tests.yaml
-		pipelines\security-scan.yaml = pipelines\security-scan.yaml
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "abstractions", "abstractions", "{D52455F1-3BF5-46F4-9833-633817248295}"
@@ -77,14 +60,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Functions", "src\a
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Domain", "src\abstractions\Platform.Domain\Platform.Domain.csproj", "{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC}"
-	ProjectSection(SolutionItems) = preProject
-		pipelines\zaproxy\.artifactignore = pipelines\zaproxy\.artifactignore
-		pipelines\zaproxy\benchmark.prop = pipelines\zaproxy\benchmark.prop
-		pipelines\zaproxy\config.conf = pipelines\zaproxy\config.conf
-		pipelines\zaproxy\establishment.prop = pipelines\zaproxy\establishment.prop
-		pipelines\zaproxy\insight.prop = pipelines\zaproxy\insight.prop
-	EndProjectSection
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Establishment", "src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj", "{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Insight", "src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj", "{EC2A422E-E526-48A3-B2B8-120BDECB21D2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -104,18 +82,6 @@ Global
 		{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46}.Release|Any CPU.Build.0 = Release|Any CPU
-		{346579AA-839E-485D-A8AE-B04DD14BDBCE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{346579AA-839E-485D-A8AE-B04DD14BDBCE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{346579AA-839E-485D-A8AE-B04DD14BDBCE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{346579AA-839E-485D-A8AE-B04DD14BDBCE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B976AFDE-F059-4685-A33C-8C420ED09F12}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -140,14 +106,19 @@ Global
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC2A422E-E526-48A3-B2B8-120BDECB21D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC2A422E-E526-48A3-B2B8-120BDECB21D2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC2A422E-E526-48A3-B2B8-120BDECB21D2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC2A422E-E526-48A3-B2B8-120BDECB21D2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
 		{ECE338C2-996D-4D2D-9F1A-0AF4B585F9E4} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{BFCBD9C6-5592-454F-BBB1-340C93FAB9D1} = {88E9B775-3937-45F6-9899-F0ECDD635145}
-		{4D5D03BF-9BA3-4CE9-ADD1-D8D5F15FBF46} = {80C48401-A0AA-4707-B26A-332240A6C214}
-		{346579AA-839E-485D-A8AE-B04DD14BDBCE} = {80C48401-A0AA-4707-B26A-332240A6C214}
-		{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D} = {80C48401-A0AA-4707-B26A-332240A6C214}
 		{B976AFDE-F059-4685-A33C-8C420ED09F12} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{B6DD36FA-C957-4676-AB34-C27D51CD0EB6} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{1919CD09-11A6-43E5-9C78-52C2BB264631} = {88E9B775-3937-45F6-9899-F0ECDD635145}
@@ -156,6 +127,7 @@ Global
 		{B6991DB1-7945-4348-86ED-B00A3AC8B889} = {B59E14FF-BBC9-4659-BA54-94089935CBAA}
 		{AD3DC4F8-B866-40FE-A456-B18BA3158403} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C} = {D52455F1-3BF5-46F4-9833-633817248295}
-		{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC} = {331196E5-A208-4344-8C07-321E17121CAE}
+		{084CAD91-9BC3-4BE6-BC07-FBCDFB5BECE7} = {80C48401-A0AA-4707-B26A-332240A6C214}
+		{EC2A422E-E526-48A3-B2B8-120BDECB21D2} = {80C48401-A0AA-4707-B26A-332240A6C214}
 	EndGlobalSection
 EndGlobal
