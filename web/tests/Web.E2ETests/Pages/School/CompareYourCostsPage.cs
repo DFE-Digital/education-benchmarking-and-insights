@@ -7,7 +7,14 @@ public enum ComparisonChartNames
 {
     Premises,
     TotalExpenditure,
-    NonEducationalSupportStaff
+    NonEducationalSupportStaff,
+    TeachingAndTeachingSupplyStaff,
+    AdministrativeSupplies,
+    CateringStaffAndServices,
+    EducationalIct,
+    EducationalSupplies,
+    Other,
+    Utilities
 }
 
 public class CompareYourCostsPage(IPage page)
@@ -23,7 +30,15 @@ public class CompareYourCostsPage(IPage page)
     private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
     private ILocator Sections => page.Locator(Selectors.GovAccordionSection);
     private ILocator Tables => page.Locator(Selectors.SectionTable);
-    private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SectionContentTwo);
+    private ILocator TeachingAndSupportAccordionContent => page.Locator(Selectors.SectionContent1);
+    private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SectionContent2);
+    private ILocator EducationalSuppliesAccordionContent => page.Locator(Selectors.SectionContent3);
+    private ILocator EducationalIctAccordionContent => page.Locator(Selectors.SectionContent4);
+    private ILocator PremisesAccordionContent => page.Locator(Selectors.SectionContent5);
+    private ILocator UtilitiesAccordionContent => page.Locator(Selectors.SectionContent6);
+    private ILocator AdministrativeSuppliesAccordionContent => page.Locator(Selectors.SectionContent7);
+    private ILocator CateringServicesAccordionContent => page.Locator(Selectors.SectionContent8);
+    private ILocator OtherAccordionContent => page.Locator(Selectors.SectionContent9);
     private ILocator PremisesDimension => page.Locator(Selectors.PremisesDimension);
 
     private ILocator SaveAsImageButtons =>
@@ -146,7 +161,15 @@ public class CompareYourCostsPage(IPage page)
     {
         var link = chartName switch
         {
-            ComparisonChartNames.NonEducationalSupportStaff => SectionLink(Selectors.SectionHeadingTwo),
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => SectionLink(Selectors.SectionHeading1),
+            ComparisonChartNames.NonEducationalSupportStaff => SectionLink(Selectors.SectionHeading2),
+            ComparisonChartNames.EducationalSupplies => SectionLink(Selectors.SectionHeading3),
+            ComparisonChartNames.EducationalIct => SectionLink(Selectors.SectionHeading4),
+            ComparisonChartNames.Premises => SectionLink(Selectors.SectionHeading5),
+            ComparisonChartNames.Utilities => SectionLink(Selectors.SectionHeading6),
+            ComparisonChartNames.AdministrativeSupplies => SectionLink(Selectors.SectionHeading7),
+            ComparisonChartNames.CateringStaffAndServices => SectionLink(Selectors.SectionHeading8),
+            ComparisonChartNames.Other => SectionLink(Selectors.SectionHeading9),
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
         return link;
@@ -197,7 +220,15 @@ public class CompareYourCostsPage(IPage page)
     {
         var contentLocator = chartName switch
         {
+            ComparisonChartNames.TeachingAndTeachingSupplyStaff => TeachingAndSupportAccordionContent,
             ComparisonChartNames.NonEducationalSupportStaff => NonEducationSupportStaffAccordionContent,
+            ComparisonChartNames.EducationalSupplies => EducationalSuppliesAccordionContent,
+            ComparisonChartNames.EducationalIct => EducationalIctAccordionContent,
+            ComparisonChartNames.Premises => PremisesAccordionContent,
+            ComparisonChartNames.Utilities => UtilitiesAccordionContent,
+            ComparisonChartNames.AdministrativeSupplies => AdministrativeSuppliesAccordionContent,
+            ComparisonChartNames.CateringStaffAndServices => CateringServicesAccordionContent,
+            ComparisonChartNames.Other => OtherAccordionContent,
             _ => throw new ArgumentOutOfRangeException(nameof(chartName))
         };
 
