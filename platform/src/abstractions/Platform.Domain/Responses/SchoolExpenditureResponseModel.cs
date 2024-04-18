@@ -57,6 +57,7 @@ public record SchoolExpenditureResponseModel
     public decimal EnergyCosts { get; set; }
     public decimal WaterSewerageCosts { get; set; }
     public int? FloorArea { get; set; }
+    public bool HasIncompleteData { get; set; }
 
     public static SchoolExpenditureResponseModel Create(SchoolTrustFinancialDataObject dataObject, FloorAreaDataObject[] floorArea)
     {
@@ -122,7 +123,8 @@ public record SchoolExpenditureResponseModel
             TotalUtilitiesCosts = dataObject.Energy + dataObject.WaterSewerage,
             EnergyCosts = dataObject.Energy,
             WaterSewerageCosts = dataObject.WaterSewerage,
-            FloorArea = floorArea.FirstOrDefault(x => x.Urn == dataObject.Urn)?.FloorArea
+            FloorArea = floorArea.FirstOrDefault(x => x.Urn == dataObject.Urn)?.FloorArea,
+            HasIncompleteData = dataObject.PeriodCoveredByReturn != 12,
         };
     }
 }
