@@ -25,6 +25,7 @@ variables:
   TerraformFolder: 'platform/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  ShouldDeployDevFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
 
 stages:
   - stage: Build
@@ -137,3 +138,15 @@ stages:
           environment: 'test'
           cipEnvironment: 'Test'
           runSearchApp: false
+          
+  - stage: DeployDevFeature
+    dependsOn: [ Build ]
+    displayName: 'Dev Feature'
+    condition: and(succeeded(), eq(variables['ShouldDeployDevFeature'],'true'))
+    jobs:
+      - template: jobs-platform-deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01-$(FeatureName)'
+          environment: 'development'
+          cipEnvironment: 'Dev'

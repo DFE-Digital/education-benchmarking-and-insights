@@ -1,5 +1,10 @@
+# "name" may only contain alphanumeric characters and dashes and must be between 3-24 chars
+locals {
+  key-vault-name = "${substr(replace(var.environment-prefix, "/[^\\w]-/", ""), 0, 24 - length("-ebis-keyvault"))}-ebis-keyvault"
+}
+
 data "azurerm_key_vault" "key-vault" {
-  name                = "${var.environment-prefix}-ebis-keyvault"
+  name                = local.key-vault-name
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 

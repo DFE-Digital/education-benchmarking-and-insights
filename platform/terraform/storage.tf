@@ -1,3 +1,10 @@
+# name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
+locals {
+  platform-storage-name = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("platformstorage")))}platformstorage"
+  audit-storage-name    = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("audit")))}audit"
+  threat-storage-name   = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("threat")))}threat"
+}
+
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_206:Only LRS required
   #checkov:skip=CKV_AZURE_43:Name needs to include prefix
@@ -7,7 +14,7 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV2_AZURE_33:To be reviewed
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
-  name                            = "${var.environment-prefix}platformstorage"
+  name                            = local.platform-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -51,7 +58,7 @@ resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
-  name                            = "${var.environment-prefix}audit"
+  name                            = local.audit-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -80,7 +87,7 @@ resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
-  name                            = "${var.environment-prefix}threat"
+  name                            = local.threat-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"

@@ -12,7 +12,7 @@ const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk
 	gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/images/favicon.ico"],{ encoding: false }).pipe(gulp.dest("wwwroot/"))).on("end", () =>
 	gulp.src(["node_modules/govuk-frontend/dist/govuk/govuk-frontend.min.js"]).pipe(gulp.dest("wwwroot/js/"))).on("end", () =>
 	gulp.src(["node_modules/front-end/dist/front-end.js"]).pipe(gulp.dest("wwwroot/js/"))).on("end", () =>
-	gulp.src(["node_modules/front-end/dist/server.cjs"]).pipe(gulp.dest("dist/js/"))).on("end", () => 
+	gulp.src(["node_modules/front-end/dist/server.cjs"], { allowEmpty: true }).pipe(gulp.dest("dist/js/"))).on("end", () => 
 	gulp.src(["node_modules/front-end/dist/front-end.css"]).pipe(gulp.dest("wwwroot/css/"))).on("end", () =>
 	gulp.src(["AssetSrc/images/*"],{ encoding: false }).pipe(gulp.dest("wwwroot/assets/images")));
 

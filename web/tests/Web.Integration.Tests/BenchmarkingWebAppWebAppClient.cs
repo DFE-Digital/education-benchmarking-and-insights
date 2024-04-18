@@ -1,4 +1,5 @@
 using Moq;
+using NodeReact;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;
@@ -19,6 +20,22 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
         services.AddSingleton(WorkforceApi.Object);
+
+        services.AddNodeReact(
+            config =>
+            {
+                config.EnginesCount = 2;
+                config.ConfigureOutOfProcessNodeJSService(o =>
+                {
+                    o.NumRetries = 0;
+                    o.InvocationTimeoutMS = 10000;
+                });
+
+                config.AddScriptWithoutTransform("~/../dist/js/server.cjs");
+                // config.UseServerSideRendering = false; 
+
+                config.ConfigureSystemTextJsonPropsSerializer(_ => { });
+            });
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)

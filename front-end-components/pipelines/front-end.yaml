@@ -6,6 +6,7 @@ variables:
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   WorkingDir: 'front-end-components'
+  ShouldVersionDevFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
 
 trigger:
   batch: true
@@ -27,10 +28,12 @@ steps:
     continueOnError: false
     inputs:
       command: 'custom'
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        customCommand: 'version $(Version.BuildNumber)'
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
+      ${{ if eq(variables['ShouldVersionDevFeature'], 'true') }}:
+        customCommand: 'version $(Version.BuildNumber)-$(FeatureName)'
+      ${{ elseif eq(variables['Build.Reason'], 'PullRequest') }}: 
         customCommand: 'version $(Version.BuildNumber)-alpha.0'
+      ${{ else }}:
+        customCommand: 'version $(Version.BuildNumber)'
       workingDir: $(WorkingDir)
       verbose: false
 

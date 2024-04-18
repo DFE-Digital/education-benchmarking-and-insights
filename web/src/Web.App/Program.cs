@@ -81,7 +81,7 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-   
+
     builder.Services.AddNodeReact(
         config =>
         {
@@ -91,7 +91,7 @@ if (!builder.Environment.IsIntegration())
                 o.NumRetries = 0;
                 o.InvocationTimeoutMS = 10000;
             });
-            
+
             config.AddScriptWithoutTransform("~/../dist/js/server.cjs");
             // config.UseServerSideRendering = false; 
 
