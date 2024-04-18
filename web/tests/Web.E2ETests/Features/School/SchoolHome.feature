@@ -20,8 +20,6 @@
 		When I click on benchmark workforce data
 		Then the benchmark workforce page is displayed
 		
-@Ignore
-#ignoring until RAG data is imported in d02
 	Scenario: Go to view all spending and costs page
 		Given I am on school homepage for school with urn '101241'
 		When I click on view all spending and costs
