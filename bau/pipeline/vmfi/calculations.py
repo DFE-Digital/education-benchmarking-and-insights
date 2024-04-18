@@ -1,27 +1,12 @@
 import numpy as np
-import pandas as pd
 
 
-def compute_range(arr):
-    return np.full((1, np.size(arr)), np.ptp(arr)).flatten()
+def non_special_distance_calc(pupils, fsm, sen):
+    pupil_range = pupils.max() - pupils.min()
+    fsm_range = fsm.max() - fsm.min()
+    sen_range = sen.max() - sen.min()
 
-
-def pairwise_index(x):
-    return np.stack(np.triu_indices(len(x)), axis=-1)
-
-
-def non_special_distance_calc(urns, pupils, fsm, sen, pupil_range, fsm_range, sen_range):
-    combs = pairwise_index(urns)
-    distances = np.empty((len(combs), 3))
-
-    index = 0
-    for comb in combs:
-        x, y = comb[0], comb[1]
-        pupil = 0.5 * pow(abs(pupils[x] - pupils[y]) / pupil_range[x], 2)
-        meal = 0.4 * pow(abs(fsm[x] - fsm[y]) / fsm_range[x], 2)
-        sens = 0.1 * pow(abs(sen[x] - sen[y]) / sen_range[x], 2)
-        dist = pow(pupil + meal + sens, 0.5)
-        distances[index] = [urns[x], urns[y], dist]
-        index += 1
-
-    return distances
+    pupil = 0.5 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
+    meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
+    sen = 0.1 * np.power(np.abs(sen[:, None] - sen[None, :]) / sen_range, 2)
+    return np.power(pupil + meal + sen, 0.5)
