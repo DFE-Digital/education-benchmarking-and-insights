@@ -92,7 +92,7 @@ maintained_schools_master_list = {
     # 'LA Name': 'string',
     # 'Region': 'string',
     # 'Estab': 'string',
-    # 'LAEstab': 'string',
+    'LAEstab': 'string',
     # 'School Name': 'string',
     # 'Admissions policy': 'string',
     # 'Has a 6th form': 'string',
