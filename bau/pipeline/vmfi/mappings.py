@@ -174,7 +174,7 @@ def map_school_phase_type(establishment_code: int, phase_type: str):
             case 40:
                 return 'UTC'
             case _:
-                return 'Secondary'
+                return 'All-through'
     elif phase_type.lower() == '16 plus':
         return 'Secondary'
     else:
