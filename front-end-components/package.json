@@ -8,8 +8,11 @@
   ],
   "type": "module",
   "scripts": {
-    "dev": "vite --config vite.config-dev.js",
-    "build": "tsc && vite build",
+    "dev": "npm run vite:dev",
+    "build": "tsc && npm run vite:build:client && npm run vite:build:server",
+    "vite:dev": "vite --config vite.config-dev.js",
+    "vite:build:client": "vite build",
+    "vite:build:server": "vite build --config vite.config-server.js",
     "test": "jest",
     "lint": "eslint . --ext ts,tsx,cjs --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
@@ -54,7 +57,6 @@
     "prettier-eslint": "^16.3.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
     "typescript": "^5.2.2",
     "vite": "^5.2.6"
   },

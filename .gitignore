@@ -418,3 +418,4 @@ local.settings.json
 
 **/docker/sql
 front-end-components/vite.config-dev.js.timestamp-*
+web/src/Web.App/dist

@@ -3,6 +3,5 @@ npm test
 npm run build
 
 Copy-Item dist/front-end.js* ../web/src/Web.App/wwwroot/js -Verbose 
-Copy-Item dist/server.cjs* ../web/src/Web.App/wwwroot/js -Verbose
-Copy-Item dist/index-*.*js* ../web/src/Web.App/wwwroot/js -Verbose
+Copy-Item dist/server.cjs* ../web/src/Web.App/dist/js -Verbose
 Copy-Item dist/front-end.css ../web/src/Web.App/wwwroot/css -Verbose

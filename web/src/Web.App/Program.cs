@@ -92,16 +92,10 @@ if (!builder.Environment.IsIntegration())
                 o.InvocationTimeoutMS = 10000;
             });
             
-            // todo: get server side as well as client side working as required
-            config.AddScriptWithoutTransform("~/js/server.cjs");
-            config.UseServerSideRendering = false; 
+            config.AddScriptWithoutTransform("~/../dist/js/server.cjs");
+            // config.UseServerSideRendering = false; 
 
             config.ConfigureSystemTextJsonPropsSerializer(_ => { });
-            config.ConfigureNodeJSProcess(p =>
-            {
-                p.Port = 9222;
-                p.NodeAndV8Options = "";
-            });
         });
 }
 
