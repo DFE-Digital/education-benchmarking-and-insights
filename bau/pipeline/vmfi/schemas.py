@@ -107,6 +107,7 @@ maintained_schools_master_list = {
     'Period covered by return (months)': 'Int64',
     'Did Not Supply flag': 'string',
     'Federation': 'string',
+    'Lead school in federation': 'string',
     'No Teachers': 'float',
     'Urban  Rural': 'string',
     'London Weighting': 'string',
