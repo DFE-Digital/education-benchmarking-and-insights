@@ -25,6 +25,8 @@ def prepare_data(data):
     data['Prov_PD'] = fillna_mean(data['Prov_PD'])
     data['Prov_ASD'] = fillna_mean(data['Prov_ASD'])
     data['Prov_OTH'] = fillna_mean(data['Prov_OTH'])
+    data['Total Internal Floor Area'] = fillna_mean(data['Total Internal Floor Area'])
+    data['Age Average Score'] = fillna_mean(data['Age Average Score'])
     return data.set_index('URN').sort_index()
 
 
@@ -73,6 +75,15 @@ def special_pupils_calc(pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis
     return base1 + base2
 
 
+def buildings_calc(gifa, average_age):
+    gifa_range = compute_range(gifa)
+    average_age_range = compute_range(average_age)
+
+    gifa = 0.8 * np.power(np.abs(gifa[:, None] - gifa[None, :]) / gifa_range, 2)
+    age = 0.2 * np.power(np.abs(average_age[:, None] - average_age[None, :]) / average_age_range, 2)
+
+    return np.power(gifa + age, 0.5)
+
 def compute_pupils_comparator(arg):
     idx, row = arg
     phase = idx
@@ -90,15 +101,24 @@ def compute_pupils_comparator(arg):
         Prov_PD = np.array(row['Prov_PD'])
         Prov_ASD = np.array(row['Prov_ASD'])
         Prov_OTH = np.array(row['Prov_OTH'])
-        return idx, special_pupils_calc(pupils, fsm, Prov_SPLD, Prov_MLD, Prov_PMLD, Prov_SEMH,
+        return phase, special_pupils_calc(pupils, fsm, Prov_SPLD, Prov_MLD, Prov_PMLD, Prov_SEMH,
                                                                Prov_SLCN, Prov_HI, Prov_MSI, Prov_PD, Prov_ASD,
                                                                Prov_OTH)
     else:
         sen = np.array(row['Percentage SEN'])
-        return idx, pupils_calc(pupils, fsm, sen)
+        return phase, pupils_calc(pupils, fsm, sen)
 
 
-def compute_pupils_comparator_matrix(data):
+def compute_buildings_comparator(arg):
+    idx, row = arg
+    phase = idx
+    gifa = np.array(row['Total Internal Floor Area'])
+    age = np.array(row['Age Average Score'])
+
+    return phase, buildings_calc(gifa, age)
+
+
+def compute_comparator_matrix(data, f):
     # TODO: This needs to be grouped correctly not really sure how the
     #  region / phase / boarding / non-boarding are all
     # related, it feels like we could just compute the School Phase Type groups
@@ -110,13 +130,13 @@ def compute_pupils_comparator_matrix(data):
     }
 
     with Pool(mp.cpu_count()) as pool:
-        for (idx, distance) in pool.map(compute_pupils_comparator, classes.iterrows()):
+        for (idx, distance) in pool.map(f, classes.iterrows()):
             distance_classes[idx] = distance
 
     return distance_classes
 
 
-def compute_custom_comparator(name, data):
+def compute_custom_comparator(name, data, f):
     copy = data.copy()
     copy['Grouper'] = name
     classes = copy.groupby(['Grouper']).agg(list)
@@ -125,7 +145,7 @@ def compute_custom_comparator(name, data):
         'urns': copy.index.values
     }
     with Pool(mp.cpu_count()) as pool:
-        for (idx, distance) in pool.map(compute_pupils_comparator, classes.iterrows()):
+        for (idx, distance) in pool.map(f, classes.iterrows()):
             distance_classes[idx] = distance
 
     return distance_classes
