@@ -111,8 +111,8 @@ maintained_schools_master_list = {
     'No Teachers': 'float',
     'Urban  Rural': 'string',
     'London Weighting': 'string',
-    '% of pupils with SEN Statement': 'float',
-    '% of SEN pupils without Statement': 'float',
+    # '% of pupils with SEN Statement': 'float',
+    # '% of SEN pupils without Statement': 'float',
     '% of pupils with EAL': 'float',
     '% of pupils who are Boarders': 'float',
     'PFI': 'string',
@@ -218,6 +218,18 @@ sen = {
     'SUP_Primary_need_oth': 'Int64',
     'EHC_Primary_need_nsa': 'Int64',
     'SUP_Primary_need_nsa': 'Int64',
+    'Prov_SPLD': 'float',
+    'Prov_MLD': 'float',
+    'Prov_SLD': 'float',
+    'Prov_PMLD': 'float',
+    'Prov_SEMH': 'float',
+    'prov_slcn': 'float',
+    'prov_hi': 'float',
+    'prov_vi': 'float',
+    'prov_msi': 'float',
+    'prov_pd': 'float',
+    'prov_asd': 'float',
+    'prov_oth': 'float'
 }
 
 workforce_census_index_col = 'URN'
