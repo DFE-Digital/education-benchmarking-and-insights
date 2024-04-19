@@ -84,4 +84,8 @@ public static class Selectors
     public const string SchoolSuggestDropdown = "#school-suggestions";
     public const string MainContent = "#main-content";
     public const string GovukTag = ".govuk-tag";
+
+    public const string RecommendedResources = "#recommended";
+    public const string AllResources = "#all";
+    public const string AllResourcesTab = "#tab_all";
 }
