@@ -227,7 +227,8 @@ workforce_census = {
     'Number of Vacant Teacher Posts': 'float',
     'Total Number of Teachers (Full-Time Equivalent)': 'float',
     'Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)': 'float',
-    'Total Number of Teaching Assistants (Headcount)': 'float'
+    'Total Number of Teaching Assistants (Headcount)': 'float',
+    'All Teachers on the Leadership Pay Range (%)':'float'
 }
 
 
