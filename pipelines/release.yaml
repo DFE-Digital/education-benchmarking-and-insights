@@ -7,7 +7,7 @@ parameters:
   - name: coreVersion
     displayName: 'Input core infrastructure version (leave empty to use latest)'
     type: string
-    default: ''
+    default: ' '
 
 stages:
   - stage: Artifacts
