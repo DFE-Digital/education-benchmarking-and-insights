@@ -12,6 +12,13 @@ trigger: none
 pr: none
 
 jobs:
+  - job: SetBuildTags
+    displayName: 'Set build tags'
+    steps:
+      - checkout: none
+      - bash: |
+          echo "##vso[build.addbuildtag]Web"
+
   - job: Setup
     displayName: 'Pull and cache docker image'
     steps:

@@ -1,0 +1,98 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+stages:
+  - stage: Artifacts
+    displayName: 'Gather artifacts'
+    jobs:
+      - job: CoreDownloadPublish
+        displayName: 'Core : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              pipeline: 'Development/Core infrastructure'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              path: $(workspaceDir)
+
+          - publish: $(workspaceDir)/terraform
+            artifact: core-terraform
+
+      - job: PlatformDownloadPublish
+        displayName: 'Platform : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              pipeline: 'Development/Platform'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              path: $(workspaceDir)
+
+          - publish: $(workspaceDir)/terraform
+            artifact: platform-terraform
+
+          - publish: $(workspaceDir)/api-tests
+            artifact: api-tests
+
+          - publish: $(workspaceDir)/platform-apis
+            artifact: platform-apis
+
+          - publish: $(workspaceDir)/platform-db
+            artifact: platform-db
+
+          - publish: $(workspaceDir)/platform-search
+            artifact: platform-search
+
+      - job: PlatformDownloadPublish
+        displayName: 'Web : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            inputs:
+              source: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              pipeline: 'Development/Web'
+              runVersion: 'latestFromBranch'
+              runBranch: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              path: $(workspaceDir)
+
+          - publish: $(workspaceDir)/terraform
+            artifact: web-terraform
+
+          - publish: $(workspaceDir)/web
+            artifact: web
+
+          - publish: $(workspaceDir)/e2e-tests
+            artifact: e2e-tests
+
+#  - stage: DeployStaging
+#    dependsOn: [ Artifacts ]
+#    displayName: 'Staging'
+#    jobs:
+#      - template: core-infrastructure/deployment.yaml
+#        parameters:
+#          subscription: 's198p.azdo-deployment'
+#          environmentPrefix: 's198p02'
+#          environment: 'staging'
+#          cipEnvironment: 'Pre-Prod'
+#
+#      - template: platform/deployment.yaml
+#        parameters:
+#          subscription: 's198p.azdo-deployment'
+#          environmentPrefix: 's198p02'
+#          environment: 'staging'
+#          cipEnvironment: 'Pre-Prod'
