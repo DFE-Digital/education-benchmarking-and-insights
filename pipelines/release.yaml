@@ -13,14 +13,14 @@ stages:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             inputs:
-              source: 'specific'
+              buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
-              pipeline: 'Development/Core infrastructure'
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/main'
+              definition: 2862
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
-              path: $(workspaceDir)
+              targetPath: $(workspaceDir)
 
           - publish: $(workspaceDir)/terraform
             artifact: core-terraform
@@ -31,14 +31,14 @@ stages:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             inputs:
-              source: 'specific'
+              buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
-              pipeline: 'Development/Platform'
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/main'
+              definition: 2865
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
-              path: $(workspaceDir)
+              targetPath: $(workspaceDir)
 
           - publish: $(workspaceDir)/terraform
             artifact: platform-terraform
@@ -61,14 +61,14 @@ stages:
           - checkout: none
           - task: DownloadPipelineArtifact@2
             inputs:
-              source: 'specific'
+              buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
-              pipeline: 'Development/Web'
-              runVersion: 'latestFromBranch'
-              runBranch: 'refs/heads/main'
+              definition: 2866
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
-              path: $(workspaceDir)
+              targetPath: $(workspaceDir)
 
           - publish: $(workspaceDir)/terraform
             artifact: web-terraform
