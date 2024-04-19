@@ -236,11 +236,23 @@ workforce_census_index_col = 'URN'
 workforce_census = {
     'URN': 'Int64',
     'Total School Workforce (Full-Time Equivalent)': 'float',
-    'Number of Vacant Teacher Posts': 'float',
+    'Number of Vacant Teacher Posts': 'Int64',
     'Total Number of Teachers (Full-Time Equivalent)': 'float',
     'Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)': 'float',
-    'Total Number of Teaching Assistants (Headcount)': 'float',
-    'All Teachers on the Leadership Pay Range (%)':'float'
+    'Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)': 'float',
+    'Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)': 'Int64',
+    'Teachers with Qualified Teacher Status (%) (Headcount)': 'float',
+    'Statutory Low Age': 'Int64',
+    'Total Number of Teaching Assistants (Full-Time Equivalent)': 'float',
+    'Total Number of Teaching Assistants (Headcount)': 'Int64',
+    'Total School Workforce (Full-Time Equivalent)': 'float',
+    'Total Number of Teachers (Full-Time Equivalent)': 'float',
+    'Total Number of Teachers (Headcount)': 'Int64',
+    'Total Number of Teachers in the Leadership Group (Headcount)': 'Int64',
+    'Total Number of Teachers in the Leadership Group (Full-time Equivalent)': 'float',
+    'Total Number of Auxiliary Staff (Full-Time Equivalent)': 'float',
+    'Total Number of Auxiliary Staff (Headcount)': 'Int64',
+    'Total School Workforce (Headcount)': 'Int64',
 }
 
 
