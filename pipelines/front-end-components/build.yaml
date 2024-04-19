@@ -3,7 +3,7 @@ pool:
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
-  Version.BuildNumber: 0.0.$(Version.Revision)
+  Version.BuildNumber: 0.1.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   WorkingDir: 'front-end-components'
 
