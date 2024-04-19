@@ -97,10 +97,10 @@ public class CommercialResourcesPage(IPage page)
 
     public async Task AreAllResourcesVisible()
     {
-       
+
         Assert.Equal(await GetResourceNames("all"), _allResourcesNames);
     }
-    
+
     public async Task AreCorrectLinksDisplayed()
     {
         List<(string expectedText, string expectedHref, string expectedTarget)> expectedElements = new List<(string, string, string)>
@@ -170,5 +170,5 @@ public class CommercialResourcesPage(IPage page)
 
         return resourcesHeading;
     }
-    
+
 }
