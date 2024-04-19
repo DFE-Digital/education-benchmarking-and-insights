@@ -15,29 +15,33 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - template: ..\..\shared\steps-run-terraform.yaml
+            - template: ..\common\run-terraform.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'prototype'
-
+                module: 'web'
+                
   - deployment: Deploy
     dependsOn: [RunTerraform]
-    displayName: 'Deploy prototype web app'
-    environment: ${{ parameters.environment }}
+    displayName: 'Deploy web'
     pool:
       vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
     strategy:
       runOnce:
         deploy:
           steps:
-            - task: AzureWebApp@1
-              displayName: 'Web app deploy'
+            - checkout: none
+            - download: current
+            - task: AzureRmWebAppDeployment@4
+              displayName: 'Deploy website'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                appType: webAppLinux
-                appName: ${{ parameters.environmentPrefix }}-ebis-prototype
-                package: $(Pipeline.Workspace)/prototype/prototype.zip
-                deploymentMethod: 'zipDeploy'
+                WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
+                deployToSlotOrASE: true
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
+                enableCustomDeployment: true
+                DeploymentType: 'zipDeploy' 
