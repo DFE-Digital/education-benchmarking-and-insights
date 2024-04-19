@@ -3,6 +3,12 @@ pool:
 
 trigger: none
 
+parameters:
+  - name: coreVersion
+    displayName: 'Input core infrastructure version (leave empty to use latest)'
+    type: string
+    default: ''
+
 stages:
   - stage: Artifacts
     displayName: 'Gather artifacts'
@@ -21,6 +27,7 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
+              tags: ${{ parameters.coreVersion }}
 
           - publish: $(workspaceDir)/terraform
             artifact: core-terraform
