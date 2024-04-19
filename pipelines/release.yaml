@@ -55,7 +55,7 @@ stages:
           - publish: $(workspaceDir)/platform-search
             artifact: platform-search
 
-      - job: PlatformDownloadPublish
+      - job: WebDownloadPublish
         displayName: 'Web : Download artifacts and republish'
         steps:
           - checkout: none
