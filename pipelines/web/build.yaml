@@ -8,7 +8,6 @@ trigger:
       - main
   paths:
     include:
-      - shared
       - web
 
 pr:
@@ -34,25 +33,23 @@ stages:
         displayName: 'Set build number'
         steps:
           - checkout: none
-
           - bash: |
-              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
-              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)-prerelease"
-            condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
-            displayName: 'Set pre-release build number'
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+            displayName: 'Set release build number'
 
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
+          - template: ..\common\fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: ..\..\shared\steps-scan-terraform.yaml
+          - template: ..\common\scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
@@ -60,32 +57,32 @@ stages:
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps:
-          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+          - template: ..\common\steps-publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
 
       - job: RunFormat
         displayName: 'Format solution'
         steps:
-          - template: ..\..\shared\steps-dotnet-format.yaml
+          - template: ..\common\dotnet-format.yaml
             parameters:
               SolutionDirectory: '$(System.DefaultWorkingDirectory)/web'
 
       - job: RunTests
         displayName: 'Run unit tests'
         steps:
-          - template: steps-web-run-unit-tests.yaml
+          - template: steps\run-unit-tests.yaml
 
       - job: BuildE2eA11yTests
         displayName: 'Build web e2e & a11y tests'
         steps:
-          - template: steps-web-build-tests.yaml
+          - template: steps\build-tests.yaml
 
       - job: BuildWeb
         dependsOn: [ SetBuildNumber ]
         displayName: 'Build web'
         steps:
-          - template: steps-web-build.yaml
+          - template: steps\build.yaml
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
@@ -97,7 +94,7 @@ stages:
     variables:
       - group: 'dsi pre-prod'
     jobs:
-      - template: jobs-web-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
@@ -112,7 +109,7 @@ stages:
       - group: 'dsi pre-prod'
       - group: 'automated test app settings'
     jobs:
-      - template: jobs-web-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
@@ -123,7 +120,7 @@ stages:
         dependsOn: [ RunTerraform, Deploy ]
         displayName: 'Run automated e2e tests'
         steps:
-          - template: steps-web-run-e2e-tests.yaml
+          - template: steps\run-e2e-tests.yaml
             parameters:
               workspaceDir: '$(Pipeline.Workspace)'
     
@@ -131,7 +128,7 @@ stages:
         dependsOn: [ RunTerraform, Deploy ]
         displayName: 'Run automated a11y tests'
         steps:
-          - template: steps-web-run-a11y-tests.yaml
+          - template: steps\run-a11y-tests.yaml
             parameters:
               workspaceDir: '$(Pipeline.Workspace)'
               subscription: 's198d.azdo-deployment'
@@ -144,7 +141,7 @@ stages:
     variables:
       - group: 'dsi pre-prod'
     jobs:
-      - template: jobs-web-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
           environmentPrefix: 's198t01'

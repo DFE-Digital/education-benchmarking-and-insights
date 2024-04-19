@@ -34,25 +34,23 @@ stages:
         displayName: 'Set build number'
         steps:
           - checkout: none
-
           - bash: |
-              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
-              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)-prerelease"
-            condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
-            displayName: 'Set pre-release build number'
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+            displayName: 'Set release build number'
 
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
+          - template: ..\common\fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: ..\..\shared\steps-scan-terraform.yaml
+          - template: ..\common\scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
@@ -60,32 +58,32 @@ stages:
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps:
-          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+          - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
 
       - job: RunFormat
         displayName: 'Format solution'
         steps:
-          - template: ..\..\shared\steps-dotnet-format.yaml
+          - template: ..\common\dotnet-format.yaml
             parameters:
               SolutionDirectory: '$(System.DefaultWorkingDirectory)/platform'
 
       - job: RunTests
         displayName: 'Run unit tests'
         steps:
-          - template: steps-platform-run-unit-tests.yaml
+          - template: steps\run-unit-tests.yaml
 
       - job: BuildApiTests
         displayName: 'Build platform api tests'
         steps:
-          - template: steps-platform-build-api-tests.yaml
+          - template: steps\build-api-tests.yaml
 
       - job: BuildPlatform
         dependsOn: [ SetBuildNumber ]
         displayName: 'Build platform'
         steps:
-          - template: steps-platform-build.yaml
+          - template: steps\build.yaml
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
@@ -95,7 +93,7 @@ stages:
     displayName: 'Development'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs-platform-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
@@ -107,7 +105,7 @@ stages:
     displayName: 'Automated test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs-platform-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
@@ -119,7 +117,7 @@ stages:
         dependsOn: [ RunTerraform, Deploy ]
         displayName: 'Run automated api tests'
         steps:
-          - template: steps-web-run-api-tests.yaml
+          - template: steps\run-api-tests.yaml
             parameters:
               workspaceDir: '$(Pipeline.Workspace)'
               subscription: 's198d.azdo-deployment'
@@ -130,7 +128,7 @@ stages:
     displayName: 'Test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs-platform-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
           environmentPrefix: 's198t01'

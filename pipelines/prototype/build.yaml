@@ -8,7 +8,6 @@ trigger:
       - main
   paths:
     include:
-      - shared
       - prototype
 
 pr: none
@@ -25,21 +24,21 @@ stages:
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
+          - template: ..\common\fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: ..\..\shared\steps-scan-terraform.yaml
+          - template: ..\common\scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
         steps:
-          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+          - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
 
@@ -48,7 +47,7 @@ stages:
         pool:
           vmImage: ubuntu-latest
         steps:
-          - template: steps-prototype-build.yaml
+          - template: steps\build.yaml
 
   - stage: DeployDevelopment
     dependsOn: [Build]
@@ -57,7 +56,7 @@ stages:
     variables:
       - group: 'prototype'
     jobs:
-      - template: jobs-prototype.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d99'
