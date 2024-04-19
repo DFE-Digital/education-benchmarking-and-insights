@@ -32,6 +32,8 @@ stages:
               echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]Core infrastructure"
             displayName: 'Set release build number'
 
       - job: FmtValidateTf

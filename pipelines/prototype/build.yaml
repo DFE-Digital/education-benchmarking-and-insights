@@ -18,6 +18,10 @@ variables:
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 stages:
+  - bash: |
+      echo "##vso[build.addbuildtag]Prototype"
+    displayName: 'Set release build number'
+
   - stage: Build
     displayName: 'Build artifacts'
     jobs:

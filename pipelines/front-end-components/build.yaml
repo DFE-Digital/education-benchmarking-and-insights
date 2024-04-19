@@ -22,6 +22,12 @@ pr:
       - front-end-components
 
 steps:
+  - bash: |
+      echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+      echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+      echo "##vso[build.addbuildtag]Front-end components"
+    displayName: 'Set release build number'
+
   - task: Npm@1
     displayName: 'Update version number'
     continueOnError: false
