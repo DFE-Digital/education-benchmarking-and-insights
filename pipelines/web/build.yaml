@@ -24,7 +24,7 @@ variables:
   TerraformFolder: 'web/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
-  ShouldDeployDevFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
+  ShouldDeployFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
 
 stages:
   - stage: Build
@@ -151,16 +151,16 @@ stages:
           environment: 'test'
           cipEnvironment: 'Test'
 
-  - stage: DeployDevFeature
+  - stage: DeployFeature
     dependsOn: [ Build ]
-    displayName: 'Development'
-    condition: and(succeeded(), eq(variables['ShouldDeployDevFeature'],'true'))
+    displayName: 'Feature'
+    condition: and(succeeded(), eq(variables['ShouldDeployFeature'],'true'))
     variables:
       - group: 'dsi pre-prod'
     jobs:
-      - template: jobs-web-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01-$(FeatureName)'
-          environment: 'development'
+          environment: 'feature'
           cipEnvironment: 'Dev'

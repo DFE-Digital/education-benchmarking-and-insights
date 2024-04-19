@@ -94,14 +94,14 @@ stages:
           environment: 'test'
           cipEnvironment: 'Test'
 
-  - stage: DeployDevFeature
+  - stage: DeployFeature
     dependsOn: [ Build ]
-    condition: and(succeeded(), eq(variables['ShouldDeployDevFeature'],'true'))
-    displayName: 'Development'
+    condition: and(succeeded(), eq(variables['ShouldDeployFeature'],'true'))
+    displayName: 'Feature'
     jobs:
-      - template: jobs-core-deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01-$(FeatureName)'
-          environment: 'development'
+          environment: 'feature'
           cipEnvironment: 'Dev'
