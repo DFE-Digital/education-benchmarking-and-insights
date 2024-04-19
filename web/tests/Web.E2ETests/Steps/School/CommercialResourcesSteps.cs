@@ -9,10 +9,10 @@ public class CommercialResourcesSteps(PageDriver driver)
 {
     private CommercialResourcesPage? _commercialResourcesPage;
     
-    [Given("I am on resources page for school with URN '(.*)'")]
-    public async Task GivenIAmOnResourcesPageForSchoolWithUrn(string urn)
+    [Given("I am on '(.*)' resources page for school with URN '(.*)'")]
+    public async Task GivenIAmOnResourcesPageForSchoolWithUrn(string tab, string urn)
     {
-        var url = CommercialResourcesUrl(urn);
+        var url = CommercialResourcesUrl(tab, urn);
         var page = await driver.Current;
         await page.GotoAndWaitForLoadAsync(url);
 
@@ -52,6 +52,7 @@ public class CommercialResourcesSteps(PageDriver driver)
     }
     
     [When("I click on show all sections")]
+    [Given("I click on show all sections")]
     public async Task WhenIClickOnShowAllSections()
     {
         Assert.NotNull(_commercialResourcesPage);
@@ -72,6 +73,23 @@ public class CommercialResourcesSteps(PageDriver driver)
         Assert.NotNull(_commercialResourcesPage);
         await _commercialResourcesPage.IsShowHideAllSectionsText("Hide all sections");
     }
-    private static string CommercialResourcesUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/find-ways-to-spend-less";
+    
+    [Then("all resources sub categories are displayed on the page")]
+    public async Task ThenAllResourcesSubCategoriesAreDisplayedOnThePage()
+    {
+        Assert.NotNull(_commercialResourcesPage);
+        await _commercialResourcesPage.AreAllResourcesVisible();
+
+    }
+    
+    [Then("all sub categories have correct link")]
+    public async Task ThenAllSubCategoriesHaveCorrectLink()
+    {
+        Assert.NotNull(_commercialResourcesPage);
+        await _commercialResourcesPage.AreCorrectLinksDisplayed();
+    }
+    
+    private static string CommercialResourcesUrl(string tab, string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/find-ways-to-spend-less#{tab}";
+
     
 }
