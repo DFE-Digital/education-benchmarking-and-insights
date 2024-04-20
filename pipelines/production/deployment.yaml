@@ -5,8 +5,11 @@ parameters:
   cipEnvironment: ''
 
 jobs:
-  - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
-    displayName: 'Set build tag'
+  - job: SetBuildNumber
+    displayName: 'Set build tags'
+    steps:
+      - checkout: none
+      - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
 
   - template: ../core-infrastructure/deployment.yaml
     parameters:
