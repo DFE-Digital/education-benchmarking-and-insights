@@ -112,74 +112,38 @@ stages:
     dependsOn: [ Artifacts ]
     displayName: 'Pre-production'
     jobs:
-    - deployment: Deployment
-      pool:
-        vmImage: ubuntu-latest
-      environment: 'pre-production'
-      strategy:
-        runOnce:
-          deploy:
-            steps:
-              - checkout: none
+      - template: core-infrastructure/deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p02'
+          environment: 'pre-production'
+          cipEnvironment: 'Prod'
 
-              - download: current
-
-              - task: AzureKeyVault@1
-                inputs:
-                  azureSubscription: 's198p.azdo.deployment'
-                  KeyVaultName: 's198p02-ebis-keyvault'
-                  SecretsFilter: '*'
-                  RunAsPreJob: true
-
-              - template: core-infrastructure\steps\deployment.yaml
-                parameters:
-                  subscription: 's198p.azdo.deployment'
-                  environmentPrefix: 's198p02'
-                  environment: 'pre-production'
-                  cipEnvironment: 'Prod'
-                  module: 'core'
-
-              - template: platform\steps\deployment.yaml
-                parameters:
-                  subscription: 's198p.azdo.deployment'
-                  environmentPrefix: 's198p02'
-                  environment: 'pre-production'
-                  cipEnvironment: 'Prod'
+      - template: platform/deployment.yaml
+        parameters:
+          dependsOn: 'CoreDeployment'
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p02'
+          environment: 'pre-production'
+          cipEnvironment: 'Prod'
+          runSearchApp: false
 
   - stage: DeployProd
     dependsOn: [ Artifacts, DeployPreProd ]
     displayName: 'Production'
     jobs:
-      - deployment: Deployment
-        pool:
-          vmImage: ubuntu-latest
-        environment: 'production'
-        strategy:
-          runOnce:
-            deploy:
-              steps:
-                - checkout: none
+      - template: core-infrastructure/deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p01'
+          environment: 'production'
+          cipEnvironment: 'Prod'
 
-                - download: current
-
-                - task: AzureKeyVault@1
-                  inputs:
-                    azureSubscription: 's198p.azdo.deployment'
-                    KeyVaultName: 's198p01-ebis-keyvault'
-                    SecretsFilter: '*'
-                    RunAsPreJob: true
-
-                - template: core-infrastructure\steps\deployment.yaml
-                  parameters:
-                    subscription: 's198p.azdo.deployment'
-                    environmentPrefix: 's198p01'
-                    environment: 'production'
-                    cipEnvironment: 'Prod'
-                    module: 'core'
-
-                - template: platform\steps\deployment.yaml
-                  parameters:
-                    subscription: 's198p.azdo.deployment'
-                    environmentPrefix: 's198p01'
-                    environment: 'production'
-                    cipEnvironment: 'Prod'
+      - template: platform/deployment.yaml
+        parameters:
+          dependsOn: 'CoreDeployment'
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p01'
+          environment: 'production'
+          cipEnvironment: 'Prod'
+          runSearchApp: false

@@ -5,7 +5,8 @@ parameters:
   cipEnvironment: ''
 
 jobs:
-  - deployment: Deployment
+  - deployment: CoreDeployment
+    displayName: 'Core : Deployment'
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -17,9 +18,10 @@ jobs:
 
             - download: current
 
-            - template: ..\steps\deployment.yaml
+            - template: ..\common\run-terraform.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'core'

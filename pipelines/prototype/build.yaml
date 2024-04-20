@@ -64,7 +64,7 @@ stages:
     variables:
       - group: 'prototype'
     jobs:
-      - template: jobs\deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d99'

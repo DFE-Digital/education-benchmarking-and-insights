@@ -6,7 +6,8 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
 
 jobs:
-  - deployment: Deployment
+  - deployment: PrototypeDeployment
+    displayName: 'Prototype : Deployment'
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -18,7 +19,7 @@ jobs:
 
             - download: current
 
-            - template: ..\..\common\run-terraform.yaml
+            - template: ..\common\run-terraform.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}

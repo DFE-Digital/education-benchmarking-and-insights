@@ -96,7 +96,7 @@ stages:
     displayName: 'Development'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs\deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
@@ -108,16 +108,15 @@ stages:
     displayName: 'Automated test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs\deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
-          runSearchApp: true
 
       - job: RunApiTests
-        dependsOn: [ Deployment ]
+        dependsOn: [ PlatformDeployment ]
         displayName: 'Run automated api tests'
         steps:
           - template: steps\run-api-tests.yaml
@@ -131,7 +130,7 @@ stages:
     displayName: 'Test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: jobs\deployment.yaml
+      - template: deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
           environmentPrefix: 's198t01'
