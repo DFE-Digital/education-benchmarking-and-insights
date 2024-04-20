@@ -79,7 +79,7 @@ jobs:
 
       - task: CmdLine@2
         inputs:
-          script: 'cp $(Build.SourcesDirectory)/web/pipelines/zaproxy/{.artifactignore,config.conf} $(zapDir)'
+          script: 'cp $(Build.SourcesDirectory)/pipelines/web/zaproxy/{.artifactignore,config.conf} $(zapDir)'
         displayName: "Copy files"
 
       - task: Docker@2

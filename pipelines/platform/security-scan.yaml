@@ -92,13 +92,13 @@ jobs:
       - task: qetza.replacetokens.replacetokens-task.replacetokens@6
         displayName: 'Replace tokens in file'
         inputs:
-          sources: '$(Build.SourcesDirectory)/platform/pipelines/zaproxy/*.prop'
+          sources: '$(Build.SourcesDirectory)/pipelines/platform/zaproxy/*.prop'
           escape: off
           tokenPattern: doubleunderscores
 
       - task: CmdLine@2
         inputs:
-          script: 'cp $(Build.SourcesDirectory)/platform/pipelines/zaproxy/{$(key).prop,.artifactignore,config.conf} $(zapDir)'
+          script: 'cp $(Build.SourcesDirectory)/pipelines/platform/zaproxy/{$(key).prop,.artifactignore,config.conf} $(zapDir)'
         displayName: "Copy files"
 
       - task: Docker@2
