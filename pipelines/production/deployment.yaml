@@ -1,0 +1,30 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+
+jobs:
+  - template: ../core-infrastructure/deployment.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/deployment.yaml
+    parameters:
+      dependsOn: 'CoreDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      runSearchApp: false
+
+  - template: ../web/deployment.yaml
+    parameters:
+      dependsOn: 'PlatformDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}

@@ -121,25 +121,8 @@ stages:
     dependsOn: [ Artifacts ]
     displayName: 'Pre-production'
     jobs:
-      - template: core-infrastructure/deployment.yaml
+      - template: deployment.yaml
         parameters:
-          subscription: 's198p.azdo.deployment'
-          environmentPrefix: ${{ parameters.preProdEnv }}
-          environment: 'pre-production'
-          cipEnvironment: 'Prod'
-
-      - template: platform/deployment.yaml
-        parameters:
-          dependsOn: 'CoreDeployment'
-          subscription: 's198p.azdo.deployment'
-          environmentPrefix: ${{ parameters.preProdEnv }}
-          environment: 'pre-production'
-          cipEnvironment: 'Prod'
-          runSearchApp: false
-
-      - template: web/deployment.yaml
-        parameters:
-          dependsOn: 'PlatformDeployment'
           subscription: 's198p.azdo.deployment'
           environmentPrefix: ${{ parameters.preProdEnv }}
           environment: 'pre-production'
@@ -150,25 +133,8 @@ stages:
     condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
     displayName: 'Production'
     jobs:
-      - template: core-infrastructure/deployment.yaml
+      - template: deployment.yaml
         parameters:
-          subscription: 's198p.azdo.deployment'
-          environmentPrefix: 's198p01'
-          environment: 'production'
-          cipEnvironment: 'Prod'
-
-      - template: platform/deployment.yaml
-        parameters:
-          dependsOn: 'CoreDeployment'
-          subscription: 's198p.azdo.deployment'
-          environmentPrefix: 's198p01'
-          environment: 'production'
-          cipEnvironment: 'Prod'
-          runSearchApp: false
-
-      - template: web/deployment.yaml
-        parameters:
-          dependsOn: 'PlatformDeployment'
           subscription: 's198p.azdo.deployment'
           environmentPrefix: 's198p01'
           environment: 'production'
