@@ -29,6 +29,9 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
+          - bash: echo "##vso[build.addbuildtag]Core:$[ dependencies.CoreDownloadPublish.outputs['Build.BuildNumber'] ]"
+            displayName: 'Set build tag'
+
           - publish: $(workspaceDir)/terraform
             artifact: core-terraform
 
@@ -46,6 +49,9 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
+
+          - bash: echo "##vso[build.addbuildtag]Platform:$[ dependencies.PlatformDownloadPublish.outputs['Build.BuildNumber'] ]"
+            displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
             artifact: platform-terraform
@@ -76,6 +82,9 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
+
+          - bash: echo "##vso[build.addbuildtag]Web:$[ dependencies.WebDownloadPublish.outputs['Build.BuildNumber'] ]"
+            displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
             artifact: web-terraform
