@@ -62,6 +62,7 @@ stages:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+              Module: 'web'
 
       - job: RunFormat
         displayName: 'Format solution'
