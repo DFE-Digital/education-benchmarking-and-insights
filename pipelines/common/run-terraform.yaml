@@ -24,7 +24,7 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
+        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
         echo "Resource group created"
         
         az storage account create --name ${{ parameters.environmentPrefix }}storagetf --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS

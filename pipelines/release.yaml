@@ -127,3 +127,23 @@ stages:
                   environment: 'pre-production'
                   cipEnvironment: 'Prod'
                   module: 'core'
+
+  - stage: DeployProd
+    dependsOn: [ Artifacts ]
+    displayName: 'Production'
+    jobs:
+      - deployment: Deployment
+        pool:
+          vmImage: ubuntu-latest
+        environment: 'production'
+        strategy:
+          runOnce:
+            deploy:
+              steps:
+                - template: core-infrastructure\steps\deployment.yaml
+                  parameters:
+                    subscription: 's198p.azdo.deployment'
+                    environmentPrefix: 's198p01'
+                    environment: 'pre-production'
+                    cipEnvironment: 'Prod'
+                    module: 'core'
