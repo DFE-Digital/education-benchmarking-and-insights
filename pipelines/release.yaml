@@ -19,12 +19,12 @@ parameters:
   - name: preProdEnv
     displayName: 'Select pre-production environment'
     type: string
-    default: s122p02
+    default: s198p02
     values:
-      - s122p02
+      - s198p02
 
 variables:
-  ShouldDeployProd: $[eq(${{ parameters.preProdEnv }}, 's122p02')]
+  ShouldDeployProd: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
 
 stages:
   - stage: Artifacts
