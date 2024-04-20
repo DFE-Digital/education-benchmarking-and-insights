@@ -122,7 +122,7 @@ stages:
             steps:
               - template: core-infrastructure\steps\deployment.yaml
                 parameters:
-                  subscription: 's198p.azdo-deployment'
+                  subscription: 's198p.azdo.deployment'
                   environmentPrefix: 's198p02'
                   environment: 'pre-production'
                   cipEnvironment: 'Pre-Prod'
