@@ -18,6 +18,7 @@ stages:
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
             inputs:
               buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
@@ -29,7 +30,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Core:$[ dependencies.CoreDownloadPublish.outputs['Build.BuildNumber'] ]"
+          - bash: echo "##vso[build.addbuildtag]Core:$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -40,6 +41,7 @@ stages:
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
             inputs:
               buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
@@ -50,7 +52,7 @@ stages:
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
 
-          - bash: echo "##vso[build.addbuildtag]Platform:$[ dependencies.PlatformDownloadPublish.outputs['Build.BuildNumber'] ]"
+          - bash: echo "##vso[build.addbuildtag]Platform:$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -73,6 +75,7 @@ stages:
         steps:
           - checkout: none
           - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
             inputs:
               buildType: 'specific'
               project: 's198-DfE-Benchmarking-service'
@@ -83,7 +86,7 @@ stages:
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
 
-          - bash: echo "##vso[build.addbuildtag]Web:$[ dependencies.WebDownloadPublish.outputs['Build.BuildNumber'] ]"
+          - bash: echo "##vso[build.addbuildtag]Web:$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
