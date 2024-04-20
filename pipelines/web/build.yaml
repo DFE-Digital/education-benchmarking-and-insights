@@ -27,7 +27,7 @@ variables:
 
 stages:
   - stage: Build
-    displayName: 'Build'
+    displayName: 'Build artifacts'
     jobs:
       - job: SetBuildNumber
         displayName: 'Set build number'
@@ -119,7 +119,7 @@ stages:
           cipEnvironment: 'Dev'
 
       - job: RunE2ETests
-        dependsOn: [ RunTerraform, Deploy ]
+        dependsOn: [ WebDeployment ]
         displayName: 'Run automated e2e tests'
         steps:
           - template: steps\run-e2e-tests.yaml
@@ -127,7 +127,7 @@ stages:
               workspaceDir: '$(Pipeline.Workspace)'
     
       - job: RunA11YTests
-        dependsOn: [ RunTerraform, Deploy ]
+        dependsOn: [ WebDeployment ]
         displayName: 'Run automated a11y tests'
         steps:
           - template: steps\run-a11y-tests.yaml
@@ -137,7 +137,7 @@ stages:
               environmentPrefix: 's198d02'
 
   - stage: DeployTest
-    dependsOn: [ Build, DeployAutomatedTest ]
+    dependsOn: [ DeployAutomatedTest ]
     displayName: 'Test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     variables:

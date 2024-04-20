@@ -16,6 +16,15 @@ parameters:
     displayName: 'Input web version (leave empty to use latest)'
     type: string
     default: ' '
+  - name: preProdEnv
+    displayName: 'Select pre-production environment'
+    type: string
+    default: s122p02
+    values:
+      - s122p02
+
+variables:
+  ShouldDeployProd: $[eq(${{ parameters.preProdEnv }}, 's122p02')]
 
 stages:
   - stage: Artifacts
@@ -115,7 +124,7 @@ stages:
       - template: core-infrastructure/deployment.yaml
         parameters:
           subscription: 's198p.azdo.deployment'
-          environmentPrefix: 's198p02'
+          environmentPrefix: ${{ parameters.preProdEnv }}
           environment: 'pre-production'
           cipEnvironment: 'Prod'
 
@@ -123,13 +132,22 @@ stages:
         parameters:
           dependsOn: 'CoreDeployment'
           subscription: 's198p.azdo.deployment'
-          environmentPrefix: 's198p02'
+          environmentPrefix: ${{ parameters.preProdEnv }}
           environment: 'pre-production'
           cipEnvironment: 'Prod'
           runSearchApp: false
 
+      - template: web/deployment.yaml
+        parameters:
+          dependsOn: 'PlatformDeployment'
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: ${{ parameters.preProdEnv }}
+          environment: 'pre-production'
+          cipEnvironment: 'Prod'
+
   - stage: DeployProd
-    dependsOn: [ Artifacts, DeployPreProd ]
+    dependsOn: [ DeployPreProd ]
+    condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
     displayName: 'Production'
     jobs:
       - template: core-infrastructure/deployment.yaml
@@ -147,3 +165,11 @@ stages:
           environment: 'production'
           cipEnvironment: 'Prod'
           runSearchApp: false
+
+      - template: web/deployment.yaml
+        parameters:
+          dependsOn: 'PlatformDeployment'
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p01'
+          environment: 'production'
+          cipEnvironment: 'Prod'
