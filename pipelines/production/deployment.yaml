@@ -5,6 +5,9 @@ parameters:
   cipEnvironment: ''
 
 jobs:
+  - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
+    displayName: 'Set build tag'
+
   - template: ../core-infrastructure/deployment.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
