@@ -30,7 +30,9 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Core+$(DownloadArtifact.BuildNumber)"
+          - script: echo $(DownloadArtifact.BuildNumber)
+            
+          - bash: echo "##vso[build.addbuildtag]$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -52,7 +54,9 @@ stages:
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
 
-          - bash: echo "##vso[build.addbuildtag]Platform+$(DownloadArtifact.BuildNumber)"
+          - script: echo $(DownloadArtifact.BuildNumber)
+
+          - bash: echo "##vso[build.addbuildtag]$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -86,7 +90,9 @@ stages:
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
 
-          - bash: echo "##vso[build.addbuildtag]Web+$(DownloadArtifact.BuildNumber)"
+          - script: echo $(DownloadArtifact.BuildNumber)
+
+          - bash: echo "##vso[build.addbuildtag]$(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
