@@ -25,8 +25,7 @@ stages:
         displayName: 'Set tag'
         steps:
           - checkout: none
-          - bash: |              
-              echo "##vso[build.addbuildtag]Prototype"
+          - bash: echo "##vso[build.addbuildtag]Prototype"
             displayName: 'Set build tag'
 
       - job: FmtValidateTf
@@ -49,6 +48,7 @@ stages:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+              Module: 'prototype'
 
       - job: Build
         displayName: Build
@@ -64,7 +64,7 @@ stages:
     variables:
       - group: 'prototype'
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d99'

@@ -6,8 +6,7 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
 
 jobs:
-  - deployment: RunTerraform
-    displayName: 'Run terraform'
+  - deployment: Deployment
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -15,7 +14,7 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - template: ..\common\run-terraform.yaml
+            - template: ..\..\common\run-terraform.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}
@@ -23,16 +22,6 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'prototype'
 
-  - deployment: Deploy
-    dependsOn: [RunTerraform]
-    displayName: 'Deploy prototype web app'
-    environment: ${{ parameters.environment }}
-    pool:
-      vmImage: ubuntu-latest
-    strategy:
-      runOnce:
-        deploy:
-          steps:
             - task: AzureWebApp@1
               displayName: 'Web app deploy'
               inputs:

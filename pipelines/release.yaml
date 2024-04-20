@@ -129,7 +129,7 @@ stages:
                   module: 'core'
 
   - stage: DeployProd
-    dependsOn: [ Artifacts ]
+    dependsOn: [ Artifacts, DeployPreProd ]
     displayName: 'Production'
     jobs:
       - deployment: Deployment
@@ -144,6 +144,6 @@ stages:
                   parameters:
                     subscription: 's198p.azdo.deployment'
                     environmentPrefix: 's198p01'
-                    environment: 'pre-production'
+                    environment: 'production'
                     cipEnvironment: 'Prod'
                     module: 'core'
