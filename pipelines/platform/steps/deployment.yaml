@@ -1,0 +1,87 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+
+steps:
+  - checkout: none
+
+  - download: current
+
+  - task: AzureKeyVault@1
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+      SecretsFilter: '*'
+      RunAsPreJob: true
+
+  - template: ..\..\common\run-terraform.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      module: 'platform'
+
+  - task: ExtractFiles@1
+    displayName: 'Extract platform search app'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/search-app'
+
+  - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(ebis-cdb-connection-string-r)' -d 'ebis-data' -p '$(platform-storage-connection-string)' -a 'local-authorities'
+    condition: ${{ parameters.runSearchApp }}
+    displayName: 'Run platform search app'
+    workingDirectory: '${{ parameters.workspaceDir }}/search-app'
+    failOnStderr: true
+
+  - task: ExtractFiles@1
+    displayName: 'Extract platform database'
+    inputs:
+      archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-db/Platform.Database.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/db'
+
+  - script: ./Platform.Database -c '$(ebis-sql-connection-string)'
+    workingDirectory: '${{ parameters.workspaceDir }}/db'
+    failOnStderr: true
+    displayName: 'Deploy platform database'
+
+  - task: AzureFunctionApp@1
+    displayName: 'Deploy benchmarks function app'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      appType: functionApp
+      appName: '${{ parameters.environmentPrefix }}-ebis-benchmark-fa'
+      deployToSlotOrASE: true
+      resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+      package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Benchmark.zip'
+      slotName: production
+      appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+      DeploymentType: 'runFromZip'
+
+  - task: AzureFunctionApp@1
+    displayName: 'Deploy insights function app'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      appType: functionApp
+      appName: '${{ parameters.environmentPrefix }}-ebis-insight-fa'
+      deployToSlotOrASE: true
+      resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+      package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Insight.zip'
+      slotName: production
+      appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+      DeploymentType: 'runFromZip'
+
+  - task: AzureFunctionApp@1
+    displayName: 'Deploy establishments function app'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      appType: functionApp
+      appName: '${{ parameters.environmentPrefix }}-ebis-establishment-fa'
+      deployToSlotOrASE: true
+      resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+      package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
+      slotName: production
+      appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+      DeploymentType: 'runFromZip'

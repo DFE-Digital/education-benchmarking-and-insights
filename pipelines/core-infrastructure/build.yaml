@@ -22,7 +22,7 @@ variables:
 
 stages:
   - stage: Build
-    displayName: 'Build'
+    displayName: 'Build artifacts'
     jobs:
       - job: SetBuildNumber
         displayName: 'Set build number'
@@ -83,7 +83,7 @@ stages:
           cipEnvironment: 'Dev'
 
   - stage: DeployTest
-    dependsOn: [ Build, DeployAutomatedTest ]
+    dependsOn: [ DeployAutomatedTest ]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Test'
     jobs:

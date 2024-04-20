@@ -28,7 +28,7 @@ variables:
 
 stages:
   - stage: Build
-    displayName: 'Build'
+    displayName: 'Build artifacts'
     jobs:
       - job: SetBuildNumber
         displayName: 'Set build number'
@@ -63,6 +63,7 @@ stages:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+              Module: 'platform'
 
       - job: RunFormat
         displayName: 'Format solution'
@@ -95,7 +96,7 @@ stages:
     displayName: 'Development'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
@@ -107,7 +108,7 @@ stages:
     displayName: 'Automated test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
@@ -116,7 +117,7 @@ stages:
           runSearchApp: true
 
       - job: RunApiTests
-        dependsOn: [ RunTerraform, Deploy ]
+        dependsOn: [ Deployment ]
         displayName: 'Run automated api tests'
         steps:
           - template: steps\run-api-tests.yaml
@@ -126,11 +127,11 @@ stages:
               environmentPrefix: 's198d02'
 
   - stage: DeployTest
-    dependsOn: [ Build, DeployAutomatedTest ]
+    dependsOn: [ DeployAutomatedTest ]
     displayName: 'Test'
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
           environmentPrefix: 's198t01'

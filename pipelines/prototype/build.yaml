@@ -57,10 +57,10 @@ stages:
         steps:
           - template: steps\build.yaml
 
-  - stage: DeployDevelopment
+  - stage: DeployPrototype
     dependsOn: [Build]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
-    displayName: 'Deploy to prototype'
+    displayName: 'Prototype'
     variables:
       - group: 'prototype'
     jobs:

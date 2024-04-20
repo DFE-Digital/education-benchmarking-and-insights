@@ -3,6 +3,8 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  runSearchApp: true
 
 jobs:
   - deployment: Deployment
