@@ -8,6 +8,14 @@ parameters:
     displayName: 'Input core infrastructure version (leave empty to use latest)'
     type: string
     default: ' '
+  - name: platformVersion
+    displayName: 'Input platform version (leave empty to use latest)'
+    type: string
+    default: ' '
+  - name: webVersion
+    displayName: 'Input web version (leave empty to use latest)'
+    type: string
+    default: ' '
 
 stages:
   - stage: Artifacts
@@ -33,7 +41,7 @@ stages:
           - bash: echo "##vso[build.addbuildtag]Core build - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
-          - publish: $(workspaceDir)/terraform
+          - publish: $(workspaceDir)/core-terraform
             artifact: core-terraform
 
       - job: PlatformDownloadPublish
@@ -51,6 +59,7 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
+              tags: ${{ parameters.platformVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Platform build - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
@@ -85,6 +94,7 @@ stages:
               allowFailedBuilds: false
               allowPartiallySucceededBuilds: false
               targetPath: $(workspaceDir)
+              tags: ${{ parameters.webVersion }}
 
           - bash: echo "##vso[build.addbuildtag]Web build - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'

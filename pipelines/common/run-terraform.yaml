@@ -5,7 +5,6 @@ parameters:
   cipEnvironment: ''
   module: ''
   workspaceDir: '$(Pipeline.Workspace)'
-  terraformArchive: '$(Pipeline.Workspace)/terraform/terraform.zip'
   location: 'westeurope'
 
 steps:
@@ -16,7 +15,7 @@ steps:
   - task: ExtractFiles@1
     displayName: 'Extract terraform Files'
     inputs:
-      archiveFilePatterns: ${{ parameters.terraformArchive }}
+      archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.module }}-terraform/terraform.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/tf'
 
   - task: AzureCLI@1

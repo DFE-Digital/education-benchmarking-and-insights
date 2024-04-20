@@ -1,5 +1,6 @@
 parameters:
   TerraformFolder: ''
+  Module: ''
 
 steps:
   - task: ArchiveFiles@2
@@ -10,4 +11,4 @@ steps:
       archiveFile: '$(Build.ArtifactStagingDirectory)/terraform.zip'
 
   - publish: $(Build.ArtifactStagingDirectory)/terraform.zip
-    artifact: terraform
+    artifact: ${{ parameters.Module }}-terraform

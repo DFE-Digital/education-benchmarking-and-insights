@@ -56,13 +56,14 @@ stages:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+              Module: 'core'
 
   - stage: DeployDevelopment
     dependsOn: [ Build ]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Development'
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d01'
@@ -74,7 +75,7 @@ stages:
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Automated test'
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
           environmentPrefix: 's198d02'
@@ -86,7 +87,7 @@ stages:
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     displayName: 'Test'
     jobs:
-      - template: deployment.yaml
+      - template: jobs\deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
           environmentPrefix: 's198t01'
