@@ -125,5 +125,5 @@ stages:
                   subscription: 's198p.azdo.deployment'
                   environmentPrefix: 's198p02'
                   environment: 'pre-production'
-                  cipEnvironment: 'Pre-Prod'
+                  cipEnvironment: 'Prod'
                   module: 'core'
