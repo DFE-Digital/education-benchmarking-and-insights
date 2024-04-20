@@ -64,7 +64,7 @@ stages:
           - bash: echo "##vso[build.addbuildtag]Platform build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
-          - publish: $(workspaceDir)/terraform
+          - publish: $(workspaceDir)/platform-terraform
             artifact: platform-terraform
 
           - publish: $(workspaceDir)/api-tests
