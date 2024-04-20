@@ -5,7 +5,7 @@ parameters:
   cipEnvironment: ''
 
 steps:
-  - template: ..\common\run-terraform.yaml
+  - template: ..\..\common\run-terraform.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
