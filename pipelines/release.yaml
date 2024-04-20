@@ -38,7 +38,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.coreVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Core build - $(DownloadArtifact.BuildNumber)"
+          - bash: echo "##vso[build.addbuildtag]Core build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/core-terraform
@@ -61,7 +61,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.platformVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Platform build - $(DownloadArtifact.BuildNumber)"
+          - bash: echo "##vso[build.addbuildtag]Platform build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -96,7 +96,7 @@ stages:
               targetPath: $(workspaceDir)
               tags: ${{ parameters.webVersion }}
 
-          - bash: echo "##vso[build.addbuildtag]Web build - $(DownloadArtifact.BuildNumber)"
+          - bash: echo "##vso[build.addbuildtag]Web build id - $(DownloadArtifact.BuildNumber)"
             displayName: 'Set build tag'
 
           - publish: $(workspaceDir)/terraform
@@ -108,20 +108,22 @@ stages:
           - publish: $(workspaceDir)/e2e-tests
             artifact: e2e-tests
 
-#  - stage: DeployStaging
-#    dependsOn: [ Artifacts ]
-#    displayName: 'Staging'
-#    jobs:
-#      - template: core-infrastructure/deployment.yaml
-#        parameters:
-#          subscription: 's198p.azdo-deployment'
-#          environmentPrefix: 's198p02'
-#          environment: 'staging'
-#          cipEnvironment: 'Pre-Prod'
-#
-#      - template: platform/deployment.yaml
-#        parameters:
-#          subscription: 's198p.azdo-deployment'
-#          environmentPrefix: 's198p02'
-#          environment: 'staging'
-#          cipEnvironment: 'Pre-Prod'
+  - stage: DeployPreProd
+    dependsOn: [ Artifacts ]
+    displayName: 'Pre-production'
+    jobs:
+    - deployment: Deployment
+      pool:
+        vmImage: ubuntu-latest
+      environment: 'pre-production'
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - template: core-infrastructure\steps\deployment.yaml
+                parameters:
+                  subscription: 's198p.azdo-deployment'
+                  environmentPrefix: 's198p02'
+                  environment: 'pre-production'
+                  cipEnvironment: 'Pre-Prod'
+                  module: 'core'
