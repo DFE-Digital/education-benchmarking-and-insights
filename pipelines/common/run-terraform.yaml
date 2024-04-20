@@ -8,10 +8,6 @@ parameters:
   location: 'westeurope'
 
 steps:
-  - checkout: none
-
-  - download: current
-
   - task: ExtractFiles@1
     displayName: 'Extract terraform Files'
     inputs:

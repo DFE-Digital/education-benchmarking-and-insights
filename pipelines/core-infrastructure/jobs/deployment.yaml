@@ -13,6 +13,10 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: none
+
+            - download: current
+
             - template: ..\steps\deployment.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}

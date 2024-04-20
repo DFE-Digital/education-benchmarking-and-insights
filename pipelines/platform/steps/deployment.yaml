@@ -5,17 +5,6 @@ parameters:
   cipEnvironment: ''
 
 steps:
-  - checkout: none
-
-  - download: current
-
-  - task: AzureKeyVault@1
-    inputs:
-      azureSubscription: ${{ parameters.subscription }}
-      KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
-      SecretsFilter: '*'
-      RunAsPreJob: true
-
   - template: ..\..\common\run-terraform.yaml
     parameters:
       subscription: ${{ parameters.subscription }}
