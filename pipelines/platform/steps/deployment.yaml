@@ -3,6 +3,8 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  runSearchApp: true
 
 steps:
   - template: ..\..\common\run-terraform.yaml
@@ -14,6 +16,7 @@ steps:
       module: 'platform'
 
   - task: ExtractFiles@1
+    condition: ${{ parameters.runSearchApp }}
     displayName: 'Extract platform search app'
     inputs:
       archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'

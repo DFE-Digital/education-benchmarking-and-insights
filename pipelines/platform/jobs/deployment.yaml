@@ -3,8 +3,7 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
-  workspaceDir: '$(Pipeline.Workspace)'
-  runSearchApp: true
+  runSearchApp: ''
 
 jobs:
   - deployment: Deployment
@@ -32,3 +31,4 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
+                runSearchApp: ${{ parameters.runSearchApp }}

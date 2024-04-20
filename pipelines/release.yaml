@@ -120,6 +120,17 @@ stages:
         runOnce:
           deploy:
             steps:
+              - checkout: none
+
+              - download: current
+
+              - task: AzureKeyVault@1
+                inputs:
+                  azureSubscription: 's198p.azdo.deployment'
+                  KeyVaultName: 's198p02-ebis-keyvault'
+                  SecretsFilter: '*'
+                  RunAsPreJob: true
+
               - template: core-infrastructure\steps\deployment.yaml
                 parameters:
                   subscription: 's198p.azdo.deployment'
@@ -127,6 +138,13 @@ stages:
                   environment: 'pre-production'
                   cipEnvironment: 'Prod'
                   module: 'core'
+
+              - template: platform\steps\deployment.yaml
+                parameters:
+                  subscription: 's198p.azdo.deployment'
+                  environmentPrefix: 's198p02'
+                  environment: 'pre-production'
+                  cipEnvironment: 'Prod'
 
   - stage: DeployProd
     dependsOn: [ Artifacts, DeployPreProd ]
@@ -140,6 +158,17 @@ stages:
           runOnce:
             deploy:
               steps:
+                - checkout: none
+
+                - download: current
+
+                - task: AzureKeyVault@1
+                  inputs:
+                    azureSubscription: 's198p.azdo.deployment'
+                    KeyVaultName: 's198p01-ebis-keyvault'
+                    SecretsFilter: '*'
+                    RunAsPreJob: true
+
                 - template: core-infrastructure\steps\deployment.yaml
                   parameters:
                     subscription: 's198p.azdo.deployment'
@@ -147,3 +176,10 @@ stages:
                     environment: 'production'
                     cipEnvironment: 'Prod'
                     module: 'core'
+
+                - template: platform\steps\deployment.yaml
+                  parameters:
+                    subscription: 's198p.azdo.deployment'
+                    environmentPrefix: 's198p01'
+                    environment: 'production'
+                    cipEnvironment: 'Prod'

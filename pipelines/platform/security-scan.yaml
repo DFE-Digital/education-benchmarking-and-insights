@@ -18,6 +18,7 @@ jobs:
       - checkout: none
       - bash: |        
           echo "##vso[build.addbuildtag]Platform"
+          echo "##vso[build.addbuildtag]ZAP"
 
   - job: Setup
     displayName: 'Pull and cache docker image'
