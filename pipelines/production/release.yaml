@@ -129,7 +129,7 @@ stages:
           cipEnvironment: 'Prod'
 
   - stage: DeployProd
-    dependsOn: [ Artifacts ]
+    dependsOn: [ DeployPreProd ]
     condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
     displayName: 'Production'
     jobs:
