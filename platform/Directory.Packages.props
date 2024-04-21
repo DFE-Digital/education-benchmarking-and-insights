@@ -3,9 +3,15 @@
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
   </PropertyGroup>
   <ItemGroup>
-    <PackageVersion Include="AutoFixture" Version="4.18.1" />
+    <PackageVersion Update="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
     <PackageVersion Include="Azure.Search.Documents" Version="11.5.1" />
-    <PackageVersion Include="AzureExtensions.Swashbuckle" Version="3.3.2" />
+    <PackageVersion Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
+    <PackageVersion Include="Serilog.AspNetCore" Version="8.0.1" />
+    <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
+    <PackageVersion Include="Serilog.Settings.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageVersion Include="AutoFixture" Version="4.18.1" />
     <PackageVersion Include="Carter" Version="8.0.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="coverlet.collector" Version="6.0.2">
@@ -16,27 +22,21 @@
     <PackageVersion Include="Dapper.SqlBuilder" Version="2.0.78" />
     <PackageVersion Include="dbup-sqlserver" Version="5.0.40" />
     <PackageVersion Include="FluentAssertions" Version="6.12.0" />
-    <PackageVersion Include="FluentValidation" Version="11.9.0" />
-    <PackageVersion Include="Microsoft.Azure.Cosmos" Version="3.39.0" />
-    <PackageVersion Include="Microsoft.Azure.Functions.Extensions" Version="1.1.0" />
+    <PackageVersion Include="Microsoft.Azure.Cosmos" Version="3.39.1" />
     <PackageVersion Include="Microsoft.Data.SqlClient" Version="5.2.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="6.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks" Version="6.0.29" />
-    <PackageVersion Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="6.0.4" />
-    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Options" Version="6.0.0" />
-    <PackageVersion Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="6.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Console" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Logging" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Options" Version="8.0.2" />
+    <PackageVersion Include="Microsoft.Extensions.Logging.Abstractions" Version="8.0.1" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageVersion Include="Microsoft.NET.Sdk.Functions" Version="4.3.0" />
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.9.0" />
     <PackageVersion Include="Moq" Version="4.20.70" />
     <PackageVersion Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageVersion Include="Serilog.AspNetCore" Version="6.1.0" />
-    <PackageVersion Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
-    <PackageVersion Include="Serilog.Extensions.Hosting" Version="5.0.1" />
-    <PackageVersion Include="Serilog.Sinks.ApplicationInsights" Version="4.0.0" />
+    <PackageVersion Include="Serilog.Extensions.Hosting" Version="8.0.0" />
     <PackageVersion Include="SpecFlow" Version="3.9.74" />
     <PackageVersion Include="SpecFlow.Assist.Dynamic" Version="1.4.2" />
     <PackageVersion Include="SpecFlow.Plus.LivingDocPlugin" Version="3.9.57" />

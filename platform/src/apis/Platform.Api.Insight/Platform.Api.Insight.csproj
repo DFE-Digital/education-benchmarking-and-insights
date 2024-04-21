@@ -10,9 +10,17 @@
 
     <ItemGroup>
         <PackageReference Include="Carter" />
-        <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0"/>
+        <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
+        <PackageReference Include="Microsoft.Extensions.Logging" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
+        <PackageReference Include="Microsoft.Extensions.Options" />
+        <PackageReference Include="Serilog.AspNetCore" />
+        <PackageReference Include="Serilog.Enrichers.CorrelationId" />
         <PackageReference Include="Serilog.Extensions.Hosting" />
-        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0"/>
+        <PackageReference Include="Serilog.Settings.Configuration" />
+        <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
+        <PackageReference Include="Swashbuckle.AspNetCore" />
     </ItemGroup>
 
     <ItemGroup>
@@ -24,6 +32,11 @@
     <ItemGroup>
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageVersion Update="Microsoft.AspNetCore.OpenApi" Version="8.0.4" />
+      <PackageVersion Update="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
     
 </Project>
