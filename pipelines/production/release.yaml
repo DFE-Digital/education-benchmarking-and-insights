@@ -3,6 +3,8 @@ pool:
 
 trigger: none
 
+pr: none
+
 parameters:
   - name: coreVersion
     displayName: 'Input core infrastructure version (leave empty to use latest)'
