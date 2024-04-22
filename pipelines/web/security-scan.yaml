@@ -12,6 +12,14 @@ trigger: none
 pr: none
 
 jobs:
+  - job: SetBuildTags
+    displayName: 'Set build tags'
+    steps:
+      - checkout: none
+      - bash: |
+          echo "##vso[build.addbuildtag]Web"
+          echo "##vso[build.addbuildtag]ZAP"
+
   - job: Setup
     displayName: 'Pull and cache docker image'
     steps:
@@ -72,7 +80,7 @@ jobs:
 
       - task: CmdLine@2
         inputs:
-          script: 'cp $(Build.SourcesDirectory)/web/pipelines/zaproxy/{.artifactignore,config.conf} $(zapDir)'
+          script: 'cp $(Build.SourcesDirectory)/pipelines/web/zaproxy/{.artifactignore,config.conf} $(zapDir)'
         displayName: "Copy files"
 
       - task: Docker@2

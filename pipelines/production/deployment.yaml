@@ -1,0 +1,36 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+
+jobs:
+  - job: SetBuildNumber
+    displayName: 'Set build tags'
+    steps:
+      - checkout: none
+      - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
+
+  - template: ../core-infrastructure/deployment.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/deployment.yaml
+    parameters:
+      dependsOn: 'CoreDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      runSearchApp: false
+
+  - template: ../web/deployment.yaml
+    parameters:
+      dependsOn: 'PlatformDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}

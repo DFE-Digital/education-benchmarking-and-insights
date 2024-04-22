@@ -5,18 +5,13 @@ parameters:
   cipEnvironment: ''
   module: ''
   workspaceDir: '$(Pipeline.Workspace)'
-  terraformArchive: '$(Pipeline.Workspace)/terraform/terraform.zip'
   location: 'westeurope'
 
 steps:
-  - checkout: none
-
-  - download: current
-
   - task: ExtractFiles@1
     displayName: 'Extract terraform Files'
     inputs:
-      archiveFilePatterns: ${{ parameters.terraformArchive }}
+      archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.module }}-terraform/terraform.zip'
       destinationFolder: '${{ parameters.workspaceDir }}/tf'
 
   - task: AzureCLI@1
@@ -25,7 +20,7 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service" "DfE Financial Benchmarking service"
+        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
         echo "Resource group created"
         
         # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long

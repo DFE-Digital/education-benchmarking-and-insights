@@ -4,28 +4,12 @@ parameters:
   environment: ''
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
+  dependsOn: []
 
 jobs:
-  - deployment: RunTerraform
-    displayName: 'Run terraform'
-    pool:
-      vmImage: ubuntu-latest
-    environment: ${{ parameters.environment }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - template: ..\common\run-terraform.yaml
-              parameters:
-                subscription: ${{ parameters.subscription }}
-                environmentPrefix: ${{ parameters.environmentPrefix }}
-                environment: ${{ parameters.environment }}
-                cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'web'
-                
-  - deployment: Deploy
-    dependsOn: [RunTerraform]
-    displayName: 'Deploy web'
+  - deployment: WebDeployment
+    displayName: 'Web : Deployment'
+    dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -34,7 +18,17 @@ jobs:
         deploy:
           steps:
             - checkout: none
+
             - download: current
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'web'
+
             - task: AzureRmWebAppDeployment@4
               displayName: 'Deploy website'
               inputs:

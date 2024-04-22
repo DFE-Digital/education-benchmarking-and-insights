@@ -5,8 +5,8 @@ parameters:
   cipEnvironment: ''
 
 jobs:
-  - deployment: RunTerraform
-    displayName: 'Run terraform'
+  - deployment: CoreDeployment
+    displayName: 'Core : Deployment'
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -14,6 +14,10 @@ jobs:
       runOnce:
         deploy:
           steps:
+            - checkout: none
+
+            - download: current
+
             - template: ..\common\run-terraform.yaml
               parameters:
                 subscription: ${{ parameters.subscription }}
