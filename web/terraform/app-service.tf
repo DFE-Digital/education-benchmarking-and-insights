@@ -81,6 +81,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     "SessionData__Settings__ConnectionString"        = azurerm_cosmosdb_account.session-cache-account.primary_sql_connection_string
     "SessionData__Settings__ContainerName"           = azurerm_cosmosdb_sql_container.session-cache-container.name
     "SessionData__Settings__DatabaseName"            = azurerm_cosmosdb_sql_database.session-cache-database.name
+    "Node__BinaryPath"                               = "/home/.nvm/versions/node/v20.12.2/bin/node"
   }
   tags = local.common-tags
 }

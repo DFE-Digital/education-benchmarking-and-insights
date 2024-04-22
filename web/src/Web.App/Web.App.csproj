@@ -28,4 +28,7 @@
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
+    <ItemGroup>
+        <Content Include="dist\**" CopyToPublishDirectory="PreserveNewest"/>
+    </ItemGroup>
 </Project>

@@ -92,6 +92,15 @@ if (!builder.Environment.IsIntegration())
                 o.InvocationTimeoutMS = 10000;
             });
 
+            var nodeBinary = builder.Configuration.GetValue<string>("Node:BinaryPath");
+            if (!string.IsNullOrWhiteSpace(nodeBinary))
+            {
+                config.ConfigureNodeJSProcess(o =>
+                {
+                    o.ExecutablePath = nodeBinary;
+                });
+            }
+
             config.AddScriptWithoutTransform("~/../dist/js/server.cjs");
             // config.UseServerSideRendering = false; 
 
