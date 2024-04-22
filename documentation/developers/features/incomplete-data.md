@@ -56,7 +56,7 @@ A warning banner is rendered within the React component for the Workforce benchm
 
 A warning banner is rendered within the React component for the Compare your costs page here
 
-- [SchoolComparion view](../../../web/src/Web.App/Views/SchoolComparion/Index.cshtml)
+- [SchoolComparison view](../../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)
 - [compare-your-costs front-end-components](../../../front-end-components/src/views/compare-your-costs)
 
 ### WarningBanner
