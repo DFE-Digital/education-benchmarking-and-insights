@@ -2,11 +2,11 @@
 
 The repository is a monorepo which contains multiple components. 
 
-- Core infrastructure 
-- Front-end components 
-- Platform
-- Web
-- Prototype
+- [Core infrastructure](../../core-infrastructure/README.md) 
+- [Front-end components](../../front-end-components/README.md) 
+- [Platform](../../platform/README.md)
+- [Web](../../web/README.md)
+- [Prototype](../../prototype/README.md)
 
 It has been structured into separate components to streamline collaboration, whilst providing autonomy and tailored workflows without the overhead of multiple repositories. Each component contains a README with specific getting started instructions.
 
