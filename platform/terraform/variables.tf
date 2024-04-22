@@ -53,5 +53,25 @@ variable "configuration" {
         sku = "basic"
       }
     }
+    pre-production = {
+      cosmos = {
+        capabilities = [
+          "EnableServerless"
+        ]
+      }
+      search = {
+        sku = "basic"
+      }
+    }
+    production = {
+      cosmos = {
+        capabilities = [
+          "EnableServerless"
+        ]
+      }
+      search = {
+        sku = "basic"
+      }
+    }
   }
 }

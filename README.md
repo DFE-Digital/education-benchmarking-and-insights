@@ -38,6 +38,7 @@ A service that allows you to compare school metrics against similar schools
       1. [Incomplete Data](documentation/developers/features/incomplete-data.md)
       2. ...
       3. ...
+   5. [Cookies](documentation/developers/cookies.md)
 7. Testing
    1. [Test Approach](documentation/testing/test-approach.md)
    2. [Test Plan](documentation/testing/test-plan.md)
