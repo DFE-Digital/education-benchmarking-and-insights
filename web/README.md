@@ -13,7 +13,7 @@ In a console window:
 1. Navigate to the `Web.App` project root
 2. Run `dotnet user-secrets init` to initialise secrets in the directory
 
-> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init` will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER".` This will create a `secrets.json` file in the folder location described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works). At this point `secrets.json` can be updated manually with all of the required settings.
+> Note: If there is already a `<UserSecretsId>` setting in the `Web.App` project file then `dotnet user-secrets init` will fail. This is because the dotnet tool thinks the user secrets has already been initialised. To avoid this run `dotnet user-secrets set "PLACEHOLDER" "PLACEHOLDER".` This will create a `secrets.json` file in the folder location described [here](https://learn.microsoft.com/en-us/aspnet/core/security/app-secrets?view=aspnetcore-8.0&tabs=linux#how-the-secret-manager-tool-works). At this point `secrets.json` can be updated manually with the settings described below.
 
 #### Platform APIs
 If you are running the Platform APIs locally then no further configuration required; ensure the API port configuration matches that in `appsettings.Development.json` in the root of `Web.App`.
