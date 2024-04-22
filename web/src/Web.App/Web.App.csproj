@@ -28,7 +28,4 @@
         <PackageReference Include="SmartBreadcrumbs"/>
       <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
-    <ItemGroup>
-      <Folder Include="dist\js\" />
-    </ItemGroup>
 </Project>

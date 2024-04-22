@@ -1,4 +1,19 @@
 steps:
+  - task: Npm@1
+    displayName: 'Install npm packages'
+    inputs:
+      command: 'install'
+      workingDir: 'web/src/Web.App'
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Run front-end build task' 
+    inputs:
+      command: 'custom'
+      customCommand: 'run-script build'
+      workingDir: 'web/src/Web.App'
+      verbose: false
+
   - bash: |
       echo "##vso[task.setvariable variable=CACHE_RESTORED]false"
       echo "##vso[task.setvariable variable=NUGET_PACKAGES]$(Pipeline.Workspace)/.nuget/test/packages"
