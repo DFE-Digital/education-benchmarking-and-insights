@@ -15,13 +15,19 @@ pr:
     include:
       - front-end-components
 
+parameters:
+  - name: featureName
+    displayName: 'Name of development feature to deploy (or empty for standard Dev deploy)'
+    type: string
+    default: ' '
+
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.1.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
-  Version.FeatureName: $(FeatureName)
+  Version.FeatureName: ${{ parameters.featureName }}
   WorkingDir: 'front-end-components'
-  ShouldVersionFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
+  ShouldVersionFeature: $[and(ne('${{ parameters.featureName }}', ' '), eq(variables['Build.Reason'], 'Manual'))]
 
 steps:
   - bash: |
@@ -30,6 +36,7 @@ steps:
       echo "##vso[build.addbuildtag]Front-end components"
       if [[ "$(ShouldVersionFeature)" == "True" ]]; then
         versionNumber="$(Version.BuildNumber)-$(Version.FeatureName)"
+        echo "##vso[build.addbuildtag]Feature ($(Version.FeatureName))"
       elif [[ "$(Build.Reason)" == "PullRequest" ]]; then
         versionNumber="$(Version.BuildNumber)-alpha" # todo
       else
