@@ -19,71 +19,68 @@ variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.1.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
+  Version.FeatureName: $(FeatureName)
   WorkingDir: 'front-end-components'
   ShouldVersionFeature: $[and(ne(variables['FeatureName'], ''), eq(variables['Build.Reason'], 'Manual'))]
 
-stages:
-- stage: Build
-    displayName: 'Build'
-    jobs:
-      - bash: |
-          echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
-          echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
-          echo "##vso[build.addbuildtag]Front-end components"
-        displayName: 'Set release build number'
+steps:
+  - bash: |
+      echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+      echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+      echo "##vso[build.addbuildtag]Front-end components"
+      if [[ "$(ShouldVersionFeature)" == "True" ]]; then
+        versionNumber="$(Version.BuildNumber)-$(Version.FeatureName)"
+      elif [[ "$(Build.Reason)" == "PullRequest" ]]; then
+        versionNumber="$(Version.BuildNumber)-alpha" # todo
+      else
+        versionNumber="$(Version.BuildNumber)"
+      fi
+      echo "##vso[task.setvariable variable=Version.FullVersionNumber]$versionNumber"
+    displayName: 'Set release build and version number'
 
-      - task: Npm@1
-        displayName: 'Update version number'
-        continueOnError: false
-        inputs:
-          command: 'custom'
-          ${{ if eq(variables['ShouldVersionFeature'], 'true') }}:
-            customCommand: 'version $(Version.BuildNumber)-$(FeatureName)'
-          ${{ elseif eq(variables['Build.Reason'], 'PullRequest') }}: 
-            customCommand: 'version $(Version.BuildNumber)-alpha.0'
-          ${{ else }}:
-            customCommand: 'version $(Version.BuildNumber)'
-          workingDir: $(WorkingDir)
-          verbose: false
+  - task: Npm@1
+    displayName: 'Update version number'
+    continueOnError: false
+    inputs:
+      command: 'custom'
+      customCommand: 'version $(Version.FullVersionNumber)'
+      workingDir: $(WorkingDir)
+      verbose: false
 
-      - task: Npm@1
-        displayName: 'Install dependencies'
-        inputs:
-          command: 'install'
-          workingDir: $(WorkingDir)
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+      workingDir: $(WorkingDir)
 
-      - task: Npm@1
-        displayName: 'Run tests'
-        inputs:
-          command: 'custom'
-          customCommand: 'test'
-          workingDir: $(WorkingDir)
+  - task: Npm@1
+    displayName: 'Run tests'
+    inputs:
+      command: 'custom'
+      customCommand: 'test'
+      workingDir: $(WorkingDir)
 
-      - task: Npm@1
-        displayName: 'Run lint'
-        inputs:
-          command: 'custom'
-          customCommand: 'run lint'
-          workingDir: $(WorkingDir)
+  - task: Npm@1
+    displayName: 'Run lint'
+    inputs:
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: $(WorkingDir)
 
-      - task: Npm@1
-        displayName: 'Build project'
-        inputs:
-          command: 'custom'
-          customCommand: 'run build'
-          workingDir: $(WorkingDir
+  - task: Npm@1
+    displayName: 'Build project'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+      workingDir: $(WorkingDir)
 
-  - stage: Publish
-    dependsOn: [ Build ]
+  - task: Npm@1
     displayName: 'Publish'
+    continueOnError: false
     condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
-    jobs:
-      - task: Npm@1
-        displayName: 'Publish'
-        continueOnError: false
-        inputs:
-          command: 'publish'
-          publishRegistry: useFeed
-          publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
-          workingDir: $(WorkingDir)
-          verbose: false
+    inputs:
+      command: 'publish'
+      publishRegistry: useFeed
+      publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
+      workingDir: $(WorkingDir)
+      verbose: false
