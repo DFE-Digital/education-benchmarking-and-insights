@@ -11,7 +11,7 @@ A service that allows you to compare school metrics against similar schools
 
 1. [Introduction and Goals](documentation/introduction-goals.md)
 2. [Repository Access Policy](documentation/repository-access-policy.md)
-3. [Branching policy](documentation/branching-policy.md)
+3. [Branching Policy](documentation/branching-policy.md)
 4. Architecture
    1. [Constraints and Principals](documentation/architecture/constraints-principals.md)
    2. [Non-Functional Requirements](documentation/architecture/non-Functional-requirements.md)
@@ -39,9 +39,11 @@ A service that allows you to compare school metrics against similar schools
       2. ...
       3. ...
    5. [Cookies](documentation/developers/cookies.md)
+   6. [Troubleshooting](documentation/developers/troubleshooting.md)
+   7. [Additional Resources](documentation/developers/additional-resources.md)
 7. Testing
    1. [Test Approach](documentation/testing/test-approach.md)
    2. [Test Plan](documentation/testing/test-plan.md)
-   3. [Test Data Preparation and Transformation Process](documentation/testing/test-data-prep.md)
-   4. [Security and Penetration Testing](documentation/testing/security-testing.md)
+   3. [Test Data Preparation](documentation/testing/test-data-prep.md)
+   4. [Security Testing](documentation/testing/security-testing.md)
 8. Glossary

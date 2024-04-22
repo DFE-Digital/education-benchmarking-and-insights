@@ -1,15 +1,15 @@
 # Platform
 
+**//TODO: Describe platform component**
+
 [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
 
 ## Getting started
-[comment]: <> (I think we need a more high level overview of what is in this directory and where to find it.)
-[comment]: <> (With respect to the connection string values, can we add in where to find these / who to contact to get them. A big issue in DfE is not knowing who has access to what, and where to get certain access critical information. Adding something in here could help aleviate that in our project.)
 
 ### Running Platform APIs
-[comment]: <> (Can we explain what the purpose of each of these APIs is at a high level?)
+
 #### Establishment Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Establishment.Api`
 ```
 {
   "IsEncrypted": false,
@@ -30,7 +30,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Benchmark Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
 ```
 {
   "IsEncrypted": false,
@@ -50,7 +50,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Insight Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Insight.Api`
 ```
 {
   "IsEncrypted": false,
@@ -73,17 +73,14 @@ Add configuration in `local.settings.json`
 ```
 
 ### Running tests
-[comment]: <> (Are there any other tests for the APIs? Should we document at a high level what the tests are doing?)
 Tests will run when creating new Pull Requests and when code is merged into the main branch.
 #### Unit Tests
-[comment]: <> (Do the run requirements change if your using WSL vs cmd etc? I'd assume not, but just checking.)
-[comment]: <> (Can you add which directory you need to be in to run these please?)
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.Tests
 ```
 #### Functional Tests
-Add configuration in `appsetings.local.json`
+Add configuration in `appsetings.local.json` for `Platform.ApiTests`
 ```
 {
     "Insight": {
@@ -100,7 +97,7 @@ Add configuration in `appsetings.local.json`
     }
 }
 ```
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.ApiTests
 ```
