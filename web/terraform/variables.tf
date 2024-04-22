@@ -41,6 +41,24 @@ variable "configuration" {
         CurriculumFinancialPlanning = false
       }
     }
+    pre-production = {
+      sku_name               = "B1"
+      zone_balancing_enabled = false
+      worker_count           = 1
+      features = {
+        Trusts                      = false
+        CurriculumFinancialPlanning = false
+      }
+    }
+    production = {
+      sku_name               = "B1"
+      zone_balancing_enabled = false
+      worker_count           = 1
+      features = {
+        Trusts                      = false
+        CurriculumFinancialPlanning = false
+      }
+    }
   }
 }
 
