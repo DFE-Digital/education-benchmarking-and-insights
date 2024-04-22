@@ -1,6 +1,6 @@
 using Azure.Search.Documents.Indexes;
 using Azure.Search.Documents.Indexes.Models;
-using Platform.Infrastructure.Search;
+using Platform.Domain;
 using Platform.Search.Builders;
 
 namespace Platform.Search.School;

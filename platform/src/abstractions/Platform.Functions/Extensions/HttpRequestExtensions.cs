@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Http;
-using Newtonsoft.Json;
 
 namespace Platform.Functions.Extensions;
 
@@ -15,14 +14,5 @@ public static class HttpRequestExtensions
         }
 
         return Guid.NewGuid();
-    }
-
-    public static T ReadAsJson<T>(this HttpRequest req)
-    {
-        using (var bodyReader = new StreamReader(req.BodyReader.AsStream(true)))
-        using (var jsonReader = new JsonTextReader(bodyReader))
-        {
-            return JsonSerializer.CreateDefault(JsonExtensions.Settings).Deserialize<T>(jsonReader) ?? throw new ArgumentNullException();
-        }
     }
 }

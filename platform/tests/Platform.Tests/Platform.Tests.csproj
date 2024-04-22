@@ -23,8 +23,5 @@
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Establishment\Platform.Api.Establishment.csproj" />
-        <ProjectReference Include="..\..\src\apis\Platform.Api.Insight\Platform.Api.Insight.csproj" />
     </ItemGroup>
 </Project>

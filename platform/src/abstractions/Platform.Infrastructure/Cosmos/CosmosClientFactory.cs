@@ -8,8 +8,12 @@ namespace Platform.Infrastructure.Cosmos;
 [ExcludeFromCodeCoverage]
 public record CosmosDatabaseOptions
 {
-    [Required] public string? ConnectionString { get; set; }
-    [Required] public string? DatabaseId { get; set; }
+    [Required(ErrorMessage = "Missing cosmos connection string")] 
+    public string? ConnectionString { get; set; }
+    
+    [Required(ErrorMessage = "Missing cosmos database id")] 
+    public string? DatabaseId { get; set; }
+    
     public bool IsDirect { get; set; } = true;
 }
 

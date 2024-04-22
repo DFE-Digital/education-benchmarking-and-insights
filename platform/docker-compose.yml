@@ -1,0 +1,12 @@
+﻿services:
+  platform.api.establishmentv2:
+    image: platform.api.establishmentv2
+    build:
+      context: .
+      dockerfile: src/apis/Platform.Api.EstablishmentV2/Dockerfile
+
+  platform.api.insightv2:
+    image: platform.api.insightv2
+    build:
+      context: .
+      dockerfile: src/apis/Platform.Api.InsightV2/Dockerfile
