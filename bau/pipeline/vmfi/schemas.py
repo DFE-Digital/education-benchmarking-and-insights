@@ -317,3 +317,11 @@ groups = {
 }
 
 
+ks2 = {
+    'URN':'Int64',
+    'LEA':'Int64',
+    'ESTAB':'Int64',
+    'READPROG':'float',
+    'WRITPROG':'float',
+    'MATPROG':'float',  
+}
