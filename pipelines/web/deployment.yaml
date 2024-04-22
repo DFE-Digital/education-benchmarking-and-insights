@@ -7,8 +7,8 @@ parameters:
   dependsOn: []
 
 jobs:
-  - deployment: WebDeployment
-    displayName: 'Web : Deployment'
+  - deployment: WebProvision
+    displayName: 'Web : Provision'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
@@ -29,6 +29,20 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'web'
 
+  - deployment: WebDeployment
+    displayName: 'Web : Deployment'
+    dependsOn: [ WebProvision ]
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
             - task: AzureRmWebAppDeployment@4
               displayName: 'Deploy website'
               inputs:
@@ -38,4 +52,4 @@ jobs:
                 ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
                 packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
                 enableCustomDeployment: true
-                DeploymentType: 'zipDeploy' 
+                DeploymentType: 'zipDeploy'

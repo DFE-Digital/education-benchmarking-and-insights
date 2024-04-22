@@ -20,7 +20,7 @@ jobs:
 
   - template: ../platform/deployment.yaml
     parameters:
-      dependsOn: 'CoreDeployment'
+      dependsOn: 'CoreProvision'
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
