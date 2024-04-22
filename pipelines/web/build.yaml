@@ -175,3 +175,18 @@ stages:
           environmentPrefix: 's198d01-$(Version.FeatureName)'
           environment: 'feature'
           cipEnvironment: 'Dev'
+
+  - stage: DestroyFeature
+    dependsOn: [ DeployFeature ]
+    displayName: 'Destroy Feature'
+    variables:
+      - group: 'dsi pre-prod'
+    jobs:
+      - template: destroy.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01-$(Version.FeatureName)'
+          environment: 'feature'
+          pipelineEnvironment: 'feature-destroy'
+          cipEnvironment: 'Dev'
+          module: 'web'

@@ -1,0 +1,72 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  module: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  location: 'westeurope'
+
+steps:
+  - task: ExtractFiles@1
+    displayName: 'Extract terraform Files'
+    inputs:
+      archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.module }}-terraform/terraform.zip'
+      destinationFolder: '${{ parameters.workspaceDir }}/tf'
+
+  - task: AzureCLI@1
+    displayName: 'Create terraform dependencies'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptLocation: inlineScript
+      inlineScript: |
+        # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
+        storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
+        
+        echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
+        echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
+        echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
+        echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
+        echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in terraform file'
+    inputs:
+      sources: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+    displayName: 'Terraform : install'
+    inputs:
+      terraformVersion: 1.7.5
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+    displayName: 'Terraform : init'
+    inputs:
+      command: init
+      backendType: 'azurerm'
+      workingDirectory: '${{ parameters.workspaceDir }}/tf'
+      environmentServiceName: ${{ parameters.subscription }}
+      backendServiceArm: ${{ parameters.subscription }}
+      backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+      backendAzureRmStorageAccountName: $(azureRmStorageAccountName)
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
+      backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+    displayName: 'Terraform : destroy'
+    inputs:
+      command: destroy
+      backendType: 'azurerm'
+      workingDirectory: '${{ parameters.workspaceDir }}/tf'
+      #just testing ;-) commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-${{ parameters.module }}.plan'
+      commandOptions: '-input=false'
+      environmentServiceName: ${{ parameters.subscription }}
+      backendServiceArm: ${{ parameters.subscription }}
+      backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+      backendAzureRmStorageAccountName: $(azureRmStorageAccountName)
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
+      backendAzureRmResourceGroupLocation: ${{ parameters.location }}
