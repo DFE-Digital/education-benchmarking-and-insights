@@ -67,6 +67,10 @@ A React component is used in front-end-components which is used to display the w
 
 #### WarningBanner Props
 
+- **isRendered**
+  - *Type:* Boolean
+  - *Description:* This controls whether this component returns the warning banner or null.
+
 - **icon**
   - *Type:* String
   - *Description:* This is used for the warning icon
@@ -85,6 +89,7 @@ The below JSX
 
 ```jsx
 <WarningBanner
+    isRendered={true}
     icon="!"
     visuallyHiddenText="Warning"
     message="Some schools don't have a complete set of financial data for this period"

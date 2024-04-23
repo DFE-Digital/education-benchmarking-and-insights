@@ -76,13 +76,12 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
         chartName="school workforce (headcount)"
       >
         <h2 className="govuk-heading-m">School workforce (Headcount)</h2>
-        {hasIncompleteData ? (
-          <WarningBanner
-            icon="!"
-            visuallyHiddenText="Warning"
-            message="Some schools don't have a complete set of financial data for this period"
-          />
-        ) : null}
+        <WarningBanner
+          isRendered={hasIncompleteData}
+          icon="!"
+          visuallyHiddenText="Warning"
+          message="Some schools don't have a complete set of financial data for this period"
+        />
         <ChartDimensions
           dimensions={WorkforceCategories.filter(
             (category) =>

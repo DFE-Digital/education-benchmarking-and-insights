@@ -57,13 +57,12 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
         <h2 className="govuk-heading-m">
           Teachers with qualified teacher status (%)
         </h2>
-        {hasIncompleteData ? (
-          <WarningBanner
-            icon="!"
-            visuallyHiddenText="Warning"
-            message="Some schools don't have a complete set of financial data for this period"
-          />
-        ) : null}
+        <WarningBanner
+          isRendered={hasIncompleteData}
+          icon="!"
+          visuallyHiddenText="Warning"
+          message="Some schools don't have a complete set of financial data for this period"
+        />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>
   );

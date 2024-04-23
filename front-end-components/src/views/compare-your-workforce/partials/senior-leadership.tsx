@@ -76,13 +76,12 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
         <h2 className="govuk-heading-m">
           Senior Leadership (Full Time Equivalent)
         </h2>
-        {hasIncompleteData ? (
-          <WarningBanner
-            icon="!"
-            visuallyHiddenText="Warning"
-            message="Some schools don't have a complete set of financial data for this period"
-          />
-        ) : null}
+        <WarningBanner
+          isRendered={hasIncompleteData}
+          icon="!"
+          visuallyHiddenText="Warning"
+          message="Some schools don't have a complete set of financial data for this period"
+        />
         <ChartDimensions
           dimensions={WorkforceCategories}
           handleChange={handleSelectChange}
