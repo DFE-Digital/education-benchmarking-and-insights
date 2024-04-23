@@ -1,6 +1,8 @@
 import numpy as np
+import pandas as pd
 import multiprocessing as mp
 from multiprocessing.pool import ThreadPool as Pool
+
 
 def compute_range(data):
     return data.max() - data.min()
@@ -75,7 +77,7 @@ def special_pupils_calc(pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis
     return base1 + base2
 
 
-def buildings_calc(gifa, average_age):
+def buildings_calc(gifa, average_age) -> np.array:
     gifa_range = compute_range(gifa)
     average_age_range = compute_range(average_age)
 
@@ -84,9 +86,11 @@ def buildings_calc(gifa, average_age):
 
     return np.power(gifa + age, 0.5)
 
-def compute_pupils_comparator(arg):
+
+def compute_pupils_comparator(arg) -> (str, np.array, np.array):
     idx, row = arg
     phase = idx
+    urns = np.array(row['URN'])
     pupils = np.array(row['Number of pupils'])
     fsm = np.array(row['Percentage Free school meals'])
 
@@ -101,51 +105,73 @@ def compute_pupils_comparator(arg):
         Prov_PD = np.array(row['Prov_PD'])
         Prov_ASD = np.array(row['Prov_ASD'])
         Prov_OTH = np.array(row['Prov_OTH'])
-        return phase, special_pupils_calc(pupils, fsm, Prov_SPLD, Prov_MLD, Prov_PMLD, Prov_SEMH,
-                                                               Prov_SLCN, Prov_HI, Prov_MSI, Prov_PD, Prov_ASD,
-                                                               Prov_OTH)
+        return phase, urns, special_pupils_calc(pupils, fsm, Prov_SPLD, Prov_MLD, Prov_PMLD, Prov_SEMH,
+                                                Prov_SLCN, Prov_HI, Prov_MSI, Prov_PD, Prov_ASD,
+                                                Prov_OTH)
     else:
         sen = np.array(row['Percentage SEN'])
-        return phase, pupils_calc(pupils, fsm, sen)
+        return phase, urns, pupils_calc(pupils, fsm, sen)
 
 
 def compute_buildings_comparator(arg):
     idx, row = arg
     phase = idx
+    urns = np.array(row['URN'])
     gifa = np.array(row['Total Internal Floor Area'])
     age = np.array(row['Age Average Score'])
 
-    return phase, buildings_calc(gifa, age)
+    return phase, urns, buildings_calc(gifa, age)
 
 
-def compute_comparator_matrix(data, f):
-    # TODO: This needs to be grouped correctly not really sure how the
-    #  region / phase / boarding / non-boarding are all
-    # related, it feels like we could just compute the School Phase Type groups
-    # everything else inside that can just be filtered after the fact
-    classes = data.groupby(['SchoolPhaseType']).agg(list)
-
-    distance_classes = {
-        'urns': data.index.values
-    }
-
+def run_comparator(data, f):
+    distance_classes = {}
     with Pool(mp.cpu_count()) as pool:
-        for (idx, distance) in pool.map(f, classes.iterrows()):
-            distance_classes[idx] = distance
+        for (idx, urns, distance) in pool.map(f, data.iterrows()):
+            distance_classes[idx] = {
+                'urns': urns,
+                'distances': distance
+            }
 
     return distance_classes
+
+
+def compute_comparator_matrix(data, f, comparator_key='SchoolPhaseType'):
+    copy = data.reset_index()
+    classes = copy.groupby([comparator_key]).agg(list)
+    return run_comparator(classes, f)
 
 
 def compute_custom_comparator(name, data, f):
-    copy = data.copy()
-    copy['Grouper'] = name
-    classes = copy.groupby(['Grouper']).agg(list)
+    copy = data.reset_index()
+    copy['Custom'] = name
+    classes = copy.groupby(['Custom']).agg(list)
+    return run_comparator(classes, f)
 
-    distance_classes = {
-        'urns': copy.index.values
-    }
-    with Pool(mp.cpu_count()) as pool:
-        for (idx, distance) in pool.map(f, classes.iterrows()):
-            distance_classes[idx] = distance
 
-    return distance_classes
+def get_comparator_set_by(school_selector, schools, comparators, is_custom=False, comparator_key='SchoolPhaseType'):
+    school_no_index = schools.reset_index()
+    school = schools[school_selector(schools)].reset_index().to_dict(orient='records')[0]
+
+    phase_data = comparators[comparator_key] if is_custom else comparators[school[comparator_key]]
+
+    col_index = np.argwhere(phase_data['urns'] == school['URN'])[0][0]
+    data = phase_data['distances'][col_index]
+
+    top_60_index = np.argsort(data)[:60]
+    distances = data[top_60_index]
+    urns = phase_data['urns'][top_60_index]
+
+    d = []
+    idx = 0
+    for urn in urns:
+        row = school_no_index[school_no_index['URN'] == urn].to_dict(orient='records')[0]
+        row['Distance'] = distances[idx]
+        d.append(row)
+        idx += 1
+
+    all_comparators = pd.DataFrame(d)
+    same_region = all_comparators[all_comparators['GOR (name)'] == school['GOR (name)']].head()
+    out_of_region = all_comparators[
+        all_comparators['GOR (name)'] != school['GOR (name)']
+        ].sort_values(by='Distance', ascending=True).head(30 - len(same_region))
+    return pd.concat([same_region, out_of_region])
