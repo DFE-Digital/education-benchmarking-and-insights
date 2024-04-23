@@ -8,8 +8,9 @@ parameters:
   dependsOn: []
 
 jobs:
-  - job: ManualValidation
-    displayName: 'Await manual validation'
+  - job: PlatformDestroyManualValidation
+    displayName: 'Validate destruction of Platform resources'
+    dependsOn: ${{ parameters.dependsOn }}
     pool: server
     steps:
     - task: ManualValidation@0
@@ -19,7 +20,7 @@ jobs:
 
   - deployment: PlatformDestroy
     displayName: 'Platform : Destroy'
-    dependsOn: ${{ parameters.dependsOn }}
+    dependsOn: [ PlatformDestroyManualValidation ]
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.pipelineEnvironment }}
@@ -27,14 +28,13 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - checkout: none
-
-            - download: current
+            - checkout: self
 
             - template: ..\common\destroy-terraform.yaml
               parameters:
+                workspaceDir: '$(System.DefaultWorkingDirectory)/platform/terraform'
                 subscription: ${{ parameters.subscription }}
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
-                module: 'web'
+                module: 'platform'

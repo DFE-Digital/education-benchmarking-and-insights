@@ -4,16 +4,10 @@ parameters:
   environment: ''
   cipEnvironment: ''
   module: ''
-  workspaceDir: '$(Pipeline.Workspace)'
   location: 'westeurope'
+  deleteStorageAccount: false
 
 steps:
-  - task: ExtractFiles@1
-    displayName: 'Extract terraform Files'
-    inputs:
-      archiveFilePatterns: '$(Pipeline.Workspace)/${{ parameters.module }}-terraform/terraform.zip'
-      destinationFolder: '${{ parameters.workspaceDir }}/tf'
-
   - task: AzureCLI@1
     displayName: 'Create terraform dependencies'
     inputs:
@@ -32,7 +26,7 @@ steps:
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in terraform file'
     inputs:
-      sources: '${{ parameters.workspaceDir }}/tf/terraform.tfvars'
+      sources: '${{ parameters.workspaceDir }}/terraform.tfvars'
       escape: off
       tokenPattern: doubleunderscores
 
@@ -46,7 +40,7 @@ steps:
     inputs:
       command: init
       backendType: 'azurerm'
-      workingDirectory: '${{ parameters.workspaceDir }}/tf'
+      workingDirectory: ${{ parameters.workspaceDir }}
       environmentServiceName: ${{ parameters.subscription }}
       backendServiceArm: ${{ parameters.subscription }}
       backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
@@ -60,7 +54,7 @@ steps:
     inputs:
       command: destroy
       backendType: 'azurerm'
-      workingDirectory: '${{ parameters.workspaceDir }}/tf'
+      workingDirectory: ${{ parameters.workspaceDir }}
       commandOptions: '-input=false'
       environmentServiceName: ${{ parameters.subscription }}
       backendServiceArm: ${{ parameters.subscription }}
@@ -69,3 +63,18 @@ steps:
       backendAzureRmContainerName: 'tfstate'
       backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+  - task: AzureCLI@1
+    displayName: 'Delete terraform storage account'
+    condition: and(succeeded(), ${{ parameters.deleteStorageAccount }})
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptLocation: inlineScript
+      inlineScript: |
+        # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
+        storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
+        az storage account delete --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --yes
+        echo "Storage account deleted"
+
+        az group delete --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --yes
+        echo "Resource group deleted"
