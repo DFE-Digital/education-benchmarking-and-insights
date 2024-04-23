@@ -7,7 +7,7 @@ pr: none
 
 parameters:
   - name: environment
-    displayName: 'Source environment'
+    displayName: 'Environment associated with original deployment'
     type: string
     default: feature
     values:
@@ -17,9 +17,9 @@ parameters:
       - pre-production
       - test
   - name: environmentPrefix
-    displayName: 'Environment prefix to destroy'
+    displayName: 'Environment prefix to destroy (e.g. s198d01-feature-name)'
     type: string
-    default: ' '
+    default: ''
   - name: areYouSure
     displayName: 'Are you sure you wish to destroy this environment?'
     type: string
@@ -31,14 +31,12 @@ parameters:
 variables:
   Environment: ${{ parameters.environment }}
   EnvironmentPrefix: ${{ parameters.environmentPrefix }}
-  ShouldDestroy: $[and(eq('${{ parameters.areYouSure }}', 'Yes'), ne('${{ parameters.environmentPrefix }}', ' '))]
+  ShouldDestroy: $[and(eq('${{ parameters.areYouSure }}', 'Yes'), ne('${{ parameters.environmentPrefix }}', ''))]
 
 stages:
   - stage: Destroy
     condition: eq(variables['ShouldDestroy'], 'true')
     displayName: 'Destroy Environment'
-    variables:
-      - group: 'dsi pre-prod'
     jobs:
       - template: destroy.yaml
         parameters:
