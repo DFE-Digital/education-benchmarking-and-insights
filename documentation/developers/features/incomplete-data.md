@@ -8,13 +8,11 @@ This document provides detailed information for developers about the implementat
 
 The intention of this feature is to provide a warning for users of the service flagging when the data they are viewing contains incomplete data for the year. This will be used in school to school comparisons on the Spending and Costs, Workforce and Compare your Costs pages.
 
-In Cosmos DB the record for a school has a field "Periods covered by return". This has an int value representing the number of months the school has submitted data for.
+In Cosmos DB the record for a school has a field "Periods covered by return". This has a value representing the number of months the school has submitted data for.
 
 This is used to create a HasIncompleteData prop which is used to flag when financial data is incomplete. See the Usage section for a list of where this is used relating to this feature [here](#usage).
 
-For the Spending and costs page this is used to conditionally render a warning text banner in the Razor view.
-
-For the Compare your costs and Benchmark workforce data this is again conditionally rendered but in the React components.
+Warning text is rendered for the Spending and costs page, Compare your costs and Benchmark workforce data when any of the schools in the comparison are flagged as having incomplete data.
 
 ## Goals
 
@@ -43,25 +41,9 @@ In front-end-components
 
 - [Workforce and ExpenditureData](../../../front-end-components/src/services/types.tsx)
 
-### Views
-
-A warning banner is rendered in the Razor view for the Spending and costs page here
-
-- [SchoolSpending view](../../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
-
-A warning banner is rendered within the React component for the Workforce benchmark data page here
-
-- [SchoolWorkforce view](../../../web/src/Web.App/Views/SchoolWorkforce/Index.cshtml)
-- [compare-your-workforce front-end-components](../../../front-end-components/src/views/compare-your-workforce)
-
-A warning banner is rendered within the React component for the Compare your costs page here
-
-- [SchoolComparison view](../../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)
-- [compare-your-costs front-end-components](../../../front-end-components/src/views/compare-your-costs)
-
 ### WarningBanner
 
-A React component is used in front-end-components which is used to display the warning if the HasIncompleteData is true. This is styled as per GDS guidelines.
+A React component is used in front-end-components which is used to display the warning if the HasIncompleteData is true. This is styled as per GDS guidelines as inset text.
 
 [warning-banner](../../../front-end-components/src/components/warning-banner)
 
@@ -71,17 +53,9 @@ A React component is used in front-end-components which is used to display the w
   - *Type:* Boolean
   - *Description:* This controls whether this component returns the warning banner or null.
 
-- **icon**
-  - *Type:* String
-  - *Description:* This is used for the warning icon
-
-- **visuallyHiddenText**
-  - *Type:* String
-  - *Description:* This is for screen readers
-
 - **message**
   - *Type:* String
-  - *Description:* The warning text that will be displayed
+  - *Description:* The warning text that will be displayed.
 
 #### WarningBanner Example
 
@@ -89,21 +63,30 @@ The below JSX
 
 ```jsx
 <WarningBanner
-    isRendered={true}
-    icon="!"
-    visuallyHiddenText="Warning"
-    message="Some schools don't have a complete set of financial data for this period"
+  isRendered={true}
+  message="Warning message"
 />
 ```
 
 is rendered as the below HTML
 
 ```html
-<div class="govuk-warning-text">
-    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-    <strong class="govuk-warning-text__text">
-        <span class="govuk-visually-hidden">Warning</span>
-        Some schools don't have a complete set of financial data for this period
-    </strong>
+<div class="govuk-inset-text">
+  Warning message
 </div>
 ```
+
+#### Composed components
+
+This component is used as part of the composed components below to render the warning along with the chart or table data.
+
+- [comparison-chart-summary](../../../front-end-components/src/composed/comparison-chart-summary/composed.tsx)
+- [horizontal-bar-chart-wrapper](../../../front-end-components/src/composed/horizontal-bar-chart-wrapper/composed.tsx)
+
+#### Usage in MVC web app
+
+The React component is used in the following views in the MVC web app
+
+- [SchoolSpending view](../../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
+- [SchoolWorkforce view](../../../web/src/Web.App/Views/SchoolWorkforce/Index.cshtml)
+- [SchoolComparison view](../../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)

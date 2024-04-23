@@ -11,17 +11,6 @@
 
 @await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, referrer = Referrers.SchoolSpending })
 
-@if (Model.HasIncompleteData)
-{
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            Some schools don't have a complete set of financial data for this period
-        </strong>
-    </div>
-}
-
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <h2 class="govuk-heading-m govuk-!-font-size-36">Priority costs</h2>
@@ -43,7 +32,8 @@
                  data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                  data-highlight="@Model.Urn"
                  data-suffix="@category.Rating.Unit"
-                 data-sort-direction="asc">
+                 data-sort-direction="asc"
+                 data-has-incomplete-data="@Model.HasIncompleteData">
             </div>
             <p class="govuk-body">
                 <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>
@@ -73,7 +63,8 @@
                  data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                  data-highlight="@Model.Urn"
                  data-suffix="@category.Rating.Unit"
-                 data-sort-direction="asc">
+                 data-sort-direction="asc"
+                data-has-incomplete-data="@Model.HasIncompleteData">
             </div>
             <p class="govuk-body">
                 <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>

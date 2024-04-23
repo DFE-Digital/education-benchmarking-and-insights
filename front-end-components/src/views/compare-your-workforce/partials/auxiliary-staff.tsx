@@ -4,13 +4,12 @@ import {
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, HasIncompleteDataContext } from "src/contexts";
 import { AuxiliaryStaffData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { WarningBanner } from "src/components/warning-banner";
 import { Workforce, WorkforceApi } from "src/services";
 
 export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
@@ -68,27 +67,23 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
   const hasIncompleteData = data.some((x) => x.hasIncompleteData);
 
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="auxiliary staff (full time equivalent)"
-      >
-        <h2 className="govuk-heading-m">
-          Auxiliary staff (Full Time Equivalent)
-        </h2>
-        <WarningBanner
-          isRendered={hasIncompleteData}
-          icon="!"
-          visuallyHiddenText="Warning"
-          message="Some schools don't have a complete set of financial data for this period"
-        />
-        <ChartDimensions
-          dimensions={WorkforceCategories}
-          handleChange={handleSelectChange}
-          elementId="auxiliary-staff"
-          defaultValue={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+      <ChartDimensionContext.Provider value={dimension}>
+        <HorizontalBarChartWrapper
+          data={chartData}
+          chartName="auxiliary staff (full time equivalent)"
+        >
+          <h2 className="govuk-heading-m">
+            Auxiliary staff (Full Time Equivalent)
+          </h2>
+          <ChartDimensions
+            dimensions={WorkforceCategories}
+            handleChange={handleSelectChange}
+            elementId="auxiliary-staff"
+            defaultValue={dimension.value}
+          />
+        </HorizontalBarChartWrapper>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

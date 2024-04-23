@@ -14,4 +14,5 @@ export type ComparisonChartSummaryComposedProps<TData extends ChartDataSeries> =
     highlightedItemKey?: string;
     sortDirection: ChartSortDirection;
     valueField: keyof TData;
+    hasIncompleteData: boolean;
   };
