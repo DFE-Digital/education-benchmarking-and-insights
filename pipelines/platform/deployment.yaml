@@ -41,15 +41,19 @@ jobs:
         deploy:
           steps:
             - checkout: none
+            - download: current      
 
-            - download: current
+            - script: |
+                # "name" may only contain alphanumeric characters and dashes and must be between 3-24 chars
+                kvName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]-]//g" | { var=$(cat); echo "${var::10}-ebis-keyvault"; } )
+                echo "##vso[task.setvariable variable=keyVaultName]$kvName"
+              displayName: 'Define terraform variables'
 
-            - task: AzureKeyVault@1
+            - task: AzureKeyVault@2
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
-                KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+                KeyVaultName: $(keyVaultName)
                 SecretsFilter: '*'
-                RunAsPreJob: true
 
             - task: ExtractFiles@1
               condition: and(succeeded(), ${{ parameters.runSearchApp }})

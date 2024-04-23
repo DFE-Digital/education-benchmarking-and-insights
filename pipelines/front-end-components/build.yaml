@@ -1,12 +1,6 @@
 pool:
   vmImage: 'ubuntu-latest'
 
-variables:
-  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
-  Version.BuildNumber: 0.1.$(Version.Revision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  WorkingDir: 'front-end-components'
-
 trigger:
   batch: true
   branches:
@@ -21,22 +15,42 @@ pr:
     include:
       - front-end-components
 
+parameters:
+  - name: featureName
+    displayName: 'Name of development feature to deploy (or empty for standard Dev deploy)'
+    type: string
+    default: ' '
+
+variables:
+  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Version.BuildNumber: 0.1.$(Version.Revision)
+  Version.BuildVersion: $(Version.BuildNumber)
+  Version.FeatureName: ${{ parameters.featureName }}
+  WorkingDir: 'front-end-components'
+  ShouldVersionFeature: $[and(ne('${{ parameters.featureName }}', ' '), eq(variables['Build.Reason'], 'Manual'))]
+
 steps:
   - bash: |
       echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]Front-end components"
-    displayName: 'Set release build number'
+      if [[ "$(ShouldVersionFeature)" == "True" ]]; then
+        versionNumber="$(Version.BuildNumber)-$(Version.FeatureName)"
+        echo "##vso[build.addbuildtag]Feature ($(Version.FeatureName))"
+      elif [[ "$(Build.Reason)" == "PullRequest" ]]; then
+        versionNumber="$(Version.BuildNumber)-alpha" # todo
+      else
+        versionNumber="$(Version.BuildNumber)"
+      fi
+      echo "##vso[task.setvariable variable=Version.FullVersionNumber]$versionNumber"
+    displayName: 'Set release build and version number'
 
   - task: Npm@1
     displayName: 'Update version number'
     continueOnError: false
     inputs:
       command: 'custom'
-      ${{ if ne(variables['Build.Reason'], 'PullRequest') }}:
-        customCommand: 'version $(Version.BuildNumber)'
-      ${{ if eq(variables['Build.Reason'], 'PullRequest') }}:
-        customCommand: 'version $(Version.BuildNumber)-alpha.0'
+      customCommand: 'version $(Version.FullVersionNumber)'
       workingDir: $(WorkingDir)
       verbose: false
 

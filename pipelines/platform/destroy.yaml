@@ -1,0 +1,40 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  pipelineEnvironment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  dependsOn: []
+
+jobs:
+  - job: ManualValidation
+    displayName: 'Await manual validation'
+    pool: server
+    steps:
+    - task: ManualValidation@0
+      displayName: 'Validation'
+      inputs:
+        instructions: 'Approve this step to destroy all Platform resources in ${{ parameters.environmentPrefix }}'
+
+  - deployment: PlatformDestroy
+    displayName: 'Platform : Destroy'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.pipelineEnvironment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - template: ..\common\destroy-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'web'
