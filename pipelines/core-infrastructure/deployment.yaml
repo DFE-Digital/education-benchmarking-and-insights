@@ -5,8 +5,8 @@ parameters:
   cipEnvironment: ''
 
 jobs:
-  - deployment: CoreDeployment
-    displayName: 'Core : Deployment'
+  - deployment: CoreProvision
+    displayName: 'Core : Provision'
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}

@@ -122,6 +122,8 @@ stages:
   - stage: DeployPreProd
     dependsOn: [ Artifacts ]
     displayName: 'Pre-production'
+    variables:
+      - group: 'dsi pre-prod'
     jobs:
       - template: deployment.yaml
         parameters:
@@ -134,6 +136,8 @@ stages:
     dependsOn: [ DeployPreProd ]
     condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
     displayName: 'Production'
+    variables:
+      - group: 'dsi prod'
     jobs:
       - template: deployment.yaml
         parameters:
