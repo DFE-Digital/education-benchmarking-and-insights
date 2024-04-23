@@ -61,7 +61,6 @@ steps:
       command: destroy
       backendType: 'azurerm'
       workingDirectory: '${{ parameters.workspaceDir }}/tf'
-      #just testing ;-) commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-${{ parameters.module }}.plan'
       commandOptions: '-input=false'
       environmentServiceName: ${{ parameters.subscription }}
       backendServiceArm: ${{ parameters.subscription }}

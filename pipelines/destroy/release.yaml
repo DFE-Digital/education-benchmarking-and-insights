@@ -1,0 +1,50 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+pr: none
+
+parameters:
+  - name: environment
+    displayName: 'Source environment'
+    type: string
+    default: feature
+    values:
+      - automated-test
+      - development
+      - feature
+      - pre-production
+      - test
+  - name: environmentPrefix
+    displayName: 'Environment prefix to destroy'
+    type: string
+    default: ' '
+  - name: areYouSure
+    displayName: 'Are you sure you wish to destroy this environment?'
+    type: string
+    default: No
+    values:
+      - Yes
+      - No
+
+variables:
+  Environment: ${{ parameters.environment }}
+  EnvironmentPrefix: ${{ parameters.environmentPrefix }}
+  ShouldDestroy: $[and(eq('${{ parameters.areYouSure }}', 'Yes'), ne('${{ parameters.environmentPrefix }}', ' '))]
+
+stages:
+  - stage: Destroy
+    condition: eq(variables['ShouldDestroy'], 'true')
+    displayName: 'Destroy Environment'
+    variables:
+      - group: 'dsi pre-prod'
+    jobs:
+      - template: destroy.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: $(EnvironmentPrefix)
+          environment: $(Environment)
+          pipelineEnvironment: 'destroy'
+          cipEnvironment: 'Dev'
+          module: 'web'
