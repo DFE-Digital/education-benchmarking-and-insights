@@ -35,14 +35,13 @@ steps:
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]Front-end components"
       if [[ "$(ShouldVersionFeature)" == "True" ]]; then
-        versionNumber="$(Version.BuildNumber)-$(Version.FeatureName)"
+        preRelease="$(Version.FeatureName)"
         echo "##vso[build.addbuildtag]Feature ($(Version.FeatureName))"
       elif [[ "$(Build.Reason)" == "PullRequest" ]]; then
-        versionNumber="$(Version.BuildNumber)-alpha" # todo
-      else
-        versionNumber="$(Version.BuildNumber)"
+        preRelease="pr$(System.PullRequest.PullRequestId)"
+        echo "##vso[build.addbuildtag]PR #$(System.PullRequest.PullRequestId)"
       fi
-      echo "##vso[task.setvariable variable=Version.FullVersionNumber]$versionNumber"
+      echo "##vso[task.setvariable variable=Version.PreRelease]$preRelease"
     displayName: 'Set release build and version number'
 
   - task: Npm@1
@@ -50,7 +49,17 @@ steps:
     continueOnError: false
     inputs:
       command: 'custom'
-      customCommand: 'version $(Version.FullVersionNumber)'
+      customCommand: 'version $(Version.BuildNumber)'
+      workingDir: $(WorkingDir)
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Update pre-release version number'
+    condition: ne(variables['Version.PreRelease'], '')
+    continueOnError: false
+    inputs:
+      command: 'custom'
+      customCommand: 'version prerelease -preid=$(Version.PreRelease)'
       workingDir: $(WorkingDir)
       verbose: false
 
