@@ -1,5 +1,7 @@
 # Platform
 
+**//TODO: Describe platform component**
+
 [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
 
 ## Getting started
@@ -7,7 +9,7 @@
 ### Running Platform APIs
 
 #### Establishment Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Establishment.Api`
 ```
 {
   "IsEncrypted": false,
@@ -28,7 +30,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Benchmark Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
 ```
 {
   "IsEncrypted": false,
@@ -48,7 +50,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Insight Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Insight.Api`
 ```
 {
   "IsEncrypted": false,
@@ -71,15 +73,14 @@ Add configuration in `local.settings.json`
 ```
 
 ### Running tests
-
 Tests will run when creating new Pull Requests and when code is merged into the main branch.
 #### Unit Tests
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.Tests
 ```
 #### Functional Tests
-Add configuration in `appsetings.local.json`
+Add configuration in `appsetings.local.json` for `Platform.ApiTests`
 ```
 {
     "Insight": {
@@ -96,7 +97,7 @@ Add configuration in `appsetings.local.json`
     }
 }
 ```
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.ApiTests
 ```

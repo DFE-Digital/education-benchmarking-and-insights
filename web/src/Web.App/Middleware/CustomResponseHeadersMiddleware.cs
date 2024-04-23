@@ -21,7 +21,7 @@ public class CustomResponseHeadersMiddleware(RequestDelegate next)
         csp.Append("worker-src 'none';");
         csp.Append("frame-ancestors 'self';");
         csp.Append("form-action 'self' https://*.signin.education.gov.uk;");
-        csp.Append("connect-src dc.services.visualstudio.com 'self';");
+        csp.Append("connect-src *.in.applicationinsights.azure.com'  'self';");
 
         context.Response.Headers.ContentSecurityPolicy = csp.ToString();
         context.Response.Headers.XFrameOptions = "SAMEORIGIN";
