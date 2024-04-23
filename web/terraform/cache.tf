@@ -20,6 +20,10 @@ resource "azurerm_cosmosdb_account" "session-cache-account" {
     location          = azurerm_resource_group.resource-group.location
   }
 
+  virtual_network_rule {
+    id = data.azurerm_subnet.web-app-subnet.id
+  }
+
   capabilities {
     name = "EnableServerless"
   }
