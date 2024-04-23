@@ -4,11 +4,12 @@ resource "azurerm_cosmosdb_account" "session-cache-account" {
   #checkov:skip=CKV_AZURE_132:To be reviewed for production - not set for local dev
   #checkov:skip=CKV_AZURE_140:To be reviewed for production - not set for local dev
   #checkov:skip=CKV_AZURE_99:To be reviewed for production - not set for local dev
-  name                = "${var.environment-prefix}-ebis-session"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  offer_type          = "Standard"
-  kind                = "GlobalDocumentDB"
+  name                              = "${var.environment-prefix}-ebis-session"
+  location                          = azurerm_resource_group.resource-group.location
+  resource_group_name               = azurerm_resource_group.resource-group.name
+  offer_type                        = "Standard"
+  kind                              = "GlobalDocumentDB"
+  is_virtual_network_filter_enabled = true
 
   consistency_policy {
     consistency_level = "Strong"
