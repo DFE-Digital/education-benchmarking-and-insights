@@ -20,16 +20,8 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
-        echo "Resource group created"
-        
         # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
         storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
-        az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
-        echo "Storage account created"
-        
-        az storage container create --auth-mode login --name tfstate --account-name $storageAccountName
-        echo "Storage container created"
         
         echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
         echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
@@ -64,28 +56,12 @@ steps:
       backendAzureRmResourceGroupLocation: ${{ parameters.location }}
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : plan'
+    displayName: 'Terraform : destroy'
     inputs:
-      command: plan
-      backendType: 'azurerm'
-      commandOptions: '-input=false -out=${{ parameters.workspaceDir }}\education-benchmarking-${{ parameters.module }}.plan'
-      workingDirectory: '${{ parameters.workspaceDir }}/tf'
-      environmentServiceName: ${{ parameters.subscription }}
-      backendServiceArm: ${{ parameters.subscription }}
-      backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
-      backendAzureRmStorageAccountName: $(azureRmStorageAccountName)
-      backendAzureRmContainerName: 'tfstate'
-      backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
-      publishPlanResults: '${{ parameters.environmentPrefix }}-${{ parameters.module }}-plan'
-      backendAzureRmResourceGroupLocation: ${{ parameters.location }}
-
-  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
-    displayName: 'Terraform : apply'
-    inputs:
-      command: apply
+      command: destroy
       backendType: 'azurerm'
       workingDirectory: '${{ parameters.workspaceDir }}/tf'
-      commandOptions: '-auto-approve -input=false ${{ parameters.workspaceDir }}\education-benchmarking-${{ parameters.module }}.plan'
+      commandOptions: '-input=false'
       environmentServiceName: ${{ parameters.subscription }}
       backendServiceArm: ${{ parameters.subscription }}
       backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform

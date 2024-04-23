@@ -12,13 +12,21 @@ trigger:
 
 pr: none
 
+parameters:
+  - name: featureName
+    displayName: 'Name of development feature to deploy (or empty for standard Dev deploy)'
+    type: string
+    default: ' '
+
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
+  Version.FeatureName: ${{ parameters.featureName }}
   TerraformFolder: 'core-infrastructure/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  ShouldDeployFeature: $[and(ne('${{ parameters.featureName }}', ' '), eq(variables['Build.Reason'], 'Manual'))]
 
 stages:
   - stage: Build
@@ -34,6 +42,9 @@ stages:
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]Core infrastructure"
+              if [[ "$(ShouldDeployFeature)" == "True" ]]; then
+                echo "##vso[build.addbuildtag]Feature ($(Version.FeatureName))"
+              fi
             displayName: 'Set release build number'
 
       - job: FmtValidateTf
@@ -93,3 +104,15 @@ stages:
           environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
+
+  - stage: DeployFeature
+    dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeployFeature'],'true'))
+    displayName: 'Feature'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01-$(Version.FeatureName)'
+          environment: 'feature'
+          cipEnvironment: 'Dev'

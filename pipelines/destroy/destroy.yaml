@@ -1,0 +1,33 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  pipelineEnvironment: ''
+  cipEnvironment: ''
+
+jobs:
+  - template: ../web/destroy.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/destroy.yaml
+    parameters:
+      dependsOn: 'WebDestroy'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../core-infrastructure/destroy.yaml
+    parameters:
+      dependsOn: 'PlatformDestroy'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
