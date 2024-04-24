@@ -89,4 +89,13 @@ public static class Selectors
     public const string AllResources = "#all";
     public const string AllResourcesTab = "#tab_all";
     public const string AllCommercialLinks = "#all a[data-id='commercial-resource']";
+
+    public const string SpendingHistoryTab = "#tab_spending";
+    public const string ExpenditureDimension = "#expenditure-dimension";
+    public const string ExpenditureModeTable = "#expenditure-mode-table";
+    public const string ExpenditureModeChart = "#expenditure-mode-chart";
+
+    public const string IncomeDimension = "#income-dimension";
+    public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
+    public const string IncomeHistoryTab = "#tab_Income";
 }

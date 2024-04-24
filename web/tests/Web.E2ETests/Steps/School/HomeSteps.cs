@@ -14,7 +14,7 @@ public class HomeSteps(PageDriver driver)
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
     private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
     private SpendingCostsPage? _spendingCostsPage;
-
+    private CommercialResourcesPage? _commercialResourcesPage;
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
     {
@@ -98,4 +98,19 @@ public class HomeSteps(PageDriver driver)
     }
     private static string SchoolHomeUrl(string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}";
 
+    [When("I click on find ways to spend less")]
+    public async Task WhenIClickOnFindWaysToSpendLess()
+    {
+        Assert.NotNull(_schoolHomePage);
+        _commercialResourcesPage = await _schoolHomePage.ClickFindWaysToSpendLess();
+
+    }
+
+    [Then("the commercial resources page is displayed")]
+    public async Task ThenTheCommercialResourcesPageIsDisplayed()
+    {
+        Assert.NotNull(_commercialResourcesPage);
+        await _commercialResourcesPage.IsDisplayed();
+    }
+    
 }

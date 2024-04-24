@@ -17,6 +17,9 @@ public class HomePage(IPage page)
     private ILocator SpendingAndCostsLink => page.Locator(Selectors.GovLink,
         new PageLocatorOptions { HasText = "View all spending and costs" });
 
+    private ILocator FindWaysToSpendLessLink => page.Locator(Selectors.GovLink,
+        new PageLocatorOptions { HasText = "Find ways to spend less" });
+
     public async Task IsDisplayed()
     {
         await PageH1Heading.ShouldBeVisible();
@@ -62,5 +65,11 @@ public class HomePage(IPage page)
     {
         await SpendingAndCostsLink.Click();
         return new SpendingCostsPage(page);
+    }
+
+    public async Task<CommercialResourcesPage?> ClickFindWaysToSpendLess()
+    {
+        await FindWaysToSpendLessLink.Click();
+        return new CommercialResourcesPage(page);
     }
 }
