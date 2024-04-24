@@ -20,6 +20,3 @@ data "azurerm_subnet" "web-app-subnet" {
 }
 
 data "azurerm_client_config" "client" {}
-
-data "azurerm_subscription" "sub" {
-}

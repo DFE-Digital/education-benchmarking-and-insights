@@ -77,13 +77,11 @@ resource "azurerm_storage_account" "audit-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-}
 
-resource "azurerm_storage_account_network_rules" "audit-network-rules" {
-  storage_account_id = azurerm_storage_account.audit-storage.id
-
-  default_action = "Deny"
-  bypass         = ["AzureServices"]
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -114,11 +112,9 @@ resource "azurerm_storage_account" "threat-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-}
 
-resource "azurerm_storage_account_network_rules" "threat-network-rules" {
-  storage_account_id = azurerm_storage_account.threat-storage.id
-
-  default_action = "Deny"
-  bypass         = ["AzureServices"]
+  network_rules {
+    default_action = "Deny"
+    bypass         = ["AzureServices"]
+  }
 }
