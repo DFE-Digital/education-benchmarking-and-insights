@@ -23,10 +23,6 @@ resource "azurerm_storage_account" "platform-storage" {
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = false
 
-  network_rules {
-    default_action = "Deny"
-  }
-
   blob_properties {
     delete_retention_policy {
       days = 7
@@ -89,10 +85,6 @@ resource "azurerm_storage_account" "audit-storage" {
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = false
 
-  network_rules {
-    default_action = "Deny"
-  }
-
   blob_properties {
     delete_retention_policy {
       days = 7
@@ -135,10 +127,6 @@ resource "azurerm_storage_account" "threat-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = false
-
-  network_rules {
-    default_action = "Deny"
-  }
 
   blob_properties {
     delete_retention_policy {
