@@ -15,29 +15,18 @@ pr:
     include:
       - front-end-components
 
-parameters:
-  - name: featureName
-    displayName: 'Name of development feature to deploy (or empty for standard Dev deploy)'
-    type: string
-    default: ' '
-
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.1.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
-  Version.FeatureName: ${{ parameters.featureName }}
   WorkingDir: 'front-end-components'
-  ShouldVersionFeature: $[and(ne('${{ parameters.featureName }}', ' '), eq(variables['Build.Reason'], 'Manual'))]
 
 steps:
   - bash: |
       echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]Front-end components"
-      if [[ "$(ShouldVersionFeature)" == "True" ]]; then
-        preRelease="$(Version.FeatureName)"
-        echo "##vso[build.addbuildtag]Feature ($(Version.FeatureName))"
-      elif [[ "$(Build.Reason)" == "PullRequest" ]]; then
+      if [[ "$(Build.Reason)" == "PullRequest" ]]; then
         preRelease="pr$(System.PullRequest.PullRequestId)"
         echo "##vso[build.addbuildtag]PR #$(System.PullRequest.PullRequestId)"
       fi

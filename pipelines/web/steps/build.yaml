@@ -1,8 +1,17 @@
 parameters:
   BuildVersion: ''
   BuildNumber: ''
+  frontEndVersion: ''
   
 steps:
+
+  - task: Npm@1
+    displayName: 'Install specific front end version'
+    condition: ne('${{ parameters.frontEndVersion }}', '')
+    inputs:
+      command: 'install front-end@${{ parameters.frontEndVersion }}'
+      workingDir: 'web/src/Web.App'
+      verbose: false
 
   - task: Npm@1
     displayName: 'Install npm packages'
