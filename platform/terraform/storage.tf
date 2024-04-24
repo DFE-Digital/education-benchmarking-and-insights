@@ -77,12 +77,6 @@ resource "azurerm_storage_account" "audit-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-
-  network_rules {
-    default_action             = "Deny"
-    virtual_network_subnet_ids = [data.azurerm_subnet.platform-subnet.id]
-    bypass                     = ["AzureServices"]
-  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -112,11 +106,5 @@ resource "azurerm_storage_account" "threat-storage" {
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
-  }
-
-  network_rules {
-    default_action             = "Deny"
-    virtual_network_subnet_ids = [data.azurerm_subnet.platform-subnet.id]
-    bypass                     = ["AzureServices"]
   }
 }

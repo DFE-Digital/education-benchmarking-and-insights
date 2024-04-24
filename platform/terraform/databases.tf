@@ -122,22 +122,22 @@ resource "azurerm_mssql_database" "sql-db" {
   sku_name    = "S0"
   max_size_gb = 5
 
-  /*  threat_detection_policy {
+  threat_detection_policy {
     state                      = "Enabled"
     storage_endpoint           = azurerm_storage_account.threat-storage.primary_blob_endpoint
     storage_account_access_key = azurerm_storage_account.threat-storage.primary_access_key
     retention_days             = 120
-  }*/
+  }
 }
 
-/*resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
+resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
   database_id                             = azurerm_mssql_database.sql-db.id
   storage_endpoint                        = azurerm_storage_account.audit-storage.primary_blob_endpoint
   storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 120
   log_monitoring_enabled                  = true
-}*/
+}
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe" {
   name             = "DFE_VPN"
@@ -153,9 +153,9 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
   end_ip_address   = "0.0.0.0"
 }
 
-resource "azurerm_sql_virtual_network_rule" "sql-vnet-rule" {
-  name                = "sql-vnet-rule"
-  resource_group_name = azurerm_resource_group.resource-group.name
-  server_name         = azurerm_mssql_server.sql-server.name
-  subnet_id           = data.azurerm_subnet.platform-subnet.id
+/*resource "azurerm_mssql_virtual_network_rule" "sql-server-vnet-rule" {
+name      = "sql-vnet-rule"
+server_id = azurerm_mssql_server.sql-server.id
+subnet_id = data.azurerm_subnet.platform-subnet.id
 }
+*/
