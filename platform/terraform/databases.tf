@@ -108,14 +108,14 @@ resource "azurerm_mssql_server" "sql-server" {
   }
 }
 
-resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
+/*resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
   server_id                               = azurerm_mssql_server.sql-server.id
   storage_endpoint                        = azurerm_storage_account.audit-storage.primary_blob_endpoint
   storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
   storage_account_access_key_is_secondary = false
   retention_in_days                       = 120
   log_monitoring_enabled                  = true
-}
+}*/
 
 resource "azurerm_mssql_database" "sql-db" {
   #checkov:skip=CKV_AZURE_224:To be reviewed
