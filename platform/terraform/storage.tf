@@ -45,7 +45,7 @@ resource "azurerm_storage_account_network_rules" "platform-network-rules" {
   default_action = "Deny"
 
   private_link_access {
-    endpoint_resource_id = data.azurerm_client_config.client.object_id
+    endpoint_resource_id = data.azurerm_client_config.client.id
   }
 
   private_link_access {
