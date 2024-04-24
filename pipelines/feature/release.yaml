@@ -95,7 +95,7 @@ stages:
               Module: 'platform'
 
       - job: BuildPlatform
-        displayName: 'Build'
+        displayName: 'Platform : Build'
         steps:
           - template: ../platform/steps/build.yaml
             parameters:
@@ -176,7 +176,7 @@ stages:
               Module: 'web'
 
       - job: BuildWeb
-        displayName: 'Build'
+        displayName: 'Web : Build'
         steps:
           - template: ../web/steps/build.yaml
             parameters:

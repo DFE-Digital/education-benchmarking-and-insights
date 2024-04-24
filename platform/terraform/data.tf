@@ -26,3 +26,7 @@ data "azurerm_subnet" "platform-subnet" {
 }
 
 data "azurerm_client_config" "client" {}
+
+data "external" "agent_ip_address" {
+   program = ["bash", "${path.module}/scripts/ip-address.sh"]
+}
