@@ -21,7 +21,7 @@ resource "azurerm_storage_account" "platform-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
 
   blob_properties {
     delete_retention_policy {
@@ -35,7 +35,7 @@ resource "azurerm_storage_account" "platform-storage" {
   }
 }
 
-resource "azurerm_role_assignment" "platform-storage-sp-role" {
+/*resource "azurerm_role_assignment" "platform-storage-sp-role" {
   scope                = azurerm_storage_account.platform-storage.id
   role_definition_name = "Storage Blob Data Owner"
   principal_id         = data.azurerm_client_config.client.object_id
@@ -57,7 +57,7 @@ resource "azurerm_storage_account_network_rules" "platform-network-rules" {
   private_link_access {
     endpoint_resource_id = module.benchmark-fa.function-resource-id
   }
-}
+}*/
 
 resource "azurerm_storage_container" "local-authorities-container" {
   #checkov:skip=CKV2_AZURE_21:To be reviewed
@@ -107,13 +107,13 @@ resource "azurerm_storage_account_network_rules" "audit-network-rules" {
 
   default_action = "Deny"
 
-  private_link_access {
+/*  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
   private_link_access {
     endpoint_resource_id = azurerm_mssql_server.sql-server.id
-  }
+  }*/
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -151,11 +151,11 @@ resource "azurerm_storage_account_network_rules" "threat-network-rules" {
 
   default_action = "Deny"
 
-  private_link_access {
+/*  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
   private_link_access {
     endpoint_resource_id = azurerm_mssql_server.sql-server.id
-  }
+  }*/
 }
