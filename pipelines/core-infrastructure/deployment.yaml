@@ -1,12 +1,14 @@
 parameters:
   subscription: ''
   environmentPrefix: ''
-  environment: ''
+  environment: 'feature'
   cipEnvironment: ''
+  dependsOn: []
 
 jobs:
   - deployment: CoreProvision
     displayName: 'Core : Provision'
+    dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
