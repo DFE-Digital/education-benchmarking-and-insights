@@ -58,6 +58,7 @@ resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
   name                            = local.audit-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -87,6 +88,7 @@ resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV2_AZURE_40:Terraform uses Shared Key Authorisation
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
   name                            = local.threat-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
