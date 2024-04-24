@@ -1,4 +1,5 @@
 # Financial Benchmarking and Insights Tool
+
 A service that allows you to compare school metrics against similar schools
 
 [![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FCore%20Infrastructure%20CICD?branchName=main&label=Core%20infrastructure)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2594&branchName=main)
@@ -19,7 +20,7 @@ A service that allows you to compare school metrics against similar schools
    4. [Business Architecture](documentation/architecture/business-architecture.md)
    5. [Information Architecture](documentation/architecture/information-architecture.md)
    6. [Application Architecture](documentation/architecture/application-architecture.md)
-   7. Deployment Architecture
+   7. [Deployment Architecture](documentation/architecture/deployment-architecture.md)
    8. Infrastructure Architecture
    9. [Security Architecture](documentation/architecture/security-architecture.md)
    10. Support Architecture
