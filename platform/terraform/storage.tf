@@ -66,7 +66,7 @@ resource "azurerm_storage_account" "audit-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
 
   blob_properties {
     delete_retention_policy {
@@ -79,8 +79,9 @@ resource "azurerm_storage_account" "audit-storage" {
   }
 
   network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices"]
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [data.azurerm_subnet.platform-subnet.id]
+    bypass                     = ["AzureServices"]
   }
 }
 
@@ -100,7 +101,7 @@ resource "azurerm_storage_account" "threat-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = false
+  public_network_access_enabled   = true
 
   blob_properties {
     delete_retention_policy {
@@ -114,7 +115,8 @@ resource "azurerm_storage_account" "threat-storage" {
   }
 
   network_rules {
-    default_action = "Deny"
-    bypass         = ["AzureServices"]
+    default_action             = "Deny"
+    virtual_network_subnet_ids = [data.azurerm_subnet.platform-subnet.id]
+    bypass                     = ["AzureServices"]
   }
 }
