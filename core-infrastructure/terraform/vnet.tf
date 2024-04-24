@@ -10,6 +10,11 @@ resource "azurerm_subnet_network_security_group_association" "web-app-subnet-nsg
   network_security_group_id = azurerm_network_security_group.network-security-group.id
 }
 
+resource "azurerm_subnet_network_security_group_association" "platform-subnet-nsg-association" {
+  subnet_id                 = azurerm_subnet.platform-subnet.id
+  network_security_group_id = azurerm_network_security_group.network-security-group.id
+}
+
 resource "azurerm_virtual_network" "app-service-network" {
   name                = "${var.environment-prefix}-app-service-network"
   address_space       = ["10.0.0.0/16"]
