@@ -158,3 +158,19 @@ resource "azurerm_mssql_virtual_network_rule" "sql-server-vnet-rule" {
   server_id = azurerm_mssql_server.sql-server.id
   subnet_id = data.azurerm_subnet.platform-subnet.id
 }
+
+resource "azurerm_mssql_server_security_alert_policy" "sql-security-alert-policy" {
+  resource_group_name = azurerm_resource_group.resource-group.name
+  server_name         = azurerm_mssql_server.sql-server.name
+  state               = "Enabled"
+}
+
+resource "azurerm_mssql_server_vulnerability_assessment" "sql-server-vulnerability" {
+  server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.sql-security-alert-policy.id
+  storage_container_path          = "${azurerm_storage_account.vulnerability-storage.primary_blob_endpoint}${azurerm_storage_container.vulnerability-container.name}/"
+  storage_account_access_key      = azurerm_storage_account.vulnerability-storage.primary_access_key
+
+  recurring_scans {
+    enabled = true
+  }
+}
