@@ -121,3 +121,4 @@ def compute_rag(urn, comparator_set):
 
         result[category] = map_rag(df, target['OfstedRating (name)'].values[0], deciles).sort_values(by='decile',
                                                                                                      ascending=True)
+    return result 
