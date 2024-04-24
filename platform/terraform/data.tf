@@ -18,3 +18,5 @@ data "azurerm_subnet" "web-app-subnet" {
   virtual_network_name = "${var.environment-prefix}-app-service-network"
   resource_group_name  = "${var.environment-prefix}-ebis-core"
 }
+
+data "azurerm_client_config" "client" {}
