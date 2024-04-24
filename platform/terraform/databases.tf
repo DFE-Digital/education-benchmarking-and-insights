@@ -154,13 +154,6 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
   end_ip_address   = "208.127.46.242"
 }
 
-resource "azurerm_mssql_firewall_rule" "sql-server-fw-devops-agent" {
-  name             = "DevOps_Agent"
-  server_id        = azurerm_mssql_server.sql-server.id
-  start_ip_address = data.external.agent_ip_address.result.ip
-  end_ip_address   = data.external.agent_ip_address.result.ip
-}
-
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
   name             = "allow_azure_services_fw"
   server_id        = azurerm_mssql_server.sql-server.id
