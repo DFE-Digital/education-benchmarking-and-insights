@@ -34,6 +34,7 @@ resource "azurerm_subnet" "web-app-subnet" {
   }
 
   service_endpoints = [
-    "Microsoft.Web"
+    "Microsoft.Web",
+    "Microsoft.AzureCosmosDB"
   ]
 }
