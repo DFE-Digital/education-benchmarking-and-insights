@@ -36,30 +36,6 @@ resource "azurerm_storage_account" "platform-storage" {
   }
 }
 
-/*resource "azurerm_role_assignment" "platform-storage-sp-role" {
-  scope                = azurerm_storage_account.platform-storage.id
-  role_definition_name = "Storage Blob Data Owner"
-  principal_id         = data.azurerm_client_config.client.object_id
-}
-
-resource "azurerm_storage_account_network_rules" "platform-network-rules" {
-  storage_account_id = azurerm_storage_account.platform-storage.id
-
-  default_action = "Deny"
-
-  private_link_access {
-    endpoint_resource_id = module.establishment-fa.function-resource-id
-  }
-
-  private_link_access {
-    endpoint_resource_id = module.insight-fa.function-resource-id
-  }
-
-  private_link_access {
-    endpoint_resource_id = module.benchmark-fa.function-resource-id
-  }
-}*/
-
 resource "azurerm_storage_container" "local-authorities-container" {
   #checkov:skip=CKV2_AZURE_21:To be reviewed
   name                 = "local-authorities"
@@ -101,12 +77,6 @@ resource "azurerm_storage_account" "audit-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-}
-
-resource "azurerm_role_assignment" "audit-sql-role" {
-  scope                = data.azurerm_subscription.sub.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
 }
 
 resource "azurerm_storage_account_network_rules" "audit-network-rules" {
@@ -151,12 +121,6 @@ resource "azurerm_storage_account" "threat-storage" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
-}
-
-resource "azurerm_role_assignment" "threat-sql-role" {
-  scope                = data.azurerm_subscription.sub.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
 }
 
 resource "azurerm_storage_account_network_rules" "threat-network-rules" {
