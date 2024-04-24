@@ -104,7 +104,7 @@ resource "azurerm_storage_account" "audit-storage" {
 }
 
 resource "azurerm_role_assignment" "audit-sql-role" {
-  scope                = azurerm_storage_account.audit-storage.id
+  scope                = data.azurerm_subscription.sub.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
 }
@@ -154,7 +154,7 @@ resource "azurerm_storage_account" "threat-storage" {
 }
 
 resource "azurerm_role_assignment" "threat-sql-role" {
-  scope                = azurerm_storage_account.threat-storage.id
+  scope                = data.azurerm_subscription.sub.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
 }
