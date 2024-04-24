@@ -126,7 +126,7 @@ resource "azurerm_mssql_database" "sql-db" {
   sku_name    = "S0"
   max_size_gb = 5
 
-/*  threat_detection_policy {
+  /*  threat_detection_policy {
     state                      = "Enabled"
     storage_endpoint           = azurerm_storage_account.threat-storage.primary_blob_endpoint
     storage_account_access_key = azurerm_storage_account.threat-storage.primary_access_key
