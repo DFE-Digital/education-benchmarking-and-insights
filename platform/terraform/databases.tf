@@ -102,10 +102,6 @@ resource "azurerm_mssql_server" "sql-server" {
     login_username = "michael.fielding@education.gov.uk"
     object_id      = "42665fd4-ab1f-4192-9033-bfc059c6ea9a"
   }
-
-  identity {
-    type = "SystemAssigned"
-  }
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
