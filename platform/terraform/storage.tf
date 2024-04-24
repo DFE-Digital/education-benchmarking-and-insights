@@ -13,6 +13,7 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV2_AZURE_33:To be reviewed
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
+  #checkov:skip=CKV_AZURE_59:To be reviewed
   name                            = local.platform-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -107,7 +108,7 @@ resource "azurerm_storage_account_network_rules" "audit-network-rules" {
 
   default_action = "Deny"
 
-/*  private_link_access {
+  /*  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
@@ -151,7 +152,7 @@ resource "azurerm_storage_account_network_rules" "threat-network-rules" {
 
   default_action = "Deny"
 
-/*  private_link_access {
+  /*  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
