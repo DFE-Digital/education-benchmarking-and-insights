@@ -102,15 +102,17 @@ resource "azurerm_mssql_server" "sql-server" {
     login_username = "michael.fielding@education.gov.uk"
     object_id      = "42665fd4-ab1f-4192-9033-bfc059c6ea9a"
   }
+
+  identity {
+    type = "SystemAssigned"
+  }
 }
 
 resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
-  server_id                               = azurerm_mssql_server.sql-server.id
-  storage_endpoint                        = azurerm_storage_account.audit-storage.primary_blob_endpoint
-  storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
-  storage_account_access_key_is_secondary = false
-  retention_in_days                       = 120
-  log_monitoring_enabled                  = true
+  server_id              = azurerm_mssql_server.sql-server.id
+  storage_endpoint       = azurerm_storage_account.audit-storage.primary_blob_endpoint
+  retention_in_days      = 120
+  log_monitoring_enabled = true
 }
 
 resource "azurerm_mssql_database" "sql-db" {
@@ -123,20 +125,17 @@ resource "azurerm_mssql_database" "sql-db" {
   max_size_gb = 5
 
   threat_detection_policy {
-    state                      = "Enabled"
-    storage_endpoint           = azurerm_storage_account.threat-storage.primary_blob_endpoint
-    storage_account_access_key = azurerm_storage_account.threat-storage.primary_access_key
-    retention_days             = 120
+    state            = "Enabled"
+    storage_endpoint = azurerm_storage_account.threat-storage.primary_blob_endpoint
+    retention_days   = 120
   }
 }
 
 resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
-  database_id                             = azurerm_mssql_database.sql-db.id
-  storage_endpoint                        = azurerm_storage_account.audit-storage.primary_blob_endpoint
-  storage_account_access_key              = azurerm_storage_account.audit-storage.primary_access_key
-  storage_account_access_key_is_secondary = false
-  retention_in_days                       = 120
-  log_monitoring_enabled                  = true
+  database_id            = azurerm_mssql_database.sql-db.id
+  storage_endpoint       = azurerm_storage_account.audit-storage.primary_blob_endpoint
+  retention_in_days      = 120
+  log_monitoring_enabled = true
 }
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe" {

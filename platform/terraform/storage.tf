@@ -103,18 +103,24 @@ resource "azurerm_storage_account" "audit-storage" {
   }
 }
 
+resource "azurerm_role_assignment" "audit-sql-role" {
+  scope                = azurerm_storage_account.audit-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
+}
+
 resource "azurerm_storage_account_network_rules" "audit-network-rules" {
   storage_account_id = azurerm_storage_account.audit-storage.id
 
   default_action = "Deny"
 
-  /*  private_link_access {
+  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
   private_link_access {
     endpoint_resource_id = azurerm_mssql_server.sql-server.id
-  }*/
+  }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
@@ -147,16 +153,22 @@ resource "azurerm_storage_account" "threat-storage" {
   }
 }
 
+resource "azurerm_role_assignment" "threat-sql-role" {
+  scope                = azurerm_storage_account.threat-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
+}
+
 resource "azurerm_storage_account_network_rules" "threat-network-rules" {
   storage_account_id = azurerm_storage_account.threat-storage.id
 
   default_action = "Deny"
 
-  /*  private_link_access {
+  private_link_access {
     endpoint_resource_id = azurerm_mssql_database.sql-db.id
   }
 
   private_link_access {
     endpoint_resource_id = azurerm_mssql_server.sql-server.id
-  }*/
+  }
 }
