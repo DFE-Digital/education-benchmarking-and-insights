@@ -155,7 +155,7 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
 
 resource "azurerm_sql_virtual_network_rule" "sql-vnet-rule" {
   name                = "sql-vnet-rule"
-  resource_group_name          = azurerm_resource_group.resource-group.name
+  resource_group_name = azurerm_resource_group.resource-group.name
   server_name         = azurerm_mssql_server.sql-server.name
   subnet_id           = data.azurerm_subnet.platform-subnet.id
 }
