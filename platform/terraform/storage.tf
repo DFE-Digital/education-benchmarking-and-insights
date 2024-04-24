@@ -35,6 +35,12 @@ resource "azurerm_storage_account" "platform-storage" {
   }
 }
 
+resource "azurerm_role_assignment" "platform-storage-sp-role" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage Blob Data Owner"
+  principal_id         = data.azurerm_client_config.client.object_id
+}
+
 resource "azurerm_storage_account_network_rules" "platform-network-rules" {
   storage_account_id = azurerm_storage_account.platform-storage.id
 
