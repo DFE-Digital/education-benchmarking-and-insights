@@ -17,10 +17,10 @@ public class HistoricDataSteps(PageDriver driver)
         await page.GotoAndWaitForLoadAsync(url);
 
         _historicDataPage = new HistoricDataPage(page);
-        await _historicDataPage.IsDisplayed();
+        await _historicDataPage.IsDisplayed(TabNamesFromFriendlyNames(tab));
     }
     
-    [Given("all sections are shown")]
+    [Given(@"all sections are shown on '(.*)' tab")]
     [When(@"I click on show all sections on '(.*)' tab")]
     public async Task WhenIClickOnShowAllSections(string tab)
     {
@@ -63,6 +63,43 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.AreSubCategoriesVisible(TabNamesFromFriendlyNames(tab));
 
     }
+    
+    [Then("are showing table view")]
+    public async Task ThenAreShowingTableView()
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.AreTablesShown();
+    }
+    
+    [When("I click on view as table on '(.*)' tab")]
+    public async Task WhenIClickOnViewAsTableOnTab(string tab)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.ClickViewAsTable(TabNamesFromFriendlyNames(tab));
+    }
+    
+    [When("I click section link for '(.*)'")]
+    public async Task WhenIClickSectionLinkFor(string chartName)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.ClickSectionLink(ExpenditureCategoryFromFriendlyName(chartName));
+    }
+    
+    [Then("the section '(.*)' is hidden")]
+    public async Task ThenTheSectionIsHidden(string chartName)
+    {
+        Assert.NotNull(_historicDataPage);
+        await _historicDataPage.IsSectionVisible(ExpenditureCategoryFromFriendlyName(chartName), false, "Show", "chart");
+    }
+    
+    private static SpendingCategoriesNames ExpenditureCategoryFromFriendlyName(string chartName)
+    {
+        return chartName switch
+        {
+            "non educational support staff" => SpendingCategoriesNames.NonEducationalSupportStaff,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
+    }
     private static string FindWaysToSpendLessUrl(string tab, string urn) => $"{TestConfiguration.ServiceUrl}/school/{urn}/history#{tab}";
     private static HistoryTabs TabNamesFromFriendlyNames(string tab)
     {
@@ -75,6 +112,4 @@ public class HistoricDataSteps(PageDriver driver)
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
     }
-
-    
 }

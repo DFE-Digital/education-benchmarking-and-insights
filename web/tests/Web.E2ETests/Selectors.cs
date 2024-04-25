@@ -98,4 +98,13 @@ public static class Selectors
     public const string IncomeDimension = "#income-dimension";
     public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
     public const string IncomeHistoryTab = "#tab_Income";
+    public const string SpendingAccordions = "#accordion-expenditure";
+    public const string SpendingTableMode = "#expenditure-mode-table";
+    public const string IncomeTableMode = "#income-mode-table";
+    public const string BalanceTableMode = "#balance-mode-table";
+    public const string WorkforceTableMode="#workforce-mode-table";
+
+    public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
+    public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";
+
 }

@@ -13,16 +13,21 @@
 		And all 'spending' sub categories are displayed on the page
 		
  
-	Scenario: Change all charts to table view
-		Given I am on 'spending' history page for school with URN '101241'
-		And all sections are shown
-		When I click on view as table
-		Then all sections on the page are expanded
+	Scenario Outline: Change all charts to table view
+		Given I am on '<tab>' history page for school with URN '101241'
+		And all sections are shown on '<tab>' tab
+		When I click on view as table on '<tab>' tab
+		Then all sections on '<tab>' tab are expanded
 		And are showing table view
+		
+		Examples: 
+		| tab      |
+		| spending |
+		| income   |
 		
 		
 	Scenario: Hide single section
 		Given I am on 'spending' history page for school with URN '101241'
-		And all sections are shown
+		And all sections are shown on 'spending' tab
 		When I click section link for 'non educational support staff'
 		Then the section 'non educational support staff' is hidden
