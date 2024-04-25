@@ -1,7 +1,10 @@
-from fastapi import FastAPI  
+import os
 
-app = FastAPI()   
+from fastapi import FastAPI
 
-@app.get("/") 
-async def main_route():     
-  return {"message": "Hello World!"}
+app = FastAPI()
+
+
+@app.get("/")
+async def main_route():
+    return {"message": f'Hello World! Environment - {os.environ.get("FASTAPI_ENV")}'}

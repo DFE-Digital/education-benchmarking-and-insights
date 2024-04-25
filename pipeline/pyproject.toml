@@ -19,6 +19,8 @@ pytest = "^8.1.1"
 black = "^24.4.1"
 coverage = "^7.5.0"
 requests = "^2.31.0"
+httpx = "^0.27.0"
+isort = "^5.13.2"
 
 
 
@@ -53,7 +55,7 @@ force_grid_wrap = 0
 # https://github.com/nedbat/coveragepy
     [tool.coverage.run]
 
-    source = ["app"]
+    source = ["src"]
     branch = true
     omit = ['']
 
