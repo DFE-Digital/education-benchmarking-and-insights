@@ -5,6 +5,7 @@ import {
   ChartDimensionContext,
   ChartModeContext,
   SelectedSchoolContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartHandler } from "src/components/charts";
@@ -16,6 +17,7 @@ import {
 } from "src/components/charts/utils";
 import { SchoolTick } from "src/components/charts/school-tick";
 import { SchoolWorkforceTooltip } from "src/components/charts/school-workforce-tooltip";
+import { WarningBanner } from "src/components/warning-banner";
 
 export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   props: HorizontalBarChartWrapperProps<TData>
@@ -24,6 +26,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
   const selectedSchool = useContext(SelectedSchoolContext);
+  const hasIncompleteData = useContext(HasIncompleteDataContext);
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
 
@@ -64,6 +67,10 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
           </div>
         )}
       </div>
+      <WarningBanner
+        isRendered={hasIncompleteData}
+        message="Some schools are missing data for this financial year"
+      />
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
           {sortedDataPoints.length > 0 ? (

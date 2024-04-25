@@ -49,6 +49,7 @@ export type ExpenditureData = {
   totalUtilitiesCosts: number;
   energyCosts: number;
   waterSewerageCosts: number;
+  hasIncompleteData: boolean;
 };
 
 export type Balance = {
@@ -74,6 +75,7 @@ export type Workforce = {
   auxiliaryStaffFte: number;
   workforceHeadcount: number;
   teachersQualified: number;
+  hasIncompleteData: boolean;
 };
 
 export type Income = {

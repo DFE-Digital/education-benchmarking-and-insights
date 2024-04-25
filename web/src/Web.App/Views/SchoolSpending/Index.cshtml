@@ -17,6 +17,7 @@
         <p class="govuk-body">This shows where spending is different to similar schools.</p>
     </div>
 </div>
+
 @foreach (var category in Model.PriorityCosts)
 {
     <div class="govuk-grid-row govuk-!-margin-bottom-4">
@@ -31,7 +32,8 @@
                  data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                  data-highlight="@Model.Urn"
                  data-suffix="@category.Rating.Unit"
-                 data-sort-direction="asc">
+                 data-sort-direction="asc"
+                 data-has-incomplete-data="@Model.HasIncompleteData">
             </div>
             <p class="govuk-body">
                 <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>
@@ -61,7 +63,8 @@
                  data-json="@category.Values.Select(x => new { urn = x.Key, amount = x.Value.Value }).ToArray().ToJson(Formatting.None)"
                  data-highlight="@Model.Urn"
                  data-suffix="@category.Rating.Unit"
-                 data-sort-direction="asc">
+                 data-sort-direction="asc"
+                data-has-incomplete-data="@Model.HasIncompleteData">
             </div>
             <p class="govuk-body">
                 <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>

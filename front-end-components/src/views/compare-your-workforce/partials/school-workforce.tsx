@@ -5,7 +5,7 @@ import {
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, HasIncompleteDataContext } from "src/contexts";
 import { SchoolWorkforceData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
@@ -60,24 +60,28 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
+  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="school workforce (full time equivalent)"
-      >
-        <h2 className="govuk-heading-m">
-          School workforce (Full Time Equivalent)
-        </h2>
-        <ChartDimensions
-          dimensions={WorkforceCategories.filter(
-            (category) => category !== PercentageOfWorkforce
-          )}
-          handleChange={handleSelectChange}
-          elementId="school-workforce"
-          defaultValue={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+      <ChartDimensionContext.Provider value={dimension}>
+        <HorizontalBarChartWrapper
+          data={chartData}
+          chartName="school workforce (full time equivalent)"
+        >
+          <h2 className="govuk-heading-m">
+            School workforce (Full Time Equivalent)
+          </h2>
+          <ChartDimensions
+            dimensions={WorkforceCategories.filter(
+              (category) => category !== PercentageOfWorkforce
+            )}
+            handleChange={handleSelectChange}
+            elementId="school-workforce"
+            defaultValue={dimension.value}
+          />
+        </HorizontalBarChartWrapper>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

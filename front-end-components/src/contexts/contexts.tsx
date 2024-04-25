@@ -16,3 +16,5 @@ export const ChartDimensionContext = createContext<Dimension>({
   heading: "",
 });
 export const SelectedSchoolContext = createContext(School.empty());
+
+export const HasIncompleteDataContext = createContext(false);

@@ -40,7 +40,7 @@ type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
 >;
 
 type ChartSeriesName = string;
-export type ChartSeriesValue = string | number | bigint;
+export type ChartSeriesValue = string | number | bigint | boolean;
 export type ChartSeriesValueUnit = "%" | "currency";
 export type ChartDataSeries = { [name: ChartSeriesName]: ChartSeriesValue };
 
