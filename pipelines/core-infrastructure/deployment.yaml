@@ -3,6 +3,7 @@ parameters:
   environmentPrefix: ''
   environment: 'feature'
   cipEnvironment: ''
+  disablePurgeProtection: ''
   dependsOn: []
 
 jobs:
@@ -26,4 +27,5 @@ jobs:
                 environmentPrefix: ${{ parameters.environmentPrefix }}
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
+                disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
                 module: 'core'

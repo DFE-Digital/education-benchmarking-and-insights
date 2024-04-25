@@ -88,6 +88,7 @@ stages:
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
           dependsOn: [ ZipStaticCoreArtifacts ]
+          disablePurgeProtection: 'true'
 
   - stage: BuildPlatform
     dependsOn: [ BuildNumber, DeployCore ]
@@ -110,7 +111,6 @@ stages:
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
-              FeatureName: $(Version.FeatureName)
 
       - template: ../platform/deployment.yaml
         parameters:
@@ -123,6 +123,8 @@ stages:
   - stage: BuildFrontEndComponents
     dependsOn: [ BuildNumber, BuildPlatform ]
     displayName: 'Front-end : Build and Publish'
+    variables: 
+      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: BuildAndRPublishFrontEnd
         displayName: 'Build and publish'
@@ -141,7 +143,7 @@ stages:
             continueOnError: false
             inputs:
               command: 'custom'
-              customCommand: 'version prerelease -preid=$(Version.FeatureName)'
+              customCommand: 'version prerelease -preid=$(environmentPrefix)'
               workingDir: $(WorkingDir.FrontEnd)
               verbose: false
 
@@ -191,8 +193,7 @@ stages:
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
-              FeatureName: $(Version.FeatureName)
-              frontEndVersion: '$(Version.BuildNumber)-$(Version.FeatureName).0'
+              frontEndVersion: '$(Version.BuildNumber)-$(environmentPrefix).0'
 
       - template: ../web/deployment.yaml
         parameters:

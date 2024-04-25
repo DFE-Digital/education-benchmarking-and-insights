@@ -9,7 +9,8 @@ steps:
     displayName: 'Install specific front end version'
     condition: ne('${{ parameters.frontEndVersion }}', '')
     inputs:
-      command: 'install front-end@${{ parameters.frontEndVersion }}'
+      command: 'custom'
+      customCommand: 'install front-end@${{ parameters.frontEndVersion }}'
       workingDir: 'web/src/Web.App'
       verbose: false
 

@@ -13,7 +13,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
   tags                = local.common-tags
 
   # Azure services, plus DFE VPN remote range if non-production
-  ip_range_filter = var.environment == "production" ? "0.0.0.0" : "0.0.0.0,208.127.46.236/30,208.127.46.240/31,208.127.46.242/32"
+  ip_range_filter = var.environment == "production" ? "0.0.0.0" : "0.0.0.0,208.127.46.236/30,208.127.46.240/29,208.127.46.248/31,208.127.46.250/32"
 
   consistency_policy {
     consistency_level = "Session"
@@ -153,8 +153,8 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
   count            = var.environment == "production" ? 0 : 1
   name             = "DFE_VPN_Remote"
   server_id        = azurerm_mssql_server.sql-server.id
-  start_ip_address = "208.127.46.237"
-  end_ip_address   = "208.127.46.242"
+  start_ip_address = "208.127.46.236"
+  end_ip_address   = "208.127.46.250"
 }
 
 resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {

@@ -6,6 +6,7 @@ parameters:
   module: ''
   workspaceDir: '$(Pipeline.Workspace)'
   location: 'westeurope'
+  disablePurgeProtection: ''
 
 steps:
   - task: ExtractFiles@1
@@ -35,6 +36,7 @@ steps:
         echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
         echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
         echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
+        echo "##vso[task.setvariable variable=disablePurgeProtection]${{ parameters.disablePurgeProtection }}"
 
   - task: qetza.replacetokens.replacetokens-task.replacetokens@6
     displayName: 'Replace tokens in terraform file'
