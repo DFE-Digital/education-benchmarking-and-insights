@@ -1,13 +1,8 @@
-# "name" may only contain alphanumeric characters and dashes and must be between 3-24 chars
-locals {
-  key-vault-name = "${substr(replace(var.environment-prefix, "/[^\\w]-/", ""), 0, 24 - length("-ebis-keyvault"))}-ebis-keyvault"
-}
-
 resource "azurerm_key_vault" "key-vault" {
   #checkov:skip=CKV_AZURE_109:Public access required for Azure Devops build agents
   #checkov:skip=CKV_AZURE_189:Public access required for Azure Devops build agents
   #checkov:skip=CKV2_AZURE_32:Public access required for Azure Devops build agents
-  name                            = local.key-vault-name
+  name                            = "${var.environment-prefix}-ebis-keyvault"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   enabled_for_deployment          = true

@@ -4,10 +4,12 @@ parameters:
   environment: ''
   pipelineEnvironment: ''
   cipEnvironment: ''
+  dependsOn: []
 
 jobs:
   - template: ../web/destroy.yaml
     parameters:
+      dependsOn: ${{ parameters.dependsOn }}
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
@@ -16,7 +18,7 @@ jobs:
 
   - template: ../platform/destroy.yaml
     parameters:
-      dependsOn: 'WebDestroy'
+      dependsOn: [ WebDestroy ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
@@ -25,7 +27,7 @@ jobs:
 
   - template: ../core-infrastructure/destroy.yaml
     parameters:
-      dependsOn: 'PlatformDestroy'
+      dependsOn: [ PlatformDestroy ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
