@@ -108,4 +108,6 @@ public static class Selectors
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";
 
+    public const string LineChartStats = ".chart-stat-line-chart";
+
 }

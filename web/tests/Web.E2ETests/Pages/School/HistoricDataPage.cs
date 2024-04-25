@@ -200,6 +200,23 @@ public class HistoricDataPage(IPage page)
         }
     }
 
+    public async Task AreTableStatsShown(HistoryTabs tab)
+    {
+        var sections = tab switch
+        {
+            HistoryTabs.Spending => SpendingAccordion.Locator(Selectors.LineChartStats),
+            HistoryTabs.Income => IncomeAccordion.Locator(Selectors.LineChartStats),
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var tables = await sections.AllAsync();
+        foreach (var table in tables)
+        {
+            await table.ShouldBeVisible();
+        }
+    }
+    
+
     public async Task ClickViewAsTable(HistoryTabs tab)
     {
         var viewAsTableRadio = tab switch
