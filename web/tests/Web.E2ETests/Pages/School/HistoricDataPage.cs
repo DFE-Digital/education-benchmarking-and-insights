@@ -215,7 +215,7 @@ public class HistoricDataPage(IPage page)
             await table.ShouldBeVisible();
         }
     }
-    
+
 
     public async Task ClickViewAsTable(HistoryTabs tab)
     {
