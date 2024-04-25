@@ -4,6 +4,7 @@ using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
 
+// This feature is documented at /documentation/developers/features/find-organisation.md
 [Controller]
 [Route("find-organisation")]
 public class FindOrganisationController(ILogger<FindOrganisationController> logger) : Controller

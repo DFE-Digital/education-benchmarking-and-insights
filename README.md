@@ -37,7 +37,7 @@ A service that allows you to compare school metrics against similar schools
    3. [Integration with DfE Sign-in](documentation/developers/integration-with-dfe-sign-in.md)
    4. Features
       1. [Incomplete Data](documentation/developers/features/incomplete-data.md)
-      2. ...
+      2. [Find Organisation](documentation/developers/features/find-organisation.md)
       3. ...
    5. [Cookies](documentation/developers/cookies.md)
    6. [Troubleshooting](documentation/developers/troubleshooting.md)
