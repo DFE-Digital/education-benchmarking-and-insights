@@ -14,9 +14,7 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
-        storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
-        
+        storageAccountName=${{ parameters.environmentPrefix }}storagetf
         echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
         echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
         echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
@@ -71,8 +69,7 @@ steps:
       azureSubscription: ${{ parameters.subscription }}
       scriptLocation: inlineScript
       inlineScript: |
-        # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
-        storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
+        storageAccountName=${{ parameters.environmentPrefix }}storagetf
         az storage account delete --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --yes
         echo "Storage account deleted"
 

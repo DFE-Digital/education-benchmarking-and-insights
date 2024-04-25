@@ -1,11 +1,3 @@
-# name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
-locals {
-  platform-storage-name      = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("platformstorage")))}platformstorage"
-  audit-storage-name         = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("audit")))}audit"
-  threat-storage-name        = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("threat")))}threat"
-  vulnerability-storage-name = "${lower(substr(replace(var.environment-prefix, "/[^\\w]/", ""), 0, 24 - length("vulnerability")))}vulnerability"
-}
-
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:Name needs to include prefix
   #checkov:skip=CKV_AZURE_33:Storage queues not used
@@ -14,7 +6,7 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV2_AZURE_40:To be reviewed
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV_AZURE_59:To be reviewed
-  name                            = local.platform-storage-name
+  name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -59,7 +51,7 @@ resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
   #checkov:skip=CKV_AZURE_59:To be reviewed
-  name                            = local.audit-storage-name
+  name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -88,7 +80,7 @@ resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
   #checkov:skip=CKV_AZURE_59:To be reviewed
-  name                            = local.threat-storage-name
+  name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -119,7 +111,7 @@ resource "azurerm_storage_account" "vulnerability-storage" {
   #checkov:skip=CKV2_AZURE_41:To be reviewed
   #checkov:skip=CKV2_AZURE_33:To be reviewed
   #checkov:skip=CKV_AZURE_59:To be reviewed
-  name                            = local.vulnerability-storage-name
+  name                            = "${var.environment-prefix}vulnerability"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"

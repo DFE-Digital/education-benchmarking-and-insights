@@ -14,7 +14,7 @@ The intended audience is for features that may contain potentially breaking or i
 | Input parameter | Example | Purpose |
 | --- | --- | --- |
 | `environment` | `development` | Environment associated with the feature to deploy. |
-| `featureName` | `feature-name` | Feature name to create or update. Based on the `environment` choice, this will provision resources with the prefix `s198d01-feature-name`. This value should consist of letters, numbers or hyphens only. |
+| `featureEnvironment` | `13` | Feature environment to create or update. Used with the `environment` choice, this will provision resources with the prefix such as `s198d13`. |
 
 This pipeline is linked to the `feature` environment.
 
@@ -35,7 +35,7 @@ To destroy a short-running feature in infrastructure, the [Destroy](/pipelines/d
 | Input parameter | Example | Purpose |
 | --- | --- | --- |
 | `environment` | `development` | Environment associated with the feature to destroy. |
-| `environmentPrefix` | `s198d01-feature-name` | Environment prefix to destroy. This may be found within Azure Portal. |
+| `featureEnvironment` | `13` | Feature environment to destroy. Used with the `environment` choice, this will destroy resources with the prefix such as `s198d13`. |
 | `areYouSure` | `No` | The first gate on this pipeline. Select `Yes` to confirm infrastructure destruction. |
 
 This pipeline is linked to the `destroy` environment, which itself has an approval gate assigned.

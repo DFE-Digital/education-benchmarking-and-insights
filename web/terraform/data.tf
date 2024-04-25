@@ -1,8 +1,3 @@
-# "name" may only contain alphanumeric characters and dashes and must be between 3-24 chars
-locals {
-  key-vault-name = "${substr(replace(var.environment-prefix, "/[^\\w]-/", ""), 0, 24 - length("-ebis-keyvault"))}-ebis-keyvault"
-}
-
 data "azurerm_subnet" "web-app-subnet" {
   name                 = "${var.environment-prefix}-web-app-subnet"
   virtual_network_name = "${var.environment-prefix}-app-service-network"
@@ -15,7 +10,7 @@ data "azurerm_application_insights" "application-insights" {
 }
 
 data "azurerm_key_vault" "key-vault" {
-  name                = local.key-vault-name
+  name                = "${var.environment-prefix}-ebis-keyvault"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
 

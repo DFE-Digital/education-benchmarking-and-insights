@@ -23,8 +23,7 @@ steps:
         az group create --location ${{ parameters.location }} --name ${{ parameters.environmentPrefix }}-ebis-terraform --tags "Environment=${{ parameters.cipEnvironment }}" "Product=DfE Financial Benchmarking service"
         echo "Resource group created"
         
-        # name can only consist of lowercase letters and numbers, and must be between 3 and 24 characters long
-        storageAccountName=$( { var="${{ parameters.environmentPrefix }}"; echo "${var@L}"; } | sed "s/[^[:alnum:]]//g" | { var=$(cat); echo "${var::15}storagetf"; } )
+        storageAccountName=${{ parameters.environmentPrefix }}storagetf
         az storage account create --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --location ${{ parameters.location }} --sku Standard_LRS
         echo "Storage account created"
         
