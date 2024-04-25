@@ -14,7 +14,7 @@ public enum SpendingCategoriesNames
 {
     TeachingAndTeachingSupportStaff,
     NonEducationalSupportStaff
-    
+
 }
 public class HistoricDataPage(IPage page)
 {
@@ -78,53 +78,57 @@ public class HistoricDataPage(IPage page)
     private ILocator Tables => page.Locator(Selectors.SectionTable);
     private ILocator SpendingSections =>
         page.Locator($"{Selectors.SpendingHistoryTab} {Selectors.GovAccordionSection}");
-    
+
     private ILocator IncomeSections =>
-        page.Locator($"{Selectors.SpendingHistoryTab} {Selectors.GovAccordionSection}");
+        page.Locator($"{Selectors.IncomeHistoryTab} {Selectors.GovAccordionSection}");
     private ILocator SpendingSubCategories => page.Locator($"{Selectors.SpendingAccordions} {Selectors.H3}");
+
+    private ILocator SpendingAccordion => page.Locator(Selectors.SpendingAccordions);
+    private ILocator IncomeAccordion => page.Locator(Selectors.IncomeAccordions);
     private ILocator SpendingTableView => page.Locator(Selectors.SpendingTableMode);
     private ILocator IncomeTableView => page.Locator(Selectors.IncomeTableMode);
     private ILocator BalanceTableView => page.Locator(Selectors.BalanceTableMode);
     private ILocator WorkforceTableView => page.Locator(Selectors.WorkforceTableMode);
+    private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SpendingAccordionContent2);
 
-    
 
-    public async Task IsDisplayed(HistoryTabs tab)
+
+    public async Task IsDisplayed(HistoryTabs? tab = null)
     {
+        HistoryTabs selectedTab = tab ?? HistoryTabs.Spending;
         await PageH1Heading.ShouldBeVisible();
         await BackLink.ShouldBeVisible();
-        switch (tab)
+        switch (selectedTab)
         {
             case HistoryTabs.Spending:
                 await ExpenditureDimension.ShouldBeVisible();
                 await ShowHideAllSectionsLink.First.ShouldBeVisible();
                 await ExpenditureModeTable.ShouldBeVisible().ShouldBeChecked(false);
                 await ExpenditureModeChart.ShouldBeVisible().ShouldBeChecked();
-                await HasDimensionValues(ExpenditureDimension, ["£ per pupil", "actuals", "percentage of expenditure",
+                await HasDimensionValues(ExpenditureDimension, ["£ per pupil",
+                    "actuals",
+                    "percentage of expenditure",
                     "percentage of income"]);
                 await AssertCategoryNames(_spendingCategories);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
                 break;
-                case HistoryTabs.Income:
-                    break;
-                case HistoryTabs.Balance:
-                    break;
-                case HistoryTabs.Workforce:
-                    break;
-                    
-                
-            
+            case HistoryTabs.Income:
+                break;
+            case HistoryTabs.Balance:
+                break;
+            case HistoryTabs.Workforce:
+                break;
         }
-        
-      
-       
+
+
+
     }
-    
+
     public async Task SelectDimension(HistoryTabs tab, string dimensionValue)
     {
         await HistoryDimensionDropdown(tab).SelectOption(dimensionValue);
     }
-    
+
     public async Task IsDimensionSelected(HistoryTabs tab, string value)
     {
         await HistoryDimensionDropdown(tab).ShouldHaveSelectedOption(value);
@@ -147,7 +151,7 @@ public class HistoricDataPage(IPage page)
         }
     }
 
-    
+
     public async Task AreSectionsExpanded(HistoryTabs tab)
     {
         var tabSections = tab switch
@@ -156,7 +160,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Income => IncomeSections,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
-        
+
         var sections = await tabSections.AllAsync();
         foreach (var section in sections)
         {
@@ -174,21 +178,28 @@ public class HistoricDataPage(IPage page)
         };
         await showAllSectionsLink.TextEqual(expectedText);
     }
-    
+
     public async Task AreSubCategoriesVisible(HistoryTabs tab)
     {
         Assert.Equal(await GetSubCategoriesOfTab(tab), _spendingSubCategories);
     }
 
-    public async Task AreTablesShown()
+    public async Task AreTablesShown(HistoryTabs tab)
     {
-        var tables = await Tables.AllAsync();
+        var sections = tab switch
+        {
+            HistoryTabs.Spending => SpendingAccordion.Locator(Tables),
+            HistoryTabs.Income => IncomeAccordion.Locator(Tables),
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var tables = await sections.AllAsync();
         foreach (var table in tables)
         {
             await table.ShouldBeVisible();
         }
     }
-    
+
     public async Task ClickViewAsTable(HistoryTabs tab)
     {
         var viewAsTableRadio = tab switch
@@ -199,17 +210,17 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Workforce => WorkforceTableView,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
-        
+
         await viewAsTableRadio.Click();
     }
-    
+
     public async Task ClickSectionLink(SpendingCategoriesNames categoryName)
     {
         var link = SectionLink(categoryName);
 
         await link.Locator(Selectors.ToggleSectionText).First.ClickAsync();
     }
-    
+
     public async Task IsSectionVisible(SpendingCategoriesNames categoryName, bool visibility, string text, string chartMode)
     {
         var link = SectionLink(categoryName);
@@ -217,15 +228,14 @@ public class HistoricDataPage(IPage page)
         await link.Locator(Selectors.ToggleSectionText).ShouldHaveText(text);
         await IsSectionContentVisible(categoryName, visibility, chartMode);
     }
-    
+
     private async Task IsSectionContentVisible(SpendingCategoriesNames categoryName, bool visibility, string chartMode)
     {
         var contentLocator = categoryName switch
         {
-            SpendingCategoriesNames.NonEducationalSupportStaff => Selectors.SpendingAccordionContent2,
+            SpendingCategoriesNames.NonEducationalSupportStaff => NonEducationSupportStaffAccordionContent,
             _ => throw new ArgumentOutOfRangeException(nameof(categoryName))
         };
-        
         foreach (var locator in await contentLocator.Locator(chartMode).AllAsync())
         {
             if (visibility)
@@ -247,13 +257,13 @@ public class HistoricDataPage(IPage page)
         };
         return link;
     }
-    
+
     private ILocator SectionLink(string sectionId)
     {
         return page.Locator("button",
             new PageLocatorOptions { Has = page.Locator($"span{sectionId}") });
     }
-    
+
     private async Task<List<string>> GetSubCategoriesOfTab(HistoryTabs tab)
     {
         var subCategories = tab switch
@@ -286,7 +296,7 @@ public class HistoricDataPage(IPage page)
             Assert.Contains(expectedHeading, allContent);
         }
     }
-    
+
     private ILocator HistoryDimensionDropdown(HistoryTabs tabName)
     {
         var chart = tabName switch
@@ -298,5 +308,5 @@ public class HistoricDataPage(IPage page)
 
         return chart;
     }
-    
+
 }
