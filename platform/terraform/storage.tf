@@ -1,11 +1,10 @@
 resource "azurerm_storage_account" "platform-storage" {
-  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
-  #checkov:skip=CKV_AZURE_33:Storage queues not used
-  #checkov:skip=CKV2_AZURE_1:To be reviewed
-  #checkov:skip=CKV2_AZURE_33:To be reviewed
-  #checkov:skip=CKV2_AZURE_40:To be reviewed
-  #checkov:skip=CKV2_AZURE_41:To be reviewed
-  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -29,14 +28,14 @@ resource "azurerm_storage_account" "platform-storage" {
 }
 
 resource "azurerm_storage_container" "local-authorities-container" {
-  #checkov:skip=CKV2_AZURE_21:To be reviewed
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "local-authorities"
   storage_account_name  = azurerm_storage_account.platform-storage.name
   container_access_type = "private"
 }
 
 resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "platform-storage-connection-string"
   value        = azurerm_storage_account.platform-storage.primary_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -44,13 +43,12 @@ resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
 }
 
 resource "azurerm_storage_account" "audit-storage" {
-  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
-  #checkov:skip=CKV_AZURE_33:Storage queues not used
-  #checkov:skip=CKV2_AZURE_1:To be reviewed
-  #checkov:skip=CKV2_AZURE_40:To be reviewed
-  #checkov:skip=CKV2_AZURE_41:To be reviewed
-  #checkov:skip=CKV2_AZURE_33:To be reviewed
-  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -73,13 +71,12 @@ resource "azurerm_storage_account" "audit-storage" {
 }
 
 resource "azurerm_storage_account" "threat-storage" {
-  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
-  #checkov:skip=CKV_AZURE_33:Storage queues not used
-  #checkov:skip=CKV2_AZURE_1:To be reviewed
-  #checkov:skip=CKV2_AZURE_40:Terraform uses Shared Key Authorisation
-  #checkov:skip=CKV2_AZURE_41:To be reviewed
-  #checkov:skip=CKV2_AZURE_33:To be reviewed
-  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -104,13 +101,12 @@ resource "azurerm_storage_account" "threat-storage" {
 
 
 resource "azurerm_storage_account" "vulnerability-storage" {
-  #checkov:skip=CKV_AZURE_43:Name needs to include prefix
-  #checkov:skip=CKV_AZURE_33:Storage queues not used
-  #checkov:skip=CKV2_AZURE_1:To be reviewed
-  #checkov:skip=CKV2_AZURE_40:Terraform uses Shared Key Authorisation
-  #checkov:skip=CKV2_AZURE_41:To be reviewed
-  #checkov:skip=CKV2_AZURE_33:To be reviewed
-  #checkov:skip=CKV_AZURE_59:To be reviewed
+  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}vulnerability"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -134,6 +130,7 @@ resource "azurerm_storage_account" "vulnerability-storage" {
 }
 
 resource "azurerm_storage_container" "vulnerability-container" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "assessment"
   storage_account_name  = azurerm_storage_account.vulnerability-storage.name
   container_access_type = "private"

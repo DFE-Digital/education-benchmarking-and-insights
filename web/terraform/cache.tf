@@ -1,9 +1,9 @@
 resource "azurerm_cosmosdb_account" "session-cache-account" {
-  #checkov:skip=CKV_AZURE_100:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_101:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_132:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_140:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_99:To be reviewed for production - not set for local dev
+  #checkov:skip=CKV_AZURE_100:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_101:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_132:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_140:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_99:See ADO backlog AB#206519
   name                              = "${var.environment-prefix}-ebis-session"
   location                          = azurerm_resource_group.resource-group.location
   resource_group_name               = azurerm_resource_group.resource-group.name
