@@ -9,7 +9,7 @@ parameters:
   - name: environment
     displayName: 'Environment associated with feature to destroy'
     type: string
-    default: feature
+    default: development
     values:
       - development
       - pre-production
@@ -67,6 +67,7 @@ stages:
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]Environment $(Version.FeatureEnvironment)"
+              echo "##vso[task.setvariable variable=Environment_Name;isOutput=true]$(Environment.Name)"
             displayName: 'Set release build number'
             name: outputVars
 
@@ -75,11 +76,12 @@ stages:
     displayName: 'Destroy Environment'
     variables: 
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      environmentName: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Name'] ]
     jobs:
       - template: destroy.yaml
         parameters:
           subscription: $(Subscription)
           environmentPrefix: $(environmentPrefix)
-          environment: $(Environment)
+          environment: $(environmentName)
           pipelineEnvironment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
