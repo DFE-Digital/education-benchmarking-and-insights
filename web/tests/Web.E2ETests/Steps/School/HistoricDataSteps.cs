@@ -21,8 +21,8 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.IsDisplayed(TabNamesFromFriendlyNames(tab));
     }
 
-    [Given(@"all sections are shown on '(.*)' tab")]
-    [When(@"I click on show all sections on '(.*)' tab")]
+    [Given(@"all sections are shown on '(.*)'")]
+    [When(@"I click on show all sections on '(.*)'")]
     public async Task WhenIClickOnShowAllSections(string tab)
     {
         Assert.NotNull(_historicDataPage);
@@ -50,7 +50,7 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.AreSectionsExpanded(TabNamesFromFriendlyNames(tab));
     }
 
-    [Then(@"the show all text changes to hide all sections on '(.*)' tab")]
+    [Then(@"the show all text changes to hide all sections on '(.*)'")]
     public async Task ThenTheShowAllTextChangesToHideAllSectionsOnTab(string tab)
     {
         Assert.NotNull(_historicDataPage);

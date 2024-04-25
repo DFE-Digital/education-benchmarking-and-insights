@@ -66,6 +66,25 @@ public class HistoricDataPage(IPage page)
         "Supply teacher insurance costs",
         "Community focused school staff (maintained schools only)"
     };
+    private readonly string[] _incomeSubCategories = {
+        "Grant funding total",
+        "Direct grants",
+        "Pre-16 and post-16 funding",
+        "Other DfE/EFA revenue grants",
+        "Other income (local authority and other government grants)",
+        "Government source (non-grant)",
+        "Community grants",
+        "Academies",
+        "Self-generated funding total",
+        "Income from facilities and services",
+        "Income from catering",
+        "Donations and/or voluntary funds",
+        "Receipts from supply teacher insurance claims",
+        "Investment income",
+        "Other self-generated income",
+        "Direct revenue financing (capital reserves transfers)"
+    };
+
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
     private ILocator SpendingCategoryHeadings => page.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
@@ -75,6 +94,9 @@ public class HistoricDataPage(IPage page)
     private ILocator ExpenditureModeTable => page.Locator(Selectors.ExpenditureModeTable);
     private ILocator ExpenditureModeChart => page.Locator(Selectors.ExpenditureModeChart);
     private ILocator IncomeDimension => page.Locator(Selectors.IncomeDimension);
+    private ILocator BalanceDimension => page.Locator(Selectors.BalanceDimension);
+    private ILocator WorkforceDimension => page.Locator(Selectors.WorkforceDimension);
+    
     private ILocator Tables => page.Locator(Selectors.SectionTable);
     private ILocator SpendingSections =>
         page.Locator($"{Selectors.SpendingHistoryTab} {Selectors.GovAccordionSection}");
@@ -82,6 +104,7 @@ public class HistoricDataPage(IPage page)
     private ILocator IncomeSections =>
         page.Locator($"{Selectors.IncomeHistoryTab} {Selectors.GovAccordionSection}");
     private ILocator SpendingSubCategories => page.Locator($"{Selectors.SpendingAccordions} {Selectors.H3}");
+    private ILocator IncomeSubCategories => page.Locator($"{Selectors.IncomeAccordions} {Selectors.H3}");
 
     private ILocator SpendingAccordion => page.Locator(Selectors.SpendingAccordions);
     private ILocator IncomeAccordion => page.Locator(Selectors.IncomeAccordions);
@@ -181,7 +204,13 @@ public class HistoricDataPage(IPage page)
 
     public async Task AreSubCategoriesVisible(HistoryTabs tab)
     {
-        Assert.Equal(await GetSubCategoriesOfTab(tab), _spendingSubCategories);
+        var expectedSubCategories = tab switch
+        {
+            HistoryTabs.Spending => _spendingSubCategories,
+            HistoryTabs.Income => _incomeSubCategories,
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+        Assert.Equal(expectedSubCategories,await GetSubCategoriesOfTab(tab));
     }
 
     public async Task AreTablesShown(HistoryTabs tab)
@@ -286,6 +315,7 @@ public class HistoricDataPage(IPage page)
         var subCategories = tab switch
         {
             HistoryTabs.Spending => await SpendingSubCategories.AllAsync(),
+            HistoryTabs.Income => await IncomeSubCategories.AllAsync(),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         var subCategoriesHeadings = new List<string>();
@@ -320,6 +350,8 @@ public class HistoricDataPage(IPage page)
         {
             HistoryTabs.Spending => ExpenditureDimension,
             HistoryTabs.Income => IncomeDimension,
+            HistoryTabs.Balance => BalanceDimension,
+            HistoryTabs.Workforce => WorkforceDimension,
             _ => throw new ArgumentOutOfRangeException(nameof(tabName))
         };
 

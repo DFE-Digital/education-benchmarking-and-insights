@@ -96,6 +96,8 @@ public static class Selectors
     public const string ExpenditureModeChart = "#expenditure-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
+    public const string BalanceDimension = "#balance-dimension";
+    public const string WorkforceDimension = "#workforce-dimension";
     public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
     public const string IncomeHistoryTab = "#tab_Income";
     public const string SpendingAccordions = "#accordion-expenditure";
