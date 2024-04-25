@@ -1,18 +1,12 @@
-locals {
-  platform-storage-name      = "${var.environment-prefix}platformstorage"
-  audit-storage-name         = "${var.environment-prefix}audit"
-  threat-storage-name        = "${var.environment-prefix}threat"
-  vulnerability-storage-name = "${var.environment-prefix}vulnerability"
-}
-
 resource "azurerm_storage_account" "platform-storage" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = local.platform-storage-name
+  name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -50,13 +44,14 @@ resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
 }
 
 resource "azurerm_storage_account" "audit-storage" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = local.audit-storage-name
+  name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -78,13 +73,14 @@ resource "azurerm_storage_account" "audit-storage" {
 }
 
 resource "azurerm_storage_account" "threat-storage" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = local.threat-storage-name
+  name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -108,13 +104,14 @@ resource "azurerm_storage_account" "threat-storage" {
 
 
 resource "azurerm_storage_account" "vulnerability-storage" {
+  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = local.vulnerability-storage-name
+  name                            = "${var.environment-prefix}vulnerability"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
