@@ -24,3 +24,13 @@
 		Given I am on school homepage for school with urn '101241'
 		When I click on view all spending and costs
 		Then the spending and costs page is displayed
+		
+	Scenario: Goto view historic data page
+		Given I am on school homepage for school with urn '101241'
+		When I click on view historic data
+		Then the historic data page is displayed
+		
+	Scenario: Goto find ways to spend less page
+		Given I am on school homepage for school with urn '101241'
+		When I click on find ways to spend less
+		Then the commercial resources page is displayed

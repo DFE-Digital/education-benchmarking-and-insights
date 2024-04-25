@@ -89,4 +89,25 @@ public static class Selectors
     public const string AllResources = "#all";
     public const string AllResourcesTab = "#tab_all";
     public const string AllCommercialLinks = "#all a[data-id='commercial-resource']";
+
+    public const string SpendingHistoryTab = "#tab_spending";
+    public const string ExpenditureDimension = "#expenditure-dimension";
+    public const string ExpenditureModeTable = "#expenditure-mode-table";
+    public const string ExpenditureModeChart = "#expenditure-mode-chart";
+
+    public const string IncomeDimension = "#income-dimension";
+    public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
+    public const string IncomeHistoryTab = "#tab_Income";
+    public const string SpendingAccordions = "#accordion-expenditure";
+    public const string IncomeAccordions = "#accordion-income";
+    public const string SpendingTableMode = "#expenditure-mode-table";
+    public const string IncomeTableMode = "#income-mode-table";
+    public const string BalanceTableMode = "#balance-mode-table";
+    public const string WorkforceTableMode = "#workforce-mode-table";
+
+    public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
+    public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";
+
+    public const string LineChartStats = ".chart-stat-line-chart";
+
 }
