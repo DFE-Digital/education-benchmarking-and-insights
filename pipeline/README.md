@@ -60,3 +60,10 @@ We could then get a shell inside the container with:
         docker run -it fbit-data-pipeline:latest bash
 
 If you do not specify a target the resulting image will be the last image defined which in our case is the 'production' image.
+
+To manually push to Azure container registry you can use the following command
+
+    az login
+    az account set {subscription name}
+    az acr build --image fbit-data-pipeline:latest --registry {registry name} --file ./docker/Dockerfile .
+    az containerapp up -g {resource group} -n fbit-data-pipeline --logs-workspace-id {log analytics workspace id} --image {registry name}.azurecr.io/fbit-data-pipeline:latest
