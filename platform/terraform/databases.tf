@@ -1,10 +1,9 @@
 resource "azurerm_cosmosdb_account" "cosmosdb-account" {
-  #checkov:skip=CKV_AZURE_100:To be reviewed
-  #checkov:skip=CKV_AZURE_101:To be reviewed
-  #checkov:skip=CKV_AZURE_102:To be reviewed
-  #checkov:skip=CKV_AZURE_132:To be reviewed
-  #checkov:skip=CKV_AZURE_140:To be reviewed
-  #checkov:skip=CKV_AZURE_99:To be reviewed
+  #checkov:skip=CKV_AZURE_100:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_101:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_132:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_140:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_99:See ADO backlog AB#206519
   name                = "${var.environment-prefix}-ebis-cdb"
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
@@ -33,7 +32,7 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
 }
 
 resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "ebis-cdb-connection-string-r"
   value        = azurerm_cosmosdb_account.cosmosdb-account.primary_readonly_sql_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -41,7 +40,7 @@ resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
 }
 
 resource "azurerm_key_vault_secret" "platform-cosmos-readwrite-connection-string" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "ebis-cdb-connection-string-rw"
   value        = azurerm_cosmosdb_account.cosmosdb-account.primary_sql_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -82,7 +81,7 @@ locals {
 }
 
 resource "azurerm_key_vault_secret" "platform-sql-connection-string" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "ebis-sql-connection-string"
   value        = "Server=tcp:${azurerm_mssql_server.sql-server.fully_qualified_domain_name},1433;Database=${azurerm_mssql_database.sql-db.name};User ID=${local.sql-admin-login};Password=${random_password.sql-admin-password.result};Trusted_Connection=False;Encrypt=True;"
   key_vault_id = data.azurerm_key_vault.key-vault.id
@@ -90,8 +89,8 @@ resource "azurerm_key_vault_secret" "platform-sql-connection-string" {
 }
 
 resource "azurerm_mssql_server" "sql-server" {
-  #checkov:skip=CKV_AZURE_113:Public access required for Azure Devops build agents
-  #checkov:skip=CKV2_AZURE_45:To be reviewed for production
+  #checkov:skip=CKV_AZURE_113:See ADO backlog AB#206493
+  #checkov:skip=CKV2_AZURE_45:See ADO backlog AB#206493
   name                         = "${var.environment-prefix}-ebis-sql"
   version                      = "12.0"
   resource_group_name          = azurerm_resource_group.resource-group.name
@@ -117,8 +116,8 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
 }
 
 resource "azurerm_mssql_database" "sql-db" {
-  #checkov:skip=CKV_AZURE_224:To be reviewed
-  #checkov:skip=CKV_AZURE_229:To be reviewed for production
+  #checkov:skip=CKV_AZURE_224:See ADO backlog AB#206493
+  #checkov:skip=CKV_AZURE_229:See ADO backlog AB#206493
   name        = "ebis-data"
   server_id   = azurerm_mssql_server.sql-server.id
   tags        = local.common-tags
@@ -171,12 +170,16 @@ resource "azurerm_mssql_virtual_network_rule" "sql-server-vnet-rule" {
 }
 
 resource "azurerm_mssql_server_security_alert_policy" "sql-security-alert-policy" {
+  #checkov:skip=CKV_AZURE_26:See ADO backlog AB#206493
+  #checkov:skip=CKV_AZURE_27:See ADO backlog AB#206493
   resource_group_name = azurerm_resource_group.resource-group.name
   server_name         = azurerm_mssql_server.sql-server.name
   state               = "Enabled"
 }
 
 resource "azurerm_mssql_server_vulnerability_assessment" "sql-server-vulnerability" {
+  #checkov:skip=CKV2_AZURE_4:See ADO backlog AB#206493
+  #checkov:skip=CKV2_AZURE_5:See ADO backlog AB#206493
   server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.sql-security-alert-policy.id
   storage_container_path          = "${azurerm_storage_account.vulnerability-storage.primary_blob_endpoint}${azurerm_storage_container.vulnerability-container.name}/"
   storage_account_access_key      = azurerm_storage_account.vulnerability-storage.primary_access_key

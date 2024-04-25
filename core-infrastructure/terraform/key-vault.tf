@@ -1,7 +1,7 @@
 resource "azurerm_key_vault" "key-vault" {
-  #checkov:skip=CKV_AZURE_109:Public access required for Azure Devops build agents
-  #checkov:skip=CKV_AZURE_189:Public access required for Azure Devops build agents
-  #checkov:skip=CKV2_AZURE_32:Public access required for Azure Devops build agents
+  #checkov:skip=CKV_AZURE_109:See ADO backlog AB#206344
+  #checkov:skip=CKV_AZURE_189:See ADO backlog AB#206344
+  #checkov:skip=CKV2_AZURE_32:See ADO backlog AB#206344
   name                            = "${var.environment-prefix}-ebis-keyvault"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
