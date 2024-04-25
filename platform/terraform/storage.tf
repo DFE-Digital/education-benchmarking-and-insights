@@ -1,3 +1,10 @@
+locals {
+  platform-storage-name      = "${var.environment-prefix}platformstorage"
+  audit-storage-name         = "${var.environment-prefix}audit"
+  threat-storage-name        = "${var.environment-prefix}threat"
+  vulnerability-storage-name = "${var.environment-prefix}vulnerability"
+}
+
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
@@ -5,7 +12,7 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}platformstorage"
+  name                            = local.platform-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -49,7 +56,7 @@ resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}audit"
+  name                            = local.audit-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -77,7 +84,7 @@ resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}threat"
+  name                            = local.threat-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -107,7 +114,7 @@ resource "azurerm_storage_account" "vulnerability-storage" {
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}vulnerability"
+  name                            = local.vulnerability-storage-name
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
