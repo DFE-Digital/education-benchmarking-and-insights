@@ -7,6 +7,7 @@ namespace Platform.Domain;
 public record BalanceResponseModel
 {
     public int YearEnd { get; private set; }
+    public string Term => $"{YearEnd - 1} to {YearEnd}";
     public Dimension Dimension { get; private set; }
     public decimal? InYearBalance { get; private set; }
     public decimal? RevenueReserve { get; private set; }
