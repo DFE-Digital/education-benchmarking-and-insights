@@ -328,6 +328,8 @@ ks2 = {
 
 
 aar_aggregation_columns = [
+"trustupin",
+"academyupin",
 "DFE/EFA Revenue grants (includes Coronavirus Government Funding",
 "of which: Coronavirus Government Funding",
 "SEN funding",
