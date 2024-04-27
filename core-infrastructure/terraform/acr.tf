@@ -1,12 +1,13 @@
 resource "azurerm_container_registry" "acr" {
-  name                = "${var.environment-prefix}acr"
-  resource_group_name = azurerm_resource_group.resource-group.name
-  location            = azurerm_resource_group.resource-group.location
-  sku                 = "Basic"
-  # TODO: Need to review as needed for container apps I believe, unless I can allow the SystemAssignedIdentity
-  admin_enabled                 = true
+  #checkov:skip=CKV_AZURE_233:See ADO backlog AB#206776
+  #checkov:skip=CKV_AZURE_165:See ADO backlog AB#206776
+  name                          = "${var.environment-prefix}acr"
+  resource_group_name           = azurerm_resource_group.resource-group.name
+  location                      = azurerm_resource_group.resource-group.location
+  sku                           = "Standard"
+  admin_enabled                 = false
   public_network_access_enabled = false
-
+  quarantine_policy_enabled     = true
   retention_policy {
     days    = 30
     enabled = true
@@ -14,6 +15,10 @@ resource "azurerm_container_registry" "acr" {
 
   identity {
     type = "SystemAssigned"
+  }
+
+  trust_policy {
+    enabled = true
   }
 
   tags = local.common-tags
