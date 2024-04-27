@@ -47,4 +47,7 @@ A service that allows you to compare school metrics against similar schools
    2. [Test Plan](documentation/testing/test-plan.md)
    3. [Test Data Preparation](documentation/testing/test-data-prep.md)
    4. [Security Testing](documentation/testing/security-testing.md)
+   5. Decisions
+      1. [Test-Data-Storage-and-Retrieval](documentation/testing/Decisions/Test-Data-Storage-and-Retrieval.md)
+      2. [Testing-Pipeline-SetupOptions](documentation/testing/Decisions/Testing-Pipeline-SetupOptions.md)
 8. Glossary
