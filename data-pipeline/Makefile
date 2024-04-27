@@ -7,7 +7,7 @@ dev:
 
 
 build: 
-	docker build --tag fbit-data-pipeline --file docker/Dockerfile .
+	docker build --tag fbit-data-pipeline --file docker/pipeline-worker/Dockerfile .
 
 test:
 	coverage run --rcfile ./pyproject.toml -m pytest ./tests ;\
