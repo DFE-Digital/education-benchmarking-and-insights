@@ -10,6 +10,7 @@ from azure.storage.queue import QueueClient, QueueServiceClient
 logger = logging.getLogger('fbit-data-pipeline')
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
+
 def connect_to_queue():
     conn_str = os.getenv('QUEUE_CONNECTION_STRING')
     queue_name = os.getenv('QUEUE_NAME')
