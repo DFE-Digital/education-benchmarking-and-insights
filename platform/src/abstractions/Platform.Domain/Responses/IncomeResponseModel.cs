@@ -5,6 +5,7 @@ namespace Platform.Domain;
 public class IncomeResponseModel
 {
     public int YearEnd { get; private set; }
+    public string Term => $"{YearEnd - 1} to {YearEnd}";
     public Dimension Dimension { get; private set; }
     public decimal? TotalIncome { get; private set; }
     public decimal? TotalGrantFunding { get; private set; }
