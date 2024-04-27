@@ -60,3 +60,7 @@ stages:
           - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+
+
+      - job: Build and Publish
+        
