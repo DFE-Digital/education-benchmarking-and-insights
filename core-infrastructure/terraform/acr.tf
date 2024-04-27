@@ -8,10 +8,9 @@ resource "azurerm_container_registry" "acr" {
   sku                           = "Standard"
   admin_enabled                 = false
   public_network_access_enabled = false
-  retention_policy {
-    days    = 30
-    enabled = true
-  }
+  
+  #TODO: Review as premium is required for reention policy
+  retention_policy {}
 
   identity {
     type = "SystemAssigned"
