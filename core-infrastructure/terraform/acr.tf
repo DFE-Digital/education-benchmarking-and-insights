@@ -3,6 +3,7 @@ resource "azurerm_container_registry" "acr" {
   #checkov:skip=CKV_AZURE_165:See ADO backlog AB#206776
   #checkov:skip=CKV_AZURE_166:See ADO backlog AB#206776
   #checkov:skip=CKV_AZURE_167:See ADO backlog AB#206776
+  #checkov:skip=CKV_AZURE_164:See ADO backlog AB#206776
   name                          = "${var.environment-prefix}acr"
   resource_group_name           = azurerm_resource_group.resource-group.name
   location                      = azurerm_resource_group.resource-group.location
@@ -17,9 +18,8 @@ resource "azurerm_container_registry" "acr" {
     type = "SystemAssigned"
   }
 
-  trust_policy {
-    enabled = true
-  }
+  #TODO: Review as premium is required for trust policy  
+  trust_policy {}
 
   tags = local.common-tags
 }
