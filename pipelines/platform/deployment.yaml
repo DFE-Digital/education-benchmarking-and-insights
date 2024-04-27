@@ -112,3 +112,16 @@ jobs:
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'
+
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy orchestrator function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Orchestrator.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                DeploymentType: 'runFromZip'
