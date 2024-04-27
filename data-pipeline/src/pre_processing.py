@@ -3,6 +3,7 @@ import schemas
 import mappings
 import datetime
 
+
 def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(cdc_file_path, encoding='utf8', index_col=schemas.cdc_index_col,
                       usecols=schemas.cdc.keys(), dtype=schemas.cdc)
