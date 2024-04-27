@@ -25,3 +25,8 @@ data "azurerm_client_config" "client" {}
 data "external" "agent_ip_address" {
   program = ["bash", "${path.module}/scripts/ip-address.sh"]
 }
+
+data "azurerm_key_vault_secret" "pipeline-message-hub-storage-connection-string" {
+  name         = "pipeline-message-hub-storage-connection-string"
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+}
