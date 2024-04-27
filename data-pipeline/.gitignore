@@ -17,3 +17,6 @@ venv
 .AppleDouble
 .LSOverride
 ._*
+
+
+docker/azurite
