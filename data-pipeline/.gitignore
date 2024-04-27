@@ -21,3 +21,4 @@ venv
 
 docker/azurite
 workbooks/data
+workbooks/output
