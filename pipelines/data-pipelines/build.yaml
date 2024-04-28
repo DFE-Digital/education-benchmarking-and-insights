@@ -20,7 +20,7 @@ variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
-  TerraformFolder: 'data-pipelines/terraform'
+  TerraformFolder: 'data-pipeline/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
