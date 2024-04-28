@@ -3,6 +3,7 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
+  pipelineBuildNumber: ''
 
 jobs:
   - job: SetBuildNumber
@@ -20,10 +21,14 @@ jobs:
 
   - template: ../data-pipeline/deployment.yaml
     parameters:
+      dependsOn: 'CoreProvision'
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
+      importImage: true
+      sourceEnvironmentPrefix: 's198t01'
+      buildNumber: ${{ parameters.pipelineBuildNumber }}
 
   - template: ../platform/deployment.yaml
     parameters:
