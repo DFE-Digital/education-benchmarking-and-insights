@@ -32,7 +32,7 @@ jobs:
 
   - template: ../platform/deployment.yaml
     parameters:
-      dependsOn: 'CoreProvision'
+      dependsOn: ['CoreProvision', 'DataPipelineProvision']
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
