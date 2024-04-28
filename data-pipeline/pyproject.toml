@@ -22,6 +22,7 @@ coverage = "^7.5.0"
 requests = "^2.31.0"
 httpx = "^0.27.0"
 isort = "^5.13.2"
+pytest-azurepipelines = "^1.0.5"
 
 
 
@@ -54,17 +55,22 @@ force_grid_wrap = 0
 
 [tool.coverage]
 # https://github.com/nedbat/coveragepy
-    [tool.coverage.run]
+[tool.coverage.run]
+source = ["src"]
+branch = true
+omit = ['']
 
-    source = ["src"]
-    branch = true
-    omit = ['']
+[tool.coverage.report]
+exclude_lines = [
+    "# noqa",
+    "raise NotImplementedError"
+]
 
-    [tool.coverage.report]
-    exclude_lines = [
-        "# noqa",
-        "raise NotImplementedError"
-    ]
+[tool.coverage.html]
+directory = "tests/reports/html"
+
+[tool.coverage.xml]
+output = "tests/reports/coverage.xml"
 
 [build-system]
 requires = ["poetry-core"]

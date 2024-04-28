@@ -9,10 +9,11 @@ For more information on the FBIT pipelines see either
 
 ## Developers
 
-**Dependencies**
+### Dependencies
 
 * Python > 3.11
 * [Poetry](https://python-poetry.org/docs/)
+* A correctly setup .env file in root of the `data-pipeline` folder
 
 Once the above dependencies are installed and working correctly we can install the required project dependencies by running:
 
@@ -26,16 +27,32 @@ This will install the dependencies and allow the project to be run.
 
 > Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command. 
 
+Finally load up the virtual environment run: 
+
+    poetry shell
+
+### Setting up .env file
+
+In the route of the `data-pipelines` repository there is an `.env-example` folder which shows the parameters that are required.
+
+Ensure you have created a copy of this file named `.env` and filled the parameter value placeholders with the required values. These values will be available from the azure portal.
+
+However for local development assuming azurite, you can use the following values: 
+
+
+
+### Running the pipeline   
+
 To running the API in Dev Mode:
 
     make dev
 
 or 
 
-    poetry run uvicorn src.main:app --reload --host localhost --port 8000 
+    poetry run python src/main.py
 
 
-### Docker
+### Createing and running Docker images
 
 Build images with:
 
