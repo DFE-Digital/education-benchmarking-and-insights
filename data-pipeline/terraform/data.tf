@@ -15,5 +15,5 @@ data "azurerm_log_analytics_workspace" "application-insights-workspace" {
 
 data "azurerm_container_registry" "acr" {
   name                = "${var.environment-prefix}acr"
-  resource_group_name = azurerm_resource_group.resource-group.name
+  resource_group_name = "${var.environment-prefix}-ebis-core"
 }
