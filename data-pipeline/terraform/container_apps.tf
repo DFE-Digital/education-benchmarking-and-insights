@@ -5,6 +5,21 @@ resource "azurerm_container_app_environment" "main" {
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
 }
 
+resource "azurerm_user_assigned_identity" "container-app" {
+  location            = azurerm_resource_group.resource-group.location
+  name                = "${var.environment-prefix}containerappmi"
+  resource_group_name = azurerm_resource_group.resource-group.name
+}
+
+resource "azurerm_role_assignment" "container-app" {
+  scope                = azurerm_resource_group.resource-group.id
+  role_definition_name = "acrpull"
+  principal_id         = azurerm_user_assigned_identity.container-app.principal_id
+  depends_on = [
+    azurerm_user_assigned_identity.container-app
+  ]
+}
+
 resource "azurerm_container_app" "data-pipeline" {
   name                         = "${var.environment-prefix}-ebis-data-pipeline"
   container_app_environment_id = azurerm_container_app_environment.main.id
@@ -23,7 +38,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
   registry {
     server   = data.azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.container-app.principal_id
+    identity = azurerm_user_assigned_identity.container-app.id
   }
 
   template {
@@ -63,18 +78,7 @@ resource "azurerm_container_app" "data-pipeline" {
       }
     }
   }
-}
 
-resource "azurerm_user_assigned_identity" "container-app" {
-  location            = azurerm_resource_group.resource-group.location
-  name                = "${var.environment-prefix}containerappmi"
-  resource_group_name = azurerm_resource_group.resource-group.name
-}
-
-resource "azurerm_role_assignment" "container-app" {
-  scope                = azurerm_resource_group.resource-group.id
-  role_definition_name = "acrpull"
-  principal_id         = azurerm_user_assigned_identity.container-app.principal_id
   depends_on = [
     azurerm_user_assigned_identity.container-app
   ]
