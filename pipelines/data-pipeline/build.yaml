@@ -72,6 +72,7 @@ stages:
       - job: BuildAndPush
         dependsOn: [ RunTests ]
         displayName: 'Build and push image'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps: 
           - template: steps/build-push-image.yaml
             parameters:
