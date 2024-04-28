@@ -1,7 +1,7 @@
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolPlanViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.SchoolPlanning;
+    ViewData[ViewDataKeys.Title] = PageTitles.Planning;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })

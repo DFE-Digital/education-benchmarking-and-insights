@@ -13,7 +13,7 @@ public static class PageTitles
     public const string Spending = "Spending and costs";
     public const string Resources = "Find ways to spend less";
     public const string Workforce = "Benchmark workforce data";
-    public const string SchoolPlanning = "Curriculum and financial planning (CFP)";
+    public const string Planning = "Curriculum and financial planning (CFP)";
     public const string SchoolPlanningYearSelect = "Which academic year do you want to plan?";
     public const string SchoolPlanningYear = "Prepopulated data";
     public const string SchoolPlanningHelp = "Data required for curriculum and financial planning (CFP)";
