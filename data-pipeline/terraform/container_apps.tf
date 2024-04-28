@@ -1,5 +1,5 @@
 resource "azurerm_container_app_environment" "main" {
-  name                       = "${var.environment-prefix}-ebis-keyvault"
+  name                       = "${var.environment-prefix}-ebis-cae"
   location                   = azurerm_resource_group.resource-group.location
   resource_group_name        = azurerm_resource_group.resource-group.name
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
@@ -27,7 +27,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
     container {
       name   = "edis-data-pipeline"
-      image  = "${data.azurerm_container_registry.acr.name}.azurecr.io/${var.image-name}"
+      image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
       cpu    = 2
       memory = "4Gi"
 
