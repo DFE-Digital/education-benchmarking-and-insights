@@ -18,6 +18,10 @@ parameters:
     displayName: 'Input web version (leave empty to use latest)'
     type: string
     default: ' '
+  - name: pipelineVersion
+    displayName: 'Input data pipeline version'
+    type: string
+    default: 'latest'
   - name: preProdEnv
     displayName: 'Select pre-production environment'
     type: string
@@ -145,3 +149,4 @@ stages:
           environmentPrefix: 's198p01'
           environment: 'production'
           cipEnvironment: 'Prod'
+          pipelineBuildNumber: ${{ parameters.pipelineVersion }}
