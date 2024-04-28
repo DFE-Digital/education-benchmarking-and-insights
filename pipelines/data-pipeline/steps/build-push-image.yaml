@@ -27,10 +27,10 @@ steps:
     displayName: Build Docker Image
     workingDirectory: data-pipeline
 
- - task: AzureCLI@2
-   inputs:
-     azureSubscription: ${{ parameters.subscription }}
-     inlineScript: |
-      az acr login --name ${{ parameters.environmentPrefix }}acr
-      docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
-    displayName: Push To Azure Container Registry
+  - task: AzureCLI@2
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      inlineScript: |
+        az acr login --name ${{ parameters.environmentPrefix }}acr
+        docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
+      displayName: Push To Azure Container Registry
