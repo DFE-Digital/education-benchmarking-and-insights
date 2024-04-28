@@ -22,7 +22,7 @@ variables:
   Version.BuildVersion: $(Version.BuildNumber)
   TerraformFolder: 'data-pipeline/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  ShouldDeploy: $[and(or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/feat/new-pipelines')), ne(variables['Build.Reason'], 'PullRequest'))]
 
 stages:
   - stage: Build
@@ -65,9 +65,18 @@ stages:
 
       - job: RunTests
         displayName: 'Run unit tests'
-        
         steps:
           - template: steps\run-unit-tests.yaml
+
+      - job: BuildAndPush
+        displaName: 'Build and push image'
+        steps: 
+          - template: steps/build-push-image.yaml
+            parameters:
+              buildNumber: $(Version.BuildNumber)
+              environmentPrefix: 's198d01'
+
+      
 
   - stage: DeployDevelopment
     dependsOn: [ Build ]
@@ -80,7 +89,7 @@ stages:
           environmentPrefix: 's198d01'
           environment: 'development'
           cipEnvironment: 'Dev'
-          buildVersion: $(BuildVersion)
+          importImage: false
           buildNumber: $(BuildNumber)
 
   - stage: DeployAutomatedTest
@@ -94,7 +103,8 @@ stages:
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
-          buildVersion: $(BuildVersion)
+          importImage: true
+          sourceEnvironmentPrefix: 's198d01'
           buildNumber: $(BuildNumber)
 
   - stage: DeployTest
@@ -108,5 +118,6 @@ stages:
           environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
-          buildVersion: $(BuildVersion)
+          importImage: true
+          sourceEnvironmentPrefix: 's198d01'
           buildNumber: $(BuildNumber)

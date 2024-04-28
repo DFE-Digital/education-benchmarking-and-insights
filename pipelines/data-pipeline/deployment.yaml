@@ -3,16 +3,18 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
-  buildVersion: ''
   buildNumber: ''
   workspaceDir: '$(Pipeline.Workspace)'
+  importImage: true
+  sourceEnvironmentPrefix: ''
   dependsOn: []
 
 jobs:
 
   - deployment: DataPipelinePushImage
-    displayName: 'Data Pipeline : Push Image'
+    displayName: 'Data Pipeline : Import Image'
     dependsOn: ${{ parameters.dependsOn }}
+    condition: ${{ parameters.importImage }}
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -20,12 +22,11 @@ jobs:
       runOnce:
         deploy:
           steps:
-            - template: steps/build-push-image.yaml
-              parameters:
-                environmentPrefix: ${{ parameters.environmentPrefix }}
-                environment: ${{ parameters.environment }}
-                buildVersion: ${{ parameters.buildVersion }}
-                buildNumber: ${{ parameters.buildNumber }}
+            - task: AzureCLI@2
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                inlineScript: |
+                    az acr import --name myregistry --source ${{ parameters.sourceEnvironmentPrefix }}.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
@@ -48,7 +49,7 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'data-pipeline'
-                imageName: ''
+                imageName: 'fbit-data-pipeline:${{ parameters.buildNumber }}'
 
 
   

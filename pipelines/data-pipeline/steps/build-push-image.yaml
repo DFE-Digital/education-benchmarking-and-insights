@@ -1,8 +1,6 @@
 parameters:
-  buildVersion: ''
   buildNumber: ''
   environmentPrefix: ''
-  environment: ''
 
 steps:
   - task: UsePythonVersion@0
