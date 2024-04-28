@@ -5,9 +5,9 @@ import pandas as pd
 
 def map_ofsted_rating(rating: str):
     match rating.lower():
-        case "Serious Weaknesses":
+        case "serious weaknesses":
             return "Serious weaknesses"
-        case "Special Measures":
+        case "special measures":
             return "Special measures"
         case _:
             return rating
