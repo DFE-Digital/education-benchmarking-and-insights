@@ -8,18 +8,14 @@ build:
 	docker build --tag fbit-data-pipeline --file docker/pipeline-worker/Dockerfile .
 
 test:
-	coverage run --rcfile ./pyproject.toml -m pytest ./tests;\
-	coverage report --fail-under 95
-
-test-ci:
-	coverage run --rcfile ./pyproject.toml -m pytest ./tests ;\
-	coverage report --fail-under 95 ;\
-	coverage html ;\
-	coverage xml
+	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests;\
+	poetry run coverage report --fail-under 95 ;\
+	poetry run coverage html ;\
+	poetry run coverage xml
 
 lint:
-	black --config ./pyproject.toml src tests ;\
-	isort --settings-path ./pyproject.toml **/*.py
+	poetry run black --config ./pyproject.toml src tests;\
+	poetry run isort --settings-path ./pyproject.toml **/*.py
 
 lint-tf: 
 	terraform fmt --diff --recursive
