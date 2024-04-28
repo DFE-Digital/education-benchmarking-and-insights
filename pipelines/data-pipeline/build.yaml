@@ -23,7 +23,7 @@ variables:
   Version.BuildVersion: $(Version.BuildNumber)
   TerraformFolder: 'data-pipeline/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  ShouldDeploy: $[and(or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/feat/new-pipelines')), ne(variables['Build.Reason'], 'PullRequest'))]
+  ShouldDeploy: $[and(or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/tech-debt/new-pipelines')), ne(variables['Build.Reason'], 'PullRequest'))]
 
 stages:
   - stage: Build
