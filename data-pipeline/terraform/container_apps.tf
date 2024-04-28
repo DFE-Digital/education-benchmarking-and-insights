@@ -21,13 +21,18 @@ resource "azurerm_container_app" "data-pipeline" {
     value = azurerm_storage_account.main.primary_connection_string
   }
 
+  registry {
+    server = data.azurerm_container_registry.acr.login_server
+    identity = azurerm_user_assigned_identity.container-app.principal_id
+  }
+
   template {
     min_replicas = 0
     max_replicas = 100
 
     container {
       name   = "edis-data-pipeline"
-      image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
+      image  = var.image-name
       cpu    = 2
       memory = "4Gi"
 
