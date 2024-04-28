@@ -23,9 +23,11 @@ jobs:
         deploy:
           steps:
             - task: AzureCLI@2
+              displayName: 'Import image from ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}'
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 scriptType: 'bash'
+                scriptLocation: 'inlineScript'
                 inlineScript: |
                     az acr import --name ${{ parameters.sourceEnvironmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
 

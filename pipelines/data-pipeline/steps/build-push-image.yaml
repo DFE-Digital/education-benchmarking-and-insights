@@ -28,11 +28,12 @@ steps:
     workingDirectory: data-pipeline
 
   - task: AzureCLI@2
+   displayName: Push To Azure Container Registry
     inputs:
       azureSubscription: ${{ parameters.subscription }}
       scriptType: 'bash'
+      scriptLocation: 'inlineScript'
       inlineScript: |
         az acr login --name ${{ parameters.environmentPrefix }}acr
         docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
-      displayName: Push To Azure Container Registry
       workingDirectory: data-pipeline
