@@ -20,35 +20,28 @@ variables:
   Version.BuildNumber: 0.1.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   WorkingDir: 'front-end-components'
+  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
 steps:
   - bash: |
       echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
       echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
-      echo "##vso[build.addbuildtag]Front-end components"
+    displayName: 'Set release build number'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
+  - bash: |
       if [[ "$(Build.Reason)" == "PullRequest" ]]; then
-        preRelease="pr$(System.PullRequest.PullRequestId)"
         echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
       fi
-      echo "##vso[task.setvariable variable=Version.PreRelease]$preRelease"
-    displayName: 'Set release build and version number'
+      echo "##vso[build.addbuildtag]Front-end components"
+    displayName: 'Set build tags'
 
   - task: Npm@1
     displayName: 'Update version number'
-    continueOnError: false
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
     inputs:
       command: 'custom'
       customCommand: 'version $(Version.BuildNumber)'
-      workingDir: $(WorkingDir)
-      verbose: false
-
-  - task: Npm@1
-    displayName: 'Update pre-release version number'
-    condition: ne(variables['Version.PreRelease'], '')
-    continueOnError: false
-    inputs:
-      command: 'custom'
-      customCommand: 'version prerelease -preid=$(Version.PreRelease)'
       workingDir: $(WorkingDir)
       verbose: false
 
