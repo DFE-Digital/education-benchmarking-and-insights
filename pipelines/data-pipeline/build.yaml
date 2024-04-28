@@ -61,6 +61,7 @@ stages:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
+              Module: 'data-pipeline'
 
       - job: RunTests
         displayName: 'Run unit tests'
