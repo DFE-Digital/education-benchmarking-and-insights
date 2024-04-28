@@ -22,7 +22,6 @@ coverage = "^7.5.0"
 requests = "^2.31.0"
 httpx = "^0.27.0"
 isort = "^5.13.2"
-pytest-azurepipelines = "^1.0.5"
 
 [tool.black]
 # https://github.com/psf/black

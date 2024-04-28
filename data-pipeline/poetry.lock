@@ -796,21 +796,6 @@ files = [
 ]
 
 [[package]]
-name = "importlib-resources"
-version = "6.4.0"
-description = "Read resources from Python packages"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "importlib_resources-6.4.0-py3-none-any.whl", hash = "sha256:50d10f043df931902d4194ea07ec57960f66a80449ff867bfe782b4c486ba78c"},
-    {file = "importlib_resources-6.4.0.tar.gz", hash = "sha256:cdb2b453b8046ca4e3798eb1d84f3cce1446a0e8e7b5ef4efb600f19fc398145"},
-]
-
-[package.extras]
-docs = ["furo", "jaraco.packaging (>=9.3)", "jaraco.tidelift (>=1.4)", "rst.linker (>=1.9)", "sphinx (<7.2.5)", "sphinx (>=3.5)", "sphinx-lint"]
-testing = ["jaraco.test (>=5.4)", "pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-cov", "pytest-enabler (>=2.2)", "pytest-mypy", "pytest-ruff (>=0.2.1)", "zipp (>=3.17)"]
-
-[[package]]
 name = "iniconfig"
 version = "2.0.0"
 description = "brain-dead simple config-ini parsing"
@@ -1913,39 +1898,6 @@ pluggy = ">=1.5,<2.0"
 dev = ["argcomplete", "attrs (>=19.2)", "hypothesis (>=3.56)", "mock", "pygments (>=2.7.2)", "requests", "setuptools", "xmlschema"]
 
 [[package]]
-name = "pytest-azurepipelines"
-version = "1.0.5"
-description = "Formatting PyTest output for Azure Pipelines UI"
-optional = false
-python-versions = ">=3.5"
-files = [
-    {file = "pytest-azurepipelines-1.0.5.tar.gz", hash = "sha256:fd08f089bca0fad3c2b6fde9dbea69b975492ffaa8cb637cc987e64af8c18b9c"},
-    {file = "pytest_azurepipelines-1.0.5-py3-none-any.whl", hash = "sha256:58b65a7a47710cea46a310f6c0222b0b2ecaa35c9eabbb9a027666726c52f914"},
-]
-
-[package.dependencies]
-importlib-resources = "*"
-pytest = ">=5.0.0"
-pytest-nunit = ">=1.0.0,<2.0.0"
-
-[[package]]
-name = "pytest-nunit"
-version = "1.0.7"
-description = "A pytest plugin for generating NUnit3 test result XML output"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "pytest-nunit-1.0.7.tar.gz", hash = "sha256:29cd259b847510d751c971af987a15dcbb843ec2d076dd03f31cac7a848bed90"},
-]
-
-[package.dependencies]
-attrs = "*"
-pytest = ">=4.6.0"
-
-[package.extras]
-dev = ["pytest", "pytest-cov", "xmlschema (==1.0.13)"]
-
-[[package]]
 name = "python-dateutil"
 version = "2.9.0.post0"
 description = "Extensions to the standard Python datetime module"
@@ -2677,4 +2629,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "63c21e6c1cf0ea8b175f67a4a8234dc2e897ae8612d24ce7d630b26d0221d0ab"
+content-hash = "5f58bd73f021baceff4fd73f9bfbcd698accb41ca7ab60a2c6afe00bc2e36239"
