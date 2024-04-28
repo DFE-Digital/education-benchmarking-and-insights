@@ -12,7 +12,8 @@ resource "azurerm_container_app" "data-pipeline" {
   revision_mode                = "Single"
 
   identity {
-    type = "SystemAssigned"
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.container-app.id]
   }
 
   secret {
@@ -57,4 +58,19 @@ resource "azurerm_container_app" "data-pipeline" {
       }
     }
   }
+}
+
+resource "azurerm_user_assigned_identity" "container-app" {
+  location            = azurerm_resource_group.resource-group.location
+  name                = "${var.environment-prefix}containerappmi"
+  resource_group_name = azurerm_resource_group.resource-group.name
+}
+
+resource "azurerm_role_assignment" "container-app" {
+  scope                = azurerm_resource_group.resource-group.location
+  role_definition_name = "acrpull"
+  principal_id         = azurerm_user_assigned_identity.container-app.principal_id
+  depends_on = [
+    azurerm_user_assigned_identity.container-app
+  ]
 }
