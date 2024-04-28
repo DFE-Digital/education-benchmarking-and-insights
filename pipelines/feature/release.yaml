@@ -40,6 +40,7 @@ variables:
   WorkingDir.FrontEnd: 'front-end-components'
   WorkingDir.Platform: 'platform'
   WorkingDir.Web: 'web'
+  WorkingDir.DataPipeline: 'data-pipeline'
   NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
 
@@ -93,8 +94,40 @@ stages:
           dependsOn: [ ZipStaticCoreArtifacts ]
           disablePurgeProtection: 'true'
 
-  - stage: BuildPlatform
+  - stage: BuildDataPipeline
     dependsOn: [ BuildNumber, DeployCore ]
+    displayName: 'Data Pipeline : Build and Deploy'
+    variables: 
+      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+    jobs:
+      - job: ZipStaticDataPipelineArtifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.DataPipeline)/terraform'
+              Module: 'data-pipeline'
+
+      - job: BuildDataPipeline
+        displayName: 'Data Pipeline : Build'
+        steps:
+          - template: ../data-pipeline/build.yaml
+            parameters:
+              BuildVersion: $(Version.BuildVersion)
+              BuildNumber: $(Version.BuildNumber)
+
+      - template: ../data-pipeline/deployment.yaml
+        parameters:
+          subscription: $(Subscription)
+          environmentPrefix: $(environmentPrefix)
+          environment: $(Pipeline.Environment)
+          cipEnvironment: 'Dev'
+          BuildVersion: $(Version.BuildVersion)
+          BuildNumber: $(Version.BuildNumber)
+          dependsOn: [ ZipStaticDataPipelineArtifacts, BuildDataPipeline ]
+
+  - stage: BuildPlatform
+    dependsOn: [ BuildNumber, DeployCore, BuildDataPipeline ]
     displayName: 'Platform : Build and Deploy'
     variables: 
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]

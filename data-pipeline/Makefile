@@ -5,7 +5,7 @@ dev:
 	poetry run python src/main.py
 
 build: 
-	docker build --tag fbit-data-pipeline --file docker/pipeline-worker/Dockerfile .
+	docker build $(tags) --file docker/pipeline-worker/Dockerfile .
 
 test:
 	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests;\

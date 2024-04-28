@@ -18,6 +18,13 @@ jobs:
       environment: ${{ parameters.environment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
 
+  - template: ../data-pipeline/deployment.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
   - template: ../platform/deployment.yaml
     parameters:
       dependsOn: 'CoreProvision'
