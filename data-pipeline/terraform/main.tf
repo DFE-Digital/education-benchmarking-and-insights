@@ -6,3 +6,9 @@ locals {
     "Source"           = "terraform"
   }
 }
+
+resource "azurerm_resource_group" "resource-group" {
+  name     = "${var.environment-prefix}-ebis-pipelines"
+  location = var.location
+  tags     = local.common-tags
+}
