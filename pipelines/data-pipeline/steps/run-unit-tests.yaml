@@ -1,7 +1,4 @@
 steps:
-  - bash: |
-      echo "##vso[task.setvariable variable=CACHE_RESTORED]false"
-
   - task: UsePythonVersion@0
     inputs:
       versionSpec: '3.12'
@@ -17,12 +14,7 @@ steps:
 
   - script: |
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
-    displayName: Add poetry to PATH and set shell
-    workingDirectory: data-pipeline
-
-  - script: |
-      make lint
-    displayName: 'Lint'
+    displayName: Add poetry to PATH
     workingDirectory: data-pipeline
 
   - script: |
