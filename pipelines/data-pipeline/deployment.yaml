@@ -10,8 +10,8 @@ parameters:
 
 jobs:
 
-  - deployment: DataPipelineProvision
-    displayName: 'Data Pipeline : Provision'
+  - deployment: DataPipelinePushImage
+    displayName: 'Data Pipeline : Push Image'
     dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
