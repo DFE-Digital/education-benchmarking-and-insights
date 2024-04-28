@@ -31,17 +31,19 @@ Finally load up the virtual environment run:
 
     poetry shell
 
-### Setting up .env file
+### Setting up .env file
 
 In the route of the `data-pipelines` repository there is an `.env-example` folder which shows the parameters that are required.
 
 Ensure you have created a copy of this file named `.env` and filled the parameter value placeholders with the required values. These values will be available from the azure portal.
 
-However for local development assuming azurite, you can use the following values: 
+However, for local development assuming azurite, you can use the following values: 
 
+    QUEUE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
+    WORKER_QUEUE_NAME=worker-queue
+    COMPLETE_QUEUE_NAME=complete-queue
 
-
-### Running the pipeline   
+### Running the pipeline   
 
 To running the API in Dev Mode:
 
@@ -56,29 +58,19 @@ or
 
 Build images with:
 
-        docker build --tag fbit-data-pipeline --file docker/Dockerfile . 
+        docker build --tag {insert the tag of the build} --file docker/Dockerfile . 
 
 or 
 
-        make build 
-
-The Dockerfile uses multi-stage builds to run lint and test stages before building the production stage.  If linting or testing fails the build will fail.
-
-You can stop the build at specific stages with the `--target` option:
-
-        docker build --name fbit-data-pipeline --file docker/Dockerfile . --target <stage>
-
-For example we wanted to stop at the **test** stage:
-
-        docker build --tag fbit-data-pipeline --file docker/Dockerfile --target test .
+        make build tags="--tag {tag1} --tag {tag2}"
 
 We could then get a shell inside the container with:
 
-        docker run -it fbit-data-pipeline:latest bash
+        docker run -it {tag} bash
 
 If you do not specify a target the resulting image will be the last image defined which in our case is the 'production' image.
 
-To manually push to Azure container registry you can use the following command
+To manually push to Azure container registry you can use the following command, however this will require a logged in Azure CLI. Depending on your DfE account type or device type this may not be possible from your local machine; if this is the case then you can always use the [Azure cloud shell](https://learn.microsoft.com/en-gb/azure/cloud-shell/overview)
 
     az login
     az account set {subscription name}

@@ -3,11 +3,30 @@ parameters:
   environmentPrefix: ''
   environment: ''
   cipEnvironment: ''
+  buildVersion: ''
+  buildNumber: ''
   workspaceDir: '$(Pipeline.Workspace)'
-  runSearchApp: true
   dependsOn: []
 
 jobs:
+
+  - deployment: DataPipelineProvision
+    displayName: 'Data Pipeline : Provision'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - template: steps/build-push-image.yaml
+              parameters:
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                buildVersion: ${{ parameters.buildVersion }}
+                buildNumber: ${{ parameters.buildNumber }}
+
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
     dependsOn: ${{ parameters.dependsOn }}
@@ -29,3 +48,7 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'data-pipeline'
+                imageName: ''
+
+
+  
