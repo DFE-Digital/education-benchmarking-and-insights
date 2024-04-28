@@ -69,6 +69,7 @@ stages:
           - template: steps\run-unit-tests.yaml
 
       - job: BuildAndPush
+        dependsOn: [ RunTests ]
         displayName: 'Build and push image'
         steps: 
           - template: steps/build-push-image.yaml
