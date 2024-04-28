@@ -28,7 +28,7 @@ steps:
     workingDirectory: data-pipeline
 
   - task: AzureCLI@2
-   displayName: Push To Azure Container Registry
+    displayName: Push To Azure Container Registry
     inputs:
       azureSubscription: ${{ parameters.subscription }}
       scriptType: 'bash'
