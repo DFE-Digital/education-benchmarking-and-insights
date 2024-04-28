@@ -79,8 +79,6 @@ stages:
               environmentPrefix: 's198d01'
               subscription: 's198d.azdo-deployment'
 
-      
-
   - stage: DeployDevelopment
     dependsOn: [ Build ]
     displayName: 'Development'
@@ -93,7 +91,7 @@ stages:
           environment: 'development'
           cipEnvironment: 'Dev'
           importImage: false
-          buildNumber: $(BuildNumber)
+          buildNumber: $(Version.BuildNumber)
 
   - stage: DeployAutomatedTest
     dependsOn: [ Build ]
@@ -108,7 +106,7 @@ stages:
           cipEnvironment: 'Dev'
           importImage: true
           sourceEnvironmentPrefix: 's198d01'
-          buildNumber: $(BuildNumber)
+          buildNumber: $(Version.BuildNumber)
 
   - stage: DeployTest
     dependsOn: [ DeployAutomatedTest ]
@@ -122,5 +120,5 @@ stages:
           environment: 'test'
           cipEnvironment: 'Test'
           importImage: true
-          sourceEnvironmentPrefix: 's198d01'
-          buildNumber: $(BuildNumber)
+          sourceEnvironmentPrefix: 's198d02'
+          buildNumber: $(Version.BuildNumber)
