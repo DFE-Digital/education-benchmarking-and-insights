@@ -5,20 +5,20 @@ resource "azurerm_container_app_environment" "main" {
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
 }
 
-resource "azurerm_user_assigned_identity" "container-app" {
-  location            = azurerm_resource_group.resource-group.location
-  name                = "${var.environment-prefix}containerappmi"
-  resource_group_name = azurerm_resource_group.resource-group.name
-}
-
-resource "azurerm_role_assignment" "container-app" {
-  scope                = data.azurerm_container_registry.acr.id
-  role_definition_name = "acrpull"
-  principal_id         = azurerm_user_assigned_identity.container-app.principal_id
-  depends_on = [
-    azurerm_user_assigned_identity.container-app
-  ]
-}
+# resource "azurerm_user_assigned_identity" "container-app" {
+#   location            = azurerm_resource_group.resource-group.location
+#   name                = "${var.environment-prefix}containerappmi"
+#   resource_group_name = azurerm_resource_group.resource-group.name
+# }
+#
+# resource "azurerm_role_assignment" "container-app" {
+#   scope                = data.azurerm_container_registry.acr.id
+#   role_definition_name = "acrpull"
+#   principal_id         = azurerm_user_assigned_identity.container-app.principal_id
+#   depends_on = [
+#     azurerm_user_assigned_identity.container-app
+#   ]
+# }
 
 resource "azurerm_container_app" "data-pipeline" {
   name                         = "${var.environment-prefix}-ebis-data-pipeline"
@@ -27,8 +27,8 @@ resource "azurerm_container_app" "data-pipeline" {
   revision_mode                = "Single"
 
   identity {
-    type         = "SystemAssigned, UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.container-app.id]
+    type = "SystemAssigned"
+    #     identity_ids = [azurerm_user_assigned_identity.container-app.id]
   }
 
   secret {
@@ -36,9 +36,16 @@ resource "azurerm_container_app" "data-pipeline" {
     value = azurerm_storage_account.main.primary_connection_string
   }
 
+  secret {
+    name  = "registry-password"
+    value = data.azurerm_container_registry.acr.admin_password
+  }
+
   registry {
-    server   = data.azurerm_container_registry.acr.login_server
-    identity = azurerm_user_assigned_identity.container-app.id
+    server               = data.azurerm_container_registry.acr.login_server
+    username             = data.azurerm_container_registry.acr.admin_username
+    password_secret_name = "registry-password"
+    #     identity = azurerm_user_assigned_identity.container-app.id
   }
 
   template {
@@ -78,8 +85,4 @@ resource "azurerm_container_app" "data-pipeline" {
       }
     }
   }
-
-  depends_on = [
-    azurerm_user_assigned_identity.container-app
-  ]
 }
