@@ -22,3 +22,6 @@ venv
 docker/azurite
 workbooks/data
 workbooks/output
+.env
+
+tests/coverage/

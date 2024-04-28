@@ -1,7 +1,8 @@
-import numpy as np
-import pandas as pd
 import multiprocessing as mp
 from multiprocessing.pool import ThreadPool as Pool
+
+import numpy as np
+import pandas as pd
 
 
 def compute_range(data):
@@ -13,23 +14,27 @@ def fillna_mean(data):
 
 
 def prepare_data(data):
-    data['Boarders (name)'] = data['Boarders (name)'].map(lambda x: 'Not Boarding' if x == 'Unknown' else x)
-    data['Number of pupils'] = fillna_mean(data['Number of pupils'])
-    data['Percentage Free school meals'] = fillna_mean(data['Percentage Free school meals'])
-    data['Percentage SEN'] = fillna_mean(data['Percentage SEN'])
-    data['Prov_SPLD'] = fillna_mean(data['Prov_SPLD'])
-    data['Prov_MLD'] = fillna_mean(data['Prov_MLD'])
-    data['Prov_PMLD'] = fillna_mean(data['Prov_PMLD'])
-    data['Prov_SEMH'] = fillna_mean(data['Prov_SEMH'])
-    data['Prov_SLCN'] = fillna_mean(data['Prov_SLCN'])
-    data['Prov_HI'] = fillna_mean(data['Prov_HI'])
-    data['Prov_MSI'] = fillna_mean(data['Prov_MSI'])
-    data['Prov_PD'] = fillna_mean(data['Prov_PD'])
-    data['Prov_ASD'] = fillna_mean(data['Prov_ASD'])
-    data['Prov_OTH'] = fillna_mean(data['Prov_OTH'])
-    data['Total Internal Floor Area'] = fillna_mean(data['Total Internal Floor Area'])
-    data['Age Average Score'] = fillna_mean(data['Age Average Score'])
-    return data.set_index('URN').sort_index()
+    data["Boarders (name)"] = data["Boarders (name)"].map(
+        lambda x: "Not Boarding" if x == "Unknown" else x
+    )
+    data["Number of pupils"] = fillna_mean(data["Number of pupils"])
+    data["Percentage Free school meals"] = fillna_mean(
+        data["Percentage Free school meals"]
+    )
+    data["Percentage SEN"] = fillna_mean(data["Percentage SEN"])
+    data["Prov_SPLD"] = fillna_mean(data["Prov_SPLD"])
+    data["Prov_MLD"] = fillna_mean(data["Prov_MLD"])
+    data["Prov_PMLD"] = fillna_mean(data["Prov_PMLD"])
+    data["Prov_SEMH"] = fillna_mean(data["Prov_SEMH"])
+    data["Prov_SLCN"] = fillna_mean(data["Prov_SLCN"])
+    data["Prov_HI"] = fillna_mean(data["Prov_HI"])
+    data["Prov_MSI"] = fillna_mean(data["Prov_MSI"])
+    data["Prov_PD"] = fillna_mean(data["Prov_PD"])
+    data["Prov_ASD"] = fillna_mean(data["Prov_ASD"])
+    data["Prov_OTH"] = fillna_mean(data["Prov_OTH"])
+    data["Total Internal Floor Area"] = fillna_mean(data["Total Internal Floor Area"])
+    data["Age Average Score"] = fillna_mean(data["Age Average Score"])
+    return data.set_index("URN").sort_index()
 
 
 def pupils_calc(pupils, fsm, sen):
@@ -43,7 +48,9 @@ def pupils_calc(pupils, fsm, sen):
     return np.power(pupil + meal + sen, 0.5)
 
 
-def special_pupils_calc(pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths):
+def special_pupils_calc(
+    pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
+):
     pupil_range = compute_range(pupils)
     fsm_range = compute_range(fsm)
     spld_range = compute_range(splds)
@@ -82,7 +89,9 @@ def buildings_calc(gifa, average_age) -> np.array:
     average_age_range = compute_range(average_age)
 
     gifa = 0.8 * np.power(np.abs(gifa[:, None] - gifa[None, :]) / gifa_range, 2)
-    age = 0.2 * np.power(np.abs(average_age[:, None] - average_age[None, :]) / average_age_range, 2)
+    age = 0.2 * np.power(
+        np.abs(average_age[:, None] - average_age[None, :]) / average_age_range, 2
+    )
 
     return np.power(gifa + age, 0.5)
 
@@ -90,35 +99,50 @@ def buildings_calc(gifa, average_age) -> np.array:
 def compute_pupils_comparator(arg) -> (str, np.array, np.array):
     idx, row = arg
     phase = idx
-    urns = np.array(row['URN'])
-    pupils = np.array(row['Number of pupils'])
-    fsm = np.array(row['Percentage Free school meals'])
+    urns = np.array(row["URN"])
+    pupils = np.array(row["Number of pupils"])
+    fsm = np.array(row["Percentage Free school meals"])
 
-    if phase.lower() == 'special':
-        Prov_SPLD = np.array(row['Prov_SPLD'])
-        Prov_MLD = np.array(row['Prov_MLD'])
-        Prov_PMLD = np.array(row['Prov_PMLD'])
-        Prov_SEMH = np.array(row['Prov_SEMH'])
-        Prov_SLCN = np.array(row['Prov_SLCN'])
-        Prov_HI = np.array(row['Prov_HI'])
-        Prov_MSI = np.array(row['Prov_MSI'])
-        Prov_PD = np.array(row['Prov_PD'])
-        Prov_ASD = np.array(row['Prov_ASD'])
-        Prov_OTH = np.array(row['Prov_OTH'])
-        return phase, urns, special_pupils_calc(pupils, fsm, Prov_SPLD, Prov_MLD, Prov_PMLD, Prov_SEMH,
-                                                Prov_SLCN, Prov_HI, Prov_MSI, Prov_PD, Prov_ASD,
-                                                Prov_OTH)
+    if phase.lower() == "special":
+        Prov_SPLD = np.array(row["Prov_SPLD"])
+        Prov_MLD = np.array(row["Prov_MLD"])
+        Prov_PMLD = np.array(row["Prov_PMLD"])
+        Prov_SEMH = np.array(row["Prov_SEMH"])
+        Prov_SLCN = np.array(row["Prov_SLCN"])
+        Prov_HI = np.array(row["Prov_HI"])
+        Prov_MSI = np.array(row["Prov_MSI"])
+        Prov_PD = np.array(row["Prov_PD"])
+        Prov_ASD = np.array(row["Prov_ASD"])
+        Prov_OTH = np.array(row["Prov_OTH"])
+        return (
+            phase,
+            urns,
+            special_pupils_calc(
+                pupils,
+                fsm,
+                Prov_SPLD,
+                Prov_MLD,
+                Prov_PMLD,
+                Prov_SEMH,
+                Prov_SLCN,
+                Prov_HI,
+                Prov_MSI,
+                Prov_PD,
+                Prov_ASD,
+                Prov_OTH,
+            ),
+        )
     else:
-        sen = np.array(row['Percentage SEN'])
+        sen = np.array(row["Percentage SEN"])
         return phase, urns, pupils_calc(pupils, fsm, sen)
 
 
 def compute_buildings_comparator(arg):
     idx, row = arg
     phase = idx
-    urns = np.array(row['URN'])
-    gifa = np.array(row['Total Internal Floor Area'])
-    age = np.array(row['Age Average Score'])
+    urns = np.array(row["URN"])
+    gifa = np.array(row["Total Internal Floor Area"])
+    age = np.array(row["Age Average Score"])
 
     return phase, urns, buildings_calc(gifa, age)
 
@@ -126,16 +150,13 @@ def compute_buildings_comparator(arg):
 def run_comparator(data, f):
     distance_classes = {}
     with Pool(mp.cpu_count()) as pool:
-        for (idx, urns, distance) in pool.map(f, data.iterrows()):
-            distance_classes[idx] = {
-                'urns': urns,
-                'distances': distance
-            }
+        for idx, urns, distance in pool.map(f, data.iterrows()):
+            distance_classes[idx] = {"urns": urns, "distances": distance}
 
     return distance_classes
 
 
-def compute_comparator_matrix(data, f, comparator_key='SchoolPhaseType'):
+def compute_comparator_matrix(data, f, comparator_key="SchoolPhaseType"):
     copy = data.reset_index()
     classes = copy.groupby([comparator_key]).agg(list)
     return run_comparator(classes, f)
@@ -143,35 +164,53 @@ def compute_comparator_matrix(data, f, comparator_key='SchoolPhaseType'):
 
 def compute_custom_comparator(name, data, f):
     copy = data.reset_index()
-    copy['Custom'] = name
-    classes = copy.groupby(['Custom']).agg(list)
+    copy["Custom"] = name
+    classes = copy.groupby(["Custom"]).agg(list)
     return run_comparator(classes, f)
 
 
-def get_comparator_set_by(school_selector, schools, comparators, is_custom=False, comparator_key='SchoolPhaseType'):
+def get_comparator_set_by(
+    school_selector,
+    schools,
+    comparators,
+    is_custom=False,
+    comparator_key="SchoolPhaseType",
+):
     school_no_index = schools.reset_index()
-    school = schools[school_selector(schools)].reset_index().to_dict(orient='records')[0]
+    school = (
+        schools[school_selector(schools)].reset_index().to_dict(orient="records")[0]
+    )
 
-    phase_data = comparators[comparator_key] if is_custom else comparators[school[comparator_key]]
+    phase_data = (
+        comparators[comparator_key]
+        if is_custom
+        else comparators[school[comparator_key]]
+    )
 
-    col_index = np.argwhere(phase_data['urns'] == school['URN'])[0][0]
-    data = phase_data['distances'][col_index]
+    col_index = np.argwhere(phase_data["urns"] == school["URN"])[0][0]
+    data = phase_data["distances"][col_index]
 
     top_60_index = np.argsort(data)[:60]
     distances = data[top_60_index]
-    urns = phase_data['urns'][top_60_index]
+    urns = phase_data["urns"][top_60_index]
 
     d = []
     idx = 0
     for urn in urns:
-        row = school_no_index[school_no_index['URN'] == urn].to_dict(orient='records')[0]
-        row['Distance'] = distances[idx]
+        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[
+            0
+        ]
+        row["Distance"] = distances[idx]
         d.append(row)
         idx += 1
 
     all_comparators = pd.DataFrame(d)
-    same_region = all_comparators[all_comparators['GOR (name)'] == school['GOR (name)']].head()
-    out_of_region = all_comparators[
-        all_comparators['GOR (name)'] != school['GOR (name)']
-        ].sort_values(by='Distance', ascending=True).head(30 - len(same_region))
+    same_region = all_comparators[
+        all_comparators["GOR (name)"] == school["GOR (name)"]
+    ].head()
+    out_of_region = (
+        all_comparators[all_comparators["GOR (name)"] != school["GOR (name)"]]
+        .sort_values(by="Distance", ascending=True)
+        .head(30 - len(same_region))
+    )
     return pd.concat([same_region, out_of_region])

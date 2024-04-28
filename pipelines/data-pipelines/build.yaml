@@ -8,18 +8,18 @@ trigger:
       - main
   paths:
     include:
-      - pipeline
+      - data-pipelines
 
 pr:
   paths:
     include:
-      - pipeline
+      - data-pipelines
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
   Version.BuildNumber: 0.0.$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
-  TerraformFolder: 'pipeline/terraform'
+  TerraformFolder: 'data-pipelines/terraform'
   TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
 
@@ -42,14 +42,14 @@ stages:
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
         steps:
-          - template: ..\..\shared\steps-fmt-validate-terraform.yaml
+          - template: ..\common\fmt-validate-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
       - job: RunCheckOv
         displayName: "Static analysis terraform"
         steps:
-          - template: ..\..\shared\steps-scan-terraform.yaml
+          - template: ..\common\scan-terraform.yaml
             parameters:
               TerraformDirectory: $(TerraformDirectory)
 
@@ -57,10 +57,12 @@ stages:
         displayName: 'Zip static artifacts'
         condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
         steps:
-          - template: ..\..\shared\steps-publish-terraform-artifacts.yaml
+          - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
               TerraformFolder: $(TerraformFolder)
 
-
-      - job: Build and Publish
+      - job: RunTests
+        displayName: 'Run unit tests'
         
+        steps:
+          - template: steps\run-unit-tests.yaml    

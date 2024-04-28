@@ -6,24 +6,25 @@ from contextlib import suppress
 
 from azure.core.exceptions import ResourceExistsError
 from azure.storage.queue import QueueClient, QueueServiceClient
+from dotenv import load_dotenv
 
-logger = logging.getLogger('fbit-data-pipeline')
+load_dotenv()
+
+logger = logging.getLogger("fbit-data-pipeline")
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
-def connect_to_queue():
-    conn_str = os.getenv('QUEUE_CONNECTION_STRING')
-    queue_name = os.getenv('QUEUE_NAME')
+def connect_to_queue() -> QueueClient:
+    conn_str = os.getenv("QUEUE_CONNECTION_STRING")
+    queue_name = os.getenv("WORKER_QUEUE_NAME")
 
     if not conn_str:
-        logger.error("Queue connection string not provided!")
-        return
+        raise Exception("Queue connection string not provided!")
 
     if not queue_name:
-        logger.error("Queue name not provided!")
-        return
+        raise Exception("Queue name not provided!")
 
-    print(f"Connecting to queue {conn_str} - {queue_name}")
+    logger.info(f"Connecting to queue {conn_str} - {queue_name}")
     service_client = QueueServiceClient.from_connection_string(conn_str=conn_str)
     queue = service_client.get_queue_client(queue_name)
     with suppress(ResourceExistsError):
@@ -33,16 +34,21 @@ def connect_to_queue():
 
 
 def receive_messages():
-    queue = connect_to_queue()
+    try:
+        queue = connect_to_queue()
+        msg = queue.receive_message()
+        if msg is not None:
+            logger.info(f"received message {msg}")
+            time.sleep(45)
+            logger.info(f"processing complete")
+            exit(0)
+        else:
+            logger.info("no messages received")
+            exit(0)
+    except Exception as error:
+        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        exit(-1)
 
-    msg = queue.receive_message()
-    if msg is not None:
-        logger.info(f'received message {msg}')
-        time.sleep(45)
-        logger.info(f'processing complete')
-    else:
-        logger.info('no messages received')
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     receive_messages()
