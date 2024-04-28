@@ -11,7 +11,7 @@ resource "azurerm_container_registry" "acr" {
   location            = azurerm_resource_group.resource-group.location
   sku                 = "Standard"
   #TODO: Review but is required for the moment because can't create managed identities to auth with from the container app
-  admin_enabled       = true
+  admin_enabled = true
 
   #TODO: Review as premium is required to limit publis access
   public_network_access_enabled = true
