@@ -67,7 +67,7 @@ resource "azurerm_user_assigned_identity" "container-app" {
 }
 
 resource "azurerm_role_assignment" "container-app" {
-  scope                = azurerm_resource_group.resource-group.location
+  scope                = azurerm_resource_group.resource-group.id
   role_definition_name = "acrpull"
   principal_id         = azurerm_user_assigned_identity.container-app.principal_id
   depends_on = [
