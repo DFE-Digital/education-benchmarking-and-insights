@@ -26,7 +26,7 @@ jobs:
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
                 inlineScript: |
-                    az acr import --name myregistry --source ${{ parameters.sourceEnvironmentPrefix }}.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
+                    az acr import --name ${{ parameters.sourceEnvironmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
