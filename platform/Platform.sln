@@ -20,11 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Insight", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Benchmark", "src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj", "{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{613E31FE-85E5-48F4-83CA-8C7BC094A95C}"
-	ProjectSection(SolutionItems) = preProject
-		docker\docker-compose.yml = docker\docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{40636378-A9AE-4BD0-95FC-755987FC7388}"
 	ProjectSection(SolutionItems) = preProject
 		terraform\variables.tf = terraform\variables.tf
@@ -86,6 +81,13 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8
 		pipelines\zaproxy\insight.prop = pipelines\zaproxy\insight.prop
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Orchestrator", "src\apis\Platform.Orchestrator\Platform.Orchestrator.csproj", "{1B14CB84-50E5-46D2-A8A4-321E37637EC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{57615065-8CB4-4F82-A02E-B980C16A1BEE}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker\docker-compose.yml = ..\docker\docker-compose.yml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -140,6 +142,10 @@ Global
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B14CB84-50E5-46D2-A8A4-321E37637EC3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B14CB84-50E5-46D2-A8A4-321E37637EC3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B14CB84-50E5-46D2-A8A4-321E37637EC3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B14CB84-50E5-46D2-A8A4-321E37637EC3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B6A5F462-A2E5-4D6E-86B9-4DBB12E877CF} = {C1BB0110-EEAC-4D5B-9ED8-A89A79740720}
@@ -157,5 +163,6 @@ Global
 		{AD3DC4F8-B866-40FE-A456-B18BA3158403} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{3143ABD3-CB9E-4A8E-A501-6D2B151E6D1C} = {D52455F1-3BF5-46F4-9833-633817248295}
 		{71B8B5C8-5242-43C2-A2C9-A5802C09B6CC} = {331196E5-A208-4344-8C07-321E17121CAE}
+		{1B14CB84-50E5-46D2-A8A4-321E37637EC3} = {80C48401-A0AA-4707-B26A-332240A6C214}
 	EndGlobalSection
 EndGlobal

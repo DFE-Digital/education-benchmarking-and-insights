@@ -400,7 +400,7 @@ FodyWeavers.xsd
 
 #Project specific
 .idea/
-/platform/docker/azurite/*
+
 *.feature.cs
 appsettings.local.json
 local.settings.json
@@ -416,5 +416,6 @@ local.settings.json
 # OSX
 .DS_Store
 
+**/docker/azurite
 **/docker/sql
 front-end-components/vite.config-dev.js.timestamp-*

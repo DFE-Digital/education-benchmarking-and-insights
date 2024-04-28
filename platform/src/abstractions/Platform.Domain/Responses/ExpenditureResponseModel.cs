@@ -7,6 +7,7 @@ namespace Platform.Domain;
 public record ExpenditureResponseModel
 {
     public int YearEnd { get; private set; }
+    public string Term => $"{YearEnd - 1} to {YearEnd}";
     public Dimension Dimension { get; private set; }
     public decimal? TotalExpenditure { get; private set; }
     public decimal? TotalTeachingSupportStaffCosts { get; private set; }

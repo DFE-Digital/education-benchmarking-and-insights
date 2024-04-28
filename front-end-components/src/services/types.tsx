@@ -54,6 +54,7 @@ export type ExpenditureData = {
 
 export type Balance = {
   yearEnd: string;
+  term: string;
   dimension: string;
   inYearBalance: number;
   revenueReserve: number;
@@ -66,6 +67,7 @@ export type Workforce = {
   localAuthority: string;
   numberOfPupils: bigint;
   yearEnd: string;
+  term: string;
   dimension: string;
   workforceFte: number;
   teachersFte: number;
@@ -80,6 +82,7 @@ export type Workforce = {
 
 export type Income = {
   yearEnd: string;
+  term: string;
   dimension: string;
   totalIncome: number;
   totalGrantFunding: number;
@@ -102,6 +105,7 @@ export type Income = {
 
 export type Expenditure = {
   yearEnd: string;
+  term: string;
   dimension: string;
   totalExpenditure: number;
   totalTeachingSupportStaffCosts: number;
