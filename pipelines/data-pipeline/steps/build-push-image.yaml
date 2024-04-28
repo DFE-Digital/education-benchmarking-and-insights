@@ -22,10 +22,10 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
-      make build tags="--tag fbit-data-pipeline:latest --tag fbit-data-pipeline:${{ parameters.buildNumber }}"
+      make build tags="--tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:latest --tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}"
     displayName: Build Docker Image
     workingDirectory: data-pipeline
 
   - script: |
-     docker push ${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags
+     docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
     displayName: Push To Azure Container Registry
