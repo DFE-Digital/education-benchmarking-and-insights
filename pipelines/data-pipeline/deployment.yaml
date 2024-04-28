@@ -25,6 +25,7 @@ jobs:
             - task: AzureCLI@2
               inputs:
                 azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
                 inlineScript: |
                     az acr import --name ${{ parameters.sourceEnvironmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
 
