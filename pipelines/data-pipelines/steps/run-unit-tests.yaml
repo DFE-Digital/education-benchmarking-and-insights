@@ -15,8 +15,10 @@ steps:
     displayName: 'Install dependencies'
     workingDirectory: data-pipeline
 
-  - script: echo "##vso[task.prependpath]$HOME/.poetry/bin"
-    displayName: Add poetry to PATH
+  - script: |
+      echo "##vso[task.prependpath]$HOME/.poetry/bin"
+      poetry shell
+    displayName: Add poetry to PATH and set shell
     workingDirectory: data-pipeline
 
   - script: |

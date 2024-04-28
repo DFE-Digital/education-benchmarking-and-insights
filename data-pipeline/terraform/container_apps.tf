@@ -51,6 +51,10 @@ resource "azurerm_container_app" "data-pipeline" {
       name         = "${var.environment-prefix}-data-pipeline-scaler"
       queue_name   = azurerm_storage_queue.worker-queue.name
       queue_length = 1
+      authentication {
+        secret_name       = "queue-connection-string"
+        trigger_parameter = "connection"
+      }
     }
   }
 }
