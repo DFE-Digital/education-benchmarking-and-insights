@@ -17,8 +17,10 @@ This testing is currently carried out manually when:
 - A new Front End controller method is added / updated.
 - On a release to PRE-PROD
 
-[![Build Status](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20security%20scan?branchName=main&label=Platform)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_build/latest?definitionId=2851&branchName=main)
-[![Build Status](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20security%20scan?branchName=main&label=Web)](https://dev.azure.com/dfe-ssp/s198-DfE-Benchmarking-service/_build/latest?definitionId=2858&branchName=main)
+
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FSecurity%20scans%2FWeb?branchName=main&label=Web)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2877&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FSecurity%20scans%2FPlatform?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2880&branchName=main)
+
 
 ## Known issues
 
