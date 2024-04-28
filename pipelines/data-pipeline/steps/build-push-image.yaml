@@ -27,5 +27,5 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
-     docker push ${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags"
+     docker push ${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags
     displayName: Push To Azure Container Registry
