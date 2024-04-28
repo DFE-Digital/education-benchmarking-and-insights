@@ -13,16 +13,20 @@ steps:
       export PATH=$PATH:$HOME/.poetry/bin
       poetry install --no-root
     displayName: 'Install dependencies'
+    workingDirectory: data-pipeline
 
   - script: echo "##vso[task.prependpath]$HOME/.poetry/bin"
     displayName: Add poetry to PATH
+    workingDirectory: data-pipeline
 
   - script: |
       make lint
     displayName: 'Lint'
+    workingDirectory: data-pipeline
 
   - script: |
       make test-ci
     displayName: 'Tests'
+    workingDirectory: data-pipeline
 
     

@@ -8,7 +8,7 @@ resource "azurerm_container_app_environment" "main" {
 resource "azurerm_container_app" "data-pipeline" {
   name                         = "${var.environment-prefix}-ebis-data-pipeline"
   container_app_environment_id = azurerm_container_app_environment.main.id
-  resource_group_name          = azurerm_resource_group.main.name
+  resource_group_name          = azurerm_resource_group.resource-group.name
   revision_mode                = "Single"
 
   identity {
