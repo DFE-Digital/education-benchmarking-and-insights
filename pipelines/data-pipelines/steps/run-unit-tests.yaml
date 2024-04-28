@@ -17,7 +17,6 @@ steps:
 
   - script: |
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
-      poetry shell
     displayName: Add poetry to PATH and set shell
     workingDirectory: data-pipeline
 
@@ -27,8 +26,20 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
-      make test-ci
+      make test
     displayName: 'Tests'
     workingDirectory: data-pipeline
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '$(Build.SourcesDirectory)/data-pipeline/tests/output/test-output.xml'
+
+  - task: PublishCodeCoverageResults@2
+    inputs:
+      summaryFileLocation: 'data-pipeline/tests/output/coverage.xml'
+      pathToSources: '$(Build.SourcesDirectory)/data-pipeline/src'
+
+  
 
     
