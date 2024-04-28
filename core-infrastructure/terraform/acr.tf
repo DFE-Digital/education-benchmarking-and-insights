@@ -18,7 +18,10 @@ resource "azurerm_container_registry" "acr" {
   retention_policy {}
 
   identity {
-    type = "SystemAssigned"
+    type = "SystemAssigned, UserAssigned"
+    identity_ids = [  
+        data.azurerm_client_config.client.object_id
+    ]
   }
 
   #TODO: Review as premium is required for trust policy  
