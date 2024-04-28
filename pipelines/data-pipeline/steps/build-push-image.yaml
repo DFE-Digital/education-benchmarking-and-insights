@@ -1,0 +1,24 @@
+parameters:
+  buildVersion: ''
+  buildNumber: ''
+  environmentPrefix: ''
+  environment: ''
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.12'
+    displayName: 'Use Python 3.12'
+
+  - script: |
+      make lint
+    displayName: 'Lint'
+    workingDirectory: data-pipeline
+
+  - script: |
+      make build tags="--tag fbit-data-pipeline:latest --tag fbit-data-pipeline:${{ parameters.buildNumber }}"
+    displayName: Build Docker Image
+    workingDirectory: data-pipeline
+
+  - script: |
+     docker push "${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags"
