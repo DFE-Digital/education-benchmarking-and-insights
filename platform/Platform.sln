@@ -20,11 +20,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Insight", "src
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Api.Benchmark", "src\apis\Platform.Api.Benchmark\Platform.Api.Benchmark.csproj", "{9A1DF4EB-DE68-4DB7-9725-A2C0721E184D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{613E31FE-85E5-48F4-83CA-8C7BC094A95C}"
-	ProjectSection(SolutionItems) = preProject
-		docker\docker-compose.yml = docker\docker-compose.yml
-	EndProjectSection
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{40636378-A9AE-4BD0-95FC-755987FC7388}"
 	ProjectSection(SolutionItems) = preProject
 		terraform\variables.tf = terraform\variables.tf
@@ -87,6 +82,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Orchestrator", "src\apis\Platform.Orchestrator\Platform.Orchestrator.csproj", "{1B14CB84-50E5-46D2-A8A4-321E37637EC3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{57615065-8CB4-4F82-A02E-B980C16A1BEE}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker\docker-compose.yml = ..\docker\docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
