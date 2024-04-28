@@ -20,11 +20,6 @@ steps:
       echo "##vso[task.prependpath]$HOME/.poetry/bin"
     displayName: Add poetry to PATH
     workingDirectory: data-pipeline
-    
-  - task: UsePythonVersion@0
-    inputs:
-      versionSpec: '3.12'
-    displayName: 'Use Python 3.12'
 
   - script: |
       make build tags="--tag fbit-data-pipeline:latest --tag fbit-data-pipeline:${{ parameters.buildNumber }}"
@@ -32,4 +27,5 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
-     docker push "${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags"
+     docker push ${{ parameters.environmentPrefix }}.azurecr.io/fbit-data-pipeline --all-tags"
+    displayName: Push To Azure Container Registry
