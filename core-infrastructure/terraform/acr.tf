@@ -18,14 +18,18 @@ resource "azurerm_container_registry" "acr" {
   retention_policy {}
 
   identity {
-    type = "SystemAssigned, UserAssigned"
-    identity_ids = [
-      data.azurerm_client_config.client.object_id
-    ]
+    type = "SystemAssigned"
   }
 
   #TODO: Review as premium is required for trust policy  
   trust_policy {}
 
   tags = local.common-tags
+}
+
+
+resource "azurerm_role_assignment" "test" {
+  scope              = "${azurerm_container_registry.acr.id}"
+  role_definition_id = "Contributor"
+  principal_id       = "${azurerm_azuread_service_principal_password.test.service_principal_id}"
 }
