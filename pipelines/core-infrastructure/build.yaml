@@ -10,7 +10,10 @@ trigger:
     include:
       - core-infrastructure
 
-pr: none
+pr:
+  paths:
+    include:
+      - core-infrastructure
 
 variables:
   Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
@@ -33,8 +36,15 @@ stages:
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
-              echo "##vso[build.addbuildtag]Core infrastructure"
             displayName: 'Set release build number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
+          - bash: |
+              if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+                echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+              fi
+              echo "##vso[build.addbuildtag]Core infrastructure"
+            displayName: 'Set build tags'
 
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"
@@ -52,6 +62,7 @@ stages:
 
       - job: ZipStaticArtifacts
         displayName: 'Zip static artifacts'
+        condition: eq(variables['ShouldDeploy'],'true')
         steps:
           - template: ..\common\publish-terraform-artifacts.yaml
             parameters:
