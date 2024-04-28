@@ -29,7 +29,7 @@ jobs:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
-                    az acr import --name ${{ parameters.sourceEnvironmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }}
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
