@@ -19,8 +19,8 @@ resource "azurerm_container_registry" "acr" {
 
   identity {
     type = "SystemAssigned, UserAssigned"
-    identity_ids = [  
-        data.azurerm_client_config.client.object_id
+    identity_ids = [
+      data.azurerm_client_config.client.object_id
     ]
   }
 
