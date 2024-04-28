@@ -22,7 +22,7 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   registry {
-    server = data.azurerm_container_registry.acr.login_server
+    server   = data.azurerm_container_registry.acr.login_server
     identity = azurerm_user_assigned_identity.container-app.principal_id
   }
 
