@@ -78,18 +78,18 @@ def prepare_sen_data(sen_path):
     )
     sen["Percentage SEN"] = (sen["EHC plan"] / sen["Total pupils"]) * 100.0
     sen["Primary Need SPLD"] = (
-            sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
+        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     )
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
     sen["Primary Need PMLD"] = (
-            sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
     )
     sen["Primary Need SEMH"] = (
-            sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
     )
     sen["Primary Need SLCN"] = (
-            sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
+        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
     )
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
@@ -155,19 +155,21 @@ def prepare_ks2_data(ks2_path):
     ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
 
     ks2["Ks2Progress"] = (
-            ks2["READPROG"].astype(float)
-            + ks2["MATPROG"].astype(float)
-            + ks2["WRITPROG"].astype(float)
+        ks2["READPROG"].astype(float)
+        + ks2["MATPROG"].astype(float)
+        + ks2["WRITPROG"].astype(float)
     )
 
     return ks2[["Ks2Progress"]].dropna()
 
 
 def prepare_ks4_data(ks4_path):
-    ks4 = pd.read_excel(ks4_path,
-                        index_col=schemas.ks4_index_col,
-                        dtype=schemas.ks4,
-                        usecols=schemas.ks4.keys())
+    ks4 = pd.read_excel(
+        ks4_path,
+        index_col=schemas.ks4_index_col,
+        dtype=schemas.ks4,
+        usecols=schemas.ks4.keys(),
+    )
 
     ks4.rename(
         columns={
@@ -178,19 +180,23 @@ def prepare_ks4_data(ks4_path):
         inplace=True,
     )
 
-    return ks4[
-        ["AverageAttainment", "Progress8Measure", "Progress8Banding"]
-    ].dropna()
+    return ks4[["AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna()
 
 
 def prepare_aar_data(aar_path):
-    aar = pd.read_excel(aar_path, sheet_name="Academies",
-                        usecols=schemas.aar_academies.keys(),
-                        dtype=schemas.aar_academies)
+    aar = pd.read_excel(
+        aar_path,
+        sheet_name="Academies",
+        usecols=schemas.aar_academies.keys(),
+        dtype=schemas.aar_academies,
+    )
 
-    central_services_financial = pd.read_excel(aar_path, sheet_name="CentralServices",
-                                               usecols=schemas.aar_central_services.keys(),
-                                               dtype=schemas.aar_central_services)
+    central_services_financial = pd.read_excel(
+        aar_path,
+        sheet_name="CentralServices",
+        usecols=schemas.aar_central_services.keys(),
+        dtype=schemas.aar_central_services,
+    )
 
     aar.rename(
         columns={
@@ -218,7 +224,7 @@ def prepare_aar_data(aar_path):
 
     trust_financial = aar[
         aar["MAT SAT or Central Services"] == "Multi Academy Trust (MAT)"
-        ].copy()
+    ].copy()
 
     trust_financial_position = (
         trust_financial[["trustupin", "Academy Balance"]]
@@ -269,9 +275,9 @@ def prepare_aar_data(aar_path):
         .set_index("academyupin")
     )
 
-    academy_ar["Central Services Financial Position"] = academy_ar["Central Services Balance"].map(
-        mappings.map_is_surplus_deficit
-    )
+    academy_ar["Central Services Financial Position"] = academy_ar[
+        "Central Services Balance"
+    ].map(mappings.map_is_surplus_deficit)
 
     academy_ar["Academy Financial Position"] = academy_ar["Academy Balance"].map(
         mappings.map_is_surplus_deficit
@@ -305,7 +311,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-            gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
+        gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
@@ -328,11 +334,11 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
     )
     gias["HeadName"] = (
-            gias["HeadTitle (name)"]
-            + " "
-            + gias["HeadFirstName"]
-            + " "
-            + gias["HeadLastName"]
+        gias["HeadTitle (name)"]
+        + " "
+        + gias["HeadFirstName"]
+        + " "
+        + gias["HeadLastName"]
     )
 
     # In the following cell, we find all the predecessor and merged links.
@@ -364,11 +370,11 @@ def prepare_schools_data(base_data_path, links_data_path):
     return schools[
         schools["CloseDate"].isna()
         & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
-        ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
 def build_academy_data(
-        academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
+    academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -447,7 +453,7 @@ def build_academy_data(
 
 
 def build_maintained_school_data(
-        maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
+    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -485,8 +491,8 @@ def build_maintained_school_data(
         axis=1,
     )
     maintained_schools["School Balance"] = (
-            maintained_schools["Total Income   I01 to I18"]
-            - maintained_schools["Total Expenditure  E01 to E32"]
+        maintained_schools["Total Income   I01 to I18"]
+        - maintained_schools["Total Expenditure  E01 to E32"]
     )
     maintained_schools["School Financial Position"] = maintained_schools[
         "School Balance"
@@ -562,7 +568,7 @@ def build_federations_data(links_data_path, maintained_schools):
 
     federations = maintained_schools[["LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
-        ].copy()
+    ].copy()
     # join
     federations = federations.join(
         group_links[["Group Name", "Group UID", "Closed Date"]]
