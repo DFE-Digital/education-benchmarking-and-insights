@@ -17,3 +17,8 @@ data "azurerm_container_registry" "acr" {
   name                = "${var.environment-prefix}acr"
   resource_group_name = "${var.environment-prefix}-ebis-core"
 }
+
+data "azurerm_storage_account" "main" {
+  name         = "${var.environment-prefix}data"
+  resource_group_name = "${var.environment-prefix}-ebis-core"
+}
