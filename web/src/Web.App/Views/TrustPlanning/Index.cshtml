@@ -1,0 +1,7 @@
+﻿@model Web.App.ViewModels.TrustPlanningViewModel
+@{
+ViewData[ViewDataKeys.Title] = PageTitles.Planning;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
+

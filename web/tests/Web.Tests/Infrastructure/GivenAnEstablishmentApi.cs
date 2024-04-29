@@ -51,14 +51,4 @@ public class GivenAnEstablishmentApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Post, "api/trusts/suggest");
     }
-
-    [Fact]
-    public async Task SuggestOrganisationsShouldCallCorrectUrl()
-    {
-        var api = new EstablishmentApi(HttpClient);
-
-        await api.SuggestOrganisations("");
-
-        VerifyCall(HttpMethod.Post, "api/organisations/suggest");
-    }
 }

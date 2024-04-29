@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Proxy;
 
-public class WhenRequestingSchoolWorkforce(BenchmarkingWebAppClient client) : IClassFixture<BenchmarkingWebAppClient>
+public class WhenRequestingWorkforce(BenchmarkingWebAppClient client) : IClassFixture<BenchmarkingWebAppClient>
 {
     [Fact]
     public async Task CanReturnInternalServerError()

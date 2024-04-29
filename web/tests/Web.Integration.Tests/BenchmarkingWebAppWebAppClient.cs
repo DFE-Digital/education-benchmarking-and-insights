@@ -50,7 +50,6 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestOrganisations(It.IsAny<string>())).Throws(new Exception());
         return this;
     }
 
