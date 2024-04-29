@@ -29,6 +29,12 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
       name = capabilities.value
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      ip_range_filter
+    ]
+  }
 }
 
 resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
