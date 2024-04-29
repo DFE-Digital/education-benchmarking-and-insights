@@ -102,6 +102,8 @@ stages:
       - template: deployment.yaml
         parameters:
           subscription: 's198d.azdo-deployment'
+          sourceServicePrincipal: 's198d.azdo-deployment'
+          sourceSubscription: 's198-dfebenchmarkingservice-development'
           environmentPrefix: 's198d02'
           environment: 'automated-test'
           cipEnvironment: 'Dev'
@@ -117,6 +119,8 @@ stages:
       - template: deployment.yaml
         parameters:
           subscription: 's198t.azdo-deployment'
+          sourceServicePrincipal: 's198d.azdo-deployment'
+          sourceSubscription: 's198-dfebenchmarkingservice-development'
           environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
