@@ -2,8 +2,7 @@ version: '3.7'
 
 services:
   azurite:
-    container_name: "azurite"
-    hostname: "azurite"
+    container_name: "azurite-platform"
     image: "mcr.microsoft.com/azure-storage/azurite"
     ports: 
       - "10000:10000"
@@ -12,6 +11,7 @@ services:
     volumes:
       - "./azurite/data:/data"
   sqldata:
+    container_name: "sqldata-platform"
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
       - SA_PASSWORD=Pass@word

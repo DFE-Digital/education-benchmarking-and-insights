@@ -83,9 +83,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "zaproxy", "zaproxy", "{71B8
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Platform.Orchestrator", "src\apis\Platform.Orchestrator\Platform.Orchestrator.csproj", "{1B14CB84-50E5-46D2-A8A4-321E37637EC3}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{57615065-8CB4-4F82-A02E-B980C16A1BEE}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{57615065-8CB4-4F82-A02E-B980C16A1BEE}"
 	ProjectSection(SolutionItems) = preProject
-		..\docker\docker-compose.yml = ..\docker\docker-compose.yml
+		docker\docker-compose.yml = docker\docker-compose.yml
 	EndProjectSection
 EndProject
 Global
