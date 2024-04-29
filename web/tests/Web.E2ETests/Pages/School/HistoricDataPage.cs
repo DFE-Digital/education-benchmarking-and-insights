@@ -2,6 +2,7 @@
 using Xunit;
 
 namespace Web.E2ETests.Pages.School;
+
 public enum HistoryTabs
 {
     Spending,
@@ -14,18 +15,32 @@ public enum SpendingCategoriesNames
 {
     TeachingAndTeachingSupportStaff,
     NonEducationalSupportStaff
-
 }
+
 public class HistoricDataPage(IPage page)
 {
     private readonly string[] _spendingCategories =
     {
-        "Teaching and teaching support staff", "Non-educational support staff", "Educational supplies", "Educational ICT",
+        "Teaching and teaching support staff", "Non-educational support staff", "Educational supplies",
+        "Educational ICT",
         "Premises and services", "Utilities", "Administrative supplies", "Catering staff and services", "Other",
     };
 
-    private readonly string[] _spendingSubCategories = {
-       "Total teaching and teaching support staff costs",
+    private readonly string[] _incomeCategories = { "Grant funding", "Self-generated", "Direct revenue financing" };
+    private readonly string[] _balanceCategories = { "In-year balance", "Revenue reserve" };
+
+    private readonly string[] _workforceCategories =
+    {
+        "School workforce (full time equivalent)", "Total number of teachers (full time equivalent)",
+        "Teachers with qualified teacher status", "Senior leadership (full time equivalent)",
+        "Teaching assistants (full time equivalent)",
+        "Non-classroom support staff - excluding auxiliary staff (full time equivalent)",
+        "Auxiliary staff (full time equivalent)", "School workforce (headcount)"
+    };
+
+    private readonly string[] _spendingSubCategories =
+    {
+        "Total teaching and teaching support staff costs",
         "Teaching staff costs",
         "Supply teaching staff",
         "Educational consultancy",
@@ -66,7 +81,9 @@ public class HistoricDataPage(IPage page)
         "Supply teacher insurance costs",
         "Community focused school staff (maintained schools only)"
     };
-    private readonly string[] _incomeSubCategories = {
+
+    private readonly string[] _incomeSubCategories =
+    {
         "Grant funding total",
         "Direct grants",
         "Pre-16 and post-16 funding",
@@ -87,17 +104,36 @@ public class HistoricDataPage(IPage page)
 
 
     private ILocator PageH1Heading => page.Locator(Selectors.H1);
-    private ILocator SpendingCategoryHeadings => page.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
+
+    private ILocator SpendingCategoryHeadings =>
+        SpendingTabContent.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
+
+    private ILocator IncomeCategoryHeadings =>
+        IncomeTabContent.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
+
+    private ILocator BalanceCategoryHeadings => BalanceTabContent.Locator(Selectors.H2);
+    private ILocator WorkforceCategoryHeadings => WorkforceTabContent.Locator(Selectors.H2);
+
     private ILocator BackLink => page.Locator(Selectors.GovBackLink);
     private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
     private ILocator ExpenditureDimension => page.Locator(Selectors.ExpenditureDimension);
     private ILocator ExpenditureModeTable => page.Locator(Selectors.ExpenditureModeTable);
     private ILocator ExpenditureModeChart => page.Locator(Selectors.ExpenditureModeChart);
+    private ILocator IncomeModeTable => page.Locator(Selectors.IncomeModeTable);
+    private ILocator IncomeModeChart => page.Locator(Selectors.IncomeModeChart);
+
+    private ILocator BalanceModeTable => page.Locator(Selectors.BalanceModeTable);
+    private ILocator BalanceModeChart => page.Locator(Selectors.BalanceModeChart);
+
+    private ILocator WorkforceModeTable => page.Locator(Selectors.WorkforceModeTable);
+    private ILocator WorkforceModeChart => page.Locator(Selectors.WorkforceModeChart);
+
     private ILocator IncomeDimension => page.Locator(Selectors.IncomeDimension);
     private ILocator BalanceDimension => page.Locator(Selectors.BalanceDimension);
     private ILocator WorkforceDimension => page.Locator(Selectors.WorkforceDimension);
-    
+
     private ILocator Tables => page.Locator(Selectors.GovTable);
+
     private ILocator SpendingSections =>
         page.Locator($"{Selectors.SpendingHistoryTab} {Selectors.GovAccordionSection}");
 
@@ -109,7 +145,7 @@ public class HistoricDataPage(IPage page)
     private ILocator IncomeTabContent => page.Locator(Selectors.IncomePanel);
     private ILocator BalanceTabContent => page.Locator(Selectors.BalancePanel);
     private ILocator WorkforceTabContent => page.Locator(Selectors.WorkforcePanel);
-    
+
     private ILocator SpendingSubCategories => SpendingAccordion.Locator($"{Selectors.H3}");
 
     private ILocator IncomeAccordion => page.Locator(Selectors.IncomeAccordions);
@@ -120,7 +156,6 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceTableView => page.Locator(Selectors.BalanceTableMode);
     private ILocator WorkforceTableView => page.Locator(Selectors.WorkforceTableMode);
     private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SpendingAccordionContent2);
-
 
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
@@ -141,19 +176,43 @@ public class HistoricDataPage(IPage page)
                     "actuals",
                     "percentage of expenditure",
                     "percentage of income"]);
-                await AssertCategoryNames(_spendingCategories);
+                await AssertCategoryNames(_spendingCategories, tab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
                 break;
             case HistoryTabs.Income:
+                await IncomeDimension.ShouldBeVisible();
+                await ShowHideAllSectionsLink.Nth(1).ShouldBeVisible();
+                await IncomeModeTable.ShouldBeVisible().ShouldBeChecked(false);
+                await IncomeModeChart.ShouldBeVisible().ShouldBeChecked();
+                await HasDimensionValues(IncomeDimension, ["£ per pupil",
+                    "actuals",
+                    "percentage of expenditure",
+                    "percentage of income"]);
+                await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
+                await AssertCategoryNames(_incomeCategories, tab);
                 break;
             case HistoryTabs.Balance:
+                await BalanceDimension.ShouldBeVisible();
+                await BalanceModeTable.ShouldBeVisible().ShouldBeChecked(false);
+                await BalanceModeChart.ShouldBeVisible().ShouldBeChecked();
+                await HasDimensionValues(BalanceDimension, ["£ per pupil",
+                    "actuals",
+                    "percentage of expenditure",
+                    "percentage of income"]);
+                await BalanceDimension.ShouldHaveSelectedOption("actuals");
+                await AssertCategoryNames(_balanceCategories, tab);
                 break;
             case HistoryTabs.Workforce:
+                await WorkforceDimension.ShouldBeVisible();
+                await WorkforceModeTable.ShouldBeVisible().ShouldBeChecked(false);
+                await WorkforceModeChart.ShouldBeVisible().ShouldBeChecked();
+                await HasDimensionValues(WorkforceDimension, ["total",
+                    "headcount per FTE",
+                    "percentage of workforce", "pupils per staff role"]);
+                await WorkforceDimension.ShouldHaveSelectedOption("pupils per staff role");
+                await AssertCategoryNames(_workforceCategories, tab);
                 break;
         }
-
-
-
     }
 
     public async Task SelectDimension(HistoryTabs tab, string dimensionValue)
@@ -221,7 +280,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Income => _incomeSubCategories,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
-        Assert.Equal(expectedSubCategories,await GetSubCategoriesOfTab(tab));
+        Assert.Equal(expectedSubCategories, await GetSubCategoriesOfTab(tab));
     }
 
     public async Task AreTablesShown(HistoryTabs tab)
@@ -241,7 +300,7 @@ public class HistoricDataPage(IPage page)
             await table.ShouldBeVisible();
         }
     }
-    
+
     public async Task ClickViewAsTable(HistoryTabs tab)
     {
         var viewAsTableRadio = tab switch
@@ -263,7 +322,8 @@ public class HistoricDataPage(IPage page)
         await link.Locator(Selectors.ToggleSectionText).First.ClickAsync();
     }
 
-    public async Task IsSectionVisible(SpendingCategoriesNames categoryName, bool visibility, string text, string chartMode)
+    public async Task IsSectionVisible(SpendingCategoriesNames categoryName, bool visibility, string text,
+        string chartMode)
     {
         var link = SectionLink(categoryName);
         await link.ShouldHaveAttribute("aria-expanded", visibility.ToString().ToLower());
@@ -290,6 +350,7 @@ public class HistoricDataPage(IPage page)
             }
         }
     }
+
     private ILocator SectionLink(SpendingCategoriesNames categoryName)
     {
         var link = categoryName switch
@@ -308,7 +369,7 @@ public class HistoricDataPage(IPage page)
 
     private async Task<List<string>> GetSubCategoriesOfTab(HistoryTabs tab)
     {
-       await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         var subCategories = tab switch
         {
             HistoryTabs.Spending => await SpendingSubCategories.AllAsync(),
@@ -331,13 +392,21 @@ public class HistoricDataPage(IPage page)
         var actual = await dimensionTab.EvaluateAsync<string[]>(exp);
         Assert.Equal(expected, actual);
     }
-    private async Task AssertCategoryNames(string[] expected)
-    {
-        var allContent = await SpendingCategoryHeadings.AllTextContentsAsync();
 
+    private async Task AssertCategoryNames(string[] expected, HistoryTabs? tab)
+    {
+        await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
+        var categories = tab switch
+        {
+            HistoryTabs.Spending => await SpendingCategoryHeadings.AllTextContentsAsync(),
+            HistoryTabs.Income => await IncomeCategoryHeadings.AllTextContentsAsync(),
+            HistoryTabs.Balance => await BalanceCategoryHeadings.AllTextContentsAsync(),
+            HistoryTabs.Workforce => await WorkforceCategoryHeadings.AllTextContentsAsync(),
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
         foreach (var expectedHeading in expected)
         {
-            Assert.Contains(expectedHeading, allContent);
+            Assert.Contains(expectedHeading, categories);
         }
     }
 
@@ -357,14 +426,15 @@ public class HistoricDataPage(IPage page)
 
     private async Task AreChartStatsVisible(HistoryTabs? tab)
     {
-       await CheckVisibility(tab, Selectors.LineChartStats);
+        await CheckVisibility(tab, Selectors.LineChartStats);
     }
 
     private async Task AreChartsVisible(HistoryTabs? tab)
     {
         await CheckVisibility(tab, Selectors.Charts);
     }
-    private async Task CheckVisibility(HistoryTabs? tab, string selector )
+
+    private async Task CheckVisibility(HistoryTabs? tab, string selector)
     {
         var sections = tab switch
         {
@@ -381,5 +451,4 @@ public class HistoricDataPage(IPage page)
             await element.ShouldBeVisible();
         }
     }
-
 }

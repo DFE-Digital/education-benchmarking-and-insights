@@ -95,6 +95,12 @@ public static class Selectors
     public const string ExpenditureDimension = "#expenditure-dimension";
     public const string ExpenditureModeTable = "#expenditure-mode-table";
     public const string ExpenditureModeChart = "#expenditure-mode-chart";
+    public const string IncomeModeTable = "#income-mode-table";
+    public const string IncomeModeChart = "#income-mode-chart";
+    public const string BalanceModeTable = "#balance-mode-table";
+    public const string BalanceModeChart = "#balance-mode-chart";
+    public const string WorkforceModeTable = "#workforce-mode-table";
+    public const string WorkforceModeChart = "#workforce-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
     public const string BalanceDimension = "#balance-dimension";
