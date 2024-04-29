@@ -43,7 +43,7 @@ jobs:
                 inlineScript: |
                     REGISTRY=/subscriptions/$(sourceSubscriptionID)/resourceGroups/${{ parameters.sourceEnvironmentPrefix }}-ebis-core/providers/Microsoft.ContainerRegistry/registries/${{ parameters.sourceEnvironmentPrefix }}acr
                     echo ${REGISTRY}
-                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --registry ${REGISTRY}
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --registry ${REGISTRY}
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
