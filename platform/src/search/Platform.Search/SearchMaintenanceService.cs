@@ -4,7 +4,6 @@ using Azure.Search.Documents.Indexes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Platform.Search.Builders;
-using Platform.Search.Organisation;
 using Platform.Search.School;
 using Platform.Search.Trust;
 
@@ -19,7 +18,6 @@ public interface ISearchMaintenanceService
 public class SearchMaintenanceServiceOptions
 {
     [Required] public CosmosOptions? Cosmos { get; set; }
-    [Required] public StorageOptions? Storage { get; set; }
     [Required] public string? Name { get; set; }
     [Required] public string? Key { get; set; }
 
@@ -30,12 +28,6 @@ public class SearchMaintenanceServiceOptions
     {
         [Required] public string? ConnectionString { get; set; }
         [Required] public string? DatabaseId { get; set; }
-    }
-
-    public class StorageOptions
-    {
-        [Required] public string? ConnectionString { get; set; }
-        [Required] public string? LocalAuthoritiesContainer { get; set; }
     }
 }
 
@@ -149,7 +141,6 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     {
         var builders = new IndexBuilder[]
         {
-            new OrganisationIndexBuilder(),
             new TrustIndexBuilder(),
             new SchoolIndexBuilder()
         };
@@ -175,13 +166,9 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     private async Task BuildDataSourcesConnections()
     {
         ArgumentNullException.ThrowIfNull(_options.Cosmos);
-        ArgumentNullException.ThrowIfNull(_options.Storage);
 
         var builders = new DataSourceConnectionBuilder[]
         {
-            new OrganisationSchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new OrganisationTrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new OrganisationLaDataSourceConnectionBuilder(_options.Storage.ConnectionString, _options.Storage.LocalAuthoritiesContainer),
             new SchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
             new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
         };
@@ -209,10 +196,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new IndexerBuilder[]
         {
             new SchoolIndexerBuilder(),
-            new TrustIndexerBuilder(),
-            new OrganisationSchoolIndexerBuilder(),
-            new OrganisationTrustIndexerBuilder(),
-            new OrganisationLaIndexerBuilder()
+            new TrustIndexerBuilder()
         };
 
         foreach (var builder in builders)
