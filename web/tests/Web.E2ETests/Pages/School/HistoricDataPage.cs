@@ -97,7 +97,7 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceDimension => page.Locator(Selectors.BalanceDimension);
     private ILocator WorkforceDimension => page.Locator(Selectors.WorkforceDimension);
     
-    private ILocator Tables => page.Locator(Selectors.SectionTable);
+    private ILocator Tables => page.Locator(Selectors.GovTable);
     private ILocator SpendingSections =>
         page.Locator($"{Selectors.SpendingHistoryTab} {Selectors.GovAccordionSection}");
 
@@ -105,6 +105,11 @@ public class HistoricDataPage(IPage page)
         page.Locator($"{Selectors.IncomeHistoryTab} {Selectors.GovAccordionSection}");
 
     private ILocator SpendingAccordion => page.Locator(Selectors.SpendingAccordions);
+    private ILocator SpendingTabContent => page.Locator(Selectors.SpendingPanel);
+    private ILocator IncomeTabContent => page.Locator(Selectors.IncomePanel);
+    private ILocator BalanceTabContent => page.Locator(Selectors.BalancePanel);
+    private ILocator WorkforceTabContent => page.Locator(Selectors.WorkforcePanel);
+    
     private ILocator SpendingSubCategories => SpendingAccordion.Locator($"{Selectors.H3}");
 
     private ILocator IncomeAccordion => page.Locator(Selectors.IncomeAccordions);
@@ -123,6 +128,8 @@ public class HistoricDataPage(IPage page)
         HistoryTabs selectedTab = tab ?? HistoryTabs.Spending;
         await PageH1Heading.ShouldBeVisible();
         await BackLink.ShouldBeVisible();
+        await AreChartStatsVisible(tab);
+        await AreChartsVisible(tab);
         switch (selectedTab)
         {
             case HistoryTabs.Spending:
@@ -161,6 +168,8 @@ public class HistoricDataPage(IPage page)
 
     public async Task ClickShowAllSections(HistoryTabs tab)
     {
+        if (tab == HistoryTabs.Balance || tab == HistoryTabs.Workforce)
+            return;
         var showAllSectionsLink = tab switch
         {
             HistoryTabs.Spending => ShowHideAllSectionsLink.First,
@@ -219,8 +228,10 @@ public class HistoricDataPage(IPage page)
     {
         var sections = tab switch
         {
-            HistoryTabs.Spending => SpendingAccordion.Locator(Tables),
-            HistoryTabs.Income => IncomeAccordion.Locator(Tables),
+            HistoryTabs.Spending => SpendingTabContent.Locator(Tables),
+            HistoryTabs.Income => IncomeTabContent.Locator(Tables),
+            HistoryTabs.Balance => BalanceTabContent.Locator(Tables),
+            HistoryTabs.Workforce => WorkforceTabContent.Locator(Tables),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -230,24 +241,7 @@ public class HistoricDataPage(IPage page)
             await table.ShouldBeVisible();
         }
     }
-
-    public async Task AreTableStatsShown(HistoryTabs tab)
-    {
-        var sections = tab switch
-        {
-            HistoryTabs.Spending => SpendingAccordion.Locator(Selectors.LineChartStats),
-            HistoryTabs.Income => IncomeAccordion.Locator(Selectors.LineChartStats),
-            _ => throw new ArgumentOutOfRangeException(nameof(tab))
-        };
-
-        var tables = await sections.AllAsync();
-        foreach (var table in tables)
-        {
-            await table.ShouldBeVisible();
-        }
-    }
-
-
+    
     public async Task ClickViewAsTable(HistoryTabs tab)
     {
         var viewAsTableRadio = tab switch
@@ -359,6 +353,33 @@ public class HistoricDataPage(IPage page)
         };
 
         return chart;
+    }
+
+    private async Task AreChartStatsVisible(HistoryTabs? tab)
+    {
+       await CheckVisibility(tab, Selectors.LineChartStats);
+    }
+
+    private async Task AreChartsVisible(HistoryTabs? tab)
+    {
+        await CheckVisibility(tab, Selectors.Charts);
+    }
+    private async Task CheckVisibility(HistoryTabs? tab, string selector )
+    {
+        var sections = tab switch
+        {
+            HistoryTabs.Spending => SpendingTabContent.Locator(selector),
+            HistoryTabs.Income => IncomeTabContent.Locator(selector),
+            HistoryTabs.Balance => BalanceTabContent.Locator(selector),
+            HistoryTabs.Workforce => WorkforceTabContent.Locator(selector),
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+
+        var elements = await sections.AllAsync();
+        foreach (var element in elements)
+        {
+            await element.ShouldBeVisible();
+        }
     }
 
 }

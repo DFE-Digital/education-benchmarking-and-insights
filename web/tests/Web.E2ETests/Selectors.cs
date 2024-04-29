@@ -15,6 +15,7 @@ public static class Selectors
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
+    public const string GovTable = ".govuk-table";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -106,6 +107,11 @@ public static class Selectors
     public const string IncomeTableMode = "#income-mode-table";
     public const string BalanceTableMode = "#balance-mode-table";
     public const string WorkforceTableMode = "#workforce-mode-table";
+    public const string SpendingPanel = "#spending";
+    public const string IncomePanel = "#income";
+    public const string BalancePanel = "#balance";
+    public const string WorkforcePanel = "#workforce";
+        
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";

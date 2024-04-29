@@ -28,13 +28,14 @@
         Given I am on '<tab>' history page for school with URN '101241'
         And all sections are shown on '<tab>'
         When I click on view as table on '<tab>' tab
-        Then all sections on '<tab>' tab are expanded
-        And are showing table view on '<tab>' tab
+        Then are showing table view on '<tab>' tab
 
         Examples:
           | tab       |
           | spending  |
           | income    |
+          | balance   |
+          | workforce |
        
 
     Scenario: Hide single section

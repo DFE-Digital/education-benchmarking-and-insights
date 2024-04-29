@@ -70,7 +70,6 @@ public class HistoricDataSteps(PageDriver driver)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.AreTablesShown(TabNamesFromFriendlyNames(tab));
-        await _historicDataPage.AreTableStatsShown(TabNamesFromFriendlyNames(tab));
     }
 
     [When("I click on view as table on '(.*)' tab")]
