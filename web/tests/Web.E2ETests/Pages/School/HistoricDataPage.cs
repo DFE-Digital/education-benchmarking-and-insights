@@ -103,11 +103,13 @@ public class HistoricDataPage(IPage page)
 
     private ILocator IncomeSections =>
         page.Locator($"{Selectors.IncomeHistoryTab} {Selectors.GovAccordionSection}");
-    private ILocator SpendingSubCategories => page.Locator($"{Selectors.SpendingAccordions} {Selectors.H3}");
-    private ILocator IncomeSubCategories => page.Locator($"{Selectors.IncomeAccordions} {Selectors.H3}");
 
     private ILocator SpendingAccordion => page.Locator(Selectors.SpendingAccordions);
+    private ILocator SpendingSubCategories => SpendingAccordion.Locator($"{Selectors.H3}");
+
     private ILocator IncomeAccordion => page.Locator(Selectors.IncomeAccordions);
+    private ILocator IncomeSubCategories => IncomeAccordion.Locator($"{Selectors.H3}");
+
     private ILocator SpendingTableView => page.Locator(Selectors.SpendingTableMode);
     private ILocator IncomeTableView => page.Locator(Selectors.IncomeTableMode);
     private ILocator BalanceTableView => page.Locator(Selectors.BalanceTableMode);
@@ -312,6 +314,7 @@ public class HistoricDataPage(IPage page)
 
     private async Task<List<string>> GetSubCategoriesOfTab(HistoryTabs tab)
     {
+       await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         var subCategories = tab switch
         {
             HistoryTabs.Spending => await SpendingSubCategories.AllAsync(),
