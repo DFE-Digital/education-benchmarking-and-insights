@@ -15,7 +15,7 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def connect_to_queue() -> QueueClient:
-    conn_str = os.getenv("QUEUE_CONNECTION_STRING")
+    conn_str = os.getenv("STORAGE_CONNECTION_STRING")
     queue_name = os.getenv("WORKER_QUEUE_NAME")
 
     if not conn_str:
@@ -36,11 +36,12 @@ def connect_to_queue() -> QueueClient:
 def receive_messages():
     try:
         queue = connect_to_queue()
-        msg = queue.receive_message()
+        msg = queue.receive_message(visibility_timeout=300)
         if msg is not None:
-            logger.info(f"received message {msg}")
+            logger.info(f"received message {msg.content}")
             time.sleep(45)
             logger.info(f"processing complete")
+            queue.delete_message(msg)
             exit(0)
         else:
             logger.info("no messages received")
