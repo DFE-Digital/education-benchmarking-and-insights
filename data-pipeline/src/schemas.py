@@ -321,12 +321,7 @@ ks2 = {
 }
 
 ks4_index_col = "URN"
-ks4 = {
-    "URN": "Int64",
-    "ATT8SCR": "string",
-    "P8MEA": "string",
-    "P8_BANDING": "string"
-}
+ks4 = {"URN": "Int64", "ATT8SCR": "string", "P8MEA": "string", "P8_BANDING": "string"}
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {
@@ -398,7 +393,7 @@ aar_academies = {
     "Total Costs of Educational Supplies": "float",
     "Costs of Brought in Professional Services": "float",
     "Total Expenditure": "float",
-    "Share of Revenue Reserve, distributed on per pupil basis\n": "float"
+    "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
 }
 
 aar_aggregation_columns = [
