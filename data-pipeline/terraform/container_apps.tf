@@ -32,7 +32,7 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   secret {
-    name  = "storage-connection-string"
+    name  = "queue-connection-string"
     value = data.azurerm_storage_account.main.primary_connection_string
   }
 
@@ -71,7 +71,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
       env {
         name        = "STORAGE_CONNECTION_STRING"
-        secret_name = "storage-connection-string"
+        secret_name = "queue-connection-string"
       }
     }
 
