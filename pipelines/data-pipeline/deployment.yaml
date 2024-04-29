@@ -32,6 +32,8 @@ jobs:
                 scriptLocation: 'inlineScript'
                 inlineScript: |
                   ID=$(az account show --name ${{ parameters.sourceSubscription }} --output tsv --query "id")
+                  PWD=$(az acr credential show -n ${{ parameters.sourceEnvironmentPrefix }}acr --query 'passwords[0].value')
+                  echo "##vso[task.setvariable variable=pwd]${PWD}"
                   echo "##vso[task.setvariable variable=sourceSubscriptionID]${ID}"
 
             - task: AzureCLI@2
@@ -43,7 +45,7 @@ jobs:
                 inlineScript: |
                     REGISTRY=/subscriptions/$(sourceSubscriptionID)/resourceGroups/${{ parameters.sourceEnvironmentPrefix }}-ebis-core/providers/Microsoft.ContainerRegistry/registries/${{ parameters.sourceEnvironmentPrefix }}acr
                     echo ${REGISTRY}
-                    az acr import --name ${{ parameters.environmentPrefix }}acr --source fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --registry ${REGISTRY}
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --registry ${REGISTRY} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
