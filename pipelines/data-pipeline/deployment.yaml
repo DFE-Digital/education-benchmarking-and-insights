@@ -31,10 +31,8 @@ jobs:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
-                  ID=$(az account show --name ${{ parameters.sourceSubscription }} --output tsv --query "id")
                   PWD=$(az acr credential show -n ${{ parameters.sourceEnvironmentPrefix }}acr --query 'passwords[0].value')
                   echo "##vso[task.setvariable variable=pwd]${PWD}"
-                  echo "##vso[task.setvariable variable=sourceSubscriptionID]${ID}"
 
             - task: AzureCLI@2
               displayName: 'Import image from ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}'
@@ -43,14 +41,11 @@ jobs:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
-                    REGISTRY=/subscriptions/$(sourceSubscriptionID)/resourceGroups/${{ parameters.sourceEnvironmentPrefix }}-ebis-core/providers/Microsoft.ContainerRegistry/registries/${{ parameters.sourceEnvironmentPrefix }}acr
-                    echo ${REGISTRY}
-                    echo "$(pwd)"
                     az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
-    dependsOn: ${{ parameters.dependsOn }}
+    dependsOn: [DataPipelinePushImage]
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
