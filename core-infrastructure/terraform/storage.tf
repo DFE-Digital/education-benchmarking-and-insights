@@ -1,4 +1,4 @@
-resource "azurerm_storage_account" "pipeline-message-hub-storage" {
+resource "azurerm_storage_account" "data" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
@@ -6,7 +6,7 @@ resource "azurerm_storage_account" "pipeline-message-hub-storage" {
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}messagehubstorage"
+  name                            = "${var.environment-prefix}data"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -29,19 +29,19 @@ resource "azurerm_storage_account" "pipeline-message-hub-storage" {
 }
 
 resource "azurerm_storage_queue" "pipeline-message-start-queue" {
-  name                 = "job-start"
-  storage_account_name = azurerm_storage_account.pipeline-message-hub-storage.name
+  name                 = "data-pipeline-job-start"
+  storage_account_name = azurerm_storage_account.data.name
 }
 
 resource "azurerm_storage_queue" "pipeline-message-finished-queue" {
-  name                 = "job-finished"
-  storage_account_name = azurerm_storage_account.pipeline-message-hub-storage.name
+  name                 = "data-pipeline-job-finished"
+  storage_account_name = azurerm_storage_account.data.name
 }
 
-resource "azurerm_key_vault_secret" "pipeline-message-hub-storage-connection-string" {
+resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
-  name         = "pipeline-message-hub-storage-connection-string"
-  value        = azurerm_storage_account.pipeline-message-hub-storage.primary_connection_string
+  name         = "data-storage-connection-string"
+  value        = azurerm_storage_account.data.primary_connection_string
   key_vault_id = azurerm_key_vault.key-vault.id
   content_type = "connection-string"
 }

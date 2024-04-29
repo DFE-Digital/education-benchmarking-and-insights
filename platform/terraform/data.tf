@@ -27,6 +27,6 @@ data "external" "agent_ip_address" {
 }
 
 data "azurerm_key_vault_secret" "pipeline-message-hub-storage-connection-string" {
-  name         = "pipeline-message-hub-storage-connection-string"
+  name         = "data-storage-connection-string"
   key_vault_id = data.azurerm_key_vault.key-vault.id
 }
