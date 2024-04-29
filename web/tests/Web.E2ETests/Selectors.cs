@@ -117,7 +117,7 @@ public static class Selectors
     public const string IncomePanel = "#income";
     public const string BalancePanel = "#balance";
     public const string WorkforcePanel = "#workforce";
-        
+
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";

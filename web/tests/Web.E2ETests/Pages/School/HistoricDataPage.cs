@@ -157,6 +157,15 @@ public class HistoricDataPage(IPage page)
     private ILocator WorkforceTableView => page.Locator(Selectors.WorkforceTableMode);
     private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SpendingAccordionContent2);
 
+    private ILocator AllSpendingCharts => SpendingTabContent.Locator(Selectors.Charts);
+    private ILocator SpendingChartsStats => SpendingTabContent.Locator(Selectors.LineChartStats);
+    private ILocator AllIncomeCharts => IncomeTabContent.Locator(Selectors.Charts);
+    private ILocator IncomeChartsStats => IncomeTabContent.Locator(Selectors.LineChartStats);
+    private ILocator AllBalanceCharts => BalanceTabContent.Locator(Selectors.Charts);
+    private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
+    private ILocator AllWorkforceCharts => WorkforceTabContent.Locator(Selectors.Charts);
+    private ILocator WorkforceChartsStats => WorkforceTabContent.Locator(Selectors.LineChartStats);
+
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
     {
@@ -178,6 +187,8 @@ public class HistoricDataPage(IPage page)
                     "percentage of income"]);
                 await AssertCategoryNames(_spendingCategories, tab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
+                Assert.Equal(41, await AllSpendingCharts.Count());
+
                 break;
             case HistoryTabs.Income:
                 await IncomeDimension.ShouldBeVisible();
@@ -190,6 +201,7 @@ public class HistoricDataPage(IPage page)
                     "percentage of income"]);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
                 await AssertCategoryNames(_incomeCategories, tab);
+                Assert.Equal(17, await AllIncomeCharts.Count());
                 break;
             case HistoryTabs.Balance:
                 await BalanceDimension.ShouldBeVisible();
@@ -201,6 +213,7 @@ public class HistoricDataPage(IPage page)
                     "percentage of income"]);
                 await BalanceDimension.ShouldHaveSelectedOption("actuals");
                 await AssertCategoryNames(_balanceCategories, tab);
+                Assert.Equal(2, await AllBalanceCharts.Count());
                 break;
             case HistoryTabs.Workforce:
                 await WorkforceDimension.ShouldBeVisible();
@@ -208,9 +221,11 @@ public class HistoricDataPage(IPage page)
                 await WorkforceModeChart.ShouldBeVisible().ShouldBeChecked();
                 await HasDimensionValues(WorkforceDimension, ["total",
                     "headcount per FTE",
-                    "percentage of workforce", "pupils per staff role"]);
+                    "percentage of workforce",
+                    "pupils per staff role"]);
                 await WorkforceDimension.ShouldHaveSelectedOption("pupils per staff role");
                 await AssertCategoryNames(_workforceCategories, tab);
+                Assert.Equal(8, await AllWorkforceCharts.Count());
                 break;
         }
     }
@@ -426,26 +441,34 @@ public class HistoricDataPage(IPage page)
 
     private async Task AreChartStatsVisible(HistoryTabs? tab)
     {
-        await CheckVisibility(tab, Selectors.LineChartStats);
+        var sections = tab switch
+        {
+            HistoryTabs.Spending => SpendingChartsStats,
+            HistoryTabs.Income => IncomeChartsStats,
+            HistoryTabs.Balance => BalanceChartsStats,
+            HistoryTabs.Workforce => WorkforceChartsStats,
+            _ => throw new ArgumentOutOfRangeException(nameof(tab))
+        };
+        await CheckVisibility(sections);
     }
 
     private async Task AreChartsVisible(HistoryTabs? tab)
     {
-        await CheckVisibility(tab, Selectors.Charts);
-    }
-
-    private async Task CheckVisibility(HistoryTabs? tab, string selector)
-    {
         var sections = tab switch
         {
-            HistoryTabs.Spending => SpendingTabContent.Locator(selector),
-            HistoryTabs.Income => IncomeTabContent.Locator(selector),
-            HistoryTabs.Balance => BalanceTabContent.Locator(selector),
-            HistoryTabs.Workforce => WorkforceTabContent.Locator(selector),
+            HistoryTabs.Spending => AllSpendingCharts,
+            HistoryTabs.Income => AllIncomeCharts,
+            HistoryTabs.Balance => AllBalanceCharts,
+            HistoryTabs.Workforce => AllWorkforceCharts,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
+        await CheckVisibility(sections);
+    }
 
-        var elements = await sections.AllAsync();
+    private async Task CheckVisibility(ILocator locator)
+    {
+
+        var elements = await locator.AllAsync();
         foreach (var element in elements)
         {
             await element.ShouldBeVisible();
