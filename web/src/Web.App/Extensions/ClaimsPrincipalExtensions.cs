@@ -1,11 +1,10 @@
 using System.Security.Claims;
-using System.Web;
-using Web.Identity.Models;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
+using Web.App.Identity;
+using Web.App.Identity.Models;
 
-namespace Web.Identity.Extensions;
+namespace Web.App.Extensions;
 
 public static class ClaimsPrincipalExtensions
 {
@@ -23,7 +22,7 @@ public static class ClaimsPrincipalExtensions
         if (principal.Identity is ClaimsIdentity identity)
         {
             return Guid.Parse(identity.Claims
-                .Where(c => c.Type == "sub")
+                .Where(c => c.Type == ClaimTypes.NameIdentifier)
                 .Select(c => c.Value)
                 .Single());
         }
@@ -108,39 +107,6 @@ public static class ClaimsPrincipalExtensions
         return true;
     }
 
-    public static Role ActiveRole(this ClaimsPrincipal principal)
-    {
-        return principal.Claims
-            .Where(c => c.Type == ClaimNames.ActiveRole)
-            .Select(r => new Role { Name = r.Value })
-            .FirstOrDefault();
-    }
-
-    public static bool DoesHaveOneActiveRole(this ClaimsPrincipal principal)
-    {
-        return principal.Claims.Any(c => c.Type == ClaimNames.ActiveRole);
-    }
-
-    public static bool DoesHaveOtherRoles(this ClaimsPrincipal principal)
-    {
-        var roleCount = principal.Claims.FirstOrDefault(c => c.Type == ClaimNames.RoleCount);
-
-        if (roleCount == null)
-            return false;
-
-        if (int.TryParse(roleCount.Value, out var roles))
-            return roles > 1;
-
-        return false;
-    }
-
-    public static IEnumerable<Role> Roles(this ClaimsPrincipal principal)
-    {
-        return principal.Claims
-            .Where(c => c.Type == ClaimTypes.Role && Operations.AllRoles.Contains(c.Value))
-            .Select(r => new Role { Name = r.Value });
-    }
-
     private static IEnumerable<OperationClaim> GetOperations(this ClaimsPrincipal principal)
     {
         return principal.Claims.Where(c => c.Type == ClaimNames.Operation)
@@ -160,32 +126,15 @@ public static class ClaimsPrincipalExtensions
     }
 
 
-    public static ClaimsPrincipal GetOrSelectRole(this ClaimsPrincipal principal, HttpContext ctx)
-    {
-        if (!principal.DoesHaveOneActiveRole() && !ctx.Request.Path.StartsWithSegments("/select-role"))
-        {
-            var returnUrl = HttpUtility.UrlEncode($"{ctx.Request.Path}{ctx.Request.QueryString}");
-            ctx.Response.Redirect($"/select-role?returnUrl={returnUrl}");
-        }
-
-        return principal;
-    }
-
-    public static ClaimsPrincipal ApplyClaims(this ClaimsPrincipal principal, string accessToken, Role[] roles)
+    public static ClaimsPrincipal ApplyClaims(this ClaimsPrincipal principal, string accessToken, IEnumerable<string> schools)
     {
         if (principal.Identity is ClaimsIdentity identity)
         {
-            foreach (var role in roles)
+            foreach (var school in schools)
             {
-                identity.AddClaim(new Claim(ClaimTypes.Role, role.Code));
-
-                foreach (var ops in Operations.ForRole(role.Code))
-                {
-                    identity.AddClaim(ops);
-                }
+                identity.AddClaim(new Claim(ClaimNames.Schools, school));
             }
 
-            identity.AddClaim(new Claim(ClaimNames.RoleCount, roles.Length.ToString()));
             identity.AddClaim(new Claim(ClaimNames.UserId, principal.UserId()));
             identity.AddClaim(new Claim(ClaimNames.Name, principal.UserName()));
             identity.AddClaim(new Claim(ClaimNames.AccessToken, accessToken));

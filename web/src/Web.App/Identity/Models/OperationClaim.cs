@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Claims;
 
-namespace Web.Identity.Models;
+namespace Web.App.Identity.Models;
 
 
 [ExcludeFromCodeCoverage]

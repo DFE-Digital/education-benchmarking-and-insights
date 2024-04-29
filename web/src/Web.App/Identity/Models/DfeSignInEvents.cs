@@ -3,7 +3,7 @@ using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
-namespace Web.Identity.Models;
+namespace Web.App.Identity.Models;
 
 [ExcludeFromCodeCoverage]
 public class DfeSignInEvents

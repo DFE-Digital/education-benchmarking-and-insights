@@ -1,6 +1,6 @@
-using Web.Identity.Models;
+using Web.App.Identity.Models;
 
-namespace Web.Identity;
+namespace Web.App.Identity;
 
 internal class RoleOperationMap : Dictionary<string, List<OperationClaim>>
 {
@@ -42,10 +42,5 @@ public static class Operations
         var opAsClaim = (OperationClaim)op;
         return All.FirstOrDefault(o => o.Equals(opAsClaim)) ??
                throw new ArgumentOutOfRangeException($"Unable to find operation {op}");
-    }
-
-    public static IEnumerable<Role> GetAllRoles()
-    {
-        return RoleOperationMap.Keys.Select(r => new Role { Name = r, Code = r });
     }
 }

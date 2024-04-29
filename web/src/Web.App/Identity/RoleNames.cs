@@ -1,4 +1,4 @@
-namespace Web.Identity;
+namespace Web.App.Identity;
 
 public static class RoleNames
 {
