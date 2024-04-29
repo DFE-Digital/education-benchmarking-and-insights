@@ -26,12 +26,14 @@
 
 {% set trustsHtml %}
 
-{{ govukInput({
+{{ xGovukAutocomplete({
     id: "trust-name",
     name: "trustName",
+    allowEmpty: false,
     hint: {
       text: "Name or company number"
-    }
+    },
+    items: trusts
   }) }}
 {% endset -%}
 
