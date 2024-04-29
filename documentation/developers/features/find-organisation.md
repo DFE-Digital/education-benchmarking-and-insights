@@ -49,7 +49,7 @@ This feature has monorepo dependencies on:
 title: Happy path
 ---
 flowchart TD
-A([✏️ Enter search criteria]) --> B[GET\n/api/establishments/suggest?type=school&search=XXX ]
+A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
   B --> C[Proxy to Establishment API]
   C --> D["POST\n/api/schools/suggest\n{ 'searchText': 'XXX', 'size': 10, 'suggesterName': 'school-suggester' }"]
   D --> E["SchoolSearchService.SuggestAsync()"]
@@ -60,7 +60,7 @@ A([✏️ Enter search criteria]) --> B[GET\n/api/establishments/suggest?type=sc
   I --> J[Redirect to school page]
 ```
 
-On the Web side, `GET /api/establishments/suggest` proxies to the Establishment API based on the `type` in the query string:
+On the Web side, `GET /api/suggest` proxies to the Establishment API based on the `type` in the query string:
 
 | Type     | Method | URL                    | Body                                                                       |
 |----------|--------|------------------------|----------------------------------------------------------------------------|
