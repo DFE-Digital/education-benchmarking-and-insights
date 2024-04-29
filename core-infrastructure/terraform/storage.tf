@@ -38,6 +38,12 @@ resource "azurerm_storage_queue" "pipeline-message-finished-queue" {
   storage_account_name = azurerm_storage_account.data.name
 }
 
+resource "azurerm_storage_container" "pipeline-raw-data" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
+  name = "raw"
+  storage_account_name = azurerm_storage_account.data.name
+}
+
 resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   name         = "data-storage-connection-string"
