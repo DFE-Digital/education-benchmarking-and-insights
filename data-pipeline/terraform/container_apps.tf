@@ -77,7 +77,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
     azure_queue_scale_rule {
       name         = "${var.environment-prefix}-data-pipeline-scaler"
-      queue_name   = azurerm_storage_queue.worker-queue.name
+      queue_name   = "data-pipeline-job-start"
       queue_length = 1
       authentication {
         secret_name       = "queue-connection-string"
