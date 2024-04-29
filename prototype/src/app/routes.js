@@ -12,9 +12,10 @@ const router = govukPrototypeKit.requests.setupRouter()
 router.get( '/find-school', (req, res) => {
 
     var schools = getSchoolList();
+    var trusts = getTrustList();
     var authorities = getLocalAuthorityList();
 
-    res.render( '/find-school', { schools: schools, authorities: authorities } );
+    res.render( '/find-school', { schools: schools, trusts: trusts, authorities: authorities } );
 })
 
 router.get( '/comparators/create/local-authority', (req, res) => {
@@ -268,6 +269,106 @@ router.get( '/set-school', (req, res) => {
 
 })
 
+// COMPARE TRUSTS
+
+router.post( '/compare-trusts', (req, res) => {
+    
+    var compareRoute = 'by-name';
+    if ( req.session.data['compareRoute'] ) {
+        compareRoute = req.session.data['compareRoute'];
+    }
+
+    res.redirect( '/compare-trusts/' + compareRoute );
+
+})
+
+router.get( '/compare-trusts/by-name', (req, res) => {
+
+    var rows = [];
+    var trustRows = getTrustList();
+    var trusts = req.session.data.trusts || [];
+
+
+    for ( i=0; i<trusts.length; i++) {
+        var nameHtml = "<a href=\"#\">" + trusts[i].trustName +"</a></span>";
+        rows.push( [ {'html':  nameHtml}, {'text': trusts[i].trustPupils}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() }, {'text': 'Secondary'}, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
+    }
+
+    console.log(rows);
+    res.render( '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+
+    // clear confirmation/errors
+    req.session.data['confirmation'] = '';
+    req.session.data['errorThisPage'] = 'false';
+    req.session.data['errorNoSchool'] = 'false';
+
+})
+
+function addTrust (req, res, trustName) {
+
+    var trusts = req.session.data.trusts || [];
+
+
+    trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
+    trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
+    trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 );
+   
+    trusts.unshift({'trustName': trustName, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustIncome': trustIncome });
+    req.session.data['trusts'] = trusts;
+    req.session.data['confirmation'] = 'trust-added';
+    req.session.data.trust = null;
+    
+  }
+
+
+router.get( '/compare-trusts/add-trust', (req, res) => {
+
+    var trustName = req.session.data.trust;
+
+    if ( trustName ) {
+        addTrust( req, res, trustName);
+    } else {
+        req.session.data['errorThisPage'] = 'true';
+        req.session.data['errorNoSchool'] = 'true';
+    }
+
+    res.redirect( '/compare-trusts/by-name' );
+
+})
+
+router.get( '/compare-trusts/remove', (req, res) => {
+
+    if (req.session.data.trusts ) {
+        req.session.data['trust-removed'] = req.session.data.trusts[req.query.id].trustName;
+        
+        req.session.data.trusts.splice( req.query.id, 1 );
+
+        req.session.data['confirmation'] = 'trust-removed';
+    }
+
+    res.redirect( '/compare-trusts/by-name' );
+
+})
+
+router.get( '/compare-trusts/undo-remove', (req, res) => {
+
+    var trustName = req.query.trustName;
+    addTrust( req, res, trustName);
+
+    res.redirect( '/compare-trusts/by-name' );
+
+})
+
+router.get( '/compare-trusts/reset-confirmed', (req, res) => {
+
+    req.session.data.trusts = null;
+
+    res.render( '/trust-homepage', {confirmation: 'comparator-reset' } );
+
+
+})
+
+
 // DUMMY DATA GENERATION
 
 function getSchoolList() {
@@ -283,6 +384,19 @@ function getSchoolList() {
     }
 
     return schools;
+}
+
+function getTrustList() {
+
+    var objTrustsFile = require('../app/data/trusts.json');
+    var objTrusts = objTrustsFile.trusts;
+    var trusts = [];
+
+    for (i=0; i<objTrusts.length; i++ ) {
+        trusts.push({'text':  objTrusts[i].trustName  });
+    }
+
+    return trusts;
 }
 
 function getLocalAuthorityList() {

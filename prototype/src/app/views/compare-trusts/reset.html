@@ -1,0 +1,43 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Delete your comparator set - – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your trust",
+        href: "/trust-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Do you want to delete your choices?</h1>
+        
+        {{ govukButton({
+          text: "Delete choices",
+          href: "/compare-trusts/reset-confirmed",
+          classes: "govuk-button"
+        }) }}
+
+        <p class="govuk-body"><a href="/compare-trusts/by-name" class="govuk-link">Cancel </a></p>
+
+    </div>
+</div>
+{% endblock %}
