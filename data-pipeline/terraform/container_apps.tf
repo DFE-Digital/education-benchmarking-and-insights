@@ -33,7 +33,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
   secret {
     name  = "storage-connection-string"
-    value = azurerm_storage_account.main.primary_connection_string
+    value = data.azurerm_storage_account.main.primary_connection_string
   }
 
   secret {
@@ -61,12 +61,12 @@ resource "azurerm_container_app" "data-pipeline" {
       ##TODO: Review if this is the best way to build this env
       env {
         name  = "WORKER_QUEUE_NAME"
-        value = azurerm_storage_queue.worker-queue.name
+        value = "data-pipeline-job-start"
       }
 
       env {
         name  = "COMPLETE_QUEUE_NAME"
-        value = azurerm_storage_queue.work-complete-queue.name
+        value = "data-pipeline-job-finished"
       }
 
       env {
