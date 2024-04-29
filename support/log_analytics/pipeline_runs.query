@@ -1,0 +1,4 @@
+ContainerAppConsoleLogs_CL
+| where RevisionName_s startswith "s198d01-ebis-data-pipeline"
+| where Log_s startswith "INFO:fbit-data-pipeline"
+| project TimeGenerated, ContainerId_s, Log_s
