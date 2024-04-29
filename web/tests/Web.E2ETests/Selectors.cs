@@ -15,6 +15,7 @@ public static class Selectors
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
+    public const string GovTable = ".govuk-table";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -94,8 +95,16 @@ public static class Selectors
     public const string ExpenditureDimension = "#expenditure-dimension";
     public const string ExpenditureModeTable = "#expenditure-mode-table";
     public const string ExpenditureModeChart = "#expenditure-mode-chart";
+    public const string IncomeModeTable = "#income-mode-table";
+    public const string IncomeModeChart = "#income-mode-chart";
+    public const string BalanceModeTable = "#balance-mode-table";
+    public const string BalanceModeChart = "#balance-mode-chart";
+    public const string WorkforceModeTable = "#workforce-mode-table";
+    public const string WorkforceModeChart = "#workforce-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
+    public const string BalanceDimension = "#balance-dimension";
+    public const string WorkforceDimension = "#workforce-dimension";
     public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
     public const string IncomeHistoryTab = "#tab_Income";
     public const string SpendingAccordions = "#accordion-expenditure";
@@ -104,6 +113,11 @@ public static class Selectors
     public const string IncomeTableMode = "#income-mode-table";
     public const string BalanceTableMode = "#balance-mode-table";
     public const string WorkforceTableMode = "#workforce-mode-table";
+    public const string SpendingPanel = "#spending";
+    public const string IncomePanel = "#income";
+    public const string BalancePanel = "#balance";
+    public const string WorkforcePanel = "#workforce";
+
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";

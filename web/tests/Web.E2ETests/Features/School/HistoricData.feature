@@ -1,31 +1,45 @@
 ﻿Feature: School historic data
 
-    Scenario: Change dimension of total spending and costs
-        Given I am on 'spending' history page for school with URN '101241'
-        When I change 'spending' dimension to '£ per pupil'
-        Then the 'spending' dimension is '£ per pupil'
+    Scenario Outline: Change dimension of history data
+        Given I am on '<tab>' history page for school with URN '101241'
+        When I change '<tab>' dimension to '<dimension>'
+        Then the '<tab>' dimension is '<dimension>'
+        
+    Examples:
+      | tab       | dimension         |
+      | spending  | £ per pupil       |
+      | income    | £ per pupil       |
+      | balance   | £ per pupil       |
+      | workforce | headcount per FTE |
 
-    Scenario: Show all should expand all sections
-        Given I am on 'spending' history page for school with URN '101241'
-        When I click on show all sections on 'spending' tab
-        Then all sections on 'spending' tab are expanded
-        And the show all text changes to hide all sections on 'spending' tab
-        And all 'spending' sub categories are displayed on the page
+    Scenario Outline: Show all should expand all sections
+        Given I am on '<tab>' history page for school with URN '101241'
+        When I click on show all sections on '<tab>'
+        Then all sections on '<tab>' tab are expanded
+        And the show all text changes to hide all sections on '<tab>'
+        And all '<tab>' sub categories are displayed on the page
+        
+    Examples:
+      | tab      |
+      | spending |
+      | income   |
 
     Scenario Outline: Change all charts to table view
         Given I am on '<tab>' history page for school with URN '101241'
-        And all sections are shown on '<tab>' tab
+        And all sections are shown on '<tab>'
         When I click on view as table on '<tab>' tab
-        Then all sections on '<tab>' tab are expanded
-        And are showing table view on '<tab>' tab
+        Then are showing table view on '<tab>' tab
 
         Examples:
-          | tab      |
-          | spending |
-          | income   |
+          | tab       |
+          | spending  |
+          | income    |
+          | balance   |
+          | workforce |
+       
 
     Scenario: Hide single section
         Given I am on 'spending' history page for school with URN '101241'
-        And all sections are shown on 'spending' tab
+        And all sections are shown on 'spending'
         When I click section link for 'non educational support staff'
         Then the section 'non educational support staff' is hidden
