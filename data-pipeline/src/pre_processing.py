@@ -22,9 +22,8 @@ def prepare_cdc_data(cdc_file_path, current_year):
     )
     cdc["Age Score"] = cdc["Proportion Area"] * (current_year - cdc["Indicative Age"])
     cdc["Age Average Score"] = cdc.groupby(by=["URN"])["Age Score"].sum()
-    cdc[["Total Internal Floor Area", "Age Average Score"]].drop_duplicates()
 
-    return cdc
+    return cdc[["Total Internal Floor Area", "Age Average Score"]].drop_duplicates()
 
 
 def prepare_census_data(workforce_census_path, pupil_census_path):
@@ -79,18 +78,18 @@ def prepare_sen_data(sen_path):
     )
     sen["Percentage SEN"] = (sen["EHC plan"] / sen["Total pupils"]) * 100.0
     sen["Primary Need SPLD"] = (
-        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
+            sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     )
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
     sen["Primary Need PMLD"] = (
-        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+            sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
     )
     sen["Primary Need SEMH"] = (
-        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+            sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
     )
     sen["Primary Need SLCN"] = (
-        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
+            sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
     )
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
@@ -146,23 +145,30 @@ def prepare_sen_data(sen_path):
 
 def prepare_ks2_data(ks2_path):
     ks2 = pd.read_excel(
-        "data/2022-2023_england_ks2revised.xlsx", usecols=schemas.ks2.keys()
+        ks2_path,
+        usecols=schemas.ks2.keys(),
+        index_col=schemas.ks2_index_col,
+        dtype=schemas.ks2,
     )
-    ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": 0, "LOWCOV": 0})
-    ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": 0, "LOWCOV": 0})
-    ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": 0, "LOWCOV": 0})
+    ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
+    ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
+    ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
 
     ks2["Ks2Progress"] = (
-        ks2["READPROG"].astype(float)
-        + ks2["MATPROG"].astype(float)
-        + ks2["WRITPROG"].astype(float)
+            ks2["READPROG"].astype(float)
+            + ks2["MATPROG"].astype(float)
+            + ks2["WRITPROG"].astype(float)
     )
 
-    return ks2[["URN", "Ks2Progress"]].copy()
+    return ks2[["Ks2Progress"]].dropna()
 
 
 def prepare_ks4_data(ks4_path):
-    ks4 = pd.read_excel(ks4_path)
+    ks4 = pd.read_excel(ks4_path,
+                        index_col=schemas.ks4_index_col,
+                        dtype=schemas.ks4,
+                        usecols=schemas.ks4.keys())
+
     ks4.rename(
         columns={
             "ATT8SCR": "AverageAttainment",
@@ -173,12 +179,19 @@ def prepare_ks4_data(ks4_path):
     )
 
     return ks4[
-        ["URN", "AverageAttainment", "Progress8Measure", "Progress8Banding"]
-    ].copy()
+        ["AverageAttainment", "Progress8Measure", "Progress8Banding"]
+    ].dropna()
 
 
 def prepare_aar_data(aar_path):
-    aar = pd.read_excel(aar_path, sheet_name="Academies")
+    aar = pd.read_excel(aar_path, sheet_name="Academies",
+                        usecols=schemas.aar_academies.keys(),
+                        dtype=schemas.aar_academies)
+
+    central_services_financial = pd.read_excel(aar_path, sheet_name="CentralServices",
+                                               usecols=schemas.aar_central_services.keys(),
+                                               dtype=schemas.aar_central_services)
+
     aar.rename(
         columns={
             "Academy UPIN": "academyupin",
@@ -192,11 +205,21 @@ def prepare_aar_data(aar_path):
     academies_financial = aar[
         aar["MAT SAT or Central Services"] == "Single Academy Trust (SAT)"
     ].copy()
+
     academy_financial_position = academies_financial[["academyupin", "Academy Balance"]]
+
+    academy_agg = (
+        academies_financial[schemas.aar_aggregation_columns]
+        .groupby("academyupin")
+        .sum()
+    )
+
+    academy_agg = academy_agg.drop(columns=["trustupin"])
 
     trust_financial = aar[
         aar["MAT SAT or Central Services"] == "Multi Academy Trust (MAT)"
-    ].copy()
+        ].copy()
+
     trust_financial_position = (
         trust_financial[["trustupin", "Academy Balance"]]
         .groupby("trustupin")
@@ -204,24 +227,18 @@ def prepare_aar_data(aar_path):
         .rename(columns={"Academy Balance": "Trust Balance"})
     )
 
-    central_services_financial = pd.read_excel(
-        "data/SFB_Academies_2022-23_20240418.xlsx", sheet_name="CentralServices"
-    )
     central_services_financial.rename(
         columns={
-            "Academy UPIN": "academyupin",
-            "In Year Balance": "Academy Balance",
-            "PFI": "PFI School",
+            "In Year Balance": "Central Services Balance",
             "Lead UPIN": "trustupin",
         },
         inplace=True,
     )
 
     central_services_financial_position = (
-        central_services_financial[["trustupin", "Academy Balance"]]
+        central_services_financial[["trustupin", "Central Services Balance"]]
         .groupby("trustupin")
         .sum()
-        .rename(columns={"Academy Balance": "Central Services Balance"})
     )
 
     aar = aar.drop(columns=["Academy Balance"])
@@ -232,16 +249,11 @@ def prepare_aar_data(aar_path):
         .merge(central_services_financial_position, on="trustupin", how="left")
     )
 
-    trust_agg = (
+    trust_ar = (
         trust_financial[schemas.aar_aggregation_columns].groupby("trustupin").sum()
     )
-    trust_agg = trust_agg.drop(columns=["academyupin"])
-    academy_agg = (
-        academies_financial[schemas.aar_aggregation_columns]
-        .groupby("academyupin")
-        .sum()
-    )
-    academy_agg = academy_agg.drop(columns=["trustupin"])
+
+    trust_ar = trust_ar.drop(columns=["academyupin"])
 
     academy_ar = (
         ar.reset_index()
@@ -257,20 +269,21 @@ def prepare_aar_data(aar_path):
         .set_index("academyupin")
     )
 
-    academy_ar["Central Services Financial Position"] = academy_ar[
-        "Central Services Balance"
-    ].map(mappings.map_is_surplus_deficit)
+    academy_ar["Central Services Financial Position"] = academy_ar["Central Services Balance"].map(
+        mappings.map_is_surplus_deficit
+    )
+
     academy_ar["Academy Financial Position"] = academy_ar["Academy Balance"].map(
         mappings.map_is_surplus_deficit
     )
+
     academy_ar["Trust Financial Position"] = academy_ar["Trust Balance"].map(
         mappings.map_is_surplus_deficit
     )
 
     academy_ar.merge(academy_agg, left_on="academyupin", right_index=True, how="left")
 
-    # TODO: Do we need to include the trust_ar information in the same way we have done for academy_ar
-    return ar, trust_agg, academy_ar
+    return trust_ar, academy_ar
 
 
 def prepare_schools_data(base_data_path, links_data_path):
@@ -292,7 +305,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-        gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
+            gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
@@ -315,11 +328,11 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
     )
     gias["HeadName"] = (
-        gias["HeadTitle (name)"]
-        + " "
-        + gias["HeadFirstName"]
-        + " "
-        + gias["HeadLastName"]
+            gias["HeadTitle (name)"]
+            + " "
+            + gias["HeadFirstName"]
+            + " "
+            + gias["HeadLastName"]
     )
 
     # In the following cell, we find all the predecessor and merged links.
@@ -351,13 +364,12 @@ def prepare_schools_data(base_data_path, links_data_path):
     return schools[
         schools["CloseDate"].isna()
         & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
-    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+        ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
 def build_academy_data(
-    academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
+        academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
 ):
-
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
     academy_year_end_date = datetime.date(year, 8, 30)
@@ -435,7 +447,7 @@ def build_academy_data(
 
 
 def build_maintained_school_data(
-    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -473,8 +485,8 @@ def build_maintained_school_data(
         axis=1,
     )
     maintained_schools["School Balance"] = (
-        maintained_schools["Total Income   I01 to I18"]
-        - maintained_schools["Total Expenditure  E01 to E32"]
+            maintained_schools["Total Income   I01 to I18"]
+            - maintained_schools["Total Expenditure  E01 to E32"]
     )
     maintained_schools["School Financial Position"] = maintained_schools[
         "School Balance"
@@ -550,7 +562,7 @@ def build_federations_data(links_data_path, maintained_schools):
 
     federations = maintained_schools[["LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
-    ].copy()
+        ].copy()
     # join
     federations = federations.join(
         group_links[["Group Name", "Group UID", "Closed Date"]]

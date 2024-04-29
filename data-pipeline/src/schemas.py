@@ -310,15 +310,96 @@ groups = {
 }
 
 
+ks2_index_col = "URN"
 ks2 = {
     "URN": "Int64",
     "LEA": "Int64",
     "ESTAB": "Int64",
-    "READPROG": "float",
-    "WRITPROG": "float",
-    "MATPROG": "float",
+    "READPROG": "string",
+    "WRITPROG": "string",
+    "MATPROG": "string",
 }
 
+ks4_index_col = "URN"
+ks4 = {
+    "URN": "Int64",
+    "ATT8SCR": "string",
+    "P8MEA": "string",
+    "P8_BANDING": "string"
+}
+
+aar_academies_index_col = "Academy UPIN"
+aar_academies = {
+    "Academy UPIN": "Int64",
+    "In year balance": "float",
+    "PFI": "string",
+    "Lead UPIN": "Int64",
+    "MAT SAT or Central Services": "string",
+    "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "float",
+    "of which: Coronavirus Government Funding": "float",
+    "SEN funding": "float",
+    "Other DfE/EFA Revenue Grants": "float",
+    "Other income - LA & other Government grants": "float",
+    "Government source, non-grant": "float",
+    "Academies": "float",
+    "Non-Government": "float",
+    "All income from facilities and services": "float",
+    "Income from catering": "float",
+    "Receipts from supply teacher insurance claims": "float",
+    "Donations and/or voluntary funds": "float",
+    "Other self-generated income": "float",
+    "Investment income": "float",
+    "Teaching staff": "float",
+    "Supply teaching staff": "float",
+    "Education support staff": "float",
+    "Administrative and clerical staff": "float",
+    "Premises staff": "float",
+    "Catering staff": "float",
+    "Other staff": "float",
+    "Indirect employee expenses": "float",
+    "Staff development and training": "float",
+    "Staff-related insurance": "float",
+    "Supply teacher insurance": "float",
+    "Building and Grounds maintenance and improvement": "float",
+    "Cleaning and caretaking": "float",
+    "Water and sewerage": "float",
+    "Energy": "float",
+    "Rent and Rates": "float",
+    "Other occupation costs": "float",
+    "Special facilities": "float",
+    "Learning resources (not ICT equipment)": "float",
+    "ICT learning resources": "float",
+    "Examination fees": "float",
+    "Educational Consultancy": "float",
+    "Administrative supplies - non educational": "float",
+    "Agency supply teaching staff": "float",
+    "Catering supplies": "float",
+    "Other insurance premiums": "float",
+    "Legal & Professionalservices": "float",
+    "Auditor costs": "float",
+    "Interest charges for Loan and Bank": "float",
+    "Direct revenue financing - Revenue contributions to capital": "float",
+    "PFI Charges": "float",
+    "Revenue reserve": "float",
+    "Total Grant Funding": "float",
+    "Direct Grants": "float",
+    "Community Grants": "float",
+    "Targeted Grants": "float",
+    "Total Self Generated Funding": "float",
+    "Total Income": "float",
+    "Supply Staff Costs": "float",
+    "Other Staff Costs": "float",
+    "Total Staff Costs": "float",
+    "Maintenance & Improvement Costs": "float",
+    "Premises Costs": "float",
+    "Catering Expenses": "float",
+    "Occupation Costs": "float",
+    "Total Costs of Supplies and Services": "float",
+    "Total Costs of Educational Supplies": "float",
+    "Costs of Brought in Professional Services": "float",
+    "Total Expenditure": "float",
+    "Share of Revenue Reserve, distributed on per pupil basis\n": "float"
+}
 
 aar_aggregation_columns = [
     "trustupin",
@@ -389,3 +470,10 @@ aar_aggregation_columns = [
     "Total Expenditure",
     "Share of Revenue Reserve, distributed on per pupil basis\n",
 ]
+
+
+aar_central_services_index_col = "Lead UPIN"
+aar_central_services = {
+    "Lead UPIN": "Int64",
+    "In Year Balance": "float",
+}

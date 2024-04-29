@@ -175,6 +175,26 @@ typing-extensions = ">=4.6.0"
 aio = ["aiohttp (>=3.0)"]
 
 [[package]]
+name = "azure-storage-blob"
+version = "12.19.1"
+description = "Microsoft Azure Blob Storage Client Library for Python"
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "azure-storage-blob-12.19.1.tar.gz", hash = "sha256:13e16ba42fc54ac2c7e8f976062173a5c82b9ec0594728e134aac372965a11b0"},
+    {file = "azure_storage_blob-12.19.1-py3-none-any.whl", hash = "sha256:c5530dc51c21c9564e4eb706cd499befca8819b10dd89716d3fc90d747556243"},
+]
+
+[package.dependencies]
+azure-core = ">=1.28.0,<2.0.0"
+cryptography = ">=2.1.4"
+isodate = ">=0.6.1"
+typing-extensions = ">=4.3.0"
+
+[package.extras]
+aio = ["azure-core[aio] (>=1.28.0,<2.0.0)"]
+
+[[package]]
 name = "azure-storage-queue"
 version = "12.9.0"
 description = "Microsoft Azure Azure Queue Storage Client Library for Python"
@@ -2629,4 +2649,4 @@ files = [
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "5f58bd73f021baceff4fd73f9bfbcd698accb41ca7ab60a2c6afe00bc2e36239"
+content-hash = "9bb95941b93811214b8a2b9354e49ed920a5bed982d7a670bab6ae8ec27c7b1e"
