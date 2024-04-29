@@ -9,9 +9,9 @@ public class TrustAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFil
 {
     public void OnAuthorization(AuthorizationFilterContext context)
     {
-        var urn = context.RouteData.Values["companyNumber"]?.ToString();
+        var companyNumber = context.RouteData.Values["companyNumber"]?.ToString();
 
-        var isValid = context.HttpContext.User.Claims.Any(c => urn != null && c.Type == "Trusts" && c.Value.Contains(urn));
+        var isValid = context.HttpContext.User.Claims.Any(c => companyNumber != null && c.Type == "Trusts" && c.Value.Contains(companyNumber));
         if (!isValid)
         {
             context.Result = new UnauthorizedResult();
