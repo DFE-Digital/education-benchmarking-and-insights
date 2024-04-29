@@ -25,13 +25,13 @@ jobs:
         deploy:
           steps:
             - task: AzureCLI@2
+              displayName: Get source 
               inputs:
                 azureSubscription: ${{ parameters.sourceServicePrincipal }}
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
                   ID=$(az account show --name ${{ parameters.sourceSubscription }} --output tsv --query "id")
-                  echo ${ID}
                   echo "##vso[task.setvariable variable=sourceSubscriptionID]${ID}"
 
             - task: AzureCLI@2
@@ -41,10 +41,7 @@ jobs:
                 scriptType: 'bash'
                 scriptLocation: 'inlineScript'
                 inlineScript: |
-                    az acr import --name ${{ parameters.environmentPrefix }}acr 
-                    --source fbit-data-pipeline:${{ parameters.buildNumber }} 
-                    --image fbit-data-pipeline:${{ parameters.buildNumber }}
-                    --registry /subscriptions/${{ variables.sourceSubscriptionID }}/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/s198d01acr
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --registry /subscriptions/${{ variables.sourceSubscriptionID }}/resourceGroups/sourceResourceGroup/providers/Microsoft.ContainerRegistry/registries/s198d01acr
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
