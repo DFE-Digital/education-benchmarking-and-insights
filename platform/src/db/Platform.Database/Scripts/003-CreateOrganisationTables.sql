@@ -1,5 +1,23 @@
 IF NOT EXISTS(SELECT *
               FROM INFORMATION_SCHEMA.TABLES
+              WHERE table_name = 'Trust')
+    BEGIN
+        CREATE TABLE dbo.Trust
+        (
+            CompanyNumber nvarchar(8)    NOT NULL,
+            Name          nvarchar(255)  NOT NULL,
+            Created       datetimeoffset NOT NULL,
+            CreatedBy     nvarchar(255)  NOT NULL,
+            UpdatedAt     datetimeoffset NOT NULL,
+            UpdatedBy     nvarchar(255)  NOT NULL,
+            Deleted       bit            NOT NULL,
+
+            CONSTRAINT PK_Trust PRIMARY KEY (CompanyNumber)
+        );
+    END
+
+IF NOT EXISTS(SELECT *
+              FROM INFORMATION_SCHEMA.TABLES
               WHERE table_name = 'School')
     BEGIN
         CREATE TABLE dbo.School
@@ -27,23 +45,7 @@ IF NOT EXISTS(SELECT *
         );
     END
 
-IF NOT EXISTS(SELECT *
-              FROM INFORMATION_SCHEMA.TABLES
-              WHERE table_name = 'Trust')
-    BEGIN
-        CREATE TABLE dbo.Trust
-        (
-            CompanyNumber nvarchar(8)    NOT NULL,
-            Name          nvarchar(255)  NOT NULL,
-            Created       datetimeoffset NOT NULL,
-            CreatedBy     nvarchar(255)  NOT NULL,
-            UpdatedAt     datetimeoffset NOT NULL,
-            UpdatedBy     nvarchar(255)  NOT NULL,
-            Deleted       bit            NOT NULL,
 
-            CONSTRAINT PK_Trust PRIMARY KEY (CompanyNumber)
-        );
-    END
 
 IF NOT EXISTS(SELECT *
               FROM INFORMATION_SCHEMA.TABLES
@@ -71,7 +73,6 @@ IF NOT EXISTS(SELECT *
         );
     END
 
-
 IF NOT EXISTS(SELECT *
               FROM INFORMATION_SCHEMA.TABLES
               WHERE table_name = 'LocalAuthority')
@@ -89,4 +90,4 @@ IF NOT EXISTS(SELECT *
 
             CONSTRAINT PK_LocalAuthority PRIMARY KEY (Code)
         );
-    END            
+    END   
