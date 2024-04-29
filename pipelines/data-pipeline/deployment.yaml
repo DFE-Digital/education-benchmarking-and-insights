@@ -46,7 +46,7 @@ jobs:
                     REGISTRY=/subscriptions/$(sourceSubscriptionID)/resourceGroups/${{ parameters.sourceEnvironmentPrefix }}-ebis-core/providers/Microsoft.ContainerRegistry/registries/${{ parameters.sourceEnvironmentPrefix }}acr
                     echo ${REGISTRY}
                     echo "$(pwd)"
-                    az acr import --name ${{ parameters.environmentPrefix }}acr --source fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --registry ${REGISTRY} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
