@@ -30,7 +30,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<TrustDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<TrustSearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
-        builder.Services.AddOptions<OrganisationSearchService>().BindConfiguration("Search").ValidateDataAnnotations();
         builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
         builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
@@ -39,7 +38,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ITrustDb, TrustDb>();
         builder.Services.AddSingleton<ISearchService<SchoolResponseModel>, SchoolSearchService>();
         builder.Services.AddSingleton<ISearchService<TrustResponseModel>, TrustSearchService>();
-        builder.Services.AddSingleton<ISearchService<OrganisationResponseModel>, OrganisationSearchService>();
 
         builder.Services.AddTransient<IValidator<PostSuggestRequestModel>, PostSuggestRequestValidator>();
     }

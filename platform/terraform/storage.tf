@@ -28,21 +28,6 @@ resource "azurerm_storage_account" "platform-storage" {
   }
 }
 
-resource "azurerm_storage_container" "local-authorities-container" {
-  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                  = "local-authorities"
-  storage_account_name  = azurerm_storage_account.platform-storage.name
-  container_access_type = "private"
-}
-
-resource "azurerm_key_vault_secret" "platform-storage-connection-string" {
-  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
-  name         = "platform-storage-connection-string"
-  value        = azurerm_storage_account.platform-storage.primary_connection_string
-  key_vault_id = data.azurerm_key_vault.key-vault.id
-  content_type = "connection-string"
-}
-
 resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389

@@ -57,7 +57,7 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
 
-            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(ebis-cdb-connection-string-r)' -d 'ebis-data' -p '$(platform-storage-connection-string)' -a 'local-authorities'
+            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(ebis-cdb-connection-string-r)' -d 'ebis-data'
               condition: and(succeeded(), ${{ parameters.runSearchApp }})
               displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'

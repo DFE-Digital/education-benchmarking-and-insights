@@ -33,14 +33,6 @@
         <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Update="Features\EstablishmentOrganisations.feature.cs">
-        <DependentUpon>EstablishmentOrganisations.feature</DependentUpon>
-        <AutoGen>true</AutoGen>
-        <DesignTime>true</DesignTime>
-        <Visible>true</Visible>
-      </Compile>
-    </ItemGroup>
-    <ItemGroup>
       <ProjectReference Include="..\..\src\abstractions\Platform.Functions\Platform.Functions.csproj" />
       <ProjectReference Include="..\..\src\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     </ItemGroup>
