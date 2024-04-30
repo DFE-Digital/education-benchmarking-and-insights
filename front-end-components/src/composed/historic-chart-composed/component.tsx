@@ -78,9 +78,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               <tbody className="govuk-table__body">
                 {data.map((item) => (
                   <tr className="govuk-table__row">
-                    <td className="govuk-table__cell">
-                      {Number(item.yearEnd)}
-                    </td>
+                    <td className="govuk-table__cell">{String(item.term)}</td>
                     <td className="govuk-table__cell">
                       {shortValueFormatter(item[valueField], {
                         valueUnit: dimension.unit,
