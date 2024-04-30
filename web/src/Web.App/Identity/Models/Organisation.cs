@@ -1,7 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text.Json.Serialization;
 
-namespace Web.Identity.Models;
+namespace Web.App.Identity.Models;
 
 [ExcludeFromCodeCoverage]
 public class Organisation

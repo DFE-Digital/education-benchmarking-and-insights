@@ -11,8 +11,10 @@
         <PackageReference Include="CorrelationId"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="FluentValidation.AspNetCore" />
+        <PackageReference Include="IdentityModel" />
         <PackageReference Include="JsonSubTypes"/>
         <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore"/>
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" />
         <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson"/>
         <PackageReference Include="Microsoft.Extensions.Caching.Cosmos" />
         <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" />
@@ -25,6 +27,5 @@
         <PackageReference Include="Serilog.Enrichers.CorrelationId"/>
         <PackageReference Include="Serilog.Sinks.ApplicationInsights"/>
         <PackageReference Include="SmartBreadcrumbs"/>
-      <ProjectReference Include="..\Web.Identity\Web.Identity.csproj" />
     </ItemGroup>
 </Project>

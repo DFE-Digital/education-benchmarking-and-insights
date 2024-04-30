@@ -1,4 +1,5 @@
 using Moq;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;

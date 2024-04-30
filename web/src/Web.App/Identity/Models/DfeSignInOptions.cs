@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.Identity.Models;
+namespace Web.App.Identity.Models;
 
 [ExcludeFromCodeCoverage]
 public class DfeSignInOptions

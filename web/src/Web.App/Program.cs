@@ -12,7 +12,6 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
-using Web.Identity.Extensions;
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
 

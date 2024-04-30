@@ -1,6 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
 
-namespace Web.Identity.Models;
+namespace Web.App.Identity.Models;
 
 [ExcludeFromCodeCoverage]
 public class DfeSignInSettings
@@ -11,9 +11,4 @@ public class DfeSignInSettings
     public string MetadataAddress { get; set; }
     public string CallbackPath { get; set; }
     public string SignedOutCallbackPath { get; set; }
-    public string Issuer { get; set; }
-    public string Audience { get; set; }
-    public string APISecret { get; set; }
-    public string APIUri { get; set; }
-    public string SignOutUri { get; set; }
 }

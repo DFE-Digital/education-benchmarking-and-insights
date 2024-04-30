@@ -1,20 +1,14 @@
-using System.IdentityModel.Tokens.Jwt;
-using System.Net;
 using System.Security.Claims;
-using Web.Identity.Models;
 using IdentityModel.Client;
-using JWT.Algorithms;
-using JWT.Builder;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json;
+using Web.App.Identity;
+using Web.App.Identity.Models;
 
-namespace Web.Identity.Extensions;
+namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
@@ -55,22 +49,19 @@ public static class ServiceCollectionExtensions
         return builder
             .AddCookie(options =>
             {
-                options.Cookie.Name = Constants.AuthCookieName;
+                options.Cookie.Name = "dsi-education-benchmarking";
                 options.ExpireTimeSpan = TimeSpan.FromHours(1);
                 options.SlidingExpiration = true;
                 options.Cookie.SameSite = SameSiteMode.Lax;
 
                 options.Events = new CookieAuthenticationEvents
                 {
-                    OnRedirectToAccessDenied = context =>
+                    OnRedirectToAccessDenied = async context =>
                     {
                         context.Response.StatusCode = 403;
-                        return Task.CompletedTask;
                     },
                     OnValidatePrincipal = async x =>
                     {
-                        x.Principal.GetOrSelectRole(x.HttpContext);
-
                         if (TimeIssuedIsValid(x.Properties.IssuedUtc))
                         {
                             var identity = x.Principal!.Identity as ClaimsIdentity ??
@@ -146,7 +137,6 @@ public static class ServiceCollectionExtensions
                 options.CallbackPath = new PathString(opts.Settings.CallbackPath);
                 options.SignedOutCallbackPath = new PathString(opts.Settings.SignedOutCallbackPath);
                 options.DisableTelemetry = true;
-
                 options.Scope.Clear();
                 options.Scope.Add("openid");
                 options.Scope.Add("email");
@@ -157,26 +147,19 @@ public static class ServiceCollectionExtensions
                 //required to set user.identity.name
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = "name"
-                };
-
-                options.SecurityTokenValidator = new JwtSecurityTokenHandler
-                {
-                    InboundClaimTypeMap = new Dictionary<string, string>(),
-                    TokenLifetimeInMinutes = 60,
-                    SetDefaultTimesOnTokenCreation = true,
+                    NameClaimType = "name",
                 };
 
                 options.ProtocolValidator = new OpenIdConnectProtocolValidator
                 {
                     RequireSub = true,
                     RequireStateValidation = false,
-                    NonceLifetime = TimeSpan.FromMinutes(60)
+                    NonceLifetime = TimeSpan.FromMinutes(60),
                 };
 
                 options.Events = new OpenIdConnectEvents
                 {
-                    OnMessageReceived = context =>
+                    OnMessageReceived = async context =>
                     {
                         var isSpuriousAuthCbRequest =
                             context.Request.Path == options.CallbackPath &&
@@ -190,17 +173,14 @@ public static class ServiceCollectionExtensions
                             context.Response.Redirect("/");
                             context.HandleResponse();
                         }
-
-                        return Task.CompletedTask;
                     },
 
-                    OnRemoteFailure = ctx =>
+                    OnRemoteFailure = async ctx =>
                     {
                         opts.Events.OnRemoteFailure(ctx);
 
                         ctx.Response.Redirect("/");
                         ctx.HandleResponse();
-                        return Task.CompletedTask;
                     },
 
                     OnRedirectToIdentityProvider = _ => Task.CompletedTask,
@@ -209,68 +189,26 @@ public static class ServiceCollectionExtensions
                     {
                         try
                         {
-                            var issuer = opts.Settings.Issuer;
-                            var audience = opts.Settings.Audience;
-                            var apiSecret = opts.Settings.APISecret;
-                            var apiUri = opts.Settings.APIUri;
+                            var schools = Array.Empty<string>();
+                            var organisation = x.Principal?.Organisation();
+                            if (organisation?.UrnValue != null)
+                            {
+                                schools = [organisation.UrnValue.ToString()];
+                            }
 
-                            ArgumentNullException.ThrowIfNull(issuer);
-                            ArgumentNullException.ThrowIfNull(audience);
-                            ArgumentNullException.ThrowIfNull(apiSecret);
-                            ArgumentNullException.ThrowIfNull(apiUri);
+                            //TODO: Handle trust - lookup schools for trust information;
+                            //var api = x.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
 
-                            var userRoles = await GetUserRoles(issuer, audience, apiSecret, apiUri, x.Principal);
-                            x.Principal.ApplyClaims(x.TokenEndpointResponse!.AccessToken, userRoles);
-
+                            x.Principal?.ApplyClaims(x.TokenEndpointResponse!.AccessToken, schools);
                             opts.Events.OnValidatedPrincipal(x);
+
                         }
-                        catch (Exception)
+                        catch (Exception ex)
                         {
-                            x.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
-                            x.Response.Redirect("/");
+                            x.Fail(ex);
                         }
                     }
                 };
             });
-    }
-
-    private static async Task<Role[]> GetUserRoles(string issuer, string audience, string apiSecret, string apiUri,
-        ClaimsPrincipal principal)
-    {
-        var token = new JwtBuilder()
-            .WithAlgorithm(new HMACSHA256Algorithm())
-            .Issuer(issuer)
-            .Audience(audience)
-            .WithSecret(apiSecret)
-            .Encode();
-
-        var organisation = principal.Organisation();
-
-        var client = new HttpClient();
-
-        client.SetBearerToken(token);
-
-        var serviceid = issuer;
-
-        var userId = principal.UserGuid();
-
-        var requestUrl = $"{apiUri}/services/{serviceid}/organisations/{organisation.Id}/users/{userId}";
-        var response = await client.GetAsync(requestUrl);
-
-        if (!response.IsSuccessStatusCode)
-        {
-            throw new SystemException("Could not get Role Type for User");
-        }
-
-        var json = await response.Content.ReadAsStringAsync();
-
-        var result = JsonConvert.DeserializeObject<DfeIdentity>(json);
-
-        if (result == null || result.UserId != userId)
-        {
-            throw new SystemException("UserId mismatch after retrieving User");
-        }
-
-        return result.Roles.ToArray();
     }
 }
