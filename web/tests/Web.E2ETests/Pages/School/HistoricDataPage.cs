@@ -172,8 +172,6 @@ public class HistoricDataPage(IPage page)
         HistoryTabs selectedTab = tab ?? HistoryTabs.Spending;
         await PageH1Heading.ShouldBeVisible();
         await BackLink.ShouldBeVisible();
-        await AreChartStatsVisible(tab);
-        await AreChartsVisible(tab);
         switch (selectedTab)
         {
             case HistoryTabs.Spending:
@@ -185,7 +183,9 @@ public class HistoricDataPage(IPage page)
                     "actuals",
                     "percentage of expenditure",
                     "percentage of income"]);
-                await AssertCategoryNames(_spendingCategories, tab);
+                await AllSpendingCharts.First.ShouldBeVisible();
+                await SpendingChartsStats.First.ShouldBeVisible();
+                await AssertCategoryNames(_spendingCategories, selectedTab);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
                 Assert.Equal(41, await AllSpendingCharts.Count());
 
@@ -200,7 +200,9 @@ public class HistoricDataPage(IPage page)
                     "percentage of expenditure",
                     "percentage of income"]);
                 await ExpenditureDimension.ShouldHaveSelectedOption("actuals");
-                await AssertCategoryNames(_incomeCategories, tab);
+                await AllIncomeCharts.First.ShouldBeVisible();
+                await IncomeChartsStats.First.ShouldBeVisible();
+                await AssertCategoryNames(_incomeCategories, selectedTab);
                 Assert.Equal(17, await AllIncomeCharts.Count());
                 break;
             case HistoryTabs.Balance:
@@ -212,7 +214,9 @@ public class HistoricDataPage(IPage page)
                     "percentage of expenditure",
                     "percentage of income"]);
                 await BalanceDimension.ShouldHaveSelectedOption("actuals");
-                await AssertCategoryNames(_balanceCategories, tab);
+                await AreChartStatsVisible(selectedTab);
+                await AreChartsVisible(selectedTab);
+                await AssertCategoryNames(_balanceCategories, selectedTab);
                 Assert.Equal(2, await AllBalanceCharts.Count());
                 break;
             case HistoryTabs.Workforce:
@@ -224,7 +228,9 @@ public class HistoricDataPage(IPage page)
                     "percentage of workforce",
                     "pupils per staff role"]);
                 await WorkforceDimension.ShouldHaveSelectedOption("pupils per staff role");
-                await AssertCategoryNames(_workforceCategories, tab);
+                await AreChartStatsVisible(selectedTab);
+                await AreChartsVisible(selectedTab);
+                await AssertCategoryNames(_workforceCategories, selectedTab);
                 Assert.Equal(8, await AllWorkforceCharts.Count());
                 break;
         }
@@ -295,6 +301,8 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Income => _incomeSubCategories,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
+        await AreChartStatsVisible(tab);
+        await AreChartsVisible(tab);
         Assert.Equal(expectedSubCategories, await GetSubCategoriesOfTab(tab));
     }
 
