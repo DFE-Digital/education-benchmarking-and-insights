@@ -59,7 +59,7 @@ resource "azurerm_container_app" "data-pipeline" {
   template {
     min_replicas    = 0
     max_replicas    = 5
-    revision_suffix = split(":", var.image-name)[1]
+    revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
