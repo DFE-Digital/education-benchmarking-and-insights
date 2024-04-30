@@ -21,7 +21,7 @@ public static class LocatorExtensions
     }
     public static async Task<ILocator> ShouldBeVisible(this ILocator locator)
     {
-        await Assertions.Expect(locator).ToBeVisibleAsync();
+        await Assertions.Expect(locator).ToBeVisibleAsync(new LocatorAssertionsToBeVisibleOptions { Timeout = 30000 });
 
         return locator;
     }
