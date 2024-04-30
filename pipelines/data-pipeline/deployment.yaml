@@ -11,41 +11,11 @@ parameters:
   sourceEnvironmentPrefix: ''
   dependsOn: []
 
+
 jobs:
-
-  - deployment: DataPipelinePushImage
-    displayName: 'Data Pipeline : Import Image'
-    dependsOn: ${{ parameters.dependsOn }}
-    condition: ${{ parameters.importImage }}
-    pool:
-      vmImage: ubuntu-latest
-    environment: ${{ parameters.environment }}
-    strategy:
-      runOnce:
-        deploy:
-          steps:
-            - task: AzureCLI@2
-              displayName: Get source subscription ID
-              inputs:
-                azureSubscription: ${{ parameters.sourceServicePrincipal }}
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                  PWD=$(az acr credential show -n ${{ parameters.sourceEnvironmentPrefix }}acr --query 'passwords[0].value')
-                  echo "##vso[task.setvariable variable=pwd]${PWD}"
-
-            - task: AzureCLI@2
-              displayName: 'Import image from ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}'
-              inputs:
-                azureSubscription: ${{ parameters.subscription }}
-                scriptType: 'bash'
-                scriptLocation: 'inlineScript'
-                inlineScript: |
-                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
-    dependsOn: [DataPipelinePushImage]
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
@@ -56,6 +26,27 @@ jobs:
             - checkout: none
 
             - download: current
+
+            - task: AzureCLI@2
+              displayName: Get source subscription ID
+              condition: ${{ parameters.importImage }}
+              inputs:
+                azureSubscription: ${{ parameters.sourceServicePrincipal }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  PWD=$(az acr credential show -n ${{ parameters.sourceEnvironmentPrefix }}acr --query 'passwords[0].value')
+                  echo "##vso[task.setvariable variable=pwd]${PWD}"
+
+            - task: AzureCLI@2
+              displayName: 'Import image from ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}'
+              condition: ${{ parameters.importImage }}
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
 
             - template: ..\common\run-terraform.yaml
               parameters:
