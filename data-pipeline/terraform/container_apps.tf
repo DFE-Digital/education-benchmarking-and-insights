@@ -6,7 +6,7 @@ resource "azurerm_container_app_environment" "main" {
 
   workload_profile {
     name                  = "data-pipeline-profile"
-    workload_profile_type = "D4"
+    workload_profile_type = "Consumption"
     minimum_count         = 0
     maximum_count         = 10
   }
@@ -32,7 +32,7 @@ resource "azurerm_container_app" "data-pipeline" {
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.resource-group.name
   revision_mode                = "Single"
-  workload_profile_name        = "D4"
+  workload_profile_name        = "Consumption"
 
   identity {
     type = "SystemAssigned"
@@ -60,7 +60,7 @@ resource "azurerm_container_app" "data-pipeline" {
     min_replicas          = 0
     max_replicas          = 5
     workload_profile_name = "data-pipeline-profile"
-
+    revision_suffix = split(":", var.image-name)[1]
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
