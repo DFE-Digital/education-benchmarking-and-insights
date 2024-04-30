@@ -1,3 +1,4 @@
+import gc
 import json
 import logging
 import os
@@ -147,6 +148,9 @@ def pre_process_data(set_type, year):
         schools.to_csv(encoding="utf-8"),
     )
 
+    del gias_data
+    del gias_links_data
+
     logger.info("Building Academy Set")
     academies_data = get_blob(
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
@@ -159,6 +163,9 @@ def pre_process_data(set_type, year):
         f"{set_type}/{year}/academies.csv",
         academies.to_csv(encoding="utf-8"),
     )
+
+    del academies_data
+    del academies
 
     logger.info("Building Maintained School Set")
     maintained_schools_data = get_blob(
@@ -174,6 +181,8 @@ def pre_process_data(set_type, year):
         f"{set_type}/{year}/maintained_schools.csv",
         maintained_schools.to_csv(encoding="utf-8"),
     )
+
+    del maintained_schools_data
 
     logger.info("Building Federations Set")
     gias_all_links_data = get_blob(
@@ -195,8 +204,13 @@ def pre_process_data(set_type, year):
         soft_federations.to_csv(encoding="utf-8"),
     )
 
+    del gias_all_links_data
+    del hard_federations
+    del soft_federations
+
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
+    gc.collect()
     return time_taken
 
 
@@ -233,6 +247,8 @@ def compute_comparator_sets(set_type, year):
         pickle.dumps(ms_pupil_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
 
+    del ms_pupil_comparators
+
     logger.info("Computing maintained schools building comparator set")
     ms_building_comparators = comparators.compute_comparator_matrix(
         ms_data, comparators.compute_buildings_comparator
@@ -242,6 +258,8 @@ def compute_comparator_sets(set_type, year):
         f"{set_type}/{year}/ms_building.pkl",
         pickle.dumps(ms_building_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
+
+    del ms_building_comparators
 
     logger.info("Computing academy pupil comparator set")
     academy_pupil_comparators = comparators.compute_comparator_matrix(
@@ -253,6 +271,8 @@ def compute_comparator_sets(set_type, year):
         pickle.dumps(academy_pupil_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
 
+    del academy_pupil_comparators
+
     logger.info("Computing academy building comparator set")
     academy_building_comparators = comparators.compute_comparator_matrix(
         academy_data, comparators.compute_buildings_comparator
@@ -262,6 +282,8 @@ def compute_comparator_sets(set_type, year):
         f"{set_type}/{year}/academy_building.pkl",
         pickle.dumps(academy_building_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
+
+    del academy_building_comparators
 
     logger.info("Computing all pupil comparator set")
     pupil_comparators = comparators.compute_comparator_matrix(
@@ -273,6 +295,8 @@ def compute_comparator_sets(set_type, year):
         pickle.dumps(pupil_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
 
+    del pupil_comparators
+
     logger.info("Computing all building comparator set")
     building_comparators = comparators.compute_comparator_matrix(
         all_schools, comparators.compute_buildings_comparator
@@ -282,6 +306,8 @@ def compute_comparator_sets(set_type, year):
         f"{set_type}/{year}/all_building.pkl",
         pickle.dumps(building_comparators, protocol=pickle.HIGHEST_PROTOCOL),
     )
+
+    del building_comparators
 
     time_taken = time.time() - start_time
     logger.info(f"Computing comparators sets done in {time_taken} seconds")
