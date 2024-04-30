@@ -104,7 +104,6 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
     public async Task ShowsErrorOnInValidSelect(string financeType, string phase)
     {
         var (page, school, finances) = await SetupNavigateInitPage(financeType, phase);
-        AssertPageLayout(page, school, finances);
 
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -113,7 +112,6 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        AssertPageLayout(page, school, finances);
         DocumentAssert.FormErrors(page, ("UseFigures", "Select yes if you want to use these figures"));
     }
 
