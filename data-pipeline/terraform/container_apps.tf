@@ -5,7 +5,7 @@ resource "azurerm_container_app_environment" "main" {
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
 
   workload_profile {
-    name                  = "Pipeline Dedicated"
+    name                  = "Pipeline"
     workload_profile_type = "D4"
     minimum_count         = 0
     maximum_count         = 10
@@ -32,7 +32,7 @@ resource "azurerm_container_app" "data-pipeline" {
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.resource-group.name
   revision_mode                = "Single"
-  workload_profile_name        = "Consumption"
+  workload_profile_name        = "Pipeline"
 
   identity {
     type = "SystemAssigned"
