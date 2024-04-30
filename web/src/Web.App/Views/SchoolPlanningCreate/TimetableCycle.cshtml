@@ -7,6 +7,8 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("_ErrorSummary")
+        
         <span class="govuk-caption-l">@Model.School.Name</span>
         <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
         <div class="govuk-inset-text">
@@ -32,9 +34,7 @@
                         <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TimetablePeriods)]?.Errors.First().ErrorMessage
                     </p>
                 }
-                <input class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TimetablePeriods)) 
-                                                         ? "govuk-input govuk-!-width-one-third govuk-input--error" 
-                                                         : "govuk-input govuk-!-width-one-third")" 
+                <input class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TimetablePeriods)) ? "govuk-input govuk-!-width-one-third govuk-input--error" : "govuk-input govuk-!-width-one-third")"
                        id="timetable-periods"
                        name="@nameof(Model.PlanInput.TimetablePeriods)"
                        type="number"

@@ -40,7 +40,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school);
 
-            return View("Start", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -71,7 +71,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school);
 
-            return View("SelectYear", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -97,7 +97,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("SelectYear", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -116,7 +116,7 @@ public class SchoolPlanningCreateController(
             var finances = await financeService.GetFinances(urn);
             var viewModel = new SchoolPlanCreateViewModel(school, plan, finances);
 
-            return View("PrePopulateData", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -149,7 +149,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("PrePopulateData", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -171,7 +171,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TimetableCycle", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -206,7 +206,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TimetableCycle", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -224,7 +224,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TotalIncome", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -253,7 +253,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TotalIncome", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -271,7 +271,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TotalExpenditure", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -300,7 +300,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TotalExpenditure", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -318,7 +318,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TotalTeacherCosts", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -349,7 +349,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TotalTeacherCosts", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -367,7 +367,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TotalEducationSupport", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -396,7 +396,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TotalEducationSupport", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -418,7 +418,7 @@ public class SchoolPlanningCreateController(
             var plan = await financialPlanService.Get(urn, year);
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TotalNumberTeachers", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -451,7 +451,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TotalNumberTeachers", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -469,7 +469,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("PrimaryHasMixedAgeClasses", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -500,7 +500,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("PrimaryHasMixedAgeClasses", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -518,7 +518,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("PrimaryMixedAgeClasses", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -547,7 +547,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("PrimaryMixedAgeClasses", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -569,7 +569,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("PrimaryPupilFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -602,7 +602,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("PrimaryPupilFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -620,7 +620,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("PupilFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -649,7 +649,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("PupilFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -671,7 +671,7 @@ public class SchoolPlanningCreateController(
             var plan = await financialPlanService.Get(urn, year);
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TeacherPeriodAllocation", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -706,7 +706,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TeacherPeriodAllocation", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -724,7 +724,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TeachingAssistantFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -753,7 +753,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TeachingAssistantFigures", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -780,7 +780,7 @@ public class SchoolPlanningCreateController(
                 viewModel.PlanInput.OtherTeachingPeriods.Add(new FinancialPlanInput.OtherTeachingPeriod());
             }
 
-            return View("OtherTeachingPeriods", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -826,7 +826,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("OtherTeachingPeriods", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -845,7 +845,7 @@ public class SchoolPlanningCreateController(
 
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("OtherTeachingPeriodsConfirm", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -875,7 +875,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("OtherTeachingPeriodsConfirm", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -894,7 +894,7 @@ public class SchoolPlanningCreateController(
 
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("OtherTeachingPeriodsReview", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -912,7 +912,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("ManagementRoles", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -941,7 +941,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("ManagementRoles", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -959,7 +959,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("ManagersPerRole", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -988,7 +988,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("ManagersPerRole", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -1006,7 +1006,7 @@ public class SchoolPlanningCreateController(
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
-            return View("TeachingPeriodsManager", viewModel);
+            return View(viewModel);
         }
     }
 
@@ -1035,7 +1035,7 @@ public class SchoolPlanningCreateController(
 
             results.AddToModelState(ModelState);
 
-            return View("TeachingPeriodsManager", viewModel);
+            return View(viewModel);
         }
     }
 

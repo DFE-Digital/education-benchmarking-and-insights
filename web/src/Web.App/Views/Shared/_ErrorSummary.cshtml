@@ -1,0 +1,29 @@
+﻿@{
+    var errors = ViewData.ModelState.Where(x => x.Value.Errors.Any()).ToArray();
+
+    if (errors.Any())
+    {
+        <div class="govuk-error-summary" aria-labelledby="error-summary-title" role="alert" tabindex="-1" data-module="govuk-error-summary">
+            <h2 class="govuk-error-summary__title" id="error-summary-title">
+                There is a problem
+            </h2>
+            <div class="govuk-error-summary__body">
+                <ul class="govuk-list govuk-error-summary__list">
+                    @foreach (var error in errors)
+                    {
+                        if (error.Value != null)
+                        {
+                            foreach (var errorMessage in error.Value.Errors)
+                            {
+                                <li>
+                                    <a href="#@error.Key">@errorMessage.ErrorMessage</a>
+                                </li>
+                            }    
+                        }
+                        
+                    }
+                </ul>
+            </div>
+        </div>
+    }
+}

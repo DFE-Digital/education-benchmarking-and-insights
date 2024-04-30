@@ -6,6 +6,8 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("_ErrorSummary")
+
         @using (Html.BeginForm("TotalTeacherCosts", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TotalTeacherCosts)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
