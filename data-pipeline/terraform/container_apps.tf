@@ -70,6 +70,11 @@ resource "azurerm_container_app" "data-pipeline" {
       }
 
       env {
+        name = "RAW_DATA_CONTAINER"
+        value = "raw"
+      }
+
+      env {
         name        = "STORAGE_CONNECTION_STRING"
         secret_name = "queue-connection-string"
       }
