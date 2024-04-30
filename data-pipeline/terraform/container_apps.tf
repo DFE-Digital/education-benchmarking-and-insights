@@ -55,8 +55,8 @@ resource "azurerm_container_app" "data-pipeline" {
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
-      cpu    = 4
-      memory = "8Gi"
+      cpu    = 2
+      memory = "4Gi"
 
       ##TODO: Review if this is the best way to build this env
       env {
