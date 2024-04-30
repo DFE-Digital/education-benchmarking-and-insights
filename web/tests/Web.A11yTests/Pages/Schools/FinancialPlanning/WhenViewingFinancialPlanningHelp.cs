@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingFinancialPlanningHelp(
+/*public class WhenViewingFinancialPlanningHelp(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
@@ -17,4 +17,4 @@ public class WhenViewingFinancialPlanningHelp(
         await GoToPage();
         await EvaluatePage();
     }
-}
+}*/

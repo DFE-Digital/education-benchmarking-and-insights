@@ -6,7 +6,19 @@ using Xunit.Abstractions;
 
 namespace Web.Integration.Tests;
 
-public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBase<Program>(messageSink)
+
+public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
+{
+    public SchoolBenchmarkingWebAppClient(IMessageSink messageSink) : base(messageSink, auth =>
+            {
+                auth.URN = 12345;
+            })
+    {
+    }
+}
+
+
+public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null) : WebAppClientBase<Program>(messageSink, authCfg)
 {
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();

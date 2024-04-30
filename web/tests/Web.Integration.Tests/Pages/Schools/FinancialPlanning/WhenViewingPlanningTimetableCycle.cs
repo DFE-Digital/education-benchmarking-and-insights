@@ -8,7 +8,8 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient client)
+    : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -59,7 +60,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TimetablePeriods",  "25"}
+                { "TimetablePeriods", "25" }
             });
         });
 
@@ -88,13 +89,14 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
         {
             f.SetFormValues(new Dictionary<string, string>
             {
-                { "TimetablePeriods",  timetablePeriods }
+                { "TimetablePeriods", timetablePeriods }
             });
         });
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("TimetablePeriods", expectedMsg));
     }
 
@@ -183,12 +185,14 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? useFigures = true, string? timetablePeriods = null, bool isPrimary = false)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType,
+        bool? useFigures = true, string? timetablePeriods = null, bool isPrimary = false)
     {
         var school = Fixture.Build<School>()
-        .With(x => x.FinanceType, financeType)
-        .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
-        .Create();
+            .With(x => x.Urn, "12345")
+            .With(x => x.FinanceType, financeType)
+            .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
+            .Create();
 
         var finances = Fixture.Build<Finances>()
             .Create();
@@ -217,6 +221,7 @@ public class WhenViewingPlanningTimetableCycle(BenchmarkingWebAppClient client) 
             : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear);
 
         DocumentAssert.BackLink(page, "Back", path.ToAbsolute());
-        DocumentAssert.TitleAndH1(page, "Timetable cycle - Financial Benchmarking and Insights Tool - GOV.UK", "Timetable cycle");
+        DocumentAssert.TitleAndH1(page, "Timetable cycle - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Timetable cycle");
     }
 }

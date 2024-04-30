@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -225,6 +225,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(BenchmarkingWebAppClient cli
         string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlan>? planComposer = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .Create();

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int PlanYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -198,6 +198,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         string phase, bool? useFigures = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, phase)
             .Create();
