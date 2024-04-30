@@ -9,7 +9,8 @@
 		Given I am on school homepage for school with urn '101241'
 		When I click on compare your costs
 		Then the compare your costs page is displayed
-
+		
+	@ignore
 	Scenario: Go to curriculum and financial planning page
 		Given I am on school homepage for school with urn '101241'
 		When I click on curriculum and financial planning

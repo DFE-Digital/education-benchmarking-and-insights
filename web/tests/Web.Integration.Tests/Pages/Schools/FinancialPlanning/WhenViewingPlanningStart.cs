@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningStart(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -80,6 +80,7 @@ public class WhenViewingPlanningStart(BenchmarkingWebAppClient client) : PageBas
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 

@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages;
 
-public class WhenViewingErrors(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingErrors(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplayProblemWithService()

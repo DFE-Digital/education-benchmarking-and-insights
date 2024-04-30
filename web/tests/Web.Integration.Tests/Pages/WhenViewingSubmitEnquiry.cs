@@ -2,7 +2,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages;
 
-public class WhenViewingSubmitEnquiry(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingSubmitEnquiry(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplay()

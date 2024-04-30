@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -190,6 +190,7 @@ public class WhenViewingPlanningMixedAgeClasses(BenchmarkingWebAppClient client)
         bool? mixedAgeYear3Year4 = null, bool? mixedAgeYear4Year5 = null, bool? mixedAgeYear5Year6 = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 

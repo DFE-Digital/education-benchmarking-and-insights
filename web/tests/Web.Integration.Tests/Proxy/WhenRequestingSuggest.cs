@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Proxy;
 
-public class WhenRequestingSuggest(BenchmarkingWebAppClient client) : IClassFixture<BenchmarkingWebAppClient>
+public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
     [Theory]
     [InlineData("school")]
