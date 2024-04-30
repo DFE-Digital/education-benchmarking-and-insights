@@ -45,7 +45,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
       action                    = "Allow"
       priority                  = 100
       headers {
-        x_azure_fdid      = [azurerm_cdn_frontdoor_profile.web-app-front-door-profile.resource_guid]
+        x_azure_fdid = [azurerm_cdn_frontdoor_profile.web-app-front-door-profile.resource_guid]
       }
     }
   }
