@@ -48,10 +48,6 @@ This feature has monorepo dependencies on:
 
 ## Usage
 
-[Explain how developers can use the feature, including any APIs, libraries, or components that they need to interact with.]
-
-[Identify the key components or modules that comprise the feature and describe their responsibilities.]
-
 The page is orchestrated by the controller and its associated view model and view.
 
 - [Controller](../../../web/src/Web.App/Controllers/SchoolSpendingController.cs)
