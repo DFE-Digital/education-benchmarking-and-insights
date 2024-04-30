@@ -10,7 +10,7 @@ public static class ClaimsPrincipalExtensions
 {
     public static string UserId(this ClaimsPrincipal principal)
     {
-        var email = principal.Claims.SingleOrDefault(c => c.Type == "email");
+        var email = principal.Claims.SingleOrDefault(c => c.Type == ClaimTypes.Email);
 
         return email != null
             ? email.Value

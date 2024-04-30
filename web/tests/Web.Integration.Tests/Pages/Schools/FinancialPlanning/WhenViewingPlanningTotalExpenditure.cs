@@ -165,7 +165,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        var plan = Fixture.Build<FinancialPlan>()
+        var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, false)

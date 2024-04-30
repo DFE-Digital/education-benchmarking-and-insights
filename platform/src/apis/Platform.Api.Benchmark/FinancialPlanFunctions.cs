@@ -29,7 +29,7 @@ public class FinancialPlanFunctions
 
 
     [FunctionName(nameof(SingleFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleFinancialPlanAsync(
@@ -48,7 +48,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var plan = await _db.SingleFinancialPlan(urn, year);
+                var plan = await _db.SingleFinancialPlanInput(urn, year);
                 return plan != null
                     ? new JsonContentResult(plan)
                     : new NotFoundResult();
@@ -62,7 +62,7 @@ public class FinancialPlanFunctions
     }
 
     [FunctionName(nameof(QueryFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> QueryFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}")]
@@ -91,13 +91,13 @@ public class FinancialPlanFunctions
     }
 
     [FunctionName(nameof(UpsertFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanResponseModel), (int)HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UpsertFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "financial-plan/{urn}/{year}")]
-        [RequestBodyType(typeof(FinancialPlanRequestModel), "The financial plan object")]
+        [RequestBodyType(typeof(FinancialPlanInputRequestModel), "The financial plan object")]
         HttpRequest req,
         string urn,
         int year)
@@ -112,7 +112,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var body = req.ReadAsJson<FinancialPlanRequestModel>();
+                var body = req.ReadAsJson<FinancialPlanInputRequestModel>();
 
                 //TODO : Consider adding request validator
                 var result = await _db.UpsertFinancialPlan(urn, year, body);
@@ -129,7 +129,6 @@ public class FinancialPlanFunctions
 
     [FunctionName(nameof(RemoveFinancialPlanAsync))]
     [ProducesResponseType((int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> RemoveFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "financial-plan/{urn}/{year}")]
@@ -147,10 +146,7 @@ public class FinancialPlanFunctions
         {
             try
             {
-                var plan = await _db.SingleFinancialPlan(urn, year);
-                if (plan == null) return new NotFoundResult();
-
-                await _db.DeleteFinancialPlan(plan);
+                await _db.DeleteFinancialPlan(urn, year);
                 return new OkResult();
             }
             catch (Exception e)

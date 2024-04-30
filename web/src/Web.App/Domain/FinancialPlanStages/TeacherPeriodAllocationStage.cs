@@ -45,28 +45,28 @@ public class TeacherPeriodAllocationStage : Stage
     public string? TeachersYear12 { get; set; }
     public string? TeachersYear13 { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.TeachersNursery = TeachersNursery;
-        plan.TeachersMixedReceptionYear1 = TeachersMixedReceptionYear1;
-        plan.TeachersMixedYear1Year2 = TeachersMixedYear1Year2;
-        plan.TeachersMixedYear2Year3 = TeachersMixedYear2Year3;
-        plan.TeachersMixedYear3Year4 = TeachersMixedYear3Year4;
-        plan.TeachersMixedYear4Year5 = TeachersMixedYear4Year5;
-        plan.TeachersMixedYear5Year6 = TeachersMixedYear5Year6;
-        plan.TeachersReception = TeachersReception;
-        plan.TeachersYear1 = TeachersYear1;
-        plan.TeachersYear2 = TeachersYear2;
-        plan.TeachersYear3 = TeachersYear3;
-        plan.TeachersYear4 = TeachersYear4;
-        plan.TeachersYear5 = TeachersYear5;
-        plan.TeachersYear6 = TeachersYear6;
-        plan.TeachersYear7 = TeachersYear7;
-        plan.TeachersYear8 = TeachersYear8;
-        plan.TeachersYear9 = TeachersYear9;
-        plan.TeachersYear10 = TeachersYear10;
-        plan.TeachersYear11 = TeachersYear11;
-        plan.TeachersYear12 = TeachersYear12;
-        plan.TeachersYear13 = TeachersYear13;
+        planInput.TeachersNursery = TeachersNursery;
+        planInput.TeachersMixedReceptionYear1 = TeachersMixedReceptionYear1;
+        planInput.TeachersMixedYear1Year2 = TeachersMixedYear1Year2;
+        planInput.TeachersMixedYear2Year3 = TeachersMixedYear2Year3;
+        planInput.TeachersMixedYear3Year4 = TeachersMixedYear3Year4;
+        planInput.TeachersMixedYear4Year5 = TeachersMixedYear4Year5;
+        planInput.TeachersMixedYear5Year6 = TeachersMixedYear5Year6;
+        planInput.TeachersReception = TeachersReception;
+        planInput.TeachersYear1 = TeachersYear1;
+        planInput.TeachersYear2 = TeachersYear2;
+        planInput.TeachersYear3 = TeachersYear3;
+        planInput.TeachersYear4 = TeachersYear4;
+        planInput.TeachersYear5 = TeachersYear5;
+        planInput.TeachersYear6 = TeachersYear6;
+        planInput.TeachersYear7 = TeachersYear7;
+        planInput.TeachersYear8 = TeachersYear8;
+        planInput.TeachersYear9 = TeachersYear9;
+        planInput.TeachersYear10 = TeachersYear10;
+        planInput.TeachersYear11 = TeachersYear11;
+        planInput.TeachersYear12 = TeachersYear12;
+        planInput.TeachersYear13 = TeachersYear13;
     }
 }

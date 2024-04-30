@@ -62,7 +62,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
@@ -98,7 +98,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
@@ -118,7 +118,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
@@ -129,7 +129,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

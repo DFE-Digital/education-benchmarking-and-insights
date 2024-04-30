@@ -9,53 +9,53 @@ public class PrimaryMixedAgeClassesStage : Stage
     public bool MixedAgeYear4Year5 { get; set; }
     public bool MixedAgeYear5Year6 { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.MixedAgeReceptionYear1 = MixedAgeReceptionYear1;
-        plan.MixedAgeYear1Year2 = MixedAgeYear1Year2;
-        plan.MixedAgeYear2Year3 = MixedAgeYear2Year3;
-        plan.MixedAgeYear3Year4 = MixedAgeYear3Year4;
-        plan.MixedAgeYear4Year5 = MixedAgeYear4Year5;
-        plan.MixedAgeYear5Year6 = MixedAgeYear5Year6;
+        planInput.MixedAgeReceptionYear1 = MixedAgeReceptionYear1;
+        planInput.MixedAgeYear1Year2 = MixedAgeYear1Year2;
+        planInput.MixedAgeYear2Year3 = MixedAgeYear2Year3;
+        planInput.MixedAgeYear3Year4 = MixedAgeYear3Year4;
+        planInput.MixedAgeYear4Year5 = MixedAgeYear4Year5;
+        planInput.MixedAgeYear5Year6 = MixedAgeYear5Year6;
 
-        SetPupilFigures(plan);
-        SetTeacherFigures(plan);
+        SetPupilFigures(planInput);
+        SetTeacherFigures(planInput);
         //TODO : Set teaching assistant figures
     }
 
-    private void SetTeacherFigures(FinancialPlan plan)
+    private void SetTeacherFigures(FinancialPlanInput planInput)
     {
-        plan.TeachersMixedReceptionYear1 = MixedAgeReceptionYear1 ? plan.TeachersMixedReceptionYear1 : null;
-        plan.TeachersMixedYear1Year2 = MixedAgeYear1Year2 ? plan.TeachersMixedYear1Year2 : null;
-        plan.TeachersMixedYear2Year3 = MixedAgeYear2Year3 ? plan.TeachersMixedYear2Year3 : null;
-        plan.TeachersMixedYear3Year4 = MixedAgeYear3Year4 ? plan.TeachersMixedYear3Year4 : null;
-        plan.TeachersMixedYear4Year5 = MixedAgeYear4Year5 ? plan.TeachersMixedYear4Year5 : null;
-        plan.TeachersMixedYear5Year6 = MixedAgeYear5Year6 ? plan.TeachersMixedYear5Year6 : null;
+        planInput.TeachersMixedReceptionYear1 = MixedAgeReceptionYear1 ? planInput.TeachersMixedReceptionYear1 : null;
+        planInput.TeachersMixedYear1Year2 = MixedAgeYear1Year2 ? planInput.TeachersMixedYear1Year2 : null;
+        planInput.TeachersMixedYear2Year3 = MixedAgeYear2Year3 ? planInput.TeachersMixedYear2Year3 : null;
+        planInput.TeachersMixedYear3Year4 = MixedAgeYear3Year4 ? planInput.TeachersMixedYear3Year4 : null;
+        planInput.TeachersMixedYear4Year5 = MixedAgeYear4Year5 ? planInput.TeachersMixedYear4Year5 : null;
+        planInput.TeachersMixedYear5Year6 = MixedAgeYear5Year6 ? planInput.TeachersMixedYear5Year6 : null;
 
-        plan.TeachersReception = MixedAgeReceptionYear1 ? null : plan.TeachersReception;
-        plan.TeachersYear1 = MixedAgeReceptionYear1 || MixedAgeYear1Year2 ? null : plan.TeachersYear1;
-        plan.TeachersYear2 = MixedAgeYear1Year2 || MixedAgeYear2Year3 ? null : plan.TeachersYear2;
-        plan.TeachersYear3 = MixedAgeYear2Year3 || MixedAgeYear3Year4 ? null : plan.TeachersYear3;
-        plan.TeachersYear4 = MixedAgeYear3Year4 || MixedAgeYear4Year5 ? null : plan.TeachersYear4;
-        plan.TeachersYear5 = MixedAgeYear4Year5 || MixedAgeYear5Year6 ? null : plan.TeachersYear5;
-        plan.TeachersYear6 = MixedAgeYear5Year6 ? null : plan.TeachersYear6;
+        planInput.TeachersReception = MixedAgeReceptionYear1 ? null : planInput.TeachersReception;
+        planInput.TeachersYear1 = MixedAgeReceptionYear1 || MixedAgeYear1Year2 ? null : planInput.TeachersYear1;
+        planInput.TeachersYear2 = MixedAgeYear1Year2 || MixedAgeYear2Year3 ? null : planInput.TeachersYear2;
+        planInput.TeachersYear3 = MixedAgeYear2Year3 || MixedAgeYear3Year4 ? null : planInput.TeachersYear3;
+        planInput.TeachersYear4 = MixedAgeYear3Year4 || MixedAgeYear4Year5 ? null : planInput.TeachersYear4;
+        planInput.TeachersYear5 = MixedAgeYear4Year5 || MixedAgeYear5Year6 ? null : planInput.TeachersYear5;
+        planInput.TeachersYear6 = MixedAgeYear5Year6 ? null : planInput.TeachersYear6;
     }
 
-    private void SetPupilFigures(FinancialPlan plan)
+    private void SetPupilFigures(FinancialPlanInput planInput)
     {
-        plan.PupilsMixedReceptionYear1 = MixedAgeReceptionYear1 ? plan.PupilsMixedReceptionYear1 : null;
-        plan.PupilsMixedYear1Year2 = MixedAgeYear1Year2 ? plan.PupilsMixedYear1Year2 : null;
-        plan.PupilsMixedYear2Year3 = MixedAgeYear2Year3 ? plan.PupilsMixedYear2Year3 : null;
-        plan.PupilsMixedYear3Year4 = MixedAgeYear3Year4 ? plan.PupilsMixedYear3Year4 : null;
-        plan.PupilsMixedYear4Year5 = MixedAgeYear4Year5 ? plan.PupilsMixedYear4Year5 : null;
-        plan.PupilsMixedYear5Year6 = MixedAgeYear5Year6 ? plan.PupilsMixedYear5Year6 : null;
+        planInput.PupilsMixedReceptionYear1 = MixedAgeReceptionYear1 ? planInput.PupilsMixedReceptionYear1 : null;
+        planInput.PupilsMixedYear1Year2 = MixedAgeYear1Year2 ? planInput.PupilsMixedYear1Year2 : null;
+        planInput.PupilsMixedYear2Year3 = MixedAgeYear2Year3 ? planInput.PupilsMixedYear2Year3 : null;
+        planInput.PupilsMixedYear3Year4 = MixedAgeYear3Year4 ? planInput.PupilsMixedYear3Year4 : null;
+        planInput.PupilsMixedYear4Year5 = MixedAgeYear4Year5 ? planInput.PupilsMixedYear4Year5 : null;
+        planInput.PupilsMixedYear5Year6 = MixedAgeYear5Year6 ? planInput.PupilsMixedYear5Year6 : null;
 
-        plan.PupilsReception = MixedAgeReceptionYear1 ? null : plan.PupilsReception;
-        plan.PupilsYear1 = MixedAgeReceptionYear1 || MixedAgeYear1Year2 ? null : plan.PupilsYear1;
-        plan.PupilsYear2 = MixedAgeYear1Year2 || MixedAgeYear2Year3 ? null : plan.PupilsYear2;
-        plan.PupilsYear3 = MixedAgeYear2Year3 || MixedAgeYear3Year4 ? null : plan.PupilsYear3;
-        plan.PupilsYear4 = MixedAgeYear3Year4 || MixedAgeYear4Year5 ? null : plan.PupilsYear4;
-        plan.PupilsYear5 = MixedAgeYear4Year5 || MixedAgeYear5Year6 ? null : plan.PupilsYear5;
-        plan.PupilsYear6 = MixedAgeYear5Year6 ? null : plan.PupilsYear6;
+        planInput.PupilsReception = MixedAgeReceptionYear1 ? null : planInput.PupilsReception;
+        planInput.PupilsYear1 = MixedAgeReceptionYear1 || MixedAgeYear1Year2 ? null : planInput.PupilsYear1;
+        planInput.PupilsYear2 = MixedAgeYear1Year2 || MixedAgeYear2Year3 ? null : planInput.PupilsYear2;
+        planInput.PupilsYear3 = MixedAgeYear2Year3 || MixedAgeYear3Year4 ? null : planInput.PupilsYear3;
+        planInput.PupilsYear4 = MixedAgeYear3Year4 || MixedAgeYear4Year5 ? null : planInput.PupilsYear4;
+        planInput.PupilsYear5 = MixedAgeYear4Year5 || MixedAgeYear5Year6 ? null : planInput.PupilsYear5;
+        planInput.PupilsYear6 = MixedAgeYear5Year6 ? null : planInput.PupilsYear6;
     }
 }

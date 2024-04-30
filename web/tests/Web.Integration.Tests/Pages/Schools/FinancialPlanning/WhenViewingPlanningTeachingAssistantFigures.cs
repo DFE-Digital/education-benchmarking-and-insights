@@ -29,7 +29,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
     [InlineData(null)]
     public async Task CanDisplayWithPreviousValue(string? assistants)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear6, "1")
             .With(x => x.AssistantsYear6, decimal.TryParse(assistants, out var parsed) ? parsed : null);
 
@@ -173,7 +173,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
@@ -184,7 +184,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

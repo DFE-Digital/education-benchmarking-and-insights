@@ -26,32 +26,32 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
     {
         yield return new object[]
         {
-        new List<FinancialPlan.OtherTeachingPeriod>
+        new List<FinancialPlanInput.OtherTeachingPeriod>
             {
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period1", PeriodsPerTimetable = "6" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period2", PeriodsPerTimetable = "7" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period3", PeriodsPerTimetable = "8" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period4", PeriodsPerTimetable = "9" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period5", PeriodsPerTimetable = "10" }
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period1", PeriodsPerTimetable = "6" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period2", PeriodsPerTimetable = "7" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period3", PeriodsPerTimetable = "8" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period4", PeriodsPerTimetable = "9" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period5", PeriodsPerTimetable = "10" }
             }
         };
 
         yield return new object[]
         {
-            new List<FinancialPlan.OtherTeachingPeriod>
+            new List<FinancialPlanInput.OtherTeachingPeriod>
             {
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period11", PeriodsPerTimetable = "14" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period12", PeriodsPerTimetable = "15" },
-                new FinancialPlan.OtherTeachingPeriod { PeriodName = "Period13", PeriodsPerTimetable = "16" }
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period11", PeriodsPerTimetable = "14" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period12", PeriodsPerTimetable = "15" },
+                new FinancialPlanInput.OtherTeachingPeriod { PeriodName = "Period13", PeriodsPerTimetable = "16" }
             }
         };
     }
 
     [Theory]
     [MemberData(nameof(OtherTeachingPeriodsTestData))]
-    public async Task CanDisplayWithValues(List<FinancialPlan.OtherTeachingPeriod> otherTeachingPeriods)
+    public async Task CanDisplayWithValues(List<FinancialPlanInput.OtherTeachingPeriod> otherTeachingPeriods)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.OtherTeachingPeriods, otherTeachingPeriods);
 
         var (page, school) =
@@ -133,7 +133,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         PageAssert.IsProblemPage(page);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
@@ -143,7 +143,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

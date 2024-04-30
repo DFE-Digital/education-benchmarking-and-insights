@@ -14,6 +14,15 @@
           "Swashbuckle.AspNetCore.Swagger": "5.6.3"
         }
       },
+      "Dapper.Contrib": {
+        "type": "Direct",
+        "requested": "[2.0.78, )",
+        "resolved": "2.0.78",
+        "contentHash": "sUfDVIf8LlHNiz3MfUFodeyRiemfN1JFkPxYjCxFWlwNPg1iQ49mB+0E89TkywWs4X8fiRWOVDQgtH5FtzK5Kw==",
+        "dependencies": {
+          "Dapper": "2.0.78"
+        }
+      },
       "FluentValidation": {
         "type": "Direct",
         "requested": "[11.9.1, )",
@@ -1914,15 +1923,6 @@
           "Azure.Core": "1.36.0",
           "System.Text.Json": "4.7.2",
           "System.Threading.Channels": "4.7.1"
-        }
-      },
-      "Dapper.Contrib": {
-        "type": "CentralTransitive",
-        "requested": "[2.0.78, )",
-        "resolved": "2.0.78",
-        "contentHash": "sUfDVIf8LlHNiz3MfUFodeyRiemfN1JFkPxYjCxFWlwNPg1iQ49mB+0E89TkywWs4X8fiRWOVDQgtH5FtzK5Kw==",
-        "dependencies": {
-          "Dapper": "2.0.78"
         }
       },
       "Dapper.SqlBuilder": {

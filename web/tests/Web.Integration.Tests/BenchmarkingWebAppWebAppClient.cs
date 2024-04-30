@@ -108,7 +108,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlan? plan = null)
+    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlanInput? plan = null)
     {
         BenchmarkApi.Reset();
         if (plan == null)
@@ -123,7 +123,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
         BenchmarkApi
             .Setup(api => api.QueryFinancialPlan(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
+            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
         BenchmarkApi
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
@@ -134,7 +134,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .ReturnsAsync(ApiResult.Ok())
             .Callback<PutFinancialPlanRequest>(request =>
                 BenchmarkApi.Setup(api => api.GetFinancialPlan(request.Urn ?? "", request.Year))
-                    .ReturnsAsync(ApiResult.Ok(new FinancialPlan
+                    .ReturnsAsync(ApiResult.Ok(new FinancialPlanInput
                     {
                         Urn = request.Urn,
                         Year = request.Year.GetValueOrDefault(),
