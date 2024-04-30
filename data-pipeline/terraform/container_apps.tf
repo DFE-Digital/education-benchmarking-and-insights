@@ -60,7 +60,7 @@ resource "azurerm_container_app" "data-pipeline" {
     min_replicas          = 0
     max_replicas          = 5
     workload_profile_name = "data-pipeline-profile"
-    revision_suffix = split(":", var.image-name)[1]
+    revision_suffix       = split(":", var.image-name)[1]
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
