@@ -5,8 +5,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Microsoft.IdentityModel.Tokens;
+using Web.App.Domain;
 using Web.App.Identity;
 using Web.App.Identity.Models;
+using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Extensions;
 
@@ -144,8 +147,6 @@ public static class ServiceCollectionExtensions
                 options.Scope.Add("organisation");
                 options.Scope.Add("offline_access");
 
-
-
                 //required to set user.identity.name
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -183,27 +184,37 @@ public static class ServiceCollectionExtensions
                         ctx.Response.Redirect("/");
                         ctx.HandleResponse();
                     },
-                    OnTokenValidated = async x =>
+                    OnTokenValidated = async context =>
                     {
                         try
                         {
                             var schools = Array.Empty<string>();
-                            var organisation = x.Principal?.Organisation();
-                            if (organisation?.UrnValue != null)
+                            var trusts = Array.Empty<string>();
+                            var organisation = context.Principal?.Organisation();
+                            if (organisation != null)
                             {
                                 schools = [organisation.UrnValue.ToString()];
+
+                                if (organisation.Category is { Id: "013" } or { Id: "010" }) //013 - Single-Academy Trust & 010 - Multi-Academy Trust
+                                {
+                                    var companyNumber = organisation.CompanyRegistrationNumber.ToString();
+                                    if (companyNumber != null)
+                                    {
+                                        var api = context.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
+                                        var trustSchools = await api.GetTrustSchools(companyNumber).GetResultOrDefault<School[]>() ?? [];
+                                        trusts = [companyNumber];
+                                        schools = trustSchools.Select(x => x.Urn).OfType<string>().ToArray();
+                                    }
+                                }
                             }
 
-                            //TODO: Handle trust - lookup schools for trust information;
-                            //var api = x.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
-
-                            x.Principal?.ApplyClaims(x.TokenEndpointResponse!.AccessToken, schools);
-                            opts.Events.OnValidatedPrincipal(x);
+                            context.Principal?.ApplyClaims(context.TokenEndpointResponse?.AccessToken, schools, trusts);
+                            opts.Events.OnValidatedPrincipal(context);
 
                         }
                         catch (Exception ex)
                         {
-                            x.Fail(ex);
+                            context.Fail(ex);
                         }
                     }
                 };

@@ -126,7 +126,7 @@ public static class ClaimsPrincipalExtensions
     }
 
 
-    public static ClaimsPrincipal ApplyClaims(this ClaimsPrincipal principal, string accessToken, IEnumerable<string> schools)
+    public static ClaimsPrincipal ApplyClaims(this ClaimsPrincipal principal, string? accessToken, IEnumerable<string> schools, IEnumerable<string> trusts)
     {
         if (principal.Identity is ClaimsIdentity identity)
         {
@@ -135,9 +135,18 @@ public static class ClaimsPrincipalExtensions
                 identity.AddClaim(new Claim(ClaimNames.Schools, school));
             }
 
+            foreach (var trust in trusts)
+            {
+                identity.AddClaim(new Claim(ClaimNames.Trusts, trust));
+            }
+
             identity.AddClaim(new Claim(ClaimNames.UserId, principal.UserId()));
             identity.AddClaim(new Claim(ClaimNames.Name, principal.UserName()));
-            identity.AddClaim(new Claim(ClaimNames.AccessToken, accessToken));
+            if (accessToken != null)
+            {
+                identity.AddClaim(new Claim(ClaimNames.AccessToken, accessToken));
+            }
+
         }
 
         return principal;

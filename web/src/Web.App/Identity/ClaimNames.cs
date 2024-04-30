@@ -14,4 +14,5 @@ public static class ClaimNames
     public const string Email = "email";
 
     public const string Schools = "schools";
+    public const string Trusts = "trusts";
 }
