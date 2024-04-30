@@ -3,16 +3,16 @@ import datetime
 import pandas as pd
 
 import mappings
-import schemas
+import input_schemas
 
 
 def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(
         cdc_file_path,
         encoding="utf8",
-        index_col=schemas.cdc_index_col,
-        usecols=schemas.cdc.keys(),
-        dtype=schemas.cdc,
+        index_col=input_schemas.cdc_index_col,
+        usecols=input_schemas.cdc.keys(),
+        dtype=input_schemas.cdc,
     )
 
     cdc["Total Internal Floor Area"] = cdc.groupby(by=["URN"])["GIFA"].sum()
@@ -30,9 +30,9 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     school_workforce_census = pd.read_excel(
         workforce_census_path,
         header=5,
-        index_col=schemas.workforce_census_index_col,
-        usecols=schemas.workforce_census.keys(),
-        dtype=schemas.workforce_census,
+        index_col=input_schemas.workforce_census_index_col,
+        usecols=input_schemas.workforce_census.keys(),
+        dtype=input_schemas.workforce_census,
         na_values=["x", "u", "c"],
         keep_default_na=True,
     ).drop_duplicates()
@@ -40,9 +40,9 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     school_pupil_census = pd.read_csv(
         pupil_census_path,
         encoding="utf8",
-        index_col=schemas.pupil_census_index_col,
-        usecols=schemas.pupil_census.keys(),
-        dtype=schemas.pupil_census,
+        index_col=input_schemas.pupil_census_index_col,
+        usecols=input_schemas.pupil_census.keys(),
+        dtype=input_schemas.pupil_census,
     ).drop_duplicates()
 
     census = school_pupil_census.join(
@@ -72,9 +72,9 @@ def prepare_sen_data(sen_path):
     sen = pd.read_csv(
         sen_path,
         encoding="cp1252",
-        index_col=schemas.sen_index_col,
-        dtype=schemas.sen,
-        usecols=schemas.sen.keys(),
+        index_col=input_schemas.sen_index_col,
+        dtype=input_schemas.sen,
+        usecols=input_schemas.sen.keys(),
     )
     sen["Percentage SEN"] = (sen["EHC plan"] / sen["Total pupils"]) * 100.0
     sen["Primary Need SPLD"] = (
@@ -146,9 +146,9 @@ def prepare_sen_data(sen_path):
 def prepare_ks2_data(ks2_path):
     ks2 = pd.read_excel(
         ks2_path,
-        usecols=schemas.ks2.keys(),
-        index_col=schemas.ks2_index_col,
-        dtype=schemas.ks2,
+        usecols=input_schemas.ks2.keys(),
+        index_col=input_schemas.ks2_index_col,
+        dtype=input_schemas.ks2,
     )
     ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
     ks2["MATPROG"] = ks2["MATPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
@@ -166,9 +166,9 @@ def prepare_ks2_data(ks2_path):
 def prepare_ks4_data(ks4_path):
     ks4 = pd.read_excel(
         ks4_path,
-        index_col=schemas.ks4_index_col,
-        dtype=schemas.ks4,
-        usecols=schemas.ks4.keys(),
+        index_col=input_schemas.ks4_index_col,
+        dtype=input_schemas.ks4,
+        usecols=input_schemas.ks4.keys(),
     )
 
     ks4.rename(
@@ -187,15 +187,15 @@ def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path,
         sheet_name="Academies",
-        usecols=schemas.aar_academies.keys(),
-        dtype=schemas.aar_academies,
+        usecols=input_schemas.aar_academies.keys(),
+        dtype=input_schemas.aar_academies,
     )
 
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
-        usecols=schemas.aar_central_services.keys(),
-        dtype=schemas.aar_central_services,
+        usecols=input_schemas.aar_central_services.keys(),
+        dtype=input_schemas.aar_central_services,
     )
 
     aar.rename(
@@ -215,7 +215,7 @@ def prepare_aar_data(aar_path):
     academy_financial_position = academies_financial[["academyupin", "Academy Balance"]]
 
     academy_agg = (
-        academies_financial[schemas.aar_aggregation_columns]
+        academies_financial[input_schemas.aar_aggregation_columns]
         .groupby("academyupin")
         .sum()
     )
@@ -256,7 +256,7 @@ def prepare_aar_data(aar_path):
     )
 
     trust_ar = (
-        trust_financial[schemas.aar_aggregation_columns].groupby("trustupin").sum()
+        trust_financial[input_schemas.aar_aggregation_columns].groupby("trustupin").sum()
     )
 
     trust_ar = trust_ar.drop(columns=["academyupin"])
@@ -296,17 +296,17 @@ def prepare_schools_data(base_data_path, links_data_path):
     gias = pd.read_csv(
         base_data_path,
         encoding="cp1252",
-        index_col=schemas.gias_index_col,
-        usecols=schemas.gias.keys(),
-        dtype=schemas.gias,
+        index_col=input_schemas.gias_index_col,
+        usecols=input_schemas.gias.keys(),
+        dtype=input_schemas.gias,
     )
 
     gias_links = pd.read_csv(
         links_data_path,
         encoding="cp1252",
-        index_col=schemas.gias_links_index_col,
-        usecols=schemas.gias_links.keys(),
-        dtype=schemas.gias_links,
+        index_col=input_schemas.gias_links_index_col,
+        usecols=input_schemas.gias_links.keys(),
+        dtype=input_schemas.gias_links,
     )
 
     # GIAS transformations
@@ -383,9 +383,9 @@ def build_academy_data(
     academies_list = pd.read_csv(
         academy_data_path,
         encoding="utf8",
-        index_col=schemas.academy_master_list_index_col,
-        dtype=schemas.academy_master_list,
-        usecols=schemas.academy_master_list.keys(),
+        index_col=input_schemas.academy_master_list_index_col,
+        dtype=input_schemas.academy_master_list,
+        usecols=input_schemas.academy_master_list.keys(),
     ).rename(columns={"UKPRN": "Academy UKPRN"})
 
     academies_base = academies_list.merge(
@@ -461,9 +461,9 @@ def build_maintained_school_data(
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
         encoding="utf8",
-        index_col=schemas.maintained_schools_master_list_index_col,
-        usecols=schemas.maintained_schools_master_list.keys(),
-        dtype=schemas.maintained_schools_master_list,
+        index_col=input_schemas.maintained_schools_master_list_index_col,
+        usecols=input_schemas.maintained_schools_master_list.keys(),
+        dtype=input_schemas.maintained_schools_master_list,
     )
 
     maintained_schools = maintained_schools_list.merge(
@@ -561,9 +561,9 @@ def build_federations_data(links_data_path, maintained_schools):
     group_links = pd.read_csv(
         links_data_path,
         encoding="unicode-escape",
-        index_col=schemas.groups_index_col,
-        usecols=schemas.groups.keys(),
-        dtype=schemas.groups,
+        index_col=input_schemas.groups_index_col,
+        usecols=input_schemas.groups.keys(),
+        dtype=input_schemas.groups,
     )
 
     federations = maintained_schools[["LAEstab"]][
