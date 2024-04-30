@@ -3,6 +3,13 @@ resource "azurerm_container_app_environment" "main" {
   location                   = azurerm_resource_group.resource-group.location
   resource_group_name        = azurerm_resource_group.resource-group.name
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
+
+  workload_profile {
+    name                  = "data-pipeline-profile"
+    workload_profile_type = "D4"
+    minimum_count         = 0
+    maximum_count         = 10
+  }
 }
 
 # resource "azurerm_user_assigned_identity" "container-app" {
@@ -25,6 +32,7 @@ resource "azurerm_container_app" "data-pipeline" {
   container_app_environment_id = azurerm_container_app_environment.main.id
   resource_group_name          = azurerm_resource_group.resource-group.name
   revision_mode                = "Single"
+  workload_profile_name        = "D4"
 
   identity {
     type = "SystemAssigned"
@@ -49,14 +57,15 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   template {
-    min_replicas = 0
-    max_replicas = 100
+    min_replicas          = 0
+    max_replicas          = 5
+    workload_profile_name = "data-pipeline-profile"
 
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
-      cpu    = 2
-      memory = "4Gi"
+      cpu    = 4
+      memory = "16Gi"
 
       ##TODO: Review if this is the best way to build this env
       env {
