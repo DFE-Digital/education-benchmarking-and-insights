@@ -13,14 +13,14 @@ public class TestAuthOptions : AuthenticationSchemeOptions
     public int URN { get; set; }
     public bool AllowAuth { get; set; } = true;
 }
-    
+
 public class Auth : AuthenticationHandler<TestAuthOptions>
 {
     public const string Email = "integration@test.com";
     public const string GivenName = "Test";
     public const string FamilyName = "User";
     public const string OrganisationName = "Test Organisation";
-      
+
     public Auth(IOptionsMonitor<TestAuthOptions> options, ILoggerFactory logger, UrlEncoder encoder) : base(options, logger, encoder)
     {
     }
@@ -39,11 +39,11 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
                 URN = urn
             })),
         };
-        
+
         var identity = new ClaimsIdentity(claims, authType);
         return new ClaimsPrincipal(identity);
     }
-        
+
     protected override Task<AuthenticateResult> HandleAuthenticateAsync()
     {
         var principal = GetUser(Options.URN);
@@ -51,7 +51,7 @@ public class Auth : AuthenticationHandler<TestAuthOptions>
 
         var result = Options.AllowAuth
             ? AuthenticateResult.Success(ticket)
-                :AuthenticateResult.Fail("Auth rejected");
+                : AuthenticateResult.Fail("Auth rejected");
 
         return Task.FromResult(result);
     }
