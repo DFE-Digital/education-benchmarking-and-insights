@@ -21,7 +21,7 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
     }
-    
+
     [Fact]
     public async Task ShouldReturn500OnError()
     {
