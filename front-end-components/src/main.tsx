@@ -491,7 +491,7 @@ if (spendingAndCostsComposedElements) {
             sortDirection={(sortDirection as ChartSortDirection) || "asc"}
             valueField="amount"
             valueUnit="currency"
-            hasIncompleteData={Boolean(hasIncompleteData)}
+            hasIncompleteData={hasIncompleteData === "True"}
           />
         </React.StrictMode>
       );
