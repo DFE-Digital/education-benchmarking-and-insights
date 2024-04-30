@@ -5,8 +5,8 @@ resource "azurerm_container_app_environment" "main" {
   log_analytics_workspace_id = data.azurerm_log_analytics_workspace.application-insights-workspace.id
 
   workload_profile {
-    name                  = "data-pipeline-profile"
-    workload_profile_type = "Consumption"
+    name                  = "Pipeline Dedicated"
+    workload_profile_type = "D4"
     minimum_count         = 0
     maximum_count         = 10
   }
@@ -57,10 +57,9 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   template {
-    min_replicas          = 0
-    max_replicas          = 5
-    workload_profile_name = "data-pipeline-profile"
-    revision_suffix       = split(":", var.image-name)[1]
+    min_replicas    = 0
+    max_replicas    = 5
+    revision_suffix = split(":", var.image-name)[1]
     container {
       name   = "edis-data-pipeline"
       image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
