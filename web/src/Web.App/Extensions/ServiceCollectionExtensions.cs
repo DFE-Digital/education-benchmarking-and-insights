@@ -144,6 +144,8 @@ public static class ServiceCollectionExtensions
                 options.Scope.Add("organisation");
                 options.Scope.Add("offline_access");
 
+
+
                 //required to set user.identity.name
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
@@ -159,6 +161,15 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new OpenIdConnectEvents
                 {
+                    OnRedirectToIdentityProvider = async context =>
+                    {
+                        var host = context.Request.Headers["X-Forwarded-Host"];
+                        var proto = context.Request.Headers["X-Forwarded-Proto"];
+
+
+                        context.ProtocolMessage.RedirectUri = opts.IsDevelopment ? "https://localhost:7095/auth/cb" : $"{proto}://{host}/auth/cb";
+
+                    },
                     OnMessageReceived = async context =>
                     {
                         var isSpuriousAuthCbRequest =
@@ -174,7 +185,6 @@ public static class ServiceCollectionExtensions
                             context.HandleResponse();
                         }
                     },
-
                     OnRemoteFailure = async ctx =>
                     {
                         opts.Events.OnRemoteFailure(ctx);
@@ -182,9 +192,6 @@ public static class ServiceCollectionExtensions
                         ctx.Response.Redirect("/");
                         ctx.HandleResponse();
                     },
-
-                    OnRedirectToIdentityProvider = _ => Task.CompletedTask,
-
                     OnTokenValidated = async x =>
                     {
                         try

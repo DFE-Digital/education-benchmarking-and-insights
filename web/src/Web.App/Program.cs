@@ -2,6 +2,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using CorrelationId.DependencyInjection;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
@@ -48,12 +49,19 @@ if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
     {
-
+        options.IsDevelopment = builder.Environment.IsDevelopment();
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
         options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
         options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
         options.Events.OnRemoteFailure = ctx => Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
         options.Events.OnValidatedPrincipal = _ => Log.Logger.Debug("Valid principal received");
+    });
+
+    builder.Services.Configure<ForwardedHeadersOptions>(options =>
+    {
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto;
+        options.KnownNetworks.Clear();
+        options.KnownProxies.Clear();
     });
 
     builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)
@@ -88,6 +96,7 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 }
 
+app.UseForwardedHeaders();
 app.UseMiddleware<CustomResponseHeadersMiddleware>();
 app.UseStatusCodePagesWithReExecute("/error/{0}");
 app.UseHttpsRedirection();
