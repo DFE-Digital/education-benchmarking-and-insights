@@ -8,6 +8,11 @@
     </div>
 </div>
 
+@ViewContext.HttpContext.Request.Headers["X-Forwarded-Host"]
+@ViewContext.HttpContext.Request.Headers["X-Forwarded-Proto"]
+@ViewContext.HttpContext.Request.Host
+@ViewContext.HttpContext.Request.Scheme
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">

@@ -49,7 +49,6 @@ if (!builder.Environment.IsIntegration())
 {
     builder.Services.AddDfeSignIn(options =>
     {
-        options.IsDevelopment = builder.Environment.IsDevelopment();
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
         options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
         options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
@@ -60,8 +59,6 @@ if (!builder.Environment.IsIntegration())
     builder.Services.Configure<ForwardedHeadersOptions>(options =>
     {
         options.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto;
-        options.KnownNetworks.Clear();
-        options.KnownProxies.Clear();
     });
 
     builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)

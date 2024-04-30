@@ -161,15 +161,6 @@ public static class ServiceCollectionExtensions
 
                 options.Events = new OpenIdConnectEvents
                 {
-                    OnRedirectToIdentityProvider = async context =>
-                    {
-                        var host = context.Request.Headers["X-Forwarded-Host"];
-                        var proto = context.Request.Headers["X-Forwarded-Proto"];
-
-
-                        context.ProtocolMessage.RedirectUri = opts.IsDevelopment ? "https://localhost:7095/auth/cb" : $"{proto}://{host}/auth/cb";
-
-                    },
                     OnMessageReceived = async context =>
                     {
                         var isSpuriousAuthCbRequest =
