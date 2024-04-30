@@ -5,6 +5,7 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Domain.FinancialPlanStages;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -85,7 +86,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.TryCreateEmpty(urn, stage.Year);
+                await financialPlanService.TryCreateEmpty(urn, stage.Year, User.UserId());
                 return RedirectToAction("PrePopulateData", new { urn, year = stage.Year });
             }
 
@@ -130,7 +131,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
 
                 return stage.UseFigures is true
                     ? RedirectToAction("TimetableCycle", new { urn, year })
@@ -186,7 +187,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return school.IsPrimary
                     ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
                     : RedirectToAction("PupilFigures", new { urn, year });
@@ -238,7 +239,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TotalExpenditure", new { urn, year });
             }
 
@@ -285,7 +286,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TotalTeacherCosts", new { urn, year });
             }
 
@@ -333,7 +334,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return school.IsPrimary
                     ? RedirectToAction("TotalEducationSupport", new { urn, year })
                     : RedirectToAction("TotalNumberTeachers", new { urn, year });
@@ -381,7 +382,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TotalNumberTeachers", new { urn, year });
             }
 
@@ -432,7 +433,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TimetableCycle", new { urn, year });
             }
 
@@ -483,7 +484,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.HasMixedAgeClasses is true
                     ? RedirectToAction("PrimaryMixedAgeClasses", new { urn, year })
                     : RedirectToAction("PrimaryPupilFigures", new { urn, year });
@@ -532,7 +533,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("PrimaryPupilFigures", new { urn, year });
             }
 
@@ -583,7 +584,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TeacherPeriodAllocation", new { urn, year });
             }
 
@@ -634,7 +635,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TeacherPeriodAllocation", new { urn, year });
             }
 
@@ -686,7 +687,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return school.IsPrimary
                     ? RedirectToAction("TeachingAssistantFigures", new { urn, year })
                     : RedirectToAction("OtherTeachingPeriods", new { urn, year });
@@ -738,7 +739,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("OtherTeachingPeriods", new { urn, year });
             }
 
@@ -774,9 +775,9 @@ public class SchoolPlanningCreateController(
             var plan = await financialPlanService.Get(urn, year);
 
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
-            if (viewModel.Plan?.OtherTeachingPeriods.Count == 0)
+            if (viewModel.PlanInput?.OtherTeachingPeriods.Count == 0)
             {
-                viewModel.Plan.OtherTeachingPeriods.Add(new FinancialPlan.OtherTeachingPeriod());
+                viewModel.PlanInput.OtherTeachingPeriods.Add(new FinancialPlanInput.OtherTeachingPeriod());
             }
 
             return View("OtherTeachingPeriods", viewModel);
@@ -805,7 +806,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid && action.Action == FormAction.Continue)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return stage.OtherTeachingPeriods.All(x => string.IsNullOrEmpty(x.PeriodName))
                     ? RedirectToAction("OtherTeachingPeriodsConfirm", new { urn, year })
                     : RedirectToAction("OtherTeachingPeriodsReview", new { urn, year });
@@ -926,7 +927,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("ManagersPerRole", new { urn, year });
             }
 
@@ -973,7 +974,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("TeachingPeriodsManager", new { urn, year });
             }
 
@@ -1020,7 +1021,7 @@ public class SchoolPlanningCreateController(
             var results = await validator.ValidateAsync(stage);
             if (results.IsValid)
             {
-                await financialPlanService.Update(urn, year, stage);
+                await financialPlanService.Update(urn, year, User.UserId(), stage);
                 return RedirectToAction("View", "SchoolPlanning", new { urn, year, referrer = Referrers.TeachingPeriodsManager });
             }
 

@@ -59,36 +59,36 @@
             </div>
         </dl>
         
-        @using (Html.BeginForm("PrePopulateData", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("PrePopulateData", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.UseFigures)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.UseFigures)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                         <h2 class="govuk-fieldset__heading">
                             Do you want to use these figures in your plan?
                         </h2>
                     </legend>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalIncome)" value="@($"{Model.Finances?.TotalIncome:0}")"/>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalExpenditure)" value="@($"{Model.Finances?.TotalExpenditure:0}")"/>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalTeacherCosts)" value="@($"{Model.Finances?.TeachingStaffCosts:0}")"/>
-                    <input type="hidden" name="@nameof(Model.Plan.EducationSupportStaffCosts)" value="@($"{Model.Finances?.EducationSupportStaffCosts:0}")"/>
-                    <input type="hidden" name="@nameof(Model.Plan.TotalNumberOfTeachersFte)" value="@Model.Finances?.TotalNumberOfTeachersFte"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalIncome)" value="@($"{Model.Finances?.TotalIncome:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalExpenditure)" value="@($"{Model.Finances?.TotalExpenditure:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalTeacherCosts)" value="@($"{Model.Finances?.TeachingStaffCosts:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.EducationSupportStaffCosts)" value="@($"{Model.Finances?.EducationSupportStaffCosts:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)" value="@Model.Finances?.TotalNumberOfTeachersFte"/>
                     
-                    @if (ViewData.ModelState.HasError(nameof(Model.Plan.UseFigures)))
+                    @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.UseFigures)))
                     {
-                        <p id="@nameof(Model.Plan.UseFigures)-error" class="govuk-error-message">
-                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.UseFigures)]?.Errors.First().ErrorMessage
+                        <p id="@nameof(Model.PlanInput.UseFigures)-error" class="govuk-error-message">
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.UseFigures)]?.Errors.First().ErrorMessage
                         </p>
                     }
                     <div class="govuk-radios govuk-radios govuk-radios--inline" data-module="govuk-radios">
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="useFigures-yes" name="@nameof(Model.Plan.UseFigures)" type="radio" value="true" @(Model.Plan?.UseFigures == true ? "checked" : "")>
+                            <input class="govuk-radios__input" id="useFigures-yes" name="@nameof(Model.PlanInput.UseFigures)" type="radio" value="true" @(Model.PlanInput?.UseFigures == true ? "checked" : "")>
                             <label class="govuk-label govuk-radios__label" for="useFigures-yes">
                                 Yes
                             </label>
                         </div>
                         <div class="govuk-radios__item">
-                            <input class="govuk-radios__input" id="useFigures-no" name="@nameof(Model.Plan.UseFigures)" type="radio" value="false" @(Model.Plan?.UseFigures == false ? "checked" : "")>
+                            <input class="govuk-radios__input" id="useFigures-no" name="@nameof(Model.PlanInput.UseFigures)" type="radio" value="false" @(Model.PlanInput?.UseFigures == false ? "checked" : "")>
                             <label class="govuk-label govuk-radios__label" for="useFigures-no">
                                 No
                             </label>

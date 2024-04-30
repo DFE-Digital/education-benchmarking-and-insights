@@ -1,8 +1,12 @@
-namespace Web.App.Infrastructure.Apis;
+using System;
+using System.Diagnostics.CodeAnalysis;
 
-public class PutFinancialPlanRequest
+namespace Platform.Domain;
+
+[ExcludeFromCodeCoverage]
+public record FinancialPlanInputRequestModel
 {
-    public int? Year { get; set; }
+    public int Year { get; set; }
     public string? Urn { get; set; }
     public string? User { get; set; }
     public bool IsComplete { get; set; }
@@ -21,13 +25,6 @@ public class PutFinancialPlanRequest
     public bool MixedAgeYear3Year4 { get; set; }
     public bool MixedAgeYear4Year5 { get; set; }
     public bool MixedAgeYear5Year6 { get; set; }
-    public int? PupilsYear7 { get; set; }
-    public int? PupilsYear8 { get; set; }
-    public int? PupilsYear9 { get; set; }
-    public int? PupilsYear10 { get; set; }
-    public int? PupilsYear11 { get; set; }
-    public decimal? PupilsYear12 { get; set; }
-    public decimal? PupilsYear13 { get; set; }
     public decimal? PupilsNursery { get; set; }
     public int? PupilsMixedReceptionYear1 { get; set; }
     public int? PupilsMixedYear1Year2 { get; set; }
@@ -42,6 +39,13 @@ public class PutFinancialPlanRequest
     public int? PupilsYear4 { get; set; }
     public int? PupilsYear5 { get; set; }
     public int? PupilsYear6 { get; set; }
+    public int? PupilsYear7 { get; set; }
+    public int? PupilsYear8 { get; set; }
+    public int? PupilsYear9 { get; set; }
+    public int? PupilsYear10 { get; set; }
+    public int? PupilsYear11 { get; set; }
+    public decimal? PupilsYear12 { get; set; }
+    public decimal? PupilsYear13 { get; set; }
     public int? TeachersNursery { get; set; }
     public int? TeachersMixedReceptionYear1 { get; set; }
     public int? TeachersMixedYear1Year2 { get; set; }
@@ -77,7 +81,7 @@ public class PutFinancialPlanRequest
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
-    public IEnumerable<OtherTeachingPeriod> OtherTeachingPeriods { get; set; } = Array.Empty<OtherTeachingPeriod>();
+    public TeachingPeriodRequestModel[]? OtherTeachingPeriods { get; set; }
     public bool ManagementRoleHeadteacher { get; set; }
     public bool ManagementRoleDeputyHeadteacher { get; set; }
     public bool ManagementRoleNumeracyLead { get; set; }
@@ -114,10 +118,4 @@ public class PutFinancialPlanRequest
     public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
-
-    public class OtherTeachingPeriod
-    {
-        public string? PeriodName { get; set; }
-        public string? PeriodsPerTimetable { get; set; }
-    }
 }

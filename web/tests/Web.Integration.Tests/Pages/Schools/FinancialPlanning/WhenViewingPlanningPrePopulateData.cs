@@ -209,7 +209,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
             .With(x => x.YearEnd, FinancesYear)
             .Create();
 
-        var plan = Fixture.Build<FinancialPlan>()
+        var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, PlanYear)
             .With(x => x.UseFigures, useFigures)

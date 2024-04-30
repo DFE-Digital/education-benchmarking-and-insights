@@ -1,20 +1,22 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 
 namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record FinancialPlanRequestModel
+public record FinancialPlanInputResponseModel
 {
-    public string? User { get; set; }
+    public int Year { get; set; }
+    public string? Urn { get; set; }
     public bool IsComplete { get; set; }
     public decimal TargetContactRatio { get; set; }
-    public bool? UseFigures { get; set; }
     public int? TotalIncome { get; set; }
     public int? TotalExpenditure { get; set; }
     public int? TotalTeacherCosts { get; set; }
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public int? EducationSupportStaffCosts { get; set; }
+    public bool? UseFigures { get; set; }
     public int? TimetablePeriods { get; set; }
     public bool? HasMixedAgeClasses { get; set; }
     public bool MixedAgeReceptionYear1 { get; set; }
@@ -79,7 +81,7 @@ public record FinancialPlanRequestModel
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
-    public TeachingPeriodRequestModel[]? OtherTeachingPeriods { get; set; }
+    public TeachingPeriodResponseModel[]? OtherTeachingPeriods { get; set; }
     public bool ManagementRoleHeadteacher { get; set; }
     public bool ManagementRoleDeputyHeadteacher { get; set; }
     public bool ManagementRoleNumeracyLead { get; set; }

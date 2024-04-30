@@ -1892,6 +1892,7 @@
         "type": "Project",
         "dependencies": {
           "AzureExtensions.Swashbuckle": "[3.3.2, )",
+          "Dapper.Contrib": "[2.0.78, )",
           "FluentValidation": "[11.9.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",

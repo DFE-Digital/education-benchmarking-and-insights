@@ -125,7 +125,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
     [InlineData("PupilsYear13", "3.8")]
     public async Task CanSubmit(string prop, string value)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .Without(x => x.PupilsYear7)
             .Without(x => x.PupilsYear8)
             .Without(x => x.PupilsYear9)
@@ -158,7 +158,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
     [MemberData(nameof(PlanInput))]
     public async Task CanDisplayWithPreviousValue(bool hasSixth, int? year7, int? year8, int? year9, int? year10, int? year11, decimal? year12, decimal? year13)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, year7.ToString)
             .With(x => x.PupilsYear8, year8.ToString)
             .With(x => x.PupilsYear9, year9.ToString)
@@ -248,7 +248,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
@@ -260,7 +260,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

@@ -4,75 +4,75 @@ using Web.App.Extensions;
 
 namespace Web.App.ViewModels;
 
-public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, string? referrer)
+public class SchoolDeploymentPlanViewModel(School school, FinancialPlanInput planInput, string? referrer)
 {
     public string? Name => school.Name;
     public bool IsPrimary => school.IsPrimary;
-    public int Year => plan.Year;
-    public string? Urn => plan.Urn;
-    public int TotalIncome => plan.TotalIncome.ToInt() ?? 0;
-    public int TotalExpenditure => plan.TotalExpenditure.ToInt() ?? 0;
-    public int TotalTeacherCosts => plan.TotalTeacherCosts.ToInt() ?? 0;
-    public int EducationSupportStaffCosts => plan.EducationSupportStaffCosts.ToInt() ?? 0;
-    public decimal TotalNumberOfTeachersFte => plan.TotalNumberOfTeachersFte ?? 0;
-    public int TimetablePeriods => plan.TimetablePeriods.ToInt() ?? 0;
-    public decimal PupilsNursery => plan.PupilsNursery ?? 0;
-    public int PupilsReception => plan.PupilsReception.ToInt() ?? 0;
-    public int PupilsYear1 => plan.PupilsYear1.ToInt() ?? 0;
-    public int PupilsYear2 => plan.PupilsYear2.ToInt() ?? 0;
-    public int PupilsYear3 => plan.PupilsYear3.ToInt() ?? 0;
-    public int PupilsYear4 => plan.PupilsYear4.ToInt() ?? 0;
-    public int PupilsYear5 => plan.PupilsYear5.ToInt() ?? 0;
-    public int PupilsYear6 => plan.PupilsYear6.ToInt() ?? 0;
-    public int PupilsMixedReceptionYear1 => plan.PupilsMixedReceptionYear1.ToInt() ?? 0;
-    public int PupilsMixedYear1Year2 => plan.PupilsMixedYear1Year2.ToInt() ?? 0;
-    public int PupilsMixedYear2Year3 => plan.PupilsMixedYear2Year3.ToInt() ?? 0;
-    public int PupilsMixedYear3Year4 => plan.PupilsMixedYear3Year4.ToInt() ?? 0;
-    public int PupilsMixedYear4Year5 => plan.PupilsMixedYear4Year5.ToInt() ?? 0;
-    public int PupilsMixedYear5Year6 => plan.PupilsMixedYear5Year6.ToInt() ?? 0;
-    public int PupilsYear7 => plan.PupilsYear7.ToInt() ?? 0;
-    public int PupilsYear8 => plan.PupilsYear8.ToInt() ?? 0;
-    public int PupilsYear9 => plan.PupilsYear9.ToInt() ?? 0;
-    public int PupilsYear10 => plan.PupilsYear10.ToInt() ?? 0;
-    public int PupilsYear11 => plan.PupilsYear11.ToInt() ?? 0;
-    public decimal PupilsYear12 => plan.PupilsYear12 ?? 0;
-    public decimal PupilsYear13 => plan.PupilsYear13 ?? 0;
-    public int TeachersNursery => plan.TeachersNursery.ToInt() ?? 0;
-    public int TeachersMixedReceptionYear1 => plan.TeachersMixedReceptionYear1.ToInt() ?? 0;
-    public int TeachersMixedYear1Year2 => plan.TeachersMixedYear1Year2.ToInt() ?? 0;
-    public int TeachersMixedYear2Year3 => plan.TeachersMixedYear2Year3.ToInt() ?? 0;
-    public int TeachersMixedYear3Year4 => plan.TeachersMixedYear3Year4.ToInt() ?? 0;
-    public int TeachersMixedYear4Year5 => plan.TeachersMixedYear4Year5.ToInt() ?? 0;
-    public int TeachersMixedYear5Year6 => plan.TeachersMixedYear5Year6.ToInt() ?? 0;
-    public int TeachersReception => plan.TeachersReception.ToInt() ?? 0;
-    public int TeachersYear1 => plan.TeachersYear1.ToInt() ?? 0;
-    public int TeachersYear2 => plan.TeachersYear2.ToInt() ?? 0;
-    public int TeachersYear3 => plan.TeachersYear3.ToInt() ?? 0;
-    public int TeachersYear4 => plan.TeachersYear4.ToInt() ?? 0;
-    public int TeachersYear5 => plan.TeachersYear5.ToInt() ?? 0;
-    public int TeachersYear6 => plan.TeachersYear6.ToInt() ?? 0;
-    public int TeachersYear7 => plan.TeachersYear7.ToInt() ?? 0;
-    public int TeachersYear8 => plan.TeachersYear8.ToInt() ?? 0;
-    public int TeachersYear9 => plan.TeachersYear9.ToInt() ?? 0;
-    public int TeachersYear10 => plan.TeachersYear10.ToInt() ?? 0;
-    public int TeachersYear11 => plan.TeachersYear11.ToInt() ?? 0;
-    public int TeachersYear12 => plan.TeachersYear12.ToInt() ?? 0;
-    public int TeachersYear13 => plan.TeachersYear13.ToInt() ?? 0;
-    public decimal AssistantsNursery => plan.AssistantsNursery ?? 0;
-    public decimal AssistantsMixedReceptionYear1 => plan.AssistantsMixedReceptionYear1 ?? 0;
-    public decimal AssistantsMixedYear1Year2 => plan.AssistantsMixedYear1Year2 ?? 0;
-    public decimal AssistantsMixedYear2Year3 => plan.AssistantsMixedYear2Year3 ?? 0;
-    public decimal AssistantsMixedYear3Year4 => plan.AssistantsMixedYear3Year4 ?? 0;
-    public decimal AssistantsMixedYear4Year5 => plan.AssistantsMixedYear4Year5 ?? 0;
-    public decimal AssistantsMixedYear5Year6 => plan.AssistantsMixedYear5Year6 ?? 0;
-    public decimal AssistantsReception => plan.AssistantsReception ?? 0;
-    public decimal AssistantsYear1 => plan.AssistantsYear1 ?? 0;
-    public decimal AssistantsYear2 => plan.AssistantsYear2 ?? 0;
-    public decimal AssistantsYear3 => plan.AssistantsYear3 ?? 0;
-    public decimal AssistantsYear4 => plan.AssistantsYear4 ?? 0;
-    public decimal AssistantsYear5 => plan.AssistantsYear5 ?? 0;
-    public decimal AssistantsYear6 => plan.AssistantsYear6 ?? 0;
-    public decimal TargetContactRatio => plan.TargetContactRatio;
+    public int Year => planInput.Year;
+    public string? Urn => planInput.Urn;
+    public int TotalIncome => planInput.TotalIncome.ToInt() ?? 0;
+    public int TotalExpenditure => planInput.TotalExpenditure.ToInt() ?? 0;
+    public int TotalTeacherCosts => planInput.TotalTeacherCosts.ToInt() ?? 0;
+    public int EducationSupportStaffCosts => planInput.EducationSupportStaffCosts.ToInt() ?? 0;
+    public decimal TotalNumberOfTeachersFte => planInput.TotalNumberOfTeachersFte ?? 0;
+    public int TimetablePeriods => planInput.TimetablePeriods.ToInt() ?? 0;
+    public decimal PupilsNursery => planInput.PupilsNursery ?? 0;
+    public int PupilsReception => planInput.PupilsReception.ToInt() ?? 0;
+    public int PupilsYear1 => planInput.PupilsYear1.ToInt() ?? 0;
+    public int PupilsYear2 => planInput.PupilsYear2.ToInt() ?? 0;
+    public int PupilsYear3 => planInput.PupilsYear3.ToInt() ?? 0;
+    public int PupilsYear4 => planInput.PupilsYear4.ToInt() ?? 0;
+    public int PupilsYear5 => planInput.PupilsYear5.ToInt() ?? 0;
+    public int PupilsYear6 => planInput.PupilsYear6.ToInt() ?? 0;
+    public int PupilsMixedReceptionYear1 => planInput.PupilsMixedReceptionYear1.ToInt() ?? 0;
+    public int PupilsMixedYear1Year2 => planInput.PupilsMixedYear1Year2.ToInt() ?? 0;
+    public int PupilsMixedYear2Year3 => planInput.PupilsMixedYear2Year3.ToInt() ?? 0;
+    public int PupilsMixedYear3Year4 => planInput.PupilsMixedYear3Year4.ToInt() ?? 0;
+    public int PupilsMixedYear4Year5 => planInput.PupilsMixedYear4Year5.ToInt() ?? 0;
+    public int PupilsMixedYear5Year6 => planInput.PupilsMixedYear5Year6.ToInt() ?? 0;
+    public int PupilsYear7 => planInput.PupilsYear7.ToInt() ?? 0;
+    public int PupilsYear8 => planInput.PupilsYear8.ToInt() ?? 0;
+    public int PupilsYear9 => planInput.PupilsYear9.ToInt() ?? 0;
+    public int PupilsYear10 => planInput.PupilsYear10.ToInt() ?? 0;
+    public int PupilsYear11 => planInput.PupilsYear11.ToInt() ?? 0;
+    public decimal PupilsYear12 => planInput.PupilsYear12 ?? 0;
+    public decimal PupilsYear13 => planInput.PupilsYear13 ?? 0;
+    public int TeachersNursery => planInput.TeachersNursery.ToInt() ?? 0;
+    public int TeachersMixedReceptionYear1 => planInput.TeachersMixedReceptionYear1.ToInt() ?? 0;
+    public int TeachersMixedYear1Year2 => planInput.TeachersMixedYear1Year2.ToInt() ?? 0;
+    public int TeachersMixedYear2Year3 => planInput.TeachersMixedYear2Year3.ToInt() ?? 0;
+    public int TeachersMixedYear3Year4 => planInput.TeachersMixedYear3Year4.ToInt() ?? 0;
+    public int TeachersMixedYear4Year5 => planInput.TeachersMixedYear4Year5.ToInt() ?? 0;
+    public int TeachersMixedYear5Year6 => planInput.TeachersMixedYear5Year6.ToInt() ?? 0;
+    public int TeachersReception => planInput.TeachersReception.ToInt() ?? 0;
+    public int TeachersYear1 => planInput.TeachersYear1.ToInt() ?? 0;
+    public int TeachersYear2 => planInput.TeachersYear2.ToInt() ?? 0;
+    public int TeachersYear3 => planInput.TeachersYear3.ToInt() ?? 0;
+    public int TeachersYear4 => planInput.TeachersYear4.ToInt() ?? 0;
+    public int TeachersYear5 => planInput.TeachersYear5.ToInt() ?? 0;
+    public int TeachersYear6 => planInput.TeachersYear6.ToInt() ?? 0;
+    public int TeachersYear7 => planInput.TeachersYear7.ToInt() ?? 0;
+    public int TeachersYear8 => planInput.TeachersYear8.ToInt() ?? 0;
+    public int TeachersYear9 => planInput.TeachersYear9.ToInt() ?? 0;
+    public int TeachersYear10 => planInput.TeachersYear10.ToInt() ?? 0;
+    public int TeachersYear11 => planInput.TeachersYear11.ToInt() ?? 0;
+    public int TeachersYear12 => planInput.TeachersYear12.ToInt() ?? 0;
+    public int TeachersYear13 => planInput.TeachersYear13.ToInt() ?? 0;
+    public decimal AssistantsNursery => planInput.AssistantsNursery ?? 0;
+    public decimal AssistantsMixedReceptionYear1 => planInput.AssistantsMixedReceptionYear1 ?? 0;
+    public decimal AssistantsMixedYear1Year2 => planInput.AssistantsMixedYear1Year2 ?? 0;
+    public decimal AssistantsMixedYear2Year3 => planInput.AssistantsMixedYear2Year3 ?? 0;
+    public decimal AssistantsMixedYear3Year4 => planInput.AssistantsMixedYear3Year4 ?? 0;
+    public decimal AssistantsMixedYear4Year5 => planInput.AssistantsMixedYear4Year5 ?? 0;
+    public decimal AssistantsMixedYear5Year6 => planInput.AssistantsMixedYear5Year6 ?? 0;
+    public decimal AssistantsReception => planInput.AssistantsReception ?? 0;
+    public decimal AssistantsYear1 => planInput.AssistantsYear1 ?? 0;
+    public decimal AssistantsYear2 => planInput.AssistantsYear2 ?? 0;
+    public decimal AssistantsYear3 => planInput.AssistantsYear3 ?? 0;
+    public decimal AssistantsYear4 => planInput.AssistantsYear4 ?? 0;
+    public decimal AssistantsYear5 => planInput.AssistantsYear5 ?? 0;
+    public decimal AssistantsYear6 => planInput.AssistantsYear6 ?? 0;
+    public decimal TargetContactRatio => planInput.TargetContactRatio;
 
     public decimal TotalPupils => PupilsNursery + PupilsReception + PupilsYear1 + PupilsYear2 + PupilsYear3 +
                                   PupilsYear4 + PupilsYear5 + PupilsYear6 + PupilsMixedReceptionYear1 +
@@ -94,7 +94,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
                                               AssistantsMixedYear3Year4 + AssistantsMixedYear4Year5 +
                                               AssistantsMixedYear5Year6;
 
-    public decimal OtherPeriods => plan.OtherTeachingPeriods
+    public decimal OtherPeriods => planInput.OtherTeachingPeriods
         .Sum(x => x.PeriodsPerTimetable.ToInt() ?? 0);
 
     public decimal TotalTeachingPeriods => TeachingPeriods + OtherPeriods;
@@ -246,7 +246,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
                 TotalPupils));
         }
 
-        foreach (var period in plan.OtherTeachingPeriods)
+        foreach (var period in planInput.OtherTeachingPeriods)
         {
             var timetable = period.PeriodsPerTimetable.ToInt() ?? 0;
             if (period.PeriodName is not null && timetable > 0)
@@ -464,7 +464,7 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
                 TotalPupils));
         }
 
-        foreach (var period in plan.OtherTeachingPeriods)
+        foreach (var period in planInput.OtherTeachingPeriods)
         {
             var timetable = period.PeriodsPerTimetable.ToInt() ?? 0;
             if (period.PeriodName is not null && timetable > 0)
@@ -518,100 +518,100 @@ public class SchoolDeploymentPlanViewModel(School school, FinancialPlan plan, st
     private ManagementRole[] BuildManagementRoles()
     {
         var roles = new List<ManagementRole>();
-        if (plan.ManagementRoleHeadteacher)
+        if (planInput.ManagementRoleHeadteacher)
         {
             roles.Add(new(
                 "Headteacher",
-                plan.NumberHeadteacher.ToInt() ?? 0,
-                plan.TeachingPeriodsHeadteacher.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberHeadteacher.ToInt() ?? 0,
+                planInput.TeachingPeriodsHeadteacher.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleDeputyHeadteacher)
+        if (planInput.ManagementRoleDeputyHeadteacher)
         {
             roles.Add(new(
                 "Deputy headteacher",
-                plan.NumberDeputyHeadteacher.ToInt() ?? 0,
-                plan.TeachingPeriodsDeputyHeadteacher.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberDeputyHeadteacher.ToInt() ?? 0,
+                planInput.TeachingPeriodsDeputyHeadteacher.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleNumeracyLead)
+        if (planInput.ManagementRoleNumeracyLead)
         {
             roles.Add(new(
                 "Numeracy lead",
-                plan.NumberNumeracyLead.ToInt() ?? 0,
-                plan.TeachingPeriodsNumeracyLead.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberNumeracyLead.ToInt() ?? 0,
+                planInput.TeachingPeriodsNumeracyLead.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleLiteracyLead)
+        if (planInput.ManagementRoleLiteracyLead)
         {
             roles.Add(new(
                 "Literacy lead",
-                plan.NumberLiteracyLead.ToInt() ?? 0,
-                plan.TeachingPeriodsLiteracyLead.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberLiteracyLead.ToInt() ?? 0,
+                planInput.TeachingPeriodsLiteracyLead.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleHeadSmallCurriculum)
+        if (planInput.ManagementRoleHeadSmallCurriculum)
         {
             roles.Add(new(
                 "Head of small curriculum area",
-                plan.NumberHeadSmallCurriculum.ToInt() ?? 0,
-                plan.TeachingPeriodsHeadSmallCurriculum.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberHeadSmallCurriculum.ToInt() ?? 0,
+                planInput.TeachingPeriodsHeadSmallCurriculum.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleHeadKs1)
+        if (planInput.ManagementRoleHeadKs1)
         {
             roles.Add(new(
                 "Head of KS1",
-                plan.NumberHeadKs1.ToInt() ?? 0,
-                plan.TeachingPeriodsHeadKs1.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberHeadKs1.ToInt() ?? 0,
+                planInput.TeachingPeriodsHeadKs1.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleHeadKs2)
+        if (planInput.ManagementRoleHeadKs2)
         {
             roles.Add(new(
                 "Head of KS2",
-                plan.NumberHeadKs2.ToInt() ?? 0,
-                plan.TeachingPeriodsHeadKs2.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberHeadKs2.ToInt() ?? 0,
+                planInput.TeachingPeriodsHeadKs2.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleSenco)
+        if (planInput.ManagementRoleSenco)
         {
             roles.Add(new(
                 "Special educational needs coordinator (SENCO)",
-                plan.NumberSenco.ToInt() ?? 0,
-                plan.TeachingPeriodsSenco.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberSenco.ToInt() ?? 0,
+                planInput.TeachingPeriodsSenco.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleAssistantHeadteacher)
+        if (planInput.ManagementRoleAssistantHeadteacher)
         {
             roles.Add(new(
                 "Assistant headteacher",
-                plan.NumberAssistantHeadteacher.ToInt() ?? 0,
-                plan.TeachingPeriodsAssistantHeadteacher.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberAssistantHeadteacher.ToInt() ?? 0,
+                planInput.TeachingPeriodsAssistantHeadteacher.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleHeadLargeCurriculum)
+        if (planInput.ManagementRoleHeadLargeCurriculum)
         {
             roles.Add(new(
                 "Head of large curriculum area",
-                plan.NumberHeadLargeCurriculum.ToInt() ?? 0,
-                plan.TeachingPeriodsHeadLargeCurriculum.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberHeadLargeCurriculum.ToInt() ?? 0,
+                planInput.TeachingPeriodsHeadLargeCurriculum.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRolePastoralLeader)
+        if (planInput.ManagementRolePastoralLeader)
         {
             roles.Add(new(
                 "Pastoral leader",
-                plan.NumberPastoralLeader.ToInt() ?? 0,
-                plan.TeachingPeriodsPastoralLeader.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberPastoralLeader.ToInt() ?? 0,
+                planInput.TeachingPeriodsPastoralLeader.Sum(x => x.ToInt() ?? 0)));
         }
 
-        if (plan.ManagementRoleOtherMembers)
+        if (planInput.ManagementRoleOtherMembers)
         {
             roles.Add(new(
                 "Other members of management or leadership staff",
-                plan.NumberOtherMembers.ToInt() ?? 0,
-                plan.TeachingPeriodsOtherMembers.Sum(x => x.ToInt() ?? 0)));
+                planInput.NumberOtherMembers.ToInt() ?? 0,
+                planInput.TeachingPeriodsOtherMembers.Sum(x => x.ToInt() ?? 0)));
         }
 
         return roles.ToArray();

@@ -4,17 +4,17 @@ namespace Web.App.ViewModels;
 
 public class SchoolPlanCreateViewModel(School school)
 {
-    public SchoolPlanCreateViewModel(School school, FinancialPlan plan) : this(school)
+    public SchoolPlanCreateViewModel(School school, FinancialPlanInput planInput) : this(school)
     {
-        Plan = plan;
+        PlanInput = planInput;
     }
 
-    public SchoolPlanCreateViewModel(School school, FinancialPlan plan, Finances finances) : this(school, plan)
+    public SchoolPlanCreateViewModel(School school, FinancialPlanInput planInput, Finances finances) : this(school, planInput)
     {
         Finances = finances;
     }
 
     public School School { get; } = school;
-    public FinancialPlan? Plan { get; init; }
+    public FinancialPlanInput? PlanInput { get; init; }
     public Finances? Finances { get; init; }
 }

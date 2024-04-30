@@ -16,16 +16,16 @@
                     </tr>
                 </thead>
                 <tbody class="govuk-table__body">
-                @for(var i = 0; i < Model.Plan?.OtherTeachingPeriods.Count; i++)
+                @for(var i = 0; i < Model.PlanInput?.OtherTeachingPeriods.Count; i++)
                 {
                     <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">@Model.Plan?.OtherTeachingPeriods[i].PeriodName</th>
-                    <td class="govuk-table__cell">@Model.Plan?.OtherTeachingPeriods[i].PeriodsPerTimetable</td>
+                    <th scope="row" class="govuk-table__header">@Model.PlanInput?.OtherTeachingPeriods[i].PeriodName</th>
+                    <td class="govuk-table__cell">@Model.PlanInput?.OtherTeachingPeriods[i].PeriodsPerTimetable</td>
                     </tr>
                 }
                 </tbody>
             </table>
-        <a href="@Url.Action("ManagementRoles", "SchoolPlanningCreate", new { urn = Model.Plan?.Urn, year = Model.Plan?.Year })" role="button" class="govuk-button">
+        <a href="@Url.Action("ManagementRoles", "SchoolPlanningCreate", new { urn = Model.PlanInput?.Urn, year = Model.PlanInput?.Year })" role="button" class="govuk-button">
             Continue
         </a>
     </div>

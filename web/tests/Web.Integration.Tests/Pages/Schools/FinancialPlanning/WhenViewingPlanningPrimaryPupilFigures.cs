@@ -134,7 +134,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     [InlineData("PupilsYear6", "-1", "Pupil figures for year 6 must be 0 or more")]
     public async Task ShowsErrorOnInValidEntryNonMixedAgeSubmit(string prop, string value, string error)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .Without(x => x.PupilsNursery)
             .With(x => x.MixedAgeReceptionYear1, false)
             .With(x => x.MixedAgeYear1Year2, false)
@@ -186,7 +186,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     [InlineData("PupilsMixedYear5Year6", "-1", "Pupil figures for year 5 and year 6 must be 0 or more")]
     public async Task ShowsErrorOnInValidEntryMixedAgeSubmit(string prop, string value, string error)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .Without(x => x.PupilsNursery)
             .With(x => x.MixedAgeReceptionYear1, true)
             .With(x => x.MixedAgeYear1Year2, true)
@@ -221,8 +221,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
-    private async Task<(IHtmlDocument page, School school, FinancialPlan plan)> SetupNavigateInitPage(
-        string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school, FinancialPlanInput plan)> SetupNavigateInitPage(
+        string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
@@ -233,7 +233,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)
@@ -251,9 +251,9 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         return (page, school, plan);
     }
 
-    private static void AssertPageLayout(IHtmlDocument page, School school, FinancialPlan plan)
+    private static void AssertPageLayout(IHtmlDocument page, School school, FinancialPlanInput planInput)
     {
-        var expectedPage = plan.HasMixedAgeClasses.GetValueOrDefault()
+        var expectedPage = planInput.HasMixedAgeClasses.GetValueOrDefault()
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
             : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
 
