@@ -70,7 +70,7 @@ resource "azurerm_container_app" "data-pipeline" {
       }
 
       env {
-        name = "RAW_DATA_CONTAINER"
+        name  = "RAW_DATA_CONTAINER"
         value = "raw"
       }
 
