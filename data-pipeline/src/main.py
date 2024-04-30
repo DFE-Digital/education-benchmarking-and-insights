@@ -17,6 +17,9 @@ from dotenv import load_dotenv
 import comparator_sets as comparators
 import pre_processing as pre_processing
 
+# reset CPU affinity so that ALL cpus are used.
+os.system("taskset -p 0xff %d" % os.getpid())
+
 load_dotenv()
 
 logger = logging.getLogger("fbit-data-pipeline")
