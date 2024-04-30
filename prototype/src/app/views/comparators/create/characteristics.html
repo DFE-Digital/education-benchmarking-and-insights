@@ -25,9 +25,7 @@
             <h1 class="govuk-heading-l">Create a custom comparator set</h1>
 
             <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
-<!--
-            <p class="govuk-body">You can compare against a maximum of 30 schools. If your chosen comparison characteristics give more than 30 results, we will chose the 30 schools whose comparison values are closest to {{ data['school-name'] }}.</p>
-        
+                    
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-three-quarters">
@@ -37,7 +35,6 @@
                     </div>
                 </div>
             </div>
--->
 
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
@@ -1225,6 +1222,40 @@
                 {% endif %}
 
 
+                <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+                <script>
+                    intMatches = 9119;
+        
+                    $('.govuk-checkboxes.question input[type=text]').change( function() {
+                        updateCounts( $(this).val(), $(this) );
+                    })
+                    
+                    $('.govuk-checkboxes__conditional .govuk-checkboxes__input').click(function() {
+                        updateCounts( $(this).is(':checked'), $(this) );
+                    })
+        
+                    function updateCounts(blnCount, objPassed) {
+        
+        //              intSelected = $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html();
+        
+                        if ( blnCount ) {
+                            intMatches = Math.floor( intMatches * 0.4 );
+        //                  intSelected++;
+                        } else {
+        
+                            if (intMatches) {
+                                intMatches = Math.floor( intMatches / 0.4 );
+                            } else {
+                                intMatches = 1;
+                            }
+        //                  intSelected--;
+                        }
+                        $('#countPart').text( intMatches.toLocaleString() );
+        //              $(objPassed).parents('.govuk-accordion__section--expanded').find( '.selection-counter').html(intSelected);
+                    
+                    }
+        
+                </script>
                          
             </div>
 

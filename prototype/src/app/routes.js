@@ -287,15 +287,14 @@ router.get( '/compare-trusts/by-name', (req, res) => {
     var rows = [];
     var trustRows = getTrustList();
     var trusts = req.session.data.trusts || [];
-
-
+console.log('by-name');
+console.log( req.session.data.trusts );
     for ( i=0; i<trusts.length; i++) {
         var nameHtml = "<a href=\"#\">" + trusts[i].trustName +"</a></span>";
-        rows.push( [ {'html':  nameHtml}, {'text': trusts[i].trustPupils}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() }, {'text': 'Secondary'}, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'text': trusts[i].trustPupils.toLocaleString()}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() }, {'text': 'Secondary'}, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
     }
 
-    console.log(rows);
-    res.render( '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+    res.render( '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], trustSetType: req.session.data['trustSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
 
     // clear confirmation/errors
     req.session.data['confirmation'] = '';
@@ -307,7 +306,6 @@ router.get( '/compare-trusts/by-name', (req, res) => {
 function addTrust (req, res, trustName) {
 
     var trusts = req.session.data.trusts || [];
-
 
     trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
     trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
@@ -362,11 +360,30 @@ router.get( '/compare-trusts/undo-remove', (req, res) => {
 router.get( '/compare-trusts/reset-confirmed', (req, res) => {
 
     req.session.data.trusts = null;
-
-    res.render( '/trust-homepage', {confirmation: 'comparator-reset' } );
-
+console.log('reset-confirmed');
+console.log(req.session.data.trusts );
+    res.render( '/compare-trusts/by-name', {confirmation: 'trust-reset' } );
 
 })
+
+
+
+// ADD TRUSTS BY CHARACTERISTICS
+
+router.post( '/compare-trusts/by-name', (req, res) => {
+
+    var trusts = generateTrusts();
+    trusts.sort((a, b) => a.trustName > b.trustName ? 1 : -1);
+
+    req.session.data['trusts'] = trusts;
+    req.session.data['confirmation'] = 'trusts-generated';
+    req.session.data['trustSetType'] = 'generated';
+
+    res.redirect( '/compare-trusts/by-name' );
+
+})
+
+
 
 
 // DUMMY DATA GENERATION
@@ -429,6 +446,25 @@ function generateComparators() {
     }
 
     return comparators;
+}
+
+function generateTrusts() {
+
+    var objTrustsFile = require('../app/data/trusts.json');
+    var objTrusts = objTrustsFile.trusts;
+    var trusts = [];
+
+    for (i=0; i<10; i++ ) {
+        objTrust = objTrusts[ Math.floor( Math.random() * objTrusts.length-1 ) ];
+
+        trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
+        trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
+        trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 );
+
+        trusts.push({'trustName': objTrust.trustName, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustIncome': trustIncome });
+    }
+
+    return trusts;
 }
 
 
