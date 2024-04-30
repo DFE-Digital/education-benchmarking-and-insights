@@ -231,7 +231,7 @@ public class HistoricDataPage(IPage page)
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
                 await AssertCategoryNames(_workforceCategories, selectedTab);
-                Assert.Equal(8, await AllWorkforceCharts.Count());
+                Assert.Equal(9, await AllWorkforceCharts.Count());
                 break;
         }
     }
