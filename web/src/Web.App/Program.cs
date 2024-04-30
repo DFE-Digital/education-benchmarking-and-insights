@@ -58,7 +58,13 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services.Configure<ForwardedHeadersOptions>(options =>
     {
-        options.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedProto;
+        options.ForwardedHeaders = ForwardedHeaders.XForwardedHost | ForwardedHeaders.XForwardedFor;
+        options.KnownProxies.Clear();
+        options.KnownNetworks.Clear();
+        options.AllowedHosts = new List<string>
+        {
+            "*.azurefd.net"
+        };
     });
 
     builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)
