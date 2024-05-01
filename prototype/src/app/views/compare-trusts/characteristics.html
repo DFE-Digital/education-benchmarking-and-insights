@@ -5,13 +5,13 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Create a custom comparator set – {{ serviceName }}
+    Choose comparison characteristics – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
     {{ govukBackLink({
         text: "Back",
-        href: "/comparators/create/local-authority"
+        href: "/compare-trusts"
     }) }}
 {% endblock %}
 
@@ -132,6 +132,41 @@
                     </div>
                 </div>
 
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-MinSize" type="checkbox" aria-controls="pc20" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSize">Total gross internal floor area <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc20">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                                <span>The total value for {{ data['trust-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">410,130</span> square metres</span>
+
+                    </div>
+
+
+                    <span class="govuk-error-message"></span>
+
+                    <div class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="MinSize">From</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSize" id="MinSize" class="govuk-input form-control criteria-input min-js" min="0" max="100" >
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="MaxSize">To</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" min="0" max="100" >
+                    </div>
+                    <div class="govuk-grid-column-one-third" style="margin-top: 37px; margin-bottom: 0s;">
+                        <p class="govuk-body">square metres</p>
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+                
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-OverallPhase" type="checkbox" aria-controls="phc" aria-expanded="false">
@@ -238,6 +273,8 @@
                         </fieldset>
                         </div>
                     </div>
+
+                    
                     
                     <div class="govuk-checkboxes__item">
                         <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Special" value="Special" class="govuk-checkboxes__input criteria-checkbox" aria-controls="special-phases" aria-expanded="false">
@@ -466,7 +503,6 @@
                         </div>
                         </div>
                     </div>
-
 
         </div>
 

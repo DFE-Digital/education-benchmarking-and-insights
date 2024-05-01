@@ -457,9 +457,9 @@ function generateTrusts() {
     for (i=0; i<10; i++ ) {
         objTrust = objTrusts[ Math.floor( Math.random() * objTrusts.length-1 ) ];
 
-        trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
         trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
-        trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 );
+        trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438 * trustSchools;
+        trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 * trustSchools );
 
         trusts.push({'trustName': objTrust.trustName, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustIncome': trustIncome });
     }
