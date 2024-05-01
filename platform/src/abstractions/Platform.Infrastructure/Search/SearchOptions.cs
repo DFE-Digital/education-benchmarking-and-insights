@@ -5,7 +5,7 @@ using Azure;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public abstract record SearchServiceOptions
+public record SearchServiceOptions
 {
     [Required] public string? Name { get; set; }
     [Required] public string? Key { get; set; }

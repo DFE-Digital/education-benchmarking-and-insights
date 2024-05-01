@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain;
 
@@ -8,6 +9,7 @@ public enum JobKind
     Custom
 }
 
+[ExcludeFromCodeCoverage]
 public class PipelineJobRequestModel
 {
     public string JobId => Kind == JobKind.Custom ? $"{Kind.ToString().ToLower()}-{Year}-{RequestId}" : $"{Kind.ToString().ToLower()}-{Year}";

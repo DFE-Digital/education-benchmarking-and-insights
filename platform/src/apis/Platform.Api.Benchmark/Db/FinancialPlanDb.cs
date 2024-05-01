@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
@@ -20,6 +21,7 @@ public interface IFinancialPlanDb
     Task DeleteFinancialPlan(string urn, int year);
 }
 
+[ExcludeFromCodeCoverage]
 public class FinancialPlanDb : IFinancialPlanDb
 {
     private readonly IDatabaseFactory _dbFactory;

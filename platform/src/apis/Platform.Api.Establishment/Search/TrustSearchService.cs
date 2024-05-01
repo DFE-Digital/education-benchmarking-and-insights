@@ -7,14 +7,11 @@ using Platform.Infrastructure.Search;
 namespace Platform.Api.Establishment.Search;
 
 [ExcludeFromCodeCoverage]
-public record TrustSearchServiceOptions : SearchServiceOptions;
-
-[ExcludeFromCodeCoverage]
 public class TrustSearchService : SearchService, ISearchService<TrustResponseModel>
 {
     private static readonly string[] Facets = { "" };
-    private const string IndexName = "trust-index";
-    public TrustSearchService(IOptions<TrustSearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    private const string IndexName = SearchResourceNames.Indexes.Trust;
+    public TrustSearchService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 

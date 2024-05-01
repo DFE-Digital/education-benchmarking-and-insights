@@ -2,14 +2,14 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <AzureFunctionsVersion>V4</AzureFunctionsVersion>
+        <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
         <Nullable>enable</Nullable>
+        <RuntimeIdentifiers>win-x86</RuntimeIdentifiers>
     </PropertyGroup>
     <ItemGroup>
-        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask" />
-        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues" />
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.DurableTask"/>
+        <PackageReference Include="Microsoft.Azure.WebJobs.Extensions.Storage.Queues"/>
         <PackageReference Include="Microsoft.NET.Sdk.Functions"/>
-    </ItemGroup>
-    <ItemGroup>
         <None Update="host.json">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
@@ -17,8 +17,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
-    </ItemGroup>
-    <ItemGroup>
-      <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
+        <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj"/>
+        <AssemblyAttribute Include="System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverageAttribute"/>
     </ItemGroup>
 </Project>

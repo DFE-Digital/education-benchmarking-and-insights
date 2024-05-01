@@ -1,7 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain;
 
+[ExcludeFromCodeCoverage]
 public static class CostCategories
 {
     public static Dictionary<int, string> Mapping => new()

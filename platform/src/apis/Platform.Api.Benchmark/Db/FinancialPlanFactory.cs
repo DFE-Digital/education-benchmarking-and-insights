@@ -1,7 +1,9 @@
-﻿using Platform.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
+using Platform.Domain;
 
 namespace Platform.Api.Benchmark.Db;
 
+[ExcludeFromCodeCoverage]
 public static class FinancialPlanFactory
 {
     public static FinancialPlanResponseModel CreateResponse(FinancialPlanDataObject dataObject)

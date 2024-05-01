@@ -1,5 +1,8 @@
-﻿namespace Platform.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Domain;
+
+[ExcludeFromCodeCoverage]
 public record RatingResponseModel
 {
     public string? Urn { get; private set; }
