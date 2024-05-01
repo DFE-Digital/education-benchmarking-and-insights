@@ -78,7 +78,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
     }
 
     fetch(
-      "/api/establishments/suggest?" +
+      "/api/suggest?" +
         new URLSearchParams({ type: "school", search: fetchValue }),
       {
         signal: controller.signal,

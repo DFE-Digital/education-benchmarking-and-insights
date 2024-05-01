@@ -1,0 +1,5 @@
+ContainerAppConsoleLogs_CL
+| where RevisionName_s startswith "s198d01-ebis-data-pipeline"
+| where TimeGenerated between (ago(1d) .. now())
+| project TimeGenerated, ContainerId_s, Log_s
+| order by TimeGenerated desc 

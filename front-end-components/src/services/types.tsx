@@ -49,10 +49,12 @@ export type ExpenditureData = {
   totalUtilitiesCosts: number;
   energyCosts: number;
   waterSewerageCosts: number;
+  hasIncompleteData: boolean;
 };
 
 export type Balance = {
   yearEnd: string;
+  term: string;
   dimension: string;
   inYearBalance: number;
   revenueReserve: number;
@@ -65,6 +67,7 @@ export type Workforce = {
   localAuthority: string;
   numberOfPupils: bigint;
   yearEnd: string;
+  term: string;
   dimension: string;
   workforceFte: number;
   teachersFte: number;
@@ -74,10 +77,12 @@ export type Workforce = {
   auxiliaryStaffFte: number;
   workforceHeadcount: number;
   teachersQualified: number;
+  hasIncompleteData: boolean;
 };
 
 export type Income = {
   yearEnd: string;
+  term: string;
   dimension: string;
   totalIncome: number;
   totalGrantFunding: number;
@@ -100,6 +105,7 @@ export type Income = {
 
 export type Expenditure = {
   yearEnd: string;
+  term: string;
   dimension: string;
   totalExpenditure: number;
   totalTeachingSupportStaffCosts: number;

@@ -11,6 +11,7 @@ import {
   SelectedSchool,
   SelectedSchoolContext,
   ChartModeContext,
+  HasIncompleteDataContext,
 } from "src/contexts";
 import { SchoolEstablishment } from "src/constants.tsx";
 import { useGovUk } from "src/hooks/useGovUk";
@@ -55,23 +56,28 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     setDisplayMode(e.target.value);
   };
 
+  const hasIncompleteData =
+    expenditureData?.some((x) => x.hasIncompleteData) ?? false;
+
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
       <div className="view-as-toggle">
         <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
       </div>
-      <ChartModeContext.Provider value={displayMode}>
-        <TotalExpenditure
-          schools={
-            expenditureData ? expenditureData : new Array<ExpenditureData>()
-          }
-        />
-        <ExpenditureAccordion
-          schools={
-            expenditureData ? expenditureData : new Array<ExpenditureData>()
-          }
-        />
-      </ChartModeContext.Provider>
+      <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+        <ChartModeContext.Provider value={displayMode}>
+          <TotalExpenditure
+            schools={
+              expenditureData ? expenditureData : new Array<ExpenditureData>()
+            }
+          />
+          <ExpenditureAccordion
+            schools={
+              expenditureData ? expenditureData : new Array<ExpenditureData>()
+            }
+          />
+        </ChartModeContext.Provider>
+      </HasIncompleteDataContext.Provider>
     </SelectedSchoolContext.Provider>
   );
 };

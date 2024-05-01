@@ -4,7 +4,7 @@ import {
   PupilsPerStaffRole,
   WorkforceCategories,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, HasIncompleteDataContext } from "src/contexts";
 import { TeachingAssistantsData } from "src/views/compare-your-workforce/partials";
 import {
   HorizontalBarChartWrapper,
@@ -64,22 +64,26 @@ export const TeachingAssistants: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
+  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+
   return (
-    <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper
-        data={chartData}
-        chartName="teaching assistants (full time equivalent)"
-      >
-        <h2 className="govuk-heading-m">
-          Teaching Assistants (Full Time Equivalent)
-        </h2>
-        <ChartDimensions
-          dimensions={WorkforceCategories}
-          handleChange={handleSelectChange}
-          elementId="teaching-assistants"
-          defaultValue={dimension.value}
-        />
-      </HorizontalBarChartWrapper>
-    </ChartDimensionContext.Provider>
+    <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+      <ChartDimensionContext.Provider value={dimension}>
+        <HorizontalBarChartWrapper
+          data={chartData}
+          chartName="teaching assistants (full time equivalent)"
+        >
+          <h2 className="govuk-heading-m">
+            Teaching Assistants (Full Time Equivalent)
+          </h2>
+          <ChartDimensions
+            dimensions={WorkforceCategories}
+            handleChange={handleSelectChange}
+            elementId="teaching-assistants"
+            defaultValue={dimension.value}
+          />
+        </HorizontalBarChartWrapper>
+      </ChartDimensionContext.Provider>
+    </HasIncompleteDataContext.Provider>
   );
 };

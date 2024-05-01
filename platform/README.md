@@ -1,13 +1,24 @@
 # Platform
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
+**//TODO: Describe platform component**
+
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)
+
+## Prerequisites
+1. Install .NET 6 SDK (Platform)
+2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2023
+3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
+
+> Note: Ensure that, if cloning to a DfE user area, the root folder is outside any of the ‘OneDrive’ folders to prevent ‘too long path name’ errors at build time.
+
+
 
 ## Getting started
 
 ### Running Platform APIs
 
 #### Establishment Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Establishment.Api`
 ```
 {
   "IsEncrypted": false,
@@ -28,7 +39,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Benchmark Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
 ```
 {
   "IsEncrypted": false,
@@ -48,7 +59,7 @@ Add configuration in `local.settings.json`
 ```
 
 #### Insight Function App
-Add configuration in `local.settings.json`
+Add configuration in `local.settings.json` for `Platform.Insight.Api`
 ```
 {
   "IsEncrypted": false,
@@ -71,15 +82,14 @@ Add configuration in `local.settings.json`
 ```
 
 ### Running tests
-
 Tests will run when creating new Pull Requests and when code is merged into the main branch.
 #### Unit Tests
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.Tests
 ```
 #### Functional Tests
-Add configuration in `appsetings.local.json`
+Add configuration in `appsetings.local.json` for `Platform.ApiTests`
 ```
 {
     "Insight": {
@@ -96,7 +106,7 @@ Add configuration in `appsetings.local.json`
     }
 }
 ```
-Run:
+From the root of the `platform` run
 ```
 dotnet test tests\Platform.ApiTests
 ```

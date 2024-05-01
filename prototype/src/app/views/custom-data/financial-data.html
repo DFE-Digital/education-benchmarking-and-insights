@@ -18,9 +18,9 @@
     <div class="govuk-grid-column-full">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Customise your data</h1>
+        <h1 class="govuk-heading-l">Change financial data</h1>
 
-        <h2 class="govuk-heading-m">Update your fianancial data</h2>
+        <!--<h2 class="govuk-heading-m">Update your fianancial data</h2>-->
         
 
         {% set tableAdminSupplies %}
@@ -29,20 +29,20 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
             [
               {
-                text: "Administrative supplies (non educational)"
+                text: "Administrative supplies (non-educational)"
               },
               {
                 text: "£123,234.48"
@@ -78,14 +78,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -138,30 +138,7 @@
                   }
                 })
               }
-            ]
-          ]
-        }) }}
-
-        {% endset %}
-
-
-        {% set tableCateringIncome %}
-
-        {{ govukTable({
-          classes: "custom-data",
-          head: [
-            {
-              text: "Category",
-              classes: "govuk-!-width-one-half"
-            },
-            {
-              text: "Existing value"
-            },
-            {
-              text: "Custom value"
-            }
-          ],
-          rows: [
+            ],
             [
               {
                 text: "Income from catering"
@@ -199,14 +176,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -273,14 +250,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -321,14 +298,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -445,14 +422,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -608,7 +585,7 @@
             ],
             [
               {
-                text: "PFI charges"
+                text: "Private Finance Initiative (PFI) charges"
               },
               {
                 text: "£123,234.48"
@@ -616,7 +593,7 @@
               {
                 html: govukInput({
                   label: {
-                    text: "PFI charges",
+                    text: "Private Finance Initiative (PFI) charges",
                     classes: "govuk-visually-hidden"
                   },
                   id: "event-name",
@@ -768,14 +745,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -890,14 +867,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -1037,14 +1014,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Type",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -1061,7 +1038,7 @@
             ],
             [
               {
-                text: "Total expenditure"
+                text: "Total spending"
               },
               {
                 text: "£1,123,234.48"
@@ -1092,14 +1069,14 @@
           classes: "custom-data",
           head: [
             {
-              text: "Category",
+              text: "Cost",
               classes: "govuk-!-width-one-half"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
@@ -1176,14 +1153,6 @@
               },
               content: {
                 html: tableCatering
-              }
-            },
-            {
-              heading: {
-                text: "Catering income"
-              },
-              content: {
-                html: tableCateringIncome
               }
             },
             {

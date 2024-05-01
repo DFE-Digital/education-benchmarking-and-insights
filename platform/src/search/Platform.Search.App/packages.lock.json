@@ -467,8 +467,8 @@
           "Azure.Search.Documents": "[11.5.1, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
-          "FluentValidation": "[11.9.0, )",
-          "Microsoft.Azure.Cosmos": "[3.38.1, )",
+          "FluentValidation": "[11.9.1, )",
+          "Microsoft.Azure.Cosmos": "[3.39.1, )",
           "Microsoft.Data.SqlClient": "[5.2.0, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
@@ -504,15 +504,15 @@
       },
       "FluentValidation": {
         "type": "CentralTransitive",
-        "requested": "[11.9.0, )",
-        "resolved": "11.9.0",
-        "contentHash": "VneVlTvwYDkfHV5av3QrQ0amALgrLX6LV94wlYyEsh0B/klJBW7C8y2eAtj5tOZ3jH6CAVpr4s1ZGgew/QWyig=="
+        "requested": "[11.9.1, )",
+        "resolved": "11.9.1",
+        "contentHash": "C+PqISSMdlOZZJx0Hx25atW32tv4vbpsaiQB+PLjK+ZGLzOFuHl1fUJ3Lny77mIZ31ZtYtNG0JgUjxa3wwLsWg=="
       },
       "Microsoft.Azure.Cosmos": {
         "type": "CentralTransitive",
-        "requested": "[3.38.1, )",
-        "resolved": "3.38.1",
-        "contentHash": "f71N+NQhmUPKcUXNMCg6gHcA5Buef8aSsCtZKXzrj5cGfDwOS9sQ2eLrGQiDcDSQI6g0MudPkdIQq/8KAzDMaQ==",
+        "requested": "[3.39.1, )",
+        "resolved": "3.39.1",
+        "contentHash": "wiciBTz1WfzwPnK1lZxZJhuliL9WfbfTgQnVNdORV4QYQxDpO8mIoBYho9w/WA8d0QM7p/GnQedxDJ8TKN2CvA==",
         "dependencies": {
           "Azure.Core": "1.19.0",
           "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
@@ -521,9 +521,10 @@
           "System.Buffers": "4.5.1",
           "System.Collections.Immutable": "1.7.0",
           "System.Configuration.ConfigurationManager": "6.0.0",
+          "System.Diagnostics.DiagnosticSource": "6.0.1",
           "System.Memory": "4.5.4",
           "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "4.6.0",
+          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
           "System.Threading.Tasks.Extensions": "4.5.4",
           "System.ValueTuple": "4.5.0"
         }

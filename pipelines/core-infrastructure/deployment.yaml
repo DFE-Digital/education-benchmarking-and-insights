@@ -1,0 +1,31 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: 'feature'
+  cipEnvironment: ''
+  disablePurgeProtection: ''
+  dependsOn: []
+
+jobs:
+  - deployment: CoreProvision
+    displayName: 'Core : Provision'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
+                module: 'core'

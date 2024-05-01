@@ -79,7 +79,7 @@ const TrustInput: React.FC<TrustInputProps> = (props) => {
     }
 
     fetch(
-      "/api/establishments/suggest?" +
+      "/api/suggest?" +
         new URLSearchParams({ type: "trust", search: fetchValue }),
       {
         signal: controller.signal,

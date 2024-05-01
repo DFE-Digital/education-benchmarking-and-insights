@@ -181,3 +181,4 @@ def map_school_phase_type(establishment_code: int, phase_type: str):
         return phase_type
 
 
+

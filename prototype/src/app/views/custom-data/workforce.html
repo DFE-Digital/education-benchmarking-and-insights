@@ -18,27 +18,27 @@
     <div class="govuk-grid-column-full">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Customise your data</h1>
+        <h1 class="govuk-heading-l">Change workforce data</h1>
 
-        <h2 class="govuk-heading-m">Update your workforce data</h2>
+       <!---<h2 class="govuk-heading-m">Update your workforce data</h2>--->
 
         {{ govukTable({
           classes: "custom-data",
           head: [
             {
-              text: "Item"
+              text: "Type of data"
             },
             {
-              text: "Existing value"
+              text: "Current data"
             },
             {
-              text: "Custom value"
+              text: "Custom data"
             }
           ],
           rows: [
             [
               {
-                text: "School workforce (Full time equivalent)"
+                text: "School workforce (full time equivalent)"
               },
               {
                 text: "84"
@@ -60,7 +60,7 @@
             ],
             [
               {
-                text: "Number of teachers (Full time equivalent)"
+                text: "Number of teachers (full time equivalent)"
               },
               {
                 text: "63"
@@ -82,7 +82,7 @@
             ],
             [
               {
-                text: "Senior leadership (Full time equivalent)"
+                text: "Senior leadership (full time equivalent)"
               },
               {
                 text: "12"
@@ -104,7 +104,7 @@
             ],
             [
               {
-                text: "Teacher contact ratio (<1)"
+                text: "Teacher contact ratio (less than 1)"
               },
               {
                 text: "0.75"
@@ -150,8 +150,8 @@
         }) }}
         
         {{ govukButton({
-          href: '/custom-data/non-financial-data',
-          text: "Save custom data"
+          href: '#',
+          text: "Save changes to data"
         }) }}
 
     </div>

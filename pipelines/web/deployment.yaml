@@ -1,0 +1,55 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  dependsOn: []
+
+jobs:
+  - deployment: WebProvision
+    displayName: 'Web : Provision'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'web'
+
+  - deployment: WebDeployment
+    displayName: 'Web : Deployment'
+    dependsOn: [ WebProvision ]
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - task: AzureRmWebAppDeployment@4
+              displayName: 'Deploy website'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                WebAppName: '${{ parameters.environmentPrefix }}-education-benchmarking'
+                deployToSlotOrASE: true
+                ResourceGroupName: '${{ parameters.environmentPrefix }}-ebis-web'
+                packageForLinux: '${{ parameters.workspaceDir }}/web/Web.App.zip'
+                enableCustomDeployment: true
+                DeploymentType: 'zipDeploy'

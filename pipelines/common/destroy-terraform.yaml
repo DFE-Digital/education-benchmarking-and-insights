@@ -1,0 +1,77 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  module: ''
+  location: 'westeurope'
+  deleteStorageAccount: false
+
+steps:
+  - task: AzureCLI@1
+    displayName: 'Create terraform dependencies'
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptLocation: inlineScript
+      inlineScript: |
+        storageAccountName=${{ parameters.environmentPrefix }}storagetf
+        echo "##vso[task.setvariable variable=environmentPrefix]${{ parameters.environmentPrefix }}"
+        echo "##vso[task.setvariable variable=environment]${{ parameters.environment }}"
+        echo "##vso[task.setvariable variable=cipEnvironment]${{ parameters.cipEnvironment }}"
+        echo "##vso[task.setvariable variable=location]${{ parameters.location }}"
+        echo "##vso[task.setvariable variable=azureRmStorageAccountName]$storageAccountName"
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in terraform file'
+    inputs:
+      sources: '${{ parameters.workspaceDir }}/terraform.tfvars'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-installer.TerraformInstaller@0
+    displayName: 'Terraform : install'
+    inputs:
+      terraformVersion: 1.7.5
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+    displayName: 'Terraform : init'
+    inputs:
+      command: init
+      backendType: 'azurerm'
+      workingDirectory: ${{ parameters.workspaceDir }}
+      environmentServiceName: ${{ parameters.subscription }}
+      backendServiceArm: ${{ parameters.subscription }}
+      backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+      backendAzureRmStorageAccountName: $(azureRmStorageAccountName)
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
+      backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+  - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
+    displayName: 'Terraform : destroy'
+    inputs:
+      command: destroy
+      backendType: 'azurerm'
+      workingDirectory: ${{ parameters.workspaceDir }}
+      commandOptions: '-input=false'
+      environmentServiceName: ${{ parameters.subscription }}
+      backendServiceArm: ${{ parameters.subscription }}
+      backendAzureRmResourceGroupName: ${{ parameters.environmentPrefix }}-ebis-terraform
+      backendAzureRmStorageAccountName: $(azureRmStorageAccountName)
+      backendAzureRmContainerName: 'tfstate'
+      backendAzureRmKey: education-benchmarking-${{ parameters.module }}.tfstate
+      backendAzureRmResourceGroupLocation: ${{ parameters.location }}
+
+  - task: AzureCLI@1
+    displayName: 'Delete terraform storage account'
+    condition: and(succeeded(), ${{ parameters.deleteStorageAccount }})
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptLocation: inlineScript
+      inlineScript: |
+        storageAccountName=${{ parameters.environmentPrefix }}storagetf
+        az storage account delete --name $storageAccountName --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --yes
+        echo "Storage account deleted"
+
+        az group delete --resource-group ${{ parameters.environmentPrefix }}-ebis-terraform --yes
+        echo "Resource group deleted"

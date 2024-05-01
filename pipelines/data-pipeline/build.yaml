@@ -1,0 +1,129 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+      - tech-debt/new-pipelines
+  paths:
+    include:
+      - data-pipeline
+      - pipelines/data-pipeline
+
+pr:
+  paths:
+    include:
+      - data-pipeline
+
+variables:
+  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Version.BuildNumber: 0.0.$(Version.Revision)
+  Version.BuildVersion: $(Version.BuildNumber)
+  TerraformFolder: 'data-pipeline/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: $[and(or(eq(variables['Build.SourceBranch'], 'refs/heads/main'),eq(variables['Build.SourceBranch'], 'refs/heads/tech-debt/new-pipelines')), ne(variables['Build.Reason'], 'PullRequest'))]
+
+stages:
+  - stage: Build
+    displayName: 'Build'
+    jobs:
+      - job: SetBuildNumber
+        displayName: 'Set build number'
+        steps:
+          - checkout: none
+
+          - bash: |
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)-prerelease"
+              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)-prerelease"
+            condition: or(eq(variables['Build.SourceBranch'], 'refs/heads/main'), eq(variables['Build.Reason'], 'PullRequest'))
+            displayName: 'Set pre-release build number'
+
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: ..\common\fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
+        steps:
+          - template: ..\common\scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: ZipStaticArtifacts
+        displayName: 'Zip static artifacts'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
+              Module: 'data-pipeline'
+
+      - job: RunTests
+        displayName: 'Run unit tests'
+        steps:
+          - template: steps\run-unit-tests.yaml
+
+      - job: BuildAndPush
+        dependsOn: [ RunTests ]
+        displayName: 'Build and push image'
+        condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+        steps: 
+          - template: steps/build-push-image.yaml
+            parameters:
+              buildNumber: $(Version.BuildNumber)
+              environmentPrefix: 's198d01'
+              subscription: 's198d.azdo-deployment'
+
+  - stage: DeployDevelopment
+    dependsOn: [ Build ]
+    displayName: 'Development'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01'
+          environment: 'development'
+          cipEnvironment: 'Dev'
+          importImage: false
+          buildNumber: $(Version.BuildNumber)
+
+  - stage: DeployAutomatedTest
+    dependsOn: [ Build ]
+    displayName: 'Automated test'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          sourceServicePrincipal: 's198d.azdo-deployment'
+          sourceSubscription: 's198-dfebenchmarkingservice-development'
+          environmentPrefix: 's198d02'
+          environment: 'automated-test'
+          cipEnvironment: 'Dev'
+          importImage: true
+          sourceEnvironmentPrefix: 's198d01'
+          buildNumber: $(Version.BuildNumber)
+
+  - stage: DeployTest
+    dependsOn: [ DeployAutomatedTest ]
+    displayName: 'Test'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198t.azdo-deployment'
+          sourceServicePrincipal: 's198d.azdo-deployment'
+          sourceSubscription: 's198-dfebenchmarkingservice-development'
+          environmentPrefix: 's198t01'
+          environment: 'test'
+          cipEnvironment: 'Test'
+          importImage: true
+          sourceEnvironmentPrefix: 's198d02'
+          buildNumber: $(Version.BuildNumber)

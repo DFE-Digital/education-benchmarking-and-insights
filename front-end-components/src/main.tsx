@@ -470,7 +470,8 @@ const spendingAndCostsComposedElements = document.querySelectorAll<HTMLElement>(
 
 if (spendingAndCostsComposedElements) {
   spendingAndCostsComposedElements.forEach((element) => {
-    const { highlight, json, sortDirection, suffix } = element.dataset;
+    const { highlight, json, sortDirection, suffix, hasIncompleteData } =
+      element.dataset;
     if (json) {
       const root = ReactDOM.createRoot(element);
       const data = JSON.parse(json) as {
@@ -490,6 +491,7 @@ if (spendingAndCostsComposedElements) {
             sortDirection={(sortDirection as ChartSortDirection) || "asc"}
             valueField="amount"
             valueUnit="currency"
+            hasIncompleteData={Boolean(hasIncompleteData)}
           />
         </React.StrictMode>
       );

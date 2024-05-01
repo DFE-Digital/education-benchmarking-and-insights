@@ -1,0 +1,61 @@
+parameters:
+  subscription: ''
+  sourceServicePrincipal: ''
+  sourceSubscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  buildNumber: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  importImage: true
+  sourceEnvironmentPrefix: ''
+  dependsOn: []
+
+
+jobs:
+
+  - deployment: DataPipelineProvision
+    displayName: 'Data Pipeline : Provision'
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - task: AzureCLI@2
+              displayName: Get source subscription ID
+              condition: ${{ parameters.importImage }}
+              inputs:
+                azureSubscription: ${{ parameters.sourceServicePrincipal }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                  PWD=$(az acr credential show -n ${{ parameters.sourceEnvironmentPrefix }}acr --query 'passwords[0].value')
+                  echo "##vso[task.setvariable variable=pwd]${PWD}"
+
+            - task: AzureCLI@2
+              displayName: 'Import image from ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}'
+              condition: ${{ parameters.importImage }}
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                scriptType: 'bash'
+                scriptLocation: 'inlineScript'
+                inlineScript: |
+                    az acr import --name ${{ parameters.environmentPrefix }}acr --source ${{ parameters.sourceEnvironmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }} --image fbit-data-pipeline:${{ parameters.buildNumber }} --username ${{ parameters.sourceEnvironmentPrefix }}acr --password $(pwd)
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'data-pipeline'
+                imageName: 'fbit-data-pipeline:${{ parameters.buildNumber }}'
+
+
+  

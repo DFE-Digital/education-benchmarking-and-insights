@@ -1,0 +1,87 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+pr: none
+
+parameters:
+  - name: environment
+    displayName: 'Environment associated with feature to destroy'
+    type: string
+    default: development
+    values:
+      - development
+      - pre-production
+  - name: featureEnvironment
+    displayName: 'Target feature environment to destroy'
+    type: string
+    default: ''
+    values:
+      - 11
+      - 12
+      - 13
+      - 14
+      - 15
+      - 16
+      - 17
+      - 18
+      - 19
+  - name: areYouSure
+    displayName: 'Are you sure you wish to destroy this environment?'
+    type: string
+    default: No
+    values:
+      - Yes
+      - No
+
+variables:
+  Version.BranchRevision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Version.FeatureEnvironment: ${{ parameters.featureEnvironment }}
+  Version.BuildNumber: 0.$(Version.FeatureEnvironment).$(Version.BranchRevision)
+  Version.BuildVersion: $(Version.BuildNumber)
+  Environment.Name: ${{ parameters.environment }}
+  Pipeline.Environment: 'destroy'
+  Subscription: 's198d.azdo-deployment'
+  ShouldDestroy: $[eq('${{ parameters.areYouSure }}', 'Yes')]
+
+stages:
+  - stage: BuildNumber
+    condition: eq(variables['ShouldDestroy'], 'true')
+    displayName: 'Define build number'
+    jobs:
+      - job: SetBuildNumber
+        displayName: 'Set build number'
+        steps:
+          - checkout: none
+          - bash: |
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
+              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+
+              if [[ "$(Environment.Name)" == "pre-production" ]]; then
+                echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]s198p$(Version.FeatureEnvironment)"
+              else
+                echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]s198d$(Version.FeatureEnvironment)"
+              fi
+
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]Environment $(Version.FeatureEnvironment)"
+              echo "##vso[task.setvariable variable=Environment_Name;isOutput=true]$(Environment.Name)"
+            displayName: 'Set release build number'
+            name: outputVars
+
+  - stage: Destroy
+    dependsOn: [ BuildNumber ]
+    displayName: 'Destroy Environment'
+    variables: 
+      environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      environmentName: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Name'] ]
+    jobs:
+      - template: destroy.yaml
+        parameters:
+          subscription: $(Subscription)
+          environmentPrefix: $(environmentPrefix)
+          environment: $(environmentName)
+          pipelineEnvironment: $(Pipeline.Environment)
+          cipEnvironment: 'Dev'

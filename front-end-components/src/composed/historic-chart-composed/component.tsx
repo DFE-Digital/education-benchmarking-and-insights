@@ -31,11 +31,11 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                 data={data}
                 grid
                 highlightActive
-                keyField="yearEnd"
+                keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
                 seriesLabel={dimension.label}
-                seriesLabelField="yearEnd"
+                seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
                 tooltip={(t) => (
@@ -56,7 +56,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               compactValue
               data={data}
               displayIndex={data.length - 1}
-              seriesLabelField="yearEnd"
+              seriesLabelField="term"
               valueField={valueField}
               valueFormatter={shortValueFormatter}
               valueUnit={dimension.unit}

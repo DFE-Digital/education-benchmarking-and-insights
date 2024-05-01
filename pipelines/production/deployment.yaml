@@ -1,0 +1,50 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  pipelineBuildNumber: ''
+
+jobs:
+  - job: SetBuildNumber
+    displayName: 'Set build tags'
+    steps:
+      - checkout: none
+      - bash: echo "##vso[build.addbuildtag]${{ parameters.environmentPrefix }}"
+
+  - template: ../core-infrastructure/deployment.yaml
+    parameters:
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../data-pipeline/deployment.yaml
+    parameters:
+      dependsOn: 'CoreProvision'
+      subscription: ${{ parameters.subscription }}
+      sourceServicePrincipal: 's198t.azdo-deployment'
+      sourceSubscription: 's198-dfebenchmarkingservice-test'
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      importImage: true
+      sourceEnvironmentPrefix: 's198t01'
+      buildNumber: ${{ parameters.pipelineBuildNumber }}
+
+  - template: ../platform/deployment.yaml
+    parameters:
+      dependsOn: ['CoreProvision', 'DataPipelineProvision']
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      runSearchApp: false
+
+  - template: ../web/deployment.yaml
+    parameters:
+      dependsOn: 'PlatformDeployment'
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}

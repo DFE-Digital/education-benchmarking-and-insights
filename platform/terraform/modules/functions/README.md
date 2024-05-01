@@ -50,4 +50,5 @@ No modules.
 |------|-------------|
 | <a name="output_function-host-address"></a> [function-host-address](#output\_function-host-address) | n/a |
 | <a name="output_function-host-key"></a> [function-host-key](#output\_function-host-key) | n/a |
+| <a name="output_function-resource-id"></a> [function-resource-id](#output\_function-resource-id) | n/a |
 <!-- END_TF_DOCS -->

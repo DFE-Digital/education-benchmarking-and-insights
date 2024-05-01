@@ -1,0 +1,37 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+
+jobs:
+  - deployment: PrototypeDeployment
+    displayName: 'Prototype : Deployment'
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'prototype'
+
+            - task: AzureWebApp@1
+              displayName: 'Web app deploy'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: webAppLinux
+                appName: ${{ parameters.environmentPrefix }}-ebis-prototype
+                package: $(Pipeline.Workspace)/prototype/prototype.zip
+                deploymentMethod: 'zipDeploy'

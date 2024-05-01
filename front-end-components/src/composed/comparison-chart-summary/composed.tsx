@@ -9,6 +9,7 @@ import {
 import { Stat } from "src/components/charts/stat";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import stats from "stats-lite";
+import { WarningBanner } from "src/components/warning-banner";
 
 export function ComparisonChartSummary<TData extends ChartDataSeries>(
   props: ComparisonChartSummaryComposedProps<TData>
@@ -21,6 +22,7 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
     sortDirection,
     valueField,
     suffix,
+    hasIncompleteData,
     ...rest
   } = props;
 
@@ -67,63 +69,69 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
   const averageDiffPercent = (averageDiff / average) * 100;
 
   return (
-    <div className="composed-chart-wrapper">
-      <div className="composed-chart">
-        <VerticalBarChart
-          barCategoryGap={3}
-          data={sortedData}
-          hideXAxis
-          hideYAxis
-          highlightedItemKeys={
-            highlightedItemKey ? [highlightedItemKey] : undefined
-          }
-          keyField={keyField}
-          seriesConfig={seriesConfig}
-          seriesLabelField={keyField}
-          {...rest}
-        />
-      </div>
-      <div className="chart-stat-summary">
-        <ResolvedStat
-          chartName="This school spends"
-          className="chart-stat-highlight"
-          data={data}
-          displayIndex={highlightedItemIndex}
-          seriesLabel="This school spends"
-          seriesLabelField="urn"
-          suffix={suffix}
-          valueField={valueField}
-          valueFormatter={statValueFormatter}
-          valueUnit="currency"
-        />
-        <Stat
-          chartName="Similar schools spend"
-          label="Similar schools spend"
-          suffix={suffix && `${suffix}, on average`}
-          value={average}
-          valueFormatter={statValueFormatter}
-          valueUnit="currency"
-        />
-        {!isNaN(averageDiff) && (
-          <Stat
+    <>
+      <WarningBanner
+        isRendered={hasIncompleteData}
+        message="Some schools are missing data for this financial year"
+      />
+      <div className="composed-chart-wrapper">
+        <div className="composed-chart">
+          <VerticalBarChart
+            barCategoryGap={3}
+            data={sortedData}
+            hideXAxis
+            hideYAxis
+            highlightedItemKeys={
+              highlightedItemKey ? [highlightedItemKey] : undefined
+            }
+            keyField={keyField}
+            seriesConfig={seriesConfig}
+            seriesLabelField={keyField}
+            {...rest}
+          />
+        </div>
+        <div className="chart-stat-summary">
+          <ResolvedStat
             chartName="This school spends"
-            label="This school spends"
-            suffix={
-              <span>
-                <strong>{averageDiff < 0 ? "less" : "more"}</strong> {suffix}
-              </span>
-            }
-            value={Math.abs(averageDiff)}
+            className="chart-stat-highlight"
+            data={data}
+            displayIndex={highlightedItemIndex}
+            seriesLabel="This school spends"
+            seriesLabelField="urn"
+            suffix={suffix}
+            valueField={valueField}
             valueFormatter={statValueFormatter}
-            valueSuffix={
-              isNaN(averageDiffPercent) || !isFinite(averageDiffPercent)
-                ? undefined
-                : `(${Math.abs(averageDiffPercent).toFixed(1)}%)`
-            }
             valueUnit="currency"
           />
-        )}
+          <Stat
+            chartName="Similar schools spend"
+            label="Similar schools spend"
+            suffix={suffix && `${suffix}, on average`}
+            value={average}
+            valueFormatter={statValueFormatter}
+            valueUnit="currency"
+          />
+          {!isNaN(averageDiff) && (
+            <Stat
+              chartName="This school spends"
+              label="This school spends"
+              suffix={
+                <span>
+                  <strong>{averageDiff < 0 ? "less" : "more"}</strong> {suffix}
+                </span>
+              }
+              value={Math.abs(averageDiff)}
+              valueFormatter={statValueFormatter}
+              valueSuffix={
+                isNaN(averageDiffPercent) || !isFinite(averageDiffPercent)
+                  ? undefined
+                  : `(${Math.abs(averageDiffPercent).toFixed(1)}%)`
+              }
+              valueUnit="currency"
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

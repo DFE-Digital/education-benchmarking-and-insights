@@ -1,0 +1,40 @@
+parameters:
+  buildNumber: ''
+  environmentPrefix: ''
+  subscription: ''
+
+steps:
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.12'
+    displayName: 'Use Python 3.12'
+
+  - script: |
+      export POETRY_VERSION=1.8.2
+      curl -sSL curl -sSL https://install.python-poetry.org | python -
+      export PATH=$PATH:$HOME/.poetry/bin
+      poetry install --no-root
+    displayName: 'Install dependencies'
+    workingDirectory: data-pipeline
+
+  - script: |
+      echo "##vso[task.prependpath]$HOME/.poetry/bin"
+    displayName: Add poetry to PATH
+    workingDirectory: data-pipeline
+
+  - script: |
+      make build tags="--tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:latest --tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}"
+    displayName: Build Docker Image
+    workingDirectory: data-pipeline
+
+  - task: AzureCLI@2
+    displayName: Push To Azure Container Registry
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      addSpnToEnvironment: true
+      inlineScript: |
+        az acr login --name ${{ parameters.environmentPrefix }}acr
+        docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
+      workingDirectory: data-pipeline

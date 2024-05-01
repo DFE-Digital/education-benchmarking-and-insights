@@ -25,14 +25,6 @@
 <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['trust-name'] }}</h1>
 <p><a href="/find-school" class="govuk-link">Change trust</a></p>
 
-{% if confirmation == 'comparator-reset' %}
-
-{{ govukNotificationBanner({
-  html: '<strong>You have deleted the similar schools you chose.</strong><br/>We will now choose similar schools for you.',
-  type: "success"
-}) }}
-
-{% endif %}
 
 <div class="govuk-grid-row headline-figures">
     <div class="govuk-grid-column-one-third">
@@ -87,7 +79,7 @@
             <strong class="govuk-tag govuk-tag--red">
                 High priority
             </strong>
-            6 out of 23 academics are in the high priority range.
+            6 out of 23 academies are in the high priority range.
         </p>
     </div>
 
@@ -97,7 +89,7 @@
             <strong class="govuk-tag govuk-tag--red">
                 High priority
             </strong>
-            5 out of 23 academics are in the high priority range.
+            5 out of 23 academies are in the high priority range.
         </p>
     </div>
 </div>
@@ -340,7 +332,16 @@
             <li>
                 <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
+                    <a href="/compare-trusts" class="govuk-link govuk-link--no-visited-state">Compare trusts</a>
+                </h3>
+                <p class="govuk-body">
+                    Compare spending against other similar trusts.
+                </p>
+            </li>
+            <li>
+                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <h3 class="govuk-heading-s">
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your schools</a>
                 </h3>
                 <p class="govuk-body">
                     Compare spending between the schools in this trust.

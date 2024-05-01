@@ -1,0 +1,84 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - front-end-components
+
+pr:
+  paths:
+    include:
+      - front-end-components
+
+variables:
+  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Version.BuildNumber: 0.1.$(Version.Revision)
+  Version.BuildVersion: $(Version.BuildNumber)
+  WorkingDir: 'front-end-components'
+  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+
+steps:
+  - bash: |
+      echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+      echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+    displayName: 'Set release build number'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
+  - bash: |
+      if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+        echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+      fi
+      echo "##vso[build.addbuildtag]Front-end components"
+    displayName: 'Set build tags'
+
+  - task: Npm@1
+    displayName: 'Update version number'
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    inputs:
+      command: 'custom'
+      customCommand: 'version $(Version.BuildNumber)'
+      workingDir: $(WorkingDir)
+      verbose: false
+
+  - task: Npm@1
+    displayName: 'Install dependencies'
+    inputs:
+      command: 'install'
+      workingDir: $(WorkingDir)
+
+  - task: Npm@1
+    displayName: 'Run tests'
+    inputs:
+      command: 'custom'
+      customCommand: 'test'
+      workingDir: $(WorkingDir)
+
+  - task: Npm@1
+    displayName: 'Run lint'
+    inputs:
+      command: 'custom'
+      customCommand: 'run lint'
+      workingDir: $(WorkingDir)
+
+  - task: Npm@1
+    displayName: 'Build project'
+    inputs:
+      command: 'custom'
+      customCommand: 'run build'
+      workingDir: $(WorkingDir)
+
+  - task: Npm@1
+    displayName: 'Publish'
+    continueOnError: false
+    condition: and(succeeded(), ne(variables['Build.Reason'], 'PullRequest'))
+    inputs:
+      command: 'publish'
+      publishRegistry: useFeed
+      publishFeed: 'S198-DfE-Benchmarking-service/education-benchmarking'
+      workingDir: $(WorkingDir)
+      verbose: false

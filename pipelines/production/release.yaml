@@ -1,0 +1,152 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+pr: none
+
+parameters:
+  - name: coreVersion
+    displayName: 'Input core infrastructure version (leave empty to use latest)'
+    type: string
+    default: ' '
+  - name: platformVersion
+    displayName: 'Input platform version (leave empty to use latest)'
+    type: string
+    default: ' '
+  - name: webVersion
+    displayName: 'Input web version (leave empty to use latest)'
+    type: string
+    default: ' '
+  - name: pipelineVersion
+    displayName: 'Input data pipeline version'
+    type: string
+    default: 'latest'
+  - name: preProdEnv
+    displayName: 'Select pre-production environment'
+    type: string
+    default: s198p02
+    values:
+      - s198p02
+
+variables:
+  ShouldDeployProd: $[eq('${{ parameters.preProdEnv }}', 's198p02')]
+
+stages:
+  - stage: Artifacts
+    displayName: 'Gather artifacts'
+    jobs:
+      - job: CoreDownloadPublish
+        displayName: 'Core : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
+            inputs:
+              buildType: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              definition: 2862
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              targetPath: $(workspaceDir)
+              tags: ${{ parameters.coreVersion }}
+
+          - bash: echo "##vso[build.addbuildtag]Core build id - $(DownloadArtifact.BuildNumber)"
+            displayName: 'Set build tag'
+
+          - publish: $(workspaceDir)/core-terraform
+            artifact: core-terraform
+
+      - job: PlatformDownloadPublish
+        displayName: 'Platform : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
+            inputs:
+              buildType: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              definition: 2865
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              targetPath: $(workspaceDir)
+              tags: ${{ parameters.platformVersion }}
+
+          - bash: echo "##vso[build.addbuildtag]Platform build id - $(DownloadArtifact.BuildNumber)"
+            displayName: 'Set build tag'
+
+          - publish: $(workspaceDir)/platform-terraform
+            artifact: platform-terraform
+
+          - publish: $(workspaceDir)/api-tests
+            artifact: api-tests
+
+          - publish: $(workspaceDir)/platform-apis
+            artifact: platform-apis
+
+          - publish: $(workspaceDir)/platform-db
+            artifact: platform-db
+
+          - publish: $(workspaceDir)/platform-search
+            artifact: platform-search
+
+      - job: WebDownloadPublish
+        displayName: 'Web : Download artifacts and republish'
+        steps:
+          - checkout: none
+          - task: DownloadPipelineArtifact@2
+            name: DownloadArtifact
+            inputs:
+              buildType: 'specific'
+              project: 's198-DfE-Benchmarking-service'
+              definition: 2866
+              buildVersionToDownload: 'latestFromBranch'
+              branchName: 'refs/heads/main'
+              allowFailedBuilds: false
+              allowPartiallySucceededBuilds: false
+              targetPath: $(workspaceDir)
+              tags: ${{ parameters.webVersion }}
+
+          - bash: echo "##vso[build.addbuildtag]Web build id - $(DownloadArtifact.BuildNumber)"
+            displayName: 'Set build tag'
+
+          - publish: $(workspaceDir)/web-terraform
+            artifact: web-terraform
+
+          - publish: $(workspaceDir)/web
+            artifact: web
+
+          - publish: $(workspaceDir)/e2e-tests
+            artifact: e2e-tests
+
+  - stage: DeployPreProd
+    dependsOn: [ Artifacts ]
+    displayName: 'Pre-production'
+    variables:
+      - group: 'dsi pre-prod'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: ${{ parameters.preProdEnv }}
+          environment: 'pre-production'
+          cipEnvironment: 'Prod'
+
+  - stage: DeployProd
+    dependsOn: [ DeployPreProd ]
+    condition: and(succeeded(), eq(variables['ShouldDeployProd'],'true'))
+    displayName: 'Production'
+    variables:
+      - group: 'dsi prod'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198p.azdo.deployment'
+          environmentPrefix: 's198p01'
+          environment: 'production'
+          cipEnvironment: 'Prod'
+          pipelineBuildNumber: ${{ parameters.pipelineVersion }}

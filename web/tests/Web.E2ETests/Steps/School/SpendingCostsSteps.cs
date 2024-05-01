@@ -36,15 +36,20 @@ public class SpendingCostsSteps(PageDriver driver)
         await _spendingCostsPage.IsDetailsSectionVisible();
     }
 
-    [Given("the order of charts is")]
-    public async Task GivenTheOrderOfChartsIs(Table table)
+    [Given("the priority order of charts is")]
+    public async Task GivenThePriorityOrderOfChartsIs(Table table)
     {
         Assert.NotNull(_spendingCostsPage);
-        var expectedOrder = new List<string>();
+        var expectedOrder = new List<string[]>();
         foreach (var row in table.Rows)
         {
-            expectedOrder.Add(row["Name"]);
+            string[] chartPriorityArray = {
+                row["Name"],
+                row["Priority"]
+            };
+            expectedOrder.Add(chartPriorityArray);
         }
+
         await _spendingCostsPage.CheckOrderOfCharts(expectedOrder);
     }
 
@@ -55,37 +60,52 @@ public class SpendingCostsSteps(PageDriver driver)
         _compareYourCostsPage = await _spendingCostsPage.ClickOnLink(CostCategoryFromFriendlyName(linkToClick));
     }
 
+    [Then("I am directed to compare your costs page")]
+    public async Task ThenIAmDirectedToCompareYourCostsPage()
+    {
+        Assert.NotNull(_compareYourCostsPage);
+        await _compareYourCostsPage.IsDisplayed();
+    }
+
+    [Then("the accordion '(.*)'is expanded")]
+    public async Task ThenTheAccordionIsExpanded(string chartName)
+    {
+        Assert.NotNull(_compareYourCostsPage);
+        await _compareYourCostsPage.IsSectionVisible(ChartNameFromFriendlyName(chartName), true, "Hide", "chart");
+    }
+    private static string SpendingCostsUrl(string urn) =>
+        $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
+
     private static CostCategoryNames CostCategoryFromFriendlyName(string linkName)
     {
         return linkName switch
         {
-            "Teaching and teaching supply staff" => CostCategoryNames.TeachingAndTeachingSupplyStaff,
+            "Teaching and teaching support staff" => CostCategoryNames.TeachingAndTeachingSupplyStaff,
             "Administrative supplies" => CostCategoryNames.AdministrativeSupplies,
             "Catering staff and services" => CostCategoryNames.CateringStaffAndServices,
             "Educational ICT" => CostCategoryNames.EducationalIct,
             "Educational supplies" => CostCategoryNames.EducationalSupplies,
             "Non-educational support staff" => CostCategoryNames.NonEducationalSupportStaff,
             "Other" => CostCategoryNames.Other,
-            "Premises staff and services" => CostCategoryNames.PremisesStaffAndServices,
+            "Premises and services" => CostCategoryNames.PremisesStaffAndServices,
             "Utilities" => CostCategoryNames.Utilities,
             _ => throw new ArgumentOutOfRangeException(nameof(linkName))
         };
     }
-
-    [Then("I am directed to compare your costs page")]
-    public void ThenIAmDirectedToCompareYourCostsPage()
+    private static ComparisonChartNames ChartNameFromFriendlyName(string chartName)
     {
-        /*Assert.NotNull(_compareYourCostsPage);
-        await _compareYourCostsPage.IsDisplayed();*/
-        //will be uncommenting once the dev work is complete otherwise the test will fail
+        return chartName switch
+        {
+            "Teaching and teaching support staff" => ComparisonChartNames.TeachingAndTeachingSupplyStaff,
+            "Administrative supplies" => ComparisonChartNames.AdministrativeSupplies,
+            "Catering staff and services" => ComparisonChartNames.CateringStaffAndServices,
+            "Educational ICT" => ComparisonChartNames.EducationalIct,
+            "Educational supplies" => ComparisonChartNames.EducationalSupplies,
+            "Non-educational support staff" => ComparisonChartNames.NonEducationalSupportStaff,
+            "Other" => ComparisonChartNames.Other,
+            "Premises and services" => ComparisonChartNames.Premises,
+            "Utilities" => ComparisonChartNames.Utilities,
+            _ => throw new ArgumentOutOfRangeException(nameof(chartName))
+        };
     }
-
-    [Then("the accordion '(.*)'is expanded")]
-    public void ThenTheAccordionIsExpanded(string p0)
-    {
-        //will be implemented once the dev work is complete
-    }
-    private static string SpendingCostsUrl(string urn) =>
-        $"{TestConfiguration.ServiceUrl}/school/{urn}/spending-and-costs";
-
 }

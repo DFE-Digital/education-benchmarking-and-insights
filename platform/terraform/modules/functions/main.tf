@@ -14,8 +14,8 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
 }
 
 resource "azurerm_service_plan" "func-asp" {
-  #checkov:skip=CKV_AZURE_212:To be reviewed
-  #checkov:skip=CKV_AZURE_225:To be reviewed
+  #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
+  #checkov:skip=CKV_AZURE_225:See ADO backlog AB#206517
   name                = "${var.environment-prefix}-ebis-${var.function-name}-function-asp"
   location            = var.location
   resource_group_name = var.resource-group-name
@@ -25,7 +25,7 @@ resource "azurerm_service_plan" "func-asp" {
 }
 
 resource "azurerm_windows_function_app" "func-app" {
-  #checkov:skip=CKV_AZURE_221:To be reviewed
+  #checkov:skip=CKV_AZURE_221:See ADO backlog AB#206517
   name                       = local.function-app-name
   location                   = var.location
   resource_group_name        = var.resource-group-name
@@ -111,7 +111,7 @@ locals {
 }
 
 resource "azurerm_key_vault_secret" "fa-key" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   count        = var.requires-keys ? 1 : 0
   name         = "${var.function-name}-host-key"
   value        = local.key
@@ -120,7 +120,7 @@ resource "azurerm_key_vault_secret" "fa-key" {
 }
 
 resource "azurerm_key_vault_secret" "fa-host" {
-  #checkov:skip=CKV_AZURE_41:Secrets expiration to be reviewed
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
   count        = var.requires-keys ? 1 : 0
   name         = "${var.function-name}-host"
   value        = local.host

@@ -1,0 +1,106 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - core-infrastructure
+
+pr:
+  paths:
+    include:
+      - core-infrastructure
+
+variables:
+  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
+  Version.BuildNumber: 0.0.$(Version.Revision)
+  Version.BuildVersion: $(Version.BuildNumber)
+  TerraformFolder: 'core-infrastructure/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+
+stages:
+  - stage: Build
+    displayName: 'Build artifacts'
+    jobs:
+      - job: SetBuildNumber
+        displayName: 'Set build number'
+        steps:
+          - checkout: none
+          - bash: |
+              echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
+              echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
+              echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
+              echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
+            displayName: 'Set release build number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
+          - bash: |
+              if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+                echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+              fi
+              echo "##vso[build.addbuildtag]Core infrastructure"
+            displayName: 'Set build tags'
+
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: ..\common\fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
+        steps:
+          - template: ..\common\scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: ZipStaticArtifacts
+        displayName: 'Zip static artifacts'
+        condition: eq(variables['ShouldDeploy'],'true')
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
+              Module: 'core'
+
+  - stage: DeployDevelopment
+    dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Development'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d01'
+          environment: 'development'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployAutomatedTest
+    dependsOn: [ Build ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Automated test'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d02'
+          environment: 'automated-test'
+          cipEnvironment: 'Dev'
+
+  - stage: DeployTest
+    dependsOn: [ DeployAutomatedTest ]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Test'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198t.azdo-deployment'
+          environmentPrefix: 's198t01'
+          environment: 'test'
+          cipEnvironment: 'Test'

@@ -25,4 +25,6 @@ public class SchoolSpendingViewModel(
         .OrderBy(x => x.Rating.StatusOrder)
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
+
+    public bool HasIncompleteData => pupilExpenditure.Concat(areaExpenditure).Any(x => x.HasIncompleteData);
 }

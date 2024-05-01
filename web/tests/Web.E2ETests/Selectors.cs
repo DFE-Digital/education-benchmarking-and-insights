@@ -20,8 +20,33 @@ public static class Selectors
     public const string ModeChart = "#mode-chart";
     public const string ModeTable = "#mode-table";
     public const string SectionTable = ".govuk-accordion__section .govuk-table";
-    public const string SectionHeadingTwo = "#accordion-heading-2";
-    public const string SectionContentTwo = "#accordion-content-2";
+    public const string SectionHeading1 = "#accordion-heading-1";
+    public const string SectionContent1 = "#accordion-content-1";
+
+    public const string SectionHeading2 = "#accordion-heading-2";
+    public const string SectionContent2 = "#accordion-content-2";
+
+    public const string SectionHeading3 = "#accordion-heading-3";
+    public const string SectionContent3 = "#accordion-content-3";
+
+    public const string SectionHeading4 = "#accordion-heading-4";
+    public const string SectionContent4 = "#accordion-content-4";
+
+    public const string SectionHeading5 = "#accordion-heading-5";
+    public const string SectionContent5 = "#accordion-content-5";
+
+    public const string SectionHeading6 = "#accordion-heading-6";
+    public const string SectionContent6 = "#accordion-content-6";
+
+    public const string SectionHeading7 = "#accordion-heading-7";
+    public const string SectionContent7 = "#accordion-content-7";
+
+    public const string SectionHeading8 = "#accordion-heading-8";
+    public const string SectionContent8 = "#accordion-content-8";
+
+    public const string SectionHeading9 = "#accordion-heading-9";
+    public const string SectionContent9 = "#accordion-content-9";
+
     public const string ToggleSectionText = ".govuk-accordion__section-toggle-text";
     public const string Charts = ".recharts-surface";
     public const string Table = "table";
@@ -56,6 +81,33 @@ public static class Selectors
     public const string SchoolNamesLinksInCharts = "text.recharts-text.govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
 
+    public const string SchoolSuggestDropdown = "#school-suggestions";
+    public const string MainContent = "#main-content";
+    public const string GovukTag = ".govuk-tag";
 
+    public const string RecommendedResources = "#recommended";
+    public const string AllResources = "#all";
+    public const string AllResourcesTab = "#tab_all";
+    public const string AllCommercialLinks = "#all a[data-id='commercial-resource']";
+
+    public const string SpendingHistoryTab = "#tab_spending";
+    public const string ExpenditureDimension = "#expenditure-dimension";
+    public const string ExpenditureModeTable = "#expenditure-mode-table";
+    public const string ExpenditureModeChart = "#expenditure-mode-chart";
+
+    public const string IncomeDimension = "#income-dimension";
+    public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
+    public const string IncomeHistoryTab = "#tab_Income";
+    public const string SpendingAccordions = "#accordion-expenditure";
+    public const string IncomeAccordions = "#accordion-income";
+    public const string SpendingTableMode = "#expenditure-mode-table";
+    public const string IncomeTableMode = "#income-mode-table";
+    public const string BalanceTableMode = "#balance-mode-table";
+    public const string WorkforceTableMode = "#workforce-mode-table";
+
+    public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
+    public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";
+
+    public const string LineChartStats = ".chart-stat-line-chart";
 
 }

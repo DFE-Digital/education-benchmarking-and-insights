@@ -12,6 +12,7 @@ public record WorkforceResponseModel
     public string? LocalAuthority { get; private set; }
     public decimal NumberOfPupils { get; private set; }
     public int YearEnd { get; private set; }
+    public string Term => $"{YearEnd - 1} to {YearEnd}";
     public WorkforceDimension Dimension { get; private set; }
     public decimal? WorkforceFte { get; private set; }
     public decimal? TeachersFte { get; private set; }
@@ -21,6 +22,7 @@ public record WorkforceResponseModel
     public decimal? AuxiliaryStaffFte { get; private set; }
     public decimal? WorkforceHeadcount { get; private set; }
     public decimal? TeachersQualified { get; private set; }
+    public bool HasIncompleteData { get; private set; }
 
     private static WorkforceResponseModel CreateEmpty(int term, WorkforceDimension dimension)
     {
@@ -51,7 +53,8 @@ public record WorkforceResponseModel
                 TeachingAssistantsFte = CalcValue(dataObject.FullTimeTa, dataObject, dimension),
                 NonClassroomSupportStaffFte = CalcValue(dataObject.FullTimeOther, dataObject, dimension),
                 AuxiliaryStaffFte = CalcValue(dataObject.AuxStaff, dataObject, dimension),
-                WorkforceHeadcount = CalcValue(dataObject.WorkforceHeadcount, dataObject, dimension)
+                WorkforceHeadcount = CalcValue(dataObject.WorkforceHeadcount, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -69,6 +72,7 @@ public record WorkforceResponseModel
                 YearEnd = term,
                 Dimension = WorkforceDimension.Percentage,
                 TeachersQualified = dataObject.PercentageQualifiedTeachers,
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -87,6 +91,7 @@ public record WorkforceResponseModel
                 YearEnd = term,
                 Dimension = dimension,
                 WorkforceFte = CalcValue(dataObject.WorkforceTotal, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -104,7 +109,8 @@ public record WorkforceResponseModel
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
                 Dimension = dimension,
-                TeachersFte = CalcValue(dataObject.TeachersTotal, dataObject, dimension)
+                TeachersFte = CalcValue(dataObject.TeachersTotal, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -123,7 +129,8 @@ public record WorkforceResponseModel
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
                 Dimension = dimension,
-                SeniorLeadershipFte = CalcValue(dataObject.TeachersLeader, dataObject, dimension)
+                SeniorLeadershipFte = CalcValue(dataObject.TeachersLeader, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -141,7 +148,8 @@ public record WorkforceResponseModel
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
                 Dimension = dimension,
-                TeachingAssistantsFte = CalcValue(dataObject.FullTimeTa, dataObject, dimension)
+                TeachingAssistantsFte = CalcValue(dataObject.FullTimeTa, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -159,7 +167,8 @@ public record WorkforceResponseModel
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
                 Dimension = dimension,
-                NonClassroomSupportStaffFte = CalcValue(dataObject.FullTimeOther, dataObject, dimension)
+                NonClassroomSupportStaffFte = CalcValue(dataObject.FullTimeOther, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -178,6 +187,7 @@ public record WorkforceResponseModel
                 YearEnd = term,
                 Dimension = dimension,
                 AuxiliaryStaffFte = CalcValue(dataObject.AuxStaff, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
@@ -195,7 +205,8 @@ public record WorkforceResponseModel
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
                 Dimension = dimension,
-                WorkforceHeadcount = CalcValue(dataObject.WorkforceHeadcount, dataObject, dimension)
+                WorkforceHeadcount = CalcValue(dataObject.WorkforceHeadcount, dataObject, dimension),
+                HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 

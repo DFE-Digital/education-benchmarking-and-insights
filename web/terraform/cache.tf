@@ -1,14 +1,15 @@
 resource "azurerm_cosmosdb_account" "session-cache-account" {
-  #checkov:skip=CKV_AZURE_100:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_101:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_132:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_140:To be reviewed for production - not set for local dev
-  #checkov:skip=CKV_AZURE_99:To be reviewed for production - not set for local dev
-  name                = "${var.environment-prefix}-ebis-session"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  offer_type          = "Standard"
-  kind                = "GlobalDocumentDB"
+  #checkov:skip=CKV_AZURE_100:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_101:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_132:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_140:See ADO backlog AB#206519
+  #checkov:skip=CKV_AZURE_99:See ADO backlog AB#206519
+  name                              = "${var.environment-prefix}-ebis-session"
+  location                          = azurerm_resource_group.resource-group.location
+  resource_group_name               = azurerm_resource_group.resource-group.name
+  offer_type                        = "Standard"
+  kind                              = "GlobalDocumentDB"
+  is_virtual_network_filter_enabled = true
 
   consistency_policy {
     consistency_level = "Strong"
@@ -18,6 +19,10 @@ resource "azurerm_cosmosdb_account" "session-cache-account" {
   geo_location {
     failover_priority = 0
     location          = azurerm_resource_group.resource-group.location
+  }
+
+  virtual_network_rule {
+    id = data.azurerm_subnet.web-app-subnet.id
   }
 
   capabilities {
