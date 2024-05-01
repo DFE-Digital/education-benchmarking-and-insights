@@ -8,6 +8,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
     [Theory]
     [InlineData("school")]
     [InlineData("trust")]
+    [InlineData("local-authority")]
     public async Task CanReturnInternalServerError(string suggestType)
     {
         var response = await client.SetupEstablishmentWithException()
