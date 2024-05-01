@@ -8,7 +8,7 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
-  const { input, urn } = props; // input = defaultValue?
+  const { input, urn } = props;
 
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedUrn, setSelectedUrn] = useState<string>(urn);
@@ -50,6 +50,11 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
   const handleSelected = (value: SuggestResult<SchoolDocument>) => {
     controller.abort();
     controller = new AbortController();
+
+    if (!value) {
+      return;
+    }
+
     setInputValue(value.text.replace(/\*(.*)\*/, "$1"));
     setSelectedUrn(value.document.urn);
   };
@@ -64,10 +69,10 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
         onSelected={handleSelected}
         onSuggest={handleSuggest}
         suggestionFormatter={(item) =>
-          item ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
+          item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
         }
         valueFormatter={(item) =>
-          item ? item.text.replace(/\*(.*)\*/, "$1") : ""
+          item?.text ? item.text.replace(/\*(.*)\*/, "$1") : ""
         }
       />
       <input value={selectedUrn} name="urn" type="hidden" />

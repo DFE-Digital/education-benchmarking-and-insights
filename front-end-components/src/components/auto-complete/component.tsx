@@ -1,6 +1,7 @@
 import AccessibleAutocomplete from "accessible-autocomplete/react";
 import { AutoCompleteProps } from "./types";
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
+import { useState } from "react";
 
 export function AutoComplete<T>({
   onSelected,
@@ -9,19 +10,25 @@ export function AutoComplete<T>({
   valueFormatter,
   ...props
 }: AutoCompleteProps<T>) {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const handleSource = (
     query: string,
     populateResults: (values: T[]) => void
   ) => {
+    setIsLoading(true);
+
     onSuggest(query)
       .then(populateResults)
-      .catch(() => populateResults([]));
+      .catch(() => populateResults([]))
+      .finally(() => setIsLoading(false));
   };
 
   return (
     <AccessibleAutocomplete
       {...props}
       onConfirm={(confirmed) => onSelected(confirmed as T)}
+      showNoOptionsFound={false}
       source={(query, syncResults) =>
         handleSource(query, syncResults as (values: T[]) => void)
       }
@@ -31,7 +38,7 @@ export function AutoComplete<T>({
         suggestion: (suggestion: string) =>
           suggestionFormatter(suggestion as T),
       }}
-      tNoResults={() => "No results found"}
+      tNoResults={() => (isLoading ? "Searching..." : "No results found")}
       tStatusQueryTooShort={(minQueryLength: number) =>
         `Type in ${minQueryLength} or more characters for results`
       }
@@ -51,7 +58,7 @@ export function AutoComplete<T>({
             {length} {words.result} {words.is} available.{" "}
             {contentSelectedOption}
           </span>
-        ) as unknown as string;
+        );
       }}
       tAssistiveHint={() =>
         "When autocomplete results are available use up and down arrows to review and enter to select. Touch device users, explore by touch or with swipe gestures."
