@@ -39,6 +39,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
 builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
 builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
+builder.Services.AddScoped<ISuggestService, SuggestService>();
 builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>();
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());

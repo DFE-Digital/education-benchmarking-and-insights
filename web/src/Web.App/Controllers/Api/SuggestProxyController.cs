@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.App.Domain;
-using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 
 namespace Web.App.Controllers.Api;
 
@@ -10,7 +8,7 @@ namespace Web.App.Controllers.Api;
 [Route("api/suggest")]
 public class SuggestProxyController(
 ILogger<ProxyController> logger,
-    IEstablishmentApi establishmentApi) : Controller
+ISuggestService suggestService) : Controller
 {
     [HttpGet]
     [Produces("application/json")]
@@ -20,12 +18,20 @@ ILogger<ProxyController> logger,
         {
             try
             {
-                return type.ToLower() switch
+                switch (type.ToLower())
                 {
-                    OrganisationTypes.School => await SchoolSuggestions(search),
-                    OrganisationTypes.Trust => await TrustSuggestions(search),
-                    _ => throw new ArgumentOutOfRangeException(nameof(type))
-                };
+                    case OrganisationTypes.School:
+                        var schools = await suggestService.SchoolSuggestions(search);
+                        return new JsonResult(schools);
+                    case OrganisationTypes.Trust:
+                        var trusts = await suggestService.TrustSuggestions(search);
+                        return new JsonResult(trusts);
+                    case OrganisationTypes.LocalAuthority:
+                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search);
+                        return new JsonResult(localAuthorities);
+                    default:
+                        throw new ArgumentOutOfRangeException(nameof(type));
+                }
             }
             catch (Exception e)
             {
@@ -33,54 +39,5 @@ ILogger<ProxyController> logger,
                 return StatusCode(500);
             }
         }
-    }
-
-    private async Task<IActionResult> SchoolSuggestions(string search)
-    {
-        var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();
-        var results = suggestions.Results.Select(value =>
-        {
-            var text = value.Text?.Replace("*", "");
-
-            var additionalDetails = new List<string?>();
-
-            if (!string.IsNullOrWhiteSpace(value.Document?.Town))
-                additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town);
-            if (!string.IsNullOrWhiteSpace(value.Document?.Postcode))
-                additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
-
-            if (text != value.Document?.Name)
-            {
-                value.Text = value.Document?.Name;
-            }
-
-            var additionalText = additionalDetails.Count > 0
-                ? $" ({string.Join(", ", additionalDetails.Select(a => a))})"
-                : "";
-
-            value.Text = $"{value.Text}{additionalText}";
-
-            return value;
-        });
-
-        return new JsonResult(results);
-    }
-
-    private async Task<IActionResult> TrustSuggestions(string search)
-    {
-        var suggestions = await establishmentApi.SuggestTrusts(search).GetResultOrThrow<SuggestOutput<Trust>>();
-        var results = suggestions.Results.Select(value =>
-        {
-            var text = value.Text?.Replace("*", "");
-
-            if (text != value.Document?.Name)
-            {
-                value.Text = value.Document?.Name;
-            }
-
-            return value;
-        });
-
-        return new JsonResult(results);
     }
 }
