@@ -64,7 +64,7 @@
 
   {% if confirmation == 'trusts-generated' %}
     {% set html %}
-    <p class="govuk-body"><strong>Similar trusts found</strong> - <a href="#">Compare these trusts</a></p>
+    <p class="govuk-body"><strong>Similar trusts found</strong> - <a href="/compare-trusts/compare">Compare these trusts</a></p>
     {% endset %}
 
   {% elseif confirmation == 'trust-added' %}
@@ -155,7 +155,7 @@
     {% if data['trusts'] | length and confirmation != 'trust-reset' %}
 
     {{ govukButton({
-      href: "#",
+      href: "/compare-trusts/compare",
       text: "Compare these trusts"
     }) }}
 
