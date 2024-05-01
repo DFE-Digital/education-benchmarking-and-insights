@@ -45,7 +45,7 @@ COPY --from=builder-base $VENV_PATH $VENV_PATH
 COPY ./docker/pipeline-worker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
-COPY ./src /src
+COPY ./src/pipeline /src
 WORKDIR /src
 
 ENTRYPOINT /docker-entrypoint.sh $0 $@
