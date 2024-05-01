@@ -1,0 +1,18 @@
+﻿@using Web.App.TagHelpers
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Resources;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("CommercialResource/AllResources")
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}
