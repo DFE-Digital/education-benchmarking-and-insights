@@ -89,35 +89,4 @@ public class SchoolsFunctions
             }
         }
     }
-
-    [FunctionName(nameof(QuerySchoolWorkforceAsync))]
-    [ProducesResponseType(typeof(SchoolWorkforceResponseModel[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    public async Task<IActionResult> QuerySchoolWorkforceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/workforce")] HttpRequest req)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   {"Application", Constants.ApplicationName},
-                   {"CorrelationID", correlationId}
-               }))
-        {
-            try
-            {
-                var urns = req.Query["urns"].ToString().Split(",");
-
-                var result = await _db.Workforce(urns);
-
-                return new JsonContentResult(result);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed school workforce query");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
 }

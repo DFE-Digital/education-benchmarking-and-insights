@@ -4,5 +4,5 @@ public enum FinanceTools
 {
     CompareYourCosts,
     FinancialPlanning,
-    BenchmarkWorkforce
+    BenchmarkCensus
 }

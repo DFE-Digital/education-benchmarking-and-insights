@@ -9,7 +9,7 @@ public enum Dimension
     PoundPerSqMetre
 }
 
-public enum WorkforceDimension
+public enum CensusDimension
 {
     HeadcountPerFte,
     Total,

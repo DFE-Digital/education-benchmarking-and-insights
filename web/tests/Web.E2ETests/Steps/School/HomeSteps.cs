@@ -12,10 +12,11 @@ public class HomeSteps(PageDriver driver)
     private DetailsPage? _schoolDetailsPage;
     private CompareYourCostsPage? _compareYourCostsPage;
     private CurriculumFinancialPlanningPage? _curriculumAndFinancialPlanningPage;
-    private BenchmarkWorkforcePage? _benchmarkWorkforcePage;
+    private BenchmarkCensusPage? _benchmarkCensusPage;
     private SpendingCostsPage? _spendingCostsPage;
     private CommercialResourcesPage? _commercialResourcesPage;
     private HistoricDataPage? _historicDataPage;
+
     [Given("I am on school homepage for school with urn '(.*)'")]
     public async Task GivenIAmOnSchoolHomepageForSchoolWithUrn(string urn)
     {
@@ -69,18 +70,18 @@ public class HomeSteps(PageDriver driver)
         await _curriculumAndFinancialPlanningPage.IsDisplayed();
     }
 
-    [When("I click on benchmark workforce data")]
-    public async Task WhenIClickOnBenchmarkWorkforceData()
+    [When("I click on benchmark census data")]
+    public async Task WhenIClickOnBenchmarkCensusData()
     {
         Assert.NotNull(_schoolHomePage);
-        _benchmarkWorkforcePage = await _schoolHomePage.ClickBenchmarkWorkforce();
+        _benchmarkCensusPage = await _schoolHomePage.ClickBenchmarkCensus();
     }
 
-    [Then("the benchmark workforce page is displayed")]
-    public async Task ThenTheBenchmarkWorkforcePageIsDisplayed()
+    [Then("the benchmark census page is displayed")]
+    public async Task ThenTheBenchmarkCensusPageIsDisplayed()
     {
-        Assert.NotNull(_benchmarkWorkforcePage);
-        await _benchmarkWorkforcePage.IsDisplayed();
+        Assert.NotNull(_benchmarkCensusPage);
+        await _benchmarkCensusPage.IsDisplayed();
     }
 
     [When("I click on view all spending and costs")]

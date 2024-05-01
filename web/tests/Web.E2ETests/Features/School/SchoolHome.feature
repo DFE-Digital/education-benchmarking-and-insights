@@ -16,10 +16,10 @@
 		When I click on curriculum and financial planning
 		Then the curriculum and financial planning page is displayed
 		
-	Scenario: Go to benchmark workforce data page 
+	Scenario: Go to benchmark census data page 
 		Given I am on school homepage for school with urn '101241'
-		When I click on benchmark workforce data
-		Then the benchmark workforce page is displayed
+		When I click on benchmark census data
+		Then the benchmark census page is displayed
 		
 	Scenario: Go to view all spending and costs page
 		Given I am on school homepage for school with urn '101241'

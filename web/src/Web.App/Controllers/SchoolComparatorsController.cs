@@ -104,34 +104,13 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
         }
     }
 
-    /*[HttpPost]
-    [Route("Create")]
-    public async Task<IActionResult> Create(string urn)
-    {
-        using (logger.BeginScope(new { urn, }))
-        {
-            try
-            {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school, referrer);
-                return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error displaying school comparators: {DisplayUrl}", Request.GetDisplayUrl());
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-            }
-        }
-    }*/
-
     private BacklinkInfo RefererBackInfo(string referrer, string urn)
     {
         return referrer switch
         {
             Referrers.SchoolSpending => new BacklinkInfo(Url.Action("Index", "SchoolSpending", new { urn }), $"Back to {PageTitles.Spending.ToLower()}"),
             Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn }), $"Back to {PageTitles.Comparison.ToLower()}"),
-            Referrers.SchoolWorkforce => new BacklinkInfo(Url.Action("Index", "SchoolWorkforce", new { urn }), $"Back to {PageTitles.Workforce.ToLower()}"),
+            Referrers.SchoolCensus => new BacklinkInfo(Url.Action("Index", "SchoolCensus", new { urn }), $"Back to {PageTitles.Census.ToLower()}"),
             _ => throw new ArgumentOutOfRangeException(nameof(referrer))
         };
     }

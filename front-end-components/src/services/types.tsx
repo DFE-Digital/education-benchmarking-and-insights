@@ -60,7 +60,7 @@ export type Balance = {
   revenueReserve: number;
 };
 
-export type Workforce = {
+export type Census = {
   urn: string;
   name: string;
   schoolType: string;

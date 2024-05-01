@@ -79,7 +79,7 @@ export const PremisesCategories = [
   PercentageExpenditure,
   PercentageIncome,
 ];
-export const WorkforceCategories = [
+export const CensusCategories = [
   Total,
   HeadcountPerFTE,
   PercentageOfWorkforce,
