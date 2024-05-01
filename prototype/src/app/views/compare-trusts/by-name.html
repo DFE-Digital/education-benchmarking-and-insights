@@ -2,23 +2,17 @@
 
 {% extends "layouts/main.html" %}
 
-{% if data['comparators'] %}
-  {% set actionText = 'Your' %}
-{% else %}
-  {% set actionText = 'Create a' %}
-{% endif %}
-
 {% block pageTitle %}
   Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
 
-  {% if confirmation == 'comparator-generated' %}
+  {% if confirmation == 'trusts-generated' %}
 
     {{ govukBackLink({
         text: "Back",
-        href: "/comparators/create"
+        href: "/compare-trusts/characteristics"
     }) }}
 
     {% else %}
@@ -66,7 +60,39 @@
   <h1 class="govuk-heading-l">Compare against trusts</h1>
 
 
-      {% if confirmation != 'comparator-generated' %}
+  {% if confirmation %}
+
+  {% if confirmation == 'trusts-generated' %}
+    {% set html %}
+    <p class="govuk-body"><strong>Similar trusts found</strong> - <a href="#">Compare these trusts</a></p>
+    {% endset %}
+
+  {% elseif confirmation == 'trust-added' %}
+    {% set html %}
+    <p class="govuk-body"><strong>{{ ( data['trusts'] | first ).trustName }}</strong> added to similar trusts.</p>
+    {% endset %}
+  
+  {% elseif confirmation == 'trust-removed' %}
+    {% set html %}
+    <p class="govuk-body"><strong>{{ data['trust-removed'] }}</strong> removed from similar trusts. <a href="/compare-trusts/undo-remove?trustName={{ data['trust-removed'] }}" class="govuk-link">Undo</a>.</p>
+    {% endset %}
+
+  {% elseif confirmation == 'trust-reset' %}
+    {% set html %}
+    <p class="govuk-body"><strong>You have deleted the similar trusts you chose.</strong></p>
+    {% endset %}
+
+  {% endif %}
+  
+    {{ govukNotificationBanner({
+      html: html,
+      type: "success"
+    }) }}
+    
+  {% endif %}
+
+      {% if confirmation != 'trusts-generated' %}
+    
       <form action="/compare-trusts/add-trust" method="post">
         <h2 class="govuk-heading-m">Trust name</h2>
         <div class="school-search">
@@ -89,39 +115,17 @@
         </div>
       </form>
       {% endif %}
+  
       
-    {% if data['trusts'] | length or confirmation == 'trust-removed' %}
+    {% if ( data['trusts'] | length or confirmation == 'trust-removed' ) and confirmation != 'trust-reset' %}
 
-      {% if confirmation == 'comparator-generated' %}
-
-      {% elseif confirmation == 'trust-added' %}
-        {% set html %}
-        <p class="govuk-body"><strong>{{ ( data['trusts'] | first ).trustName }}</strong> added to similar trusts.</p>
-        {% endset %}
-      
-      {% elseif confirmation == 'trust-removed' %}
-        {% set html %}
-        <p class="govuk-body"><strong>{{ data['trust-removed'] }}</strong> removed from similar trusts. <a href="/compare-trusts/undo-remove?trustName={{ data['trust-removed'] }}" class="govuk-link">Undo</a>.</p>
-        {% endset %}
-
-      {% endif %}
-
-      {% if confirmation %}
-      
-        {{ govukNotificationBanner({
-          html: html,
-          type: "success"
-        }) }}
-        
-      {% endif %}
-      
-      {% if comparatorSetType == 'generated' %}
+      {% if trustSetType == 'generated' %}
       <p class="govuk-body">These 10 trusts are the closest matches based on the characteristics you selected.<br />
-        <a href="/compare-trusts/characteristics">Change characteristics and generate a new set</a>
-    </p>
+          <a href="/compare-trusts/characteristics">Change characteristics and generate a new set</a>
+      </p>
       {% endif %}
 
-    {{ govukTable({
+      {{ govukTable({
       firstCellIsHeader: false,
       head: [
         {
@@ -148,7 +152,7 @@
     
     {% endif %}
 
-    {% if data['trusts'] | length %}
+    {% if data['trusts'] | length and confirmation != 'trust-reset' %}
 
     {{ govukButton({
       href: "#",

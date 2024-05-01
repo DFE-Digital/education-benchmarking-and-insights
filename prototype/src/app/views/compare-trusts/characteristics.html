@@ -5,13 +5,13 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Create a custom comparator set – {{ serviceName }}
+    Choose comparison characteristics – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
     {{ govukBackLink({
         text: "Back",
-        href: "/comparators/create/local-authority"
+        href: "/compare-trusts"
     }) }}
 {% endblock %}
 
@@ -20,148 +20,199 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <form action="/comparators/create/review" method="post">
+        <form action="/compare-trusts/by-name" method="post">
             <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
             <h1 class="govuk-heading-l">Choose comparison characteristics</h1>
 
-            <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 1,156 pupils</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoPupil">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                <div class="govuk-hint">
-                        <span>{{ data['trust-name'] }} has </span>
-                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1,156 pupils</span>
-                </div>
-
-                <span class="govuk-error-message"></span>
-
-                <legend class="govuk-visually-hidden">Number of pupils</legend>
-
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MinNoPupil">From</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoPupil" id="MinNoPupil" class="govuk-input form-control criteria-input min-js govuk-input--width-5" min="0" max="100000"aria-label="Minimum value for Number of pupils">
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MaxNoPupil">To</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-5" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
-                </div>
-                </fieldset>
-                </div>
-                </div>
-            </div>
-
-            <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinNoSchools" type="checkbox" aria-controls="rc_NoSchools" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoSchools">Number of schools <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 16 schools</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoSchools">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                <div class="govuk-hint">
-                        <span>{{ data['trust-name'] }} has </span>
-                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">16 schools</span>
-                </div>
-
-                <span class="govuk-error-message"></span>
-
-                <legend class="govuk-visually-hidden">Number of schools</legend>
-
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MinNoSchools">From</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoSchools" id="MinNoSchools" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100000"aria-label="Minimum value for Number of schools">
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MaxNoSchools">To</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoSchools" id="MaxNoSchools" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100000"     aria-label="Maximum value for Number of schools">
-                </div>
-                </fieldset>
-                </div>
-                </div>
-            </div>
-
-            <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinTotalIncome" type="checkbox" aria-controls="rc_TotalIncome" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalIncome">Total income <span class="govuk-visually-hidden">{{ data['trust-name'] }}'s income is £279,123,456</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalIncome">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                <div class="govuk-hint">
-                        <span>{{ data['trust-name'] }}'s income is </span>
-                            <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">£279,123,456</span>
-                </div>
-
-                <span class="govuk-error-message"></span>
-
-                <legend class="govuk-visually-hidden">Total income</legend>
-
-                <div class="govuk-grid-column-one-half">
-                    <label class="govuk-label" for="MinTotalIncome1">From</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalIncome" id="MinTotalIncome1" class="govuk-input form-control criteria-input min-js govuk-input--width-10" min="0" max="1000000000"aria-label="Minimum value for Total income">
-                </div>
-                <div class="govuk-grid-column-one-half">
-                    <label class="govuk-label" for="MaxTotalIncom1">To</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalIncome" id="MaxTotalIncome1" class="govuk-input form-control criteria-input max-js govuk-input--width-10" min="0" max="1000000000"     aria-label="Maximum value for Total income">
-                </div>
-                </fieldset>
-                </div>
-                </div>
-            </div>
-
-            <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-OverallPhase" type="checkbox" aria-controls="phc" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" id="label-OverallPhase" for="checkbox-OverallPhase">School phases covered by trust <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Secondary</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="phc">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-
-                <div class="govuk-hint">
-                        <span>{{ data['trust-name'] }} contains <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Primary, Secondary and Special</span> schools</span>
-                </div>
-
-                <span class="govuk-error-message"></span>
-
-                <legend class="govuk-visually-hidden">School phases covered by trust</legend>
-
-                <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item">
-                        <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Nursery" value="Nursery" class="govuk-checkboxes__input criteria-checkbox" aria-controls="nursery-phases" aria-expanded="false">
-                        <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Nursery">Nursery</label>
-                    </div>                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="nursery-phases">
-                        <div class="govuk-form-group">
-                        <fieldset class="govuk-fieldset">
-                        <p class="govuk-body">Number of nursery schools in trust (optional)</p>
-                        <div class="govuk-hint">
-                                <span>{{ data['trust-name'] }} has </span>
-                                    <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">16 nursery schools</span>
-                        </div>
-        
-                        <span class="govuk-error-message"></span>
-        
-                        <legend class="govuk-visually-hidden">Number of schools</legend>
-        
-                        <div class="govuk-grid-column-one-quarter">
-                            <label class="govuk-label" for="MinNoSchools2">From</label>
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoSchools" id="MinNoSchools2" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100000"aria-label="Minimum value for Number of schools">
-                        </div>
-                        <div class="govuk-grid-column-one-quarter">
-                            <label class="govuk-label" for="MaxNoSchools2">To</label>
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoSchools" id="MaxNoSchools2" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100000"     aria-label="Maximum value for Number of schools">
-                        </div>
-                        </fieldset>
+            <div class="sticky-div matching-schools">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-three-quarters">
+                        <div class="school-match-info">
+                            <span id="schoolCount" aria-live="assertive" role="alert" style="" class="govuk-body-s govuk-!-font-size-16"><span id="countPart" class="bold-xsmall">2,619</span><span id="rest"> matching trusts found.</span></span>
                         </div>
                     </div>
+                </div>
+            </div>
 
+            <div class="govuk-form-group">
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 1,156 pupils</span></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoPupil">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                            <span>{{ data['trust-name'] }} has </span>
+                                <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1,156 pupils</span>
+                    </div>
+
+                    <span class="govuk-error-message"></span>
+
+                    <legend class="govuk-visually-hidden">Number of pupils</legend>
+
+                    <div class="govuk-grid-column-one-quarter">
+                        <label class="govuk-label" for="MinNoPupil">From</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoPupil" id="MinNoPupil" class="govuk-input form-control criteria-input min-js govuk-input--width-5" min="0" max="100000"aria-label="Minimum value for Number of pupils">
+                    </div>
+                    <div class="govuk-grid-column-one-quarter">
+                        <label class="govuk-label" for="MaxNoPupil">To</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-5" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-MinNoSchools" type="checkbox" aria-controls="rc_NoSchools" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoSchools">Number of schools <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 16 schools</span></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoSchools">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                            <span>{{ data['trust-name'] }} has </span>
+                                <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">16 schools</span>
+                    </div>
+
+                    <span class="govuk-error-message"></span>
+
+                    <legend class="govuk-visually-hidden">Number of schools</legend>
+
+                    <div class="govuk-grid-column-one-quarter">
+                        <label class="govuk-label" for="MinNoSchools">From</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoSchools" id="MinNoSchools" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100000"aria-label="Minimum value for Number of schools">
+                    </div>
+                    <div class="govuk-grid-column-one-quarter">
+                        <label class="govuk-label" for="MaxNoSchools">To</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoSchools" id="MaxNoSchools" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100000"     aria-label="Maximum value for Number of schools">
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-MinTotalIncome" type="checkbox" aria-controls="rc_TotalIncome" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinTotalIncome">Total income <span class="govuk-visually-hidden">{{ data['trust-name'] }}'s income is £279,123,456</span></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_TotalIncome">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                            <span>{{ data['trust-name'] }}'s income is </span>
+                                <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">£279,123,456</span>
+                    </div>
+
+                    <span class="govuk-error-message"></span>
+
+                    <legend class="govuk-visually-hidden">Total income</legend>
+
+                    <div class="govuk-grid-column-one-half">
+                        <label class="govuk-label" for="MinTotalIncome1">From</label>
+                        <div class="govuk-input__wrapper">
+                            <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinTotalIncome" id="MinTotalIncome1" class="govuk-input form-control criteria-input min-js govuk-input--width-10" min="0" max="1000000000"aria-label="Minimum value for Total income">
+                        </div>
+                    </div>
+                    <div class="govuk-grid-column-one-half">
+                        <label class="govuk-label" for="MaxTotalIncom1">To</label>
+                        <div class="govuk-input__wrapper">
+                            <div class="govuk-input__prefix" aria-hidden="true">£</div>
+                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxTotalIncome" id="MaxTotalIncome1" class="govuk-input form-control criteria-input max-js govuk-input--width-10" min="0" max="1000000000"     aria-label="Maximum value for Total income">
+                        </div>
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-MinSize" type="checkbox" aria-controls="pc20" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSize">Total gross internal floor area <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc20">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+                    <div class="govuk-hint">
+                                <span>The total value for {{ data['trust-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">410,130</span> square metres</span>
+
+                    </div>
+
+
+                    <span class="govuk-error-message"></span>
+
+                    <div class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="MinSize">From</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinSize" id="MinSize" class="govuk-input form-control criteria-input min-js" min="0" max="100" >
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <label class="govuk-label" for="MaxSize">To</label>
+                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" min="0" max="100" >
+                    </div>
+                    <div class="govuk-grid-column-one-third" style="margin-top: 37px; margin-bottom: 0s;">
+                        <p class="govuk-body">square metres</p>
+                    </div>
+                    </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+                
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+                    <div class="govuk-checkboxes__item question">
+                    <input class="govuk-checkboxes__input" id="checkbox-OverallPhase" type="checkbox" aria-controls="phc" aria-expanded="false">
+                    <label class="govuk-label govuk-checkboxes__label" id="label-OverallPhase" for="checkbox-OverallPhase">School phases covered by trust <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Secondary</span></label>
+                    </div>
+                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="phc">
+                    <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset">
+
+                    <div class="govuk-hint">
+                            <span>{{ data['trust-name'] }} contains <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Primary, Secondary and Special</span> schools</span>
+                    </div>
+
+                    <span class="govuk-error-message"></span>
+
+                    <legend class="govuk-visually-hidden">School phases covered by trust</legend>
+
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        <div class="govuk-checkboxes__item">
+                            <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Nursery" value="Nursery" class="govuk-checkboxes__input criteria-checkbox" aria-controls="nursery-phases" aria-expanded="false">
+                            <label class="govuk-label govuk-checkboxes__label" for="SchoolPhase.Nursery">Nursery</label>
+                        </div>                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="nursery-phases">
+                            <div class="govuk-form-group">
+                            <fieldset class="govuk-fieldset">
+                            <p class="govuk-body">Number of nursery schools in trust (optional)</p>
+                            <div class="govuk-hint">
+                                    <span>{{ data['trust-name'] }} has </span>
+                                        <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">16 nursery schools</span>
+                            </div>
+            
+                            <span class="govuk-error-message"></span>
+            
+                            <legend class="govuk-visually-hidden">Number of schools</legend>
+            
+                            <div class="govuk-grid-column-one-quarter">
+                                <label class="govuk-label" for="MinNoSchools2">From</label>
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinNoSchools" id="MinNoSchools2" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100000"aria-label="Minimum value for Number of schools">
+                            </div>
+                            <div class="govuk-grid-column-one-quarter">
+                                <label class="govuk-label" for="MaxNoSchools2">To</label>
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoSchools" id="MaxNoSchools2" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100000"     aria-label="Maximum value for Number of schools">
+                            </div>
+                            </fieldset>
+                            </div>
+                        </div>
                     
-
                     <div class="govuk-checkboxes__item subQuestion">
                         <input type="checkbox" name="PrimaryOverallPhase" id="PrimaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="prim-phases" aria-expanded="false">
                         <label class="govuk-label govuk-checkboxes__label" for="PrimaryOverallPhase">Primary</label>
@@ -220,6 +271,7 @@
                         </fieldset>
                         </div>
                     </div>
+                      
                     
                     <div class="govuk-checkboxes__item">
                         <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Special" value="Special" class="govuk-checkboxes__input criteria-checkbox" aria-controls="special-phases" aria-expanded="false">
@@ -448,10 +500,9 @@
                         </div>
                         </div>
                     </div>
-    
-    
-    
-<!--
+
+        </div>
+          
             <p class="govuk-body">You can compare against a maximum of 30 s. If your chosen comparison characteristics give more than 30 results, we will chose the 30 s whose comparison values are closest to {{ data['school-name'] }}.</p>
         
             <div class="sticky-div matching-s">
@@ -464,8 +515,6 @@
                 </div>
             </div>
 
--->
-
 
             {{ govukButton({
             text: "Find similar trusts",
@@ -473,6 +522,37 @@
             }) }}
         </form>
 
+        <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
+        <script>
+            intMatches = 2619;
+
+            $('.govuk-checkboxes.question input[type=text]').change( function() {
+                updateCounts( $(this).val(), $(this) );
+            })
+            
+            $('.govuk-checkboxes__conditional .govuk-checkboxes__input').click(function() {
+                updateCounts( $(this).is(':checked'), $(this) );
+            })
+
+            function updateCounts(blnCount, objPassed) {
+
+                if ( blnCount ) {
+                    intMatches = Math.floor( intMatches * 0.3 );
+                } else {
+
+                    if (intMatches) {
+                        intMatches = Math.floor( intMatches / 0.3 );
+                    } else {
+                        intMatches = 1;
+                    }
+                    
+                }
+                $('#countPart').text( intMatches.toLocaleString() );
+            
+            }
+
+        </script>
+      
     </div>
 </div>
 {% endblock %}
