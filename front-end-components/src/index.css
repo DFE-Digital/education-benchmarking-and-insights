@@ -339,3 +339,7 @@
     display: block;
   }
 }
+
+ul.autocomplete__menu {
+  font-family: "GDS Transport";
+}
