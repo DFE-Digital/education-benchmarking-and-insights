@@ -16,6 +16,7 @@
     "lint:fix": "eslint . --ext ts,tsx,cjs --fix"
   },
   "dependencies": {
+    "accessible-autocomplete": "^3.0.0",
     "classnames": "^2.5.1",
     "file-saver": "^2.0.5",
     "govuk-frontend": "^5.2.0",
