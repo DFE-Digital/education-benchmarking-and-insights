@@ -319,11 +319,15 @@ groups = {
 
 ks2 = {
     'URN':'Int64',
-    'LEA':'Int64',
-    'ESTAB':'Int64',
     'READPROG':'float',
     'WRITPROG':'float',
-    'MATPROG':'float',  
+    'MATPROG':'float'  
+}
+
+ks4 = {'URN':'Int64',
+    'ATT8SCR':'float',
+    'P8MEA':'float',
+    'P8_BANDING':'float'
 }
 
 
@@ -396,3 +400,5 @@ aar_aggregation_columns = [
 "Total Expenditure",
 "Share of Revenue Reserve, distributed on per pupil basis\n"
 ]
+
+
