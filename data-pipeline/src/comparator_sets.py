@@ -1,6 +1,3 @@
-import multiprocessing as mp
-from multiprocessing.pool import ThreadPool as Pool
-
 import numpy as np
 import pandas as pd
 
@@ -9,8 +6,10 @@ def compute_range(data):
     return data.max() - data.min()
 
 
+# TODO: This should be moved to pre-processing really
 def fillna_mean(data):
-    return data.fillna(data.mean())
+    data.fillna(data.mean(), inplace=True)
+    return data
 
 
 def prepare_data(data):
@@ -49,7 +48,7 @@ def pupils_calc(pupils, fsm, sen):
 
 
 def special_pupils_calc(
-    pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
+        pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
 ):
     pupil_range = compute_range(pupils)
     fsm_range = compute_range(fsm)
@@ -149,9 +148,10 @@ def compute_buildings_comparator(arg):
 
 def run_comparator(data, f):
     distance_classes = {}
-    with Pool(mp.cpu_count()) as pool:
-        for idx, urns, distance in pool.map(f, data.iterrows()):
-            distance_classes[idx] = {"urns": urns, "distances": distance}
+
+    for x, row in data.iterrows():
+        idx, urns, distance = f((x, row))
+        distance_classes[idx] = {"urns": urns, "distances": distance}
 
     return distance_classes
 
@@ -170,11 +170,11 @@ def compute_custom_comparator(name, data, f):
 
 
 def get_comparator_set_by(
-    school_selector,
-    schools,
-    comparators,
-    is_custom=False,
-    comparator_key="SchoolPhaseType",
+        school_selector,
+        schools,
+        comparators,
+        is_custom=False,
+        comparator_key="SchoolPhaseType",
 ):
     school_no_index = schools.reset_index()
     school = (
@@ -197,9 +197,7 @@ def get_comparator_set_by(
     d = []
     idx = 0
     for urn in urns:
-        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[
-            0
-        ]
+        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[0]
         row["Distance"] = distances[idx]
         d.append(row)
         idx += 1
@@ -207,7 +205,7 @@ def get_comparator_set_by(
     all_comparators = pd.DataFrame(d)
     same_region = all_comparators[
         all_comparators["GOR (name)"] == school["GOR (name)"]
-    ].head()
+        ].head()
     out_of_region = (
         all_comparators[all_comparators["GOR (name)"] != school["GOR (name)"]]
         .sort_values(by="Distance", ascending=True)
