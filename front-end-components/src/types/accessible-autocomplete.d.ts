@@ -186,7 +186,10 @@ declare module "accessible-autocomplete/react" {
      *   return <span>{length} {words.result} {words.is} available. {contentSelectedOption}</span>
      * }
      */
-    tStatusResults(length: number, contentSelectedOption: number): string;
+    tStatusResults(
+      length: number,
+      contentSelectedOption: number
+    ): string | ReactElement;
 
     /**
      * A function that receives no arguments and should return the text to
