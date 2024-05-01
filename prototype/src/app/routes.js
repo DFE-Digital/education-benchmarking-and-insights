@@ -287,8 +287,7 @@ router.get( '/compare-trusts/by-name', (req, res) => {
     var rows = [];
     var trustRows = getTrustList();
     var trusts = req.session.data.trusts || [];
-console.log('by-name');
-console.log( req.session.data.trusts );
+    
     for ( i=0; i<trusts.length; i++) {
         var nameHtml = "<a href=\"#\">" + trusts[i].trustName +"</a></span>";
         rows.push( [ {'html':  nameHtml}, {'text': trusts[i].trustPupils.toLocaleString()}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() }, {'text': 'Secondary'}, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
@@ -360,8 +359,7 @@ router.get( '/compare-trusts/undo-remove', (req, res) => {
 router.get( '/compare-trusts/reset-confirmed', (req, res) => {
 
     req.session.data.trusts = null;
-console.log('reset-confirmed');
-console.log(req.session.data.trusts );
+    
     res.render( '/compare-trusts/by-name', {confirmation: 'trust-reset' } );
 
 })
