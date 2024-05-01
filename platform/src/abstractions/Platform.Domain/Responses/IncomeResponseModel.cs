@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain;
 
-public class IncomeResponseModel
+[ExcludeFromCodeCoverage]
+public record IncomeResponseModel
 {
     public int YearEnd { get; private set; }
     public string Term => $"{YearEnd - 1} to {YearEnd}";

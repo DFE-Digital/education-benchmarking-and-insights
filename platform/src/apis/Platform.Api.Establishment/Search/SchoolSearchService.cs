@@ -9,16 +9,14 @@ using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
 
-[ExcludeFromCodeCoverage]
-public record SchoolSearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
 public class SchoolSearchService : SearchService, ISearchService<SchoolResponseModel>
 {
     private static readonly string[] Facets = Array.Empty<string>();
-    private const string IndexName = "school-index";
+    private const string IndexName = SearchResourceNames.Indexes.School;
 
-    public SchoolSearchService(IOptions<SchoolSearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    public SchoolSearchService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 

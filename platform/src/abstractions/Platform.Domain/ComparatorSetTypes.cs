@@ -1,6 +1,9 @@
-﻿namespace Platform.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
 
-public class ComparatorSetTypes
+namespace Platform.Domain;
+
+[ExcludeFromCodeCoverage]
+public static class ComparatorSetTypes
 {
     public const string Default = nameof(Default);
     public const string Pupil = nameof(Pupil);

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Platform.Domain;
 
+[ExcludeFromCodeCoverage]
 public record FinancialPlanResponseModel
 {
     public int Year { get; set; }
