@@ -12,7 +12,6 @@ namespace Platform.Api.Insight.Db;
 public interface ISchoolsDb
 {
     Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns);
-    Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns);
     Task<IEnumerable<FinancesResponseModel>> Finances(string[] urns);
 }
 
@@ -39,14 +38,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         _maintainedCollectionName = options.Value.LatestMaintained;
         _floorAreaCollectionName = options.Value.FloorAreaCollectionName;
     }
-
-    public async Task<IEnumerable<SchoolWorkforceResponseModel>> Workforce(string[] urns)
-    {
-        var finances = await QueryFinances(urns);
-
-        return finances.Select(SchoolWorkforceResponseModel.Create);
-    }
-
+    
     public async Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns)
     {
         var finances = await QueryFinances(urns);

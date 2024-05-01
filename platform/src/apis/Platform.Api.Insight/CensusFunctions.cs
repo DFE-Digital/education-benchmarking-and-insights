@@ -15,25 +15,25 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight;
 
-[ApiExplorerSettings(GroupName = "Workforce")]
-public class WorkforceFunctions
+[ApiExplorerSettings(GroupName = "Census")]
+public class CensusFunctions
 {
 
-    private readonly ILogger<WorkforceFunctions> _logger;
-    private readonly IWorkforceDb _db;
+    private readonly ILogger<CensusFunctions> _logger;
+    private readonly ICensusDb _db;
 
-    public WorkforceFunctions(ILogger<WorkforceFunctions> logger, IWorkforceDb db)
+    public CensusFunctions(ILogger<CensusFunctions> logger, ICensusDb db)
     {
         _logger = logger;
         _db = db;
     }
 
-    [FunctionName(nameof(WorkforceHistoryAsync))]
-    [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
+    [FunctionName(nameof(CensusHistoryAsync))]
+    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> WorkforceHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "workforce/{urn}/history")]
+    public async Task<IActionResult> CensusHistoryAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history")]
         HttpRequest req,
         string urn)
     {
@@ -54,20 +54,20 @@ public class WorkforceFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get workforce history");
+                _logger.LogError(e, "Failed to get census history");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
-    [FunctionName(nameof(QueryWorkforceAsync))]
-    [ProducesResponseType(typeof(WorkforceResponseModel[]), (int)HttpStatusCode.OK)]
+    [FunctionName(nameof(QueryCensusAsync))]
+    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("category", "Workforce category", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("category", "Census category", DataType = typeof(string), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
-    public async Task<IActionResult> QueryWorkforceAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "workforce")]
+    public async Task<IActionResult> QueryCensusAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -89,19 +89,19 @@ public class WorkforceFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get workforce");
+                _logger.LogError(e, "Failed to get census");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
 
-    private static WorkforceDimension GetDimensionFromQuery(HttpRequest req)
+    private static CensusDimension GetDimensionFromQuery(HttpRequest req)
     {
         var queryDimension = req.Query["dimension"].ToString();
-        var dimension = Enum.TryParse(queryDimension, true, out WorkforceDimension dimensionValue)
+        var dimension = Enum.TryParse(queryDimension, true, out CensusDimension dimensionValue)
             ? dimensionValue
-            : WorkforceDimension.Total;
+            : CensusDimension.Total;
         return dimension;
     }
 }

@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record WorkforceResponseModel
+public record CensusResponseModel
 {
     public string? Urn { get; private set; }
     public string? Name { get; private set; }
@@ -13,7 +13,7 @@ public record WorkforceResponseModel
     public decimal NumberOfPupils { get; private set; }
     public int YearEnd { get; private set; }
     public string Term => $"{YearEnd - 1} to {YearEnd}";
-    public WorkforceDimension Dimension { get; private set; }
+    public CensusDimension Dimension { get; private set; }
     public decimal? WorkforceFte { get; private set; }
     public decimal? TeachersFte { get; private set; }
     public decimal? SeniorLeadershipFte { get; private set; }
@@ -24,20 +24,20 @@ public record WorkforceResponseModel
     public decimal? TeachersQualified { get; private set; }
     public bool HasIncompleteData { get; private set; }
 
-    private static WorkforceResponseModel CreateEmpty(int term, WorkforceDimension dimension)
+    private static CensusResponseModel CreateEmpty(int term, CensusDimension dimension)
     {
-        return new WorkforceResponseModel
+        return new CensusResponseModel
         {
             YearEnd = term,
             Dimension = dimension
         };
     }
 
-    public static WorkforceResponseModel Create(WorkforceDataObject? dataObject, int term, WorkforceDimension dimension)
+    public static CensusResponseModel Create(CensusDataObject? dataObject, int term, CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -58,11 +58,11 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateTeachersQualified(WorkforceDataObject? dataObject, int term)
+    public static CensusResponseModel CreateTeachersQualified(CensusDataObject? dataObject, int term)
     {
         return dataObject is null
-            ? CreateEmpty(term, WorkforceDimension.Percentage)
-            : new WorkforceResponseModel
+            ? CreateEmpty(term, CensusDimension.Percentage)
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -70,18 +70,18 @@ public record WorkforceResponseModel
                 LocalAuthority = dataObject.La.ToString(),
                 NumberOfPupils = dataObject.NoPupils,
                 YearEnd = term,
-                Dimension = WorkforceDimension.Percentage,
+                Dimension = CensusDimension.Percentage,
                 TeachersQualified = dataObject.PercentageQualifiedTeachers,
                 HasIncompleteData = dataObject.PeriodCoveredByReturn != 12
             };
     }
 
-    public static WorkforceResponseModel CreateWorkforceFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateWorkforceFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -95,12 +95,12 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateTeachersFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateTeachersFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -115,12 +115,12 @@ public record WorkforceResponseModel
     }
 
 
-    public static WorkforceResponseModel CreateSeniorLeadershipFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateSeniorLeadershipFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -134,12 +134,12 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateTeachingAssistantsFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateTeachingAssistantsFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -153,12 +153,12 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateNonClassroomSupportStaffFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateNonClassroomSupportStaffFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -172,12 +172,12 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateAuxiliaryStaffFte(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateAuxiliaryStaffFte(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -191,12 +191,12 @@ public record WorkforceResponseModel
             };
     }
 
-    public static WorkforceResponseModel CreateWorkforceHeadcount(WorkforceDataObject? dataObject, int term,
-        WorkforceDimension dimension)
+    public static CensusResponseModel CreateWorkforceHeadcount(CensusDataObject? dataObject, int term,
+        CensusDimension dimension)
     {
         return dataObject is null
             ? CreateEmpty(term, dimension)
-            : new WorkforceResponseModel
+            : new CensusResponseModel
             {
                 Urn = dataObject.Urn.ToString(),
                 Name = dataObject.SchoolName,
@@ -210,16 +210,16 @@ public record WorkforceResponseModel
             };
     }
 
-    private static decimal CalcValue(decimal value, WorkforceDataObject dataObject, WorkforceDimension dimension)
+    private static decimal CalcValue(decimal value, CensusDataObject dataObject, CensusDimension dimension)
     {
         return dimension switch
         {
-            WorkforceDimension.Total => value,
-            WorkforceDimension.HeadcountPerFte => value != 0 ? dataObject.WorkforceHeadcount / value : 0,
-            WorkforceDimension.PercentWorkforce => dataObject.WorkforceTotal != 0
+            CensusDimension.Total => value,
+            CensusDimension.HeadcountPerFte => value != 0 ? dataObject.WorkforceHeadcount / value : 0,
+            CensusDimension.PercentWorkforce => dataObject.WorkforceTotal != 0
                 ? value / dataObject.WorkforceTotal * 100
                 : 0,
-            WorkforceDimension.PupilsPerStaffRole => value != 0 ? dataObject.NoPupils / value : 0,
+            CensusDimension.PupilsPerStaffRole => value != 0 ? dataObject.NoPupils / value : 0,
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, "Unknown value dimension")
         };
     }

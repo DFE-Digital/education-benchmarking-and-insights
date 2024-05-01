@@ -16,7 +16,7 @@ public static class Constants
     public const string MatOverviewCollectionPrefix = "MAT-Overview"; //MAT + all of its Academies' figures
 }
 
-public static class WorkforceCategory
+public static class CensusCategory
 {
     public const string WorkforceFte = "workforce-fte";
     public const string TeachersFte = "teachers-fte";

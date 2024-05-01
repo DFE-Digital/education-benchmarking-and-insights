@@ -103,28 +103,7 @@ public class InsightSchoolsSteps
             Method = HttpMethod.Get
         });
     }
-
-    [Then("the school workforce result should be ok")]
-    public async Task ThenTheSchoolWorkforceResultShouldBeOk()
-    {
-        var response = _api[SchoolWorkforceKey].Response;
-        response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var jsonString = await response.Content.ReadAsStringAsync();
-        var json = JObject.Parse(jsonString);
-
-        json.Should().ContainKey("results");
-
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
-
-        resultsArray.Should().NotBeEmpty();
-
-        var result = resultsArray[0].ToObject<SchoolWorkforceResponseModel>() ?? throw new ArgumentNullException();
-
-        result.Name.Should().Be("Wells Free School");
-        result.Urn.Should().Be("139696");
-    }
-
+    
     [Given("a valid school workforce request with page '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string page, string urn)
     {
@@ -134,21 +113,7 @@ public class InsightSchoolsSteps
             Method = HttpMethod.Get
         });
     }
-
-    [Then("the schools workforce result should be page '(.*)' with '(.*)' page size")]
-    public async Task ThenTheSchoolsWorkforceResultShouldBePageWithPageSize(int page, int pageSize)
-    {
-        var response = _api[SchoolWorkforceKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var content = await response.Content.ReadAsByteArrayAsync();
-        //todo troubleshoot the reason of failure 
-        var result = content.FromJson<PagedResponseModel<SchoolWorkforceResponseModel>>() ?? throw new ArgumentNullException();
-        result.Page.Should().Be(page);
-        result.PageSize.Should().Be(pageSize);
-    }
-
+    
     [Given("a valid school workforce request with size '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string pageSize, string urn)
     {

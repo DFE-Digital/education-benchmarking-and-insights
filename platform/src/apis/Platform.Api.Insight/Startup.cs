@@ -36,7 +36,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
         builder.Services.AddSingleton<ITrustFinancesDb, TrustFinancesDb>();
         builder.Services.AddSingleton<IRatingsDb, RatingsDb>();
-        builder.Services.AddSingleton<IWorkforceDb, WorkforceDb>();
+        builder.Services.AddSingleton<ICensusDb, CensusDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
     }
 }
