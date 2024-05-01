@@ -3,6 +3,7 @@
 public record Expenditure
 {
     public int YearEnd { get; set; }
+    public string? Term { get; set; }
     public string? Dimension { get; set; }
     public decimal? TotalExpenditure { get; set; }
     public decimal? TotalTeachingSupportStaffCosts { get; set; }

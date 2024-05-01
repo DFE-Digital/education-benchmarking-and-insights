@@ -31,11 +31,11 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                 data={data}
                 grid
                 highlightActive
-                keyField="yearEnd"
+                keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
                 seriesLabel={dimension.label}
-                seriesLabelField="yearEnd"
+                seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={dimension.unit}
                 tooltip={(t) => (
@@ -56,7 +56,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               compactValue
               data={data}
               displayIndex={data.length - 1}
-              seriesLabelField="yearEnd"
+              seriesLabelField="term"
               valueField={valueField}
               valueFormatter={shortValueFormatter}
               valueUnit={dimension.unit}
@@ -78,9 +78,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               <tbody className="govuk-table__body">
                 {data.map((item) => (
                   <tr className="govuk-table__row">
-                    <td className="govuk-table__cell">
-                      {Number(item.yearEnd)}
-                    </td>
+                    <td className="govuk-table__cell">{String(item.term)}</td>
                     <td className="govuk-table__cell">
                       {shortValueFormatter(item[valueField], {
                         valueUnit: dimension.unit,

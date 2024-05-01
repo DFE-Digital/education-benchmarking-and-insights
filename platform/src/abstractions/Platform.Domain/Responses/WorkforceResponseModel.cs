@@ -12,6 +12,7 @@ public record WorkforceResponseModel
     public string? LocalAuthority { get; private set; }
     public decimal NumberOfPupils { get; private set; }
     public int YearEnd { get; private set; }
+    public string Term => $"{YearEnd - 1} to {YearEnd}";
     public WorkforceDimension Dimension { get; private set; }
     public decimal? WorkforceFte { get; private set; }
     public decimal? TeachersFte { get; private set; }

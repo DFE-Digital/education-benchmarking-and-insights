@@ -9,6 +9,8 @@
 
 @await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, referrer = Referrers.SchoolComparison })
 
-<div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+<div id="compare-your-costs" data-type="@OrganisationTypes.School" data-id="@Model.Urn">
+    
+</div>
 
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })

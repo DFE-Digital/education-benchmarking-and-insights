@@ -14,11 +14,20 @@
           "Swashbuckle.AspNetCore.Swagger": "5.6.3"
         }
       },
+      "Dapper.Contrib": {
+        "type": "Direct",
+        "requested": "[2.0.78, )",
+        "resolved": "2.0.78",
+        "contentHash": "sUfDVIf8LlHNiz3MfUFodeyRiemfN1JFkPxYjCxFWlwNPg1iQ49mB+0E89TkywWs4X8fiRWOVDQgtH5FtzK5Kw==",
+        "dependencies": {
+          "Dapper": "2.0.78"
+        }
+      },
       "FluentValidation": {
         "type": "Direct",
-        "requested": "[11.9.0, )",
-        "resolved": "11.9.0",
-        "contentHash": "VneVlTvwYDkfHV5av3QrQ0amALgrLX6LV94wlYyEsh0B/klJBW7C8y2eAtj5tOZ3jH6CAVpr4s1ZGgew/QWyig=="
+        "requested": "[11.9.1, )",
+        "resolved": "11.9.1",
+        "contentHash": "C+PqISSMdlOZZJx0Hx25atW32tv4vbpsaiQB+PLjK+ZGLzOFuHl1fUJ3Lny77mIZ31ZtYtNG0JgUjxa3wwLsWg=="
       },
       "Microsoft.Azure.Functions.Extensions": {
         "type": "Direct",
@@ -1874,7 +1883,7 @@
         "type": "Project",
         "dependencies": {
           "AzureExtensions.Swashbuckle": "[3.3.2, )",
-          "FluentValidation": "[11.9.0, )",
+          "FluentValidation": "[11.9.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[6.0.0, )",
@@ -1896,7 +1905,7 @@
           "Azure.Search.Documents": "[11.5.1, )",
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
-          "FluentValidation": "[11.9.0, )",
+          "FluentValidation": "[11.9.1, )",
           "Microsoft.Azure.Cosmos": "[3.39.1, )",
           "Microsoft.Data.SqlClient": "[5.2.0, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
@@ -1914,15 +1923,6 @@
           "Azure.Core": "1.36.0",
           "System.Text.Json": "4.7.2",
           "System.Threading.Channels": "4.7.1"
-        }
-      },
-      "Dapper.Contrib": {
-        "type": "CentralTransitive",
-        "requested": "[2.0.78, )",
-        "resolved": "2.0.78",
-        "contentHash": "sUfDVIf8LlHNiz3MfUFodeyRiemfN1JFkPxYjCxFWlwNPg1iQ49mB+0E89TkywWs4X8fiRWOVDQgtH5FtzK5Kw==",
-        "dependencies": {
-          "Dapper": "2.0.78"
         }
       },
       "Dapper.SqlBuilder": {

@@ -29,6 +29,12 @@ resource "azurerm_cosmosdb_account" "cosmosdb-account" {
       name = capabilities.value
     }
   }
+
+  lifecycle {
+    ignore_changes = [
+      ip_range_filter
+    ]
+  }
 }
 
 resource "azurerm_key_vault_secret" "platform-cosmos-read-connection-string" {
@@ -52,22 +58,6 @@ resource "azurerm_cosmosdb_sql_database" "cosmosdb-container" {
   name                = "ebis-data"
   account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
   resource_group_name = azurerm_resource_group.resource-group.name
-}
-
-resource "azurerm_cosmosdb_sql_container" "cosmosdb-fp-container" {
-  name                = "financial-plans"
-  resource_group_name = azurerm_resource_group.resource-group.name
-  account_name        = azurerm_cosmosdb_account.cosmosdb-account.name
-  database_name       = azurerm_cosmosdb_sql_database.cosmosdb-container.name
-  partition_key_path  = "/partitionKey"
-
-  indexing_policy {
-    indexing_mode = "consistent"
-
-    included_path {
-      path = "/*"
-    }
-  }
 }
 
 resource "random_password" "sql-admin-password" {

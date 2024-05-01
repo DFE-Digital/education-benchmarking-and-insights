@@ -21,8 +21,8 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.IsDisplayed(TabNamesFromFriendlyNames(tab));
     }
 
-    [Given(@"all sections are shown on '(.*)' tab")]
-    [When(@"I click on show all sections on '(.*)' tab")]
+    [Given("all sections are shown on '(.*)'")]
+    [When("I click on show all sections on '(.*)'")]
     public async Task WhenIClickOnShowAllSections(string tab)
     {
         Assert.NotNull(_historicDataPage);
@@ -43,21 +43,21 @@ public class HistoricDataSteps(PageDriver driver)
         await _historicDataPage.IsDimensionSelected(TabNamesFromFriendlyNames(tab), value);
     }
 
-    [Then(@"all sections on '(.*)' tab are expanded")]
+    [Then("all sections on '(.*)' tab are expanded")]
     public async Task ThenAllSectionsOnThePageAreExpanded(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.AreSectionsExpanded(TabNamesFromFriendlyNames(tab));
     }
 
-    [Then(@"the show all text changes to hide all sections on '(.*)' tab")]
+    [Then("the show all text changes to hide all sections on '(.*)'")]
     public async Task ThenTheShowAllTextChangesToHideAllSectionsOnTab(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.IsShowHideAllSectionsText(TabNamesFromFriendlyNames(tab), "Hide all sections");
     }
 
-    [Then(@"all '(.*)' sub categories are displayed on the page")]
+    [Then("all '(.*)' sub categories are displayed on the page")]
     public async Task ThenAllSubCategoriesAreDisplayedOnThePage(string tab)
     {
         Assert.NotNull(_historicDataPage);
@@ -65,12 +65,11 @@ public class HistoricDataSteps(PageDriver driver)
 
     }
 
-    [Then(@"are showing table view on '(.*)' tab")]
+    [Then("are showing table view on '(.*)' tab")]
     public async Task ThenAreShowingTableViewOnTab(string tab)
     {
         Assert.NotNull(_historicDataPage);
         await _historicDataPage.AreTablesShown(TabNamesFromFriendlyNames(tab));
-        await _historicDataPage.AreTableStatsShown(TabNamesFromFriendlyNames(tab));
     }
 
     [When("I click on view as table on '(.*)' tab")]

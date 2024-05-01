@@ -7,32 +7,33 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-        @using (Html.BeginForm("TotalEducationSupport", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @await Html.PartialAsync("_ErrorSummary")
+        @using (Html.BeginForm("TotalEducationSupport", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.EducationSupportStaffCosts)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.EducationSupportStaffCosts)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <span class="govuk-caption-l">@Model.School.Name</span>
                 <h1 class="govuk-label-wrapper">
-                    <label class="govuk-label govuk-label--l" for="@nameof(Model.Plan.EducationSupportStaffCosts)">
+                    <label class="govuk-label govuk-label--l" for="@nameof(Model.PlanInput.EducationSupportStaffCosts)">
                         @ViewData[ViewDataKeys.Title]
                     </label>
                 </h1>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.EducationSupportStaffCosts)))
+                @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.EducationSupportStaffCosts)))
                 {
-                    <p id="@nameof(Model.Plan.EducationSupportStaffCosts)-error" class="govuk-error-message">
-                        @if (ViewData.ModelState[nameof(Model.Plan.EducationSupportStaffCosts)]?.Errors.Count > 0)
+                    <p id="@nameof(Model.PlanInput.EducationSupportStaffCosts)-error" class="govuk-error-message">
+                        @if (ViewData.ModelState[nameof(Model.PlanInput.EducationSupportStaffCosts)]?.Errors.Count > 0)
                         {
-                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.EducationSupportStaffCosts)]?.Errors.First().ErrorMessage
+                            <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.EducationSupportStaffCosts)]?.Errors.First().ErrorMessage
                         }
                     </p>
                 }
                 <div class="govuk-input__wrapper">
                     <div class="govuk-input__prefix" aria-hidden="true">£</div>
-                    <input class="@(ViewData.ModelState.HasError(nameof(Model.Plan.EducationSupportStaffCosts)) ? "govuk-input govuk-input--width-10 govuk-input--error" : "govuk-input govuk-input--width-10")"
-                           id="@nameof(Model.Plan.EducationSupportStaffCosts)" 
-                           name="@nameof(Model.Plan.EducationSupportStaffCosts)"
+                    <input class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.EducationSupportStaffCosts)) ? "govuk-input govuk-input--width-10 govuk-input--error" : "govuk-input govuk-input--width-10")"
+                           id="@nameof(Model.PlanInput.EducationSupportStaffCosts)"
+                           name="@nameof(Model.PlanInput.EducationSupportStaffCosts)"
                            type="number"
                            spellcheck="false"
-                           value="@Model.Plan?.EducationSupportStaffCosts">
+                           value="@Model.PlanInput?.EducationSupportStaffCosts">
                 </div>
             </div>
             <div>

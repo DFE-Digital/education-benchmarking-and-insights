@@ -1,11 +1,24 @@
 using Moq;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;
 
 namespace Web.Integration.Tests;
 
-public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBase<Program>(messageSink)
+
+public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
+{
+    public SchoolBenchmarkingWebAppClient(IMessageSink messageSink) : base(messageSink, auth =>
+            {
+                auth.URN = 12345;
+            })
+    {
+    }
+}
+
+
+public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null) : WebAppClientBase<Program>(messageSink, authCfg)
 {
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
@@ -50,7 +63,6 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestOrganisations(It.IsAny<string>())).Throws(new Exception());
         return this;
     }
 
@@ -96,7 +108,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlan? plan = null)
+    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlanInput? plan = null)
     {
         BenchmarkApi.Reset();
         if (plan == null)
@@ -111,7 +123,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
 
         BenchmarkApi
             .Setup(api => api.QueryFinancialPlan(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
+            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
         BenchmarkApi
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
@@ -122,7 +134,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             .ReturnsAsync(ApiResult.Ok())
             .Callback<PutFinancialPlanRequest>(request =>
                 BenchmarkApi.Setup(api => api.GetFinancialPlan(request.Urn ?? "", request.Year))
-                    .ReturnsAsync(ApiResult.Ok(new FinancialPlan
+                    .ReturnsAsync(ApiResult.Ok(new FinancialPlanInput
                     {
                         Urn = request.Urn,
                         Year = request.Year.GetValueOrDefault(),

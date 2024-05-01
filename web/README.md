@@ -3,7 +3,17 @@ This is the main front-end website project. This project will consume the output
 
 This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorisation services, along with any static pages that need serving
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)
+
+## Prerequisites
+1. Install .NET 8 SDK
+2. Install Visual Studio 2022 Professional (with C#, Node and Azure Workflows) or Rider 2023
+3. ADO private artefact access to install published Front-end components package
+4. Install Node 20.11.1 (if necessary use nvm to switch to this version nvm use 20.11.1)
+5. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
+
+> Note: Ensure that, if cloning to a DfE user area, the root folder is outside any of the ‘OneDrive’ folders to prevent ‘too long path name’ errors at build time.
+
 
 ## Getting started
 

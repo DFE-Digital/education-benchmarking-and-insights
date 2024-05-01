@@ -37,7 +37,6 @@ This feature has monorepo dependencies on:
 ### External Dependencies
 
 - Azure AI search
-  - `organisation-index` index
   - `school-index` index
   - `trust-index` index
 - Cosmos
@@ -50,7 +49,7 @@ This feature has monorepo dependencies on:
 title: Happy path
 ---
 flowchart TD
-A([✏️ Enter search criteria]) --> B[GET\n/api/establishments/suggest?type=school&search=XXX ]
+A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
   B --> C[Proxy to Establishment API]
   C --> D["POST\n/api/schools/suggest\n{ 'searchText': 'XXX', 'size': 10, 'suggesterName': 'school-suggester' }"]
   D --> E["SchoolSearchService.SuggestAsync()"]
@@ -61,21 +60,19 @@ A([✏️ Enter search criteria]) --> B[GET\n/api/establishments/suggest?type=sc
   I --> J[Redirect to school page]
 ```
 
-On the Web side, `GET /api/establishments/suggest` proxies to the Establishment API based on the `type` in the query string:
+On the Web side, `GET /api/suggest` proxies to the Establishment API based on the `type` in the query string:
 
-| Type | Method | URL | Body |
-| --- | --- | --- | --- |
+| Type     | Method | URL                    | Body                                                                       |
+|----------|--------|------------------------|----------------------------------------------------------------------------|
 | `school` | `POST` | `/api/schools/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "school-suggester" }` |
-| `trust` | `POST` | `/api/trusts/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }` |
-| `default` | `POST` | `/api/organisations/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "organisation-suggester" }` |
+| `trust`  | `POST` | `/api/trusts/suggest`  | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }`  |
 
 In the Establishment API, a `SearchService` for each of the above types executes `SearchClient.SuggestAsync<T>()` with a set of response field names relevant to each search type to return from the index, and search result highlight configuration.
 
-| Type | Model | Fields |
-| --- | --- | --- |
+| Type     | Model                 | Fields                            |
+|----------|-----------------------|-----------------------------------|
 | `school` | `SchoolResponseModel` | `Urn`, `Name`, `Town`, `Postcode` |
-| `trust` | `TrustResponseModel` | `CompanyNumber`, `Name` |
-| `organisation` | `OrganisationResponseModel` | `Identifier`, `Name`, `Kind`, `Town`, `Postcode` |
+| `trust`  | `TrustResponseModel`  | `CompanyNumber`, `Name`           |
 
 The response payload from the above is in the following format, where `*` has been specified in the search highlight configuration:
 
@@ -107,10 +104,10 @@ The `<SchoolInput />` and `<TrustInput />` components manage the input field sta
 
 In Establishment API:
 
-| Setting | Example value |
-| --- | --- |
+| Setting       | Example value         |
+|---------------|-----------------------|
 | `Search:Name` | `s198d01-ebis-search` |
-| `Search:Key` | `api-key` |
+| `Search:Key`  | `api-key`             |
 
 ## Deployment
 

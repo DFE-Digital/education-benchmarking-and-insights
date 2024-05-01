@@ -24,6 +24,17 @@ public static class JsonExtensions
         return JsonConvert.SerializeObject(source, formatting, Settings);
     }
 
+    public static byte[] ToJsonByteArray(this object source)
+    {
+        return Encoding.UTF8.GetBytes(ToJson(source));
+    }
+
+
+    public static T FromJson<T>(this string source)
+    {
+        return JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
+    }
+
     public static T FromJson<T>(this byte[] source, Encoding? encoding = null)
     {
         if (source == null || source.Length == 0)

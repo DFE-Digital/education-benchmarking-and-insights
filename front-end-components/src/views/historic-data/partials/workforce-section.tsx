@@ -66,6 +66,20 @@ export const WorkforceSection: React.FC<{ id: string }> = ({ id }) => {
         {data.length > 0 ? (
           <>
             <HistoricChart
+              chartName="Pupils on Roll"
+              data={data}
+              seriesConfig={{
+                numberOfPupils: {
+                  label: "Pupils on Roll",
+                  visible: true,
+                },
+              }}
+              valueField="numberOfPupils"
+            >
+              <h2 className="govuk-heading-m">Pupils on Roll</h2>
+            </HistoricChart>
+
+            <HistoricChart
               chartName="School workforce (full time equivalent)"
               data={data}
               seriesConfig={{

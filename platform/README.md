@@ -2,7 +2,16 @@
 
 **//TODO: Describe platform component**
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)
+
+## Prerequisites
+1. Install .NET 6 SDK (Platform)
+2. Install Visual Studio 2022 Professional (with C# and Azure Workflows) or Rider 2023
+3. Clone the project `git clone https://github.com/DFE-Digital/education-benchmarking-and-insights.git`
+
+> Note: Ensure that, if cloning to a DfE user area, the root folder is outside any of the ‘OneDrive’ folders to prevent ‘too long path name’ errors at build time.
+
+
 
 ## Getting started
 
@@ -39,7 +48,6 @@ Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__FinancialPlanCollectionName" : "financial-plans",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {

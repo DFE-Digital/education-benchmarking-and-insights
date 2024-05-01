@@ -3,6 +3,7 @@
 public record Income
 {
     public int YearEnd { get; set; }
+    public string? Term { get; set; }
     public string? Dimension { get; set; }
     public decimal? TotalIncome { get; set; }
     public decimal? TotalGrantFunding { get; set; }

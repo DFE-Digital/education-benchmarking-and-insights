@@ -212,9 +212,7 @@
                             </fieldset>
                             </div>
                         </div>
-
                     
-
                     <div class="govuk-checkboxes__item subQuestion">
                         <input type="checkbox" name="PrimaryOverallPhase" id="PrimaryOverallPhase" class="govuk-checkboxes__input criteria-checkbox" aria-controls="prim-phases" aria-expanded="false">
                         <label class="govuk-label govuk-checkboxes__label" for="PrimaryOverallPhase">Primary</label>
@@ -273,8 +271,7 @@
                         </fieldset>
                         </div>
                     </div>
-
-                    
+                      
                     
                     <div class="govuk-checkboxes__item">
                         <input type="checkbox" name="AdvancedCriteria.SchoolPhase" id="SchoolPhase.Special" value="Special" class="govuk-checkboxes__input criteria-checkbox" aria-controls="special-phases" aria-expanded="false">
@@ -505,13 +502,25 @@
                     </div>
 
         </div>
+          
+            <p class="govuk-body">You can compare against a maximum of 30 s. If your chosen comparison characteristics give more than 30 results, we will chose the 30 s whose comparison values are closest to {{ data['school-name'] }}.</p>
+        
+            <div class="sticky-div matching-s">
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-three-quarters">
+                        <div class="school-match-info">
+                            <span id="schoolCount" aria-live="assertive" role="alert" style="" class="govuk-body-s govuk-!-font-size-16"><span id="countPart" class="bold-xsmall">9,119</span><span id="rest"> matching s found.</span></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
 
             {{ govukButton({
             text: "Find similar trusts",
             classes: "govuk-button--primary"
             }) }}
         </form>
-
 
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
         <script>
@@ -543,6 +552,7 @@
             }
 
         </script>
+      
     </div>
 </div>
 {% endblock %}

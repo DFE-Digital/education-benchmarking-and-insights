@@ -51,7 +51,7 @@ public static class Paths
     public static string SchoolFinancialPlanningOtherTeachingPeriodsReview(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-review?year={year}";
     public static string SchoolFinancialPlanningManagementRoles(string? urn, int year) => $"/school/{urn}/financial-planning/create/management-roles?year={year}";
 
-    public static string ApiEstablishmentSuggest(string search, string type) => $"api/establishments/suggest?search={search}&type={type}";
+    public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
     public static string ApiWorkforce(string id, string type, string category, string dimension) => $"api/workforce?id={id}&type={type}&category={category}&dimension={dimension}";
 

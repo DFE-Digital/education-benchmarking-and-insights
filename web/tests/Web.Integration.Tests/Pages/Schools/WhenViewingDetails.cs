@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
 
-public class WhenViewingDetails(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies, true)]

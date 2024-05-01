@@ -57,7 +57,7 @@ jobs:
                 archiveFilePatterns: '${{ parameters.workspaceDir }}/platform-search/Platform.Search.App.zip'
                 destinationFolder: '${{ parameters.workspaceDir }}/search-app'
 
-            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(ebis-cdb-connection-string-r)' -d 'ebis-data' -p '$(platform-storage-connection-string)' -a 'local-authorities'
+            - script: ./Platform.Search.App -s '${{ parameters.environmentPrefix }}-ebis-search' -k '$(ebis-search-admin-key)' -c '$(ebis-cdb-connection-string-r)' -d 'ebis-data'
               condition: and(succeeded(), ${{ parameters.runSearchApp }})
               displayName: 'Run platform search app'
               workingDirectory: '${{ parameters.workspaceDir }}/search-app'
@@ -109,6 +109,19 @@ jobs:
                 deployToSlotOrASE: true
                 resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
                 package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Api.Establishment.zip'
+                slotName: production
+                appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
+                DeploymentType: 'runFromZip'
+
+            - task: AzureFunctionApp@1
+              displayName: 'Deploy orchestrator function app'
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                appType: functionApp
+                appName: '${{ parameters.environmentPrefix }}-ebis-orchestrator-fa'
+                deployToSlotOrASE: true
+                resourceGroupName: '${{ parameters.environmentPrefix }}-ebis-platform'
+                package: '${{ parameters.workspaceDir }}/platform-apis/Platform.Orchestrator.zip'
                 slotName: production
                 appSettings: '-WEBSITE_RUN_FROM_PACKAGE 1'
                 DeploymentType: 'runFromZip'

@@ -39,8 +39,15 @@ stages:
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
-              echo "##vso[build.addbuildtag]Platform"
             displayName: 'Set release build number'
+            condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+
+          - bash: |
+              if [[ "$(Build.Reason)" == "PullRequest" ]]; then
+                echo "##vso[build.addbuildtag]PR$(System.PullRequest.PullRequestId)"
+              fi
+              echo "##vso[build.addbuildtag]Platform"
+            displayName: 'Set build tags'
 
       - job: FmtValidateTf
         displayName: "Lint and validate terraform"

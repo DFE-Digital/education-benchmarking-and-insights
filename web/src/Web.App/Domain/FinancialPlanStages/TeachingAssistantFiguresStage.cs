@@ -31,21 +31,21 @@ public class TeachingAssistantFiguresStage : Stage
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.AssistantsMixedReceptionYear1 = AssistantsMixedReceptionYear1;
-        plan.AssistantsMixedYear1Year2 = AssistantsMixedYear1Year2;
-        plan.AssistantsMixedYear2Year3 = AssistantsMixedYear2Year3;
-        plan.AssistantsMixedYear3Year4 = AssistantsMixedYear3Year4;
-        plan.AssistantsMixedYear4Year5 = AssistantsMixedYear4Year5;
-        plan.AssistantsMixedYear5Year6 = AssistantsMixedYear5Year6;
-        plan.AssistantsNursery = AssistantsNursery;
-        plan.AssistantsReception = AssistantsReception;
-        plan.AssistantsYear1 = AssistantsYear1;
-        plan.AssistantsYear2 = AssistantsYear2;
-        plan.AssistantsYear3 = AssistantsYear3;
-        plan.AssistantsYear4 = AssistantsYear4;
-        plan.AssistantsYear5 = AssistantsYear5;
-        plan.AssistantsYear6 = AssistantsYear6;
+        planInput.AssistantsMixedReceptionYear1 = AssistantsMixedReceptionYear1;
+        planInput.AssistantsMixedYear1Year2 = AssistantsMixedYear1Year2;
+        planInput.AssistantsMixedYear2Year3 = AssistantsMixedYear2Year3;
+        planInput.AssistantsMixedYear3Year4 = AssistantsMixedYear3Year4;
+        planInput.AssistantsMixedYear4Year5 = AssistantsMixedYear4Year5;
+        planInput.AssistantsMixedYear5Year6 = AssistantsMixedYear5Year6;
+        planInput.AssistantsNursery = AssistantsNursery;
+        planInput.AssistantsReception = AssistantsReception;
+        planInput.AssistantsYear1 = AssistantsYear1;
+        planInput.AssistantsYear2 = AssistantsYear2;
+        planInput.AssistantsYear3 = AssistantsYear3;
+        planInput.AssistantsYear4 = AssistantsYear4;
+        planInput.AssistantsYear5 = AssistantsYear5;
+        planInput.AssistantsYear6 = AssistantsYear6;
     }
 }

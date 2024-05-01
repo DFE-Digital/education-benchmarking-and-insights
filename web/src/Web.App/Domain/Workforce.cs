@@ -8,6 +8,7 @@ public record Workforce
     public string? LocalAuthority { get; set; }
     public decimal NumberOfPupils { get; set; }
     public int YearEnd { get; set; }
+    public string? Term { get; set; }
     public string? Dimension { get; set; }
     public decimal? WorkforceFte { get; set; }
     public decimal? TeachersFte { get; set; }

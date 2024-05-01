@@ -9,4 +9,4 @@
 
 <div id="compare-your-costs" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber"></div>
 
-@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.BenchmarkWorkforce } })
+@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.BenchmarkWorkforce } })
