@@ -16,4 +16,7 @@ public class ProgramOptions
 
     [Option('d', "cosmosDatabaseId", Required = true)]
     public string? CosmosDatabaseId { get; set; }
+
+    [Option('q', "sqlConnectionString", Required = true)]
+    public string? SqlConnectionString { get; set; }
 }

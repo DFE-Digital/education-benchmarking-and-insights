@@ -19,7 +19,12 @@ static Task RebuildIndexes(ProgramOptions options)
         {
             ConnectionString = options.CosmosConnectionString,
             DatabaseId = options.CosmosDatabaseId
+        },
+        Sql = new SearchMaintenanceServiceOptions.SqlOptions
+        {
+            ConnectionString = options.SqlConnectionString
         }
+
     });
 
     var logger = BuilderLogger<SearchMaintenanceService>();
