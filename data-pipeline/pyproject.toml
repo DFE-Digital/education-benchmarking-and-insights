@@ -52,7 +52,6 @@ multi_line_output = 3
 include_trailing_comma = true
 force_grid_wrap = 0
 
-
 [tool.coverage]
 # https://github.com/nedbat/coveragepy
 [tool.coverage.run]
@@ -71,6 +70,7 @@ directory = "tests/output/html"
 
 [tool.coverage.xml]
 output = "tests/output/coverage.xml"
+
 
 [build-system]
 requires = ["poetry-core"]

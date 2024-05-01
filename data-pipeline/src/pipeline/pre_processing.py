@@ -2,8 +2,8 @@ import datetime
 
 import pandas as pd
 
-import input_schemas
-import mappings
+import src.pipeline.input_schemas as input_schemas
+import src.pipeline.mappings as mappings
 
 
 def prepare_cdc_data(cdc_file_path, current_year):

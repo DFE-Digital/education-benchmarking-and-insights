@@ -39,9 +39,10 @@ Ensure you have created a copy of this file named `.env` and filled the paramete
 
 However, for local development assuming azurite, you can use the following values: 
 
-    QUEUE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
-    WORKER_QUEUE_NAME=worker-queue
-    COMPLETE_QUEUE_NAME=complete-queue
+    STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
+    WORKER_QUEUE_NAME=data-pipeline-job-start
+    COMPLETE_QUEUE_NAME=data-pipeline-job-finished
+    RAW_DATA_CONTAINER=raw
 
 ### Running the pipeline   
 
@@ -53,8 +54,16 @@ or
 
     poetry run python src/main.py
 
+However, this will only run the pipeline and will fail using the above environment parameters, it is trying to connect to a local based storage. To this end there is a docker compose script that will run the following:
 
-### Createing and running Docker images
+* Azurite with default settings
+* FBIT data pipeline in - test mode (`make dev-test-mode`)
+
+> Note: `Test mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
+
+
+
+### Creating and running Docker images
 
 Build images with:
 

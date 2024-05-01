@@ -11,9 +11,9 @@ azure_logger = logging.getLogger("azure")
 azure_logger.setLevel(logging.WARNING)
 
 conn_str = os.getenv("STORAGE_CONNECTION_STRING")
-worker_queue_name = os.getenv("WORKER_QUEUE_NAME")
-complete_queue_name = os.getenv("COMPLETE_QUEUE_NAME")
-raw_container = os.getenv("RAW_DATA_CONTAINER")
+worker_queue_name = os.getenv("WORKER_QUEUE_NAME", "data-pipeline-job-start")
+complete_queue_name = os.getenv("COMPLETE_QUEUE_NAME", "data-pipeline-job-finished")
+raw_container = os.getenv("RAW_DATA_CONTAINER", "raw")
 blob_service_client = BlobServiceClient.from_connection_string(conn_str=conn_str)
 queue_service_client = QueueServiceClient.from_connection_string(conn_str=conn_str)
 

@@ -10,7 +10,10 @@ from contextlib import suppress
 import pandas as pd
 import psutil
 from azure.core.exceptions import ResourceNotFoundError
+
 from dotenv import load_dotenv
+load_dotenv()
+
 
 import comparator_sets as comparators
 import pre_processing as pre_processing
@@ -24,17 +27,6 @@ from storage import (
     worker_queue_name,
     write_blob,
 )
-
-# reset CPU affinity so that ALL cpus are used.
-print(psutil.cpu_count())
-
-p = psutil.Process()
-print(f"Original CPU Affinity: {p.cpu_affinity()}")
-all_cpus = list(range(psutil.cpu_count()))
-p.cpu_affinity(all_cpus)
-print(f"New CPU Affinity: {p.cpu_affinity()}")
-
-load_dotenv()
 
 logger = logging.getLogger("fbit-data-pipeline")
 logger.setLevel(logging.INFO)
@@ -365,7 +357,38 @@ async def compute_comparator_sets(set_type, year):
     return time_taken
 
 
-async def receive_messages():
+async def handle_msg(msg, worker_queue, complete_queue):
+    msg_payload = json.loads(msg.content)
+    try:
+        msg_payload["pre_process_duration"] = await pre_process_data(
+            msg_payload["type"], msg_payload["year"]
+        )
+
+        # normally bad practice but let's clean up as much as poss
+        gc.collect()
+
+        msg_payload["comparator_set_duration"] = (
+            await compute_comparator_sets(
+                msg_payload["type"], msg_payload["year"]
+            )
+        )
+        msg_payload["success"] = True
+    except Exception as error:
+        logger.exception(
+            "An exception occurred:", type(error).__name__, "–", error
+        )
+        msg_payload["success"] = False
+        msg_payload["error"] = str(error)
+    finally:
+        with suppress(ResourceNotFoundError):
+            await worker_queue.delete_message(msg)
+
+        await complete_queue.send_message(msg_payload)
+
+    return msg
+
+
+async def receive_one_message():
     try:
         async with blob_service_client, queue_service_client:
             worker_queue = await connect_to_queue(worker_queue_name)
@@ -374,34 +397,8 @@ async def receive_messages():
             if msg is not None:
                 logger.info(f"received message {msg.content}")
                 msg_payload = json.loads(msg.content)
-
-                try:
-                    msg_payload["pre_process_duration"] = await pre_process_data(
-                        msg_payload["type"], msg_payload["year"]
-                    )
-
-                    # normally bad practice but let's clean up as much as poss
-                    gc.collect()
-
-                    msg_payload["comparator_set_duration"] = (
-                        await compute_comparator_sets(
-                            msg_payload["type"], msg_payload["year"]
-                        )
-                    )
-                    msg_payload["success"] = True
-                except Exception as error:
-                    logger.exception(
-                        "An exception occurred:", type(error).__name__, "–", error
-                    )
-                    msg_payload["success"] = False
-                    msg_payload["error"] = str(error)
-                finally:
-                    with suppress(ResourceNotFoundError):
-                        await worker_queue.delete_message(msg)
-
-                    await complete_queue.send_message(json.dumps(msg_payload))
-
-                exit(0) if msg_payload["success"] else exit(1)
+                msg = await handle_msg(msg_payload, worker_queue, complete_queue)
+                exit(0) if msg["success"] else exit(1)
             else:
                 logger.info("no messages received")
                 exit(0)
@@ -410,5 +407,26 @@ async def receive_messages():
         exit(-1)
 
 
+async def receive_messages():
+    try:
+        async with blob_service_client, queue_service_client:
+            worker_queue = await connect_to_queue(worker_queue_name)
+            complete_queue = await connect_to_queue(complete_queue_name)
+
+            while True:
+                msg = await worker_queue.receive_message(visibility_timeout=300)
+                if msg is not None:
+                    logger.info(f"received message {msg.content}")
+                    msg = await handle_msg(msg, worker_queue, complete_queue)
+                    logger.info(f'processed msg response: {msg}')
+                else:
+                    time.sleep(1)
+    except Exception:
+        logger.exception("An exception occurred")
+        exit(-1)
+
 if __name__ == "__main__":
-    asyncio.run(receive_messages())
+    if len(sys.argv) > 1 and sys.argv[1] == "test":
+        asyncio.run(receive_messages())
+    else:
+        asyncio.run(receive_one_message())
