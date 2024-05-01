@@ -23,3 +23,5 @@ services:
       - WORKER_QUEUE_NAME=data-pipeline-job-start
       - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
       - RAW_DATA_CONTAINER=raw
+    depends_on:
+      - azurite
