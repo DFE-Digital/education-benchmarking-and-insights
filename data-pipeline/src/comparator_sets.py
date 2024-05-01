@@ -48,7 +48,7 @@ def pupils_calc(pupils, fsm, sen):
 
 
 def special_pupils_calc(
-        pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
+    pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
 ):
     pupil_range = compute_range(pupils)
     fsm_range = compute_range(fsm)
@@ -170,11 +170,11 @@ def compute_custom_comparator(name, data, f):
 
 
 def get_comparator_set_by(
-        school_selector,
-        schools,
-        comparators,
-        is_custom=False,
-        comparator_key="SchoolPhaseType",
+    school_selector,
+    schools,
+    comparators,
+    is_custom=False,
+    comparator_key="SchoolPhaseType",
 ):
     school_no_index = schools.reset_index()
     school = (
@@ -197,7 +197,9 @@ def get_comparator_set_by(
     d = []
     idx = 0
     for urn in urns:
-        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[0]
+        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[
+            0
+        ]
         row["Distance"] = distances[idx]
         d.append(row)
         idx += 1
@@ -205,7 +207,7 @@ def get_comparator_set_by(
     all_comparators = pd.DataFrame(d)
     same_region = all_comparators[
         all_comparators["GOR (name)"] == school["GOR (name)"]
-        ].head()
+    ].head()
     out_of_region = (
         all_comparators[all_comparators["GOR (name)"] != school["GOR (name)"]]
         .sort_values(by="Distance", ascending=True)

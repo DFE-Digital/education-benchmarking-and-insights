@@ -2,8 +2,8 @@ import datetime
 
 import pandas as pd
 
-import mappings
 import input_schemas
+import mappings
 
 
 def prepare_cdc_data(cdc_file_path, current_year):
@@ -256,7 +256,9 @@ def prepare_aar_data(aar_path):
     )
 
     trust_ar = (
-        trust_financial[input_schemas.aar_aggregation_columns].groupby("trustupin").sum()
+        trust_financial[input_schemas.aar_aggregation_columns]
+        .groupby("trustupin")
+        .sum()
     )
 
     trust_ar = trust_ar.drop(columns=["academyupin"])

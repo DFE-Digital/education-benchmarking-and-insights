@@ -1,102 +1,52 @@
-import concurrent.futures
+import asyncio
 import gc
 import json
 import logging
-import os
 import pickle
 import sys
 import time
-import psutil
 from contextlib import suppress
-from io import BytesIO, StringIO
-import asyncio
-import multiprocessing as mp
 
 import pandas as pd
-
-from azure.core.exceptions import ResourceExistsError, ResourceNotFoundError
-from azure.storage.blob.aio import BlobServiceClient
-from azure.storage.queue.aio import QueueClient, QueueServiceClient
+import psutil
+from azure.core.exceptions import ResourceNotFoundError
 from dotenv import load_dotenv
 
 import comparator_sets as comparators
 import pre_processing as pre_processing
+from storage import (
+    blob_service_client,
+    complete_queue_name,
+    connect_to_queue,
+    get_blob,
+    queue_service_client,
+    raw_container,
+    worker_queue_name,
+    write_blob,
+)
 
 # reset CPU affinity so that ALL cpus are used.
 print(psutil.cpu_count())
 
 p = psutil.Process()
-print(f'Original CPU Affinity: {p.cpu_affinity()}')
+print(f"Original CPU Affinity: {p.cpu_affinity()}")
 all_cpus = list(range(psutil.cpu_count()))
 p.cpu_affinity(all_cpus)
-print(f'New CPU Affinity: {p.cpu_affinity()}')
+print(f"New CPU Affinity: {p.cpu_affinity()}")
 
 load_dotenv()
 
 logger = logging.getLogger("fbit-data-pipeline")
 logger.setLevel(logging.INFO)
 
-azure_logger = logging.getLogger("azure")
-azure_logger.setLevel(logging.WARNING)
-
 logging.basicConfig(stream=sys.stdout, level=logging.INFO)
-
-
-conn_str = os.getenv("STORAGE_CONNECTION_STRING")
-worker_queue_name = os.getenv("WORKER_QUEUE_NAME")
-complete_queue_name = os.getenv("COMPLETE_QUEUE_NAME")
-raw_container = os.getenv("RAW_DATA_CONTAINER")
-blob_service_client = BlobServiceClient.from_connection_string(conn_str=conn_str)
-queue_service_client = QueueServiceClient.from_connection_string(conn_str=conn_str)
-
-
-async def connect_to_queue(queue_name) -> QueueClient:
-    if not conn_str:
-        raise Exception("Queue connection string not provided!")
-
-    if not queue_name:
-        raise Exception("Queue name not provided!")
-
-    queue = queue_service_client.get_queue_client(queue_name)
-    with suppress(ResourceExistsError):
-        await queue.create_queue()
-
-    return queue
-
-
-async def create_container(container_name):
-    with suppress(ResourceExistsError):
-        await blob_service_client.create_container(container_name)
-
-    return blob_service_client.get_container_client(container_name)
-
-
-async def get_blob(container_name, blob_name, encoding=None):
-
-    container_client = blob_service_client.get_container_client(container_name)
-    async with container_client:
-        blob_client = container_client.get_blob_client(blob_name)
-
-        async with blob_client as blob:
-            if encoding is None:
-                content = await (await blob.download_blob(encoding=encoding)).readall()
-                return BytesIO(content)
-
-            content = await (await blob.download_blob(encoding=encoding)).readall()
-            return StringIO(content)
-
-
-async def write_blob(container_name, blob_name, data):
-    container_client = await create_container(container_name)
-    async with container_client:
-        blob_client = container_client.get_blob_client(blob_name)
-        async with blob_client as blob:
-            await blob.upload_blob(data, encoding="utf-8", overwrite=True)
 
 
 async def pre_process_cdc(set_type, year):
     logger.info("Processing CDC Data")
-    cdc_data = await get_blob(raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8")
+    cdc_data = await get_blob(
+        raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8"
+    )
     cdc = pre_processing.prepare_cdc_data(cdc_data, year)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/cdc.csv", cdc.to_csv(encoding="utf-8")
@@ -129,7 +79,9 @@ async def pre_process_census(set_type, year):
 
 async def pre_process_sen(set_type, year):
     logger.info("Processing SEN Data")
-    sen_data = await get_blob(raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252")
+    sen_data = await get_blob(
+        raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252"
+    )
     sen = pre_processing.prepare_sen_data(sen_data)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/sen.csv", sen.to_csv(encoding="utf-8")
@@ -162,7 +114,9 @@ async def pre_process_ks4(set_type, year):
 
 async def pre_process_academy_ar(set_type, year):
     logger.info("Processing Academy AR Data")
-    academy_ar_data = await get_blob(raw_container, f"{set_type}/{year}/academy_ar.xlsx")
+    academy_ar_data = await get_blob(
+        raw_container, f"{set_type}/{year}/academy_ar.xlsx"
+    )
     (trust_ar, academy_ar) = pre_processing.prepare_aar_data(academy_ar_data)
     await write_blob(
         "pre-processed",
@@ -429,8 +383,10 @@ async def receive_messages():
                     # normally bad practice but let's clean up as much as poss
                     gc.collect()
 
-                    msg_payload["comparator_set_duration"] = await compute_comparator_sets(
-                        msg_payload["type"], msg_payload["year"]
+                    msg_payload["comparator_set_duration"] = (
+                        await compute_comparator_sets(
+                            msg_payload["type"], msg_payload["year"]
+                        )
                     )
                     msg_payload["success"] = True
                 except Exception as error:
