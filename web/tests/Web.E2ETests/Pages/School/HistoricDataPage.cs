@@ -8,7 +8,7 @@ public enum HistoryTabs
     Spending,
     Income,
     Balance,
-    Workforce
+    Census
 }
 
 public enum SpendingCategoriesNames
@@ -29,7 +29,7 @@ public class HistoricDataPage(IPage page)
     private readonly string[] _incomeCategories = { "Grant funding", "Self-generated", "Direct revenue financing" };
     private readonly string[] _balanceCategories = { "In-year balance", "Revenue reserve" };
 
-    private readonly string[] _workforceCategories =
+    private readonly string[] _censusCategories =
     {
         "School workforce (full time equivalent)", "Total number of teachers (full time equivalent)",
         "Teachers with qualified teacher status", "Senior leadership (full time equivalent)",
@@ -112,7 +112,7 @@ public class HistoricDataPage(IPage page)
         IncomeTabContent.Locator($"{Selectors.H2} {Selectors.AccordionHeadingText}");
 
     private ILocator BalanceCategoryHeadings => BalanceTabContent.Locator(Selectors.H2);
-    private ILocator WorkforceCategoryHeadings => WorkforceTabContent.Locator(Selectors.H2);
+    private ILocator CensusCategoryHeadings => CensusTabContent.Locator(Selectors.H2);
 
     private ILocator BackLink => page.Locator(Selectors.GovBackLink);
     private ILocator ShowHideAllSectionsLink => page.Locator(Selectors.GovShowAllLinkText);
@@ -125,12 +125,12 @@ public class HistoricDataPage(IPage page)
     private ILocator BalanceModeTable => page.Locator(Selectors.BalanceModeTable);
     private ILocator BalanceModeChart => page.Locator(Selectors.BalanceModeChart);
 
-    private ILocator WorkforceModeTable => page.Locator(Selectors.WorkforceModeTable);
-    private ILocator WorkforceModeChart => page.Locator(Selectors.WorkforceModeChart);
+    private ILocator CensusModeTable => page.Locator(Selectors.CensusModeTable);
+    private ILocator CensusModeChart => page.Locator(Selectors.CensusModeChart);
 
     private ILocator IncomeDimension => page.Locator(Selectors.IncomeDimension);
     private ILocator BalanceDimension => page.Locator(Selectors.BalanceDimension);
-    private ILocator WorkforceDimension => page.Locator(Selectors.WorkforceDimension);
+    private ILocator CensusDimension => page.Locator(Selectors.CensusDimension);
 
     private ILocator Tables => page.Locator(Selectors.GovTable);
 
@@ -144,7 +144,7 @@ public class HistoricDataPage(IPage page)
     private ILocator SpendingTabContent => page.Locator(Selectors.SpendingPanel);
     private ILocator IncomeTabContent => page.Locator(Selectors.IncomePanel);
     private ILocator BalanceTabContent => page.Locator(Selectors.BalancePanel);
-    private ILocator WorkforceTabContent => page.Locator(Selectors.WorkforcePanel);
+    private ILocator CensusTabContent => page.Locator(Selectors.CensusPanel);
 
     private ILocator SpendingSubCategories => SpendingAccordion.Locator($"{Selectors.H3}");
 
@@ -154,7 +154,7 @@ public class HistoricDataPage(IPage page)
     private ILocator SpendingTableView => page.Locator(Selectors.SpendingTableMode);
     private ILocator IncomeTableView => page.Locator(Selectors.IncomeTableMode);
     private ILocator BalanceTableView => page.Locator(Selectors.BalanceTableMode);
-    private ILocator WorkforceTableView => page.Locator(Selectors.WorkforceTableMode);
+    private ILocator CensusTableView => page.Locator(Selectors.CensusTableMode);
     private ILocator NonEducationSupportStaffAccordionContent => page.Locator(Selectors.SpendingAccordionContent2);
 
     private ILocator AllSpendingCharts => SpendingTabContent.Locator(Selectors.Charts);
@@ -163,8 +163,8 @@ public class HistoricDataPage(IPage page)
     private ILocator IncomeChartsStats => IncomeTabContent.Locator(Selectors.LineChartStats);
     private ILocator AllBalanceCharts => BalanceTabContent.Locator(Selectors.Charts);
     private ILocator BalanceChartsStats => BalanceTabContent.Locator(Selectors.LineChartStats);
-    private ILocator AllWorkforceCharts => WorkforceTabContent.Locator(Selectors.Charts);
-    private ILocator WorkforceChartsStats => WorkforceTabContent.Locator(Selectors.LineChartStats);
+    private ILocator AllCensusCharts => CensusTabContent.Locator(Selectors.Charts);
+    private ILocator CensusChartsStats => CensusTabContent.Locator(Selectors.LineChartStats);
 
 
     public async Task IsDisplayed(HistoryTabs? tab = null)
@@ -219,19 +219,19 @@ public class HistoricDataPage(IPage page)
                 await AssertCategoryNames(_balanceCategories, selectedTab);
                 Assert.Equal(2, await AllBalanceCharts.Count());
                 break;
-            case HistoryTabs.Workforce:
-                await WorkforceDimension.ShouldBeVisible();
-                await WorkforceModeTable.ShouldBeVisible().ShouldBeChecked(false);
-                await WorkforceModeChart.ShouldBeVisible().ShouldBeChecked();
-                await HasDimensionValues(WorkforceDimension, ["total",
+            case HistoryTabs.Census:
+                await CensusDimension.ShouldBeVisible();
+                await CensusModeTable.ShouldBeVisible().ShouldBeChecked(false);
+                await CensusModeChart.ShouldBeVisible().ShouldBeChecked();
+                await HasDimensionValues(CensusDimension, ["total",
                     "headcount per FTE",
                     "percentage of workforce",
                     "pupils per staff role"]);
-                await WorkforceDimension.ShouldHaveSelectedOption("pupils per staff role");
+                await CensusDimension.ShouldHaveSelectedOption("pupils per staff role");
                 await AreChartStatsVisible(selectedTab);
                 await AreChartsVisible(selectedTab);
-                await AssertCategoryNames(_workforceCategories, selectedTab);
-                Assert.Equal(9, await AllWorkforceCharts.Count());
+                await AssertCategoryNames(_censusCategories, selectedTab);
+                Assert.Equal(9, await AllCensusCharts.Count());
                 break;
         }
     }
@@ -248,7 +248,7 @@ public class HistoricDataPage(IPage page)
 
     public async Task ClickShowAllSections(HistoryTabs tab)
     {
-        if (tab == HistoryTabs.Balance || tab == HistoryTabs.Workforce)
+        if (tab == HistoryTabs.Balance || tab == HistoryTabs.Census)
             return;
         var showAllSectionsLink = tab switch
         {
@@ -313,7 +313,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => SpendingTabContent.Locator(Tables),
             HistoryTabs.Income => IncomeTabContent.Locator(Tables),
             HistoryTabs.Balance => BalanceTabContent.Locator(Tables),
-            HistoryTabs.Workforce => WorkforceTabContent.Locator(Tables),
+            HistoryTabs.Census => CensusTabContent.Locator(Tables),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -331,7 +331,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => SpendingTableView,
             HistoryTabs.Income => IncomeTableView,
             HistoryTabs.Balance => BalanceTableView,
-            HistoryTabs.Workforce => WorkforceTableView,
+            HistoryTabs.Census => CensusTableView,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
 
@@ -424,7 +424,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => await SpendingCategoryHeadings.AllTextContentsAsync(),
             HistoryTabs.Income => await IncomeCategoryHeadings.AllTextContentsAsync(),
             HistoryTabs.Balance => await BalanceCategoryHeadings.AllTextContentsAsync(),
-            HistoryTabs.Workforce => await WorkforceCategoryHeadings.AllTextContentsAsync(),
+            HistoryTabs.Census => await CensusCategoryHeadings.AllTextContentsAsync(),
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         foreach (var expectedHeading in expected)
@@ -440,7 +440,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => ExpenditureDimension,
             HistoryTabs.Income => IncomeDimension,
             HistoryTabs.Balance => BalanceDimension,
-            HistoryTabs.Workforce => WorkforceDimension,
+            HistoryTabs.Census => CensusDimension,
             _ => throw new ArgumentOutOfRangeException(nameof(tabName))
         };
 
@@ -454,7 +454,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => SpendingChartsStats,
             HistoryTabs.Income => IncomeChartsStats,
             HistoryTabs.Balance => BalanceChartsStats,
-            HistoryTabs.Workforce => WorkforceChartsStats,
+            HistoryTabs.Census => CensusChartsStats,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await CheckVisibility(sections);
@@ -467,7 +467,7 @@ public class HistoricDataPage(IPage page)
             HistoryTabs.Spending => AllSpendingCharts,
             HistoryTabs.Income => AllIncomeCharts,
             HistoryTabs.Balance => AllBalanceCharts,
-            HistoryTabs.Workforce => AllWorkforceCharts,
+            HistoryTabs.Census => AllCensusCharts,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
         await CheckVisibility(sections);

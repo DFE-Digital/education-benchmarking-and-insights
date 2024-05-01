@@ -62,7 +62,7 @@ public static class Selectors
     public const string PremisesDimension = "#total-premises-staff-service-costs-dimension";
 
     public const string SchoolWorkforceDimension = "#school-workforce-dimension";
-    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-workforce']/div[2]/div[2]/button";
+    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-census']/div[2]/div[2]/button";
 
     public const string TotalNumberOfTeacherDimension = "#total-teachers-dimension";
     public const string SeniorLeadershipDimension = "#senior-leadership-dimension";
@@ -99,12 +99,12 @@ public static class Selectors
     public const string IncomeModeChart = "#income-mode-chart";
     public const string BalanceModeTable = "#balance-mode-table";
     public const string BalanceModeChart = "#balance-mode-chart";
-    public const string WorkforceModeTable = "#workforce-mode-table";
-    public const string WorkforceModeChart = "#workforce-mode-chart";
+    public const string CensusModeTable = "#census-mode-table";
+    public const string CensusModeChart = "#census-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
     public const string BalanceDimension = "#balance-dimension";
-    public const string WorkforceDimension = "#workforce-dimension";
+    public const string CensusDimension = "#census-dimension";
     public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
     public const string IncomeHistoryTab = "#tab_Income";
     public const string SpendingAccordions = "#accordion-expenditure";
@@ -112,11 +112,11 @@ public static class Selectors
     public const string SpendingTableMode = "#expenditure-mode-table";
     public const string IncomeTableMode = "#income-mode-table";
     public const string BalanceTableMode = "#balance-mode-table";
-    public const string WorkforceTableMode = "#workforce-mode-table";
+    public const string CensusTableMode = "#census-mode-table";
     public const string SpendingPanel = "#spending";
     public const string IncomePanel = "#income";
     public const string BalancePanel = "#balance";
-    public const string WorkforcePanel = "#workforce";
+    public const string CensusPanel = "#census";
 
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";

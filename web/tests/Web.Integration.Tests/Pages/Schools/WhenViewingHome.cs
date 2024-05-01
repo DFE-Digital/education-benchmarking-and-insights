@@ -55,7 +55,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToWorkforceBenchmark(string financeType)
+    public async Task CanNavigateToCensusBenchmark(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -65,7 +65,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 
     [Fact]
@@ -154,6 +154,6 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[2], "Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 }

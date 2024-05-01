@@ -109,7 +109,7 @@ public class HistoricDataSteps(PageDriver driver)
             "spending" => HistoryTabs.Spending,
             "income" => HistoryTabs.Income,
             "balance" => HistoryTabs.Balance,
-            "workforce" => HistoryTabs.Workforce,
+            "census" => HistoryTabs.Census,
             _ => throw new ArgumentOutOfRangeException(nameof(tab))
         };
     }

@@ -23,7 +23,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
-    public Mock<IWorkforceApi> WorkforceApi { get; } = new();
+    public Mock<ICensusApi> CensusApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -31,7 +31,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
-        services.AddSingleton(WorkforceApi.Object);
+        services.AddSingleton(CensusApi.Object);
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
@@ -66,11 +66,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupWorkforceWithException()
+    public BenchmarkingWebAppClient SetupCensusWithException()
     {
-        WorkforceApi.Reset();
-        WorkforceApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
-        WorkforceApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Reset();
+        CensusApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
         return this;
     }
 

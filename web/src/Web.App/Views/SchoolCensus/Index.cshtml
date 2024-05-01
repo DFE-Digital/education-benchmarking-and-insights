@@ -1,0 +1,14 @@
+﻿@model Web.App.ViewModels.SchoolCensusViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Census;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust, additionText = new [] {"Compare your census data against similar schools"}})
+
+@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, referrer = Referrers.SchoolCensus })
+
+<div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
+
+@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.CompareYourCosts } })

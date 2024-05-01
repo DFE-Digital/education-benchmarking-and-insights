@@ -2,15 +2,15 @@ import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
 import "src/index.css";
 import {
+  CompareYourCensus,
   CompareYourCosts,
-  CompareYourWorkforce,
   DeploymentPlan,
   FindOrganisation,
   HistoricData,
 } from "src/views";
 import {
   CompareCostsElementId,
-  CompareWorkforceElementId,
+  CompareCensusElementId,
   DeploymentPlanElementId,
   FindOrganisationElementId,
   HistoricDataElementId,
@@ -35,8 +35,8 @@ import {
   shortValueFormatter,
 } from "./components/charts/utils";
 import { SchoolTick } from "./components/charts/school-tick";
-import { SchoolWorkforceTooltip } from "./components/charts/school-workforce-tooltip";
-import { ExpenditureData, Workforce } from "./services";
+import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
+import { ExpenditureData, Census } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
@@ -91,18 +91,16 @@ if (compareCostsElement) {
   }
 }
 
-const compareWorkforceElement = document.getElementById(
-  CompareWorkforceElementId
-);
+const compareCensusElement = document.getElementById(CompareCensusElementId);
 
-if (compareWorkforceElement) {
-  const { type, id } = compareWorkforceElement.dataset;
+if (compareCensusElement) {
+  const { type, id } = compareCensusElement.dataset;
   if (type && id) {
-    const root = ReactDOM.createRoot(compareWorkforceElement);
+    const root = ReactDOM.createRoot(compareCensusElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourWorkforce type={type} id={id} />
+        <CompareYourCensus type={type} id={id} />
       </React.StrictMode>
     );
   }
@@ -133,11 +131,11 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (Workforce | ExpenditureData)[];
+  data: (Census | ExpenditureData)[];
   highlightedItemKey?: string;
-  keyField: keyof Workforce & keyof ExpenditureData;
+  keyField: keyof Census & keyof ExpenditureData;
   sortDirection: ChartSortDirection;
-  valueField: keyof Workforce & keyof ExpenditureData;
+  valueField: keyof Census & keyof ExpenditureData;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
@@ -200,7 +198,7 @@ const HorizontalChart1Series = ({
               }
             />
           )}
-          tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+          tooltip={(t) => <SchoolCensusTooltip {...t} />}
           valueFormatter={shortValueFormatter}
           valueLabel="Total"
           valueUnit={valueUnit}
@@ -219,16 +217,16 @@ if (horizontalChart1SeriesElement) {
     horizontalChart1SeriesElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesElement);
-    const data = JSON.parse(json) as Workforce[];
+    const data = JSON.parse(json) as Census[];
 
     root.render(
       <React.StrictMode>
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof Workforce & keyof ExpenditureData}
+          keyField={keyField as keyof Census & keyof ExpenditureData}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          valueField={valueField as keyof Workforce & keyof ExpenditureData}
+          valueField={valueField as keyof Census & keyof ExpenditureData}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

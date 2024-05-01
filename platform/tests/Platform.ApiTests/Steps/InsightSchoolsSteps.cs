@@ -103,7 +103,7 @@ public class InsightSchoolsSteps
             Method = HttpMethod.Get
         });
     }
-    
+
     [Given("a valid school workforce request with page '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithPageAndUrn(string page, string urn)
     {
@@ -113,7 +113,7 @@ public class InsightSchoolsSteps
             Method = HttpMethod.Get
         });
     }
-    
+
     [Given("a valid school workforce request with size '(.*)' and urn '(.*)'")]
     public void GivenAValidSchoolWorkforceRequestWithSizeAndUrn(string pageSize, string urn)
     {

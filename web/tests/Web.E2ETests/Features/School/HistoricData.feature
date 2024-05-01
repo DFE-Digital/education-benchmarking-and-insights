@@ -6,11 +6,11 @@
         Then the '<tab>' dimension is '<dimension>'
         
     Examples:
-      | tab       | dimension         |
-      | spending  | £ per pupil       |
-      | income    | £ per pupil       |
-      | balance   | £ per pupil       |
-      | workforce | headcount per FTE |
+      | tab      | dimension   |
+      | spending | £ per pupil |
+      | income   | £ per pupil |
+      | balance  | £ per pupil |
+      | census   | headcount per FTE |
 
     Scenario Outline: Show all should expand all sections
         Given I am on '<tab>' history page for school with URN '101241'
@@ -31,11 +31,11 @@
         Then are showing table view on '<tab>' tab
 
         Examples:
-          | tab       |
-          | spending  |
-          | income    |
-          | balance   |
-          | workforce |
+          | tab      |
+          | spending |
+          | income   |
+          | balance  |
+          | census   |
        
 
     Scenario: Hide single section

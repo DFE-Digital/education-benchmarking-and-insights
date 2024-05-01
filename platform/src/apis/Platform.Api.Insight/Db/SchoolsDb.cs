@@ -38,7 +38,7 @@ public class SchoolsDb : CosmosDatabase, ISchoolsDb
         _maintainedCollectionName = options.Value.LatestMaintained;
         _floorAreaCollectionName = options.Value.FloorAreaCollectionName;
     }
-    
+
     public async Task<IEnumerable<SchoolExpenditureResponseModel>> Expenditure(string[] urns)
     {
         var finances = await QueryFinances(urns);
