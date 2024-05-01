@@ -16,7 +16,6 @@ public class TrustIndexerBuilder : IndexerBuilder
             dataSourceName: SearchResourceNames.DataSources.Trust,
             targetIndexName: SearchResourceNames.Indexes.Trust)
         {
-            Schedule = new IndexingSchedule(TimeSpan.FromDays(1)),
             FieldMappings =
             {
                 new FieldMapping("CompanyNumber") { TargetFieldName = nameof(TrustIndex.CompanyNumber) },
