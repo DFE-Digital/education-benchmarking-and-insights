@@ -12,6 +12,7 @@ import psutil
 from azure.core.exceptions import ResourceNotFoundError
 
 from dotenv import load_dotenv
+
 load_dotenv()
 
 
@@ -367,16 +368,12 @@ async def handle_msg(msg, worker_queue, complete_queue):
         # normally bad practice but let's clean up as much as poss
         gc.collect()
 
-        msg_payload["comparator_set_duration"] = (
-            await compute_comparator_sets(
-                msg_payload["type"], msg_payload["year"]
-            )
+        msg_payload["comparator_set_duration"] = await compute_comparator_sets(
+            msg_payload["type"], msg_payload["year"]
         )
         msg_payload["success"] = True
     except Exception as error:
-        logger.exception(
-            "An exception occurred:", type(error).__name__, "–", error
-        )
+        logger.exception("An exception occurred:", type(error).__name__, "–", error)
         msg_payload["success"] = False
         msg_payload["error"] = str(error)
     finally:
@@ -418,12 +415,13 @@ async def receive_messages():
                 if msg is not None:
                     logger.info(f"received message {msg.content}")
                     msg = await handle_msg(msg, worker_queue, complete_queue)
-                    logger.info(f'processed msg response: {msg}')
+                    logger.info(f"processed msg response: {msg}")
                 else:
                     time.sleep(1)
     except Exception:
         logger.exception("An exception occurred")
         exit(-1)
+
 
 if __name__ == "__main__":
     if len(sys.argv) > 1 and sys.argv[1] == "test":
