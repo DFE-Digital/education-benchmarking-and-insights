@@ -6,7 +6,7 @@ public static class PageTitles
     public const string ErrorNotFound = "Page not found";
     public const string ErrorProblem = "Sorry, there is a problem with the service";
     public const string ErrorAccessDenied = "Access denied";
-    public const string FindOrganisation = "Find an educational organisation";
+    public const string FindOrganisation = "Find a school or trust";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Compare your costs";

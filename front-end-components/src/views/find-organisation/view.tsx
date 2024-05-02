@@ -27,7 +27,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
           aria-describedby="find-method-hint"
         >
           <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
-            Select an organisation type
+            What are you looking for?
           </legend>
           <div className="govuk-radios" data-module="govuk-radios">
             <div className="govuk-radios__item">
@@ -44,7 +44,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="school"
               >
-                Academy or Local Authority maintained school
+                Academy or local authority maintained school
               </label>
             </div>
             <div className="govuk-radios__conditional" id="conditional-school">
@@ -56,7 +56,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="school-hint" className="govuk-hint">
-                  Enter a name, URN or address
+                  Enter a name, address or unique reference number (URN).
                 </div>
                 <p id="school-error" className="govuk-error-message">
                   {schoolError}
@@ -78,7 +78,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="trust"
               >
-                Single or Multi-Academy Trust
+                Single or multi-academy trust
               </label>
             </div>
             <div
@@ -93,7 +93,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="trust-hint" className="govuk-hint">
-                  Enter a name or company number
+                  Enter a name or company number.
                 </div>
                 <p id="trust-error" className="govuk-error-message">
                   {trustError}
