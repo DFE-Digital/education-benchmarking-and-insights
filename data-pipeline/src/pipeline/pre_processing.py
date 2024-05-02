@@ -6,7 +6,7 @@ import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 
 
-def prepare_cdc_data(cdc_file_path, current_year):
+def prepare_cdc_data(cdc_file_path, current_year) -> dict:
     cdc = pd.read_csv(
         cdc_file_path,
         encoding="utf8",
