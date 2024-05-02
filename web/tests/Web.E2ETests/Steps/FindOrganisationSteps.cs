@@ -29,7 +29,7 @@ public class FindOrganisationSteps(PageDriver driver)
         Assert.NotNull(_findOrganisationPage);
         await _findOrganisationPage.SelectSchoolFromSuggester(urn);
     }
-    
+
     [When("I click Continue")]
     public async Task WhenIClickContinue()
     {
@@ -53,5 +53,4 @@ public class FindOrganisationSteps(PageDriver driver)
     }
 
     private static string FindOrganisationUrl() => $"{TestConfiguration.ServiceUrl}/find-organisation";
-
 }

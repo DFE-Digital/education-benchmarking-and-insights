@@ -39,7 +39,7 @@ public class FindOrganisationPage(IPage page)
         await SchoolSearchInputField.PressAsync(ArrowDownKey);
         await page.Keyboard.PressAsync(EnterKey);
     }
-    
+
     public async Task<HomePage> ClickContinue()
     {
         await ContinueButton.ClickAsync();
@@ -56,5 +56,4 @@ public class FindOrganisationPage(IPage page)
         };
         await radioButton.Check();
     }
-
 }
