@@ -10,11 +10,14 @@ dev-test-mode:
 build: 
 	docker build $(tags) --file docker/pipeline-worker/Dockerfile .
 
-test:
-	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests;\
+unit-test:
+	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/unit;\
 	poetry run coverage report --fail-under 95 ;\
 	poetry run coverage html ;\
 	poetry run coverage xml
+
+e2e-test:
+	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/e2e;\
 
 lint:
 	poetry run black --config ./pyproject.toml src tests;\
