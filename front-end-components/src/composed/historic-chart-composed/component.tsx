@@ -3,7 +3,10 @@ import { ChartModeChart } from "src/components";
 import { HistoricChartProps } from "src/composed/historic-chart-composed";
 import { ChartModeContext } from "src/contexts";
 import { LineChart } from "src/components/charts/line-chart";
-import { shortValueFormatter } from "src/components/charts/utils.ts";
+import {
+  shortValueFormatter,
+  statValueFormatter,
+} from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
@@ -15,6 +18,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
   seriesConfig,
   valueField,
   children,
+  valueUnit,
 }) => {
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
@@ -37,7 +41,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                 seriesLabel={dimension.label}
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
-                valueUnit={dimension.unit}
+                valueUnit={valueUnit ?? dimension.unit}
                 tooltip={(t) => (
                   <LineChartTooltip
                     {...t}
@@ -58,8 +62,12 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               displayIndex={data.length - 1}
               seriesLabelField="term"
               valueField={valueField}
-              valueFormatter={shortValueFormatter}
-              valueUnit={dimension.unit}
+              valueFormatter={(v) =>
+                statValueFormatter(v, {
+                  valueUnit: valueUnit ?? dimension.unit,
+                })
+              }
+              valueUnit={valueUnit ?? dimension.unit}
             />
           </aside>
         </div>

@@ -51,11 +51,16 @@ export function statValueFormatter(
   return new Intl.NumberFormat("en-GB", {
     notation: options?.compact ? "compact" : undefined,
     compactDisplay: options?.compact ? "short" : undefined,
-    style: options?.valueUnit === "currency" ? "currency" : undefined,
+    style:
+      options?.valueUnit === "currency"
+        ? "currency"
+        : options?.valueUnit === "%"
+          ? "percent"
+          : undefined,
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     currencyDisplay: options?.currencyAsName ? "name" : "symbol",
     maximumFractionDigits: options?.compact ? undefined : 0,
   })
-    .format(value)
+    .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
 }
