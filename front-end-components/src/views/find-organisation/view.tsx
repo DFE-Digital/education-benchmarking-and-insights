@@ -44,7 +44,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="school"
               >
-                Academy or local authority maintained school
+                School or academy
               </label>
             </div>
             <div className="govuk-radios__conditional" id="conditional-school">
@@ -56,7 +56,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="school-hint" className="govuk-hint">
-                  Enter a name, address or unique reference number (URN).
+                  Name, address or unique reference number (URN)
                 </div>
                 <p id="school-error" className="govuk-error-message">
                   {schoolError}
@@ -78,7 +78,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="trust"
               >
-                Single or multi-academy trust
+                Trust
               </label>
             </div>
             <div
@@ -93,7 +93,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="trust-hint" className="govuk-hint">
-                  Enter a name or company number.
+                  Name or company number
                 </div>
                 <p id="trust-error" className="govuk-error-message">
                   {trustError}
