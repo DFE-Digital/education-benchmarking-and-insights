@@ -19,8 +19,18 @@ export function AutoComplete<T>({
     setIsLoading(true);
 
     onSuggest(query)
-      .then(populateResults)
-      .catch(() => populateResults([]))
+      .then((results) => {
+        if (results && Array.isArray(results)) {
+          populateResults(results);
+          return;
+        }
+
+        throw new Error("Unexpected results returned from suggester");
+      })
+      .catch(() => {
+        // todo: report failure back to component
+        populateResults([]);
+      })
       .finally(() => setIsLoading(false));
   };
 

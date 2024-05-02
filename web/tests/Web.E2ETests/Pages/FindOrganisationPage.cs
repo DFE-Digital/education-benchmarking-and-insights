@@ -32,11 +32,17 @@ public class FindOrganisationPage(IPage page)
         await ContinueButton.ShouldBeVisible().ShouldBeEnabled();
     }
 
-    public async Task<HomePage> SelectSchoolFromSuggester(string text)
+    public async Task SelectSchoolFromSuggester(string text)
     {
         await SchoolSearchInputField.PressSequentially(text);
         await SchoolSuggestionsDropdown.ShouldBeVisible();
-        await SchoolSearchInputField.Press(ArrowDownKey).Press(EnterKey);
+        await SchoolSearchInputField.PressAsync(ArrowDownKey);
+        await page.Keyboard.PressAsync(EnterKey);
+    }
+    
+    public async Task<HomePage> ClickContinue()
+    {
+        await ContinueButton.ClickAsync();
         await page.WaitForLoadStateAsync(LoadState.NetworkIdle);
         return new HomePage(page);
     }

@@ -82,7 +82,7 @@ public static class Selectors
     public const string SchoolNamesLinksInCharts = "text.recharts-text.govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
 
-    public const string SchoolSuggestDropdown = "#school-suggestions";
+    public const string SchoolSuggestDropdown = "#school-input__listbox";
     public const string MainContent = "#main-content";
     public const string GovukTag = ".govuk-tag";
 
