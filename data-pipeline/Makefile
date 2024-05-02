@@ -32,3 +32,6 @@ checkov:
 run-docker:
 	docker run -d -p 8000:8000 --name fbit-data-pipeline  fbit-data-pipeline:latest
 
+clear-notebooks:
+	poetry run jupyter nbconvert --clear-output --inplace workbooks/*.ipynb
+
