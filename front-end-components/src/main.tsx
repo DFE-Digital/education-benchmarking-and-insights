@@ -57,7 +57,7 @@ const findOrganisationElement = document.getElementById(
 );
 
 if (findOrganisationElement) {
-  const { findMethod, schoolInput, schoolError, trustError, urn } =
+  const { findMethod, laError, schoolInput, schoolError, trustError, urn } =
     findOrganisationElement.dataset;
   if (findMethod) {
     const root = ReactDOM.createRoot(findOrganisationElement);
@@ -66,6 +66,7 @@ if (findOrganisationElement) {
       <React.StrictMode>
         <FindOrganisation
           findMethod={findMethod}
+          laError={laError}
           schoolInput={schoolInput}
           schoolError={schoolError}
           trustError={trustError}

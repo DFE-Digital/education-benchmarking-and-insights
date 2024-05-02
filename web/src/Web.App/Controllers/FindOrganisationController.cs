@@ -51,6 +51,20 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
 
                             return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
                         }
+                    case OrganisationTypes.LocalAuthority:
+                        {
+                            if (string.IsNullOrWhiteSpace(viewModel.Code) || string.IsNullOrEmpty(viewModel.LaInput))
+                            {
+                                var message = string.IsNullOrEmpty(viewModel.LaInput)
+                                    ? "Enter a name or 3 digit code"
+                                    : "Please select a local authority from the suggester";
+                                ModelState.AddModelError("la-input", message);
+                                return View(viewModel);
+                            }
+
+                            // todo: create and link to LA target route
+                            return RedirectToAction("Index", "Home", new { code = viewModel.Code });
+                        }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
                 }
@@ -58,7 +72,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
     }
