@@ -2,8 +2,8 @@ import datetime
 
 import pandas as pd
 
-import src.pipeline.input_schemas as input_schemas
-import src.pipeline.mappings as mappings
+import input_schemas
+import mappings
 
 
 def prepare_cdc_data(cdc_file_path, current_year) -> dict:
@@ -605,7 +605,7 @@ def build_federations_data(links_data_path, maintained_schools):
     )
 
     # for the soft federations
-    soft_federations["FederationUid"] = soft_federations.index.astype(
+    soft_federations["Group UID"] = soft_federations.index.astype(
         str
     ) + soft_federations["LAEstab"].astype(str)
 

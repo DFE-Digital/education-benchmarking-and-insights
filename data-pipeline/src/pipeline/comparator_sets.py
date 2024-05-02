@@ -1,5 +1,7 @@
 import numpy as np
 import pandas as pd
+import multiprocessing as mp
+from multiprocessing.pool import Pool
 
 
 def compute_range(data):
@@ -7,33 +9,32 @@ def compute_range(data):
 
 
 # TODO: This should be moved to pre-processing really
-def fillna_mean(data):
-    data.fillna(data.mean(), inplace=True)
-    return data
+def fillna_median(data):
+    return data.fillna(data.median())
 
 
 def prepare_data(data):
     data["Boarders (name)"] = data["Boarders (name)"].map(
         lambda x: "Not Boarding" if x == "Unknown" else x
     )
-    data["Number of pupils"] = fillna_mean(data["Number of pupils"])
-    data["Percentage Free school meals"] = fillna_mean(
+    data["Number of pupils"] = fillna_median(data["Number of pupils"])
+    data["Percentage Free school meals"] = fillna_median(
         data["Percentage Free school meals"]
     )
-    data["Percentage SEN"] = fillna_mean(data["Percentage SEN"])
-    data["Prov_SPLD"] = fillna_mean(data["Prov_SPLD"])
-    data["Prov_MLD"] = fillna_mean(data["Prov_MLD"])
-    data["Prov_PMLD"] = fillna_mean(data["Prov_PMLD"])
-    data["Prov_SEMH"] = fillna_mean(data["Prov_SEMH"])
-    data["Prov_SLCN"] = fillna_mean(data["Prov_SLCN"])
-    data["Prov_HI"] = fillna_mean(data["Prov_HI"])
-    data["Prov_MSI"] = fillna_mean(data["Prov_MSI"])
-    data["Prov_PD"] = fillna_mean(data["Prov_PD"])
-    data["Prov_ASD"] = fillna_mean(data["Prov_ASD"])
-    data["Prov_OTH"] = fillna_mean(data["Prov_OTH"])
-    data["Total Internal Floor Area"] = fillna_mean(data["Total Internal Floor Area"])
-    data["Age Average Score"] = fillna_mean(data["Age Average Score"])
-    return data.set_index("URN").sort_index()
+    data["Percentage SEN"] = fillna_median(data["Percentage SEN"])
+    data["Prov_SPLD"] = fillna_median(data["Prov_SPLD"])
+    data["Prov_MLD"] = fillna_median(data["Prov_MLD"])
+    data["Prov_PMLD"] = fillna_median(data["Prov_PMLD"])
+    data["Prov_SEMH"] = fillna_median(data["Prov_SEMH"])
+    data["Prov_SLCN"] = fillna_median(data["Prov_SLCN"])
+    data["Prov_HI"] = fillna_median(data["Prov_HI"])
+    data["Prov_MSI"] = fillna_median(data["Prov_MSI"])
+    data["Prov_PD"] = fillna_median(data["Prov_PD"])
+    data["Prov_ASD"] = fillna_median(data["Prov_ASD"])
+    data["Prov_OTH"] = fillna_median(data["Prov_OTH"])
+    data["Total Internal Floor Area"] = fillna_median(data["Total Internal Floor Area"])
+    data["Age Average Score"] = fillna_median(data["Age Average Score"])
+    return data.sort_index()
 
 
 def pupils_calc(pupils, fsm, sen):
@@ -149,9 +150,9 @@ def compute_buildings_comparator(arg):
 def run_comparator(data, f):
     distance_classes = {}
 
-    for x, row in data.iterrows():
-        idx, urns, distance = f((x, row))
-        distance_classes[idx] = {"urns": urns, "distances": distance}
+    with Pool(mp.cpu_count()) as pool:
+        for idx, urns, distance in pool.map(f, data.iterrows()):
+            distance_classes[idx] = {"urns": urns, "distances": distance}
 
     return distance_classes
 
