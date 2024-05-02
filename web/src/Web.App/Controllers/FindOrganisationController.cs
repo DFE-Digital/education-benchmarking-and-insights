@@ -29,8 +29,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                             if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                    ? "Enter a school name select a school"
-                                    : "Please select school from the suggester";
+                                    ? "Enter a school name, address or URN"
+                                    : "Please select a school from the suggester";
                                 ModelState.AddModelError("school-input", message);
                                 return View(viewModel);
                             }
@@ -43,8 +43,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                                 string.IsNullOrEmpty(viewModel.TrustInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.TrustInput)
-                                    ? "Enter a trust name select a trust"
-                                    : "Please select trust from the suggester";
+                                    ? "Enter a trust name or company number"
+                                    : "Please select a trust from the suggester";
                                 ModelState.AddModelError("trust-input", message);
                                 return View(viewModel);
                             }
