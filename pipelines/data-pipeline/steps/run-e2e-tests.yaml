@@ -41,3 +41,8 @@ steps:
       make e2e-test
     displayName: 'Run e2e tests'
     workingDirectory: data-pipeline
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '$(Build.SourcesDirectory)/data-pipeline/tests/output/test-output.xml'
