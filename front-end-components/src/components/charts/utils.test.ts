@@ -172,6 +172,23 @@ describe("Chart utils", () => {
       });
     });
 
+    describe("with percent option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
+
+      it("formats the values as percent", () => {
+        const result = values.map((v) => statValueFormatter(v, options));
+        expect(result).toEqual([
+          "-988%",
+          "0%",
+          "1%",
+          "2%",
+          "12,346%",
+          "890,123,456%",
+          "not-a-number",
+        ]);
+      });
+    });
+
     describe("with currency as name option", () => {
       const options: Partial<ValueFormatterOptions> = {
         valueUnit: "currency",
