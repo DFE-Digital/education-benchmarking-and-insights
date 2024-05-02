@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -69,7 +69,7 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
     }
 
     [Fact]
-    public async Task CanNavigateToWorkforceBenchmark()
+    public async Task CanNavigateToCensusBenchmark()
     {
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
 
@@ -79,12 +79,13 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -124,6 +125,6 @@ public class WhenViewingPlanning(BenchmarkingWebAppClient client) : PageBase(cli
         Assert.Equal(2, toolsLinks.Count);
 
         DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 }

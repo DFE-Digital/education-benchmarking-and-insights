@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
+using Web.App.Identity;
 
 namespace Web.App.Attributes;
 
@@ -11,7 +12,7 @@ public class SchoolAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFi
     {
         var urn = context.RouteData.Values["urn"]?.ToString();
 
-        var isValid = context.HttpContext.User.Claims.Any(c => urn != null && c.Type == "Schools" && c.Value.Contains(urn));
+        var isValid = context.HttpContext.User.Claims.Any(c => urn != null && c.Type == ClaimNames.Schools && c.Value == urn);
         if (!isValid)
         {
             context.Result = new UnauthorizedResult();

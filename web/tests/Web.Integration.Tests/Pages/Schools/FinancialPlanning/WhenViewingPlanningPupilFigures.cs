@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -125,7 +125,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     [InlineData("PupilsYear13", "3.8")]
     public async Task CanSubmit(string prop, string value)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .Without(x => x.PupilsYear7)
             .Without(x => x.PupilsYear8)
             .Without(x => x.PupilsYear9)
@@ -158,7 +158,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
     [MemberData(nameof(PlanInput))]
     public async Task CanDisplayWithPreviousValue(bool hasSixth, int? year7, int? year8, int? year9, int? year10, int? year11, decimal? year12, decimal? year13)
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, year7.ToString)
             .With(x => x.PupilsYear8, year8.ToString)
             .With(x => x.PupilsYear9, year9.ToString)
@@ -248,9 +248,10 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
             .With(x => x.HasSixthForm, isSixth)
@@ -259,7 +260,7 @@ public class WhenViewingPlanningPupilFigures(BenchmarkingWebAppClient client) : 
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

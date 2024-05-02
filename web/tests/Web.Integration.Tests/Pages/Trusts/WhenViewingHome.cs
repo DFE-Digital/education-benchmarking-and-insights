@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Trusts;
 
-public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplay()

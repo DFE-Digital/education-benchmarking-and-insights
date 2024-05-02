@@ -5,17 +5,17 @@ public class OtherTeachingPeriodsStage : Stage
     public string? Action { get; set; }
     public List<OtherTeachingPeriod> OtherTeachingPeriods { get; set; } = new();
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
         var periods = OtherTeachingPeriods
-            .Select(period => new FinancialPlan.OtherTeachingPeriod
+            .Select(period => new FinancialPlanInput.OtherTeachingPeriod
             {
                 PeriodName = period.PeriodName,
                 PeriodsPerTimetable = period.PeriodsPerTimetable
             })
             .ToList();
 
-        plan.OtherTeachingPeriods = periods;
+        planInput.OtherTeachingPeriods = periods;
     }
 
     public class OtherTeachingPeriod

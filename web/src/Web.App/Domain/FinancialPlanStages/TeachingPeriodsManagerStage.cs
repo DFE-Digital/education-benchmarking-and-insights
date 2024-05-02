@@ -27,22 +27,22 @@ public class TeachingPeriodsManagerStage : Stage
     public string[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<string>();
     public string[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<string>();
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.TeachingPeriodsHeadteacher = TeachingPeriodsHeadteacher;
-        plan.TeachingPeriodsDeputyHeadteacher = TeachingPeriodsDeputyHeadteacher;
-        plan.TeachingPeriodsNumeracyLead = TeachingPeriodsNumeracyLead;
-        plan.TeachingPeriodsLiteracyLead = TeachingPeriodsLiteracyLead;
-        plan.TeachingPeriodsHeadSmallCurriculum = TeachingPeriodsHeadSmallCurriculum;
-        plan.TeachingPeriodsHeadKs1 = TeachingPeriodsHeadKs1;
-        plan.TeachingPeriodsHeadKs2 = TeachingPeriodsHeadKs2;
-        plan.TeachingPeriodsSenco = TeachingPeriodsSenco;
-        plan.TeachingPeriodsAssistantHeadteacher = TeachingPeriodsAssistantHeadteacher;
-        plan.TeachingPeriodsHeadLargeCurriculum = TeachingPeriodsHeadLargeCurriculum;
-        plan.TeachingPeriodsPastoralLeader = TeachingPeriodsPastoralLeader;
-        plan.TeachingPeriodsOtherMembers = TeachingPeriodsOtherMembers;
+        planInput.TeachingPeriodsHeadteacher = TeachingPeriodsHeadteacher;
+        planInput.TeachingPeriodsDeputyHeadteacher = TeachingPeriodsDeputyHeadteacher;
+        planInput.TeachingPeriodsNumeracyLead = TeachingPeriodsNumeracyLead;
+        planInput.TeachingPeriodsLiteracyLead = TeachingPeriodsLiteracyLead;
+        planInput.TeachingPeriodsHeadSmallCurriculum = TeachingPeriodsHeadSmallCurriculum;
+        planInput.TeachingPeriodsHeadKs1 = TeachingPeriodsHeadKs1;
+        planInput.TeachingPeriodsHeadKs2 = TeachingPeriodsHeadKs2;
+        planInput.TeachingPeriodsSenco = TeachingPeriodsSenco;
+        planInput.TeachingPeriodsAssistantHeadteacher = TeachingPeriodsAssistantHeadteacher;
+        planInput.TeachingPeriodsHeadLargeCurriculum = TeachingPeriodsHeadLargeCurriculum;
+        planInput.TeachingPeriodsPastoralLeader = TeachingPeriodsPastoralLeader;
+        planInput.TeachingPeriodsOtherMembers = TeachingPeriodsOtherMembers;
 
-        plan.IsComplete = true;
-        plan.TargetContactRatio = plan.TargetContactRatio <= 0 ? 0.78M : plan.TargetContactRatio;
+        planInput.IsComplete = true;
+        planInput.TargetContactRatio = planInput.TargetContactRatio <= 0 ? 0.78M : planInput.TargetContactRatio;
     }
 }

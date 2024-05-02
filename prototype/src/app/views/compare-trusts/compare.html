@@ -1,0 +1,252 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+    Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+  {{ govukBreadcrumbs({
+    items: [
+      {
+        text: "Home",
+        href: "/find-school"
+      },
+      {
+        text: "Your trust",
+        href: "/trust-homepage"
+      }
+    ]
+  }) }}
+{% endblock %}
+
+
+{% block content %}
+
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+
+      <form action="/compare-trusts" method="post">
+        <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+        <h1 class="govuk-heading-l">Compare trusts</h1>
+         
+        <div class="govuk-width-container">
+        
+            
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-two-thirds">
+                    <p class="govuk-body">Compare your spending costs against similar trusts.</p>    
+                    <p class="govuk-body">SOMETHING ABOUT DATA SOURCES</p>
+                    <p class="govuk-body"><a href="/compare-trusts/by-name">Review or change the trusts you're compared against</a></p>
+                </div>
+            </div>
+            
+            
+            
+            
+            
+            <div id="compare-your-costs" data-type="school" data-id="114518">
+                <div class="view-as-toggle">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+                                <h2 class="govuk-fieldset__heading">View as</h2>
+                            </legend>
+                            <div class="govuk-radios govuk-radios--small govuk-radios--inline" data-module="govuk-radios">
+                                <div class="govuk-radios__item">
+                                    <input class="govuk-radios__input" id="mode-chart" name="changedChartMode" type="radio" value="Chart" checked="">
+                                        <label class="govuk-label govuk-radios__label" for="mode-chart">Chart</label>
+                                    </div>
+                                    <div class="govuk-radios__item">
+                                        <input class="govuk-radios__input" id="mode-table" name="changedChartMode" type="radio" value="Table">
+                                            <label class="govuk-label govuk-radios__label" for="mode-table">Table</label>
+                                        </div>
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-row">
+                            <div class="govuk-grid-column-two-thirds">
+                                <h2 class="govuk-heading-m">Total Expenditure</h2>
+                                <div class="govuk-form-group">
+                                    <label class="govuk-label" for="total-expenditure-dimension">View graph as</label>
+                                    <select class="govuk-select" name="dimension" id="total-expenditure-dimension">
+                                        <option value="PoundPerPupil" selected="">£ per pupil</option>
+                                        <option value="Actuals">actuals</option>
+                                        <option value="PercentIncome">percentage of income</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="govuk-grid-column-one-third">
+                                <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                            </div>
+                        </div>
+                    </div>
+                </div> 
+            <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+            
+            
+                {% set htmlCharts %}
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Total teaching and teaching support staff costs</h3>
+                        <div class="govuk-form-group">
+                            <label class="govuk-label" for="total-teaching-support-staff-cost-dimension">View graph as</label>
+                            <select class="govuk-select" name="dimension" id="total-teaching-support-staff-cost-dimension">
+                                <option value="PoundPerPupil" selected="">£ per pupil</option>
+                                <option value="Actuals">actuals</option>
+                                <option value="PercentExpenditure">percentage of expenditure</option>
+                                <option value="PercentIncome">percentage of income</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Teaching staff costs</h3>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Supply teaching staff costs</h3>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Educational consultancy costs</h3>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Educational support staff costs</h3>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+
+                <div class="govuk-grid-row">
+                    <div class="govuk-grid-column-two-thirds">
+                        <h3 class="govuk-heading-s">Agency supply teaching staff costs</h3>
+                    </div>
+                    <div class="govuk-grid-column-one-third">
+                        <button class="govuk-button govuk-button--secondary" data-module="govuk-button" data-prevent-double-click="true" aria-disabled="false">Save as image</button>
+                    </div>
+                </div>    
+                <p><img src="/public/images/charts/trust-compare-your-costs.png" /></p>
+                
+                {% endset %}
+                    
+
+        {{ govukAccordion({
+        id: "accordion-default",
+        items: [
+            {
+            heading: {
+                text: "Teaching and teaching support staff"
+            },
+            content: {
+                html: htmlCharts
+            }
+            },
+            {
+            heading: {
+                text: "Non-educational support staff"
+            },
+            content: {
+                html: htmlCharts
+            }
+            },
+            {
+            heading: {
+                text: "Educational supplies"
+            },
+            content: {
+                html: htmlCharts
+            }
+            },
+            {
+                heading: {
+                    text: "Educational ICT"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            },
+            {
+                heading: {
+                    text: "Premises staff and services"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            },
+            {
+                heading: {
+                    text: "Utilities"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            },
+            {
+                heading: {
+                    text: "Administrative supplies"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            },
+            {
+                heading: {
+                    text: "Catering staff and services"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            },
+            {
+                heading: {
+                    text: "Other costs"
+                },
+                content: {
+                    html: htmlCharts
+                }
+            }
+        ]
+        }) }}
+
+        </form>
+
+    </div>
+</div>
+{% endblock %}

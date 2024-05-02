@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningHelp(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningHelp(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Fact]
     public async Task CanDisplay()
@@ -31,6 +31,7 @@ public class WhenViewingPlanningHelp(BenchmarkingWebAppClient client) : PageBase
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 

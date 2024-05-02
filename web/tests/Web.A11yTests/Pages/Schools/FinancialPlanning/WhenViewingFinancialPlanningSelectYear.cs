@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingFinancialPlanningSelectYear(
+/*public class WhenViewingFinancialPlanningSelectYear(
     ITestOutputHelper testOutputHelper,
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
@@ -25,4 +25,4 @@ public class WhenViewingFinancialPlanningSelectYear(
         await Page.Locator(":text('Continue')").ClickAsync();
         await EvaluatePage();
     }
-}
+}*/

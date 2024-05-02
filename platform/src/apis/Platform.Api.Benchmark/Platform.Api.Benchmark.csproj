@@ -8,6 +8,7 @@
     </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="AzureExtensions.Swashbuckle"/>
+        <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" />

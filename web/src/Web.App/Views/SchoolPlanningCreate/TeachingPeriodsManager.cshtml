@@ -6,389 +6,390 @@
 
 <div class="govuk-grid-row">
 <div class="govuk-grid-column-two-thirds">
-@using (Html.BeginForm("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+@await Html.PartialAsync("_ErrorSummary")
+@using (Html.BeginForm("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
 {
     <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-        <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-            <span class="govuk-caption-l">@Model.School.Name</span>
-            <h1 class="govuk-fieldset__heading">
-                @ViewData[ViewDataKeys.Title]
-            </h1>
-        </legend>
+    <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
+        <span class="govuk-caption-l">@Model.School.Name</span>
+        <h1 class="govuk-fieldset__heading">
+            @ViewData[ViewDataKeys.Title]
+        </h1>
+    </legend>
 
-        @if (Model.Plan?.ManagementRoleHeadteacher is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadteacher)" value="@Model.Plan.ManagementRoleHeadteacher.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleHeadteacher is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadteacher)" value="@Model.PlanInput.ManagementRoleHeadteacher.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsHeadteacher)">
-                    Headteacher
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsHeadteacher)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberHeadteacher members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadteacher)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsHeadteacher)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsHeadteacher)]?.Errors.First().ErrorMessage
-                    </p>
-                }
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsHeadteacher.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsHeadteacher[@i]"
-                           name="TeachingPeriodsHeadteacher[@i]"
-                           aria-label="Headteacher"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsHeadteacher[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsHeadteacher)">
+                Headteacher
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsHeadteacher)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberHeadteacher members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadteacher)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsHeadteacher)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsHeadteacher)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsHeadteacher.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsHeadteacher[@i]"
+                       name="TeachingPeriodsHeadteacher[@i]"
+                       aria-label="Headteacher"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsHeadteacher[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleDeputyHeadteacher is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleDeputyHeadteacher)" value="@Model.Plan.ManagementRoleDeputyHeadteacher.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleDeputyHeadteacher is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleDeputyHeadteacher)" value="@Model.PlanInput.ManagementRoleDeputyHeadteacher.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)">
-                    Deputy headteacher
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberDeputyHeadteacher members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsDeputyHeadteacher)]?.Errors.First().ErrorMessage
-                    </p>
-                }                
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsDeputyHeadteacher.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsDeputyHeadteacher[@i]"
-                           name="TeachingPeriodsDeputyHeadteacher[@i]"
-                           aria-label=" Deputy headteacher"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsDeputyHeadteacher[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)">
+                Deputy headteacher
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberDeputyHeadteacher members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsDeputyHeadteacher)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsDeputyHeadteacher.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsDeputyHeadteacher[@i]"
+                       name="TeachingPeriodsDeputyHeadteacher[@i]"
+                       aria-label=" Deputy headteacher"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsDeputyHeadteacher[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleNumeracyLead is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleNumeracyLead)" value="@Model.Plan.ManagementRoleNumeracyLead.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleNumeracyLead is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleNumeracyLead)" value="@Model.PlanInput.ManagementRoleNumeracyLead.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsNumeracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsNumeracyLead)">
-                    Numeracy lead
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsNumeracyLead)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberNumeracyLead members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsNumeracyLead)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsNumeracyLead)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsNumeracyLead)]?.Errors.First().ErrorMessage
-                    </p>
-                }                                
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsNumeracyLead.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsNumeracyLead[@i]"
-                           name="TeachingPeriodsNumeracyLead[@i]"
-                           aria-label="Numeracy lead"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsNumeracyLead[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)">
+                Numeracy lead
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberNumeracyLead members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsNumeracyLead)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsNumeracyLead.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsNumeracyLead[@i]"
+                       name="TeachingPeriodsNumeracyLead[@i]"
+                       aria-label="Numeracy lead"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsNumeracyLead[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleLiteracyLead is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleLiteracyLead)" value="@Model.Plan.ManagementRoleLiteracyLead.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleLiteracyLead is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleLiteracyLead)" value="@Model.PlanInput.ManagementRoleLiteracyLead.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsLiteracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsLiteracyLead)">
-                    Literacy lead
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsLiteracyLead)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberLiteracyLead members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsLiteracyLead)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsLiteracyLead)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsLiteracyLead)]?.Errors.First().ErrorMessage
-                    </p>
-                }                       
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsLiteracyLead.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsLiteracyLead[@i]"
-                           name="TeachingPeriodsLiteracyLead[@i]"
-                           aria-label="Literacy lead"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsLiteracyLead[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)">
+                Literacy lead
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberLiteracyLead members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsLiteracyLead)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsLiteracyLead.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsLiteracyLead[@i]"
+                       name="TeachingPeriodsLiteracyLead[@i]"
+                       aria-label="Literacy lead"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsLiteracyLead[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleHeadSmallCurriculum is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadSmallCurriculum)" value="@Model.Plan.ManagementRoleHeadSmallCurriculum.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleHeadSmallCurriculum is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadSmallCurriculum)" value="@Model.PlanInput.ManagementRoleHeadSmallCurriculum.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)">
-                    Head of small curriculum area
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberHeadSmallCurriculum members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsHeadSmallCurriculum)]?.Errors.First().ErrorMessage
-                    </p>
-                }                     
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsHeadSmallCurriculum.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsHeadSmallCurriculum[@i]"
-                           name="TeachingPeriodsHeadSmallCurriculum[@i]"
-                           aria-label="Head of small curriculum area"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsHeadSmallCurriculum[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)">
+                Head of small curriculum area
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberHeadSmallCurriculum members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsHeadSmallCurriculum)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsHeadSmallCurriculum.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsHeadSmallCurriculum[@i]"
+                       name="TeachingPeriodsHeadSmallCurriculum[@i]"
+                       aria-label="Head of small curriculum area"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsHeadSmallCurriculum[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleHeadKs1 is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadKs1)" value="@Model.Plan.ManagementRoleHeadKs1.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleHeadKs1 is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadKs1)" value="@Model.PlanInput.ManagementRoleHeadKs1.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadKs1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsHeadKs1)">
-                    Head of KS1
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsHeadKs1)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberHeadKs1 members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadKs1)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsHeadKs1)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsHeadKs1)]?.Errors.First().ErrorMessage
-                    </p>
-                }                        
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsHeadKs1.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsHeadKs1[@i]"
-                           name="TeachingPeriodsHeadKs1[@i]"
-                           aria-label="Head of KS1"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsHeadKs1[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadKs1)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsHeadKs1)">
+                Head of KS1
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsHeadKs1)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberHeadKs1 members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadKs1)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsHeadKs1)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsHeadKs1)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsHeadKs1.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsHeadKs1[@i]"
+                       name="TeachingPeriodsHeadKs1[@i]"
+                       aria-label="Head of KS1"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsHeadKs1[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleHeadKs2 is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadKs2)" value="@Model.Plan.ManagementRoleHeadKs2.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleHeadKs2 is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadKs2)" value="@Model.PlanInput.ManagementRoleHeadKs2.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadKs2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsHeadKs2)">
-                    Head of KS2
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsHeadKs2)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberHeadKs2 members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadKs2)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsHeadKs2)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsHeadKs2)]?.Errors.First().ErrorMessage
-                    </p>
-                }                   
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsHeadKs2.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsHeadKs2[@i]"
-                           name="TeachingPeriodsHeadKs2[@i]"
-                           aria-label="Head of KS2"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsHeadKs2[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadKs2)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsHeadKs2)">
+                Head of KS2
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsHeadKs2)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberHeadKs2 members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadKs2)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsHeadKs2)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsHeadKs2)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsHeadKs2.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsHeadKs2[@i]"
+                       name="TeachingPeriodsHeadKs2[@i]"
+                       aria-label="Head of KS2"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsHeadKs2[i]">
+            }
+        </div>
+    }
 
 
-        @if (Model.Plan?.ManagementRoleSenco is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleSenco)" value="@Model.Plan.ManagementRoleSenco.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleSenco is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleSenco)" value="@Model.PlanInput.ManagementRoleSenco.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsSenco)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsSenco)">
-                    Special education needs coordinator (SENCO)
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsSenco)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberSenco members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsSenco)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsSenco)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsSenco)]?.Errors.First().ErrorMessage
-                    </p>
-                }                   
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsSenco.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsSenco[@i]"
-                           name="TeachingPeriodsSenco[@i]"
-                           aria-label="Special education needs coordinator (SENCO)"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsSenco[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsSenco)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsSenco)">
+                Special education needs coordinator (SENCO)
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsSenco)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberSenco members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsSenco)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsSenco)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsSenco)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsSenco.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsSenco[@i]"
+                       name="TeachingPeriodsSenco[@i]"
+                       aria-label="Special education needs coordinator (SENCO)"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsSenco[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleAssistantHeadteacher is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleAssistantHeadteacher)" value="@Model.Plan.ManagementRoleAssistantHeadteacher.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleAssistantHeadteacher is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleAssistantHeadteacher)" value="@Model.PlanInput.ManagementRoleAssistantHeadteacher.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)">
-                    Assistant headteacher
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberAssistantHeadteacher members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsAssistantHeadteacher)]?.Errors.First().ErrorMessage
-                    </p>
-                }                         
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsAssistantHeadteacher.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsAssistantHeadteacher[@i]"
-                           name="TeachingPeriodsAssistantHeadteacher[@i]"
-                           aria-label="Assistant headteacher"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsAssistantHeadteacher[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)">
+                Assistant headteacher
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberAssistantHeadteacher members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsAssistantHeadteacher)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsAssistantHeadteacher.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsAssistantHeadteacher[@i]"
+                       name="TeachingPeriodsAssistantHeadteacher[@i]"
+                       aria-label="Assistant headteacher"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsAssistantHeadteacher[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleHeadLargeCurriculum is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleHeadLargeCurriculum)" value="@Model.Plan.ManagementRoleHeadLargeCurriculum.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleHeadLargeCurriculum is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleHeadLargeCurriculum)" value="@Model.PlanInput.ManagementRoleHeadLargeCurriculum.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)">
-                    Head of large curriculum area
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberHeadLargeCurriculum members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsHeadLargeCurriculum)]?.Errors.First().ErrorMessage
-                    </p>
-                }                  
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsHeadLargeCurriculum.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsHeadLargeCurriculum[@i]"
-                           name="TeachingPeriodsHeadLargeCurriculum[@i]"
-                           aria-label="Head of large curriculum area"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsHeadLargeCurriculum[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)">
+                Head of large curriculum area
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberHeadLargeCurriculum members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsHeadLargeCurriculum)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsHeadLargeCurriculum.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsHeadLargeCurriculum[@i]"
+                       name="TeachingPeriodsHeadLargeCurriculum[@i]"
+                       aria-label="Head of large curriculum area"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsHeadLargeCurriculum[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRolePastoralLeader is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRolePastoralLeader)" value="@Model.Plan.ManagementRolePastoralLeader.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRolePastoralLeader is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRolePastoralLeader)" value="@Model.PlanInput.ManagementRolePastoralLeader.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsPastoralLeader)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsPastoralLeader)">
-                    Pastoral leader
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsPastoralLeader)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberPastoralLeader members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsPastoralLeader)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsPastoralLeader)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsPastoralLeader)]?.Errors.First().ErrorMessage
-                    </p>
-                }                      
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsPastoralLeader.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsPastoralLeader[@i]"
-                           name="TeachingPeriodsPastoralLeader[@i]"
-                           aria-label="Pastoral leader"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsPastoralLeader[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)">
+                Pastoral leader
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberPastoralLeader members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsPastoralLeader)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsPastoralLeader.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsPastoralLeader[@i]"
+                       name="TeachingPeriodsPastoralLeader[@i]"
+                       aria-label="Pastoral leader"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsPastoralLeader[i]">
+            }
+        </div>
+    }
 
-        @if (Model.Plan?.ManagementRoleOtherMembers is true)
-        {
-            <input type="hidden" name="@nameof(Model.Plan.ManagementRoleOtherMembers)" value="@Model.Plan.ManagementRoleOtherMembers.ToString().ToLower()"/>
+    @if (Model.PlanInput?.ManagementRoleOtherMembers is true)
+    {
+        <input type="hidden" name="@nameof(Model.PlanInput.ManagementRoleOtherMembers)" value="@Model.PlanInput.ManagementRoleOtherMembers.ToString().ToLower()"/>
 
-            <div class="@(ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsOtherMembers)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
-                <label class="govuk-label govuk-label--m" for="@nameof(Model.Plan.TeachingPeriodsOtherMembers)">
-                    Other member of management or leadership staff
-                </label>
-                <div id="@nameof(Model.Plan.TeachingPeriodsOtherMembers)-hint" class="govuk-hint">
-                    <p>You have @Model.Plan.NumberOtherMembers members of staff in this role</p>
-                    <p>Enter the number of teaching periods of each member of staff</p>
-                </div>
-                @if (ViewData.ModelState.HasError(nameof(Model.Plan.TeachingPeriodsOtherMembers)))
-                {
-                    <p id="@nameof(Model.Plan.TeachingPeriodsOtherMembers)-error" class="govuk-error-message">
-                        <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.Plan.TeachingPeriodsOtherMembers)]?.Errors.First().ErrorMessage
-                    </p>
-                }                           
-                @for (var i = 0; i < Model.Plan?.TeachingPeriodsOtherMembers.Length; i++)
-                {
-                    <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
-                           id="TeachingPeriodsOtherMembers[@i]"
-                           name="TeachingPeriodsOtherMembers[@i]"
-                           aria-label="Other member of management or leadership staff"
-                           type="number"
-                           spellcheck="false"
-                           value="@Model.Plan?.TeachingPeriodsOtherMembers[i]">
-                }
+        <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsOtherMembers)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+            <label class="govuk-label govuk-label--m" for="@nameof(Model.PlanInput.TeachingPeriodsOtherMembers)">
+                Other member of management or leadership staff
+            </label>
+            <div id="@nameof(Model.PlanInput.TeachingPeriodsOtherMembers)-hint" class="govuk-hint">
+                <p>You have @Model.PlanInput.NumberOtherMembers members of staff in this role</p>
+                <p>Enter the number of teaching periods of each member of staff</p>
             </div>
-        }
+            @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.TeachingPeriodsOtherMembers)))
+            {
+                <p id="@nameof(Model.PlanInput.TeachingPeriodsOtherMembers)-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.PlanInput.TeachingPeriodsOtherMembers)]?.Errors.First().ErrorMessage
+                </p>
+            }
+            @for (var i = 0; i < Model.PlanInput?.TeachingPeriodsOtherMembers.Length; i++)
+            {
+                <input class="govuk-input govuk-input--width-5 govuk-!-margin-bottom-2"
+                       id="TeachingPeriodsOtherMembers[@i]"
+                       name="TeachingPeriodsOtherMembers[@i]"
+                       aria-label="Other member of management or leadership staff"
+                       type="number"
+                       spellcheck="false"
+                       value="@Model.PlanInput?.TeachingPeriodsOtherMembers[i]">
+            }
+        </div>
+    }
     </fieldset>
     </div>
     <button type="submit" class="govuk-button" data-module="govuk-button">

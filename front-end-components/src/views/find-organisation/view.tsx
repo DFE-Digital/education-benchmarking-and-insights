@@ -3,16 +3,20 @@ import SchoolInput from "src/views/find-organisation/partials/school-input";
 import { FindOrganisationProps } from "src/views/find-organisation";
 import TrustInput from "src/views/find-organisation/partials/trust-input";
 import { useGovUk } from "src/hooks/useGovUk";
+import LaInput from "src/views/find-organisation/partials/la-input";
 
 export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
   const {
+    code,
+    companyNumber,
     findMethod,
-    schoolInput,
+    laError,
+    laInput,
     schoolError,
+    schoolInput,
+    trustInput,
     trustError,
     urn,
-    trustInput,
-    companyNumber,
   } = props;
 
   const formElem = useRef(null);
@@ -27,7 +31,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
           aria-describedby="find-method-hint"
         >
           <legend className="govuk-fieldset__legend govuk-fieldset__legend--m">
-            Select an organisation type
+            What are you looking for?
           </legend>
           <div className="govuk-radios" data-module="govuk-radios">
             <div className="govuk-radios__item">
@@ -44,7 +48,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="school"
               >
-                Academy or Local Authority maintained school
+                School or academy
               </label>
             </div>
             <div className="govuk-radios__conditional" id="conditional-school">
@@ -56,7 +60,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="school-hint" className="govuk-hint">
-                  Enter a name, URN or address
+                  Name, address or unique reference number (URN)
                 </div>
                 <p id="school-error" className="govuk-error-message">
                   {schoolError}
@@ -64,6 +68,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 <SchoolInput input={schoolInput ?? ""} urn={urn ?? ""} />
               </div>
             </div>
+
             <div className="govuk-radios__item">
               <input
                 className="govuk-radios__input"
@@ -78,7 +83,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 className="govuk-label govuk-radios__label"
                 htmlFor="trust"
               >
-                Single or Multi-Academy Trust
+                Trust
               </label>
             </div>
             <div
@@ -93,7 +98,7 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                 }
               >
                 <div id="trust-hint" className="govuk-hint">
-                  Enter a name or company number
+                  Name or company number
                 </div>
                 <p id="trust-error" className="govuk-error-message">
                   {trustError}
@@ -102,6 +107,44 @@ export const FindOrganisation: React.FC<FindOrganisationProps> = (props) => {
                   input={trustInput ?? ""}
                   companyNumber={companyNumber ?? ""}
                 />
+              </div>
+            </div>
+
+            <div className="govuk-radios__item">
+              <input
+                className="govuk-radios__input"
+                id="local-authority"
+                name="findMethod"
+                type="radio"
+                value="local-authority"
+                defaultChecked={findMethod === "local-authority"}
+                data-aria-controls="conditional-local-authority"
+              />
+              <label
+                className="govuk-label govuk-radios__label"
+                htmlFor="local-authority"
+              >
+                Local authority
+              </label>
+            </div>
+            <div
+              className="govuk-radios__conditional govuk-radios__conditional--hidden"
+              id="conditional-local-authority"
+            >
+              <div
+                className={
+                  laError
+                    ? "govuk-form-group suggest-form-group govuk-form-group--error"
+                    : "govuk-form-group suggest-form-group"
+                }
+              >
+                <div id="local-authority-hint" className="govuk-hint">
+                  Name or 3 digit code
+                </div>
+                <p id="local-authority-error" className="govuk-error-message">
+                  {laError}
+                </p>
+                <LaInput input={laInput ?? ""} code={code ?? ""} />
               </div>
             </div>
           </div>

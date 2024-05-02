@@ -12,9 +12,19 @@ public abstract class WebAppClientBase<TStartup> : WebApplicationFactory<TStartu
     private readonly HttpClient _http;
     private readonly IMessageSink _messageSink;
 
-    protected WebAppClientBase(IMessageSink messageSink)
+    protected WebAppClientBase(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)
     {
-        _http = WithWebHostBuilder(builder => { builder.ConfigureTestServices(Configure); }).CreateClient(
+        _http = WithWebHostBuilder(builder =>
+        {
+            builder.ConfigureTestServices(services =>
+            {
+                services.AddAuthentication("Test").AddScheme<TestAuthOptions, Auth>("Test", options =>
+                {
+                    authCfg?.Invoke(options);
+                });
+                Configure(services);
+            });
+        }).CreateClient(
             new WebApplicationFactoryClientOptions
             {
                 BaseAddress = new Uri("https://localhost"),

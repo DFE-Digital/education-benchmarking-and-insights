@@ -4,6 +4,7 @@ using Azure.Search.Documents.Indexes;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Platform.Search.Builders;
+using Platform.Search.LocalAuthority;
 using Platform.Search.School;
 using Platform.Search.Trust;
 
@@ -18,6 +19,7 @@ public interface ISearchMaintenanceService
 public class SearchMaintenanceServiceOptions
 {
     [Required] public CosmosOptions? Cosmos { get; set; }
+    [Required] public SqlOptions? Sql { get; set; }
     [Required] public string? Name { get; set; }
     [Required] public string? Key { get; set; }
 
@@ -28,6 +30,11 @@ public class SearchMaintenanceServiceOptions
     {
         [Required] public string? ConnectionString { get; set; }
         [Required] public string? DatabaseId { get; set; }
+    }
+
+    public class SqlOptions
+    {
+        [Required] public string? ConnectionString { get; set; }
     }
 }
 
@@ -142,7 +149,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new IndexBuilder[]
         {
             new TrustIndexBuilder(),
-            new SchoolIndexBuilder()
+            new SchoolIndexBuilder(),
+            new LocalAuthorityIndexBuilder()
         };
 
         foreach (var builder in builders)
@@ -166,11 +174,13 @@ public class SearchMaintenanceService : ISearchMaintenanceService
     private async Task BuildDataSourcesConnections()
     {
         ArgumentNullException.ThrowIfNull(_options.Cosmos);
+        ArgumentNullException.ThrowIfNull(_options.Sql);
 
         var builders = new DataSourceConnectionBuilder[]
         {
             new SchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId)
+            new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -196,7 +206,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         var builders = new IndexerBuilder[]
         {
             new SchoolIndexerBuilder(),
-            new TrustIndexerBuilder()
+            new TrustIndexerBuilder(),
+            new LocalAuthorityIndexerBuilder()
         };
 
         foreach (var builder in builders)

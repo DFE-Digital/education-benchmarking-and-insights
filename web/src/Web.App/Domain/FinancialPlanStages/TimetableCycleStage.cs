@@ -4,8 +4,8 @@ public class TimetableCycleStage : Stage
 {
     public string? TimetablePeriods { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.TimetablePeriods = TimetablePeriods;
+        planInput.TimetablePeriods = TimetablePeriods;
     }
 }

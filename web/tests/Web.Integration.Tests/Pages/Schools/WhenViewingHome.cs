@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
 
-public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -55,7 +55,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
     [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanNavigateToWorkforceBenchmark(string financeType)
+    public async Task CanNavigateToCensusBenchmark(string financeType)
     {
         var (page, school) = await SetupNavigateInitPage(financeType);
 
@@ -65,7 +65,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 
     [Fact]
@@ -105,6 +105,7 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OfstedRating, "0")
             .Create();
@@ -153,6 +154,6 @@ public class WhenViewingHome(BenchmarkingWebAppClient client) : PageBase(client)
 
         DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Benchmark workforce data", Paths.SchoolWorkforce(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[2], "Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 }

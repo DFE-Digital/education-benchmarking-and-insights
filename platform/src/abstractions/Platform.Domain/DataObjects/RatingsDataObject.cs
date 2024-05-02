@@ -1,5 +1,8 @@
-﻿namespace Platform.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Domain;
+
+[ExcludeFromCodeCoverage]
 public record RatingsDataObject
 {
     public int RAGRatingId { get; set; }

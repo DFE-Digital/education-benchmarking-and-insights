@@ -12,7 +12,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-//[SchoolAuthorization]
+[SchoolAuthorization]
 [FeatureGate(FeatureFlags.CurriculumFinancialPlanning)]
 [Route("school/{urn}/financial-planning")]
 public class SchoolPlanningController(

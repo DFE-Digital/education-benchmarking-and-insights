@@ -15,6 +15,7 @@ public static class Selectors
     public const string GovDetailsSummaryText = ".govuk-details__summary-text";
     public const string GovDetailsText = ".govuk-details__text";
     public const string GovRadios = ".govuk-radios";
+    public const string GovTable = ".govuk-table";
 
     public const string ChangeSchoolLink = ":text('Change school')";
     public const string ModeChart = "#mode-chart";
@@ -61,7 +62,7 @@ public static class Selectors
     public const string PremisesDimension = "#total-premises-staff-service-costs-dimension";
 
     public const string SchoolWorkforceDimension = "#school-workforce-dimension";
-    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-workforce']/div[2]/div[2]/button";
+    public const string SchoolWorkforceSaveAsImage = "xpath=//*[@id='compare-your-census']/div[2]/div[2]/button";
 
     public const string TotalNumberOfTeacherDimension = "#total-teachers-dimension";
     public const string SeniorLeadershipDimension = "#senior-leadership-dimension";
@@ -81,7 +82,7 @@ public static class Selectors
     public const string SchoolNamesLinksInCharts = "text.recharts-text.govuk-link";
     public const string ChartBars = ".recharts-surface path.recharts-rectangle.chart-cell";
 
-    public const string SchoolSuggestDropdown = "#school-suggestions";
+    public const string SchoolSuggestDropdown = "#school-input__listbox";
     public const string MainContent = "#main-content";
     public const string GovukTag = ".govuk-tag";
 
@@ -94,8 +95,16 @@ public static class Selectors
     public const string ExpenditureDimension = "#expenditure-dimension";
     public const string ExpenditureModeTable = "#expenditure-mode-table";
     public const string ExpenditureModeChart = "#expenditure-mode-chart";
+    public const string IncomeModeTable = "#income-mode-table";
+    public const string IncomeModeChart = "#income-mode-chart";
+    public const string BalanceModeTable = "#balance-mode-table";
+    public const string BalanceModeChart = "#balance-mode-chart";
+    public const string CensusModeTable = "#census-mode-table";
+    public const string CensusModeChart = "#census-mode-chart";
 
     public const string IncomeDimension = "#income-dimension";
+    public const string BalanceDimension = "#balance-dimension";
+    public const string CensusDimension = "#census-dimension";
     public const string AccordionHeadingText = ".govuk-accordion__section-heading-text";
     public const string IncomeHistoryTab = "#tab_Income";
     public const string SpendingAccordions = "#accordion-expenditure";
@@ -103,7 +112,12 @@ public static class Selectors
     public const string SpendingTableMode = "#expenditure-mode-table";
     public const string IncomeTableMode = "#income-mode-table";
     public const string BalanceTableMode = "#balance-mode-table";
-    public const string WorkforceTableMode = "#workforce-mode-table";
+    public const string CensusTableMode = "#census-mode-table";
+    public const string SpendingPanel = "#spending";
+    public const string IncomePanel = "#income";
+    public const string BalancePanel = "#balance";
+    public const string CensusPanel = "#census";
+
 
     public const string SpendingAccordionHeading2 = "#accordion-expenditure-heading-2";
     public const string SpendingAccordionContent2 = "#accordion-expenditure-content-2";

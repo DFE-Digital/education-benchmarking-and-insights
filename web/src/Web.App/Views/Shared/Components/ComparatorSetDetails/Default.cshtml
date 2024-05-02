@@ -11,15 +11,15 @@
             <div class="govuk-details__text">
             @switch (Model.Referrer)
             {
-                case Referrers.SchoolWorkforce:
-                    @await Html.PartialAsync("Components/ComparatorSetDetails/_WorkforceDetails", Model)
+                case Referrers.SchoolCensus:
+                    @await Html.PartialAsync("Components/ComparatorSetDetails/_CensusDetails", Model)
                     break;
                 case Referrers.SchoolSpending:
                 case Referrers.SchoolComparison:
                     @await Html.PartialAsync("Components/ComparatorSetDetails/_CostDetails", Model)
                     break;
             }
-            @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolWorkforce)
+            @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolCensus)
             {
                 <p class="govuk-body">
                     <a class="govuk-link govuk-link--no-visited-state"

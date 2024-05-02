@@ -4,6 +4,7 @@ public class PutFinancialPlanRequest
 {
     public int? Year { get; set; }
     public string? Urn { get; set; }
+    public string? User { get; set; }
     public bool IsComplete { get; set; }
     public decimal TargetContactRatio { get; set; }
     public bool? UseFigures { get; set; }

@@ -41,7 +41,7 @@ type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<
 
 type ChartSeriesName = string;
 export type ChartSeriesValue = string | number | bigint | boolean;
-export type ChartSeriesValueUnit = "%" | "currency";
+export type ChartSeriesValueUnit = "%" | "currency" | "amount";
 export type ChartDataSeries = { [name: ChartSeriesName]: ChartSeriesValue };
 
 export type TickProps = SVGProps<SVGGElement> & {

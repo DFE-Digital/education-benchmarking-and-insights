@@ -29,108 +29,108 @@ public class ManagersPerRoleStage : Stage
     public string? NumberPastoralLeader { get; set; }
     public string? NumberOtherMembers { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.NumberHeadteacher = NumberHeadteacher;
-        plan.NumberDeputyHeadteacher = NumberDeputyHeadteacher;
-        plan.NumberNumeracyLead = NumberNumeracyLead;
-        plan.NumberLiteracyLead = NumberLiteracyLead;
-        plan.NumberHeadSmallCurriculum = NumberHeadSmallCurriculum;
-        plan.NumberHeadKs1 = NumberHeadKs1;
-        plan.NumberHeadKs2 = NumberHeadKs2;
-        plan.NumberSenco = NumberSenco;
-        plan.NumberAssistantHeadteacher = NumberAssistantHeadteacher;
-        plan.NumberHeadLargeCurriculum = NumberHeadLargeCurriculum;
-        plan.NumberPastoralLeader = NumberPastoralLeader;
-        plan.NumberOtherMembers = NumberOtherMembers;
+        planInput.NumberHeadteacher = NumberHeadteacher;
+        planInput.NumberDeputyHeadteacher = NumberDeputyHeadteacher;
+        planInput.NumberNumeracyLead = NumberNumeracyLead;
+        planInput.NumberLiteracyLead = NumberLiteracyLead;
+        planInput.NumberHeadSmallCurriculum = NumberHeadSmallCurriculum;
+        planInput.NumberHeadKs1 = NumberHeadKs1;
+        planInput.NumberHeadKs2 = NumberHeadKs2;
+        planInput.NumberSenco = NumberSenco;
+        planInput.NumberAssistantHeadteacher = NumberAssistantHeadteacher;
+        planInput.NumberHeadLargeCurriculum = NumberHeadLargeCurriculum;
+        planInput.NumberPastoralLeader = NumberPastoralLeader;
+        planInput.NumberOtherMembers = NumberOtherMembers;
 
-        ResetTeachingPeriods(plan);
+        ResetTeachingPeriods(planInput);
     }
 
-    private static void ResetTeachingPeriods(FinancialPlan plan)
+    private static void ResetTeachingPeriods(FinancialPlanInput planInput)
     {
-        if (plan.TeachingPeriodsHeadteacher.Length != plan.NumberHeadteacher.ToInt())
+        if (planInput.TeachingPeriodsHeadteacher.Length != planInput.NumberHeadteacher.ToInt())
         {
-            var val = plan.NumberHeadteacher.ToInt() ?? 0;
+            var val = planInput.NumberHeadteacher.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsHeadteacher = new string[count];
+            planInput.TeachingPeriodsHeadteacher = new string[count];
         }
 
-        if (plan.TeachingPeriodsDeputyHeadteacher.Length != plan.NumberDeputyHeadteacher.ToInt())
+        if (planInput.TeachingPeriodsDeputyHeadteacher.Length != planInput.NumberDeputyHeadteacher.ToInt())
         {
-            var val = plan.NumberDeputyHeadteacher.ToInt() ?? 0;
+            var val = planInput.NumberDeputyHeadteacher.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsDeputyHeadteacher = new string[count];
+            planInput.TeachingPeriodsDeputyHeadteacher = new string[count];
         }
 
-        if (plan.TeachingPeriodsNumeracyLead.Length != plan.NumberNumeracyLead.ToInt())
+        if (planInput.TeachingPeriodsNumeracyLead.Length != planInput.NumberNumeracyLead.ToInt())
         {
-            var val = plan.NumberNumeracyLead.ToInt() ?? 0;
+            var val = planInput.NumberNumeracyLead.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsNumeracyLead = new string[count];
+            planInput.TeachingPeriodsNumeracyLead = new string[count];
         }
 
-        if (plan.TeachingPeriodsLiteracyLead.Length != plan.NumberLiteracyLead.ToInt())
+        if (planInput.TeachingPeriodsLiteracyLead.Length != planInput.NumberLiteracyLead.ToInt())
         {
-            var val = plan.NumberLiteracyLead.ToInt() ?? 0;
+            var val = planInput.NumberLiteracyLead.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsLiteracyLead = new string[count];
+            planInput.TeachingPeriodsLiteracyLead = new string[count];
         }
 
-        if (plan.TeachingPeriodsHeadSmallCurriculum.Length != plan.NumberHeadSmallCurriculum.ToInt())
+        if (planInput.TeachingPeriodsHeadSmallCurriculum.Length != planInput.NumberHeadSmallCurriculum.ToInt())
         {
-            var val = plan.NumberHeadSmallCurriculum.ToInt() ?? 0;
+            var val = planInput.NumberHeadSmallCurriculum.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsHeadSmallCurriculum = new string[count];
+            planInput.TeachingPeriodsHeadSmallCurriculum = new string[count];
         }
 
-        if (plan.TeachingPeriodsHeadKs1.Length != plan.NumberHeadKs1.ToInt())
+        if (planInput.TeachingPeriodsHeadKs1.Length != planInput.NumberHeadKs1.ToInt())
         {
-            var val = plan.NumberHeadKs1.ToInt() ?? 0;
+            var val = planInput.NumberHeadKs1.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsHeadKs1 = new string[count];
+            planInput.TeachingPeriodsHeadKs1 = new string[count];
         }
 
-        if (plan.TeachingPeriodsHeadKs2.Length != plan.NumberHeadKs2.ToInt())
+        if (planInput.TeachingPeriodsHeadKs2.Length != planInput.NumberHeadKs2.ToInt())
         {
-            var val = plan.NumberHeadKs2.ToInt() ?? 0;
+            var val = planInput.NumberHeadKs2.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsHeadKs2 = new string[count];
+            planInput.TeachingPeriodsHeadKs2 = new string[count];
         }
 
-        if (plan.TeachingPeriodsSenco.Length != plan.NumberSenco.ToInt())
+        if (planInput.TeachingPeriodsSenco.Length != planInput.NumberSenco.ToInt())
         {
-            var val = plan.NumberSenco.ToInt() ?? 0;
+            var val = planInput.NumberSenco.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsSenco = new string[count];
+            planInput.TeachingPeriodsSenco = new string[count];
         }
 
-        if (plan.TeachingPeriodsAssistantHeadteacher.Length != plan.NumberAssistantHeadteacher.ToInt())
+        if (planInput.TeachingPeriodsAssistantHeadteacher.Length != planInput.NumberAssistantHeadteacher.ToInt())
         {
-            var val = plan.NumberAssistantHeadteacher.ToInt() ?? 0;
+            var val = planInput.NumberAssistantHeadteacher.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsAssistantHeadteacher = new string[count];
+            planInput.TeachingPeriodsAssistantHeadteacher = new string[count];
         }
 
-        if (plan.TeachingPeriodsHeadLargeCurriculum.Length != plan.NumberHeadLargeCurriculum.ToInt())
+        if (planInput.TeachingPeriodsHeadLargeCurriculum.Length != planInput.NumberHeadLargeCurriculum.ToInt())
         {
-            var val = plan.NumberHeadLargeCurriculum.ToInt() ?? 0;
+            var val = planInput.NumberHeadLargeCurriculum.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsHeadLargeCurriculum = new string[count];
+            planInput.TeachingPeriodsHeadLargeCurriculum = new string[count];
         }
 
-        if (plan.TeachingPeriodsPastoralLeader.Length != plan.NumberPastoralLeader.ToInt())
+        if (planInput.TeachingPeriodsPastoralLeader.Length != planInput.NumberPastoralLeader.ToInt())
         {
-            var val = plan.NumberPastoralLeader.ToInt() ?? 0;
+            var val = planInput.NumberPastoralLeader.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsPastoralLeader = new string[count];
+            planInput.TeachingPeriodsPastoralLeader = new string[count];
         }
 
-        if (plan.TeachingPeriodsOtherMembers.Length != plan.NumberOtherMembers.ToInt())
+        if (planInput.TeachingPeriodsOtherMembers.Length != planInput.NumberOtherMembers.ToInt())
         {
-            var val = plan.NumberOtherMembers.ToInt() ?? 0;
+            var val = planInput.NumberOtherMembers.ToInt() ?? 0;
             var count = val > 0 ? val : 0;
-            plan.TeachingPeriodsOtherMembers = new string[count];
+            planInput.TeachingPeriodsOtherMembers = new string[count];
         }
     }
 }

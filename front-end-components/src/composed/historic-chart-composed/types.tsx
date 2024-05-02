@@ -1,5 +1,9 @@
 import { ReactNode } from "react";
-import { ChartDataSeries, ChartProps } from "src/components/charts/types";
+import {
+  ChartDataSeries,
+  ChartProps,
+  ChartSeriesValueUnit,
+} from "src/components/charts/types";
 import { ResolvedStatProps } from "src/components/charts/resolved-stat";
 
 export interface HistoricChartProps<T extends ChartDataSeries> {
@@ -8,4 +12,6 @@ export interface HistoricChartProps<T extends ChartDataSeries> {
   seriesConfig: ChartProps<T>["seriesConfig"];
   valueField: ResolvedStatProps<T>["valueField"];
   children?: ReactNode;
+  valueUnit?: ChartSeriesValueUnit;
+  label?: string;
 }

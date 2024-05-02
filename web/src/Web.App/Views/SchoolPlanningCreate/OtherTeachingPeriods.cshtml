@@ -7,6 +7,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("_ErrorSummary")
         <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
             <span class="govuk-caption-l">@Model.School.Name</span>
             <h1 class="govuk-fieldset__heading">
@@ -32,7 +33,7 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
-        @using (Html.BeginForm("OtherTeachingPeriods", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.Plan?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("OtherTeachingPeriods", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.IsValid ? "govuk-form-group" : "govuk-form-group govuk-form-group--error")">
                 <fieldset class="govuk-fieldset">
@@ -51,7 +52,7 @@
                         </tr>
                         </thead>
                         <tbody class="govuk-table__body">
-                        @for (var i = 0; i < Model.Plan?.OtherTeachingPeriods.Count; i++)
+                        @for (var i = 0; i < Model.PlanInput?.OtherTeachingPeriods.Count; i++)
                         {
                             <tr class="govuk-table__row">
                                 <td class="govuk-table__cell">
@@ -61,7 +62,7 @@
                                            aria-label="Name of teaching period"
                                            type="text"
                                            spellcheck="false"
-                                           value="@Model.Plan?.OtherTeachingPeriods[i].PeriodName">
+                                           value="@Model.PlanInput?.OtherTeachingPeriods[i].PeriodName">
                                 </td>
                                 <td class="govuk-table__cell">
                                     <input class="govuk-input govuk-input--width-5"
@@ -70,7 +71,7 @@
                                            aria-label="Number of periods per timetable cycle"
                                            type="number"
                                            spellcheck="false"
-                                           value="@Model.Plan?.OtherTeachingPeriods[i].PeriodsPerTimetable">
+                                           value="@Model.PlanInput?.OtherTeachingPeriods[i].PeriodsPerTimetable">
                                 </td>
                                 <td class="govuk-table__cell">
                                     <button type="submit" class="govuk-button govuk-button--warning govuk-!-margin-0" data-module="govuk-button" name="action" value="@($"{FormAction.Remove}-{i}")">Remove</button>

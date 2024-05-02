@@ -55,15 +55,18 @@ stages:
               echo "##vso[task.setvariable variable=Version.BuildNumber]$(Version.BuildNumber)"
               echo "##vso[task.setvariable variable=Version.BuildVersion]$(Version.BuildNumber)"
 
+              environmentPrefix=s198d$(Version.FeatureEnvironment)
               if [[ "$(Environment.Name)" == "pre-production" ]]; then
-                echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]s198p$(Version.FeatureEnvironment)"
-              else
-                echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]s198d$(Version.FeatureEnvironment)"
+                environmentPrefix=s198p$(Version.FeatureEnvironment)
               fi
 
+              echo "##vso[task.setvariable variable=Environment_Prefix;isOutput=true]$environmentPrefix"
               echo "##vso[build.updatebuildnumber]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]$(Version.BuildNumber)"
               echo "##vso[build.addbuildtag]Environment $(Version.FeatureEnvironment)"
+
+              branchRevision=$(Version.BranchRevision)
+              echo "##vso[task.setvariable variable=Version_FrontEnd;isOutput=true]0.$(Version.FeatureEnvironment).$((branchRevision + 1))-$environmentPrefix.0"
             displayName: 'Set release build number'
             name: outputVars
 
@@ -177,6 +180,8 @@ stages:
       - group: 'dsi pre-prod'
       - name: environmentPrefix
         value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
+      - name: frontEndVersion
+        value: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Version_FrontEnd'] ]
     jobs:
       - job: ZipStaticWebArtifacts
         displayName: 'Zip static artifacts'
@@ -193,7 +198,7 @@ stages:
             parameters:
               BuildVersion: $(Version.BuildVersion)
               BuildNumber: $(Version.BuildNumber)
-              frontEndVersion: '$(Version.BuildNumber)-$(environmentPrefix).0'
+              frontEndVersion: $(frontEndVersion)
 
       - template: ../web/deployment.yaml
         parameters:

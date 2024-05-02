@@ -4,8 +4,8 @@ public class TotalTeacherCostsStage : Stage
 {
     public string? TotalTeacherCosts { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.TotalTeacherCosts = TotalTeacherCosts;
+        planInput.TotalTeacherCosts = TotalTeacherCosts;
     }
 }

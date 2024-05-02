@@ -17,4 +17,4 @@ When developing this application in Visual Studio Code, the following extensions
 | Views                     | Properties                         | Root Id              |
 |---------------------------|------------------------------------|----------------------|
 | Compare your school costs | urn, maintainedYear, academyYear   | compare-your-school  |
-| Compare your workforrce   | urn, maintainedYear, academyYear   | compare-workforce    |
+| Compare your workforrce   | urn, maintainedYear, academyYear   | compare-census    |

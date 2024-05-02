@@ -5,19 +5,39 @@
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("_ErrorSummary")
         <h1 class="govuk-heading-l">@ViewData[ViewDataKeys.Title]</h1>
     </div>
 </div>
+
+<noscript>
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Your browser does not meet the minimum requirements to use this service.
+        </strong>
+    </div>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>
+            Please ensure that JavaScript is enabled.
+        </li>
+    </ul>
+</noscript>
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         <div id="find-organisation"
-             data-find-method="@Model.FindMethod"
-             data-urn="@Model.Urn"
              data-company-number="@Model.CompanyNumber"
-             data-school-input="@Model.SchoolInput"
+             data-find-method="@Model.FindMethod"
+             data-la-error="@ViewData.ModelState["la-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
+             data-la-input="@Model.LaInput"
              data-school-error="@ViewData.ModelState["school-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
+             data-school-input="@Model.SchoolInput"
+             data-trust-error="@ViewData.ModelState["trust-input"]?.Errors.FirstOrDefault()?.ErrorMessage"
              data-trust-input="@Model.TrustInput"
-             data-trust-error="@ViewData.ModelState["trust-input"]?.Errors.FirstOrDefault()?.ErrorMessage">
+             data-urn="@Model.Urn"
+        >
         </div>
     </div>
 </div>

@@ -6,16 +6,14 @@ using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
 
-[ExcludeFromCodeCoverage]
-public record LocalAuthoritySearchServiceOptions : SearchServiceOptions;
 
 [ExcludeFromCodeCoverage]
 public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAuthorityResponseModel>
 {
     private static readonly string[] Facets = { "" };
-    private const string IndexName = "local-authority-index";
+    private const string IndexName = SearchResourceNames.Indexes.LocalAuthority;
 
-    public LocalAuthoritySearchService(IOptions<LocalAuthoritySearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    public LocalAuthoritySearchService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
     }
 
@@ -26,7 +24,13 @@ public class LocalAuthoritySearchService : SearchService, ISearchService<LocalAu
 
     public Task<SuggestResponseModel<LocalAuthorityResponseModel>> SuggestAsync(PostSuggestRequestModel request)
     {
-        throw new System.NotImplementedException();
+        var fields = new[]
+        {
+            nameof(LocalAuthorityResponseModel.Code),
+            nameof(LocalAuthorityResponseModel.Name)
+        };
+
+        return SuggestAsync<LocalAuthorityResponseModel>(request, selectFields: fields);
     }
 
     private static string? CreateFilterExpression(FilterCriteriaRequestModel[] requestFilters)

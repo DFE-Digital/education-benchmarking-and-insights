@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
-using Web.Identity.Extensions;
-using Web.Identity.Models;
 using Newtonsoft.Json;
+using Web.App.Extensions;
+using Web.App.Identity.Models;
 using Xunit;
 
 namespace Web.Tests.Identity;

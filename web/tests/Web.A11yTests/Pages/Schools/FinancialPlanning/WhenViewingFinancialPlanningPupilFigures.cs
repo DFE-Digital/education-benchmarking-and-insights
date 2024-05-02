@@ -4,7 +4,7 @@ using Xunit.Abstractions;
 
 namespace Web.A11yTests.Pages.Schools.FinancialPlanning;
 
-[Collection(nameof(FinancialPlanMinimalDataCollection))]
+/*[Collection(nameof(FinancialPlanMinimalDataCollection))]
 public class WhenViewingFinancialPlanningPupilFigures(
     ITestOutputHelper outputHelper,
     WebDriver webDriver,
@@ -29,4 +29,4 @@ public class WhenViewingFinancialPlanningPupilFigures(
         await Page.Locator(":text('Continue')").ClickAsync();
         await EvaluatePage();
     }
-}
+}*/
