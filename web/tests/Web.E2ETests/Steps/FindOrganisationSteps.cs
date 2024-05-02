@@ -27,7 +27,14 @@ public class FindOrganisationSteps(PageDriver driver)
     public async Task WhenISelectTheSchoolWithUrnFromSuggester(string urn)
     {
         Assert.NotNull(_findOrganisationPage);
-        _schoolHomePage = await _findOrganisationPage.SelectSchoolFromSuggester(urn);
+        await _findOrganisationPage.SelectSchoolFromSuggester(urn);
+    }
+    
+    [When("I click Continue")]
+    public async Task WhenIClickContinue()
+    {
+        Assert.NotNull(_findOrganisationPage);
+        _schoolHomePage = await _findOrganisationPage.ClickContinue();
     }
 
     [Then("the school homepage is displayed")]
