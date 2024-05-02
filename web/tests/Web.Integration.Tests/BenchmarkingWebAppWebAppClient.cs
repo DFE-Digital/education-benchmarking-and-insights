@@ -48,6 +48,17 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupEstablishment(Trust trust, School[] schools)
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
+        EstablishmentApi
+            .Setup(api => api.QuerySchools(It.Is<ApiQuery>(x => x.Any(q => q.Key == "companyNumber" && q.Value == trust.CompanyNumber))))
+            .ReturnsAsync(ApiResult.Ok(schools));
+
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupEstablishmentWithNotFound()
     {
         EstablishmentApi.Reset();

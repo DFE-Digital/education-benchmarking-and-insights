@@ -67,7 +67,19 @@
                                 View financial data from previous years.
                             </p>
                         </li>
-                        break;                        
+                        break;
+                    case Resources.TrustDetails:
+                        <li>
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "TrustDetails", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    Trust contact details
+                                </a>
+                            </h3>
+                            <p class="govuk-body">
+                                View contact details for this trust.
+                            </p>
+                        </li>
+                        break;
                 }
             }
         </ul>
