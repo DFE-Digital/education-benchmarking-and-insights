@@ -1,3 +1,5 @@
+import math
+
 import pandas as pd
 
 base_cols = [
@@ -473,37 +475,85 @@ category_settings = {
 }
 
 
-def is_area_close_comparator(y, x):
-    return (
-        ((x["Total Internal Floor Area"] * 0.9) >= y["Total Internal Floor Area"])
-        | (y["Total Internal Floor Area"] <= (x["Total Internal Floor Area"] * 1.1))
-        & ((x["Age Average Score"] * 0.75) >= y["Age Average Score"])
-        | (y["Age Average Score"] <= (x["Age Average Score"] * 1.25))
+def is_area_close_comparator(org_a, org_b):
+    """
+    Determine whether two organisations are close assuming both:
+
+    - gross internal floor area is within 10%;
+    - average age of buildings is within 20 years.
+
+    :param org_a: first organisation for comparison
+    :param org_b: second organisation for comparison
+    :return: whether organisations are close, as defined
+    """
+    floor_area_is_close = math.isclose(
+        org_a["Total Internal Floor Area"],
+        org_b["Total Internal Floor Area"],
+        rel_tol=0.1,
+    )
+    average_age_score_is_close = math.isclose(
+        org_a["Age Average Score"],
+        org_b["Age Average Score"],
+        abs_tol=20.0,
+    )
+
+    return floor_area_is_close and average_age_score_is_close
+
+
+def is_pupil_close_comparator(org_a, org_b):
+    """
+    Determine if two organisations are close assuming all:
+
+    - number of pupils is within 25%;
+    - percentage of FSM (Free School Meals) is within 5%;
+    - percentage of SEN (Special Educational Need) is within 10%;
+
+    :param org_a: first organisation for comparison
+    :param org_b: second organisation for comparison
+    :return: whether organisations are close, as defined
+    """
+    number_of_pupils_is_close = math.isclose(
+        org_a["Number of pupils"],
+        org_b["Number of pupils"],
+        rel_tol=0.25,
+    )
+    fsm_is_close = math.isclose(
+        org_a["Percentage Free school meals"],
+        org_b["Percentage Free school meals"],
+        rel_tol=0.05,
+    )
+    sen_is_close = math.isclose(
+        org_a["Percentage SEN"],
+        org_b["Percentage SEN"],
+        rel_tol=0.1,
+    )
+
+    return all(
+        (
+            number_of_pupils_is_close,
+            fsm_is_close,
+            sen_is_close,
+        )
     )
 
 
-def is_pupil_close_comparator(y, x):
-    return (
-        ((x["Number of pupils"] * 0.75) >= y["Number of pupils"])
-        | (y["Number of pupils"] <= (x["Number of pupils"] * 1.25))
-        & (
-            (x["Percentage Free school meals"] * 0.95)
-            >= y["Percentage Free school meals"]
-        )
-        | (
-            y["Percentage Free school meals"]
-            <= (x["Percentage Free school meals"] * 1.05)
-        )
-        & ((x["Percentage SEN"] * 0.90) >= y["Percentage SEN"])
-        | (y["Percentage SEN"] <= (x["Percentage SEN"] * 1.10))
-    )
+def is_close_comparator(category_type, org_a, org_b):
+    """
+    Determine which "close range" is to be used.
 
+    For building cost categories (i.e. "premises staff and services and
+    utilities"), area calculations are used.
 
-def is_close_comparator(t, y, x):
-    if t == "area":
-        return is_area_close_comparator(y, x)
-    else:
-        return is_pupil_close_comparator(y, x)
+    For all other cost categories, pupil characteristics are used.
+
+    :param org_a: first organisation for comparison
+    :param org_b: second organisation for comparison
+    :return: whether organisations are close, as defined
+    """
+    if category_type == "area":
+        return is_area_close_comparator(org_a, org_b)
+
+    return is_pupil_close_comparator(org_a, org_b)
 
 
 def map_rag(d, ofstead, rag_mapping):
