@@ -111,6 +111,16 @@ stages:
           sourceEnvironmentPrefix: 's198d01'
           buildNumber: $(Version.BuildNumber)
 
+      - job: RunE2ETests
+        dependsOn: [ DataPipelineProvision ]
+        displayName: 'Run E2E tests'
+        steps:
+          - template: steps\run-e2e-tests.yaml
+            parameters:
+              workspaceDir: '$(Pipeline.Workspace)'
+              subscription: 's198d.azdo-deployment'
+              environmentPrefix: 's198d02'
+
   - stage: DeployTest
     dependsOn: [ DeployAutomatedTest ]
     displayName: 'Test'

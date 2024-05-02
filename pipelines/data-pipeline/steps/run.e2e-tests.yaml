@@ -1,0 +1,25 @@
+parameters:
+  environmentPrefix: ''
+  subscription: ''
+
+steps:
+  - checkout: self
+
+  - task: AzureKeyVault@2
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+      SecretsFilter: '*'
+      RunAsPreJob: true
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in .env'
+    inputs:
+      sources: '$(Build.SourcesDirectory)/data-pipeline/tests/e2e/.env'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - script: |
+      make e2e-test
+    displayName: 'Run e2e tests'
+    workingDirectory: data-pipeline

@@ -19,7 +19,7 @@ steps:
 
   - script: |
       make unit-test
-    displayName: 'Tests'
+    displayName: 'Run unit tests'
     workingDirectory: data-pipeline
 
   - task: PublishTestResults@2
