@@ -66,11 +66,11 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
         {data.length > 0 ? (
           <>
             <HistoricChart
-              chartName="Pupils on Roll"
+              chartName="Pupils on roll"
               data={data}
               seriesConfig={{
                 numberOfPupils: {
-                  label: "Pupils on Roll",
+                  label: "Pupils on roll",
                   visible: true,
                 },
               }}
@@ -78,7 +78,7 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
               valueUnit="amount"
               label="total"
             >
-              <h2 className="govuk-heading-m">Pupils on Roll</h2>
+              <h2 className="govuk-heading-m">Pupils on roll</h2>
             </HistoricChart>
 
             <HistoricChart
