@@ -100,6 +100,10 @@ Consumption of the feature is managed via the [`<FindOrganisation />` view](/fro
 
 The `<SchoolInput />` and `<TrustInput />` components manage the input field state, key press events and API `fetch` effects. Search results are bound to a list, and when an item is clicked upon, or navigated to with arrow keys and enter pressed, the selected item identifier is set in a hidden `<input />` field. The `<form />` is submitted on the Continue `<button />` press, which `POST`s back to the Controller for model validation and, if all is well, redirection to the appropriate establishment home page.
 
+### Accessible Autocomplete
+
+The [alphagov/accessible-autocomplete](https://github.com/alphagov/accessible-autocomplete) package was chosen for use here due to its (partial) support by the GDS team and the high level of accessibility support. It is also distributed with React integration, has (third party) typings available, and has a high number of downloads/dependents/forks/stars compared. Alternatives were to maintain a custom component to manage the accessibility needs, or other GDS branded options such as `Autocomplete` from [@x-govuk/govuk-prototype-components](https://x-govuk.github.io/govuk-prototype-components/autocomplete/), which is used in the Prototype kit.
+
 ## Configuration
 
 In Establishment API:
