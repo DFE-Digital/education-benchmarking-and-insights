@@ -25,3 +25,5 @@ workbooks/output
 .env
 
 tests/output/
+
+!/tests/e2e/.env
