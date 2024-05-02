@@ -1,7 +1,8 @@
+import { useState } from "react";
 import AccessibleAutocomplete from "accessible-autocomplete/react";
+import { useDebounceCallback } from "usehooks-ts";
 import { AutoCompleteProps } from "./types";
 import "accessible-autocomplete/dist/accessible-autocomplete.min.css";
-import { useState } from "react";
 
 export function AutoComplete<T>({
   onSelected,
@@ -12,36 +13,41 @@ export function AutoComplete<T>({
 }: AutoCompleteProps<T>) {
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
-  const handleSource = (
+  const suggest = async (
     query: string,
     populateResults: (values: T[]) => void
   ) => {
     setIsLoading(true);
 
-    onSuggest(query)
-      .then((results) => {
-        if (results && Array.isArray(results)) {
-          populateResults(results);
-          return;
-        }
+    try {
+      const results = await onSuggest(query);
+      if (results && Array.isArray(results)) {
+        populateResults(results);
+        return;
+      }
 
-        throw new Error("Unexpected results returned from suggester");
-      })
-      .catch(() => {
-        // todo: report failure back to component
-        populateResults([]);
-      })
-      .finally(() => setIsLoading(false));
+      throw new Error("Unexpected results returned from suggester");
+    } catch {
+      // todo: report failure back to component
+      populateResults([]);
+    } finally {
+      setIsLoading(false);
+    }
   };
+
+  const debouncedSource = useDebounceCallback(
+    async (query, populateResults) => {
+      await suggest(query, populateResults as (values: T[]) => void);
+    },
+    300
+  );
 
   return (
     <AccessibleAutocomplete
       {...props}
       onConfirm={(confirmed) => onSelected(confirmed as T)}
       showNoOptionsFound={false}
-      source={(query, syncResults) =>
-        handleSource(query, syncResults as (values: T[]) => void)
-      }
+      source={debouncedSource}
       templates={{
         inputValue: (selectedSuggestion: string) =>
           valueFormatter(selectedSuggestion as T),

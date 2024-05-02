@@ -9,22 +9,15 @@ import { v4 as uuidv4 } from "uuid";
 
 const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
   const { input, companyNumber } = props;
-
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedCompanyNumber, setSelectedCompanyNumber] =
     useState<string>(companyNumber);
 
-  let controller = new AbortController();
-
   const handleSuggest = async (query: string) => {
-    controller.abort();
-    controller = new AbortController();
-
     try {
       const res = await fetch(
         "/api/suggest?" + new URLSearchParams({ type: "trust", search: query }),
         {
-          signal: controller.signal,
           redirect: "manual",
           method: "GET",
           headers: {
@@ -48,9 +41,6 @@ const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
   };
 
   const handleSelected = (value: SuggestResult<TrustDocument>) => {
-    controller.abort();
-    controller = new AbortController();
-
     if (!value) {
       return;
     }
