@@ -31,11 +31,15 @@ public class HistoricDataPage(IPage page)
 
     private readonly string[] _censusCategories =
     {
-        "School workforce (full time equivalent)", "Total number of teachers (full time equivalent)",
-        "Teachers with qualified teacher status", "Senior leadership (full time equivalent)",
+        "Pupils on roll", 
+        "School workforce (full time equivalent)", 
+        "Total number of teachers (full time equivalent)",
+        "Teachers with qualified teacher status (%)", 
+        "Senior leadership (full time equivalent)",
         "Teaching assistants (full time equivalent)",
         "Non-classroom support staff - excluding auxiliary staff (full time equivalent)",
-        "Auxiliary staff (full time equivalent)", "School workforce (headcount)"
+        "Auxiliary staff (full time equivalent)", 
+        "School workforce (headcount)"
     };
 
     private readonly string[] _spendingSubCategories =
