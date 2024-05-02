@@ -24,7 +24,7 @@ export const NonClassroomSupport: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "non-classroom-support-staff-fte"
+      "NonClassroomSupportStaffFte"
     );
   }, [id, dimension, type]);
 

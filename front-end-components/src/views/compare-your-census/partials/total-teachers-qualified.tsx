@@ -15,7 +15,7 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
   const [data, setData] = useState(new Array<Census>());
   const getData = useCallback(async () => {
     setData(new Array<Census>());
-    return await CensusApi.query(type, id, "Percent", "teachers-qualified");
+    return await CensusApi.query(type, id, "Total", "TeachersQualified");
   }, [id, type]);
 
   useEffect(() => {

@@ -26,7 +26,7 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "workforce-headcount"
+      "WorkforceHeadcount"
     );
   }, [id, dimension, type]);
 

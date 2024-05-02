@@ -24,7 +24,7 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "senior-leadership-fte"
+      "SeniorLeadershipFte"
     );
   }, [id, dimension, type]);
 

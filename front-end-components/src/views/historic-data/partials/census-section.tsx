@@ -75,6 +75,8 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
                 },
               }}
               valueField="numberOfPupils"
+              valueUnit="amount"
+              label="total"
             >
               <h2 className="govuk-heading-m">Pupils on Roll</h2>
             </HistoricChart>
@@ -153,6 +155,7 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
               }}
               valueField="teachersQualified"
               valueUnit="%"
+              label="percentage"
             >
               <h2 className="govuk-heading-m">
                 Teachers with qualified teacher status (%)

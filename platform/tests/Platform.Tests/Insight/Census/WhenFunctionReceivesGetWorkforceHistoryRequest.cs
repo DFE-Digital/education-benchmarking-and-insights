@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<CensusDimension>()))
+            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<CensusResponseModel>());
 
         var result = await Functions.CensusHistoryAsync(CreateRequest(), "1") as JsonContentResult;
@@ -26,7 +26,7 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<CensusDimension>()))
+            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.CensusHistoryAsync(CreateRequest(), "1") as StatusCodeResult;

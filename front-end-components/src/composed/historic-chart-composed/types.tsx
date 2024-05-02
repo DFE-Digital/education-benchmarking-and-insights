@@ -13,4 +13,5 @@ export interface HistoricChartProps<T extends ChartDataSeries> {
   valueField: ResolvedStatProps<T>["valueField"];
   children?: ReactNode;
   valueUnit?: ChartSeriesValueUnit;
+  label?: string;
 }

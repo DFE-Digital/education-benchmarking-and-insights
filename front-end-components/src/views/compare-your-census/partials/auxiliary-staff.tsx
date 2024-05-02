@@ -24,7 +24,7 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "auxiliary-staff-fte"
+      "AuxiliaryStaffFte"
     );
   }, [id, dimension, type]);
 

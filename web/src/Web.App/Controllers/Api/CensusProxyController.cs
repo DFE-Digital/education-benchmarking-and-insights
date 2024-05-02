@@ -53,7 +53,7 @@ public class CensusProxyController(
         {
             try
             {
-                var query = BuildApiQuery(dimension);
+                var query = BuildApiQuery(dimension: dimension);
                 var result = await censusApi.History(id, query).GetResultOrDefault<Census[]>();
                 return new JsonResult(result);
             }
@@ -65,23 +65,20 @@ public class CensusProxyController(
         }
     }
 
-    private static ApiQuery BuildApiQuery(IEnumerable<string> urns, string category, string dimension)
-    {
-        var query = BuildApiQuery(dimension)
-            .AddIfNotNull("category", category);
-
-        foreach (var urn in urns)
-        {
-            query.AddIfNotNull("urns", urn);
-        }
-
-        return query;
-    }
-
-    private static ApiQuery BuildApiQuery(string dimension)
+    private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? category = null, string? dimension = null)
     {
         var query = new ApiQuery()
-            .AddIfNotNull("dimension", dimension);
+            .AddIfNotNull("dimension", dimension)
+            .AddIfNotNull("category", category);
+
+        if (urns != null)
+        {
+            foreach (var urn in urns)
+            {
+                query.AddIfNotNull("urns", urn);
+
+            }
+        }
 
         return query;
     }

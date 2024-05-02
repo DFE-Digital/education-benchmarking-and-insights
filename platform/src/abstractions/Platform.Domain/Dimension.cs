@@ -8,12 +8,3 @@ public enum Dimension
     PercentExpenditure,
     PoundPerSqMetre
 }
-
-public enum CensusDimension
-{
-    HeadcountPerFte,
-    Total,
-    PercentWorkforce,
-    PupilsPerStaffRole,
-    Percentage
-}

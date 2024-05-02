@@ -28,10 +28,48 @@ public class CensusFunctions
         _db = db;
     }
 
+    [FunctionName(nameof(CensusAllCategories))]
+    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
+    public IActionResult CensusAllCategories(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/categories")]
+        HttpRequest req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+
+            return new JsonContentResult(CensusCategories.All);
+        }
+    }
+
+    [FunctionName(nameof(CensusAllDimensions))]
+    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
+    public IActionResult CensusAllDimensions(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/dimensions")]
+        HttpRequest req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+
+            return new JsonContentResult(CensusDimensions.All);
+        }
+    }
+
     [FunctionName(nameof(CensusHistoryAsync))]
     [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> CensusHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}/history")]
         HttpRequest req,
@@ -48,7 +86,7 @@ public class CensusFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = GetDimensionFromQuery(req);
+                var dimension = req.Query["dimension"].ToString();
                 var result = await _db.GetHistory(urn, dimension);
                 return new JsonContentResult(result);
             }
@@ -65,7 +103,7 @@ public class CensusFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
     [QueryStringParameter("category", "Census category", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
+    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> QueryCensusAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census")]
         HttpRequest req)
@@ -83,7 +121,7 @@ public class CensusFunctions
                 //TODO: Add validation for urns, category and dimension
                 var urns = req.Query["urns"].ToString().Split(",");
                 var category = req.Query["category"].ToString();
-                var dimension = GetDimensionFromQuery(req);
+                var dimension = req.Query["dimension"].ToString();
                 var finances = await _db.Get(urns, category, dimension);
                 return new JsonContentResult(finances);
             }
@@ -93,15 +131,5 @@ public class CensusFunctions
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-    }
-
-
-    private static CensusDimension GetDimensionFromQuery(HttpRequest req)
-    {
-        var queryDimension = req.Query["dimension"].ToString();
-        var dimension = Enum.TryParse(queryDimension, true, out CensusDimension dimensionValue)
-            ? dimensionValue
-            : CensusDimension.Total;
-        return dimension;
     }
 }

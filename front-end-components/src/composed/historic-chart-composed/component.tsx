@@ -19,6 +19,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
   valueField,
   children,
   valueUnit,
+  label,
 }) => {
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
@@ -38,7 +39,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                 keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
-                seriesLabel={dimension.label}
+                seriesLabel={label ?? dimension.label}
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
@@ -46,7 +47,9 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                   <LineChartTooltip
                     {...t}
                     valueFormatter={(v) =>
-                      shortValueFormatter(v, { valueUnit: dimension.unit })
+                      shortValueFormatter(v, {
+                        valueUnit: valueUnit ?? dimension.unit,
+                      })
                     }
                   />
                 )}
@@ -89,7 +92,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                     <td className="govuk-table__cell">{String(item.term)}</td>
                     <td className="govuk-table__cell">
                       {shortValueFormatter(item[valueField], {
-                        valueUnit: dimension.unit,
+                        valueUnit: valueUnit ?? dimension.unit,
                       })}
                     </td>
                   </tr>

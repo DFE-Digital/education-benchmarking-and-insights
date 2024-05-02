@@ -68,7 +68,6 @@ export type Census = {
   numberOfPupils: bigint;
   yearEnd: string;
   term: string;
-  dimension: string;
   workforceFte: number;
   teachersFte: number;
   seniorLeadershipFte: number;

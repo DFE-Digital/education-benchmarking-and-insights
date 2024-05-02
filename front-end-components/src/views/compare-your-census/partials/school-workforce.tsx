@@ -21,7 +21,7 @@ export const SchoolWorkforce: React.FC<{ type: string; id: string }> = ({
   const [data, setData] = useState(new Array<Census>());
   const getData = useCallback(async () => {
     setData(new Array<Census>());
-    return await CensusApi.query(type, id, dimension.value, "workforce-fte");
+    return await CensusApi.query(type, id, dimension.value, "WorkforceFte");
   }, [id, dimension, type]);
 
   useEffect(() => {

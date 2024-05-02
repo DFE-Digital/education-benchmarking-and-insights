@@ -13,7 +13,7 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CensusDimension>()))
+            .Setup(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(Array.Empty<CensusResponseModel>());
 
         var result = await Functions.QueryCensusAsync(CreateRequest()) as JsonContentResult;
@@ -27,7 +27,7 @@ public class WhenFunctionReceivesQueryWorkforceRequest : CensusFunctionsTestBase
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<CensusDimension>()))
+            .Setup(d => d.Get(It.IsAny<string[]>(), It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.QueryCensusAsync(CreateRequest()) as StatusCodeResult;
