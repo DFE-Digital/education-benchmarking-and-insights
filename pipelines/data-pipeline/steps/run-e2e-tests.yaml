@@ -5,6 +5,24 @@ parameters:
 steps:
   - checkout: self
 
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.12'
+    displayName: 'Use Python 3.12'
+
+  - script: |
+      export POETRY_VERSION=1.8.2
+      curl -sSL curl -sSL https://install.python-poetry.org | python -
+      export PATH=$PATH:$HOME/.poetry/bin
+      poetry install --no-root
+    displayName: 'Install dependencies'
+    workingDirectory: data-pipeline
+
+  - script: |
+      echo "##vso[task.prependpath]$HOME/.poetry/bin"
+    displayName: Add poetry to PATH
+    workingDirectory: data-pipeline
+
   - task: AzureKeyVault@2
     inputs:
       azureSubscription: ${{ parameters.subscription }}
