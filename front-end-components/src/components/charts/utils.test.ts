@@ -118,6 +118,23 @@ describe("Chart utils", () => {
         ]);
       });
     });
+
+    describe("with percent option", () => {
+      const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
+
+      it("formats the values using compact notation as percent", () => {
+        const result = values.map((v) => shortValueFormatter(v, options));
+        expect(result).toEqual([
+          "-987.7%",
+          "0%",
+          "1%",
+          "2.3%",
+          "12,345.7%",
+          "890,123,456%",
+          "not-a-number",
+        ]);
+      });
+    });
   });
 
   describe("statValueFormatter()", () => {

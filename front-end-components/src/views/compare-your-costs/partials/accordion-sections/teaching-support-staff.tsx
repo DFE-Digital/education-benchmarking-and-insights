@@ -173,7 +173,6 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
           <HorizontalBarChartWrapper
             data={totalTeachingBarData}
             chartName="total teaching and support staff cost"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Total teaching and teaching support staff costs
@@ -188,35 +187,30 @@ export const TeachingSupportStaff: React.FC<TeachingSupportStaffProps> = ({
           <HorizontalBarChartWrapper
             data={teachingStaffBarData}
             chartName="teaching staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={supplyTeachingBarData}
             chartName="supply teaching staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationalConsultancyBarData}
             chartName="educational consultancy costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Educational consultancy costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={educationSupportStaffBarData}
             chartName="educational support staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Educational support staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={agencySupplyBarData}
             chartName="agency supply teaching staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Agency supply teaching staff costs

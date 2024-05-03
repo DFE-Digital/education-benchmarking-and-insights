@@ -95,7 +95,9 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                         value: {
                           visible: true,
                           valueFormatter: (v: number) =>
-                            shortValueFormatter(v, { valueUnit }),
+                            shortValueFormatter(v, {
+                              valueUnit: valueUnit ?? dimension.unit,
+                            }),
                         },
                       } as object // todo: fix typing issue
                     }
@@ -117,7 +119,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     tooltip={(t) => <SchoolCensusTooltip {...t} />}
                     valueFormatter={shortValueFormatter}
                     valueLabel={dimension.label}
-                    valueUnit={valueUnit}
+                    valueUnit={valueUnit ?? dimension.unit}
                   />
                 </div>
               )}
