@@ -1,0 +1,30 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  devEnvironmentPrefix: ''
+  environment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+
+jobs:
+  - deployment: SupportingDataDeployment
+    displayName: 'Supporting Data : Deployment'
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+
+            - download: current
+
+            - template: ..\common\run-terraform.yaml
+              parameters:
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                devEnvironmentPrefix: ${{ parameters.devEnvironmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'supporting-data'
