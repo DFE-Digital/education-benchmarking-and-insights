@@ -1,4 +1,5 @@
 ﻿using Microsoft.Playwright;
+using Web.E2ETests.Steps.School;
 using Xunit;
 
 namespace Web.E2ETests.Pages.School;
@@ -11,7 +12,7 @@ public class HomePage(IPage page)
     private ILocator ChangeSchoolLink => page.Locator(Selectors.ChangeSchoolLink);
     private ILocator CompareYourCostsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Compare your costs" });
     private ILocator CurriculumAndFinancialPlanningLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Curriculum and financial planning" });
-    private ILocator BenchmarkWorkforceDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark workforce data" });
+    private ILocator BenchmarkCensusDataLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "Benchmark census data" });
     private ILocator SchoolDetailsLink => page.Locator(Selectors.GovLink, new PageLocatorOptions { HasText = "School contact details" });
 
     private ILocator SpendingAndCostsLink => page.Locator(Selectors.GovLink,
@@ -36,7 +37,7 @@ public class HomePage(IPage page)
         await SpendingAndCostsLink.ShouldBeVisible();
         await CompareYourCostsLink.ShouldBeVisible();
         await CurriculumAndFinancialPlanningLink.ShouldBeVisible();
-        await BenchmarkWorkforceDataLink.ShouldBeVisible();
+        await BenchmarkCensusDataLink.ShouldBeVisible();
         await SchoolDetailsLink.ShouldBeVisible();
     }
 
@@ -58,10 +59,10 @@ public class HomePage(IPage page)
         return new CurriculumFinancialPlanningPage(page);
     }
 
-    public async Task<BenchmarkWorkforcePage> ClickBenchmarkWorkforce()
+    public async Task<BenchmarkCensusPage> ClickBenchmarkCensus()
     {
-        await BenchmarkWorkforceDataLink.Click();
-        return new BenchmarkWorkforcePage(page);
+        await BenchmarkCensusDataLink.Click();
+        return new BenchmarkCensusPage(page);
     }
 
     public async Task<SpendingCostsPage> ClickSpendingAndCosts()

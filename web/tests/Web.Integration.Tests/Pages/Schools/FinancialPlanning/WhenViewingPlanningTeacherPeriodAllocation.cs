@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -62,7 +62,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
     [Fact]
     public async Task CanDisplayNotFoundOnSubmit()
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
@@ -98,7 +98,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
     [Fact]
     public async Task CanDisplayProblemWithServiceOnSubmit()
     {
-        var composer = Fixture.Build<FinancialPlan>()
+        var composer = Fixture.Build<FinancialPlanInput>()
             .With(x => x.PupilsYear7, "145");
 
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
@@ -118,9 +118,10 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
             HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlan>? planComposer = null)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, overallPhase)
             .Create();
@@ -128,7 +129,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(BenchmarkingWebAppClient
         var finances = Fixture.Build<Finances>()
             .Create();
 
-        planComposer ??= Fixture.Build<FinancialPlan>();
+        planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.Urn)

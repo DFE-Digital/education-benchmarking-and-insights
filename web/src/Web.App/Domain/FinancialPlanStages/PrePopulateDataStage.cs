@@ -9,16 +9,16 @@ public class PrePopulateDataStage : Stage
     public decimal? TotalNumberOfTeachersFte { get; set; }
     public string? EducationSupportStaffCosts { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.UseFigures = UseFigures;
+        planInput.UseFigures = UseFigures;
         if (UseFigures is true)
         {
-            plan.TotalIncome = TotalIncome;
-            plan.TotalExpenditure = TotalExpenditure;
-            plan.TotalTeacherCosts = TotalTeacherCosts;
-            plan.TotalNumberOfTeachersFte = TotalNumberOfTeachersFte;
-            plan.EducationSupportStaffCosts = EducationSupportStaffCosts;
+            planInput.TotalIncome = TotalIncome;
+            planInput.TotalExpenditure = TotalExpenditure;
+            planInput.TotalTeacherCosts = TotalTeacherCosts;
+            planInput.TotalNumberOfTeachersFte = TotalNumberOfTeachersFte;
+            planInput.EducationSupportStaffCosts = EducationSupportStaffCosts;
         }
     }
 }

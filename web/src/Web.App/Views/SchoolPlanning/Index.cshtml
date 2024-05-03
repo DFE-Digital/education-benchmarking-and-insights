@@ -33,10 +33,10 @@
                 <tr class="govuk-table__row">
                     <th scope="row" class="govuk-table__header">@plan.Year.ToFinanceYear()</th>
                     <td class="govuk-table__cell">
-                        @(plan.UpdatedAt.HasValue ? plan.UpdatedAt.Value.ToString("dd MMM yyyy") : plan.Created.ToString("dd MMM yyyy"))
+                        @plan.UpdatedAt.ToString("dd MMM yyyy")
                     </td>
                     <td class="govuk-table__cell">
-                        @(plan.UpdatedBy ?? plan.CreatedBy)
+                        @plan.UpdatedBy
                     </td>
                     <td class="govuk-table__cell">
                         @if (plan.IsComplete)
@@ -63,4 +63,4 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkWorkforce } })
+@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })

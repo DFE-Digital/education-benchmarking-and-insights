@@ -1,5 +1,5 @@
 export const CompareCostsElementId = "compare-your-costs";
-export const CompareWorkforceElementId = "compare-your-workforce";
+export const CompareCensusElementId = "compare-your-census";
 export const DeploymentPlanElementId = "deployment-plan";
 export const HorizontalBarChart1SeriesElementId = "horizontal-chart-1-series";
 export const LineChart1SeriesElementId = "line-chart-1-series";

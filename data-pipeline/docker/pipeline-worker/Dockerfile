@@ -45,8 +45,15 @@ COPY --from=builder-base $VENV_PATH $VENV_PATH
 COPY ./docker/pipeline-worker/docker-entrypoint.sh /docker-entrypoint.sh
 RUN chmod +x /docker-entrypoint.sh
 
+<<<<<<< HEAD
 COPY ./src /src
 WORKDIR /src
 
 ENTRYPOINT /docker-entrypoint.sh $0 $@
 CMD [ "python", "main.py"]
+=======
+COPY ./src/pipeline /src/pipeline
+
+ENTRYPOINT /docker-entrypoint.sh $0 $@
+CMD [ "python", "-m", "src.pipeline.main"]
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04

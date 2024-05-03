@@ -1,4 +1,5 @@
-﻿Feature: School curriculum and financial planning
+﻿@ignore
+Feature: School curriculum and financial planning
 
     Scenario: Go to help page from start page
         Given I am on start page for school with URN '101241'

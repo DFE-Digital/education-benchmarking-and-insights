@@ -15,32 +15,32 @@ public class ManagementRolesStage : Stage
     public bool ManagementRolePastoralLeader { get; set; }
     public bool ManagementRoleOtherMembers { get; set; }
 
-    public override void SetPlanValues(FinancialPlan plan)
+    public override void SetPlanValues(FinancialPlanInput planInput)
     {
-        plan.ManagementRoleHeadteacher = ManagementRoleHeadteacher;
-        plan.ManagementRoleDeputyHeadteacher = ManagementRoleDeputyHeadteacher;
-        plan.ManagementRoleNumeracyLead = ManagementRoleNumeracyLead;
-        plan.ManagementRoleLiteracyLead = ManagementRoleLiteracyLead;
-        plan.ManagementRoleHeadSmallCurriculum = ManagementRoleHeadSmallCurriculum;
-        plan.ManagementRoleHeadKs1 = ManagementRoleHeadKs1;
-        plan.ManagementRoleHeadKs2 = ManagementRoleHeadKs2;
-        plan.ManagementRoleSenco = ManagementRoleSenco;
-        plan.ManagementRoleAssistantHeadteacher = ManagementRoleAssistantHeadteacher;
-        plan.ManagementRoleHeadLargeCurriculum = ManagementRoleHeadLargeCurriculum;
-        plan.ManagementRolePastoralLeader = ManagementRolePastoralLeader;
-        plan.ManagementRoleOtherMembers = ManagementRoleOtherMembers;
+        planInput.ManagementRoleHeadteacher = ManagementRoleHeadteacher;
+        planInput.ManagementRoleDeputyHeadteacher = ManagementRoleDeputyHeadteacher;
+        planInput.ManagementRoleNumeracyLead = ManagementRoleNumeracyLead;
+        planInput.ManagementRoleLiteracyLead = ManagementRoleLiteracyLead;
+        planInput.ManagementRoleHeadSmallCurriculum = ManagementRoleHeadSmallCurriculum;
+        planInput.ManagementRoleHeadKs1 = ManagementRoleHeadKs1;
+        planInput.ManagementRoleHeadKs2 = ManagementRoleHeadKs2;
+        planInput.ManagementRoleSenco = ManagementRoleSenco;
+        planInput.ManagementRoleAssistantHeadteacher = ManagementRoleAssistantHeadteacher;
+        planInput.ManagementRoleHeadLargeCurriculum = ManagementRoleHeadLargeCurriculum;
+        planInput.ManagementRolePastoralLeader = ManagementRolePastoralLeader;
+        planInput.ManagementRoleOtherMembers = ManagementRoleOtherMembers;
 
-        plan.NumberHeadteacher = ManagementRoleHeadteacher ? plan.NumberHeadteacher : null;
-        plan.NumberDeputyHeadteacher = ManagementRoleDeputyHeadteacher ? plan.NumberDeputyHeadteacher : null;
-        plan.NumberNumeracyLead = ManagementRoleNumeracyLead ? plan.NumberNumeracyLead : null;
-        plan.NumberLiteracyLead = ManagementRoleLiteracyLead ? plan.NumberLiteracyLead : null;
-        plan.NumberHeadSmallCurriculum = ManagementRoleHeadSmallCurriculum ? plan.NumberHeadSmallCurriculum : null;
-        plan.NumberHeadKs1 = ManagementRoleHeadKs1 ? plan.NumberHeadKs1 : null;
-        plan.NumberHeadKs2 = ManagementRoleHeadKs2 ? plan.NumberHeadKs2 : null;
-        plan.NumberSenco = ManagementRoleSenco ? plan.NumberSenco : null;
-        plan.NumberAssistantHeadteacher = ManagementRoleAssistantHeadteacher ? plan.NumberAssistantHeadteacher : null;
-        plan.NumberHeadLargeCurriculum = ManagementRoleHeadLargeCurriculum ? plan.NumberHeadLargeCurriculum : null;
-        plan.NumberPastoralLeader = ManagementRolePastoralLeader ? plan.NumberPastoralLeader : null;
-        plan.NumberOtherMembers = ManagementRoleOtherMembers ? plan.NumberOtherMembers : null;
+        planInput.NumberHeadteacher = ManagementRoleHeadteacher ? planInput.NumberHeadteacher : null;
+        planInput.NumberDeputyHeadteacher = ManagementRoleDeputyHeadteacher ? planInput.NumberDeputyHeadteacher : null;
+        planInput.NumberNumeracyLead = ManagementRoleNumeracyLead ? planInput.NumberNumeracyLead : null;
+        planInput.NumberLiteracyLead = ManagementRoleLiteracyLead ? planInput.NumberLiteracyLead : null;
+        planInput.NumberHeadSmallCurriculum = ManagementRoleHeadSmallCurriculum ? planInput.NumberHeadSmallCurriculum : null;
+        planInput.NumberHeadKs1 = ManagementRoleHeadKs1 ? planInput.NumberHeadKs1 : null;
+        planInput.NumberHeadKs2 = ManagementRoleHeadKs2 ? planInput.NumberHeadKs2 : null;
+        planInput.NumberSenco = ManagementRoleSenco ? planInput.NumberSenco : null;
+        planInput.NumberAssistantHeadteacher = ManagementRoleAssistantHeadteacher ? planInput.NumberAssistantHeadteacher : null;
+        planInput.NumberHeadLargeCurriculum = ManagementRoleHeadLargeCurriculum ? planInput.NumberHeadLargeCurriculum : null;
+        planInput.NumberPastoralLeader = ManagementRolePastoralLeader ? planInput.NumberPastoralLeader : null;
+        planInput.NumberOtherMembers = ManagementRoleOtherMembers ? planInput.NumberOtherMembers : null;
     }
 }

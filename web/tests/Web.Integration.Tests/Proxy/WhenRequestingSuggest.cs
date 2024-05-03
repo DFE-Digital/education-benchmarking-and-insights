@@ -3,11 +3,12 @@ using Xunit;
 
 namespace Web.Integration.Tests.Proxy;
 
-public class WhenRequestingSuggest(BenchmarkingWebAppClient client) : IClassFixture<BenchmarkingWebAppClient>
+public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
     [Theory]
     [InlineData("school")]
     [InlineData("trust")]
+    [InlineData("local-authority")]
     public async Task CanReturnInternalServerError(string suggestType)
     {
         var response = await client.SetupEstablishmentWithException()

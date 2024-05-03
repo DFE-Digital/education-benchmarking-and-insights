@@ -2,7 +2,7 @@ import {
   BalanceSection,
   IncomeSection,
   SpendingSection,
-  WorkforceSection,
+  CensusSection,
 } from "src/views/historic-data/partials";
 import { HistoricDataViewProps } from "src/views/historic-data/types";
 import { SchoolEstablishment } from "src/constants.tsx";
@@ -32,8 +32,8 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
         </li>
         {type === SchoolEstablishment && (
           <li className="govuk-tabs__list-item">
-            <a className="govuk-tabs__tab" href="#workforce">
-              Workforce
+            <a className="govuk-tabs__tab" href="#census">
+              Census
             </a>
           </li>
         )}
@@ -50,9 +50,9 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
       {type === SchoolEstablishment && (
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
-          id="workforce"
+          id="census"
         >
-          <WorkforceSection id={id} />
+          <CensusSection id={id} />
         </div>
       )}
     </div>

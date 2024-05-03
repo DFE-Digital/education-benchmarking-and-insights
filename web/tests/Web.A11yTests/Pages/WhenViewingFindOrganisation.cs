@@ -10,13 +10,26 @@ public class WhenViewingFindOrganisation(
     WebDriver webDriver)
     : PageBase(testOutputHelper, webDriver)
 {
-    //known issues conditionally reveal https://design-system.service.gov.uk/components/radios/
     private readonly AxeRunContext _context = new()
-    { Exclude = [new AxeSelector("#school"), new AxeSelector("#trust")] };
+    {
+        // known issues
+        Exclude =
+        [
+            // conditionally reveal https://design-system.service.gov.uk/components/radios/
+            new AxeSelector("#local-authority"),
+            new AxeSelector("#school"),
+            new AxeSelector("#trust"),
+            // accessible-autocomplete component uses `aria-describedby` rather than an explicit label
+            new AxeSelector("#la-input"),
+            new AxeSelector("#school-input"),
+            new AxeSelector("#trust-input")
+        ]
+    };
 
     protected override string PageUrl => "/find-organisation";
 
     [Theory]
+    [InlineData("local-authority")]
     [InlineData("school")]
     [InlineData("trust")]
     public async Task ThenThereAreNoAccessibilityIssues(string organisationType)
@@ -27,6 +40,7 @@ public class WhenViewingFindOrganisation(
     }
 
     [Theory]
+    [InlineData("local-authority")]
     [InlineData("school")]
     [InlineData("trust")]
     public async Task ValidationErrorThenThereAreNoAccessibilityIssues(string organisationType)

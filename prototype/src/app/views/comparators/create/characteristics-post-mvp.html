@@ -25,9 +25,6 @@
             <h1 class="govuk-heading-l">Create a custom comparator set</h1>
 
             <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
-
-<!--
-            <p class="govuk-body">You can compare against a maximum of 30 schools. If your chosen comparison characteristics give more than 30 results, we will chose the 30 schools whose comparison values are closest to {{ data['school-name'] }}.</p>
         
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
@@ -39,7 +36,6 @@
                 </div>
             </div>
 
--->
             <div id="characteristics-accordion" class="govuk-accordion app-accordion--no-open-all" data-module="govuk-accordion">
             <div class="govuk-accordion__section govuk-accordion__section--expanded">
                 <div class="govuk-accordion__section-header app-accordion__section-header--no-border-top">
@@ -1923,7 +1919,7 @@
             classes: "govuk-button--primary"
             }) }}
         </form>
-<!--
+        
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
         <script>
             intMatches = 9119;
@@ -1944,7 +1940,12 @@
                     intMatches = Math.floor( intMatches * 0.4 );
 //                  intSelected++;
                 } else {
-                    intMatches = Math.floor( intMatches / 0.4 );
+
+                    if (intMatches) {
+                        intMatches = Math.floor( intMatches / 0.4 );
+                    } else {
+                        intMatches = 1;
+                    }
 //                  intSelected--;
                 }
                 $('#countPart').text( intMatches.toLocaleString() );
@@ -1953,7 +1954,7 @@
             }
 
         </script>
--->
+        
     </div>
 </div>
 {% endblock %}

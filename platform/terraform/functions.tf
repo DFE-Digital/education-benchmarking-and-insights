@@ -13,10 +13,9 @@ module "benchmark-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-readwrite-connection-string.versionless_id})"
-    "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
-    "Cosmos__FinancialPlanCollectionName" = azurerm_cosmosdb_sql_container.cosmosdb-fp-container.name
-    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
+    "Cosmos__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-readwrite-connection-string.versionless_id})"
+    "Cosmos__DatabaseId"       = azurerm_cosmosdb_sql_database.cosmosdb-container.name
+    "Sql__ConnectionString"    = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }

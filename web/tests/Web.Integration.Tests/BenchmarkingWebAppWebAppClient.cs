@@ -1,16 +1,29 @@
 using Moq;
+using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;
 
 namespace Web.Integration.Tests;
 
-public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBase<Program>(messageSink)
+
+public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
+{
+    public SchoolBenchmarkingWebAppClient(IMessageSink messageSink) : base(messageSink, auth =>
+            {
+                auth.URN = 12345;
+            })
+    {
+    }
+}
+
+
+public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null) : WebAppClientBase<Program>(messageSink, authCfg)
 {
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
-    public Mock<IWorkforceApi> WorkforceApi { get; } = new();
+    public Mock<ICensusApi> CensusApi { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -18,7 +31,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
-        services.AddSingleton(WorkforceApi.Object);
+        services.AddSingleton(CensusApi.Object);
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
@@ -53,11 +66,11 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupWorkforceWithException()
+    public BenchmarkingWebAppClient SetupCensusWithException()
     {
-        WorkforceApi.Reset();
-        WorkforceApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
-        WorkforceApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Reset();
+        CensusApi.Setup(api => api.History(It.IsAny<string?>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
+        CensusApi.Setup(api => api.Query(It.IsAny<ApiQuery?>())).Throws(new Exception());
         return this;
     }
 
@@ -95,7 +108,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlan? plan = null)
+    public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlanInput? plan = null)
     {
         BenchmarkApi.Reset();
         if (plan == null)
@@ -110,7 +123,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
 
         BenchmarkApi
             .Setup(api => api.QueryFinancialPlan(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlan>()));
+            .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
         BenchmarkApi
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
@@ -121,7 +134,7 @@ public class BenchmarkingWebAppClient(IMessageSink messageSink) : WebAppClientBa
             .ReturnsAsync(ApiResult.Ok())
             .Callback<PutFinancialPlanRequest>(request =>
                 BenchmarkApi.Setup(api => api.GetFinancialPlan(request.Urn ?? "", request.Year))
-                    .ReturnsAsync(ApiResult.Ok(new FinancialPlan
+                    .ReturnsAsync(ApiResult.Ok(new FinancialPlanInput
                     {
                         Urn = request.Urn,
                         Year = request.Year.GetValueOrDefault(),

@@ -16,7 +16,6 @@ public class SchoolIndexerBuilder : IndexerBuilder
             dataSourceName: SearchResourceNames.DataSources.School,
             targetIndexName: SearchResourceNames.Indexes.School)
         {
-            Schedule = new IndexingSchedule(TimeSpan.FromDays(1)),
             FieldMappings =
             {
                 new FieldMapping("URN") { TargetFieldName = nameof(SchoolIndex.Urn) },

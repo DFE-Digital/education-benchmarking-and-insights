@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 namespace Platform.Domain;
 
 [ExcludeFromCodeCoverage]
-public record WorkforceDataObject : QueryableFinancesDataObject
+public record CensusDataObject : QueryableFinancesDataObject
 {
     [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.SCHOOL_NAME)]
     public string? SchoolName { get; set; }

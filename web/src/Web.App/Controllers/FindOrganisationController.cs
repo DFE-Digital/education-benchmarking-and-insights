@@ -29,8 +29,8 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                             if (string.IsNullOrWhiteSpace(viewModel.Urn) || string.IsNullOrEmpty(viewModel.SchoolInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.SchoolInput)
-                                    ? "Enter a school name select a school"
-                                    : "Please select school from the suggester";
+                                    ? "Enter a school name, address or URN"
+                                    : "Please select a school from the suggester";
                                 ModelState.AddModelError("school-input", message);
                                 return View(viewModel);
                             }
@@ -43,13 +43,27 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                                 string.IsNullOrEmpty(viewModel.TrustInput))
                             {
                                 var message = string.IsNullOrEmpty(viewModel.TrustInput)
-                                    ? "Enter a trust name select a trust"
-                                    : "Please select trust from the suggester";
+                                    ? "Enter a trust name or company number"
+                                    : "Please select a trust from the suggester";
                                 ModelState.AddModelError("trust-input", message);
                                 return View(viewModel);
                             }
 
                             return RedirectToAction("Index", "Trust", new { companyNumber = viewModel.CompanyNumber });
+                        }
+                    case OrganisationTypes.LocalAuthority:
+                        {
+                            if (string.IsNullOrWhiteSpace(viewModel.Code) || string.IsNullOrEmpty(viewModel.LaInput))
+                            {
+                                var message = string.IsNullOrEmpty(viewModel.LaInput)
+                                    ? "Enter a name or 3 digit code"
+                                    : "Please select a local authority from the suggester";
+                                ModelState.AddModelError("la-input", message);
+                                return View(viewModel);
+                            }
+
+                            // todo: create and link to LA target route
+                            return RedirectToAction("Index", "Home", new { code = viewModel.Code });
                         }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
@@ -58,7 +72,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred finding an organisation: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
     }

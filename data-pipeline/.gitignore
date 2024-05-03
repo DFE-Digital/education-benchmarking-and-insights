@@ -24,4 +24,10 @@ workbooks/data
 workbooks/output
 .env
 
+<<<<<<< HEAD
 tests/output/
+=======
+tests/output/
+
+!/tests/e2e/.env
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04

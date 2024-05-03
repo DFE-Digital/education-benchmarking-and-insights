@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear = DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
     private static readonly int[] ListedYears = Enumerable.Range(CurrentYear, 4).ToArray();
@@ -129,6 +129,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool seedPlan = true)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -137,7 +138,7 @@ public class WhenViewingPlanningSelectYear(BenchmarkingWebAppClient client) : Pa
 
         var plan = !seedPlan
             ? null
-            : Fixture.Build<FinancialPlan>()
+            : Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, CurrentYear)
             .Create();

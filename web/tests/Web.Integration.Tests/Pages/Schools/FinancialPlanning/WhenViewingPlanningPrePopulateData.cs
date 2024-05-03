@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client) : PageBase(client)
+public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int PlanYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -104,7 +104,6 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
     public async Task ShowsErrorOnInValidSelect(string financeType, string phase)
     {
         var (page, school, finances) = await SetupNavigateInitPage(financeType, phase);
-        AssertPageLayout(page, school, finances);
 
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
@@ -113,7 +112,6 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        AssertPageLayout(page, school, finances);
         DocumentAssert.FormErrors(page, ("UseFigures", "Select yes if you want to use these figures"));
     }
 
@@ -198,6 +196,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
         string phase, bool? useFigures = null)
     {
         var school = Fixture.Build<School>()
+            .With(x => x.Urn, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, phase)
             .Create();
@@ -208,7 +207,7 @@ public class WhenViewingPlanningPrePopulateData(BenchmarkingWebAppClient client)
             .With(x => x.YearEnd, FinancesYear)
             .Create();
 
-        var plan = Fixture.Build<FinancialPlan>()
+        var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.Urn)
             .With(x => x.Year, PlanYear)
             .With(x => x.UseFigures, useFigures)

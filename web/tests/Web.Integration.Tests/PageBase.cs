@@ -3,8 +3,8 @@ using Xunit;
 
 namespace Web.Integration.Tests;
 
-public abstract class PageBase(BenchmarkingWebAppClient client) : IClassFixture<BenchmarkingWebAppClient>
+public abstract class PageBase<T>(T client) : IClassFixture<T> where T : BenchmarkingWebAppClient
 {
     public Fixture Fixture { get; } = new();
-    protected BenchmarkingWebAppClient Client => client;
+    protected T Client => client;
 }

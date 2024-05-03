@@ -48,7 +48,6 @@ Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
     "ASPNETCORE_ENVIRONMENT": "Development",
     "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
     "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__FinancialPlanCollectionName" : "financial-plans",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {

@@ -18,8 +18,13 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
+<<<<<<< HEAD
       make test
     displayName: 'Tests'
+=======
+      make unit-test
+    displayName: 'Run unit tests'
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
     workingDirectory: data-pipeline
 
   - task: PublishTestResults@2

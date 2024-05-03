@@ -1,0 +1,48 @@
+parameters:
+  environmentPrefix: ''
+  subscription: ''
+
+steps:
+  - checkout: self
+
+  - task: UsePythonVersion@0
+    inputs:
+      versionSpec: '3.12'
+    displayName: 'Use Python 3.12'
+
+  - script: |
+      export POETRY_VERSION=1.8.2
+      curl -sSL curl -sSL https://install.python-poetry.org | python -
+      export PATH=$PATH:$HOME/.poetry/bin
+      poetry install --no-root
+    displayName: 'Install dependencies'
+    workingDirectory: data-pipeline
+
+  - script: |
+      echo "##vso[task.prependpath]$HOME/.poetry/bin"
+    displayName: Add poetry to PATH
+    workingDirectory: data-pipeline
+
+  - task: AzureKeyVault@2
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+      SecretsFilter: '*'
+      RunAsPreJob: true
+
+  - task: qetza.replacetokens.replacetokens-task.replacetokens@6
+    displayName: 'Replace tokens in .env'
+    inputs:
+      sources: '$(Build.SourcesDirectory)/data-pipeline/tests/e2e/.env'
+      escape: off
+      tokenPattern: doubleunderscores
+
+  - script: |
+      make e2e-test
+    displayName: 'Run e2e tests'
+    workingDirectory: data-pipeline
+
+  - task: PublishTestResults@2
+    inputs:
+      testResultsFormat: 'JUnit'
+      testResultsFiles: '$(Build.SourcesDirectory)/data-pipeline/tests/output/test-output.xml'

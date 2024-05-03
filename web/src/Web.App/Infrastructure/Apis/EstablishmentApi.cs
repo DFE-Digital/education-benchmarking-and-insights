@@ -37,6 +37,16 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "trust-suggester" })
         });
     }
+
+    public Task<ApiResult> SuggestLocalAuthorities(string search)
+    {
+        return SendAsync(new HttpRequestMessage
+        {
+            Method = HttpMethod.Post,
+            RequestUri = new Uri("api/local-authorities/suggest", UriKind.Relative),
+            Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "local-authority-suggester" })
+        });
+    }
 }
 
 public interface IEstablishmentApi
@@ -45,5 +55,6 @@ public interface IEstablishmentApi
     Task<ApiResult> GetTrust(string? identifier);
     Task<ApiResult> SuggestSchools(string search);
     Task<ApiResult> SuggestTrusts(string search);
+    Task<ApiResult> SuggestLocalAuthorities(string search);
     Task<ApiResult> GetTrustSchools(string id);
 }

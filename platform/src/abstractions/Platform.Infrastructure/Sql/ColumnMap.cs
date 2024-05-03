@@ -1,5 +1,8 @@
-﻿namespace Platform.Infrastructure.Sql;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace Platform.Infrastructure.Sql;
+
+[ExcludeFromCodeCoverage]
 public class ColumnMap
 {
     private readonly Dictionary<string, string> _forward = new();

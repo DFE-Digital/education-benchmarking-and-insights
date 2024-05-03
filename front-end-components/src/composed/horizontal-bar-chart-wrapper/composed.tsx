@@ -16,7 +16,7 @@ import {
   shortValueFormatter,
 } from "src/components/charts/utils";
 import { SchoolTick } from "src/components/charts/school-tick";
-import { SchoolWorkforceTooltip } from "src/components/charts/school-workforce-tooltip";
+import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip";
 import { WarningBanner } from "src/components/warning-banner";
 
 export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
@@ -114,7 +114,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                         }
                       />
                     )}
-                    tooltip={(t) => <SchoolWorkforceTooltip {...t} />}
+                    tooltip={(t) => <SchoolCensusTooltip {...t} />}
                     valueFormatter={shortValueFormatter}
                     valueLabel={dimension.label}
                     valueUnit={valueUnit}

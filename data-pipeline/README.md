@@ -19,18 +19,24 @@ Once the above dependencies are installed and working correctly we can install t
 
     make install
 
+<<<<<<< HEAD
 or 
     
     poetry install
 
+=======
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
 This will install the dependencies and allow the project to be run. 
 
 > Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command. 
 
+<<<<<<< HEAD
 Finally load up the virtual environment run: 
 
     poetry shell
 
+=======
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
 ### Setting up .env file
 
 In the route of the `data-pipelines` repository there is an `.env-example` folder which shows the parameters that are required.
@@ -39,14 +45,22 @@ Ensure you have created a copy of this file named `.env` and filled the paramete
 
 However, for local development assuming azurite, you can use the following values: 
 
+<<<<<<< HEAD
     QUEUE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
     WORKER_QUEUE_NAME=worker-queue
     COMPLETE_QUEUE_NAME=complete-queue
+=======
+    STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;
+    WORKER_QUEUE_NAME=data-pipeline-job-start
+    COMPLETE_QUEUE_NAME=data-pipeline-job-finished
+    RAW_DATA_CONTAINER=raw
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
 
 ### Running the pipeline   
 
 To running the API in Dev Mode:
 
+<<<<<<< HEAD
     make dev
 
 or 
@@ -62,6 +76,21 @@ Build images with:
 
 or 
 
+=======
+    make run-pipeline
+
+However, this will only run the pipeline and will fail using the above environment parameters, it is trying to connect to a local based storage. To this end there is a docker compose script that will run the following:
+
+* Azurite with default settings
+* FBIT data pipeline in - test mode (`make run-pipeline-test-mode`)
+
+> Note: `Test mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
+
+### Creating and running Docker images
+
+Build images with:
+
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
         make build tags="--tag {tag1} --tag {tag2}"
 
 We could then get a shell inside the container with:

@@ -38,7 +38,8 @@ A service that allows you to compare school metrics against similar schools
    4. Features
       1. [Incomplete Data](documentation/developers/features/incomplete-data.md)
       2. [Find Organisation](documentation/developers/features/find-organisation.md)
-      3. ...
+      3. [Spending and costs](documentation/developers/features/spending-and-costs.md)
+      4. ...
    5. [Cookies](documentation/developers/cookies.md)
    6. [Troubleshooting](documentation/developers/troubleshooting.md)
    7. [Additional Resources](documentation/developers/additional-resources.md)

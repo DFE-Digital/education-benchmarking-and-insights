@@ -11,10 +11,10 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new FinancialPlanResponseModel());
+            .Setup(d => d.SingleFinancialPlanInput(It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync(new FinancialPlanInputResponseModel());
 
-        Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<FinancialPlanResponseModel>()));
+        Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<string>(), It.IsAny<int>()));
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as OkResult;
 
@@ -23,24 +23,10 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
     }
 
     [Fact]
-    public async Task ShouldReturn404OnInvalidRequest()
-    {
-
-        Db
-            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync((FinancialPlanResponseModel?)null);
-
-        var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
-
-        Assert.NotNull(result);
-        Assert.Equal(404, result.StatusCode);
-    }
-
-    [Fact]
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.SingleFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            .Setup(d => d.DeleteFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;

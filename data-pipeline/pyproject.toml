@@ -16,6 +16,10 @@ openpyxl = "^3.1.2"
 azure-storage-blob = "^12.19.1"
 psutil = "^5.9.8"
 aiohttp = "^3.9.5"
+<<<<<<< HEAD
+=======
+pyarrow = "^16.0.0"
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
 
 [tool.poetry.group.dev.dependencies]
 pytest = "^8.1.1"
@@ -72,6 +76,10 @@ directory = "tests/output/html"
 [tool.coverage.xml]
 output = "tests/output/coverage.xml"
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d6f264ffa350a8ff4b76b5603924abe6419a5f04
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
