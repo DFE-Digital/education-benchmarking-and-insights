@@ -6,7 +6,6 @@ trigger:
   branches:
     include:
       - main
-      - tech-debt/new-pipelines
   paths:
     include:
       - data-pipeline
