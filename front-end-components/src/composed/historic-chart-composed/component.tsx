@@ -19,7 +19,8 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
   valueField,
   children,
   valueUnit,
-  label,
+  axisLabel,
+  columnHeading,
 }) => {
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
@@ -39,7 +40,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                 keyField="term"
                 margin={20}
                 seriesConfig={seriesConfig}
-                seriesLabel={label ?? dimension.label}
+                seriesLabel={axisLabel ?? dimension.label}
                 seriesLabelField="term"
                 valueFormatter={shortValueFormatter}
                 valueUnit={valueUnit ?? dimension.unit}
@@ -79,7 +80,9 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                   <th className="govuk-table__header govuk-!-width-one-half">
                     Year
                   </th>
-                  <th className="govuk-table__header">{dimension.heading}</th>
+                  <th className="govuk-table__header">
+                    {columnHeading ?? dimension.heading}
+                  </th>
                 </tr>
               </thead>
               <tbody className="govuk-table__body">
