@@ -1,6 +1,6 @@
 import pytest
 
-from pipeline.rag import is_area_close_comparator, is_pupil_close_comparator
+from src.pipeline.rag import is_area_close_comparator, is_pupil_close_comparator
 
 
 @pytest.mark.parametrize(

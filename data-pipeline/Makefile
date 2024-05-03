@@ -1,11 +1,11 @@
 install:
 	poetry install
 	
-dev:
-	poetry run python src/pipeline/main.py
+run-pipeline:
+	poetry run python -m src.pipeline.main
 
-dev-test-mode:
-	poetry run python src/pipeline/main.py test
+run-pipeline-test-mode:
+	poetry run python -m src.pipeline.main test
 
 build: 
 	docker build $(tags) --file docker/pipeline-worker/Dockerfile .

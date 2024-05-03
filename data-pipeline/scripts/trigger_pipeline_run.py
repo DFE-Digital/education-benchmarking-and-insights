@@ -1,7 +1,8 @@
+import asyncio
 import json
 import sys
-import asyncio
 from contextlib import suppress
+
 from azure.core.exceptions import ResourceExistsError
 from azure.storage.queue.aio import QueueServiceClient
 
