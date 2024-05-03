@@ -84,7 +84,6 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="eductional learning resources costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Educational learning resources costs

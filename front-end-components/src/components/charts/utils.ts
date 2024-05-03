@@ -30,13 +30,18 @@ export function shortValueFormatter(
   }
 
   return new Intl.NumberFormat("en-GB", {
-    notation: "compact",
-    compactDisplay: "short",
-    style: options?.valueUnit === "currency" ? "currency" : undefined,
+    notation: options?.valueUnit === "%" ? undefined : "compact",
+    compactDisplay: options?.valueUnit === "%" ? undefined : "short",
+    style:
+      options?.valueUnit === "currency"
+        ? "currency"
+        : options?.valueUnit === "%"
+          ? "percent"
+          : undefined,
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     maximumFractionDigits: options?.valueUnit === "currency" ? undefined : 1,
   })
-    .format(value)
+    .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
 }
 
