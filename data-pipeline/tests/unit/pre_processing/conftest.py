@@ -3,7 +3,7 @@ from io import StringIO
 import pandas as pd
 import pytest
 
-from pipeline.pre_processing import prepare_cdc_data
+from src.pipeline.pre_processing import prepare_cdc_data
 
 
 @pytest.fixture

@@ -2,7 +2,7 @@ from io import StringIO
 
 import pytest
 
-from pipeline.pre_processing import prepare_cdc_data
+from src.pipeline.pre_processing import prepare_cdc_data
 
 
 def test_prepare_cdc_data(cdc_data):

@@ -1,7 +1,8 @@
-import numpy as np
-import pandas as pd
 import multiprocessing as mp
 from multiprocessing.pool import Pool
+
+import numpy as np
+import pandas as pd
 
 
 def compute_range(data):
@@ -42,6 +43,7 @@ def pupils_calc(pupils, fsm, sen):
     fsm_range = compute_range(fsm)
     sen_range = compute_range(sen)
 
+    print(pupil_range, fsm_range, sen_range)
     pupil = 0.5 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
     meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
     sen = 0.1 * np.power(np.abs(sen[:, None] - sen[None, :]) / sen_range, 2)

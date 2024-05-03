@@ -19,17 +19,9 @@ Once the above dependencies are installed and working correctly we can install t
 
     make install
 
-or 
-    
-    poetry install
-
 This will install the dependencies and allow the project to be run. 
 
 > Note: If the dependencies have changed significantly since the last install then peotry will detect this and inform the user. In this case you should run `poetry lock` to generate the lock file. At this point you can re-run the above install command. 
-
-Finally load up the virtual environment run: 
-
-    poetry shell
 
 ### Setting up .env file
 
@@ -48,28 +40,18 @@ However, for local development assuming azurite, you can use the following value
 
 To running the API in Dev Mode:
 
-    make dev
-
-or 
-
-    poetry run python src/main.py
+    make run-pipeline
 
 However, this will only run the pipeline and will fail using the above environment parameters, it is trying to connect to a local based storage. To this end there is a docker compose script that will run the following:
 
 * Azurite with default settings
-* FBIT data pipeline in - test mode (`make dev-test-mode`)
+* FBIT data pipeline in - test mode (`make run-pipeline-test-mode`)
 
 > Note: `Test mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
-
-
 
 ### Creating and running Docker images
 
 Build images with:
-
-        docker build --tag {insert the tag of the build} --file docker/Dockerfile . 
-
-or 
 
         make build tags="--tag {tag1} --tag {tag2}"
 

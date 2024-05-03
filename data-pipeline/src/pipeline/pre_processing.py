@@ -1,9 +1,7 @@
 import datetime
-
+import src.pipeline.input_schemas as input_schemas
+import src.pipeline.mappings as mappings
 import pandas as pd
-
-import input_schemas
-import mappings
 
 
 def prepare_cdc_data(cdc_file_path, current_year) -> dict:
@@ -288,6 +286,8 @@ def prepare_aar_data(aar_path):
     academy_ar["Trust Financial Position"] = academy_ar["Trust Balance"].map(
         mappings.map_is_surplus_deficit
     )
+
+    academy_ar["PFI School"] = academy_ar["PFI School"].map(mappings.map_is_pfi_school)
 
     academy_ar.merge(academy_agg, left_on="academyupin", right_index=True, how="left")
 

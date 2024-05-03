@@ -8,17 +8,31 @@ import time
 from contextlib import suppress
 
 import pandas as pd
-import psutil
 from azure.core.exceptions import ResourceNotFoundError
-
 from dotenv import load_dotenv
 
 load_dotenv()
 
 
-import comparator_sets as comparators
-import pre_processing as pre_processing
-from storage import (
+from src.pipeline.comparator_sets import (
+    compute_buildings_comparator,
+    compute_comparator_matrix,
+    compute_pupils_comparator,
+    prepare_data,
+)
+from src.pipeline.pre_processing import (
+    build_academy_data,
+    build_federations_data,
+    build_maintained_school_data,
+    prepare_aar_data,
+    prepare_cdc_data,
+    prepare_census_data,
+    prepare_ks2_data,
+    prepare_ks4_data,
+    prepare_schools_data,
+    prepare_sen_data,
+)
+from src.pipeline.storage import (
     blob_service_client,
     complete_queue_name,
     connect_to_queue,
@@ -40,7 +54,7 @@ async def pre_process_cdc(set_type, year):
     cdc_data = await get_blob(
         raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8"
     )
-    cdc = pre_processing.prepare_cdc_data(cdc_data, year)
+    cdc = prepare_cdc_data(cdc_data, year)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/cdc.parquet", cdc.to_parquet()
     )
@@ -56,9 +70,7 @@ async def pre_process_census(set_type, year):
     pupil_census_data = await get_blob(
         raw_container, f"{set_type}/{year}/census_pupils.csv", encoding="utf-8"
     )
-    census = pre_processing.prepare_census_data(
-        workforce_census_data, pupil_census_data
-    )
+    census = prepare_census_data(workforce_census_data, pupil_census_data)
     await write_blob(
         "pre-processed",
         f"{set_type}/{year}/census.parquet",
@@ -75,7 +87,7 @@ async def pre_process_sen(set_type, year):
     sen_data = await get_blob(
         raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252"
     )
-    sen = pre_processing.prepare_sen_data(sen_data)
+    sen = prepare_sen_data(sen_data)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/sen.parquet", sen.to_parquet()
     )
@@ -86,7 +98,7 @@ async def pre_process_sen(set_type, year):
 async def pre_process_ks2(set_type, year):
     logger.info("Processing KS2 Data")
     ks2_data = await get_blob(raw_container, f"{set_type}/{year}/ks2.xlsx")
-    ks2 = pre_processing.prepare_ks2_data(ks2_data)
+    ks2 = prepare_ks2_data(ks2_data)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/ks2.parquet", ks2.to_parquet()
     )
@@ -97,7 +109,7 @@ async def pre_process_ks2(set_type, year):
 async def pre_process_ks4(set_type, year):
     logger.info("Processing KS4 Data")
     ks4_data = await get_blob(raw_container, f"{set_type}/{year}/ks4.xlsx")
-    ks4 = pre_processing.prepare_ks4_data(ks4_data)
+    ks4 = prepare_ks4_data(ks4_data)
     await write_blob(
         "pre-processed", f"{set_type}/{year}/ks4.parquet", ks4.to_parquet()
     )
@@ -110,7 +122,7 @@ async def pre_process_academy_ar(set_type, year):
     academy_ar_data = await get_blob(
         raw_container, f"{set_type}/{year}/academy_ar.xlsx"
     )
-    (trust_ar, academy_ar) = pre_processing.prepare_aar_data(academy_ar_data)
+    (trust_ar, academy_ar) = prepare_aar_data(academy_ar_data)
     await write_blob(
         "pre-processed",
         f"{set_type}/{year}/trust_ar.parquet",
@@ -134,7 +146,7 @@ async def pre_process_schools(set_type, year):
     gias_links_data = await get_blob(
         raw_container, f"{set_type}/{year}/gias_links.csv", encoding="cp1252"
     )
-    schools = pre_processing.prepare_schools_data(gias_data, gias_links_data)
+    schools = prepare_schools_data(gias_data, gias_links_data)
     await write_blob(
         "pre-processed",
         f"{set_type}/{year}/schools.parquet",
@@ -162,7 +174,7 @@ async def pre_process_data(set_type, year):
     academies_data = await get_blob(
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
-    academies = pre_processing.build_academy_data(
+    academies = build_academy_data(
         academies_data, year, schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4
     )
     await write_blob(
@@ -177,7 +189,7 @@ async def pre_process_data(set_type, year):
         f"{set_type}/{year}/maintained_schools_master_list.csv",
         encoding="utf-8",
     )
-    maintained_schools = pre_processing.build_maintained_school_data(
+    maintained_schools = build_maintained_school_data(
         maintained_schools_data, year, schools, census, sen, cdc, ks2, ks4
     )
     await write_blob(
@@ -205,7 +217,7 @@ async def pre_process_data(set_type, year):
         f"{set_type}/{year}/gias_all_links.csv",
         encoding="unicode-escape",
     )
-    (hard_federations, soft_federations) = pre_processing.build_federations_data(
+    (hard_federations, soft_federations) = build_federations_data(
         gias_all_links_data, maintained_schools
     )
     await write_blob(
@@ -231,9 +243,7 @@ async def pre_process_data(set_type, year):
 
 async def ms_pupils_comparator(set_type, year, data):
     logger.info("Computing maintained schools pupil comparator set")
-    ms_pupil_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_pupils_comparator
-    )
+    ms_pupil_comparators = compute_comparator_matrix(data, compute_pupils_comparator)
     await write_blob(
         "comparator-sets",
         f"{set_type}/{year}/ms_pupil.pkl",
@@ -246,8 +256,8 @@ async def ms_pupils_comparator(set_type, year, data):
 
 async def ms_buildings_comparator(set_type, year, data):
     logger.info("Computing maintained schools building comparator set")
-    ms_building_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_buildings_comparator
+    ms_building_comparators = compute_comparator_matrix(
+        data, compute_buildings_comparator
     )
     await write_blob(
         "comparator-sets",
@@ -261,8 +271,8 @@ async def ms_buildings_comparator(set_type, year, data):
 
 async def academies_pupils_comparator(set_type, year, data):
     logger.info("Computing academy pupil comparator set")
-    academy_pupil_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_pupils_comparator
+    academy_pupil_comparators = compute_comparator_matrix(
+        data, compute_pupils_comparator
     )
     await write_blob(
         "comparator-sets",
@@ -275,8 +285,8 @@ async def academies_pupils_comparator(set_type, year, data):
 
 async def academies_buildings_comparator(set_type, year, data):
     logger.info("Computing academy building comparator set")
-    academy_building_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_buildings_comparator
+    academy_building_comparators = compute_comparator_matrix(
+        data, compute_buildings_comparator
     )
     await write_blob(
         "comparator-sets",
@@ -290,9 +300,7 @@ async def academies_buildings_comparator(set_type, year, data):
 
 async def all_pupils_comparator(set_type, year, data):
     logger.info("Computing all pupil comparator set")
-    pupil_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_pupils_comparator
-    )
+    pupil_comparators = compute_comparator_matrix(data, compute_pupils_comparator)
     await write_blob(
         "comparator-sets",
         f"{set_type}/{year}/all_pupil.pkl",
@@ -305,9 +313,7 @@ async def all_pupils_comparator(set_type, year, data):
 
 async def all_buildings_comparator(set_type, year, data):
     logger.info("Computing all building comparator set")
-    building_comparators = comparators.compute_comparator_matrix(
-        data, comparators.compute_buildings_comparator
-    )
+    building_comparators = compute_comparator_matrix(data, compute_buildings_comparator)
     await write_blob(
         "comparator-sets",
         f"{set_type}/{year}/all_building.pkl",
@@ -322,9 +328,11 @@ async def compute_comparator_sets(set_type, year):
     start_time = time.time()
     logger.info("Computing comparator sets")
 
-    all_schools = comparators.prepare_data(pd.read_parquet(await get_blob(
-        "pre-processed", f"{set_type}/{year}/all_schools.parquet"
-    )))
+    all_schools = prepare_data(
+        pd.read_parquet(
+            await get_blob("pre-processed", f"{set_type}/{year}/all_schools.parquet")
+        )
+    )
 
     await all_pupils_comparator(set_type, year, all_schools)
     await all_buildings_comparator(set_type, year, all_schools)

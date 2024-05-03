@@ -152,8 +152,8 @@ def map_school_website(url: str):
         return "https://" + url
 
 
-def map_is_pfi_school(pfi_charges: float):
-    return "PFI School" if pfi_charges > 0 else "Non-PFI school"
+def map_is_pfi_school(pfi: str):
+    return "PFI School" if pfi.lower() == "part of PFI" else "Non-PFI school"
 
 
 def map_is_surplus_deficit(closing_balance: float):
