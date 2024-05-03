@@ -65,11 +65,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
               displayIndex={data.length - 1}
               seriesLabelField="term"
               valueField={valueField}
-              valueFormatter={(v) =>
-                statValueFormatter(v, {
-                  valueUnit: valueUnit ?? dimension.unit,
-                })
-              }
+              valueFormatter={statValueFormatter}
               valueUnit={valueUnit ?? dimension.unit}
             />
           </aside>
