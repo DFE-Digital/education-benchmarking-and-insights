@@ -27,10 +27,11 @@ A service that allows you to compare school metrics against similar schools
    11. [Decisions and Options](documentation/architecture/decisions-options.md)
    12. Service Design
 5. Architecture decision records
-   1. [API Architecture](documentation/architecture-decision-records/api-architecture.md)
-   2. [Front End Framework](documentation/architecture-decision-records/front-end-framework.md)
-   3. [Data Storage](documentation/architecture-decision-records/data-storage.md)
-   4. [Development Data](documentation/architecture-decision-records/development-data.md)
+   1. [Decision Option Template](documentation/architecture/decision/0001-decision-option-template.md)
+   2. [Data Storage](documentation/architecture/decision/0002-data-storage.md)
+   3. [Development Data](documentation/architecture/decision/0003-development-data.md)
+   4. [Front End Framework](documentation/architecture/decision/0004-front-end-framework.md)
+   5. [Pipeline development language](documentation/architecture/decision/0005-pipeline-processing-development-language.md)
 6. Developers
    1. [Getting Started](documentation/developers/getting-started.md)
    2. [Session Data](documentation/developers/session-data.md)
