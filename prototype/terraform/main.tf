@@ -21,7 +21,7 @@ resource "azurerm_service_plan" "app-service-plan" {
   location            = azurerm_resource_group.resource-group.location
   resource_group_name = azurerm_resource_group.resource-group.name
   os_type             = "Linux"
-  sku_name            = "F1"
+  sku_name            = "B1"
   tags                = local.common-tags
 }
 
