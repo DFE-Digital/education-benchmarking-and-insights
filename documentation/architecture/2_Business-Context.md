@@ -7,12 +7,14 @@ This project within the DFE is part of a wider change portfolio called the Schoo
 **For the Education Sector:**
 
 To create an accessible, easy to use tool that enables professionals at school, trust and Local Authority level to make effective spending decisions through giving them access to:
+
 * A way to compare their use of resources against other schools
 * A way to interrogate their own financial data 
 * A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils 
 * A way to support Governors & Trustees in their role in holding organisations to account 
 
 **For Government and DfE:**
+
 * A reduction in the burden on the school sector
 * Increased efficiencies and effectiveness of internal processes 
 * A response to sector feedback on the need for a single route into DfE’s Benchmarking Services

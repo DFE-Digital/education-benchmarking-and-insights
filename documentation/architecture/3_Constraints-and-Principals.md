@@ -5,7 +5,7 @@
 ### Architectural principals
 
 | Id         |  Principal                  | Rationale |
-|:----------:|:----------------------------|:----------|
+|:-----------|:----------------------------|:----------|
 | **ARCH-1** | Appropriate tools and technologies - Use appropriate tools and technologies to create and operate a good service in a cost effective way - for example, by automating things where possible. |
 | **ARCH-2** | Enterprise Architecture Alignment - The solution proposed is aligned with the Enterprise Architecture and stated services and interfaces. |
 | **ARCH-3** | NFR Alignment - The solution proposed has been designed to meet the NFRs |
@@ -35,8 +35,8 @@
 
 ### API principals
 
-| Id   | Principal |Rationale|
-|:-----:|:---------|:---------|
+| Id   | Principal |
+|:-----|:---------|
 | **API-1** | Built on open standards and open data |
 | **API-2** | No benchmarking specific logic in the platform |
 | **API-3** | Proactive not reactive analytics and monitoring. |
@@ -48,10 +48,6 @@
 | **API-9** | Documented using an Open documentation system, Open API for example. |
 | **API-10** | Have traceability built in to allow correlation of requests throughout the stack. See below. |
 
-### Service principals
-
-| Id | Principal |Rationale|
-|:--------:|:----------|:-------|
 
 ## Constraints
 
@@ -62,10 +58,6 @@
 | **CONS-3** | Must be in-line with the [Government Technology Code of practice](https://www.gov.uk/government/publications/technology-code-of-practice/technology-code-of-practice) |
 | **CONS-4** | Project costs |
 | **CONS-5** | Project delivery timelines |
-
-## Technical debt log 
-
-**//TODO: Insert or link to technical debt log**
 
 
 #### Monitoring, analytics and postmortem analysis

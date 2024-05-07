@@ -1,4 +1,4 @@
-# Decision Title
+# 0001 - Decision Title
 
 ## Context and Problem Statement
 

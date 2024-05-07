@@ -1,6 +1,6 @@
 ﻿# Application Architecture
 
-![Application Architecture](images/Container-View.png)
+![Application Architecture](./images/Container-View.png)
 
 | Component | Description |
 |:---------:|:------------|
@@ -20,7 +20,7 @@
 
 ## Interaction Viewpoint 
 
-![Interaction viewpoint](images/Interaction-Viewpoint.png)
+![Interaction viewpoint](./images/Interaction-Viewpoint.png)
 
 The calculations below are based on the latest available SLA summary provided by Microsoft available [here (May 2024)](https://wwlpdocumentsearch.blob.core.windows.net/prodv2/OnlineSvcsConsolidatedSLA(WW)(English)(May2024)(CR).docx)
 

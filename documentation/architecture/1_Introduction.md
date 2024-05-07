@@ -4,7 +4,7 @@ The Financial Benchmarking and insights (FBIT) service is to provide a single se
 
 * A way to compare their use of resources against other schools
 * A way to interrogate their own financial data 
-* A way to identify areas of improvement to support better * financial planning and consequently improved outcomes for pupils 
+* A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils 
 * A way to support Governors & Trustees in their role in holding organisations to account 
 
 For more information see the [business context](./business-context.md)
@@ -13,7 +13,7 @@ For more information see the [business context](./business-context.md)
 
 The service allows access in both an authenticated and unauthenticated mode. Authenticated users require a DfE Signin Account to access the secured areas of the service. 
 
-## Key components
+**Key components**
 
 The FBIT service consists of two high level components
 
