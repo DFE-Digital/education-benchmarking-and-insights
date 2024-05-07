@@ -20,6 +20,7 @@
         interval: "weekly"
       commit-message:
         prefix: "[npm] "
+      open-pull-requests-limit: 10
 
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
