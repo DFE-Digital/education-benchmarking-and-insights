@@ -201,7 +201,8 @@ public static class ServiceCollectionExtensions
                                     if (companyNumber != null)
                                     {
                                         var api = context.HttpContext.RequestServices.GetRequiredService<IEstablishmentApi>();
-                                        var trustSchools = await api.GetTrustSchools(companyNumber).GetResultOrDefault<School[]>() ?? [];
+                                        var query = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
+                                        var trustSchools = await api.QuerySchools(query).GetResultOrDefault<School[]>() ?? [];
                                         trusts = [companyNumber];
                                         schools = trustSchools.Select(x => x.Urn).OfType<string>().ToArray();
                                     }

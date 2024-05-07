@@ -132,7 +132,11 @@ function LineChartInner<TData extends ChartDataSeries>(
           </XAxis>
           <YAxis
             type="number"
-            unit={valueUnit && valueUnit.length <= 1 ? valueUnit : undefined}
+            unit={
+              valueUnit && valueUnit.length <= 1 && valueUnit !== "%"
+                ? valueUnit
+                : undefined
+            }
             domain={["auto", "auto"]}
             tickFormatter={(value) =>
               valueFormatter

@@ -62,6 +62,7 @@ module "establishment-fa" {
     "Cosmos__EstablishmentCollectionName" = "GIAS"
     "Search__Name"                        = azurerm_search_service.search.name
     "Search__Key"                         = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
+    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }

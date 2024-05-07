@@ -13,7 +13,6 @@ namespace Platform.Api.Establishment.Db;
 public interface ITrustDb
 {
     Task<TrustResponseModel?> Get(string identifier);
-    Task<IEnumerable<SchoolResponseModel>> Schools(string identifier);
 }
 
 [ExcludeFromCodeCoverage]
@@ -47,20 +46,5 @@ public class TrustDb : CosmosDatabase, ITrustDb
             .FirstOrDefaultAsync();
 
         return trust == null ? null : TrustResponseModel.Create(trust);
-    }
-
-    public async Task<IEnumerable<SchoolResponseModel>> Schools(string identifier)
-    {
-        var canParse = long.TryParse(identifier, out var parsedIdentifier);
-        if (!canParse)
-        {
-            return Array.Empty<SchoolResponseModel>();
-        }
-
-        var schools = await ItemEnumerableAsync<EdubaseDataObject>(
-            _collectionName,
-                q => q.Where(x => x.CompanyNumber == parsedIdentifier)).ToListAsync();
-
-        return schools.Select(SchoolResponseModel.Create);
     }
 }

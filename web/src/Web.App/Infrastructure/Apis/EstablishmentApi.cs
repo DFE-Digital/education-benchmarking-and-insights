@@ -8,14 +8,19 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         return GetAsync($"api/school/{identifier}");
     }
 
+    public Task<ApiResult> QuerySchools(ApiQuery? query)
+    {
+        return GetAsync($"api/schools{query?.ToQueryString()}");
+    }
+
     public Task<ApiResult> GetTrust(string? identifier)
     {
         return GetAsync($"api/trust/{identifier}");
     }
 
-    public Task<ApiResult> GetTrustSchools(string? identifier)
+    public Task<ApiResult> GetLocalAuthority(string? identifier)
     {
-        return GetAsync($"api/trust/{identifier}/schools");
+        return GetAsync($"api/local-authority/{identifier}");
     }
 
     public Task<ApiResult> SuggestSchools(string search)
@@ -53,8 +58,9 @@ public interface IEstablishmentApi
 {
     Task<ApiResult> GetSchool(string? identifier);
     Task<ApiResult> GetTrust(string? identifier);
+    Task<ApiResult> GetLocalAuthority(string? identifier);
+    Task<ApiResult> QuerySchools(ApiQuery? query);
     Task<ApiResult> SuggestSchools(string search);
     Task<ApiResult> SuggestTrusts(string search);
     Task<ApiResult> SuggestLocalAuthorities(string search);
-    Task<ApiResult> GetTrustSchools(string id);
 }

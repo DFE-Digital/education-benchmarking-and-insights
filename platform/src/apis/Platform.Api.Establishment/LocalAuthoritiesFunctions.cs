@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Platform.Api.Establishment.Db;
 using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -22,42 +23,47 @@ public class LocalAuthoritiesFunctions
     private readonly ILogger<LocalAuthoritiesFunctions> _logger;
     private readonly ISearchService<LocalAuthorityResponseModel> _search;
     private readonly IValidator<PostSuggestRequestModel> _validator;
+    private readonly ILocalAuthorityDb _db;
 
     public LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger,
-        ISearchService<LocalAuthorityResponseModel> search, IValidator<PostSuggestRequestModel> validator)
+        ISearchService<LocalAuthorityResponseModel> search, IValidator<PostSuggestRequestModel> validator, ILocalAuthorityDb db)
     {
         _logger = logger;
         _search = search;
         _validator = validator;
+        _db = db;
     }
 
 
     [FunctionName(nameof(SingleLocalAuthorityAsync))]
-    public IActionResult SingleLocalAuthorityAsync(
+    public async Task<IActionResult> SingleLocalAuthorityAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authority/{identifier}")]
         HttpRequest req,
         string identifier)
     {
-        return new OkResult();
-    }
+        var correlationId = req.GetCorrelationId();
 
-    [FunctionName(nameof(QueryLocalAuthoritiesAsync))]
-    public IActionResult QueryLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "local-authorities")]
-        HttpRequest req)
-    {
-        return new OkResult();
-    }
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var response = await _db.Get(identifier);
 
-    [FunctionName(nameof(SearchLocalAuthoritiesAsync))]
-    public IActionResult SearchLocalAuthoritiesAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/search")]
-        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")]
-        HttpRequest req)
-    {
-        return new OkResult();
+                return response == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(response);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get local authority");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
     }
-
 
     [FunctionName(nameof(SuggestLocalAuthoritiesAsync))]
     [ProducesResponseType(typeof(SuggestResponseModel<LocalAuthorityResponseModel>), (int)HttpStatusCode.OK)]

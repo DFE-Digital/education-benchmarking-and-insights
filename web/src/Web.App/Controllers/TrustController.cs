@@ -24,14 +24,16 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var schools = await establishmentApi.GetTrustSchools(companyNumber).GetResultOrDefault<School[]>() ?? [];
-                var query = new ApiQuery();
+                var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
+                var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
+
+                var schoolsQuery = new ApiQuery();
                 foreach (var school in schools)
                 {
-                    query.AddIfNotNull("urns", school.Urn);
+                    schoolsQuery.AddIfNotNull("urns", school.Urn);
                 }
 
-                var ratings = await insightApi.GetRatings(query).GetResultOrThrow<RagRating[]>();
+                var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
                 var viewModel = new TrustViewModel(trust, schools, ratings);
                 return View(viewModel);
             }
