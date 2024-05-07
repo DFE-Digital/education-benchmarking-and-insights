@@ -396,13 +396,6 @@
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
-      directory: "/web/src/Web.Identity"
-      schedule:
-        interval: "weekly"
-      commit-message:
-        prefix: "[nuget] "
-
-    - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
       schedule:
         interval: "weekly"
