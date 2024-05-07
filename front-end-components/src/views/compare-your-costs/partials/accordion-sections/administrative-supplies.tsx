@@ -86,7 +86,6 @@ export const AdministrativeSupplies: React.FC<AdministrativeSuppliesProps> = ({
           <HorizontalBarChartWrapper
             data={administrativeSuppliesBarData}
             chartName="administrative supplies (non-eductional)"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Administrative supplies (Non-educational)

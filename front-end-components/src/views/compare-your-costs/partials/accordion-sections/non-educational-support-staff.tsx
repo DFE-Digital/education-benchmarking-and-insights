@@ -156,7 +156,6 @@ export const NonEducationalSupportStaff: React.FC<
           <HorizontalBarChartWrapper
             data={totalNonEducationalBarData}
             chartName="total non-educational support staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Total non-educational support staff costs
@@ -171,7 +170,6 @@ export const NonEducationalSupportStaff: React.FC<
           <HorizontalBarChartWrapper
             data={administrativeClericalBarData}
             chartName="administrative and clerical staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Administrative and clerical staff costs
@@ -180,21 +178,18 @@ export const NonEducationalSupportStaff: React.FC<
           <HorizontalBarChartWrapper
             data={auditorsCostsBarData}
             chartName="auditors costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Auditors costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={otherStaffCostsBarData}
             chartName="other staff costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">Other staff costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={professionalServicesBarData}
             chartName="profession services (non-curriculum) costs"
-            valueUnit="currency"
           >
             <h3 className="govuk-heading-s">
               Professional services (non-curriculum) costs

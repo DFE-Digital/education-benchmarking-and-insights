@@ -1,0 +1,65 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - supporting-data
+
+pr: none
+
+variables:
+  TerraformFolder: 'supporting-data/terraform'
+  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+
+stages:
+  - stage: Build
+    displayName: 'Build artifacts'
+    jobs:
+      - job: SetBuildNumber
+        displayName: 'Set tag'
+        steps:
+          - checkout: none
+          - bash: echo "##vso[build.addbuildtag]Supporting Data"
+            displayName: 'Set build tag'
+
+      - job: FmtValidateTf
+        displayName: "Lint and validate terraform"
+        steps:
+          - template: ..\common\fmt-validate-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: RunCheckOv
+        displayName: "Static analysis terraform"
+        steps:
+          - template: ..\common\scan-terraform.yaml
+            parameters:
+              TerraformDirectory: $(TerraformDirectory)
+
+      - job: ZipStaticArtifacts
+        displayName: 'Zip static artifacts'
+        steps:
+          - template: ..\common\publish-terraform-artifacts.yaml
+            parameters:
+              TerraformFolder: $(TerraformFolder)
+              Module: 'supporting-data'
+
+  - stage: DeploySupportingData
+    dependsOn: [Build]
+    condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
+    displayName: 'Supporting Data'
+    variables:
+      - group: 'supporting-data'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d98'
+          environment: 'supporting-data'
+          cipEnvironment: 'Dev'
