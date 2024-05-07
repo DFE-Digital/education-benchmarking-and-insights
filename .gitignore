@@ -419,3 +419,4 @@ local.settings.json
 **/docker/azurite
 **/docker/sql
 front-end-components/vite.config-dev.js.timestamp-*
+documentation/build
