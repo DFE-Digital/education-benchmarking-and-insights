@@ -30,8 +30,9 @@ resource "azurerm_storage_account" "supporting-data" {
 
 resource "azurerm_storage_container" "raw-data" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
-  name                 = "raw"
-  storage_account_name = azurerm_storage_account.supporting-data.name
+  name                  = "raw"
+  storage_account_name  = azurerm_storage_account.supporting-data.name
+  container_access_type = "private"
 }
 
 resource "azurerm_key_vault_secret" "supporting-data-storage-connection-string" {
@@ -40,4 +41,30 @@ resource "azurerm_key_vault_secret" "supporting-data-storage-connection-string" 
   value        = azurerm_storage_account.supporting-data.primary_connection_string
   key_vault_id = data.azurerm_key_vault.key-vault.id
   content_type = "connection-string"
+}
+
+data "azurerm_storage_account_blob_container_sas" "supporting-data" {
+  connection_string = azurerm_storage_account.supporting-data.primary_connection_string
+  container_name    = azurerm_storage_container.raw-data.name
+  https_only        = true
+
+  start  = "2024-01-01"
+  expiry = "2030-12-31"
+
+  permissions {
+    read   = true
+    add    = false
+    create = false
+    write  = false
+    delete = false
+    list   = true
+  }
+}
+
+resource "azurerm_key_vault_secret" "supporting-data-storage-sas-token" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  name         = "supporting-data-storage-sas-token"
+  value        = data.azurerm_storage_account_blob_container_sas.supporting-data.sas
+  key_vault_id = data.azurerm_key_vault.key-vault.id
+  content_type = "token"
 }

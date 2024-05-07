@@ -8,6 +8,7 @@ parameters:
   location: 'westeurope'
   disablePurgeProtection: ''
   imageName: ''
+  planOnly: ''
 
 steps:
   - task: ExtractFiles@1
@@ -84,6 +85,7 @@ steps:
 
   - task: JasonBJohnson.azure-pipelines-tasks-terraform.azure-pipelines-tasks-terraform-cli.TerraformCLI@0
     displayName: 'Terraform : apply'
+    condition: and(succeeded(), ne('${{ parameters.planOnly }}', 'true'))
     inputs:
       command: apply
       backendType: 'azurerm'
