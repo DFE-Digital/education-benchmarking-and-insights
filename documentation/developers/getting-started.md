@@ -4,6 +4,7 @@ The repository is a monorepo which contains multiple components.
 
 - [Core infrastructure](../../core-infrastructure/README.md) 
 - [Front-end components](../../front-end-components/README.md) 
+- [Data pipeline](../../data-pipeline/README.md)
 - [Platform](../../platform/README.md)
 - [Web](../../web/README.md)
 - [Prototype](../../prototype/README.md)
