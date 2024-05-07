@@ -52,11 +52,11 @@ public class TrustsFunctions
         {
             try
             {
-                var school = await _db.Get(identifier);
+                var response = await _db.Get(identifier);
 
-                return school == null
+                return response == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(school);
+                    : new JsonContentResult(response);
             }
             catch (Exception e)
             {
@@ -64,50 +64,6 @@ public class TrustsFunctions
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
-    }
-
-    [FunctionName(nameof(TrustSchoolsAsync))]
-    [ProducesResponseType(typeof(IEnumerable<SchoolResponseModel>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> TrustSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{identifier}/schools")] HttpRequest req,
-        string identifier)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                var schools = await _db.Schools(identifier);
-
-                return new JsonContentResult(schools);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get trust schools");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
-
-    [FunctionName(nameof(QueryTrustsAsync))]
-    public IActionResult QueryTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trusts")] HttpRequest req)
-    {
-        return new OkResult();
-    }
-
-    [FunctionName(nameof(SearchTrustsAsync))]
-    public IActionResult SearchTrustsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/search")]
-        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")]  HttpRequest req)
-    {
-        return new OkResult();
     }
 
     [FunctionName(nameof(SuggestTrustsAsync))]
