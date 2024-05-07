@@ -1,0 +1,25 @@
+{
+	"name": "s198d98-ebis-adf-storage",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"sasUri": "https://s198d98data.blob.core.windows.net/raw",
+			"sasToken": {
+				"secretName": "supporting-data-storage-sas-token",
+				"store": {
+					"referenceName": "s198d98-ebis-adf-kv",
+					"type": "LinkedServiceReference"
+				},
+				"type": "AzureKeyVaultSecret"
+			},
+			"servicePrincipalId": "",
+			"servicePrincipalKey": {
+				"type": "SecureString",
+				"value": "**********"
+			},
+			"tenant": ""
+		},
+		"annotations": []
+	}
+}

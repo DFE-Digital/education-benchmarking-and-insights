@@ -1,0 +1,11 @@
+{
+	"name": "s198d98-ebis-adf-kv",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://s198d01-ebis-keyvault.vault.azure.net/"
+		},
+		"annotations": []
+	}
+}
