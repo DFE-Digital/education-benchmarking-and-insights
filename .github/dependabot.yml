@@ -55,6 +55,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Functions"
@@ -83,6 +85,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Infrastructure"
@@ -111,6 +115,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
@@ -139,6 +145,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
@@ -167,6 +175,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
@@ -195,6 +205,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
@@ -223,6 +235,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
@@ -251,6 +265,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
@@ -279,6 +295,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
@@ -307,6 +325,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
 
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
@@ -335,6 +355,8 @@
           versions: [ "7.*", "8.*" ]
         - dependency-name: "Microsoft.Extensions.Configuration.Json"
           versions: [ "7.*", "8.*" ]
+        - dependency-name: "AzureExtensions.Swashbuckle"
+          versions: [ "4.*" ]
           
     - package-ecosystem: "npm"
       directory: "/prototype/src"
