@@ -125,7 +125,8 @@ public class ProxyController(
 
     private async Task<IActionResult> TrustExpenditure(string id)
     {
-        var schools = await establishmentApi.GetTrustSchools(id).GetResultOrThrow<IEnumerable<School>>();
+        var query = new ApiQuery().AddIfNotNull("companyNumber", id);
+        var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
         return new JsonResult(result);
     }

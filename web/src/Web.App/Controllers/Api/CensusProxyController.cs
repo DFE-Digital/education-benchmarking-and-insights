@@ -27,7 +27,7 @@ public class CensusProxyController(
                 var set = type.ToLower() switch
                 {
                     OrganisationTypes.School => (await comparatorSetService.ReadComparatorSet(id)).DefaultPupil,
-                    OrganisationTypes.Trust => (await establishmentApi.GetTrustSchools(id)
+                    OrganisationTypes.Trust => (await establishmentApi.QuerySchools(new ApiQuery().AddIfNotNull("companyNumber", id))
                         .GetResultOrThrow<IEnumerable<School>>()).Select(x => x.Urn).OfType<string>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };

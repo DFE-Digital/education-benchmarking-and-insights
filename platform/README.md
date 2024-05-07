@@ -11,14 +11,13 @@
 
 > Note: Ensure that, if cloning to a DfE user area, the root folder is outside any of the ‘OneDrive’ folders to prevent ‘too long path name’ errors at build time.
 
-
-
 ## Getting started
+> Docker: Compose file contents configuration for running SQL server and Azurite locally
 
 ### Running Platform APIs
 
 #### Establishment Function App
-Add configuration in `local.settings.json` for `Platform.Establishment.Api`
+Add configuration in `local.settings.json` for `Platform.Api.Establishment`
 ```
 {
   "IsEncrypted": false,
@@ -29,7 +28,8 @@ Add configuration in `local.settings.json` for `Platform.Establishment.Api`
     "Cosmos__DatabaseId" : "ebis-data",
     "Cosmos__EstablishmentCollectionName" : "GIAS",
     "Search__Name" : "s198d01-ebis-search",
-    "Search__Key" : "[INSERT KEY VALUE]"
+    "Search__Key" : "[INSERT KEY VALUE]",
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {
     "CORS": "*",
@@ -39,7 +39,7 @@ Add configuration in `local.settings.json` for `Platform.Establishment.Api`
 ```
 
 #### Benchmark Function App
-Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
+Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
 ```
 {
   "IsEncrypted": false,
@@ -58,7 +58,7 @@ Add configuration in `local.settings.json` for `Platform.Benchmark.Api`
 ```
 
 #### Insight Function App
-Add configuration in `local.settings.json` for `Platform.Insight.Api`
+Add configuration in `local.settings.json` for `Platform.Api.Insight`
 ```
 {
   "IsEncrypted": false,
@@ -77,6 +77,27 @@ Add configuration in `local.settings.json` for `Platform.Insight.Api`
     "CORS": "*",
     "LocalHttpPort": 7071
   }
+}
+```
+
+#### Orchestrator Function App
+For local development it's assumed Azurite will be used. More information can be found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+ 
+Add configuration in `local.settings.json` for `Platform.Orchestrator`
+```
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
+        "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
+        "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start"
+    },
+    "Host": {
+        "CORS": "*",
+        "LocalHttpPort": 7081
+    }
 }
 ```
 

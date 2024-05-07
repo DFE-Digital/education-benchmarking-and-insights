@@ -71,10 +71,10 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolsAsync))]
-    [ProducesResponseType(typeof(PagedResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<SchoolResponseModel>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("page", "Page number", DataType = typeof(int), Required = false)]
-    [QueryStringParameter("pageSize", "Size of page ", DataType = typeof(int), Required = false)]
+    [QueryStringParameter("companyNumber", "Company number", DataType = typeof(int), Required = false)]
+    [QueryStringParameter("laCode", "Local authority code", DataType = typeof(int), Required = false)]
     public async Task<IActionResult> QuerySchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")]
         HttpRequest req)
@@ -90,7 +90,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var schools = await _db.Query(req.Query);
+                var companyNumber = req.Query["companyNumber"].ToString();
+                var laCode = req.Query["laCode"].ToString();
+                var schools = await _db.Query(companyNumber, laCode);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)
