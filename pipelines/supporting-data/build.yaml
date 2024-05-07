@@ -50,10 +50,25 @@ stages:
               TerraformFolder: $(TerraformFolder)
               Module: 'supporting-data'
 
+  - stage: PlanSupportingData
+    dependsOn: [Build]
+    condition: and(succeeded(), ne(variables['ShouldDeploy'],'true'))
+    displayName: 'Plan Supporting Data'
+    variables:
+      - group: 'supporting-data'
+    jobs:
+      - template: deployment.yaml
+        parameters:
+          subscription: 's198d.azdo-deployment'
+          environmentPrefix: 's198d98'
+          environment: 'supporting-data'
+          cipEnvironment: 'Dev'
+          planOnly: true
+
   - stage: DeploySupportingData
     dependsOn: [Build]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
-    displayName: 'Supporting Data'
+    displayName: 'Deploy Supporting Data'
     variables:
       - group: 'supporting-data'
     jobs:

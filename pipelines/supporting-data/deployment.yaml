@@ -5,6 +5,7 @@ parameters:
   environment: ''
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
+  planOnly: ''
 
 jobs:
   - deployment: SupportingDataDeployment
@@ -28,3 +29,4 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'supporting-data'
+                planOnly: ${{ parameters.planOnly }}
