@@ -7,7 +7,10 @@ run-pipeline:
 run-pipeline-test-mode:
 	poetry run python -m src.pipeline.main test
 
-build: 
+build-api:
+	docker build $(tags) --file docker/api/Dockerfile .
+
+build-pipeline:
 	docker build $(tags) --file docker/pipeline-worker/Dockerfile .
 
 unit-test:

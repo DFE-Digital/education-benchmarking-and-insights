@@ -23,12 +23,12 @@ steps:
     workingDirectory: data-pipeline
 
   - script: |
-      make build tags="--tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:latest --tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}"
-    displayName: Build Docker Image
+      make build-pipeline tags="--tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:latest --tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline:${{ parameters.buildNumber }}"
+    displayName: Build Pipeline Docker Image
     workingDirectory: data-pipeline
 
   - task: AzureCLI@2
-    displayName: Push To Azure Container Registry
+    displayName: Push Pipeline Image To Azure Container Registry
     inputs:
       azureSubscription: ${{ parameters.subscription }}
       scriptType: 'bash'
@@ -37,4 +37,21 @@ steps:
       inlineScript: |
         az acr login --name ${{ parameters.environmentPrefix }}acr
         docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-pipeline --all-tags
+      workingDirectory: data-pipeline
+
+  - script: |
+      make build-api tags="--tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-api:latest --tag ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-api:${{ parameters.buildNumber }}"
+    displayName: Build API Docker Image
+    workingDirectory: data-pipeline
+
+  - task: AzureCLI@2
+    displayName: Push API Image To Azure Container Registry
+    inputs:
+      azureSubscription: ${{ parameters.subscription }}
+      scriptType: 'bash'
+      scriptLocation: 'inlineScript'
+      addSpnToEnvironment: true
+      inlineScript: |
+        az acr login --name ${{ parameters.environmentPrefix }}acr
+        docker push ${{ parameters.environmentPrefix }}acr.azurecr.io/fbit-data-api --all-tags
       workingDirectory: data-pipeline
