@@ -24,4 +24,4 @@ steps:
       customCommand: 'install -g @mermaid-js/mermaid-cli'
 
   - bash: ./tools/make-pdf.sh architecture architecture architecture.pdf
-    workingDir: $(WorkingDir)
+    workingDirectory: $(WorkingDir)
