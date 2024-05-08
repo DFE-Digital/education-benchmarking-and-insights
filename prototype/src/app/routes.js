@@ -243,6 +243,7 @@ router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
         var trustName = req.session.data.trust;
+        console.log(trustName)
         if (trustName) {
             req.session.data['trust-name'] = trustName;
         }
@@ -250,12 +251,14 @@ router.post( '/set-school', (req, res) => {
         
     } else if ( req.session.data.signIn == 'authority') {
         var authorityName = req.session.data.authority;
+        console.log(authorityName)
         if (authorityName) {
             req.session.data['authority-name'] = authorityName.substring( 0, authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
     } else {
         var schoolName = req.session.data.school;
+        console.log(schoolName)
         if (schoolName) {
             req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
         }
