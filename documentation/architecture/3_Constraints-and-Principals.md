@@ -60,9 +60,9 @@
 | **CONS-5** | Project delivery timelines |
 
 
-#### Monitoring, analytics and postmortem analysis
+### Monitoring, analytics and postmortem analysis
 
-**//TODO: Describe monitoring, analytics and post-mortem (outage) analysis**
+//TODO: Describe monitoring, analytics and post-mortem (outage) analysis
 
 
 

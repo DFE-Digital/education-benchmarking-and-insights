@@ -1,4 +1,5 @@
-# 0003 - Development Data
+# Decision - 0002 - Development Data
+
 ## Context and Problem Statement
 
 The current systems that the new service is to replace store their data is very different ways. SFB stores data in CosmosDb collections, whereas VMFI is backed by a SQL database. For development purposes, a "lift and shift" of the current production data was required. The main considerations for the data during development are:
@@ -16,7 +17,7 @@ The options considered were:
 * SQL Server - a relational database
 
 | Criteria | Comment | CosmosDB | SQL Server |
-|:--------:|:--------|:---------------:|:-----------:|
+|:--------:|:----------------|:--:|:--:|
 | Confidence | The current databases are fed by a complex ETL pipeline. Currently, the SFB pipeline has been run succesfully, whereas the VMFI pipeline has been more troublesome | 4 | 2 |
 | Coverage | VMFI held all the data required, whereas SFB did not hold building data | 3 | 4|
 | Suitability | The school data is diverse, but there is also trusts, academies, comparator sets, etc. that need to be considered. The data is less structired and each entity has slightly different data. | 4 | 2|
