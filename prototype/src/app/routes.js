@@ -242,19 +242,20 @@ router.get( '/comparators/view-school', (req, res) => {
 router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
-        if ( req.session.data.trustName ) {
-            req.session.data['trust-name'] = req.session.data.trustName;
+        var trustName = req.session.data.trust;
+        if (trustName) {
+            req.session.data['trust-name'] = trustName;
         }
         res.redirect( '/trust-homepage' );
         
     } else if ( req.session.data.signIn == 'authority') {
-        if ( req.session.data.authorityName ) {
-            req.session.data['authority-name'] = req.session.data.authorityName.substring( 0, req.session.data.authorityName.lastIndexOf(' (') );
+        var authorityName = req.session.data.authority;
+        if (authorityName) {
+            req.session.data['authority-name'] = authorityName.substring( 0, authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
     } else {
         var schoolName = req.session.data.school;
-
         if (schoolName) {
             req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
         }
