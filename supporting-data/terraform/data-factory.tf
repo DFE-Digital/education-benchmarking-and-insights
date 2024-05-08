@@ -45,3 +45,13 @@ resource "azurerm_data_factory_linked_service_cosmosdb" "supporting-data" {
   data_factory_id   = azurerm_data_factory.supporting-data.id
   connection_string = azurerm_key_vault_secret.supporting-data-cosmos-connection-string.value
 }
+
+resource "azurerm_data_factory_linked_service_azure_sql_database" "supporting-data" {
+  name            = "${var.environment-prefix}-ebis-adf-sql"
+  data_factory_id = azurerm_data_factory.supporting-data.id
+
+  key_vault_connection_string {
+    linked_service_name = azurerm_data_factory_linked_service_key_vault.supporting-data.name
+    secret_name         = data.azurerm_key_vault_secret.platform-sql-connection-string.name
+  }
+}
