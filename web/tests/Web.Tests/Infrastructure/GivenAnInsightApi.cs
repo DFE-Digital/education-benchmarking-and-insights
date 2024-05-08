@@ -64,7 +64,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/current-return-years");
     }
-    
+
     [Fact]
     public async Task GetSchoolIncomeShouldCallCorrectUrl()
     {
@@ -74,7 +74,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/school/123213/income");
     }
-    
+
     [Fact]
     public async Task GetSchoolExpenditureShouldCallCorrectUrl()
     {
@@ -84,7 +84,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/school/123213/expenditure");
     }
-    
+
     [Fact]
     public async Task GetSchoolFloorAreaMetricShouldCallCorrectUrl()
     {

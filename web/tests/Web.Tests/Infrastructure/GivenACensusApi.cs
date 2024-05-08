@@ -32,7 +32,7 @@ public class GivenACensusApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/census?Name=Foo");
     }
-    
+
     [Fact]
     public async Task GetSchoolCensusShouldCallCorrectUrl()
     {
