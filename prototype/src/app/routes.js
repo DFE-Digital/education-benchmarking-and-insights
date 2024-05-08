@@ -243,7 +243,7 @@ router.get( '/comparators/view-school', (req, res) => {
     res.render( '/comparators/view-school', { comparatorName: objSchool.comparatorName, comparatorLocation: objSchool.comparatorLocation, comparatorPostcode: objSchool.comparatorPostcode, comparatorPupils: objSchool.comparatorPupils.toLocaleString(), comparatorMeals: objSchool.comparatorMeals }  );
 })
 
-router.get( '/set-school', (req, res) => {
+router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
         if ( req.session.data.trustName ) {
