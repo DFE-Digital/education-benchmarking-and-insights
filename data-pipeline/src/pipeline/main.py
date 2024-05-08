@@ -2,6 +2,7 @@ import asyncio
 import gc
 import json
 import logging
+import os
 import pickle
 import sys
 import time
@@ -475,7 +476,7 @@ async def handle_msg(msg, worker_queue, complete_queue):
         with suppress(ResourceNotFoundError):
             await worker_queue.delete_message(msg)
 
-        await complete_queue.send_message(msg_payload)
+        await complete_queue.send_message(json.dumps(msg_payload), time_to_live=300)
 
     return msg_payload
 
@@ -518,7 +519,8 @@ async def receive_messages():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) > 1 and sys.argv[1] == "test":
+    if os.getenv("ENV") == "dev":
+        logger.info(f"Listening for messages")
         asyncio.run(receive_messages())
     else:
         asyncio.run(receive_one_message())

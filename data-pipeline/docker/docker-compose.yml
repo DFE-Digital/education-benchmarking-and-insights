@@ -14,7 +14,7 @@ services:
     volumes:
       - "./azurite/data:/data"
 
-  pipeline-worker:
+  pipeline:
     build:
       context: ../
       dockerfile: ./docker/pipeline-worker/Dockerfile
@@ -23,5 +23,6 @@ services:
       - WORKER_QUEUE_NAME=data-pipeline-job-start
       - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
       - RAW_DATA_CONTAINER=raw
+      - ENV=dev
     depends_on:
       - azurite
