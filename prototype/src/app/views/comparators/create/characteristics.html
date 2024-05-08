@@ -25,7 +25,23 @@
             <h1 class="govuk-heading-l">Create a custom comparator set</h1>
 
             <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
-                    
+                        
+            {% if data['errorThisPage'] == 'true' %}
+            
+                {{ govukErrorSummary
+                    ({
+                        titleText: "There is a problem",
+                        attributes: 'style="margin-bottom:30px;',
+                        errorList:
+                        [
+                            {
+                                text: 'There are no matching schools. Choose different characteristics.'
+                            }
+                        ]
+                    })
+                }}
+            {% endif %}
+
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-three-quarters">
@@ -1268,4 +1284,21 @@
 
     </div>
 </div>
+
+
+<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
+
+    <select style="height:30px;" onchange="window.location.href='?'+this.value">
+  
+        <option value="errorThisPage=false&errorNoMatches=false"
+                {% if data['errorThisPage'] != 'true' %}selected{% endif %}>Errors - Off</option>
+  
+        <option value="errorThisPage=true&errorNoMatches=true"
+                {% if data['errorNoMatches'] == 'true' %}selected{% endif %}>Error: No matches found</option>
+    </select>
+  
+  </form>
+  
+  
+  
 {% endblock %}
