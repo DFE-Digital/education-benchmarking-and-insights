@@ -20,6 +20,8 @@ variables:
 steps:
   - bash: sudo apt-get install -y pandoc texlive-latex-extra
 
+  - bash: sudo apt-get install texlive-fonts-recommended texlive-fonts-extra
+
   - task: Npm@1
     inputs:
       command: 'custom'
