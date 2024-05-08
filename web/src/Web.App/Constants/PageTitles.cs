@@ -40,4 +40,7 @@ public static class PageTitles
     public const string SchoolPlanningManagersPerRole = "Number of managers per role";
     public const string SchoolPlanningTeachingPeriodsManager = "Enter your teaching period figures for each manager";
     public const string SchoolDeploymentPlan = "Deployment plan";
+    public const string SchoolChangeData = "Customise your data";
+    public const string SchoolChangeDataLanding = "Change data used to compare this school";
+    public const string  SchoolChangeDataFinancialData= "Change financial data";
 }
