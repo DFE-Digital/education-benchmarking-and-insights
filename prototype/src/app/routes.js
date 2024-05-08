@@ -28,17 +28,20 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 
 router.get( '/authority-homepage', (req, res) => {
     req.session.data.signIn = 'authority';
-    console.log(req.session.data['authority-name'])
+    console.log('Get : authority-name',req.session.data['authority-name'])
+    console.log('Get : authority',req.session.data.authority)
     res.render( '/authority-homepage' );
 })
 
 router.get( '/trust-homepage', (req, res) => {
-    console.log(req.session.data['trust-name'])
+    console.log('Get : trust-name',req.session.data['trust-name'])
+    console.log('Get : trust',req.session.data.trust)
     res.render( '/trust-homepage' );
 })
 
 router.get( '/school-homepage', (req, res) => {
-    console.log(req.session.data['school-name'])
+    console.log('Get : school-name',req.session.data['school-name'])
+    console.log('Get : school',req.session.data.trust)
     res.render( '/school-homepage' );
 })
 
@@ -254,7 +257,7 @@ router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
         var trustName = req.session.data.trust;
-        console.log(trustName)
+        console.log('Post: trust',trustName)
         if (trustName) {
             req.session.data['trust-name'] = trustName;
         }
@@ -262,14 +265,14 @@ router.post( '/set-school', (req, res) => {
         
     } else if ( req.session.data.signIn == 'authority') {
         var authorityName = req.session.data.authority;
-        console.log(authorityName)
+        console.log('Post: authority',authorityName)
         if (authorityName) {
             req.session.data['authority-name'] = authorityName.substring( 0, authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
     } else {
         var schoolName = req.session.data.school;
-        console.log(schoolName)
+        console.log('Post: school',schoolName)
         if (schoolName) {
             req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
         }
