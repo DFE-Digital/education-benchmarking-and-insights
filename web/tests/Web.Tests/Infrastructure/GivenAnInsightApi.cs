@@ -64,4 +64,34 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/current-return-years");
     }
+    
+    [Fact]
+    public async Task GetSchoolIncomeShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetSchoolIncome("123213");
+
+        VerifyCall(HttpMethod.Get, "api/school/123213/income");
+    }
+    
+    [Fact]
+    public async Task GetSchoolExpenditureShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetSchoolExpenditure("123213");
+
+        VerifyCall(HttpMethod.Get, "api/school/123213/expenditure");
+    }
+    
+    [Fact]
+    public async Task GetSchoolFloorAreaMetricShouldCallCorrectUrl()
+    {
+        var api = new InsightApi(HttpClient);
+
+        await api.GetSchoolFloorAreaMetric("123213");
+
+        VerifyCall(HttpMethod.Get, "api/metric/123213/floor-area");
+    }
 }
