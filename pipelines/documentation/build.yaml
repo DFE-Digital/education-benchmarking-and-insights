@@ -16,7 +16,7 @@ variables:
   WorkingDir: 'documentation'
 
 steps:
-  - bash: sudo apt-get install -qq -y pandoc texlive --pdf-engine
+  - bash: sudo apt-get install -qq -y pandoc texlive-latex-base
 
   - task: Npm@1
     inputs:
