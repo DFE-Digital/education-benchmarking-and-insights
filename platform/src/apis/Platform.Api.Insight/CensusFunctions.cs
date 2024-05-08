@@ -66,6 +66,54 @@ public class CensusFunctions
         }
     }
 
+    [FunctionName(nameof(CensusAsync))]
+    [ProducesResponseType(typeof(CensusResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("category", "Census category", DataType = typeof(string))]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    public async Task<IActionResult> CensusAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "census/{urn}")]
+        HttpRequest req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var category = req.Query["category"].ToString();
+                if (!CensusCategories.IsValid(category))
+                {
+                    category = null;
+                }
+                
+                var dimension = req.Query["dimension"].ToString();
+                if (!CensusDimensions.IsValid(dimension))
+                {
+                    dimension = CensusDimensions.Total;
+                }
+
+                var result = await _db.Get(urn, string.IsNullOrWhiteSpace(category) ? null : category,
+                    string.IsNullOrWhiteSpace(dimension) ? CensusDimensions.Total : dimension);
+
+                return result == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get census history");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
     [FunctionName(nameof(CensusHistoryAsync))]
     [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
