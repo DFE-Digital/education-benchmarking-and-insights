@@ -18,6 +18,18 @@ router.get( '/find-school', (req, res) => {
     res.render( '/find-school', { schools: schools, trusts: trusts, authorities: authorities } );
 })
 
+router.get( '/authority-homepage', (req, res) => {
+    res.render( '/authority-homepage' );
+})
+
+router.get( '/trust-homepage', (req, res) => {
+    res.render( '/trust-homepage' );
+})
+
+router.get( '/school-homepage', (req, res) => {
+    res.render( '/school-homepage' );
+})
+
 router.get( '/comparators/create/local-authority', (req, res) => {
 
     var rows = getLocalAuthorityList();

@@ -32,19 +32,19 @@ resource "azurerm_linux_web_app" "web-app" {
   #checkov:skip=CKV_AZURE_17:Non production service - GOV.UK Prototype Kit
   #checkov:skip=CKV_AZURE_213:Non production service - GOV.UK Prototype Kit
   #checkov:skip=CKV_AZURE_214:Non production service - GOV.UK Prototype Kit
-  name                = "${var.environment-prefix}-ebis-prototype"
-  location            = azurerm_resource_group.resource-group.location
-  resource_group_name = azurerm_resource_group.resource-group.name
-  service_plan_id     = azurerm_service_plan.app-service-plan.id
-  tags                = local.common-tags
-  https_only          = true
-
+  name                    = "${var.environment-prefix}-ebis-prototype"
+  location                = azurerm_resource_group.resource-group.location
+  resource_group_name     = azurerm_resource_group.resource-group.name
+  service_plan_id         = azurerm_service_plan.app-service-plan.id
+  tags                    = local.common-tags
+  https_only              = true
+  client_affinity_enabled = true
   identity {
     type = "SystemAssigned"
   }
 
   site_config {
-    always_on           = false
+    always_on           = true
     http2_enabled       = true
     minimum_tls_version = "1.2"
     app_command_line    = "npm run start:custom"
