@@ -1,3 +1,8 @@
+{% if data['comparators'] %}
+    <p class="govuk-body">You are now comparing {{ data['school-name'] }} with your own chosen schools.</p>
+    <p class="govuk-body"><a href="/comparators/create/review">Change your similar schools</a></p>
+
+{% else %}
         <details class="govuk-details">
         <summary class="govuk-details__summary">
             <span class="govuk-details__summary-text">
@@ -28,8 +33,9 @@
             </ul>
             <p class="govuk-body">These costs are measured per pupil.</p>
             <p>Teacher contact ratio is not used to choose similar schools.</p>
-            <p><a href="/comparators/create">Choose your own similar schools</a></p>
+            <p><a href="/comparators">Choose your own similar schools</a></p>
 
 
         </div>
         </details>
+{% endif %}

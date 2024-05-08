@@ -35,15 +35,17 @@
         <p class="govuk-body">Use this to change the schools {{ data['school-name'] }} is compared with.</p>
         <p class="govuk-body">You can search for schools by name, address or unique reference number (URN). </p>
 
-        <!---<p class="govuk-body">You can also find schools by characteristic. For example, Ofsted rating or number of pupils. </p>--->
+        <p class="govuk-body">You can also find schools by characteristic. For example, Ofsted rating or number of pupils. </p>
         
+        <!--
         <div class="govuk-inset-text">
           We will delete your choices when you leave the service. 
         </div>
+        -->
 
         {{ govukButton({
           text: "Start now",
-          href: "/comparators/create/review",
+          href: "/comparators/create",
           classes: "govuk-button--primary"
         }) }}
 
