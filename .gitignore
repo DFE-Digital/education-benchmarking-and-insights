@@ -420,3 +420,4 @@ local.settings.json
 **/docker/sql
 front-end-components/vite.config-dev.js.timestamp-*
 documentation/build
+documentation/**/work

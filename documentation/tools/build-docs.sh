@@ -28,6 +28,7 @@ do
     mmdc -e png -i $(pwd)/$fname -o work/$fname
 done 
 
+cp -a images/. work/images
 cd work
 workfiles=$(find . -name '*.md' -and ! -name '*.md.exclude' | sort -V)
 pandoc "${@:4}" --verbose  -s $workfiles  -o "$output"
