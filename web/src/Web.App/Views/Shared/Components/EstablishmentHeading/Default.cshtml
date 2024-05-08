@@ -5,6 +5,7 @@
     {
         OrganisationTypes.School => Url.Action("Index", "School", new { urn = Model.Id}),
         OrganisationTypes.Trust => Url.Action("Index", "Trust", new { companyNumber = Model.Id}),
+        OrganisationTypes.LocalAuthority => Url.Action("Index", "LocalAuthority", new { code = Model.Id }),
     _ =>throw new ArgumentOutOfRangeException(nameof(Model.Kind))
     };
 }

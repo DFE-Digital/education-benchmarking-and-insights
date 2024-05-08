@@ -13,5 +13,6 @@ public enum Resources
     TrustResources,
     TrustHistoricData,
     SchoolDetails,
-    TrustDetails
+    TrustDetails,
+    LocalAuthorityResources
 }

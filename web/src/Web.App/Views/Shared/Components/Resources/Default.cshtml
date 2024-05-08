@@ -80,6 +80,18 @@
                             </p>
                         </li>
                         break;
+                    case Resources.LocalAuthorityResources:
+                        <li>
+                            <h3 class="govuk-heading-s">
+                                <a href="@Url.Action("Index", "LocalAuthorityResources", new { code = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                    Find ways to spend less
+                                </a>
+                            </h3>
+                            <p class="govuk-body">
+                                Use these to help reduce your spending and costs
+                            </p>
+                        </li>
+                        break;
                 }
             }
         </ul>
