@@ -44,7 +44,7 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
       
-    {% if errorThisPage == 'true' %}
+    {% if errorThisPage == 'true' and errorNoSchool == 'true' %}
 
       {% set errorText = 'Enter a school name, address or URN' %}
 
@@ -63,7 +63,13 @@
   {% endif %}
 
   <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-  <h1 class="govuk-heading-l">Schools matched using the characteristics you selected</h1>
+  <h1 class="govuk-heading-l">
+    {% if data['comparatorSetType'] %}
+    Schools matched using the characteristics you selected
+    {% else %}
+    Add a school using a school name, postcode or URN
+    {% endif %}
+  </h1>
 
 
   {% if confirmation == 'comparator-generated' %}
@@ -71,6 +77,7 @@
   <p class="govuk-body"><strong>Schools matched to characteristics</strong></p>
   <p class="govuk-body">You have now replaced the schools we chose for you with the 30 matched schools below.</p>
   <p class="govuk-body">These are the closest match based on the characteristics you selected.</p>
+  <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['trust-name'] }}</a></p>
   {% endset %}
 
   {% elseif confirmation == 'comparator-added' %}
@@ -106,7 +113,7 @@
               hint: {
                   text: ""
               },
-              errorMessage: null if errorThisPage != 'true' else { html: errorText },
+              errorMessage: null if errorThisPage != 'true' and errorNoSchool != 'true' else { html: errorText },
               items: schoolRows
             }) }}
             
@@ -121,8 +128,7 @@
     {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
       
       {% if comparatorSetType == 'generated' %}
-      <p class="govuk-body"><a href="/spending-and-costs">Compare these schools against {{ data['trust-name'] }}</a></p>
-      <p class="govuk-body"><a href="/comparators/create/characteristics">Change characteristics and generate a new comparison set</a></p>
+      <p class="govuk-body"><a href="/comparators/create/type">Change characteristics and create a new list</a></p>
       {% endif %}
 
     {{ govukTable({
