@@ -16,14 +16,14 @@ variables:
   WorkingDir: 'documentation'
 
 steps:
-  - bash: sudo apt-get install -y pandoc texlive-latex-extra make
+  - bash: sudo apt-get install -y pandoc texlive-latex-extra
 
   - task: Npm@1
     inputs:
       command: 'custom'
       customCommand: 'install -g @mermaid-js/mermaid-cli'
 
-  - bash: make architecture-pdf
+  - bash: ./tools/build-docs.sh architecture architecture.pdf -build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --template=pdf-template
     workingDirectory: $(WorkingDir)
 
   - task: PublishPipelineArtifact@1
