@@ -28,7 +28,18 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 
 router.get( '/authority-homepage', (req, res) => {
     req.session.data.signIn = 'authority';
+    console.log(req.session.data['authority-name'])
     res.render( '/authority-homepage' );
+})
+
+router.get( '/trust-homepage', (req, res) => {
+    console.log(req.session.data['trust-name'])
+    res.render( '/trust-homepage' );
+})
+
+router.get( '/school-homepage', (req, res) => {
+    console.log(req.session.data['school-name'])
+    res.render( '/school-homepage' );
 })
 
 // ADD SCHOOLS BY CHARACTERISTICS
