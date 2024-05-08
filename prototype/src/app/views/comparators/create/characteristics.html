@@ -5,7 +5,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Create a custom comparator set – {{ serviceName }}
+Choose characteristics to find matching schools – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -22,9 +22,7 @@
 
         <form action="/comparators/create/review" method="post">
             <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-            <h1 class="govuk-heading-l">Create a custom comparator set</h1>
-
-            <h2 class="govuk-heading-m">Choose comparison characteristics</h2>
+            <h1 class="govuk-heading-l">Choose characteristics to find matching schools</h1>
                     
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
@@ -282,7 +280,7 @@
             <div class="govuk-form-group">
             <fieldset class="govuk-fieldset">
             <div class="govuk-hint">
-                    <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">South East</span></span>
+                    <span>{{ data['school-name'] }} is in <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">South East</span></span>
             </div>
 
             <span class="govuk-error-message"></span>
@@ -345,7 +343,7 @@
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
-                        <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Neither</span></span>
+                        <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">Neither</span></span>
                 </div>
 
                 <span class="govuk-error-message"></span>
@@ -383,7 +381,7 @@
                 <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                 <div class="govuk-hint">
-                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.70%</span></span>
+                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.70%</span> of pupils eligible for FSM</span>
 
                 </div>
 
@@ -421,7 +419,7 @@
                 <fieldset class="govuk-fieldset">
                     <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
                 <div class="govuk-hint">
-                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span></span>
+                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils without EHC plans</span>
 
                 </div>
 
@@ -448,7 +446,7 @@
                 <fieldset class="govuk-fieldset">
                     <p class="govuk-body">With statements or education and health care (EHC) plans</p>
                 <div class="govuk-hint">
-                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span></span>
+                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils without EHC plans</span>
 
                 </div>
 
@@ -486,7 +484,7 @@
                     <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                     <div class="govuk-hint">
-                                <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1964</span></span>
+                                <span>{{ data['school-name'] }} was built in <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1964</span></span>
 
                     </div>
 
@@ -518,7 +516,7 @@
                     <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                     <div class="govuk-hint">
-                                <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">10,130</span> square metres</span>
+                                <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">10,130</span> square metres</span>
 
                     </div>
 
@@ -550,7 +548,7 @@
                     <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                     <div class="govuk-hint">
-                            <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">outstanding</span></span>
+                            <span>{{ data['school-name'] }} is rated <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">outstanding</span></span>
                     </div>
     
                     <span class="govuk-error-message"></span>
@@ -713,7 +711,7 @@
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
                         <input class="govuk-checkboxes__input" id="checkbox-MinKs2Progress" type="checkbox" aria-controls="rc_Ks2Progress" aria-expanded="false">
-                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinKs2Progress">Key Stage 2 progress <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is </span></label>
+                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinKs2Progress">Key stage 2 progress <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is </span></label>
                         </div>
                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_Ks2Progress">
                         <div class="govuk-form-group">
@@ -741,13 +739,13 @@
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
                         <input class="govuk-checkboxes__input" id="checkbox-MinP8Mea" type="checkbox" aria-controls="rc_P8Mea" aria-expanded="false">
-                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinP8Mea">Key Stage 4 progress <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.63</span></label>
+                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinP8Mea">Key stage 4 progress <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 0.63</span></label>
                         </div>
                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_P8Mea">
                         <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                         <div class="govuk-hint">
-                                <span>The value for {{ data['school-name'] }} is </span>
+                                <span>{{ data['school-name'] }} key stage 4 progress is </span>
                                     <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.63</span>
                         </div>
         

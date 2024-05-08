@@ -32,14 +32,14 @@
     <div class="govuk-grid-column-two-thirds">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Do you want to delete your choices?</h1>
+        <h1 class="govuk-heading-l">Do you want to remove your choices?</h1>
 
-        <p class="govuk-body">If you delete the schools you've chosen, we will choose similar schools for you.</p>
+        <p class="govuk-body">If you remove the schools you've chosen, we will choose similar schools for you.</p>
 
         <!---<h2 class="govuk-heading-m">Do you want to delete your choices?</h2>--->
         
         {{ govukButton({
-          text: "Delete choices",
+          text: "Remove choices",
           href: "/comparators/reset-confirmed",
           classes: "govuk-button"
         }) }}
