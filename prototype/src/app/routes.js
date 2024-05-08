@@ -24,27 +24,6 @@ router.get( '/comparators/create/local-authority', (req, res) => {
     res.render( '/comparators/create/local-authority', { rows: rows } );
 })
 
-
-
-router.get( '/authority-homepage', (req, res) => {
-    req.session.data.signIn = 'authority';
-    console.log('Get : authority-name',req.session.data['authority-name'])
-    console.log('Get : authority',req.session.data.authority)
-    res.render( '/authority-homepage' );
-})
-
-router.get( '/trust-homepage', (req, res) => {
-    console.log('Get : trust-name',req.session.data['trust-name'])
-    console.log('Get : trust',req.session.data.trust)
-    res.render( '/trust-homepage' );
-})
-
-router.get( '/school-homepage', (req, res) => {
-    console.log('Get : school-name',req.session.data['school-name'])
-    console.log('Get : school',req.session.data.trust)
-    res.render( '/school-homepage' );
-})
-
 // ADD SCHOOLS BY CHARACTERISTICS
 
 router.post( '/comparators/create/review', (req, res) => {
@@ -257,26 +236,21 @@ router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
         var trustName = req.session.data.trust;
-        console.log('Post: trust',trustName)
         if (trustName) {
             req.session.data['trust-name'] = trustName;
         }
         res.redirect( '/trust-homepage' );
-        
     } else if ( req.session.data.signIn == 'authority') {
         var authorityName = req.session.data.authority;
-        console.log('Post: authority',authorityName)
         if (authorityName) {
             req.session.data['authority-name'] = authorityName.substring( 0, authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
     } else {
         var schoolName = req.session.data.school;
-        console.log('Post: school',schoolName)
         if (schoolName) {
             req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
         }
-
         res.redirect( '/school-homepage' );
     }
 
@@ -285,14 +259,11 @@ router.post( '/set-school', (req, res) => {
 // COMPARE TRUSTS
 
 router.post( '/compare-trusts', (req, res) => {
-    
     var compareRoute = 'by-name';
     if ( req.session.data['compareRoute'] ) {
         compareRoute = req.session.data['compareRoute'];
     }
-
     res.redirect( '/compare-trusts/' + compareRoute );
-
 })
 
 router.get( '/compare-trusts/by-name', (req, res) => {

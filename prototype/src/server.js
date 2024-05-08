@@ -70,11 +70,11 @@ app.locals.govukFrontendInternal = govukFrontendInternal
 // TODO: remove in v14
 app.locals.extensionConfig = app.locals.pluginConfig
 
-// use cookie middleware for reading authentication cookie
-app.use(cookieParser())
-
 // Support session data storage
 app.use(sessionUtils.getSessionMiddleware())
+
+// use cookie middleware for reading authentication cookie
+app.use(cookieParser())
 
 // Authentication middleware must be loaded before other middleware such as
 // static assets to prevent unauthorised access
