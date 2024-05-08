@@ -55,7 +55,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             ? null
             : FinancesResponseModel.Create(finances.dataObject, finances.year);
     }
-    
+
     public async Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension)
     {
         var finances = await GetHistoryFinances(urn);
@@ -64,7 +64,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             .OfType<(int, SchoolTrustFinancialDataObject)>()
             .Select(x => BalanceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
-    
+
     public async Task<ExpenditureResponseModel?> GetExpenditure(string urn, Dimension dimension)
     {
         var (prefix, year) = await GetLatestCollectionForSchool(urn);
@@ -75,7 +75,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             ? null
             : ExpenditureResponseModel.Create(finances.dataObject, finances.year, dimension);
     }
-    
+
     public async Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension)
     {
         var finances = await GetHistoryFinances(urn);
@@ -84,7 +84,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             .OfType<(int, SchoolTrustFinancialDataObject)>()
             .Select(x => ExpenditureResponseModel.Create(x.Item2, x.Item1, dimension));
     }
-    
+
     public async Task<IncomeResponseModel?> GetIncome(string urn, Dimension dimension)
     {
         var (prefix, year) = await GetLatestCollectionForSchool(urn);

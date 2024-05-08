@@ -13,7 +13,7 @@ public class CensusApi(HttpClient httpClient, string? key = default) : ApiBase(h
     {
         return await GetAsync($"api/census/{urn}{query?.ToQueryString()}");
     }
-    
+
     public async Task<ApiResult> History(string? urn, ApiQuery? query = null)
     {
         return await GetAsync($"api/census/{urn}/history{query?.ToQueryString()}");

@@ -29,7 +29,7 @@ public class SchoolCustomDataController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolCustomDataViewModel(school);
-                
+
                 return View(viewModel);
             }
             catch (Exception e)

@@ -24,7 +24,7 @@ public static class CensusCategories
         WorkforceHeadcount,
         TeachersQualified
     ];
-    
+
     public static bool IsValid(string? category) => All.Any(a => a == category);
 }
 

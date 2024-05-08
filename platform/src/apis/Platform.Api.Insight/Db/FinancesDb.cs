@@ -54,7 +54,7 @@ public abstract class FinancesDb : CosmosDatabase
 
         return await Task.WhenAll(tasks);
     }
-    
+
     protected async Task<IEnumerable<(int year, T? dataObject)>> GetFinances<T>(string urn) where T : QueryableFinancesDataObject
     {
         var tasks = new[]

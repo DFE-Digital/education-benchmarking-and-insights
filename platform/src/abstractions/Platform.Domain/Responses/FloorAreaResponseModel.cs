@@ -1,6 +1,7 @@
 ﻿namespace Platform.Domain;
 
-public record FloorAreaResponseModel {
+public record FloorAreaResponseModel
+{
 
     public string? Urn { get; set; }
     public int? FloorArea { get; set; }

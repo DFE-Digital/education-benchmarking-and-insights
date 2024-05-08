@@ -36,7 +36,7 @@ public class CensusDb : FinancesDb, ICensusDb
                 .SelectMany(x => x.dataObject
                     .Select(d => CensusResponseModel.Create(d, x.year, dimension, category)));
     }
-    
+
     public async Task<CensusResponseModel?> Get(string urn, string? category, string dimension)
     {
         var finances = await GetFinances<CensusDataObject>(urn);

@@ -35,10 +35,10 @@ public class SchoolCustomDataChangeController(
                 var expenditure = await financeService.GetSchoolExpenditure(urn);
                 var census = await financeService.GetSchoolCensus(urn);
                 var floorArea = await financeService.GetSchoolFloorArea(urn);
-                
+
                 // todo: merge in previous custom data set
                 var viewModel = new SchoolCustomDataChangeViewModel(school, finances, income, expenditure, census, floorArea);
-                
+
                 // todo: build view
                 return View(viewModel);
             }

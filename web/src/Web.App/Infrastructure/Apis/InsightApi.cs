@@ -11,7 +11,7 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
     {
         return await GetAsync($"api/school/{urn}/balance/history{query?.ToQueryString()}");
     }
-    
+
     public async Task<ApiResult> GetSchoolIncome(string? urn, ApiQuery? query = null)
     {
         return await GetAsync($"api/school/{urn}/income{query?.ToQueryString()}");
@@ -21,7 +21,7 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
     {
         return await GetAsync($"api/school/{urn}/income/history{query?.ToQueryString()}");
     }
-    
+
     public async Task<ApiResult> GetSchoolExpenditure(string? urn, ApiQuery? query = null)
     {
         return await GetAsync($"api/school/{urn}/expenditure{query?.ToQueryString()}");
@@ -66,7 +66,7 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
     {
         return await GetAsync("api/current-return-years");
     }
-    
+
     public async Task<ApiResult> GetSchoolFloorAreaMetric(string? urn)
     {
         return await GetAsync($"api/metric/{urn}/floor-area");

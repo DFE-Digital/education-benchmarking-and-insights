@@ -33,7 +33,7 @@ public class SchoolCustomDataChangeViewModel(
     public decimal AuditorsCosts => expenditure.AuditorsCosts;
     public decimal OtherStaffCosts => expenditure.OtherStaffCosts;
     public decimal ProfessionalServicesNonCurriculumCosts => expenditure.ProfessionalServicesNonCurriculumCosts;
-    
+
     // Premises and services
     public decimal CleaningCaretakingCosts => expenditure.CleaningCaretakingCosts;
     public decimal MaintenancePremisesCosts => expenditure.MaintenancePremisesCosts;
@@ -46,11 +46,11 @@ public class SchoolCustomDataChangeViewModel(
     public decimal EducationalConsultancyCosts => expenditure.EducationalConsultancyCosts;
     public decimal SupplyTeachingStaffCosts => expenditure.SupplyTeachingStaffCosts;
     public decimal TeachingStaffCosts => expenditure.TeachingStaffCosts;
-    
+
     // Utilities
     public decimal EnergyCosts => expenditure.EnergyCosts;
     public decimal WaterSewerageCosts => expenditure.WaterSewerageCosts;
-    
+
     // Other costs
     public decimal DirectRevenueFinancingCosts => expenditure.DirectRevenueFinancingCosts;
     public decimal GroundsMaintenanceCosts => expenditure.GroundsMaintenanceCosts;
@@ -63,12 +63,12 @@ public class SchoolCustomDataChangeViewModel(
     public decimal StaffDevelopmentTrainingCosts => expenditure.StaffDevelopmentTrainingCosts;
     public decimal StaffRelatedInsuranceCosts => expenditure.StaffRelatedInsuranceCosts;
     public decimal SupplyTeacherInsurableCosts => expenditure.SupplyTeacherInsurableCosts;
-    
+
     // Totals
     public decimal TotalIncome => finances.TotalIncome;
     public decimal TotalExpenditure => finances.TotalExpenditure;
     public decimal RevenueReserve => finances.RevenueReserve;
-    
+
     // Non-financial data
     public decimal TotalNumberOfTeachersFte => finances.TotalNumberOfTeachersFte;
     public decimal FreeSchoolMealPercent => finances.FreeSchoolMealPercent;

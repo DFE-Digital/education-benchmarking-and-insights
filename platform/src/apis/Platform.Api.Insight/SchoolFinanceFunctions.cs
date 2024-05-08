@@ -94,7 +94,7 @@ public class SchoolFinanceFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(SchoolIncomeAsync))]
     [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]

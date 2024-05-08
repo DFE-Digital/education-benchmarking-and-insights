@@ -92,7 +92,7 @@ public class CensusFunctions
                 {
                     category = null;
                 }
-                
+
                 var dimension = req.Query["dimension"].ToString();
                 if (!CensusDimensions.IsValid(dimension))
                 {

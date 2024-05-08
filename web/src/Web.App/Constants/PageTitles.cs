@@ -42,5 +42,5 @@ public static class PageTitles
     public const string SchoolDeploymentPlan = "Deployment plan";
     public const string SchoolChangeData = "Customise your data";
     public const string SchoolChangeDataLanding = "Change data used to compare this school";
-    public const string  SchoolChangeDataFinancialData= "Change financial data";
+    public const string SchoolChangeDataFinancialData = "Change financial data";
 }

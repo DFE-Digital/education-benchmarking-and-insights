@@ -34,7 +34,7 @@ public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFin
         var query = BuildApiQueryForDimension(dimension);
         return await insightApi.GetSchoolBalanceHistory(urn, query).GetResultOrDefault<IEnumerable<Balance>>() ?? Array.Empty<Balance>();
     }
-    
+
     public async Task<Income> GetSchoolIncome(string urn)
     {
         return await insightApi.GetSchoolIncome(urn).GetResultOrThrow<Income>();
@@ -45,7 +45,7 @@ public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFin
         var query = BuildApiQueryForDimension(dimension);
         return await insightApi.GetSchoolIncomeHistory(urn, query).GetResultOrDefault<IEnumerable<Income>>() ?? Array.Empty<Income>();
     }
-    
+
     public async Task<SchoolExpenditure> GetSchoolExpenditure(string urn)
     {
         return await insightApi.GetSchoolExpenditure(urn).GetResultOrThrow<SchoolExpenditure>();
@@ -96,18 +96,18 @@ public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFin
     {
         return await censusApi.Get(urn).GetResultOrThrow<Census>();
     }
-    
+
     public async Task<FloorAreaMetric> GetSchoolFloorArea(string urn)
     {
         return await insightApi.GetSchoolFloorAreaMetric(urn).GetResultOrThrow<FloorAreaMetric>();
     }
-    
+
     private static ApiQuery BuildApiQueryForDimension(string dimension)
     {
         var query = new ApiQuery().AddIfNotNull("dimension", dimension);
         return query;
     }
-    
+
     private static ApiQuery BuildApiQueryForComparatorSet(IEnumerable<string> urns)
     {
         var query = new ApiQuery();
