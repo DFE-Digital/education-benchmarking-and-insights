@@ -153,8 +153,7 @@
     {% endif %}
 
     {% if data['comparators'] | length %}
-    <p class="govuk-body"><a href="/spending-and-costs" class="govuk-link">Go to {{ data['school-name'] }} spending and costs</a></p>
-    <p class="govuk-body"><a href="/comparators/reset" class="govuk-link">Remove all your choices </a></p>
+    <p class="govuk-body" style="float: right"><a href="/comparators/reset" class="govuk-link">Remove all your choices</a></p>
     {% else %}
 
     <p class="govuk-body">No schools chosen</p>

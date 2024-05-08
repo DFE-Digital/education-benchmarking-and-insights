@@ -213,7 +213,7 @@ router.get( '/comparators', (req, res) => {
 
 })
 
-
+/*
 router.get( '/comparators/create', (req, res) => {
 
     if (req.session.data.comparators ) {
@@ -222,8 +222,7 @@ router.get( '/comparators/create', (req, res) => {
         res.render( '/comparators/index' );
     }
 })
-
-
+*/
 
 router.get( '/comparators/view-school', (req, res) => {
 

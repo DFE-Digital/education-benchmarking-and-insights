@@ -66,7 +66,7 @@ resource "azurerm_linux_web_app" "web-app" {
   }
 
   app_settings = {
-    "NODE_ENV"                       = "production"
+    "NODE_ENV"                       = "development"
     "PASSWORD"                       = var.prototype-password
     "BUILD_FLAGS"                    = "Off"
     "SCM_DO_BUILD_DURING_DEPLOYMENT" = false

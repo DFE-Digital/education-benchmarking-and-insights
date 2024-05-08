@@ -1,0 +1,33 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger:
+  batch: true
+  branches:
+    include:
+      - main
+  paths:
+    include:
+      - documentation
+
+pr: none
+
+variables:
+  WorkingDir: 'documentation'
+
+steps:
+  - bash: sudo apt-get install -qq -y pandoc texlive --pdf-engine
+
+  - task: Npm@1
+    inputs:
+      command: 'custom'
+      customCommand: 'install -g @mermaid-js/mermaid-cli'
+
+  - bash: ./tools/make-pdf.sh architecture architecture architecture.pdf
+    workingDirectory: $(WorkingDir)
+
+  - task: PublishPipelineArtifact@1
+    inputs:
+      targetPath: '$(WorkingDir)'
+      artifact: 'docs'
+      publishLocation: 'pipeline'

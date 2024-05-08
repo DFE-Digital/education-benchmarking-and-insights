@@ -48,7 +48,7 @@ flowchart TD
     ms[[Maintained Schools]]
     trusts[[Trusts]]
     federations[[Federations]]
-    as[[All Schools]]
+    as[[Mixed - All Schools]]
     phases[[Phases]]
     split_by_phase(Split by phase)
     prod(Cartesian Product\n 'compare each school to all others in phase')
@@ -62,11 +62,10 @@ flowchart TD
     select_closest_30(Select top 30 nearest)
     comparator_Set[[Comparator Set]]
     
-    ms --> as
+    federations --> ms
     academies --> as
+    ms --> as
     as --> split_by_phase
-    trusts --> split_by_phase
-    federations --> split_by_phase
     split_by_phase --> phases
 
     subgraph phase [For each phase]
@@ -85,6 +84,7 @@ flowchart TD
         dist -- PFI/Boarding school --> select_pfi_boarding
     end
 
+    trusts --> prod
     phases --> prod
 ```
 
@@ -138,11 +138,10 @@ flowchart TD
     select_closest_30(Select top 30 nearest)
     comparator_Set[[Comparator Set]]
     
-    ms --> as
+    federations --> ms
     academies --> as
+    ms --> as
     as --> split_by_phase
-    trusts --> split_by_phase
-    federations --> split_by_phase
     split_by_phase --> phases
 
     subgraph phase [For each phase]
@@ -158,11 +157,48 @@ flowchart TD
         dist --> select_top_60
     end
 
+    trusts --> prod
     phases --> prod
 ```
 **Area Calculation**
 
 $$ \sqrt{0.8\left(\dfrac{\Delta GIFA}{range(GIFA)}\right)^2 + 0.2\left(\dfrac{\Delta AgeAverage}{range(AgeAverage)}\right)^2 } $$
+
+### Future calculations
+
+> Note: **Not to be used at the minute for discussion only**
+
+**Trust Calculation**
+
+$$\begin{aligned}
+\sqrt{0.6\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.4\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)^2 +\sum_{\substack{n=1}}^N\left(\dfrac{\Delta Phase\%_n}{range(phase\%_n)}\right)^2}
+\end{aligned}$$
+
+**Unified pupil calc**
+
+$$  $$
+
+$$\begin{aligned}
+sen &= \left(\dfrac{\Delta SPLD\%}{range(SPLD\%)}\right)^2 + \left(\dfrac{\Delta MLD\%}{range(MLD\%)}\right)^2 + \left(\dfrac{\Delta SLD\%}{range(SLD\%)}\right)^2
+\\
+&+ \left(\dfrac{\Delta PMLD\%}{range(PMLD\%)}\right)^2 + \left(\dfrac{\Delta SEMH\%}{range(SEMH\%)}\right)^2 + \left(\dfrac{\Delta SLCN\%}{range(SLCN\%)}\right)^2
+\\
+&+ \left(\dfrac{\Delta HI\%}{range(HI\%)}\right)^2 + \left(\dfrac{\Delta MSI\%}{range(MSI\%)}\right)^2 + \left(\dfrac{\Delta PD\%}{range(PD\%)}\right)^2 + \left(\dfrac{\Delta ASD\%}{range(ASD\%)}\right)^2
+\\
+&+ \left(\dfrac{\Delta Oth\%}{range(Oth\%)}\right)^2
+\\
+pupils &= \sqrt{0.33\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.33\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)+ 0.33sen}
+\end{aligned}$$
+
+
+Storage
+
+| Partition   | RowKey | Data.... |
+|-------------|--------|----------|
+| Default-2022|{URN 345672} | [123112, 1212331] |
+| Default-2022|Mixed-{URN 345671} | [123112, 1212331] |
+| Default-2022|{URN 111111} | [123112, 1212331] |
+| Default-2022|Mixed-{URN 111111} | [123112, 1212331] |
 
 ## RAG Calculation
 //TODO: RAG calculation
