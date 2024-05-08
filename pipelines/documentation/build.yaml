@@ -32,6 +32,6 @@ steps:
 
   - task: PublishPipelineArtifact@1
     inputs:
-      targetPath: '$(WorkingDir)'
+      targetPath: '$(WorkingDir)/build'
       artifact: 'docs'
       publishLocation: 'pipeline'
