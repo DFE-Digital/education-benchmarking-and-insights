@@ -18,21 +18,22 @@ router.get( '/find-school', (req, res) => {
     res.render( '/find-school', { schools: schools, trusts: trusts, authorities: authorities } );
 })
 
+router.get( '/authority-homepage', (req, res) => {
+    res.render( '/authority-homepage' );
+})
+
+router.get( '/trust-homepage', (req, res) => {
+    res.render( '/trust-homepage' );
+})
+
+router.get( '/school-homepage', (req, res) => {
+    res.render( '/school-homepage' );
+})
+
 router.get( '/comparators/create/local-authority', (req, res) => {
 
     var rows = getLocalAuthorityList();
     res.render( '/comparators/create/local-authority', { rows: rows } );
-})
-
-
-
-router.get( '/authority-homepage', (req, res) => {
-
-    req.session.data.signIn = 'authority';
-
-    res.render( '/authority-homepage' );
-
-
 })
 
 // ADD SCHOOLS BY CHARACTERISTICS
@@ -243,27 +244,25 @@ router.get( '/comparators/view-school', (req, res) => {
     res.render( '/comparators/view-school', { comparatorName: objSchool.comparatorName, comparatorLocation: objSchool.comparatorLocation, comparatorPostcode: objSchool.comparatorPostcode, comparatorPupils: objSchool.comparatorPupils.toLocaleString(), comparatorMeals: objSchool.comparatorMeals }  );
 })
 
-router.get( '/set-school', (req, res) => {
+router.post( '/set-school', (req, res) => {
 
     if ( req.session.data.signIn == 'trust') {
-        if ( req.session.data.trustName ) {
-            req.session.data['trust-name'] = req.session.data.trustName;
+        var trustName = req.session.data.trust;
+        if (trustName) {
+            req.session.data['trust-name'] = trustName;
         }
         res.redirect( '/trust-homepage' );
-        
     } else if ( req.session.data.signIn == 'authority') {
-        if ( req.session.data.authorityName ) {
-            req.session.data['authority-name'] = req.session.data.authorityName.substring( 0, req.session.data.authorityName.lastIndexOf(' (') );
+        var authorityName = req.session.data.authority;
+        if (authorityName) {
+            req.session.data['authority-name'] = authorityName.substring( 0, authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
-    
     } else {
         var schoolName = req.session.data.school;
-
         if (schoolName) {
             req.session.data['school-name'] = schoolName.substring( 0, schoolName.lastIndexOf(' (') );
         }
-
         res.redirect( '/school-homepage' );
     }
 
@@ -272,14 +271,11 @@ router.get( '/set-school', (req, res) => {
 // COMPARE TRUSTS
 
 router.post( '/compare-trusts', (req, res) => {
-    
     var compareRoute = 'by-name';
     if ( req.session.data['compareRoute'] ) {
         compareRoute = req.session.data['compareRoute'];
     }
-
     res.redirect( '/compare-trusts/' + compareRoute );
-
 })
 
 router.get( '/compare-trusts/by-name', (req, res) => {
