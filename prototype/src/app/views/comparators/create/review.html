@@ -63,17 +63,20 @@
   {% endif %}
 
   <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-  <h1 class="govuk-heading-l">Choose your own similar schools</h1>
+  <h1 class="govuk-heading-l">Schools matched using the characteristics you selected</h1>
 
 
   {% if confirmation == 'comparator-generated' %}
   {% set html %}
-  <p class="govuk-body"><strong>Comparator set generated</strong></p>
+  <p class="govuk-body"><strong>Schools matched to characteristics</strong></p>
+  <p class="govuk-body">You have now replaced the schools we chose for you with the 30 matched schools below.</p>
+  <p class="govuk-body">These are the closest match based on the characteristics you selected.</p>
   {% endset %}
 
   {% elseif confirmation == 'comparator-added' %}
     {% set html %}
     <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to similar schools.</p>
+    <p class="govuk-body">You have now replaced the schools we chose for you with the schools you’ve chosen below.</p>
     {% endset %}
   
   {% elseif confirmation == 'comparator-removed' %}
@@ -94,7 +97,6 @@
 
       {% if confirmation != 'comparator-generated' %}
       <form action="/add-comparator-school" method="post">
-        <h2 class="govuk-heading-m">School name, address or URN</h2>
         <div class="school-search">
 
             {{ xGovukAutocomplete({
@@ -110,7 +112,7 @@
             
 
             {{ govukButton({
-              text: "Choose"
+              text: "Add"
             }) }}
         </div>
       </form>
@@ -119,9 +121,8 @@
     {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
       
       {% if comparatorSetType == 'generated' %}
-      <p class="govuk-body">These 30 schools are the closest matches based on the characteristics you selected.<br />
-        <a href="/comparators/create/characteristics">Change characteristics and generate a new comparison set</a>
-    </p>
+      <p class="govuk-body"><a href="/spending-and-costs">Compare these schools against {{ data['trust-name'] }}</a></p>
+      <p class="govuk-body"><a href="/comparators/create/characteristics">Change characteristics and generate a new comparison set</a></p>
       {% endif %}
 
     {{ govukTable({
@@ -152,7 +153,7 @@
     {% endif %}
 
     {% if data['comparators'] | length %}
-    <p class="govuk-body" style="float: right"><a href="/comparators/reset" class="govuk-link">Remove all added schools</a></p>
+    <p class="govuk-body" style="float: right"><a href="/comparators/reset" class="govuk-link">Remove all your choices</a></p>
     {% else %}
 
     <p class="govuk-body">No schools chosen</p>

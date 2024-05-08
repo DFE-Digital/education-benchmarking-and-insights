@@ -86,7 +86,7 @@
             name: "compareAuthority",
             fieldset: {
                 legend: {
-                text: "Where should these schools be from?",
+                text: "Where should these schools be located?",
                 isPageHeading: false,
                 classes: "govuk-fieldset__legend--l
               "
@@ -100,7 +100,7 @@
                 },
                 {
                     value: "same",
-                    html: "The same local authority <br/><span class=\"govuk-hint\">(North Yorkshire Council)</span>",
+                    html: "In the same local authority <br/><span class=\"govuk-hint\">(North Yorkshire Council)</span>",
                     checked: checked("compareAuthority", "all"),
                     conditional: {
                       html: sameAuthorityHtml
@@ -108,7 +108,7 @@
                 },
                 {
                     value: "localAuthority",
-                    text: "Another local authority",
+                    text: "In another local authority",
                     checked: checked("compareAuthority", "localAuthority"),
                     conditional: {
                       html: authorityHtml
