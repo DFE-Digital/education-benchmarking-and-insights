@@ -12,6 +12,7 @@ public static class Paths
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
     public static string SchoolHome(string? urn) => $"/school/{urn}";
     public static string TrustHome(string? companyNumber) => $"/trust/{companyNumber}";
+    public static string TrustDetails(string? companyNumber) => $"/trust/{companyNumber}/details";
 
     public static string SchoolComparatorSet(string? urn, string referrer) =>
         $"/school/{urn}/comparator-set?referrer={referrer}";

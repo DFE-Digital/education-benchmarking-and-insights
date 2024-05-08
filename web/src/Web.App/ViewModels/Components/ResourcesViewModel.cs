@@ -12,5 +12,6 @@ public enum Resources
     SchoolHistoricData,
     TrustResources,
     TrustHistoricData,
-    SchoolDetails
+    SchoolDetails,
+    TrustDetails
 }

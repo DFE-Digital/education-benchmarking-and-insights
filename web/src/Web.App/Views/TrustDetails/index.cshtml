@@ -1,0 +1,146 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.TrustDetailsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.ContactDetails;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">
+            @Html.TrackedAnchor(
+                     TrackedLinks.SchoolDetails,
+                     Constants.GiasTrustUrl(Model.Uid),
+                     "Get more information about this trust",
+                     "Opens in a new window",
+                     "_blank",
+                     ["noopener", "noreferrer", "external"])
+
+        </p>
+        <dl class="govuk-summary-list">
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Companies House Number
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.CompanyNumber
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Address
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       rel="external noopener noreferrer"
+                       target="_blank"
+                       href="https://www.google.co.uk/maps?q=@Model.Address">
+                        @Model.Address
+                        <span class="govuk-visually-hidden">
+                            GoogleMaps link opens in a new window
+                        </span>
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Telephone number
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="tel:@Model.Telephone"
+                       aria-label="Call telephone number @Model.Telephone">
+                        @Model.Telephone
+                    </a>
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Local Authority
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @Model.LocalAuthority
+                </dd>
+            </div>
+
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Website
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    @if (!string.IsNullOrEmpty(@Model.Website))
+                    {
+                        <a rel="external noopener noreferrer"
+                           class="govuk-link govuk-link--no-visited-state"
+                           target="_blank"
+                           href="@Model.Website">
+                            <span>@Model.Website</span>
+                            <span class="govuk-visually-hidden">Opens in a new window</span>
+                        </a>
+                    }
+                </dd>
+            </div>
+            <div class="govuk-summary-list__row">
+                <dt class="govuk-summary-list__key">
+                    Contact
+                </dt>
+                <dd class="govuk-summary-list__value">
+                    <strong class="app-tag-login govuk-!-text-align-centre govuk-!-font-weight-bold">
+                        Log in to view contact information
+                    </strong>
+                </dd>
+            </div>
+        </dl>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+<div class="govuk-tabs" data-module="govuk-tabs">
+    <h2 class="govuk-tabs__title">
+        Contents
+    </h2>
+    <ul class="govuk-tabs__list" role="tablist">
+        <li class="govuk-tabs__list-item govuk-tabs__list-item--selected" role="presentation">
+            <a class="govuk-tabs__tab" href="#current" id="tab_current" role="tab" aria-controls="current" aria-selected="true" tabindex="0">
+                Schools currently in trust
+            </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#return" id="tab_return" role="tab" aria-controls="return" aria-selected="false" tabindex="-1">
+                Schools in trust’s 2022 to 2023 return
+            </a>
+        </li>
+        <li class="govuk-tabs__list-item" role="presentation">
+            <a class="govuk-tabs__tab" href="#history" id="tab_history" role="tab" aria-controls="history" aria-selected="false" tabindex="-1">
+                Trust history
+            </a>
+        </li>
+    </ul>
+    <div class="govuk-tabs__panel" id="current" role="tabpanel" aria-labelledby="tab_current">
+        <h2 class="govuk-heading-s">Schools currently in trust</h2>
+        <ul class="govuk-list">
+            @foreach (var school in Model.Schools)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
+                </li>
+            }
+        </ul>
+    </div>
+    <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="return" role="tabpanel" aria-labelledby="tab_return">
+    </div>
+    <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="history" role="tabpanel" aria-labelledby="tab_history">
+    </div>
+</div>
+
+@section scripts
+                {
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}
