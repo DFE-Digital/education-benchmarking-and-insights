@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Platform.Domain;
 using Platform.Functions;
-using Platform.Tests.Insight.Workforce;
 using Xunit;
 
 namespace Platform.Tests.Insight.Census;
