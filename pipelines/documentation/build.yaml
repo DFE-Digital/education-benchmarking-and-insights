@@ -14,6 +14,8 @@ pr: none
 
 variables:
   WorkingDir: 'documentation'
+  FullWorkingDir: '$(System.DefaultWorkingDirectory)/$(WorkingDir)'
+  DataDir: '$(FullWorkingDir)/tools'
 
 steps:
   - bash: sudo apt-get install -y pandoc texlive-latex-extra
@@ -23,7 +25,7 @@ steps:
       command: 'custom'
       customCommand: 'install -g @mermaid-js/mermaid-cli'
 
-  - bash: ./tools/build-docs.sh architecture architecture.pdf -build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --template=tools/templates/pdf-template.latex
+  - bash: ./tools/build-docs.sh architecture architecture.pdf -build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
     workingDirectory: $(WorkingDir)
 
   - task: PublishPipelineArtifact@1
