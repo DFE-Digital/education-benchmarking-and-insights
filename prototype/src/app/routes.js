@@ -27,12 +27,8 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 
 
 router.get( '/authority-homepage', (req, res) => {
-
     req.session.data.signIn = 'authority';
-
     res.render( '/authority-homepage' );
-
-
 })
 
 // ADD SCHOOLS BY CHARACTERISTICS
@@ -256,7 +252,6 @@ router.post( '/set-school', (req, res) => {
             req.session.data['authority-name'] = req.session.data.authorityName.substring( 0, req.session.data.authorityName.lastIndexOf(' (') );
         }
         res.redirect( '/authority-homepage' );
-    
     } else {
         var schoolName = req.session.data.school;
 
