@@ -32,7 +32,7 @@
 {% if confirmation == 'comparator-reset' %}
 
 {{ govukNotificationBanner({
-  html: '<strong>You have deleted the similar schools you chose.</strong><br/>We will now choose similar schools for you.',
+  html: '<strong>You have now removed all the similar schools you chose.</strong><p class="govuk-body">The list has reverted to the similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose some new similar schools</a></p>',
   type: "success"
 }) }}
 

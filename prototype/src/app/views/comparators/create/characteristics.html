@@ -22,8 +22,25 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
         <form action="/comparators/create/review" method="post">
             <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+
             <h1 class="govuk-heading-l">Choose characteristics to find matching schools</h1>
-                    
+                        
+            {% if data['errorThisPage'] == 'true' %}
+            
+                {{ govukErrorSummary
+                    ({
+                        titleText: "There is a problem",
+                        attributes: 'style="margin-bottom:30px;',
+                        errorList:
+                        [
+                            {
+                                text: 'There are no matching schools. Choose different characteristics.'
+                            }
+                        ]
+                    })
+                }}
+            {% endif %}
+
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-three-quarters">
@@ -1266,4 +1283,21 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
     </div>
 </div>
+
+
+<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
+
+    <select style="height:30px;" onchange="window.location.href='?'+this.value">
+  
+        <option value="errorThisPage=false&errorNoMatches=false"
+                {% if data['errorThisPage'] != 'true' %}selected{% endif %}>Errors - Off</option>
+  
+        <option value="errorThisPage=true&errorNoMatches=true"
+                {% if data['errorNoMatches'] == 'true' %}selected{% endif %}>Error: No matches found</option>
+    </select>
+  
+  </form>
+  
+  
+  
 {% endblock %}
