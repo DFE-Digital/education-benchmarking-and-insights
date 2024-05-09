@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
+using Web.App.Domain;
 
 namespace Web.App.ViewModels;
 
@@ -161,6 +162,79 @@ public record SchoolCustomDataViewModel
     public decimal? WorkforceFte { get; init; }
     public decimal? TeachersFte { get; init; }
     public decimal? SeniorLeadershipFte { get; init; }
+
+    public CustomData ToCustomData()
+    {
+        return new CustomData
+        {
+            // Administrative supplies
+            AdministrativeSuppliesCosts = AdministrativeSuppliesCosts,
+
+            // Catering
+            CateringStaffCosts = CateringStaffCosts,
+            CateringSupplies = CateringSupplies,
+            CateringIncome = CateringIncome,
+
+            // Educational supplies
+            ExaminationFeesCosts = ExaminationFeesCosts,
+            LearningResourcesNonIctCosts = LearningResourcesNonIctCosts,
+
+            // IT
+            LearningResourcesIctCosts = LearningResourcesIctCosts,
+
+            // Non-educational support staff
+            AdministrativeClericalStaffCosts = AdministrativeClericalStaffCosts,
+            AuditorsCosts = AuditorsCosts,
+            OtherStaffCosts = OtherStaffCosts,
+            ProfessionalServicesNonCurriculumCosts = ProfessionalServicesNonCurriculumCosts,
+
+            // Premises and services
+            CleaningCaretakingCosts = CleaningCaretakingCosts,
+            MaintenancePremisesCosts = MaintenancePremisesCosts,
+            OtherOccupationCosts = OtherOccupationCosts,
+            PremisesStaffCosts = PremisesStaffCosts,
+
+            // Teaching and teaching support
+            AgencySupplyTeachingStaffCosts = AgencySupplyTeachingStaffCosts,
+            EducationSupportStaffCosts = EducationSupportStaffCosts,
+            EducationalConsultancyCosts = EducationalConsultancyCosts,
+            SupplyTeachingStaffCosts = SupplyTeachingStaffCosts,
+            TeachingStaffCosts = TeachingStaffCosts,
+
+            // Utilities
+            EnergyCosts = EnergyCosts,
+            WaterSewerageCosts = WaterSewerageCosts,
+
+            // Other costs
+            DirectRevenueFinancingCosts = DirectRevenueFinancingCosts,
+            GroundsMaintenanceCosts = GroundsMaintenanceCosts,
+            IndirectEmployeeExpenses = IndirectEmployeeExpenses,
+            InterestChargesLoanBank = InterestChargesLoanBank,
+            OtherInsurancePremiumsCosts = OtherInsurancePremiumsCosts,
+            PrivateFinanceInitiativeCharges = PrivateFinanceInitiativeCharges,
+            RentRatesCosts = RentRatesCosts,
+            SpecialFacilitiesCosts = SpecialFacilitiesCosts,
+            StaffDevelopmentTrainingCosts = StaffDevelopmentTrainingCosts,
+            StaffRelatedInsuranceCosts = StaffRelatedInsuranceCosts,
+            SupplyTeacherInsurableCosts = SupplyTeacherInsurableCosts,
+
+            // Totals
+            TotalIncome = TotalIncome,
+            TotalExpenditure = TotalExpenditure,
+            RevenueReserve = RevenueReserve,
+
+            // Non-financial data
+            TotalNumberOfTeachersFte = TotalNumberOfTeachersFte,
+            FreeSchoolMealPercent = FreeSchoolMealPercent,
+            SpecialEducationalNeedsPercent = SpecialEducationalNeedsPercent,
+            FloorArea = FloorArea,
+
+            // Workforce data
+            WorkforceFte = WorkforceFte,
+            TeachersFte = TeachersFte,
+            SeniorLeadershipFte = SeniorLeadershipFte,
+        };
+    }
 }
 
 public static class SchoolCustomDataViewModelTitles

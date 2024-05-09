@@ -1,15 +1,18 @@
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolCustomDataSectionViewModel
+@{
+    var id = Model.Title.Replace(" ", "-").ToLower();
+}
 
 <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
         <h2 class="govuk-accordion__section-heading">
-            <span class="govuk-accordion__section-button" id="accordion-default-heading-1">
+            <span class="govuk-accordion__section-button" id="accordion-default-heading-@id">
                 @Model.Title
             </span>
         </h2>
     </div>
-    <div id="accordion-financial-data-content-1" class="govuk-accordion__section-content">
+    <div id="accordion-financial-data-content-@id" class="govuk-accordion__section-content">
         <table class="govuk-table table-custom-data">
             <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.Title costs</caption>
             <thead class="govuk-table__head">
