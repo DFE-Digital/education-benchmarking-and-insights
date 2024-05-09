@@ -8,7 +8,7 @@ Whilst there are options to work around this, it would introduce dependencies on
 
 Session state is being used for storage of user data while the user browses a web app, more information can be found [here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-8.0#session-state).
 
-Two configuration have been implemented;
+Several configuration options have been implemented;
 1. In-memory
 2. Cosmos 
 3. Redis

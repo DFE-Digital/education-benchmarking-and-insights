@@ -1,4 +1,4 @@
-# Developer Feature Documentation: Spending and costs
+# Feature - 0002 -  Spending and costs
 
 ## Introduction
 
