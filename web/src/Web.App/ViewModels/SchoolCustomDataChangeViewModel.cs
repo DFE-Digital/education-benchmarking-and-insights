@@ -12,7 +12,8 @@ public class SchoolCustomDataChangeViewModel(
         Income income,
         SchoolExpenditure expenditure,
         Census census,
-        FloorAreaMetric floorArea) : this(school)
+        FloorAreaMetric floorArea,
+        CustomData? customData) : this(school)
     {
         CurrentValues = new SchoolCustomDataViewModel
         {
@@ -83,6 +84,79 @@ public class SchoolCustomDataChangeViewModel(
             TeachersFte = census.TeachersFte,
             SeniorLeadershipFte = census.SeniorLeadershipFte
         };
+
+        if (customData != null)
+        {
+            CustomInput = new SchoolCustomDataViewModel
+            {
+                // Administrative supplies
+                AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
+
+                // Catering
+                CateringStaffCosts = customData.CateringStaffCosts,
+                CateringSupplies = customData.CateringSupplies,
+                CateringIncome = customData.CateringIncome,
+
+                // Educational supplies
+                ExaminationFeesCosts = customData.ExaminationFeesCosts,
+                LearningResourcesNonIctCosts = customData.LearningResourcesNonIctCosts,
+
+                // IT
+                LearningResourcesIctCosts = customData.LearningResourcesIctCosts,
+
+                // Non-educational support staff
+                AdministrativeClericalStaffCosts = customData.AdministrativeClericalStaffCosts,
+                AuditorsCosts = customData.AuditorsCosts,
+                OtherStaffCosts = customData.OtherStaffCosts,
+                ProfessionalServicesNonCurriculumCosts = customData.ProfessionalServicesNonCurriculumCosts,
+
+                // Premises and services
+                CleaningCaretakingCosts = customData.CleaningCaretakingCosts,
+                MaintenancePremisesCosts = customData.MaintenancePremisesCosts,
+                OtherOccupationCosts = customData.OtherOccupationCosts,
+                PremisesStaffCosts = customData.PremisesStaffCosts,
+
+                // Teaching and teaching support
+                AgencySupplyTeachingStaffCosts = customData.AgencySupplyTeachingStaffCosts,
+                EducationSupportStaffCosts = customData.EducationSupportStaffCosts,
+                EducationalConsultancyCosts = customData.EducationalConsultancyCosts,
+                SupplyTeachingStaffCosts = customData.SupplyTeachingStaffCosts,
+                TeachingStaffCosts = customData.TeachingStaffCosts,
+
+                // Utilities
+                EnergyCosts = customData.EnergyCosts,
+                WaterSewerageCosts = customData.WaterSewerageCosts,
+
+                // Other costs
+                DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
+                GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
+                IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
+                InterestChargesLoanBank = customData.InterestChargesLoanBank,
+                OtherInsurancePremiumsCosts = customData.OtherInsurancePremiumsCosts,
+                PrivateFinanceInitiativeCharges = customData.PrivateFinanceInitiativeCharges,
+                RentRatesCosts = customData.RentRatesCosts,
+                SpecialFacilitiesCosts = customData.SpecialFacilitiesCosts,
+                StaffDevelopmentTrainingCosts = customData.StaffDevelopmentTrainingCosts,
+                StaffRelatedInsuranceCosts = customData.StaffRelatedInsuranceCosts,
+                SupplyTeacherInsurableCosts = customData.SupplyTeacherInsurableCosts,
+
+                // Totals
+                TotalIncome = customData.TotalIncome,
+                TotalExpenditure = customData.TotalExpenditure,
+                RevenueReserve = customData.RevenueReserve,
+
+                // Non-financial data
+                TotalNumberOfTeachersFte = customData.TotalNumberOfTeachersFte,
+                FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
+                SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
+                FloorArea = customData.FloorArea,
+
+                // Workforce data
+                WorkforceFte = customData.WorkforceFte,
+                TeachersFte = customData.TeachersFte,
+                SeniorLeadershipFte = customData.SeniorLeadershipFte
+            };
+        }
     }
 
     public School School { get; } = school;
