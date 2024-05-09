@@ -1,5 +1,7 @@
 # Test Approach
+
 ## Project Background
+
 ### Test Objectives
 - Confirm that the service performs as per the defined User Needs, outlined during the discovery phase.
 - Verify that the service meets the business and technical requirements set out by the DfE.
@@ -8,7 +10,7 @@
 ### Project Management
   
 The product backlog and project sprints are managed within Azure DevOps using the scrum methodology.
-User Stories in DevOps go thrugh the following stages during the development process:
+User Stories in DevOps go through the following stages during the development process:
 - To Do
 - In Development
 - In Review
@@ -38,6 +40,7 @@ Each status and Definition of Done act as control 'gates' for all work passing t
   - A sign-off is in place from the reporter and Product Owner (need to check if this is the expectation).
 
 ## Test Engineer Roles and Responsibilities
+
 As part of the project, the test engineer will be involved in the following activities:
   - Involve in the refinement session - Identify functional and non-functional requirements from the tickets refinement session, add relevant scenarios, review acceptance criteria, and identify test data requirements.
   - Review and add automated tests - Write automated feature/e2e tests ahead of/in step with the development of the service, maintain existing feature tests, and review unit and integration tests written by developers.
@@ -46,13 +49,18 @@ As part of the project, the test engineer will be involved in the following acti
   - Contribute to overall quality - Work towards contributing to the overall quality of the systems, process, and deliverables by ensuring each status of the ticket satisfies the pass criteria.
 
 ## Testing Activities
+
 ### Overview
 The following diagram shows the Agile Testing Quadrants outlining where each different type of testing sits, its order of implementation, and the associated categories.
-![agile-testing-quadrants](./images/agile-testing-quadrants.png)
+
+![Agile testing quadrants](./images/agile-testing-quadrants.png)
+
 The testing pyramid below shows the value of implementing different types of automated testing within a software project.
-![testing-pyramid](./images/testing-pyramid.png)
+
+![Testing pyramid](./images/testing-pyramid.png)
 
 ### Automated Testing
+
 #### Unit Testing
 Unit Tests are developed by writing a test case to cover the requirement without any code supporting it. This test obviously fails. Then, the simplest code is written to pass the test. When another requirement comes along that alters the code, another test is written to satisfy this requirement, and the code is refactored as appropriate.
 These tests are the responsibility of developers to write and maintain. Reviews of the unit test coverage by test engineers or other members of the team should be requested as appropriate.
@@ -66,6 +74,7 @@ These tests are the responsibility of developers to write and maintain. Reviews 
 #### Integration Testing
 Integration tests are used to ensure that parts of the code and frameworks work together in the correct way to create a working service. These tests build upon the quality assured during unit testing but are faster and lighter than end-to-end tests, allowing them to be run frequently and earlier in CI.
 These tests are the responsibility of the developers to write and maintain in collaboration with the test engineers.
+
 ##### Technology Selected
 - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
 - [Xunit](https://github.com/xunit)
@@ -75,6 +84,7 @@ These tests are the responsibility of the developers to write and maintain in co
 
 #### Feature/E2E Testing
 Feature and end-to-end tests simulate the behavior of an end user. These tests are the responsibility of test engineers to write and maintain in collaboration with developers.
+
 ##### Technology Selected
   - [Playwright](https://playwright.dev/dotnet)
   - [Xunit](https://github.com/xunit)
@@ -82,6 +92,7 @@ Feature and end-to-end tests simulate the behavior of an end user. These tests a
 
 #### API Testing
 API tests are designed to test that the correct responses are received from the API when requests are made to it. These tests are written by collaboration of dev and test engineer.
+
 ##### Technology Selected
   - [Moq](https://learn.microsoft.com/en-us/shows/visual-studio-toolbox/unit-testing-moq-framework)
   - [Xunit](https://github.com/xunit)
@@ -111,7 +122,7 @@ Performance testing is used to evaluate how the service is able to cope in terms
 [will be added later on once we implement it]
 
 #### Security Testing
-Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information. Further details can be found [here.](security-testing.md)
+Security scans help identify vulnerabilities and mitigate them that can lead to unauthorized access, data breaches, and theft of sensitive information. Further details can be found [here.](./3_Security-Testing.md)
 
 ### Manual Testing
 
@@ -130,7 +141,7 @@ This testing is carried out by test engineer(s) and/or developers when it is dee
 ### Testing Requirements
 
 #### Supported Browsers
-We will be focusing on Chrome browser on Windows and MacOs and Edge on windows considering the insights we have from the previous system. The rest of the browsers shown below will be checked on adhoc basis. 
+We will be focusing on Chrome browser on Windows and macOS and Edge on windows considering the insights we have from the previous system. The rest of the browsers shown below will be checked on adhoc basis. 
 
 | Operating System | Browser                      | Versions                     |
 |------------------|------------------------------|------------------------------|
