@@ -1,4 +1,4 @@
-﻿@model Web.App.ViewModels.SchoolCustomDataViewModel
+﻿@model Web.App.ViewModels.SchoolCustomDataLandingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
 }
@@ -14,7 +14,7 @@
     <div class="govuk-inset-text">
         We will delete your changes when you leave the service.
     </div>
-    <a href="@Url.Action("Index", "SchoolCustomDataChange", new { urn = Model.Urn })" role="button" class="govuk-button">
+    <a href="@Url.Action("FinancialData", "SchoolCustomDataChange", new { urn = Model.Urn })" role="button" class="govuk-button">
         Start now
     </a>
 </div>
