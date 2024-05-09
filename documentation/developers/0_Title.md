@@ -1,6 +1,6 @@
 ---
 title: Financial Benchmarking and Insights
-subtitle: Developers
+subtitle: Developer guide
 author: Department for Education
 date: 25/03/2024
 titlepage: true
