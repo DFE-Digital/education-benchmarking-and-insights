@@ -934,7 +934,7 @@ $if(titlepage-background)$
   {\Large \textsf{$subtitle$}}
   $endif$
   \vskip 2em
-  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$} \vskip 0.6em \textsf{$date$}}
+  \noindent {\Large \textsf{$for(author)$$author$$sep$, $endfor$} \vskip 0.6em \textsf{\today}}
   \vfill
 }
 $else$
@@ -959,7 +959,7 @@ $endif$
 
 $if(titlepage-background)$
 $else$
-\textsf{$date$}
+\textsf{\today}
 $endif$
 \end{flushleft}
 \end{titlepage}
