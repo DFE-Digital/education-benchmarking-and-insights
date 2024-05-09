@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -22,6 +23,7 @@ public class SchoolCustomDataChangeController(
 {
     [HttpGet]
     [Route("financial-data")]
+    [ImportModelState]
     public async Task<IActionResult> FinancialData(string urn)
     {
         using (logger.BeginScope(new { urn }))
@@ -54,6 +56,7 @@ public class SchoolCustomDataChangeController(
 
     [HttpPost]
     [Route("financial-data")]
+    [ExportModelState]
     public IActionResult FinancialData(string urn, [FromForm] SchoolCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new { urn, viewModel }))
@@ -62,10 +65,12 @@ public class SchoolCustomDataChangeController(
             {
                 if (!ModelState.IsValid)
                 {
-                    // todo
-                    return View();
+                    logger.LogDebug("Posted FinancialData failed validation: {ModelState}",
+                        JsonSerializer.Serialize(ModelState.Where(m => m.Value != null && m.Value.Errors.Any())));
+                    return RedirectToAction(nameof(FinancialData));
                 }
-                
+
+                // todo: persist valid CustomData
                 return RedirectToAction(nameof(NonFinancialData));
             }
             catch (Exception e)
