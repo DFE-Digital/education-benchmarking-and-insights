@@ -1,4 +1,4 @@
-# Feature - 0001 - Find Organisation
+# Features - 0001 - Find Organisation
 
 ## Introduction
 

@@ -1,4 +1,4 @@
-# Feature - 0002 -  Spending and costs
+# Features - 0002 -  Spending and costs
 
 ## Introduction
 

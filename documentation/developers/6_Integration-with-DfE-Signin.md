@@ -140,3 +140,4 @@ DfE manage console automatically creates the API secret when configuring a servi
 The client secret should be secure and not easy for third parJes to guess.
 
 You can view or change the API secret on the ‘Edit service configuraJon’ page by clicking ‘Show’ or ‘Regenerate’ next to the API secret field.
+

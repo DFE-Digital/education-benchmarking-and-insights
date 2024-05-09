@@ -1,5 +1,5 @@
 ---
-title: Financial Benchmarking and insights
+title: Financial Benchmarking and Insights
 author: Department for Education
 date: 25/03/2024
 titlepage: true

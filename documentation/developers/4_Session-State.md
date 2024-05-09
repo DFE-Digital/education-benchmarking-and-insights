@@ -42,3 +42,4 @@ The follow settings will enable Redis to be used as the backing data store.
     }
 }
 ```
+
