@@ -1,3 +1,11 @@
+
+
+resource "azurerm_role_assignment" "client-platform-storage-role" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+}
+
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
@@ -14,7 +22,8 @@ resource "azurerm_storage_account" "platform-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = true
+  public_network_access_enabled   = false
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {

@@ -13,6 +13,12 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   secret_permissions = ["Get"]
 }
 
+resource "azurerm_role_assignment" "func-storage-role" {
+  scope                = var.storage-account-id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
+}
+
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
   #checkov:skip=CKV_AZURE_225:See ADO backlog AB#206517
