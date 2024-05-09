@@ -1,7 +1,7 @@
 ﻿# Cookies
 
 ## Introduction
-This document provides a summary of the cookies used in the application, along with their purposes and expiry details. It aims to assist developers in understanding the functionality and usage of each cookie within the context of the application's architecture.
+This section provides a summary of the cookies used in the application, along with their purposes and expiry details. It aims to assist developers in understanding the functionality and usage of each cookie within the context of the application's architecture.
 
 ## Cookies Summary
 

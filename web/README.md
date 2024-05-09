@@ -4,8 +4,6 @@ This is the main front-end website project. This project will consume the output
 
 This is an MVC web app written in C#. It's main purpose is to provide proxy authentication/authorisation services, along with any static pages that need serving
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)
-
 ## Prerequisites
 
 1. Install .NET 8 SDK
@@ -56,11 +54,11 @@ However, if you are using deployed instances of the Platform APIs then having in
 
 Feature flags may also be defined in the `FeatureManagement` section:
 
-| Name | Purpose |
-| --- | --- |
+| Name                          | Purpose                                               |
+|-------------------------------|-------------------------------------------------------|
 | `CurriculumFinancialPlanning` | Toggles the Curriculum and Financial Planning feature |
-| `CustomData` | Toggles the Custom Data feature |
-| `Trusts` | Toggles the Trust feature |
+| `CustomData`                  | Toggles the Custom Data feature                       |
+| `Trusts`                      | Toggles the Trust feature                             |
 
 #### DfE Sign-in (DSI) authentication
 

@@ -1,6 +1,6 @@
-# Branching policy
+# Branching Policy
 
-This document is designed to outline the current approach to branching.
+This section is designed to outline the current approach to branching.
 
 ## Trunk based development
 

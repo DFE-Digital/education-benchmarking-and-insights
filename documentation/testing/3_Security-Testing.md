@@ -17,13 +17,9 @@ This testing is currently carried out manually when:
 - A new Front End controller method is added / updated.
 - On a release to PRE-PROD
 
-
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FSecurity%20scans%2FWeb?branchName=main&label=Web)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2877&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FSecurity%20scans%2FPlatform?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2880&branchName=main)
-
-
 ## Known issues
 
 - Sub Resource Integrity Attribute Missing (ai.clck.2.min.js) - at the moment "integrity" attribute is not existing currently.
 - CSP: style-src unsafe-inline - required by front-end libraries
 - Proxy Disclosure - limit control over function apps
+

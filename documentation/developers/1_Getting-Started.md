@@ -1,4 +1,4 @@
-# Getting started
+# Getting Started
 
 The repository is a monorepo which contains multiple components. 
 

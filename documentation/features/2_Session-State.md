@@ -1,4 +1,4 @@
-# Session state 
+# Session State 
 
 The web app needs to maintain/store user data across requests - specifically modifications to comparator sets. 
 Given these actions can be performed by any user (authenticated and non-authenticated) options for storing this data were limited.

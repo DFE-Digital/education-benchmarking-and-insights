@@ -46,7 +46,7 @@ This feature has monorepo dependencies on:
 
 ```mermaid
 flowchart TD
-  accTitle: Happy path
+  accDescr: API flow - happy path
   
   A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
     B --> C[Proxy to Establishment API]

@@ -4,22 +4,18 @@ A service that allows you to compare school metrics against similar schools
 
 ## Documentation
 
-1. [Architecture](documentation/architecture)
-2. [Developers](documentation/developers) 
-3. Testing
-   1. [Test Approach](documentation/testing/test-approach.md)
-   2. [Test Plan](documentation/testing/test-plan.md)
-   3. [Test Data Preparation](documentation/testing/test-data-prep.md)
-   4. [Security Testing](documentation/testing/security-testing.md)
-   5. Decisions
-      1. [Test-Data-Storage-and-Retrieval](documentation/testing/Decisions/Test-Data-Storage-and-Retrieval.md)
-      2. [Testing-Pipeline-SetupOptions](documentation/testing/Decisions/Testing-Pipeline-SetupOptions.md)
-4. Glossary
+1. [Architecture](./documentation/architecture)
+2. [Developers](./documentation/developers)
+3. [Features](./documentation/features)
+4. [Testing](./documentation/testing)
+5. [Glossary](./documentation/glossary.md)
 
 ## Build status
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FCore%20Infrastructure%20CICD?branchName=main&label=Core%20infrastructure)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2594&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=main&label=Front-end%20components)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=main&label=Web%20app)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPrototype%20Kit%20CICD?branchName=main&label=Prototype)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2619&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FCore%20infrastructure?branchName=main&label=Core%20infrastructure)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2862&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FData%20pipeline?&branchName=main&label=Data%20pipeline)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2879&&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FDocumentation?branchName=main&label=Documentation)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2917&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FFront-end%20components?branchName=main&label=Front-end%20components)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2863&&branchName=mai)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPrototype?branchName=main&label=Prototype)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2876&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FWeb?branchName=main&label=Web%20app)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2866&branchName=main)

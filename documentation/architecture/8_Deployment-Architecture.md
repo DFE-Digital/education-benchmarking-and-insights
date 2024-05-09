@@ -20,6 +20,8 @@ This pipeline is linked to the `feature` environment.
 
 ```mermaid
 flowchart TD
+    accDescr: Feature pipeline flow
+    
     A[Provision Terraform Dependencies] --> B[Build, Provision and Deploy Core Infrastructure]
     B --> C[Build, Provision and Deploy Platform Infrastructure]
     C --> D[Build and Publish Front End Components]
@@ -42,6 +44,8 @@ This pipeline is linked to the `destroy` environment, which itself has an approv
 
 ```mermaid
 flowchart TD
+    accDescr: Destroy pipeline flow
+    
     A[Destroy Web Infrastructure] --> B[Destroy Platform Infrastructure]
     B --> C[Destroy Core Infrastructure]
     C --> D[Destroy Terraform Dependencies]
