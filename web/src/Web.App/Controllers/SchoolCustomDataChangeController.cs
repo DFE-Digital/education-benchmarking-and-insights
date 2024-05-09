@@ -13,7 +13,7 @@ namespace Web.App.Controllers;
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CustomData)]
-[Route("school/{urn}/custom-data/change")]
+[Route("school/{urn}/custom-data")]
 public class SchoolCustomDataChangeController(
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
@@ -21,7 +21,8 @@ public class SchoolCustomDataChangeController(
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string urn)
+    [Route("financial-data")]
+    public async Task<IActionResult> FinancialData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
@@ -49,5 +50,36 @@ public class SchoolCustomDataChangeController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    [HttpPost]
+    [Route("financial-data")]
+    public IActionResult FinancialData(string urn, [FromForm] SchoolCustomDataViewModel viewModel)
+    {
+        using (logger.BeginScope(new { urn, viewModel }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    // todo
+                    return View();
+                }
+                
+                return RedirectToAction(nameof(NonFinancialData));
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred saving custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("school-characteristics")]
+    public IActionResult NonFinancialData(string urn)
+    {
+        return StatusCode(StatusCodes.Status204NoContent);
     }
 }

@@ -72,3 +72,20 @@ p.priority .govuk-tag {
 .govuk-caption-l a {
   color: $govuk-secondary-text-colour
 }
+
+.govuk-table.table-custom-data {
+  tbody {
+    tr {
+      td {
+        vertical-align: middle;
+      }
+
+      &:last-child {
+        td {
+          border-bottom: 0;
+          padding-bottom: 0;
+        }
+      }
+    }
+  }
+}
