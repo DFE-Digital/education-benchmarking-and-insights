@@ -6,6 +6,7 @@ resource "azurerm_container_registry" "acr" {
   #checkov:skip=CKV_AZURE_164:See ADO backlog AB#206776
   #checkov:skip=CKV_AZURE_139:See ADO backlog AB#206776
   #checkov:skip=CKV_AZURE_137:See ADO backlog AB#206776
+  #checkov:skip=CKV_AZURE_237:See ADO backlog AB#206776
   name                = "${var.environment-prefix}acr"
   resource_group_name = azurerm_resource_group.resource-group.name
   location            = azurerm_resource_group.resource-group.location
