@@ -41,7 +41,7 @@
                                         <input class="govuk-input govuk-input--width-10 @(ViewData.ModelState.HasError(item.Name) ? "govuk-input--error" : string.Empty)"
                                                id="@item.Name"
                                                name="@item.Name"
-                                               value="@item.Custom"
+                                               value="@(ViewData.ModelState[item.Name]?.AttemptedValue ?? item.Custom?.ToString())"
                                                type="number"
                                                spellcheck="false"/>
                                     </div>
