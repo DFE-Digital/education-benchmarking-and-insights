@@ -2,7 +2,7 @@
 
 ## Physical Architecture
 
-![Security Architecture](images/Security-Architecture.png)
+![Security Architecture](./images/Security-Architecture.png)
 
 ## Authentication & Authorization
 

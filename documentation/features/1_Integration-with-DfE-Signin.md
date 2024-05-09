@@ -26,21 +26,20 @@ sequenceDiagram
 
 ## Setting up our service configuration in DSI
 
-1. **Receive manage access to DfE manage console.**
-2. **Register our service as a ‘relying party’.**
-3. **We then must provide (details of each below):**
-   - a. services home URL
-   - b. post password-reset URL
-   - c. client ID
-   - d. redirect URL
-   - e. logout direct URL
-   - f. response type (‘code’ seems to suit our use case and is flow captured in diagram above)
-   - g. refresh token
-   - h. client secret
-   - i. token endpoint authentication method
-
-4. **Once set up we can then use DSI’s API to interact with it:** [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
-5. **Any edits to our services configuration can be done via the manage console.**
+1. Receive manage access to DfE manage console.
+2. Register our service as a ‘relying party’.
+3. We then must provide (details of each below):
+   - services home URL
+   - post password-reset URL
+   - client ID
+   - redirect URL
+   - logout direct URL
+   - response type (‘code’ seems to suit our use case and is flow captured in diagram above)
+   - refresh token
+   - client secret
+   - token endpoint authentication method
+4. Once set up we can then use DSI’s API to interact with it: [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
+5. Any edits to our services configuration can be done via the manage console.
 
 ### Home URL:
 
