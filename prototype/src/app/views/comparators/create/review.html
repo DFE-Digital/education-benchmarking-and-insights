@@ -84,6 +84,7 @@
     {% set html %}
     <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to similar schools.</p>
     <p class="govuk-body">You have now replaced the schools we chose for you with the schools you’ve chosen below.</p>
+    <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['trust-name'] }}</a></p>
     {% endset %}
   
   {% elseif confirmation == 'comparator-removed' %}
