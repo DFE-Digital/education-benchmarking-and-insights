@@ -11,10 +11,10 @@ Add a file watcher to automatically format code changes:
 - Open Settings -> Tools -> File Watchers
 - Press The “Plus Sign” to Add a Custom watcher
 - Set the name to “dotnet format”
-  - FileType: C#
-  - Scope: All changed files
-  - Program: dotnet
-  - Arguments: format $SolutionPath$
+  - FileType: `C#`
+  - Scope: `All changed files`
+  - Program: `dotnet`
+  - Arguments: `format $SolutionPath$`
   - All other values were left default
 
 ![Rider file watcher](./images/rider-dotnet-format-watcher.png)
