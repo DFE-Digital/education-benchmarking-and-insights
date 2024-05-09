@@ -1,11 +1,3 @@
-
-
-resource "azurerm_role_assignment" "client-platform-storage-role" {
-  scope                = azurerm_storage_account.platform-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = data.azurerm_client_config.client.object_id
-}
-
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389

@@ -13,10 +13,16 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   secret_permissions = ["Get"]
 }
 
+resource "azurerm_user_assigned_identity" "func-identity" {
+  location            = var.location
+  name                = local.function-app-name
+  resource_group_name = var.resource-group-name
+}
+
 resource "azurerm_role_assignment" "func-storage-role" {
   scope                = var.storage-account-id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
+  principal_id         = azurerm_user_assigned_identity.func-identity.principal_id
 }
 
 resource "azurerm_service_plan" "func-asp" {
@@ -41,7 +47,8 @@ resource "azurerm_windows_function_app" "func-app" {
   https_only                 = true
 
   identity {
-    type = "SystemAssigned"
+    type         = "SystemAssigned, UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.func-identity.principal_id]
   }
 
   site_config {
