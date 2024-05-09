@@ -546,7 +546,7 @@ $endif$
 \subtitle{$subtitle$}
 $endif$
 \author{$for(author)$$author$$sep$ \and $endfor$}
-\date{$date$}
+\today
 $if(beamer)$
 $if(institute)$
 \institute{$for(institute)$$institute$$sep$ \and $endfor$}
@@ -675,7 +675,7 @@ $else$
 \usepackage{titling}
 \title{$title$}
 \author{$for(author)$$author$$sep$, $endfor$}
-\date{$date$}
+\today
 $endif$
 
 %
