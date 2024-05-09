@@ -15,7 +15,15 @@ public class NavigationTagHelper(
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
-        if (ViewContext.ViewData[ViewDataKeys.Backlink] is BacklinkInfo backlinkInfo)
+        if (ViewContext.ViewData[ViewDataKeys.UseJsBackLink] is true)
+        {
+            output.TagName = "a";
+            output.Attributes.SetAttribute("id", "js-back-link");
+            output.Attributes.SetAttribute("href", "#");
+            output.AddClass("govuk-back-link", HtmlEncoder.Default);
+            output.Content.SetContent("Back");
+        }
+        else if (ViewContext.ViewData[ViewDataKeys.Backlink] is BacklinkInfo backlinkInfo)
         {
             output.TagName = "a";
             output.Attributes.SetAttribute("href", backlinkInfo.Action);

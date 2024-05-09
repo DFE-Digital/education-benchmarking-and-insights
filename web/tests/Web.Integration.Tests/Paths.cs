@@ -7,6 +7,10 @@ public static class Paths
     public const string ServiceHelp = "/help-with-this-service";
     public const string SubmitEnquiry = "/submit-an-enquiry";
     public const string AskForHelp = "/ask-for-help";
+    public const string Cookies = "/cookies";
+    public const string Privacy = "/privacy";
+    public const string Contact = "/contact";
+    public const string Accessibility = "/accessibility";
     public const string Error = "/error";
 
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
