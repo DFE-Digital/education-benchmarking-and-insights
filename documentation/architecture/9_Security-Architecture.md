@@ -2,7 +2,7 @@
 
 ## Physical Architecture
 
-![Security Architecture](./images/Security-Architecture.png)
+![Security Architecture](images/Security-Architecture.png)
 
 ## Authentication & Authorization
 
@@ -19,3 +19,4 @@ For areas requiring authentication, this is delegated to DfE Sign In and is mana
 Authorization is handled by the standard [ASP.NET Core claims model](https://docs.microsoft.com/en-us/aspnet/core/security/authorization/claims?view=aspnetcore-3.1). Only those authenticated users with the FBIT claim will be allowed access to the restricted areas of the service. Currently the only functions or areas taht are intended to require authorization are:
 - Curriculum planning
 - Custom data
+

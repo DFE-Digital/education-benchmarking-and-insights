@@ -17,12 +17,12 @@ Perhaps the most important decision of any service is how the data will be store
 
 ### Evaluation
 
-| Criteria | Comment | Cosmos DB | SQL | Blob Storage | Synapse | 
-|:--------:|:----------------|:--:|:--:|:--:|:--:|
-| Suitability | The end data is very static. Once the benchmark and default comparator sets have been created, they do not change. The data is mainly non-relational | 4 | 3 | 3 | 3 |
-| Ease of Data Ingestion | As we will be creating the ETL pipeline as well, this criteria is less critical, although this includes understanding of the current piupelines as well | 4 | 3 | 3 | 3 |
-| Storage Cost | We need to store 5 years' worth of data. Overall storage will be approximately 15MB for a parque  | 4 | 3 | 4 | 2 |
-| **Total** | | **12** | **9** | **10** | **8** |
+|        Criteria        | Comment                                                                                                                                                 | Cosmos DB |  SQL  | Blob Storage | Synapse | 
+|:----------------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------|:---------:|:-----:|:------------:|:-------:|
+|      Suitability       | The end data is very static. Once the benchmark and default comparator sets have been created, they do not change. The data is mainly non-relational    |     4     |   3   |      3       |    3    |
+| Ease of Data Ingestion | As we will be creating the ETL pipeline as well, this criteria is less critical, although this includes understanding of the current piupelines as well |     4     |   3   |      3       |    3    |
+|      Storage Cost      | We need to store 5 years' worth of data. Overall storage will be approximately 15MB for a parque                                                        |     4     |   3   |      4       |    2    |
+|       **Total**        |                                                                                                                                                         |  **12**   | **9** |    **10**    |  **8**  |
 
 ## Decision Outcome
 
@@ -31,3 +31,4 @@ Based on the analysis above, we have chosen CosmosDB as the data storage medium 
 ### Considerations on selected technology 
 
 During development, the CosmosDB will be provisioned using Provisioned Throughput (Autoscale) capacity mode. As the system evolves, this will be re-evaluated to determine if Serverless will provide a better combination of performance and cost-effectiveness.
+

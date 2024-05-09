@@ -6,7 +6,7 @@ The data processing pipeline has the following key stages:
 * Comparator set computation
 * RAG computation
 
-## Pre-processing
+## Pre-processing
 
 //TODO: Add pre-processing logic
 
@@ -202,5 +202,4 @@ Storage
 
 ## RAG Calculation
 //TODO: RAG calculation
-
 

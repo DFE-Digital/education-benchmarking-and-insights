@@ -7,7 +7,7 @@ The Financial Benchmarking and insights (FBIT) service is to provide a single se
 * A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils 
 * A way to support Governors & Trustees in their role in holding organisations to account 
 
-For more information see the [business context](./business-context.md)
+For more information see the [business context](2_Business-Context.md)
 
 ![System Context](images/System-Context.png)
 

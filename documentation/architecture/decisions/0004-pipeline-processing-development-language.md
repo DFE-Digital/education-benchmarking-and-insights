@@ -19,7 +19,7 @@ We need to build a data processing pipeline that consumes the following data sou
 * CDC - School building data
 * CFO - Contact Detail 
 * AAR - Academy account return
-* BFR - Budget forecast retur 
+* BFR - Budget forecast return 
 * KS2 
 * KS4
 
@@ -36,4 +36,5 @@ The decision is to utilise `python` and `pandas` for data processing. This was c
 
 ## Consequences
 
-No major consquences due to the ubiquity of python in the data processing space. However, if datasets become too large then we should look at replacing `pandas` with `polars`. Given the similarity in the API's this is a viable decision to defer.
+No major consequences due to the ubiquity of python in the data processing space. However, if datasets become too large then we should look at replacing `pandas` with `polars`. Given the similarity in the API's this is a viable decision to defer.
+

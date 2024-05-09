@@ -2,7 +2,7 @@
 
 The decision-making process follows the flow shown below:
 
-![Decsion Process](./images/Decision-Process.png)
+![Decision Process](images/Decision-Process.png)
 
 The "standards" hard constraint includes typical implementations with the wider DfE landscape, as well as GDS compliance, for example, the use of Azure is not a standard, but a hard constraint as the preferred cloud platform for the department.
 
