@@ -18,7 +18,7 @@ Warning text is rendered for the Spending and costs page, Compare your costs and
 
 ### Primary Goal
 
-When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons so they can make informed decisions with how they proceed with the information we provide
+When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons, so they can make informed decisions with how they proceed with the information we provide
 
 ## Usage
 
@@ -29,12 +29,12 @@ This feature currently makes a HasIncompleteData prop available in the following
 In platform
 
 - [Expenditure](../../../platform/src/abstractions/Platform.Domain/Responses/SchoolExpenditureResponseModel.cs)
-- [Workforce](../../../platform/src/abstractions/Platform.Domain/Responses/WorkforceResponseModel.cs)
+- [Census](../../../platform/src/abstractions/Platform.Domain/Responses/CensusResponseModel.cs)
 
 In web app
 
 - [SchoolExpenditure](../../../web/src/Web.App/Domain/SchoolExpenditure.cs)
-- [Workforce](../../../web/src/Web.App/Domain/Workforce.cs)
+- [Census](../../../web/src/Web.App/Domain/Census.cs)
 - [SchoolSpendingViewModel](../../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
 
 In front-end-components
@@ -88,5 +88,5 @@ This component is used as part of the composed components below to render the wa
 The React component is used in the following views in the MVC web app
 
 - [SchoolSpending view](../../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
-- [SchoolWorkforce view](../../../web/src/Web.App/Views/SchoolWorkforce/Index.cshtml)
+- [SchoolCensus view](../../../web/src/Web.App/Views/SchoolCensus/Index.cshtml)
 - [SchoolComparison view](../../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)

@@ -24,9 +24,9 @@ A comparison is displayed and rated for the following categories
 
 The data is displayed as a horizontal bar chart for each cost category which are grouped as Priority costs and Low priority costs. This is based on the calculated rating for each category. High and medium as priority costs and low as low priority costs.
 
-![High priority costs](../../images/spending-and-costs-ui-1.png)
+![High priority costs](../images/spending-and-costs-ui-1.png)
 
-![Low priority costs](../../images/spending-and-costs-ui-2.png)
+![Low priority costs](../images/spending-and-costs-ui-2.png)
 
 When schools within the comparator set are missing data this is flagged with a warning. See the documentation for incomplete data for more [information.](./incomplete-data.md)
 

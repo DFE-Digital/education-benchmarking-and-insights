@@ -8,13 +8,13 @@ This document provides detailed information for developers about the implementat
 
 This feature acts as the entry point for the entire user journey within the application. It allows the School or Trust to be sought that works as the context for all subsequent operations.
 
-![Select an organisation type](../../images/find-organisation-ui-1.png)
+![Select an organisation type](../images/find-organisation-ui-1.png)
 
 As the user types, a debounced API call is performed that performs a search and displays the top ten matches in a drop down list.
 
-![Academy search](../../images/find-organisation-ui-2.png)
+![Academy search](../images/find-organisation-ui-2.png)
 
-![Trust search](../../images/find-organisation-ui-3.png)
+![Trust search](../images/find-organisation-ui-3.png)
 
 Once an item has been chosen and 'Continue' clicked, the School or Trust landing page is displayed and the user may continue on their journey.
 
