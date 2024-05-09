@@ -1,6 +1,6 @@
 # Rider Configuration
 
-JetBrains Rider has mean the main IDE of choice of the team, this section covers help settings and configuration for the IDE.
+JetBrains Rider is .net IDE of choice of the team, this section covers help settings and configuration for the IDE.
 
 ## `dotnet format`
 
