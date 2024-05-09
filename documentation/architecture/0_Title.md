@@ -1,5 +1,6 @@
 ---
 title: Financial Benchmarking and Insights
+subtitle: Architecture
 author: Department for Education
 date: 25/03/2024
 titlepage: true
