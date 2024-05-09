@@ -1,5 +1,5 @@
 import math
-
+import numpy as np
 import pandas as pd
 
 base_cols = [
@@ -9,7 +9,7 @@ base_cols = [
     "OfstedRating (name)",
     "Percentage SEN",
     "Percentage Free school meals",
-    "Number of pupils",
+    "Number of pupils"
 ]
 
 category_settings = {
@@ -64,7 +64,7 @@ category_settings = {
             "red",
         ],
     },
-    "Non-educational support staff": {
+    "Non-educational support staff and services": {
         "type": "pupil",
         "outstanding_10": [
             "green",
@@ -166,7 +166,7 @@ category_settings = {
             "red",
         ],
     },
-    "IT": {
+    "Educational ICT": {
         "type": "pupil",
         "outstanding_10": [
             "amber",
@@ -217,7 +217,7 @@ category_settings = {
             "red",
         ],
     },
-    "Premises": {
+    "Premises staff and services": {
         "type": "area",
         "outstanding_10": [
             "green",
@@ -556,42 +556,71 @@ def is_close_comparator(category_type, org_a, org_b):
     return is_pupil_close_comparator(org_a, org_b)
 
 
-def map_rag(d, ofstead, rag_mapping):
-    close_count = d["is_close"][d["is_close"]].count()
-    key = "outstanding" if ofstead.lower() == "outstanding" else "other"
+def get_category_series(category_name, data, basis):
+    category_cols = data.columns.isin(base_cols) | data.columns.isin(["is_close"]) | data.columns.str.startswith(
+        category_name)
+    df = data[data.columns[category_cols]].copy()
+    basis_data = data['Number of pupils' if basis == "pupil" else "Total Internal Floor Area"]
+
+    # Create total column and divide be the basis data
+    df[category_name + '_Total'] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(
+        axis=1) / basis_data
+
+    sub_categories = df.columns[df.columns.str.startswith(category_name)].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category] = df[sub_category] / basis_data
+
+    return df, sub_categories
+
+
+def category_stats(category_name, data, ofsted_rating, rag_mapping):
+    close_count = data["is_close"][data["is_close"]].count()
+    key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
-    d["rag"] = d["decile"].fillna(0).map(lambda x: rag_mapping[key][int(x)])
-    return d
+
+    series = data[category_name]
+    percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
+    deciles = pd.qcut(series, 10, labels=False, duplicates="drop")
+    percentile = int(np.nan_to_num(percentiles.iloc[0]))
+    decile = int(np.nan_to_num(deciles.iloc[0]))
+    value = float(np.nan_to_num(series.iloc[0]))
+    mean = float(np.nan_to_num(series.median()))
+    diff = value - mean
+    diff_percent = (diff / value) * 100 if value != 0 else 0
+
+    return {
+        'value': value,
+        'mean': mean,
+        'diff_mean': diff,
+        'key': key,
+        'percentage_diff': diff_percent,
+        'percentile': percentile,
+        'decile': decile,
+        'rag': rag_mapping[key][int(decile)],
+        'data': data.reset_index().to_dict(orient='records', index=True)
+    }
 
 
-def compute_rag(urn, comparator_set):
-    result = {}
-    for category in category_settings:
-        deciles = category_settings[category]
-        cols = comparator_set.columns.isin(
-            base_cols
-        ) | comparator_set.columns.str.startswith(category)
+def compute_category_rag(category_name, settings, comparator_set, stats):
+    target = comparator_set.iloc[0]
+    ofstead = target["OfstedRating (name)"]
+    comparator_set["is_close"] = comparator_set.apply(
+        lambda x: is_close_comparator(settings["type"], target, x), axis=1
+    )
 
-        df = comparator_set[comparator_set.columns[cols]].copy()
-        target = comparator_set[comparator_set.index == urn][
-            comparator_set.columns[cols]
-        ].copy()
+    series, sub_categories = get_category_series(category_name, comparator_set, settings['type'])
 
-        if deciles["type"] == "area":
-            df["Total"] = df[df.columns[6 : df.shape[1]]].sum(axis=1) / (
-                df["Total Internal Floor Area"]
-            )
-        else:
-            df["Total"] = df[df.columns[6 : df.shape[1]]].sum(axis=1) / (
-                df["Number of pupils"]
-            )
+    for sub_category in sub_categories:
+        stats[sub_category] = category_stats(sub_category, series, ofstead, settings)
 
-        df["is_close"] = df.apply(
-            lambda x: is_close_comparator(deciles["type"], target, x), axis=1
-        )
-        df["decile"] = pd.qcut(df["Total"], 10, labels=False, duplicates="drop")
+    return stats
 
-        result[category] = map_rag(
-            df, target["OfstedRating (name)"].values[0], deciles
-        ).sort_values(by="decile", ascending=True)
-    return result
+
+def compute_comparator_set_rag(comparator_set):
+    stats = {}
+    for cat in category_settings.keys():
+        settings = category_settings[cat]
+        stats = compute_category_rag(cat, settings, comparator_set, stats)
+
+    return stats
