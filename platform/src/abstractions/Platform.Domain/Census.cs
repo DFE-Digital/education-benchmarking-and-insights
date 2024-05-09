@@ -1,4 +1,6 @@
-﻿namespace Platform.Domain;
+﻿using System.Linq;
+
+namespace Platform.Domain;
 
 public static class CensusCategories
 {
@@ -22,6 +24,8 @@ public static class CensusCategories
         WorkforceHeadcount,
         TeachersQualified
     ];
+
+    public static bool IsValid(string? category) => All.Any(a => a == category);
 }
 
 public static class CensusDimensions
@@ -38,4 +42,6 @@ public static class CensusDimensions
         PercentWorkforce,
         PupilsPerStaffRole
     ];
+
+    public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }

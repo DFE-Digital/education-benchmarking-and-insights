@@ -3,25 +3,26 @@
 ## The authorization flow (‘code’ response type)
 
 ```mermaid
-sequenceDiagram;
-    participant User;
-    participant Web App;
-    participant DfE Sign-In login;
-    participant DfE Sign-In token;
-    Note over User,Web App: User tries to access protected content in service;
-    Web App->>User: Display "login required";
-    Note over User: User clicks "Sign In";
-    User->>Web App: Initiate authenication;
-    Web App->>DfE Sign-In login: Redirect user DfE Sign auth endpoint;
+sequenceDiagram
+    accTitle: DfE Sign-in sequence
+    
+    participant User
+    participant Web App
+    participant DfE Sign-In login
+    participant DfE Sign-In token
+    Note over User,Web App: User tries to access protected content in service
+    Web App->>User: Display "login required"
+    Note over User: User clicks "Sign In"
+    User->>Web App: Initiate authentication
+    Web App->>DfE Sign-In login: Redirect user DfE Sign auth endpoint
     Note over DfE Sign-In login: User signs in;
-    DfE Sign-In login->>Web App: Redirect user back with an authcode;
-    Web App->>DfE Sign-In token: Request tokens w/ authcode;
-    Note over Web App: Exchange authcode for tokens;
-    DfE Sign-In token->>Web App: Respond with access, ID wand refresh token;
-    Note over Web App: Verify tokens;
-    Web App->>User:Grant access to protected content;
+    DfE Sign-In login->>Web App: Redirect user back with an authcode
+    Web App->>DfE Sign-In token: Request tokens w/ authcode
+    Note over Web App: Exchange authcode for tokens
+    DfE Sign-In token->>Web App: Respond with access, ID wand refresh token
+    Note over Web App: Verify tokens
+    Web App->>User:Grant access to protected content
 ```
-
 
 ## Setting up our service configuration in DSI
 
@@ -138,3 +139,4 @@ DfE manage console automatically creates the API secret when configuring a servi
 The client secret should be secure and not easy for third parJes to guess.
 
 You can view or change the API secret on the ‘Edit service configuraJon’ page by clicking ‘Show’ or ‘Regenerate’ next to the API secret field.
+

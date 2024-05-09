@@ -19,19 +19,44 @@ variables:
 
 steps:
   - bash: sudo apt-get install -y pandoc texlive-latex-extra
+    displayName: 'Install pandoc & latex'
 
   - bash: sudo apt-get install texlive-fonts-recommended texlive-fonts-extra
+    displayName: 'Install tex fonts'
 
   - task: Npm@1
+    displayName: 'Install mermaid cli'
     inputs:
       command: 'custom'
       customCommand: 'install -g @mermaid-js/mermaid-cli'
 
   - bash: ./tools/build-docs.sh architecture architecture.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+    displayName: 'Generate architecture docs'
+    workingDirectory: $(WorkingDir)
+
+  - bash: cp -a build/. pub
+    displayName: 'Copy architecture output'
+    workingDirectory: $(WorkingDir)
+
+  - bash: ./tools/build-docs.sh developers developers.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+    displayName: 'Generate developer docs'
+    workingDirectory: $(WorkingDir)
+
+  - bash: cp -a build/. pub
+    displayName: 'Copy developer output'
+    workingDirectory: $(WorkingDir)
+
+  - bash: ./tools/build-docs.sh features features.pdf build --strip-comments --toc -f markdown -t pdf --pdf-engine=pdflatex --wrap=preserve --data-dir=$(DataDir) --template=pdf-template
+    displayName: 'Generate feature docs'
+    workingDirectory: $(WorkingDir)
+
+  - bash: cp -a build/. pub
+    displayName: 'Copy feature output'
     workingDirectory: $(WorkingDir)
 
   - task: PublishPipelineArtifact@1
+    displayName: 'Publish artifacts'
     inputs:
-      targetPath: '$(WorkingDir)/build'
+      targetPath: '$(WorkingDir)/pub'
       artifact: 'docs'
       publishLocation: 'pipeline'

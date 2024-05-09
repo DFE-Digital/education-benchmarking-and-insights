@@ -6,7 +6,7 @@ The data processing pipeline has the following key stages:
 * Comparator set computation
 * RAG computation
 
-## Pre-processing
+## Pre-processing
 
 //TODO: Add pre-processing logic
 
@@ -193,14 +193,13 @@ pupils &= \sqrt{0.33\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.33\l
 
 Storage
 
-| Partition   | RowKey | Data.... |
-|-------------|--------|----------|
-| Default-2022|{URN 345672} | [123112, 1212331] |
-| Default-2022|Mixed-{URN 345671} | [123112, 1212331] |
-| Default-2022|{URN 111111} | [123112, 1212331] |
-| Default-2022|Mixed-{URN 111111} | [123112, 1212331] |
+| Partition    | RowKey             | Data....          |
+|--------------|--------------------|-------------------|
+| Default-2022 | {URN 345672}       | [123112, 1212331] |
+| Default-2022 | Mixed-{URN 345671} | [123112, 1212331] |
+| Default-2022 | {URN 111111}       | [123112, 1212331] |
+| Default-2022 | Mixed-{URN 111111} | [123112, 1212331] |
 
 ## RAG Calculation
 //TODO: RAG calculation
-
 

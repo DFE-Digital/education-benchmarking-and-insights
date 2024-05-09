@@ -24,4 +24,5 @@ public record Finances
     public decimal RevenueReserve { get; set; }
     public string? OfstedRatingName { get; set; }
     public decimal FreeSchoolMealPercent { get; set; }
+    public decimal SpecialEducationalNeedsPercent { get; set; }
 }

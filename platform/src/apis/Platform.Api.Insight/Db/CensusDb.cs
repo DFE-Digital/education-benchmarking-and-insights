@@ -11,6 +11,7 @@ public interface ICensusDb
 {
     Task<IEnumerable<CensusResponseModel>> GetHistory(string urn, string dimension);
     Task<IEnumerable<CensusResponseModel>> Get(string[] urns, string category, string dimension);
+    Task<CensusResponseModel?> Get(string urn, string? category, string dimension);
 }
 
 public class CensusDb : FinancesDb, ICensusDb
@@ -34,5 +35,14 @@ public class CensusDb : FinancesDb, ICensusDb
         return finances
                 .SelectMany(x => x.dataObject
                     .Select(d => CensusResponseModel.Create(d, x.year, dimension, category)));
+    }
+
+    public async Task<CensusResponseModel?> Get(string urn, string? category, string dimension)
+    {
+        var finances = await GetFinances<CensusDataObject>(urn);
+        return finances
+            .Where(d => d.dataObject != null)
+            .Select(d => CensusResponseModel.Create(d.dataObject, d.year, dimension, category))
+            .SingleOrDefault();
     }
 }

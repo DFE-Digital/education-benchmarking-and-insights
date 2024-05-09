@@ -11,6 +11,7 @@ variable "configuration" {
     front_door_sku_name    = string
     features = object({
       CurriculumFinancialPlanning = bool
+      CustomData                  = bool
       Trusts                      = bool
     })
   }))
@@ -23,6 +24,7 @@ variable "configuration" {
       features = {
         Trusts                      = true
         CurriculumFinancialPlanning = true
+        CustomData                  = true
       }
     }
     automated-test = {
@@ -33,6 +35,7 @@ variable "configuration" {
       features = {
         Trusts                      = false
         CurriculumFinancialPlanning = true
+        CustomData                  = false
       }
     }
     test = {
@@ -43,6 +46,7 @@ variable "configuration" {
       features = {
         Trusts                      = false
         CurriculumFinancialPlanning = false
+        CustomData                  = false
       }
     }
     feature = {
@@ -53,6 +57,7 @@ variable "configuration" {
       features = {
         Trusts                      = true
         CurriculumFinancialPlanning = true
+        CustomData                  = true
       }
     }
     pre-production = {
@@ -63,6 +68,7 @@ variable "configuration" {
       features = {
         Trusts                      = false
         CurriculumFinancialPlanning = false
+        CustomData                  = false
       }
     }
     production = {
@@ -73,6 +79,7 @@ variable "configuration" {
       features = {
         Trusts                      = false
         CurriculumFinancialPlanning = false
+        CustomData                  = false
       }
     }
   }
