@@ -14,8 +14,7 @@ resource "azurerm_storage_account" "platform-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = false
-  shared_access_key_enabled       = false
+  public_network_access_enabled   = true
 
   blob_properties {
     delete_retention_policy {

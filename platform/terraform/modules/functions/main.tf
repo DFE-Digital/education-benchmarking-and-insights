@@ -47,8 +47,7 @@ resource "azurerm_windows_function_app" "func-app" {
   https_only                 = true
 
   identity {
-    type         = "SystemAssigned, UserAssigned"
-    identity_ids = [azurerm_user_assigned_identity.func-identity.principal_id]
+    type = "SystemAssigned"
   }
 
   site_config {

@@ -8,6 +8,7 @@ module "benchmark-fa" {
   resource-group-name                    = azurerm_resource_group.resource-group.name
   storage-account-name                   = azurerm_storage_account.platform-storage.name
   storage-account-id                     = azurerm_storage_account.platform-storage.id
+  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
   enable-restrictions                    = lower(var.cip-environment) != "dev"
@@ -28,6 +29,7 @@ module "insight-fa" {
   resource-group-name                    = azurerm_resource_group.resource-group.name
   storage-account-name                   = azurerm_storage_account.platform-storage.name
   storage-account-id                     = azurerm_storage_account.platform-storage.id
+  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
   enable-restrictions                    = lower(var.cip-environment) != "dev"
@@ -52,6 +54,7 @@ module "establishment-fa" {
   resource-group-name                    = azurerm_resource_group.resource-group.name
   storage-account-name                   = azurerm_storage_account.platform-storage.name
   storage-account-id                     = azurerm_storage_account.platform-storage.id
+  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
   key-vault-id                           = data.azurerm_key_vault.key-vault.id
   location                               = var.location
   enable-restrictions                    = lower(var.cip-environment) != "dev"
