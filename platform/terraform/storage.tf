@@ -1,3 +1,10 @@
+resource "azurerm_role_assignment" "sp-platform-storage-role" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+  principal_type       = "ServicePrincipal"
+}
+
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
@@ -125,6 +132,14 @@ resource "azurerm_storage_container" "vulnerability-container" {
   storage_account_name  = azurerm_storage_account.vulnerability-storage.name
   container_access_type = "private"
 }
+
+resource "azurerm_role_assignment" "sp-orchestrator-storage-role" {
+  scope                = azurerm_storage_account.orchestrator-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+  principal_type       = "ServicePrincipal"
+}
+
 
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
