@@ -15,6 +15,7 @@ resource "azurerm_storage_account" "platform-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {
@@ -142,6 +143,7 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {
