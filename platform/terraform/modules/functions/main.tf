@@ -13,7 +13,7 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   secret_permissions = ["Get"]
 }
 
-resource "azurerm_role_assignment" "func-storage-role-blob" {
+/*resource "azurerm_role_assignment" "func-storage-role-blob" {
   scope                = var.storage-account-id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
@@ -25,7 +25,7 @@ resource "azurerm_role_assignment" "func-storage-role-file" {
   role_definition_name = "Storage File Data SMB Share Contributor"
   principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
   principal_type       = "ServicePrincipal"
-}
+}*/
 
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
@@ -45,7 +45,8 @@ resource "azurerm_windows_function_app" "func-app" {
   resource_group_name           = var.resource-group-name
   service_plan_id               = azurerm_service_plan.func-asp.id
   storage_account_name          = var.storage-account-name
-  storage_uses_managed_identity = true
+  storage_account_access_key    = var.storage-account-key
+  storage_uses_managed_identity = false
   https_only                    = true
 
   identity {

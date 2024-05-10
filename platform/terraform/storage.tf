@@ -1,4 +1,4 @@
-resource "azurerm_role_assignment" "sp-platform-storage-role-blob" {
+/*resource "azurerm_role_assignment" "sp-platform-storage-role-blob" {
   scope                = azurerm_storage_account.platform-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
@@ -10,7 +10,7 @@ resource "azurerm_role_assignment" "sp-platform-storage-role-file" {
   role_definition_name = "Storage File Data SMB Share Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
-}
+}*/
 
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
@@ -29,7 +29,7 @@ resource "azurerm_storage_account" "platform-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
-  shared_access_key_enabled       = false
+  shared_access_key_enabled       = true
 
   blob_properties {
     delete_retention_policy {
@@ -140,7 +140,7 @@ resource "azurerm_storage_container" "vulnerability-container" {
   container_access_type = "private"
 }
 
-resource "azurerm_role_assignment" "sp-orchestrator-storage-role-blob" {
+/*resource "azurerm_role_assignment" "sp-orchestrator-storage-role-blob" {
   scope                = azurerm_storage_account.orchestrator-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
@@ -152,7 +152,7 @@ resource "azurerm_role_assignment" "sp-orchestrator-storage-role-file" {
   role_definition_name = "Storage File Data SMB Share Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
-}
+}*/
 
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
@@ -171,7 +171,7 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
-  shared_access_key_enabled       = false
+  shared_access_key_enabled       = true
 
   blob_properties {
     delete_retention_policy {
