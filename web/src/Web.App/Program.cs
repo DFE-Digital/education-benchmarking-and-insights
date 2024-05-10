@@ -20,10 +20,17 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.SetJsonOptions();
-});
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    {
+        options.SerializerSettings.SetJsonOptions();
+    })
+    .AddMvcOptions(options =>
+    {
+        options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, field) =>
+            $"Please enter a valid value for {field}");
+    });
+
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>

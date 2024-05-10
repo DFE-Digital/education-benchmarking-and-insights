@@ -2,9 +2,89 @@
 
 namespace Web.App.Domain;
 
+
 [ExcludeFromCodeCoverage]
 public record CustomData
 {
+    public CustomData()
+    {
+    }
+
+    public CustomData(
+        Finances finances,
+        Income income,
+        SchoolExpenditure expenditure,
+        Census census,
+        FloorAreaMetric floorArea)
+    {
+        // Administrative supplies
+        AdministrativeSuppliesCosts = expenditure.AdministrativeSuppliesCosts;
+
+        // Catering
+        CateringStaffCosts = expenditure.CateringStaffCosts;
+        CateringSupplies = expenditure.CateringSuppliesCosts;
+        CateringIncome = income.IncomeCatering;
+
+        // Educational supplies
+        ExaminationFeesCosts = expenditure.ExaminationFeesCosts;
+        LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts;
+
+        // IT
+        LearningResourcesIctCosts = expenditure.LearningResourcesIctCosts;
+
+        // Non-educational support staff
+        AdministrativeClericalStaffCosts = expenditure.AdministrativeClericalStaffCosts;
+        AuditorsCosts = expenditure.AuditorsCosts;
+        OtherStaffCosts = expenditure.OtherStaffCosts;
+        ProfessionalServicesNonCurriculumCosts = expenditure.ProfessionalServicesNonCurriculumCosts;
+
+        // Premises and services
+        CleaningCaretakingCosts = expenditure.CleaningCaretakingCosts;
+        MaintenancePremisesCosts = expenditure.MaintenancePremisesCosts;
+        OtherOccupationCosts = expenditure.OtherOccupationCosts;
+        PremisesStaffCosts = expenditure.PremisesStaffCosts;
+
+        // Teaching and teaching support
+        AgencySupplyTeachingStaffCosts = expenditure.AgencySupplyTeachingStaffCosts;
+        EducationSupportStaffCosts = expenditure.EducationSupportStaffCosts;
+        EducationalConsultancyCosts = expenditure.EducationalConsultancyCosts;
+        SupplyTeachingStaffCosts = expenditure.SupplyTeachingStaffCosts;
+        TeachingStaffCosts = expenditure.TeachingStaffCosts;
+
+        // Utilities
+        EnergyCosts = expenditure.EnergyCosts;
+        WaterSewerageCosts = expenditure.WaterSewerageCosts;
+
+        // Other costs
+        DirectRevenueFinancingCosts = expenditure.DirectRevenueFinancingCosts;
+        GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts;
+        IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses;
+        InterestChargesLoanBank = expenditure.InterestChargesLoanBank;
+        OtherInsurancePremiumsCosts = expenditure.OtherInsurancePremiumsCosts;
+        PrivateFinanceInitiativeCharges = expenditure.PrivateFinanceInitiativeCharges;
+        RentRatesCosts = expenditure.RentRatesCosts;
+        SpecialFacilitiesCosts = expenditure.SpecialFacilitiesCosts;
+        StaffDevelopmentTrainingCosts = expenditure.StaffDevelopmentTrainingCosts;
+        StaffRelatedInsuranceCosts = expenditure.StaffRelatedInsuranceCosts;
+        SupplyTeacherInsurableCosts = expenditure.SupplyTeacherInsurableCosts;
+
+        // Totals
+        TotalIncome = finances.TotalIncome;
+        TotalExpenditure = finances.TotalExpenditure;
+        RevenueReserve = finances.RevenueReserve;
+
+        // Non-financial data
+        TotalNumberOfTeachersFte = finances.TotalNumberOfTeachersFte;
+        FreeSchoolMealPercent = finances.FreeSchoolMealPercent;
+        SpecialEducationalNeedsPercent = finances.SpecialEducationalNeedsPercent;
+        FloorArea = floorArea.FloorArea;
+
+        // Workforce data
+        WorkforceFte = census.WorkforceFte;
+        TeachersFte = census.TeachersFte;
+        SeniorLeadershipFte = census.SeniorLeadershipFte;
+    }
+
     // Administrative supplies
     public decimal? AdministrativeSuppliesCosts { get; init; }
 

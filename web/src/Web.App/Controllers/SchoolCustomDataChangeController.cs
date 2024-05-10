@@ -17,7 +17,6 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/custom-data")]
 public class SchoolCustomDataChangeController(
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
     ICustomDataService customDataService,
     ILogger<SchoolCustomDataChangeController> logger)
     : Controller
@@ -33,20 +32,11 @@ public class SchoolCustomDataChangeController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
 
-                // todo: Task.WhenAll()
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(urn);
-                var income = await financeService.GetSchoolIncome(urn);
-                var expenditure = await financeService.GetSchoolExpenditure(urn);
-                var census = await financeService.GetSchoolCensus(urn);
-                var floorArea = await financeService.GetSchoolFloorArea(urn);
-                var customData = customDataService.GetCustomData(urn);
+                var currentValues = await customDataService.GetCurrentData(urn);
+                var customInput = customDataService.GetCustomDataFromSession(urn);
+                var viewModel = new SchoolCustomDataChangeViewModel(school, currentValues, customInput);
 
-                // todo: merge in previous custom data set
-                var viewModel = new SchoolCustomDataChangeViewModel(school, finances, income, expenditure, census,
-                    floorArea, customData);
-
-                // todo: build view
                 return View(viewModel);
             }
             catch (Exception e)
@@ -74,7 +64,7 @@ public class SchoolCustomDataChangeController(
                     return RedirectToAction(nameof(FinancialData));
                 }
 
-                customDataService.SetCustomData(urn, viewModel.ToCustomData());
+                customDataService.SetCustomDataInSession(urn, viewModel.ToCustomData());
                 return RedirectToAction(nameof(NonFinancialData));
             }
             catch (Exception e)

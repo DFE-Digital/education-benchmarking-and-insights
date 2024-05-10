@@ -5,25 +5,46 @@ namespace Web.App.Services;
 
 public interface ICustomDataService
 {
-    CustomData? GetCustomData(string urn);
-    void SetCustomData(string urn, CustomData data);
-    
-    // todo: clear data method
+    Task<CustomData> GetCurrentData(string urn);
+    CustomData GetCustomDataFromSession(string urn);
+    void SetCustomDataInSession(string urn, CustomData data);
+    void ClearCustomDataFromSession(string urn);
 }
 
-public class CustomDataService(IHttpContextAccessor httpContextAccessor) : ICustomDataService
+public class CustomDataService(IHttpContextAccessor httpContextAccessor, IFinanceService financeService)
+    : ICustomDataService
 {
-    public CustomData? GetCustomData(string urn)
+    public async Task<CustomData> GetCurrentData(string urn)
+    {
+        // todo: lookup and return current, potentially customised figures
+
+        var finances = await financeService.GetFinances(urn);
+        var income = await financeService.GetSchoolIncome(urn);
+        var expenditure = await financeService.GetSchoolExpenditure(urn);
+        var census = await financeService.GetSchoolCensus(urn);
+        var floorArea = await financeService.GetSchoolFloorArea(urn);
+
+        return new CustomData(finances, income, expenditure, census, floorArea);
+    }
+
+    public CustomData GetCustomDataFromSession(string urn)
     {
         var key = SessionKeys.CustomData(urn);
         var context = httpContextAccessor.HttpContext;
-        return context?.Session.Get<CustomData>(key);
+        return context?.Session.Get<CustomData>(key) ?? new CustomData();
     }
 
-    public void SetCustomData(string urn, CustomData data)
+    public void SetCustomDataInSession(string urn, CustomData data)
     {
         var key = SessionKeys.CustomData(urn);
         var context = httpContextAccessor.HttpContext;
         context?.Session.Set(key, data);
+    }
+
+    public void ClearCustomDataFromSession(string urn)
+    {
+        var key = SessionKeys.CustomData(urn);
+        var context = httpContextAccessor.HttpContext;
+        context?.Session.Remove(key);
     }
 }

@@ -13,4 +13,10 @@ public static class ModelStateExtensions
 
         return false;
     }
+
+    public static string? GetAttemptedValueOrDefault(this ModelStateDictionary state, string key,
+        string? defaultValue = null)
+    {
+        return state.TryGetValue(key, out var entry) ? entry.AttemptedValue : defaultValue;
+    }
 }
