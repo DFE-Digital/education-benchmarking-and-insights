@@ -2,49 +2,11 @@
 
 A service that allows you to compare school metrics against similar schools
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FCore%20Infrastructure%20CICD?branchName=main&label=Core%20infrastructure)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2594&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=main&label=Front-end%20components)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=main&label=Web%20app)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=main)
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPrototype%20Kit%20CICD?branchName=main&label=Prototype)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2619&branchName=main)
-
 ## Documentation
 
-1. [Introduction and Goals](documentation/introduction-goals.md)
-2. [Repository Access Policy](documentation/repository-access-policy.md)
-3. [Branching Policy](documentation/branching-policy.md)
-4. Architecture
-   1. [Constraints and Principals](documentation/architecture/constraints-principals.md)
-   2. [Non-Functional Requirements](documentation/architecture/non-Functional-requirements.md)
-   3. [Logical Architecture](documentation/architecture/logical-architecture.md)
-   4. [Business Architecture](documentation/architecture/business-architecture.md)
-   5. [Information Architecture](documentation/architecture/information-architecture.md)
-   6. [Application Architecture](documentation/architecture/application-architecture.md)
-   7. [Deployment Architecture](documentation/architecture/deployment-architecture.md)
-   8. Infrastructure Architecture
-   9. [Security Architecture](documentation/architecture/security-architecture.md)
-   10. Support Architecture
-   11. [Decisions and Options](documentation/architecture/decisions-options.md)
-   12. Service Design
-5. Architecture decision records
-   1. [Decision Option Template](documentation/architecture/decision/0001-decision-option-template.md)
-   2. [Data Storage](documentation/architecture/decision/0002-data-storage.md)
-   3. [Development Data](documentation/architecture/decision/0003-development-data.md)
-   4. [Front End Framework](documentation/architecture/decision/0004-front-end-framework.md)
-   5. [Pipeline development language](documentation/architecture/decision/0005-pipeline-processing-development-language.md)
-6. Developers
-   1. [Getting Started](documentation/developers/getting-started.md)
-   2. [Session Data](documentation/developers/session-data.md)
-   3. [Integration with DfE Sign-in](documentation/developers/integration-with-dfe-sign-in.md)
-   4. Features
-      1. [Incomplete Data](documentation/developers/features/incomplete-data.md)
-      2. [Find Organisation](documentation/developers/features/find-organisation.md)
-      3. [Spending and costs](documentation/developers/features/spending-and-costs.md)
-      4. ...
-   5. [Cookies](documentation/developers/cookies.md)
-   6. [Troubleshooting](documentation/developers/troubleshooting.md)
-   7. [Additional Resources](documentation/developers/additional-resources.md)
-7. Testing
+1. [Architecture](documentation/architecture)
+2. [Developers](documentation/developers) 
+3. Testing
    1. [Test Approach](documentation/testing/test-approach.md)
    2. [Test Plan](documentation/testing/test-plan.md)
    3. [Test Data Preparation](documentation/testing/test-data-prep.md)
@@ -52,4 +14,12 @@ A service that allows you to compare school metrics against similar schools
    5. Decisions
       1. [Test-Data-Storage-and-Retrieval](documentation/testing/Decisions/Test-Data-Storage-and-Retrieval.md)
       2. [Testing-Pipeline-SetupOptions](documentation/testing/Decisions/Testing-Pipeline-SetupOptions.md)
-8. Glossary
+4. Glossary
+
+## Build status
+
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FCore%20Infrastructure%20CICD?branchName=main&label=Core%20infrastructure)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2594&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=main&label=Front-end%20components)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPlatform%20CICD?branchName=main&label=Platform)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2595&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FWeb%20CICD?branchName=main&label=Web%20app)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2600&branchName=main)
+[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FPrototype%20Kit%20CICD?branchName=main&label=Prototype)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2619&branchName=main)

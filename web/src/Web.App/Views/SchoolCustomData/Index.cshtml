@@ -1,0 +1,21 @@
+﻿@model Web.App.ViewModels.SchoolCustomDataViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataLanding, name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+
+<div>
+    <p class="govuk-body">Use this to:</p>
+    <ul class="govuk-list govuk-list--bullet">
+        <li>see how spending less or more affects your benchmark position</li>
+        <li>correct any errors for a more accurate comparison </li>
+    </ul>
+    <div class="govuk-inset-text">
+        We will delete your changes when you leave the service.
+    </div>
+    <a href="@Url.Action("Index", "SchoolCustomDataChange", new { urn = Model.Urn })" role="button" class="govuk-button">
+        Start now
+    </a>
+</div>
+

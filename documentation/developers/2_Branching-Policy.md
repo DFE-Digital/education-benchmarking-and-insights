@@ -1,4 +1,4 @@
-# Branching Policy
+# Branching policy
 
 This document is designed to outline the current approach to branching.
 
@@ -21,9 +21,10 @@ Branches should be named using the following pattern `category/<reference>/descr
 - `feature` is for adding, refactoring or removing a feature
 - `bugfix` is for fixing a bug
 - `hotfix` is for changing code with a temporary solution and/or without following the usual process (usually because of an emergency)
-- `exp` is for experimenting outside of an issue/ticket
+- `exp` is for experimenting outside an issue/ticket
 - `tech-debt` is for technical debt 
 - `doc` is for documentation changes
 - `prototype` is for prototype changes
 
 Reference should be the user story and/or bug id, avoid using task, feature or epic id. If you have no ticket then leave off the reference.
+

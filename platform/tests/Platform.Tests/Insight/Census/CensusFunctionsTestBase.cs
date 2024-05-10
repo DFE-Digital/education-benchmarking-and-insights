@@ -3,7 +3,7 @@ using Moq;
 using Platform.Api.Insight;
 using Platform.Api.Insight.Db;
 
-namespace Platform.Tests.Insight.Workforce;
+namespace Platform.Tests.Insight.Census;
 
 public class CensusFunctionsTestBase : FunctionsTestBase
 {

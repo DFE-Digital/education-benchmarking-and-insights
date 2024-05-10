@@ -21,7 +21,9 @@ public interface ISchoolFinancesDb
 {
     Task<FinancesResponseModel?> Get(string urn);
     Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension);
+    Task<IncomeResponseModel?> GetIncome(string urn, Dimension dimension);
     Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string urn, Dimension dimension);
+    Task<ExpenditureResponseModel?> GetExpenditure(string urn, Dimension dimension);
     Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension);
 }
 
@@ -53,6 +55,7 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             ? null
             : FinancesResponseModel.Create(finances.dataObject, finances.year);
     }
+
     public async Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string urn, Dimension dimension)
     {
         var finances = await GetHistoryFinances(urn);
@@ -62,6 +65,17 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
             .Select(x => BalanceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
+    public async Task<ExpenditureResponseModel?> GetExpenditure(string urn, Dimension dimension)
+    {
+        var (prefix, year) = await GetLatestCollectionForSchool(urn);
+        var collection = BuildFinanceCollectionName(prefix, year);
+        var finances = await GetFinances(year, urn, collection);
+
+        return finances.dataObject == null
+            ? null
+            : ExpenditureResponseModel.Create(finances.dataObject, finances.year, dimension);
+    }
+
     public async Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension)
     {
         var finances = await GetHistoryFinances(urn);
@@ -69,6 +83,17 @@ public class SchoolFinancesDb : CosmosDatabase, ISchoolFinancesDb
         return finances
             .OfType<(int, SchoolTrustFinancialDataObject)>()
             .Select(x => ExpenditureResponseModel.Create(x.Item2, x.Item1, dimension));
+    }
+
+    public async Task<IncomeResponseModel?> GetIncome(string urn, Dimension dimension)
+    {
+        var (prefix, year) = await GetLatestCollectionForSchool(urn);
+        var collection = BuildFinanceCollectionName(prefix, year);
+        var finances = await GetFinances(year, urn, collection);
+
+        return finances.dataObject == null
+            ? null
+            : IncomeResponseModel.Create(finances.dataObject, finances.year, dimension);
     }
 
     public async Task<IEnumerable<IncomeResponseModel>> GetIncomeHistory(string urn, Dimension dimension)

@@ -49,7 +49,18 @@ public abstract class FinancesDb : CosmosDatabase
         var tasks = new[]
         {
             GetFinances<T>(_aarLatestYear, urns, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
-            GetFinances<T>(_cfrLatestYear,urns, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
+            GetFinances<T>(_cfrLatestYear, urns, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
+        };
+
+        return await Task.WhenAll(tasks);
+    }
+
+    protected async Task<IEnumerable<(int year, T? dataObject)>> GetFinances<T>(string urn) where T : QueryableFinancesDataObject
+    {
+        var tasks = new[]
+        {
+            GetFinances<T>(_aarLatestYear, urn, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
+            GetFinances<T>(_cfrLatestYear, urn, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
         };
 
         return await Task.WhenAll(tasks);

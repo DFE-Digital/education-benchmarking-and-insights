@@ -24,6 +24,7 @@ public record FinancesResponseModel
     public decimal RevenueReserve { get; set; }
     public string? OfstedRatingName { get; set; }
     public decimal FreeSchoolMealPercent { get; set; }
+    public decimal SpecialEducationalNeedsPercent { get; set; }
 
     public static FinancesResponseModel Create(SchoolTrustFinancialDataObject dataObject, int? term = null)
     {
@@ -47,7 +48,8 @@ public record FinancesResponseModel
             TotalNumberOfTeachersFte = dataObject.TeachersTotal,
             RevenueReserve = dataObject.RevenueReserve,
             OfstedRatingName = dataObject.OfstedRatingName,
-            FreeSchoolMealPercent = dataObject.PercentageFsm
+            FreeSchoolMealPercent = dataObject.PercentageFsm,
+            SpecialEducationalNeedsPercent = dataObject.PercentagePupilsWsen,
         };
     }
 }

@@ -1,4 +1,4 @@
-# Developer Feature Documentation: Find Organisation
+# Find Organisation
 
 ## Introduction
 
@@ -8,13 +8,13 @@ This document provides detailed information for developers about the implementat
 
 This feature acts as the entry point for the entire user journey within the application. It allows the School or Trust to be sought that works as the context for all subsequent operations.
 
-![Select an organisation type](../../images/find-organisation-ui-1.png)
+![Select an organisation type](images/find-organisation-ui-1.png)
 
-As the user types, a debounced API call is performed that performs a search and displays the top ten matches in a drop down list.
+As the user types, a debounced API call is performed that performs a search and displays the top ten matches in a drop-down list.
 
-![Academy search](../../images/find-organisation-ui-2.png)
+![Academy search](images/find-organisation-ui-2.png)
 
-![Trust search](../../images/find-organisation-ui-3.png)
+![Trust search](images/find-organisation-ui-3.png)
 
 Once an item has been chosen and 'Continue' clicked, the School or Trust landing page is displayed and the user may continue on their journey.
 
@@ -45,19 +45,18 @@ This feature has monorepo dependencies on:
 ## API Reference
 
 ```mermaid
----
-title: Happy path
----
 flowchart TD
-A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
-  B --> C[Proxy to Establishment API]
-  C --> D["POST\n/api/schools/suggest\n{ 'searchText': 'XXX', 'size': 10, 'suggesterName': 'school-suggester' }"]
-  D --> E["SchoolSearchService.SuggestAsync()"]
-  E --> F["Azure AI Search\n(via Suggest API)"]
-  F --> G["SchoolResponseModel[]"]
-  G --> H([📃 Result selected])
-  H --> I([✅ Form submitted])
-  I --> J[Redirect to school page]
+  accTitle: Happy path
+  
+  A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
+    B --> C[Proxy to Establishment API]
+    C --> D["POST\n/api/schools/suggest\n{ 'searchText': 'XXX', 'size': 10, 'suggesterName': 'school-suggester' }"]
+    D --> E["SchoolSearchService.SuggestAsync()"]
+    E --> F["Azure AI Search\n(via Suggest API)"]
+    F --> G["SchoolResponseModel[]"]
+    G --> H([📃 Result selected])
+    H --> I([✅ Form submitted])
+    I --> J[Redirect to school page]
 ```
 
 On the Web side, `GET /api/suggest` proxies to the Establishment API based on the `type` in the query string:
@@ -96,7 +95,7 @@ The response payload from the above is in the following format, where `*` has be
 
 ## Usage
 
-Consumption of the feature is managed via the [`<FindOrganisation />` view](/front-end-components/src/views/find-organisation/view.tsx) in Front-end components, which is rendered to the browser as a purely client side component via the [`FindOrganisationController`](/web/src/Web.App/Controllers/FindOrganisationController.cs) and associated View.
+Consumption of the feature is managed via the [`<FindOrganisation />` view](/front-end-components/src/views/find-organisation/view.tsx) in Front-end components, which is rendered to the browser as a pure client side component via the [`FindOrganisationController`](/web/src/Web.App/Controllers/FindOrganisationController.cs) and associated View.
 
 The `<SchoolInput />` and `<TrustInput />` components manage the input field state, key press events and API `fetch` effects. Search results are bound to a list, and when an item is clicked upon, or navigated to with arrow keys and enter pressed, the selected item identifier is set in a hidden `<input />` field. The `<form />` is submitted on the Continue `<button />` press, which `POST`s back to the Controller for model validation and, if all is well, redirection to the appropriate establishment home page.
 
@@ -115,7 +114,7 @@ In Establishment API:
 
 ## Deployment
 
-AI Search deployment is managed via [Terraform](/platform/terraform/search.tf) and the Platform build/release pipeline in Azure DevOps.
+AI Search deployment is managed via [Terraform](../../platform/terraform/search.tf) and the Platform build/release pipeline in Azure DevOps.
 
 ## Known Issues
 
@@ -131,6 +130,6 @@ There is no option to search or filter by additional criteria beyond name, URN a
 
 If the user does not have JavaScript enabled in their web browser they will see an empty page. There is no progressive enhancement, but this is not unique to this feature, rather all client script across the whole platform.
 
-![No JavaScript](../../images/find-organisation-ui-4.png)
+![No JavaScript](images/find-organisation-ui-4.png)
 
 This is also a problem in SFB and VMFI, but first occurs later on in the user journey.

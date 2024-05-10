@@ -3,7 +3,7 @@ using Xunit;
 
 namespace Web.Tests.Infrastructure;
 
-public class GivenAnCensusApi : ApiClientTestBase
+public class GivenACensusApi : ApiClientTestBase
 {
     [Fact]
     public void SetsFunctionKeyIfProvided()
@@ -31,5 +31,15 @@ public class GivenAnCensusApi : ApiClientTestBase
         await api.Query(query);
 
         VerifyCall(HttpMethod.Get, "api/census?Name=Foo");
+    }
+
+    [Fact]
+    public async Task GetSchoolCensusShouldCallCorrectUrl()
+    {
+        var api = new CensusApi(HttpClient);
+
+        await api.Get("123213");
+
+        VerifyCall(HttpMethod.Get, "api/census/123213");
     }
 }

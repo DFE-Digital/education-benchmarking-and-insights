@@ -1,4 +1,4 @@
-# Developer Feature Documentation: Incomplete Data
+# Incomplete Data
 
 ## Introduction
 
@@ -18,7 +18,7 @@ Warning text is rendered for the Spending and costs page, Compare your costs and
 
 ### Primary Goal
 
-When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons so they can make informed decisions with how they proceed with the information we provide
+When data submitted for the school is incomplete it is important this is flagged to the user when they are viewing comparisons, so they can make informed decisions with how they proceed with the information we provide
 
 ## Usage
 
@@ -28,24 +28,24 @@ This feature currently makes a HasIncompleteData prop available in the following
 
 In platform
 
-- [Expenditure](../../../platform/src/abstractions/Platform.Domain/Responses/SchoolExpenditureResponseModel.cs)
-- [Workforce](../../../platform/src/abstractions/Platform.Domain/Responses/WorkforceResponseModel.cs)
+- [Expenditure](../../platform/src/abstractions/Platform.Domain/Responses/SchoolExpenditureResponseModel.cs)
+- [Census](../../platform/src/abstractions/Platform.Domain/Responses/CensusResponseModel.cs)
 
 In web app
 
-- [SchoolExpenditure](../../../web/src/Web.App/Domain/SchoolExpenditure.cs)
-- [Workforce](../../../web/src/Web.App/Domain/Workforce.cs)
-- [SchoolSpendingViewModel](../../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
+- [SchoolExpenditure](../../web/src/Web.App/Domain/SchoolExpenditure.cs)
+- [Census](../../web/src/Web.App/Domain/Census.cs)
+- [SchoolSpendingViewModel](../../web/src/Web.App/ViewModels/SchoolSpendingViewModel.cs)
 
 In front-end-components
 
-- [Workforce and ExpenditureData](../../../front-end-components/src/services/types.tsx)
+- [Workforce and ExpenditureData](../../front-end-components/src/services/types.tsx)
 
 ### WarningBanner
 
 A React component is used in front-end-components which is used to display the warning if the HasIncompleteData is true. This is styled as per GDS guidelines as inset text.
 
-[warning-banner](../../../front-end-components/src/components/warning-banner)
+[warning-banner](../../front-end-components/src/components/warning-banner)
 
 #### WarningBanner Props
 
@@ -80,13 +80,13 @@ is rendered as the below HTML
 
 This component is used as part of the composed components below to render the warning along with the chart or table data.
 
-- [comparison-chart-summary](../../../front-end-components/src/composed/comparison-chart-summary/composed.tsx)
-- [horizontal-bar-chart-wrapper](../../../front-end-components/src/composed/horizontal-bar-chart-wrapper/composed.tsx)
+- [comparison-chart-summary](../../front-end-components/src/composed/comparison-chart-summary/composed.tsx)
+- [horizontal-bar-chart-wrapper](../../front-end-components/src/composed/horizontal-bar-chart-wrapper/composed.tsx)
 
 #### Usage in MVC web app
 
 The React component is used in the following views in the MVC web app
 
-- [SchoolSpending view](../../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
-- [SchoolWorkforce view](../../../web/src/Web.App/Views/SchoolWorkforce/Index.cshtml)
-- [SchoolComparison view](../../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)
+- [SchoolSpending view](../../web/src/Web.App/Views/SchoolSpending/Index.cshtml)
+- [SchoolCensus view](../../web/src/Web.App/Views/SchoolCensus/Index.cshtml)
+- [SchoolComparison view](../../web/src/Web.App/Views/SchoolComparison/Index.cshtml)
