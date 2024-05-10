@@ -579,27 +579,29 @@ def category_stats(category_name, data, ofsted_rating, rag_mapping):
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
-    series = data[category_name]
-    percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
-    deciles = pd.qcut(series, 10, labels=False, duplicates="drop")
-    percentile = int(np.nan_to_num(percentiles.iloc[0]))
-    decile = int(np.nan_to_num(deciles.iloc[0]))
-    value = float(np.nan_to_num(series.iloc[0]))
-    mean = float(np.nan_to_num(series.median()))
-    diff = value - mean
-    diff_percent = (diff / value) * 100 if value != 0 else 0
+    # TODO: This shouldn't be required
+    with np.errstate(invalid="ignore"):
+        series = data[category_name]
+        percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
+        deciles = pd.qcut(series, 10, labels=False, duplicates="drop")
+        percentile = int(np.nan_to_num(percentiles.iloc[0]))
+        decile = int(np.nan_to_num(deciles.iloc[0]))
+        value = float(np.nan_to_num(series.iloc[0]))
+        mean = float(np.nan_to_num(series.median()))
+        diff = value - mean
+        diff_percent = (diff / value) * 100 if value != 0 else 0
 
-    return {
-        'value': value,
-        'mean': mean,
-        'diff_mean': diff,
-        'key': key,
-        'percentage_diff': diff_percent,
-        'percentile': percentile,
-        'decile': decile,
-        'rag': rag_mapping[key][int(decile)],
-        'data': data.reset_index().to_dict(orient='records', index=True)
-    }
+        return {
+            'value': value,
+            'mean': mean,
+            'diff_mean': diff,
+            'key': key,
+            'percentage_diff': diff_percent,
+            'percentile': percentile,
+            'decile': decile,
+            'rag': rag_mapping[key][int(decile)],
+            'data': data.reset_index().to_dict(orient='records', index=True)
+        }
 
 
 def compute_category_rag(category_name, settings, comparator_set, stats):

@@ -181,6 +181,7 @@ async def pre_process_data(set_type, year):
     academies = build_academy_data(
         academies_data, year, schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4
     )
+
     await write_blob(
         "pre-processed",
         f"{set_type}/{year}/academies.parquet",
@@ -196,28 +197,6 @@ async def pre_process_data(set_type, year):
     maintained_schools = build_maintained_school_data(
         maintained_schools_data, year, schools, census, sen, cdc, ks2, ks4
     )
-
-    logger.info("Building Federations Set")
-    gias_all_links_data = await get_blob(
-        raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
-        encoding="unicode-escape",
-    )
-    (hard_federations, soft_federations) = build_federations_data(
-        gias_all_links_data, maintained_schools
-    )
-    await write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/hard_federations.csv",
-        hard_federations.to_parquet(),
-    )
-    await write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/soft_federations.csv",
-        soft_federations.to_parquet(),
-    )
-
-    maintained_schools = pd.concat([maintained_schools, hard_federations, soft_federations])
 
     await write_blob(
         "pre-processed",
@@ -238,7 +217,28 @@ async def pre_process_data(set_type, year):
     del maintained_schools_data
     del all_schools
 
+    logger.info("Building Federations Set")
+    gias_all_links_data = await get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="unicode-escape",
+    )
 
+    (hard_federations, soft_federations) = build_federations_data(
+        gias_all_links_data, maintained_schools
+    )
+
+    await write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/hard_federations.parquet",
+        hard_federations.to_parquet(),
+    )
+
+    await write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/soft_federations.parquet",
+        soft_federations.to_parquet(),
+    )
 
     del gias_all_links_data
     del hard_federations
@@ -404,26 +404,29 @@ async def compute_rag(set_type, year):
     }
 
     for rag_file in rag_settings.keys():
-        schools = pickle.loads(await get_blob(
+        schools = pd.read_pickle(await get_blob(
             "comparator-sets",
             f"{set_type}/{year}/{rag_file}.pkl"
-        ))
+        )).reset_index()
+
+        print(schools.columns.values)
+
         for (comparator_type, comparator_file) in rag_settings[rag_file]:
             st = time.time()
             logger.info(f"Computing {comparator_type} RAG")
-            comparator_set = pickle.loads(await get_blob(
+            comparator_set = pickle.loads((await get_blob(
                 "comparator-sets",
                 f"{set_type}/{year}/{comparator_file}.pkl"
-            ))
+            )).read())
 
-            for school in schools:
-                urn = school['URN']
+            for index, row in schools.iterrows():
+                urn = row['URN']
                 comparators = get_comparator_set_by(lambda s: s['URN'] == urn, schools, comparator_set).set_index('URN')
                 result = compute_comparator_set_rag(comparators)
                 await write_blob("metric-rag",
                                  f'{set_type}/{year}/{urn}/{comparator_type}.json',
                                  json.dumps(result))
-            logger.info(f"Computing {comparator_type} RAG done in {time.time() - start_time} seconds")
+            logger.info(f"Computing {comparator_type} RAG done in {time.time() - st} seconds")
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
@@ -433,19 +436,19 @@ async def compute_rag(set_type, year):
 async def handle_msg(msg, worker_queue, complete_queue):
     msg_payload = json.loads(msg.content)
     try:
-        msg_payload["pre_process_duration"] = await pre_process_data(
-            msg_payload["type"], msg_payload["year"]
-        )
+        # msg_payload["pre_process_duration"] = await pre_process_data(
+        #     msg_payload["type"], msg_payload["year"]
+        # )
 
         # normally bad practice but let's clean up as much as poss
-        gc.collect()
-
-        msg_payload["comparator_set_duration"] = await compute_comparator_sets(
-            msg_payload["type"], msg_payload["year"]
-        )
+        # gc.collect()
+        #
+        # msg_payload["comparator_set_duration"] = await compute_comparator_sets(
+        #     msg_payload["type"], msg_payload["year"]
+        # )
 
         # normally bad practice but let's clean up as much as poss
-        gc.collect()
+        # gc.collect()
 
         msg_payload["rag_duration"] = await compute_rag(
             msg_payload["type"], msg_payload["year"]

@@ -553,7 +553,7 @@ def build_maintained_school_data(
             "I09  Income from catering": "Catering staff and supplies_Income from catering",
             "E21  Exam fees": "Educational supplies_Examination fees",
             "E19  Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
-            "E20  ICT learning resources": "IT_ICT learning resources",
+            "E20  ICT learning resources": "Educational ICT_ICT learning resources",
             "E05 Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
             # '':'Non-educational support staff and services_Auditor costs',
             "E07  Cost of other staff": "Non-educational support staff and services_Other staff",
@@ -583,7 +583,6 @@ def build_maintained_school_data(
             "PFI": "PFI School",
             "I07  Other grants and payments": "Other grants and payments",
             # TODO: Should these come from the census record not the MS record
-            "% of pupils eligible for FSM": "Percentage Free school meals",
             "No Pupils": "Number of pupils"
         },
         inplace=True,
@@ -605,6 +604,7 @@ def build_federations_data(links_data_path, maintained_schools):
     federations = maintained_schools[["LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
     ].copy()
+
     # join
     federations = federations.join(
         group_links[["Group Name", "Group UID", "Closed Date"]]
