@@ -50,4 +50,5 @@ resource "azurerm_key_vault_secret" "data-storage-connection-string" {
   value        = azurerm_storage_account.data.primary_connection_string
   key_vault_id = azurerm_key_vault.key-vault.id
   content_type = "connection-string"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
