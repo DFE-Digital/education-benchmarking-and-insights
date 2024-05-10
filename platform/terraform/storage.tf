@@ -7,7 +7,7 @@ resource "azurerm_role_assignment" "sp-platform-storage-role-blob" {
 
 resource "azurerm_role_assignment" "sp-platform-storage-role-file" {
   scope                = azurerm_storage_account.platform-storage.id
-  role_definition_name = "Storage File Data Privileged Contributor"
+  role_definition_name = "Storage File Data SMB Share Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
 }
@@ -149,7 +149,7 @@ resource "azurerm_role_assignment" "sp-orchestrator-storage-role-blob" {
 
 resource "azurerm_role_assignment" "sp-orchestrator-storage-role-file" {
   scope                = azurerm_storage_account.platform-storage.id
-  role_definition_name = "Storage File Data Privileged Contributor"
+  role_definition_name = "Storage File Data SMB Share Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
 }
