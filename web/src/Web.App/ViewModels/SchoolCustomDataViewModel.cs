@@ -7,143 +7,143 @@ namespace Web.App.ViewModels;
 public record SchoolCustomDataViewModel
 {
     // Administrative supplies
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.AdministrativeSuppliesCosts)]
     public decimal? AdministrativeSuppliesCosts { get; init; }
 
     // Catering
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CateringStaffCosts)]
     public decimal? CateringStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CateringSupplies)]
     public decimal? CateringSupplies { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CateringIncome)]
     public decimal? CateringIncome { get; init; }
 
     // Educational supplies
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.ExaminationFeesCosts)]
     public decimal? ExaminationFeesCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts)]
     public decimal? LearningResourcesNonIctCosts { get; init; }
 
     // IT
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts)]
     public decimal? LearningResourcesIctCosts { get; init; }
 
     // Non-educational support staff
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.AdministrativeClericalStaffCosts)]
     public decimal? AdministrativeClericalStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.AuditorsCosts)]
     public decimal? AuditorsCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.OtherStaffCosts)]
     public decimal? OtherStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.ProfessionalServicesNonCurriculumCosts)]
     public decimal? ProfessionalServicesNonCurriculumCosts { get; init; }
 
     // Premises and services
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CleaningCaretakingCosts)]
     public decimal? CleaningCaretakingCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.MaintenancePremisesCosts)]
     public decimal? MaintenancePremisesCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.OtherOccupationCosts)]
     public decimal? OtherOccupationCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.PremisesStaffCosts)]
     public decimal? PremisesStaffCosts { get; init; }
 
     // Teaching and teaching support
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.AgencySupplyTeachingStaffCosts)]
     public decimal? AgencySupplyTeachingStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.EducationSupportStaffCosts)]
     public decimal? EducationSupportStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.EducationalConsultancyCosts)]
     public decimal? EducationalConsultancyCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.SupplyTeachingStaffCosts)]
     public decimal? SupplyTeachingStaffCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.TeachingStaffCosts)]
     public decimal? TeachingStaffCosts { get; init; }
 
     // Utilities
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.EnergyCosts)]
     public decimal? EnergyCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.WaterSewerageCosts)]
     public decimal? WaterSewerageCosts { get; init; }
 
     // Other costs
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts)]
     public decimal? DirectRevenueFinancingCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts)]
     public decimal? GroundsMaintenanceCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.IndirectEmployeeExpenses)]
     public decimal? IndirectEmployeeExpenses { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.InterestChargesLoanBank)]
     public decimal? InterestChargesLoanBank { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.OtherInsurancePremiumsCosts)]
     public decimal? OtherInsurancePremiumsCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.PrivateFinanceInitiativeCharges)]
     public decimal? PrivateFinanceInitiativeCharges { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.RentRatesCosts)]
     public decimal? RentRatesCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.SpecialFacilitiesCosts)]
     public decimal? SpecialFacilitiesCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.StaffDevelopmentTrainingCosts)]
     public decimal? StaffDevelopmentTrainingCosts { get; init; }
-    
-    [CustomDataPositiveValue]
+
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.StaffRelatedInsuranceCosts)]
     public decimal? StaffRelatedInsuranceCosts { get; init; }
 
-    [CustomDataPositiveValue]
+    [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.SupplyTeacherInsurableCosts)]
     public decimal? SupplyTeacherInsurableCosts { get; init; }
 
@@ -162,6 +162,79 @@ public record SchoolCustomDataViewModel
     public decimal? WorkforceFte { get; init; }
     public decimal? TeachersFte { get; init; }
     public decimal? SeniorLeadershipFte { get; init; }
+
+    public static SchoolCustomDataViewModel FromCustomData(CustomData customData)
+    {
+        return new SchoolCustomDataViewModel
+        {
+            // Administrative supplies
+            AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
+
+            // Catering
+            CateringStaffCosts = customData.CateringStaffCosts,
+            CateringSupplies = customData.CateringSupplies,
+            CateringIncome = customData.CateringIncome,
+
+            // Educational supplies
+            ExaminationFeesCosts = customData.ExaminationFeesCosts,
+            LearningResourcesNonIctCosts = customData.LearningResourcesNonIctCosts,
+
+            // IT
+            LearningResourcesIctCosts = customData.LearningResourcesIctCosts,
+
+            // Non-educational support staff
+            AdministrativeClericalStaffCosts = customData.AdministrativeClericalStaffCosts,
+            AuditorsCosts = customData.AuditorsCosts,
+            OtherStaffCosts = customData.OtherStaffCosts,
+            ProfessionalServicesNonCurriculumCosts = customData.ProfessionalServicesNonCurriculumCosts,
+
+            // Premises and services
+            CleaningCaretakingCosts = customData.CleaningCaretakingCosts,
+            MaintenancePremisesCosts = customData.MaintenancePremisesCosts,
+            OtherOccupationCosts = customData.OtherOccupationCosts,
+            PremisesStaffCosts = customData.PremisesStaffCosts,
+
+            // Teaching and teaching support
+            AgencySupplyTeachingStaffCosts = customData.AgencySupplyTeachingStaffCosts,
+            EducationSupportStaffCosts = customData.EducationSupportStaffCosts,
+            EducationalConsultancyCosts = customData.EducationalConsultancyCosts,
+            SupplyTeachingStaffCosts = customData.SupplyTeachingStaffCosts,
+            TeachingStaffCosts = customData.TeachingStaffCosts,
+
+            // Utilities
+            EnergyCosts = customData.EnergyCosts,
+            WaterSewerageCosts = customData.WaterSewerageCosts,
+
+            // Other costs
+            DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
+            GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
+            IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
+            InterestChargesLoanBank = customData.InterestChargesLoanBank,
+            OtherInsurancePremiumsCosts = customData.OtherInsurancePremiumsCosts,
+            PrivateFinanceInitiativeCharges = customData.PrivateFinanceInitiativeCharges,
+            RentRatesCosts = customData.RentRatesCosts,
+            SpecialFacilitiesCosts = customData.SpecialFacilitiesCosts,
+            StaffDevelopmentTrainingCosts = customData.StaffDevelopmentTrainingCosts,
+            StaffRelatedInsuranceCosts = customData.StaffRelatedInsuranceCosts,
+            SupplyTeacherInsurableCosts = customData.SupplyTeacherInsurableCosts,
+
+            // Totals
+            TotalIncome = customData.TotalIncome,
+            TotalExpenditure = customData.TotalExpenditure,
+            RevenueReserve = customData.RevenueReserve,
+
+            // Non-financial data
+            TotalNumberOfTeachersFte = customData.TotalNumberOfTeachersFte,
+            FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
+            SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
+            FloorArea = customData.FloorArea,
+
+            // Workforce data
+            WorkforceFte = customData.WorkforceFte,
+            TeachersFte = customData.TeachersFte,
+            SeniorLeadershipFte = customData.SeniorLeadershipFte
+        };
+    }
 
     public CustomData ToCustomData()
     {

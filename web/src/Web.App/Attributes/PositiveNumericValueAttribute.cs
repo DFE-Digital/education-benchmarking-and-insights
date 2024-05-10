@@ -2,9 +2,9 @@
 
 namespace Web.App.Attributes;
 
-public class CustomDataPositiveValueAttribute : RangeAttribute
+public class PositiveNumericValueAttribute : RangeAttribute
 {
-    public CustomDataPositiveValueAttribute() : base(0, double.PositiveInfinity)
+    public PositiveNumericValueAttribute() : base(0, double.MaxValue)
     {
         ErrorMessage = "Please enter positive values only for {0}";
     }

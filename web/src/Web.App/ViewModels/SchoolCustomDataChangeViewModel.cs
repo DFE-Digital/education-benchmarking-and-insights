@@ -3,166 +3,14 @@ using Web.App.Domain;
 namespace Web.App.ViewModels;
 
 public class SchoolCustomDataChangeViewModel(
-    School school
+    School school,
+    CustomData currentValues,
+    CustomData customInput
 )
 {
-    public SchoolCustomDataChangeViewModel(
-        School school,
-        Finances finances,
-        Income income,
-        SchoolExpenditure expenditure,
-        Census census,
-        FloorAreaMetric floorArea,
-        CustomData? customData) : this(school)
-    {
-        CurrentValues = new SchoolCustomDataViewModel
-        {
-            // Administrative supplies
-            AdministrativeSuppliesCosts = expenditure.AdministrativeSuppliesCosts,
-
-            // Catering
-            CateringStaffCosts = expenditure.CateringStaffCosts,
-            CateringSupplies = expenditure.CateringSuppliesCosts,
-            CateringIncome = income.IncomeCatering,
-
-            // Educational supplies
-            ExaminationFeesCosts = expenditure.ExaminationFeesCosts,
-            LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts,
-
-            // IT
-            LearningResourcesIctCosts = expenditure.LearningResourcesIctCosts,
-
-            // Non-educational support staff
-            AdministrativeClericalStaffCosts = expenditure.AdministrativeClericalStaffCosts,
-            AuditorsCosts = expenditure.AuditorsCosts,
-            OtherStaffCosts = expenditure.OtherStaffCosts,
-            ProfessionalServicesNonCurriculumCosts = expenditure.ProfessionalServicesNonCurriculumCosts,
-
-            // Premises and services
-            CleaningCaretakingCosts = expenditure.CleaningCaretakingCosts,
-            MaintenancePremisesCosts = expenditure.MaintenancePremisesCosts,
-            OtherOccupationCosts = expenditure.OtherOccupationCosts,
-            PremisesStaffCosts = expenditure.PremisesStaffCosts,
-
-            // Teaching and teaching support
-            AgencySupplyTeachingStaffCosts = expenditure.AgencySupplyTeachingStaffCosts,
-            EducationSupportStaffCosts = expenditure.EducationSupportStaffCosts,
-            EducationalConsultancyCosts = expenditure.EducationalConsultancyCosts,
-            SupplyTeachingStaffCosts = expenditure.SupplyTeachingStaffCosts,
-            TeachingStaffCosts = expenditure.TeachingStaffCosts,
-
-            // Utilities
-            EnergyCosts = expenditure.EnergyCosts,
-            WaterSewerageCosts = expenditure.WaterSewerageCosts,
-
-            // Other costs
-            DirectRevenueFinancingCosts = expenditure.DirectRevenueFinancingCosts,
-            GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts,
-            IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses,
-            InterestChargesLoanBank = expenditure.InterestChargesLoanBank,
-            OtherInsurancePremiumsCosts = expenditure.OtherInsurancePremiumsCosts,
-            PrivateFinanceInitiativeCharges = expenditure.PrivateFinanceInitiativeCharges,
-            RentRatesCosts = expenditure.RentRatesCosts,
-            SpecialFacilitiesCosts = expenditure.SpecialFacilitiesCosts,
-            StaffDevelopmentTrainingCosts = expenditure.StaffDevelopmentTrainingCosts,
-            StaffRelatedInsuranceCosts = expenditure.StaffRelatedInsuranceCosts,
-            SupplyTeacherInsurableCosts = expenditure.SupplyTeacherInsurableCosts,
-
-            // Totals
-            TotalIncome = finances.TotalIncome,
-            TotalExpenditure = finances.TotalExpenditure,
-            RevenueReserve = finances.RevenueReserve,
-
-            // Non-financial data
-            TotalNumberOfTeachersFte = finances.TotalNumberOfTeachersFte,
-            FreeSchoolMealPercent = finances.FreeSchoolMealPercent,
-            SpecialEducationalNeedsPercent = finances.SpecialEducationalNeedsPercent,
-            FloorArea = floorArea.FloorArea,
-
-            // Workforce data
-            WorkforceFte = census.WorkforceFte,
-            TeachersFte = census.TeachersFte,
-            SeniorLeadershipFte = census.SeniorLeadershipFte
-        };
-
-        if (customData != null)
-        {
-            CustomInput = new SchoolCustomDataViewModel
-            {
-                // Administrative supplies
-                AdministrativeSuppliesCosts = customData.AdministrativeSuppliesCosts,
-
-                // Catering
-                CateringStaffCosts = customData.CateringStaffCosts,
-                CateringSupplies = customData.CateringSupplies,
-                CateringIncome = customData.CateringIncome,
-
-                // Educational supplies
-                ExaminationFeesCosts = customData.ExaminationFeesCosts,
-                LearningResourcesNonIctCosts = customData.LearningResourcesNonIctCosts,
-
-                // IT
-                LearningResourcesIctCosts = customData.LearningResourcesIctCosts,
-
-                // Non-educational support staff
-                AdministrativeClericalStaffCosts = customData.AdministrativeClericalStaffCosts,
-                AuditorsCosts = customData.AuditorsCosts,
-                OtherStaffCosts = customData.OtherStaffCosts,
-                ProfessionalServicesNonCurriculumCosts = customData.ProfessionalServicesNonCurriculumCosts,
-
-                // Premises and services
-                CleaningCaretakingCosts = customData.CleaningCaretakingCosts,
-                MaintenancePremisesCosts = customData.MaintenancePremisesCosts,
-                OtherOccupationCosts = customData.OtherOccupationCosts,
-                PremisesStaffCosts = customData.PremisesStaffCosts,
-
-                // Teaching and teaching support
-                AgencySupplyTeachingStaffCosts = customData.AgencySupplyTeachingStaffCosts,
-                EducationSupportStaffCosts = customData.EducationSupportStaffCosts,
-                EducationalConsultancyCosts = customData.EducationalConsultancyCosts,
-                SupplyTeachingStaffCosts = customData.SupplyTeachingStaffCosts,
-                TeachingStaffCosts = customData.TeachingStaffCosts,
-
-                // Utilities
-                EnergyCosts = customData.EnergyCosts,
-                WaterSewerageCosts = customData.WaterSewerageCosts,
-
-                // Other costs
-                DirectRevenueFinancingCosts = customData.DirectRevenueFinancingCosts,
-                GroundsMaintenanceCosts = customData.GroundsMaintenanceCosts,
-                IndirectEmployeeExpenses = customData.IndirectEmployeeExpenses,
-                InterestChargesLoanBank = customData.InterestChargesLoanBank,
-                OtherInsurancePremiumsCosts = customData.OtherInsurancePremiumsCosts,
-                PrivateFinanceInitiativeCharges = customData.PrivateFinanceInitiativeCharges,
-                RentRatesCosts = customData.RentRatesCosts,
-                SpecialFacilitiesCosts = customData.SpecialFacilitiesCosts,
-                StaffDevelopmentTrainingCosts = customData.StaffDevelopmentTrainingCosts,
-                StaffRelatedInsuranceCosts = customData.StaffRelatedInsuranceCosts,
-                SupplyTeacherInsurableCosts = customData.SupplyTeacherInsurableCosts,
-
-                // Totals
-                TotalIncome = customData.TotalIncome,
-                TotalExpenditure = customData.TotalExpenditure,
-                RevenueReserve = customData.RevenueReserve,
-
-                // Non-financial data
-                TotalNumberOfTeachersFte = customData.TotalNumberOfTeachersFte,
-                FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
-                SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
-                FloorArea = customData.FloorArea,
-
-                // Workforce data
-                WorkforceFte = customData.WorkforceFte,
-                TeachersFte = customData.TeachersFte,
-                SeniorLeadershipFte = customData.SeniorLeadershipFte
-            };
-        }
-    }
-
     public School School { get; } = school;
-
-    public SchoolCustomDataViewModel CurrentValues { get; } = new();
-    public SchoolCustomDataViewModel CustomInput { get; } = new();
+    public SchoolCustomDataViewModel CurrentValues { get; } = SchoolCustomDataViewModel.FromCustomData(currentValues);
+    public SchoolCustomDataViewModel CustomInput { get; } = SchoolCustomDataViewModel.FromCustomData(customInput);
 
     public SchoolCustomDataSectionViewModel AdministrativeSuppliesSection => new(
         "Administrative supplies",
@@ -204,14 +52,14 @@ public class SchoolCustomDataChangeViewModel(
         "Educational supplies",
         new SchoolCustomDataValueViewModel
         {
-            Title =SchoolCustomDataViewModelTitles.ExaminationFeesCosts,
+            Title = SchoolCustomDataViewModelTitles.ExaminationFeesCosts,
             Name = nameof(SchoolCustomDataViewModel.ExaminationFeesCosts),
             Current = CurrentValues.ExaminationFeesCosts,
             Custom = CustomInput.ExaminationFeesCosts
         },
         new SchoolCustomDataValueViewModel
         {
-            Title =SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts,
+            Title = SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts,
             Name = nameof(SchoolCustomDataViewModel.LearningResourcesNonIctCosts),
             Current = CurrentValues.LearningResourcesNonIctCosts,
             Custom = CustomInput.LearningResourcesNonIctCosts
@@ -222,7 +70,7 @@ public class SchoolCustomDataChangeViewModel(
         "IT",
         new SchoolCustomDataValueViewModel
         {
-            Title =SchoolCustomDataViewModelTitles.LearningResourcesIctCosts,
+            Title = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts,
             Name = nameof(SchoolCustomDataViewModel.LearningResourcesIctCosts),
             Current = CurrentValues.LearningResourcesIctCosts,
             Custom = CustomInput.LearningResourcesIctCosts
@@ -311,7 +159,7 @@ public class SchoolCustomDataChangeViewModel(
         },
         new SchoolCustomDataValueViewModel
         {
-            Title =SchoolCustomDataViewModelTitles.EducationalConsultancyCosts,
+            Title = SchoolCustomDataViewModelTitles.EducationalConsultancyCosts,
             Name = nameof(SchoolCustomDataViewModel.EducationalConsultancyCosts),
             Current = CurrentValues.EducationalConsultancyCosts,
             Custom = CustomInput.EducationalConsultancyCosts
@@ -432,7 +280,7 @@ public class SchoolCustomDataChangeViewModel(
         "Totals",
         new SchoolCustomDataValueViewModel
         {
-            Title =SchoolCustomDataViewModelTitles.TotalIncome,
+            Title = SchoolCustomDataViewModelTitles.TotalIncome,
             Name = nameof(SchoolCustomDataViewModel.TotalIncome),
             Current = CurrentValues.TotalIncome,
             Custom = CustomInput.TotalIncome,
