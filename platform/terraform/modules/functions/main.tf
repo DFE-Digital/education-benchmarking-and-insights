@@ -13,12 +13,6 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   secret_permissions = ["Get"]
 }
 
-/*resource "azurerm_user_assigned_identity" "func-identity" {
-  location            = var.location
-  name                = local.function-app-name
-  resource_group_name = var.resource-group-name
-}*/
-
 resource "azurerm_role_assignment" "func-storage-role" {
   scope                = var.storage-account-id
   role_definition_name = "Storage Blob Data Contributor"
@@ -39,13 +33,13 @@ resource "azurerm_service_plan" "func-asp" {
 
 resource "azurerm_windows_function_app" "func-app" {
   #checkov:skip=CKV_AZURE_221:See ADO backlog AB#206517
-  name                       = local.function-app-name
-  location                   = var.location
-  resource_group_name        = var.resource-group-name
-  service_plan_id            = azurerm_service_plan.func-asp.id
-  storage_account_name       = var.storage-account-name
-  storage_account_access_key = var.storage-account-key
-  https_only                 = true
+  name                          = local.function-app-name
+  location                      = var.location
+  resource_group_name           = var.resource-group-name
+  service_plan_id               = azurerm_service_plan.func-asp.id
+  storage_account_name          = var.storage-account-name
+  storage_uses_managed_identity = true
+  https_only                    = true
 
   identity {
     type = "SystemAssigned"
