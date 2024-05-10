@@ -15,4 +15,5 @@ public static class BreadcrumbNodes
     public static MvcBreadcrumbNode TrustComparison(string companyNumber) => new("Index", "TrustComparison", PageTitles.Comparison) { RouteValues = new { companyNumber }, Parent = TrustHome(companyNumber) };
     public static MvcBreadcrumbNode TrustCensus(string companyNumber) => new("Index", "TrustCensus", PageTitles.Census) { RouteValues = new { companyNumber }, Parent = TrustHome(companyNumber) };
     public static MvcBreadcrumbNode TrustPlanning(string companyNumber) => new("Index", "TrustPlanning", "Curriculum and financial planning") { RouteValues = new { companyNumber }, Parent = TrustHome(companyNumber) };
+    public static MvcBreadcrumbNode LocalAuthorityHome(string code) => new("Index", "LocalAuthority", PageTitles.LocalAuthorityHome) { RouteValues = new { code } };
 }

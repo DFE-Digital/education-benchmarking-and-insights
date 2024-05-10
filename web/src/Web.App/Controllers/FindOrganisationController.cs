@@ -62,8 +62,7 @@ public class FindOrganisationController(ILogger<FindOrganisationController> logg
                                 return View(viewModel);
                             }
 
-                            // todo: create and link to LA target route
-                            return RedirectToAction("Index", "Home", new { code = viewModel.Code });
+                            return RedirectToAction("Index", "LocalAuthority", new { code = viewModel.Code });
                         }
                     default:
                         throw new ArgumentOutOfRangeException(nameof(viewModel.FindMethod));
