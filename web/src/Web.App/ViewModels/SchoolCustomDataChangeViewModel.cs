@@ -34,10 +34,10 @@ public class SchoolCustomDataChangeViewModel(
         },
         new SchoolCustomDataValueViewModel
         {
-            Title = SchoolCustomDataViewModelTitles.CateringSupplies,
-            Name = nameof(SchoolCustomDataViewModel.CateringSupplies),
-            Current = CurrentValues.CateringSupplies,
-            Custom = CustomInput.CateringSupplies
+            Title = SchoolCustomDataViewModelTitles.CateringSuppliesCosts,
+            Name = nameof(SchoolCustomDataViewModel.CateringSuppliesCosts),
+            Current = CurrentValues.CateringSuppliesCosts,
+            Custom = CustomInput.CateringSuppliesCosts
         },
         new SchoolCustomDataValueViewModel
         {
