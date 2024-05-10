@@ -22,7 +22,7 @@ public record CustomData
 
         // Catering
         CateringStaffCosts = expenditure.CateringStaffCosts;
-        CateringSupplies = expenditure.CateringSuppliesCosts;
+        CateringSuppliesCosts = expenditure.CateringSuppliesCosts;
         CateringIncome = income.IncomeCatering;
 
         // Educational supplies
@@ -90,7 +90,7 @@ public record CustomData
 
     // Catering
     public decimal? CateringStaffCosts { get; init; }
-    public decimal? CateringSupplies { get; init; }
+    public decimal? CateringSuppliesCosts { get; init; }
     public decimal? CateringIncome { get; init; }
 
     // Educational supplies

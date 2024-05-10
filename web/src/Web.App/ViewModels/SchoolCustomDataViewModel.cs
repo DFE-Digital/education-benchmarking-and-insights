@@ -17,8 +17,8 @@ public record SchoolCustomDataViewModel
     public decimal? CateringStaffCosts { get; init; }
 
     [PositiveNumericValue]
-    [Display(Name = SchoolCustomDataViewModelTitles.CateringSupplies)]
-    public decimal? CateringSupplies { get; init; }
+    [Display(Name = SchoolCustomDataViewModelTitles.CateringSuppliesCosts)]
+    public decimal? CateringSuppliesCosts { get; init; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.CateringIncome)]
@@ -172,7 +172,7 @@ public record SchoolCustomDataViewModel
 
             // Catering
             CateringStaffCosts = customData.CateringStaffCosts,
-            CateringSupplies = customData.CateringSupplies,
+            CateringSuppliesCosts = customData.CateringSuppliesCosts,
             CateringIncome = customData.CateringIncome,
 
             // Educational supplies
@@ -245,7 +245,7 @@ public record SchoolCustomDataViewModel
 
             // Catering
             CateringStaffCosts = CateringStaffCosts,
-            CateringSupplies = CateringSupplies,
+            CateringSuppliesCosts = CateringSuppliesCosts,
             CateringIncome = CateringIncome,
 
             // Educational supplies
@@ -314,7 +314,7 @@ public static class SchoolCustomDataViewModelTitles
 {
     public const string AdministrativeSuppliesCosts = "Administrative supplies (non-educational)";
     public const string CateringStaffCosts = "Catering staff";
-    public const string CateringSupplies = "Catering supplies";
+    public const string CateringSuppliesCosts = "Catering supplies";
     public const string CateringIncome = "Income from catering";
     public const string ExaminationFeesCosts = "Examination fees";
     public const string LearningResourcesNonIctCosts = "Learning resources (not ICT equipment)";
