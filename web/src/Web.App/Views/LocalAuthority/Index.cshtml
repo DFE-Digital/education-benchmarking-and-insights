@@ -1,6 +1,7 @@
 ﻿@using Web.App.Domain
 @using Web.App.TagHelpers
 @using Web.App.ViewModels.Components
+@using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
@@ -20,83 +21,11 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <h2 class="govuk-heading-m">Schools in local authority</h2>
-        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools-in-authority">
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-in-authority-heading-1">
-                            Primary schools
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-in-authority-content-1" class="govuk-accordion__section-content">
-                    <ul class="govuk-list">
-                        @foreach (var school in Model.PrimarySchools)
-                        {
-                            <li>
-                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
-                            </li>
-                        }
-                    </ul>
-                </div>                   
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-in-authority-heading-2">
-                            Secondary schools
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-in-authority-content-2" class="govuk-accordion__section-content">
-                    <ul class="govuk-list">
-                        @foreach (var school in Model.SecondarySchools)
-                        {
-                            <li>
-                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-in-authority-heading-3">
-                            Specials and Pupil Referrals units (PRUs)
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-in-authority-content-3" class="govuk-accordion__section-content">
-                    <ul class="govuk-list">
-                        @foreach (var school in Model.SpecialOrPruSchools)
-                        {
-                            <li>
-                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-in-authority-heading-4">
-                            Other schools
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-in-authority-content-4" class="govuk-accordion__section-content">
-                    <ul class="govuk-list">
-                        @foreach (var school in Model.OtherSchools)
-                        {
-                            <li>
-                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </div>
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Primary schools", Id = 1, Schools = Model.PrimarySchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Secondary schools", Id = 2, Schools = Model.SecondarySchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Specials and Pupil Referrals units (PRUs)", Id = 3, Schools = Model.SpecialOrPruSchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Other schools", Id = 4, Schools = Model.OtherSchools })
         </div>
     </div>
 </div>

@@ -1,0 +1,31 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthoritySchoolsSectionViewModel
+
+
+<div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+        <h3 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id="accordion-schools-heading-@Model.Id">
+                @Model.Heading
+            </span>
+        </h3>
+    </div>
+    <div id="accordion-schools-content-@Model.Id" class="govuk-accordion__section-content">
+        @if (Model.Schools.Any())
+        {
+        <ul class="govuk-list">
+            @foreach (var school in Model.Schools)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
+                </li>
+            }
+            </ul>
+        }
+        else
+        {
+            <p class="govuk-body">There are no schools to display of this type in this local authority</p>
+        }
+    </div>
+</div>
+

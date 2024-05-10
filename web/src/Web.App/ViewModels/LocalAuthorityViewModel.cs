@@ -31,3 +31,10 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, IReadOnlyCol
         return !IsPrimary(school) && !IsSecondary(school) && !IsSpecialOrPru(school);
     }
 }
+
+public class LocalAuthoritySchoolsSectionViewModel
+{
+    public string? Heading { get; set; }
+    public int Id { get; set; }
+    public IEnumerable<School> Schools { get; set; } = Enumerable.Empty<School>();
+}
