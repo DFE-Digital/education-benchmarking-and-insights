@@ -13,9 +13,16 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   secret_permissions = ["Get"]
 }
 
-resource "azurerm_role_assignment" "func-storage-role" {
+resource "azurerm_role_assignment" "func-storage-role-blob" {
   scope                = var.storage-account-id
   role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azurerm_role_assignment" "func-storage-role-file" {
+  scope                = var.storage-account-id
+  role_definition_name = "Storage File Data Privileged Contributor"
   principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
   principal_type       = "ServicePrincipal"
 }

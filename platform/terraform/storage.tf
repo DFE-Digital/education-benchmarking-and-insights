@@ -1,6 +1,13 @@
-resource "azurerm_role_assignment" "sp-platform-storage-role" {
+resource "azurerm_role_assignment" "sp-platform-storage-role-blob" {
   scope                = azurerm_storage_account.platform-storage.id
   role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azurerm_role_assignment" "sp-platform-storage-role-file" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage File Data Privileged Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
 }
@@ -133,13 +140,19 @@ resource "azurerm_storage_container" "vulnerability-container" {
   container_access_type = "private"
 }
 
-resource "azurerm_role_assignment" "sp-orchestrator-storage-role" {
+resource "azurerm_role_assignment" "sp-orchestrator-storage-role-blob" {
   scope                = azurerm_storage_account.orchestrator-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = data.azurerm_client_config.client.object_id
   principal_type       = "ServicePrincipal"
 }
 
+resource "azurerm_role_assignment" "sp-orchestrator-storage-role-file" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage File Data Privileged Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+  principal_type       = "ServicePrincipal"
+}
 
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
