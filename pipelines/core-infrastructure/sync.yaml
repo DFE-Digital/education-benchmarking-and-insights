@@ -1,0 +1,30 @@
+parameters:
+  subscription: ''
+  environmentPrefix: ''
+  environment: ''
+  pipelineEnvironment: ''
+  cipEnvironment: ''
+  workspaceDir: '$(Pipeline.Workspace)'
+  dependsOn: []
+
+jobs:
+  - deployment: CoreSync
+    displayName: 'Core : Sync'
+    dependsOn: ${{ parameters.dependsOn }}
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.pipelineEnvironment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: self
+
+            - template: ..\common\sync-terraform.yaml
+              parameters:
+                workspaceDir: '$(System.DefaultWorkingDirectory)/core-infrastructure/terraform'
+                subscription: ${{ parameters.subscription }}
+                environmentPrefix: ${{ parameters.environmentPrefix }}
+                environment: ${{ parameters.environment }}
+                cipEnvironment: ${{ parameters.cipEnvironment }}
+                module: 'core'
