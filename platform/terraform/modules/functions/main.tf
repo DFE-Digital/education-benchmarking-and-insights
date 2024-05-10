@@ -17,14 +17,14 @@ resource "azurerm_key_vault_access_policy" "keyvault_policy" {
   location            = var.location
   name                = local.function-app-name
   resource_group_name = var.resource-group-name
-}
+}*/
 
 resource "azurerm_role_assignment" "func-storage-role" {
   scope                = var.storage-account-id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_user_assigned_identity.func-identity.principal_id
+  principal_id         = azurerm_windows_function_app.func-app.identity[0].principal_id
   principal_type       = "ServicePrincipal"
-}*/
+}
 
 resource "azurerm_service_plan" "func-asp" {
   #checkov:skip=CKV_AZURE_212:See ADO backlog AB#206517
