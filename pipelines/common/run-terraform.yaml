@@ -7,8 +7,7 @@ parameters:
   workspaceDir: '$(Pipeline.Workspace)'
   location: 'westeurope'
   disablePurgeProtection: ''
-  pipelineImageName: ''
-  apiImageName: ''
+  imageName: ''
   planOnly: ''
 
 steps:

@@ -59,10 +59,10 @@ resource "azurerm_container_app" "data-pipeline" {
   template {
     min_replicas    = 0
     max_replicas    = 5
-    revision_suffix = replace(split(":", var.pipeline-image-name)[1], ".", "-")
+    revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
     container {
       name   = "edis-data-pipeline"
-      image  = "${data.azurerm_container_registry.acr.login_server}/${var.pipeline-image-name}"
+      image  = "${data.azurerm_container_registry.acr.login_server}/${var.image-name}"
       cpu    = 4
       memory = "16Gi"
 
@@ -96,63 +96,6 @@ resource "azurerm_container_app" "data-pipeline" {
         secret_name       = "queue-connection-string"
         trigger_parameter = "connection"
       }
-    }
-  }
-}
-
-resource "azurerm_container_app" "data-api" {
-  name                         = "${var.environment-prefix}-ebis-api"
-  container_app_environment_id = azurerm_container_app_environment.main.id
-  resource_group_name          = azurerm_resource_group.resource-group.name
-  revision_mode                = "Single"
-  workload_profile_name        = "Consumption"
-
-  identity {
-    type = "SystemAssigned"
-    #     identity_ids = [azurerm_user_assigned_identity.container-app.id]
-  }
-
-  secret {
-    name  = "queue-connection-string"
-    value = data.azurerm_storage_account.main.primary_connection_string
-  }
-
-  secret {
-    name  = "registry-password"
-    value = data.azurerm_container_registry.acr.admin_password
-  }
-
-  registry {
-    server               = data.azurerm_container_registry.acr.login_server
-    username             = data.azurerm_container_registry.acr.admin_username
-    password_secret_name = "registry-password"
-    #     identity = azurerm_user_assigned_identity.container-app.id
-  }
-
-  template {
-    min_replicas    = 0
-    max_replicas    = 5
-    revision_suffix = replace(split(":", var.api-image-name)[1], ".", "-")
-    container {
-      name   = "edis-data-api"
-      image  = "${data.azurerm_container_registry.acr.login_server}/${var.api-image-name}"
-      cpu    = 2
-      memory = "4Gi"
-
-      env {
-        name  = "COMPLETE_QUEUE_NAME"
-        value = "data-pipeline-job-finished"
-      }
-
-      env {
-        name        = "STORAGE_CONNECTION_STRING"
-        secret_name = "queue-connection-string"
-      }
-    }
-
-    http_scale_rule {
-      name                = "${var.environment-prefix}-data-api-scaler"
-      concurrent_requests = 100
     }
   }
 }
