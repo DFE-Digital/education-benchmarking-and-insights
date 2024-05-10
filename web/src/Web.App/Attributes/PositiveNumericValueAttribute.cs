@@ -6,6 +6,6 @@ public class PositiveNumericValueAttribute : RangeAttribute
 {
     public PositiveNumericValueAttribute() : base(0, double.MaxValue)
     {
-        ErrorMessage = "Please enter positive values only for {0}";
+        ErrorMessage = "{0} must be greater than or equal to zero";
     }
 }

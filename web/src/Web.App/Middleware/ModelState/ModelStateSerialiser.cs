@@ -1,19 +1,11 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Web.App.Extensions;
 
 namespace Web.App.Middleware.ModelState;
 
 // https://speednetsoftware.com/post-redirect-get-in-asp-net-razor-pages
 public static class ModelStateSerialiser
 {
-    private class ModelStateTransferValue
-    {
-        public string? Key { get; init; }
-        public string? AttemptedValue { get; init; }
-        public object? RawValue { get; init; }
-        public ICollection<string> ErrorMessages { get; init; } = new List<string>();
-    }
-
     public static string Serialise(ModelStateDictionary modelState)
     {
         var errorList = modelState
@@ -22,16 +14,16 @@ public static class ModelStateSerialiser
                 Key = kvp.Key,
                 AttemptedValue = kvp.Value?.AttemptedValue,
                 RawValue = kvp.Value?.RawValue,
-                ErrorMessages = kvp.Value?.Errors.Select(err => err.ErrorMessage).ToList() ?? [],
+                ErrorMessages = kvp.Value?.Errors.Select(err => err.ErrorMessage).ToList() ?? []
             });
 
-        return JsonSerializer.Serialize(errorList);
+        return errorList.ToJson();
     }
 
     public static ModelStateDictionary Deserialise(string serialisedErrorList)
     {
         var modelState = new ModelStateDictionary();
-        var errorList = JsonSerializer.Deserialize<List<ModelStateTransferValue>>(serialisedErrorList);
+        var errorList = serialisedErrorList.FromJson<List<ModelStateTransferValue>>();
         if (errorList == null)
         {
             return modelState;
@@ -47,5 +39,13 @@ public static class ModelStateSerialiser
         }
 
         return modelState;
+    }
+
+    private class ModelStateTransferValue
+    {
+        public string? Key { get; init; }
+        public string? AttemptedValue { get; init; }
+        public object? RawValue { get; init; }
+        public ICollection<string> ErrorMessages { get; init; } = new List<string>();
     }
 }

@@ -1,9 +1,9 @@
-using System.Text.Json;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -60,7 +60,7 @@ public class SchoolCustomDataChangeController(
                 if (!ModelState.IsValid)
                 {
                     logger.LogDebug("Posted FinancialData failed validation: {ModelState}",
-                        JsonSerializer.Serialize(ModelState.Where(m => m.Value != null && m.Value.Errors.Any())));
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
                     return RedirectToAction(nameof(FinancialData));
                 }
 
