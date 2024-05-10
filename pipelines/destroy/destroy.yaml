@@ -7,9 +7,36 @@ parameters:
   dependsOn: []
 
 jobs:
-  - template: ../web/destroy.yaml
+  - template: ../core-infrastructure/sync.yaml
     parameters:
       dependsOn: ${{ parameters.dependsOn }}
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/sync.yaml
+    parameters:
+      dependsOn: [ CoreSync ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../web/sync.yaml
+    parameters:
+      dependsOn: [ PlatformSync ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../web/destroy.yaml
+    parameters:
+      dependsOn: [ WebSync ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
