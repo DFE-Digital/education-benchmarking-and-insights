@@ -21,14 +21,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddControllersWithViews()
-    .AddNewtonsoftJson(options =>
-    {
-        options.SerializerSettings.SetJsonOptions();
-    })
+    .AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); })
     .AddMvcOptions(options =>
     {
         options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, field) =>
-            $"Please enter a valid value for {field}");
+            $"Enter {field.ToLower()} in the correct format");
     });
 
 builder.Services.AddDefaultCorrelationId();
@@ -37,8 +34,10 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 {
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
     options.OlClasses = "govuk-breadcrumbs__list";
-    options.LiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
-    options.ActiveLiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.LiTemplate =
+        "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.ActiveLiTemplate =
+        "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
 });
 
 builder.Services.AddHealthChecks();
@@ -59,9 +58,12 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddDfeSignIn(options =>
     {
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
-        options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
-        options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
-        options.Events.OnRemoteFailure = ctx => Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
+        options.Events.OnRejectPrincipal = response =>
+            Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
+        options.Events.OnSpuriousAuthenticationRequest =
+            _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
+        options.Events.OnRemoteFailure = ctx =>
+            Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
         options.Events.OnValidatedPrincipal = _ => Log.Logger.Debug("Valid principal received");
     });
 
@@ -119,8 +121,8 @@ app.UseSession();
 
 app.MapHealthChecks("/health");
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 
