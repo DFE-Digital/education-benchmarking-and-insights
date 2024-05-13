@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
@@ -14,6 +15,8 @@ using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
 
+[assembly: InternalsVisibleTo("Web.Tests")]
+
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
 
 var builder = WebApplication.CreateBuilder(args);
@@ -22,11 +25,7 @@ builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Confi
 
 builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); })
-    .AddMvcOptions(options =>
-    {
-        options.ModelBindingMessageProvider.SetAttemptedValueIsInvalidAccessor((_, field) =>
-            $"Enter {field.ToLower()} in the correct format");
-    });
+    .AddMvcOptions(options => { options.SetModelBindingOptions(); });
 
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
