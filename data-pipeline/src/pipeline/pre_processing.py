@@ -583,7 +583,10 @@ def build_maintained_school_data(
             "PFI": "PFI School",
             "I07  Other grants and payments": "Other grants and payments",
             # TODO: Should these come from the census record not the MS record
-            "No Pupils": "Number of pupils"
+            "No Pupils": "Number of pupils",
+            "Total Income   I01 to I18":"Total Income",
+            "Total Expenditure  E01 to E32":"Total Expenditure",
+            "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc"
         },
         inplace=True,
     )
