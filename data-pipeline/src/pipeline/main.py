@@ -399,20 +399,17 @@ async def compute_rag(set_type, year):
 
     rag_settings = {
         'academies': [('building', 'academy_building'), ('pupil', 'academies_pupil')],
-        'maintained_schools': [('building', 'ms_building'), ('pupil', 'ms_pupil')],
+        'maintained_schools': [('building', 'maintained_school_building'), ('pupil', 'maintained_school_pupil')],
         'all_schools': [('mixed_building', 'all_building'), ('mixed_pupil', 'all_pupil')]
     }
 
-    schools = pd.read_pickle(await get_blob(
-        "comparator-sets",
-        f"{set_type}/{year}/schools.pkl"
-    )).reset_index()
-    
     for rag_file in rag_settings.keys():
+        schools = pd.read_pickle(await get_blob(
+            "comparator-sets",
+            f"{set_type}/{year}/{rag_file}.pkl"
+        )).reset_index()
 
         for (comparator_type, comparator_file) in rag_settings[rag_file]:
-
-
             st = time.time()
             logger.info(f"Computing {comparator_type} RAG")
             comparator_set = pickle.loads((await get_blob(
