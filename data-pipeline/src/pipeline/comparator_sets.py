@@ -6,10 +6,6 @@ import numpy as np
 import pandas as pd
 
 
-def compute_range(data):
-    return data.max() - data.min()
-
-
 # TODO: This should be moved to pre-processing really
 def fillna_median(data):
     return data.fillna(data.median())
@@ -49,7 +45,7 @@ def _delta_range_ratio(input: np.array) -> np.array:
     :param input: array of data
     :return: the ratio of the delta to the data range
     """
-    input_range = compute_range(input)
+    input_range = np.ptp(input)
 
     input_column_vector = input[:, None]
     input_row_vector = input[None, :]
