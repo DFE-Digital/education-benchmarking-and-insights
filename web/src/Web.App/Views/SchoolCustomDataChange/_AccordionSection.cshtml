@@ -1,4 +1,3 @@
-@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolCustomDataSectionViewModel
 @{
     var id = Model.Title.Replace(" ", "-").ToLower();
@@ -13,47 +12,6 @@
         </h2>
     </div>
     <div id="accordion-financial-data-content-@id" class="govuk-accordion__section-content">
-        <table class="govuk-table table-custom-data">
-            <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.Title costs</caption>
-            <thead class="govuk-table__head">
-                <tr class="govuk-table__row">
-                    <th scope="col" class="govuk-table__header govuk-!-width-one-half">Cost</th>
-                    <th scope="col" class="govuk-table__header">Current data</th>
-                    <th scope="col" class="govuk-table__header">Custom data</th>
-                </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-                @foreach (var item in Model.Values)
-                {
-                    <tr class="govuk-table__row">
-                        <td class="govuk-table__cell">@item.Title</td>
-                        <td class="govuk-table__cell">@item.Current.ToCurrency()</td>
-                        <td class="govuk-table__cell">
-                            @if (item.ReadOnly)
-                            {
-                                @item.Custom.ToCurrency()
-                            }
-                            else
-                            {
-                                <div class="govuk-form-group govuk-!-margin-bottom-0">
-                                    <label class="govuk-label govuk-visually-hidden" for="@item.Name">
-                                        @item.Title custom data
-                                    </label>
-                                    <div class="govuk-input__wrapper">
-                                        <div class="govuk-input__prefix" aria-hidden="true">£</div>
-                                        <input class="govuk-input govuk-input--width-10 @(ViewData.ModelState.HasError(item.Name) ? "govuk-input--error" : string.Empty)"
-                                               id="@item.Name"
-                                               name="@item.Name"
-                                               value="@(ViewData.ModelState.GetAttemptedValueOrDefault(item.Name, item.Custom?.ToString("0.00")))"
-                                               type="number"
-                                               spellcheck="false"/>
-                                    </div>
-                                </div>
-                            }
-                        </td>
-                    </tr>
-                }
-            </tbody>
-        </table>
+        @await Html.PartialAsync("_CustomDataEntryTable", Model)
     </div>
 </div>

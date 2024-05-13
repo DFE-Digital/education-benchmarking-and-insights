@@ -153,9 +153,18 @@ public record SchoolCustomDataViewModel
     public decimal RevenueReserve { get; init; }
 
     // Non-financial data
-    public decimal? TotalNumberOfTeachersFte { get; init; }
+    public decimal? TotalNumberOfTeachersFte { get; init; } // todo: replace with FTE pupils
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent)]
     public decimal? FreeSchoolMealPercent { get; init; }
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.SpecialEducationalNeedsPercent)]
     public decimal? SpecialEducationalNeedsPercent { get; init; }
+    
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.FloorArea)]
     public int? FloorArea { get; init; }
 
     // Workforce data
@@ -305,7 +314,7 @@ public record SchoolCustomDataViewModel
             // Workforce data
             WorkforceFte = WorkforceFte,
             TeachersFte = TeachersFte,
-            SeniorLeadershipFte = SeniorLeadershipFte,
+            SeniorLeadershipFte = SeniorLeadershipFte
         };
     }
 }
@@ -348,4 +357,7 @@ public static class SchoolCustomDataViewModelTitles
     public const string TotalIncome = "Total income";
     public const string TotalExpenditure = "Total spending";
     public const string RevenueReserve = "Revenue reserve";
+    public const string FreeSchoolMealPercent = "Pupils eligible for free school meals (FSM)";
+    public const string SpecialEducationalNeedsPercent = "Pupils with special educational needs (SEN)";
+    public const string FloorArea = "Gross internal floor area";
 }

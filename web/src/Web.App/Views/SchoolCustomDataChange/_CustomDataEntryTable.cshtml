@@ -1,0 +1,21 @@
+@model Web.App.ViewModels.SchoolCustomDataSectionViewModel
+@{
+    var id = Model.Title.Replace(" ", "-").ToLower();
+}
+
+<table class="govuk-table table-custom-data" id="govuk-table-custom-data-@id">
+    <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">@Model.Title costs</caption>
+    <thead class="govuk-table__head">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-half">Cost</th>
+        <th scope="col" class="govuk-table__header">Current data</th>
+        <th scope="col" class="govuk-table__header">Custom data</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
+    @foreach (var item in Model.Values)
+    {
+        @await Html.PartialAsync("_CustomDataEntryTableRow", item)
+    }
+    </tbody>
+</table>
