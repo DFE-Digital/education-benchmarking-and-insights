@@ -5,7 +5,7 @@ namespace Web.App.ViewModels;
 
 public interface INonFinancialDataCustomDataViewModel
 {
-    decimal? TotalNumberOfTeachersFte { get; } // todo: replace with FTE pupils
+    decimal? NumberOfPupilsFte { get; }
     decimal? FreeSchoolMealPercent { get; }
     decimal? SpecialEducationalNeedsPercent { get; }
     int? FloorArea { get; }
@@ -13,7 +13,9 @@ public interface INonFinancialDataCustomDataViewModel
 
 public record NonFinancialDataCustomDataViewModel : INonFinancialDataCustomDataViewModel
 {
-    public decimal? TotalNumberOfTeachersFte { get; init; } // todo: replace with FTE pupils
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.NumberOfPupilsFte)]
+    public decimal? NumberOfPupilsFte { get; init; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent)]

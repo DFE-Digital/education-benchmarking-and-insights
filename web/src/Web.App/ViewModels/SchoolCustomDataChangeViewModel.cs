@@ -307,6 +307,14 @@ public class SchoolCustomDataChangeViewModel(
         "Non-financial figures",
         new SchoolCustomDataValueViewModel
         {
+            Title = SchoolCustomDataViewModelTitles.NumberOfPupilsFte,
+            Name = nameof(SchoolCustomDataViewModel.NumberOfPupilsFte),
+            Current = CurrentValues.NumberOfPupilsFte,
+            Custom = CustomInput.NumberOfPupilsFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
             Title = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent,
             Name = nameof(SchoolCustomDataViewModel.FreeSchoolMealPercent),
             Current = CurrentValues.FreeSchoolMealPercent,
