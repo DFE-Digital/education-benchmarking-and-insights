@@ -1,6 +1,13 @@
-import numpy as np
+from unittest import mock
 
-from src.pipeline.comparator_sets import pupils_calc, special_pupils_calc
+import numpy as np
+import pytest
+
+from src.pipeline.comparator_sets import (
+    compute_pupils_comparator,
+    pupils_calc,
+    special_pupils_calc,
+)
 
 
 def test_varied_input_non_special():
@@ -37,3 +44,28 @@ def test_varied_input_special():
     np.testing.assert_array_almost_equal(
         result, np.array([[0.0, 4.16227766], [4.16227766, 0.0]])
     )
+
+
+@mock.patch("src.pipeline.comparator_sets.pupils_calc")
+@mock.patch("src.pipeline.comparator_sets.special_pupils_calc")
+@pytest.mark.parametrize(
+    "phase,special_called,pupils_called",
+    [
+        ("special", True, False),
+        ("non-special", False, True),
+    ],
+)
+def test_compute_pupils_comparator_phase(
+    mock_special_pupils_calc,
+    mock_pupils_calc,
+    phase: str,
+    special_called: bool,
+    pupils_called: bool,
+    random_row: dict,
+):
+    phase_, urns, _ = compute_pupils_comparator((phase, random_row))
+
+    assert phase_ is phase
+    assert np.array_equal(urns, np.array(random_row["URN"]))
+    assert mock_pupils_calc.called is pupils_called
+    assert mock_special_pupils_calc.called is special_called
