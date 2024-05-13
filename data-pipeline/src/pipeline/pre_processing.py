@@ -479,7 +479,8 @@ def build_academy_data(
             "Auditor costs": "Non-educational support staff and services_Audit cost",
             "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
             "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing (revenue contributions to capital)",
-            "PFI Charges": "Other costs_PFI charges"
+            "PFI Charges": "Other costs_PFI charges",
+            "'Share of Revenue Reserve, distributed on per pupil basis\n'":"'Share of Revenue Reserve, distributed on per pupil basis'"
         },
         inplace=True,
     )
