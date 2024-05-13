@@ -26,9 +26,9 @@ public class CensusProxyController(
             {
                 var set = type.ToLower() switch
                 {
-                    OrganisationTypes.School => (await comparatorSetService.ReadComparatorSet(id)).DefaultPupil,
-                    OrganisationTypes.Trust => (await establishmentApi.QuerySchools(new ApiQuery().AddIfNotNull("companyNumber", id))
-                        .GetResultOrThrow<IEnumerable<School>>()).Select(x => x.Urn).OfType<string>(),
+                    OrganisationTypes.School => await GetSchoolSet(id),
+                    OrganisationTypes.Trust => await GetTrustSet(id),
+                    OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -63,6 +63,26 @@ public class CensusProxyController(
                 return StatusCode(500);
             }
         }
+    }
+
+    private async Task<IEnumerable<string>> GetSchoolSet(string id)
+    {
+        var result = await comparatorSetService.ReadComparatorSet(id);
+        return result.DefaultPupil;
+    }
+
+    private async Task<IEnumerable<string>> GetTrustSet(string id)
+    {
+        var query = new ApiQuery().AddIfNotNull("companyNumber", id);
+        var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
+        return result.Select(x => x.Urn).OfType<string>();
+    }
+
+    private async Task<IEnumerable<string>> GetLocalAuthoritySet(string id)
+    {
+        var query = new ApiQuery().AddIfNotNull("laCode", id);
+        var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
+        return result.Select(x => x.Urn).OfType<string>();
     }
 
     private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? category = null, string? dimension = null)

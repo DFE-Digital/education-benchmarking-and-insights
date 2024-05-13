@@ -31,6 +31,8 @@ public class ProxyController(
                         return await SchoolExpenditure(id);
                     case OrganisationTypes.Trust:
                         return await TrustExpenditure(id);
+                    case OrganisationTypes.LocalAuthority:
+                        return await LocalAuthorityExpenditure(id);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));
                 }
@@ -122,6 +124,13 @@ public class ProxyController(
     }
 
 
+    private async Task<IActionResult> LocalAuthorityExpenditure(string id)
+    {
+        var query = new ApiQuery().AddIfNotNull("laCode", id);
+        var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
+        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
+        return new JsonResult(result);
+    }
 
     private async Task<IActionResult> TrustExpenditure(string id)
     {

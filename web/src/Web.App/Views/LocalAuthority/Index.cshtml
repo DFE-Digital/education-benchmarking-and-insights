@@ -1,5 +1,4 @@
-﻿@using Web.App.Domain
-@using Web.App.TagHelpers
+﻿@using Web.App.TagHelpers
 @using Web.App.ViewModels.Components
 @using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityViewModel
@@ -31,6 +30,9 @@
 </div>
 
 
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources } })
 

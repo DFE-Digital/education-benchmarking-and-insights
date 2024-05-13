@@ -13,6 +13,7 @@ variable "configuration" {
       CurriculumFinancialPlanning = bool
       CustomData                  = bool
       Trusts                      = bool
+      LocalAuthorities            = bool
     })
   }))
   default = {
@@ -25,6 +26,7 @@ variable "configuration" {
         Trusts                      = true
         CurriculumFinancialPlanning = true
         CustomData                  = true
+        LocalAuthorities            = true
       }
     }
     automated-test = {
@@ -36,6 +38,7 @@ variable "configuration" {
         Trusts                      = false
         CurriculumFinancialPlanning = true
         CustomData                  = false
+        LocalAuthorities            = false
       }
     }
     test = {
@@ -47,6 +50,7 @@ variable "configuration" {
         Trusts                      = false
         CurriculumFinancialPlanning = false
         CustomData                  = false
+        LocalAuthorities            = false
       }
     }
     feature = {
@@ -58,6 +62,7 @@ variable "configuration" {
         Trusts                      = true
         CurriculumFinancialPlanning = true
         CustomData                  = true
+        LocalAuthorities            = true
       }
     }
     pre-production = {
@@ -69,6 +74,7 @@ variable "configuration" {
         Trusts                      = false
         CurriculumFinancialPlanning = false
         CustomData                  = false
+        LocalAuthorities            = false
       }
     }
     production = {
@@ -80,6 +86,7 @@ variable "configuration" {
         Trusts                      = false
         CurriculumFinancialPlanning = false
         CustomData                  = false
+        LocalAuthorities            = false
       }
     }
   }
