@@ -1,7 +1,7 @@
 academies_output = [
     "of which: Coronavirus Government Funding",
     "number of pupils whose first language is known or believed to be other than English",
-    "Water and sewerage",
+    "Utilities_Water and sewerage",
     "UrbanRural (name)",
     "URN",
     "UKPRN",
