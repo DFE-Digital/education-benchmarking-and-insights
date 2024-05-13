@@ -46,7 +46,7 @@ public class SchoolCustomDataChangeController(
     [HttpPost]
     [Route("financial-data")]
     [ExportModelState]
-    public IActionResult FinancialData(string urn, [FromForm] SchoolCustomDataViewModel viewModel)
+    public IActionResult FinancialData(string urn, [FromForm] FinancialDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new { urn, viewModel }))
         {
@@ -59,7 +59,7 @@ public class SchoolCustomDataChangeController(
                     return RedirectToAction(nameof(FinancialData));
                 }
 
-                customDataService.SetCustomDataInSession(urn, viewModel.ToCustomData());
+                customDataService.MergeCustomDataIntoSession(urn, viewModel);
                 return RedirectToAction(nameof(NonFinancialData), new { urn });
             }
             catch (Exception e)
@@ -95,7 +95,7 @@ public class SchoolCustomDataChangeController(
     [HttpPost]
     [Route("school-characteristics")]
     [ExportModelState]
-    public IActionResult NonFinancialData(string urn, [FromForm] SchoolCustomDataViewModel viewModel)
+    public IActionResult NonFinancialData(string urn, [FromForm] NonFinancialDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new { urn, viewModel }))
         {
@@ -108,7 +108,7 @@ public class SchoolCustomDataChangeController(
                     return RedirectToAction(nameof(NonFinancialData));
                 }
 
-                customDataService.SetCustomDataInSession(urn, viewModel.ToCustomData());
+                customDataService.MergeCustomDataIntoSession(urn, viewModel);
                 return RedirectToAction(nameof(WorkforceData), new { urn });
             }
             catch (Exception e)
