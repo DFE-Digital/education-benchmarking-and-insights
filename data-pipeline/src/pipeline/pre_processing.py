@@ -586,7 +586,8 @@ def build_maintained_school_data(
             "No Pupils": "Number of pupils",
             "Total Income   I01 to I18":"Total Income",
             "Total Expenditure  E01 to E32":"Total Expenditure",
-            "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc"
+            "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc",
+            "Revenue Reserve   B01 plus B02 plus B06":"Revenue Reserve",
         },
         inplace=True,
     )
