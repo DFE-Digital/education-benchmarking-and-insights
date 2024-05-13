@@ -302,6 +302,34 @@ public class SchoolCustomDataChangeViewModel(
             Custom = CustomInput.RevenueReserve,
             ReadOnly = true
         });
+
+    public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
+        "Non-financial figures",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent,
+            Name = nameof(SchoolCustomDataViewModel.FreeSchoolMealPercent),
+            Current = CurrentValues.FreeSchoolMealPercent,
+            Custom = CustomInput.FreeSchoolMealPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SpecialEducationalNeedsPercent,
+            Name = nameof(SchoolCustomDataViewModel.SpecialEducationalNeedsPercent),
+            Current = CurrentValues.SpecialEducationalNeedsPercent,
+            Custom = CustomInput.SpecialEducationalNeedsPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FloorArea,
+            Name = nameof(SchoolCustomDataViewModel.FloorArea),
+            Current = CurrentValues.FloorArea,
+            Custom = CustomInput.FloorArea,
+            Units = SchoolCustomDataValueUnits.Area
+        }
+    );
 }
 
 public record SchoolCustomDataSectionViewModel
@@ -323,4 +351,13 @@ public record SchoolCustomDataValueViewModel
     public decimal? Current { get; init; }
     public decimal? Custom { get; init; }
     public bool ReadOnly { get; init; }
+    public SchoolCustomDataValueUnits Units { get; init; } = SchoolCustomDataValueUnits.Currency;
+}
+
+public enum SchoolCustomDataValueUnits
+{
+    Actual,
+    Area,
+    Currency,
+    Percentage
 }
