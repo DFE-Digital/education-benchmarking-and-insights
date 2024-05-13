@@ -1,5 +1,6 @@
 import multiprocessing as mp
 from multiprocessing.pool import Pool
+from typing import Callable
 
 import numpy as np
 import pandas as pd
@@ -85,21 +86,44 @@ def special_pupils_calc(
     return base1 + base2
 
 
-def buildings_calc(gifa, average_age) -> np.array:
+def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
+    """
+    Compute area metrics.
+
+    :param gifa: sum of the internal floor areas of the school buildings
+    :param average_age: product of age of the school and area
+    :return: area metric
+    """
     gifa_range = compute_range(gifa)
     average_age_range = compute_range(average_age)
 
-    gifa = 0.8 * np.power(np.abs(gifa[:, None] - gifa[None, :]) / gifa_range, 2)
-    age = 0.2 * np.power(
-        np.abs(average_age[:, None] - average_age[None, :]) / average_age_range, 2
+    gifa_column_vector = gifa[:, None]
+    gifa_row_vector = gifa[None, :]
+    gifa_delta_matrix = np.abs(gifa_column_vector - gifa_row_vector)
+
+    average_age_column_vector = average_age[:, None]
+    average_age_row_vector = average_age[None, :]
+    average_age_delta_matrix = np.abs(
+        average_age_column_vector - average_age_row_vector
     )
 
-    return np.power(gifa + age, 0.5)
+    gifa = 0.8 * np.power(gifa_delta_matrix / gifa_range, 2)
+    age = 0.2 * np.power(average_age_delta_matrix / average_age_range, 2)
+
+    return np.sqrt(gifa + age)
 
 
-def compute_pupils_comparator(arg) -> (str, np.array, np.array):
-    idx, row = arg
-    phase = idx
+def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
+    """
+    Computing pupil metrics, consuming attributes from the input data.
+
+    Calculations will be either "pupil" or "special", using a different
+    set of attributes in each case.
+
+    :param arg: phase/data
+    :return: phase, URNs and calculations
+    """
+    phase, row = arg
     urns = np.array(row["URN"])
     pupils = np.array(row["Number of pupils"])
     fsm = np.array(row["Percentage Free school meals"])
@@ -133,14 +157,19 @@ def compute_pupils_comparator(arg) -> (str, np.array, np.array):
                 Prov_OTH,
             ),
         )
-    else:
-        sen = np.array(row["Percentage SEN"])
-        return phase, urns, pupils_calc(pupils, fsm, sen)
+
+    sen = np.array(row["Percentage SEN"])
+    return phase, urns, pupils_calc(pupils, fsm, sen)
 
 
 def compute_buildings_comparator(arg):
-    idx, row = arg
-    phase = idx
+    """
+    Computing area metrics, consuming attributes from the input data.
+
+    :param arg: phase/data
+    :return: phase, URNs and calculations
+    """
+    phase, row = arg
     urns = np.array(row["URN"])
     gifa = np.array(row["Total Internal Floor Area"])
     age = np.array(row["Age Average Score"])
@@ -158,10 +187,14 @@ def compute_distances(data, f):
     return distance_classes
 
 
-def compute_comparator_matrix(data, f, comparator_key="SchoolPhaseType"):
+def compute_comparator_matrix(
+    data: pd.DataFrame,
+    comparator_function: Callable,
+    comparator_key="SchoolPhaseType",
+):
     copy = data.reset_index()
     classes = copy.groupby([comparator_key]).agg(list)
-    return compute_distances(classes, f)
+    return compute_distances(classes, comparator_function)
 
 
 def compute_custom_comparator(name, data, f):
