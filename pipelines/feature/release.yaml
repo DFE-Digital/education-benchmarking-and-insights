@@ -97,7 +97,7 @@ stages:
   - stage: BuildDataPipeline
     dependsOn: [ BuildNumber, DeployCore ]
     displayName: 'Data Pipeline : Build and Deploy'
-    variables: 
+    variables:
       environmentPrefix: $[ stageDependencies.BuildNumber.SetBuildNumber.outputs['outputVars.Environment_Prefix'] ]
     jobs:
       - job: ZipStaticDataPipelineArtifacts
