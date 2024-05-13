@@ -11,11 +11,11 @@ parameters:
   sourceEnvironmentPrefix: ''
   dependsOn: []
 
-
 jobs:
 
   - deployment: DataPipelineProvision
     displayName: 'Data Pipeline : Provision'
+    dependsOn: ${{ parameters.dependsOn }}
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.environment }}
