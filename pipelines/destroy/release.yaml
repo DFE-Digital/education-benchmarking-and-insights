@@ -85,3 +85,4 @@ stages:
           environment: $(environmentName)
           pipelineEnvironment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
+          buildNumber: $(Version.BuildNumber)
