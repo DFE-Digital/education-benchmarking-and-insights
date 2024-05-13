@@ -53,9 +53,23 @@ def _delta_range_ratio(input: np.array) -> np.array:
 
     input_column_vector = input[:, None]
     input_row_vector = input[None, :]
-    input_delta_matrix = np.abs(input_column_vector - input_row_vector)
+    input_diff_matrix = input_column_vector - input_row_vector
+    input_delta_matrix = np.abs(input_diff_matrix)
 
     return input_delta_matrix / input_range
+
+
+def _delta_range_ratio_squared(input: np.array) -> np.array:
+    """
+    Calculate the ratio of input delta to its range, squared.
+
+    Determine the square of the matrix of absolute differences between
+    all combinations in the input, divided by the range of the input.
+
+    :param input: array of data
+    :return: the ratio of the delta to the data range, squared
+    """
+    return np.power(_delta_range_ratio(input), 2)
 
 
 def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
@@ -67,47 +81,63 @@ def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
     :param sen: percentage SEN (Special Education Needs)
     :return: pupil calculation
     """
-    pupil = 0.5 * np.power(_delta_range_ratio(pupils), 2)
-    meal = 0.4 * np.power(_delta_range_ratio(fsm), 2)
-    sen = 0.1 * np.power(_delta_range_ratio(sen), 2)
+    pupil = 0.5 * _delta_range_ratio_squared(pupils)
+    meal = 0.4 * _delta_range_ratio_squared(fsm)
+    sen_ = 0.1 * _delta_range_ratio_squared(sen)
 
-    return np.sqrt(pupil + meal + sen)
+    return np.sqrt(pupil + meal + sen_)
 
 
 def special_pupils_calc(
-    pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
+    pupils: np.array,
+    fsm: np.array,
+    splds: np.array,
+    mlds: np.array,
+    pmlds: np.array,
+    semhs: np.array,
+    slcns: np.array,
+    his: np.array,
+    msis: np.array,
+    pds: np.array,
+    asds: np.array,
+    oths: np.array,
 ):
-    pupil_range = compute_range(pupils)
-    fsm_range = compute_range(fsm)
-    spld_range = compute_range(splds)
-    mld_range = compute_range(mlds)
-    pmld_range = compute_range(pmlds)
-    semh_range = compute_range(semhs)
-    slcn_range = compute_range(slcns)
-    hi_range = compute_range(his)
-    msi_range = compute_range(msis)
-    pd_range = compute_range(pds)
-    asd_range = compute_range(asds)
-    oth_range = compute_range(oths)
+    """
+    Perform pupil calculation (special).
 
-    pupil = 0.6 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
-    meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
-    base1 = np.power(pupil + meal, 0.5)
+    :param pupils: number of pupils
+    :param fsm: percentage FSM (Free School Meals)
+    :param splds: percentage SPLD (Specific Learning Difficulty)
+    :param mlds: percentage MLD (Moderate Learning Difficulty)
+    :param pmlds: percentage PMLD (Profound and Multiple Learning Difficulty)
+    :param semhs: percentage SEMH (Social, Emotional and Mental Health Difficulties)
+    :param slcns: percentage SLCN (Speech, Language and Communication Needs)
+    :param his: percentage HI (Hearing Impairment)
+    :param msis: percentage MSI (Multi-Sensory Impairment)
+    :param pds: percentage PD (Physical Disability)
+    :param asds: percentage ASD (Autistic Spectrum Disorder)
+    :param oths: percentage Other
+    :return: pupil calculation (special)
+    """
+    pupil = 0.6 * _delta_range_ratio_squared(pupils)
+    meal = 0.4 * _delta_range_ratio_squared(fsm)
 
-    spld = np.power(np.abs(splds[:, None] - splds[None, :]) / spld_range, 2)
-    mld = np.power(np.abs(mlds[:, None] - mlds[None, :]) / mld_range, 2)
-    pmld = np.power(np.abs(pmlds[:, None] - pmlds[None, :]) / pmld_range, 2)
-    semh = np.power(np.abs(semhs[:, None] - semhs[None, :]) / semh_range, 2)
-    slcn = np.power(np.abs(slcns[:, None] - slcns[None, :]) / slcn_range, 2)
-    hi = np.power(np.abs(his[:, None] - his[None, :]) / hi_range, 2)
-    msi = np.power(np.abs(msis[:, None] - msis[None, :]) / msi_range, 2)
-    pd = np.power(np.abs(pds[:, None] - pds[None, :]) / pd_range, 2)
-    asd = np.power(np.abs(asds[:, None] - asds[None, :]) / asd_range, 2)
-    oth = np.power(np.abs(oths[:, None] - oths[None, :]) / oth_range, 2)
+    pupils_ = pupil + meal
 
-    base2 = np.power(spld + mld + pmld + semh + slcn + hi + msi + pd + asd + oth, 0.5)
+    spld = _delta_range_ratio_squared(splds)
+    mld = _delta_range_ratio_squared(mlds)
+    pmld = _delta_range_ratio_squared(pmlds)
+    semh = _delta_range_ratio_squared(semhs)
+    slcn = _delta_range_ratio_squared(slcns)
+    hi = _delta_range_ratio_squared(his)
+    msi = _delta_range_ratio_squared(msis)
+    pd = _delta_range_ratio_squared(pds)
+    asd = _delta_range_ratio_squared(asds)
+    oth = _delta_range_ratio_squared(oths)
 
-    return base1 + base2
+    sen = spld + mld + pmld + semh + slcn + hi + msi + pd + asd + oth
+
+    return np.sqrt(pupils_) + np.sqrt(sen)
 
 
 def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
@@ -118,10 +148,10 @@ def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
     :param average_age: product of age of the school and area
     :return: area metric
     """
-    gifa = 0.8 * np.power(_delta_range_ratio(gifa), 2)
-    age = 0.2 * np.power(_delta_range_ratio(average_age), 2)
+    gifa_ = 0.8 * _delta_range_ratio_squared(gifa)
+    age = 0.2 * _delta_range_ratio_squared(average_age)
 
-    return np.sqrt(gifa + age)
+    return np.sqrt(gifa_ + age)
 
 
 def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
