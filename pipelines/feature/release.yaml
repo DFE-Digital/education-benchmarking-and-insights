@@ -108,23 +108,26 @@ stages:
               TerraformFolder: '$(System.DefaultWorkingDirectory)/$(WorkingDir.DataPipeline)/terraform'
               Module: 'data-pipeline'
 
-      - job: BuildDataPipeline
-        displayName: 'Data Pipeline : Build'
-        steps:
-          - template: ../data-pipeline/build.yaml
+      - job: BuildAndPushDataPipeline
+        dependsOn: [ ZipStaticDataPipelineArtifacts ]
+        displayName: 'Build and push image'
+        steps: 
+          - template: ../data-pipeline/steps/build-push-image.yaml
             parameters:
-              BuildVersion: $(Version.BuildVersion)
-              BuildNumber: $(Version.BuildNumber)
+              buildNumber: $(Version.BuildNumber)
+              environmentPrefix: $(environmentPrefix)
+              subscription: $(Subscription)
 
       - template: ../data-pipeline/deployment.yaml
         parameters:
           subscription: $(Subscription)
+          sourceServicePrincipal: 's198d.azdo-deployment'
           environmentPrefix: $(environmentPrefix)
           environment: $(Pipeline.Environment)
           cipEnvironment: 'Dev'
-          BuildVersion: $(Version.BuildVersion)
-          BuildNumber: $(Version.BuildNumber)
-          dependsOn: [ ZipStaticDataPipelineArtifacts, BuildDataPipeline ]
+          importImage: false
+          buildNumber: $(Version.BuildNumber)
+          dependsOn: [ BuildAndPushDataPipeline ]
 
   - stage: BuildPlatform
     dependsOn: [ BuildNumber, DeployCore, BuildDataPipeline ]
