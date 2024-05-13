@@ -1,5 +1,6 @@
 using Web.App.Domain;
 using Web.App.Extensions;
+using Web.App.ViewModels;
 
 namespace Web.App.Services;
 
@@ -7,7 +8,8 @@ public interface ICustomDataService
 {
     Task<CustomData> GetCurrentData(string urn);
     CustomData GetCustomDataFromSession(string urn);
-    void SetCustomDataInSession(string urn, CustomData data);
+    void MergeCustomDataIntoSession(string urn, IFinancialDataCustomDataViewModel data);
+    void MergeCustomDataIntoSession(string urn, INonFinancialDataCustomDataViewModel data);
     void ClearCustomDataFromSession(string urn);
 }
 
@@ -34,10 +36,21 @@ public class CustomDataService(IHttpContextAccessor httpContextAccessor, IFinanc
         return context?.Session.Get<CustomData>(key) ?? new CustomData();
     }
 
-    public void SetCustomDataInSession(string urn, CustomData data)
+    public void MergeCustomDataIntoSession(string urn, IFinancialDataCustomDataViewModel viewModel)
     {
         var key = SessionKeys.CustomData(urn);
         var context = httpContextAccessor.HttpContext;
+        var data = context?.Session.Get<CustomData>(key) ?? new CustomData();
+        data.Merge(viewModel);
+        context?.Session.Set(key, data);
+    }
+
+    public void MergeCustomDataIntoSession(string urn, INonFinancialDataCustomDataViewModel viewModel)
+    {
+        var key = SessionKeys.CustomData(urn);
+        var context = httpContextAccessor.HttpContext;
+        var data = context?.Session.Get<CustomData>(key) ?? new CustomData();
+        data.Merge(viewModel);
         context?.Session.Set(key, data);
     }
 

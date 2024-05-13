@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
+using Web.App.ViewModels;
 
 namespace Web.App.Domain;
-
 
 [ExcludeFromCodeCoverage]
 public record CustomData
@@ -86,69 +86,137 @@ public record CustomData
     }
 
     // Administrative supplies
-    public decimal? AdministrativeSuppliesCosts { get; init; }
+    public decimal? AdministrativeSuppliesCosts { get; set; }
 
     // Catering
-    public decimal? CateringStaffCosts { get; init; }
-    public decimal? CateringSuppliesCosts { get; init; }
-    public decimal? CateringIncome { get; init; }
+    public decimal? CateringStaffCosts { get; set; }
+    public decimal? CateringSuppliesCosts { get; set; }
+    public decimal? CateringIncome { get; set; }
 
     // Educational supplies
-    public decimal? ExaminationFeesCosts { get; init; }
-    public decimal? LearningResourcesNonIctCosts { get; init; }
+    public decimal? ExaminationFeesCosts { get; set; }
+    public decimal? LearningResourcesNonIctCosts { get; set; }
 
     // IT
-    public decimal? LearningResourcesIctCosts { get; init; }
+    public decimal? LearningResourcesIctCosts { get; set; }
 
     // Non-educational support staff
-    public decimal? AdministrativeClericalStaffCosts { get; init; }
-    public decimal? AuditorsCosts { get; init; }
-    public decimal? OtherStaffCosts { get; init; }
-    public decimal? ProfessionalServicesNonCurriculumCosts { get; init; }
+    public decimal? AdministrativeClericalStaffCosts { get; set; }
+    public decimal? AuditorsCosts { get; set; }
+    public decimal? OtherStaffCosts { get; set; }
+    public decimal? ProfessionalServicesNonCurriculumCosts { get; set; }
 
     // Premises and services
-    public decimal? CleaningCaretakingCosts { get; init; }
-    public decimal? MaintenancePremisesCosts { get; init; }
-    public decimal? OtherOccupationCosts { get; init; }
-    public decimal? PremisesStaffCosts { get; init; }
+    public decimal? CleaningCaretakingCosts { get; set; }
+    public decimal? MaintenancePremisesCosts { get; set; }
+    public decimal? OtherOccupationCosts { get; set; }
+    public decimal? PremisesStaffCosts { get; set; }
 
     // Teaching and teaching support
-    public decimal? AgencySupplyTeachingStaffCosts { get; init; }
-    public decimal? EducationSupportStaffCosts { get; init; }
-    public decimal? EducationalConsultancyCosts { get; init; }
-    public decimal? SupplyTeachingStaffCosts { get; init; }
-    public decimal? TeachingStaffCosts { get; init; }
+    public decimal? AgencySupplyTeachingStaffCosts { get; set; }
+    public decimal? EducationSupportStaffCosts { get; set; }
+    public decimal? EducationalConsultancyCosts { get; set; }
+    public decimal? SupplyTeachingStaffCosts { get; set; }
+    public decimal? TeachingStaffCosts { get; set; }
 
     // Utilities
-    public decimal? EnergyCosts { get; init; }
-    public decimal? WaterSewerageCosts { get; init; }
+    public decimal? EnergyCosts { get; set; }
+    public decimal? WaterSewerageCosts { get; set; }
 
     // Other costs
-    public decimal? DirectRevenueFinancingCosts { get; init; }
-    public decimal? GroundsMaintenanceCosts { get; init; }
-    public decimal? IndirectEmployeeExpenses { get; init; }
-    public decimal? InterestChargesLoanBank { get; init; }
-    public decimal? OtherInsurancePremiumsCosts { get; init; }
-    public decimal? PrivateFinanceInitiativeCharges { get; init; }
-    public decimal? RentRatesCosts { get; init; }
-    public decimal? SpecialFacilitiesCosts { get; init; }
-    public decimal? StaffDevelopmentTrainingCosts { get; init; }
-    public decimal? StaffRelatedInsuranceCosts { get; init; }
-    public decimal? SupplyTeacherInsurableCosts { get; init; }
+    public decimal? DirectRevenueFinancingCosts { get; set; }
+    public decimal? GroundsMaintenanceCosts { get; set; }
+    public decimal? IndirectEmployeeExpenses { get; set; }
+    public decimal? InterestChargesLoanBank { get; set; }
+    public decimal? OtherInsurancePremiumsCosts { get; set; }
+    public decimal? PrivateFinanceInitiativeCharges { get; set; }
+    public decimal? RentRatesCosts { get; set; }
+    public decimal? SpecialFacilitiesCosts { get; set; }
+    public decimal? StaffDevelopmentTrainingCosts { get; set; }
+    public decimal? StaffRelatedInsuranceCosts { get; set; }
+    public decimal? SupplyTeacherInsurableCosts { get; set; }
 
     // Totals
-    public decimal TotalIncome { get; init; }
-    public decimal TotalExpenditure { get; init; }
-    public decimal RevenueReserve { get; init; }
+    public decimal TotalIncome { get; set; }
+    public decimal TotalExpenditure { get; set; }
+    public decimal RevenueReserve { get; set; }
 
     // Non-financial data
-    public decimal? TotalNumberOfTeachersFte { get; init; }
-    public decimal? FreeSchoolMealPercent { get; init; }
-    public decimal? SpecialEducationalNeedsPercent { get; init; }
-    public int? FloorArea { get; init; }
+    public decimal? TotalNumberOfTeachersFte { get; set; }
+    public decimal? FreeSchoolMealPercent { get; set; }
+    public decimal? SpecialEducationalNeedsPercent { get; set; }
+    public int? FloorArea { get; set; }
 
     // Workforce data
-    public decimal? WorkforceFte { get; init; }
-    public decimal? TeachersFte { get; init; }
-    public decimal? SeniorLeadershipFte { get; init; }
+    public decimal? WorkforceFte { get; set; }
+    public decimal? TeachersFte { get; set; }
+    public decimal? SeniorLeadershipFte { get; set; }
+
+    public void Merge(IFinancialDataCustomDataViewModel viewModel)
+    {
+        // Administrative supplies
+        AdministrativeSuppliesCosts = viewModel.AdministrativeSuppliesCosts;
+
+        // Catering
+        CateringStaffCosts = viewModel.CateringStaffCosts;
+        CateringSuppliesCosts = viewModel.CateringSuppliesCosts;
+        CateringIncome = viewModel.CateringIncome;
+
+        // Educational supplies
+        ExaminationFeesCosts = viewModel.ExaminationFeesCosts;
+        LearningResourcesNonIctCosts = viewModel.LearningResourcesNonIctCosts;
+
+        // IT
+        LearningResourcesIctCosts = viewModel.LearningResourcesIctCosts;
+
+        // Non-educational support staff
+        AdministrativeClericalStaffCosts = viewModel.AdministrativeClericalStaffCosts;
+        AuditorsCosts = viewModel.AuditorsCosts;
+        OtherStaffCosts = viewModel.OtherStaffCosts;
+        ProfessionalServicesNonCurriculumCosts = viewModel.ProfessionalServicesNonCurriculumCosts;
+
+        // Premises and services
+        CleaningCaretakingCosts = viewModel.CleaningCaretakingCosts;
+        MaintenancePremisesCosts = viewModel.MaintenancePremisesCosts;
+        OtherOccupationCosts = viewModel.OtherOccupationCosts;
+        PremisesStaffCosts = viewModel.PremisesStaffCosts;
+
+        // Teaching and teaching support
+        AgencySupplyTeachingStaffCosts = viewModel.AgencySupplyTeachingStaffCosts;
+        EducationSupportStaffCosts = viewModel.EducationSupportStaffCosts;
+        EducationalConsultancyCosts = viewModel.EducationalConsultancyCosts;
+        SupplyTeachingStaffCosts = viewModel.SupplyTeachingStaffCosts;
+        TeachingStaffCosts = viewModel.TeachingStaffCosts;
+
+        // Utilities
+        EnergyCosts = EnergyCosts;
+        WaterSewerageCosts = viewModel.WaterSewerageCosts;
+
+        // Other costs
+        DirectRevenueFinancingCosts = viewModel.DirectRevenueFinancingCosts;
+        GroundsMaintenanceCosts = viewModel.GroundsMaintenanceCosts;
+        IndirectEmployeeExpenses = viewModel.IndirectEmployeeExpenses;
+        InterestChargesLoanBank = viewModel.InterestChargesLoanBank;
+        OtherInsurancePremiumsCosts = viewModel.OtherInsurancePremiumsCosts;
+        PrivateFinanceInitiativeCharges = viewModel.PrivateFinanceInitiativeCharges;
+        RentRatesCosts = viewModel.RentRatesCosts;
+        SpecialFacilitiesCosts = viewModel.SpecialFacilitiesCosts;
+        StaffDevelopmentTrainingCosts = viewModel.StaffDevelopmentTrainingCosts;
+        StaffRelatedInsuranceCosts = viewModel.StaffRelatedInsuranceCosts;
+        SupplyTeacherInsurableCosts = viewModel.SupplyTeacherInsurableCosts;
+
+        // Totals
+        TotalIncome = viewModel.TotalIncome;
+        TotalExpenditure = viewModel.TotalExpenditure;
+        RevenueReserve = viewModel.RevenueReserve;
+    }
+
+    public void Merge(INonFinancialDataCustomDataViewModel viewModel)
+    {
+        // Non-financial data
+        TotalNumberOfTeachersFte = viewModel.TotalNumberOfTeachersFte;
+        FreeSchoolMealPercent = viewModel.FreeSchoolMealPercent;
+        SpecialEducationalNeedsPercent = viewModel.SpecialEducationalNeedsPercent;
+        FloorArea = viewModel.FloorArea;
+    }
 }
