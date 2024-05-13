@@ -39,15 +39,36 @@ def prepare_data(data):
     return data.sort_index()
 
 
-def pupils_calc(pupils, fsm, sen):
+def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
+    """
+    Perform pupil calculation (non-special).
+
+    :param pupils: number of pupils
+    :param fsm: percentage FSM (Free School Meals)
+    :param sen: percentage SEN (Special Education Needs)
+    :return: pupil calculation
+    """
     pupil_range = compute_range(pupils)
     fsm_range = compute_range(fsm)
     sen_range = compute_range(sen)
 
-    pupil = 0.5 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
-    meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
-    sen = 0.1 * np.power(np.abs(sen[:, None] - sen[None, :]) / sen_range, 2)
-    return np.power(pupil + meal + sen, 0.5)
+    pupil_column_vector = pupils[:, None]
+    pupil_row_vector = pupils[None, :]
+    pupil_delta_matrix = np.abs(pupil_column_vector - pupil_row_vector)
+
+    fsm_column_vector = fsm[:, None]
+    fsm_row_vector = fsm[None, :]
+    fsm_delta_matrix = np.abs(fsm_column_vector - fsm_row_vector)
+
+    sen_column_vector = sen[:, None]
+    sen_row_vector = sen[None, :]
+    sen_delta_matrix = np.abs(sen_column_vector - sen_row_vector)
+
+    pupil = 0.5 * np.power(pupil_delta_matrix / pupil_range, 2)
+    meal = 0.4 * np.power(fsm_delta_matrix / fsm_range, 2)
+    sen = 0.1 * np.power(sen_delta_matrix / sen_range, 2)
+
+    return np.sqrt(pupil + meal + sen)
 
 
 def special_pupils_calc(
