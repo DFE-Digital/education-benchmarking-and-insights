@@ -4,6 +4,7 @@ parameters:
   environment: ''
   pipelineEnvironment: ''
   cipEnvironment: ''
+  buildNumber: ''
   dependsOn: []
 
 jobs:
@@ -16,9 +17,18 @@ jobs:
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
 
-  - template: ../platform/sync.yaml
+  - template: ../data-pipeline/sync.yaml
     parameters:
       dependsOn: [ CoreSync ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+
+  - template: ../platform/sync.yaml
+    parameters:
+      dependsOn: [ DataPipelineSync ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
@@ -52,9 +62,19 @@ jobs:
       pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
       cipEnvironment: ${{ parameters.cipEnvironment }}
 
-  - template: ../core-infrastructure/destroy.yaml
+  - template: ../data-pipeline/destroy.yaml
     parameters:
       dependsOn: [ PlatformDestroy ]
+      subscription: ${{ parameters.subscription }}
+      environmentPrefix: ${{ parameters.environmentPrefix }}
+      environment: ${{ parameters.environment }}
+      pipelineEnvironment: ${{ parameters.pipelineEnvironment }}
+      cipEnvironment: ${{ parameters.cipEnvironment }}
+      buildNumber: ${{ parameters.buildNumber }}
+
+  - template: ../core-infrastructure/destroy.yaml
+    parameters:
+      dependsOn: [ DataPipelineDestroy ]
       subscription: ${{ parameters.subscription }}
       environmentPrefix: ${{ parameters.environmentPrefix }}
       environment: ${{ parameters.environment }}
