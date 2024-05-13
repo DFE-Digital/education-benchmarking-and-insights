@@ -39,6 +39,25 @@ def prepare_data(data):
     return data.sort_index()
 
 
+def _delta_range_ratio(input: np.array) -> np.array:
+    """
+    Calculate the ratio of input delta to its range.
+
+    Determine the matrix of absolute differences between all
+    combinations in the input, divided by the range of the input.
+
+    :param input: array of data
+    :return: the ratio of the delta to the data range
+    """
+    input_range = compute_range(input)
+
+    input_column_vector = input[:, None]
+    input_row_vector = input[None, :]
+    input_delta_matrix = np.abs(input_column_vector - input_row_vector)
+
+    return input_delta_matrix / input_range
+
+
 def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
     """
     Perform pupil calculation (non-special).
@@ -48,25 +67,9 @@ def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
     :param sen: percentage SEN (Special Education Needs)
     :return: pupil calculation
     """
-    pupil_range = compute_range(pupils)
-    fsm_range = compute_range(fsm)
-    sen_range = compute_range(sen)
-
-    pupil_column_vector = pupils[:, None]
-    pupil_row_vector = pupils[None, :]
-    pupil_delta_matrix = np.abs(pupil_column_vector - pupil_row_vector)
-
-    fsm_column_vector = fsm[:, None]
-    fsm_row_vector = fsm[None, :]
-    fsm_delta_matrix = np.abs(fsm_column_vector - fsm_row_vector)
-
-    sen_column_vector = sen[:, None]
-    sen_row_vector = sen[None, :]
-    sen_delta_matrix = np.abs(sen_column_vector - sen_row_vector)
-
-    pupil = 0.5 * np.power(pupil_delta_matrix / pupil_range, 2)
-    meal = 0.4 * np.power(fsm_delta_matrix / fsm_range, 2)
-    sen = 0.1 * np.power(sen_delta_matrix / sen_range, 2)
+    pupil = 0.5 * np.power(_delta_range_ratio(pupils), 2)
+    meal = 0.4 * np.power(_delta_range_ratio(fsm), 2)
+    sen = 0.1 * np.power(_delta_range_ratio(sen), 2)
 
     return np.sqrt(pupil + meal + sen)
 
@@ -115,21 +118,8 @@ def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
     :param average_age: product of age of the school and area
     :return: area metric
     """
-    gifa_range = compute_range(gifa)
-    average_age_range = compute_range(average_age)
-
-    gifa_column_vector = gifa[:, None]
-    gifa_row_vector = gifa[None, :]
-    gifa_delta_matrix = np.abs(gifa_column_vector - gifa_row_vector)
-
-    average_age_column_vector = average_age[:, None]
-    average_age_row_vector = average_age[None, :]
-    average_age_delta_matrix = np.abs(
-        average_age_column_vector - average_age_row_vector
-    )
-
-    gifa = 0.8 * np.power(gifa_delta_matrix / gifa_range, 2)
-    age = 0.2 * np.power(average_age_delta_matrix / average_age_range, 2)
+    gifa = 0.8 * np.power(_delta_range_ratio(gifa), 2)
+    age = 0.2 * np.power(_delta_range_ratio(average_age), 2)
 
     return np.sqrt(gifa + age)
 
