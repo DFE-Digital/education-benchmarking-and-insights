@@ -27,7 +27,7 @@ public static class DecimalExtensions
     {
         return $"{value:0.##}";
     }
-    
+
     public static string ToNumberSeparator(this decimal value)
     {
         return $"{value:N0}";

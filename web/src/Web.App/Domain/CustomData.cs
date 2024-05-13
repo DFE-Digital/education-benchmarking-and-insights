@@ -74,7 +74,7 @@ public record CustomData
         RevenueReserve = finances.RevenueReserve;
 
         // Non-financial data
-        TotalNumberOfTeachersFte = finances.TotalNumberOfTeachersFte;
+        NumberOfPupilsFte = census.NumberOfPupils;
         FreeSchoolMealPercent = finances.FreeSchoolMealPercent;
         SpecialEducationalNeedsPercent = finances.SpecialEducationalNeedsPercent;
         FloorArea = floorArea.FloorArea;
@@ -142,7 +142,7 @@ public record CustomData
     public decimal RevenueReserve { get; set; }
 
     // Non-financial data
-    public decimal? TotalNumberOfTeachersFte { get; set; }
+    public decimal? NumberOfPupilsFte { get; set; }
     public decimal? FreeSchoolMealPercent { get; set; }
     public decimal? SpecialEducationalNeedsPercent { get; set; }
     public int? FloorArea { get; set; }
@@ -214,7 +214,7 @@ public record CustomData
     public void Merge(INonFinancialDataCustomDataViewModel viewModel)
     {
         // Non-financial data
-        TotalNumberOfTeachersFte = viewModel.TotalNumberOfTeachersFte;
+        NumberOfPupilsFte = viewModel.NumberOfPupilsFte;
         FreeSchoolMealPercent = viewModel.FreeSchoolMealPercent;
         SpecialEducationalNeedsPercent = viewModel.SpecialEducationalNeedsPercent;
         FloorArea = viewModel.FloorArea;

@@ -62,7 +62,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public decimal RevenueReserve { get; init; }
 
     // Non-financial data
-    public decimal? TotalNumberOfTeachersFte { get; init; }
+    public decimal? NumberOfPupilsFte { get; init; }
     public decimal? FreeSchoolMealPercent { get; init; }
     public decimal? SpecialEducationalNeedsPercent { get; init; }
     public int? FloorArea { get; init; }
@@ -133,7 +133,7 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
             RevenueReserve = customData.RevenueReserve,
 
             // Non-financial data
-            TotalNumberOfTeachersFte = customData.TotalNumberOfTeachersFte,
+            NumberOfPupilsFte = customData.NumberOfPupilsFte,
             FreeSchoolMealPercent = customData.FreeSchoolMealPercent,
             SpecialEducationalNeedsPercent = customData.SpecialEducationalNeedsPercent,
             FloorArea = customData.FloorArea,
@@ -184,6 +184,7 @@ public static class SchoolCustomDataViewModelTitles
     public const string TotalIncome = "Total income";
     public const string TotalExpenditure = "Total spending";
     public const string RevenueReserve = "Revenue reserve";
+    public const string NumberOfPupilsFte = "Number of pupils (full time equivalent)";
     public const string FreeSchoolMealPercent = "Pupils eligible for free school meals (FSM)";
     public const string SpecialEducationalNeedsPercent = "Pupils with special educational needs (SEN)";
     public const string FloorArea = "Gross internal floor area";
