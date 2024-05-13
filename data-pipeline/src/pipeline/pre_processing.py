@@ -479,7 +479,7 @@ def build_academy_data(
             "Auditor costs": "Non-educational support staff and services_Audit cost",
             "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
             "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing (revenue contributions to capital)",
-            "PFI Charges": "Other costs_PFI charges"
+            "PFI Charges": "Other costs_PFI charges",
         },
         inplace=True,
     )
@@ -583,7 +583,7 @@ def build_maintained_school_data(
             "PFI": "PFI School",
             "I07  Other grants and payments": "Other grants and payments",
             # TODO: Should these come from the census record not the MS record
-            "No Pupils": "Number of pupils"
+            "No Pupils": "Number of pupils",
         },
         inplace=True,
     )

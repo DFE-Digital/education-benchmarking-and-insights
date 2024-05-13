@@ -290,4 +290,3 @@ def get_comparator_set_by(
         .head(30 - len(same_region))
     )
     return pd.concat([same_region, out_of_region])
-

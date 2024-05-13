@@ -9,7 +9,7 @@ base_cols = [
     "OfstedRating (name)",
     "Percentage SEN",
     "Percentage Free school meals",
-    "Number of pupils"
+    "Number of pupils",
 ]
 
 category_settings = {
@@ -557,16 +557,25 @@ def is_close_comparator(category_type, org_a, org_b):
 
 
 def get_category_series(category_name, data, basis):
-    category_cols = data.columns.isin(base_cols) | data.columns.isin(["is_close"]) | data.columns.str.startswith(
-        category_name)
+    category_cols = (
+        data.columns.isin(base_cols)
+        | data.columns.isin(["is_close"])
+        | data.columns.str.startswith(category_name)
+    )
     df = data[data.columns[category_cols]].copy()
-    basis_data = data['Number of pupils' if basis == "pupil" else "Total Internal Floor Area"]
+    basis_data = data[
+        "Number of pupils" if basis == "pupil" else "Total Internal Floor Area"
+    ]
 
     # Create total column and divide be the basis data
-    df[category_name + '_Total'] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(
-        axis=1) / basis_data
+    df[category_name + "_Total"] = (
+        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
+        / basis_data
+    )
 
-    sub_categories = df.columns[df.columns.str.startswith(category_name)].values.tolist()
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
 
     for sub_category in sub_categories:
         df[sub_category] = df[sub_category] / basis_data
@@ -592,15 +601,15 @@ def category_stats(category_name, data, ofsted_rating, rag_mapping):
         diff_percent = (diff / value) * 100 if value != 0 else 0
 
         return {
-            'value': value,
-            'mean': mean,
-            'diff_mean': diff,
-            'key': key,
-            'percentage_diff': diff_percent,
-            'percentile': percentile,
-            'decile': decile,
-            'rag': rag_mapping[key][int(decile)],
-            'data': data.reset_index().to_dict(orient='records', index=True)
+            "value": value,
+            "mean": mean,
+            "diff_mean": diff,
+            "key": key,
+            "percentage_diff": diff_percent,
+            "percentile": percentile,
+            "decile": decile,
+            "rag": rag_mapping[key][int(decile)],
+            "data": data.reset_index().to_dict(orient="records", index=True),
         }
 
 
@@ -611,7 +620,9 @@ def compute_category_rag(category_name, settings, comparator_set, stats):
         lambda x: is_close_comparator(settings["type"], target, x), axis=1
     )
 
-    series, sub_categories = get_category_series(category_name, comparator_set, settings['type'])
+    series, sub_categories = get_category_series(
+        category_name, comparator_set, settings["type"]
+    )
 
     for sub_category in sub_categories:
         stats[sub_category] = category_stats(sub_category, series, ofstead, settings)
