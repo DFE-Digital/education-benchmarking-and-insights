@@ -5,23 +5,12 @@ parameters:
   pipelineEnvironment: ''
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
-  buildNumber: ''
   dependsOn: []
 
 jobs:
-  - job: DataPipelineDestroyManualValidation
-    displayName: 'Validate destruction of Data Pipeline resources'
+  - deployment: DataPipelineSync
+    displayName: 'Data Pipeline : Sync'
     dependsOn: ${{ parameters.dependsOn }}
-    pool: server
-    steps:
-    - task: ManualValidation@0
-      displayName: 'Validation'
-      inputs:
-        instructions: 'Approve this step to destroy all Data Pipeline resources in ${{ parameters.environmentPrefix }}'
-
-  - deployment: DataPipelineDestroy
-    displayName: 'Data Pipeline : Destroy'
-    dependsOn: [ DataPipelineDestroyManualValidation ]
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.pipelineEnvironment }}
@@ -31,7 +20,7 @@ jobs:
           steps:
             - checkout: self
 
-            - template: ..\common\destroy-terraform.yaml
+            - template: ..\common\sync-terraform.yaml
               parameters:
                 workspaceDir: '$(System.DefaultWorkingDirectory)/data-pipeline/terraform'
                 subscription: ${{ parameters.subscription }}
@@ -39,4 +28,3 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'data-pipeline'
-                imageName: 'fbit-data-pipeline:${{ parameters.buildNumber }}'
