@@ -409,8 +409,6 @@ async def compute_rag(set_type, year):
             f"{set_type}/{year}/{rag_file}.pkl"
         )).reset_index()
 
-        print(schools.columns.values)
-
         for (comparator_type, comparator_file) in rag_settings[rag_file]:
             st = time.time()
             logger.info(f"Computing {comparator_type} RAG")
