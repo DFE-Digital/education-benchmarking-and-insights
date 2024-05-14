@@ -29,25 +29,28 @@ export class CensusApi {
     type: string,
     id: string,
     dimension: string,
-    category: string
+    category: string,
+    phase?: string
   ): Promise<Census[]> {
-    return fetch(
-      "/api/census?" +
-        new URLSearchParams({
-          type: type,
-          id: id,
-          dimension: dimension,
-          category: category,
-        }),
-      {
-        redirect: "manual",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Correlation-ID": uuidv4(),
-        },
-      }
-    )
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+      dimension: dimension,
+      category: category,
+    });
+
+    if (phase) {
+      params.append("phase", phase);
+    }
+
+    return fetch("/api/census?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {

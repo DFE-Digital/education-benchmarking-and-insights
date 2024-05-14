@@ -75,6 +75,7 @@ public class SchoolsFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("companyNumber", "Company number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("laCode", "Local authority code", DataType = typeof(int), Required = false)]
+    [QueryStringParameter("phase", "Phase", DataType = typeof(string), Required = false)]
     public async Task<IActionResult> QuerySchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools")]
         HttpRequest req)
@@ -92,7 +93,8 @@ public class SchoolsFunctions
             {
                 var companyNumber = req.Query["companyNumber"].ToString();
                 var laCode = req.Query["laCode"].ToString();
-                var schools = await _db.Query(companyNumber, laCode);
+                var phase = req.Query["phase"].ToString();
+                var schools = await _db.Query(companyNumber, laCode, phase);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)

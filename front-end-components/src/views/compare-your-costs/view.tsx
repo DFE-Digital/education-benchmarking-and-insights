@@ -19,18 +19,21 @@ import { useGovUk } from "src/hooks/useGovUk";
 export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   props
 ) => {
-  const { type, id } = props;
+  const { type, id, phases } = props;
   const [expenditureData, setExpenditureData] = useState<ExpenditureData[]>();
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [selectedSchool, setSelectedSchool] = useState<SelectedSchool>(
     School.empty
   );
+  const [phase, setPhase] = useState<string | undefined>(
+    phases ? phases[0] : undefined
+  );
 
   useGovUk();
 
   const getExpenditure = useCallback(async () => {
-    return await EstablishmentsApi.getExpenditure(type, id);
-  }, [type, id]);
+    return await EstablishmentsApi.getExpenditure(type, id, phase);
+  }, [type, id, phase]);
 
   useEffect(
     () => {
@@ -56,13 +59,43 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
     setDisplayMode(e.target.value);
   };
 
+  const handlePhaseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    console.log(e.target.value);
+    setPhase(e.target.value);
+  };
+
   const hasIncompleteData =
     expenditureData?.some((x) => x.hasIncompleteData) ?? false;
 
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
-      <div className="view-as-toggle">
-        <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
+      <div className="chart-options">
+        <div>
+          {phases && (
+            <div className="govuk-form-group">
+              <label className="govuk-label govuk-label--s" htmlFor="phase">
+                Phase
+              </label>
+              <select
+                className="govuk-select"
+                name="phase"
+                id="phase"
+                onChange={handlePhaseChange}
+              >
+                {phases.map((phase) => {
+                  return (
+                    <option key={phase} value={phase}>
+                      {phase}
+                    </option>
+                  );
+                })}
+              </select>
+            </div>
+          )}
+        </div>
+        <div>
+          <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
+        </div>
       </div>
       <HasIncompleteDataContext.Provider value={hasIncompleteData}>
         <ChartModeContext.Provider value={displayMode}>

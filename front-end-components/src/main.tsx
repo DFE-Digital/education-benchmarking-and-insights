@@ -80,13 +80,13 @@ if (findOrganisationElement) {
 const compareCostsElement = document.getElementById(CompareCostsElementId);
 
 if (compareCostsElement) {
-  const { type, id } = compareCostsElement.dataset;
+  const { type, id, phases } = compareCostsElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCostsElement);
-
+    const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     root.render(
       <React.StrictMode>
-        <CompareYourCosts type={type} id={id} />
+        <CompareYourCosts type={type} id={id} phases={phasesParsed} />
       </React.StrictMode>
     );
   }
@@ -95,13 +95,13 @@ if (compareCostsElement) {
 const compareCensusElement = document.getElementById(CompareCensusElementId);
 
 if (compareCensusElement) {
-  const { type, id } = compareCensusElement.dataset;
+  const { type, id, phases } = compareCensusElement.dataset;
   if (type && id) {
     const root = ReactDOM.createRoot(compareCensusElement);
-
+    const phasesParsed = phases ? (JSON.parse(phases) as string[]) : null;
     root.render(
       <React.StrictMode>
-        <CompareYourCensus type={type} id={id} />
+        <CompareYourCensus type={type} id={id} phases={phasesParsed} />
       </React.StrictMode>
     );
   }

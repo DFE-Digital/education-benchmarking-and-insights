@@ -13,7 +13,7 @@ namespace Platform.Api.Establishment.Db;
 public interface ISchoolDb
 {
     Task<SchoolResponseModel?> Get(string urn);
-    Task<IEnumerable<SchoolResponseModel>> Query(string? companyNumber, string? laCode);
+    Task<IEnumerable<SchoolResponseModel>> Query(string? companyNumber, string? laCode, string? phase);
 }
 
 [ExcludeFromCodeCoverage]
@@ -49,7 +49,7 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
         return school == null ? null : SchoolResponseModel.Create(school);
     }
 
-    public async Task<IEnumerable<SchoolResponseModel>> Query(string? companyNumber, string? laCode)
+    public async Task<IEnumerable<SchoolResponseModel>> Query(string? companyNumber, string? laCode, string? phase)
     {
         var schools = await ItemEnumerableAsync<EdubaseDataObject>(
                 _collectionName,
@@ -57,12 +57,17 @@ public class SchoolDb : CosmosDatabase, ISchoolDb
                 {
                     if (!string.IsNullOrEmpty(companyNumber) && int.TryParse(companyNumber, out var companyParsed))
                     {
-                        q = q.Where(x => x.CompanyNumber == companyParsed);
+                        q = q.Where(x => x.CompanyNumber == companyParsed && x.FinanceType == EstablishmentTypes.Academies);
                     }
 
                     if (!string.IsNullOrEmpty(laCode) && int.TryParse(laCode, out var laparsed))
                     {
-                        q = q.Where(x => x.LaCode == laparsed);
+                        q = q.Where(x => x.LaCode == laparsed && x.FinanceType == EstablishmentTypes.Maintained);
+                    }
+
+                    if (!string.IsNullOrEmpty(phase))
+                    {
+                        q = q.Where(x => x.OverallPhase == phase);
                     }
 
                     return q;

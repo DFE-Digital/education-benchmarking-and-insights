@@ -12,7 +12,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn200OnValidRequest()
     {
         Db
-            .Setup(d => d.Query(It.IsAny<string?>(), It.IsAny<string?>()))
+            .Setup(d => d.Query(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .ReturnsAsync(Array.Empty<SchoolResponseModel>());
 
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as JsonContentResult;
@@ -25,7 +25,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn500OnError()
     {
         Db
-            .Setup(d => d.Query(It.IsAny<string?>(), It.IsAny<string?>()))
+            .Setup(d => d.Query(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .Throws(new Exception());
 
         var result = await Functions.QuerySchoolsAsync(CreateRequest()) as StatusCodeResult;

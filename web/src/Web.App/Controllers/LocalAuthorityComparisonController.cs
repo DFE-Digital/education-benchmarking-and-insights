@@ -26,7 +26,13 @@ public class LocalAuthorityComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.LocalAuthorityComparison(code);
 
                 var localAuthority = await establishmentApi.GetLocalAuthority(code).GetResultOrThrow<LocalAuthority>();
-                var viewModel = new LocalAuthorityComparisonViewModel(localAuthority);
+
+                var query = new ApiQuery().AddIfNotNull("laCode", code);
+                var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<School[]>();
+
+                var phases = schools.GroupBy(x => x.OverallPhase).OrderByDescending(x => x.Count()).Select(x => x.Key).OfType<string>().ToArray();
+
+                var viewModel = new LocalAuthorityComparisonViewModel(localAuthority, phases);
 
                 return View(viewModel);
             }
