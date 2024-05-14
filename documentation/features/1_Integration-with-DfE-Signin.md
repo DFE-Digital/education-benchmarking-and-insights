@@ -4,7 +4,7 @@
 
 ```mermaid
 sequenceDiagram
-    accTitle: DfE Sign-in sequence
+    accDescr: DfE Sign-in sequence
     
     participant User
     participant Web App
@@ -26,33 +26,32 @@ sequenceDiagram
 
 ## Setting up our service configuration in DSI
 
-1. **Receive manage access to DfE manage console.**
-2. **Register our service as a ‘relying party’.**
-3. **We then must provide (details of each below):**
-   - a. services home URL
-   - b. post password-reset URL
-   - c. client ID
-   - d. redirect URL
-   - e. logout direct URL
-   - f. response type (‘code’ seems to suit our use case and is flow captured in diagram above)
-   - g. refresh token
-   - h. client secret
-   - i. token endpoint authentication method
+1. Receive manage access to DfE manage console.
+2. Register our service as a ‘relying party’.
+3. We then must provide (details of each below):
+   - services home URL
+   - post password-reset URL
+   - client ID
+   - redirect URL
+   - logout direct URL
+   - response type (‘code’ seems to suit our use case and is flow captured in diagram above)
+   - refresh token
+   - client secret
+   - token endpoint authentication method
+4. Once set up we can then use DSI’s API to interact with it: [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
+5. Any edits to our services configuration can be done via the manage console.
 
-4. **Once set up we can then use DSI’s API to interact with it:** [DfE Public API](https://github.com/DFE-Digital/login.dfe.public-api) (details below)
-5. **Any edits to our services configuration can be done via the manage console.**
-
-### Home URL:
+### Home URL
 
 The home URL is the home page of the service you want to configure. It is usually the service landing page from DfE Sign-in. For example: [Apply for Teacher Training](https://www.apply-for-teacher-training.service.gov.uk/provider)
 
-### Post password-reset URL:
+### Post password-reset URL
 
 The post password-reset URL is the page that you want to redirect users to after they have reset their password. It is usually the DfE Sign-in home page. For example: [DfE Sign-in](https://services.signin.education.gov.uk)
 
 If you do not provide a post password-reset URL, the DfE Sign-in system will automatically use one of the redirect URLs provided.
 
-### Client ID:
+### Client ID
 
 The client ID is a unique identifier of the service you want to configure. It is created manually by the DfE Sign-in team and must be:
 - Unique
@@ -61,7 +60,7 @@ The client ID is a unique identifier of the service you want to configure. It is
 
 The client ID should not be easy for third parties to guess as it can lead to phishing attacks. You cannot change this value when configuring a service. The value of the client ID must be passed as part of the authentication request.
 
-### Redirect URL:
+### Redirect URL
 
 The redirect URL is where you want to redirect users to after they have authenticated. DfE Sign-in will send the authentication response to this URL.
 
@@ -72,7 +71,7 @@ You can add multiple redirect URLs. For security reasons, it is important to add
 
 Users will only be redirected back to a URL if it exists in this whitelist. It is important to keep redirect URLs up to date and remove any URLs that are no longer relevant. You can remove a redirect URL on the ‘Edit service configuration’ page by clicking ‘Remove’ next to the URL field.
 
-### Logout redirect URL:
+### Logout redirect URL
 
 The logout redirect URL is the page that you want to redirect users to after they log out of the service. It is usually the service landing page from DfE Sign-in. For example, [Apply for Teacher Training](https://www.apply-for-teacher-training.service.gov.uk/provider)
 
@@ -83,11 +82,11 @@ You can add multiple redirect URLs. For security reasons, it is important to add
 
 Users will only be redirected back to a URL if it exists in this whitelist. If you do not provide a logout redirect URL, users will be redirected to the DfE Sign-in page.
 
-### Response types:
+### Response types
 
 A response type is a value that determines the authentication flow. It is sent as part of an authentication request. We should go with ‘code’, which is the authorization flow visible in the above diagram.
 
-### Refresh token:
+### Refresh token
 
 The `refresh_token` is a grant type. Grant types are the way that a service can get OAuth access tokens.
 
@@ -96,7 +95,7 @@ A `refresh_token` is used to exchange a refresh token for an access token when t
 When configuring a service and the system has chosen either authorization flow or hybrid flow, you can choose to select `refresh_token`. This is optional.
 
 
-### Client secret:
+### Client secret
 
 The client secret is a value that acts as a password for the service. DfE manage console automatically creates the client secret when configuring a service. It:
 - is usually 25 characters long
@@ -107,7 +106,7 @@ The client secret should be secure and not easy for third parJes to guess. It is
 You can view or change the client secret on the ‘Edit service configuraJon’ page by clicking ‘Show’ or ‘Regenerate’ next to the client secret field.
 The client secret is needed when your service authenJcates itself to the DfE Sign-in token endpoint. Therefore, it is only required when you have selected response type code which automatically choses authorizaJon flow as your flow.
 
-### Token endpoint authentication method:
+### Token endpoint authentication method
 
 A token endpoint is where applications make a request to get OAuth access tokens.
 
@@ -121,14 +120,14 @@ When configuring a service, there are 3 token endpoint authentication methods:
 
 You must select 1 method that applies to your service when configuring a service.
 
-### API:
+### API
 
 The DfE Sign-in public API is for external consumers to interact with DfE Sign-in. It is specific to DfE Sign-in, not OAuth.
 
 For any requests on DfE manage console, you will need to provide a JSON Web Token. The token must be signed using the HS256 algorithm with your API secret
 
 
-### API secret:
+### API secret
 
 The API secret is a value that acts as a password for accessing the DfE Sign-in public API.
 DfE manage console automatically creates the API secret when configuring a service. It:

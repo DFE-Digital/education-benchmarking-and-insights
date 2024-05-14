@@ -1903,7 +1903,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
-          "Microsoft.NET.Sdk.Functions": "[4.3.0, )",
+          "Microsoft.NET.Sdk.Functions": "[4.4.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )"
@@ -1922,7 +1922,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
-          "Microsoft.NET.Sdk.Functions": "[4.3.0, )",
+          "Microsoft.NET.Sdk.Functions": "[4.4.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )",
@@ -1942,7 +1942,7 @@
           "Microsoft.Extensions.Logging.Abstractions": "[6.0.4, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
-          "Microsoft.NET.Sdk.Functions": "[4.3.0, )",
+          "Microsoft.NET.Sdk.Functions": "[4.4.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
           "Platform.Functions": "[1.0.0, )",
           "Platform.Infrastructure": "[1.0.0, )"
@@ -2165,9 +2165,9 @@
       },
       "Microsoft.NET.Sdk.Functions": {
         "type": "CentralTransitive",
-        "requested": "[4.3.0, )",
-        "resolved": "4.3.0",
-        "contentHash": "3cyMqSqw+m7nQxfjHk0S1SPAAYcEto6JXDbOxnXqfGV+r2GgtDRJQ8fjvw81LoGdU87QzyF7ukg6dPHDeXUDOA==",
+        "requested": "[4.4.0, )",
+        "resolved": "4.4.0",
+        "contentHash": "c7hsHAfKhFaPZP6UIeZbWpNqPd+QGObV0VViniGvZYpXkpzmW9XsY8/6nVbtZFchUe/2ziN06sG0f++A6TxjNg==",
         "dependencies": {
           "Microsoft.Azure.Functions.Analyzers": "[1.0.0, 2.0.0)",
           "Microsoft.Azure.WebJobs": "[3.0.32, 3.1.0)",

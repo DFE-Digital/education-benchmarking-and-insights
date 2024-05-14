@@ -1,16 +1,16 @@
 ﻿# Cookies
 
 ## Introduction
-This document provides a summary of the cookies used in the application, along with their purposes and expiry details. It aims to assist developers in understanding the functionality and usage of each cookie within the context of the application's architecture.
+This section provides a summary of the cookies used in the application, along with their purposes and expiry details. It aims to assist developers in understanding the functionality and usage of each cookie within the context of the application's architecture.
 
 ## Cookies Summary
 
-| Cookie Name               | Purpose                                                                                               | Expiry                                   |
-|---------------------------|-------------------------------------------------------------------------------------------------------|------------------------------------------|
-| `.AspNetCore.Antiforgery` | Related to ASP.NET Core's Anti-forgery (CSRF) protection feature.                                     | Session (expires when browser is closed) |
-| `.AspNetCore.Session`     | Used by ASP.NET Core to maintain user session state across HTTP requests.                             | Session (expires when browser is closed) |
-| `ai_session`              | Used by Application Insights to track user sessions and interactions within a web application.        | 30 minutes                               |
-| `ai_user`                 | Used by Application Insights to identify unique users across sessions or visits to a web application. | 1 year                                   |
+| Cookie Name | Purpose | Expiry |
+|----------------|---------------------|-----------------------|
+| `.AspNetCore.Antiforgery` | Related to ASP.NET Core's Anti-forgery (CSRF) protection feature. | Session (expires when browser is closed) |
+| `.AspNetCore.Session` | Used by ASP.NET Core to maintain user session state across HTTP requests. | Session (expires when browser is closed) |
+| `ai_session` | Used by Application Insights to track user sessions and interactions within a web application. | 30 minutes |
+| `ai_user`| Used by Application Insights to identify unique users across sessions or visits to a web application. | 1 year |
 
 Please refer to the detailed documentation below for more information about each cookie and its purpose.
 

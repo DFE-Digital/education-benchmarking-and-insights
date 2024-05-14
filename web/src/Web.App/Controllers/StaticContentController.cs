@@ -26,4 +26,36 @@ public class StaticContentController : Controller
     {
         return View();
     }
+
+    [HttpGet]
+    [Route("cookies")]
+    public IActionResult Cookies()
+    {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+        return View();
+    }
+
+    [HttpGet]
+    [Route("privacy")]
+    public IActionResult Privacy()
+    {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+        return View();
+    }
+
+    [HttpGet]
+    [Route("contact")]
+    public IActionResult Contact()
+    {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+        return View();
+    }
+
+    [HttpGet]
+    [Route("accessibility")]
+    public IActionResult Accessibility()
+    {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+        return View();
+    }
 }

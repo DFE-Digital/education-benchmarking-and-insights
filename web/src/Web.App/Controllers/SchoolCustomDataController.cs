@@ -1,11 +1,9 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
-using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -28,7 +26,7 @@ public class SchoolCustomDataController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolCustomDataViewModel(school);
+                var viewModel = new SchoolCustomDataLandingViewModel(school);
 
                 return View(viewModel);
             }

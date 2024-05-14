@@ -16,13 +16,13 @@ The options considered were:
 * SFB - the data held in SFB 
 * SQL Server - a relational database
 
-|     Criteria     | Comment                                                                                                                                                                                     | CosmosDB | SQL Server |
-|:----------------:|:--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|:--------:|:----------:|
-|    Confidence    | The current databases are fed by a complex ETL pipeline. Currently, the SFB pipeline has been run succesfully, whereas the VMFI pipeline has been more troublesome                          |    4     |     2      |
-|     Coverage     | VMFI held all the data required, whereas SFB did not hold building data                                                                                                                     |    3     |     4      |
-|   Suitability    | The school data is diverse, but there is also trusts, academies, comparator sets, etc. that need to be considered. The data is less structired and each entity has slightly different data. |    4     |     2      |
-| Ease of transfer | Each type is simple to transfer data to the same infrastructure type                                                                                                                        |    3     |     3      |
-|      Total       |                                                                                                                                                                                             |    14    |     11     |
+| Criteria | Comment | CosmosDB | SQL Server |
+|:--------:|:----------------|:--:|:--:|
+| Confidence | The current databases are fed by a complex ETL pipeline. Currently, the SFB pipeline has been run succesfully, whereas the VMFI pipeline has been more troublesome | 4 | 2 |
+| Coverage | VMFI held all the data required, whereas SFB did not hold building data | 3 | 4|
+| Suitability | The school data is diverse, but there is also trusts, academies, comparator sets, etc. that need to be considered. The data is less structired and each entity has slightly different data. | 4 | 2|
+| Ease of transfer | Each type is simple to transfer data to the same infrastructure type | 3 | 3 |
+|Total||14|11|
 
 ## Decision Outcome
 

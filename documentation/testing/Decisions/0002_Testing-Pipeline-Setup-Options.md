@@ -1,5 +1,5 @@
-﻿# Background
-Our projects involve two main solutions - `EducationBenchmarking.Platform` and `EducationBenchmarking.Web`. Each solution has its unique set of tests: unit tests, integration tests, functional API tests for `Platform`, and Feature/E2E tests along with accessibility tests for `Web`. The focus of our exploration is on optimising the testing pipelines for the functional API tests for `Platform` and Feature/E2E tests and accessibility tests for `Web`.
+﻿# Decision - 0002 - Testing Pipeline Setup Options
+The projects involve two main solutions - `Platform` and `Web`. Each solution has its unique set of tests: unit tests, integration tests, functional API tests for `Platform`, and Feature/E2E tests along with accessibility tests for `Web`. The focus of our exploration is on optimising the testing pipelines for the functional API tests for `Platform` and Feature/E2E tests and accessibility tests for `Web`.
 
 ## Context and Problem Statement
 In the current state of our development lifecycle, we find ourselves at a stage where the absence of established testing pipelines demands our attention. To fortify the reliability and effectiveness of our projects, we recognize the essential need to implement robust testing structures. We need a solution that fulfills the following criteria.
@@ -53,8 +53,8 @@ The decision regarding our testing pipeline strategy will significantly impact t
 
 The team has unanimously decided to adopt **Option 3**. This decision aligns with the principle that robust tests should:
 
-a) Leave no trace.
-
-b) Support concurrency, allowing two QA individuals to run the same test suite against the same environment simultaneously.
+- Leave no trace.
+- Support concurrency, allowing two QA individuals to run the same test suite against the same environment simultaneously.
 
 In terms of data management and test composition, **Option 3** stands out as the simplest approach. This is because we would only need to provision, deploy, and manage a single functional test environment. By avoiding the complexity of troubleshooting test failures across multiple environments, we can achieve greater efficiency. Additionally, we can capitalise on efficiencies by pre-seeding a significant portion of the read-only data in the environment.
+

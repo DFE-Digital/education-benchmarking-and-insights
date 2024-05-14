@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -13,33 +14,24 @@ namespace Web.App.Controllers;
 [Controller]
 [SchoolAuthorization]
 [FeatureGate(FeatureFlags.CustomData)]
-[Route("school/{urn}/custom-data/change")]
+[Route("school/{urn}/custom-data")]
 public class SchoolCustomDataChangeController(
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
+    ICustomDataService customDataService,
     ILogger<SchoolCustomDataChangeController> logger)
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string urn)
+    [Route("financial-data")]
+    [ImportModelState]
+    public async Task<IActionResult> FinancialData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
-
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(urn);
-                var income = await financeService.GetSchoolIncome(urn);
-                var expenditure = await financeService.GetSchoolExpenditure(urn);
-                var census = await financeService.GetSchoolCensus(urn);
-                var floorArea = await financeService.GetSchoolFloorArea(urn);
-
-                // todo: merge in previous custom data set
-                var viewModel = new SchoolCustomDataChangeViewModel(school, finances, income, expenditure, census, floorArea);
-
-                // todo: build view
+                var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -49,5 +41,97 @@ public class SchoolCustomDataChangeController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    [HttpPost]
+    [Route("financial-data")]
+    [ExportModelState]
+    public IActionResult FinancialData(string urn, [FromForm] FinancialDataCustomDataViewModel viewModel)
+    {
+        using (logger.BeginScope(new { urn, viewModel }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted FinancialData failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    return RedirectToAction(nameof(FinancialData));
+                }
+
+                customDataService.MergeCustomDataIntoSession(urn, viewModel);
+                return RedirectToAction(nameof(NonFinancialData), new { urn });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred saving custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("school-characteristics")]
+    [ImportModelState]
+    public async Task<IActionResult> NonFinancialData(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                var viewModel = await BuildViewModel(urn);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school custom data: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("school-characteristics")]
+    [ExportModelState]
+    public IActionResult NonFinancialData(string urn, [FromForm] NonFinancialDataCustomDataViewModel viewModel)
+    {
+        using (logger.BeginScope(new { urn, viewModel }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted NonFinancialData failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    return RedirectToAction(nameof(NonFinancialData));
+                }
+
+                customDataService.MergeCustomDataIntoSession(urn, viewModel);
+                return RedirectToAction(nameof(WorkforceData), new { urn });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred saving custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("workforce")]
+    [ImportModelState]
+    public IActionResult WorkforceData(string urn)
+    {
+        return StatusCode(StatusCodes.Status204NoContent);
+    }
+
+    private async Task<SchoolCustomDataChangeViewModel> BuildViewModel(string urn)
+    {
+        var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+        var currentValues = await customDataService.GetCurrentData(urn);
+        var customInput = customDataService.GetCustomDataFromSession(urn);
+        return new SchoolCustomDataChangeViewModel(school, currentValues, customInput);
     }
 }

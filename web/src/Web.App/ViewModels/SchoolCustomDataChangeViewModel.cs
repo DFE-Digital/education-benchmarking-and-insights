@@ -4,82 +4,368 @@ namespace Web.App.ViewModels;
 
 public class SchoolCustomDataChangeViewModel(
     School school,
-    Finances finances,
-    Income income,
-    SchoolExpenditure expenditure,
-    Census census,
-    FloorAreaMetric floorArea)
+    CustomData currentValues,
+    CustomData customInput
+)
 {
-    public string? Name => school.Name;
-    public string? Urn => school.Urn;
+    public School School { get; } = school;
+    public SchoolCustomDataViewModel CurrentValues { get; } = SchoolCustomDataViewModel.FromCustomData(currentValues);
+    public SchoolCustomDataViewModel CustomInput { get; } = SchoolCustomDataViewModel.FromCustomData(customInput);
 
-    // Administrative supplies
-    public decimal AdministrativeSuppliesCosts => expenditure.AdministrativeSuppliesCosts;
+    public SchoolCustomDataSectionViewModel AdministrativeSuppliesSection => new(
+        "Administrative supplies",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AdministrativeSuppliesCosts,
+            Name = nameof(SchoolCustomDataViewModel.AdministrativeSuppliesCosts),
+            Current = CurrentValues.AdministrativeSuppliesCosts,
+            Custom = CustomInput.AdministrativeSuppliesCosts
+        }
+    );
 
-    // Catering
-    public decimal CateringStaffCosts => expenditure.CateringStaffCosts;
-    public decimal CateringSupplies => expenditure.CateringSuppliesCosts;
-    public decimal CateringIncome => income.IncomeCatering.GetValueOrDefault();
+    public SchoolCustomDataSectionViewModel CateringSection => new(
+        "Catering",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.CateringStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.CateringStaffCosts),
+            Current = CurrentValues.CateringStaffCosts,
+            Custom = CustomInput.CateringStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.CateringSuppliesCosts,
+            Name = nameof(SchoolCustomDataViewModel.CateringSuppliesCosts),
+            Current = CurrentValues.CateringSuppliesCosts,
+            Custom = CustomInput.CateringSuppliesCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.CateringIncome,
+            Name = nameof(SchoolCustomDataViewModel.CateringIncome),
+            Current = CurrentValues.CateringIncome,
+            Custom = CustomInput.CateringIncome
+        }
+    );
 
-    // Educational supplies
-    public decimal ExaminationFeesCosts => expenditure.ExaminationFeesCosts;
-    public decimal LearningResourcesNonIctCosts => expenditure.LearningResourcesNonIctCosts;
+    public SchoolCustomDataSectionViewModel EducationalSuppliesSection => new(
+        "Educational supplies",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.ExaminationFeesCosts,
+            Name = nameof(SchoolCustomDataViewModel.ExaminationFeesCosts),
+            Current = CurrentValues.ExaminationFeesCosts,
+            Custom = CustomInput.ExaminationFeesCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.LearningResourcesNonIctCosts,
+            Name = nameof(SchoolCustomDataViewModel.LearningResourcesNonIctCosts),
+            Current = CurrentValues.LearningResourcesNonIctCosts,
+            Custom = CustomInput.LearningResourcesNonIctCosts
+        }
+    );
 
-    // IT
-    public decimal LearningResourcesIctCosts => expenditure.LearningResourcesIctCosts;
+    public SchoolCustomDataSectionViewModel ITSection => new(
+        "IT",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.LearningResourcesIctCosts,
+            Name = nameof(SchoolCustomDataViewModel.LearningResourcesIctCosts),
+            Current = CurrentValues.LearningResourcesIctCosts,
+            Custom = CustomInput.LearningResourcesIctCosts
+        }
+    );
 
-    // Non-educational support staff
-    public decimal AdministrativeClericalStaffCosts => expenditure.AdministrativeClericalStaffCosts;
-    public decimal AuditorsCosts => expenditure.AuditorsCosts;
-    public decimal OtherStaffCosts => expenditure.OtherStaffCosts;
-    public decimal ProfessionalServicesNonCurriculumCosts => expenditure.ProfessionalServicesNonCurriculumCosts;
+    public SchoolCustomDataSectionViewModel NonEducationalSupportStaffSection => new(
+        "Non-educational support staff",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AdministrativeClericalStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.AdministrativeClericalStaffCosts),
+            Current = CurrentValues.AdministrativeClericalStaffCosts,
+            Custom = CustomInput.AdministrativeClericalStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AuditorsCosts,
+            Name = nameof(SchoolCustomDataViewModel.AuditorsCosts),
+            Current = CurrentValues.AuditorsCosts,
+            Custom = CustomInput.AuditorsCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.OtherStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.OtherStaffCosts),
+            Current = CurrentValues.OtherStaffCosts,
+            Custom = CustomInput.OtherStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.ProfessionalServicesNonCurriculumCosts,
+            Name = nameof(SchoolCustomDataViewModel.ProfessionalServicesNonCurriculumCosts),
+            Current = CurrentValues.ProfessionalServicesNonCurriculumCosts,
+            Custom = CustomInput.ProfessionalServicesNonCurriculumCosts
+        }
+    );
 
-    // Premises and services
-    public decimal CleaningCaretakingCosts => expenditure.CleaningCaretakingCosts;
-    public decimal MaintenancePremisesCosts => expenditure.MaintenancePremisesCosts;
-    public decimal OtherOccupationCosts => expenditure.OtherOccupationCosts;
-    public decimal PremisesStaffCosts => expenditure.PremisesStaffCosts;
+    public SchoolCustomDataSectionViewModel PremisesAndServicesSection => new(
+        "Premises and services",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.CleaningCaretakingCosts,
+            Name = nameof(SchoolCustomDataViewModel.CleaningCaretakingCosts),
+            Current = CurrentValues.CleaningCaretakingCosts,
+            Custom = CustomInput.CleaningCaretakingCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.MaintenancePremisesCosts,
+            Name = nameof(SchoolCustomDataViewModel.MaintenancePremisesCosts),
+            Current = CurrentValues.MaintenancePremisesCosts,
+            Custom = CustomInput.MaintenancePremisesCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.OtherOccupationCosts,
+            Name = nameof(SchoolCustomDataViewModel.OtherOccupationCosts),
+            Current = CurrentValues.OtherOccupationCosts,
+            Custom = CustomInput.OtherOccupationCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.PremisesStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.PremisesStaffCosts),
+            Current = CurrentValues.PremisesStaffCosts,
+            Custom = CustomInput.PremisesStaffCosts
+        }
+    );
 
-    // Teaching and teaching support
-    public decimal AgencySupplyTeachingStaffCosts => expenditure.AgencySupplyTeachingStaffCosts;
-    public decimal EducationSupportStaffCosts => expenditure.EducationSupportStaffCosts;
-    public decimal EducationalConsultancyCosts => expenditure.EducationalConsultancyCosts;
-    public decimal SupplyTeachingStaffCosts => expenditure.SupplyTeachingStaffCosts;
-    public decimal TeachingStaffCosts => expenditure.TeachingStaffCosts;
+    public SchoolCustomDataSectionViewModel TeachingAndTeachingSupportSection => new(
+        "Teaching and teaching support",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.AgencySupplyTeachingStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.AgencySupplyTeachingStaffCosts),
+            Current = CurrentValues.AgencySupplyTeachingStaffCosts,
+            Custom = CustomInput.AgencySupplyTeachingStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.EducationSupportStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.EducationSupportStaffCosts),
+            Current = CurrentValues.EducationSupportStaffCosts,
+            Custom = CustomInput.EducationSupportStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.EducationalConsultancyCosts,
+            Name = nameof(SchoolCustomDataViewModel.EducationalConsultancyCosts),
+            Current = CurrentValues.EducationalConsultancyCosts,
+            Custom = CustomInput.EducationalConsultancyCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SupplyTeachingStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.SupplyTeachingStaffCosts),
+            Current = CurrentValues.SupplyTeachingStaffCosts,
+            Custom = CustomInput.SupplyTeachingStaffCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TeachingStaffCosts,
+            Name = nameof(SchoolCustomDataViewModel.TeachingStaffCosts),
+            Current = CurrentValues.TeachingStaffCosts,
+            Custom = CustomInput.TeachingStaffCosts
+        });
 
-    // Utilities
-    public decimal EnergyCosts => expenditure.EnergyCosts;
-    public decimal WaterSewerageCosts => expenditure.WaterSewerageCosts;
+    public SchoolCustomDataSectionViewModel UtilitiesSection => new(
+        "Utilities",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.EnergyCosts,
+            Name = nameof(SchoolCustomDataViewModel.EnergyCosts),
+            Current = CurrentValues.EnergyCosts,
+            Custom = CustomInput.EnergyCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.WaterSewerageCosts,
+            Name = nameof(SchoolCustomDataViewModel.WaterSewerageCosts),
+            Current = CurrentValues.WaterSewerageCosts,
+            Custom = CustomInput.WaterSewerageCosts
+        });
 
-    // Other costs
-    public decimal DirectRevenueFinancingCosts => expenditure.DirectRevenueFinancingCosts;
-    public decimal GroundsMaintenanceCosts => expenditure.GroundsMaintenanceCosts;
-    public decimal IndirectEmployeeExpenses => expenditure.IndirectEmployeeExpenses;
-    public decimal InterestChargesLoanBank => expenditure.InterestChargesLoanBank;
-    public decimal OtherInsurancePremiumsCosts => expenditure.OtherInsurancePremiumsCosts;
-    public decimal PrivateFinanceInitiativeCharges => expenditure.PrivateFinanceInitiativeCharges;
-    public decimal RentRatesCosts => expenditure.RentRatesCosts;
-    public decimal SpecialFacilitiesCosts => expenditure.SpecialFacilitiesCosts;
-    public decimal StaffDevelopmentTrainingCosts => expenditure.StaffDevelopmentTrainingCosts;
-    public decimal StaffRelatedInsuranceCosts => expenditure.StaffRelatedInsuranceCosts;
-    public decimal SupplyTeacherInsurableCosts => expenditure.SupplyTeacherInsurableCosts;
+    public SchoolCustomDataSectionViewModel OtherCostsSection => new(
+        "Other costs",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.DirectRevenueFinancingCosts,
+            Name = nameof(SchoolCustomDataViewModel.DirectRevenueFinancingCosts),
+            Current = CurrentValues.DirectRevenueFinancingCosts,
+            Custom = CustomInput.DirectRevenueFinancingCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.GroundsMaintenanceCosts,
+            Name = nameof(SchoolCustomDataViewModel.GroundsMaintenanceCosts),
+            Current = CurrentValues.GroundsMaintenanceCosts,
+            Custom = CustomInput.GroundsMaintenanceCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.IndirectEmployeeExpenses,
+            Name = nameof(SchoolCustomDataViewModel.IndirectEmployeeExpenses),
+            Current = CurrentValues.IndirectEmployeeExpenses,
+            Custom = CustomInput.IndirectEmployeeExpenses
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.InterestChargesLoanBank,
+            Name = nameof(SchoolCustomDataViewModel.InterestChargesLoanBank),
+            Current = CurrentValues.InterestChargesLoanBank,
+            Custom = CustomInput.InterestChargesLoanBank
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.OtherInsurancePremiumsCosts,
+            Name = nameof(SchoolCustomDataViewModel.OtherInsurancePremiumsCosts),
+            Current = CurrentValues.OtherInsurancePremiumsCosts,
+            Custom = CustomInput.OtherInsurancePremiumsCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.PrivateFinanceInitiativeCharges,
+            Name = nameof(SchoolCustomDataViewModel.PrivateFinanceInitiativeCharges),
+            Current = CurrentValues.PrivateFinanceInitiativeCharges,
+            Custom = CustomInput.PrivateFinanceInitiativeCharges
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.RentRatesCosts,
+            Name = nameof(SchoolCustomDataViewModel.RentRatesCosts),
+            Current = CurrentValues.RentRatesCosts,
+            Custom = CustomInput.RentRatesCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SpecialFacilitiesCosts,
+            Name = nameof(SchoolCustomDataViewModel.SpecialFacilitiesCosts),
+            Current = CurrentValues.SpecialFacilitiesCosts,
+            Custom = CustomInput.SpecialFacilitiesCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.StaffDevelopmentTrainingCosts,
+            Name = nameof(SchoolCustomDataViewModel.StaffDevelopmentTrainingCosts),
+            Current = CurrentValues.StaffDevelopmentTrainingCosts,
+            Custom = CustomInput.StaffDevelopmentTrainingCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.StaffRelatedInsuranceCosts,
+            Name = nameof(SchoolCustomDataViewModel.StaffRelatedInsuranceCosts),
+            Current = CurrentValues.StaffRelatedInsuranceCosts,
+            Custom = CustomInput.StaffRelatedInsuranceCosts
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SupplyTeacherInsurableCosts,
+            Name = nameof(SchoolCustomDataViewModel.SupplyTeacherInsurableCosts),
+            Current = CurrentValues.SupplyTeacherInsurableCosts,
+            Custom = CustomInput.SupplyTeacherInsurableCosts
+        });
 
-    // Totals
-    public decimal TotalIncome => finances.TotalIncome;
-    public decimal TotalExpenditure => finances.TotalExpenditure;
-    public decimal RevenueReserve => finances.RevenueReserve;
+    public SchoolCustomDataSectionViewModel TotalsSection => new(
+        "Totals",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TotalIncome,
+            Name = nameof(SchoolCustomDataViewModel.TotalIncome),
+            Current = CurrentValues.TotalIncome,
+            Custom = CustomInput.TotalIncome,
+            ReadOnly = true
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TotalExpenditure,
+            Name = nameof(SchoolCustomDataViewModel.TotalExpenditure),
+            Current = CurrentValues.TotalExpenditure,
+            Custom = CustomInput.TotalExpenditure,
+            ReadOnly = true
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.RevenueReserve,
+            Name = nameof(SchoolCustomDataViewModel.RevenueReserve),
+            Current = CurrentValues.RevenueReserve,
+            Custom = CustomInput.RevenueReserve,
+            ReadOnly = true
+        });
 
-    // Non-financial data
-    public decimal TotalNumberOfTeachersFte => finances.TotalNumberOfTeachersFte;
-    public decimal FreeSchoolMealPercent => finances.FreeSchoolMealPercent;
-    public decimal SpecialEducationalNeedsPercent => finances.SpecialEducationalNeedsPercent;
-    public int FloorArea => floorArea.FloorArea.GetValueOrDefault();
-    // TODO: Predicted percentage pupil change 3 to 5 years
+    public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
+        "Non-financial figures",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.NumberOfPupilsFte,
+            Name = nameof(SchoolCustomDataViewModel.NumberOfPupilsFte),
+            Current = CurrentValues.NumberOfPupilsFte,
+            Custom = CustomInput.NumberOfPupilsFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent,
+            Name = nameof(SchoolCustomDataViewModel.FreeSchoolMealPercent),
+            Current = CurrentValues.FreeSchoolMealPercent,
+            Custom = CustomInput.FreeSchoolMealPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SpecialEducationalNeedsPercent,
+            Name = nameof(SchoolCustomDataViewModel.SpecialEducationalNeedsPercent),
+            Current = CurrentValues.SpecialEducationalNeedsPercent,
+            Custom = CustomInput.SpecialEducationalNeedsPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FloorArea,
+            Name = nameof(SchoolCustomDataViewModel.FloorArea),
+            Current = CurrentValues.FloorArea,
+            Custom = CustomInput.FloorArea,
+            Units = SchoolCustomDataValueUnits.Area
+        }
+    );
+}
 
-    // Workforce data
-    public decimal WorkforceFte => census.WorkforceFte.GetValueOrDefault();
-    public decimal TeachersFte => census.TeachersFte.GetValueOrDefault();
-    public decimal SeniorLeadershipFte => census.SeniorLeadershipFte.GetValueOrDefault();
-    // TODO: Teacher contact ratio (less than 1)
-    // TODO: Average class size
+public record SchoolCustomDataSectionViewModel
+{
+    public SchoolCustomDataSectionViewModel(string title, params SchoolCustomDataValueViewModel[] values)
+    {
+        Title = title;
+        Values = values;
+    }
+
+    public string Title { get; init; }
+    public IEnumerable<SchoolCustomDataValueViewModel> Values { get; init; }
+}
+
+public record SchoolCustomDataValueViewModel
+{
+    public string Title { get; init; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
+    public decimal? Current { get; init; }
+    public decimal? Custom { get; init; }
+    public bool ReadOnly { get; init; }
+    public SchoolCustomDataValueUnits Units { get; init; } = SchoolCustomDataValueUnits.Currency;
+}
+
+public enum SchoolCustomDataValueUnits
+{
+    Actual,
+    Area,
+    Currency,
+    Percentage
 }

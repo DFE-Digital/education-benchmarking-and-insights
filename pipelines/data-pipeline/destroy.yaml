@@ -5,6 +5,7 @@ parameters:
   pipelineEnvironment: ''
   cipEnvironment: ''
   workspaceDir: '$(Pipeline.Workspace)'
+  buildNumber: ''
   dependsOn: []
 
 jobs:
@@ -20,7 +21,7 @@ jobs:
 
   - deployment: DataPipelineDestroy
     displayName: 'Data Pipeline : Destroy'
-    dependsOn: [ PlatformDestroyManualValidation ]
+    dependsOn: [ DataPipelineDestroyManualValidation ]
     pool:
       vmImage: ubuntu-latest
     environment: ${{ parameters.pipelineEnvironment }}
@@ -38,3 +39,4 @@ jobs:
                 environment: ${{ parameters.environment }}
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 module: 'data-pipeline'
+                imageName: 'fbit-data-pipeline:${{ parameters.buildNumber }}'

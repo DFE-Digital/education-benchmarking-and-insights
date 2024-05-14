@@ -8,13 +8,13 @@ This document provides detailed information for developers about the implementat
 
 This feature acts as the entry point for the entire user journey within the application. It allows the School or Trust to be sought that works as the context for all subsequent operations.
 
-![Select an organisation type](images/find-organisation-ui-1.png)
+![Select an organisation type](./images/find-organisation-ui-1.png)
 
 As the user types, a debounced API call is performed that performs a search and displays the top ten matches in a drop-down list.
 
-![Academy search](images/find-organisation-ui-2.png)
+![Academy search](./images/find-organisation-ui-2.png)
 
-![Trust search](images/find-organisation-ui-3.png)
+![Trust search](./images/find-organisation-ui-3.png)
 
 Once an item has been chosen and 'Continue' clicked, the School or Trust landing page is displayed and the user may continue on their journey.
 
@@ -46,7 +46,7 @@ This feature has monorepo dependencies on:
 
 ```mermaid
 flowchart TD
-  accTitle: Happy path
+  accDescr: API flow - happy path
   
   A([✏️ Enter search criteria]) --> B[GET\n/api/suggest?type=school&search=XXX ]
     B --> C[Proxy to Establishment API]
@@ -61,17 +61,17 @@ flowchart TD
 
 On the Web side, `GET /api/suggest` proxies to the Establishment API based on the `type` in the query string:
 
-| Type     | Method | URL                    | Body                                                                       |
-|----------|--------|------------------------|----------------------------------------------------------------------------|
+| Type| Method | URL| Body |
+|-------|--------|----------------|-----------------------------------------|
 | `school` | `POST` | `/api/schools/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "school-suggester" }` |
-| `trust`  | `POST` | `/api/trusts/suggest`  | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }`  |
+| `trust` | `POST` | `/api/trusts/suggest` | `{ "searchText": 'XXX', "size": 10, "suggesterName": "trust-suggester" }` |
 
 In the Establishment API, a `SearchService` for each of the above types executes `SearchClient.SuggestAsync<T>()` with a set of response field names relevant to each search type to return from the index, and search result highlight configuration.
 
-| Type     | Model                 | Fields                            |
-|----------|-----------------------|-----------------------------------|
+| Type | Model | Fields |
+|----------|-----------------------|------------|
 | `school` | `SchoolResponseModel` | `Urn`, `Name`, `Town`, `Postcode` |
-| `trust`  | `TrustResponseModel`  | `CompanyNumber`, `Name`           |
+| `trust` | `TrustResponseModel` | `CompanyNumber`, `Name` |
 
 The response payload from the above is in the following format, where `*` has been specified in the search highlight configuration:
 
@@ -107,10 +107,10 @@ The [alphagov/accessible-autocomplete](https://github.com/alphagov/accessible-au
 
 In Establishment API:
 
-| Setting       | Example value         |
-|---------------|-----------------------|
+| Setting | Example value |
+|---------------|----------------|
 | `Search:Name` | `s198d01-ebis-search` |
-| `Search:Key`  | `api-key`             |
+| `Search:Key` | `api-key` |
 
 ## Deployment
 
@@ -130,6 +130,6 @@ There is no option to search or filter by additional criteria beyond name, URN a
 
 If the user does not have JavaScript enabled in their web browser they will see an empty page. There is no progressive enhancement, but this is not unique to this feature, rather all client script across the whole platform.
 
-![No JavaScript](images/find-organisation-ui-4.png)
+![No JavaScript](./images/find-organisation-ui-4.png)
 
 This is also a problem in SFB and VMFI, but first occurs later on in the user journey.

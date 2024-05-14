@@ -1,4 +1,4 @@
-# Session state 
+# Session State 
 
 The web app needs to maintain/store user data across requests - specifically modifications to comparator sets. 
 Given these actions can be performed by any user (authenticated and non-authenticated) options for storing this data were limited.
@@ -8,10 +8,12 @@ Whilst there are options to work around this, it would introduce dependencies on
 
 Session state is being used for storage of user data while the user browses a web app, more information can be found [here](https://learn.microsoft.com/en-us/aspnet/core/fundamentals/app-state?view=aspnetcore-8.0#session-state).
 
-Several configuration options have been implemented;
-1. In-memory
-2. Cosmos 
-3. Redis
+## Configuration
+
+Several configuration options have been implemented; 
+- In-memory 
+- Cosmos 
+- edis
 
 ### In-memory
 This is the default option when no configuration has been set.

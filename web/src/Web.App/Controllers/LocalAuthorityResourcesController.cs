@@ -1,23 +1,32 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Extensions;
+using Web.App.TagHelpers;
+using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("local-authority/{code}/find-ways-to-spend-less")]
 public class LocalAuthorityResourcesController(
-    ILogger<LocalAuthorityResourcesController> logger) : Controller
+    ILogger<LocalAuthorityResourcesController> logger, IEstablishmentApi establishmentApi) : Controller
 {
     [HttpGet]
-    public IActionResult Index(string code)
+    public async Task<IActionResult> Index(string code)
     {
 
         using (logger.BeginScope(new { code }))
         {
             try
             {
-                return View();
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "LocalAuthority", new { code }));
+
+                var authority = await establishmentApi.GetLocalAuthority(code).GetResultOrThrow<LocalAuthority>();
+                var viewModel = new LocalAuthorityResourcesViewModel(authority);
+
+                return View(viewModel);
             }
             catch (Exception e)
             {

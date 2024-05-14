@@ -2,7 +2,7 @@
 
 ## Introduction
 
-This document outlines the access control for this repository. It defines who has access to the repository and what permissions they have.
+This section outlines the access control for this repository. It defines who has access to the repository and what permissions they have.
 
 ## Access Levels
 

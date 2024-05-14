@@ -51,12 +51,18 @@ variable "resource-group-name" {
   type = string
 }
 
+variable "storage-account-id" {
+  type = string
+}
+
 variable "storage-account-name" {
   type = string
 }
 
 variable "storage-account-key" {
-  type = string
+  type     = string
+  nullable = true
+  default  = null
 }
 
 variable "common-tags" {

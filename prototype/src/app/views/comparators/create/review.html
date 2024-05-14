@@ -77,13 +77,14 @@
   <p class="govuk-body"><strong>Schools matched to characteristics</strong></p>
   <p class="govuk-body">You have now replaced the schools we chose for you with the 30 matched schools below.</p>
   <p class="govuk-body">These are the closest match based on the characteristics you selected.</p>
-  <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['trust-name'] }}</a></p>
+  <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['school-name'] }}</a></p>
   {% endset %}
 
   {% elseif confirmation == 'comparator-added' %}
     {% set html %}
     <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to similar schools.</p>
     <p class="govuk-body">You have now replaced the schools we chose for you with the schools you’ve chosen below.</p>
+    <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['school-name'] }}</a></p>
     {% endset %}
   
   {% elseif confirmation == 'comparator-removed' %}

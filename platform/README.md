@@ -2,8 +2,6 @@
 
 **//TODO: Describe platform component**
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FDevelopment%2FPlatform?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2865&branchName=main)
-
 ## Prerequisites
 
 1. Install .NET 6 SDK (Platform)
@@ -117,10 +115,10 @@ Dependencies when `UseDevelopmentStorage=true` is configured may be managed by c
 
 The following items should be created:
 
-| Type | Name | Config |
-| --- | --- | --- |
-| Queue | `data-pipeline-job-finished` | |
-| Queue | `data-pipeline-job-start` | |
+| Type  | Name                         | Config |
+|-------|------------------------------|--------|
+| Queue | `data-pipeline-job-finished` |        |
+| Queue | `data-pipeline-job-start`    |        |
 
 When running the `Orchestrator` API, errors such as:
 

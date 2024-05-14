@@ -2,8 +2,6 @@
 
 This project provides components to be consumed by the front-end ASP.NET Core web app.
 
-[![Build Status](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_apis/build/status%2FFront-end%20Components%20CICD?branchName=main)](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2613&branchName=main)
-
 ## Pre-requisites
 
 When developing this application in Visual Studio Code, the following extensions are recommended:
@@ -14,7 +12,7 @@ When developing this application in Visual Studio Code, the following extensions
 
 ## Available views
 
-| Views                     | Properties                         | Root Id              |
-|---------------------------|------------------------------------|----------------------|
-| Compare your school costs | urn, maintainedYear, academyYear   | compare-your-school  |
-| Compare your workforrce   | urn, maintainedYear, academyYear   | compare-census    |
+| Views                     | Properties                       | Root Id             |
+|---------------------------|----------------------------------|---------------------|
+| Compare your school costs | urn, maintainedYear, academyYear | compare-your-school |
+| Compare your workforce    | urn, maintainedYear, academyYear | compare-census      |

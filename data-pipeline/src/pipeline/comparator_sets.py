@@ -43,7 +43,6 @@ def pupils_calc(pupils, fsm, sen):
     fsm_range = compute_range(fsm)
     sen_range = compute_range(sen)
 
-    print(pupil_range, fsm_range, sen_range)
     pupil = 0.5 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
     meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
     sen = 0.1 * np.power(np.abs(sen[:, None] - sen[None, :]) / sen_range, 2)
@@ -149,7 +148,7 @@ def compute_buildings_comparator(arg):
     return phase, urns, buildings_calc(gifa, age)
 
 
-def run_comparator(data, f):
+def compute_distances(data, f):
     distance_classes = {}
 
     with Pool(mp.cpu_count()) as pool:
@@ -162,14 +161,14 @@ def run_comparator(data, f):
 def compute_comparator_matrix(data, f, comparator_key="SchoolPhaseType"):
     copy = data.reset_index()
     classes = copy.groupby([comparator_key]).agg(list)
-    return run_comparator(classes, f)
+    return compute_distances(classes, f)
 
 
 def compute_custom_comparator(name, data, f):
     copy = data.reset_index()
     copy["Custom"] = name
     classes = copy.groupby(["Custom"]).agg(list)
-    return run_comparator(classes, f)
+    return compute_distances(classes, f)
 
 
 def get_comparator_set_by(
@@ -217,3 +216,4 @@ def get_comparator_set_by(
         .head(30 - len(same_region))
     )
     return pd.concat([same_region, out_of_region])
+

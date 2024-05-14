@@ -1,8 +1,7 @@
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
@@ -15,10 +14,21 @@ resource "azurerm_storage_account" "platform-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
+  shared_access_key_enabled       = true
 
   blob_properties {
     delete_retention_policy {
       days = 7
+    }
+  }
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
     }
   }
 
@@ -30,11 +40,8 @@ resource "azurerm_storage_account" "platform-storage" {
 
 resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
@@ -44,26 +51,36 @@ resource "azurerm_storage_account" "audit-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = true
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {
       days = 7
     }
   }
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
+  }
+
+  network_rules {
+    default_action = "Deny"
+    bypass = [
+      "AzureServices"
+    ]
   }
 }
 
 resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
@@ -73,7 +90,7 @@ resource "azurerm_storage_account" "threat-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = true
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {
@@ -81,20 +98,35 @@ resource "azurerm_storage_account" "threat-storage" {
     }
   }
 
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
+  }
+
+  network_rules {
+    default_action = "Deny"
+    bypass = [
+      "AzureServices"
+    ]
   }
 }
 
+resource "azurerm_role_assignment" "sp-vulnerability-storage-role-blob" {
+  scope                = azurerm_storage_account.platform-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = data.azurerm_client_config.client.object_id
+  principal_type       = "ServicePrincipal"
+}
 
 resource "azurerm_storage_account" "vulnerability-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}vulnerability"
   location                        = azurerm_resource_group.resource-group.location
@@ -104,7 +136,7 @@ resource "azurerm_storage_account" "vulnerability-storage" {
   allow_nested_items_to_be_public = false
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
-  public_network_access_enabled   = true
+  shared_access_key_enabled       = false
 
   blob_properties {
     delete_retention_policy {
@@ -112,9 +144,14 @@ resource "azurerm_storage_account" "vulnerability-storage" {
     }
   }
 
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
   }
 }
 
@@ -127,9 +164,8 @@ resource "azurerm_storage_container" "vulnerability-container" {
 
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
@@ -142,10 +178,21 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   tags                            = local.common-tags
   min_tls_version                 = "TLS1_2"
   public_network_access_enabled   = true
+  shared_access_key_enabled       = true
 
   blob_properties {
     delete_retention_policy {
       days = 7
+    }
+  }
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
     }
   }
 

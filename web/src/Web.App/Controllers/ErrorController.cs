@@ -10,6 +10,7 @@ public class ErrorController : Controller
     [HttpPost]
     public IActionResult Problem()
     {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
         return View();
     }
 
@@ -18,6 +19,8 @@ public class ErrorController : Controller
     [Route("{statusCode:int}")]
     public IActionResult StatusCodeError(int statusCode)
     {
+        ViewData[ViewDataKeys.UseJsBackLink] = true;
+
         return statusCode switch
         {
             401 => View("AccessDenied"),

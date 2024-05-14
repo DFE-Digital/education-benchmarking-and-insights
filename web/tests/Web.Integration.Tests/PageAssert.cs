@@ -11,9 +11,6 @@ public static class PageAssert
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
         DocumentAssert.TextEqual(paras[0], "If you typed the web address, check it is correct.");
         DocumentAssert.TextEqual(paras[1], "If you pasted the web address, check you copied the entire address.");
-
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
-        DocumentAssert.Breadcrumbs(doc, expectedBreadcrumbs);
     }
 
     public static void IsAccessDeniedPage(IHtmlDocument doc)
@@ -23,9 +20,6 @@ public static class PageAssert
 
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
         DocumentAssert.TextEqual(paras[0], "You do not have access to this page.");
-
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
-        DocumentAssert.Breadcrumbs(doc, expectedBreadcrumbs);
     }
 
     public static void IsProblemPage(IHtmlDocument doc)
@@ -35,8 +29,5 @@ public static class PageAssert
 
         var paras = doc.FindMainContentElements<IHtmlParagraphElement>().ToArray();
         DocumentAssert.TextEqual(paras[0], "Try again later.");
-
-        var expectedBreadcrumbs = new[] { ("Home", Paths.ServiceHome.ToAbsolute()) };
-        DocumentAssert.Breadcrumbs(doc, expectedBreadcrumbs);
     }
 }

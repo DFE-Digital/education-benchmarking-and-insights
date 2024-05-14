@@ -66,7 +66,7 @@ Each user story will be associated with a QA ticket containing detailed test scr
 
 Test cases will be meticulously designed for each acceptance criterion, utilising the Gherkin syntax (Given When Then Format) for clear and structured documentation. If the acceptance criteria are specific enough, they can be used as test cases.
 
-#### Execution of Test:
+#### Execution of Test
 
 **End-to-End (E2E) Tests:**
 If the user story has changes for the front end, then E2E tests are written for them. E2E tests are crafted concurrently with the development of the user story. If the tests cannot be finalised before the completion of the development work, they are completed as much as possible. After the development work is finished and merged, E2E tests are concluded and integrated.
@@ -120,3 +120,4 @@ The data pipeline implementation is yet to be finalised, and testing the data pi
 
 ## Deliverables/Reporting
 Test scripts for each story will be delivered as part of testing activities.
+

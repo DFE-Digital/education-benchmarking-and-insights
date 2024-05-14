@@ -1,4 +1,4 @@
-# Getting started
+# Getting Started
 
 The repository is a monorepo which contains multiple components. 
 
@@ -55,3 +55,17 @@ The `npm lint` and `npm lint:fix` commands formats (and fixes) code to match pre
 
 #### Checkov
 Checkov is used to provide static code analysis for scanning IaC files for misconfigurations and to avoid security or compliance problems. 
+
+#### `pre-commit`
+
+The [`pre-commit`](https://pre-commit.com/) framework is used to run a standard
+set of checks prior to a Git commit taking place and is configured via the
+`.pre-commit-config.yaml` file.
+
+It requires that Python be installed and can be installed as per
+[the instructions](https://pre-commit.com/#install). Once installed, the local
+hooks can be set up by running:
+
+```sh
+pre-commit install
+```

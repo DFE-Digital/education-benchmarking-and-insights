@@ -110,6 +110,29 @@
     <div class="govuk-width-container ">
         <div class="govuk-footer__meta">
             <div class="govuk-footer__meta-item govuk-footer__meta-item--grow">
+                <h2 class="govuk-visually-hidden">Support links</h2>
+                <ul class="govuk-footer__inline-list">
+                    <li class="govuk-footer__inline-list-item">
+                        <a class="govuk-footer__link" href="@Url.Action("Cookies", "StaticContent")">
+                            Cookies
+                        </a>
+                    </li>
+                    <li class="govuk-footer__inline-list-item">
+                        <a class="govuk-footer__link" href="@Url.Action("Accessibility", "StaticContent")">
+                            Accessibility
+                        </a>
+                    </li>
+                    <li class="govuk-footer__inline-list-item">
+                        <a class="govuk-footer__link" href="@Url.Action("Privacy", "StaticContent")">
+                            Privacy
+                        </a>
+                    </li>
+                    <li class="govuk-footer__inline-list-item">
+                        <a class="govuk-footer__link" href="@Url.Action("Contact", "StaticContent")">
+                            Contact
+                        </a>
+                    </li>
+                </ul>
                 <svg
                     aria-hidden="true"
                     focusable="false"
@@ -144,6 +167,12 @@
 
 <script type="module" src="/js/front-end.js" asp-append-version="true"></script>
 <script type="module" src="/js/govuk-frontend.min.js"></script>
+<script add-nonce="true">
+    document.getElementById("js-back-link")?.addEventListener('click', function(ev) {
+        ev.preventDefault();
+        history.back();
+    });
+</script>
 @await RenderSectionAsync("scripts", required: false)
 
 </body>

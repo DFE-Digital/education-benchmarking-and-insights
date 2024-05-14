@@ -22,7 +22,7 @@ When data submitted for the school is incomplete it is important this is flagged
 
 ## Usage
 
-### HasIncompleteData prop
+### Has Incomplete Data prop
 
 This feature currently makes a HasIncompleteData prop available in the following:
 
@@ -41,13 +41,13 @@ In front-end-components
 
 - [Workforce and ExpenditureData](../../front-end-components/src/services/types.tsx)
 
-### WarningBanner
+### Warning Banner
 
 A React component is used in front-end-components which is used to display the warning if the HasIncompleteData is true. This is styled as per GDS guidelines as inset text.
 
 [warning-banner](../../front-end-components/src/components/warning-banner)
 
-#### WarningBanner Props
+#### Warning Banner Props
 
 - **isRendered**
   - *Type:* Boolean
@@ -57,7 +57,7 @@ A React component is used in front-end-components which is used to display the w
   - *Type:* String
   - *Description:* The warning text that will be displayed.
 
-#### WarningBanner Example
+#### Warning Banner Example
 
 The below JSX
 

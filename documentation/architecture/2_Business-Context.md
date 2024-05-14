@@ -33,7 +33,7 @@ https://www.youtube.com/watch?v=iRIBdxKZ7pY
 
 ## Goals and Drivers 
 
-![Goals and Drivers](images/Goals-and-Drivers.png)
+![Goals and Drivers](./images/Goals-and-Drivers.png)
 
 ## Users of the service
 

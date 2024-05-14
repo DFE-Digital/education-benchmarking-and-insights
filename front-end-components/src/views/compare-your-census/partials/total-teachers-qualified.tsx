@@ -1,9 +1,19 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { ChartDimensionContext, HasIncompleteDataContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  HasIncompleteDataContext,
+  PhaseContext,
+} from "src/contexts";
 import { TotalTeachersQualifiedData } from "src/views/compare-your-census/partials";
 import { Percent } from "src/components";
 import { Census, CensusApi } from "src/services";
@@ -12,11 +22,12 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
   type,
   id,
 }) => {
+  const phase = useContext(PhaseContext);
   const [data, setData] = useState(new Array<Census>());
   const getData = useCallback(async () => {
     setData(new Array<Census>());
-    return await CensusApi.query(type, id, "Total", "TeachersQualified");
-  }, [id, type]);
+    return await CensusApi.query(type, id, "Total", "TeachersQualified", phase);
+  }, [id, type, phase]);
 
   useEffect(() => {
     getData().then((result) => {

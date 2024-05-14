@@ -1,0 +1,17 @@
+@model Web.App.ViewModels.SchoolCustomDataSectionViewModel
+@{
+    var id = Model.Title.Replace(" ", "-").ToLower();
+}
+
+<div class="govuk-accordion__section">
+    <div class="govuk-accordion__section-header">
+        <h2 class="govuk-accordion__section-heading">
+            <span class="govuk-accordion__section-button" id="accordion-default-heading-@id">
+                @Model.Title
+            </span>
+        </h2>
+    </div>
+    <div id="accordion-financial-data-content-@id" class="govuk-accordion__section-content">
+        @await Html.PartialAsync("_CustomDataEntryTable", Model)
+    </div>
+</div>

@@ -1,6 +1,7 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
@@ -14,24 +15,28 @@ using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
 
+[assembly: InternalsVisibleTo("Web.Tests")]
+
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) => configuration.ReadFrom.Configuration(context.Configuration));
 
-builder.Services.AddControllersWithViews().AddNewtonsoftJson(options =>
-{
-    options.SerializerSettings.SetJsonOptions();
-});
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); })
+    .AddMvcOptions(options => { options.SetModelBindingOptions(); });
+
 builder.Services.AddDefaultCorrelationId();
 builder.Services.AddApplicationInsightsTelemetry();
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 {
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
     options.OlClasses = "govuk-breadcrumbs__list";
-    options.LiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
-    options.ActiveLiTemplate = "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.LiTemplate =
+        "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
+    options.ActiveLiTemplate =
+        "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
 });
 
 builder.Services.AddHealthChecks();
@@ -41,6 +46,7 @@ builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
 builder.Services.AddScoped<IComparatorSetService, ComparatorSetService>();
 builder.Services.AddScoped<ISuggestService, SuggestService>();
 builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>();
+builder.Services.AddScoped<ICustomDataService, CustomDataService>();
 builder.Services.AddFeatureManagement()
     .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
@@ -51,9 +57,12 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddDfeSignIn(options =>
     {
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
-        options.Events.OnRejectPrincipal = response => Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
-        options.Events.OnSpuriousAuthenticationRequest = _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
-        options.Events.OnRemoteFailure = ctx => Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
+        options.Events.OnRejectPrincipal = response =>
+            Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
+        options.Events.OnSpuriousAuthenticationRequest =
+            _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
+        options.Events.OnRemoteFailure = ctx =>
+            Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
         options.Events.OnValidatedPrincipal = _ => Log.Logger.Debug("Valid principal received");
     });
 
@@ -111,8 +120,8 @@ app.UseSession();
 
 app.MapHealthChecks("/health");
 app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    "default",
+    "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
 

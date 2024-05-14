@@ -1,0 +1,31 @@
+﻿@model Web.App.ViewModels.SchoolCustomDataChangeViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataNonFinancialData, name = Model.School.Name, id = Model.School.Urn, kind = OrganisationTypes.School })
+
+<div class="govuk-warning-text">
+    <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+    <strong class="govuk-warning-text__text">
+        <span class="govuk-visually-hidden">Warning</span>
+        Changing this will create a new set of similar schools
+    </strong>
+</div>
+
+@await Html.PartialAsync("_ErrorSummary")
+@using (Html.BeginForm("NonFinancialData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+{
+    @await Html.PartialAsync("_CustomDataEntryTable", Model.NonFinancialDataSection)
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+        Continue
+    </button>
+}
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}

@@ -1,0 +1,49 @@
+﻿@using Web.App.TagHelpers
+@using Web.App.ViewModels.Components
+@using Web.App.ViewModels
+@model Web.App.ViewModels.LocalAuthorityViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.LocalAuthorityHome;
+}
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
+        <p class="govuk-body">
+            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change local authority</a>
+        </p>
+    </div>
+</div>
+
+<hr class="govuk-section-break govuk-section-break--m">
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <h2 class="govuk-heading-m">Schools in local authority</h2>
+        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Primary schools", Id = 1, Schools = Model.PrimarySchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Secondary schools", Id = 2, Schools = Model.SecondarySchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Specials and Pupil Referrals units (PRUs)", Id = 3, Schools = Model.SpecialOrPruSchools })
+            @await Html.PartialAsync("_SchoolsSection", new LocalAuthoritySchoolsSectionViewModel { Heading = "Other schools", Id = 4, Schools = Model.OtherSchools })
+        </div>
+    </div>
+</div>
+
+
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("GetHelp")
+
+@section scripts
+        {
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}

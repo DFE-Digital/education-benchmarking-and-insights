@@ -1,0 +1,75 @@
+@using System.Globalization
+@using Web.App.Extensions
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolCustomDataValueViewModel
+@{
+    var id = Model.Title.Replace(" ", "-").ToLower();
+    var customValueFormatted = ViewData.ModelState.GetAttemptedValueOrDefault(Model.Name, Model.Custom.HasValue ? Model.Custom.ToString() : string.Empty);
+    var currentValue = Model.Current.GetValueOrDefault();
+    var currentValueFormatted = currentValue.ToString(CultureInfo.InvariantCulture);
+    var hasError = ViewData.ModelState.HasError(Model.Name);
+    var prefix = string.Empty;
+    var suffix = string.Empty;
+    var inputWidth = 5;
+
+    switch (Model.Units)
+    {
+        case SchoolCustomDataValueUnits.Actual:
+            break;
+        case SchoolCustomDataValueUnits.Area:
+            suffix = "square metres";
+            currentValueFormatted = $"{currentValue.ToNumberSeparator()} {suffix}";
+            break;
+        case SchoolCustomDataValueUnits.Currency:
+            prefix = "£";
+            currentValueFormatted = currentValue.ToCurrency();
+            inputWidth = 10;
+            break;
+        case SchoolCustomDataValueUnits.Percentage:
+            suffix = "%";
+            currentValueFormatted = currentValue.ToPercent();
+            inputWidth = 3;
+            break;
+        default:
+            throw new ArgumentOutOfRangeException();
+    }
+}
+
+<tr class="govuk-table__row" id="@id">
+    <td class="govuk-table__cell">@Model.Title</td>
+    <td class="govuk-table__cell">@currentValueFormatted</td>
+    <td class="govuk-table__cell">
+        @if (Model.ReadOnly)
+        {
+            @Model.Custom.ToCurrency()
+        }
+        else
+        {
+            <div class="govuk-form-group govuk-!-margin-bottom-0">
+                <label class="govuk-label govuk-visually-hidden" for="@Model.Name">
+                    @Model.Title custom data
+                </label>
+                <div class="govuk-input__wrapper">
+                    @if (!string.IsNullOrWhiteSpace(prefix))
+                    {
+                        <div class="govuk-input__prefix" aria-hidden="true">
+                            @prefix
+                        </div>
+                    }
+                    <input class="govuk-input govuk-input--width-@inputWidth @(hasError ? "govuk-input--error" : string.Empty)"
+                           id="@Model.Name"
+                           name="@Model.Name"
+                           value="@customValueFormatted"
+                           type="text"
+                           spellcheck="false"/>
+                    @if (!string.IsNullOrWhiteSpace(suffix))
+                    {
+                        <div class="govuk-input__suffix" aria-hidden="true">
+                            @suffix
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+    </td>
+</tr>

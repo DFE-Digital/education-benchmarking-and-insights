@@ -59,6 +59,8 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         columns={
             "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "FullTimeOther",
             "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "FullTimeOtherHeadCount",
+            "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
+            "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals",
         },
         inplace=True,
     )
@@ -446,7 +448,38 @@ def build_academy_data(
         columns={
             "UKPRN_x": "UKPRN",
             "Number of Pupils": "Number of pupils",
-            "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
+            "Teaching staff": "Teaching and Teaching support staff_Teaching staff",
+            "Supply teaching staff": "Teaching and Teaching support staff_Supply teaching staff",
+            "Education support staff": "Teaching and Teaching support staff_Education support staff",
+            "Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
+            "Premises staff": "Premises staff and services_Premises staff",
+            "Catering staff": "Catering staff and supplies_Catering staff",
+            "Other staff": "Non-educational support staff and services_Other staff",
+            "Indirect employee expenses": "Other costs_Indirect employee expenses",
+            "Staff development and training": "Other costs_Staff development and training",
+            "Staff-related insurance": "Other costs_Staff-related insurance",
+            "Supply teacher insurance": "Other costs_Supply teacher insurance",
+            # TODO: Review as there is a separate cost category for Grounds maintainance
+            "Building and Grounds maintenance and improvement": "Premises staff and services_Maintenance of premises",
+            "Cleaning and caretaking": "Premises staff and services_Cleaning and caretaking",
+            "Water and sewerage": "Utilities_Water and sewerage",
+            "Energy": "Utilities_Energy",
+            "Rent and Rates": "Other costs_Rent and rates",
+            "Other occupation costs": "Premises staff and services_Other occupation costs",
+            "Special facilities": "Other costs_Special facilities",
+            "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (non ICT equipment)",
+            "ICT learning resources": "Educational ICT_ICT learning resources",
+            "Examination fees": "Educational supplies_Examination fees",
+            "Educational Consultancy": "Teaching and Teaching support staff_Educational consultancy",
+            "Administrative supplies - non educational": "Administrative supplies_Administrative supplies (non educational)",
+            "Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teching staff",
+            "Catering supplies": "Catering staff and supplies_Catering supplies",
+            "Other insurance premiums": "Other costs_Other insurance premiums",
+            "Legal & Professionalservices": "Non-educational support staff and services_Professional services (non-curriculum)",
+            "Auditor costs": "Non-educational support staff and services_Audit cost",
+            "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
+            "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing (revenue contributions to capital)",
+            "PFI Charges": "Other costs_PFI charges"
         },
         inplace=True,
     )
@@ -515,16 +548,16 @@ def build_maintained_school_data(
     maintained_schools.rename(
         columns={
             "E22 Administrative supplies": "Administrative supplies_Administrative supplies (non educational)",
-            "E06 Catering staff": "Catering_Catering staff",
-            "E25  Catering supplies": "Catering_Catering supplies",
-            "I09  Income from catering": "Catering_Income from catering",
+            "E06 Catering staff": "Catering staff and supplies_Catering staff",
+            "E25  Catering supplies": "Catering staff and supplies_Catering supplies",
+            "I09  Income from catering": "Catering staff and supplies_Income from catering",
             "E21  Exam fees": "Educational supplies_Examination fees",
             "E19  Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
-            "E20  ICT learning resources": "IT_ICT learning resources",
-            "E05 Administrative and clerical staff": "Non-educational support staff_Administrative and clerical staff",
-            # '':'Non-educational support staff_Auditor costs',
-            "E07  Cost of other staff": "Non-educational support staff_Other staff",
-            "E28a  Bought in professional services - other (except PFI)": "Non-educational support staff_Professional services (non-curriculum)",
+            "E20  ICT learning resources": "Educational ICT_ICT learning resources",
+            "E05 Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
+            # '':'Non-educational support staff and services_Auditor costs',
+            "E07  Cost of other staff": "Non-educational support staff and services_Other staff",
+            "E28a  Bought in professional services - other (except PFI)": "Non-educational support staff and services_Professional services (non-curriculum)",
             "E30 Direct revenue financing (revenue contributions to capital)": "Other costs_Direct revenue financing",
             "E13  Grounds maintenance and improvement": "Other costs_Grounds maintenance",
             "E08  Indirect employee expenses": "Other costs_Indirect employee expenses",
@@ -536,21 +569,21 @@ def build_maintained_school_data(
             "E09  Development and training": "Other costs_Staff development and training",
             "E11  Staff related insurance": "Other costs_Staff-related insurance",
             "E10  Supply teacher insurance": "Other costs_Supply teacher insurance",
-            "E14  Cleaning and caretaking": "Premises_Cleaning and caretaking",
-            "E12  Building maintenance and improvement": "Premises_Maintenance of premises",
-            "E18  Other occupation costs": "Premises_Other occupation costs",
-            "E04  Premises staff": "Premises_Premises staff",
+            "E14  Cleaning and caretaking": "Premises staff and services_Cleaning and caretaking",
+            "E12  Building maintenance and improvement": "Premises staff and services_Maintenance of premises",
+            "E18  Other occupation costs": "Premises staff and services_Other occupation costs",
+            "E04  Premises staff": "Premises staff and services_Premises staff",
             "E26 Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teaching staff",
             "E03 Education support staff": "Teaching and Teaching support staff_Education support staff",
             "E27  Bought in professional services - curriculum": "Teaching and Teaching support staff_Educational consultancy",
             "E02  Supply teaching staff": "Teaching and Teaching support staff_Supply teaching staff",
             "E01  Teaching Staff": "Teaching and Teaching support staff_Teaching staff",
             "E16  Energy": "Utilities_Energy",
-            "E15  Water and sewerage": "Utilities_Water and sewerage: ",
+            "E15  Water and sewerage": "Utilities_Water and sewerage",
             "PFI": "PFI School",
-            "% of pupils eligible for FSM": "Percentage Free school meals",
-            "No Pupils": "Number of pupils",
             "I07  Other grants and payments": "Other grants and payments",
+            # TODO: Should these come from the census record not the MS record
+            "No Pupils": "Number of pupils"
         },
         inplace=True,
     )
@@ -571,6 +604,7 @@ def build_federations_data(links_data_path, maintained_schools):
     federations = maintained_schools[["LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
     ].copy()
+
     # join
     federations = federations.join(
         group_links[["Group Name", "Group UID", "Closed Date"]]
