@@ -46,6 +46,8 @@ gias = {
     "OfstedRating (name)": "string",
     "MSOA (code)": "string",
     "LSOA (code)": "string",
+    "StatutoryLowAge":"Int64",
+    "StatutoryHighAge":"Int64"
 }
 
 gias_links_index_col = "URN"
@@ -237,7 +239,6 @@ workforce_census = {
     "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
     "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Int64",
     "Teachers with Qualified Teacher Status (%) (Headcount)": "float",
-    "Statutory Low Age": "Int64",
     "Total Number of Teaching Assistants (Full-Time Equivalent)": "float",
     "Total Number of Teaching Assistants (Headcount)": "Int64",
     "Total School Workforce (Full-Time Equivalent)": "float",

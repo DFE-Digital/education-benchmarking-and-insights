@@ -591,7 +591,6 @@ def build_maintained_school_data(
             "I03  SEN funding":"SEN funding",
             "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims",
             "I13  Donations and or private funds":"Donations and/or voluntary funds",
-            "":"",
         },
         inplace=True,
     )
