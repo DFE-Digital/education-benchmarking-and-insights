@@ -434,19 +434,19 @@ async def compute_rag(set_type, year):
 async def handle_msg(msg, worker_queue, complete_queue):
     msg_payload = json.loads(msg.content)
     try:
-        # msg_payload["pre_process_duration"] = await pre_process_data(
-        #     msg_payload["type"], msg_payload["year"]
-        # )
+        msg_payload["pre_process_duration"] = await pre_process_data(
+            msg_payload["type"], msg_payload["year"]
+        )
 
         # normally bad practice but let's clean up as much as poss
-        # gc.collect()
-        #
-        # msg_payload["comparator_set_duration"] = await compute_comparator_sets(
-        #     msg_payload["type"], msg_payload["year"]
-        # )
+        gc.collect()
+
+        msg_payload["comparator_set_duration"] = await compute_comparator_sets(
+            msg_payload["type"], msg_payload["year"]
+        )
 
         # normally bad practice but let's clean up as much as poss
-        # gc.collect()
+        gc.collect()
 
         msg_payload["rag_duration"] = await compute_rag(
             msg_payload["type"], msg_payload["year"]
