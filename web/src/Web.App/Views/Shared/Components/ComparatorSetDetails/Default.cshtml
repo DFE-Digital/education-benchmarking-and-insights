@@ -9,26 +9,35 @@
                 </span>
             </summary>
             <div class="govuk-details__text">
-            @switch (Model.Referrer)
-            {
-                case Referrers.SchoolCensus:
-                    @await Html.PartialAsync("Components/ComparatorSetDetails/_CensusDetails", Model)
-                    break;
-                case Referrers.SchoolSpending:
-                case Referrers.SchoolComparison:
-                    @await Html.PartialAsync("Components/ComparatorSetDetails/_CostDetails", Model)
-                    break;
-            }
-            @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolCensus)
-            {
-                <p class="govuk-body">
-                    <a class="govuk-link govuk-link--no-visited-state"
-                       href="@Url.Action("Custom", "SchoolComparators", new { urn = Model.Identifier, referrer = Model.Referrer })">
-                        Choose your own similar schools
-                    </a>
-                </p>
-            }
+                @switch (Model.Referrer)
+                {
+                    case Referrers.SchoolCensus:
+                        @await Html.PartialAsync("Components/ComparatorSetDetails/_CensusDetails", Model)
+                        break;
+                    case Referrers.SchoolSpending:
+                    case Referrers.SchoolComparison:
+                        @await Html.PartialAsync("Components/ComparatorSetDetails/_CostDetails", Model)
+                        break;
+                }
+                @if (Model.Referrer is Referrers.SchoolComparison or Referrers.SchoolCensus)
+                {
+                    <p class="govuk-body">
+                        <a class="govuk-link govuk-link--no-visited-state"
+                           href="@Url.Action("Custom", "SchoolComparators", new { urn = Model.Identifier, referrer = Model.Referrer })">
+                            Choose your own similar schools
+                        </a>
+                    </p>
+                }
             </div>
         </details>
+
+        <feature name="@FeatureFlags.CustomData">
+            <p class="govuk-body">
+                <a class="govuk-link govuk-link--no-visited-state"
+                   href="@Url.Action("Index", "SchoolCustomData", new { urn = Model.Identifier })">
+                    Change data used to compare this school
+                </a>
+            </p>
+        </feature>
     </div>
 </div>

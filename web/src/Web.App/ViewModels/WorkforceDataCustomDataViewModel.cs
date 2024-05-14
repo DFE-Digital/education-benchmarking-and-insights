@@ -1,6 +1,11 @@
+using System.ComponentModel.DataAnnotations;
+using Web.App.Attributes;
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.ViewModels;
 
-public interface IWorkforceDataCustomDataViewModel
+public interface IWorkforceDataCustomDataViewModel : ICustomDataViewModel
 {
     decimal? WorkforceFte { get; }
     decimal? TeachersFte { get; }
@@ -9,7 +14,15 @@ public interface IWorkforceDataCustomDataViewModel
 
 public record WorkforceDataCustomDataViewModel : IWorkforceDataCustomDataViewModel
 {
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.WorkforceFte)]
     public decimal? WorkforceFte { get; init; }
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.TeachersFte)]
     public decimal? TeachersFte { get; init; }
+
+    [PositiveNumericValue]
+    [Display(Name = SchoolCustomDataViewModelTitles.SeniorLeadershipFte)]
     public decimal? SeniorLeadershipFte { get; init; }
 }
