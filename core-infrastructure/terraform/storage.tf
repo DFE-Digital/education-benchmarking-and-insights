@@ -1,8 +1,7 @@
 resource "azurerm_storage_account" "data" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
@@ -19,6 +18,16 @@ resource "azurerm_storage_account" "data" {
   blob_properties {
     delete_retention_policy {
       days = 7
+    }
+  }
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
     }
   }
 
