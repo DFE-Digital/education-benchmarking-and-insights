@@ -467,19 +467,19 @@ def build_academy_data(
             "Rent and Rates": "Other costs_Rent and rates",
             "Other occupation costs": "Premises staff and services_Other occupation costs",
             "Special facilities": "Other costs_Special facilities",
-            "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (non ICT equipment)",
+            "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
             "ICT learning resources": "Educational ICT_ICT learning resources",
             "Examination fees": "Educational supplies_Examination fees",
             "Educational Consultancy": "Teaching and Teaching support staff_Educational consultancy",
             "Administrative supplies - non educational": "Administrative supplies_Administrative supplies (non educational)",
-            "Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teching staff",
+            "Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teaching staff",
             "Catering supplies": "Catering staff and supplies_Catering supplies",
             "Other insurance premiums": "Other costs_Other insurance premiums",
             "Legal & Professionalservices": "Non-educational support staff and services_Professional services (non-curriculum)",
             "Auditor costs": "Non-educational support staff and services_Audit cost",
             "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
-            "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing (revenue contributions to capital)",
-            "PFI Charges": "Other costs_PFI charges"
+            "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing",
+            "PFI Charges": "Other costs_PFI charges",
         },
         inplace=True,
     )
@@ -588,6 +588,8 @@ def build_maintained_school_data(
             "Total Expenditure  E01 to E32":"Total Expenditure",
             "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc",
             "Revenue Reserve   B01 plus B02 plus B06":"Revenue Reserve",
+            "I03  SEN funding":"SEN funding",
+            "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims"
         },
         inplace=True,
     )
