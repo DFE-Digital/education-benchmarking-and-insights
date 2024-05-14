@@ -60,7 +60,6 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   };
 
   const handlePhaseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setPhase(e.target.value);
   };
 

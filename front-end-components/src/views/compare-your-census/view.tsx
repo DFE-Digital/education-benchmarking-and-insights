@@ -31,7 +31,6 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
   };
 
   const handlePhaseChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    console.log(e.target.value);
     setPhase(e.target.value);
   };
 
