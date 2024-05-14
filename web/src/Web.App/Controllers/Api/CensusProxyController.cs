@@ -18,7 +18,7 @@ public class CensusProxyController(
 {
     [HttpGet]
     [Produces("application/json")]
-    public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension)
+    public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase)
     {
         using (logger.BeginScope(new { type, id }))
         {
@@ -28,7 +28,7 @@ public class CensusProxyController(
                 {
                     OrganisationTypes.School => await GetSchoolSet(id),
                     OrganisationTypes.Trust => await GetTrustSet(id),
-                    OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id),
+                    OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id, phase),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -78,9 +78,12 @@ public class CensusProxyController(
         return result.Select(x => x.Urn).OfType<string>();
     }
 
-    private async Task<IEnumerable<string>> GetLocalAuthoritySet(string id)
+    private async Task<IEnumerable<string>> GetLocalAuthoritySet(string id, string? phase)
     {
-        var query = new ApiQuery().AddIfNotNull("laCode", id);
+        var query = new ApiQuery()
+            .AddIfNotNull("laCode", id)
+            .AddIfNotNull("phase", phase);
+
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         return result.Select(x => x.Urn).OfType<string>();
     }

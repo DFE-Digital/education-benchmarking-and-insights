@@ -1,10 +1,20 @@
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   ChartDimensions,
   PupilsPerStaffRole,
   CensusCategories,
 } from "src/components";
-import { ChartDimensionContext, HasIncompleteDataContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  HasIncompleteDataContext,
+  PhaseContext,
+} from "src/contexts";
 import { AuxiliaryStaffData } from "src/views/compare-your-census/partials";
 import {
   HorizontalBarChartWrapper,
@@ -16,6 +26,7 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
   type,
   id,
 }) => {
+  const phase = useContext(PhaseContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
   const [data, setData] = useState(new Array<Census>());
   const getData = useCallback(async () => {
@@ -24,9 +35,10 @@ export const AuxiliaryStaff: React.FC<{ type: string; id: string }> = ({
       type,
       id,
       dimension.value,
-      "AuxiliaryStaffFte"
+      "AuxiliaryStaffFte",
+      phase
     );
-  }, [id, dimension, type]);
+  }, [id, dimension, type, phase]);
 
   useEffect(() => {
     getData().then((result) => {
