@@ -300,7 +300,7 @@ public class SchoolCustomDataChangeViewModel(
             Name = nameof(SchoolCustomDataViewModel.RevenueReserve),
             Current = CurrentValues.RevenueReserve,
             Custom = CustomInput.RevenueReserve,
-            ReadOnly = true
+            Hidden = true
         });
 
     public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
@@ -387,6 +387,7 @@ public record SchoolCustomDataValueViewModel
     public decimal? Current { get; init; }
     public decimal? Custom { get; init; }
     public bool ReadOnly { get; init; }
+    public bool Hidden { get; init; }
     public SchoolCustomDataValueUnits Units { get; init; } = SchoolCustomDataValueUnits.Currency;
 }
 
