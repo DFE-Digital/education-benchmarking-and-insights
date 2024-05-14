@@ -7,6 +7,7 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -30,7 +31,8 @@ public class SchoolCustomDataChangeController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                ViewData[ViewDataKeys.Backlink] =
+                    new BacklinkInfo(Url.Action("Index", "SchoolCustomData", new { urn }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -79,7 +81,7 @@ public class SchoolCustomDataChangeController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(FinancialData), new { urn }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -128,7 +130,7 @@ public class SchoolCustomDataChangeController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(NonFinancialData), new { urn }));
                 var viewModel = await BuildViewModel(urn);
                 return View(viewModel);
             }
@@ -158,7 +160,12 @@ public class SchoolCustomDataChangeController(
                 }
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
-                return StatusCode(StatusCodes.Status204NoContent);
+
+                // todo: post to orchestrator
+                customDataService.ClearCustomDataFromSession(urn);
+                // todo: persist orchestrator job ID to auth user data
+
+                return RedirectToAction("Index", "SchoolCustomData", new { urn });
             }
             catch (Exception e)
             {
