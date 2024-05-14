@@ -11,7 +11,7 @@ public static class BreadcrumbNodes
 
     public static MvcBreadcrumbNode SchoolComparison(string urn)
     {
-        return new MvcBreadcrumbNode("Index", "SchoolComparison", PageTitles.Comparison)
+        return new MvcBreadcrumbNode("Index", "SchoolComparison", PageTitles.CostComparison)
         { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     }
 
@@ -46,7 +46,7 @@ public static class BreadcrumbNodes
 
     public static MvcBreadcrumbNode TrustComparison(string companyNumber)
     {
-        return new MvcBreadcrumbNode("Index", "TrustComparison", PageTitles.Comparison)
+        return new MvcBreadcrumbNode("Index", "TrustComparison", PageTitles.CostComparison)
         { RouteValues = new { companyNumber }, Parent = TrustHome(companyNumber) };
     }
 
@@ -70,7 +70,7 @@ public static class BreadcrumbNodes
 
     public static MvcBreadcrumbNode LocalAuthorityComparison(string code)
     {
-        return new MvcBreadcrumbNode("Index", "LocalAuthorityComparison", PageTitles.Comparison)
+        return new MvcBreadcrumbNode("Index", "LocalAuthorityComparison", PageTitles.CostComparison)
         { RouteValues = new { code }, Parent = LocalAuthorityHome(code) };
     }
 

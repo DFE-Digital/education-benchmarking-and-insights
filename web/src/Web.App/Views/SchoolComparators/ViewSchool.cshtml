@@ -1,0 +1,116 @@
+﻿@model Web.App.ViewModels.SchoolComparatorViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparison;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <div class="govuk-tabs" data-module="govuk-tabs">
+
+            <ul class="govuk-tabs__list">
+                <li class="govuk-tabs__list-item govuk-tabs__list-item--selected">
+                    <a class="govuk-tabs__tab" href="#characteristics">
+                        Characteristics
+                    </a>
+                </li>
+                <li class="govuk-tabs__list-item">
+                    <a class="govuk-tabs__tab" href="#spending">
+                        Spending
+                    </a>
+                </li>
+            </ul>
+            <div class="govuk-tabs__panel" id="characteristics">
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-table__caption--m">Compare characteristics</caption>
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-third">Characteristic</th>
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-third">@Model.Source.SchoolName</th>
+                        <th scope="col" class="govuk-table__header govuk-!-width-one-third">@Model.Target.SchoolName</th>
+                    </tr>
+                    </thead>
+
+                    <tbody class="govuk-table__body">
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">School phase</th>
+                        <td class="govuk-table__cell">@Model.Source.OverallPhase</td>
+                        <td class="govuk-table__cell">@Model.Target.OverallPhase</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Number of pupils</th>
+                        <td class="govuk-table__cell">@Model.Source.NumberOfPupils</td>
+                        <td class="govuk-table__cell">@Model.Target.NumberOfPupils</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Pupils eligible for free school meals</th>
+                        <td class="govuk-table__cell">@Model.Source.PercentFreeSchoolMeels</td>
+                        <td class="govuk-table__cell">@Model.Target.PercentFreeSchoolMeels</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Pupils with special educational needs (SEN)</th>
+                        <td class="govuk-table__cell">@Model.Source.PercentWithSen</td>
+                        <td class="govuk-table__cell">@Model.Source.PercentWithSen</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Ofsted rating</th>
+                        <td class="govuk-table__cell">@Model.Source.OfstedRatingName</td>
+                        <td class="govuk-table__cell">@Model.Target.OfstedRatingName</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Region</th>
+                        <td class="govuk-table__cell">@Model.Source.Region</td>
+                        <td class="govuk-table__cell">@Model.Target.Region</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Sixth form</th>
+                        <td class="govuk-table__cell">@Model.Source.HasSixthForm</td>
+                        <td class="govuk-table__cell">@Model.Target.HasSixthForm</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Nursery</th>
+                        <td class="govuk-table__cell">@Model.Source.HasNursery</td>
+                        <td class="govuk-table__cell">@Model.Target.HasNursery</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Private financial incentive school</th>
+                        <td class="govuk-table__cell">@Model.Source.IsPfiSchool</td>
+                        <td class="govuk-table__cell">@Model.Target.IsPfiSchool</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Trust name</th>
+                        <td class="govuk-table__cell">@Model.Source.TrustName</td>
+                        <td class="govuk-table__cell">@Model.Target.TrustName</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Local authority</th>
+                        <td class="govuk-table__cell">@Model.Source.LocalAuthority</td>
+                        <td class="govuk-table__cell">@Model.Target.LocalAuthority</td>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Contact</th>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Gross internal floor area</th>
+                    </tr>
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">Average building age</th>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="spending">
+                <h2 class="govuk-heading-m">Compare spending and costs</h2>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

@@ -1,6 +1,6 @@
 ﻿@model Web.App.ViewModels.TrustComparisonViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+    ViewData[ViewDataKeys.Title] = PageTitles.CostComparison;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })

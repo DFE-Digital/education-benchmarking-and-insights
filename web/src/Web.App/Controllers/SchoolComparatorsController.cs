@@ -4,7 +4,6 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -15,18 +14,18 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
 {
     [HttpGet]
     [Route("building")]
-    public async Task<IActionResult> Building(string urn, string referrer)
+    public async Task<IActionResult> Building(string urn)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.UseJsBackLink] = true;
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
                 var finances = await financeService.GetFinances(set.DefaultArea);
-                var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
+                var viewModel = new SchoolComparatorsViewModel(school, finances);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -39,18 +38,18 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
 
     [HttpGet]
     [Route("pupil")]
-    public async Task<IActionResult> Pupil(string urn, string referrer)
+    public async Task<IActionResult> Pupil(string urn)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.UseJsBackLink] = true;
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
                 var finances = await financeService.GetFinances(set.DefaultPupil);
-                var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
+                var viewModel = new SchoolComparatorsViewModel(school, finances);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -60,18 +59,44 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
             }
         }
     }
-
+    
     [HttpGet]
-    [Route("custom")]
-    public async Task<IActionResult> Custom(string urn, string referrer)
+    [Route("view-school")]
+    public async Task<IActionResult> ViewSchool(string urn, string target)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn, target}))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.UseJsBackLink] = true;
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school, referrer);
+        
+                var sourceSchool = await financeService.GetFinances(urn);
+                var targetSchool = await financeService.GetFinances(target);
+                var viewModel = new SchoolComparatorViewModel(school, sourceSchool, targetSchool);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("custom")]
+    public async Task<IActionResult> Custom(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.UseJsBackLink] = true;
+                
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var viewModel = new SchoolComparatorsViewModel(school);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -85,15 +110,16 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
 
     [HttpGet]
     [Route("custom/create")]
-    public async Task<IActionResult> Create(string urn, string referrer)
+    public async Task<IActionResult> Create(string urn)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.UseJsBackLink] = true;
+                
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school, referrer);
+                var viewModel = new SchoolComparatorsViewModel(school);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -102,16 +128,5 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
-    }
-
-    private BacklinkInfo RefererBackInfo(string referrer, string urn)
-    {
-        return referrer switch
-        {
-            Referrers.SchoolSpending => new BacklinkInfo(Url.Action("Index", "SchoolSpending", new { urn }), $"Back to {PageTitles.Spending.ToLower()}"),
-            Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn }), $"Back to {PageTitles.Comparison.ToLower()}"),
-            Referrers.SchoolCensus => new BacklinkInfo(Url.Action("Index", "SchoolCensus", new { urn }), $"Back to {PageTitles.Census.ToLower()}"),
-            _ => throw new ArgumentOutOfRangeException(nameof(referrer))
-        };
     }
 }

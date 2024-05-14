@@ -9,7 +9,7 @@ public static class PageTitles
     public const string FindOrganisation = "Find a school, trust or local authority";
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
-    public const string Comparison = "Compare your costs";
+    public const string CostComparison = "Compare your costs";
     public const string Spending = "Spending and costs";
     public const string Resources = "Find ways to spend less";
     public const string Census = "Benchmark census data";
@@ -24,6 +24,7 @@ public static class PageTitles
     public const string SchoolPlanningTotalEducationSupport = "What is your total spend on education support staff?";
     public const string SchoolPlanningTimetableCycle = "Timetable cycle";
     public const string SchoolComparators = "Choose your own similar schools";
+    public const string SchoolComparison = "School comparison";
     public const string SchoolComparatorsPupil = "Pupil comparator set";
     public const string SchoolComparatorsBuilding = "Building comparator set";
     public const string TrustHome = "Your trust";
