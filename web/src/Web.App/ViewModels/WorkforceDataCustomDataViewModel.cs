@@ -20,9 +20,11 @@ public record WorkforceDataCustomDataViewModel : IWorkforceDataCustomDataViewMod
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.TeachersFte)]
+    [CompareDecimalValue(nameof(WorkforceFte), Operator.LessThan)]
     public decimal? TeachersFte { get; init; }
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.SeniorLeadershipFte)]
+    [CompareDecimalValue(nameof(TeachersFte), Operator.LessThan)]
     public decimal? SeniorLeadershipFte { get; init; }
 }
