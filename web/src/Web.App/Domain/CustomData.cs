@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Web.App.ViewModels;
+// ReSharper disable MemberCanBePrivate.Global
 
 namespace Web.App.Domain;
 
@@ -152,7 +153,23 @@ public record CustomData
     public decimal? TeachersFte { get; set; }
     public decimal? SeniorLeadershipFte { get; set; }
 
-    public void Merge(IFinancialDataCustomDataViewModel viewModel)
+    public void Merge(ICustomDataViewModel viewModel)
+    {
+        switch (viewModel)
+        {
+            case IFinancialDataCustomDataViewModel financialViewModel:
+                Merge(financialViewModel);
+                break;
+            case INonFinancialDataCustomDataViewModel nonFinancialViewModel:
+                Merge(nonFinancialViewModel);
+                break;
+            case IWorkforceDataCustomDataViewModel workforceViewModel:
+                Merge(workforceViewModel);
+                break;
+        }
+    }
+
+    private void Merge(IFinancialDataCustomDataViewModel viewModel)
     {
         // Administrative supplies
         AdministrativeSuppliesCosts = viewModel.AdministrativeSuppliesCosts;
@@ -189,7 +206,7 @@ public record CustomData
         TeachingStaffCosts = viewModel.TeachingStaffCosts;
 
         // Utilities
-        EnergyCosts = EnergyCosts;
+        EnergyCosts = viewModel.EnergyCosts;
         WaterSewerageCosts = viewModel.WaterSewerageCosts;
 
         // Other costs
@@ -211,12 +228,18 @@ public record CustomData
         RevenueReserve = viewModel.RevenueReserve;
     }
 
-    public void Merge(INonFinancialDataCustomDataViewModel viewModel)
+    private void Merge(INonFinancialDataCustomDataViewModel viewModel)
     {
-        // Non-financial data
         NumberOfPupilsFte = viewModel.NumberOfPupilsFte;
         FreeSchoolMealPercent = viewModel.FreeSchoolMealPercent;
         SpecialEducationalNeedsPercent = viewModel.SpecialEducationalNeedsPercent;
         FloorArea = viewModel.FloorArea;
+    }
+
+    private void Merge(IWorkforceDataCustomDataViewModel viewModel)
+    {
+        WorkforceFte = viewModel.WorkforceFte;
+        TeachersFte = viewModel.TeachersFte;
+        SeniorLeadershipFte = viewModel.SeniorLeadershipFte;
     }
 }

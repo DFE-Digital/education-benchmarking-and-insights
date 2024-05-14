@@ -1,0 +1,23 @@
+﻿@model Web.App.ViewModels.SchoolCustomDataChangeViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataWorkforceData, name = Model.School.Name, id = Model.School.Urn, kind = OrganisationTypes.School })
+
+@await Html.PartialAsync("_ErrorSummary")
+@using (Html.BeginForm("WorkforceData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+{
+    @await Html.PartialAsync("_CustomDataEntryTable", Model.WorkforceDataSection)
+    <button type="submit" class="govuk-button" data-module="govuk-button">
+        Continue
+    </button>
+}
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+        import { initAll } from '/js/govuk-frontend.min.js'
+        initAll()
+    </script>
+}

@@ -122,9 +122,50 @@ public class SchoolCustomDataChangeController(
     [HttpGet]
     [Route("workforce")]
     [ImportModelState]
-    public IActionResult WorkforceData(string urn)
+    public async Task<IActionResult> WorkforceData(string urn)
     {
-        return StatusCode(StatusCodes.Status204NoContent);
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomData(urn);
+                var viewModel = await BuildViewModel(urn);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying school custom data: {DisplayUrl}",
+                    Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("workforce")]
+    [ExportModelState]
+    public IActionResult WorkforceData(string urn, [FromForm] WorkforceDataCustomDataViewModel viewModel)
+    {
+        using (logger.BeginScope(new { urn, viewModel }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted WorkforceData failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    return RedirectToAction(nameof(WorkforceData));
+                }
+
+                customDataService.MergeCustomDataIntoSession(urn, viewModel);
+                return StatusCode(StatusCodes.Status204NoContent);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred saving custom data: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
     }
 
     private async Task<SchoolCustomDataChangeViewModel> BuildViewModel(string urn)
