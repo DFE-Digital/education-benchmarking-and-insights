@@ -260,7 +260,7 @@ maintained_schools_output = [
     "I17  Community focused school facilities income",
     "I16  Community focussed school funding and   or grants",
     "I15  Pupil focussed extended school funding and   or grants",
-    "I13  Donations and or private funds",
+    "Donations and/or voluntary funds",
     "I12  Income from contributions to visits etc",
     "I11  Receipts from other insurance claims",
     "Receipts from supply teacher insurance claims",

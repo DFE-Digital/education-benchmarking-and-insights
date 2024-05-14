@@ -589,7 +589,9 @@ def build_maintained_school_data(
             "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc",
             "Revenue Reserve   B01 plus B02 plus B06":"Revenue Reserve",
             "I03  SEN funding":"SEN funding",
-            "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims"
+            "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims",
+            "I13  Donations and or private funds":"Donations and/or voluntary funds",
+            "":"",
         },
         inplace=True,
     )
