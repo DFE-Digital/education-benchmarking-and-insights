@@ -338,6 +338,34 @@ public class SchoolCustomDataChangeViewModel(
             Units = SchoolCustomDataValueUnits.Area
         }
     );
+
+    public SchoolCustomDataSectionViewModel WorkforceDataSection => new(
+        "Workforce figures",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.WorkforceFte,
+            Name = nameof(SchoolCustomDataViewModel.WorkforceFte),
+            Current = CurrentValues.WorkforceFte,
+            Custom = CustomInput.WorkforceFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TeachersFte,
+            Name = nameof(SchoolCustomDataViewModel.TeachersFte),
+            Current = CurrentValues.TeachersFte,
+            Custom = CustomInput.TeachersFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SeniorLeadershipFte,
+            Name = nameof(SchoolCustomDataViewModel.SeniorLeadershipFte),
+            Current = CurrentValues.SeniorLeadershipFte,
+            Custom = CustomInput.SeniorLeadershipFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        }
+    );
 }
 
 public record SchoolCustomDataSectionViewModel
