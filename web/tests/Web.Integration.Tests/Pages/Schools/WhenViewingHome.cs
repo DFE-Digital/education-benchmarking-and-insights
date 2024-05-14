@@ -77,7 +77,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(anchor);
 
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.FindOrganisation.ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
     }
 
     [Fact]
@@ -144,7 +144,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         }
 
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
-        DocumentAssert.Link(changeLinkElement, "Change school", Paths.FindOrganisation.ToAbsolute());
+        DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");

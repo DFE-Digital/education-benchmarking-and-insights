@@ -1,4 +1,6 @@
-﻿@model Web.App.ViewModels.TrustCensusViewModel
+﻿@using Web.App.Extensions
+@using Newtonsoft.Json
+@model Web.App.ViewModels.TrustCensusViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
 }
@@ -7,6 +9,10 @@
 
 @await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new [] {"Compare your schools census data."}})
 
-<div id="compare-your-census" data-type="@OrganisationTypes.Trust" data-id="@Model.CompanyNumber"></div>
+<div id="compare-your-census" 
+     data-type="@OrganisationTypes.Trust" 
+     data-id="@Model.CompanyNumber" 
+     data-phases="@Model.Phases.ToJson(Formatting.None)">
+</div>
 
 @await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.CompareYourCosts } })

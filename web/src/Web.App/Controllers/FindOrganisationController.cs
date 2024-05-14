@@ -10,9 +10,10 @@ namespace Web.App.Controllers;
 public class FindOrganisationController(ILogger<FindOrganisationController> logger) : Controller
 {
     [HttpGet]
-    public IActionResult Index()
+    public IActionResult Index(string method = OrganisationTypes.School)
     {
-        return View(new FindOrganisationViewModel());
+        var vm = new FindOrganisationViewModel { FindMethod = method };
+        return View(vm);
     }
 
     [HttpPost]

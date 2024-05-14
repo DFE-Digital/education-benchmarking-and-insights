@@ -30,7 +30,7 @@ public class ProxyController(
                     case OrganisationTypes.School:
                         return await SchoolExpenditure(id);
                     case OrganisationTypes.Trust:
-                        return await TrustExpenditure(id);
+                        return await TrustExpenditure(id, phase);
                     case OrganisationTypes.LocalAuthority:
                         return await LocalAuthorityExpenditure(id, phase);
                     default:
@@ -135,9 +135,11 @@ public class ProxyController(
         return new JsonResult(result);
     }
 
-    private async Task<IActionResult> TrustExpenditure(string id)
+    private async Task<IActionResult> TrustExpenditure(string id, string? phase)
     {
-        var query = new ApiQuery().AddIfNotNull("companyNumber", id);
+        var query = new ApiQuery()
+            .AddIfNotNull("companyNumber", id)
+            .AddIfNotNull("phase", phase); ;
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
         return new JsonResult(result);
