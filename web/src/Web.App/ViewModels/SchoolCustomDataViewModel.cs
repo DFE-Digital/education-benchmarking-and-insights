@@ -188,4 +188,7 @@ public static class SchoolCustomDataViewModelTitles
     public const string FreeSchoolMealPercent = "Pupils eligible for free school meals (FSM)";
     public const string SpecialEducationalNeedsPercent = "Pupils with special educational needs (SEN)";
     public const string FloorArea = "Gross internal floor area";
+    public const string WorkforceFte = "School workforce (full time equivalent)";
+    public const string TeachersFte = "Number of teachers (full time equivalent)";
+    public const string SeniorLeadershipFte = "Senior leadership (full time equivalent)";
 }

@@ -8,12 +8,14 @@ public interface ICustomDataService
 {
     Task<CustomData> GetCurrentData(string urn);
     CustomData GetCustomDataFromSession(string urn);
-    void MergeCustomDataIntoSession(string urn, IFinancialDataCustomDataViewModel data);
-    void MergeCustomDataIntoSession(string urn, INonFinancialDataCustomDataViewModel data);
+    void MergeCustomDataIntoSession(string urn, ICustomDataViewModel data);
     void ClearCustomDataFromSession(string urn);
 }
 
-public class CustomDataService(IHttpContextAccessor httpContextAccessor, IFinanceService financeService)
+public class CustomDataService(
+    IHttpContextAccessor httpContextAccessor,
+    IFinanceService financeService,
+    ILogger<CustomDataService> logger)
     : ICustomDataService
 {
     public async Task<CustomData> GetCurrentData(string urn)
@@ -33,25 +35,10 @@ public class CustomDataService(IHttpContextAccessor httpContextAccessor, IFinanc
     {
         var key = SessionKeys.CustomData(urn);
         var context = httpContextAccessor.HttpContext;
-        return context?.Session.Get<CustomData>(key) ?? new CustomData();
-    }
-
-    public void MergeCustomDataIntoSession(string urn, IFinancialDataCustomDataViewModel viewModel)
-    {
-        var key = SessionKeys.CustomData(urn);
-        var context = httpContextAccessor.HttpContext;
         var data = context?.Session.Get<CustomData>(key) ?? new CustomData();
-        data.Merge(viewModel);
-        context?.Session.Set(key, data);
-    }
 
-    public void MergeCustomDataIntoSession(string urn, INonFinancialDataCustomDataViewModel viewModel)
-    {
-        var key = SessionKeys.CustomData(urn);
-        var context = httpContextAccessor.HttpContext;
-        var data = context?.Session.Get<CustomData>(key) ?? new CustomData();
-        data.Merge(viewModel);
-        context?.Session.Set(key, data);
+        logger.LogDebug("Got {CustomData} for {Key} from session", data.ToJson(), urn);
+        return data;
     }
 
     public void ClearCustomDataFromSession(string urn)
@@ -59,5 +46,20 @@ public class CustomDataService(IHttpContextAccessor httpContextAccessor, IFinanc
         var key = SessionKeys.CustomData(urn);
         var context = httpContextAccessor.HttpContext;
         context?.Session.Remove(key);
+
+        logger.LogDebug("Cleared data for {Key} from session", urn);
+    }
+
+    public void MergeCustomDataIntoSession(string urn, ICustomDataViewModel viewModel)
+    {
+        var key = SessionKeys.CustomData(urn);
+        var context = httpContextAccessor.HttpContext;
+        var data = context?.Session.Get<CustomData>(key) ?? new CustomData();
+        logger.LogDebug("Got {CustomData} for {Key} from session", data.ToJson(), urn);
+
+        data.Merge(viewModel);
+        context?.Session.Set(key, data);
+        logger.LogDebug("Merged {ViewModel} and set {CustomData} for {Key} in session", viewModel.ToJson(),
+            data.ToJson(), urn);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
 
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+
 namespace Web.App.ViewModels;
 
-public interface IFinancialDataCustomDataViewModel
+public interface IFinancialDataCustomDataViewModel : ICustomDataViewModel
 {
     decimal? AdministrativeSuppliesCosts { get; }
     decimal? CateringStaffCosts { get; }
