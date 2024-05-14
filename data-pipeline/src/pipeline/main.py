@@ -19,7 +19,7 @@ from src.pipeline.comparator_sets import (
     compute_comparator_matrix,
     compute_pupils_comparator,
     prepare_data,
-    get_comparator_set_by
+    get_comparator_set_by,
 )
 from src.pipeline.pre_processing import (
     build_academy_data,
@@ -33,9 +33,7 @@ from src.pipeline.pre_processing import (
     prepare_schools_data,
     prepare_sen_data,
 )
-from src.pipeline.rag import (
-    compute_comparator_set_rag
-)
+from src.pipeline.rag import compute_comparator_set_rag
 from src.pipeline.storage import (
     blob_service_client,
     complete_queue_name,
@@ -356,7 +354,9 @@ async def compute_comparator_sets(set_type, year):
 
     ms = prepare_data(
         pd.read_parquet(
-            await get_blob("pre-processed", f"{set_type}/{year}/maintained_schools.parquet")
+            await get_blob(
+                "pre-processed", f"{set_type}/{year}/maintained_schools.parquet"
+            )
         )
     )
 
@@ -398,33 +398,47 @@ async def compute_rag(set_type, year):
     logger.info("Computing RAG")
 
     rag_settings = {
-        'academies': [('building', 'academy_building'), ('pupil', 'academies_pupil')],
-        'maintained_schools': [('building', 'maintained_school_building'), ('pupil', 'maintained_school_pupil')],
-        'all_schools': [('mixed_building', 'all_building'), ('mixed_pupil', 'all_pupil')]
+        "academies": [("building", "academy_building"), ("pupil", "academies_pupil")],
+        "maintained_schools": [
+            ("building", "maintained_school_building"),
+            ("pupil", "maintained_school_pupil"),
+        ],
+        "all_schools": [
+            ("mixed_building", "all_building"),
+            ("mixed_pupil", "all_pupil"),
+        ],
     }
 
     for rag_file in rag_settings.keys():
-        schools = pd.read_pickle(await get_blob(
-            "comparator-sets",
-            f"{set_type}/{year}/{rag_file}.pkl"
-        )).reset_index()
+        schools = pd.read_pickle(
+            await get_blob("comparator-sets", f"{set_type}/{year}/{rag_file}.pkl")
+        ).reset_index()
 
-        for (comparator_type, comparator_file) in rag_settings[rag_file]:
+        for comparator_type, comparator_file in rag_settings[rag_file]:
             st = time.time()
             logger.info(f"Computing {comparator_type} RAG")
-            comparator_set = pickle.loads((await get_blob(
-                "comparator-sets",
-                f"{set_type}/{year}/{comparator_file}.pkl"
-            )).read())
+            comparator_set = pickle.loads(
+                (
+                    await get_blob(
+                        "comparator-sets", f"{set_type}/{year}/{comparator_file}.pkl"
+                    )
+                ).read()
+            )
 
             for index, row in schools.iterrows():
-                urn = row['URN']
-                comparators = get_comparator_set_by(lambda s: s['URN'] == urn, schools, comparator_set).set_index('URN')
+                urn = row["URN"]
+                comparators = get_comparator_set_by(
+                    lambda s: s["URN"] == urn, schools, comparator_set
+                ).set_index("URN")
                 result = compute_comparator_set_rag(comparators)
-                await write_blob("metric-rag",
-                                 f'{set_type}/{year}/{urn}/{comparator_type}.json',
-                                 json.dumps(result))
-            logger.info(f"Computing {comparator_type} RAG done in {time.time() - st} seconds")
+                await write_blob(
+                    "metric-rag",
+                    f"{set_type}/{year}/{urn}/{comparator_type}.json",
+                    json.dumps(result),
+                )
+            logger.info(
+                f"Computing {comparator_type} RAG done in {time.time() - st} seconds"
+            )
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
