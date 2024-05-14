@@ -27,7 +27,7 @@ public class CensusProxyController(
                 var set = type.ToLower() switch
                 {
                     OrganisationTypes.School => await GetSchoolSet(id),
-                    OrganisationTypes.Trust => await GetTrustSet(id),
+                    OrganisationTypes.Trust => await GetTrustSet(id, phase),
                     OrganisationTypes.LocalAuthority => await GetLocalAuthoritySet(id, phase),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
@@ -71,9 +71,12 @@ public class CensusProxyController(
         return result.DefaultPupil;
     }
 
-    private async Task<IEnumerable<string>> GetTrustSet(string id)
+    private async Task<IEnumerable<string>> GetTrustSet(string id, string? phase)
     {
-        var query = new ApiQuery().AddIfNotNull("companyNumber", id);
+        var query = new ApiQuery()
+            .AddIfNotNull("companyNumber", id)
+            .AddIfNotNull("phase", phase);
+
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         return result.Select(x => x.Urn).OfType<string>();
     }
