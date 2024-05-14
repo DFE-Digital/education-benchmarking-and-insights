@@ -1,9 +1,8 @@
-import multiprocessing as mp
-from multiprocessing.pool import Pool
+import numpy as np
 from typing import Callable
 
-import numpy as np
 import pandas as pd
+import dask.distributed as dask
 
 
 # TODO: This should be moved to pre-processing really
@@ -214,14 +213,14 @@ def compute_buildings_comparator(arg):
     return phase, urns, buildings_calc(gifa, age)
 
 
-def compute_distances(data, f):
+def compute_distances(data, f) -> pd.DataFrame:
     distance_classes = {}
 
-    with Pool(mp.cpu_count()) as pool:
-        for idx, urns, distance in pool.map(f, data.iterrows()):
-            distance_classes[idx] = {"urns": urns, "distances": distance}
+    for idx, row in data.iterrows():
+        idx, urns, distance = f((idx, row))
+        distance_classes[idx] = {"shape": np.shape(distance), "urns": urns, "distances": np.ravel(distance)}
 
-    return distance_classes
+    return pd.DataFrame.from_dict(distance_classes)
 
 
 def compute_comparator_matrix(
@@ -250,7 +249,7 @@ def get_comparator_set_by(
 ):
     school_no_index = schools.reset_index()
     school = (
-        schools[school_selector(schools)].reset_index().to_dict(orient="records")[0]
+        school_no_index[school_selector(schools)].to_dict(orient="records")[0]
     )
 
     phase_data = (
@@ -260,7 +259,8 @@ def get_comparator_set_by(
     )
 
     col_index = np.argwhere(phase_data["urns"] == school["URN"])[0][0]
-    data = phase_data["distances"][col_index]
+    shape = phase_data["shape"][0].astype(int), phase_data["shape"][1].astype(int)
+    data = np.reshape(phase_data["distances"], tuple(shape))[col_index]
 
     top_60_index = np.argsort(data)[:60]
     distances = data[top_60_index]

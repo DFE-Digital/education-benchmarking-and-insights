@@ -4,7 +4,7 @@ import src.pipeline.mappings as mappings
 import pandas as pd
 
 
-def prepare_cdc_data(cdc_file_path, current_year) -> dict:
+def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(
         cdc_file_path,
         encoding="utf8",
