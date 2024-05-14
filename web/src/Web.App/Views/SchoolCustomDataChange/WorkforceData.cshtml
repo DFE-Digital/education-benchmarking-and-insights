@@ -6,7 +6,7 @@
 @await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataWorkforceData, name = Model.School.Name, id = Model.School.Urn, kind = OrganisationTypes.School })
 
 @await Html.PartialAsync("_ErrorSummary")
-@using (Html.BeginForm("WorkforceData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+@using (Html.BeginForm("WorkforceData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate", id = "form-custom-data-workforce" }))
 {
     @await Html.PartialAsync("_CustomDataEntryTable", Model.WorkforceDataSection)
     <button type="submit" class="govuk-button" data-module="govuk-button">

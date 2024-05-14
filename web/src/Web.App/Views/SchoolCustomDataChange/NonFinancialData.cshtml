@@ -14,7 +14,7 @@
 </div>
 
 @await Html.PartialAsync("_ErrorSummary")
-@using (Html.BeginForm("NonFinancialData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+@using (Html.BeginForm("NonFinancialData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate", id = "form-custom-data-non-financial" }))
 {
     @await Html.PartialAsync("_CustomDataEntryTable", Model.NonFinancialDataSection)
     <button type="submit" class="govuk-button" data-module="govuk-button">
