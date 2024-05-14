@@ -1,4 +1,5 @@
-﻿@model Web.App.ViewModels.SchoolComparatorViewModel
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparison;
 }
@@ -45,13 +46,13 @@
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Pupils eligible for free school meals</th>
-                        <td class="govuk-table__cell">@Model.Source.PercentFreeSchoolMeels</td>
-                        <td class="govuk-table__cell">@Model.Target.PercentFreeSchoolMeels</td>
+                        <td class="govuk-table__cell">@Model.Source.FreeSchoolMealPercent.ToPercent()</td>
+                        <td class="govuk-table__cell">@Model.Target.FreeSchoolMealPercent.ToPercent()</td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Pupils with special educational needs (SEN)</th>
-                        <td class="govuk-table__cell">@Model.Source.PercentWithSen</td>
-                        <td class="govuk-table__cell">@Model.Source.PercentWithSen</td>
+                        <td class="govuk-table__cell">@Model.Source.SpecialEducationalNeedsPercent.ToPercent()</td>
+                        <td class="govuk-table__cell">@Model.Source.SpecialEducationalNeedsPercent.ToPercent()</td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Ofsted rating</th>
@@ -65,18 +66,18 @@
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Sixth form</th>
-                        <td class="govuk-table__cell">@Model.Source.HasSixthForm</td>
-                        <td class="govuk-table__cell">@Model.Target.HasSixthForm</td>
+                        <td class="govuk-table__cell">@(Model.Source.HasSixthForm ? "Has sixth form" : "No sixth form")</td>
+                        <td class="govuk-table__cell">@(Model.Target.HasSixthForm ? "Has sixth form" : "No sixth form")</td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Nursery</th>
-                        <td class="govuk-table__cell">@Model.Source.HasNursery</td>
-                        <td class="govuk-table__cell">@Model.Target.HasNursery</td>
+                        <td class="govuk-table__cell">@(Model.Source.HasNursery ? "Has nursery" : "No nursery")</td>
+                        <td class="govuk-table__cell">@(Model.Target.HasNursery ? "Has nursery" : "No nursery")</td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Private financial incentive school</th>
-                        <td class="govuk-table__cell">@Model.Source.IsPfiSchool</td>
-                        <td class="govuk-table__cell">@Model.Target.IsPfiSchool</td>
+                        <td class="govuk-table__cell">@(Model.Source.IsPfiSchool ? "PFI school" : "Non-PFI school")</td>
+                        <td class="govuk-table__cell">@(Model.Target.IsPfiSchool ? "PFI school" : "Non-PFI school")</td>
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Trust name</th>
@@ -90,6 +91,13 @@
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Contact</th>
+                        @if (User.Identity is not { IsAuthenticated: true })
+                        {
+                        <td class="govuk-table__cell" colspan="2" rowspan="3" style="text-align: center; vertical-align: middle;">
+                            <a class="govuk-link govuk-link--no-visited-state"
+                               href="@Url.ActionLink("Signin", "Account", new{redirectUri = ViewContext.HttpContext.Request.Path })">Sign in</a> to see
+                        </td>
+                        }
                     </tr>
                     <tr class="govuk-table__row">
                         <th scope="row" class="govuk-table__header">Gross internal floor area</th>

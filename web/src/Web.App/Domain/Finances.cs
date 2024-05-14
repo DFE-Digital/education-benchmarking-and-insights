@@ -11,6 +11,8 @@ public record Finances
     public string? OverallPhase { get; set; }
     public decimal NumberOfPupils { get; set; }
     public bool HasSixthForm { get; set; }
+    public bool HasNursery { get; set; }
+    public bool IsPfiSchool { get; set; }
     public decimal TotalExpenditure { get; set; }
     public decimal TeachingStaffCosts { get; set; }
     public decimal TotalIncome { get; set; }
@@ -25,4 +27,7 @@ public record Finances
     public string? OfstedRatingName { get; set; }
     public decimal FreeSchoolMealPercent { get; set; }
     public decimal SpecialEducationalNeedsPercent { get; set; }
+    public string? Region { get; set; }
+    public string? TrustName { get; set; }
+    public string? LocalAuthority { get; set; }
 }

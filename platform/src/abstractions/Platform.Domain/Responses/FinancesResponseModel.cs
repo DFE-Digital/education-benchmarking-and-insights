@@ -25,6 +25,11 @@ public record FinancesResponseModel
     public string? OfstedRatingName { get; set; }
     public decimal FreeSchoolMealPercent { get; set; }
     public decimal SpecialEducationalNeedsPercent { get; set; }
+    public string? Region { get; set; }
+    public string? TrustName { get; set; }
+    public string? LocalAuthority { get; set; }
+    public bool HasNursery { get; set; }
+    public bool IsPfiSchool { get; set; }
 
     public static FinancesResponseModel Create(SchoolTrustFinancialDataObject dataObject, int? term = null)
     {
@@ -50,6 +55,10 @@ public record FinancesResponseModel
             OfstedRatingName = dataObject.OfstedRatingName,
             FreeSchoolMealPercent = dataObject.PercentageFsm,
             SpecialEducationalNeedsPercent = dataObject.PercentagePupilsWsen,
+            Region = dataObject.Region,
+            TrustName = dataObject.TrustOrCompanyName,
+            LocalAuthority = dataObject.La.ToString(),
+            IsPfiSchool = dataObject.Pfi?.ToLower() == "part of pfi"
         };
     }
 }
