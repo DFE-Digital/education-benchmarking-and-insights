@@ -28,6 +28,7 @@ public static class Paths
     public static string SchoolFinancialPlanning(string? urn) => $"/school/{urn}/financial-planning";
     public static string SchoolHistory(string? urn) => $"/school/{urn}/history";
     public static string SchoolDetails(string? urn) => $"/school/{urn}/details";
+    public static string SchoolCustomData(string? urn) => $"/school/{urn}/custom-data";
 
     public static string SchoolFinancialPlanningStart(string? urn) => $"/school/{urn}/financial-planning/create/start";
     public static string SchoolFinancialPlanningSelectYear(string? urn) =>
@@ -57,14 +58,14 @@ public static class Paths
     public static string SchoolFinancialPlanningOtherTeachingPeriodsConfirm(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-confirmation?year={year}";
     public static string SchoolFinancialPlanningOtherTeachingPeriodsReview(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-review?year={year}";
     public static string SchoolFinancialPlanningManagementRoles(string? urn, int year) => $"/school/{urn}/financial-planning/create/management-roles?year={year}";
+    public static string SchoolCustomDataFinancialData(string? urn) => $"/school/{urn}/custom-data/financial-data";
+    public static string SchoolCustomDataNonFinancialData(string? urn) => $"/school/{urn}/custom-data/school-characteristics";
+    public static string SchoolCustomDataWorkforceData(string? urn) => $"/school/{urn}/custom-data/workforce";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";
-    public static string ToAbsolute(this string path)
-    {
-        return $"https://localhost{path}";
-    }
+    public static string ToAbsolute(this string path) => $"https://localhost{path}";
 }
