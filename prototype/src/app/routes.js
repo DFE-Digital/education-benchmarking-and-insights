@@ -40,7 +40,7 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 
 router.post( '/comparators/create/review', (req, res) => {
 
-    var comparators = generateComparators();
+    var comparators = generatePupilComparators();
     comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
     req.session.data['comparators'] = comparators;
@@ -51,46 +51,40 @@ router.post( '/comparators/create/review', (req, res) => {
 
 })
 
-router.get( '/comparators/pupil', (req, res) => {
-    var rows = [];
-    var comparators;
+router.get( '/comparators/view', (req, res) => {
+    var pupilRows = [];
+    var pupilComparators;
+    var buildingRows = [];
+    var buildingComparators;
     
     if ( !req.session.data['pupilComparators'] ) {
-        req.session.data['pupilComparators']  = generateComparators();
+        req.session.data['pupilComparators']  = generatePupilComparators();
     }
-    comparators = req.session.data['pupilComparators'];
-    
-    if ( comparators ) {
-        comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
-
-        for ( i=0; i<comparators.length; i++) {
-            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=pupil&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-            rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
-        }
-    }
-
-    res.render( '/comparators/pupil', { rows: rows } );
-})
-
-router.get( '/comparators/building', (req, res) => {
-    var rows = [];
-    var comparators;
-    
     if ( !req.session.data['buildingComparators'] ) {
-        req.session.data['buildingComparators']  = generateComparators();
+        req.session.data['buildingComparators']  = generateBuildingComparators();
     }
-    comparators = req.session.data['buildingComparators'];
+    pupilComparators = req.session.data['pupilComparators'];
+    buildingComparators = req.session.data['buildingComparators'];
     
-    if ( comparators ) {
-        comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
+    if ( pupilComparators ) {
+        pupilComparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
 
-        for ( i=0; i<comparators.length; i++) {
-            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-            rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'} ] );
+        for ( i=0; i<pupilComparators.length; i++) {
+            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=pupil&comparatorId=" + [i] +"\" class=\"govuk-link\">" + pupilComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + pupilComparators[i].comparatorLocation + ", " + pupilComparators[i].comparatorPostcode + "</span>";
+            pupilRows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': pupilComparators[i].comparatorPupils.toLocaleString()}, {'text': pupilComparators[i].comparatorSen + '%'}, {'text': pupilComparators[i].comparatorMeals + '%'} ] );
         }
     }
 
-    res.render( '/comparators/building', { rows: rows } );
+    if ( buildingComparators ) {
+        buildingComparators.sort((a, b) => a.buildingComparators > b.buildingComparators ? 1 : -1);
+
+        for ( i=0; i<buildingComparators.length; i++) {
+            var nameHtml = "<a href=\"/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + buildingComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + buildingComparators[i].comparatorLocation + ", " + buildingComparators[i].comparatorPostcode + "</span>";
+            buildingRows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': buildingComparators[i].comparatorPupils.toLocaleString()}, {'text': buildingComparators[i].comparatorGifa.toLocaleString() + ' sqm'}, {'text': buildingComparators[i].comparatorAge + ' years'} ] );
+        }
+    }
+
+    res.render( '/comparators/view', { pupilRows: pupilRows, buildingRows: buildingRows } );
 })
 
 router.post( '/comparators/create', (req, res) => {
@@ -122,8 +116,9 @@ function addSchool (req, res, schoolName) {
 
     comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
     comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
+    comparatorSen = Math.floor( ( ( Math.random() * (9 - 0.8 + 1) ) + 2.3 )* 10 ) /10;
 
-    comparators.unshift({'comparatorName': schoolName, 'comparatorLocation': comparatorLocation, 'comparatorPostcode': comparatorPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals });
+    comparators.unshift({'comparatorName': schoolName, 'comparatorLocation': comparatorLocation, 'comparatorPostcode': comparatorPostcode, 'comparatorPupils': comparatorPupils, 'comparatorSen': comparatorSen, 'comparatorMeals': comparatorMeals });
     req.session.data['comparators'] = comparators;
     req.session.data['confirmation'] = 'comparator-added';
     req.session.data.school = null;
@@ -164,7 +159,7 @@ router.get( '/comparators/create/review', (req, res) => {
     
     for ( i=0; i<comparators.length; i++) {
         var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': 'Good'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( '/comparators/create/review', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -424,7 +419,7 @@ function getLocalAuthorityList() {
     return lcoalAuthorities;
 }
 
-function generateComparators() {
+function generatePupilComparators() {
 
     var objSchoolsFile = require('../app/data/schools.json');
     var objSchools = objSchoolsFile.schools;
@@ -434,8 +429,27 @@ function generateComparators() {
         objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
         comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
         comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
+        comparatorSen = Math.floor( ( ( Math.random() * (9 - 0.8 + 1) ) + 2.3 )* 10 ) /10;
 
-        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals });
+        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorMeals': comparatorMeals, 'comparatorSen': comparatorSen });
+    }
+
+    return comparators;
+}
+
+function generateBuildingComparators() {
+
+    var objSchoolsFile = require('../app/data/schools.json');
+    var objSchools = objSchoolsFile.schools;
+    var comparators = [];
+
+    for (i=0; i<30; i++ ) {
+        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
+        comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
+        comparatorGifa = comparatorPupils * Math.floor( ( Math.random() * (12 - 10 + 1) ) + 10 );
+        comparatorAge = Math.floor( ( ( Math.random() * (87 - 4.3 + 1) ) + 4.3 ) );
+
+        comparators.push({'comparatorName':  objSchool.schoolName, 'comparatorLocation':  objSchool.schoolLocation, 'comparatorPostcode': objSchool.schoolPostcode, 'comparatorPupils': comparatorPupils, 'comparatorAge': comparatorAge, 'comparatorGifa': comparatorGifa });
     }
 
     return comparators;

@@ -77,14 +77,12 @@
   <p class="govuk-body"><strong>Schools matched to characteristics</strong></p>
   <p class="govuk-body">You have now replaced the schools we chose for you with the 30 matched schools below.</p>
   <p class="govuk-body">These are the closest match based on the characteristics you selected.</p>
-  <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['school-name'] }}</a></p>
   {% endset %}
 
   {% elseif confirmation == 'comparator-added' %}
     {% set html %}
     <p class="govuk-body"><strong>{{ ( data['comparators'] | first ).comparatorName }}</strong> added to similar schools.</p>
     <p class="govuk-body">You have now replaced the schools we chose for you with the schools you’ve chosen below.</p>
-    <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['school-name'] }}</a></p>
     {% endset %}
   
   {% elseif confirmation == 'comparator-removed' %}
@@ -101,6 +99,10 @@
       type: "success"
     }) }}
     
+  {% endif %}
+
+  {% if data['comparators'] | length %}
+  <p class="govuk-body"><a href="/school-homepage">Compare these schools against {{ data['school-name'] }}</a></p>
   {% endif %}
 
       {% if confirmation != 'comparator-generated' %}
@@ -126,17 +128,19 @@
       </form>
       {% endif %}
 
+
     {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
       
       {% if comparatorSetType == 'generated' %}
-      <p class="govuk-body"><a href="/comparators/create/type">Change characteristics and create a new list</a></p>
+      <p class="govuk-body"><a href="/comparators/create/characteristics">Change characteristics and create a new list</a></p>
       {% endif %}
 
     {{ govukTable({
       firstCellIsHeader: false,
       head: [
         {
-          text: "School"
+          text: "School",
+          classes: "govuk-!-width-one-third"
         },
         {
           text: "Type"
@@ -145,10 +149,10 @@
           text: "Number of pupils"
         },
         {
-          text: "Ofsted rating"
+          text: "Pupils with special educational needs"
         },
         {
-          text: "Pupils eligible for free school meals (FSM) "
+          text: "Pupils eligible for free school meals"
         },
         {
           text: ""
