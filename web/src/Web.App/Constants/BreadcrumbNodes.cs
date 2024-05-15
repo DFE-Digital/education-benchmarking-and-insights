@@ -36,7 +36,7 @@ public static class BreadcrumbNodes
     public static MvcBreadcrumbNode SchoolCustomData(string urn)
     {
         return new MvcBreadcrumbNode("Index", "SchoolCustomData", PageTitles.SchoolChangeData)
-        { RouteValues = new { urn }, Parent = SchoolSpending(urn) };
+        { RouteValues = new { urn }, Parent = SchoolHome(urn) };
     }
 
     public static MvcBreadcrumbNode TrustHome(string companyNumber)
