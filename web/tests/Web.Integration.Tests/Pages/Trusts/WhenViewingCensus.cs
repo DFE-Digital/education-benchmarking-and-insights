@@ -73,7 +73,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
             .CreateMany(11);
 
         var schools = primarySchools.Concat(secondarySchools).ToArray();
-      
+
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupInsights()
             .Navigate(Paths.TrustCensus(trust.CompanyNumber));
@@ -109,7 +109,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         Assert.NotNull(dataPhases);
         string[] expectedPhases = [OverallPhaseTypes.Secondary, OverallPhaseTypes.Primary];
         Assert.Equal(expectedPhases.ToJson(Formatting.None), dataPhases);
-        
+
 
         var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
