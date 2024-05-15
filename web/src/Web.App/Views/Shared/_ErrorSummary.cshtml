@@ -15,10 +15,10 @@
                         {
                             foreach (var errorMessage in error.Value.Errors)
                             {
-                                <li>
+                                <li id="@error.Key-error-summary">
                                     <a href="#@error.Key">@errorMessage.ErrorMessage</a>
                                 </li>
-                            }    
+                            }
                         }
                     }
                 </ul>
