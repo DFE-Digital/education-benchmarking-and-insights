@@ -1,29 +1,28 @@
+using System.Collections.Concurrent;
 using Moq;
-using Web.App;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Xunit.Abstractions;
-
 namespace Web.Integration.Tests;
-
 
 public class SchoolBenchmarkingWebAppClient : BenchmarkingWebAppClient
 {
     public SchoolBenchmarkingWebAppClient(IMessageSink messageSink) : base(messageSink, auth =>
-            {
-                auth.URN = 12345;
-            })
+    {
+        auth.URN = 12345;
+    })
     {
     }
 }
 
-
-public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null) : WebAppClientBase<Program>(messageSink, authCfg)
+public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<TestAuthOptions>? authCfg = null)
+    : WebAppClientBase<Program>(messageSink, authCfg)
 {
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
     public Mock<ICensusApi> CensusApi { get; } = new();
+    public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -32,6 +31,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
         services.AddSingleton(CensusApi.Object);
+        services.AddSingleton(HttpContextAccessor.Object);
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(School school)
@@ -53,7 +53,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetTrust(trust.CompanyNumber)).ReturnsAsync(ApiResult.Ok(trust));
         EstablishmentApi
-            .Setup(api => api.QuerySchools(It.Is<ApiQuery>(x => x.Any(q => q.Key == "companyNumber" && q.Value == trust.CompanyNumber))))
+            .Setup(api =>
+                api.QuerySchools(It.Is<ApiQuery>(x =>
+                    x.Any(q => q.Key == "companyNumber" && q.Value == trust.CompanyNumber))))
             .ReturnsAsync(ApiResult.Ok(schools));
 
         return this;
@@ -71,7 +73,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Reset();
         EstablishmentApi.Setup(api => api.GetLocalAuthority(authority.Code)).ReturnsAsync(ApiResult.Ok(authority));
         EstablishmentApi
-            .Setup(api => api.QuerySchools(It.Is<ApiQuery>(x => x.Any(q => q.Key == "laCode" && q.Value == authority.Code))))
+            .Setup(api =>
+                api.QuerySchools(It.Is<ApiQuery>(x => x.Any(q => q.Key == "laCode" && q.Value == authority.Code))))
             .ReturnsAsync(ApiResult.Ok(schools));
 
         return this;
@@ -97,6 +100,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupCensus(School school, Census census)
+    {
+        CensusApi.Reset();
+        CensusApi.Setup(api => api.Get(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(census));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupCensusWithException()
     {
         CensusApi.Reset();
@@ -105,13 +115,25 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupInsights(School school, Finances finances)
+    public BenchmarkingWebAppClient SetupInsights(School school, Finances? finances = null, Income? income = null,
+        Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
         InsightApi.Setup(api => api.GetSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears { Aar = 2022, Cfr = 2021 }));
-        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
+        InsightApi.Setup(api => api.GetCurrentReturnYears())
+            .ReturnsAsync(ApiResult.Ok(new FinanceYears
+            {
+                Aar = 2022,
+                Cfr = 2021
+            }));
+        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
+        InsightApi.Setup(api => api.GetSchoolIncome(school.Urn, It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(income));
+        InsightApi.Setup(api => api.GetSchoolExpenditure(school.Urn, It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(expenditure));
+        InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.Urn)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
         return this;
     }
 
@@ -136,7 +158,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupBenchmarkWithNotFound()
     {
         BenchmarkApi.Reset();
-        BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(ApiResult.NotFound());
+        BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync(ApiResult.NotFound());
         return this;
     }
 
@@ -145,7 +168,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         BenchmarkApi.Reset();
         if (plan == null)
         {
-            BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).ReturnsAsync(ApiResult.NotFound());
+            BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+                .ReturnsAsync(ApiResult.NotFound());
         }
         else
         {
@@ -159,7 +183,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
         BenchmarkApi
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
-            .ReturnsAsync(ApiResult.Ok(new ComparatorSet { DefaultArea = schools.Select(x => x.Urn ?? "Missing urn"), DefaultPupil = schools.Select(x => x.Urn ?? "Missing urn") }));
+            .ReturnsAsync(ApiResult.Ok(new ComparatorSet
+            {
+                DefaultArea = schools.Select(x => x.Urn ?? "Missing urn"),
+                DefaultPupil = schools.Select(x => x.Urn ?? "Missing urn")
+            }));
 
         BenchmarkApi
             .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))
@@ -186,5 +214,50 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
                         TimetablePeriods = request.TimetablePeriods.ToString()
                     })));
         return this;
+    }
+
+    public BenchmarkingWebAppClient SetupHttpContextAccessor()
+    {
+        HttpContextAccessor.Reset();
+        var session = new SessionStub();
+        var context = new DefaultHttpContext
+        {
+            Session = session
+        };
+
+        HttpContextAccessor.Setup(a => a.HttpContext).Returns(context);
+        return this;
+    }
+
+    private class SessionStub : ISession
+    {
+        private readonly ConcurrentDictionary<string, byte[]> _items = new();
+
+        public Task LoadAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+
+        public Task CommitAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
+
+        public bool TryGetValue(string key, out byte[]? value) => _items.TryGetValue(key, out value);
+
+        public void Set(string key, byte[] value)
+        {
+            _items[key] = value;
+        }
+
+        public void Remove(string key)
+        {
+            _items.Remove(key, out _);
+        }
+
+        public void Clear()
+        {
+            _items.Clear();
+        }
+
+        public bool IsAvailable => true;
+
+        public string Id => nameof(SessionStub);
+
+        public IEnumerable<string> Keys => _items.Keys;
     }
 }
