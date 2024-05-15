@@ -8,7 +8,6 @@ public record IncomeResponseModel
 {
     public int YearEnd { get; private set; }
     public string Term => $"{YearEnd - 1} to {YearEnd}";
-    public Dimension Dimension { get; private set; }
     public decimal? TotalIncome { get; private set; }
     public decimal? TotalGrantFunding { get; private set; }
     public decimal? TotalSelfGeneratedFunding { get; private set; }
@@ -27,46 +26,55 @@ public record IncomeResponseModel
     public decimal? InvestmentIncome { get; private set; }
     public decimal? OtherSelfGeneratedIncome { get; private set; }
 
-    public static IncomeResponseModel Create(SchoolTrustFinancialDataObject? dataObject, int term, Dimension dimension = Dimension.Actuals)
+    private static IncomeResponseModel CreateEmpty(int term)
     {
-        return dataObject is null
-            ? new IncomeResponseModel
-            {
-                YearEnd = term,
-                Dimension = dimension,
-            }
-            : new IncomeResponseModel
-            {
-                YearEnd = term,
-                Dimension = dimension,
-                TotalIncome = CalculationValue(dataObject.TotalIncome, dataObject, dimension),
-                TotalGrantFunding = CalculationValue(dataObject.GrantFunding, dataObject, dimension),
-                TotalSelfGeneratedFunding = CalculationValue(dataObject.SelfGeneratedFunding, dataObject, dimension),
-                DirectRevenueFinancing = CalculationValue(dataObject.DirectRevenueFinancing, dataObject, dimension),
-                DirectGrants = CalculationValue(dataObject.DirectGrant, dataObject, dimension),
-                PrePost16Funding = CalculationValue(dataObject.PrePost16Funding, dataObject, dimension),
-                OtherDfeGrants = CalculationValue(dataObject.OtherDfeGrants, dataObject, dimension),
-                OtherIncomeGrants = CalculationValue(dataObject.OtherIncomeGrants, dataObject, dimension),
-                GovernmentSource = CalculationValue(dataObject.GovernmentSource, dataObject, dimension),
-                CommunityGrants = CalculationValue(dataObject.CommunityGrants, dataObject, dimension),
-                Academies = CalculationValue(dataObject.Academies, dataObject, dimension),
-                IncomeFacilitiesServices = CalculationValue(dataObject.IncomeFromFacilities, dataObject, dimension),
-                IncomeCatering = CalculationValue(dataObject.IncomeFromCatering, dataObject, dimension),
-                DonationsVoluntaryFunds = CalculationValue(dataObject.Donations, dataObject, dimension),
-                ReceiptsSupplyTeacherInsuranceClaims = CalculationValue(dataObject.ReceiptsFromSupply, dataObject, dimension),
-                InvestmentIncome = CalculationValue(dataObject.InvestmentIncome, dataObject, dimension),
-                OtherSelfGeneratedIncome = CalculationValue(dataObject.OtherSelfGenerated, dataObject, dimension)
-            };
+        return new IncomeResponseModel
+        {
+            YearEnd = term
+        };
     }
 
-    private static decimal CalculationValue(decimal value, SchoolTrustFinancialDataObject dataObject, Dimension dimension)
+    public static IncomeResponseModel Create(IncomeDataObject? dataObject, int term, string dimension)
+    {
+        if (dataObject is null)
+        {
+            return CreateEmpty(term);
+        }
+
+        return new IncomeResponseModel
+        {
+            YearEnd = term,
+            TotalIncome = CalculationValue(dataObject.TotalIncome, dataObject, dimension),
+            TotalGrantFunding = CalculationValue(dataObject.GrantFunding, dataObject, dimension),
+            TotalSelfGeneratedFunding = CalculationValue(dataObject.SelfGeneratedFunding, dataObject, dimension),
+            DirectRevenueFinancing = CalculationValue(dataObject.DirectRevenueFinancing, dataObject, dimension),
+            DirectGrants = CalculationValue(dataObject.DirectGrant, dataObject, dimension),
+            PrePost16Funding = CalculationValue(dataObject.PrePost16Funding, dataObject, dimension),
+            OtherDfeGrants = CalculationValue(dataObject.OtherDfeGrants, dataObject, dimension),
+            OtherIncomeGrants = CalculationValue(dataObject.OtherIncomeGrants, dataObject, dimension),
+            GovernmentSource = CalculationValue(dataObject.GovernmentSource, dataObject, dimension),
+            CommunityGrants = CalculationValue(dataObject.CommunityGrants, dataObject, dimension),
+            Academies = CalculationValue(dataObject.Academies, dataObject, dimension),
+            IncomeFacilitiesServices = CalculationValue(dataObject.IncomeFromFacilities, dataObject, dimension),
+            IncomeCatering = CalculationValue(dataObject.IncomeFromCatering, dataObject, dimension),
+            DonationsVoluntaryFunds = CalculationValue(dataObject.Donations, dataObject, dimension),
+            ReceiptsSupplyTeacherInsuranceClaims =
+                CalculationValue(dataObject.ReceiptsFromSupply, dataObject, dimension),
+            InvestmentIncome = CalculationValue(dataObject.InvestmentIncome, dataObject, dimension),
+            OtherSelfGeneratedIncome = CalculationValue(dataObject.OtherSelfGenerated, dataObject, dimension)
+        };
+    }
+
+    private static decimal CalculationValue(decimal value, IncomeDataObject dataObject, string dimension)
     {
         return dimension switch
         {
-            Dimension.Actuals => value,
-            Dimension.PoundPerPupil => dataObject.NoPupils != 0 ? value / dataObject.NoPupils : 0,
-            Dimension.PercentIncome => dataObject.TotalIncome != 0 ? value / dataObject.TotalIncome * 100 : 0,
-            Dimension.PercentExpenditure => dataObject.TotalExpenditure != 0 ? value / dataObject.TotalExpenditure * 100 : 0,
+            IncomeDimensions.Actuals => value,
+            IncomeDimensions.PoundPerPupil => dataObject.NoPupils != 0 ? value / dataObject.NoPupils : 0,
+            IncomeDimensions.PercentIncome => dataObject.TotalIncome != 0 ? value / dataObject.TotalIncome * 100 : 0,
+            IncomeDimensions.PercentExpenditure => dataObject.TotalExpenditure != 0
+                ? value / dataObject.TotalExpenditure * 100
+                : 0,
             _ => throw new ArgumentOutOfRangeException(nameof(dimension), dimension, "Unknown value dimension")
         };
     }

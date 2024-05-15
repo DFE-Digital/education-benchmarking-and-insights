@@ -5,16 +5,16 @@ using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 
-namespace Platform.Tests.Insight.SchoolFinance;
+namespace Platform.Tests.Insight.Income;
 
-public class WhenFunctionReceivesGetIncomeRequest : SchoolFinanceFunctionsTestBase
+public class WhenFunctionReceivesGetIncomeRequest : IncomeFunctionsTestBase
 {
     private const string Urn = "URN";
 
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db.Setup(d => d.GetIncome(Urn, It.IsAny<Dimension>())).ReturnsAsync(new IncomeResponseModel());
+        Db.Setup(d => d.GetSchool(Urn, It.IsAny<string>())).ReturnsAsync(new IncomeResponseModel());
 
         var result = await Functions.SchoolIncomeAsync(CreateRequest(), Urn) as JsonContentResult;
 
@@ -23,12 +23,12 @@ public class WhenFunctionReceivesGetIncomeRequest : SchoolFinanceFunctionsTestBa
     }
 
     [Theory]
-    [InlineData(null, Dimension.Actuals)]
-    [InlineData("dimension", Dimension.Actuals)]
-    [InlineData(nameof(Dimension.PoundPerPupil), Dimension.PoundPerPupil)]
-    public async Task ShouldTryParseQueryString(string? dimension, Dimension expectedDimension)
+    [InlineData(null, IncomeDimensions.Actuals)]
+    [InlineData("dimension", IncomeDimensions.Actuals)]
+    [InlineData(IncomeDimensions.PoundPerPupil, IncomeDimensions.PoundPerPupil)]
+    public async Task ShouldTryParseQueryString(string? dimension, string expectedDimension)
     {
-        Db.Setup(d => d.GetIncome(Urn, expectedDimension)).Verifiable();
+        Db.Setup(d => d.GetSchool(Urn, expectedDimension)).Verifiable();
 
         var query = new Dictionary<string, StringValues>
         {
@@ -42,7 +42,7 @@ public class WhenFunctionReceivesGetIncomeRequest : SchoolFinanceFunctionsTestBa
     [Fact]
     public async Task ShouldReturn404OnNotFound()
     {
-        Db.Setup(d => d.GetIncome(Urn, It.IsAny<Dimension>())).ReturnsAsync((IncomeResponseModel?)null);
+        Db.Setup(d => d.GetSchool(Urn, It.IsAny<string>())).ReturnsAsync((IncomeResponseModel?)null);
 
         var result = await Functions.SchoolIncomeAsync(CreateRequest(), Urn) as NotFoundResult;
 
@@ -53,7 +53,7 @@ public class WhenFunctionReceivesGetIncomeRequest : SchoolFinanceFunctionsTestBa
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db.Setup(d => d.GetIncome(Urn, It.IsAny<Dimension>())).Throws(new Exception());
+        Db.Setup(d => d.GetSchool(Urn, It.IsAny<string>())).Throws(new Exception());
 
         var result = await Functions.SchoolIncomeAsync(CreateRequest(), Urn) as StatusCodeResult;
 

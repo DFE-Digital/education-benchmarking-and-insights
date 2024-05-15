@@ -88,19 +88,18 @@ public class CensusFunctions
             try
             {
                 var category = req.Query["category"].ToString();
-                if (!CensusCategories.IsValid(category))
+                if (!CensusCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
                 {
                     category = null;
                 }
 
                 var dimension = req.Query["dimension"].ToString();
-                if (!CensusDimensions.IsValid(dimension))
+                if (!CensusDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
                 {
                     dimension = CensusDimensions.Total;
                 }
 
-                var result = await _db.Get(urn, string.IsNullOrWhiteSpace(category) ? null : category,
-                    string.IsNullOrWhiteSpace(dimension) ? CensusDimensions.Total : dimension);
+                var result = await _db.Get(urn, category, dimension);
 
                 return result == null
                     ? new NotFoundResult()
@@ -149,7 +148,7 @@ public class CensusFunctions
     [FunctionName(nameof(QueryCensusAsync))]
     [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("category", "Census category", DataType = typeof(string), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> QueryCensusAsync(
