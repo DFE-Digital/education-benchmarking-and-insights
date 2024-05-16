@@ -34,16 +34,15 @@
   <div class="govuk-grid-column-full">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Similar schools</h1>
-
-        <h2 class="govuk-heading-m">Choose your own similar schools</h2>
-        <p class="govuk-body">If you want to change these schools, you can <a href="/comparators"> choose your own</a>.</p>
-
+        <h1 class="govuk-heading-l">Schools we chose for benchmarking</h1>
+        <p class="govuk-body">These are the 2 sets of 30 similar schools we've chosen to benchmark this school against.</p>
+        <p class="govuk-body"><a href="/comparators">Choose your own schools to benchmark against</a></p>
 
       {% set pupilTab %}
 
-        <h2 class="govuk-heading-l">Pupil comparators</h2>
-        <p class="govuk-body">For these costs, we choose 30 similar schools based on:</p>
+        <h2 class="govuk-heading-l">Running costs</h2>
+        <p class="govuk-body">All non-building related costs, including all staffing, ICT, consultancy and catering.</p>
+            <p class="govuk-body">We've chosen 30 similar schools based on:</p>
              <ul class="govuk-list govuk-list--bullet">
                  <li>school phase or type</li>
                  <li>region</li>
@@ -51,8 +50,7 @@
                  <li>pupils eligible for free school meals (FSM)</li>
                  <li>pupils with special educational needs (SEN)</li>
              </ul>
-             <p class="govuk-body">These costs are measured per pupil.</p>
-             <p>Teacher contact ratio is not used to choose similar schools.</p>
+             
         {{ govukTable({
           head: [
             {
@@ -76,8 +74,9 @@
       {% endset %}
 
       {% set buildingTab %}
-      <h2 class="govuk-heading-l">Building comparators</h2>
-      <p class="govuk-body">For these costs, we choose 30 similar schools based on:</p>
+      <h2 class="govuk-heading-l">Building costs</h2>
+      <p class="govuk-body">Includes utilities, cleaning and maintenance.</p>
+      <p class="govuk-body">We've chosen 30 similar schools based on:</p>
       <ul class="govuk-list govuk-list--bullet">
           <li>school phase or type</li>
           <li>region</li>
@@ -85,7 +84,7 @@
           <li>average age of buildings</li>
           <li>whether they are a Private Finance Initiative (PFI) school</li>
       </ul>
-      <p class="govuk-body">These costs are measured per square metre.</p>
+
         {{ govukTable({
           head: [
             {
@@ -112,14 +111,14 @@
         {{ govukTabs({
           items: [
             {
-              label: "Pupil comparators",
+              label: "Running costs",
               id: "past-day",
               panel: {
                 html: pupilTab
               }
             },
             {
-              label: "Building comparators",
+              label: "Building costs",
               id: "past-month",
               panel: {
                 html: buildingTab
