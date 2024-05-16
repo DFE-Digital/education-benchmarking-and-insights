@@ -3,21 +3,79 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataFinancialData, name = Model.School.Name, id = Model.School.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = PageTitles.SchoolChangeDataFinancialData,
+    name = Model.School.Name,
+    id = Model.School.Urn,
+    kind = OrganisationTypes.School
+})
 
 @await Html.PartialAsync("_ErrorSummary")
-@using (Html.BeginForm("FinancialData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate", id = "form-custom-data-financial" }))
+@using (Html.BeginForm("FinancialData", "SchoolCustomDataChange", new
+        {
+            urn = Model.School.Urn
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate",
+            id = "form-custom-data-financial"
+        }))
 {
     <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-financial-data">
-        @await Html.PartialAsync("_AccordionSection", Model.AdministrativeSuppliesSection)
-        @await Html.PartialAsync("_AccordionSection", Model.CateringSection)
-        @await Html.PartialAsync("_AccordionSection", Model.EducationalSuppliesSection)
-        @await Html.PartialAsync("_AccordionSection", Model.ITSection)
-        @await Html.PartialAsync("_AccordionSection", Model.NonEducationalSupportStaffSection)
-        @await Html.PartialAsync("_AccordionSection", Model.PremisesAndServicesSection)
-        @await Html.PartialAsync("_AccordionSection", Model.TeachingAndTeachingSupportSection)
-        @await Html.PartialAsync("_AccordionSection", Model.UtilitiesSection)
-        @await Html.PartialAsync("_AccordionSection", Model.OtherCostsSection)
+        @await Html.PartialAsync("_AccordionSection", Model.AdministrativeSuppliesSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 1
+            }
+        })
+        @await Html.PartialAsync("_AccordionSection", Model.CateringSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 2
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.EducationalSuppliesSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 3
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.ITSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 4
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.NonEducationalSupportStaffSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 5
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.PremisesAndServicesSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 6
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.TeachingAndTeachingSupportSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 7
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.UtilitiesSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 8
+            }
+        }))
+        @await Html.PartialAsync("_AccordionSection", Model.OtherCostsSection, new ViewDataDictionary(ViewData)
+        {
+            {
+                "Index", 9
+            }
+        }))
     </div>
     <div id="custom-data-totals">
         <h2 class="govuk-heading-m">

@@ -6,33 +6,32 @@ using Microsoft.Playwright;
 using Web.A11yTests.Drivers;
 using Xunit;
 using Xunit.Abstractions;
-
 namespace Web.A11yTests;
 
 public abstract class PageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver)
     : IClassFixture<WebDriver>
 {
-    private static string ServiceUrl => TestConfiguration.Instance.GetValue<string>("ServiceUrl") ??
-                                        throw new InvalidOperationException("Service URL missing from configuration");
+
+    private IPage? _page;
+    protected static string ServiceUrl => TestConfiguration.Instance.GetValue<string>("ServiceUrl") ??
+                                          throw new InvalidOperationException("Service URL missing from configuration");
 
     private static IEnumerable<string> Impacts =>
         TestConfiguration.Instance.GetSection("Impacts").Get<string[]>() ?? ["critical", "serious"];
-
-    private IPage? _page;
 
     protected abstract string PageUrl { get; }
 
     protected IPage Page =>
         _page ?? throw new InvalidOperationException("Ensure the page has been successfully navigated to");
 
-    protected ITestOutputHelper TestOutputHelper => testOutputHelper;
+    private ITestOutputHelper TestOutputHelper => testOutputHelper;
 
-    protected async Task GoToPage(HttpStatusCode statusCode = HttpStatusCode.OK)
+    protected virtual async Task GoToPage(HttpStatusCode statusCode = HttpStatusCode.OK, IPage? basePage = null)
     {
         Assert.False(string.IsNullOrEmpty(PageUrl));
         var fullUrl = $"{ServiceUrl}{PageUrl}";
 
-        _page = await webDriver.GetPage(fullUrl, statusCode);
+        _page = await webDriver.GetPage(fullUrl, statusCode, basePage);
 
         Assert.NotNull(_page);
         Assert.Equal(fullUrl, _page.Url);

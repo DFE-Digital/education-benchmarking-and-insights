@@ -1,12 +1,12 @@
 @model Web.App.ViewModels.SchoolCustomDataSectionViewModel
 @{
-    var id = Model.Title.Replace(" ", "-").ToLower();
+    var id = ViewData["Index"] ?? Model.Title.Replace(" ", "-").ToLower();
 }
 
 <div class="govuk-accordion__section">
     <div class="govuk-accordion__section-header">
         <h2 class="govuk-accordion__section-heading">
-            <span class="govuk-accordion__section-button" id="accordion-default-heading-@id">
+            <span class="govuk-accordion__section-button" id="accordion-financial-data-heading-@id">
                 @Model.Title
             </span>
         </h2>
