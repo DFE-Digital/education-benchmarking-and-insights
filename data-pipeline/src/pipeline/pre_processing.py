@@ -4,6 +4,7 @@ import numpy as np
 
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
+import src.pipeline.config as config
 import pandas as pd
 
 
@@ -373,6 +374,24 @@ def prepare_schools_data(base_data_path, links_data_path):
     ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
+def build_cost_series(category_name, df, basis):
+    basis_data = df[
+        "Number of pupils" if basis == "Pupil" else "Total Internal Floor Area"
+    ]
+
+    # Create total column
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
+
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category] = df[sub_category] / basis_data
+
+    return df
+
+
 def build_academy_data(
     academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
 ):
@@ -401,6 +420,9 @@ def build_academy_data(
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
     )
+
+    # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
+    academies["Total Internal Floor Area"] = academies["Total Internal Floor Area"].fillna(academies["Total Internal Floor Area"].median())
 
     academies["Type of Provision - Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
@@ -479,6 +501,9 @@ def build_academy_data(
         },
         inplace=True,
     )
+
+    for category in config.rag_category_settings.keys():
+        academies = build_cost_series(category, academies, config.rag_category_settings[category]["type"])
 
     return academies
 
@@ -587,6 +612,9 @@ def build_maintained_school_data(
         },
         inplace=True,
     )
+
+    for category in config.rag_category_settings.keys():
+        maintained_schools = build_cost_series(category, maintained_schools, config.rag_category_settings[category]["type"])
 
     maintained_schools.set_index("URN", inplace=True)
     return maintained_schools

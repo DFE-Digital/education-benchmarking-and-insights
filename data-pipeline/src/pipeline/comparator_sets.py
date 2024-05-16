@@ -196,14 +196,13 @@ def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
 
 
 def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size=30):
-    top_index = np.argsort(data)[:base_set_size]
+    top_index = np.argsort(data, kind="stable")[:base_set_size]
     top_urns = all_urns[top_index]
     top_regions = all_regions[top_index]
     same_region = np.argwhere(top_regions == top_regions[0]).flatten()
     same_region_urns = top_urns[same_region]
     urns = np.append(same_region_urns, np.delete(top_urns, same_region)[:final_set_size - len(same_region_urns)])
-    urn = urns[0]
-    return urn, urns
+    return urns
 
 
 def compute_distances(orig_data, grouped_data):
@@ -216,29 +215,61 @@ def compute_distances(orig_data, grouped_data):
         all_regions = np.array(row["GOR (name)"])
 
         for idx in range(len(all_urns)):
-            pupil_urn, pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
-            building_urn, building_set = select_top_set(all_urns, all_regions, building_distance[idx])
-            orig_data.at[pupil_urn, "Pupil"] = pupil_set
-            orig_data.at[building_urn, "Building"] = building_set
+            urn = all_urns[idx]
+            pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
+            building_set = select_top_set(all_urns, all_regions, building_distance[idx])
+
+            orig_data.at[urn, "Pupil"] = pupil_set
+            orig_data.at[urn, "Building"] = building_set
 
     return orig_data
 
 
 def compute_comparator_set(data: pd.DataFrame):
     # TODO: Drop_duplicates should not be needed here.
+    # TODO: Need to add boarding and PFI groups into this logic
     copy = data[["OfstedRating (name)",
                  "Percentage SEN",
                  "Percentage Free school meals",
                  "Number of pupils",
                  "Total Internal Floor Area",
                  "Age Average Score",
-                 "GOR (name)"]].drop_duplicates().copy()
-    classes = data.reset_index().groupby(["SchoolPhaseType"]).agg(list)
+                 "GOR (name)",
+                 "SchoolPhaseType",
+                 "Percentage Primary Need SPLD",
+                 "Percentage Primary Need MLD",
+                 "Percentage Primary Need PMLD",
+                 "Percentage Primary Need SEMH",
+                 "Percentage Primary Need SLCN",
+                 "Percentage Primary Need HI",
+                 "Percentage Primary Need MSI",
+                 "Percentage Primary Need PD",
+                 "Percentage Primary Need ASD",
+                 "Percentage Primary Need OTH"
+                 ]].drop_duplicates().copy()
+    classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
 
 
 def compute_custom_comparator(data: pd.DataFrame):
-    copy = data.copy()
+    copy = data[["OfstedRating (name)",
+                 "Percentage SEN",
+                 "Percentage Free school meals",
+                 "Number of pupils",
+                 "Total Internal Floor Area",
+                 "Age Average Score",
+                 "GOR (name)",
+                 "SchoolPhaseType",
+                 "Percentage Primary Need SPLD",
+                 "Percentage Primary Need MLD",
+                 "Percentage Primary Need PMLD",
+                 "Percentage Primary Need SEMH",
+                 "Percentage Primary Need SLCN",
+                 "Percentage Primary Need HI",
+                 "Percentage Primary Need MSI",
+                 "Percentage Primary Need PD",
+                 "Percentage Primary Need ASD",
+                 "Percentage Primary Need OTH"]].drop_duplicates().copy()
     copy["Custom"] = "Grouper"
-    classes = data.reset_index().groupby(["Custom"]).agg(list)
+    classes = copy.reset_index().groupby(["Custom"]).agg(list)
     return compute_distances(copy, classes)

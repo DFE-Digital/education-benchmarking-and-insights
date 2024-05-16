@@ -4,8 +4,9 @@ import os
 import sys
 import time
 from contextlib import suppress
-
+import warnings
 import pandas as pd
+import numpy as np
 import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from dotenv import load_dotenv
@@ -13,6 +14,12 @@ from dask.distributed import Client
 
 load_dotenv()
 
+from src.pipeline.config import (
+    rag_category_settings
+)
+from src.pipeline.rag import (
+    compute_rag
+)
 from src.pipeline.comparator_sets import (
     compute_comparator_set,
     prepare_data,
@@ -29,7 +36,7 @@ from src.pipeline.pre_processing import (
     prepare_schools_data,
     prepare_sen_data,
 )
-from src.pipeline.rag import compute_comparator_set_rag
+
 from src.pipeline.storage import (
     blob_service_client,
     complete_queue_name,
@@ -308,7 +315,7 @@ def compute_comparator_sets(set_type, year):
     )
 
     compute_comparator_set_for("academy_comparators", set_type, year, academies)
-    compute_comparator_set_for("ms_comparators", set_type, year, ms)
+    compute_comparator_set_for("maintained_schools_comparators", set_type, year, ms)
     compute_comparator_set_for("mixed_comparators", set_type, year, all_schools)
 
     write_blob(
@@ -335,55 +342,39 @@ def compute_comparator_sets(set_type, year):
     return time_taken
 
 
-# def compute_rag(worker_client, set_type, year):
-#     start_time = time.time()
-#     logger.info("Computing RAG")
-#
-#     rag_settings = {
-#         "academies": [("building", "academy_building"), ("pupil", "academies_pupil")],
-#         "maintained_schools": [
-#             ("building", "maintained_school_building"),
-#             ("pupil", "maintained_school_pupil"),
-#         ],
-#         "all_schools": [
-#             ("mixed_building", "all_building"),
-#             ("mixed_pupil", "all_pupil"),
-#         ],
-#     }
-#
-#     for rag_file in rag_settings.keys():
-#         schools = pd.read_parquet(get_blob(
-#             "comparator-sets",
-#             f"{set_type}/{year}/{rag_file}.parquet")).reset_index()
-#
-#         for comparator_type, comparator_file in rag_settings[rag_file]:
-#             st = time.time()
-#             logger.info(f"Computing {comparator_type} RAG")
-#             comparator_set = pd.read_parquet(get_blob(
-#                 "comparator-sets",
-#                 f"{set_type}/{year}/{comparator_file}.parquet")
-#             ).to_dict()
-#
-#             i = 0
-#             for index, row in schools.iterrows():
-#                 urn = row["URN"]
-#                 comparators = get_comparator_set_by(
-#                     lambda s: s["URN"] == urn, schools, comparator_set
-#                 ).set_index("URN")
-#                 result = compute_comparator_set_rag(comparators)
-#                 write_blob("metric-rag",
-#                            f'{set_type}/{year}/{urn}/{comparator_type}.json',
-#                            json.dumps(result))
-#
-#                 if i % 100 == 0:
-#                     logger.info(f"Computing {comparator_type} to index {i} {time.time() - st} seconds")
-#                 i += 1
-#
-#             logger.info(f"Computing {comparator_type} RAG done in {time.time() - st} seconds")
-#
-#     time_taken = time.time() - start_time
-#     logger.info(f"Computing RAG done in {time_taken} seconds")
-#     return time_taken
+def compute_rag_for(data_type, set_type, year, data, comparators):
+    st = time.time()
+    logger.info(f'Computing {data_type} RAG')
+    df = pd.DataFrame(compute_rag(data, comparators))
+
+    logger.info(f'Computing {data_type} set. Done in {time.time() - st:.2f} seconds')
+
+    write_blob(
+        "metric-rag",
+        f"{set_type}/{year}/{data_type}.parquet",
+        df.to_parquet(),
+    )
+
+
+def run_compute_rag(set_type, year):
+    start_time = time.time()
+
+    ms_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools.parquet"))
+    ms_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools_comparators.parquet"))
+    compute_rag_for("maintained_schools", set_type, year, ms_data, ms_comparators)
+
+    academy_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet"))
+    academy_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet"))
+    compute_rag_for("academies", set_type, year, academy_data, academy_comparators)
+
+    mixed_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet"))
+    mixed_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet"))
+    compute_rag_for("mixed", set_type, year, mixed_data, mixed_comparators)
+
+    time_taken = time.time() - start_time
+    logger.info(f"Computing RAG done in {time_taken} seconds")
+
+    return time_taken
 
 
 def handle_msg(worker_client, msg, worker_queue, complete_queue):
@@ -400,11 +391,10 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
             msg_payload["year"]
         )
 
-        # msg_payload["rag_duration"] = compute_rag(
-        #     worker_client,
-        #     msg_payload["type"],
-        #     msg_payload["year"]
-        # )
+        msg_payload["rag_duration"] = run_compute_rag(
+            msg_payload["type"],
+            msg_payload["year"]
+        )
 
         msg_payload["success"] = True
     except Exception as error:
@@ -460,7 +450,7 @@ async def receive_messages(worker_client):
 
 if __name__ == "__main__":
     with suppress(tornado.iostream.StreamClosedError):
-        with Client(n_workers=8, threads_per_worker=1, memory_limit='16GB') as client:
+        with Client(n_workers=8, threads_per_worker=1, memory_limit='16GB', heartbeat_interval=None) as client:
             try:
                 if os.getenv("ENV") == "dev":
                     receive_messages(client)
