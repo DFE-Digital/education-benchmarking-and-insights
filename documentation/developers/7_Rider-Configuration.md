@@ -23,7 +23,7 @@ Add a file watcher to automatically format code changes:
 
 xUnit does not always output to the expected window in Rider. When `IMessageSink` is used, output is sent to the Launch Log, which is accessible from:
 
-> Unit Tests Window > ⚙️ Session Options > Diagnostics > Show Last Launch Log
+> Unit Tests Window > Session Options > Diagnostics > Show Last Launch Log
 
 ![Rider Launch Log](./images/rider-launch-log.png)
 
