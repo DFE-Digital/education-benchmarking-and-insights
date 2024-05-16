@@ -126,7 +126,7 @@ dotnet test tests\Web.E2ETests
 
 #### Accessibility Tests
 
-Add the following configuration in `appsetings.local.json` in the root of `Web.A11yTests`
+Add the following configuration in `appsettings.local.json` in the root of `Web.A11yTests`
 
 ```json
 {
@@ -139,13 +139,20 @@ Add the following configuration in `appsetings.local.json` in the root of `Web.A
     "Host": "[INSERT URL OF BENCHMARK API]",
     "Key": "[INSERT BENCHMARK API KEY]"
   },
+  "Authentication": {
+    "Username": "[INSERT DSI USERNAME]",
+    "Password": "[INSERT DSI PASSWORD]"
+  },
 }
 ```
 
 From the root of the `web` run
 
 ```bat
-dotnet test tests\Web.A11yTests
+dotnet test tests\Web.A11yTests --filter "Category!=CustomData&Category!=FinancialPlanning"
 ```
 
 _Playwright is used for end-to-end and accessibility testing which opens a browser and navigates like a user._
+
+> **NOTE:** Running _all_ accessibility tests locally using DSI credentials that are not configured to be able to access the
+> school defined in config will result in test failures for those in the `CustomData` and `FinancialPlanning` xUnit categories.
