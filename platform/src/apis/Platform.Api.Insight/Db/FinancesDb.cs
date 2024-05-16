@@ -31,56 +31,78 @@ public abstract class FinancesDb : CosmosDatabase
         _establishmentCollectionName = options.EstablishmentCollectionName;
     }
 
-    protected async Task<IEnumerable<(int year, T? dataObject)>> GetFinancesHistory<T>(string urn) where T : QueryableFinancesDataObject
+    protected async Task<IEnumerable<(int year, T? dataObject)>> GetSchoolFinancesHistory<T>(string urn) where T : QueryableFinancesDataObject
     {
         var (prefix, years) = await GetHistoryCollectionForSchool(urn);
         var tasks = years.Select(year =>
         {
             var collection = BuildFinanceCollectionName(prefix, year);
 
-            return GetFinances<T>(year, urn, collection);
+            return GetSchoolFinances<T>(year, urn, collection);
         }).ToArray();
 
         return await Task.WhenAll(tasks);
     }
 
-    protected async Task<IEnumerable<(int year, T[] dataObject)>> GetFinances<T>(IReadOnlyCollection<string> urns) where T : QueryableFinancesDataObject
+    protected async Task<IEnumerable<(int year, T[] dataObject)>> GetSchoolFinances<T>(IReadOnlyCollection<string> urns) where T : QueryableFinancesDataObject
     {
         var tasks = new[]
         {
-            GetFinances<T>(_aarLatestYear, urns, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
-            GetFinances<T>(_cfrLatestYear, urns, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
+            GetSchoolFinances<T>(_aarLatestYear, urns, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
+            GetSchoolFinances<T>(_cfrLatestYear, urns, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
         };
 
         return await Task.WhenAll(tasks);
     }
 
-    protected async Task<IEnumerable<(int year, T? dataObject)>> GetFinances<T>(string urn) where T : QueryableFinancesDataObject
+    protected async Task<IEnumerable<(int year, T? dataObject)>> GetSchoolFinances<T>(string urn) where T : QueryableFinancesDataObject
     {
         var tasks = new[]
         {
-            GetFinances<T>(_aarLatestYear, urn, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
-            GetFinances<T>(_cfrLatestYear, urn, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
+            GetSchoolFinances<T>(_aarLatestYear, urn, BuildFinanceCollectionName(Constants.MatAllocatedCollectionPrefix, _aarLatestYear)),
+            GetSchoolFinances<T>(_cfrLatestYear, urn, BuildFinanceCollectionName(Constants.MaintainedCollectionPrefix, _cfrLatestYear))
         };
 
         return await Task.WhenAll(tasks);
     }
 
-    private async Task<(int, T[])> GetFinances<T>(int year, IReadOnlyCollection<string> urns, string collectionName) where T : QueryableFinancesDataObject
+    protected async Task<(int year, T? dataObject)[]> GetTrustFinancesHistory<T>(string companyNumber) where T : QueryableFinancesDataObject
+    {
+        var tasks = HistoricYears(_aarLatestYear).Select(year =>
+        {
+            var collection = BuildFinanceCollectionName(Constants.MatOverviewCollectionPrefix, year);
+
+            return GetTrustFinances<T>(year, companyNumber, collection);
+        }).ToArray();
+
+        var finances = await Task.WhenAll(tasks);
+        return finances;
+    }
+
+    private async Task<(int year, T? dataObject)> GetTrustFinances<T>(int year, string companyNumber, string collection) where T : QueryableFinancesDataObject
+    {
+        return (year, await ItemEnumerableAsync<T>(
+                collection,
+                q => q.Where(x => x.CompanyNumber == int.Parse(companyNumber)))
+            .FirstOrDefaultAsync());
+    }
+
+
+    private async Task<(int, T[])> GetSchoolFinances<T>(int year, IReadOnlyCollection<string> urns, string collectionName) where T : QueryableFinancesDataObject
     {
         if (urns.Count <= 0) return (year, Array.Empty<T>());
 
         return (year, await ItemEnumerableAsync<T>(collectionName, q => q.Where(x => urns.Contains(x.Urn.ToString()))).ToArrayAsync());
     }
 
-    private async Task<(int year, T? dataObject)> GetFinances<T>(int year, string urn, string collection) where T : QueryableFinancesDataObject
+    private async Task<(int year, T? dataObject)> GetSchoolFinances<T>(int year, string urn, string collection) where T : QueryableFinancesDataObject
     {
         return (year, await ItemEnumerableAsync<T>(collection, q => q.Where(x => x.Urn == long.Parse(urn))).FirstOrDefaultAsync());
     }
 
     private async Task<(string Prefix, IEnumerable<int> Years)> GetHistoryCollectionForSchool(string urn)
     {
-        var school = await GetEstablishment(urn);
+        var school = await GetSchool(urn);
         switch (school?.FinanceType)
         {
             case EstablishmentTypes.Academies:
@@ -93,7 +115,7 @@ public abstract class FinancesDb : CosmosDatabase
         }
     }
 
-    private async Task<EdubaseDataObject?> GetEstablishment(string urn)
+    private async Task<EdubaseDataObject?> GetSchool(string urn)
     {
         var school = await ItemEnumerableAsync<EdubaseDataObject>(
                 _establishmentCollectionName,

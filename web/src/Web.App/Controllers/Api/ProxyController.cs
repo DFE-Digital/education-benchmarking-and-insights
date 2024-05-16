@@ -71,31 +71,7 @@ public class ProxyController(
         }
     }
 
-    [HttpGet]
-    [Produces("application/json")]
-    [Route("establishments/income/history")]
-    public async Task<IActionResult> EstablishmentIncomeHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
-    {
-        using (logger.BeginScope(new { type, id }))
-        {
-            try
-            {
-                var result = type.ToLower() switch
-                {
-                    OrganisationTypes.School => await financeService.GetSchoolIncomeHistory(id, dimension),
-                    OrganisationTypes.Trust => await financeService.GetTrustIncomeHistory(id, dimension),
-                    _ => throw new ArgumentOutOfRangeException(nameof(type))
-                };
 
-                return new JsonResult(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error getting income history data: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
 
     [HttpGet]
     [Produces("application/json")]

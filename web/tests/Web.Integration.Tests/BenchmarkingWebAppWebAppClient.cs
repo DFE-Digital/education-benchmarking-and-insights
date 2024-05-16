@@ -22,6 +22,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
     public Mock<ICensusApi> CensusApi { get; } = new();
+    public Mock<IIncomeApi> IncomeApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -31,6 +32,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(BenchmarkApi.Object);
         services.AddSingleton(CensusApi.Object);
+        services.AddSingleton(IncomeApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -115,7 +117,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupInsights(School school, Finances? finances = null, Income? income = null,
+    public BenchmarkingWebAppClient SetupInsights(School school, Finances? finances = null,
         Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
@@ -129,11 +131,17 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             }));
         InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
-        InsightApi.Setup(api => api.GetSchoolIncome(school.Urn, It.IsAny<ApiQuery?>()))
-            .ReturnsAsync(ApiResult.Ok(income));
         InsightApi.Setup(api => api.GetSchoolExpenditure(school.Urn, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
         InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.Urn)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupIncome(School school, Income? income = null)
+    {
+        IncomeApi.Reset();
+        IncomeApi.Setup(api => api.School(school.Urn, It.IsAny<ApiQuery?>()))
+            .ReturnsAsync(ApiResult.Ok(income));
         return this;
     }
 

@@ -314,7 +314,8 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, _finances, _income, _expenditure, _floorAreaMetric)
+            .SetupInsights(school, _finances, _expenditure, _floorAreaMetric)
+            .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataFinancialData(school.Urn));

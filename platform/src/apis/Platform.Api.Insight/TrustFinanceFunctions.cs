@@ -62,41 +62,6 @@ public class TrustFinanceFunctions
         }
     }
 
-    [FunctionName(nameof(TrustIncomeHistoryAsync))]
-    [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> TrustIncomeHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{companyNumber}/income/history")]
-        HttpRequest req,
-        string companyNumber)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                var queryDimension = req.Query["dimension"].ToString();
-                var dimension = Enum.TryParse(queryDimension, true, out Dimension dimensionValue)
-                    ? dimensionValue
-                    : Dimension.Actuals;
-
-                var finances = await _db.GetIncomeHistory(companyNumber, dimension);
-                return new JsonContentResult(finances);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get trust income history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
-
     [FunctionName(nameof(TrustExpenditureHistoryAsync))]
     [ProducesResponseType(typeof(ExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

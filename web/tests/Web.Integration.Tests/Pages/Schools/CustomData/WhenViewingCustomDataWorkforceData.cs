@@ -41,7 +41,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
         _formValues = new Dictionary<string, decimal?>
         {
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.NumberOfPupils
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.WorkforceFte
             },
             {
                 nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.TeachersFte
@@ -138,7 +138,8 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, _finances, _income, _expenditure, _floorAreaMetric)
+            .SetupInsights(school, _finances, _expenditure, _floorAreaMetric)
+            .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataWorkforceData(school.Urn));
