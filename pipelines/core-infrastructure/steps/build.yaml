@@ -6,7 +6,7 @@ steps:
 
   - bash: |
       echo "##vso[task.setvariable variable=CACHE_RESTORED]false"
-      echo "##vso[task.setvariable variable=NUGET_CACHE]$(Pipeline.Workspace)/platform/.nuget"
+      echo "##vso[task.setvariable variable=NUGET_CACHE]$(Pipeline.Workspace)/.nuget"
 
   - task: NuGetAuthenticate@1
 
@@ -14,7 +14,7 @@ steps:
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
     displayName: 'Cache nuget packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-platform" | core/src/db/**/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-platform" | core-infrastructure/src/db/**/packages.lock.json,!**/bin/**,!**/obj/**'
       path: $(NUGET_CACHE)
       cacheHitVar: CACHE_RESTORED
 
@@ -24,16 +24,16 @@ steps:
     inputs:
       command: restore
       packagesDirectory: $(NUGET_CACHE)
-      projects: core/src/db/**/*.csproj
+      projects: core-infrastructure/src/db/**/*.csproj
       feedsToUse: 'config'
-      nugetConfigPath: 'platform/nuget.config'
+      nugetConfigPath: 'nuget.config'
       
   - task: DotNetCoreCLI@2
     displayName: 'Build core database'
     inputs:
         command: publish
         publishWebProjects: false
-        projects: 'core/src/db/Core.Database/Core.Database.csproj'
+        projects: 'core-infrastructure/src/db/Core.Database/Core.Database.csproj'
         packagesDirectory: $(NUGET_CACHE)
         arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/core-db /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
         zipAfterPublish: true
@@ -41,4 +41,4 @@ steps:
 
   - publish: $(build.artifactstagingdirectory)/core-db
     displayName: 'Publish core db artifacts'
-    artifact: platform-db
+    artifact: core-db

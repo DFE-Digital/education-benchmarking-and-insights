@@ -74,7 +74,7 @@ stages:
         steps:
           - template: ..\common\dotnet-format.yaml
             parameters:
-              SolutionDirectory: '$(System.DefaultWorkingDirectory)/core'
+              SolutionDirectory: '$(System.DefaultWorkingDirectory)/core-infrastructure'
 
       - job: BuildCore
         dependsOn: [ SetBuildNumber ]
