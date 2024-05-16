@@ -16,27 +16,6 @@ resource "azurerm_key_vault_secret" "sql-connection-string" {
   content_type = "connection-string"
 }
 
-resource "azurerm_role_assignment" "sql-audit-storage-role-blob" {
-  scope                = azurerm_storage_account.sql-audit-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
-  principal_type       = "ServicePrincipal"
-}
-
-resource "azurerm_role_assignment" "sql-threat-storage-role-blob" {
-  scope                = azurerm_storage_account.sql-threat-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
-  principal_type       = "ServicePrincipal"
-}
-
-resource "azurerm_role_assignment" "sql-vulnerability-storage-role-blob" {
-  scope                = azurerm_storage_account.sql-vulnerability-storage.id
-  role_definition_name = "Storage Blob Data Contributor"
-  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
-  principal_type       = "ServicePrincipal"
-}
-
 resource "azurerm_mssql_server" "sql-server" {
   #checkov:skip=CKV_AZURE_113:See ADO backlog AB#206493
   #checkov:skip=CKV2_AZURE_45:See ADO backlog AB#206493
@@ -61,7 +40,7 @@ resource "azurerm_mssql_server" "sql-server" {
 
 resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-policy" {
   server_id              = azurerm_mssql_server.sql-server.id
-  storage_endpoint       = azurerm_storage_account.sql-audit-storage.primary_blob_endpoint
+  storage_endpoint       = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
   retention_in_days      = 120
   log_monitoring_enabled = true
 }
@@ -77,14 +56,14 @@ resource "azurerm_mssql_database" "sql-db" {
 
   threat_detection_policy {
     state            = "Enabled"
-    storage_endpoint = azurerm_storage_account.sql-threat-storage.primary_blob_endpoint
+    storage_endpoint = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
     retention_days   = 120
   }
 }
 
 resource "azurerm_mssql_database_extended_auditing_policy" "db-audit-policy" {
   database_id            = azurerm_mssql_database.sql-db.id
-  storage_endpoint       = azurerm_storage_account.sql-audit-storage.primary_blob_endpoint
+  storage_endpoint       = azurerm_storage_account.sql-log-storage.primary_blob_endpoint
   retention_in_days      = 120
   log_monitoring_enabled = true
 }
@@ -108,97 +87,26 @@ resource "azurerm_mssql_server_vulnerability_assessment" "sql-server-vulnerabili
   #checkov:skip=CKV2_AZURE_4:See ADO backlog AB#206493
   #checkov:skip=CKV2_AZURE_5:See ADO backlog AB#206493
   server_security_alert_policy_id = azurerm_mssql_server_security_alert_policy.sql-security-alert-policy.id
-  storage_container_path          = "${azurerm_storage_account.sql-vulnerability-storage.primary_blob_endpoint}${azurerm_storage_container.sql-vulnerability-container.name}/"
+  storage_container_path          = "${azurerm_storage_account.sql-log-storage.primary_blob_endpoint}${azurerm_storage_container.sql-vulnerability-container.name}/"
 
   recurring_scans {
     enabled = true
   }
 }
 
-resource "azurerm_storage_account" "sql-audit-storage" {
-  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
-  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}audit"
-  location                        = azurerm_resource_group.resource-group.location
-  resource_group_name             = azurerm_resource_group.resource-group.name
-  account_tier                    = "Standard"
-  account_replication_type        = "GRS"
-  allow_nested_items_to_be_public = false
-  tags                            = local.common-tags
-  min_tls_version                 = "TLS1_2"
-  shared_access_key_enabled       = false
-
-  blob_properties {
-    delete_retention_policy {
-      days = 7
-    }
-  }
-
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
-  network_rules {
-    default_action = "Deny"
-    bypass = [
-      "AzureServices"
-    ]
-  }
+resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
+  scope                = azurerm_storage_account.sql-log-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
 }
 
-resource "azurerm_storage_account" "sql-threat-storage" {
+resource "azurerm_storage_account" "sql-log-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}threat"
-  location                        = azurerm_resource_group.resource-group.location
-  resource_group_name             = azurerm_resource_group.resource-group.name
-  account_tier                    = "Standard"
-  account_replication_type        = "GRS"
-  allow_nested_items_to_be_public = false
-  tags                            = local.common-tags
-  min_tls_version                 = "TLS1_2"
-  shared_access_key_enabled       = false
-
-  blob_properties {
-    delete_retention_policy {
-      days = 7
-    }
-  }
-
-  queue_properties {
-    logging {
-      delete                = true
-      read                  = true
-      write                 = true
-      version               = "1.0"
-      retention_policy_days = 10
-    }
-  }
-
-  network_rules {
-    default_action = "Deny"
-    bypass = [
-      "AzureServices"
-    ]
-  }
-}
-
-resource "azurerm_storage_account" "sql-vulnerability-storage" {
-  #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
-  #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
-  name                            = "${var.environment-prefix}vulnerability"
+  name                            = "${var.environment-prefix}sqllog"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
   account_tier                    = "Standard"
@@ -224,10 +132,11 @@ resource "azurerm_storage_account" "sql-vulnerability-storage" {
     }
   }
 }
+
 
 resource "azurerm_storage_container" "sql-vulnerability-container" {
   #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                  = "vulnerability-assessment"
-  storage_account_name  = azurerm_storage_account.sql-vulnerability-storage.name
+  storage_account_name  = azurerm_storage_account.sql-log-storage.name
   container_access_type = "private"
 }
