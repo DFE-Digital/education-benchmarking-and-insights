@@ -1,0 +1,35 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "db", "db", "{411840E3-B6D1-48F8-B495-C1D3FF0C33FD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core.Database", "src\db\Core.Database\Core.Database.csproj", "{90E8063E-B131-4DCD-B903-656306F6B276}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "terraform", "terraform", "{88B48BAD-8B11-4586-A707-8FC8A74B19DB}"
+	ProjectSection(SolutionItems) = preProject
+		terraform\ai.tf = terraform\ai.tf
+		terraform\acr.tf = terraform\acr.tf
+		terraform\main.tf = terraform\main.tf
+		terraform\vnet.tf = terraform\vnet.tf
+		terraform\storage.tf = terraform\storage.tf
+		terraform\provider.tf = terraform\provider.tf
+		terraform\databases.tf = terraform\databases.tf
+		terraform\key-vault.tf = terraform\key-vault.tf
+		terraform\variables.tf = terraform\variables.tf
+		terraform\terraform.tfvars = terraform\terraform.tfvars
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{90E8063E-B131-4DCD-B903-656306F6B276} = {411840E3-B6D1-48F8-B495-C1D3FF0C33FD}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{90E8063E-B131-4DCD-B903-656306F6B276}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90E8063E-B131-4DCD-B903-656306F6B276}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90E8063E-B131-4DCD-B903-656306F6B276}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90E8063E-B131-4DCD-B903-656306F6B276}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

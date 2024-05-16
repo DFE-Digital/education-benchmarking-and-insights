@@ -69,6 +69,22 @@ stages:
               TerraformFolder: $(TerraformFolder)
               Module: 'core'
 
+      - job: RunFormat
+        displayName: 'Format solution'
+        steps:
+          - template: ..\common\dotnet-format.yaml
+            parameters:
+              SolutionDirectory: '$(System.DefaultWorkingDirectory)/core'
+
+      - job: BuildCore
+        dependsOn: [ SetBuildNumber ]
+        displayName: 'Build core'
+        steps:
+          - template: steps\build.yaml
+            parameters:
+              BuildVersion: $(Version.BuildVersion)
+              BuildNumber: $(Version.BuildNumber)
+
   - stage: DeployDevelopment
     dependsOn: [ Build ]
     condition: and(succeeded(), eq(variables['ShouldDeploy'],'true'))
