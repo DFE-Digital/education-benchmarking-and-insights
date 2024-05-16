@@ -26,7 +26,7 @@ steps:
       packagesDirectory: $(NUGET_CACHE)
       projects: core-infrastructure/src/db/**/*.csproj
       feedsToUse: 'config'
-      nugetConfigPath: 'nuget.config'
+      nugetConfigPath: 'core-infrastructure/nuget.config'
       
   - task: DotNetCoreCLI@2
     displayName: 'Build core database'
