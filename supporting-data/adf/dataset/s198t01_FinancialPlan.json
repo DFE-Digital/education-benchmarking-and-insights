@@ -1,0 +1,64 @@
+{
+	"name": "s198t01_FinancialPlan",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198t01_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198t01"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "URN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Year",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Input",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DeploymentPlan",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Created",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UpdatedAt",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "UpdatedBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsComplete",
+				"type": "bit"
+			},
+			{
+				"name": "Version",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "FinancialPlan"
+		}
+	}
+}
