@@ -136,15 +136,15 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.Urn)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
         return this;
     }
-    
-    public BenchmarkingWebAppClient SetupIncome(School school,Income? income = null)
+
+    public BenchmarkingWebAppClient SetupIncome(School school, Income? income = null)
     {
         IncomeApi.Reset();
         IncomeApi.Setup(api => api.School(school.Urn, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(income));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupInsights()
     {
         InsightApi.Reset();
