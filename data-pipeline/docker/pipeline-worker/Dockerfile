@@ -27,7 +27,7 @@ RUN apt-get update \
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.8.2
-RUN curl -sSL curl -sSL https://install.python-poetry.org | python
+RUN curl -sSL https://install.python-poetry.org | python
 
 # We copy our Python requirements here to cache them
 # and install only runtime deps using poetry

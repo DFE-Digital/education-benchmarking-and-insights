@@ -1,4 +1,7 @@
 import datetime
+
+import numpy as np
+
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 import pandas as pd
@@ -76,39 +79,32 @@ def prepare_sen_data(sen_path):
         dtype=input_schemas.sen,
         usecols=input_schemas.sen.keys(),
     )
-    sen["Percentage SEN"] = (sen["EHC plan"] / sen["Total pupils"]) * 100.0
-    sen["Primary Need SPLD"] = (
-        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
-    )
+    sen["Percentage SEN"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Primary Need SPLD"] = sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
-    sen["Primary Need PMLD"] = (
-        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
-    )
-    sen["Primary Need SEMH"] = (
-        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
-    )
-    sen["Primary Need SLCN"] = (
-        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
-    )
+    sen["Primary Need PMLD"] = sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+    sen["Primary Need SEMH"] = sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+    sen["Primary Need SLCN"] = sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
     sen["Primary Need MSI"] = sen["EHC_Primary_need_msi"] + sen["SUP_Primary_need_msi"]
     sen["Primary Need PD"] = sen["EHC_Primary_need_pd"] + sen["SUP_Primary_need_pd"]
     sen["Primary Need ASD"] = sen["EHC_Primary_need_asd"] + sen["SUP_Primary_need_asd"]
     sen["Primary Need OTH"] = sen["EHC_Primary_need_oth"] + sen["SUP_Primary_need_oth"]
-    sen.rename(
-        columns={
-            "prov_slcn": "Prov_SLCN",
-            "prov_hi": "Prov_HI",
-            "prov_vi": "Prov_VI",
-            "prov_msi": "Prov_MSI",
-            "prov_pd": "Prov_PD",
-            "prov_asd": "Prov_ASD",
-            "prov_oth": "Prov_OTH",
-        },
-        inplace=True,
-    )
+
+    sen["Percentage Primary Need SPLD"] = ((sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need MLD"] = ((sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SLD"] = ((sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need PMLD"] = ((sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SEMH"] = ((sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SLCN"] = ((sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need HI"] = ((sen["Primary Need HI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need VI"] = ((sen["Primary Need VI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need MSI"] = ((sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need PD"] = ((sen["Primary Need PD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need ASD"] = ((sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need OTH"] = ((sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0).fillna(0)
 
     return sen[
         [
@@ -127,18 +123,18 @@ def prepare_sen_data(sen_path):
             "Primary Need PD",
             "Primary Need ASD",
             "Primary Need OTH",
-            "Prov_SPLD",
-            "Prov_MLD",
-            "Prov_SLD",
-            "Prov_PMLD",
-            "Prov_SEMH",
-            "Prov_SLCN",
-            "Prov_HI",
-            "Prov_VI",
-            "Prov_MSI",
-            "Prov_PD",
-            "Prov_ASD",
-            "Prov_OTH",
+            "Percentage Primary Need SPLD",
+            "Percentage Primary Need MLD",
+            "Percentage Primary Need SLD",
+            "Percentage Primary Need PMLD",
+            "Percentage Primary Need SEMH",
+            "Percentage Primary Need SLCN",
+            "Percentage Primary Need HI",
+            "Percentage Primary Need VI",
+            "Percentage Primary Need MSI",
+            "Percentage Primary Need PD",
+            "Percentage Primary Need ASD",
+            "Percentage Primary Need OTH"
         ]
     ]
 

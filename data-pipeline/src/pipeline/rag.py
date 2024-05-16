@@ -1,6 +1,9 @@
 import math
 import numpy as np
 import pandas as pd
+import warnings
+
+pd.options.mode.chained_assignment = None
 
 base_cols = [
     "URN",
@@ -14,7 +17,7 @@ base_cols = [
 
 category_settings = {
     "Teaching and Teaching support staff": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "amber",
             "amber",
@@ -65,7 +68,7 @@ category_settings = {
         ],
     },
     "Non-educational support staff and services": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "green",
             "green",
@@ -116,7 +119,7 @@ category_settings = {
         ],
     },
     "Educational supplies": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "amber",
             "amber",
@@ -167,7 +170,7 @@ category_settings = {
         ],
     },
     "Educational ICT": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "amber",
             "amber",
@@ -218,7 +221,7 @@ category_settings = {
         ],
     },
     "Premises staff and services": {
-        "type": "area",
+        "type": "Building",
         "outstanding_10": [
             "green",
             "green",
@@ -269,7 +272,7 @@ category_settings = {
         ],
     },
     "Utilities": {
-        "type": "area",
+        "type": "Building",
         "outstanding_10": [
             "green",
             "green",
@@ -320,7 +323,7 @@ category_settings = {
         ],
     },
     "Administrative supplies": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "green",
             "green",
@@ -371,7 +374,7 @@ category_settings = {
         ],
     },
     "Catering staff and supplies": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "green",
             "green",
@@ -422,7 +425,7 @@ category_settings = {
         ],
     },
     "Other costs": {
-        "type": "pupil",
+        "type": "Pupil",
         "outstanding_10": [
             "green",
             "green",
@@ -562,16 +565,13 @@ def get_category_series(category_name, data, basis):
         | data.columns.isin(["is_close"])
         | data.columns.str.startswith(category_name)
     )
-    df = data[data.columns[category_cols]].copy()
+    df = data[data.columns[category_cols]]
     basis_data = data[
         "Number of pupils" if basis == "pupil" else "Total Internal Floor Area"
     ]
 
-    # Create total column and divide be the basis data
-    df[category_name + "_Total"] = (
-        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
-        / basis_data
-    )
+    # Create total column
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
 
     sub_categories = df.columns[
         df.columns.str.startswith(category_name)
@@ -583,39 +583,40 @@ def get_category_series(category_name, data, basis):
     return df, sub_categories
 
 
-def category_stats(category_name, data, ofsted_rating, rag_mapping):
+def category_stats(urn, category_name, data, ofsted_rating, rag_mapping):
     close_count = data["is_close"][data["is_close"]].count()
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
-    # TODO: This shouldn't be required
-    with np.errstate(invalid="ignore"):
-        series = data[category_name]
-        percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
-        deciles = pd.qcut(series, 10, labels=False, duplicates="drop")
-        percentile = int(np.nan_to_num(percentiles.iloc[0]))
-        decile = int(np.nan_to_num(deciles.iloc[0]))
-        value = float(np.nan_to_num(series.iloc[0]))
-        mean = float(np.nan_to_num(series.median()))
-        diff = value - mean
-        diff_percent = (diff / value) * 100 if value != 0 else 0
+    series = data[category_name]
+    # TODO: The next 2 lines account for ~60% of the execution time of this method
+    percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
+    percentile = int(np.nan_to_num(percentiles.iloc[0]))
+    decile = int(percentile / 10)
+    value = float(np.nan_to_num(series.iloc[0]))
+    mean = float(np.nan_to_num(series.median()))
+    diff = value - mean
+    diff_percent = (diff / value) * 100 if value != 0 else 0
+    cats = category_name.split('_')
+    return {
+        "Urn": urn,
+        "Category": cats[0],
+        "Sub category": cats[1],
+        "Value": value,
+        "Mean": mean,
+        "Diff Mean": diff,
+        "Key": key,
+        "Percentage Diff": diff_percent,
+        "Percentile": percentile,
+        "Decile": decile,
+        "Rag": rag_mapping[key][int(decile)]
+    }
 
-        return {
-            "value": value,
-            "mean": mean,
-            "diff_mean": diff,
-            "key": key,
-            "percentage_diff": diff_percent,
-            "percentile": percentile,
-            "decile": decile,
-            "rag": rag_mapping[key][int(decile)],
-            "data": data.reset_index().to_dict(orient="records", index=True),
-        }
 
+def compute_category_rag(category_name, settings, target, comparator_set):
+    ofsted = target["OfstedRating (name)"]
+    urn = target.name
 
-def compute_category_rag(category_name, settings, comparator_set, stats):
-    target = comparator_set.iloc[0]
-    ofstead = target["OfstedRating (name)"]
     comparator_set["is_close"] = comparator_set.apply(
         lambda x: is_close_comparator(settings["type"], target, x), axis=1
     )
@@ -625,15 +626,13 @@ def compute_category_rag(category_name, settings, comparator_set, stats):
     )
 
     for sub_category in sub_categories:
-        stats[sub_category] = category_stats(sub_category, series, ofstead, settings)
-
-    return stats
+        yield category_stats(urn, sub_category, series, ofsted, settings)
 
 
-def compute_comparator_set_rag(comparator_set):
-    stats = {}
+def compute_comparator_set_rag(target, comparator_set):
+    results = []
     for cat in category_settings.keys():
         settings = category_settings[cat]
-        stats = compute_category_rag(cat, settings, comparator_set, stats)
+        results.extend(compute_category_rag(cat, settings, target, comparator_set))
+    return results
 
-    return stats
