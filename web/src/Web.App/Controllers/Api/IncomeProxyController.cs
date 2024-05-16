@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Extensions;
 
 namespace Web.App.Controllers.Api;
 
@@ -21,8 +23,8 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await incomeApi.SchoolHistory(id, query),
-                    OrganisationTypes.Trust => await incomeApi.TrustHistory(id, query),
+                    OrganisationTypes.School => await incomeApi.SchoolHistory(id, query).GetResultOrDefault<Income[]>(),
+                    OrganisationTypes.Trust => await incomeApi.TrustHistory(id, query).GetResultOrDefault<Income[]>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
