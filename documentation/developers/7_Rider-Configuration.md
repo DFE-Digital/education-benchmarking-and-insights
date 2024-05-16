@@ -35,3 +35,4 @@ To ensure Rider writes to this log, the following setting should also be configu
 > - Logging Level: `Verbose`
 
 ![Rider Test Runner config](./images/rider-test-runner-diagnostics.png)
+
