@@ -10,8 +10,6 @@ A service that allows you to compare school metrics against similar schools
 4. [Testing](./documentation/testing)
 5. [Glossary](./documentation/glossary.md)
 
-[Published documentation](https://dfe-ssp.visualstudio.com/s198-DfE-Benchmarking-service/_build/latest?definitionId=2917&branchName=main&view=artifacts&pathAsName=false&type=publishedArtifacts)
-
 ## Build status
 
 | Pipeline             | Build                                                                                                                                                                                                                                                                                                  | Automated Test                                                                                                                                                                                                                                                                                        | Test                                                                                                                                                                                                                                                                                      |
