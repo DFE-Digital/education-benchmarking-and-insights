@@ -51,7 +51,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "s198d01_RAGRatings",
+						"referenceName": "s198t01_RAGRatings",
 						"type": "DatasetReference"
 					}
 				]
