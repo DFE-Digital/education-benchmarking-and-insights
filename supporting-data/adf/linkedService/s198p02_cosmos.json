@@ -1,0 +1,17 @@
+{
+	"name": "s198p02_cosmos",
+	"properties": {
+		"annotations": [],
+		"type": "CosmosDb",
+		"typeProperties": {
+			"connectionString": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "s198p02_keyvault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "adf-cosmos-connection-string"
+			}
+		}
+	}
+}
