@@ -20,6 +20,15 @@
 		"s198d98_storage_properties_typeProperties_sasToken_secretName": {
 			"value": "supporting-data-storage-sas-token"
 		},
+		"s198p02_cosmos_properties_typeProperties_connectionString_secretName": {
+			"value": "adf-cosmos-connection-string"
+		},
+		"s198p02_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://s198p02-ebis-keyvault.vault.azure.net/"
+		},
+		"s198p02_sql_properties_typeProperties_connectionString_secretName": {
+			"value": "ebis-sql-connection-string"
+		},
 		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
 			"value": "adf-cosmos-connection-string"
 		},

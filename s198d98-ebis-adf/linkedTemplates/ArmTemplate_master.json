@@ -27,6 +27,18 @@
 			"type": "string",
 			"defaultValue": "supporting-data-storage-sas-token"
 		},
+		"s198p02_cosmos_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "adf-cosmos-connection-string"
+		},
+		"s198p02_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198p02-ebis-keyvault.vault.azure.net/"
+		},
+		"s198p02_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "ebis-sql-connection-string"
+		},
 		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
 			"defaultValue": "adf-cosmos-connection-string"
@@ -69,6 +81,9 @@
 					"s198d01_keyvault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('s198d01_keyvault_properties_typeProperties_baseUrl')]"
 					},
+					"s198p02_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('s198p02_keyvault_properties_typeProperties_baseUrl')]"
+					},
 					"s198t01_keyvault_properties_typeProperties_baseUrl": {
 						"value": "[parameters('s198t01_keyvault_properties_typeProperties_baseUrl')]"
 					},
@@ -83,6 +98,12 @@
 					},
 					"s198d98_storage_properties_typeProperties_sasToken_secretName": {
 						"value": "[parameters('s198d98_storage_properties_typeProperties_sasToken_secretName')]"
+					},
+					"s198p02_cosmos_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198p02_cosmos_properties_typeProperties_connectionString_secretName')]"
+					},
+					"s198p02_sql_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198p02_sql_properties_typeProperties_connectionString_secretName')]"
 					},
 					"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
 						"value": "[parameters('s198t01_cosmos_properties_typeProperties_connectionString_secretName')]"
@@ -132,6 +153,46 @@
 			},
 			"dependsOn": [
 				"[resourceId('Microsoft.Resources/deployments', 's198d98-ebis-adf_ArmTemplate_1')]"
+			]
+		},
+		{
+			"name": "s198d98-ebis-adf_ArmTemplate_3",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_3.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's198d98-ebis-adf_ArmTemplate_2')]"
+			]
+		},
+		{
+			"name": "s198d98-ebis-adf_ArmTemplate_4",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_4.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[resourceId('Microsoft.Resources/deployments', 's198d98-ebis-adf_ArmTemplate_3')]"
 			]
 		}
 	]
