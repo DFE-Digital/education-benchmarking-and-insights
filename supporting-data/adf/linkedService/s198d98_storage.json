@@ -2,24 +2,18 @@
 	"name": "s198d98_storage",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"annotations": [],
 		"type": "AzureBlobStorage",
 		"typeProperties": {
 			"sasUri": "https://s198d98data.blob.core.windows.net/raw",
 			"sasToken": {
-				"secretName": "supporting-data-storage-sas-token",
+				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "s198d01_keyvault",
 					"type": "LinkedServiceReference"
 				},
-				"type": "AzureKeyVaultSecret"
-			},
-			"servicePrincipalId": "",
-			"servicePrincipalKey": {
-				"type": "SecureString",
-				"value": "**********"
-			},
-			"tenant": ""
-		},
-		"annotations": []
+				"secretName": "supporting-data-storage-sas-token"
+			}
+		}
 	}
 }
