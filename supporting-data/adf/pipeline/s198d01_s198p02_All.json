@@ -42,29 +42,6 @@
 				}
 			},
 			{
-				"name": "TrustHistory",
-				"type": "ExecutePipeline",
-				"dependsOn": [
-					{
-						"activity": "School",
-						"dependencyConditions": [
-							"Succeeded"
-						]
-					}
-				],
-				"policy": {
-					"secureInput": false
-				},
-				"userProperties": [],
-				"typeProperties": {
-					"pipeline": {
-						"referenceName": "s198d01_s198p02_TrustHistory",
-						"type": "PipelineReference"
-					},
-					"waitOnCompletion": true
-				}
-			},
-			{
 				"name": "Academies",
 				"type": "ExecutePipeline",
 				"dependsOn": [],
@@ -267,6 +244,29 @@
 				"typeProperties": {
 					"pipeline": {
 						"referenceName": "s198d01_s198p02_SchemaVersions",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true
+				}
+			},
+			{
+				"name": "TrustHistory",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "School",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "s198d01_s198p02_TrustHistory",
 						"type": "PipelineReference"
 					},
 					"waitOnCompletion": true
