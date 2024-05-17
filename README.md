@@ -1,6 +1,11 @@
 # Financial Benchmarking and Insights Tool
 
-A service that allows you to compare school metrics against similar schools
+The Financial Benchmarking and Insights Tool (FBIT) is to provide a single service for the management of schools financial data. At a high-level the management of schools financial data includes but is not limited to:
+
+- A way to compare their use of resources against other schools
+- A way to interrogate their own financial data
+- A way to identify areas of improvement to support better financial planning and consequently improved outcomes for pupils
+- A way to support Governors & Trustees in their role in holding organisations to account
 
 ## Documentation
 
