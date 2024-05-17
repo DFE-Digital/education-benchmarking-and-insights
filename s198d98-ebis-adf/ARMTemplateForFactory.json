@@ -6521,6 +6521,250 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_s198t01_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "FinancialPlan",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"URN",
+										"Year"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_FinancialPlan",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198t01_FinancialPlan",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "s198d01_s198t01"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/s198d01_FinancialPlan')]",
+				"[concat(variables('factoryId'), '/datasets/s198t01_FinancialPlan')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_s198t01_Floor_Area')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Floor_Area",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"path": "$['id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['URN']"
+										},
+										"sink": {
+											"path": "$['URN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Name']"
+										},
+										"sink": {
+											"path": "$['Name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Source_Sum_Area']"
+										},
+										"sink": {
+											"path": "$['Source_Sum_Area']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Sum_Area']"
+										},
+										"sink": {
+											"path": "$['Sum_Area']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Year']"
+										},
+										"sink": {
+											"path": "$['Year']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_rid']"
+										},
+										"sink": {
+											"path": "$['_rid']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_self']"
+										},
+										"sink": {
+											"path": "$['_self']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_etag']"
+										},
+										"sink": {
+											"path": "$['_etag']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_attachments']"
+										},
+										"sink": {
+											"path": "$['_attachments']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['_ts']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_Floor_Area",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Floor-Area-2021-2022')",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d01_Floor_Area",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Floor-Area-2021-2022')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"variables": {
+					"Floor-Area-2021-2022": {
+						"type": "String",
+						"defaultValue": "Floor-Area-2021-2022"
+					}
+				},
+				"folder": {
+					"name": "s198d01_s198t01"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/s198d01_Floor_Area')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/s198d01_Academies')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -14331,83 +14575,6 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/s198t01_keyvault')]"
-			]
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/s198d01_s198t01_FinancialPlan')]",
-			"type": "Microsoft.DataFactory/factories/pipelines",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"activities": [
-					{
-						"name": "FinancialPlan",
-						"type": "Copy",
-						"dependsOn": [],
-						"policy": {
-							"timeout": "0.12:00:00",
-							"retry": 0,
-							"retryIntervalInSeconds": 30,
-							"secureOutput": false,
-							"secureInput": false
-						},
-						"userProperties": [],
-						"typeProperties": {
-							"source": {
-								"type": "AzureSqlSource",
-								"queryTimeout": "02:00:00",
-								"partitionOption": "None"
-							},
-							"sink": {
-								"type": "AzureSqlSink",
-								"writeBehavior": "upsert",
-								"upsertSettings": {
-									"useTempDB": true,
-									"keys": [
-										"URN",
-										"Year"
-									]
-								},
-								"sqlWriterUseTableLock": false,
-								"tableOption": "autoCreate",
-								"disableMetricsCollection": false
-							},
-							"enableStaging": false,
-							"translator": {
-								"type": "TabularTranslator",
-								"typeConversion": true,
-								"typeConversionSettings": {
-									"allowDataTruncation": true,
-									"treatBooleanAsNumber": false
-								}
-							}
-						},
-						"inputs": [
-							{
-								"referenceName": "s198d01_FinancialPlan",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						],
-						"outputs": [
-							{
-								"referenceName": "s198t01_FinancialPlan",
-								"type": "DatasetReference",
-								"parameters": {}
-							}
-						]
-					}
-				],
-				"policy": {
-					"elapsedTimeMetric": {}
-				},
-				"folder": {
-					"name": "s198d01_s198t01"
-				},
-				"annotations": []
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/s198d01_FinancialPlan')]",
-				"[concat(variables('factoryId'), '/datasets/s198t01_FinancialPlan')]"
 			]
 		}
 	]
