@@ -1,5 +1,5 @@
 {
-	"name": "s198d98-ebis-adf-kv",
+	"name": "s198d01_keyvault",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"type": "AzureKeyVault",

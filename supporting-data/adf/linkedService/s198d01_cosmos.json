@@ -1,5 +1,5 @@
 {
-	"name": "s198d98-ebis-adf-cosmos",
+	"name": "s198d01_cosmos",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"type": "CosmosDb",

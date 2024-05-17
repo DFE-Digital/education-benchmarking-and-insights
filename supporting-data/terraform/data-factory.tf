@@ -24,13 +24,13 @@ resource "azurerm_data_factory" "supporting-data" {
 }
 
 resource "azurerm_data_factory_linked_service_key_vault" "supporting-data" {
-  name            = "${var.environment-prefix}-ebis-adf-kv"
+  name            = "${var.dev-environment-prefix}_keyvault"
   data_factory_id = azurerm_data_factory.supporting-data.id
   key_vault_id    = data.azurerm_key_vault.key-vault.id
 }
 
 resource "azurerm_data_factory_linked_service_azure_blob_storage" "supporting-data" {
-  name            = "${var.environment-prefix}-ebis-adf-storage"
+  name            = "${var.environment-prefix}_storage"
   data_factory_id = azurerm_data_factory.supporting-data.id
   sas_uri         = "${azurerm_storage_account.supporting-data.primary_blob_endpoint}${azurerm_storage_container.raw-data.name}"
 
@@ -41,13 +41,13 @@ resource "azurerm_data_factory_linked_service_azure_blob_storage" "supporting-da
 }
 
 resource "azurerm_data_factory_linked_service_cosmosdb" "supporting-data" {
-  name              = "${var.environment-prefix}-ebis-adf-cosmos"
+  name              = "${var.dev-environment-prefix}_cosmos"
   data_factory_id   = azurerm_data_factory.supporting-data.id
   connection_string = azurerm_key_vault_secret.supporting-data-cosmos-connection-string.value
 }
 
 resource "azurerm_data_factory_linked_service_azure_sql_database" "supporting-data" {
-  name            = "${var.environment-prefix}-ebis-adf-sql"
+  name            = "${var.dev-environment-prefix}_sql"
   data_factory_id = azurerm_data_factory.supporting-data.id
 
   key_vault_connection_string {

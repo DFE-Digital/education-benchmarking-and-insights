@@ -1,5 +1,5 @@
 {
-	"name": "s198d98-ebis-adf-sql",
+	"name": "s198d01_sql",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"type": "AzureSqlDatabase",
@@ -7,7 +7,7 @@
 			"connectionString": {
 				"secretName": "ebis-sql-connection-string",
 				"store": {
-					"referenceName": "s198d98-ebis-adf-kv",
+					"referenceName": "s198d01_keyvault",
 					"type": "LinkedServiceReference"
 				},
 				"type": "AzureKeyVaultSecret"

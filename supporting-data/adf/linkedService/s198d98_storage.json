@@ -1,5 +1,5 @@
 {
-	"name": "s198d98-ebis-adf-storage",
+	"name": "s198d98_storage",
 	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
 		"type": "AzureBlobStorage",
@@ -8,7 +8,7 @@
 			"sasToken": {
 				"secretName": "supporting-data-storage-sas-token",
 				"store": {
-					"referenceName": "s198d98-ebis-adf-kv",
+					"referenceName": "s198d01_keyvault",
 					"type": "LinkedServiceReference"
 				},
 				"type": "AzureKeyVaultSecret"
