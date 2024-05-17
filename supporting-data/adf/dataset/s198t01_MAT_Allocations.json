@@ -1,0 +1,535 @@
+{
+	"name": "s198t01_MAT_Allocations",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198t01_cosmos",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Container": {
+				"type": "string",
+				"defaultValue": "MAT-Allocations-2021-2022"
+			}
+		},
+		"folder": {
+			"name": "s198d01"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"LAEstab": {
+					"type": "integer"
+				},
+				"LA": {
+					"type": "integer"
+				},
+				"Estab": {
+					"type": "integer"
+				},
+				"URN": {
+					"type": "integer"
+				},
+				"Academy UPIN": {
+					"type": "integer"
+				},
+				"School Name": {
+					"type": "string"
+				},
+				"Period covered by return": {
+					"type": "integer"
+				},
+				"MAT SAT or Central Services": {
+					"type": "string"
+				},
+				"Lead UPIN": {
+					"type": "integer"
+				},
+				"Date opened": {
+					"type": "string"
+				},
+				"No Pupils": {
+					"type": "number"
+				},
+				"No Teachers": {
+					"type": "number"
+				},
+				"Gender": {
+					"type": "string"
+				},
+				"Overall Phase": {
+					"type": "string"
+				},
+				"Phase": {
+					"type": "string"
+				},
+				"Type": {
+					"type": "string"
+				},
+				"Region": {
+					"type": "string"
+				},
+				"London Borough": {
+					"type": "string"
+				},
+				"London Weighting": {
+					"type": "string"
+				},
+				"% of pupils eligible for FSM": {
+					"type": "number"
+				},
+				"DirectRevenueFinancingCapitalReserveTransfers": {
+					"type": "number"
+				},
+				"InterestChargesForLoansAndBank": {
+					"type": "integer"
+				},
+				"% of pupils with EAL": {
+					"type": "number"
+				},
+				"% of pupils who are Boarders": {
+					"type": "integer"
+				},
+				"Admissions policy": {
+					"type": "string"
+				},
+				"PFI": {
+					"type": "string"
+				},
+				"Has a 6th form": {
+					"type": "boolean"
+				},
+				"No of pupils in 6th form": {
+					"type": "integer"
+				},
+				"Lowest age of pupils": {
+					"type": "integer"
+				},
+				"Highest age of pupils": {
+					"type": "integer"
+				},
+				"SEN": {
+					"type": "integer"
+				},
+				"Other DfE/EFA Revenue Grants": {
+					"type": "number"
+				},
+				"Other income (LA & other Government grants)": {
+					"type": "number"
+				},
+				"Government source (non-grant)": {
+					"type": "integer"
+				},
+				"Academies": {
+					"type": "number"
+				},
+				"Non- Government": {
+					"type": "number"
+				},
+				"Income from facilities and services": {
+					"type": "number"
+				},
+				"Income from catering": {
+					"type": "number"
+				},
+				"Receipts from supply teacher insurance claims": {
+					"type": "integer"
+				},
+				"Donations and/or voluntary funds": {
+					"type": "number"
+				},
+				"Other self-generated income": {
+					"type": "number"
+				},
+				"Investment income": {
+					"type": "number"
+				},
+				"Teaching staff": {
+					"type": "number"
+				},
+				"Supply teaching staff": {
+					"type": "integer"
+				},
+				"Education support staff": {
+					"type": "number"
+				},
+				"Administrative and clerical staff": {
+					"type": "number"
+				},
+				"Premises staff": {
+					"type": "number"
+				},
+				"Catering staff": {
+					"type": "number"
+				},
+				"Other staff": {
+					"type": "number"
+				},
+				"Indirect employee expenses": {
+					"type": "number"
+				},
+				"Staff development and training": {
+					"type": "number"
+				},
+				"Staff-related insurance": {
+					"type": "integer"
+				},
+				"Supply teacher insurance": {
+					"type": "integer"
+				},
+				"Building and Grounds maintenance and improvement": {
+					"type": "number"
+				},
+				"Cleaning and caretaking": {
+					"type": "number"
+				},
+				"Water and sewerage": {
+					"type": "number"
+				},
+				"Energy": {
+					"type": "number"
+				},
+				"Rent and Rates": {
+					"type": "number"
+				},
+				"Other occupation costs": {
+					"type": "number"
+				},
+				"Special facilities": {
+					"type": "integer"
+				},
+				"Learning resources (not ICT equipment)": {
+					"type": "number"
+				},
+				"ICT learning resources": {
+					"type": "number"
+				},
+				"Examination fees": {
+					"type": "integer"
+				},
+				"Educational Consultancy": {
+					"type": "number"
+				},
+				"Administrative supplies - non educational": {
+					"type": "number"
+				},
+				"Agency supply teaching staff": {
+					"type": "number"
+				},
+				"Catering supplies": {
+					"type": "number"
+				},
+				"Other insurance premiums": {
+					"type": "number"
+				},
+				"Legal & Professional": {
+					"type": "number"
+				},
+				"Auditor costs": {
+					"type": "number"
+				},
+				"PFI Charges": {
+					"type": "integer"
+				},
+				"In Year Balance": {
+					"type": "number"
+				},
+				"Grant Funding": {
+					"type": "number"
+				},
+				"Direct Grant": {
+					"type": "number"
+				},
+				"Community Grants": {
+					"type": "number"
+				},
+				"Targeted Grants": {
+					"type": "integer"
+				},
+				"Self Generated Funding": {
+					"type": "number"
+				},
+				"Total Income": {
+					"type": "number"
+				},
+				"Supply Staff": {
+					"type": "number"
+				},
+				"Other Staff Costs": {
+					"type": "number"
+				},
+				"Staff Total": {
+					"type": "number"
+				},
+				"Maintenance & Improvement": {
+					"type": "number"
+				},
+				"Premises": {
+					"type": "number"
+				},
+				"Catering Exp": {
+					"type": "number"
+				},
+				"Occupation": {
+					"type": "number"
+				},
+				"Supplies and Services": {
+					"type": "number"
+				},
+				"Educational Supplies": {
+					"type": "number"
+				},
+				"Brought in Professional Sevices": {
+					"type": "number"
+				},
+				"Total Expenditure": {
+					"type": "number"
+				},
+				"IsPlaceholder": {
+					"type": "boolean"
+				},
+				"DNS": {
+					"type": "boolean"
+				},
+				"KS4Present": {
+					"type": "boolean"
+				},
+				"OfstedPresent": {
+					"type": "boolean"
+				},
+				"TrustOrCompanyName": {
+					"type": "string"
+				},
+				"CompanyNumber": {
+					"type": "integer"
+				},
+				"Pre-16 Funding": {
+					"type": "number"
+				},
+				"UrbanRuralDetail": {
+					"type": "string"
+				},
+				"UrbanRuralInner": {
+					"type": "string"
+				},
+				"UrbanRuralOuter": {
+					"type": "string"
+				},
+				"RevenueReserveAsSubmitted": {
+					"type": "integer"
+				},
+				"PerPupilTotalExpenditure": {
+					"type": "number"
+				},
+				"Primary_need_spld": {
+					"type": "integer"
+				},
+				"Primary_need_spld_percent": {
+					"type": "number"
+				},
+				"Primary_need_mld": {
+					"type": "integer"
+				},
+				"Primary_need_mld_percent": {
+					"type": "number"
+				},
+				"Primary_need_sld": {
+					"type": "integer"
+				},
+				"Primary_need_sld_percent": {
+					"type": "number"
+				},
+				"Primary_need_pmld": {
+					"type": "integer"
+				},
+				"Primary_need_pmld_percent": {
+					"type": "integer"
+				},
+				"Primary_need_semh": {
+					"type": "integer"
+				},
+				"Primary_need_semh_percent": {
+					"type": "number"
+				},
+				"Primary_need_slcn": {
+					"type": "integer"
+				},
+				"Primary_need_slcn_percent": {
+					"type": "number"
+				},
+				"Primary_need_hi": {
+					"type": "integer"
+				},
+				"Primary_need_hi_percent": {
+					"type": "number"
+				},
+				"Primary_need_vi": {
+					"type": "integer"
+				},
+				"Primary_need_vi_percent": {
+					"type": "number"
+				},
+				"WRITPROG": {
+					"type": "number"
+				},
+				"CompanyNumberD8": {
+					"type": "string"
+				},
+				"OfstedRating": {
+					"type": "string"
+				},
+				"OfstedRatingName": {
+					"type": "string"
+				},
+				"Primary_need_msi": {
+					"type": "integer"
+				},
+				"Primary_need_pd": {
+					"type": "integer"
+				},
+				"Primary_need_asd": {
+					"type": "integer"
+				},
+				"Primary_need_oth": {
+					"type": "integer"
+				},
+				"Primary_need_msi_percent": {
+					"type": "integer"
+				},
+				"Primary_need_pd_percent": {
+					"type": "number"
+				},
+				"Primary_need_asd_percent": {
+					"type": "number"
+				},
+				"Primary_need_oth_percent": {
+					"type": "number"
+				},
+				"PTRWM_EXP": {
+					"type": "integer"
+				},
+				"KS2 Progress": {
+					"type": "number"
+				},
+				"% of pupils with SEN Statement": {
+					"type": "number"
+				},
+				"% of pupils without SEN Statement": {
+					"type": "number"
+				},
+				"OfstedLastInsp": {
+					"type": "string"
+				},
+				"TotalSchoolWorkforceHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfTeachersInTheLeadershipGroupHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfAuxiliaryStaffHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent": {
+					"type": "number"
+				},
+				"TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent": {
+					"type": "number"
+				},
+				"TotalNumberOfAuxiliaryStaffFullTimeEquivalent": {
+					"type": "number"
+				},
+				"WorkforcePresent": {
+					"type": "boolean"
+				},
+				"SpecialNeedsPresent": {
+					"type": "boolean"
+				},
+				"TotalNumberOfTeachersHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfClassroomTeachersHeadcount": {
+					"type": "integer"
+				},
+				"TotalNumberOfTeachingAssistantsHeadcount": {
+					"type": "integer"
+				},
+				"PercentageOfAllTeachingStaffWhoWorkPartTime": {
+					"type": "number"
+				},
+				"TotalSchoolWorkforceFullTimeEquivalent": {
+					"type": "number"
+				},
+				"TotalNumberOfClassroomTeachersFullTimeEquivalent": {
+					"type": "number"
+				},
+				"TotalNumberOfTeachersFullTimeEquivalent": {
+					"type": "number"
+				},
+				"TotalNumberOfTeachingAssistantsFullTimeEquivalent": {
+					"type": "number"
+				},
+				"RatioOfTeachingAssistantsToAllTeachers": {
+					"type": "number"
+				},
+				"PupilTeacherRatio": {
+					"type": "number"
+				},
+				"TeachersWithQualifiedTeacherStatus": {
+					"type": "number"
+				},
+				"AllTeachersOnTheLeadershipPayRangePercent": {
+					"type": "number"
+				},
+				"RegionalPaySpine": {
+					"type": "string"
+				},
+				"MeanGrossSalaryOfAllTeachers": {
+					"type": "number"
+				},
+				"MATPROG": {
+					"type": "number"
+				},
+				"Revenue Reserve": {
+					"type": "number"
+				},
+				"PercentRevenueReserveOfTotalIncome": {
+					"type": "number"
+				},
+				"PerPupilGrantFunding": {
+					"type": "number"
+				},
+				"KS2Present": {
+					"type": "boolean"
+				},
+				"READPROG": {
+					"type": "number"
+				},
+				"last-modified-date-time": {
+					"type": "string"
+				},
+				"UID": {
+					"type": "integer"
+				},
+				"ATT8SCR": {
+					"type": "number"
+				},
+				"P8MEA": {
+					"type": "number"
+				},
+				"P8_BANDING": {
+					"type": "integer"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": {
+				"value": "@dataset().Container",
+				"type": "Expression"
+			}
+		}
+	}
+}

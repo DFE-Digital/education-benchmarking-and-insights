@@ -1,0 +1,101 @@
+{
+	"name": "s198d01_ComparatorSets",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d01_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198t01"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "all_comparators_all_Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "trust_academy_Id",
+				"type": "bigint",
+				"precision": 19
+			},
+			{
+				"name": "URN",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UKPRN_URN1",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UKPRN_URN2",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UKPRN_URN_CG",
+				"type": "nvarchar"
+			},
+			{
+				"name": "PeerGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CostGroup",
+				"type": "nvarchar"
+			},
+			{
+				"name": "CompareNum",
+				"type": "bit"
+			},
+			{
+				"name": "compare",
+				"type": "bit"
+			},
+			{
+				"name": "RANK2",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "Comparator_code",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "RANK3",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "ReprocessFlag",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "UseAllCompFlag",
+				"type": "bit"
+			},
+			{
+				"name": "Range_flag",
+				"type": "bit"
+			},
+			{
+				"name": "DataReleaseId",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "PartYearDataFlag",
+				"type": "int",
+				"precision": 10
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ComparatorSets"
+		}
+	}
+}

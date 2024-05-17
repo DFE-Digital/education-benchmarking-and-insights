@@ -1,0 +1,441 @@
+{
+	"name": "s198t01_GIAS",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198t01_cosmos",
+			"type": "LinkedServiceReference"
+		},
+		"parameters": {
+			"Container": {
+				"type": "string",
+				"defaultValue": "GIAS"
+			}
+		},
+		"folder": {
+			"name": "s198d01"
+		},
+		"annotations": [],
+		"type": "CosmosDbSqlApiCollection",
+		"schema": {
+			"type": "object",
+			"properties": {
+				"URN": {
+					"type": "integer"
+				},
+				"LACode": {
+					"type": "integer"
+				},
+				"LA": {
+					"type": "string"
+				},
+				"EstablishmentNumber": {
+					"type": "integer"
+				},
+				"LAEstab": {
+					"type": "integer"
+				},
+				"EstablishmentName": {
+					"type": "string"
+				},
+				"TypeOfEstablishmentCode": {
+					"type": "integer"
+				},
+				"TypeOfEstablishment": {
+					"type": "string"
+				},
+				"EstablishmentTypeGroupCode": {
+					"type": "integer"
+				},
+				"EstablishmentTypeGroup": {
+					"type": "string"
+				},
+				"EstablishmentStatusCode": {
+					"type": "integer"
+				},
+				"EstablishmentStatus": {
+					"type": "string"
+				},
+				"ReasonEstablishmentOpenedCode": {
+					"type": "integer"
+				},
+				"ReasonEstablishmentOpened": {
+					"type": "string"
+				},
+				"ReasonEstablishmentClosedCode": {
+					"type": "integer"
+				},
+				"ReasonEstablishmentClosed": {
+					"type": "string"
+				},
+				"PhaseOfEducationCode": {
+					"type": "integer"
+				},
+				"PhaseOfEducation": {
+					"type": "string"
+				},
+				"StatutoryLowAge": {
+					"type": "integer"
+				},
+				"StatutoryHighAge": {
+					"type": "integer"
+				},
+				"BoardersCode": {
+					"type": "integer"
+				},
+				"Boarders": {
+					"type": "string"
+				},
+				"NurseryProvisionName": {
+					"type": "string"
+				},
+				"OfficialSixthFormCode": {
+					"type": "integer"
+				},
+				"OfficialSixthForm": {
+					"type": "string"
+				},
+				"GenderCode": {
+					"type": "integer"
+				},
+				"Gender": {
+					"type": "string"
+				},
+				"ReligiousCharacterCode": {
+					"type": "integer"
+				},
+				"ReligiousCharacter": {
+					"type": "string"
+				},
+				"ReligiousEthos": {
+					"type": "string"
+				},
+				"DioceseCode": {
+					"type": "integer"
+				},
+				"Diocese": {
+					"type": "string"
+				},
+				"AdmissionsPolicyCode": {
+					"type": "integer"
+				},
+				"AdmissionsPolicy": {
+					"type": "string"
+				},
+				"SchoolCapacity": {
+					"type": "integer"
+				},
+				"SpecialClassesCode": {
+					"type": "integer"
+				},
+				"SpecialClasses": {
+					"type": "string"
+				},
+				"CensusDate": {
+					"type": "string"
+				},
+				"NumberOfPupils": {
+					"type": "integer"
+				},
+				"NumberOfBoys": {
+					"type": "integer"
+				},
+				"NumberOfGirls": {
+					"type": "integer"
+				},
+				"PercentageFSM": {
+					"type": "string"
+				},
+				"TrustSchoolFlagCode": {
+					"type": "integer"
+				},
+				"TrustSchoolFlag": {
+					"type": "string"
+				},
+				"Trusts": {
+					"type": "string"
+				},
+				"SchoolSponsorFlag": {
+					"type": "string"
+				},
+				"SchoolSponsors": {
+					"type": "string"
+				},
+				"UKPRN": {
+					"type": "string"
+				},
+				"FEHEIdentifier": {
+					"type": "string"
+				},
+				"FurtherEducationType": {
+					"type": "string"
+				},
+				"OfstedLastInsp": {
+					"type": "string"
+				},
+				"OfstedSpecialMeasuresCode": {
+					"type": "integer"
+				},
+				"OfstedSpecialMeasures": {
+					"type": "string"
+				},
+				"LastChangedDate": {
+					"type": "string"
+				},
+				"Street": {
+					"type": "string"
+				},
+				"Locality": {
+					"type": "string"
+				},
+				"Address3": {
+					"type": "string"
+				},
+				"Town": {
+					"type": "string"
+				},
+				"County": {
+					"type": "string"
+				},
+				"Postcode": {
+					"type": "string"
+				},
+				"SchoolWebsite": {
+					"type": "string"
+				},
+				"TelephoneNum": {
+					"type": "string"
+				},
+				"HeadTitle": {
+					"type": "string"
+				},
+				"HeadFirstName": {
+					"type": "string"
+				},
+				"HeadLastName": {
+					"type": "string"
+				},
+				"HeadPreferredJobTitle": {
+					"type": "string"
+				},
+				"InspectorateName": {
+					"type": "string"
+				},
+				"InspectorateReport": {
+					"type": "string"
+				},
+				"DateOfLastInspectionVisit": {
+					"type": "string"
+				},
+				"NextInspectionVisit": {
+					"type": "string"
+				},
+				"TeenMoth": {
+					"type": "string"
+				},
+				"TeenMothPlaces": {
+					"type": "string"
+				},
+				"CCF": {
+					"type": "string"
+				},
+				"SENPRU": {
+					"type": "string"
+				},
+				"EBD": {
+					"type": "string"
+				},
+				"PlacesPRU": {
+					"type": "string"
+				},
+				"FTProv": {
+					"type": "string"
+				},
+				"EdByOther": {
+					"type": "string"
+				},
+				"Section41Approved": {
+					"type": "string"
+				},
+				"SEN1": {
+					"type": "string"
+				},
+				"SEN2": {
+					"type": "string"
+				},
+				"SEN3": {
+					"type": "string"
+				},
+				"SEN4": {
+					"type": "string"
+				},
+				"SEN5": {
+					"type": "string"
+				},
+				"SEN6": {
+					"type": "string"
+				},
+				"SEN7": {
+					"type": "string"
+				},
+				"SEN8": {
+					"type": "string"
+				},
+				"SEN9": {
+					"type": "string"
+				},
+				"SEN10": {
+					"type": "string"
+				},
+				"SEN11": {
+					"type": "string"
+				},
+				"SEN12": {
+					"type": "string"
+				},
+				"SEN13": {
+					"type": "string"
+				},
+				"TypeOfResourcedProvision": {
+					"type": "string"
+				},
+				"ResourcedProvisionOnRoll": {
+					"type": "string"
+				},
+				"ResourcedProvisionCapacity": {
+					"type": "string"
+				},
+				"SenUnitOnRoll": {
+					"type": "string"
+				},
+				"SenUnitCapacity": {
+					"type": "string"
+				},
+				"GOR": {
+					"type": "string"
+				},
+				"DistrictAdministrative": {
+					"type": "string"
+				},
+				"AdministrativeWard": {
+					"type": "string"
+				},
+				"ParliamentaryConstituency": {
+					"type": "string"
+				},
+				"GSSLACode": {
+					"type": "string"
+				},
+				"Easting": {
+					"type": "string"
+				},
+				"Northing": {
+					"type": "string"
+				},
+				"MSOA": {
+					"type": "string"
+				},
+				"LSOA": {
+					"type": "string"
+				},
+				"SENStat": {
+					"type": "string"
+				},
+				"SENNoStat": {
+					"type": "string"
+				},
+				"BoardingEstablishment": {
+					"type": "string"
+				},
+				"PropsName": {
+					"type": "string"
+				},
+				"PreviousLACode": {
+					"type": "integer"
+				},
+				"PreviousLA": {
+					"type": "string"
+				},
+				"PreviousEstablishmentNumber": {
+					"type": "string"
+				},
+				"OfstedRatingName": {
+					"type": "string"
+				},
+				"OfstedRating": {
+					"type": "string"
+				},
+				"RSCRegion": {
+					"type": "string"
+				},
+				"Country": {
+					"type": "string"
+				},
+				"UPRN": {
+					"type": "string"
+				},
+				"SiteName": {
+					"type": "string"
+				},
+				"UrbanRuralInner": {
+					"type": "string"
+				},
+				"UrbanRuralOuter": {
+					"type": "string"
+				},
+				"EstablishmentNameUpperCase": {
+					"type": "string"
+				},
+				"FinanceType": {
+					"type": "string"
+				},
+				"OverallPhase": {
+					"type": "string"
+				},
+				"LocationRaw": {
+					"type": "string"
+				},
+				"FullAddress": {
+					"type": "string"
+				},
+				"IsPartOfFederation": {
+					"type": "boolean"
+				},
+				"Location": {
+					"type": "object",
+					"properties": {
+						"type": {
+							"type": "string"
+						},
+						"coordinates": {
+							"type": "array",
+							"items": {
+								"type": "number"
+							}
+						}
+					}
+				},
+				"OpenDate": {
+					"type": "string"
+				},
+				"CompanyNumber": {
+					"type": "integer"
+				},
+				"CompanyNumberD8": {
+					"type": "string"
+				},
+				"UID": {
+					"type": "integer"
+				},
+				"TrustOrCompanyName": {
+					"type": "string"
+				}
+			}
+		},
+		"typeProperties": {
+			"collectionName": {
+				"value": "@dataset().Container",
+				"type": "Expression"
+			}
+		}
+	}
+}
