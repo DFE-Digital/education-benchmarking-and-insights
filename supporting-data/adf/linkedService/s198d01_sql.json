@@ -1,24 +1,18 @@
 {
 	"name": "s198d01_sql",
-	"type": "Microsoft.DataFactory/factories/linkedservices",
 	"properties": {
+		"annotations": [],
 		"type": "AzureSqlDatabase",
 		"typeProperties": {
 			"connectionString": {
-				"secretName": "ebis-sql-connection-string",
+				"type": "AzureKeyVaultSecret",
 				"store": {
 					"referenceName": "s198d01_keyvault",
 					"type": "LinkedServiceReference"
 				},
-				"type": "AzureKeyVaultSecret"
-			},
-			"servicePrincipalId": "",
-			"servicePrincipalKey": {
-				"type": "SecureString",
-				"value": "**********"
-			},
-			"tenant": ""
-		},
-		"annotations": []
-	}
+				"secretName": "ebis-sql-connection-string"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
 }
