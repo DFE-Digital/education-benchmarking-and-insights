@@ -1,5 +1,5 @@
 {
-	"name": "Academies",
+	"name": "s198d01_s198t01_Academies",
 	"properties": {
 		"activities": [
 			{
@@ -1487,7 +1487,7 @@
 			}
 		},
 		"folder": {
-			"name": "s198d01-s198t01"
+			"name": "s198d01_s198t01"
 		},
 		"annotations": []
 	}
