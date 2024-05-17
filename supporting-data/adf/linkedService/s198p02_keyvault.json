@@ -1,0 +1,10 @@
+{
+	"name": "s198p02_keyvault",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://s198p02-ebis-keyvault.vault.azure.net/"
+		}
+	}
+}
