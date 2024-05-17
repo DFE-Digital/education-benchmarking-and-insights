@@ -31441,6 +31441,444 @@
 							"enableStaging": false,
 							"translator": {
 								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RAGRatingId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "RAGRatingId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "academies_data_Id",
+											"type": "Int64",
+											"physicalType": "bigint"
+										},
+										"sink": {
+											"name": "academies_data_Id",
+											"type": "Int64",
+											"physicalType": "bigint"
+										}
+									},
+									{
+										"source": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "UKPRN",
+											"type": "String",
+											"physicalType": "char"
+										},
+										"sink": {
+											"name": "UKPRN",
+											"type": "String",
+											"physicalType": "char"
+										}
+									},
+									{
+										"source": {
+											"name": "UKPRN_URN",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "UKPRN_URN",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RAGAcademyName",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RAGAcademyName",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Sector",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Sector",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Cost Pool",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Cost Pool",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Cost Pool ID",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Cost Pool ID",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "CostGroup",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "CostGroup",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PeerGroup",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PeerGroup",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PerUnit",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 0,
+											"precision": 38
+										},
+										"sink": {
+											"name": "PerUnit",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 0,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "5thDecile",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 38
+										},
+										"sink": {
+											"name": "5thDecile",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 5,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "Decile",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Decile",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "RAG",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "RAG",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "Rank",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Rank",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "PerUnitText",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PerUnitText",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "%ReductionText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "%ReductionText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RankAcademyLevel",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "RankAcademyLevel",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "RAGletter",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RAGletter",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RAGWord",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "RAGWord",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "RAGOrder",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "RAGOrder",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "OverallAcademyRank",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OverallAcademyRank",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "OverallCostPoolRank",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "OverallCostPoolRank",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "PerUnitRank",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "PerUnitRank",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "%Comparators",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "%Comparators",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "£DiffText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "£DiffText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "%DiffText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "%DiffText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "HomepageText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "HomepageText",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Key",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "Key",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PerUnit_PreviousYear",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 0,
+											"precision": 38
+										},
+										"sink": {
+											"name": "PerUnit_PreviousYear",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 0,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "YOY%change",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 38
+										},
+										"sink": {
+											"name": "YOY%change",
+											"type": "Decimal",
+											"physicalType": "decimal",
+											"scale": 6,
+											"precision": 38
+										}
+									},
+									{
+										"source": {
+											"name": "YOY%changeText",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "YOY%changeText",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "PerUnit_PreviousYearText",
+											"type": "String",
+											"physicalType": "varchar"
+										},
+										"sink": {
+											"name": "PerUnit_PreviousYearText",
+											"type": "String",
+											"physicalType": "varchar"
+										}
+									},
+									{
+										"source": {
+											"name": "DataReleaseId",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "DataReleaseId",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									}
+								],
 								"typeConversion": true,
 								"typeConversionSettings": {
 									"allowDataTruncation": true,
@@ -31458,6 +31896,117 @@
 						"outputs": [
 							{
 								"referenceName": "s198t01_RAGRatings",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "s198d01_s198t01"
+				},
+				"annotations": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_s198t01_SchemaVersions')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "SchemaVersions",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "AzureSqlSource",
+								"queryTimeout": "02:00:00",
+								"partitionOption": "None"
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"Id"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"tableOption": "autoCreate",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "Id",
+											"type": "Int32",
+											"physicalType": "int"
+										},
+										"sink": {
+											"name": "Id",
+											"type": "Int32",
+											"physicalType": "int"
+										}
+									},
+									{
+										"source": {
+											"name": "ScriptName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										},
+										"sink": {
+											"name": "ScriptName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Applied",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										},
+										"sink": {
+											"name": "Applied",
+											"type": "DateTime",
+											"physicalType": "datetime"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_SchemaVersions",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198t01_SchemaVersions",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
