@@ -7882,7 +7882,8 @@
 							},
 							"sink": {
 								"type": "CosmosDbSqlApiSink",
-								"writeBehavior": "insert"
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
 							},
 							"enableStaging": false,
 							"translator": {
@@ -9339,6 +9340,4672 @@
 								}
 							}
 						]
+					},
+					{
+						"name": "Academies-2019-2020",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['LAEstab']"
+										},
+										"sink": {
+											"path": "$['LAEstab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['LA']"
+										},
+										"sink": {
+											"path": "$['LA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Estab']"
+										},
+										"sink": {
+											"path": "$['Estab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['URN']"
+										},
+										"sink": {
+											"path": "$['URN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academy UPIN']"
+										},
+										"sink": {
+											"path": "$['Academy UPIN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['School Name']"
+										},
+										"sink": {
+											"path": "$['School Name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Period covered by return']"
+										},
+										"sink": {
+											"path": "$['Period covered by return']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MAT SAT or Central Services']"
+										},
+										"sink": {
+											"path": "$['MAT SAT or Central Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Lead UPIN']"
+										},
+										"sink": {
+											"path": "$['Lead UPIN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date opened']"
+										},
+										"sink": {
+											"path": "$['Date opened']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Pupils']"
+										},
+										"sink": {
+											"path": "$['No Pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Teachers']"
+										},
+										"sink": {
+											"path": "$['No Teachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Gender']"
+										},
+										"sink": {
+											"path": "$['Gender']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Overall Phase']"
+										},
+										"sink": {
+											"path": "$['Overall Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Phase']"
+										},
+										"sink": {
+											"path": "$['Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Type']"
+										},
+										"sink": {
+											"path": "$['Type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Region']"
+										},
+										"sink": {
+											"path": "$['Region']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Borough']"
+										},
+										"sink": {
+											"path": "$['London Borough']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Weighting']"
+										},
+										"sink": {
+											"path": "$['London Weighting']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils eligible for FSM']"
+										},
+										"sink": {
+											"path": "$['% of pupils eligible for FSM']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with EAL']"
+										},
+										"sink": {
+											"path": "$['% of pupils with EAL']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils who are Boarders']"
+										},
+										"sink": {
+											"path": "$['% of pupils who are Boarders']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Admissions policy']"
+										},
+										"sink": {
+											"path": "$['Admissions policy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI']"
+										},
+										"sink": {
+											"path": "$['PFI']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Has a 6th form']"
+										},
+										"sink": {
+											"path": "$['Has a 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No of pupils in 6th form']"
+										},
+										"sink": {
+											"path": "$['No of pupils in 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Lowest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Lowest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Highest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Highest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SEN']"
+										},
+										"sink": {
+											"path": "$['SEN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										},
+										"sink": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other income (LA & other Government grants)']"
+										},
+										"sink": {
+											"path": "$['Other income (LA & other Government grants)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Government source (non-grant)']"
+										},
+										"sink": {
+											"path": "$['Government source (non-grant)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academies']"
+										},
+										"sink": {
+											"path": "$['Academies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Non- Government']"
+										},
+										"sink": {
+											"path": "$['Non- Government']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from facilities and services']"
+										},
+										"sink": {
+											"path": "$['Income from facilities and services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from catering']"
+										},
+										"sink": {
+											"path": "$['Income from catering']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										},
+										"sink": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Donations and/or voluntary funds']"
+										},
+										"sink": {
+											"path": "$['Donations and/or voluntary funds']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other self-generated income']"
+										},
+										"sink": {
+											"path": "$['Other self-generated income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Investment income']"
+										},
+										"sink": {
+											"path": "$['Investment income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Teaching staff']"
+										},
+										"sink": {
+											"path": "$['Teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Education support staff']"
+										},
+										"sink": {
+											"path": "$['Education support staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative and clerical staff']"
+										},
+										"sink": {
+											"path": "$['Administrative and clerical staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises staff']"
+										},
+										"sink": {
+											"path": "$['Premises staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering staff']"
+										},
+										"sink": {
+											"path": "$['Catering staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other staff']"
+										},
+										"sink": {
+											"path": "$['Other staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indirect employee expenses']"
+										},
+										"sink": {
+											"path": "$['Indirect employee expenses']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff development and training']"
+										},
+										"sink": {
+											"path": "$['Staff development and training']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff-related insurance']"
+										},
+										"sink": {
+											"path": "$['Staff-related insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teacher insurance']"
+										},
+										"sink": {
+											"path": "$['Supply teacher insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										},
+										"sink": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cleaning and caretaking']"
+										},
+										"sink": {
+											"path": "$['Cleaning and caretaking']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Water and sewerage']"
+										},
+										"sink": {
+											"path": "$['Water and sewerage']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Energy']"
+										},
+										"sink": {
+											"path": "$['Energy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Rent and Rates']"
+										},
+										"sink": {
+											"path": "$['Rent and Rates']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other occupation costs']"
+										},
+										"sink": {
+											"path": "$['Other occupation costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Special facilities']"
+										},
+										"sink": {
+											"path": "$['Special facilities']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										},
+										"sink": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ICT learning resources']"
+										},
+										"sink": {
+											"path": "$['ICT learning resources']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Examination fees']"
+										},
+										"sink": {
+											"path": "$['Examination fees']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Consultancy']"
+										},
+										"sink": {
+											"path": "$['Educational Consultancy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative supplies - non educational']"
+										},
+										"sink": {
+											"path": "$['Administrative supplies - non educational']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Agency supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Agency supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering supplies']"
+										},
+										"sink": {
+											"path": "$['Catering supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other insurance premiums']"
+										},
+										"sink": {
+											"path": "$['Other insurance premiums']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Legal & Professional']"
+										},
+										"sink": {
+											"path": "$['Legal & Professional']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Auditor costs']"
+										},
+										"sink": {
+											"path": "$['Auditor costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Interest charges for Loan and Bank']"
+										},
+										"sink": {
+											"path": "$['Interest charges for Loan and Bank']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										},
+										"sink": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI Charges']"
+										},
+										"sink": {
+											"path": "$['PFI Charges']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['In Year Balance']"
+										},
+										"sink": {
+											"path": "$['In Year Balance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Grant Funding']"
+										},
+										"sink": {
+											"path": "$['Grant Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct Grant']"
+										},
+										"sink": {
+											"path": "$['Direct Grant']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Community Grants']"
+										},
+										"sink": {
+											"path": "$['Community Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Targeted Grants']"
+										},
+										"sink": {
+											"path": "$['Targeted Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Self Generated Funding']"
+										},
+										"sink": {
+											"path": "$['Self Generated Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Income']"
+										},
+										"sink": {
+											"path": "$['Total Income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply Staff']"
+										},
+										"sink": {
+											"path": "$['Supply Staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other Staff Costs']"
+										},
+										"sink": {
+											"path": "$['Other Staff Costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff Total']"
+										},
+										"sink": {
+											"path": "$['Staff Total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Maintenance & Improvement']"
+										},
+										"sink": {
+											"path": "$['Maintenance & Improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises']"
+										},
+										"sink": {
+											"path": "$['Premises']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering Exp']"
+										},
+										"sink": {
+											"path": "$['Catering Exp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Occupation']"
+										},
+										"sink": {
+											"path": "$['Occupation']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supplies and Services']"
+										},
+										"sink": {
+											"path": "$['Supplies and Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Supplies']"
+										},
+										"sink": {
+											"path": "$['Educational Supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Brought in Professional Sevices']"
+										},
+										"sink": {
+											"path": "$['Brought in Professional Sevices']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cost of Finance']"
+										},
+										"sink": {
+											"path": "$['Cost of Finance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Expenditure']"
+										},
+										"sink": {
+											"path": "$['Total Expenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['IsPlaceholder']"
+										},
+										"sink": {
+											"path": "$['IsPlaceholder']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['DNS']"
+										},
+										"sink": {
+											"path": "$['DNS']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS4Present']"
+										},
+										"sink": {
+											"path": "$['KS4Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedPresent']"
+										},
+										"sink": {
+											"path": "$['OfstedPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TrustOrCompanyName']"
+										},
+										"sink": {
+											"path": "$['TrustOrCompanyName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumber']"
+										},
+										"sink": {
+											"path": "$['CompanyNumber']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 Funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralDetail']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralDetail']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralInner']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralInner']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralOuter']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralOuter']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										},
+										"sink": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditure']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WRITPROG']"
+										},
+										"sink": {
+											"path": "$['WRITPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumberD8']"
+										},
+										"sink": {
+											"path": "$['CompanyNumberD8']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRating']"
+										},
+										"sink": {
+											"path": "$['OfstedRating']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRatingName']"
+										},
+										"sink": {
+											"path": "$['OfstedRatingName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PTRWM_EXP']"
+										},
+										"sink": {
+											"path": "$['PTRWM_EXP']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2 Progress']"
+										},
+										"sink": {
+											"path": "$['KS2 Progress']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils with SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils without SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils without SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedLastInsp']"
+										},
+										"sink": {
+											"path": "$['OfstedLastInsp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WorkforcePresent']"
+										},
+										"sink": {
+											"path": "$['WorkforcePresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SpecialNeedsPresent']"
+										},
+										"sink": {
+											"path": "$['SpecialNeedsPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										},
+										"sink": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										},
+										"sink": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PupilTeacherRatio']"
+										},
+										"sink": {
+											"path": "$['PupilTeacherRatio']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										},
+										"sink": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RegionalPaySpine']"
+										},
+										"sink": {
+											"path": "$['RegionalPaySpine']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										},
+										"sink": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MATPROG']"
+										},
+										"sink": {
+											"path": "$['MATPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Revenue Reserve']"
+										},
+										"sink": {
+											"path": "$['Revenue Reserve']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFunding']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFunding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2Present']"
+										},
+										"sink": {
+											"path": "$['KS2Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['READPROG']"
+										},
+										"sink": {
+											"path": "$['READPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['last-modified-date-time']"
+										},
+										"sink": {
+											"path": "$['last-modified-date-time']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UID']"
+										},
+										"sink": {
+											"path": "$['UID']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"path": "$['id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 and 6th form funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 and 6th form funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_rid']"
+										},
+										"sink": {
+											"path": "$['_rid']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_self']"
+										},
+										"sink": {
+											"path": "$['_self']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_etag']"
+										},
+										"sink": {
+											"path": "$['_etag']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_attachments']"
+										},
+										"sink": {
+											"path": "$['_attachments']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['_ts']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['AllTeachersOnTheLeadershipPayRangePercent']"
+										},
+										"sink": {
+											"path": "$['AllTeachersOnTheLeadershipPayRangePercent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ATT8SCR']"
+										},
+										"sink": {
+											"path": "$['ATT8SCR']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8MEA']"
+										},
+										"sink": {
+											"path": "$['P8MEA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8_BANDING']"
+										},
+										"sink": {
+											"path": "$['P8_BANDING']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2019-2020')",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198t01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2019-2020')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Academies-2018-2019",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['LAEstab']"
+										},
+										"sink": {
+											"path": "$['LAEstab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['LA']"
+										},
+										"sink": {
+											"path": "$['LA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Estab']"
+										},
+										"sink": {
+											"path": "$['Estab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['URN']"
+										},
+										"sink": {
+											"path": "$['URN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academy UPIN']"
+										},
+										"sink": {
+											"path": "$['Academy UPIN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['School Name']"
+										},
+										"sink": {
+											"path": "$['School Name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Period covered by return']"
+										},
+										"sink": {
+											"path": "$['Period covered by return']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MAT SAT or Central Services']"
+										},
+										"sink": {
+											"path": "$['MAT SAT or Central Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Lead UPIN']"
+										},
+										"sink": {
+											"path": "$['Lead UPIN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date opened']"
+										},
+										"sink": {
+											"path": "$['Date opened']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Pupils']"
+										},
+										"sink": {
+											"path": "$['No Pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Teachers']"
+										},
+										"sink": {
+											"path": "$['No Teachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Gender']"
+										},
+										"sink": {
+											"path": "$['Gender']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Overall Phase']"
+										},
+										"sink": {
+											"path": "$['Overall Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Phase']"
+										},
+										"sink": {
+											"path": "$['Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Type']"
+										},
+										"sink": {
+											"path": "$['Type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Region']"
+										},
+										"sink": {
+											"path": "$['Region']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Borough']"
+										},
+										"sink": {
+											"path": "$['London Borough']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Weighting']"
+										},
+										"sink": {
+											"path": "$['London Weighting']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils eligible for FSM']"
+										},
+										"sink": {
+											"path": "$['% of pupils eligible for FSM']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with EAL']"
+										},
+										"sink": {
+											"path": "$['% of pupils with EAL']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils who are Boarders']"
+										},
+										"sink": {
+											"path": "$['% of pupils who are Boarders']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Admissions policy']"
+										},
+										"sink": {
+											"path": "$['Admissions policy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI']"
+										},
+										"sink": {
+											"path": "$['PFI']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Has a 6th form']"
+										},
+										"sink": {
+											"path": "$['Has a 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No of pupils in 6th form']"
+										},
+										"sink": {
+											"path": "$['No of pupils in 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Lowest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Lowest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Highest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Highest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SEN']"
+										},
+										"sink": {
+											"path": "$['SEN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										},
+										"sink": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other income (LA & other Government grants)']"
+										},
+										"sink": {
+											"path": "$['Other income (LA & other Government grants)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Government source (non-grant)']"
+										},
+										"sink": {
+											"path": "$['Government source (non-grant)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academies']"
+										},
+										"sink": {
+											"path": "$['Academies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Non- Government']"
+										},
+										"sink": {
+											"path": "$['Non- Government']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from facilities and services']"
+										},
+										"sink": {
+											"path": "$['Income from facilities and services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from catering']"
+										},
+										"sink": {
+											"path": "$['Income from catering']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										},
+										"sink": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Donations and/or voluntary funds']"
+										},
+										"sink": {
+											"path": "$['Donations and/or voluntary funds']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other self-generated income']"
+										},
+										"sink": {
+											"path": "$['Other self-generated income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Investment income']"
+										},
+										"sink": {
+											"path": "$['Investment income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Teaching staff']"
+										},
+										"sink": {
+											"path": "$['Teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Education support staff']"
+										},
+										"sink": {
+											"path": "$['Education support staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative and clerical staff']"
+										},
+										"sink": {
+											"path": "$['Administrative and clerical staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises staff']"
+										},
+										"sink": {
+											"path": "$['Premises staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering staff']"
+										},
+										"sink": {
+											"path": "$['Catering staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other staff']"
+										},
+										"sink": {
+											"path": "$['Other staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indirect employee expenses']"
+										},
+										"sink": {
+											"path": "$['Indirect employee expenses']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff development and training']"
+										},
+										"sink": {
+											"path": "$['Staff development and training']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff-related insurance']"
+										},
+										"sink": {
+											"path": "$['Staff-related insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teacher insurance']"
+										},
+										"sink": {
+											"path": "$['Supply teacher insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										},
+										"sink": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cleaning and caretaking']"
+										},
+										"sink": {
+											"path": "$['Cleaning and caretaking']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Water and sewerage']"
+										},
+										"sink": {
+											"path": "$['Water and sewerage']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Energy']"
+										},
+										"sink": {
+											"path": "$['Energy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Rent and Rates']"
+										},
+										"sink": {
+											"path": "$['Rent and Rates']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other occupation costs']"
+										},
+										"sink": {
+											"path": "$['Other occupation costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Special facilities']"
+										},
+										"sink": {
+											"path": "$['Special facilities']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										},
+										"sink": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ICT learning resources']"
+										},
+										"sink": {
+											"path": "$['ICT learning resources']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Examination fees']"
+										},
+										"sink": {
+											"path": "$['Examination fees']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Consultancy']"
+										},
+										"sink": {
+											"path": "$['Educational Consultancy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative supplies - non educational']"
+										},
+										"sink": {
+											"path": "$['Administrative supplies - non educational']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Agency supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Agency supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering supplies']"
+										},
+										"sink": {
+											"path": "$['Catering supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other insurance premiums']"
+										},
+										"sink": {
+											"path": "$['Other insurance premiums']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Legal & Professional']"
+										},
+										"sink": {
+											"path": "$['Legal & Professional']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Auditor costs']"
+										},
+										"sink": {
+											"path": "$['Auditor costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Interest charges for Loan and Bank']"
+										},
+										"sink": {
+											"path": "$['Interest charges for Loan and Bank']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										},
+										"sink": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI Charges']"
+										},
+										"sink": {
+											"path": "$['PFI Charges']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['In Year Balance']"
+										},
+										"sink": {
+											"path": "$['In Year Balance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Grant Funding']"
+										},
+										"sink": {
+											"path": "$['Grant Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct Grant']"
+										},
+										"sink": {
+											"path": "$['Direct Grant']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Community Grants']"
+										},
+										"sink": {
+											"path": "$['Community Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Targeted Grants']"
+										},
+										"sink": {
+											"path": "$['Targeted Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Self Generated Funding']"
+										},
+										"sink": {
+											"path": "$['Self Generated Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Income']"
+										},
+										"sink": {
+											"path": "$['Total Income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply Staff']"
+										},
+										"sink": {
+											"path": "$['Supply Staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other Staff Costs']"
+										},
+										"sink": {
+											"path": "$['Other Staff Costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff Total']"
+										},
+										"sink": {
+											"path": "$['Staff Total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Maintenance & Improvement']"
+										},
+										"sink": {
+											"path": "$['Maintenance & Improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises']"
+										},
+										"sink": {
+											"path": "$['Premises']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering Exp']"
+										},
+										"sink": {
+											"path": "$['Catering Exp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Occupation']"
+										},
+										"sink": {
+											"path": "$['Occupation']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supplies and Services']"
+										},
+										"sink": {
+											"path": "$['Supplies and Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Supplies']"
+										},
+										"sink": {
+											"path": "$['Educational Supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Brought in Professional Sevices']"
+										},
+										"sink": {
+											"path": "$['Brought in Professional Sevices']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cost of Finance']"
+										},
+										"sink": {
+											"path": "$['Cost of Finance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Expenditure']"
+										},
+										"sink": {
+											"path": "$['Total Expenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['IsPlaceholder']"
+										},
+										"sink": {
+											"path": "$['IsPlaceholder']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['DNS']"
+										},
+										"sink": {
+											"path": "$['DNS']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS4Present']"
+										},
+										"sink": {
+											"path": "$['KS4Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedPresent']"
+										},
+										"sink": {
+											"path": "$['OfstedPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TrustOrCompanyName']"
+										},
+										"sink": {
+											"path": "$['TrustOrCompanyName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumber']"
+										},
+										"sink": {
+											"path": "$['CompanyNumber']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 Funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralDetail']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralDetail']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralInner']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralInner']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralOuter']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralOuter']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										},
+										"sink": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditure']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumberD8']"
+										},
+										"sink": {
+											"path": "$['CompanyNumberD8']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRating']"
+										},
+										"sink": {
+											"path": "$['OfstedRating']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRatingName']"
+										},
+										"sink": {
+											"path": "$['OfstedRatingName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils with SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils without SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils without SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedLastInsp']"
+										},
+										"sink": {
+											"path": "$['OfstedLastInsp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WorkforcePresent']"
+										},
+										"sink": {
+											"path": "$['WorkforcePresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SpecialNeedsPresent']"
+										},
+										"sink": {
+											"path": "$['SpecialNeedsPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										},
+										"sink": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										},
+										"sink": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PupilTeacherRatio']"
+										},
+										"sink": {
+											"path": "$['PupilTeacherRatio']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										},
+										"sink": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['AllClassroomTeachersOnMainPayRangePercent']"
+										},
+										"sink": {
+											"path": "$['AllClassroomTeachersOnMainPayRangePercent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['AllClassroomTeachersOnUpperPayRangeAndOrLeadingPractionersPayRangePercent']"
+										},
+										"sink": {
+											"path": "$['AllClassroomTeachersOnUpperPayRangeAndOrLeadingPractionersPayRangePercent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['AllTeachersOnTheLeadershipPayRangePercent']"
+										},
+										"sink": {
+											"path": "$['AllTeachersOnTheLeadershipPayRangePercent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RegionalPaySpine']"
+										},
+										"sink": {
+											"path": "$['RegionalPaySpine']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										},
+										"sink": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Revenue Reserve']"
+										},
+										"sink": {
+											"path": "$['Revenue Reserve']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFunding']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFunding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2Present']"
+										},
+										"sink": {
+											"path": "$['KS2Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['last-modified-date-time']"
+										},
+										"sink": {
+											"path": "$['last-modified-date-time']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ATT8SCR']"
+										},
+										"sink": {
+											"path": "$['ATT8SCR']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8MEA']"
+										},
+										"sink": {
+											"path": "$['P8MEA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8_BANDING']"
+										},
+										"sink": {
+											"path": "$['P8_BANDING']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UID']"
+										},
+										"sink": {
+											"path": "$['UID']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"path": "$['id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 and 6th form funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 and 6th form funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_rid']"
+										},
+										"sink": {
+											"path": "$['_rid']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_self']"
+										},
+										"sink": {
+											"path": "$['_self']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_etag']"
+										},
+										"sink": {
+											"path": "$['_etag']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_attachments']"
+										},
+										"sink": {
+											"path": "$['_attachments']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['_ts']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WRITPROG']"
+										},
+										"sink": {
+											"path": "$['WRITPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PTRWM_EXP']"
+										},
+										"sink": {
+											"path": "$['PTRWM_EXP']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2 Progress']"
+										},
+										"sink": {
+											"path": "$['KS2 Progress']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MATPROG']"
+										},
+										"sink": {
+											"path": "$['MATPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['READPROG']"
+										},
+										"sink": {
+											"path": "$['READPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date joined if in period']"
+										},
+										"sink": {
+											"path": "$['Date joined if in period']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2018-2019')",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198t01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2018-2019')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
+					},
+					{
+						"name": "Academies-2017-2018",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "CosmosDbSqlApiSource",
+								"preferredRegions": []
+							},
+							"sink": {
+								"type": "CosmosDbSqlApiSink",
+								"writeBehavior": "upsert",
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"path": "$['LAEstab']"
+										},
+										"sink": {
+											"path": "$['LAEstab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['LA']"
+										},
+										"sink": {
+											"path": "$['LA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Estab']"
+										},
+										"sink": {
+											"path": "$['Estab']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['URN']"
+										},
+										"sink": {
+											"path": "$['URN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academy UPIN']"
+										},
+										"sink": {
+											"path": "$['Academy UPIN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Period covered by return']"
+										},
+										"sink": {
+											"path": "$['Period covered by return']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MAT SAT or Central Services']"
+										},
+										"sink": {
+											"path": "$['MAT SAT or Central Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date opened']"
+										},
+										"sink": {
+											"path": "$['Date opened']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date closed']"
+										},
+										"sink": {
+											"path": "$['Date closed']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date left if in period']"
+										},
+										"sink": {
+											"path": "$['Date left if in period']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Date joined if in period']"
+										},
+										"sink": {
+											"path": "$['Date joined if in period']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Gender']"
+										},
+										"sink": {
+											"path": "$['Gender']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Overall Phase']"
+										},
+										"sink": {
+											"path": "$['Overall Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Phase']"
+										},
+										"sink": {
+											"path": "$['Phase']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Type']"
+										},
+										"sink": {
+											"path": "$['Type']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Region']"
+										},
+										"sink": {
+											"path": "$['Region']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Borough']"
+										},
+										"sink": {
+											"path": "$['London Borough']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['London Weighting']"
+										},
+										"sink": {
+											"path": "$['London Weighting']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils who are Boarders']"
+										},
+										"sink": {
+											"path": "$['% of pupils who are Boarders']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI']"
+										},
+										"sink": {
+											"path": "$['PFI']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No of pupils in 6th form']"
+										},
+										"sink": {
+											"path": "$['No of pupils in 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Lowest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Lowest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Average Attainment 8 score per pupil']"
+										},
+										"sink": {
+											"path": "$['Average Attainment 8 score per pupil']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Government source (non-grant)']"
+										},
+										"sink": {
+											"path": "$['Government source (non-grant)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Academies']"
+										},
+										"sink": {
+											"path": "$['Academies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										},
+										"sink": {
+											"path": "$['Receipts from supply teacher insurance claims']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other self-generated income']"
+										},
+										"sink": {
+											"path": "$['Other self-generated income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Investment income']"
+										},
+										"sink": {
+											"path": "$['Investment income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering staff']"
+										},
+										"sink": {
+											"path": "$['Catering staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff-related insurance']"
+										},
+										"sink": {
+											"path": "$['Staff-related insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teacher insurance']"
+										},
+										"sink": {
+											"path": "$['Supply teacher insurance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Rent and Rates']"
+										},
+										"sink": {
+											"path": "$['Rent and Rates']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Special facilities']"
+										},
+										"sink": {
+											"path": "$['Special facilities']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ICT learning resources']"
+										},
+										"sink": {
+											"path": "$['ICT learning resources']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Examination fees']"
+										},
+										"sink": {
+											"path": "$['Examination fees']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative supplies - non educational']"
+										},
+										"sink": {
+											"path": "$['Administrative supplies - non educational']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other insurance premiums']"
+										},
+										"sink": {
+											"path": "$['Other insurance premiums']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Legal & Professional']"
+										},
+										"sink": {
+											"path": "$['Legal & Professional']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Auditor costs']"
+										},
+										"sink": {
+											"path": "$['Auditor costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PFI Charges']"
+										},
+										"sink": {
+											"path": "$['PFI Charges']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct Grant']"
+										},
+										"sink": {
+											"path": "$['Direct Grant']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Community Grants']"
+										},
+										"sink": {
+											"path": "$['Community Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Targeted Grants']"
+										},
+										"sink": {
+											"path": "$['Targeted Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['DL']"
+										},
+										"sink": {
+											"path": "$['DL']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['data-group']"
+										},
+										"sink": {
+											"path": "$['data-group']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['IsPlaceholder']"
+										},
+										"sink": {
+											"path": "$['IsPlaceholder']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['DNS']"
+										},
+										"sink": {
+											"path": "$['DNS']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS4Present']"
+										},
+										"sink": {
+											"path": "$['KS4Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedPresent']"
+										},
+										"sink": {
+											"path": "$['OfstedPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralOuter']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralOuter']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										},
+										"sink": {
+											"path": "$['RevenueReserveAsSubmitted']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Trusts']"
+										},
+										"sink": {
+											"path": "$['Trusts']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['id']"
+										},
+										"sink": {
+											"path": "$['id']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_spld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_spld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_sld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_sld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pmld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pmld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_semh_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_semh_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_slcn_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_slcn_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_hi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_hi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_vi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_vi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_msi_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_msi_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_asd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_asd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WRITPROG']"
+										},
+										"sink": {
+											"path": "$['WRITPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ValidFrom']"
+										},
+										"sink": {
+											"path": "$['ValidFrom']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ValidTo']"
+										},
+										"sink": {
+											"path": "$['ValidTo']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['collection']"
+										},
+										"sink": {
+											"path": "$['collection']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of teachers with QTS']"
+										},
+										"sink": {
+											"path": "$['% of teachers with QTS']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['FTE of Teaching Assistants']"
+										},
+										"sink": {
+											"path": "$['FTE of Teaching Assistants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['FTE of Support Staff']"
+										},
+										"sink": {
+											"path": "$['FTE of Support Staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['FTE of Admin Staff']"
+										},
+										"sink": {
+											"path": "$['FTE of Admin Staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pupil Premium']"
+										},
+										"sink": {
+											"path": "$['Pupil Premium']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ESG']"
+										},
+										"sink": {
+											"path": "$['ESG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other Income']"
+										},
+										"sink": {
+											"path": "$['Other Income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Pupils']"
+										},
+										"sink": {
+											"path": "$['No Pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['No Teachers']"
+										},
+										"sink": {
+											"path": "$['No Teachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils eligible for FSM']"
+										},
+										"sink": {
+											"path": "$['% of pupils eligible for FSM']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with EAL']"
+										},
+										"sink": {
+											"path": "$['% of pupils with EAL']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Admissions policy']"
+										},
+										"sink": {
+											"path": "$['Admissions policy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Has a 6th form']"
+										},
+										"sink": {
+											"path": "$['Has a 6th form']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Highest age of pupils']"
+										},
+										"sink": {
+											"path": "$['Highest age of pupils']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Average Key Stage 2 Point score']"
+										},
+										"sink": {
+											"path": "$['Average Key Stage 2 Point score']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% achieving Level 4 including English and Maths at KS2']"
+										},
+										"sink": {
+											"path": "$['% achieving Level 4 including English and Maths at KS2']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% with 5 A*-C grade GCSEs (or equiv) inc English and Maths']"
+										},
+										"sink": {
+											"path": "$['% with 5 A*-C grade GCSEs (or equiv) inc English and Maths']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SEN']"
+										},
+										"sink": {
+											"path": "$['SEN']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										},
+										"sink": {
+											"path": "$['Other DfE/EFA Revenue Grants']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other income (LA & other Government grants)']"
+										},
+										"sink": {
+											"path": "$['Other income (LA & other Government grants)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Non- Government']"
+										},
+										"sink": {
+											"path": "$['Non- Government']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from facilities and services']"
+										},
+										"sink": {
+											"path": "$['Income from facilities and services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Income from catering']"
+										},
+										"sink": {
+											"path": "$['Income from catering']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Donations and/or voluntary funds']"
+										},
+										"sink": {
+											"path": "$['Donations and/or voluntary funds']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Teaching staff']"
+										},
+										"sink": {
+											"path": "$['Teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Education support staff']"
+										},
+										"sink": {
+											"path": "$['Education support staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Administrative and clerical staff']"
+										},
+										"sink": {
+											"path": "$['Administrative and clerical staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises staff']"
+										},
+										"sink": {
+											"path": "$['Premises staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other staff']"
+										},
+										"sink": {
+											"path": "$['Other staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Indirect employee expenses']"
+										},
+										"sink": {
+											"path": "$['Indirect employee expenses']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff development and training']"
+										},
+										"sink": {
+											"path": "$['Staff development and training']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										},
+										"sink": {
+											"path": "$['Building and Grounds maintenance and improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cleaning and caretaking']"
+										},
+										"sink": {
+											"path": "$['Cleaning and caretaking']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Water and sewerage']"
+										},
+										"sink": {
+											"path": "$['Water and sewerage']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Energy']"
+										},
+										"sink": {
+											"path": "$['Energy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other occupation costs']"
+										},
+										"sink": {
+											"path": "$['Other occupation costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										},
+										"sink": {
+											"path": "$['Learning resources (not ICT equipment)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Consultancy']"
+										},
+										"sink": {
+											"path": "$['Educational Consultancy']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Agency supply teaching staff']"
+										},
+										"sink": {
+											"path": "$['Agency supply teaching staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering supplies']"
+										},
+										"sink": {
+											"path": "$['Catering supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Interest charges for Loan and Bank']"
+										},
+										"sink": {
+											"path": "$['Interest charges for Loan and Bank']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										},
+										"sink": {
+											"path": "$['Direct revenue financing (Revenue contributions to capital)']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other']"
+										},
+										"sink": {
+											"path": "$['Other']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['In Year Balance']"
+										},
+										"sink": {
+											"path": "$['In Year Balance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Grant Funding']"
+										},
+										"sink": {
+											"path": "$['Grant Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Self Generated Funding']"
+										},
+										"sink": {
+											"path": "$['Self Generated Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Income']"
+										},
+										"sink": {
+											"path": "$['Total Income']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supply Staff']"
+										},
+										"sink": {
+											"path": "$['Supply Staff']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Other Staff Costs']"
+										},
+										"sink": {
+											"path": "$['Other Staff Costs']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Staff Total']"
+										},
+										"sink": {
+											"path": "$['Staff Total']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Maintenance & Improvement']"
+										},
+										"sink": {
+											"path": "$['Maintenance & Improvement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Premises']"
+										},
+										"sink": {
+											"path": "$['Premises']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Catering Exp']"
+										},
+										"sink": {
+											"path": "$['Catering Exp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Occupation']"
+										},
+										"sink": {
+											"path": "$['Occupation']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Supplies and Services']"
+										},
+										"sink": {
+											"path": "$['Supplies and Services']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Educational Supplies']"
+										},
+										"sink": {
+											"path": "$['Educational Supplies']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Brought in Professional Sevices']"
+										},
+										"sink": {
+											"path": "$['Brought in Professional Sevices']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Cost of Finance']"
+										},
+										"sink": {
+											"path": "$['Cost of Finance']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Total Expenditure']"
+										},
+										"sink": {
+											"path": "$['Total Expenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumber']"
+										},
+										"sink": {
+											"path": "$['CompanyNumber']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['CompanyNumberD8']"
+										},
+										"sink": {
+											"path": "$['CompanyNumberD8']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MATNumber']"
+										},
+										"sink": {
+											"path": "$['MATNumber']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 Funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 Funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralDetail']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralDetail']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['UrbanRuralInner']"
+										},
+										"sink": {
+											"path": "$['UrbanRuralInner']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditure']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditure']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TrustOrCompanyName']"
+										},
+										"sink": {
+											"path": "$['TrustOrCompanyName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncomePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFundingPostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditurePostDist']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRating']"
+										},
+										"sink": {
+											"path": "$['OfstedRating']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedRatingName']"
+										},
+										"sink": {
+											"path": "$['OfstedRatingName']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['OfstedLastInsp']"
+										},
+										"sink": {
+											"path": "$['OfstedLastInsp']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PTRWM_EXP']"
+										},
+										"sink": {
+											"path": "$['PTRWM_EXP']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2 Progress']"
+										},
+										"sink": {
+											"path": "$['KS2 Progress']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['School Name']"
+										},
+										"sink": {
+											"path": "$['School Name']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils with SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils with SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['% of pupils without SEN Statement']"
+										},
+										"sink": {
+											"path": "$['% of pupils without SEN Statement']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFundingFinal']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFundingFinal']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalExpenditureFinal']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalExpenditureFinal']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										},
+										"sink": {
+											"path": "$['RatioOfTeachingAssistantsToAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['WorkforcePresent']"
+										},
+										"sink": {
+											"path": "$['WorkforcePresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SpecialNeedsPresent']"
+										},
+										"sink": {
+											"path": "$['SpecialNeedsPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['SalaryPresent']"
+										},
+										"sink": {
+											"path": "$['SalaryPresent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Revenue Reserve']"
+										},
+										"sink": {
+											"path": "$['Revenue Reserve']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										},
+										"sink": {
+											"path": "$['PercentRevenueReserveOfTotalIncome']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilGrantFunding']"
+										},
+										"sink": {
+											"path": "$['PerPupilGrantFunding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PerPupilTotalIncome']"
+										},
+										"sink": {
+											"path": "$['PerPupilTotalIncome']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MATPROG']"
+										},
+										"sink": {
+											"path": "$['MATPROG']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['KS2Present']"
+										},
+										"sink": {
+											"path": "$['KS2Present']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffHeadcount']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										},
+										"sink": {
+											"path": "$['PercentageOfAllTeachingStaffWhoWorkPartTime']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalSchoolWorkforceFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfClassroomTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersInTheLeadershipGroupFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachersFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfTeachingAssistantsFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfNonClassroomBasedSchoolSupportStaffExcludingAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										},
+										"sink": {
+											"path": "$['TotalNumberOfAuxiliaryStaffFullTimeEquivalent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['PupilTeacherRatio']"
+										},
+										"sink": {
+											"path": "$['PupilTeacherRatio']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										},
+										"sink": {
+											"path": "$['TeachersWithQualifiedTeacherStatus']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										},
+										"sink": {
+											"path": "$['MeanGrossSalaryOfAllTeachers']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['last-modified-date-time']"
+										},
+										"sink": {
+											"path": "$['last-modified-date-time']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Pre-16 and 6th form funding']"
+										},
+										"sink": {
+											"path": "$['Pre-16 and 6th form funding']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_rid']"
+										},
+										"sink": {
+											"path": "$['_rid']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_self']"
+										},
+										"sink": {
+											"path": "$['_self']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_etag']"
+										},
+										"sink": {
+											"path": "$['_etag']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_attachments']"
+										},
+										"sink": {
+											"path": "$['_attachments']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['_ts']"
+										},
+										"sink": {
+											"path": "$['_ts']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_mld_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_mld_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_pd_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_pd_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['ATT8SCR']"
+										},
+										"sink": {
+											"path": "$['ATT8SCR']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['Primary_need_oth_percent']"
+										},
+										"sink": {
+											"path": "$['Primary_need_oth_percent']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['RegionalPaySpine']"
+										},
+										"sink": {
+											"path": "$['RegionalPaySpine']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8MEA']"
+										},
+										"sink": {
+											"path": "$['P8MEA']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['P8_BANDING']"
+										},
+										"sink": {
+											"path": "$['P8_BANDING']"
+										}
+									},
+									{
+										"source": {
+											"path": "$['READPROG']"
+										},
+										"sink": {
+											"path": "$['READPROG']"
+										}
+									}
+								]
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "s198d01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2017-2018')",
+										"type": "Expression"
+									}
+								}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198t01_Academies",
+								"type": "DatasetReference",
+								"parameters": {
+									"Container": {
+										"value": "@variables('Academies-2017-2018')",
+										"type": "Expression"
+									}
+								}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -9348,6 +14015,18 @@
 					"Academies-2020-2021": {
 						"type": "String",
 						"defaultValue": "Academies-2020-2021"
+					},
+					"Academies-2019-2020": {
+						"type": "String",
+						"defaultValue": "Academies-2019-2020"
+					},
+					"Academies-2018-2019": {
+						"type": "String",
+						"defaultValue": "Academies-2018-2019"
+					},
+					"Academies-2017-2018": {
+						"type": "String",
+						"defaultValue": "Academies-2017-2018"
 					}
 				},
 				"folder": {
