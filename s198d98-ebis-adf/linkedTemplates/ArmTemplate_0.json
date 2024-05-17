@@ -1,0 +1,877 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "s198d98-ebis-adf"
+		},
+		"s198d01_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198d01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198t01_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198t01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198d01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "supporting-data-cosmos-connection-string"
+		},
+		"s198d01_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "ebis-sql-connection-string"
+		},
+		"s198d98_storage_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 's198d98_storage'"
+		},
+		"s198d98_storage_properties_typeProperties_sasToken_secretName": {
+			"type": "string",
+			"defaultValue": "supporting-data-storage-sas-token"
+		},
+		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "adf-cosmos-connection-string"
+		},
+		"s198t01_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "ebis-sql-connection-string"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('s198d01_keyvault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('s198t01_keyvault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_cosmos')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198d01_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198d01_cosmos_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d01_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198d01_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198d01_sql_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d98_storage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureBlobStorage",
+				"typeProperties": {
+					"sasUri": "[parameters('s198d98_storage_sasUri')]",
+					"sasToken": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198d01_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198d98_storage_properties_typeProperties_sasToken_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_cosmos')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "CosmosDb",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198t01_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198t01_cosmos_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198t01_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198t01_sql_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_ComparatorSets')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "all_comparators_all_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "trust_academy_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "URN",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UKPRN_URN1",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UKPRN_URN2",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UKPRN_URN_CG",
+						"type": "nvarchar"
+					},
+					{
+						"name": "PeerGroup",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CostGroup",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompareNum",
+						"type": "bit"
+					},
+					{
+						"name": "compare",
+						"type": "bit"
+					},
+					{
+						"name": "RANK2",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Comparator_code",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RANK3",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ReprocessFlag",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "UseAllCompFlag",
+						"type": "bit"
+					},
+					{
+						"name": "Range_flag",
+						"type": "bit"
+					},
+					{
+						"name": "DataReleaseId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PartYearDataFlag",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ComparatorSets"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Year",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Input",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeploymentPlan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsComplete",
+						"type": "bit"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FinancialPlan"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_LocalAuthority')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Code",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Deleted",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "LocalAuthority"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_RAGRatings')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "RAGRatingId",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "academies_data_Id",
+						"type": "bigint",
+						"precision": 19
+					},
+					{
+						"name": "URN",
+						"type": "varchar"
+					},
+					{
+						"name": "UKPRN",
+						"type": "char"
+					},
+					{
+						"name": "UKPRN_URN",
+						"type": "varchar"
+					},
+					{
+						"name": "RAGAcademyName",
+						"type": "varchar"
+					},
+					{
+						"name": "Sector",
+						"type": "varchar"
+					},
+					{
+						"name": "Cost Pool",
+						"type": "varchar"
+					},
+					{
+						"name": "Cost Pool ID",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CostGroup",
+						"type": "varchar"
+					},
+					{
+						"name": "PeerGroup",
+						"type": "varchar"
+					},
+					{
+						"name": "PerUnit",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "5thDecile",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 5
+					},
+					{
+						"name": "Decile",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RAG",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Rank",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PerUnitText",
+						"type": "varchar"
+					},
+					{
+						"name": "%ReductionText",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RankAcademyLevel",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "RAGletter",
+						"type": "varchar"
+					},
+					{
+						"name": "RAGWord",
+						"type": "varchar"
+					},
+					{
+						"name": "RAGOrder",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OverallAcademyRank",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "OverallCostPoolRank",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "PerUnitRank",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "%Comparators",
+						"type": "varchar"
+					},
+					{
+						"name": "£DiffText",
+						"type": "nvarchar"
+					},
+					{
+						"name": "%DiffText",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HomepageText",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Key",
+						"type": "varchar"
+					},
+					{
+						"name": "PerUnit_PreviousYear",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 0
+					},
+					{
+						"name": "YOY%change",
+						"type": "decimal",
+						"precision": 38,
+						"scale": 6
+					},
+					{
+						"name": "YOY%changeText",
+						"type": "varchar"
+					},
+					{
+						"name": "PerUnit_PreviousYearText",
+						"type": "varchar"
+					},
+					{
+						"name": "DataReleaseId",
+						"type": "int",
+						"precision": 10
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "RAGRatings"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_SchemaVersions')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "ScriptName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Applied",
+						"type": "datetime",
+						"precision": 23,
+						"scale": 3
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "SchemaVersions"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_School')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FinanceType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Kind",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Street",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Locality",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Address3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Town",
+						"type": "nvarchar"
+					},
+					{
+						"name": "County",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Postcode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "CompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Deleted",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "School"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_Trust')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "CompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Deleted",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "Trust"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198t01_TrustHistory')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198t01_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198t01"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "Id",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "CompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolYear",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Date",
+						"type": "date"
+					},
+					{
+						"name": "Event",
+						"type": "nvarchar"
+					},
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Name",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "Deleted",
+						"type": "bit"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "TrustHistory"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198t01_sql')]"
+			]
+		}
+	]
+}

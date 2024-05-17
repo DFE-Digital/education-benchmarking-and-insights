@@ -1,0 +1,33 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "s198d98-ebis-adf"
+		},
+		"s198d01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"value": "supporting-data-cosmos-connection-string"
+		},
+		"s198d01_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://s198d01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198d01_sql_properties_typeProperties_connectionString_secretName": {
+			"value": "ebis-sql-connection-string"
+		},
+		"s198d98_storage_sasUri": {
+			"value": ""
+		},
+		"s198d98_storage_properties_typeProperties_sasToken_secretName": {
+			"value": "supporting-data-storage-sas-token"
+		},
+		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"value": "adf-cosmos-connection-string"
+		},
+		"s198t01_keyvault_properties_typeProperties_baseUrl": {
+			"value": "https://s198t01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198t01_sql_properties_typeProperties_connectionString_secretName": {
+			"value": "ebis-sql-connection-string"
+		}
+	}
+}

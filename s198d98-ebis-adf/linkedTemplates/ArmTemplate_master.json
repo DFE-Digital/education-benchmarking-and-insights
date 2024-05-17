@@ -1,0 +1,98 @@
+{
+	"$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"type": "string",
+			"metadata": "Data Factory name",
+			"defaultValue": "s198d98-ebis-adf"
+		},
+		"s198d01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "supporting-data-cosmos-connection-string"
+		},
+		"s198d01_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198d01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198d01_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "ebis-sql-connection-string"
+		},
+		"s198d98_storage_sasUri": {
+			"type": "secureString",
+			"metadata": "Secure string for 'sasUri' of 's198d98_storage'"
+		},
+		"s198d98_storage_properties_typeProperties_sasToken_secretName": {
+			"type": "string",
+			"defaultValue": "supporting-data-storage-sas-token"
+		},
+		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "adf-cosmos-connection-string"
+		},
+		"s198t01_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198t01-ebis-keyvault.vault.azure.net/"
+		},
+		"s198t01_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "ebis-sql-connection-string"
+		},
+		"containerUri": {
+			"type": "string",
+			"metadata": "URI to storage account containing linked ARM templates"
+		},
+		"containerSasToken": {
+			"type": "string",
+			"metadata": "Sas token to storage account containing linked ARM templates"
+		}
+	},
+	"variables": {
+		"factoryId": "[concat('Microsoft.DataFactory/factories/', parameters('factoryName'))]"
+	},
+	"resources": [
+		{
+			"name": "s198d98-ebis-adf_ArmTemplate_0",
+			"type": "Microsoft.Resources/deployments",
+			"apiVersion": "2018-02-01",
+			"properties": {
+				"mode": "incremental",
+				"templateLink": {
+					"uri": "[concat(parameters('containerUri'), '/ArmTemplate_0.json', parameters('containerSasToken'))]",
+					"contentVersion": "1.0.0.0"
+				},
+				"parameters": {
+					"factoryName": {
+						"value": "[parameters('factoryName')]"
+					},
+					"s198d01_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('s198d01_keyvault_properties_typeProperties_baseUrl')]"
+					},
+					"s198t01_keyvault_properties_typeProperties_baseUrl": {
+						"value": "[parameters('s198t01_keyvault_properties_typeProperties_baseUrl')]"
+					},
+					"s198d01_cosmos_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198d01_cosmos_properties_typeProperties_connectionString_secretName')]"
+					},
+					"s198d01_sql_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198d01_sql_properties_typeProperties_connectionString_secretName')]"
+					},
+					"s198d98_storage_sasUri": {
+						"value": "[parameters('s198d98_storage_sasUri')]"
+					},
+					"s198d98_storage_properties_typeProperties_sasToken_secretName": {
+						"value": "[parameters('s198d98_storage_properties_typeProperties_sasToken_secretName')]"
+					},
+					"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198t01_cosmos_properties_typeProperties_connectionString_secretName')]"
+					},
+					"s198t01_sql_properties_typeProperties_connectionString_secretName": {
+						"value": "[parameters('s198t01_sql_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": []
+		}
+	]
+}
