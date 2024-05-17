@@ -4173,7 +4173,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "s198d01_MAT_Totals",
+						"referenceName": "s198t01_MAT_Totals",
 						"type": "DatasetReference",
 						"parameters": {
 							"Container": {
