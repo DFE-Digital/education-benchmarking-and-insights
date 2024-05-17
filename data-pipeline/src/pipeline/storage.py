@@ -7,6 +7,7 @@ from azure.core.exceptions import ResourceExistsError
 from azure.storage.blob.aio import BlobServiceClient
 from azure.storage.queue.aio import QueueClient, QueueServiceClient
 
+
 azure_logger = logging.getLogger("azure")
 azure_logger.setLevel(logging.WARNING)
 

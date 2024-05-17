@@ -166,6 +166,9 @@ def map_is_surplus_deficit(closing_balance: float):
 
 
 def map_school_phase_type(establishment_code: int, phase_type: str):
+    if pd.isnull(phase_type):
+        return None
+
     if phase_type.lower() == "primary":
         match establishment_code:
             case 33 | 36 | 44:
