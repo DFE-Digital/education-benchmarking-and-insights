@@ -29,3 +29,34 @@ jobs:
                 cipEnvironment: ${{ parameters.cipEnvironment }}
                 disablePurgeProtection: ${{ parameters.disablePurgeProtection }}
                 module: 'core'
+
+  - deployment: CoreDeployment
+    displayName: 'Core : Deployment'
+    dependsOn: [CoreProvision]
+    pool:
+      vmImage: ubuntu-latest
+    environment: ${{ parameters.environment }}
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - checkout: none
+            - download: current
+
+            - task: AzureKeyVault@1
+              inputs:
+                azureSubscription: ${{ parameters.subscription }}
+                KeyVaultName: '${{ parameters.environmentPrefix }}-ebis-keyvault'
+                SecretsFilter: '*'
+                RunAsPreJob: true
+
+            - task: ExtractFiles@1
+              displayName: 'Extract core database'
+              inputs:
+                archiveFilePatterns: '${{ parameters.workspaceDir }}/core-db/Core.Database.zip'
+                destinationFolder: '${{ parameters.workspaceDir }}/db'
+
+            - script: ./Core.Database -c '$(core-sql-connection-string)'
+              workingDirectory: '${{ parameters.workspaceDir }}/db'
+              failOnStderr: true
+              displayName: 'Deploy core database'
