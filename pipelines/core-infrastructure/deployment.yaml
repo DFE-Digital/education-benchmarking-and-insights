@@ -5,6 +5,7 @@ parameters:
   cipEnvironment: ''
   disablePurgeProtection: ''
   dependsOn: []
+  workspaceDir: '$(Pipeline.Workspace)'
 
 jobs:
   - deployment: CoreProvision
