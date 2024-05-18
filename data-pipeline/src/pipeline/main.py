@@ -380,10 +380,10 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
             msg_payload["year"]
         )
 
-        # msg_payload["rag_duration"] = run_compute_rag(
-        #     msg_payload["type"],
-        #     msg_payload["year"]
-        # )
+        msg_payload["rag_duration"] = run_compute_rag(
+            msg_payload["type"],
+            msg_payload["year"]
+        )
 
         msg_payload["success"] = True
     except Exception as error:
