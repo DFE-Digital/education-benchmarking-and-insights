@@ -196,7 +196,7 @@ def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
 
 
 def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size=30):
-    top_index = np.argsort(data, kind="stable")[:base_set_size]
+    top_index = np.argsort(data, axis=0, kind="stable")[:base_set_size]
     top_urns = all_urns[top_index]
     top_regions = all_regions[top_index]
     same_region = np.argwhere(top_regions == top_regions[0]).flatten()

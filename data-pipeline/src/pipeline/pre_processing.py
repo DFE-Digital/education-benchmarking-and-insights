@@ -7,6 +7,9 @@ import src.pipeline.mappings as mappings
 import src.pipeline.config as config
 import pandas as pd
 
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+
 
 def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(
@@ -183,14 +186,14 @@ def build_cost_series(category_name, df, basis):
     ]
 
     # Create total column
-    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(axis=1)
 
     sub_categories = df.columns[
         df.columns.str.startswith(category_name)
     ].values.tolist()
 
     for sub_category in sub_categories:
-        df[sub_category + "_Per Unit"] = df[sub_category] / basis_data
+        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
 
     return df
 

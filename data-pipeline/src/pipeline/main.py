@@ -380,10 +380,10 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
             msg_payload["year"]
         )
 
-        msg_payload["rag_duration"] = run_compute_rag(
-            msg_payload["type"],
-            msg_payload["year"]
-        )
+        # msg_payload["rag_duration"] = run_compute_rag(
+        #     msg_payload["type"],
+        #     msg_payload["year"]
+        # )
 
         msg_payload["success"] = True
     except Exception as error:
@@ -413,8 +413,8 @@ def receive_one_message(worker_client):
                 else:
                     logger.info("no messages received")
                     exit(0)
-    except Exception:
-        logger.exception("An exception occurred")
+    except Exception as error:
+        logger.exception("An exception occurred:", type(error).__name__, "–", error)
         exit(-1)
 
 
@@ -432,8 +432,8 @@ async def receive_messages(worker_client):
                         logger.info(f"processed msg response: {msg}")
                     else:
                         time.sleep(1)
-    except Exception:
-        logger.exception("An exception occurred")
+    except Exception as error:
+        logger.exception("An exception occurred:", type(error).__name__, "–", error)
         exit(-1)
 
 

@@ -103,20 +103,8 @@ def is_close_comparator(category_type, org_a, org_b):
     return is_pupil_close_comparator(org_a, org_b)
 
 
-def get_category_series(category_name, data):
-    category_cols = (
-        data.columns.isin(base_cols)
-        | data.columns.str.startswith(category_name)
-    )
-    df = data[data.columns[category_cols]]
-    dt = df.dtypes
-    sub_categories = dt[dt.index.str.startswith(category_name)].index.values
-
-    return df, sub_categories
-
-
 def find_percentile(d, value):
-    sorted_series = np.sort(d)
+    sorted_series = np.sort(d, axis=0, kind="stable")
     rank = np.searchsorted(sorted_series, value, side='right')
     pc = rank / len(d) * 100
     return pc - 1
@@ -128,11 +116,12 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
 
     series = data[category_name]
     value = series.iat[0]
+
     percentile = find_percentile(series, value)
     decile = percentile / 10
     mean = np.median(series)
     diff = value - mean
-    diff_percent = (diff / value) * 100 if value != 0 else 0
+    diff_percent = (diff / value) * 100 if value != 0 and value != np.nan and not pd.isna(value) else 0
     cats = category_name.split('_')
     return {
         "Urn": urn,
@@ -166,8 +155,9 @@ def compute_category_rag(urn, category_name, settings, target, comparator_set, c
 
 def get_category_cols_predicates(category_name, data):
     category_cols = (
-        data.columns.isin(base_cols)
-        | data.columns.str.startswith(category_name)
+            data.columns.isin(base_cols)
+            | (data.columns.str.startswith(category_name)
+               & (data.columns.str.endswith("_Per Unit")))
     )
 
     df = data[data.columns[category_cols]]
@@ -181,30 +171,39 @@ def compute_rag(data, comparators):
     # TODO: This shouldn't be required
     keys = rag_category_settings.keys()
 
+    # reduce to only used columns so that extraction routines are more efficient
+    cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
+    df = data[data.columns[cols]]
+
     # Pre-computes the column accessors for each cost category
     column_cache = {}
     for cat_name in keys:
-        column_cache[cat_name] = get_category_cols_predicates(cat_name, data)
+        column_cache[cat_name] = get_category_cols_predicates(cat_name, df)
+    indices = range(len(df))
+    st = time.time()
 
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=RuntimeWarning)
         with np.errstate(invalid="ignore"):
-            indices = range(len(data))
-            st = time.time()
             for indx in indices:
-                target = data.iloc[indx]
+                target = df.iloc[indx]
                 urn = target.name
-                pupil_urns = comparators["Pupil"][urn]
-                building_urns = comparators["Building"][urn]
-                for cat_name in keys:
-                    rag_settings = rag_category_settings[cat_name]
-                    set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
-                    if set_urns is not None:
-                        comparator_set = data[data.index.isin(set_urns)]
-                        for r in compute_category_rag(urn, cat_name, rag_settings, target, comparator_set, column_cache):
-                            yield r
-                    else:
-                        logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}')
-                if indx > 1 and indx % 100 == 0:
-                    logger.info(f'Completed {indx} RAGs in {time.time() - st:.2f} secs')
-                    st = time.time()
+                try:
+                    pupil_urns = comparators["Pupil"][urn]
+                    building_urns = comparators["Building"][urn]
+                    for cat_name in keys:
+                        rag_settings = rag_category_settings[cat_name]
+                        set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
+                        if set_urns is not None:
+                            comparator_set = df[df.index.isin(set_urns)]
+                            for r in compute_category_rag(urn, cat_name, rag_settings, target, comparator_set, column_cache):
+                                yield r
+                        else:
+                            logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}')
+                    if indx > 1 and indx % 100 == 0:
+                        logger.info(f'Completed {indx} RAGs in {time.time() - st:.2f} secs')
+                        st = time.time()
+                except Exception as error:
+                    logger.exception(f"An exception occurred processing {urn}:", type(error).__name__, "–", error)
+                    return
+
