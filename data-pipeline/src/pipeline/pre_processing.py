@@ -504,6 +504,7 @@ def build_maintained_school_data(
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"
     )
+
     maintained_schools = (
         maintained_schools.merge(sen, on="URN", how="left")
         .merge(census, on="URN", how="left")
@@ -529,18 +530,21 @@ def build_maintained_school_data(
         maintained_schools["Total Income   I01 to I18"]
         - maintained_schools["Total Expenditure  E01 to E32"]
     )
+
     maintained_schools["School Financial Position"] = maintained_schools[
         "School Balance"
     ].map(mappings.map_is_surplus_deficit)
+
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
-        axis=1,
-    )
+        axis=1)
+
     maintained_schools["Partial Years Present"] = maintained_schools[
         "Period covered by return (months)"
     ].map(lambda x: x != 12)
+
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
     ].map(lambda x: x == 1)

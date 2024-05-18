@@ -1,6 +1,7 @@
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Income } from "src/services";
 import { Loading } from "src/components/loading";
+import React from "react";
 
 export const IncomeSectionDirectRevenue: React.FC<{
   data: Income[];

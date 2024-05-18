@@ -26,15 +26,29 @@
 
 {% if data['signedIn'] == 'true' %}
 
+{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"mailto:stevesmith@" + data['school-name'] | lower | replace( " ", "" )+ ".org.uk\">stevesmith@&#8203;" + data['school-name'] | lower | replace( " ", "&#8203;" )+ ".org.uk</a>" }, { html: "<a href=\"mailto:janet.moss@" + comparatorName | lower | replace( " ", "" )+ ".org.uk\">janet.moss@&#8203;" + comparatorName | lower | replace( " ", "&#8203;" )+ ".org.uk</a>" } ] %}
 {% set arrArea = [ { text: "Gross internal floor area" }, { text: "10,130 square metres" }, { text: "14,163 square metres" } ] %}
-{% set arrAge = [ { text: "Average building age" }, { text: "73 years" }, { text: "46 years" } ] %}
+{% set arrAge = [ { text: "Average building age" }, { text: "60 years" }, { text: "46 years" } ] %}
 
 {% else %}
 
-{% set arrArea = [ { text: "Gross internal floor area" }, { html: "<a href=\"/sign-in?goTo=/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 2, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
+{% set arrContact = [ { text: "Contact" }, { html: "<a href=\"/sign-in?goTo=/comparators/view-school\">Sign in</a> to see", colspan: 2, rowspan: 3, attributes: { style: "text-align: center; vertical-align: middle;" } } ] %}
+{% set arrArea = [ { text: "Gross internal floor area" } ] %}
 {% set arrAge = [ { text: "Average building age" } ] %}
 
 {% endif %}
+
+
+
+[
+{ text: "Contact" },
+{
+    html: 
+},
+{
+    html: 
+}
+],
 
 
 {% set charsHtml %}
@@ -130,15 +144,7 @@
                 { text: data['authority-name'] },
                 { text: "Birmingham" }
             ],
-            [
-                { text: "Contact" },
-                {
-                    html: "<a href=\"mailto:stevesmith@" + data['school-name'] | lower | replace( " ", "" )+ ".org.uk\">stevesmith@&#8203;" + data['school-name'] | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
-                },
-                {
-                    html: "<a href=\"mailto:janet.moss@" + comparatorName | lower | replace( " ", "" )+ ".org.uk\">janet.moss@&#8203;" + comparatorName | lower | replace( " ", "&#8203;" )+ ".org.uk</a>"
-                }
-            ],
+            arrContact,
             arrArea,
             arrAge
         ]

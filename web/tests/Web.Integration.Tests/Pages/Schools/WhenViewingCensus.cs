@@ -52,6 +52,21 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToCustomData(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+        var anchor = page.QuerySelector("#custom-data-link");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCustomData(school.Urn).ToAbsolute());
+    }
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -102,12 +117,13 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute()),
+            ("Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark census data");
+        DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Benchmark census data");
 
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);

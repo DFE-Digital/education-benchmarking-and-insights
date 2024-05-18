@@ -29,60 +29,6 @@
             </div>
             <div class="govuk-summary-list__row">
                 <dt class="govuk-summary-list__key">
-                    Address
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <a class="govuk-link govuk-link--no-visited-state"
-                       rel="external noopener noreferrer"
-                       target="_blank"
-                       href="https://www.google.co.uk/maps?q=@Model.Address">
-                        @Model.Address
-                        <span class="govuk-visually-hidden">
-                            GoogleMaps link opens in a new window
-                        </span>
-                    </a>
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Telephone number
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <a class="govuk-link govuk-link--no-visited-state"
-                       href="tel:@Model.Telephone"
-                       aria-label="Call telephone number @Model.Telephone">
-                        @Model.Telephone
-                    </a>
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Local Authority
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @Model.LocalAuthority
-                </dd>
-            </div>
-
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Website
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    @if (!string.IsNullOrEmpty(@Model.Website))
-                    {
-                        <a rel="external noopener noreferrer"
-                           class="govuk-link govuk-link--no-visited-state"
-                           target="_blank"
-                           href="@Model.Website">
-                            <span>@Model.Website</span>
-                            <span class="govuk-visually-hidden">Opens in a new window</span>
-                        </a>
-                    }
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
                     Contact
                 </dt>
                 <dd class="govuk-summary-list__value">

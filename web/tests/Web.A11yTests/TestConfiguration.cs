@@ -1,5 +1,4 @@
 using Microsoft.Extensions.Configuration;
-
 namespace Web.A11yTests;
 
 public static class TestConfiguration
@@ -8,7 +7,7 @@ public static class TestConfiguration
 #if !DEBUG
         .AddJsonFile("appsettings.json", optional: false)
 #else
-        .AddJsonFile("appsettings.local.json", optional: false)
+        .AddJsonFile("appsettings.local.json", false)
 #endif
         .Build();
 
@@ -21,9 +20,19 @@ public static class TestConfiguration
 
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 
+    public static AuthenticationSettings Authentication => Instance.GetSection(nameof(Authentication)).Get<AuthenticationSettings>() ??
+                                                           throw new InvalidOperationException(
+                                                               "Authentication settings missing from configuration");
+
     public record ApiEndpoint
     {
         public string? Host { get; init; }
         public string? Key { get; init; }
+    }
+
+    public record AuthenticationSettings
+    {
+        public string Username { get; init; } = string.Empty;
+        public string Password { get; init; } = string.Empty;
     }
 }

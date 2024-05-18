@@ -3,7 +3,6 @@ using System.Net;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Xunit;
-
 namespace Web.Integration.Tests;
 
 public static class DocumentAssert
@@ -111,6 +110,16 @@ public static class DocumentAssert
             var element = doc.GetElementById($"{field}-error");
             Assert.NotNull(element);
             TextEqual(element, $"Error: {message}");
+        }
+    }
+
+    public static void SummaryErrors(IHtmlDocument doc, params (string field, string message)[] errors)
+    {
+        foreach (var (field, message) in errors)
+        {
+            var element = doc.GetElementById($"{field}-error-summary");
+            Assert.NotNull(element);
+            TextEqual(element, message);
         }
     }
 

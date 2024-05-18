@@ -1,5 +1,7 @@
 using Web.App.Domain;
 using Web.App.Extensions;
+using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 
 namespace Web.App.Services;
@@ -15,6 +17,7 @@ public interface ICustomDataService
 public class CustomDataService(
     IHttpContextAccessor httpContextAccessor,
     IFinanceService financeService,
+    IIncomeApi incomeApi,
     ILogger<CustomDataService> logger)
     : ICustomDataService
 {
@@ -23,7 +26,7 @@ public class CustomDataService(
         // todo: lookup and return current, potentially customised figures
 
         var finances = await financeService.GetFinances(urn);
-        var income = await financeService.GetSchoolIncome(urn);
+        var income = await incomeApi.School(urn).GetResultOrThrow<Income>();
         var expenditure = await financeService.GetSchoolExpenditure(urn);
         var census = await financeService.GetSchoolCensus(urn);
         var floorArea = await financeService.GetSchoolFloorArea(urn);

@@ -24,6 +24,6 @@ resource "azurerm_key_vault_access_policy" "terraform_sp_access" {
   key_vault_id       = azurerm_key_vault.key-vault.id
   tenant_id          = data.azurerm_client_config.client.tenant_id
   object_id          = data.azurerm_client_config.client.object_id
-  secret_permissions = ["Get", "List", "Set", "Delete", "Purge"]
+  secret_permissions = ["Get", "List", "Set", "Delete", "Purge", "Restore"]
   key_permissions    = ["Get", "List", "Create", "Purge", "Delete"]
 }

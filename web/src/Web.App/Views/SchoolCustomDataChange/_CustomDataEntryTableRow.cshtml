@@ -37,13 +37,23 @@
 
 <tr class="govuk-table__row" id="@id">
     <td class="govuk-table__cell">@Model.Title</td>
-    <td class="govuk-table__cell">@currentValueFormatted</td>
+    <td class="govuk-table__cell">
+        <span id="current-@Model.Name" data-value="@currentValue">
+            @currentValueFormatted
+        </span>
+    </td>
     <td class="govuk-table__cell">
         @if (Model.ReadOnly)
         {
-            @Model.Custom.ToCurrency()
+            <span id="custom-@Model.Name" data-value="@Model.Custom">
+                @if (Model.Custom > 0)
+                {
+                    @Model.Custom.ToCurrency()
+                }
+            </span>
+            <input id="@Model.Name" name="@Model.Name" type="hidden" value="@Model.Custom"/>
         }
-        else
+        else if (!Model.Hidden)
         {
             <div class="govuk-form-group govuk-!-margin-bottom-0">
                 <label class="govuk-label govuk-visually-hidden" for="@Model.Name">

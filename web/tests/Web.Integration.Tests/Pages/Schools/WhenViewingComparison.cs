@@ -8,7 +8,8 @@ using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools;
 
-public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
+    : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
     [InlineData(EstablishmentTypes.Academies)]
@@ -52,6 +53,21 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 
+    [Theory]
+    [InlineData(EstablishmentTypes.Academies)]
+    [InlineData(EstablishmentTypes.Maintained)]
+    public async Task CanNavigateToCustomData(string financeType)
+    {
+        var (page, school) = await SetupNavigateInitPage(financeType);
+
+        var anchor = page.QuerySelector("#custom-data-link");
+        Assert.NotNull(anchor);
+
+        var newPage = await Client.Follow(anchor);
+
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCustomData(school.Urn).ToAbsolute());
+    }
+
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -71,7 +87,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
             .Navigate(Paths.SchoolComparison(urn));
 
         PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(urn).ToAbsolute(),
+            HttpStatusCode.InternalServerError);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
@@ -102,12 +119,13 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute()),
+            ("Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolComparison(school.Urn).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK", "Compare your costs");
+        DocumentAssert.TitleAndH1(page, "Compare your costs - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Compare your costs");
 
         var comparisonComponent = page.GetElementById("compare-your-costs");
         Assert.NotNull(comparisonComponent);
@@ -118,7 +136,8 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         var toolsLinks = toolsListSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(2, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
+            Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
         DocumentAssert.Link(toolsLinks[1], "Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute());
     }
 }

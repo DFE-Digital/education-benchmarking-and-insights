@@ -4,8 +4,9 @@ install:
 run-pipeline:
 	poetry run python -m src.pipeline.main
 
-run-pipeline-test-mode:
-	poetry run python -m src.pipeline.main test
+run-pipeline-dev-mode:
+	export ENV=dev;\
+    poetry run python -m src.pipeline.main
 
 build: 
 	docker build $(tags) --file docker/pipeline-worker/Dockerfile .
@@ -17,7 +18,11 @@ unit-test:
 	poetry run coverage xml
 
 e2e-test:
-	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/e2e;\
+	poetry run coverage run --rcfile ./pyproject.toml -m pytest -s --junitxml=tests/output/test-output.xml ./tests/e2e;\
+
+e2e-test-local:
+	export ENV=Local;\
+	poetry run coverage run --rcfile ./pyproject.toml -m pytest -s --junitxml=tests/output/test-output.xml ./tests/e2e;\
 
 lint:
 	poetry run black --config ./pyproject.toml src tests;\
