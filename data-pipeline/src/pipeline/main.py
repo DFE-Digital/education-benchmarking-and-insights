@@ -4,9 +4,7 @@ import os
 import sys
 import time
 from contextlib import suppress
-import warnings
 import pandas as pd
-import numpy as np
 import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from dotenv import load_dotenv
@@ -14,9 +12,6 @@ from dask.distributed import Client
 
 load_dotenv()
 
-from src.pipeline.config import (
-    rag_category_settings
-)
 from src.pipeline.rag import (
     compute_rag
 )
@@ -128,19 +123,15 @@ def pre_process_academy_ar(set_type, year) -> (pd.DataFrame, pd.DataFrame):
     academy_ar_data = get_blob(
         raw_container, f"{set_type}/{year}/academy_ar.xlsx"
     )
-    (trust_ar, academy_ar) = prepare_aar_data(academy_ar_data)
+    aar = prepare_aar_data(academy_ar_data)
+
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/trust_ar.parquet",
-        trust_ar.to_parquet(),
-    )
-    write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/academy_ar.parquet",
-        academy_ar.to_parquet(),
+        f"{set_type}/{year}/aar.parquet",
+        aar.to_parquet(),
     )
 
-    return trust_ar, academy_ar
+    return aar
 
 
 def pre_process_schools(set_type, year) -> pd.DataFrame:
@@ -163,14 +154,14 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
 
 def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Academy Set")
-    schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4 = data_ref
+    schools, census, sen, cdc, aar, ks2, ks4 = data_ref
 
     academies_data = get_blob(
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
 
     academies = build_academy_data(
-        academies_data, year, schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4
+        academies_data, year, schools, census, sen, cdc, aar, ks2, ks4
     )
 
     write_blob(
@@ -184,7 +175,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
 
 def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
-    schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4 = data_ref
+    schools, census, sen, cdc, aar, ks2, ks4 = data_ref
 
     maintained_schools_data = get_blob(
         raw_container,
@@ -247,7 +238,7 @@ def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
 
-    cdc, census, sen, ks2, ks4, ar, schools = worker_client.gather([
+    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather([
         worker_client.submit(pre_process_cdc, set_type, year),
         worker_client.submit(pre_process_census, set_type, year),
         worker_client.submit(pre_process_sen, set_type, year),
@@ -257,9 +248,7 @@ def pre_process_data(worker_client, set_type, year):
         worker_client.submit(pre_process_schools, set_type, year)
     ])
 
-    (academy_ar, trust_ar) = ar
-
-    data_ref = worker_client.scatter((schools, census, sen, cdc, academy_ar, trust_ar, ks2, ks4))
+    data_ref = worker_client.scatter((schools, census, sen, cdc, aar, ks2, ks4))
 
     academies, maintained_schools = worker_client.gather([
         worker_client.submit(pre_process_academies_data, set_type, year, data_ref),
@@ -347,7 +336,7 @@ def compute_rag_for(data_type, set_type, year, data, comparators):
     logger.info(f'Computing {data_type} RAG')
     df = pd.DataFrame(compute_rag(data, comparators))
 
-    logger.info(f'Computing {data_type} set. Done in {time.time() - st:.2f} seconds')
+    logger.info(f'Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds')
 
     write_blob(
         "metric-rag",
@@ -391,10 +380,10 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
             msg_payload["year"]
         )
 
-        msg_payload["rag_duration"] = run_compute_rag(
-            msg_payload["type"],
-            msg_payload["year"]
-        )
+        # msg_payload["rag_duration"] = run_compute_rag(
+        #     msg_payload["type"],
+        #     msg_payload["year"]
+        # )
 
         msg_payload["success"] = True
     except Exception as error:
@@ -450,7 +439,7 @@ async def receive_messages(worker_client):
 
 if __name__ == "__main__":
     with suppress(tornado.iostream.StreamClosedError):
-        with Client(n_workers=8, threads_per_worker=1, memory_limit='16GB', heartbeat_interval=None) as client:
+        with Client(memory_limit='16GB', heartbeat_interval=None) as client:
             try:
                 if os.getenv("ENV") == "dev":
                     receive_messages(client)

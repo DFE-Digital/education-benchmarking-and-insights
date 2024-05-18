@@ -97,7 +97,7 @@ def is_close_comparator(category_type, org_a, org_b):
     :param org_b: second organisation for comparison
     :return: whether organisations are close, as defined
     """
-    if category_type == "area":
+    if category_type == "Building":
         return is_area_close_comparator(org_a, org_b)
 
     return is_pupil_close_comparator(org_a, org_b)
@@ -106,30 +106,31 @@ def is_close_comparator(category_type, org_a, org_b):
 def get_category_series(category_name, data):
     category_cols = (
         data.columns.isin(base_cols)
-        | data.columns.isin(["is_close"])
         | data.columns.str.startswith(category_name)
     )
     df = data[data.columns[category_cols]]
-
-    sub_categories = df.columns[
-        df.columns.str.startswith(category_name)
-    ].values.tolist()
+    dt = df.dtypes
+    sub_categories = dt[dt.index.str.startswith(category_name)].index.values
 
     return df, sub_categories
 
 
-def category_stats(urn, category_name, data, ofsted_rating, rag_mapping):
-    close_count = data["is_close"][data["is_close"]].count()
+def find_percentile(d, value):
+    sorted_series = np.sort(d)
+    rank = np.searchsorted(sorted_series, value, side='right')
+    pc = rank / len(d) * 100
+    return pc - 1
+
+
+def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_count):
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
     series = data[category_name]
-    # TODO: The next 2 lines account for ~60% of the execution time of this method
-    percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
-    percentile = int(np.nan_to_num(percentiles.iloc[0]))
-    decile = int(percentile / 10)
-    value = float(np.nan_to_num(series.iloc[0]))
-    mean = float(np.nan_to_num(series.median()))
+    value = series.iat[0]
+    percentile = find_percentile(series, value)
+    decile = percentile / 10
+    mean = np.median(series)
     diff = value - mean
     diff_percent = (diff / value) * 100 if value != 0 else 0
     cats = category_name.split('_')
@@ -148,27 +149,47 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping):
     }
 
 
-def compute_category_rag(category_name, settings, target, comparator_set):
+def compute_category_rag(urn, category_name, settings, target, comparator_set, col_cache):
     ofsted = target["OfstedRating (name)"]
-    urn = target.name
 
-    comparator_set["is_close"] = comparator_set.apply(
-        lambda x: is_close_comparator(settings["type"], target, x), axis=1
-    )
+    close_count = sum(comparator_set.apply(
+        lambda x: 1 if is_close_comparator(settings["type"], target, x) else 0, axis=1
+    ))
 
-    series, sub_categories = get_category_series(category_name, comparator_set)
+    # series, sub_categories = get_category_series(category_name, comparator_set)
+    cols, sub_categories = col_cache[category_name]
+    series = comparator_set[comparator_set.columns[cols]]
 
     for sub_category in sub_categories:
-        yield category_stats(urn, sub_category, series, ofsted, settings)
+        yield category_stats(urn, sub_category, series, ofsted, settings, close_count)
+
+
+def get_category_cols_predicates(category_name, data):
+    category_cols = (
+        data.columns.isin(base_cols)
+        | data.columns.str.startswith(category_name)
+    )
+
+    df = data[data.columns[category_cols]]
+    dt = df.dtypes
+    sub_categories = dt[dt.index.str.startswith(category_name)].index.values
+
+    return category_cols, sub_categories
 
 
 def compute_rag(data, comparators):
     # TODO: This shouldn't be required
+    keys = rag_category_settings.keys()
+
+    # Pre-computes the column accessors for each cost category
+    column_cache = {}
+    for cat_name in keys:
+        column_cache[cat_name] = get_category_cols_predicates(cat_name, data)
+
     with warnings.catch_warnings():
         warnings.simplefilter("ignore", category=RuntimeWarning)
         with np.errstate(invalid="ignore"):
             indices = range(len(data))
-            keys = rag_category_settings.keys()
             st = time.time()
             for indx in indices:
                 target = data.iloc[indx]
@@ -180,7 +201,7 @@ def compute_rag(data, comparators):
                     set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
                     if set_urns is not None:
                         comparator_set = data[data.index.isin(set_urns)]
-                        for r in compute_category_rag(cat_name, rag_settings, target, comparator_set):
+                        for r in compute_category_rag(urn, cat_name, rag_settings, target, comparator_set, column_cache):
                             yield r
                     else:
                         logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}')
