@@ -395,6 +395,7 @@ aar_academies = {
     "Costs of Brought in Professional Services": "float",
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
+    "London Weighting":"string",
 }
 
 aar_aggregation_columns = [

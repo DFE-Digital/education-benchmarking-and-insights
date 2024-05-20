@@ -447,6 +447,8 @@ def build_academy_data(
     academies.rename(
         columns={
             "UKPRN_x": "UKPRN",
+            "LA (code)": "LA Code",
+            "LA (name)": "LA Name",
             "Number of Pupils": "Number of pupils",
             "Teaching staff": "Teaching and Teaching support staff_Teaching staff",
             "Supply teaching staff": "Teaching and Teaching support staff_Supply teaching staff",
@@ -547,6 +549,8 @@ def build_maintained_school_data(
 
     maintained_schools.rename(
         columns={
+            "LA (code)": "LA Code",
+            "LA (name)": "LA Name",
             "E22 Administrative supplies": "Administrative supplies_Administrative supplies (non educational)",
             "E06 Catering staff": "Catering staff and supplies_Catering staff",
             "E25  Catering supplies": "Catering staff and supplies_Catering supplies",
