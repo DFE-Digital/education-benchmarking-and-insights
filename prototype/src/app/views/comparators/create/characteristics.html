@@ -465,7 +465,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <fieldset class="govuk-fieldset">
                     <p class="govuk-body">With statements or education and health care (EHC) plans</p>
                 <div class="govuk-hint">
-                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils without EHC plans</span>
+                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils with EHC plans</span>
 
                 </div>
 
@@ -497,13 +497,13 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-MinBuildYear" type="checkbox" aria-controls="pc19" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinBuildYear">Building construction year <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinBuildYear">Average building age <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc19">
                     <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                     <div class="govuk-hint">
-                                <span>{{ data['school-name'] }} was built in <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1964</span></span>
+                                <span>{{ data['school-name'] }}'s average building age is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">60</span> years</span>
 
                     </div>
 
@@ -516,7 +516,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     </div>
                     <div class="govuk-grid-column-one-quarter">
                         <label class="govuk-label" for="MaxBuildYear">To</label>
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxBuildYear" id="MaxBuildYear" class="govuk-input form-control criteria-input max-js govuk-input--width-4" min="0" max="100" >
+                        <div style="width: 250px">
+                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxBuildYear" id="MaxBuildYear" class="govuk-input form-control criteria-input max-js govuk-input--width-4" style="display: inline-block" min="0" max="100" >
+                            <p class="govuk-body" style="display: inline-block; margin-left: 10px">years</p>
+                        </div>
                     </div>
                     </fieldset>
                     </div>
@@ -529,7 +532,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-MinSize" type="checkbox" aria-controls="pc20" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSize">Building size <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSize">Gross internal floor area <!--<span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1964</span>--></label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc20">
                     <div class="govuk-form-group">
@@ -548,10 +551,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     </div>
                     <div class="govuk-grid-column-one-third">
                         <label class="govuk-label" for="MaxSize">To</label>
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" min="0" max="100" >
-                    </div>
-                    <div class="govuk-grid-column-one-third" style="margin-top: 37px; margin-bottom: 0s;">
-                        <p class="govuk-body">square metres</p>
+                        <div style="width: 300px">
+                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" style="display: inline-block; width: 160px" min="0" max="100" >
+                            <p class="govuk-body" style="display: inline-block; margin-left: 10px">square metres</p>
+                        </div>
                     </div>
                     </fieldset>
                     </div>

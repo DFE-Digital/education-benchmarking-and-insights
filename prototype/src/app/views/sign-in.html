@@ -61,7 +61,7 @@
         <div class="govuk-button-group">
             {{ govukButton({
                 text: "Sign in",
-                href: data['goTo'] + '?signedIn=true'
+                href: data['goTo'] + '?signedIn=true#' + data['hash']
             }) }}
 
             {{ govukButton({

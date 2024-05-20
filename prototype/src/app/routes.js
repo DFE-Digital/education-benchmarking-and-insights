@@ -80,7 +80,15 @@ router.get( '/comparators/view', (req, res) => {
 
         for ( i=0; i<buildingComparators.length; i++) {
             var nameHtml = "<a href=\"/comparators/view-school?comparatorType=building&comparatorId=" + [i] +"\" class=\"govuk-link\">" + buildingComparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + buildingComparators[i].comparatorLocation + ", " + buildingComparators[i].comparatorPostcode + "</span>";
-            buildingRows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': buildingComparators[i].comparatorPupils.toLocaleString()}, {'text': buildingComparators[i].comparatorGifa.toLocaleString() + ' sqm'}, {'text': buildingComparators[i].comparatorAge + ' years'} ] );
+            var buildingRow = [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': buildingComparators[i].comparatorPupils.toLocaleString()} ];
+
+            if ( req.session.data['signedIn'] == 'true' ) {
+                buildingRow.push( {'text': buildingComparators[i].comparatorGifa.toLocaleString() + ' sqm'}, {'text': buildingComparators[i].comparatorAge + ' years'} );
+            } else if ( i == 0 ) {
+                buildingRow.push( { 'html': "<a href=\"/sign-in?goTo=/comparators/view&hash=\&building\">Sign in</a> to see", colspan: 2, rowspan: buildingComparators.length, attributes: { style: "text-align: center; vertical-align: top;" } } );
+            }
+
+            buildingRows.push( buildingRow );
         }
     }
 
@@ -393,12 +401,12 @@ function getSchoolList() {
 
 function getTrustList() {
 
-    var objTrustsFile = require('../app/data/trusts.json');
+    var objTrustsFile = require('../app/data/trusts2.json');
     var objTrusts = objTrustsFile.trusts;
     var trusts = [];
 
     for (i=0; i<objTrusts.length; i++ ) {
-        trusts.push({'text':  objTrusts[i].trustName  });
+        trusts.push({'text':  objTrusts[i].trustName + " (" + objTrusts[i].trustNumber + ")" });
     }
 
     return trusts;
