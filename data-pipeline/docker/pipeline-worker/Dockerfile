@@ -3,7 +3,7 @@
 # See https://docs.docker.com/develop/develop-images/multistage-build/
 
 # Creating a python base with shared environment variables
-FROM python:3.12 as python-base
+FROM python:3.12-slim as python-base
 ENV PYTHONUNBUFFERED=1 \
     PYTHONDONTWRITEBYTECODE=1 \
     PIP_NO_CACHE_DIR=off \
@@ -23,11 +23,12 @@ FROM python-base as builder-base
 RUN apt-get update \
     && apt-get install --no-install-recommends -y \
         curl \
-        build-essential
+        build-essential \
+        libatlas-base-dev
 
 # Install Poetry - respects $POETRY_VERSION & $POETRY_HOME
 ENV POETRY_VERSION=1.8.2
-RUN curl -sSL curl -sSL https://install.python-poetry.org | python
+RUN curl -sSL https://install.python-poetry.org | python
 
 # We copy our Python requirements here to cache them
 # and install only runtime deps using poetry

@@ -8,7 +8,7 @@ The data processing pipeline has the following key stages:
 
 ## Pre-processing
 
-//TODO: Add pre-processing logic
+
 
 ## Comparator set computation
 
