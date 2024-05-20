@@ -166,6 +166,10 @@ $$ \sqrt{0.8\left(\dfrac{\Delta GIFA}{range(GIFA)}\right)^2 + 0.2\left(\dfrac{\D
 
 ### Future calculations
 
+There are currently further discussions taking place about Trust to Trust calculations and potentially begin able to create a single pupil calculation for both special and non-special schools, with the special term going to 0 for the latter. This opens up the potential to allow more general comparisions to happen.
+
+We could also look to extend this further to include Region, PFI and Boarding elements so that these no longer have to be special cased.
+
 > Note: **Not to be used at the minute for discussion only**
 
 **Trust Calculation**
@@ -175,8 +179,6 @@ $$\begin{aligned}
 \end{aligned}$$
 
 **Unified pupil calc**
-
-$$  $$
 
 $$\begin{aligned}
 sen &= \left(\dfrac{\Delta SPLD\%}{range(SPLD\%)}\right)^2 + \left(\dfrac{\Delta MLD\%}{range(MLD\%)}\right)^2 + \left(\dfrac{\Delta SLD\%}{range(SLD\%)}\right)^2
@@ -190,17 +192,49 @@ sen &= \left(\dfrac{\Delta SPLD\%}{range(SPLD\%)}\right)^2 + \left(\dfrac{\Delta
 pupils &= \sqrt{0.33\left(\dfrac{\Delta Pupils}{range(pupils)}\right)^2 + 0.33\left(\dfrac{\Delta FSM\%}{range(FSM\%)}\right)+ 0.33sen}
 \end{aligned}$$
 
-
-Storage
-
-| Partition   | RowKey | Data.... |
-|-------------|--------|----------|
-| Default-2022|{URN 345672} | [123112, 1212331] |
-| Default-2022|Mixed-{URN 345671} | [123112, 1212331] |
-| Default-2022|{URN 111111} | [123112, 1212331] |
-| Default-2022|Mixed-{URN 111111} | [123112, 1212331] |
-
 ## RAG Calculation
-//TODO: RAG calculation
+
+Once the comparator set has been computed, we can move on to calculate the RAG and metrics for a target school in the comparator set.
+
+A RAG calculation maps the school spend in a given [cost category](https://educationgovuk.sharepoint.com.mcas.ms/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7B622FB0F9-7CB1-445A-8FFA-664F8857F036%7D&file=Benchmarking%20cost%20categories%20and%20sub-categories.docx&action=default&mobileredirect=true&DefaultItemOpen=1) to a Red/Amber/Green status based on which decile that schools spend sits within, for that cost category. A further breakdown of the RAG requirements can be found in the [RAG Rating and methodology document](https://educationgovuk.sharepoint.com.mcas.ms/:w:/r/sites/DfEFinancialBenchmarking/_layouts/15/Doc.aspx?sourcedoc=%7BF41024D4-0C39-4337-BCBC-73E33118CA28%7D&file=RAG%20Rating%20methodology.docx&action=default&mobileredirect=true&DefaultItemOpen=1%3Fweb%3D1)
+
+A RAG record consists of the following attributes: 
+
+| Attribute | Description | 
+|:----------|:------------|
+| URN | The unique identifier attached to a school/establishment |
+| Category | The top level cost category |
+| Sub-Category | The child level cost category |
+| Value | The `per-unit` value of the total spend for that school. The per-unit spend depends on the type of cost category. If the cost category has a pupil basis then the cost is divided by the `Number of Pupils`. If it is a building basis then it is divided by the `Total Internal Floor Area` |
+| Mean | *Note: actually the median* value of the costs within the comparator set |
+| Diff Mean | The difference in the current cost for the target school versus the *Mean* |
+| Percentage Diff | The percentage differents between the *mean* spend for schools in the comparator set and the current school |
+| Percentile | The percentile that the current spend for the cost category sits within in the current comparator set |
+| Decile | The decile that the current spend for the cost category sits within in the current comparator set | 
+| RAG | The RAG rating given by the school based off the current comparator set. |
+
+### Mapping RAG status
+
+The mapping of the decile to RAG statuses depends on whether the target school has a set of *close comparators* or not. A close comparator is a comparator school that fits with in the following criteria: 
+
+**Pupil Based RAG**
+
+* **Number of Pupils** within 25%
+* **Percentage Free School Meals** within 5%
+* **Percentage SEN** within 10%
+
+**Building Based RAG**
+
+* **Total Internal Floor Area** within 10%
+* **Age Average Score** within 20%
+
+If there are more than 10 close comparators then a distinct RAG mapping is used `{OfstedRating}_10`, otherwise we use the Ofsted rating to choose the RAG mapping that is required. 
+
+The currently configured mappings can be found [here](https://github.com/DFE-Digital/education-benchmarking-and-insights/blob/188b00c31ca9041d78b63152cc0d96af9f287b09/data-pipeline/src/pipeline/config.py#L128)
+
+
+## Storing the calculations
+
+
 
 

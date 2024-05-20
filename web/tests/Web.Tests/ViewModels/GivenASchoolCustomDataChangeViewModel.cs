@@ -7,15 +7,15 @@ namespace Web.Tests.ViewModels;
 
 public class GivenASchoolCustomDataChangeViewModel
 {
-    private readonly Fixture _fixture = new();
-    private readonly School _school;
-    private readonly Finances _finances;
-    private readonly Income _income;
-    private readonly SchoolExpenditure _expenditure;
     private readonly Census _census;
-    private readonly FloorAreaMetric _floorArea;
     private readonly CustomData _currentValues;
     private readonly CustomData _customInput;
+    private readonly SchoolExpenditure _expenditure;
+    private readonly Finances _finances;
+    private readonly Fixture _fixture = new();
+    private readonly FloorAreaMetric _floorArea;
+    private readonly Income _income;
+    private readonly School _school;
     private readonly SchoolCustomDataChangeViewModel _sut;
 
     public GivenASchoolCustomDataChangeViewModel()
@@ -99,7 +99,7 @@ public class GivenASchoolCustomDataChangeViewModel
         Assert.Equal(_finances.RevenueReserve, _sut.CurrentValues.RevenueReserve);
 
         // Non-financial data
-        Assert.Equal(_finances.TotalNumberOfTeachersFte, _sut.CurrentValues.TotalNumberOfTeachersFte);
+        Assert.Equal(_census.NumberOfPupils, _sut.CurrentValues.NumberOfPupilsFte);
         Assert.Equal(_finances.FreeSchoolMealPercent, _sut.CurrentValues.FreeSchoolMealPercent);
         Assert.Equal(_finances.SpecialEducationalNeedsPercent, _sut.CurrentValues.SpecialEducationalNeedsPercent);
         Assert.Equal(_floorArea.FloorArea, _sut.CurrentValues.FloorArea);
@@ -171,7 +171,7 @@ public class GivenASchoolCustomDataChangeViewModel
         Assert.Equal(_customInput.RevenueReserve, _sut.CustomInput.RevenueReserve);
 
         // Non-financial data
-        Assert.Equal(_customInput.TotalNumberOfTeachersFte, _sut.CustomInput.TotalNumberOfTeachersFte);
+        Assert.Equal(_customInput.NumberOfPupilsFte, _sut.CustomInput.NumberOfPupilsFte);
         Assert.Equal(_customInput.FreeSchoolMealPercent, _sut.CustomInput.FreeSchoolMealPercent);
         Assert.Equal(_customInput.SpecialEducationalNeedsPercent, _sut.CustomInput.SpecialEducationalNeedsPercent);
         Assert.Equal(_customInput.FloorArea, _sut.CustomInput.FloorArea);

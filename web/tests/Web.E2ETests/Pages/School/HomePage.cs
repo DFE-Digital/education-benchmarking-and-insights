@@ -1,6 +1,4 @@
 ﻿using Microsoft.Playwright;
-using Web.E2ETests.Steps.School;
-using Xunit;
 
 namespace Web.E2ETests.Pages.School;
 
@@ -28,7 +26,7 @@ public class HomePage(IPage page)
     {
         await PageH1Heading.ShouldBeVisible();
         await Breadcrumbs.ShouldBeVisible();
-        await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation");
+        await ChangeSchoolLink.ShouldBeVisible().ShouldHaveAttribute("href", "/find-organisation?method=school");
         var expectedH2Texts = new[] { "Spending and costs", "Finance tools", "Resources", "Get help", "Support links" };
         for (var i = 0; i < await PageH2Headings.CountAsync(); i++)
         {

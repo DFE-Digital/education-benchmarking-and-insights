@@ -1,0 +1,206 @@
+﻿using System.Net;
+using AngleSharp.Dom;
+using AngleSharp.Html.Dom;
+using AutoFixture;
+using Web.App.Domain;
+using Xunit;
+
+namespace Web.Integration.Tests.Pages.LocalAuthorities;
+
+public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+{
+    [Theory]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough)]
+    [InlineData(OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.AllThrough, OverallPhaseTypes.Nursery)]
+    [InlineData(OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit)]
+    [InlineData([])]
+    public async Task CanDisplay(params string[] phaseTypes)
+    {
+        var (page, authority, schools) = await SetupNavigateInitPage(phaseTypes);
+
+        AssertPageLayout(page, authority, schools);
+    }
+
+    [Fact]
+    public async Task CanNavigateToChangeAuthority()
+    {
+        var (page, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change local authority");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, $"{Paths.FindOrganisation.ToAbsolute()}?method=local-authority");
+    }
+
+    [Fact]
+    public async Task CanNavigateToResources()
+    {
+        var (page, authority, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Find ways to spend less");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(authority.Code).ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanNavigateToServiceHelp()
+    {
+        var (page, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Help with this service");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.ServiceHelp.ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanNavigateToAskForHelp()
+    {
+        var (page, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Ask for help from a school resource management advisor (SRMA)");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.AskForHelp.ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanNavigateToSubmitAnEnquiry()
+    {
+        var (page, _, _) = await SetupNavigateInitPage();
+
+        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Submit an enquiry");
+        Assert.NotNull(anchor);
+
+        page = await Client.Follow(anchor);
+        DocumentAssert.AssertPageUrl(page, Paths.SubmitEnquiry.ToAbsolute());
+    }
+
+    [Fact]
+    public async Task CanDisplayNotFound()
+    {
+        const string code = "123";
+        var page = await Client.SetupEstablishmentWithNotFound()
+            .Navigate(Paths.LocalAuthorityHome(code));
+
+        PageAssert.IsNotFoundPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.NotFound);
+    }
+
+    [Fact]
+    public async Task CanDisplayProblemWithService()
+    {
+        const string code = "123";
+        var page = await Client.SetupEstablishmentWithException()
+            .Navigate(Paths.LocalAuthorityHome(code));
+
+        PageAssert.IsProblemPage(page);
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(code).ToAbsolute(), HttpStatusCode.InternalServerError);
+    }
+
+    private async Task<(IHtmlDocument page, LocalAuthority authority, School[] schools)> SetupNavigateInitPage(params string[] phaseTypes)
+    {
+        var authority = Fixture.Build<LocalAuthority>()
+            .Create();
+
+        Assert.NotNull(authority.Name);
+        var schools = phaseTypes.SelectMany(phaseType => GenerateSchools(authority.Name, phaseType)).ToArray();
+
+        var page = await Client.SetupEstablishment(authority, schools)
+            .SetupInsights()
+            .Navigate(Paths.LocalAuthorityHome(authority.Code));
+
+        return (page, authority, schools);
+    }
+
+    private School[] GenerateSchools(string localAuthorityName, string phaseType)
+    {
+        return Fixture.Build<School>()
+            .With(x => x.LocalAuthorityName, localAuthorityName)
+            .With(x => x.OverallPhase, phaseType)
+            .CreateMany(10)
+            .ToArray();
+    }
+
+    private static void AssertPageLayout(IHtmlDocument page, LocalAuthority authority, School[] schools)
+    {
+        DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityHome(authority.Code).ToAbsolute());
+
+        var expectedBreadcrumbs = new[]
+        {
+            ("Home", Paths.ServiceHome.ToAbsolute()),
+            ("Your local authority", Paths.LocalAuthorityHome(authority.Code).ToAbsolute())
+        };
+        DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
+
+        Assert.NotNull(authority.Name);
+        DocumentAssert.TitleAndH1(page, "Your local authority - Financial Benchmarking and Insights Tool - GOV.UK", authority.Name);
+
+        var primarySchoolsHeading = page.GetElementById("accordion-schools-heading-1");
+        Assert.NotNull(primarySchoolsHeading);
+        Assert.Contains("Primary schools", primarySchoolsHeading.TextContent);
+
+        var primarySchoolsContent = page.GetElementById("accordion-schools-content-1");
+        Assert.NotNull(primarySchoolsContent);
+        AssertAccordionContent(primarySchoolsContent, authority, schools, OverallPhaseTypes.Primary);
+
+        var secondarySchoolsHeading = page.GetElementById("accordion-schools-heading-2");
+        Assert.NotNull(secondarySchoolsHeading);
+        Assert.Contains("Secondary schools", secondarySchoolsHeading.TextContent);
+
+        var secondarySchoolsContent = page.GetElementById("accordion-schools-content-2");
+        Assert.NotNull(secondarySchoolsContent);
+        AssertAccordionContent(secondarySchoolsContent, authority, schools, OverallPhaseTypes.Secondary);
+
+        var specialOrPruSchoolsHeading = page.GetElementById("accordion-schools-heading-3");
+        Assert.NotNull(specialOrPruSchoolsHeading);
+        Assert.Contains("Specials and Pupil Referrals units (PRUs)", specialOrPruSchoolsHeading.TextContent);
+
+        var specialOrPruSchoolsContent = page.GetElementById("accordion-schools-content-3");
+        Assert.NotNull(specialOrPruSchoolsContent);
+        AssertAccordionContent(specialOrPruSchoolsContent, authority, schools, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit);
+
+        var otherSchoolsHeading = page.GetElementById("accordion-schools-heading-4");
+        Assert.NotNull(otherSchoolsHeading);
+        Assert.Contains("Other schools", otherSchoolsHeading.TextContent);
+
+        var otherSchoolsContent = page.GetElementById("accordion-schools-content-4");
+        Assert.NotNull(otherSchoolsContent);
+        AssertAccordionContent(otherSchoolsContent, authority, schools, OverallPhaseTypes.Nursery, OverallPhaseTypes.AllThrough);
+    }
+
+    private static void AssertAccordionContent(IElement element, LocalAuthority authority, School[] schools, params string[] expectedPhaseTypes)
+    {
+        var expectedSchools = schools.Where(x => expectedPhaseTypes.Contains(x.OverallPhase));
+        if (expectedSchools.Any())
+        {
+            var schoolList = element.QuerySelector(".govuk-list");
+            Assert.NotNull(schoolList);
+            Assert.Equal(expectedSchools.Count(), schoolList.Children.Length);
+
+            foreach (var schoolElement in schoolList.Children)
+            {
+                var schoolName = schoolElement.QuerySelector("a")?.TextContent;
+                var school = schools.FirstOrDefault(s => s.Name == schoolName);
+                Assert.NotNull(school);
+                Assert.Equal(authority.Name, school.LocalAuthorityName);
+                Assert.Contains(school.OverallPhase, expectedPhaseTypes);
+            }
+        }
+        else
+        {
+            Assert.Contains("There are no schools to display of this type in this local authority", element.TextContent);
+        }
+    }
+}

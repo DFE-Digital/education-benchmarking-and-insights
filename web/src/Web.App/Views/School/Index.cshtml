@@ -10,7 +10,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change school</a>
+            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School})" class="govuk-link govuk-link--no-visited-state">Change school</a>
         </p>
     </div>
 </div>

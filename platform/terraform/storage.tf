@@ -1,8 +1,7 @@
 resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
@@ -23,6 +22,16 @@ resource "azurerm_storage_account" "platform-storage" {
     }
   }
 
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
+  }
+
   sas_policy {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
@@ -31,9 +40,8 @@ resource "azurerm_storage_account" "platform-storage" {
 
 resource "azurerm_storage_account" "audit-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}audit"
   location                        = azurerm_resource_group.resource-group.location
@@ -50,9 +58,15 @@ resource "azurerm_storage_account" "audit-storage" {
       days = 7
     }
   }
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
   }
 
   network_rules {
@@ -65,9 +79,8 @@ resource "azurerm_storage_account" "audit-storage" {
 
 resource "azurerm_storage_account" "threat-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}threat"
   location                        = azurerm_resource_group.resource-group.location
@@ -85,9 +98,14 @@ resource "azurerm_storage_account" "threat-storage" {
     }
   }
 
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
   }
 
   network_rules {
@@ -107,9 +125,8 @@ resource "azurerm_role_assignment" "sp-vulnerability-storage-role-blob" {
 
 resource "azurerm_storage_account" "vulnerability-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
   name                            = "${var.environment-prefix}vulnerability"
   location                        = azurerm_resource_group.resource-group.location
@@ -127,9 +144,14 @@ resource "azurerm_storage_account" "vulnerability-storage" {
     }
   }
 
-  sas_policy {
-    expiration_action = "Log"
-    expiration_period = "90.00:00:00"
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
+    }
   }
 }
 
@@ -142,9 +164,8 @@ resource "azurerm_storage_container" "vulnerability-container" {
 
 resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
-  #checkov:skip=CKV_AZURE_33:See ADO backlog AB#206389
-  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
@@ -162,6 +183,16 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   blob_properties {
     delete_retention_policy {
       days = 7
+    }
+  }
+
+  queue_properties {
+    logging {
+      delete                = true
+      read                  = true
+      write                 = true
+      version               = "1.0"
+      retention_policy_days = 10
     }
   }
 

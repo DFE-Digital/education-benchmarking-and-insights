@@ -19,3 +19,20 @@ Add a file watcher to automatically format code changes:
 
 ![Rider file watcher](./images/rider-dotnet-format-watcher.png)
 
+## Unit Test Output
+
+xUnit does not always output to the expected window in Rider. When `IMessageSink` is used, output is sent to the Launch Log, which is accessible from:
+
+> Unit Tests Window > Session Options > Diagnostics > Show Last Launch Log
+
+![Rider Launch Log](./images/rider-launch-log.png)
+
+To ensure Rider writes to this log, the following setting should also be configured:
+
+> Menu > File > Settings > Build, Execution, Deployment > Unit Testing > Test Runner > Diagnostics
+>
+> - Capture Output: `true`
+> - Logging Level: `Verbose`
+
+![Rider Test Runner config](./images/rider-test-runner-diagnostics.png)
+

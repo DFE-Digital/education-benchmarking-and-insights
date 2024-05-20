@@ -300,8 +300,72 @@ public class SchoolCustomDataChangeViewModel(
             Name = nameof(SchoolCustomDataViewModel.RevenueReserve),
             Current = CurrentValues.RevenueReserve,
             Custom = CustomInput.RevenueReserve,
-            ReadOnly = true
+            Hidden = true
         });
+
+    public SchoolCustomDataSectionViewModel NonFinancialDataSection => new(
+        "Non-financial figures",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.NumberOfPupilsFte,
+            Name = nameof(SchoolCustomDataViewModel.NumberOfPupilsFte),
+            Current = CurrentValues.NumberOfPupilsFte,
+            Custom = CustomInput.NumberOfPupilsFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FreeSchoolMealPercent,
+            Name = nameof(SchoolCustomDataViewModel.FreeSchoolMealPercent),
+            Current = CurrentValues.FreeSchoolMealPercent,
+            Custom = CustomInput.FreeSchoolMealPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SpecialEducationalNeedsPercent,
+            Name = nameof(SchoolCustomDataViewModel.SpecialEducationalNeedsPercent),
+            Current = CurrentValues.SpecialEducationalNeedsPercent,
+            Custom = CustomInput.SpecialEducationalNeedsPercent,
+            Units = SchoolCustomDataValueUnits.Percentage
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.FloorArea,
+            Name = nameof(SchoolCustomDataViewModel.FloorArea),
+            Current = CurrentValues.FloorArea,
+            Custom = CustomInput.FloorArea,
+            Units = SchoolCustomDataValueUnits.Area
+        }
+    );
+
+    public SchoolCustomDataSectionViewModel WorkforceDataSection => new(
+        "Workforce figures",
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.WorkforceFte,
+            Name = nameof(SchoolCustomDataViewModel.WorkforceFte),
+            Current = CurrentValues.WorkforceFte,
+            Custom = CustomInput.WorkforceFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.TeachersFte,
+            Name = nameof(SchoolCustomDataViewModel.TeachersFte),
+            Current = CurrentValues.TeachersFte,
+            Custom = CustomInput.TeachersFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        },
+        new SchoolCustomDataValueViewModel
+        {
+            Title = SchoolCustomDataViewModelTitles.SeniorLeadershipFte,
+            Name = nameof(SchoolCustomDataViewModel.SeniorLeadershipFte),
+            Current = CurrentValues.SeniorLeadershipFte,
+            Custom = CustomInput.SeniorLeadershipFte,
+            Units = SchoolCustomDataValueUnits.Actual
+        }
+    );
 }
 
 public record SchoolCustomDataSectionViewModel
@@ -323,4 +387,14 @@ public record SchoolCustomDataValueViewModel
     public decimal? Current { get; init; }
     public decimal? Custom { get; init; }
     public bool ReadOnly { get; init; }
+    public bool Hidden { get; init; }
+    public SchoolCustomDataValueUnits Units { get; init; } = SchoolCustomDataValueUnits.Currency;
+}
+
+public enum SchoolCustomDataValueUnits
+{
+    Actual,
+    Area,
+    Currency,
+    Percentage
 }

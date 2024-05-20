@@ -10,6 +10,8 @@ resource "azurerm_container_app_environment" "main" {
     minimum_count         = 0
     maximum_count         = 10
   }
+
+  tags = local.common-tags
 }
 
 # resource "azurerm_user_assigned_identity" "container-app" {
@@ -98,4 +100,6 @@ resource "azurerm_container_app" "data-pipeline" {
       }
     }
   }
+
+  tags = local.common-tags
 }

@@ -326,15 +326,14 @@
   background: lightgray;
 }
 
-.view-as-toggle {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: flex-end;
+.chart-options {
+  display: grid;
+  grid-template-columns: 75% 25%;
   width: 100%;
 }
 
 @media (max-width: 640px) {
-  .view-as-toggle {
+  .chart-options {
     width: 100%;
     display: block;
   }

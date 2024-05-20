@@ -1,10 +1,17 @@
 import datetime
+
+import numpy as np
+
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
+import src.pipeline.config as config
 import pandas as pd
 
+from warnings import simplefilter
+simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
-def prepare_cdc_data(cdc_file_path, current_year) -> dict:
+
+def prepare_cdc_data(cdc_file_path, current_year):
     cdc = pd.read_csv(
         cdc_file_path,
         encoding="utf8",
@@ -51,12 +58,9 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         lsuffix="_workforce",
     )
 
-    census.drop(
-        labels=["full time pupils", "headcount of pupils"], axis=1, inplace=True
-    )
-
     census.rename(
         columns={
+            # TODO: Are the top to mappings here seem to be named badly
             "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "FullTimeOther",
             "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "FullTimeOtherHeadCount",
             "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
@@ -76,39 +80,32 @@ def prepare_sen_data(sen_path):
         dtype=input_schemas.sen,
         usecols=input_schemas.sen.keys(),
     )
-    sen["Percentage SEN"] = (sen["EHC plan"] / sen["Total pupils"]) * 100.0
-    sen["Primary Need SPLD"] = (
-        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
-    )
+    sen["Percentage SEN"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Primary Need SPLD"] = sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
-    sen["Primary Need PMLD"] = (
-        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
-    )
-    sen["Primary Need SEMH"] = (
-        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
-    )
-    sen["Primary Need SLCN"] = (
-        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
-    )
+    sen["Primary Need PMLD"] = sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+    sen["Primary Need SEMH"] = sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+    sen["Primary Need SLCN"] = sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
     sen["Primary Need MSI"] = sen["EHC_Primary_need_msi"] + sen["SUP_Primary_need_msi"]
     sen["Primary Need PD"] = sen["EHC_Primary_need_pd"] + sen["SUP_Primary_need_pd"]
     sen["Primary Need ASD"] = sen["EHC_Primary_need_asd"] + sen["SUP_Primary_need_asd"]
     sen["Primary Need OTH"] = sen["EHC_Primary_need_oth"] + sen["SUP_Primary_need_oth"]
-    sen.rename(
-        columns={
-            "prov_slcn": "Prov_SLCN",
-            "prov_hi": "Prov_HI",
-            "prov_vi": "Prov_VI",
-            "prov_msi": "Prov_MSI",
-            "prov_pd": "Prov_PD",
-            "prov_asd": "Prov_ASD",
-            "prov_oth": "Prov_OTH",
-        },
-        inplace=True,
-    )
+
+    sen["Percentage Primary Need SPLD"] = ((sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need MLD"] = ((sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SLD"] = ((sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need PMLD"] = ((sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SEMH"] = ((sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SLCN"] = ((sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need HI"] = ((sen["Primary Need HI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need VI"] = ((sen["Primary Need VI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need MSI"] = ((sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need PD"] = ((sen["Primary Need PD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need ASD"] = ((sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need OTH"] = ((sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0).fillna(0)
 
     return sen[
         [
@@ -127,18 +124,18 @@ def prepare_sen_data(sen_path):
             "Primary Need PD",
             "Primary Need ASD",
             "Primary Need OTH",
-            "Prov_SPLD",
-            "Prov_MLD",
-            "Prov_SLD",
-            "Prov_PMLD",
-            "Prov_SEMH",
-            "Prov_SLCN",
-            "Prov_HI",
-            "Prov_VI",
-            "Prov_MSI",
-            "Prov_PD",
-            "Prov_ASD",
-            "Prov_OTH",
+            "Percentage Primary Need SPLD",
+            "Percentage Primary Need MLD",
+            "Percentage Primary Need SLD",
+            "Percentage Primary Need PMLD",
+            "Percentage Primary Need SEMH",
+            "Percentage Primary Need SLCN",
+            "Percentage Primary Need HI",
+            "Percentage Primary Need VI",
+            "Percentage Primary Need MSI",
+            "Percentage Primary Need PD",
+            "Percentage Primary Need ASD",
+            "Percentage Primary Need OTH"
         ]
     ]
 
@@ -155,9 +152,9 @@ def prepare_ks2_data(ks2_path):
     ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
 
     ks2["Ks2Progress"] = (
-        ks2["READPROG"].astype(float)
-        + ks2["MATPROG"].astype(float)
-        + ks2["WRITPROG"].astype(float)
+            ks2["READPROG"].astype(float)
+            + ks2["MATPROG"].astype(float)
+            + ks2["WRITPROG"].astype(float)
     )
 
     return ks2[["Ks2Progress"]].dropna()
@@ -183,6 +180,24 @@ def prepare_ks4_data(ks4_path):
     return ks4[["AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna()
 
 
+def build_cost_series(category_name, df, basis):
+    basis_data = df[
+        "Number of pupils" if basis == "Pupil" else "Total Internal Floor Area"
+    ]
+
+    # Create total column
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(axis=1)
+
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
+
+    return df
+
+
 def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path,
@@ -200,100 +215,55 @@ def prepare_aar_data(aar_path):
 
     aar.rename(
         columns={
-            "Academy UPIN": "academyupin",
-            "In year balance": "Academy Balance",
-            "PFI": "PFI School",
-            "Lead UPIN": "trustupin",
-        },
+                    "In year balance": "Academy Balance",
+                    "PFI": "PFI School",
+                    "Lead UPIN": "Trust UPIN",
+                } | config.cost_category_map["academies"],
         inplace=True,
-    )
-
-    academies_financial = aar[
-        aar["MAT SAT or Central Services"] == "Single Academy Trust (SAT)"
-    ].copy()
-
-    academy_financial_position = academies_financial[["academyupin", "Academy Balance"]]
-
-    academy_agg = (
-        academies_financial[input_schemas.aar_aggregation_columns]
-        .groupby("academyupin")
-        .sum()
-    )
-
-    academy_agg = academy_agg.drop(columns=["trustupin"])
-
-    trust_financial = aar[
-        aar["MAT SAT or Central Services"] == "Multi Academy Trust (MAT)"
-    ].copy()
-
-    trust_financial_position = (
-        trust_financial[["trustupin", "Academy Balance"]]
-        .groupby("trustupin")
-        .sum()
-        .rename(columns={"Academy Balance": "Trust Balance"})
     )
 
     central_services_financial.rename(
         columns={
-            "In Year Balance": "Central Services Balance",
-            "Lead UPIN": "trustupin",
-        },
+                    "In Year Balance": "Central Services Balance",
+                    "Lead UPIN": "Trust UPIN",
+                },
         inplace=True,
     )
 
-    central_services_financial_position = (
-        central_services_financial[["trustupin", "Central Services Balance"]]
-        .groupby("trustupin")
+    trust_income = (
+        aar[["Trust UPIN", *config.income_category_map["academies"]]]
+        .groupby("Trust UPIN")
+        .sum()
+        .add_prefix("Trust_")
+    )
+
+    trust_balance = (
+        aar[["Trust UPIN", "Academy Balance"]]
+        .groupby("Trust UPIN")
+        .sum()
+        .rename(columns={"Academy Balance": "Trust Balance"})
+    )
+
+    central_services_balance = (
+        central_services_financial[["Trust UPIN", "Central Services Balance"]]
+        .groupby("Trust UPIN")
         .sum()
     )
 
-    aar = aar.drop(columns=["Academy Balance"])
-
-    ar = (
-        aar.merge(academy_financial_position, on="academyupin", how="left")
-        .merge(trust_financial_position, on="trustupin", how="left")
-        .merge(central_services_financial_position, on="trustupin", how="left")
+    aar = (
+        aar
+        .merge(trust_balance, on="Trust UPIN", how="left")
+        .merge(trust_income, on="Trust UPIN", how="left")
+        .merge(central_services_balance, on="Trust UPIN", how="left")
     )
 
-    trust_ar = (
-        trust_financial[input_schemas.aar_aggregation_columns]
-        .groupby("trustupin")
-        .sum()
-    )
+    aar["Central Services Financial Position"] = aar["Central Services Balance"].map(mappings.map_is_surplus_deficit)
+    aar["Academy Financial Position"] = aar["Academy Balance"].map(mappings.map_is_surplus_deficit)
+    aar["Trust Financial Position"] = aar["Trust Balance"].map(mappings.map_is_surplus_deficit)
 
-    trust_ar = trust_ar.drop(columns=["academyupin"])
+    aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
-    academy_ar = (
-        ar.reset_index()
-        .drop_duplicates(subset=["academyupin"], ignore_index=True)[
-            [
-                "academyupin",
-                "Academy Balance",
-                "Trust Balance",
-                "Central Services Balance",
-                "PFI School",
-            ]
-        ]
-        .set_index("academyupin")
-    )
-
-    academy_ar["Central Services Financial Position"] = academy_ar[
-        "Central Services Balance"
-    ].map(mappings.map_is_surplus_deficit)
-
-    academy_ar["Academy Financial Position"] = academy_ar["Academy Balance"].map(
-        mappings.map_is_surplus_deficit
-    )
-
-    academy_ar["Trust Financial Position"] = academy_ar["Trust Balance"].map(
-        mappings.map_is_surplus_deficit
-    )
-
-    academy_ar["PFI School"] = academy_ar["PFI School"].map(mappings.map_is_pfi_school)
-
-    academy_ar.merge(academy_agg, left_on="academyupin", right_index=True, how="left")
-
-    return trust_ar, academy_ar
+    return aar.set_index("Academy UPIN")
 
 
 def prepare_schools_data(base_data_path, links_data_path):
@@ -315,7 +285,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-        gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
+            gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
@@ -338,11 +308,11 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
     )
     gias["HeadName"] = (
-        gias["HeadTitle (name)"]
-        + " "
-        + gias["HeadFirstName"]
-        + " "
-        + gias["HeadLastName"]
+            gias["HeadTitle (name)"]
+            + " "
+            + gias["HeadFirstName"]
+            + " "
+            + gias["HeadLastName"]
     )
 
     # In the following cell, we find all the predecessor and merged links.
@@ -374,11 +344,11 @@ def prepare_schools_data(base_data_path, links_data_path):
     return schools[
         schools["CloseDate"].isna()
         & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
-    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+        ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
 def build_academy_data(
-    academy_data_path, year, schools, census, sen, cdc, academy_ar, trust_agg, ks2, ks4
+        academy_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -400,11 +370,14 @@ def build_academy_data(
         academies_base.merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
         .merge(cdc, on="URN", how="left")
-        .merge(academy_ar, left_on="Academy UPIN", right_index=True, how="left")
-        .merge(trust_agg, left_on="Academy Trust UPIN", right_index=True, how="left")
+        .merge(aar, left_on="Academy UPIN", right_index=True, how="left")
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
     )
+
+    # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
+    academies["Total Internal Floor Area"] = academies["Total Internal Floor Area"].fillna(
+        academies["Total Internal Floor Area"].median())
 
     academies["Type of Provision - Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
@@ -452,65 +425,18 @@ def build_academy_data(
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
             "Number of Pupils": "Number of pupils",
-            "Teaching staff": "Teaching and Teaching support staff_Teaching staff",
-            "Supply teaching staff": "Teaching and Teaching support staff_Supply teaching staff",
-            "Education support staff": "Teaching and Teaching support staff_Education support staff",
-            "Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
-            "Premises staff": "Premises staff and services_Premises staff",
-            "Catering staff": "Catering staff and supplies_Catering staff",
-            "Other staff": "Non-educational support staff and services_Other staff",
-            "Indirect employee expenses": "Other costs_Indirect employee expenses",
-            "Staff development and training": "Other costs_Staff development and training",
-            "Staff-related insurance": "Other costs_Staff-related insurance",
-            "Supply teacher insurance": "Other costs_Supply teacher insurance",
-            # TODO: Review as there is a separate cost category for Grounds maintainance
-            "Building and Grounds maintenance and improvement": "Premises staff and services_Maintenance of premises",
-            "Cleaning and caretaking": "Premises staff and services_Cleaning and caretaking",
-            "Water and sewerage": "Utilities_Water and sewerage",
-            "Energy": "Utilities_Energy",
-            "Rent and Rates": "Other costs_Rent and rates",
-            "Other occupation costs": "Premises staff and services_Other occupation costs",
-            "Special facilities": "Other costs_Special facilities",
-            "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
-            "ICT learning resources": "Educational ICT_ICT learning resources",
-            "Examination fees": "Educational supplies_Examination fees",
-            "Educational Consultancy": "Teaching and Teaching support staff_Educational consultancy",
-            "Administrative supplies - non educational": "Administrative supplies_Administrative supplies (non educational)",
-            "Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teaching staff",
-            "Catering supplies": "Catering staff and supplies_Catering supplies",
-            "Other insurance premiums": "Other costs_Other insurance premiums",
-            "Legal & Professionalservices": "Non-educational support staff and services_Professional services (non-curriculum)",
-            "Auditor costs": "Non-educational support staff and services_Audit cost",
-            "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
-            "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing",
-            "PFI Charges": "Other costs_PFI charges",
-            "Type of Provision - Phase":"Overall Phase",
-            "EstablishmentName":"Establishment Name",
-            "OfstedRating (name)":"Ofsted Rating Description",
-            "TypeOfEstablishment (name)":"Establishment Type",
-            "OfstedLastInsp":"Ofsted Inspection Date",
-            "County (name)":"County",
-            "TelephoneNum":"Telephone",
-            "SchoolWebsite":"Website",
-            "Address3":"Address 3",
-            "HeadName":"Head Teacher Name",
-            "Academy Trust Name":"Trust Name",
-            "Academy UKPRN":"Trust UKPRN",
-            "NurseryProvision (name)":"Has a nursery",
-            "OfficialSixthForm (code)":"Has a sixth form",
-            "region_name":"Region",
-            "ward_name":"Ward",
-            "district_administrative_name":"District",
-            "PFI School": "Is PFI School",
         },
         inplace=True,
     )
+
+    for category in config.rag_category_settings.keys():
+        academies = build_cost_series(category, academies, config.rag_category_settings[category]["type"])
 
     return academies
 
 
 def build_maintained_school_data(
-    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -526,6 +452,7 @@ def build_maintained_school_data(
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"
     )
+
     maintained_schools = (
         maintained_schools.merge(sen, on="URN", how="left")
         .merge(census, on="URN", how="left")
@@ -548,21 +475,24 @@ def build_maintained_school_data(
         axis=1,
     )
     maintained_schools["School Balance"] = (
-        maintained_schools["Total Income   I01 to I18"]
-        - maintained_schools["Total Expenditure  E01 to E32"]
+            maintained_schools["Total Income   I01 to I18"]
+            - maintained_schools["Total Expenditure  E01 to E32"]
     )
+
     maintained_schools["School Financial Position"] = maintained_schools[
         "School Balance"
     ].map(mappings.map_is_surplus_deficit)
+
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
-        axis=1,
-    )
+        axis=1)
+
     maintained_schools["Partial Years Present"] = maintained_schools[
         "Period covered by return (months)"
     ].map(lambda x: x != 12)
+
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
@@ -571,69 +501,15 @@ def build_maintained_school_data(
 
     maintained_schools.rename(
         columns={
-            "LA (code)": "LA Code",
-            "LA (name)": "LA Name",
-            "E22 Administrative supplies": "Administrative supplies_Administrative supplies (non educational)",
-            "E06 Catering staff": "Catering staff and supplies_Catering staff",
-            "E25  Catering supplies": "Catering staff and supplies_Catering supplies",
-            "I09  Income from catering": "Catering staff and supplies_Income from catering",
-            "E21  Exam fees": "Educational supplies_Examination fees",
-            "E19  Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
-            "E20  ICT learning resources": "Educational ICT_ICT learning resources",
-            "E05 Administrative and clerical staff": "Non-educational support staff and services_Administrative and clerical staff",
-            # '':'Non-educational support staff and services_Auditor costs',
-            "E07  Cost of other staff": "Non-educational support staff and services_Other staff",
-            "E28a  Bought in professional services - other (except PFI)": "Non-educational support staff and services_Professional services (non-curriculum)",
-            "E30 Direct revenue financing (revenue contributions to capital)": "Other costs_Direct revenue financing",
-            "E13  Grounds maintenance and improvement": "Other costs_Grounds maintenance",
-            "E08  Indirect employee expenses": "Other costs_Indirect employee expenses",
-            "E29  Loan interest": "Other costs_Interest charges for loan and bank",
-            "E23  Other insurance premiums": "Other costs_Other insurance premiums",
-            "E28b Bought in professional services - other (PFI)": "Other costs_PFI charges",
-            "E17  Rates": "Other costs_Rent and rates",
-            "E24  Special facilities ": "Other costs_Special facilities",
-            "E09  Development and training": "Other costs_Staff development and training",
-            "E11  Staff related insurance": "Other costs_Staff-related insurance",
-            "E10  Supply teacher insurance": "Other costs_Supply teacher insurance",
-            "E14  Cleaning and caretaking": "Premises staff and services_Cleaning and caretaking",
-            "E12  Building maintenance and improvement": "Premises staff and services_Maintenance of premises",
-            "E18  Other occupation costs": "Premises staff and services_Other occupation costs",
-            "E04  Premises staff": "Premises staff and services_Premises staff",
-            "E26 Agency supply teaching staff": "Teaching and Teaching support staff_Agency supply teaching staff",
-            "E03 Education support staff": "Teaching and Teaching support staff_Education support staff",
-            "E27  Bought in professional services - curriculum": "Teaching and Teaching support staff_Educational consultancy",
-            "E02  Supply teaching staff": "Teaching and Teaching support staff_Supply teaching staff",
-            "E01  Teaching Staff": "Teaching and Teaching support staff_Teaching staff",
-            "E16  Energy": "Utilities_Energy",
-            "E15  Water and sewerage": "Utilities_Water and sewerage",
-            "PFI": "Is PFI School",
-            "I07  Other grants and payments": "Other grants and payments",
-            # TODO: Should these come from the census record not the MS record
-            "No Pupils": "Number of pupils",
-            "Total Income   I01 to I18":"Total Income",
-            "Total Expenditure  E01 to E32":"Total Expenditure",
-            "I12  Income from contributions to visits etc ":"I12  Income from contributions to visits etc",
-            "Revenue Reserve   B01 plus B02 plus B06":"Revenue Reserve",
-            "I03  SEN funding":"SEN funding",
-            "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims",
-            "I13  Donations and or private funds":"Donations and/or voluntary funds",
-            "EstablishmentName":"Establishment Name",
-            "OfstedRating (name)":"Ofsted Rating Description",
-            "TypeOfEstablishment (name)":"Establishment Type",
-            "OfstedLastInsp":"Ofsted Inspection Date",
-            "County (name)":"County",
-            "TelephoneNum":"Telephone",
-            "SchoolWebsite":"Website",
-            "Address3":"Address 3",
-            "HeadName":"Head Teacher Name",
-            "NurseryProvision (name)":"Has a nursery",
-            "OfficialSixthForm (code)":"Has a sixth form",
-            "region_name":"Region",
-            "ward_name":"Ward",
-            "district_administrative_name":"District",
-        },
+                    "No Pupils": "Number of pupils",
+                } | config.cost_category_map["maintained_schools"],
         inplace=True,
     )
+
+    for category in config.rag_category_settings.keys():
+        maintained_schools = build_cost_series(category, maintained_schools,
+                                               config.rag_category_settings[category]["type"])
+
     maintained_schools.set_index("URN", inplace=True)
     return maintained_schools
 
@@ -649,7 +525,7 @@ def build_federations_data(links_data_path, maintained_schools):
 
     federations = maintained_schools[["LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
-    ].copy()
+        ].copy()
 
     # join
     federations = federations.join(

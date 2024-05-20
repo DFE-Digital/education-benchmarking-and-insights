@@ -416,6 +416,9 @@ local.settings.json
 # OSX
 .DS_Store
 
+# Playwright
+**/playwright/.auth
+
 **/docker/azurite
 **/docker/sql
 front-end-components/vite.config-dev.js.timestamp-*

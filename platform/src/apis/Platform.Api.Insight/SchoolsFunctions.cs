@@ -62,7 +62,7 @@ public class SchoolsFunctions
     [FunctionName(nameof(QuerySchoolExpenditureAsync))]
     [ProducesResponseType(typeof(SchoolExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     public async Task<IActionResult> QuerySchoolExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/expenditure")] HttpRequest req)
     {

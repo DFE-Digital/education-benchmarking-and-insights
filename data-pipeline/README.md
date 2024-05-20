@@ -45,9 +45,27 @@ To running the API in Dev Mode:
 However, this will only run the pipeline and will fail using the above environment parameters, it is trying to connect to a local based storage. To this end there is a docker compose script that will run the following:
 
 * Azurite with default settings
-* FBIT data pipeline in - test mode (`make run-pipeline-test-mode`)
+* FBIT data pipeline in - test mode (`make run-pipeline-dev-mode`)
 
-> Note: `Test mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
+> Note: `Dev mode` - means that rather than checking for a message and then terminating if there are no messages on the queue, the container, will loop, processing messages on the queue one at a time.
+
+### Testing locally
+Once the environment is set up as above, and you can successfully run the pipeline it is possible to run the unit and e2e tests locally.
+To run the unit tests run
+
+    make unit-test
+
+To run the E2E tests, you first need to have the pipeline running in a docker container. The required containers can be run using `docker compose`
+
+The docker compose file is located in the `docker` directory. Navigate to this directory and run
+
+    docker compose up -d
+
+this will start 2 docker containers. `Azurite` and the `pipeline` containers. Once the containers are up and running the end to end tests can be run using
+
+    make e2e-test-local
+
+> Note: Docker compose will *not* rebuild images on code change. So if you change any of the files in the `src` directory then the `fbit-services-pipeline:latest` image will need to be deleted and recreated.
 
 ### Creating and running Docker images
 

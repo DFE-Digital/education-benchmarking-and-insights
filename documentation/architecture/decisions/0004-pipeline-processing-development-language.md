@@ -20,8 +20,8 @@ We need to build a data processing pipeline that consumes the following data sou
 * CFO - Contact Detail 
 * AAR - Academy account return
 * BFR - Budget forecast return 
-* KS2 
-* KS4
+* KS2 - Key stage 2 assessment results
+* KS4 - Key stage 4 assessment results
 
 Processing this requires alot transformation on tablular based data. Typically DataFrame libraries are best suited for this. 
 
@@ -36,5 +36,10 @@ The decision is to utilise `python` and `pandas` for data processing. This was c
 
 ## Consequences
 
-No major consequences due to the ubiquity of python in the data processing space. However, if datasets become too large then we should look at replacing `pandas` with `polars`. Given the similarity in the API's this is a viable decision to defer.
+No major consequences due to the ubiquity of python in the data processing space. However, due to the internal implementation of Python, the processing will likely take place on a single core. If processing speed is an issue then there are a number of options:
 
+* Look at utilising [dask](https://www.dask.org/) to parallelise computation (especially for RAG calculations)
+
+* Look at utilising [polars](https://pola.rs/) to create delayed and optimised computations to improve the performance of the pre-processing and comparator-set phases.
+
+Finally, if the above suggestions do not improve the performance enough and it becomes too much of a blocker we can re-vist the decision to move to a compiled language and runtime (.NET Core/C#). However, we will only do this if necessary and once we have agreed the end-2-end processing and have validated the results, so we can provide certainty of the migration and the end-to-end.

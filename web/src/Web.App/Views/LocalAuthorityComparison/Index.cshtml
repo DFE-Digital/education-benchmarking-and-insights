@@ -1,0 +1,18 @@
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@model Web.App.ViewModels.LocalAuthorityComparisonViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Comparison;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Code, kind = OrganisationTypes.LocalAuthority })
+
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.LocalAuthority, additionText = new [] {"Compare your schools spending costs."}})
+
+<div id="compare-your-costs"
+     data-type="@OrganisationTypes.LocalAuthority"
+     data-id="@Model.Code"
+     data-phases="@Model.Phases.ToJson(Formatting.None)">
+</div>
+
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.BenchmarkCensus } })

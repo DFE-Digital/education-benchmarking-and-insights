@@ -4,20 +4,26 @@ import { ExpenditureData } from "src/services";
 export class EstablishmentsApi {
   static async getExpenditure(
     type: string,
-    id: string
+    id: string,
+    phase?: string
   ): Promise<ExpenditureData[]> {
-    return fetch(
-      "/api/establishments/expenditure?" +
-        new URLSearchParams({ type: type, id: id }),
-      {
-        redirect: "manual",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Correlation-ID": uuidv4(),
-        },
-      }
-    )
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+    });
+
+    if (phase) {
+      params.append("phase", phase);
+    }
+
+    return fetch("/api/establishments/expenditure?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {

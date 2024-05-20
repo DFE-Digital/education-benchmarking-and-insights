@@ -1,5 +1,4 @@
-﻿@using Web.App.Domain
-@using Web.App.TagHelpers
+﻿@using Web.App.TagHelpers
 @using Web.App.ViewModels.Components
 @using Web.App.ViewModels
 @model Web.App.ViewModels.LocalAuthorityViewModel
@@ -11,7 +10,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation")" class="govuk-link govuk-link--no-visited-state">Change local authority</a>
+            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.LocalAuthority})" class="govuk-link govuk-link--no-visited-state">Change local authority</a>
         </p>
     </div>
 </div>
@@ -31,6 +30,9 @@
 </div>
 
 
+@await Component.InvokeAsync("LocalAuthorityFinanceTools", new { identifier = Model.Code, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
 @await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources } })
 

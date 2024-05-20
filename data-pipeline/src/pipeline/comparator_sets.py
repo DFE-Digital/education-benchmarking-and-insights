@@ -1,12 +1,5 @@
-import multiprocessing as mp
-from multiprocessing.pool import Pool
-
 import numpy as np
 import pandas as pd
-
-
-def compute_range(data):
-    return data.max() - data.min()
 
 
 # TODO: This should be moved to pre-processing really
@@ -23,197 +16,260 @@ def prepare_data(data):
         data["Percentage Free school meals"]
     )
     data["Percentage SEN"] = fillna_median(data["Percentage SEN"])
-    data["Prov_SPLD"] = fillna_median(data["Prov_SPLD"])
-    data["Prov_MLD"] = fillna_median(data["Prov_MLD"])
-    data["Prov_PMLD"] = fillna_median(data["Prov_PMLD"])
-    data["Prov_SEMH"] = fillna_median(data["Prov_SEMH"])
-    data["Prov_SLCN"] = fillna_median(data["Prov_SLCN"])
-    data["Prov_HI"] = fillna_median(data["Prov_HI"])
-    data["Prov_MSI"] = fillna_median(data["Prov_MSI"])
-    data["Prov_PD"] = fillna_median(data["Prov_PD"])
-    data["Prov_ASD"] = fillna_median(data["Prov_ASD"])
-    data["Prov_OTH"] = fillna_median(data["Prov_OTH"])
+    data["Percentage Primary Need SPLD"] = fillna_median(data["Percentage Primary Need SPLD"])
+    data["Percentage Primary Need MLD"] = fillna_median(data["Percentage Primary Need MLD"])
+    data["Percentage Primary Need PMLD"] = fillna_median(data["Percentage Primary Need PMLD"])
+    data["Percentage Primary Need SEMH"] = fillna_median(data["Percentage Primary Need SEMH"])
+    data["Percentage Primary Need SLCN"] = fillna_median(data["Percentage Primary Need SLCN"])
+    data["Percentage Primary Need HI"] = fillna_median(data["Percentage Primary Need HI"])
+    data["Percentage Primary Need MSI"] = fillna_median(data["Percentage Primary Need MSI"])
+    data["Percentage Primary Need PD"] = fillna_median(data["Percentage Primary Need PD"])
+    data["Percentage Primary Need ASD"] = fillna_median(data["Percentage Primary Need ASD"])
+    data["Percentage Primary Need OTH"] = fillna_median(data["Percentage Primary Need OTH"])
     data["Total Internal Floor Area"] = fillna_median(data["Total Internal Floor Area"])
     data["Age Average Score"] = fillna_median(data["Age Average Score"])
+
     return data.sort_index()
 
 
-def pupils_calc(pupils, fsm, sen):
-    pupil_range = compute_range(pupils)
-    fsm_range = compute_range(fsm)
-    sen_range = compute_range(sen)
+def _delta_range_ratio(input: np.array) -> np.array:
+    """
+    Calculate the ratio of input delta to its range.
 
-    pupil = 0.5 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
-    meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
-    sen = 0.1 * np.power(np.abs(sen[:, None] - sen[None, :]) / sen_range, 2)
-    return np.power(pupil + meal + sen, 0.5)
+    Determine the matrix of absolute differences between all
+    combinations in the input, divided by the range of the input.
+
+    :param input: array of data
+    :return: the ratio of the delta to the data range
+    """
+    input_range = np.ptp(input)
+
+    input_column_vector = input[:, None]
+    input_row_vector = input[None, :]
+    input_diff_matrix = input_column_vector - input_row_vector
+    input_delta_matrix = np.abs(input_diff_matrix)
+
+    return input_delta_matrix / input_range
+
+
+def _delta_range_ratio_squared(input: np.array) -> np.array:
+    """
+    Calculate the ratio of input delta to its range, squared.
+
+    Determine the square of the matrix of absolute differences between
+    all combinations in the input, divided by the range of the input.
+
+    :param input: array of data
+    :return: the ratio of the delta to the data range, squared
+    """
+    return np.power(_delta_range_ratio(input), 2)
+
+
+def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
+    """
+    Perform pupil calculation (non-special).
+
+    :param pupils: number of pupils
+    :param fsm: percentage FSM (Free School Meals)
+    :param sen: percentage SEN (Special Education Needs)
+    :return: pupil calculation
+    """
+    pupil = 0.5 * _delta_range_ratio_squared(pupils)
+    meal = 0.4 * _delta_range_ratio_squared(fsm)
+    sen_ = 0.1 * _delta_range_ratio_squared(sen)
+
+    return np.sqrt(pupil + meal + sen_)
 
 
 def special_pupils_calc(
-    pupils, fsm, splds, mlds, pmlds, semhs, slcns, his, msis, pds, asds, oths
+    pupils: np.array,
+    fsm: np.array,
+    splds: np.array,
+    mlds: np.array,
+    pmlds: np.array,
+    semhs: np.array,
+    slcns: np.array,
+    his: np.array,
+    msis: np.array,
+    pds: np.array,
+    asds: np.array,
+    oths: np.array,
 ):
-    pupil_range = compute_range(pupils)
-    fsm_range = compute_range(fsm)
-    spld_range = compute_range(splds)
-    mld_range = compute_range(mlds)
-    pmld_range = compute_range(pmlds)
-    semh_range = compute_range(semhs)
-    slcn_range = compute_range(slcns)
-    hi_range = compute_range(his)
-    msi_range = compute_range(msis)
-    pd_range = compute_range(pds)
-    asd_range = compute_range(asds)
-    oth_range = compute_range(oths)
+    """
+    Perform pupil calculation (special).
 
-    pupil = 0.6 * np.power(np.abs(pupils[:, None] - pupils[None, :]) / pupil_range, 2)
-    meal = 0.4 * np.power(np.abs(fsm[:, None] - fsm[None, :]) / fsm_range, 2)
-    base1 = np.power(pupil + meal, 0.5)
+    :param pupils: number of pupils
+    :param fsm: percentage FSM (Free School Meals)
+    :param splds: percentage SPLD (Specific Learning Difficulty)
+    :param mlds: percentage MLD (Moderate Learning Difficulty)
+    :param pmlds: percentage PMLD (Profound and Multiple Learning Difficulty)
+    :param semhs: percentage SEMH (Social, Emotional and Mental Health Difficulties)
+    :param slcns: percentage SLCN (Speech, Language and Communication Needs)
+    :param his: percentage HI (Hearing Impairment)
+    :param msis: percentage MSI (Multi-Sensory Impairment)
+    :param pds: percentage PD (Physical Disability)
+    :param asds: percentage ASD (Autistic Spectrum Disorder)
+    :param oths: percentage Other
+    :return: pupil calculation (special)
+    """
+    pupil = 0.6 * _delta_range_ratio_squared(pupils)
+    meal = 0.4 * _delta_range_ratio_squared(fsm)
 
-    spld = np.power(np.abs(splds[:, None] - splds[None, :]) / spld_range, 2)
-    mld = np.power(np.abs(mlds[:, None] - mlds[None, :]) / mld_range, 2)
-    pmld = np.power(np.abs(pmlds[:, None] - pmlds[None, :]) / pmld_range, 2)
-    semh = np.power(np.abs(semhs[:, None] - semhs[None, :]) / semh_range, 2)
-    slcn = np.power(np.abs(slcns[:, None] - slcns[None, :]) / slcn_range, 2)
-    hi = np.power(np.abs(his[:, None] - his[None, :]) / hi_range, 2)
-    msi = np.power(np.abs(msis[:, None] - msis[None, :]) / msi_range, 2)
-    pd = np.power(np.abs(pds[:, None] - pds[None, :]) / pd_range, 2)
-    asd = np.power(np.abs(asds[:, None] - asds[None, :]) / asd_range, 2)
-    oth = np.power(np.abs(oths[:, None] - oths[None, :]) / oth_range, 2)
+    pupils_ = pupil + meal
 
-    base2 = np.power(spld + mld + pmld + semh + slcn + hi + msi + pd + asd + oth, 0.5)
+    spld = _delta_range_ratio_squared(splds)
+    mld = _delta_range_ratio_squared(mlds)
+    pmld = _delta_range_ratio_squared(pmlds)
+    semh = _delta_range_ratio_squared(semhs)
+    slcn = _delta_range_ratio_squared(slcns)
+    hi = _delta_range_ratio_squared(his)
+    msi = _delta_range_ratio_squared(msis)
+    pd = _delta_range_ratio_squared(pds)
+    asd = _delta_range_ratio_squared(asds)
+    oth = _delta_range_ratio_squared(oths)
 
-    return base1 + base2
+    sen = spld + mld + pmld + semh + slcn + hi + msi + pd + asd + oth
 
-
-def buildings_calc(gifa, average_age) -> np.array:
-    gifa_range = compute_range(gifa)
-    average_age_range = compute_range(average_age)
-
-    gifa = 0.8 * np.power(np.abs(gifa[:, None] - gifa[None, :]) / gifa_range, 2)
-    age = 0.2 * np.power(
-        np.abs(average_age[:, None] - average_age[None, :]) / average_age_range, 2
-    )
-
-    return np.power(gifa + age, 0.5)
+    return np.sqrt(pupils_) + np.sqrt(sen)
 
 
-def compute_pupils_comparator(arg) -> (str, np.array, np.array):
-    idx, row = arg
-    phase = idx
-    urns = np.array(row["URN"])
+def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
+    """
+    Compute area metrics.
+
+    :param gifa: sum of the internal floor areas of the school buildings
+    :param average_age: product of age of the school and area
+    :return: area metric
+    """
+    gifa_ = 0.8 * _delta_range_ratio_squared(gifa)
+    age = 0.2 * _delta_range_ratio_squared(average_age)
+
+    return np.sqrt(gifa_ + age)
+
+
+def compute_buildings_comparator(arg):
+    """
+    Computing area metrics, consuming attributes from the input data.
+
+    :param arg: phase/data
+    :return: phase, URNs and calculations
+    """
+    phase, row = arg
+    gifa = np.array(row["Total Internal Floor Area"])
+    age = np.array(row["Age Average Score"])
+
+    return buildings_calc(gifa, age)
+
+
+def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
+    """
+    Computing pupil metrics, consuming attributes from the input data.
+
+    Calculations will be either "pupil" or "special", using a different
+    set of attributes in each case.
+
+    :param arg: phase/data
+    :return: phase, URNs and calculations
+    """
+    phase, row = arg
     pupils = np.array(row["Number of pupils"])
     fsm = np.array(row["Percentage Free school meals"])
 
     if phase.lower() == "special":
-        Prov_SPLD = np.array(row["Prov_SPLD"])
-        Prov_MLD = np.array(row["Prov_MLD"])
-        Prov_PMLD = np.array(row["Prov_PMLD"])
-        Prov_SEMH = np.array(row["Prov_SEMH"])
-        Prov_SLCN = np.array(row["Prov_SLCN"])
-        Prov_HI = np.array(row["Prov_HI"])
-        Prov_MSI = np.array(row["Prov_MSI"])
-        Prov_PD = np.array(row["Prov_PD"])
-        Prov_ASD = np.array(row["Prov_ASD"])
-        Prov_OTH = np.array(row["Prov_OTH"])
-        return (
-            phase,
-            urns,
-            special_pupils_calc(
-                pupils,
-                fsm,
-                Prov_SPLD,
-                Prov_MLD,
-                Prov_PMLD,
-                Prov_SEMH,
-                Prov_SLCN,
-                Prov_HI,
-                Prov_MSI,
-                Prov_PD,
-                Prov_ASD,
-                Prov_OTH,
-            ),
+        return special_pupils_calc(
+            pupils,
+            fsm,
+            np.array(row["Percentage Primary Need SPLD"]),
+            np.array(row["Percentage Primary Need MLD"]),
+            np.array(row["Percentage Primary Need PMLD"]),
+            np.array(row["Percentage Primary Need SEMH"]),
+            np.array(row["Percentage Primary Need SLCN"]),
+            np.array(row["Percentage Primary Need HI"]),
+            np.array(row["Percentage Primary Need MSI"]),
+            np.array(row["Percentage Primary Need PD"]),
+            np.array(row["Percentage Primary Need ASD"]),
+            np.array(row["Percentage Primary Need OTH"])
         )
-    else:
-        sen = np.array(row["Percentage SEN"])
-        return phase, urns, pupils_calc(pupils, fsm, sen)
+
+    sen = np.array(row["Percentage SEN"])
+    return pupils_calc(pupils, fsm, sen)
 
 
-def compute_buildings_comparator(arg):
-    idx, row = arg
-    phase = idx
-    urns = np.array(row["URN"])
-    gifa = np.array(row["Total Internal Floor Area"])
-    age = np.array(row["Age Average Score"])
-
-    return phase, urns, buildings_calc(gifa, age)
-
-
-def compute_distances(data, f):
-    distance_classes = {}
-
-    with Pool(mp.cpu_count()) as pool:
-        for idx, urns, distance in pool.map(f, data.iterrows()):
-            distance_classes[idx] = {"urns": urns, "distances": distance}
-
-    return distance_classes
+def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size=30):
+    top_index = np.argsort(data, axis=0, kind="stable")[:base_set_size]
+    top_urns = all_urns[top_index]
+    top_regions = all_regions[top_index]
+    same_region = np.argwhere(top_regions == top_regions[0]).flatten()
+    same_region_urns = top_urns[same_region]
+    urns = np.append(same_region_urns, np.delete(top_urns, same_region)[:final_set_size - len(same_region_urns)])
+    return urns
 
 
-def compute_comparator_matrix(data, f, comparator_key="SchoolPhaseType"):
-    copy = data.reset_index()
-    classes = copy.groupby([comparator_key]).agg(list)
-    return compute_distances(classes, f)
+def compute_distances(orig_data, grouped_data):
+    orig_data["Pupil"] = pd.Series(index=orig_data.index, dtype=object)
+    orig_data["Building"] = pd.Series(index=orig_data.index, dtype=object)
+    for phase, row in grouped_data.iterrows():
+        pupil_distance = compute_pupils_comparator((phase, row))
+        building_distance = compute_buildings_comparator((phase, row))
+        all_urns = np.array(row["URN"])
+        all_regions = np.array(row["GOR (name)"])
+
+        for idx in range(len(all_urns)):
+            urn = all_urns[idx]
+            pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
+            building_set = select_top_set(all_urns, all_regions, building_distance[idx])
+
+            orig_data.at[urn, "Pupil"] = pupil_set
+            orig_data.at[urn, "Building"] = building_set
+
+    return orig_data
 
 
-def compute_custom_comparator(name, data, f):
-    copy = data.reset_index()
-    copy["Custom"] = name
-    classes = copy.groupby(["Custom"]).agg(list)
-    return compute_distances(classes, f)
+def compute_comparator_set(data: pd.DataFrame):
+    # TODO: Drop_duplicates should not be needed here.
+    # TODO: Need to add boarding and PFI groups into this logic
+    copy = data[["OfstedRating (name)",
+                 "Percentage SEN",
+                 "Percentage Free school meals",
+                 "Number of pupils",
+                 "Total Internal Floor Area",
+                 "Age Average Score",
+                 "GOR (name)",
+                 "SchoolPhaseType",
+                 "Percentage Primary Need SPLD",
+                 "Percentage Primary Need MLD",
+                 "Percentage Primary Need PMLD",
+                 "Percentage Primary Need SEMH",
+                 "Percentage Primary Need SLCN",
+                 "Percentage Primary Need HI",
+                 "Percentage Primary Need MSI",
+                 "Percentage Primary Need PD",
+                 "Percentage Primary Need ASD",
+                 "Percentage Primary Need OTH"
+                 ]].copy()
+    classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
+    return compute_distances(copy, classes)
 
 
-def get_comparator_set_by(
-    school_selector,
-    schools,
-    comparators,
-    is_custom=False,
-    comparator_key="SchoolPhaseType",
-):
-    school_no_index = schools.reset_index()
-    school = (
-        schools[school_selector(schools)].reset_index().to_dict(orient="records")[0]
-    )
-
-    phase_data = (
-        comparators[comparator_key]
-        if is_custom
-        else comparators[school[comparator_key]]
-    )
-
-    col_index = np.argwhere(phase_data["urns"] == school["URN"])[0][0]
-    data = phase_data["distances"][col_index]
-
-    top_60_index = np.argsort(data)[:60]
-    distances = data[top_60_index]
-    urns = phase_data["urns"][top_60_index]
-
-    d = []
-    idx = 0
-    for urn in urns:
-        row = school_no_index[school_no_index["URN"] == urn].to_dict(orient="records")[
-            0
-        ]
-        row["Distance"] = distances[idx]
-        d.append(row)
-        idx += 1
-
-    all_comparators = pd.DataFrame(d)
-    same_region = all_comparators[
-        all_comparators["GOR (name)"] == school["GOR (name)"]
-    ].head()
-    out_of_region = (
-        all_comparators[all_comparators["GOR (name)"] != school["GOR (name)"]]
-        .sort_values(by="Distance", ascending=True)
-        .head(30 - len(same_region))
-    )
-    return pd.concat([same_region, out_of_region])
-
+def compute_custom_comparator(data: pd.DataFrame):
+    copy = data[["OfstedRating (name)",
+                 "Percentage SEN",
+                 "Percentage Free school meals",
+                 "Number of pupils",
+                 "Total Internal Floor Area",
+                 "Age Average Score",
+                 "GOR (name)",
+                 "SchoolPhaseType",
+                 "Percentage Primary Need SPLD",
+                 "Percentage Primary Need MLD",
+                 "Percentage Primary Need PMLD",
+                 "Percentage Primary Need SEMH",
+                 "Percentage Primary Need SLCN",
+                 "Percentage Primary Need HI",
+                 "Percentage Primary Need MSI",
+                 "Percentage Primary Need PD",
+                 "Percentage Primary Need ASD",
+                 "Percentage Primary Need OTH"]].drop_duplicates().copy()
+    copy["Custom"] = "Grouper"
+    classes = copy.reset_index().groupby(["Custom"]).agg(list)
+    return compute_distances(copy, classes)

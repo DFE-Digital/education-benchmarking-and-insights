@@ -76,7 +76,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
           {sortedDataPoints.length > 0 ? (
             <>
               {mode == ChartModeChart && (
-                <div style={{ height: 700 }}>
+                <div style={{ height: 22 * data.dataPoints.length + 75 }}>
                   <HorizontalBarChart
                     barCategoryGap={2}
                     chartName={chartName}
