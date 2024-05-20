@@ -32433,7 +32433,7 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d01_s198p02_TrustHistory_cloned')]",
+			"name": "[concat(parameters('factoryName'), '/s198d01_s198p02_TrustHistory')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
