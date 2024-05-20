@@ -1,6 +1,15 @@
 import math
+import warnings
+import time
 import numpy as np
 import pandas as pd
+import logging
+from src.pipeline.config import rag_category_settings
+
+pd.options.mode.chained_assignment = None
+
+logger = logging.getLogger("fbit-data-pipeline")
+logger.setLevel(logging.INFO)
 
 base_cols = [
     "URN",
@@ -11,468 +20,6 @@ base_cols = [
     "Percentage Free school meals",
     "Number of pupils",
 ]
-
-category_settings = {
-    "Teaching and Teaching support staff": {
-        "type": "pupil",
-        "outstanding_10": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-        "other_10": [
-            "red",
-            "red",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "red",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-    },
-    "Non-educational support staff and services": {
-        "type": "pupil",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-    "Educational supplies": {
-        "type": "pupil",
-        "outstanding_10": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-        "other_10": [
-            "red",
-            "red",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "red",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-    },
-    "Educational ICT": {
-        "type": "pupil",
-        "outstanding_10": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "amber",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-        "other_10": [
-            "red",
-            "red",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "red",
-            "amber",
-            "amber",
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-        ],
-    },
-    "Premises staff and services": {
-        "type": "area",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-    "Utilities": {
-        "type": "area",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-    "Administrative supplies": {
-        "type": "pupil",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-    "Catering staff and supplies": {
-        "type": "pupil",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-    "Other costs": {
-        "type": "pupil",
-        "outstanding_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "outstanding": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other_10": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-        "other": [
-            "green",
-            "green",
-            "green",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "amber",
-            "red",
-            "red",
-        ],
-    },
-}
 
 
 def is_area_close_comparator(org_a, org_b):
@@ -550,90 +97,113 @@ def is_close_comparator(category_type, org_a, org_b):
     :param org_b: second organisation for comparison
     :return: whether organisations are close, as defined
     """
-    if category_type == "area":
+    if category_type == "Building":
         return is_area_close_comparator(org_a, org_b)
 
     return is_pupil_close_comparator(org_a, org_b)
 
 
-def get_category_series(category_name, data, basis):
-    category_cols = (
-        data.columns.isin(base_cols)
-        | data.columns.isin(["is_close"])
-        | data.columns.str.startswith(category_name)
-    )
-    df = data[data.columns[category_cols]].copy()
-    basis_data = data[
-        "Number of pupils" if basis == "pupil" else "Total Internal Floor Area"
-    ]
-
-    # Create total column and divide be the basis data
-    df[category_name + "_Total"] = (
-        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].sum(axis=1)
-        / basis_data
-    )
-
-    sub_categories = df.columns[
-        df.columns.str.startswith(category_name)
-    ].values.tolist()
-
-    for sub_category in sub_categories:
-        df[sub_category] = df[sub_category] / basis_data
-
-    return df, sub_categories
+def find_percentile(d, value):
+    sorted_series = np.sort(d, axis=0, kind="stable")
+    rank = np.searchsorted(sorted_series, value, side='right')
+    pc = rank / len(d) * 100
+    return pc - 1
 
 
-def category_stats(category_name, data, ofsted_rating, rag_mapping):
-    close_count = data["is_close"][data["is_close"]].count()
+def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_count):
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
-    # TODO: This shouldn't be required
-    with np.errstate(invalid="ignore"):
-        series = data[category_name]
-        percentiles = pd.qcut(series, 100, labels=False, duplicates="drop")
-        deciles = pd.qcut(series, 10, labels=False, duplicates="drop")
-        percentile = int(np.nan_to_num(percentiles.iloc[0]))
-        decile = int(np.nan_to_num(deciles.iloc[0]))
-        value = float(np.nan_to_num(series.iloc[0]))
-        mean = float(np.nan_to_num(series.median()))
-        diff = value - mean
-        diff_percent = (diff / value) * 100 if value != 0 else 0
+    series = data[category_name]
+    value = series.iat[0]
 
-        return {
-            "value": value,
-            "mean": mean,
-            "diff_mean": diff,
-            "key": key,
-            "percentage_diff": diff_percent,
-            "percentile": percentile,
-            "decile": decile,
-            "rag": rag_mapping[key][int(decile)],
-            "data": data.reset_index().to_dict(orient="records", index=True),
-        }
+    percentile = find_percentile(series, value)
+    decile = percentile / 10
+    mean = np.median(series)
+    diff = value - mean
+    diff_percent = (diff / value) * 100 if value != 0 and value != np.nan and not pd.isna(value) else 0
+    cats = category_name.split('_')
+    return {
+        "Urn": urn,
+        "Category": cats[0],
+        "Sub category": cats[1],
+        "Value": value,
+        "Mean": mean,
+        "Diff Mean": diff,
+        "Key": key,
+        "Percentage Diff": diff_percent,
+        "Percentile": percentile,
+        "Decile": decile,
+        "Rag": rag_mapping[key][int(decile)]
+    }
 
 
-def compute_category_rag(category_name, settings, comparator_set, stats):
-    target = comparator_set.iloc[0]
-    ofstead = target["OfstedRating (name)"]
-    comparator_set["is_close"] = comparator_set.apply(
-        lambda x: is_close_comparator(settings["type"], target, x), axis=1
-    )
+def compute_category_rag(urn, category_name, settings, target, comparator_set, col_cache):
+    ofsted = target["OfstedRating (name)"]
 
-    series, sub_categories = get_category_series(
-        category_name, comparator_set, settings["type"]
-    )
+    close_count = sum(comparator_set.apply(
+        lambda x: 1 if is_close_comparator(settings["type"], target, x) else 0, axis=1
+    ))
+
+    # series, sub_categories = get_category_series(category_name, comparator_set)
+    cols, sub_categories = col_cache[category_name]
+    series = comparator_set[comparator_set.columns[cols]]
 
     for sub_category in sub_categories:
-        stats[sub_category] = category_stats(sub_category, series, ofstead, settings)
-
-    return stats
+        yield category_stats(urn, sub_category, series, ofsted, settings, close_count)
 
 
-def compute_comparator_set_rag(comparator_set):
-    stats = {}
-    for cat in category_settings.keys():
-        settings = category_settings[cat]
-        stats = compute_category_rag(cat, settings, comparator_set, stats)
+def get_category_cols_predicates(category_name, data):
+    category_cols = (
+            data.columns.isin(base_cols)
+            | (data.columns.str.startswith(category_name)
+               & (data.columns.str.endswith("_Per Unit")))
+    )
 
-    return stats
+    df = data[data.columns[category_cols]]
+    dt = df.dtypes
+    sub_categories = dt[dt.index.str.startswith(category_name)].index.values
+
+    return category_cols, sub_categories
+
+
+def compute_rag(data, comparators):
+    # TODO: This shouldn't be required
+    keys = rag_category_settings.keys()
+
+    # reduce to only used columns so that extraction routines are more efficient
+    cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
+    df = data[data.columns[cols]]
+
+    # Pre-computes the column accessors for each cost category
+    column_cache = {}
+    for cat_name in keys:
+        column_cache[cat_name] = get_category_cols_predicates(cat_name, df)
+    indices = range(len(df))
+    st = time.time()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        with np.errstate(invalid="ignore"):
+            for indx in indices:
+                target = df.iloc[indx]
+                urn = target.name
+                try:
+                    pupil_urns = comparators["Pupil"][urn]
+                    building_urns = comparators["Building"][urn]
+                    for cat_name in keys:
+                        rag_settings = rag_category_settings[cat_name]
+                        set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
+                        if set_urns is not None:
+                            comparator_set = df[df.index.isin(set_urns)]
+                            for r in compute_category_rag(urn, cat_name, rag_settings, target, comparator_set, column_cache):
+                                yield r
+                        else:
+                            logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}')
+                    if indx > 1 and indx % 100 == 0:
+                        logger.info(f'Completed {indx} RAGs in {time.time() - st:.2f} secs')
+                        st = time.time()
+                except Exception as error:
+                    logger.exception(f"An exception occurred processing {urn}:", type(error).__name__, "–", error)
+                    return
+
