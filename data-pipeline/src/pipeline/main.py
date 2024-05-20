@@ -12,6 +12,11 @@ from dask.distributed import Client
 
 load_dotenv()
 
+from src.pipeline.database import (
+    insert_comparator_set,
+    insert_metric_rag
+)
+
 from src.pipeline.rag import (
     compute_rag
 )
@@ -268,7 +273,7 @@ def pre_process_data(worker_client, set_type, year):
     return time_taken
 
 
-def compute_comparator_set_for(data_type, set_type, year, data):
+def compute_comparator_set_for(data_type, mix_type, set_type, year, data):
     st = time.time()
     logger.info(f'Computing {data_type} set')
     result = compute_comparator_set(data)
@@ -279,6 +284,8 @@ def compute_comparator_set_for(data_type, set_type, year, data):
         f"{set_type}/{year}/{data_type}.parquet",
         result.to_parquet(),
     )
+
+    insert_comparator_set(set_type, mix_type, year, result)
 
 
 def compute_comparator_sets(set_type, year):
@@ -303,9 +310,9 @@ def compute_comparator_sets(set_type, year):
         )
     )
 
-    compute_comparator_set_for("academy_comparators", set_type, year, academies)
-    compute_comparator_set_for("maintained_schools_comparators", set_type, year, ms)
-    compute_comparator_set_for("mixed_comparators", set_type, year, all_schools)
+    compute_comparator_set_for("academy_comparators", "Unmixed", set_type, year, academies)
+    compute_comparator_set_for("maintained_schools_comparators", "Unmixed", set_type, year, ms)
+    compute_comparator_set_for("mixed_comparators", "mixed", set_type, year, all_schools)
 
     write_blob(
         "comparator-sets",
@@ -344,6 +351,8 @@ def compute_rag_for(data_type, set_type, year, data, comparators):
         df.to_parquet(),
     )
 
+    insert_metric_rag(set_type, year, df)
+
 
 def run_compute_rag(set_type, year):
     start_time = time.time()
@@ -380,10 +389,10 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
             msg_payload["year"]
         )
 
-        # msg_payload["rag_duration"] = run_compute_rag(
-        #     msg_payload["type"],
-        #     msg_payload["year"]
-        # )
+        msg_payload["rag_duration"] = run_compute_rag(
+            msg_payload["type"],
+            msg_payload["year"]
+        )
 
         msg_payload["success"] = True
     except Exception as error:
@@ -418,7 +427,7 @@ def receive_one_message(worker_client):
         exit(-1)
 
 
-async def receive_messages(worker_client):
+def receive_messages(worker_client):
     try:
         with blob_service_client, queue_service_client:
             worker_queue = connect_to_queue(worker_queue_name)

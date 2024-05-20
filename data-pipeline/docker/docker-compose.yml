@@ -1,4 +1,3 @@
-version: '3.7'
 name: 'fbit-services'
 
 services:
@@ -14,15 +13,30 @@ services:
     volumes:
       - "./azurite/data:/data"
 
+  mssql:
+    image: mcr.microsoft.com/azure-sql-edge
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "mystrong!Pa55word"
+      ACCEPT_EULA: Y
+    volumes:
+      - "./sql/data:/var/opt/mssql/data"
+      - "./sql/log:/var/opt/mssql/log"
+      - "./sql/secrets:/var/opt/mssql/secrets"
+
   pipeline:
     build:
       context: ../
       dockerfile: ./docker/pipeline-worker/Dockerfile
     environment:
       - STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
+      - DATABASE_CONNECTION_STRING=Driver={ODBC Driver 18 for SQL Server};Server=mssql,1433;Database=Core;UID=sa;PWD=mystrong!Pa55word;Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
       - WORKER_QUEUE_NAME=data-pipeline-job-start
       - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
       - RAW_DATA_CONTAINER=raw
       - ENV=dev
     depends_on:
       - azurite
+      - mssql
+
