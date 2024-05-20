@@ -230,8 +230,8 @@ def compute_distances(orig_data, grouped_data):
                 logger.exception(f"An exception occurred processing {ukprn}:", type(error).__name__, "–", error)
                 return
 
-    orig_data["Pupils"] = pupils
-    orig_data["Buildings"] = buildings
+    orig_data["Pupil"] = pupils
+    orig_data["Building"] = buildings
 
     return orig_data
 

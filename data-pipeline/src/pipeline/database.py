@@ -27,17 +27,15 @@ def receive_before_cursor_execute(
 
 
 def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFrame):
-    write_frame = df[["Pupils", "Buildings"]].copy()
+    write_frame = df[["Pupil", "Building"]].copy()
     write_frame["RunType"] = run_type
     write_frame["SetType"] = set_type
     write_frame["RunId"] = year
-    write_frame["Pupils"] = write_frame["Pupils"].map(lambda x: json.dumps(x.tolist()))
-    write_frame["Buildings"] = write_frame["Buildings"].map(lambda x: json.dumps(x.tolist()))
+    write_frame["Pupil"] = write_frame["Pupil"].map(lambda x: json.dumps(x.tolist()))
+    write_frame["Building"] = write_frame["Building"].map(lambda x: json.dumps(x.tolist()))
 
-    write_frame.rename({"Buildings": "Building", "Pupils": "Pupil"}, inplace=True)
-
-    result_count = write_frame.to_sql("ComparatorSet", con=engine, if_exists="append", schema="dbo")
-    logger.info(f"Wrote {result_count} out of {len(df)} rows to comparator set {run_type} - {set_type} - {year}")
+    write_frame.to_sql("ComparatorSet", con=engine, if_exists="append", schema="dbo")
+    logger.info(f"Wrote {len(df)} rows to comparator set {run_type} - {set_type} - {year}")
 
 
 def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
@@ -45,6 +43,6 @@ def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
     write_frame["RunType"] = run_type
     write_frame["RunId"] = year
 
-    result_count = write_frame.to_sql("MetricRAG", con=engine, if_exists="append", schema="dbo")
-    logger.info(f"Wrote {result_count} out of {len(df)} rows to metric rag {run_type} - {year}")
+    write_frame.to_sql("MetricRAG", con=engine, if_exists="append", schema="dbo")
+    logger.info(f"Wrote {len(df)} rows to metric rag {run_type} - {year}")
 

@@ -310,8 +310,8 @@ def compute_comparator_sets(set_type, year):
         )
     )
 
-    compute_comparator_set_for("academy_comparators", "Unmixed", set_type, year, academies)
-    compute_comparator_set_for("maintained_schools_comparators", "Unmixed", set_type, year, ms)
+    compute_comparator_set_for("academy_comparators", "unmixed", set_type, year, academies)
+    compute_comparator_set_for("maintained_schools_comparators", "unmixed", set_type, year, ms)
     compute_comparator_set_for("mixed_comparators", "mixed", set_type, year, all_schools)
 
     write_blob(
