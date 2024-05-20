@@ -265,6 +265,10 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
+					"pipeline": {
+						"referenceName": "s198d01_s198p02_TrustHistory",
+						"type": "PipelineReference"
+					},
 					"waitOnCompletion": true
 				}
 			}
