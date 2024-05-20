@@ -246,7 +246,7 @@ def compute_comparator_set(data: pd.DataFrame):
                  "Percentage Primary Need PD",
                  "Percentage Primary Need ASD",
                  "Percentage Primary Need OTH"
-                 ]].drop_duplicates().copy()
+                 ]].copy()
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
 
