@@ -251,7 +251,7 @@ router.post( '/set-school', (req, res) => {
     if ( req.session.data.signIn == 'trust') {
         var trustName = req.session.data.trust;
         if (trustName) {
-            req.session.data['trust-name'] = trustName;
+            req.session.data['trust-name'] = trustName.substring( 0, trustName.lastIndexOf(' (') );
         }
         res.redirect( '/trust-homepage' );
     } else if ( req.session.data.signIn == 'authority') {
@@ -401,7 +401,7 @@ function getSchoolList() {
 
 function getTrustList() {
 
-    var objTrustsFile = require('../app/data/trusts2.json');
+    var objTrustsFile = require('../app/data/trusts.json');
     var objTrusts = objTrustsFile.trusts;
     var trusts = [];
 
