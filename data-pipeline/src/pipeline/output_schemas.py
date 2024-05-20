@@ -77,7 +77,7 @@ academies_output = [
     "Postcode",
     "Percentage SEN",
     "Percentage Free school meals",
-    "PFI School",
+    "Is PFI School",
     "Other costs_PFI charges",
     "Non-educational support staff and services_Other staff",
     "Other self-generated income",
@@ -228,7 +228,6 @@ maintained_schools_output = [
     "Postcode",
     "Percentage SEN",
     "Percentage Free school meals",
-    "PFI School",
     "Overall Phase",
     "Other grants and payments",
     "Other costs_Supply teacher insurance",
@@ -311,6 +310,7 @@ maintained_schools_output = [
     "Region",
     "Ward",
     "District",
+    "Is PFI School",
 ]
 
 

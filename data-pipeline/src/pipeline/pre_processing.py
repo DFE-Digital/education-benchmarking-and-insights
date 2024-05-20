@@ -501,6 +501,7 @@ def build_academy_data(
             "region_name":"Region",
             "ward_name":"Ward",
             "district_administrative_name":"District",
+            "PFI School": "Is PFI School",
         },
         inplace=True,
     )
@@ -605,7 +606,7 @@ def build_maintained_school_data(
             "E01  Teaching Staff": "Teaching and Teaching support staff_Teaching staff",
             "E16  Energy": "Utilities_Energy",
             "E15  Water and sewerage": "Utilities_Water and sewerage",
-            "PFI": "PFI School",
+            "PFI": "Is PFI School",
             "I07  Other grants and payments": "Other grants and payments",
             # TODO: Should these come from the census record not the MS record
             "No Pupils": "Number of pupils",
@@ -633,7 +634,6 @@ def build_maintained_school_data(
         },
         inplace=True,
     )
-
     maintained_schools.set_index("URN", inplace=True)
     return maintained_schools
 
