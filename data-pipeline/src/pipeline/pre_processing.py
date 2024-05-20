@@ -444,6 +444,8 @@ def build_academy_data(
         axis=1,
     )
 
+    academies['Finance Type'] = "Academy"
+
     academies.rename(
         columns={
             "UKPRN_x": "UKPRN",
@@ -482,6 +484,23 @@ def build_academy_data(
             "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
             "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing",
             "PFI Charges": "Other costs_PFI charges",
+            "Type of Provision - Phase":"Overall Phase",
+            "EstablishmentName":"Establishment Name",
+            "OfstedRating (name)":"Ofsted Rating Description",
+            "TypeOfEstablishment (name)":"Establishment Type",
+            "OfstedLastInsp":"Ofsted Inspection Date",
+            "County (name)":"County",
+            "TelephoneNum":"Telephone",
+            "SchoolWebsite":"Website",
+            "Address3":"Address 3",
+            "HeadName":"Head Teacher Name",
+            "Academy Trust Name":"Trust Name",
+            "Academy UKPRN":"Trust UKPRN",
+            "NurseryProvision (name)":"Has a nursery",
+            "OfficialSixthForm (code)":"Has a sixth form",
+            "region_name":"Region",
+            "ward_name":"Ward",
+            "district_administrative_name":"District",
         },
         inplace=True,
     )
@@ -547,6 +566,8 @@ def build_maintained_school_data(
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
 
+    maintained_schools['Finance Type'] = "Maintained School"
+
     maintained_schools.rename(
         columns={
             "LA (code)": "LA Code",
@@ -595,6 +616,20 @@ def build_maintained_school_data(
             "I03  SEN funding":"SEN funding",
             "I10  Receipts from supply teacher insurance claims":"Receipts from supply teacher insurance claims",
             "I13  Donations and or private funds":"Donations and/or voluntary funds",
+            "EstablishmentName":"Establishment Name",
+            "OfstedRating (name)":"Ofsted Rating Description",
+            "TypeOfEstablishment (name)":"Establishment Type",
+            "OfstedLastInsp":"Ofsted Inspection Date",
+            "County (name)":"County",
+            "TelephoneNum":"Telephone",
+            "SchoolWebsite":"Website",
+            "Address3":"Address 3",
+            "HeadName":"Head Teacher Name",
+            "NurseryProvision (name)":"Has a nursery",
+            "OfficialSixthForm (code)":"Has a sixth form",
+            "region_name":"Region",
+            "ward_name":"Ward",
+            "district_administrative_name":"District",
         },
         inplace=True,
     )
