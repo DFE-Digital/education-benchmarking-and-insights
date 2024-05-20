@@ -262,7 +262,7 @@ def prepare_aar_data(aar_path):
     aar["Trust Financial Position"] = aar["Trust Balance"].map(mappings.map_is_surplus_deficit)
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
-
+    
     return aar.set_index("Academy UPIN")
 
 
@@ -425,6 +425,8 @@ def build_academy_data(
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
             "Number of Pupils": "Number of pupils",
+            "Academy Trust Name":"Trust Name",
+            "Academy UKPRN":"Trust UKPRN",
         },
         inplace=True,
     )

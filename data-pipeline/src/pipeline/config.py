@@ -61,8 +61,6 @@ cost_category_map = {
             "SchoolWebsite":"Website",
             "Address3":"Address 3",
             "HeadName":"Head Teacher Name",
-            "Academy Trust Name":"Trust Name",
-            "Academy UKPRN":"Trust UKPRN",
             "NurseryProvision (name)":"Has a nursery",
             "OfficialSixthForm (code)":"Has a sixth form",
             "region_name":"Region",
