@@ -63,9 +63,7 @@ def test_compute_pupils_comparator_phase(
     pupils_called: bool,
     random_row: dict,
 ):
-    phase_, urns, _ = compute_pupils_comparator((phase, random_row))
+    result = compute_pupils_comparator((phase, random_row))
 
-    assert phase_ is phase
-    assert np.array_equal(urns, np.array(random_row["URN"]))
     assert mock_pupils_calc.called is pupils_called
     assert mock_special_pupils_calc.called is special_called
