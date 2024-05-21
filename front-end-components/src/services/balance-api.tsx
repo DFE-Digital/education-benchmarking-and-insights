@@ -1,14 +1,14 @@
-import { Expenditure } from "src/services/types";
+import { Balance } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
-export class HistoryApi {
-  static async getExpenditure(
+export class BalanceApi {
+  static async history(
     type: string,
     id: string,
     dimension: string
-  ): Promise<Expenditure[]> {
+  ): Promise<Balance[]> {
     return fetch(
-      "/api/establishments/expenditure/history?" +
+      "/api/balance/history?" +
         new URLSearchParams({ type: type, id: id, dimension: dimension }),
       {
         redirect: "manual",
