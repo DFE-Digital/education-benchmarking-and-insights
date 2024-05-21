@@ -26,7 +26,7 @@ public class BalanceFunctions
         _logger = logger;
         _db = db;
     }
-    
+
     [FunctionName(nameof(BalanceAllDimensions))]
     [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
     public IActionResult BalanceAllDimensions(
@@ -45,7 +45,7 @@ public class BalanceFunctions
             return new JsonContentResult(BalanceDimensions.All);
         }
     }
-    
+
     [FunctionName(nameof(BalanceSchoolHistoryAsync))]
     [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -149,5 +149,5 @@ public class BalanceFunctions
             }
         }
     }
-    
+
 }

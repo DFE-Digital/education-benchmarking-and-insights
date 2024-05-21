@@ -23,7 +23,7 @@ public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFin
     {
         return await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
     }
-    
+
     public async Task<SchoolExpenditure> GetSchoolExpenditure(string urn)
     {
         return await insightApi.GetSchoolExpenditure(urn).GetResultOrThrow<SchoolExpenditure>();

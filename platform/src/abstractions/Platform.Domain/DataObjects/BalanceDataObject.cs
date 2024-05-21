@@ -15,8 +15,8 @@ public record BalanceDataObject : QueryableFinancesDataObject
 
     [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.TOTAL_INCOME)]
     public decimal TotalIncome { get; set; }
-    
+
     [JsonProperty(PropertyName = SchoolTrustFinancialDataObjectFieldNames.REVENUE_RESERVE)]
     public decimal RevenueReserve { get; set; }
-    
+
 }

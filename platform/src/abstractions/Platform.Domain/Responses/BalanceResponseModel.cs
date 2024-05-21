@@ -18,20 +18,20 @@ public record BalanceResponseModel
             YearEnd = term
         };
     }
-    
+
     public static BalanceResponseModel Create(BalanceDataObject? dataObject, int term, string dimension)
     {
         if (dataObject is null)
         {
             return CreateEmpty(term);
         }
-        
+
         return new BalanceResponseModel
-            {
-                YearEnd = term,
-                InYearBalance = CalculationValue(dataObject.TotalIncome - dataObject.TotalExpenditure, dataObject, dimension),
-                RevenueReserve = CalculationValue(dataObject.RevenueReserve, dataObject, dimension)
-            };
+        {
+            YearEnd = term,
+            InYearBalance = CalculationValue(dataObject.TotalIncome - dataObject.TotalExpenditure, dataObject, dimension),
+            RevenueReserve = CalculationValue(dataObject.RevenueReserve, dataObject, dimension)
+        };
     }
 
     private static decimal CalculationValue(decimal value, BalanceDataObject dataObject, string dimension)

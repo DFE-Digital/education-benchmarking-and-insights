@@ -31,7 +31,7 @@ public class TrustFinancesDb : CosmosDatabase, ITrustFinancesDb
 
         _latestYear = options.Value.AarLatestYear.Value;
     }
-    
+
     public async Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string companyNumber, Dimension dimension)
     {
         var finances = await GetHistoryFinances(companyNumber);
