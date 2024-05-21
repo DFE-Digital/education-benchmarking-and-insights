@@ -21,7 +21,7 @@ public class GivenAnInsightApi : ApiClientTestBase
 
         VerifyCall(HttpMethod.Get, "api/school/123213");
     }
-    
+
     [Fact]
     public async Task GetSchoolsExpenditureShouldCallCorrectUrl()
     {
