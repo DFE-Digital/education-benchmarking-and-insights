@@ -26,6 +26,11 @@ public class CompareDecimalValueAttribute(string otherProperty, Operator operato
 
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
+        if (value == null)
+        {
+            return null;
+        }
+
         var otherPropertyInfo = validationContext.ObjectType.GetRuntimeProperty(OtherProperty);
         if (otherPropertyInfo == null)
         {

@@ -87,6 +87,19 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     }
 
     [Fact]
+    public async Task CanSubmitEmptyCustomValues()
+    {
+        var (page, school) = await SetupNavigateInitPage();
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.Urn).ToAbsolute());
+    }
+
+    [Fact]
     public async Task SetsAndGetsValidCustomValuesToSession()
     {
         var (page, school) = await SetupNavigateInitPage();

@@ -77,6 +77,19 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
     }
 
     [Fact]
+    public async Task CanSubmitEmptyCustomValues()
+    {
+        var (page, school) = await SetupNavigateInitPage();
+        AssertPageLayout(page, school);
+        var action = page.QuerySelector(".govuk-button");
+        Assert.NotNull(action);
+
+        page = await Client.SubmitForm(page.Forms[0], action);
+
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomData(school.Urn).ToAbsolute());
+    }
+
+    [Fact]
     public async Task ShowsErrorOnInvalidValues()
     {
         var (page, school) = await SetupNavigateInitPage();
