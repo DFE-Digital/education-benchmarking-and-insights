@@ -72,6 +72,17 @@ public class GivenCompareDecimalValueAttribute
         Assert.Null(validationResult);
     }
 
+    [Fact]
+    public void ReturnsNullWhenValueIsNull()
+    {
+        var attribute = new CompareDecimalValueAttribute(string.Empty, Operator.EqualTo);
+        var model = new TestModel(0);
+        var context = new ValidationContext(model);
+
+        var validationResult = attribute.GetValidationResult(null, context);
+        Assert.Null(validationResult);
+    }
+
     private class TestModel(decimal value)
     {
         [Display(Name = "Other field")] public decimal OtherField { get; set; } = value;
