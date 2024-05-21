@@ -6,9 +6,14 @@ import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 import src.pipeline.config as config
 import pandas as pd
+import logging
 
 from warnings import simplefilter
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+
+
+logger = logging.getLogger("fbit-data-pipeline:pre-processing")
+logger.setLevel(logging.INFO)
 
 
 def prepare_cdc_data(cdc_file_path, current_year):
@@ -434,6 +439,7 @@ def build_academy_data(
     for category in config.rag_category_settings.keys():
         academies = build_cost_series(category, academies, config.rag_category_settings[category]["type"])
 
+    academies.set_index("UKPRN", inplace=True)
     return academies
 
 
@@ -512,8 +518,7 @@ def build_maintained_school_data(
         maintained_schools = build_cost_series(category, maintained_schools,
                                                config.rag_category_settings[category]["type"])
 
-    maintained_schools.set_index("URN", inplace=True)
-    return maintained_schools
+    return maintained_schools.reset_index().set_index("UKPRN")
 
 
 def build_federations_data(links_data_path, maintained_schools):
@@ -525,13 +530,11 @@ def build_federations_data(links_data_path, maintained_schools):
         dtype=input_schemas.groups,
     )
 
-    federations = maintained_schools[["LAEstab"]][
-        maintained_schools["Federation"] == "Lead school"
-        ].copy()
+    federations = maintained_schools[["URN","LAEstab"]][maintained_schools["Federation"] == "Lead school"].copy()
 
     # join
     federations = federations.join(
-        group_links[["Group Name", "Group UID", "Closed Date"]]
+        group_links[["Group Name", "Group UID", "Closed Date"]], on="URN"
     )
 
     # remove federations with an associated closed date
@@ -577,4 +580,9 @@ def build_federations_data(links_data_path, maintained_schools):
     )
 
     # TODO - add in soft federation members and names (currently no mapping available)
+    # soft_federations.join(maintained_schools, on="URN")
+    # hard_federations.join(maintained_schools, on="URN")
+    #
+    # soft_federations.set_index("UKPRN", inplace=True)
+    # hard_federations.set_index("UKPRN", inplace=True)
     return hard_federations, soft_federations

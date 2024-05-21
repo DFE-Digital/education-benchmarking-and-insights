@@ -17,7 +17,6 @@ public record TrustFinancesDbOptions : CosmosDatabaseOptions
 
 public interface ITrustFinancesDb
 {
-    Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string companyNumber, Dimension dimension);
     Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string urn, Dimension dimension);
 }
 
@@ -31,15 +30,6 @@ public class TrustFinancesDb : CosmosDatabase, ITrustFinancesDb
         ArgumentNullException.ThrowIfNull(options.Value.AarLatestYear);
 
         _latestYear = options.Value.AarLatestYear.Value;
-    }
-
-    public async Task<IEnumerable<BalanceResponseModel>> GetBalanceHistory(string companyNumber, Dimension dimension)
-    {
-        var finances = await GetHistoryFinances(companyNumber);
-
-        return finances
-            .OfType<(int, SchoolTrustFinancialDataObject)>()
-            .Select(x => BalanceResponseModel.Create(x.Item2, x.Item1, dimension));
     }
 
     public async Task<IEnumerable<ExpenditureResponseModel>> GetExpenditureHistory(string companyNumber, Dimension dimension)

@@ -27,41 +27,6 @@ public class TrustFinanceFunctions
         _db = db;
     }
 
-    [FunctionName(nameof(TrustBalanceHistoryAsync))]
-    [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    public async Task<IActionResult> TrustBalanceHistoryAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "trust/{companyNumber}/balance/history")]
-        HttpRequest req,
-        string companyNumber)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                var queryDimension = req.Query["dimension"].ToString();
-                var dimension = Enum.TryParse(queryDimension, true, out Dimension dimensionValue)
-                    ? dimensionValue
-                    : Dimension.Actuals;
-
-                var finances = await _db.GetBalanceHistory(companyNumber, dimension);
-                return new JsonContentResult(finances);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get trust balance history");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
-
     [FunctionName(nameof(TrustExpenditureHistoryAsync))]
     [ProducesResponseType(typeof(ExpenditureResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
