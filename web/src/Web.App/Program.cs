@@ -98,6 +98,9 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IIncomeApi, IncomeApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 
+    builder.Services.AddHttpClient<IBalanceApi, BalanceApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
         .ConfigureHttpClientForApi(Constants.EstablishmentApi);
 

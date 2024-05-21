@@ -23,17 +23,6 @@ public class GivenAnInsightApi : ApiClientTestBase
     }
 
     [Fact]
-    public async Task GetSchoolBalanceHistoryShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolBalanceHistory("123213");
-
-        VerifyCall(HttpMethod.Get, "api/school/123213/balance/history");
-    }
-
-
-    [Fact]
     public async Task GetSchoolsExpenditureShouldCallCorrectUrl()
     {
         var query = new ApiQuery().AddIfNotNull("Name", "Foo");

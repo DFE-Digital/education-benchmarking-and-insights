@@ -7,7 +7,7 @@ import {
   CostCategories,
 } from "src/components";
 import { ChartModeContext, ChartDimensionContext } from "src/contexts";
-import { Balance, HistoryApi } from "src/services";
+import { Balance, BalanceApi } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
@@ -21,7 +21,7 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
   const [data, setData] = useState(new Array<Balance>());
   const getData = useCallback(async () => {
     setData(new Array<Balance>());
-    return await HistoryApi.getBalance(type, id, dimension.value);
+    return await BalanceApi.history(type, id, dimension.value);
   }, [type, id, dimension]);
 
   useEffect(() => {

@@ -47,34 +47,6 @@ public class ProxyController(
 
     [HttpGet]
     [Produces("application/json")]
-    [Route("establishments/balance/history")]
-    public async Task<IActionResult> EstablishmentBalanceHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
-    {
-        using (logger.BeginScope(new { type, id }))
-        {
-            try
-            {
-                var result = type.ToLower() switch
-                {
-                    OrganisationTypes.School => await financeService.GetSchoolBalanceHistory(id, dimension),
-                    OrganisationTypes.Trust => await financeService.GetTrustBalanceHistory(id, dimension),
-                    _ => throw new ArgumentOutOfRangeException(nameof(type))
-                };
-
-                return new JsonResult(result);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error getting balance history data: {DisplayUrl}", Request.GetDisplayUrl());
-                return StatusCode(500);
-            }
-        }
-    }
-
-
-
-    [HttpGet]
-    [Produces("application/json")]
     [Route("establishments/expenditure/history")]
     public async Task<IActionResult> EstablishmentExpenditureHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
     {
