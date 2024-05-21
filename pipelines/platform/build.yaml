@@ -143,4 +143,3 @@ stages:
           environmentPrefix: 's198t01'
           environment: 'test'
           cipEnvironment: 'Test'
-          runSearchApp: false
