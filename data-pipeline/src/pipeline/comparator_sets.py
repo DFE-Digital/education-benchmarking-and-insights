@@ -1,5 +1,9 @@
 import numpy as np
 import pandas as pd
+import logging
+
+logger = logging.getLogger("fbit-data-pipeline:comparator-set")
+logger.setLevel(logging.INFO)
 
 
 # TODO: This should be moved to pre-processing really
@@ -82,18 +86,18 @@ def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
 
 
 def special_pupils_calc(
-    pupils: np.array,
-    fsm: np.array,
-    splds: np.array,
-    mlds: np.array,
-    pmlds: np.array,
-    semhs: np.array,
-    slcns: np.array,
-    his: np.array,
-    msis: np.array,
-    pds: np.array,
-    asds: np.array,
-    oths: np.array,
+        pupils: np.array,
+        fsm: np.array,
+        splds: np.array,
+        mlds: np.array,
+        pmlds: np.array,
+        semhs: np.array,
+        slcns: np.array,
+        his: np.array,
+        msis: np.array,
+        pds: np.array,
+        asds: np.array,
+        oths: np.array,
 ):
     """
     Perform pupil calculation (special).
@@ -206,21 +210,28 @@ def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size
 
 
 def compute_distances(orig_data, grouped_data):
-    orig_data["Pupil"] = pd.Series(index=orig_data.index, dtype=object)
-    orig_data["Building"] = pd.Series(index=orig_data.index, dtype=object)
+    pupils = pd.Series(index=orig_data.index, dtype=object)
+    buildings = pd.Series(index=orig_data.index, dtype=object)
     for phase, row in grouped_data.iterrows():
         pupil_distance = compute_pupils_comparator((phase, row))
         building_distance = compute_buildings_comparator((phase, row))
-        all_urns = np.array(row["URN"])
+        all_urns = np.array(row["UKPRN"])
         all_regions = np.array(row["GOR (name)"])
 
         for idx in range(len(all_urns)):
-            urn = all_urns[idx]
-            pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
-            building_set = select_top_set(all_urns, all_regions, building_distance[idx])
+            ukprn = all_urns[idx]
+            try:
+                pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
+                building_set = select_top_set(all_urns, all_regions, building_distance[idx])
 
-            orig_data.at[urn, "Pupil"] = pupil_set
-            orig_data.at[urn, "Building"] = building_set
+                pupils.loc[ukprn] = pupil_set
+                buildings.loc[ukprn] = building_set
+            except Exception as error:
+                logger.exception(f"An exception occurred processing {ukprn}:", type(error).__name__, "–", error)
+                return
+
+    orig_data["Pupil"] = pupils
+    orig_data["Building"] = buildings
 
     return orig_data
 
@@ -228,25 +239,25 @@ def compute_distances(orig_data, grouped_data):
 def compute_comparator_set(data: pd.DataFrame):
     # TODO: Drop_duplicates should not be needed here.
     # TODO: Need to add boarding and PFI groups into this logic
-    copy = data[["OfstedRating (name)",
-                 "Percentage SEN",
-                 "Percentage Free school meals",
-                 "Number of pupils",
-                 "Total Internal Floor Area",
-                 "Age Average Score",
-                 "GOR (name)",
-                 "SchoolPhaseType",
-                 "Percentage Primary Need SPLD",
-                 "Percentage Primary Need MLD",
-                 "Percentage Primary Need PMLD",
-                 "Percentage Primary Need SEMH",
-                 "Percentage Primary Need SLCN",
-                 "Percentage Primary Need HI",
-                 "Percentage Primary Need MSI",
-                 "Percentage Primary Need PD",
-                 "Percentage Primary Need ASD",
-                 "Percentage Primary Need OTH"
-                 ]].copy()
+    copy = data[~data.index.isna()][["OfstedRating (name)",
+                                     "Percentage SEN",
+                                     "Percentage Free school meals",
+                                     "Number of pupils",
+                                     "Total Internal Floor Area",
+                                     "Age Average Score",
+                                     "GOR (name)",
+                                     "SchoolPhaseType",
+                                     "Percentage Primary Need SPLD",
+                                     "Percentage Primary Need MLD",
+                                     "Percentage Primary Need PMLD",
+                                     "Percentage Primary Need SEMH",
+                                     "Percentage Primary Need SLCN",
+                                     "Percentage Primary Need HI",
+                                     "Percentage Primary Need MSI",
+                                     "Percentage Primary Need PD",
+                                     "Percentage Primary Need ASD",
+                                     "Percentage Primary Need OTH"
+                                     ]].drop_duplicates(ignore_index=False).copy()
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
 
@@ -269,7 +280,7 @@ def compute_custom_comparator(data: pd.DataFrame):
                  "Percentage Primary Need MSI",
                  "Percentage Primary Need PD",
                  "Percentage Primary Need ASD",
-                 "Percentage Primary Need OTH"]].drop_duplicates().copy()
+                 "Percentage Primary Need OTH"]].drop_duplicates(ignore_index=False).copy()
     copy["Custom"] = "Grouper"
     classes = copy.reset_index().groupby(["Custom"]).agg(list)
     return compute_distances(copy, classes)

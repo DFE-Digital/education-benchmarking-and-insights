@@ -8,11 +8,11 @@ from src.pipeline.config import rag_category_settings
 
 pd.options.mode.chained_assignment = None
 
-logger = logging.getLogger("fbit-data-pipeline")
+logger = logging.getLogger("fbit-data-pipeline:rag")
 logger.setLevel(logging.INFO)
 
 base_cols = [
-    "URN",
+    "UKPRN",
     "Total Internal Floor Area",
     "Age Average Score",
     "OfstedRating (name)",
@@ -110,7 +110,7 @@ def find_percentile(d, value):
     return pc - 1
 
 
-def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_count):
+def category_stats(ukprn, category_name, data, ofsted_rating, rag_mapping, close_count):
     key = "outstanding" if ofsted_rating.lower() == "outstanding" else "other"
     key += "_10" if close_count > 10 else ""
 
@@ -124,17 +124,17 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
     diff_percent = (diff / value) * 100 if value != 0 and value != np.nan and not pd.isna(value) else 0
     cats = category_name.split('_')
     return {
-        "Urn": urn,
+        "UKPRN": ukprn,
         "Category": cats[0],
-        "Sub category": cats[1],
+        "SubCategory": cats[1],
         "Value": value,
         "Mean": mean,
-        "Diff Mean": diff,
+        "DiffMean": diff,
         "Key": key,
-        "Percentage Diff": diff_percent,
+        "PercentDiff": diff_percent,
         "Percentile": percentile,
         "Decile": decile,
-        "Rag": rag_mapping[key][int(decile)]
+        "RAG": rag_mapping[key][int(decile)]
     }
 
 
@@ -168,7 +168,6 @@ def get_category_cols_predicates(category_name, data):
 
 
 def compute_rag(data, comparators):
-    # TODO: This shouldn't be required
     keys = rag_category_settings.keys()
 
     # reduce to only used columns so that extraction routines are more efficient
@@ -187,23 +186,23 @@ def compute_rag(data, comparators):
         with np.errstate(invalid="ignore"):
             for indx in indices:
                 target = df.iloc[indx]
-                urn = target.name
+                ukprn = target.name
                 try:
-                    pupil_urns = comparators["Pupil"][urn]
-                    building_urns = comparators["Building"][urn]
+                    pupil_urns = comparators["Pupil"][ukprn]
+                    building_urns = comparators["Building"][ukprn]
                     for cat_name in keys:
                         rag_settings = rag_category_settings[cat_name]
                         set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
                         if set_urns is not None:
                             comparator_set = df[df.index.isin(set_urns)]
-                            for r in compute_category_rag(urn, cat_name, rag_settings, target, comparator_set, column_cache):
+                            for r in compute_category_rag(ukprn, cat_name, rag_settings, target, comparator_set, column_cache):
                                 yield r
                         else:
-                            logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {urn}')
+                            logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {ukprn}')
                     if indx > 1 and indx % 100 == 0:
                         logger.info(f'Completed {indx} RAGs in {time.time() - st:.2f} secs')
                         st = time.time()
                 except Exception as error:
-                    logger.exception(f"An exception occurred processing {urn}:", type(error).__name__, "–", error)
+                    logger.exception(f"An exception occurred processing {ukprn}:", type(error).__name__, "–", error)
                     return
 
