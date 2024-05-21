@@ -46,6 +46,13 @@ gias = {
     "OfstedRating (name)": "string",
     "MSOA (code)": "string",
     "LSOA (code)": "string",
+    "StatutoryLowAge":"Int64",
+    "StatutoryHighAge":"Int64",
+    "Street":"string",
+    "Locality":"string",
+    "Address3":"string",
+    "Town":"string",
+    "County (name)":"string",
 }
 
 gias_links_index_col = "URN"
@@ -69,7 +76,6 @@ academy_master_list = {
     "Trust Type": "string",
     "LA Establishment Number": "string",
     "Date Opened": "string",
-    "LA Name": "string",
     "Type of Provision - Phase": "string",
     "Regional School Commissioner": "string",
     "Valid From": "string",
@@ -237,7 +243,6 @@ workforce_census = {
     "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
     "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Int64",
     "Teachers with Qualified Teacher Status (%) (Headcount)": "float",
-    "Statutory Low Age": "Int64",
     "Total Number of Teaching Assistants (Full-Time Equivalent)": "float",
     "Total Number of Teaching Assistants (Headcount)": "Int64",
     "Total School Workforce (Full-Time Equivalent)": "float",
@@ -256,7 +261,11 @@ pupil_census = {
     "URN": "Int64",
     "% of pupils known to be eligible for and claiming free school me": "float",
     "% of pupils known to be eligible for free school meals (Performa": "float",
-    "number of pupils whose first language is known or believed to be other than English": "float"
+    "number of pupils whose first language is known or believed to be other than English": "float",
+    "full time pupils": "float",
+    "ward_name":"string",
+    "district_administrative_name":"string",
+    "region_name":"string",
 }
 
 cfr_index_col = "URN"
@@ -391,6 +400,7 @@ aar_academies = {
     "Costs of Brought in Professional Services": "float",
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
+    "London Weighting":"string",
 }
 
 aar_central_services_index_col = "Lead UPIN"
