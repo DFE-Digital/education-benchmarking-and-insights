@@ -4,11 +4,11 @@
     "net8.0": {
       "Deque.AxeCore.Playwright": {
         "type": "Direct",
-        "requested": "[4.9.0, )",
-        "resolved": "4.9.0",
-        "contentHash": "IguLEeKedNbcD4eEUDAZgE4grND1xlkugfNH3GnlyMf9C/EKWWHzy+Tfla3CcvZ6aYSkglOg7TrgqCmHIQwGVA==",
+        "requested": "[4.9.1, )",
+        "resolved": "4.9.1",
+        "contentHash": "UnUeaUU3Xhms7Pe4kdw/UKqRI2oA3mfdJvhw57kKxzf0a20jgdRvgIQrnQyUL0m4rY9hpB+yKE8BV0fPQYrbCA==",
         "dependencies": {
-          "Deque.AxeCore.Commons": "4.9.0",
+          "Deque.AxeCore.Commons": "4.9.1",
           "Microsoft.Playwright": "1.20.2",
           "System.IO.Abstractions": "17.0.24"
         }
@@ -66,9 +66,9 @@
       },
       "Microsoft.Playwright": {
         "type": "Direct",
-        "requested": "[1.43.0, )",
-        "resolved": "1.43.0",
-        "contentHash": "FvY6w9duxWBXe3gV6MSqvUcdF9daSBfDVUrYKcr4Fyro0nbiCf4hQUsPxx+CJ3P8PtSrzC675oU14qGzcrGNJw==",
+        "requested": "[1.44.0, )",
+        "resolved": "1.44.0",
+        "contentHash": "stag3Jv/FtjqR5/8UcVfyYyktPt9AHxBnNazyytu4cq5W8/J5DQDQEednk/cK2iGy2Y/dC0hUcCdxp9cFDckmA==",
         "dependencies": {
           "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
           "System.ComponentModel.Annotations": "5.0.0",
@@ -112,8 +112,8 @@
       },
       "Deque.AxeCore.Commons": {
         "type": "Transitive",
-        "resolved": "4.9.0",
-        "contentHash": "/ZO//IRSVcfDbSeD5pjwyho/YqyAXHFM8ryt8xcK3spvVd11JIRbgDiQkInvo3qI+vuVOAKCiawd1ifKI54uOw==",
+        "resolved": "4.9.1",
+        "contentHash": "RLGxwMQtivZgYmy17IYUr93OP7TCLcFsklJY2cnv5UTrvuTyqpMkbkDsVMUf9BeYDceTWqaXancd40FVVlxUOQ==",
         "dependencies": {
           "NewtonSoft.Json": "13.0.1"
         }
