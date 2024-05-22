@@ -58,6 +58,7 @@ public static class Paths
     public static string SchoolFinancialPlanningOtherTeachingPeriodsConfirm(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-confirmation?year={year}";
     public static string SchoolFinancialPlanningOtherTeachingPeriodsReview(string? urn, int year) => $"/school/{urn}/financial-planning/create/other-teaching-periods-review?year={year}";
     public static string SchoolFinancialPlanningManagementRoles(string? urn, int year) => $"/school/{urn}/financial-planning/create/management-roles?year={year}";
+    public static string SchoolFinancialPlanningManagersPerRole(string? urn, int year) => $"/school/{urn}/financial-planning/create/managers-per-role?year={year}";
     public static string SchoolCustomDataFinancialData(string? urn) => $"/school/{urn}/custom-data/financial-data";
     public static string SchoolCustomDataNonFinancialData(string? urn) => $"/school/{urn}/custom-data/school-characteristics";
     public static string SchoolCustomDataWorkforceData(string? urn) => $"/school/{urn}/custom-data/workforce";
