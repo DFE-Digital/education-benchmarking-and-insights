@@ -1,0 +1,7 @@
+@model Web.App.ViewModels.Components.RagStackViewModel
+
+<svg style="height:@(Model.Height)px;" class="rag-stack">
+    <rect x="0" y="0" width="@Model.Red%" height="100%" class="rag-stack-red"/>
+    <rect x="@Model.Red%" y="0" width="@Model.Amber%" height="100%" class="rag-stack-amber"/>
+    <rect x="@(Model.Red + Model.Amber)%" y="0" width="@Model.Green%" height="100%" class="rag-stack-green"/>
+</svg>
