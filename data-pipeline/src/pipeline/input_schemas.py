@@ -191,7 +191,6 @@ sen_index_col = "URN"
 sen = {
     "URN": "Int64",
     "Total pupils": "float",
-    "SEN support": "Int64",
     "EHC plan": "float",
     "EHC_Primary_need_spld": "float",
     "SUP_Primary_need_spld": "float",
@@ -216,21 +215,7 @@ sen = {
     "EHC_Primary_need_asd": "float",
     "SUP_Primary_need_asd": "float",
     "EHC_Primary_need_oth": "float",
-    "SUP_Primary_need_oth": "float",
-    "EHC_Primary_need_nsa": "float",
-    "SUP_Primary_need_nsa": "float",
-    "Prov_SPLD": "float",
-    "Prov_MLD": "float",
-    "Prov_SLD": "float",
-    "Prov_PMLD": "float",
-    "Prov_SEMH": "float",
-    "prov_slcn": "float",
-    "prov_hi": "float",
-    "prov_vi": "float",
-    "prov_msi": "float",
-    "prov_pd": "float",
-    "prov_asd": "float",
-    "prov_oth": "float",
+    "SUP_Primary_need_oth": "float"
 }
 
 workforce_census_index_col = "URN"
@@ -320,15 +305,13 @@ groups = {
 ks2_index_col = "URN"
 ks2 = {
     "URN": "Int64",
-    "LEA": "Int64",
-    "ESTAB": "Int64",
     "READPROG": "string",
     "WRITPROG": "string",
     "MATPROG": "string",
 }
 
 ks4_index_col = "URN"
-ks4 = {"URN": "Int64", "ATT8SCR": "string", "P8MEA": "string", "P8_BANDING": "string"}
+ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "float"}
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {

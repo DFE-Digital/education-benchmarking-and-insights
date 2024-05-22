@@ -204,7 +204,12 @@ def prepare_ks4_data(ks4_path):
         index_col=input_schemas.ks4_index_col,
         dtype=input_schemas.ks4,
         usecols=input_schemas.ks4.keys(),
+        na_values=["NE", "SUPP"]
     )
+
+    ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
+    ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)
+    ks4["P8_BANDING"] = ks4["P8_BANDING"].astype(float).fillna(0)
 
     ks4.rename(
         columns={
