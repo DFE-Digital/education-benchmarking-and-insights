@@ -11,19 +11,20 @@ Choose characteristics to find matching schools – {{ serviceName }}
 {% block beforeContent %}
     {{ govukBackLink({
         text: "Back",
-        href: "/comparators/create/local-authority"
+        href: "/comparators/create"
     }) }}
 {% endblock %}
 
 {% block content %}
 
+<span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+<h1 class="govuk-heading-l">Choose characteristics to find matching schools</h1>
+
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-three-quarters">
 
         <form action="/comparators/create/review" method="post">
-            <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
 
-            <h1 class="govuk-heading-l">Choose characteristics to find matching schools</h1>
                         
             {% if data['errorThisPage'] == 'true' %}
             
@@ -54,6 +55,71 @@ Choose characteristics to find matching schools – {{ serviceName }}
             -->
 
             <div class="govuk-form-group">
+
+                <h2 class="govuk-heading-m">Default characteristics</h2>
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes" style="margin-bottom: 20px;">
+                    <h3 class="govuk-heading-s">Type of school</h3>
+                    
+                    <div class="govuk-checkboxes" data-module="govuk-radios" id="pc123">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit" id="Defecit.Exclude1" value="Exclude" class="govuk-radios__input criteria-radio">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude1">Maintained schools</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit" id="Defecit.Include" value="Include" class="govuk-radios__input criteria-radio" checked="checked">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Include">Academies</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit" id="Defecit.Include2" value="Both" class="govuk-radios__input criteria-radio">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Include2">Both</label>
+                            </div>
+                        </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="govuk-checkboxes question" data-module="govuk-checkboxes" style="margin-bottom: 40px;">
+                    <h3 class="govuk-heading-s">Local authorities</h3>
+
+                    <div class="govuk-checkboxes" data-module="govuk-radios" id="pc124">
+                    <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit2" id="Defecit.Exclude" value="Exclude" class="govuk-radios__input criteria-radio" checked="checked">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude">All local authorities</label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit2" id="Defecit.Exclude2" value="Exclude" class="govuk-radios__input criteria-radio">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude2">This school's local authority only<br/><span class="govuk-hint">(North Yorkshire Council)</span></label>
+                            </div>
+                            <div class="govuk-radios__item">
+                                <input type="radio" name="Defecit2" id="Defecit.Exclude3" value="Include" class="govuk-radios__input criteria-radio" data-aria-controls="conditional-la">
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude3">Selected local authority or authorities</label>
+                            </div>
+                            <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-la">
+                            {{ xGovukAutocomplete({
+                                id: "local-authority",
+                                name: "localAuthority",
+                                type: "text",
+                                value: data['localAuthority'],
+                                label: {
+                                text: "Enter a local authority name or a three-digit LA code"
+                                },
+                                items: rows
+                            }) }}
+                            </div>
+                        </fieldset>
+                    </div>
+                    </div>
+                </div>
+
+
+
+                <h2 class="govuk-heading-m">Additional characteristics</h2>
+
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
