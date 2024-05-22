@@ -26,6 +26,8 @@
     </div>
 </div>
 
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust })
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
