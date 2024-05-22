@@ -1,3 +1,4 @@
+@using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.TrustViewModel
 @{
@@ -32,8 +33,8 @@
     </div>
 </div>
 
-<h2 class="govuk-heading-m">Trust-wide cost overview</h2>
-<div class="govuk-grid-row">
+<h2 class="govuk-heading-m">Trust-wide spending and costs overview</h2>
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
         <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
             <li class="app-headline-high">
@@ -52,7 +53,7 @@
     </div>
 </div>
 
-<table class="govuk-table">
+<table class="govuk-table table-cost-category-rag">
     <caption class="govuk-table__caption govuk-table__caption--m">Cost categories</caption>
     <thead class="govuk-table__head govuk-visually-hidden">
     <tr class="govuk-table__row">
@@ -65,28 +66,24 @@
     {
         <tr class="govuk-table__row">
             <td class="govuk-table__cell govuk-!-width-one-third">
-                @rating.Category
+                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })#@rating.Category.ToSlug()" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
             </td>
             <td class="govuk-table__cell">
                 @await Component.InvokeAsync("RagStack", new
                 {
-                    identifer = rating.Category,
+                    identifier = rating.Category,
                     red = rating.Red,
                     amber = rating.Amber,
-                    green = rating.Green
+                    green = rating.Green,
+                    redHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
+                    amberHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
+                    greenHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}"
                 })
             </td>
         </tr>
     }
     </tbody>
 </table>
-
-<div class="top-categories">
-
-</div>
-<h3 class="govuk-heading-s">
-    <a href="#" class="govuk-link govuk-link--no-visited-state">View all spending and costs</a>
-</h3>
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 

@@ -3,7 +3,7 @@
 @using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolCustomDataValueViewModel
 @{
-    var id = Model.Title.Replace(" ", "-").ToLower();
+    var id = Model.Title.ToSlug();
     var customValueFormatted = ViewData.ModelState.GetAttemptedValueOrDefault(Model.Name, Model.Custom.HasValue ? Model.Custom.ToString() : string.Empty);
     var currentValue = Model.Current.GetValueOrDefault();
     var currentValueFormatted = currentValue.ToString(CultureInfo.InvariantCulture);

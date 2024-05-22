@@ -1,6 +1,7 @@
+@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolCustomDataSectionViewModel
 @{
-    var id = Model.Title.Replace(" ", "-").ToLower();
+    var id = Model.Title.ToSlug();
 }
 
 <table class="govuk-table table-custom-data" id="govuk-table-custom-data-@id">

@@ -1,7 +1,54 @@
+@using Web.App.Extensions
 @model Web.App.ViewModels.Components.RagStackViewModel
+@{
+    var id = Model.Identifier.ToSlug();
+}
 
-<svg style="height:@(Model.Height)px;" class="rag-stack">
-    <rect x="0" y="0" width="@Model.Red%" height="100%" class="rag-stack-red"/>
-    <rect x="@Model.Red%" y="0" width="@Model.Amber%" height="100%" class="rag-stack-amber"/>
-    <rect x="@(Model.Red + Model.Amber)%" y="0" width="@Model.Green%" height="100%" class="rag-stack-green"/>
-</svg>
+<svg style="height:@(Model.Height)px;" class="rag-stack" role="img" aria-labelledby="@id-rag">
+    <title id="@id-rag">RAG ratings for @Model.Identifier: @Model.Red red, @Model.Amber amber and @Model.Green green</title>
+    @if (!string.IsNullOrWhiteSpace(Model.RedHref))
+    {
+        @:<a href="@Model.RedHref" aria-label="@Model.Red red">
+    }
+    <rect
+        role="presentation"
+        x="0"
+        y="0"
+        width="@Model.RedPercentage%"
+        height="100%"
+        class="rag-stack-red"/>
+    @if (!string.IsNullOrWhiteSpace(Model.RedHref))
+    {
+        @:</a>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+    {
+        @:<a href="@Model.AmberHref" aria-label="@Model.Amber amber">
+    }
+    <rect
+        role="presentation"
+        x="@Model.RedPercentage%"
+        y="0"
+        width="@Model.AmberPercentage%"
+        height="100%"
+        class="rag-stack-amber"/>
+    @if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+    {
+        @:</a>
+    }
+    @if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+    {
+        @:<a href="@Model.GreenHref" aria-label="@Model.Green green">
+    }
+    <rect
+        role="presentation"
+        x="@(Model.RedPercentage + Model.AmberPercentage)%"
+        y="0"
+        width="@Model.GreenPercentage%"
+        height="100%"
+        class="rag-stack-green"/>
+    @if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+    {
+        @:</a>
+    }
+</svg >

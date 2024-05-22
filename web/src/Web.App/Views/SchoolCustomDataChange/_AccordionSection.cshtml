@@ -1,6 +1,7 @@
+@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolCustomDataSectionViewModel
 @{
-    var id = ViewData["Index"] ?? Model.Title.Replace(" ", "-").ToLower();
+    var id = ViewData["Index"] ?? Model.Title.ToSlug();
 }
 
 <div class="govuk-accordion__section">
