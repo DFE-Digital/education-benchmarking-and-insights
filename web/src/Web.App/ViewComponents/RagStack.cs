@@ -13,7 +13,7 @@ public class RagStack : ViewComponent
         string? redHref = null,
         string? amberHref = null,
         string? greenHref = null)
-        => View(new RagStackViewModel(identifier, red, amber, green, height ?? 25)
+        => View(new RagStackViewModel(identifier, red, amber, green, height ?? 30)
         {
             RedHref = redHref,
             AmberHref = amberHref,

@@ -1,0 +1,34 @@
+﻿@model Web.App.ViewModels.TrustSchoolsSectionViewModel
+
+@if (Model.Schools.Any())
+{
+    <table class="govuk-table table-school-rag">
+        <caption class="govuk-table__caption govuk-visually-hidden">@Model.Heading in this trust</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-half govuk-body-s">@Model.Heading</th>
+            <th scope="col" class="govuk-table__header govuk-body-s">Status</th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var school in Model.Schools)
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-body-s">
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new { urn = school.Urn })">@school.Name</a>
+                </td>
+                <td>
+                    @await Component.InvokeAsync("RagStack", new
+                    {
+                        identifier = school.Name,
+                        red = school.Red,
+                        amber = school.Amber,
+                        green = school.Green,
+                        height = 15
+                    })
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
