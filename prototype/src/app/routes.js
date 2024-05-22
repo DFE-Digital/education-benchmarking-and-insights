@@ -38,6 +38,13 @@ router.get( '/comparators/create/local-authority', (req, res) => {
 
 // ADD SCHOOLS BY CHARACTERISTICS
 
+router.get( '/comparators/create/characteristics', (req, res) => {
+
+    var rows = getLocalAuthorityList();
+    res.render( '/comparators/create/characteristics', { rows: rows } );
+
+})
+
 router.post( '/comparators/create/review', (req, res) => {
 
     var comparators = generatePupilComparators();
