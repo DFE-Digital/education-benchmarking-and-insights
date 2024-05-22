@@ -89,3 +89,20 @@ p.priority .govuk-tag {
     }
   }
 }
+
+.rag-stack {
+  width: 100%;
+
+  // colours taken from node_modules/govuk-frontend/dist/govuk/components/tag/_tag.scss
+  .rag-stack-red {
+    fill: $rag-red-colour;
+  }
+
+  .rag-stack-amber {
+    fill: $rag-orange-colour;
+  }
+
+  .rag-stack-green {
+    fill: $rag-green-colour;
+  }
+}
