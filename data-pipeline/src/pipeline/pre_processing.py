@@ -211,6 +211,12 @@ def prepare_aar_data(aar_path):
         dtype=input_schemas.aar_academies,
     )
 
+    # removing pre-transition academies
+    transitioned_academy_urns = aar['URN'][aar['URN'].duplicated()].values
+    mask = ~(aar['URN'].isin(transitioned_academy_urns) & aar['Date joined or opened if in period'].isna())
+    aar = aar[mask]
+    aar.drop(columns=['URN'], inplace=True)
+
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",

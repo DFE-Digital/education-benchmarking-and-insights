@@ -332,6 +332,7 @@ ks4 = {"URN": "Int64", "ATT8SCR": "string", "P8MEA": "string", "P8_BANDING": "st
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {
+    "URN":"Int64",
     "Academy UPIN": "Int64",
     "In year balance": "float",
     "PFI": "string",
@@ -401,6 +402,7 @@ aar_academies = {
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
     "London Weighting":"string",
+    'Date joined or opened if in period':"string"
 }
 
 aar_central_services_index_col = "Lead UPIN"

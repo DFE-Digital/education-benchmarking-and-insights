@@ -2,7 +2,6 @@ academies_output = [
     "number of pupils whose first language is known or believed to be other than English",
     "Utilities_Water and sewerage",
     "UrbanRural (name)",
-    "UKPRN",
     "Overall Phase",
     "Trust Financial Position",
     "Trust Balance",
@@ -163,7 +162,6 @@ maintained_schools_output = [
     "Utilities_Water and sewerage",
     "Utilities_Energy",
     "UrbanRural (name)",
-    "UKPRN",
     "Total pupils",
     "Total School Workforce (Headcount)",
     "Total School Workforce (Full-Time Equivalent)",
@@ -328,7 +326,6 @@ maintained_schools_output = [
 
 
 schools_table_output = [
-   "UKPRN",
   "Establishment Name",
   "Finance Type",
   "Overall Phase",
