@@ -223,28 +223,6 @@ def prepare_ks4_data(ks4_path):
     return ks4[["AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna()
 
 
-def build_cost_series(category_name, df, basis):
-    basis_data = df[
-        "Number of pupils" if basis == "Pupil" else "Total Internal Floor Area"
-    ]
-
-    # Create total column
-    df[category_name + "_Total"] = (
-        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]]
-        .fillna(0)
-        .sum(axis=1)
-    )
-
-    sub_categories = df.columns[
-        df.columns.str.startswith(category_name)
-    ].values.tolist()
-
-    for sub_category in sub_categories:
-        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
-
-    return df
-
-
 def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path,
@@ -404,6 +382,24 @@ def prepare_schools_data(base_data_path, links_data_path):
         schools["CloseDate"].isna()
         & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
     ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+
+
+def build_cost_series(category_name, df, basis):
+    basis_data = df[
+        "Number of pupils" if basis == "Pupil" else "Total Internal Floor Area"
+    ]
+
+    # Create total column
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(axis=1)
+
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
+
+    return df
 
 
 def build_academy_data(
@@ -580,7 +576,7 @@ def build_maintained_school_data(
     for category in config.rag_category_settings.keys():
         maintained_schools = build_cost_series(category, maintained_schools,
                                                config.rag_category_settings[category]["type"])
-        
+
     maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
     return maintained_schools
