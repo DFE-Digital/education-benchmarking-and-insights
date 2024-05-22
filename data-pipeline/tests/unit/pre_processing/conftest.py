@@ -9,7 +9,9 @@ from src.pipeline.pre_processing import (
     prepare_sen_data,
     prepare_ks2_data,
     prepare_ks4_data,
-    prepare_aar_data
+    prepare_aar_data,
+    prepare_census_data,
+    prepare_schools_data
 )
 
 
@@ -218,8 +220,6 @@ def aar_central_services_data() -> pd.DataFrame:
     })
 
 
-
-
 @pytest.fixture
 def prepared_aar_data(aar_data: pd.DataFrame, aar_central_services_data: pd.DataFrame) -> pd.DataFrame:
     output = BytesIO()
@@ -230,3 +230,53 @@ def prepared_aar_data(aar_data: pd.DataFrame, aar_central_services_data: pd.Data
     output.seek(0)
 
     return prepare_aar_data(output)
+
+
+@pytest.fixture
+def workforce_census_data() -> pd.DataFrame:
+    return pd.DataFrame({
+        "URN": [100150, 100152, 100153],
+        "Number of Vacant Teacher Posts": [0, 1, 1],
+        "Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)": [16.3, 17.3, 24.9],
+        "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": [6.9, 7.9, 10],
+        "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": [13, 14, 15],
+        "Teachers with Qualified Teacher Status (%) (Headcount)": [80, 80, 100],
+        "Total Number of Teaching Assistants (Full-Time Equivalent)": [14.8, 15.8, 16.8],
+        "Total Number of Teaching Assistants (Headcount)": [20, 21, 22],
+        "Total School Workforce (Full-Time Equivalent)": [75, 100, 125],
+        "Total Number of Teachers (Full-Time Equivalent)": [15.6, 9.8, 15.8],
+        "Total Number of Teachers (Headcount)": [25, 10, 18],
+        "Total Number of Teachers in the Leadership Group (Headcount)": [4, 5, 2],
+        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)": [2.6, 3.6, 2],
+        "Total Number of Auxiliary Staff (Full-Time Equivalent)": [2.3, 2.3, 5.4],
+        "Total Number of Auxiliary Staff (Headcount)": [3, 3, 9],
+        "Total School Workforce (Headcount)": [61, 62, 50],
+    })
+
+
+@pytest.fixture
+def pupil_census_data() -> pd.DataFrame:
+    return pd.DataFrame({
+        "URN": [100150, 100152, 100153],
+        "% of pupils known to be eligible for and claiming free school me": [33.8, 23.4, 33.2],
+        "% of pupils known to be eligible for free school meals (Performa": [52.3, 60.3, 47.7],
+        "number of pupils whose first language is known or believed to be other than English": [93, 236, 127],
+        "full time pupils": [325, 599, 465],
+        "ward_name": ["Bilborough", "Aspley", "Bilborough"],
+        "district_administrative_name": ["Nottingham", "Nottingham", "Nottingham"],
+        "region_name": ["East Midlands", "East Midlands", "East Midlands"]
+    })
+
+
+@pytest.fixture
+def prepared_census_data(workforce_census_data: pd.DataFrame, pupil_census_data: pd.DataFrame) -> dict:
+    output = BytesIO()
+    writer = pd.ExcelWriter(output)
+    workforce_census_data.to_excel(writer, startrow=5, sheet_name="Schools 2022", index=False)
+    writer.close()
+    output.seek(0)
+
+    return prepare_census_data(
+        output,
+        StringIO(pupil_census_data.to_csv())
+    )

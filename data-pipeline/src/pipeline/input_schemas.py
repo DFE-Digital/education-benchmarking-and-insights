@@ -221,9 +221,7 @@ sen = {
 workforce_census_index_col = "URN"
 workforce_census = {
     "URN": "Int64",
-    "Total School Workforce (Full-Time Equivalent)": "float",
     "Number of Vacant Teacher Posts": "Int64",
-    "Total Number of Teachers (Full-Time Equivalent)": "float",
     "Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)": "float",
     "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
     "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Int64",
