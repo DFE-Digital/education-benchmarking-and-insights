@@ -59,7 +59,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <h2 class="govuk-heading-m">Default characteristics</h2>
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes" style="margin-bottom: 20px;">
-                    <h3 class="govuk-heading-s">Type of school</h3>
+                    <h3 class="govuk-heading-s">Type of schools</h3>
                     
                     <div class="govuk-checkboxes" data-module="govuk-radios" id="pc123">
                     <div class="govuk-form-group">
@@ -81,6 +81,38 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     </div>
                 </div>
 
+                {{ govukCheckboxes({
+                    name: "comparePhase",
+                    fieldset: {
+                        legend: {
+                        text: "Phase of schools",
+                        isPageHeading: false,
+                        classes: "govuk-fieldset__legend--s"
+                        }
+                    },
+                    items: [
+                        {
+                            value: "nursery",
+                            text: "Nursery",
+                            checked: checked("comparePhase", "nursery")
+                        },
+                        {
+                            value: "primary",
+                            text: "Primary",
+                            checked: checked("comparePhase", "primary")
+                        },
+                        {
+                            value: "secondary",
+                            text: "Secondary",
+                            checked: true
+                        },
+                        {
+                            value: "allThrough",
+                            text: "All-through",
+                            checked: checked("comparePhase", "allThrough")
+                        }
+                    ]
+                    }) }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes" style="margin-bottom: 40px;">
                     <h3 class="govuk-heading-s">Local authorities</h3>
 
@@ -248,6 +280,108 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
 -->
 
+<div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item question">
+    <input class="govuk-checkboxes__input" id="checkbox-MinPerFSM" type="checkbox" aria-controls="pc" aria-expanded="false">
+    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerFSM">Eligibility for free school meals (FSM) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.7</span></label>
+    </div>
+    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
+    <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+    <div class="govuk-hint">
+                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.70%</span> of pupils eligible for FSM</span>
+
+    </div>
+
+
+    <span class="govuk-error-message"></span>
+
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MinPerFSM">From</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerFSM" id="MinPerFSM" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Eligibility for free school meals">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MaxPerFSM">To</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerFSM" id="MaxPerFSM" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100" aria-label="Maximum value for Eligibility for free school meals">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+        </div>
+    </div>
+    </fieldset>
+    </div>
+    </div>
+    </div>
+
+    
+
+    <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
+    <div class="govuk-checkboxes__item question">
+    <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc1" aria-expanded="false">
+    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8</span></label>
+    </div>
+    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
+    <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
+    <div class="govuk-hint">
+                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils without EHC plans</span>
+
+    </div>
+
+
+    <span class="govuk-error-message"></span>
+
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MinPerSENReg">From</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSENReg" id="MinPerSENReg" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+        </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MaxPerSENReg">To</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSENReg" id="MaxPerSENReg" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+        </div>
+   </div>
+    </fieldset>
+    </div>
+    <div class="govuk-form-group">
+    <fieldset class="govuk-fieldset">
+        <p class="govuk-body">With statements or education and health care (EHC) plans</p>
+    <div class="govuk-hint">
+                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils with EHC plans</span>
+
+    </div>
+
+
+    <span class="govuk-error-message"></span>
+
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MinPerSEN">From</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+       </div>
+    </div>
+    <div class="govuk-grid-column-one-quarter">
+        <label class="govuk-label" for="MaxPerSEN">To</label>
+        <div class="govuk-input__wrapper">
+            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
+            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+       </div>
+    </div>
+    </fieldset>
+    </div>
+    </div>
+    </div>
+
+
+
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
                 <input class="govuk-checkboxes__input" id="checkbox-TypeOfEstablishment" type="checkbox" aria-controls="mcc6" aria-expanded="false">
@@ -265,10 +399,12 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <legend class="govuk-visually-hidden">School type</legend>
 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                    <!--
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Nursery" value="Nursery">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Nursery">Nursery</label>
                         </div>
+                    -->
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Community" value="Community school">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Community">Community</label>
@@ -457,108 +593,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
 
 
-                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerFSM" type="checkbox" aria-controls="pc" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerFSM">Eligibility for free school meals (FSM) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.7</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                <div class="govuk-hint">
-                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.70%</span> of pupils eligible for FSM</span>
-
-                </div>
-
-
-                <span class="govuk-error-message"></span>
-
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MinPerFSM">From</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerFSM" id="MinPerFSM" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Eligibility for free school meals">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                    </div>
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MaxPerFSM">To</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerFSM" id="MaxPerFSM" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100" aria-label="Maximum value for Eligibility for free school meals">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                    </div>
-                </div>
-                </fieldset>
-                </div>
-                </div>
-                </div>
-
-                
-
-                <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                <div class="govuk-checkboxes__item question">
-                <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc1" aria-expanded="false">
-                <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8</span></label>
-                </div>
-                <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                    <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
-                <div class="govuk-hint">
-                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils without EHC plans</span>
-
-                </div>
-
-
-                <span class="govuk-error-message"></span>
-
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MinPerSENReg">From</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSENReg" id="MinPerSENReg" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                    </div>
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MaxPerSENReg">To</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSENReg" id="MaxPerSENReg" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                    </div>
-               </div>
-                </fieldset>
-                </div>
-                <div class="govuk-form-group">
-                <fieldset class="govuk-fieldset">
-                    <p class="govuk-body">With statements or education and health care (EHC) plans</p>
-                <div class="govuk-hint">
-                            <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils with EHC plans</span>
-
-                </div>
-
-
-                <span class="govuk-error-message"></span>
-
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MinPerSEN">From</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                   </div>
-                </div>
-                <div class="govuk-grid-column-one-quarter">
-                    <label class="govuk-label" for="MaxPerSEN">To</label>
-                    <div class="govuk-input__wrapper">
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
-                        <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                   </div>
-                </div>
-                </fieldset>
-                </div>
-                </div>
-                </div>
-
-
-
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
@@ -707,7 +741,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-Defecit" type="checkbox" aria-controls="pc23" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Exclude schools in defecit</label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Schools in defecit</label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" data-module="govuk-radios" id="pc23">
                     <div class="govuk-form-group">
@@ -733,7 +767,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-Pfi" type="checkbox" aria-controls="rbc" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Pfi">Part of a private finance initiative? <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Not Part Of PFI</span></label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Pfi">Part of a private finance initiative <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is Not Part Of PFI</span></label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rbc">
                     <div class="govuk-form-group">
@@ -744,7 +778,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
     
                     <span class="govuk-error-message"></span>
     
-                    <legend class="govuk-visually-hidden">Part of a private finance initiative?</legend>
+                    <legend class="govuk-visually-hidden">Part of a private finance initiative</legend>
     
                     <div class="govuk-radios govuk-radios--conditional" data-module="govuk-radios">
                             <div class="govuk-radios__item">
