@@ -54,6 +54,11 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
                 value.Text = value.Document?.Name;
             }
 
+            if (!string.IsNullOrWhiteSpace(value.Document?.CompanyNumber))
+            {
+                value.Text = $"{value.Document?.Name} ({value.Document?.CompanyNumber})";
+            }
+
             return value;
         });
     }
