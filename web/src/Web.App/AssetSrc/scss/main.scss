@@ -101,6 +101,17 @@ p.priority .govuk-tag {
   }
 }
 
+.govuk-table.table-school-rag {
+  thead {
+    tr {
+      th {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
 svg.rag-stack {
   width: 100%;
 

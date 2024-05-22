@@ -7,11 +7,11 @@ public class RagStackViewModel(string identifier, int red, int amber, int green,
     public decimal Red => red;
     public decimal Amber => amber;
     public decimal Green => green;
-    private decimal Total => red + amber + green;
+    public decimal Total => red + amber + green;
 
-    public decimal RedPercentage => red / Total * 100;
-    public decimal AmberPercentage => amber / Total * 100;
-    public decimal GreenPercentage => green / Total * 100;
+    public decimal RedPercentage => Total > 0 ? red / Total * 100 : 0;
+    public decimal AmberPercentage => Total > 0 ? amber / Total * 100 : 0;
+    public decimal GreenPercentage => Total > 0 ? green / Total * 100 : 0;
 
     public string? RedHref { get; init; }
     public string? AmberHref { get; init; }
