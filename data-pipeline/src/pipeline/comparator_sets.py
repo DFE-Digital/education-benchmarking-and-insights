@@ -20,16 +20,36 @@ def prepare_data(data):
         data["Percentage Free school meals"]
     )
     data["Percentage SEN"] = fillna_median(data["Percentage SEN"])
-    data["Percentage Primary Need SPLD"] = fillna_median(data["Percentage Primary Need SPLD"])
-    data["Percentage Primary Need MLD"] = fillna_median(data["Percentage Primary Need MLD"])
-    data["Percentage Primary Need PMLD"] = fillna_median(data["Percentage Primary Need PMLD"])
-    data["Percentage Primary Need SEMH"] = fillna_median(data["Percentage Primary Need SEMH"])
-    data["Percentage Primary Need SLCN"] = fillna_median(data["Percentage Primary Need SLCN"])
-    data["Percentage Primary Need HI"] = fillna_median(data["Percentage Primary Need HI"])
-    data["Percentage Primary Need MSI"] = fillna_median(data["Percentage Primary Need MSI"])
-    data["Percentage Primary Need PD"] = fillna_median(data["Percentage Primary Need PD"])
-    data["Percentage Primary Need ASD"] = fillna_median(data["Percentage Primary Need ASD"])
-    data["Percentage Primary Need OTH"] = fillna_median(data["Percentage Primary Need OTH"])
+    data["Percentage Primary Need SPLD"] = fillna_median(
+        data["Percentage Primary Need SPLD"]
+    )
+    data["Percentage Primary Need MLD"] = fillna_median(
+        data["Percentage Primary Need MLD"]
+    )
+    data["Percentage Primary Need PMLD"] = fillna_median(
+        data["Percentage Primary Need PMLD"]
+    )
+    data["Percentage Primary Need SEMH"] = fillna_median(
+        data["Percentage Primary Need SEMH"]
+    )
+    data["Percentage Primary Need SLCN"] = fillna_median(
+        data["Percentage Primary Need SLCN"]
+    )
+    data["Percentage Primary Need HI"] = fillna_median(
+        data["Percentage Primary Need HI"]
+    )
+    data["Percentage Primary Need MSI"] = fillna_median(
+        data["Percentage Primary Need MSI"]
+    )
+    data["Percentage Primary Need PD"] = fillna_median(
+        data["Percentage Primary Need PD"]
+    )
+    data["Percentage Primary Need ASD"] = fillna_median(
+        data["Percentage Primary Need ASD"]
+    )
+    data["Percentage Primary Need OTH"] = fillna_median(
+        data["Percentage Primary Need OTH"]
+    )
     data["Total Internal Floor Area"] = fillna_median(data["Total Internal Floor Area"])
     data["Age Average Score"] = fillna_median(data["Age Average Score"])
 
@@ -86,18 +106,18 @@ def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
 
 
 def special_pupils_calc(
-        pupils: np.array,
-        fsm: np.array,
-        splds: np.array,
-        mlds: np.array,
-        pmlds: np.array,
-        semhs: np.array,
-        slcns: np.array,
-        his: np.array,
-        msis: np.array,
-        pds: np.array,
-        asds: np.array,
-        oths: np.array,
+    pupils: np.array,
+    fsm: np.array,
+    splds: np.array,
+    mlds: np.array,
+    pmlds: np.array,
+    semhs: np.array,
+    slcns: np.array,
+    his: np.array,
+    msis: np.array,
+    pds: np.array,
+    asds: np.array,
+    oths: np.array,
 ):
     """
     Perform pupil calculation (special).
@@ -192,7 +212,7 @@ def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
             np.array(row["Percentage Primary Need MSI"]),
             np.array(row["Percentage Primary Need PD"]),
             np.array(row["Percentage Primary Need ASD"]),
-            np.array(row["Percentage Primary Need OTH"])
+            np.array(row["Percentage Primary Need OTH"]),
         )
 
     sen = np.array(row["Percentage SEN"])
@@ -205,7 +225,10 @@ def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size
     top_regions = all_regions[top_index]
     same_region = np.argwhere(top_regions == top_regions[0]).flatten()
     same_region_urns = top_urns[same_region]
-    urns = np.append(same_region_urns, np.delete(top_urns, same_region)[:final_set_size - len(same_region_urns)])
+    urns = np.append(
+        same_region_urns,
+        np.delete(top_urns, same_region)[: final_set_size - len(same_region_urns)],
+    )
     return urns
 
 
@@ -222,12 +245,19 @@ def compute_distances(orig_data, grouped_data):
             ukprn = all_urns[idx]
             try:
                 pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
-                building_set = select_top_set(all_urns, all_regions, building_distance[idx])
+                building_set = select_top_set(
+                    all_urns, all_regions, building_distance[idx]
+                )
 
                 pupils.loc[ukprn] = pupil_set
                 buildings.loc[ukprn] = building_set
             except Exception as error:
-                logger.exception(f"An exception occurred processing {ukprn}:", type(error).__name__, "–", error)
+                logger.exception(
+                    f"An exception occurred processing {ukprn}:",
+                    type(error).__name__,
+                    "–",
+                    error,
+                )
                 return
 
     orig_data["Pupil"] = pupils
@@ -239,48 +269,63 @@ def compute_distances(orig_data, grouped_data):
 def compute_comparator_set(data: pd.DataFrame):
     # TODO: Drop_duplicates should not be needed here.
     # TODO: Need to add boarding and PFI groups into this logic
-    copy = data[~data.index.isna()][["OfstedRating (name)",
-                                     "Percentage SEN",
-                                     "Percentage Free school meals",
-                                     "Number of pupils",
-                                     "Total Internal Floor Area",
-                                     "Age Average Score",
-                                     "GOR (name)",
-                                     "SchoolPhaseType",
-                                     "Percentage Primary Need SPLD",
-                                     "Percentage Primary Need MLD",
-                                     "Percentage Primary Need PMLD",
-                                     "Percentage Primary Need SEMH",
-                                     "Percentage Primary Need SLCN",
-                                     "Percentage Primary Need HI",
-                                     "Percentage Primary Need MSI",
-                                     "Percentage Primary Need PD",
-                                     "Percentage Primary Need ASD",
-                                     "Percentage Primary Need OTH"
-                                     ]].drop_duplicates(ignore_index=False).copy()
+    copy = (
+        data[~data.index.isna()][
+            [
+                "OfstedRating (name)",
+                "Percentage SEN",
+                "Percentage Free school meals",
+                "Number of pupils",
+                "Total Internal Floor Area",
+                "Age Average Score",
+                "GOR (name)",
+                "SchoolPhaseType",
+                "Percentage Primary Need SPLD",
+                "Percentage Primary Need MLD",
+                "Percentage Primary Need PMLD",
+                "Percentage Primary Need SEMH",
+                "Percentage Primary Need SLCN",
+                "Percentage Primary Need HI",
+                "Percentage Primary Need MSI",
+                "Percentage Primary Need PD",
+                "Percentage Primary Need ASD",
+                "Percentage Primary Need OTH",
+            ]
+        ]
+        .drop_duplicates(ignore_index=False)
+        .copy()
+    )
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
 
 
 def compute_custom_comparator(data: pd.DataFrame):
-    copy = data[["OfstedRating (name)",
-                 "Percentage SEN",
-                 "Percentage Free school meals",
-                 "Number of pupils",
-                 "Total Internal Floor Area",
-                 "Age Average Score",
-                 "GOR (name)",
-                 "SchoolPhaseType",
-                 "Percentage Primary Need SPLD",
-                 "Percentage Primary Need MLD",
-                 "Percentage Primary Need PMLD",
-                 "Percentage Primary Need SEMH",
-                 "Percentage Primary Need SLCN",
-                 "Percentage Primary Need HI",
-                 "Percentage Primary Need MSI",
-                 "Percentage Primary Need PD",
-                 "Percentage Primary Need ASD",
-                 "Percentage Primary Need OTH"]].drop_duplicates(ignore_index=False).copy()
+    copy = (
+        data[
+            [
+                "OfstedRating (name)",
+                "Percentage SEN",
+                "Percentage Free school meals",
+                "Number of pupils",
+                "Total Internal Floor Area",
+                "Age Average Score",
+                "GOR (name)",
+                "SchoolPhaseType",
+                "Percentage Primary Need SPLD",
+                "Percentage Primary Need MLD",
+                "Percentage Primary Need PMLD",
+                "Percentage Primary Need SEMH",
+                "Percentage Primary Need SLCN",
+                "Percentage Primary Need HI",
+                "Percentage Primary Need MSI",
+                "Percentage Primary Need PD",
+                "Percentage Primary Need ASD",
+                "Percentage Primary Need OTH",
+            ]
+        ]
+        .drop_duplicates(ignore_index=False)
+        .copy()
+    )
     copy["Custom"] = "Grouper"
     classes = copy.reset_index().groupby(["Custom"]).agg(list)
     return compute_distances(copy, classes)

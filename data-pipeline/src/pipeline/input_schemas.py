@@ -46,13 +46,13 @@ gias = {
     "OfstedRating (name)": "string",
     "MSOA (code)": "string",
     "LSOA (code)": "string",
-    "StatutoryLowAge":"Int64",
-    "StatutoryHighAge":"Int64",
-    "Street":"string",
-    "Locality":"string",
-    "Address3":"string",
-    "Town":"string",
-    "County (name)":"string",
+    "StatutoryLowAge": "Int64",
+    "StatutoryHighAge": "Int64",
+    "Street": "string",
+    "Locality": "string",
+    "Address3": "string",
+    "Town": "string",
+    "County (name)": "string",
 }
 
 gias_links_index_col = "URN"
@@ -263,9 +263,9 @@ pupil_census = {
     "% of pupils known to be eligible for free school meals (Performa": "float",
     "number of pupils whose first language is known or believed to be other than English": "float",
     "full time pupils": "float",
-    "ward_name":"string",
-    "district_administrative_name":"string",
-    "region_name":"string",
+    "ward_name": "string",
+    "district_administrative_name": "string",
+    "region_name": "string",
 }
 
 cfr_index_col = "URN"
