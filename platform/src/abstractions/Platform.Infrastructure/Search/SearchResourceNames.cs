@@ -25,6 +25,7 @@ public static class SearchResourceNames
         public const string School = "school-index";
         public const string Trust = "trust-index";
         public const string LocalAuthority = "local-authority-index";
+        public const string SchoolComparators = "school-comparators-index";
     }
 
     public static class Suggesters
