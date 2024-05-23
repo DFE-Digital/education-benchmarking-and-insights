@@ -212,7 +212,7 @@ def prepare_aar_data(aar_path):
     )
 
     # removing pre-transition academies
-    transitioned_academy_urns = aar['URN'][aar['URN'].duplicated()].values
+    transitioned_academy_urns = aar['URN'][aar['URN'].duplicated(keep=False)].values
     mask = ~(aar['URN'].isin(transitioned_academy_urns) & aar['Date joined or opened if in period'].isna())
     aar = aar[mask]
     aar.drop(columns=['URN'], inplace=True)
@@ -372,6 +372,10 @@ def build_academy_data(
         dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
     ).rename(columns={"UKPRN": "Academy UKPRN"})
+
+    # remove transitioned schools from academies_list
+    mask = (academies_list.index.duplicated(keep=False) & ~academies_list['Valid to'].isna())
+    academies_list = academies_list[~mask]
 
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
