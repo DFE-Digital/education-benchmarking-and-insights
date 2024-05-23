@@ -11,50 +11,61 @@ else
 {
     <svg style="height:@(Model.Height)px;" class="rag-stack" role="img" aria-labelledby="@id-rag">
         <title id="@id-rag">RAG ratings for @Model.Identifier: @Model.Red red, @Model.Amber amber and @Model.Green green</title>
-        @if (!string.IsNullOrWhiteSpace(Model.RedHref))
+        @if (Model.RedPercentage > 0)
         {
-            @:<a href="@Model.RedHref" aria-label="@Model.Red red">
+            if (!string.IsNullOrWhiteSpace(Model.RedHref))
+            {
+                @:<a href="@Model.RedHref" aria-label="@Model.Red red">
+            }
+            <rect
+                role="presentation"
+                x="0"
+                y="0"
+                width="@Model.RedPercentage%"
+                height="100%"
+                class="rag-stack-red"/>
+            if (!string.IsNullOrWhiteSpace(Model.RedHref))
+            {
+                @:</a>
+            }
         }
-        <rect
-            role="presentation"
-            x="0"
-            y="0"
-            width="@Model.RedPercentage%"
-            height="100%"
-            class="rag-stack-red"/>
-        @if (!string.IsNullOrWhiteSpace(Model.RedHref))
+
+        @if (Model.AmberPercentage > 0)
         {
-            @:</a>
+            if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+            {
+                @:<a href="@Model.AmberHref" aria-label="@Model.Amber amber">
+            }
+            <rect
+                role="presentation"
+                x="@Model.RedPercentage%"
+                y="0"
+                width="@Model.AmberPercentage%"
+                height="100%"
+                class="rag-stack-amber"/>
+            if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+            {
+                @:</a>
+            }
         }
-        @if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+
+        @if (Model.GreenPercentage > 0)
         {
-            @:<a href="@Model.AmberHref" aria-label="@Model.Amber amber">
-        }
-        <rect
-            role="presentation"
-            x="@Model.RedPercentage%"
-            y="0"
-            width="@Model.AmberPercentage%"
-            height="100%"
-            class="rag-stack-amber"/>
-        @if (!string.IsNullOrWhiteSpace(Model.AmberHref))
-        {
-            @:</a>
-        }
-        @if (!string.IsNullOrWhiteSpace(Model.GreenHref))
-        {
-            @:<a href="@Model.GreenHref" aria-label="@Model.Green green">
-        }
-        <rect
-            role="presentation"
-            x="@(Model.RedPercentage + Model.AmberPercentage)%"
-            y="0"
-            width="@Model.GreenPercentage%"
-            height="100%"
-            class="rag-stack-green"/>
-        @if (!string.IsNullOrWhiteSpace(Model.GreenHref))
-        {
-            @:</a>
+            if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+            {
+                @:<a href="@Model.GreenHref" aria-label="@Model.Green green">
+            }
+            <rect
+                role="presentation"
+                x="@(Model.RedPercentage + Model.AmberPercentage)%"
+                y="0"
+                width="@Model.GreenPercentage%"
+                height="100%"
+                class="rag-stack-green"/>
+            if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+            {
+                @:</a>
+            }
         }
     </svg>
 }
