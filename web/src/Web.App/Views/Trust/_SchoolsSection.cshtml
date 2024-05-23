@@ -1,8 +1,9 @@
-﻿@model Web.App.ViewModels.TrustSchoolsSectionViewModel
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.TrustSchoolsSectionViewModel
 
 @if (Model.Schools.Any())
 {
-    <table class="govuk-table table-school-rag">
+    <table class="govuk-table table-school-rag" id="school-rag-@Model.Heading.ToSlug()">
         <caption class="govuk-table__caption govuk-visually-hidden">@Model.Heading in this trust</caption>
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
