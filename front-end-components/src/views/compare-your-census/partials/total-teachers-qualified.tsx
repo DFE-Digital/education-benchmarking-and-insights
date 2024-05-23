@@ -23,7 +23,7 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
   id,
 }) => {
   const phase = useContext(PhaseContext);
-  const [data, setData] = useState(new Array<Census>());
+  const [data, setData] = useState<Census[]>();
   const getData = useCallback(async () => {
     setData(new Array<Census>());
     return await CensusApi.query(type, id, "Total", "TeachersQualified", phase);
@@ -46,20 +46,22 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
       ];
 
       return {
-        dataPoints: data.map((school) => {
-          return {
-            ...school,
-            value: school.teachersQualified,
-          };
-        }),
+        dataPoints:
+          data?.map((school) => {
+            return {
+              ...school,
+              value: school.teachersQualified,
+            };
+          }) ?? [],
         tableHeadings,
       };
     }, [data]);
 
-  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+  const hasIncompleteData = data?.some((x) => x.hasIncompleteData);
+  const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
       <ChartDimensionContext.Provider value={Percent}>
         <HorizontalBarChartWrapper
           data={chartData}

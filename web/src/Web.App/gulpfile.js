@@ -7,8 +7,8 @@ var sourcemaps = require("gulp-sourcemaps");
 const buildSass = () => gulp.src("AssetSrc/scss/*.scss")
     .pipe(sourcemaps.init())
     .pipe(sass().on("error", sass.logError))
-    .pipe(sourcemaps.write("./"))
     .pipe(cleanCSS())
+    .pipe(sourcemaps.write("./"))
     .pipe(gulp.dest("wwwroot/css"));
 
 const copyStaticAssets = () => gulp.src(["node_modules/govuk-frontend/dist/govuk/assets/**/*"], {encoding: false}).pipe(gulp.dest("wwwroot/assets")).on("end", () =>
