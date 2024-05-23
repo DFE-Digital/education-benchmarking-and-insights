@@ -445,6 +445,108 @@ The currently configured mappings can be found [here](https://github.com/DFE-Dig
 
 ## Storing the calculations
 
+Once all of the processing is complete the data is stored in the platform database so that it is available to query from reporting engines and the FBIT front end. The schema for this data consists of the following tables
 
+> Note: The RunType and RunID are metadata fields that allow the front end and other tools to identify which pipeline run that the data has been derived from. 
+
+```mermaid
+classDiagram
+direction BT
+class ComparatorSet {
+   nvarchar(max) Pupil
+   nvarchar(max) Building
+   nvarchar(50) RunType
+   nvarchar(50) RunId
+   nvarchar(50) UKPRN
+   nvarchar(50) SetType
+}
+class FinancialPlan {
+   nvarchar(max) Input
+   nvarchar(max) DeploymentPlan
+   datetimeoffset Created
+   nvarchar(255) CreatedBy
+   datetimeoffset UpdatedAt
+   nvarchar(255) UpdatedBy
+   bit IsComplete
+   int Version
+   nvarchar(50) UKPRN
+   smallint Year
+}
+class LocalAuthority {
+   nvarchar(100) Name
+   nvarchar(3) Code
+}
+class MetricRAG {
+   decimal(18) Value
+   decimal(18) Mean
+   decimal(18) DiffMean
+   decimal(18) PercentDiff
+   decimal(18) Percentile
+   decimal(18) Decile
+   nvarchar(10) RAG
+   nvarchar(50) RunType
+   nvarchar(50) RunId
+   nvarchar(50) UKPRN
+   nvarchar(50) Category
+   nvarchar(50) SubCategory
+}
+class SchemaVersions {
+   nvarchar(255) ScriptName
+   datetime Applied
+   int Id
+}
+class School {
+   nvarchar(6) URN
+   nvarchar(255) SchoolName
+   nvarchar(50) TrustUKPRN
+   nvarchar(255) TrustName
+   nvarchar(50) FederationLeadUKPRN
+   nvarchar(255) FederationLeadName
+   nvarchar(3) LACode
+   nvarchar(100) LAName
+   nvarchar(10) LondonWeighting
+   nvarchar(10) FinanceType
+   nvarchar(20) OverallPhase
+   nvarchar(20) SchoolType
+   bit HasSixthForm
+   bit HasNursery
+   bit IsPFISchool
+   date OfstedDate
+   tinyint OfstedRating
+   nvarchar(20) OfstedDescription
+   nvarchar(20) Telephone
+   nvarchar(255) Website
+   nvarchar(255) ContactEmail
+   nvarchar(255) HeadteacherName
+   nvarchar(255) HeadteacherEmail
+   nvarchar(50) UKPRN
+}
+class Trust {
+   nvarchar(8) CompanyNumber
+   nvarchar(255) TrustName
+   nvarchar(255) CFOName
+   nvarchar(255) CFOEmail
+   date OpenDate
+   nvarchar(50) UID
+   nvarchar(50) UKPRN
+}
+class TrustHistory {
+   nvarchar(50) TrustUKPRN
+   date EventDate
+   nvarchar(100) EventName
+   smallint AcademicYear
+   nvarchar(6) SchoolURN
+   nvarchar(255) SchoolName
+   int Id
+}
+class UserDefinedComparatorSet {
+   nvarchar(max) Set
+   nvarchar(50) RunType
+   nvarchar(50) RunId
+   nvarchar(50) UKPRN
+}
+
+
+```
 
 
