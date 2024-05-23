@@ -591,7 +591,7 @@ def build_federations_data(links_data_path, maintained_schools):
         inplace=True,
     )
 
-    # TODO - add in soft federation members and names (currently no mapping available)
+    # TODO - add in soft federation members and names (currently no mapping available) (also deal with duplicated hard federations owing to 2 group names)
     # soft_federations.join(maintained_schools, on="URN")
     # hard_federations.join(maintained_schools, on="URN")
     #
