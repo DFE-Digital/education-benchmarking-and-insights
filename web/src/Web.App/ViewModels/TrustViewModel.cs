@@ -3,31 +3,46 @@ namespace Web.App.ViewModels;
 
 public class TrustViewModel(Trust trust, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
 {
-    private const string Red = "Red";
-    private const string Amber = "Amber";
-    private const string Green = "Green";
 
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.Name;
     public int NumberSchools => schools.Count;
-    public int Low => ratings.Count(x => x.Status == Green);
-    public int Medium => ratings.Count(x => x.Status == Amber);
-    public int High => ratings.Count(x => x.Status == Red);
+    public int Low => ratings.Where(NotOther).Count(Green);
+    public int Medium => ratings.Where(NotOther).Count(Amber);
+    public int High => ratings.Where(NotOther).Count(Red);
 
-    public IOrderedEnumerable<RagCostCategoryViewModel> Ratings => ratings
+    public IEnumerable<RagCostCategoryViewModel> Ratings => ratings
+        .Where(NotOther)
         .GroupBy(x => (x.Status, x.CostCategory))
         .Select(x => (x.Key.Status, x.Key.CostCategory, Count: x.Count()))
         .GroupBy(x => x.CostCategory)
-        .Where(x => x.Key != "Other")
         .Select(x => new RagCostCategoryViewModel(
             x.Key!,
-            x.Where(r => r.Status == Red).Select(r => r.Count).SingleOrDefault(),
-            x.Where(a => a.Status == Amber).Select(a => a.Count).SingleOrDefault(),
-            x.Where(g => g.Status == Green).Select(g => g.Count).SingleOrDefault()
+            x.Where(w => Red(w.Status)).Select(r => r.Count).SingleOrDefault(),
+            x.Where(w => Amber(w.Status)).Select(a => a.Count).SingleOrDefault(),
+            x.Where(w => Green(w.Status)).Select(g => g.Count).SingleOrDefault()
         ))
-        .OrderByDescending(x => x.Weighting);
+        .OrderByDescending(o => o.RedRatio)
+        .ThenByDescending(o => o.AmberRatio)
+        .ThenBy(o => o.Category);
 
-    public IEnumerable<(
+    public IEnumerable<RagSchoolViewModel> NurserySchools =>
+        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.Nursery)
+            .SelectMany(s => s.Schools);
+    public IEnumerable<RagSchoolViewModel> PrimarySchools =>
+        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.Primary)
+            .SelectMany(s => s.Schools);
+    public IEnumerable<RagSchoolViewModel> SecondarySchools =>
+        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.Secondary)
+            .SelectMany(s => s.Schools);
+    public IEnumerable<RagSchoolViewModel> AllThroughSchools =>
+        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.AllThrough)
+            .SelectMany(s => s.Schools);
+    public IEnumerable<RagSchoolViewModel> SpecialOrPruSchools =>
+        Schools.Where(s => s.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit)
+            .SelectMany(s => s.Schools);
+
+    private IEnumerable<(
         string? OverallPhase,
         IOrderedEnumerable<RagSchoolViewModel> Schools)> Schools => schools
         .GroupBy(x => x.OverallPhase)
@@ -37,28 +52,22 @@ public class TrustViewModel(Trust trust, IReadOnlyCollection<School> schools, IE
                 .Select(s => new RagSchoolViewModel(
                     s.Urn,
                     s.Name,
-                    ratings.Count(r => r.Urn == s.Urn && r.Status == Red),
-                    ratings.Count(r => r.Urn == s.Urn && r.Status == Amber),
-                    ratings.Count(r => r.Urn == s.Urn && r.Status == Green)
+                    ratings.Where(NotOther).Where(Red).Count(r => r.Urn == s.Urn),
+                    ratings.Where(NotOther).Where(Amber).Count(r => r.Urn == s.Urn),
+                    ratings.Where(NotOther).Where(Green).Count(r => r.Urn == s.Urn)
                 ))
-                .OrderByDescending(s => s.Weighting)));
+                .OrderByDescending(o => o.RedRatio)
+                .ThenByDescending(o => o.AmberRatio)
+                .ThenBy(o => o.Name)
+            ));
 
-    public IEnumerable<RagSchoolViewModel> PrimarySchools =>
-        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.Primary)
-            .SelectMany(s => s.Schools);
-    public IEnumerable<RagSchoolViewModel> SecondarySchools =>
-        Schools.Where(s => s.OverallPhase == OverallPhaseTypes.Secondary)
-            .SelectMany(s => s.Schools);
-    public IEnumerable<RagSchoolViewModel> SpecialOrPruSchools =>
-        Schools.Where(s => s.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit)
-            .SelectMany(s => s.Schools);
-    public IEnumerable<RagSchoolViewModel> OtherSchools =>
-        Schools.Where(s =>
-                s.OverallPhase != OverallPhaseTypes.Primary &&
-                s.OverallPhase != OverallPhaseTypes.Secondary &&
-                s.OverallPhase != OverallPhaseTypes.Special &&
-                s.OverallPhase != OverallPhaseTypes.PupilReferralUnit)
-            .SelectMany(s => s.Schools);
+    private static bool NotOther(RagRating ragRating) => ragRating.CostCategory != "Other";
+    private static bool Red(RagRating ragRating) => Red(ragRating.Status);
+    private static bool Amber(RagRating ragRating) => Amber(ragRating.Status);
+    private static bool Green(RagRating ragRating) => Green(ragRating.Status);
+    private static bool Red(string? status) => status == "Red";
+    private static bool Amber(string? status) => status == "Amber";
+    private static bool Green(string? status) => status == "Green";
 }
 
 public class TrustSchoolsSectionViewModel
