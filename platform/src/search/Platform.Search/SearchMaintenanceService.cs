@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Platform.Search.Builders;
 using Platform.Search.LocalAuthority;
 using Platform.Search.School;
+using Platform.Search.SchoolComparators;
 using Platform.Search.Trust;
 
 namespace Platform.Search;
@@ -150,7 +151,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             new TrustIndexBuilder(),
             new SchoolIndexBuilder(),
-            new LocalAuthorityIndexBuilder()
+            new LocalAuthorityIndexBuilder(),
+            new SchoolComparatorsIndexBuilder()
         };
 
         foreach (var builder in builders)
