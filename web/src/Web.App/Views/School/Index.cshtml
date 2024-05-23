@@ -1,6 +1,6 @@
-@using Web.App.ViewModels.Components
-@using Web.App.Extensions
 @using Web.App.Domain
+@using Web.App.Extensions
+@using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolHome;
@@ -10,7 +10,7 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School})" class="govuk-link govuk-link--no-visited-state">Change school</a>
+            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.School })" class="govuk-link govuk-link--no-visited-state">Change school</a>
         </p>
     </div>
 </div>
@@ -26,65 +26,104 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust })
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.School,
+    isPartOfTrust = Model.IsPartOfTrust
+})
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
-            <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
-                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
-            </li>
-            <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
-                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
-            </li>
-            <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
-                <p class="govuk-body">@OfstedRatings.GetDescription(Model.OfstedRating)</p>
-            </li>
-            <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
-                <p class="govuk-body">@Model.OverallPhase</p>
-            </li>
-        </ul>
+@if (Model.IsMissingFinancials)
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Financial information could not be loaded for this establishment
+        </strong>
     </div>
-</div>
-
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <h2 class="govuk-heading-m">Spending and costs</h2>
-
-        <h3 class="govuk-heading-s">
-            <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
-                View all spending and costs
-            </a>
-        </h3>
-
-        <h3 class="govuk-heading-s">Top priority spending categories</h3>
-
-        <div class="top-categories">
-            @foreach (var rating in Model.Ratings)
-            {
-                <div>
-                    <h4 class="govuk-heading-s">@rating.CostCategory</h4>
-                    <p class="priority @rating.PriorityTag?.Class govuk-body">
-                        @await Component.InvokeAsync("Tag", new { rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText })
-                        Spends <strong>@rating.FromMedian.Difference.ToCurrency()</strong> @rating.Unit @rating.FromMedian.Description the median of similar schools.
-                    </p>
-                </div>
-            }
+}
+else
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
+                <li class="app-headline-figures">
+                    <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
+                    <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
+                </li>
+                <li class="app-headline-figures">
+                    <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
+                    <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
+                </li>
+                <li class="app-headline-figures">
+                    <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
+                    <p class="govuk-body">@OfstedRatings.GetDescription(Model.OfstedRating)</p>
+                </li>
+                <li class="app-headline-figures">
+                    <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
+                    <p class="govuk-body">@Model.OverallPhase</p>
+                </li>
+            </ul>
         </div>
     </div>
-</div>
+
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <h2 class="govuk-heading-m">Spending and costs</h2>
+
+            <h3 class="govuk-heading-s">
+                <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
+                    View all spending and costs
+                </a>
+            </h3>
+
+            <h3 class="govuk-heading-s">Top priority spending categories</h3>
+
+            <div class="top-categories">
+                @foreach (var rating in Model.Ratings)
+                {
+                    <div>
+                        <h4 class="govuk-heading-s">@rating.CostCategory</h4>
+                        <p class="priority @rating.PriorityTag?.Class govuk-body">
+                            @await Component.InvokeAsync("Tag", new
+                            {
+                                rating.PriorityTag?.Colour,
+                                rating.PriorityTag?.DisplayText
+                            })
+                            Spends <strong>@rating.FromMedian.Difference.ToCurrency()</strong> @rating.Unit @rating.FromMedian.Description the median of similar schools.
+                        </p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkCensus } })
+@await Component.InvokeAsync("SchoolFinanceTools", new
+{
+    identifier = Model.Urn,
+    tools = new[]
+    {
+        FinanceTools.CompareYourCosts,
+        FinanceTools.FinancialPlanning,
+        FinanceTools.BenchmarkCensus
+    }
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new { identifier = Model.Urn, resources = new[] { Resources.SchoolResources, Resources.SchoolHistoricData, Resources.SchoolDetails } })
+@await Component.InvokeAsync("Resources", new
+{
+    identifier = Model.Urn,
+    resources = new[]
+    {
+        Resources.SchoolResources,
+        Resources.SchoolHistoricData,
+        Resources.SchoolDetails
+    }
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
