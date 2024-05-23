@@ -21,13 +21,13 @@ public class SchoolComparatorsIndex
     public int NumberOfPupils { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public decimal PercentFreeSchoolMeals { get; set; }
+    public double PercentFreeSchoolMeals { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public decimal PercentSenWithoutPlan { get; set; }
+    public double PercentSenWithoutPlan { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public decimal PercentSenWithPlan { get; set; }
+    public double PercentSenWithPlan { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? SchoolType { get; set; }
@@ -60,8 +60,8 @@ public class SchoolComparatorsIndex
     public int? NumberOfPupilsSixthForm { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public decimal? KeyStage2Progress { get; set; }
+    public double? KeyStage2Progress { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public decimal? KeyStage4Progress { get; set; }
+    public double? KeyStage4Progress { get; set; }
 }
