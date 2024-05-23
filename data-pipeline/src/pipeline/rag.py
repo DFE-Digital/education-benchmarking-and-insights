@@ -105,7 +105,7 @@ def is_close_comparator(category_type, org_a, org_b):
 
 def find_percentile(d, value):
     sorted_series = np.sort(d, axis=0, kind="stable")
-    rank = np.searchsorted(sorted_series, value, side='right')
+    rank = np.searchsorted(sorted_series, value, side="right")
     pc = rank / len(d) * 100
     return pc - 1
 
@@ -121,8 +121,12 @@ def category_stats(ukprn, category_name, data, ofsted_rating, rag_mapping, close
     decile = percentile / 10
     mean = np.median(series)
     diff = value - mean
-    diff_percent = (diff / value) * 100 if value != 0 and value != np.nan and not pd.isna(value) else 0
-    cats = category_name.split('_')
+    diff_percent = (
+        (diff / value) * 100
+        if value != 0 and value != np.nan and not pd.isna(value)
+        else 0
+    )
+    cats = category_name.split("_")
     return {
         "UKPRN": ukprn,
         "Category": cats[0],
@@ -134,16 +138,21 @@ def category_stats(ukprn, category_name, data, ofsted_rating, rag_mapping, close
         "PercentDiff": diff_percent,
         "Percentile": percentile,
         "Decile": decile,
-        "RAG": rag_mapping[key][int(decile)]
+        "RAG": rag_mapping[key][int(decile)],
     }
 
 
-def compute_category_rag(urn, category_name, settings, target, comparator_set, col_cache):
+def compute_category_rag(
+    urn, category_name, settings, target, comparator_set, col_cache
+):
     ofsted = target["OfstedRating (name)"]
 
-    close_count = sum(comparator_set.apply(
-        lambda x: 1 if is_close_comparator(settings["type"], target, x) else 0, axis=1
-    ))
+    close_count = sum(
+        comparator_set.apply(
+            lambda x: 1 if is_close_comparator(settings["type"], target, x) else 0,
+            axis=1,
+        )
+    )
 
     # series, sub_categories = get_category_series(category_name, comparator_set)
     cols, sub_categories = col_cache[category_name]
@@ -154,10 +163,9 @@ def compute_category_rag(urn, category_name, settings, target, comparator_set, c
 
 
 def get_category_cols_predicates(category_name, data):
-    category_cols = (
-            data.columns.isin(base_cols)
-            | (data.columns.str.startswith(category_name)
-               & (data.columns.str.endswith("_Per Unit")))
+    category_cols = data.columns.isin(base_cols) | (
+        data.columns.str.startswith(category_name)
+        & (data.columns.str.endswith("_Per Unit"))
     )
 
     df = data[data.columns[category_cols]]
@@ -192,17 +200,36 @@ def compute_rag(data, comparators):
                     building_urns = comparators["Building"][ukprn]
                     for cat_name in keys:
                         rag_settings = rag_category_settings[cat_name]
-                        set_urns = pupil_urns if rag_settings["type"] == "Pupil" else building_urns
+                        set_urns = (
+                            pupil_urns
+                            if rag_settings["type"] == "Pupil"
+                            else building_urns
+                        )
                         if set_urns is not None:
                             comparator_set = df[df.index.isin(set_urns)]
-                            for r in compute_category_rag(ukprn, cat_name, rag_settings, target, comparator_set, column_cache):
+                            for r in compute_category_rag(
+                                ukprn,
+                                cat_name,
+                                rag_settings,
+                                target,
+                                comparator_set,
+                                column_cache,
+                            ):
                                 yield r
                         else:
-                            logger.warning(f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {ukprn}')
+                            logger.warning(
+                                f'Unable to compute rag for {cat_name} - {rag_settings["type"]} - {ukprn}'
+                            )
                     if indx > 1 and indx % 100 == 0:
-                        logger.info(f'Completed {indx} RAGs in {time.time() - st:.2f} secs')
+                        logger.info(
+                            f"Completed {indx} RAGs in {time.time() - st:.2f} secs"
+                        )
                         st = time.time()
                 except Exception as error:
-                    logger.exception(f"An exception occurred processing {ukprn}:", type(error).__name__, "–", error)
+                    logger.exception(
+                        f"An exception occurred processing {ukprn}:",
+                        type(error).__name__,
+                        "–",
+                        error,
+                    )
                     return
-

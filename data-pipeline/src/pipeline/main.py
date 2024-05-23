@@ -12,14 +12,9 @@ from dask.distributed import Client
 
 load_dotenv()
 
-from src.pipeline.database import (
-    insert_comparator_set,
-    insert_metric_rag
-)
+from src.pipeline.database import insert_comparator_set, insert_metric_rag
 
-from src.pipeline.rag import (
-    compute_rag
-)
+from src.pipeline.rag import compute_rag
 from src.pipeline.comparator_sets import (
     compute_comparator_set,
     prepare_data,
@@ -59,13 +54,9 @@ logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 def pre_process_cdc(set_type: str, year: int) -> pd.DataFrame:
     logger.info("Processing CDC Data")
-    cdc_data = get_blob(
-        raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8"
-    )
+    cdc_data = get_blob(raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8")
     cdc = prepare_cdc_data(cdc_data, year)
-    write_blob(
-        "pre-processed", f"{set_type}/{year}/cdc.parquet", cdc.to_parquet()
-    )
+    write_blob("pre-processed", f"{set_type}/{year}/cdc.parquet", cdc.to_parquet())
 
     return cdc
 
@@ -90,13 +81,9 @@ def pre_process_census(set_type, year) -> pd.DataFrame:
 
 def pre_process_sen(set_type, year) -> pd.DataFrame:
     logger.info("Processing SEN Data")
-    sen_data = get_blob(
-        raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252"
-    )
+    sen_data = get_blob(raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252")
     sen = prepare_sen_data(sen_data)
-    write_blob(
-        "pre-processed", f"{set_type}/{year}/sen.parquet", sen.to_parquet()
-    )
+    write_blob("pre-processed", f"{set_type}/{year}/sen.parquet", sen.to_parquet())
 
     return sen
 
@@ -105,9 +92,7 @@ def pre_process_ks2(set_type, year) -> pd.DataFrame:
     logger.info("Processing KS2 Data")
     ks2_data = get_blob(raw_container, f"{set_type}/{year}/ks2.xlsx")
     ks2 = prepare_ks2_data(ks2_data)
-    write_blob(
-        "pre-processed", f"{set_type}/{year}/ks2.parquet", ks2.to_parquet()
-    )
+    write_blob("pre-processed", f"{set_type}/{year}/ks2.parquet", ks2.to_parquet())
 
     return ks2
 
@@ -116,18 +101,14 @@ def pre_process_ks4(set_type, year) -> pd.DataFrame:
     logger.info("Processing KS4 Data")
     ks4_data = get_blob(raw_container, f"{set_type}/{year}/ks4.xlsx")
     ks4 = prepare_ks4_data(ks4_data)
-    write_blob(
-        "pre-processed", f"{set_type}/{year}/ks4.parquet", ks4.to_parquet()
-    )
+    write_blob("pre-processed", f"{set_type}/{year}/ks4.parquet", ks4.to_parquet())
 
     return ks4
 
 
 def pre_process_academy_ar(set_type, year) -> (pd.DataFrame, pd.DataFrame):
     logger.info("Processing Academy AR Data")
-    academy_ar_data = get_blob(
-        raw_container, f"{set_type}/{year}/academy_ar.xlsx"
-    )
+    academy_ar_data = get_blob(raw_container, f"{set_type}/{year}/academy_ar.xlsx")
     aar = prepare_aar_data(academy_ar_data)
 
     write_blob(
@@ -243,29 +224,37 @@ def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
 
-    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather([
-        worker_client.submit(pre_process_cdc, set_type, year),
-        worker_client.submit(pre_process_census, set_type, year),
-        worker_client.submit(pre_process_sen, set_type, year),
-        worker_client.submit(pre_process_ks2, set_type, year),
-        worker_client.submit(pre_process_ks4, set_type, year),
-        worker_client.submit(pre_process_academy_ar, set_type, year),
-        worker_client.submit(pre_process_schools, set_type, year)
-    ])
+    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather(
+        [
+            worker_client.submit(pre_process_cdc, set_type, year),
+            worker_client.submit(pre_process_census, set_type, year),
+            worker_client.submit(pre_process_sen, set_type, year),
+            worker_client.submit(pre_process_ks2, set_type, year),
+            worker_client.submit(pre_process_ks4, set_type, year),
+            worker_client.submit(pre_process_academy_ar, set_type, year),
+            worker_client.submit(pre_process_schools, set_type, year),
+        ]
+    )
 
     data_ref = worker_client.scatter((schools, census, sen, cdc, aar, ks2, ks4))
 
-    academies, maintained_schools = worker_client.gather([
-        worker_client.submit(pre_process_academies_data, set_type, year, data_ref),
-        worker_client.submit(pre_process_maintained_schools_data, set_type, year, data_ref)
-    ])
+    academies, maintained_schools = worker_client.gather(
+        [
+            worker_client.submit(pre_process_academies_data, set_type, year, data_ref),
+            worker_client.submit(
+                pre_process_maintained_schools_data, set_type, year, data_ref
+            ),
+        ]
+    )
 
     data2_ref = worker_client.scatter((academies, maintained_schools))
 
-    worker_client.gather([
-        worker_client.submit(pre_process_federations, set_type, year, data2_ref),
-        worker_client.submit(pre_process_all_schools, set_type, year, data2_ref)
-    ])
+    worker_client.gather(
+        [
+            worker_client.submit(pre_process_federations, set_type, year, data2_ref),
+            worker_client.submit(pre_process_all_schools, set_type, year, data2_ref),
+        ]
+    )
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
@@ -275,9 +264,9 @@ def pre_process_data(worker_client, set_type, year):
 
 def compute_comparator_set_for(data_type, mix_type, set_type, year, data):
     st = time.time()
-    logger.info(f'Computing {data_type} set')
+    logger.info(f"Computing {data_type} set")
     result = compute_comparator_set(data)
-    logger.info(f'Computing {data_type} set. Done in {time.time() - st:.2f} seconds')
+    logger.info(f"Computing {data_type} set. Done in {time.time() - st:.2f} seconds")
 
     write_blob(
         "comparator-sets",
@@ -310,9 +299,15 @@ def compute_comparator_sets(set_type, year):
         )
     )
 
-    compute_comparator_set_for("academy_comparators", "unmixed", set_type, year, academies)
-    compute_comparator_set_for("maintained_schools_comparators", "unmixed", set_type, year, ms)
-    compute_comparator_set_for("mixed_comparators", "mixed", set_type, year, all_schools)
+    compute_comparator_set_for(
+        "academy_comparators", "unmixed", set_type, year, academies
+    )
+    compute_comparator_set_for(
+        "maintained_schools_comparators", "unmixed", set_type, year, ms
+    )
+    compute_comparator_set_for(
+        "mixed_comparators", "mixed", set_type, year, all_schools
+    )
 
     write_blob(
         "comparator-sets",
@@ -340,10 +335,10 @@ def compute_comparator_sets(set_type, year):
 
 def compute_rag_for(data_type, set_type, year, data, comparators):
     st = time.time()
-    logger.info(f'Computing {data_type} RAG')
+    logger.info(f"Computing {data_type} RAG")
     df = pd.DataFrame(compute_rag(data, comparators))
 
-    logger.info(f'Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds')
+    logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")
 
     write_blob(
         "metric-rag",
@@ -357,16 +352,31 @@ def compute_rag_for(data_type, set_type, year, data, comparators):
 def run_compute_rag(set_type, year):
     start_time = time.time()
 
-    ms_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools.parquet"))
-    ms_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools_comparators.parquet"))
+    ms_data = pd.read_parquet(
+        get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools.parquet")
+    )
+    ms_comparators = pd.read_parquet(
+        get_blob(
+            "comparator-sets",
+            f"{set_type}/{year}/maintained_schools_comparators.parquet",
+        )
+    )
     compute_rag_for("maintained_schools", set_type, year, ms_data, ms_comparators)
 
-    academy_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet"))
-    academy_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet"))
+    academy_data = pd.read_parquet(
+        get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet")
+    )
+    academy_comparators = pd.read_parquet(
+        get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet")
+    )
     compute_rag_for("academies", set_type, year, academy_data, academy_comparators)
 
-    mixed_data = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet"))
-    mixed_comparators = pd.read_parquet(get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet"))
+    mixed_data = pd.read_parquet(
+        get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet")
+    )
+    mixed_comparators = pd.read_parquet(
+        get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet")
+    )
     compute_rag_for("mixed", set_type, year, mixed_data, mixed_comparators)
 
     time_taken = time.time() - start_time
@@ -379,19 +389,15 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
     msg_payload = json.loads(msg.content)
     try:
         msg_payload["pre_process_duration"] = pre_process_data(
-            worker_client,
-            msg_payload["type"],
-            msg_payload["year"]
+            worker_client, msg_payload["type"], msg_payload["year"]
         )
 
         msg_payload["comparator_set_duration"] = compute_comparator_sets(
-            msg_payload["type"],
-            msg_payload["year"]
+            msg_payload["type"], msg_payload["year"]
         )
 
         msg_payload["rag_duration"] = run_compute_rag(
-            msg_payload["type"],
-            msg_payload["year"]
+            msg_payload["type"], msg_payload["year"]
         )
 
         msg_payload["success"] = True
@@ -437,7 +443,9 @@ def receive_messages(worker_client):
                     msg = worker_queue.receive_message(visibility_timeout=300)
                     if msg is not None:
                         logger.info(f"received message {msg.content}")
-                        msg = handle_msg(worker_client, msg, worker_queue, complete_queue)
+                        msg = handle_msg(
+                            worker_client, msg, worker_queue, complete_queue
+                        )
                         logger.info(f"processed msg response: {msg}")
                     else:
                         time.sleep(1)
@@ -448,7 +456,7 @@ def receive_messages(worker_client):
 
 if __name__ == "__main__":
     with suppress(tornado.iostream.StreamClosedError):
-        with Client(memory_limit='16GB', heartbeat_interval=None) as client:
+        with Client(memory_limit="16GB", heartbeat_interval=None) as client:
             try:
                 if os.getenv("ENV") == "dev":
                     receive_messages(client)
