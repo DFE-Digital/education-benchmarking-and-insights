@@ -28,7 +28,7 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
 }) => {
   const phase = useContext(PhaseContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
-  const [data, setData] = useState(new Array<Census>());
+  const [data, setData] = useState<Census[]>();
   const getData = useCallback(async () => {
     setData(new Array<Census>());
     return await CensusApi.query(
@@ -57,12 +57,13 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
       ];
 
       return {
-        dataPoints: data.map((school) => {
-          return {
-            ...school,
-            value: school.teachersFte,
-          };
-        }),
+        dataPoints:
+          data?.map((school) => {
+            return {
+              ...school,
+              value: school.teachersFte,
+            };
+          }) ?? [],
         tableHeadings,
       };
     }, [dimension, data]);
@@ -76,10 +77,11 @@ export const TotalTeachers: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasIncompleteData = data.some((x) => x.hasIncompleteData);
+  const hasIncompleteData = data?.some((x) => x.hasIncompleteData);
+  const hasNoData = data?.length === 0;
 
   return (
-    <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+    <HasIncompleteDataContext.Provider value={{ hasIncompleteData, hasNoData }}>
       <ChartDimensionContext.Provider value={dimension}>
         <HorizontalBarChartWrapper
           data={chartData}

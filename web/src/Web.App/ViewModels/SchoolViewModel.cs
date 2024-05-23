@@ -1,10 +1,9 @@
 using Web.App.Domain;
-
 namespace Web.App.ViewModels;
 
 public class SchoolViewModel(
     School school,
-    Finances finances,
+    Finances? finances,
     IEnumerable<RagRating> ratings)
 {
     public string? Name => school.Name;
@@ -14,8 +13,9 @@ public class SchoolViewModel(
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? TrustIdentifier => school.CompanyNumber;
     public string? TrustName => school.TrustOrCompanyName;
-    public decimal InYearBalance => finances.TotalIncome - finances.TotalExpenditure;
-    public decimal RevenueReserve => finances.RevenueReserve;
+    public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;
+    public decimal? RevenueReserve => finances?.RevenueReserve;
+    public bool IsMissingFinancials => finances == null;
     public IEnumerable<RagRating> Ratings => ratings
         .Where(x => x.Status is "Red" or "Amber")
         .OrderBy(x => x.StatusOrder)

@@ -1,5 +1,4 @@
 using System.Diagnostics.CodeAnalysis;
-
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
@@ -11,4 +10,6 @@ public static class OverallPhaseTypes
     public const string PupilReferralUnit = "Pupil referral unit";
     public const string AllThrough = "All-through";
     public const string Nursery = "Nursery";
+
+    public static string[] All => [Primary, Secondary, Special, PupilReferralUnit, AllThrough, Nursery];
 }

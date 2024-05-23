@@ -1,7 +1,6 @@
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-
 namespace Web.App.Services;
 
 public interface IFinanceService
@@ -9,7 +8,7 @@ public interface IFinanceService
     Task<SchoolExpenditure> GetSchoolExpenditure(string urn);
     Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns);
     Task<IEnumerable<Finances>> GetFinances(IEnumerable<string> urns);
-    Task<Finances> GetFinances(string urns);
+    Task<Finances?> GetFinances(string urns);
     Task<FinanceYears> GetYears();
     Task<IEnumerable<Expenditure>> GetSchoolExpenditureHistory(string urn, string dimension);
     Task<IEnumerable<Expenditure>> GetTrustExpenditureHistory(string companyNo, string dimension);
@@ -19,15 +18,9 @@ public interface IFinanceService
 
 public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFinanceService
 {
-    public async Task<FinanceYears> GetYears()
-    {
-        return await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
-    }
+    public async Task<FinanceYears> GetYears() => await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
 
-    public async Task<SchoolExpenditure> GetSchoolExpenditure(string urn)
-    {
-        return await insightApi.GetSchoolExpenditure(urn).GetResultOrThrow<SchoolExpenditure>();
-    }
+    public async Task<SchoolExpenditure> GetSchoolExpenditure(string urn) => await insightApi.GetSchoolExpenditure(urn).GetResultOrThrow<SchoolExpenditure>();
 
     public async Task<IEnumerable<Expenditure>> GetSchoolExpenditureHistory(string urn, string dimension)
     {
@@ -53,20 +46,11 @@ public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFin
         return await insightApi.GetSchoolFinances(query).GetResultOrDefault<IEnumerable<Finances>>() ?? Array.Empty<Finances>();
     }
 
-    public async Task<Finances> GetFinances(string urn)
-    {
-        return await insightApi.GetSchoolFinances(urn).GetResultOrThrow<Finances>();
-    }
+    public async Task<Finances?> GetFinances(string urn) => await insightApi.GetSchoolFinances(urn).GetResultOrDefault<Finances>();
 
-    public async Task<Census> GetSchoolCensus(string urn)
-    {
-        return await censusApi.Get(urn).GetResultOrThrow<Census>();
-    }
+    public async Task<Census> GetSchoolCensus(string urn) => await censusApi.Get(urn).GetResultOrThrow<Census>();
 
-    public async Task<FloorAreaMetric> GetSchoolFloorArea(string urn)
-    {
-        return await insightApi.GetSchoolFloorAreaMetric(urn).GetResultOrThrow<FloorAreaMetric>();
-    }
+    public async Task<FloorAreaMetric> GetSchoolFloorArea(string urn) => await insightApi.GetSchoolFloorAreaMetric(urn).GetResultOrThrow<FloorAreaMetric>();
 
     private static ApiQuery BuildApiQueryForDimension(string dimension)
     {

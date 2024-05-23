@@ -1,0 +1,71 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.Components.RagStackViewModel
+@{
+    var id = Model.Identifier.ToSlug();
+}
+@if (Model.Total <= 0)
+{
+    <span class="govuk-body-s">Status unavailable</span>
+}
+else
+{
+    <svg style="height:@(Model.Height)px;" class="rag-stack" role="img" aria-labelledby="@id-rag">
+        <title id="@id-rag">RAG ratings for @Model.Identifier: @Model.Red red, @Model.Amber amber and @Model.Green green</title>
+        @if (Model.RedPercentage > 0)
+        {
+            if (!string.IsNullOrWhiteSpace(Model.RedHref))
+            {
+                @:<a href="@Model.RedHref" aria-label="@Model.Red red">
+            }
+            <rect
+                role="presentation"
+                x="0"
+                y="0"
+                width="@Model.RedPercentage%"
+                height="100%"
+                class="rag-stack-red"/>
+            if (!string.IsNullOrWhiteSpace(Model.RedHref))
+            {
+                @:</a>
+            }
+        }
+
+        @if (Model.AmberPercentage > 0)
+        {
+            if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+            {
+                @:<a href="@Model.AmberHref" aria-label="@Model.Amber amber">
+            }
+            <rect
+                role="presentation"
+                x="@Model.RedPercentage%"
+                y="0"
+                width="@Model.AmberPercentage%"
+                height="100%"
+                class="rag-stack-amber"/>
+            if (!string.IsNullOrWhiteSpace(Model.AmberHref))
+            {
+                @:</a>
+            }
+        }
+
+        @if (Model.GreenPercentage > 0)
+        {
+            if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+            {
+                @:<a href="@Model.GreenHref" aria-label="@Model.Green green">
+            }
+            <rect
+                role="presentation"
+                x="@(Model.RedPercentage + Model.AmberPercentage)%"
+                y="0"
+                width="@Model.GreenPercentage%"
+                height="100%"
+                class="rag-stack-green"/>
+            if (!string.IsNullOrWhiteSpace(Model.GreenHref))
+            {
+                @:</a>
+            }
+        }
+    </svg>
+}

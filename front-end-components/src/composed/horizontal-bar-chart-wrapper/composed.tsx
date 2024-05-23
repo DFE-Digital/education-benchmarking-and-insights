@@ -18,6 +18,7 @@ import {
 import { SchoolTick } from "src/components/charts/school-tick";
 import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip";
 import { WarningBanner } from "src/components/warning-banner";
+import { ErrorBanner } from "src/components/error-banner";
 
 export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   props: HorizontalBarChartWrapperProps<TData>
@@ -26,7 +27,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
   const selectedSchool = useContext(SelectedSchoolContext);
-  const hasIncompleteData = useContext(HasIncompleteDataContext);
+  const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
 
@@ -70,6 +71,10 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
       <WarningBanner
         isRendered={hasIncompleteData}
         message="Some schools are missing data for this financial year"
+      />
+      <ErrorBanner
+        isRendered={hasNoData}
+        message="Unable to load data for this financial year"
       />
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-full">
@@ -136,7 +141,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
               </div>
             </>
           ) : (
-            <Loading />
+            !hasNoData && <Loading />
           )}
         </div>
       </div>

@@ -2,7 +2,6 @@
 
 .app-headline-figures {
   background: #5D7490;
-  border: 1px solid #5D7490;
 
   p {
     color: white;
@@ -11,29 +10,26 @@
 }
 
 .app-headline-high {
-  background-color: #f4cdc6;
-  border: 1px solid #942514;
+  background-color: $rag-red-colour;
 
   p {
-    color: #942514;
+    color: $rag-red-text-colour;
   }
 }
 
 .app-headline-medium {
-  background-color: #FFF7BF;
-  border: 1px solid #594D00;
+  background-color: $rag-amber-colour;
 
   p {
-    color: #594D00;
+    color: $rag-amber-text-colour;
   }
 }
 
 .app-headline-low {
-  background-color: #e5e6e7;
-  border: 1px solid #505A5F;
+  background-color: $rag-green-colour;
 
   p {
-    color: #505A5F;
+    color: $rag-green-text-colour;
   }
 }
 

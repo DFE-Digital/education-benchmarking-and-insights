@@ -1,5 +1,5 @@
-@using Web.App.Domain
-@using Web.App.TagHelpers
+@using Web.App.Extensions
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.TrustViewModel
 @{
@@ -10,10 +10,16 @@
     <div class="govuk-grid-column-two-thirds">
         <h1 class="govuk-heading-l govuk-!-margin-bottom-1">@Model.Name</h1>
         <p class="govuk-body">
-            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust})" class="govuk-link govuk-link--no-visited-state">Change trust</a>
+            <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust })" class="govuk-link govuk-link--no-visited-state">Change trust</a>
         </p>
     </div>
 </div>
+
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.Trust,
+    isPartOfTrust = true
+})
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -34,8 +40,8 @@
     </div>
 </div>
 
-<h2 class="govuk-heading-m">Trust-wide cost overview</h2>
-<div class="govuk-grid-row">
+<h2 class="govuk-heading-m">Trust-wide spending and costs overview</h2>
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
         <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
             <li class="app-headline-high">
@@ -54,31 +60,95 @@
     </div>
 </div>
 
-<h2 class="govuk-heading-m">Top priority costs</h2>
-<div class="top-categories">
+<table class="govuk-table table-cost-category-rag">
+    <caption class="govuk-table__caption govuk-table__caption--m">Cost categories</caption>
+    <thead class="govuk-table__head govuk-visually-hidden">
+    <tr class="govuk-table__row">
+        <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Category</th>
+        <th scope="col" class="govuk-table__header">Sum of Red/Amber/Green schools</th>
+    </tr>
+    </thead>
+    <tbody class="govuk-table__body">
     @foreach (var rating in Model.Ratings)
     {
-        <div>
-            @{
-                (TagColour Colour, string DisplayText, string Class)?  tag = rating.Status != null ? Lookups.StatusPriorityMap[rating.Status] : null;
-            }
-            <h4 class="govuk-heading-s">@rating.Category</h4>
-            <p class="priority @tag?.Class govuk-body">
-                @await Component.InvokeAsync("Tag", new { tag?.Colour, tag?.DisplayText })
-                @rating.Count out of @Model.NumberSchools academies are in the @tag?.DisplayText.ToLower() range.
-            </p>
-        </div>
+        <tr class="govuk-table__row">
+            <td class="govuk-table__cell govuk-!-width-one-third">
+                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })#@rating.Category.ToSlug()" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
+            </td>
+            <td class="govuk-table__cell">
+                @await Component.InvokeAsync("RagStack", new
+                {
+                    identifier = rating.Category,
+                    red = rating.Red,
+                    amber = rating.Amber,
+                    green = rating.Green,
+                    redHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
+                    amberHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
+                    greenHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}"
+                })
+            </td>
+        </tr>
     }
-</div>
-<h3 class="govuk-heading-s"><a href="#" class="govuk-link govuk-link--no-visited-state">View all spending and costs</a></h3>
+    </tbody>
+</table>
+
+<h2 class="govuk-heading-m">Schools in this trust</h2>
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+    Heading = "Nursery schools",
+    Schools = Model.NurserySchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+    Heading = "Primary schools",
+    Schools = Model.PrimarySchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+    Heading = "Secondary schools",
+    Schools = Model.SecondarySchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+    Heading = "Specials and Pupil Referrals units (PRUs)",
+    Schools = Model.SpecialOrPruSchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
+    Heading = "All-through",
+    Schools = Model.AllThroughSchools
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.FinancialPlanning, FinanceTools.BenchmarkCensus } })
+@await Component.InvokeAsync("TrustFinanceTools", new
+{
+    identifier = Model.CompanyNumber,
+    tools = new[]
+    {
+        FinanceTools.CompareYourCosts,
+        FinanceTools.FinancialPlanning,
+        FinanceTools.BenchmarkCensus
+    }
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new { identifier = Model.CompanyNumber, resources = new[] { Resources.TrustResources, Resources.TrustHistoricData, Resources.TrustDetails } })
+@await Component.InvokeAsync("Resources", new
+{
+    identifier = Model.CompanyNumber,
+    resources = new[]
+    {
+        Resources.TrustResources,
+        Resources.TrustHistoricData,
+        Resources.TrustDetails
+    }
+})
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
