@@ -523,8 +523,10 @@ def build_maintained_school_data(
     for category in config.rag_category_settings.keys():
         maintained_schools = build_cost_series(category, maintained_schools,
                                                config.rag_category_settings[category]["type"])
-
-    return maintained_schools.reset_index().set_index("UKPRN")
+        
+    maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
+    maintained_schools = maintained_schools[maintained_schools.index.notnull()]
+    return maintained_schools
 
 
 def build_federations_data(links_data_path, maintained_schools):
