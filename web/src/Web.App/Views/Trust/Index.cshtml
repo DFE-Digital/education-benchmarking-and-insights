@@ -15,7 +15,11 @@
     </div>
 </div>
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true })
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.Trust,
+    isPartOfTrust = true
+})
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -92,6 +96,12 @@
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
+    Heading = "Nursery schools",
+    Schools = Model.NurserySchools
+})
+
+@await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
+{
     Heading = "Primary schools",
     Schools = Model.PrimarySchools
 })
@@ -110,8 +120,8 @@
 
 @await Html.PartialAsync("_SchoolsSection", new TrustSchoolsSectionViewModel
 {
-    Heading = "Other schools",
-    Schools = Model.OtherSchools
+    Heading = "All-through",
+    Schools = Model.AllThroughSchools
 })
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
