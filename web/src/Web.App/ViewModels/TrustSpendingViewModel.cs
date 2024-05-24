@@ -1,11 +1,22 @@
 ﻿using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class TrustSpendingViewModel(Trust trust, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
+public class TrustSpendingViewModel(
+    Trust trust,
+    IReadOnlyCollection<School> schools,
+    IEnumerable<RagRating> ratings,
+    int[]? costCategoryIds,
+    string[]? statuses)
 {
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
     public int NumberSchools => schools.Count;
+
+    public int[] CostCategories => costCategoryIds ?? [];
+
+    public bool IsStatusRed => statuses != null && statuses.Contains("red", StringComparer.OrdinalIgnoreCase);
+    public bool IsStatusAmber => statuses != null && statuses.Contains("amber", StringComparer.OrdinalIgnoreCase);
+    public bool IsStatusGreen => statuses != null && statuses.Contains("green", StringComparer.OrdinalIgnoreCase);
 
     // todo: sorting; either here or in API
     public IEnumerable<RagSchoolsSpendingViewModel> Ratings => ratings
