@@ -6,7 +6,12 @@ namespace Web.App.ViewComponents;
 
 public class DataSourceViewComponent(IFinanceService financeService) : ViewComponent
 {
-    public async Task<IViewComponentResult> InvokeAsync(string kind, bool isPartOfTrust, string[]? additionText)
+    public async Task<IViewComponentResult> InvokeAsync(
+        string kind,
+        bool isPartOfTrust,
+        string[]? additionText,
+        string wrapperClassName = "govuk-grid-row",
+        string className = "govuk-grid-column-two-thirds")
     {
         var years = await financeService.GetYears();
 
@@ -23,7 +28,6 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             _ => throw new ArgumentOutOfRangeException(nameof(kind))
         };
 
-
-        return View(new DataSourceViewModel(dataSource, additionText));
+        return View(new DataSourceViewModel(dataSource, additionText, wrapperClassName, className));
     }
 }
