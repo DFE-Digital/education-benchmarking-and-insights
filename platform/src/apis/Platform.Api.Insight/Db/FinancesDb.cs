@@ -66,6 +66,11 @@ public abstract class FinancesDb : CosmosDatabase
         return await Task.WhenAll(tasks);
     }
 
+    protected async Task<(int year, T? dataObject)> GetTrustFinances<T>(string companyNumber) where T : QueryableFinancesDataObject
+    {
+        return await GetTrustFinances<T>(_aarLatestYear, companyNumber, BuildFinanceCollectionName(Constants.MatOverviewCollectionPrefix, _aarLatestYear));
+    }
+
     protected async Task<(int year, T? dataObject)[]> GetTrustFinancesHistory<T>(string companyNumber) where T : QueryableFinancesDataObject
     {
         var tasks = HistoricYears(_aarLatestYear).Select(year =>

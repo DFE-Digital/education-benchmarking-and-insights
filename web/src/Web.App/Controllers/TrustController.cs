@@ -11,7 +11,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}")]
-public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IInsightApi insightApi)
+public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IInsightApi insightApi, IBalanceApi balanceApi)
     : Controller
 {
     [HttpGet]
@@ -24,6 +24,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<Balance>();
                 var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
                 var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
 
@@ -34,7 +35,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 }
 
                 var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustViewModel(trust, schools, ratings);
+                var viewModel = new TrustViewModel(trust, balance, schools, ratings);
                 return View(viewModel);
             }
             catch (Exception e)

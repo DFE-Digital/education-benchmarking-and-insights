@@ -3,6 +3,7 @@
 public interface IBalanceApi
 {
     Task<ApiResult> School(string? urn, ApiQuery? query = null);
+    Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null);
     Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null);
     Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null);
 }
@@ -17,6 +18,11 @@ public class BalanceApi(HttpClient httpClient, string? key = default) : ApiBase(
     public async Task<ApiResult> SchoolHistory(string? urn, ApiQuery? query = null)
     {
         return await GetAsync($"api/balance/school/{urn}/history{query?.ToQueryString()}");
+    }
+
+    public async Task<ApiResult> Trust(string? companyNo, ApiQuery? query = null)
+    {
+        return await GetAsync($"api/balance/trust/{companyNo}{query?.ToQueryString()}");
     }
 
     public async Task<ApiResult> TrustHistory(string? companyNo, ApiQuery? query = null)

@@ -94,6 +94,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupInsights(ratings)
+            .SetupBalance(trust)
             .Navigate(Paths.TrustHome(trust.CompanyNumber));
 
         return (page, trust, ratings, schools);

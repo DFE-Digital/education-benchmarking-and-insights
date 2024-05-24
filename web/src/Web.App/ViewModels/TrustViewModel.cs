@@ -1,12 +1,14 @@
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class TrustViewModel(Trust trust, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
+public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
 {
 
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.Name;
     public int NumberSchools => schools.Count;
+    public decimal? RevenueReserve => balance.RevenueReserve;
+    public decimal? InYearBalance => balance.InYearBalance;
     public int Low => ratings.Where(NotOther).Count(Green);
     public int Medium => ratings.Where(NotOther).Count(Amber);
     public int High => ratings.Where(NotOther).Count(Red);

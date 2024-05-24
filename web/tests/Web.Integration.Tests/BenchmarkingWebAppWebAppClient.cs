@@ -23,6 +23,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
     public Mock<ICensusApi> CensusApi { get; } = new();
     public Mock<IIncomeApi> IncomeApi { get; } = new();
+    public Mock<IBalanceApi> BalanceApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -33,6 +34,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(BenchmarkApi.Object);
         services.AddSingleton(CensusApi.Object);
         services.AddSingleton(IncomeApi.Object);
+        services.AddSingleton(BalanceApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -145,6 +147,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupBalance(Trust trust, Balance? balance = null)
+    {
+        BalanceApi.Reset();
+        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new Balance()));
+        return this;
+    }
+    
     public BenchmarkingWebAppClient SetupInsights(IEnumerable<RagRating>? ratings = null)
     {
         InsightApi.Reset();
