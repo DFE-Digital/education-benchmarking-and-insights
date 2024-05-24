@@ -34,10 +34,24 @@ public class RatingsDb : IRatingsDb
         SqlMapper.SetTypeMap(typeof(RatingsDataObject), new CustomPropertyTypeMap(typeof(RatingsDataObject), (type, columnName) => type.GetProperty(columnMap[columnName])));
     }
 
-    public async Task<IEnumerable<RatingResponseModel>> Get(string[] urns)
+    public async Task<IEnumerable<RatingResponseModel>> Get(string[] urns, int[] costPools, string[] ragWords)
     {
-        const string sql = "SELECT * from RAGRatings where URN IN @URNS AND PeerGroup = 'Default'";
-        var parameters = new { URNS = urns };
+        // To get around the error `An expression of non-boolean type specified in a context where a condition is expected`
+        // use STRING_SPLIT to support the optional additional filtering of RAGs in an additional JOIN
+        var costPoolJoin = costPools.Any()
+            ? " JOIN (SELECT * FROM STRING_SPLIT(@CostPoolIds, ',', 1)) c ON c.[value] = r.[Cost Pool ID]" 
+            : string.Empty;
+        var ragWordJoin = ragWords.Any() 
+            ? " JOIN (SELECT * FROM STRING_SPLIT(@RagWords, ',', 1)) w ON w.[value] = r.[RAGWord]" 
+            : string.Empty;
+        var sql = $"SELECT * FROM [RAGRatings] r{costPoolJoin}{ragWordJoin} WHERE r.[URN] IN @URNS AND r.[PeerGroup] = 'Default'";
+
+        var parameters = new
+        {
+            URNS = urns,
+            CostPoolIds = string.Join(",", costPools),
+            RagWords = string.Join(",", ragWords),
+        };
 
         using var conn = await _dbFactory.GetConnection();
         var results = conn.Query<RatingsDataObject>(sql, parameters);
@@ -48,5 +62,5 @@ public class RatingsDb : IRatingsDb
 
 public interface IRatingsDb
 {
-    Task<IEnumerable<RatingResponseModel>> Get(string[] urns);
+    Task<IEnumerable<RatingResponseModel>> Get(string[] urns, int[] costPools, string[] ragWords);
 }
