@@ -248,6 +248,12 @@ def prepare_aar_data(aar_path):
         dtype=input_schemas.aar_academies,
     )
 
+    # removing pre-transition academies
+    transitioned_academy_urns = aar['URN'][aar['URN'].duplicated(keep=False)].values
+    mask = ~(aar['URN'].isin(transitioned_academy_urns) & aar['Date joined or opened if in period'].isna())
+    aar = aar[mask]
+    aar.drop(columns=['URN'], inplace=True)
+
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
@@ -410,6 +416,10 @@ def build_academy_data(
         usecols=input_schemas.academy_master_list.keys(),
     ).rename(columns={"UKPRN": "Academy UKPRN"})
 
+    # remove transitioned schools from academies_list
+    mask = (academies_list.index.duplicated(keep=False) & ~academies_list['Valid to'].isna())
+    academies_list = academies_list[~mask]
+
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     ).set_index("URN")
@@ -563,11 +573,12 @@ def build_maintained_school_data(
     )
 
     for category in config.rag_category_settings.keys():
-        maintained_schools = build_cost_series(
-            category, maintained_schools, config.rag_category_settings[category]["type"]
-        )
-
-    return maintained_schools.reset_index().set_index("UKPRN")
+        maintained_schools = build_cost_series(category, maintained_schools,
+                                               config.rag_category_settings[category]["type"])
+        
+    maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
+    maintained_schools = maintained_schools[maintained_schools.index.notnull()]
+    return maintained_schools
 
 
 def build_federations_data(links_data_path, maintained_schools):
@@ -630,7 +641,7 @@ def build_federations_data(links_data_path, maintained_schools):
         inplace=True,
     )
 
-    # TODO - add in soft federation members and names (currently no mapping available)
+    # TODO - add in soft federation members and names (currently no mapping available) (also deal with duplicated hard federations owing to 2 group names)
     # soft_federations.join(maintained_schools, on="URN")
     # hard_federations.join(maintained_schools, on="URN")
     #
