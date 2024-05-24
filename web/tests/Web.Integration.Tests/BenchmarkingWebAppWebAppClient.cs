@@ -153,7 +153,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new Balance()));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupInsights(IEnumerable<RagRating>? ratings = null)
     {
         InsightApi.Reset();
