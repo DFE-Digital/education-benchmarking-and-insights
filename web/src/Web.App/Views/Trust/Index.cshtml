@@ -18,29 +18,30 @@
 @await Component.InvokeAsync("DataSource", new
 {
     kind = OrganisationTypes.Trust,
-    isPartOfTrust = true
+    isPartOfTrust = true,
+    className = "govuk-grid-column-full"
 })
 
-<div class="govuk-grid-row">
+<div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
         <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
             <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
-                <p class="govuk-body">@Model.InYearBalance.ToCurrency()</p>
+                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
             </li>
             <li class="app-headline-figures">
                 <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
-                <p class="govuk-body">@Model.RevenueReserve.ToCurrency()</p>
+                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
             </li>
             <li class="app-headline-figures">
-                <p class="govuk-body govuk-!-font-weight-bold">Schools</p>
+                <p class="govuk-body govuk-!-font-weight-bold">Number of academies</p>
                 <p class="govuk-body">@Model.NumberSchools</p>
             </li>
         </ul>
     </div>
 </div>
 
-<h2 class="govuk-heading-m">Trust-wide spending and costs overview</h2>
+<h2 class="govuk-heading-m">Spending priorities for this trust</h2>
 <div class="govuk-grid-row govuk-!-margin-bottom-5">
     <div class="govuk-grid-column-full">
         <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
