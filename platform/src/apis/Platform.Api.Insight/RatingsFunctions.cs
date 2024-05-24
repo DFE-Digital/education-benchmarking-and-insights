@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -31,6 +32,8 @@ public class RatingsFunctions
     [ProducesResponseType(typeof(RatingResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("categories", "List of cost category IDs", DataType = typeof(string), Required = false)]
+    [QueryStringParameter("statuses", "List of RAG statuses", DataType = typeof(string), Required = false)]
     public async Task<IActionResult> QueryRatingsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "ratings")] HttpRequest req)
     {
@@ -45,8 +48,26 @@ public class RatingsFunctions
             try
             {
                 var urns = req.Query["urns"].ToString().Split(",");
-
-                var result = await _db.Get(urns);
+                
+                var categories = req.Query["categories"].ToString().Split(",")
+                    .Select(x => int.TryParse(x, out var parsed) ? (int?)parsed : null)
+                    .Where(x => x != null)
+                    .OfType<int>()
+                    .ToArray();
+                
+                var statuses = req.Query["statuses"].ToString().Split(",")
+                    .Select(x => x.Equals("red", StringComparison.OrdinalIgnoreCase)
+                        ? "Red"
+                        : x.Equals("amber", StringComparison.OrdinalIgnoreCase)
+                            ? "Amber"
+                            : x.Equals("green", StringComparison.OrdinalIgnoreCase)
+                                ? "Green"
+                                : null)
+                    .Where(x => x != null)
+                    .OfType<string>()
+                    .ToArray();
+                
+                var result = await _db.Get(urns, categories, statuses);
 
                 return new JsonContentResult(result);
             }

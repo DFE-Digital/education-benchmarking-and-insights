@@ -1,0 +1,48 @@
+@model Web.App.ViewModels.TrustSpendingViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustSpending;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.Trust,
+    isPartOfTrust = true,
+    className = "govuk-grid-column-full"
+})
+
+@foreach (var rating in Model.Ratings)
+{
+    <h2 class="govuk-heading-m">@rating.CostCategory</h2>
+    @foreach (var status in rating.Statuses)
+    {
+        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+        <p class="priority @status.PriorityTag?.Class govuk-body">
+            @await Component.InvokeAsync("Tag", new
+            {
+                status.PriorityTag?.Colour,
+                status.PriorityTag?.DisplayText
+            })
+            @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
+            in the @status.PriorityTag?.DisplayText.ToLower() range
+        </p>
+
+        <ul class="govuk-list govuk-list--bullet">
+            @foreach (var school in status.Schools)
+            {
+                <li>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+                </li>
+            }
+        </ul>
+    }
+}
+
+@await Component.InvokeAsync("GetHelp")
