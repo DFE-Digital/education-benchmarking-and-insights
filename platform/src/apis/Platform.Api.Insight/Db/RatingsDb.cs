@@ -39,10 +39,10 @@ public class RatingsDb : IRatingsDb
         // To get around the error `An expression of non-boolean type specified in a context where a condition is expected`
         // use STRING_SPLIT to support the optional additional filtering of RAGs in an additional JOIN
         var costPoolJoin = costPools.Any()
-            ? " JOIN (SELECT * FROM STRING_SPLIT(@CostPoolIds, ',', 1)) c ON c.[value] = r.[Cost Pool ID]" 
+            ? " JOIN (SELECT * FROM STRING_SPLIT(@CostPoolIds, ',', 1)) c ON c.[value] = r.[Cost Pool ID]"
             : string.Empty;
-        var ragWordJoin = ragWords.Any() 
-            ? " JOIN (SELECT * FROM STRING_SPLIT(@RagWords, ',', 1)) w ON w.[value] = r.[RAGWord]" 
+        var ragWordJoin = ragWords.Any()
+            ? " JOIN (SELECT * FROM STRING_SPLIT(@RagWords, ',', 1)) w ON w.[value] = r.[RAGWord]"
             : string.Empty;
         var sql = $"SELECT * FROM [RAGRatings] r{costPoolJoin}{ragWordJoin} WHERE r.[URN] IN @URNS AND r.[PeerGroup] = 'Default'";
 

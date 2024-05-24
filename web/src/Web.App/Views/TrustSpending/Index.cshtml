@@ -21,7 +21,8 @@
 
 @foreach (var rating in Model.Ratings)
 {
-    <h2 class="govuk-heading-m">@rating.CostCategory</h2>
+    <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+
     @foreach (var status in rating.Statuses)
     {
         <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
