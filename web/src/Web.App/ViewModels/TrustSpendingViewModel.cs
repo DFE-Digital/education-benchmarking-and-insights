@@ -20,7 +20,8 @@ public class TrustSpendingViewModel(Trust trust, IReadOnlyCollection<School> sch
                     y.Select(z => z.PriorityTag).FirstOrDefault(),
                     y.SelectMany(z => schools
                         .Where(s => s.Urn == z.Urn)
-                        .Select(s => new RagSchoolSpendingSchoolViewModel(s)))
+                        .Select(s => new RagSchoolSpendingSchoolViewModel(s, z)))
+                        .OrderByDescending(s => s.Value)
                 ))
         ));
 }
@@ -41,8 +42,10 @@ public class RagSchoolsSpendingStatusViewModel(
     public IEnumerable<RagSchoolSpendingSchoolViewModel> Schools => schools;
 }
 
-public class RagSchoolSpendingSchoolViewModel(School? school)
+public class RagSchoolSpendingSchoolViewModel(School? school, RagRating? rating)
 {
     public string? Urn => school?.Urn;
     public string? Name => school?.Name;
+    public int? Decile => rating?.Decile;
+    public decimal? Value => rating?.Value;
 }

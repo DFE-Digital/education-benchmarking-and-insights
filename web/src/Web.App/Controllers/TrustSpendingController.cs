@@ -18,7 +18,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
     public async Task<IActionResult> Index(
         string companyNumber,
         [FromQuery(Name = "category")] int[]? costCategoryIds,
-        [FromQuery(Name = "priority")] string[]? statuses)
+        [FromQuery(Name = "status")] string[]? statuses)
     {
         using (logger.BeginScope(new
         {
