@@ -16,7 +16,10 @@ public static class TestConfiguration
                                                "Benchmark API missing from configuration");
 
     public static string School => Instance.GetValue<string>("SchoolUrn") ??
-                                   throw new InvalidOperationException("School urn missing from configuration");
+                                   throw new InvalidOperationException("School URN missing from configuration");
+
+    public static string Trust => Instance.GetValue<string>("TrustCompanyNo") ??
+                                  throw new InvalidOperationException("Trust company number missing from configuration");
 
     public static bool Headless => Instance.GetValue<bool?>("Headless") ?? true;
 

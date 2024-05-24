@@ -6,6 +6,7 @@ using Microsoft.Extensions.Options;
 using Platform.Search.Builders;
 using Platform.Search.LocalAuthority;
 using Platform.Search.School;
+using Platform.Search.SchoolComparators;
 using Platform.Search.Trust;
 
 namespace Platform.Search;
@@ -150,7 +151,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             new TrustIndexBuilder(),
             new SchoolIndexBuilder(),
-            new LocalAuthorityIndexBuilder()
+            new LocalAuthorityIndexBuilder(),
+            new SchoolComparatorsIndexBuilder()
         };
 
         foreach (var builder in builders)
@@ -180,7 +182,9 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             new SchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
             new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString)
+            new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new SchoolComparatorsAcademyDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new SchoolComparatorsMaintainedDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
         };
 
         foreach (var builder in builders)
@@ -207,7 +211,9 @@ public class SearchMaintenanceService : ISearchMaintenanceService
         {
             new SchoolIndexerBuilder(),
             new TrustIndexerBuilder(),
-            new LocalAuthorityIndexerBuilder()
+            new LocalAuthorityIndexerBuilder(),
+            new SchoolComparatorsAcademyIndexerBuilder(),
+            new SchoolComparatorsMaintainedIndexerBuilder(),
         };
 
         foreach (var builder in builders)

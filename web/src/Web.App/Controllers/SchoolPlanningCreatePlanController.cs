@@ -908,8 +908,9 @@ public class SchoolPlanningCreateController(
         {
             ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
-            var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+            var plan = await financialPlanService.Get(urn, year);
+
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
             return View(viewModel);
@@ -933,10 +934,10 @@ public class SchoolPlanningCreateController(
 
             ViewData[ViewDataKeys.Backlink] = OtherTeachingPeriodsBackLink(urn, year);
 
+            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
-            var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
             var viewModel = new SchoolPlanCreateViewModel(school, plan);
 
             results.AddToModelState(ModelState);

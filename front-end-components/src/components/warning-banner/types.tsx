@@ -1,4 +1,4 @@
 export type WarningBannerProps = {
-  isRendered: boolean;
+  isRendered?: boolean;
   message: string;
 };

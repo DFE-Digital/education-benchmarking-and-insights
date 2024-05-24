@@ -10,8 +10,9 @@ namespace Platform.Api.Insight.Db;
 public interface IBalanceDb
 {
     Task<IEnumerable<BalanceResponseModel>> GetSchoolHistory(string urn, string dimension);
-    Task<IEnumerable<BalanceResponseModel>> GetTrustHistory(string urn, string dimension);
+    Task<IEnumerable<BalanceResponseModel>> GetTrustHistory(string companyNumber, string dimension);
     Task<BalanceResponseModel?> GetSchool(string urn, string dimension);
+    Task<BalanceResponseModel?> GetTrust(string companyNumber, string dimension);
 }
 
 public class BalanceDb : FinancesDb, IBalanceDb
@@ -36,6 +37,12 @@ public class BalanceDb : FinancesDb, IBalanceDb
             .Where(d => d.dataObject != null)
             .Select(d => BalanceResponseModel.Create(d.dataObject, d.year, dimension))
             .SingleOrDefault();
+    }
+
+    public async Task<BalanceResponseModel?> GetTrust(string companyNumber, string dimension)
+    {
+        var finances = await GetTrustFinances<BalanceDataObject>(companyNumber);
+        return BalanceResponseModel.Create(finances.dataObject, finances.year, dimension);
     }
 
     public async Task<IEnumerable<BalanceResponseModel>> GetTrustHistory(string companyNumber, string dimension)

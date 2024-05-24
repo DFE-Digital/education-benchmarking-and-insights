@@ -117,6 +117,45 @@ public class BalanceFunctions
         }
     }
 
+    [FunctionName(nameof(TrustBalanceAsync))]
+    [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    public async Task<IActionResult> TrustBalanceAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}")]
+        HttpRequest req,
+        string companyNumber)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var dimension = req.Query["dimension"].ToString();
+                if (!BalanceDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+                {
+                    dimension = BalanceDimensions.Actuals;
+                }
+
+                var finances = await _db.GetTrust(companyNumber, dimension);
+                return finances == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(finances);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get trust balance");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
 
     [FunctionName(nameof(BalanceTrustHistoryAsync))]
     [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]

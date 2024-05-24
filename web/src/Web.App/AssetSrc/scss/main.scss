@@ -89,3 +89,61 @@ p.priority .govuk-tag {
     }
   }
 }
+
+.govuk-table.table-cost-category-rag {
+  tbody {
+    tr {
+      td {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+.govuk-table.table-school-rag {
+  thead {
+    tr {
+      th {
+        border-bottom: 0;
+        padding-bottom: 0;
+      }
+    }
+  }
+}
+
+svg.rag-stack {
+  width: 100%;
+
+  // colours taken from node_modules/govuk-frontend/dist/govuk/components/tag/_tag.scss
+  rect.rag-stack-red {
+    fill: $rag-red-colour;
+  }
+
+  rect.rag-stack-amber {
+    fill: $rag-amber-colour;
+  }
+
+  rect.rag-stack-green {
+    fill: $rag-green-colour;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  a:hover rect.rag-stack-red,
+  a:active rect.rag-stack-red {
+    fill: govuk-tint($rag-red-colour, 20%);
+  }
+
+  a:hover rect.rag-stack-amber,
+  a:active rect.rag-stack-amber {
+    fill: govuk-tint($rag-amber-colour, 20%);
+  }
+
+  a:hover rect.rag-stack-green,
+  a:active rect.rag-stack-green {
+    fill: govuk-tint($rag-green-colour, 20%);
+  }
+}

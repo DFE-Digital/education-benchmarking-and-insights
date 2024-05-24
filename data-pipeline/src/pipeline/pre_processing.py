@@ -9,6 +9,7 @@ import pandas as pd
 import logging
 
 from warnings import simplefilter
+
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
 
 
@@ -86,12 +87,20 @@ def prepare_sen_data(sen_path):
         usecols=input_schemas.sen.keys(),
     )
     sen["Percentage SEN"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Primary Need SPLD"] = sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
+    sen["Primary Need SPLD"] = (
+        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
+    )
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
-    sen["Primary Need PMLD"] = sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
-    sen["Primary Need SEMH"] = sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
-    sen["Primary Need SLCN"] = sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
+    sen["Primary Need PMLD"] = (
+        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+    )
+    sen["Primary Need SEMH"] = (
+        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+    )
+    sen["Primary Need SLCN"] = (
+        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
+    )
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
     sen["Primary Need MSI"] = sen["EHC_Primary_need_msi"] + sen["SUP_Primary_need_msi"]
@@ -99,18 +108,42 @@ def prepare_sen_data(sen_path):
     sen["Primary Need ASD"] = sen["EHC_Primary_need_asd"] + sen["SUP_Primary_need_asd"]
     sen["Primary Need OTH"] = sen["EHC_Primary_need_oth"] + sen["SUP_Primary_need_oth"]
 
-    sen["Percentage Primary Need SPLD"] = ((sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need MLD"] = ((sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need SLD"] = ((sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need PMLD"] = ((sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need SEMH"] = ((sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need SLCN"] = ((sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need HI"] = ((sen["Primary Need HI"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need VI"] = ((sen["Primary Need VI"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need MSI"] = ((sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need PD"] = ((sen["Primary Need PD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need ASD"] = ((sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage Primary Need OTH"] = ((sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage Primary Need SPLD"] = (
+        (sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need MLD"] = (
+        (sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need SLD"] = (
+        (sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need PMLD"] = (
+        (sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need SEMH"] = (
+        (sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need SLCN"] = (
+        (sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need HI"] = (
+        (sen["Primary Need HI"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need VI"] = (
+        (sen["Primary Need VI"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need MSI"] = (
+        (sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need PD"] = (
+        (sen["Primary Need PD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need ASD"] = (
+        (sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
+    sen["Percentage Primary Need OTH"] = (
+        (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
+    ).fillna(0)
 
     return sen[
         [
@@ -140,7 +173,7 @@ def prepare_sen_data(sen_path):
             "Percentage Primary Need MSI",
             "Percentage Primary Need PD",
             "Percentage Primary Need ASD",
-            "Percentage Primary Need OTH"
+            "Percentage Primary Need OTH",
         ]
     ]
 
@@ -157,9 +190,9 @@ def prepare_ks2_data(ks2_path):
     ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
 
     ks2["Ks2Progress"] = (
-            ks2["READPROG"].astype(float)
-            + ks2["MATPROG"].astype(float)
-            + ks2["WRITPROG"].astype(float)
+        ks2["READPROG"].astype(float)
+        + ks2["MATPROG"].astype(float)
+        + ks2["WRITPROG"].astype(float)
     )
 
     return ks2[["Ks2Progress"]].dropna()
@@ -191,7 +224,11 @@ def build_cost_series(category_name, df, basis):
     ]
 
     # Create total column
-    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(axis=1)
+    df[category_name + "_Total"] = (
+        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]]
+        .fillna(0)
+        .sum(axis=1)
+    )
 
     sub_categories = df.columns[
         df.columns.str.startswith(category_name)
@@ -211,6 +248,12 @@ def prepare_aar_data(aar_path):
         dtype=input_schemas.aar_academies,
     )
 
+    # removing pre-transition academies
+    transitioned_academy_urns = aar['URN'][aar['URN'].duplicated(keep=False)].values
+    mask = ~(aar['URN'].isin(transitioned_academy_urns) & aar['Date joined or opened if in period'].isna())
+    aar = aar[mask]
+    aar.drop(columns=['URN'], inplace=True)
+
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
@@ -220,18 +263,19 @@ def prepare_aar_data(aar_path):
 
     aar.rename(
         columns={
-                    "In year balance": "Academy Balance",
-                    "PFI": "PFI School",
-                    "Lead UPIN": "Trust UPIN",
-                } | config.cost_category_map["academies"],
+            "In year balance": "Academy Balance",
+            "PFI": "PFI School",
+            "Lead UPIN": "Trust UPIN",
+        }
+        | config.cost_category_map["academies"],
         inplace=True,
     )
 
     central_services_financial.rename(
         columns={
-                    "In Year Balance": "Central Services Balance",
-                    "Lead UPIN": "Trust UPIN",
-                },
+            "In Year Balance": "Central Services Balance",
+            "Lead UPIN": "Trust UPIN",
+        },
         inplace=True,
     )
 
@@ -256,18 +300,23 @@ def prepare_aar_data(aar_path):
     )
 
     aar = (
-        aar
-        .merge(trust_balance, on="Trust UPIN", how="left")
+        aar.merge(trust_balance, on="Trust UPIN", how="left")
         .merge(trust_income, on="Trust UPIN", how="left")
         .merge(central_services_balance, on="Trust UPIN", how="left")
     )
 
-    aar["Central Services Financial Position"] = aar["Central Services Balance"].map(mappings.map_is_surplus_deficit)
-    aar["Academy Financial Position"] = aar["Academy Balance"].map(mappings.map_is_surplus_deficit)
-    aar["Trust Financial Position"] = aar["Trust Balance"].map(mappings.map_is_surplus_deficit)
+    aar["Central Services Financial Position"] = aar["Central Services Balance"].map(
+        mappings.map_is_surplus_deficit
+    )
+    aar["Academy Financial Position"] = aar["Academy Balance"].map(
+        mappings.map_is_surplus_deficit
+    )
+    aar["Trust Financial Position"] = aar["Trust Balance"].map(
+        mappings.map_is_surplus_deficit
+    )
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
-    
+
     return aar.set_index("Academy UPIN")
 
 
@@ -290,7 +339,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-            gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
+        gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
@@ -313,11 +362,11 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
     )
     gias["HeadName"] = (
-            gias["HeadTitle (name)"]
-            + " "
-            + gias["HeadFirstName"]
-            + " "
-            + gias["HeadLastName"]
+        gias["HeadTitle (name)"]
+        + " "
+        + gias["HeadFirstName"]
+        + " "
+        + gias["HeadLastName"]
     )
 
     # In the following cell, we find all the predecessor and merged links.
@@ -349,11 +398,11 @@ def prepare_schools_data(base_data_path, links_data_path):
     return schools[
         schools["CloseDate"].isna()
         & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
-        ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
 def build_academy_data(
-        academy_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
+    academy_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -366,6 +415,10 @@ def build_academy_data(
         dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
     ).rename(columns={"UKPRN": "Academy UKPRN"})
+
+    # remove transitioned schools from academies_list
+    mask = (academies_list.index.duplicated(keep=False) & ~academies_list['Valid to'].isna())
+    academies_list = academies_list[~mask]
 
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
@@ -381,8 +434,9 @@ def build_academy_data(
     )
 
     # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
-    academies["Total Internal Floor Area"] = academies["Total Internal Floor Area"].fillna(
-        academies["Total Internal Floor Area"].median())
+    academies["Total Internal Floor Area"] = academies[
+        "Total Internal Floor Area"
+    ].fillna(academies["Total Internal Floor Area"].median())
 
     academies["Type of Provision - Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
@@ -422,7 +476,7 @@ def build_academy_data(
         axis=1,
     )
 
-    academies['Finance Type'] = "Academy"
+    academies["Finance Type"] = "Academy"
 
     academies.rename(
         columns={
@@ -430,21 +484,23 @@ def build_academy_data(
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
             "Number of Pupils": "Number of pupils",
-            "Academy Trust Name":"Trust Name",
-            "Academy UKPRN":"Trust UKPRN",
+            "Academy Trust Name": "Trust Name",
+            "Academy UKPRN": "Trust UKPRN",
         },
         inplace=True,
     )
 
     for category in config.rag_category_settings.keys():
-        academies = build_cost_series(category, academies, config.rag_category_settings[category]["type"])
+        academies = build_cost_series(
+            category, academies, config.rag_category_settings[category]["type"]
+        )
 
     academies.set_index("UKPRN", inplace=True)
     return academies
 
 
 def build_maintained_school_data(
-        maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
+    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -483,8 +539,8 @@ def build_maintained_school_data(
         axis=1,
     )
     maintained_schools["School Balance"] = (
-            maintained_schools["Total Income   I01 to I18"]
-            - maintained_schools["Total Expenditure  E01 to E32"]
+        maintained_schools["Total Income   I01 to I18"]
+        - maintained_schools["Total Expenditure  E01 to E32"]
     )
 
     maintained_schools["School Financial Position"] = maintained_schools[
@@ -495,7 +551,8 @@ def build_maintained_school_data(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
-        axis=1)
+        axis=1,
+    )
 
     maintained_schools["Partial Years Present"] = maintained_schools[
         "Period covered by return (months)"
@@ -505,20 +562,23 @@ def build_maintained_school_data(
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
 
-    maintained_schools['Finance Type'] = "Maintained School"
+    maintained_schools["Finance Type"] = "Maintained School"
 
     maintained_schools.rename(
         columns={
-                    "No Pupils": "Number of pupils",
-                } | config.cost_category_map["maintained_schools"],
+            "No Pupils": "Number of pupils",
+        }
+        | config.cost_category_map["maintained_schools"],
         inplace=True,
     )
 
     for category in config.rag_category_settings.keys():
         maintained_schools = build_cost_series(category, maintained_schools,
                                                config.rag_category_settings[category]["type"])
-
-    return maintained_schools.reset_index().set_index("UKPRN")
+        
+    maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
+    maintained_schools = maintained_schools[maintained_schools.index.notnull()]
+    return maintained_schools
 
 
 def build_federations_data(links_data_path, maintained_schools):
@@ -530,7 +590,9 @@ def build_federations_data(links_data_path, maintained_schools):
         dtype=input_schemas.groups,
     )
 
-    federations = maintained_schools[["URN","LAEstab"]][maintained_schools["Federation"] == "Lead school"].copy()
+    federations = maintained_schools[["URN", "LAEstab"]][
+        maintained_schools["Federation"] == "Lead school"
+    ].copy()
 
     # join
     federations = federations.join(
@@ -579,7 +641,7 @@ def build_federations_data(links_data_path, maintained_schools):
         inplace=True,
     )
 
-    # TODO - add in soft federation members and names (currently no mapping available)
+    # TODO - add in soft federation members and names (currently no mapping available) (also deal with duplicated hard federations owing to 2 group names)
     # soft_federations.join(maintained_schools, on="URN")
     # hard_federations.join(maintained_schools, on="URN")
     #

@@ -35,10 +35,10 @@ variable "configuration" {
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
       features = {
-        Trusts                      = false
+        Trusts                      = true
         CurriculumFinancialPlanning = true
-        CustomData                  = false
-        LocalAuthorities            = false
+        CustomData                  = true
+        LocalAuthorities            = true
       }
     }
     test = {

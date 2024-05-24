@@ -147,6 +147,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         Assert.NotNull(authority.Name);
         DocumentAssert.TitleAndH1(page, "Your local authority - Financial Benchmarking and Insights Tool - GOV.UK", authority.Name);
 
+        var dataSourceElement = page.QuerySelector("main > div > div:nth-child(2) > div > p");
+        Assert.NotNull(dataSourceElement);
+
+        DocumentAssert.TextEqual(dataSourceElement, "This local authorities data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+
         var primarySchoolsHeading = page.GetElementById("accordion-schools-heading-1");
         Assert.NotNull(primarySchoolsHeading);
         Assert.Contains("Primary schools", primarySchoolsHeading.TextContent);

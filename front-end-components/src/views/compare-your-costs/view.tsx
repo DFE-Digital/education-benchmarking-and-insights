@@ -66,6 +66,8 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   const hasIncompleteData =
     expenditureData?.some((x) => x.hasIncompleteData) ?? false;
 
+  const hasNoData = expenditureData?.length === 0;
+
   return (
     <SelectedSchoolContext.Provider value={selectedSchool}>
       <div className="chart-options">
@@ -96,7 +98,9 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
           <ChartMode displayMode={displayMode} handleChange={toggleChartMode} />
         </div>
       </div>
-      <HasIncompleteDataContext.Provider value={hasIncompleteData}>
+      <HasIncompleteDataContext.Provider
+        value={{ hasIncompleteData, hasNoData }}
+      >
         <ChartModeContext.Provider value={displayMode}>
           <TotalExpenditure
             schools={

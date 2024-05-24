@@ -11,11 +11,12 @@ namespace Web.Integration.Tests.Pages.Schools;
 public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     [Theory]
-    [InlineData(EstablishmentTypes.Academies)]
-    [InlineData(EstablishmentTypes.Maintained)]
-    public async Task CanDisplay(string financeType)
+    [InlineData(EstablishmentTypes.Academies, true)]
+    [InlineData(EstablishmentTypes.Academies, false)]
+    [InlineData(EstablishmentTypes.Maintained, false)]
+    public async Task CanDisplay(string financeType, bool isPartOfTrust)
     {
-        var (page, school) = await SetupNavigateInitPage(financeType);
+        var (page, school) = await SetupNavigateInitPage(financeType, isPartOfTrust);
 
         AssertPageLayout(page, school);
     }
@@ -102,10 +103,11 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(urn).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
-    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
+    private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false)
     {
         var school = Fixture.Build<School>()
             .With(x => x.Urn, "12345")
+            .With(x => x.CompanyNumber, isPartOfTrust ? "12345678" : "")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OfstedRating, "0")
             .Create();
@@ -143,10 +145,22 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");
         }
 
+        var dataSourceElement = page.QuerySelector("main > div > div:nth-child(3) > div > p");
+        Assert.NotNull(dataSourceElement);
+
+        if (school.IsPartOfTrust)
+        {
+            DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
+        }
+        else
+        {
+            DocumentAssert.TextEqual(dataSourceElement, "This school's data covers the financial year April 2020 to March 2021 consistent financial reporting return (CFR).");
+        }
+
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

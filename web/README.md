@@ -133,6 +133,7 @@ Add the following configuration in `appsettings.local.json` in the root of `Web.
   "ServiceUrl": "[INSERT URL OF SERVICE UNDER TEST]",
   "Headless" : true,
   "SchoolUrn" : "[INSERT SCHOOL URN]",
+  "TrustCompanyNo" : "[INSERT TRUST COMPANY NO]",
   "Impacts" : ["critical",  "serious", "moderate", "minor"],
   "PlanYear" : [INSERT PLAN YEAR],
   "Benchmark": {
@@ -142,7 +143,7 @@ Add the following configuration in `appsettings.local.json` in the root of `Web.
   "Authentication": {
     "Username": "[INSERT DSI USERNAME]",
     "Password": "[INSERT DSI PASSWORD]"
-  },
+  }
 }
 ```
 

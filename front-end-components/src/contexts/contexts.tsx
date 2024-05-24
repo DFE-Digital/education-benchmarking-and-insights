@@ -17,6 +17,10 @@ export const ChartDimensionContext = createContext<Dimension>({
 });
 export const SelectedSchoolContext = createContext(School.empty());
 
-export const HasIncompleteDataContext = createContext(false);
+interface HasIncompleteData {
+  hasIncompleteData?: boolean;
+  hasNoData?: boolean;
+}
+export const HasIncompleteDataContext = createContext<HasIncompleteData>({});
 
 export const PhaseContext = createContext<string | undefined>(undefined);
