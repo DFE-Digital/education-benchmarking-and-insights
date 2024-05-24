@@ -129,9 +129,10 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
     gias_data = get_blob(
         raw_container, f"{set_type}/{year}/gias.csv", encoding="cp1252"
     )
-
-    schools = prepare_schools_data(gias_data)
-
+    gias_links_data = get_blob(
+        raw_container, f"{set_type}/{year}/gias_links.csv", encoding="cp1252"
+    )
+    schools = prepare_schools_data(gias_data, gias_links_data)
     write_blob(
         "pre-processed",
         f"{set_type}/{year}/schools.parquet",

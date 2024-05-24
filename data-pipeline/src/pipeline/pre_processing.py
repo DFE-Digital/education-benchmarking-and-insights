@@ -305,13 +305,21 @@ def prepare_aar_data(aar_path):
     return aar.set_index("Academy UPIN")
 
 
-def prepare_schools_data(base_data_path):
+def prepare_schools_data(base_data_path, links_data_path):
     gias = pd.read_csv(
         base_data_path,
         encoding="cp1252",
         index_col=input_schemas.gias_index_col,
         usecols=input_schemas.gias.keys(),
         dtype=input_schemas.gias,
+    )
+
+    gias_links = pd.read_csv(
+        links_data_path,
+        encoding="cp1252",
+        index_col=input_schemas.gias_links_index_col,
+        usecols=input_schemas.gias_links.keys(),
+        dtype=input_schemas.gias_links,
     )
 
     # GIAS transformations
@@ -361,6 +369,30 @@ def prepare_schools_data(base_data_path):
         + " "
         + gias["HeadLastName"]
     )
+
+    gias_links = gias_links[
+        gias_links["LinkType"].isin(
+            [
+                "Predecessor",
+                "Predecessor - amalgamated",
+                "Predecessor - Split School",
+                "Predecessor - merged",
+                "Merged - expansion of school capacity",
+                "Merged - change in age range",
+            ]
+        )
+    ].sort_values(by="LinkEstablishedDate", ascending=False)
+
+    gias_links["Rank"] = gias_links.groupby("URN").cumcount() + 1
+    gias_links["Rank"] = gias_links["Rank"].astype("Int64")
+
+    schools = gias.join(
+        gias_links, on="URN", how="left", rsuffix="_links", lsuffix="_school"
+    ).sort_values(by="URN")
+
+    return schools[
+        schools["CloseDate"].isna() & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
+        ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
     return gias
 
