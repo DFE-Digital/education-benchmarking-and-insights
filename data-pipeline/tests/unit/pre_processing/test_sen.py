@@ -5,10 +5,10 @@ import pytest
 from src.pipeline.pre_processing import prepare_sen_data
 
 
-def test_prepare_sen_data(sen_data):
-    prepared_sen_data = prepare_sen_data(StringIO(sen_data.to_csv()))
+def test_prepare_sen_data_has_correct_output_columns(sen_data):
+    result = prepare_sen_data(StringIO(sen_data.to_csv()))
 
-    assert list(prepared_sen_data.columns) == [
+    assert list(result.columns) == [
         "Total pupils",
         "EHC plan",
         "Percentage SEN",

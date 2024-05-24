@@ -4,7 +4,7 @@ import pytest
 from src.pipeline.config import income_category_map
 
 
-def test_aar_data(prepared_aar_data: pd.DataFrame):
+def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
     assert list(prepared_aar_data.columns) == [
         "Academy Balance",
         "PFI School",

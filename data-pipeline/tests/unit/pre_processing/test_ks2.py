@@ -2,7 +2,7 @@ import pandas as pd
 import pytest
 
 
-def test_prepare_ks2_data(prepared_ks2_data: pd.DataFrame):
+def test_prepare_ks2_data_has_correct_output_columns(prepared_ks2_data: pd.DataFrame):
     assert list(prepared_ks2_data.columns) == [
         "Ks2Progress"
     ]

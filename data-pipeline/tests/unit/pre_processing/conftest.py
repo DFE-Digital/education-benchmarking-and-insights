@@ -280,3 +280,70 @@ def prepared_census_data(workforce_census_data: pd.DataFrame, pupil_census_data:
         output,
         StringIO(pupil_census_data.to_csv())
     )
+
+
+@pytest.fixture
+def gias_data() -> pd.DataFrame:
+    return pd.DataFrame({
+        "URN": [100150, 100152, 100153],
+        "UKPRN": [10079319, 10013279, 10018890],
+        "LA (code)": [201, 202, 202],
+        "LA (name)": ["City of London", "Camden", "Camden"],
+        "EstablishmentNumber": [3614, 6005, 6006],
+        "EstablishmentName": ["School A", "School B", "School C"],
+        "TypeOfEstablishment (code)": [2, 11, 15],
+        "TypeOfEstablishment (name)": ["Voluntary aided school", "Other independent school", "Local authority nursery school"],
+        "EstablishmentStatus (code)": [4, 3, 4],
+        "EstablishmentStatus (name)": ["Local authority maintained schools", "Independent schools", "Local authority maintained schools"],
+        "OpenDate": [None, "01/01/1920", "01/01/1939"],
+        "CloseDate": [None, None, None],
+        "PhaseOfEducation (code)": [2, 0, 1],
+        "PhaseOfEducation (name)": ["Primary", "Not applicable", "Nursery"],
+        "Boarders (code)": [1, 0, 3],
+        "Boarders (name)": ["No boarders", "Not applicable", "Boarding school"],
+        "NurseryProvision (name)": ["No Nursery Classes", "No Nursery Classes", "Has Nursery Classes"],
+        "OfficialSixthForm (code)": [2, 1, 0],
+        "OfficialSixthForm (name)": ["Does not have a sixth form", "Has a sixth form", "Not applicable"],
+        "Gender (code)": [2, 1, 3],
+        "Gender (name)": ["Girls", "Boys", "Mixed"],
+        "AdmissionsPolicy (code)": [0, 0, 2],
+        "AdmissionsPolicy (name)": ["Not applicable", "Not applicable", "Selective"],
+        "CensusDate": ["19/01/2023", "19/01/2023", "20/01/2023"],
+        "SchoolCapacity": [271, 820, 285],
+        "NumberOfPupils": [271, 739, 269],
+        "NumberOfBoys": [0, 739, 164],
+        "NumberOfGirls": [271, 0, 105],
+        "OfstedLastInsp": ["19/04/2013", "06/03/2019", None],
+        "LastChangedDate": ["09/02/2024", "20/12/2023", "02/01/2024"],
+        "Postcode": ["EC3A 5DE", "EC2Y 8BB", "EC4M 9AD"],
+        "SchoolWebsite": ["www.schoola.co.uk", "www.schoolb.co.uk", "www.schoolc.co.uk"],
+        "TelephoneNum": ["02072831147", "02072831147", "02072831147"],
+        "HeadTitle (name)": ["Miss", "Mr", "Mrs"],
+        "HeadFirstName": ["A", "B", "C"],
+        "HeadLastName": ["HeadA", "HeadB", "HeadC"],
+        "HeadPreferredJobTitle": ["Headteacher", "Head", "Executive Head"],
+        "GOR (name)": ["London", "London", "London"],
+        "UrbanRural (name)": ["A1", "A1", "A1"],
+        "BoardingEstablishment (name)": ["Does not have boarders", "Does not have boarders", "Has boarders"],
+        "PreviousLA (code)": [999, 999, 999],
+        "PreviousLA (name)": [None, None, None],
+        "PreviousEstablishmentNumber": [None, None, None],
+        "OfstedRating (name)": ["Outstanding", "Special Measures", "Serious Weaknesses"],
+        "MSOA (code)": ["City of London 001F", "City of London 001F", "Camden 007D"],
+        "LSOA (code)": ["City of London 001F", "City of London 001F", "Camden 007D"],
+        "StatutoryLowAge": [3, 7, 3],
+        "StatutoryHighAge": [11, 18, 5],
+        "Street": ["St James's Passage", "St Giles' Terrace", "2 New Change"],
+        "Locality": ["Dukes Place", "Barbican", "Victoria"],
+        "Address3": [None, None, None],
+        "Town": ["London", "Coventry", "Leeds"],
+        "County (name)": [None, None, None],
+    })
+
+
+@pytest.fixture
+def prepared_schools_data(gias_data: pd.DataFrame) -> dict:
+    return prepare_schools_data(
+        StringIO(gias_data.to_csv())
+    )
+
