@@ -74,7 +74,7 @@
     {
         <tr class="govuk-table__row">
             <td class="govuk-table__cell govuk-!-width-one-third">
-                <a href="@Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })#@rating.Category.ToSlug()" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
+                <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.CategoryId })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
             </td>
             <td class="govuk-table__cell">
                 @await Component.InvokeAsync("RagStack", new
@@ -83,9 +83,9 @@
                     red = rating.Red,
                     amber = rating.Amber,
                     green = rating.Green,
-                    redHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
-                    amberHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}",
-                    greenHref = $"{Url.Action("Index", "TrustComparison", new { companyNumber = Model.CompanyNumber })}#{rating.Category.ToSlug()}"
+                    redHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.CategoryId, status = "red" })}",
+                    amberHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.CategoryId, status = "amber" })}",
+                    greenHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.CategoryId, status = "green" })}"
                 })
             </td>
         </tr>

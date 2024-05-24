@@ -15,11 +15,12 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
 
     public IEnumerable<RagCostCategoryViewModel> Ratings => ratings
         .Where(NotOther)
-        .GroupBy(x => (x.Status, x.CostCategory))
-        .Select(x => (x.Key.Status, x.Key.CostCategory, Count: x.Count()))
-        .GroupBy(x => x.CostCategory)
+        .GroupBy(x => (x.Status, x.CostCategory, x.CostCategoryId))
+        .Select(x => (x.Key.Status, x.Key.CostCategory, x.Key.CostCategoryId, Count: x.Count()))
+        .GroupBy(x => (x.CostCategory, x.CostCategoryId))
         .Select(x => new RagCostCategoryViewModel(
-            x.Key!,
+            x.Key.CostCategory!,
+            x.Key.CostCategoryId,
             x.Where(w => Red(w.Status)).Select(r => r.Count).SingleOrDefault(),
             x.Where(w => Amber(w.Status)).Select(a => a.Count).SingleOrDefault(),
             x.Where(w => Green(w.Status)).Select(g => g.Count).SingleOrDefault()

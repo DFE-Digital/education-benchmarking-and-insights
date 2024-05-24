@@ -48,13 +48,13 @@ public class RatingsFunctions
             try
             {
                 var urns = req.Query["urns"].ToString().Split(",");
-                
+
                 var categories = req.Query["categories"].ToString().Split(",")
                     .Select(x => int.TryParse(x, out var parsed) ? (int?)parsed : null)
                     .Where(x => x != null)
                     .OfType<int>()
                     .ToArray();
-                
+
                 var statuses = req.Query["statuses"].ToString().Split(",")
                     .Select(x => x.Equals("red", StringComparison.OrdinalIgnoreCase)
                         ? "Red"
@@ -66,7 +66,7 @@ public class RatingsFunctions
                     .Where(x => x != null)
                     .OfType<string>()
                     .ToArray();
-                
+
                 var result = await _db.Get(urns, categories, statuses);
 
                 return new JsonContentResult(result);
