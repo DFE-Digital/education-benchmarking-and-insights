@@ -66,6 +66,10 @@ def map_sixth_form(sixth_form: str):
             return "Unknown"
 
 
+def map_has_sixth_form(has_sixth_form: str):
+    return has_sixth_form.lower() == "has a sixth form"
+
+
 def map_nursery(nursery: str, provision: str):
     match nursery.lower():
         case "has nursery classes":
@@ -76,6 +80,9 @@ def map_nursery(nursery: str, provision: str):
             else:
                 return "No Nursery classes"
 
+
+def map_has_nursery(has_nursery: str):
+    return has_nursery.lower() == "has nursery classes"
 
 def map_admission_policy(admission_policy: str):
     match admission_policy.lower():

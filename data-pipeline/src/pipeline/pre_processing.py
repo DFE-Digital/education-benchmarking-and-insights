@@ -1,7 +1,5 @@
 import datetime
 
-import numpy as np
-
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
 import src.pipeline.config as config
@@ -300,24 +298,20 @@ def prepare_aar_data(aar_path):
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
+    aar["Is PFI"] = aar["PFI School"].map(
+        lambda x: x == "PFI school"
+    )
+
     return aar.set_index("Academy UPIN")
 
 
-def prepare_schools_data(base_data_path, links_data_path):
+def prepare_schools_data(base_data_path):
     gias = pd.read_csv(
         base_data_path,
         encoding="cp1252",
         index_col=input_schemas.gias_index_col,
         usecols=input_schemas.gias.keys(),
         dtype=input_schemas.gias,
-    )
-
-    gias_links = pd.read_csv(
-        links_data_path,
-        encoding="cp1252",
-        index_col=input_schemas.gias_links_index_col,
-        usecols=input_schemas.gias_links.keys(),
-        dtype=input_schemas.gias_links,
     )
 
     # GIAS transformations
@@ -331,16 +325,32 @@ def prepare_schools_data(base_data_path, links_data_path):
     gias["SchoolWebsite"] = (
         gias["SchoolWebsite"].fillna("").map(mappings.map_school_website)
     )
+
     gias["Boarders (name)"] = (
         gias["Boarders (name)"].fillna("").map(mappings.map_boarders)
     )
+
     gias["OfstedRating (name)"] = (
         gias["OfstedRating (name)"].fillna("").map(mappings.map_ofsted_rating)
     )
+
     gias["NurseryProvision (name)"] = gias["NurseryProvision (name)"].fillna("")
+
+    gias["NurseryProvision (name)"] = gias.apply(
+        lambda df: mappings.map_nursery(
+            df["NurseryProvision (name)"], df["PhaseOfEducation (name)"]
+        ),
+        axis=1,
+    )
+
+    gias["Has Nursery"] = gias["NurseryProvision (name)"].map(mappings.map_has_nursery)
+
     gias["OfficialSixthForm (name)"] = (
         gias["OfficialSixthForm (name)"].fillna("").map(mappings.map_sixth_form)
     )
+
+    gias["Has Sixth Form"] = gias["OfficialSixthForm (name)"].map(mappings.map_has_sixth_form)
+
     gias["AdmissionsPolicy (name)"] = (
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
     )
@@ -352,36 +362,7 @@ def prepare_schools_data(base_data_path, links_data_path):
         + gias["HeadLastName"]
     )
 
-    # In the following cell, we find all the predecessor and merged links.
-    # The links are then Ranked by URN and order by 'Link Established Date'.
-    # The linked GAIS data in then joined to the base GIAS data.
-    # This creates the overall school data set.
-    # This dataset is then filtered for schools that are open (CloseDate is null) and the schools with
-    # nested links that are Ranked 1.
-    gias_links = gias_links[
-        gias_links["LinkType"].isin(
-            [
-                "Predecessor",
-                "Predecessor - amalgamated",
-                "Predecessor - Split School",
-                "Predecessor - merged",
-                "Merged - expansion of school capacity",
-                "Merged - change in age range",
-            ]
-        )
-    ].sort_values(by="LinkEstablishedDate", ascending=False)
-
-    gias_links["Rank"] = gias_links.groupby("URN").cumcount() + 1
-    gias_links["Rank"] = gias_links["Rank"].astype("Int64")
-
-    schools = gias.join(
-        gias_links, on="URN", how="left", rsuffix="_links", lsuffix="_school"
-    ).sort_values(by="URN")
-
-    return schools[
-        schools["CloseDate"].isna()
-        & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
-    ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
+    return gias
 
 
 def build_cost_series(category_name, df, basis):
@@ -446,17 +427,6 @@ def build_academy_data(
         axis=1,
     )
 
-    # Bizarre I shouldn't need this as this is coming from the original GIAS dataset, but I seem to have to do this twice.
-    academies["NurseryProvision (name)"] = academies["NurseryProvision (name)"].fillna(
-        ""
-    )
-    academies["NurseryProvision (name)"] = academies.apply(
-        lambda df: mappings.map_nursery(
-            df["NurseryProvision (name)"], df["Type of Provision - Phase"]
-        ),
-        axis=1,
-    )
-
     academies["Status"] = academies.apply(
         lambda df: mappings.map_academy_status(
             pd.to_datetime(df["Date left or closed if in period"]),
@@ -478,6 +448,8 @@ def build_academy_data(
     )
 
     academies["Finance Type"] = "Academy"
+    academies["Email"] = ""
+    academies["HeadEmail"] = ""
 
     academies.rename(
         columns={
@@ -501,7 +473,7 @@ def build_academy_data(
 
 
 def build_maintained_school_data(
-    maintained_schools_data_path, year, schools, census, sen, cdc, ks2, ks4
+    maintained_schools_data_path, links_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -529,6 +501,11 @@ def build_maintained_school_data(
     maintained_schools["PFI"] = maintained_schools["PFI"].map(
         lambda x: "PFI school" if x == "Y" else "Non-PFI school"
     )
+
+    maintained_schools["Is PFI"] = maintained_schools["PFI"].map(
+        lambda x: x == "PFI school"
+    )
+
     maintained_schools["Status"] = maintained_schools.apply(
         lambda df: mappings.map_maintained_school_status(
             df["OpenDate"],
@@ -565,6 +542,10 @@ def build_maintained_school_data(
 
     maintained_schools["Finance Type"] = "Maintained School"
 
+    maintained_schools["Email"] = ""
+    maintained_schools["HeadEmail"] = ""
+    maintained_schools["Trust Name"] = None
+
     maintained_schools.rename(
         columns={
             "No Pupils": "Number of pupils",
@@ -579,6 +560,20 @@ def build_maintained_school_data(
 
     maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
+
+    (hard_federations, soft_federations) = build_federations_data(links_data_path, maintained_schools)
+
+    # Applying federation mappings
+    list_of_laestabs = maintained_schools["LAEstab"][maintained_schools["Lead school in federation"] != "0"]
+    list_of_ukprns = maintained_schools.index[maintained_schools["Lead school in federation"] != "0"]
+    lae_ukprn = dict(zip(list_of_laestabs, list_of_ukprns))
+
+    maintained_schools["Federation Lead School UKPRN"] = maintained_schools["Lead school in federation"].map(lae_ukprn)
+    maintained_schools = pd.merge(maintained_schools, hard_federations[['FederationName']], how='left', left_index=True,
+                                  right_index=True)
+    maintained_schools.rename(columns={"FederationName": "Federation Name"}, inplace=True)
+    maintained_schools = maintained_schools[~maintained_schools.index.duplicated()]
+
     return maintained_schools
 
 
@@ -642,10 +637,4 @@ def build_federations_data(links_data_path, maintained_schools):
         inplace=True,
     )
 
-    # TODO - add in soft federation members and names (currently no mapping available) (also deal with duplicated hard federations owing to 2 group names)
-    # soft_federations.join(maintained_schools, on="URN")
-    # hard_federations.join(maintained_schools, on="URN")
-    #
-    # soft_federations.set_index("UKPRN", inplace=True)
-    # hard_federations.set_index("UKPRN", inplace=True)
     return hard_federations, soft_federations

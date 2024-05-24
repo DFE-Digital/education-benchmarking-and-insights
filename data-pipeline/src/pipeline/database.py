@@ -51,3 +51,35 @@ def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
 
     write_frame.to_sql("MetricRAG", con=engine, if_exists="append", schema="dbo")
     logger.info(f"Wrote {len(df)} rows to metric rag {run_type} - {year}")
+
+
+def insert_school(run_type: str, year: str, df: pd.DataFrame):
+    projections = {
+        "URN": "URN",
+        "EstablishmentName": "SchoolName",
+        "Trust UKPRN": "TrustUKPRN",
+        "Trust Name": "TrustName",
+        "Federation Lead School UKPRN": "FederationLeadUKPRN",
+        "Federation Name": "FederationLeadName",
+        "LA Code": "LACode",
+        "LA Name": "LAName",
+        "London Weighting": "LondonWeighting",
+        "Finance Type": "FinanceType",
+        "Overall Phase": "OverallPhase",
+        "SchoolPhaseType": "SchoolType",
+        "Has Sixth Form": "HasSixthForm",
+        "Has Nursery": "HasNursery",
+        "Is PFI": "IsPFISchool",
+        "OfstedLastInsp": "OfstedDate",
+        "OfstedRating (name)": "OfstedRating",
+        "TelephoneNum": "Telephone",
+        "SchoolWebsite": "Website",
+        "Email": "ContactEmail",
+        "HeadName": "HeadTeacherName",
+        "HeadEmail": "HeadTeacherEmail",
+    }
+
+    write_frame = df.rename(columns=projections).copy()[[*projections.values()]]
+
+    write_frame.to_sql("School", con=engine, if_exists="append", schema="dbo")
+    logger.info(f"Wrote {len(df)} rows to school {run_type} - {year}")
