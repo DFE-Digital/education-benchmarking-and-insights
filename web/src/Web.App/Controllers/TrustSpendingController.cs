@@ -61,7 +61,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                 }
 
                 var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustSpendingViewModel(trust, schools, ratings);
+                var viewModel = new TrustSpendingViewModel(trust, schools, ratings, costCategoryIds, statuses);
 
                 return View(viewModel);
             }

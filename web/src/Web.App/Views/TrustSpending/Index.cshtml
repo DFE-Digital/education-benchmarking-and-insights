@@ -19,51 +19,95 @@
     className = "govuk-grid-column-full"
 })
 
-@foreach (var rating in Model.Ratings)
-{
-    <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+<div class="govuk-grid-row">
+    <aside class="govuk-grid-column-one-quarter">
+        <h3 class="govuk-heading-s">Filter priority schools</h3>
 
-    @foreach (var status in rating.Statuses)
-    {
-        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
-
-        <div class="top-categories">
-            <div>
-                <p class="priority @status.PriorityTag?.Class govuk-body">
-                    @await Component.InvokeAsync("Tag", new
-                    {
-                        status.PriorityTag?.Colour,
-                        status.PriorityTag?.DisplayText
-                    })
-                    @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
-                    in the @status.PriorityTag?.DisplayText.ToLower() range
-                </p>
+        <form method="get">
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="status">
+                    Priority
+                </label>
+                <select class="govuk-select" id="status" name="status">
+                    <option value="">All priorities</option>
+                    <option value="red" selected="@(Model.IsStatusRed ? "selected" : null)">High priority</option>
+                    <option value="amber" selected="@(Model.IsStatusAmber ? "selected" : null)">Medium priority</option>
+                    <option value="green" selected="@(Model.IsStatusGreen ? "selected" : null)">Low priority</option>
+                </select>
             </div>
-        </div>
 
-        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Rank</th>
-                <th scope="col" class="govuk-table__header">School</th>
-                <th scope="col" class="govuk-table__header">Expenditure</th>
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            @for (var i = 0; i < status.Schools.Count(); i++)
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="category">
+                    Cost Category
+                </label>
+                <select class="govuk-select" id="category" name="category">
+                    <option value="">All categories</option>
+                    <option value="1" selected="@(Model.CostCategories.Contains(1) ? "selected" : null)">Teaching and teaching support staff</option>
+                    <option value="2" selected="@(Model.CostCategories.Contains(2) ? "selected" : null)">Non-educational support staff</option>
+                    <option value="3" selected="@(Model.CostCategories.Contains(3) ? "selected" : null)">Educational supplies</option>
+                    <option value="4" selected="@(Model.CostCategories.Contains(4) ? "selected" : null)">Educational ICT</option>
+                    <option value="5" selected="@(Model.CostCategories.Contains(5) ? "selected" : null)">Premises and services</option>
+                    <option value="6" selected="@(Model.CostCategories.Contains(6) ? "selected" : null)">Utilities</option>
+                    <option value="7" selected="@(Model.CostCategories.Contains(7) ? "selected" : null)">Administrative supplies</option>
+                    <option value="8" selected="@(Model.CostCategories.Contains(8) ? "selected" : null)">Catering staff and services</option>
+                    <option value="9" selected="@(Model.CostCategories.Contains(9) ? "selected" : null)">Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Update filter
+            </button>
+        </form>
+    </aside>
+    <div class="govuk-grid-column-three-quarters">
+        @foreach (var rating in Model.Ratings)
+        {
+            <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+
+            @foreach (var status in rating.Statuses)
             {
-                var school = status.Schools.ElementAt(i);
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">@(i + 1)</td>
-                    <td class="govuk-table__cell">
-                        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
-                    </td>
-                    <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
-                </tr>
+                <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+
+                <div class="top-categories">
+                    <div>
+                        <p class="priority @status.PriorityTag?.Class govuk-body">
+                            @await Component.InvokeAsync("Tag", new
+                            {
+                                status.PriorityTag?.Colour,
+                                status.PriorityTag?.DisplayText
+                            })
+                            @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
+                            in the @status.PriorityTag?.DisplayText.ToLower() range
+                        </p>
+                    </div>
+                </div>
+
+                <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Rank</th>
+                        <th scope="col" class="govuk-table__header">School</th>
+                        <th scope="col" class="govuk-table__header">Expenditure</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                    @for (var i = 0; i < status.Schools.Count(); i++)
+                    {
+                        var school = status.Schools.ElementAt(i);
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">@(i + 1)</td>
+                            <td class="govuk-table__cell">
+                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+                            </td>
+                            <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             }
-            </tbody>
-        </table>
-    }
-}
+        }
+
+    </div>
+</div>
 
 @await Component.InvokeAsync("GetHelp")
