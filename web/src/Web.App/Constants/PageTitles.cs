@@ -46,4 +46,5 @@ public static class PageTitles
     public const string SchoolChangeDataNonFinancialData = "Change non-financial data";
     public const string SchoolChangeDataWorkforceData = "Change workforce data";
     public const string LocalAuthorityHome = "Your local authority";
+    public const string TrustSpending = "Spending priorities for this trust";
 }
