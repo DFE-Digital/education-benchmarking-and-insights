@@ -73,6 +73,7 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Total Expenditure",
         "Share of Revenue Reserve, distributed on per pupil basis\n",
         "London Weighting",
+        "Date joined or opened if in period",
         "Trust Balance",
         "Trust_DFE/EFA Revenue grants (includes Coronavirus Government Funding",
         "Trust_of which: Coronavirus Government Funding",
@@ -91,7 +92,8 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Central Services Balance",
         "Central Services Financial Position",
         "Academy Financial Position",
-        "Trust Financial Position"
+        "Trust Financial Position",
+        "Is PFI"
     ]
 
 

@@ -57,6 +57,8 @@ def test_prepare_school_data_has_correct_output_columns(prepared_schools_data: p
          "Town",
          "County (name)",
          "LA Establishment Number",
+         "Has Nursery",
+         "Has Sixth Form",
          "HeadName"
     ]
 
@@ -88,7 +90,7 @@ def test_boarders_is_mapped_correctly(urn, expected, prepared_schools_data: pd.D
 
 
 def test_nursery_provision_is_mapped_correctly(prepared_schools_data: pd.DataFrame):
-    assert prepared_schools_data.loc[100150]["NurseryProvision (name)"] == "No Nursery Classes"
+    assert prepared_schools_data.loc[100150]["NurseryProvision (name)"] == "No Nursery classes"
 
 
 @pytest.mark.parametrize("urn,expected", [

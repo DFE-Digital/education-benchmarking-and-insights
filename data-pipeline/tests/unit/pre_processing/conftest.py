@@ -209,6 +209,7 @@ def aar_data() -> pd.DataFrame:
         "Total Expenditure": [1000, 1001, 1002],
         "Share of Revenue Reserve, distributed on per pupil basis\n": [1000, 1001, 1002],
         "London Weighting": ["Neither", "Outer", "Inner"],
+        "Date joined or opened if in period": [None, "01/05/2023", None]
     })
 
 
@@ -342,8 +343,20 @@ def gias_data() -> pd.DataFrame:
 
 
 @pytest.fixture
-def prepared_schools_data(gias_data: pd.DataFrame) -> dict:
+def gias_links():
+    return pd.DataFrame({
+        "URN": [100154, 100155, 100156],
+        "LinkURN": [100153, 100153, 100153],
+        "LinkName": ["School C", "School C", "School C"],
+        "LinkType": ["Predecessor", "Successor", "Successor"],
+        "LinkEstablishedDate": ["31/08/2021", "15/09/2021", None]
+    })
+
+
+@pytest.fixture
+def prepared_schools_data(gias_data: pd.DataFrame, gias_links: pd.DataFrame) -> dict:
     return prepare_schools_data(
-        StringIO(gias_data.to_csv())
+        StringIO(gias_data.to_csv()),
+        StringIO(gias_links.to_csv())
     )
 

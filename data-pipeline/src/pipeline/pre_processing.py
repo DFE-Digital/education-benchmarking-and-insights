@@ -396,8 +396,6 @@ def prepare_schools_data(base_data_path, links_data_path):
         schools["CloseDate"].isna() & ((schools["Rank"] == 1) | (schools["Rank"].isna()))
         ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
-    return gias
-
 
 def build_cost_series(category_name, df, basis):
     basis_data = df[

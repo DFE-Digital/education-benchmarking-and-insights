@@ -293,7 +293,7 @@ ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "floa
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {
-    "URN":"Int64",
+    "URN": "Int64",
     "Academy UPIN": "Int64",
     "In year balance": "float",
     "PFI": "string",
@@ -362,8 +362,8 @@ aar_academies = {
     "Costs of Brought in Professional Services": "float",
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
-    "London Weighting":"string",
-    'Date joined or opened if in period':"string"
+    "London Weighting": "string",
+    "Date joined or opened if in period": "string"
 }
 
 aar_central_services_index_col = "Lead UPIN"
