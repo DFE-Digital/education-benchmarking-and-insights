@@ -418,7 +418,7 @@ def build_cost_series(category_name, df, basis):
 
 
 def build_academy_data(
-    academy_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
+    academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -431,6 +431,16 @@ def build_academy_data(
         dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
     ).rename(columns={"UKPRN": "Academy UKPRN"})
+
+    group_links = pd.read_csv(
+        links_data_path,
+        encoding="unicode-escape",
+        index_col=input_schemas.groups_index_col,
+        usecols=input_schemas.groups.keys(),
+        dtype=input_schemas.groups,
+    )[["Group Type", "Group UID"]]
+
+    group_links = group_links[group_links["Group Type"].isin(["Single-academy trust", "Multi-academy trust", "Trust"])]
 
     # remove transitioned schools from academies_list
     mask = (academies_list.index.duplicated(keep=False) & ~academies_list['Valid to'].isna())
@@ -447,6 +457,7 @@ def build_academy_data(
         .merge(aar, left_on="Academy UPIN", right_index=True, how="left")
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
+        .merge(group_links, on="URN", how="inner")
     )
 
     # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
@@ -500,6 +511,8 @@ def build_academy_data(
     academies["Email"] = ""
     academies["HeadEmail"] = ""
     academies["Is PFI"] = academies["Is PFI"].fillna(False)
+    academies["CFO Email"] = None
+    academies["CFO Name"] = None
 
     for category in config.rag_category_settings.keys():
         academies = build_cost_series(

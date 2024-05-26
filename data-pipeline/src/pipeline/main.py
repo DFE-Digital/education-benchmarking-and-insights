@@ -150,8 +150,14 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
 
+    links_data = get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="utf-8"
+    )
+
     academies = build_academy_data(
-        academies_data, year, schools, census, sen, cdc, aar, ks2, ks4
+        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4
     )
 
     write_blob(
