@@ -2,7 +2,7 @@ gias_index_col = "URN"
 gias = {
     "URN": "Int64",
     "UKPRN": "Int64",
-    "LA (code)": "string",
+    "LA (code)": "Int64",
     "LA (name)": "string",
     "EstablishmentNumber": "Int64",
     "EstablishmentName": "string",

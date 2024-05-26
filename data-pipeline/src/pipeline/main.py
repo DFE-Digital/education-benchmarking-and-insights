@@ -15,7 +15,7 @@ load_dotenv()
 from src.pipeline.database import (
     insert_comparator_set,
     insert_metric_rag,
-    insert_school
+    insert_schools_and_trusts_and_local_authorities
 )
 
 from src.pipeline.rag import compute_rag
@@ -236,7 +236,7 @@ def pre_process_all_schools(set_type, year, data_ref):
         all_schools.to_parquet(),
     )
 
-    insert_school(set_type, year, all_schools)
+    insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
 
 
 def pre_process_data(worker_client, set_type, year):

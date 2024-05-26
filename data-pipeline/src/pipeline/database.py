@@ -73,7 +73,7 @@ def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
     logger.info(f"Wrote {len(df)} rows to metric rag {run_type} - {year}")
 
 
-def insert_schools_and_trusts(run_type: str, year: str, df: pd.DataFrame):
+def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
@@ -126,3 +126,16 @@ def insert_schools_and_trusts(run_type: str, year: str, df: pd.DataFrame):
 
     upsert(trusts, "Trust", keys=["UKPRN"])
     logger.info(f"Wrote {len(df)} rows to trust {run_type} - {year}")
+
+    la_projections = {
+        "LA Code": "Code",
+        "LA Name": "Name"
+    }
+
+    las = (df.reset_index()[["LA Code", "LA Name"]]
+           .rename(columns=la_projections)[[*la_projections.values()]]
+           .drop_duplicates())
+
+    las.set_index("Code", inplace=True)
+
+    upsert(las, "LocalAuthority", keys=["Code"])

@@ -326,7 +326,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-        gias["LA (code)"] + "-" + gias["EstablishmentNumber"].astype("string")
+        gias["LA (code)"].astype("string") + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
