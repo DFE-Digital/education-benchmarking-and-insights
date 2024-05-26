@@ -84,6 +84,7 @@ def map_nursery(nursery: str, provision: str):
 def map_has_nursery(has_nursery: str):
     return has_nursery.lower() == "has nursery classes"
 
+
 def map_admission_policy(admission_policy: str):
     match admission_policy.lower():
         case "selective":

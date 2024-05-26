@@ -302,6 +302,8 @@ def prepare_aar_data(aar_path):
         lambda x: x == "PFI school"
     )
 
+    aar["London Weighting"] = aar["London Weighting"].fillna('Neither')
+
     return aar.set_index("Academy UPIN")
 
 
@@ -452,7 +454,7 @@ def build_academy_data(
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
 
-    academies["Type of Provision - Phase"] = academies.apply(
+    academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
         ),
@@ -480,8 +482,6 @@ def build_academy_data(
     )
 
     academies["Finance Type"] = "Academy"
-    academies["Email"] = ""
-    academies["HeadEmail"] = ""
 
     academies.rename(
         columns={
@@ -494,6 +494,12 @@ def build_academy_data(
         },
         inplace=True,
     )
+
+    academies["OfstedLastInsp"] = pd.to_datetime(academies["OfstedLastInsp"], dayfirst=True)
+    academies["London Weighting"] = academies["London Weighting"].fillna('Neither')
+    academies["Email"] = ""
+    academies["HeadEmail"] = ""
+    academies["Is PFI"] = academies["Is PFI"].fillna(False)
 
     for category in config.rag_category_settings.keys():
         academies = build_cost_series(
@@ -572,11 +578,13 @@ def build_maintained_school_data(
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
 
-    maintained_schools["Finance Type"] = "Maintained School"
+    maintained_schools["Finance Type"] = "Maintained"
 
     maintained_schools["Email"] = ""
     maintained_schools["HeadEmail"] = ""
     maintained_schools["Trust Name"] = None
+    maintained_schools["OfstedLastInsp"] = pd.to_datetime(maintained_schools["OfstedLastInsp"], dayfirst=True)
+    maintained_schools["London Weighting"] = maintained_schools["London Weighting"].fillna('Neither')
 
     maintained_schools.rename(
         columns={

@@ -254,26 +254,6 @@ pupil_census = {
 cfr_index_col = "URN"
 cfr = {"URN": "Int64"}
 
-ar_cell_mapping_index_col = "cell"
-ar_cell_mapping = {
-    "cell": "string",
-    "Description L1": "string",
-    "Metric": "string",
-    "Metric ID": "Int64",
-    "Cost Pool": "string",
-    "Presentation name": "string",
-    "Cost Pool ID": "Int64",
-}
-
-ar_index_col = "academyupin"
-ar = {
-    "academyupin": "Int64",
-    "trustupin": "Int64",
-    "companynumber": "Int64",
-    "aruniquereference": "string",
-    "value": "float",
-}
-
 
 groups_index_col = "URN"
 groups = {
