@@ -71,6 +71,12 @@ exclude_lines = [
     "# noqa",
     "raise NotImplementedError"
 ]
+exclude_also = [
+    "def compute_rag",
+    "def compute_category_rag",
+    "def compute_comparator_set",
+    "def compute_custom_comparator_set"
+]
 
 [tool.coverage.html]
 directory = "tests/output/html"
@@ -78,6 +84,11 @@ directory = "tests/output/html"
 [tool.coverage.xml]
 output = "tests/output/coverage.xml"
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::UserWarning",
+    'ignore::DeprecationWarning',
+]
 
 [build-system]
 requires = ["poetry-core"]

@@ -48,6 +48,7 @@ def sen_data() -> pd.DataFrame:
     return pd.DataFrame({
         "URN": [100150, 100151],
         "EHC plan": [50, 100],
+        "SEN support": [20, 20],
         "Total pupils": [100, 100],
         "EHC_Primary_need_spld": [1, 50],
         "SUP_Primary_need_spld": [1, 50],

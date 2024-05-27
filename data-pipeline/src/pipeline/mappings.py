@@ -14,7 +14,7 @@ def map_ofsted_rating(rating: str):
 
 
 def map_academy_phase_type(code: int, provision: str):
-    if not (pd.isna(code) and pd.isna(provision)):
+    if not (pd.isna(code) or pd.isna(provision)):
         if provision.lower() == "special" or code == 33 or code == 36 or code == 44:
             return "Special"
 
@@ -45,9 +45,9 @@ def map_block_age(block_age: str):
 def map_boarders(boarder: str):
     match boarder.lower():
         case (
-            "boarding school"
-            | "children's home (boarding school)"
-            | "college / fe residential accommodation"
+        "boarding school"
+        | "children's home (boarding school)"
+        | "college / fe residential accommodation"
         ):
             return "Boarding"
         case "no boarders" | "not applicable":
@@ -96,72 +96,73 @@ def map_admission_policy(admission_policy: str):
 
 
 def map_academy_status(
-    closed_in_period: datetime,
-    valid_to: datetime,
-    start_date: datetime,
-    closed_date: datetime,
-    period_start_date: datetime,
-    year_start_date: datetime,
-    year_end_date: datetime,
+        opened_in_period: datetime,
+        closed_in_period: datetime,
+        valid_to: datetime,
+        start_date: datetime,
+        closed_date: datetime,
+        period_start_date: datetime,
+        year_start_date: datetime,
+        year_end_date: datetime,
 ):
     if not (
-        pd.isna(closed_in_period)
-        and pd.isna(valid_to)
-        and pd.isna(start_date)
-        and pd.isna(closed_date)
+            pd.isna(closed_in_period)
+            and pd.isna(opened_in_period)
+            and pd.isna(valid_to)
+            and pd.isna(start_date)
+            and pd.isna(closed_date)
     ):
         if closed_date < year_start_date:
             return "Closed"
-        elif (
-            year_start_date < closed_in_period < year_end_date
-        ) or closed_date <= year_end_date:
+
+        if (year_start_date < closed_in_period < year_end_date) or closed_date <= year_end_date:
             return "Closed in period"
-        elif (
-            start_date > period_start_date
-            or period_start_date < closed_in_period < year_end_date
-        ):
+
+        if (start_date > period_start_date) or period_start_date < opened_in_period < year_end_date:
             return "(Re)opened in period"
-        elif year_start_date < valid_to < year_end_date:
+
+        if year_start_date < valid_to < year_end_date:
             return "Invalid"
-        else:
-            return "Open"
+
+        return "Open"
     else:
         return None
 
 
 def map_maintained_school_status(
-    start_date: datetime,
-    closed_date: datetime,
-    return_period_length: int,
-    year_start_date: datetime,
-    year_end_date: datetime,
+        start_date: datetime,
+        closed_date: datetime,
+        return_period_length: int,
+        year_start_date: datetime,
+        year_end_date: datetime,
 ):
     if not (
-        pd.isna(return_period_length) and pd.isna(start_date) and pd.isna(closed_date)
+            pd.isna(return_period_length) and pd.isna(start_date) and pd.isna(closed_date)
     ):
         if closed_date < year_start_date:
             return "Closed"
-        elif closed_date < year_end_date or return_period_length < 12:
+
+        if closed_date < year_end_date or return_period_length < 12:
             return "Closed in period"
-        elif start_date > year_start_date:
+
+        if start_date > year_start_date:
             return "Open in period"
-        else:
-            return "Open"
+
+        return "Open"
     else:
         return None
 
 
 def map_school_website(url: str):
+    if url is None:
+        return None
     if url.startswith("https://") or url.startswith("http://"):
         return url
-    elif not url:
-        return None
-    else:
-        return "https://" + url
+    return "https://" + url
 
 
 def map_is_pfi_school(pfi: str):
-    return "PFI School" if pfi.lower() == "part of PFI" else "Non-PFI school"
+    return "PFI School" if pfi is not None and pfi.lower() == "part of pfi" else "Non-PFI school"
 
 
 def map_is_surplus_deficit(closing_balance: float):

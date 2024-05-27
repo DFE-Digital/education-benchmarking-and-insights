@@ -84,7 +84,7 @@ def prepare_sen_data(sen_path):
         dtype=input_schemas.sen,
         usecols=input_schemas.sen.keys(),
     )
-    sen["Percentage SEN"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage SEN"] = (((sen["EHC plan"] + sen["SEN support"]) / sen["Total pupils"]) * 100.0).fillna(0)
     sen["Primary Need SPLD"] = (
         sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     )
@@ -147,6 +147,7 @@ def prepare_sen_data(sen_path):
         [
             "Total pupils",
             "EHC plan",
+            "SEN support",
             "Percentage SEN",
             "Primary Need SPLD",
             "Primary Need MLD",
@@ -472,6 +473,7 @@ def build_academy_data(
 
     academies["Status"] = academies.apply(
         lambda df: mappings.map_academy_status(
+            pd.to_datetime(df["Date joined or opened if in period"]),
             pd.to_datetime(df["Date left or closed if in period"]),
             pd.to_datetime(df["Valid to"]),
             pd.to_datetime(df["OpenDate"]),
@@ -524,7 +526,7 @@ def build_academy_data(
 def build_maintained_school_data(
     maintained_schools_data_path, links_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
-    maintained_schools_year_start_date = datetime.date(year, 4, 1)
+    maintained_schools_year_start_date = datetime.date(year - 1, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
 
     maintained_schools_list = pd.read_csv(

@@ -192,6 +192,7 @@ sen = {
     "URN": "Int64",
     "Total pupils": "float",
     "EHC plan": "float",
+    "SEN support": "float",
     "EHC_Primary_need_spld": "float",
     "SUP_Primary_need_spld": "float",
     "EHC_Primary_need_mld": "float",

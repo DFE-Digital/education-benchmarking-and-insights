@@ -11,6 +11,7 @@ def test_prepare_sen_data_has_correct_output_columns(sen_data):
     assert list(result.columns) == [
         "Total pupils",
         "EHC plan",
+        "SEN support",
         "Percentage SEN",
         "Primary Need SPLD",
         "Primary Need MLD",
@@ -44,7 +45,7 @@ def test_sen_has_correct_index(prepared_sen_data: dict):
 
 
 def test_percentage_sen_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Percentage SEN"] == 50
+    assert prepared_sen_data["Percentage SEN"] == 70
 
 
 def test_primary_need_spld_computed_correctly(prepared_sen_data: dict):

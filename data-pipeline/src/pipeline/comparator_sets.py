@@ -299,7 +299,7 @@ def compute_comparator_set(data: pd.DataFrame):
     return compute_distances(copy, classes)
 
 
-def compute_custom_comparator(data: pd.DataFrame):
+def compute_custom_comparator_set(data: pd.DataFrame):
     copy = (
         data[
             [

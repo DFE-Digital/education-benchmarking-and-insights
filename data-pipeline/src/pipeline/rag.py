@@ -118,7 +118,7 @@ def category_stats(ukprn, category_name, data, ofsted_rating, rag_mapping, close
     value = series.iat[0]
 
     percentile = find_percentile(series, value)
-    decile = percentile / 10
+    decile = int(percentile / 10)
     mean = np.median(series)
     diff = value - mean
     diff_percent = (
