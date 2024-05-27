@@ -2,7 +2,7 @@ gias_index_col = "URN"
 gias = {
     "URN": "Int64",
     "UKPRN": "Int64",
-    "LA (code)": "string",
+    "LA (code)": "Int64",
     "LA (name)": "string",
     "EstablishmentNumber": "Int64",
     "EstablishmentName": "string",
@@ -191,8 +191,8 @@ sen_index_col = "URN"
 sen = {
     "URN": "Int64",
     "Total pupils": "float",
-    "SEN support": "Int64",
     "EHC plan": "float",
+    "SEN support": "float",
     "EHC_Primary_need_spld": "float",
     "SUP_Primary_need_spld": "float",
     "EHC_Primary_need_mld": "float",
@@ -216,29 +216,13 @@ sen = {
     "EHC_Primary_need_asd": "float",
     "SUP_Primary_need_asd": "float",
     "EHC_Primary_need_oth": "float",
-    "SUP_Primary_need_oth": "float",
-    "EHC_Primary_need_nsa": "float",
-    "SUP_Primary_need_nsa": "float",
-    "Prov_SPLD": "float",
-    "Prov_MLD": "float",
-    "Prov_SLD": "float",
-    "Prov_PMLD": "float",
-    "Prov_SEMH": "float",
-    "prov_slcn": "float",
-    "prov_hi": "float",
-    "prov_vi": "float",
-    "prov_msi": "float",
-    "prov_pd": "float",
-    "prov_asd": "float",
-    "prov_oth": "float",
+    "SUP_Primary_need_oth": "float"
 }
 
 workforce_census_index_col = "URN"
 workforce_census = {
     "URN": "Int64",
-    "Total School Workforce (Full-Time Equivalent)": "float",
     "Number of Vacant Teacher Posts": "Int64",
-    "Total Number of Teachers (Full-Time Equivalent)": "float",
     "Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)": "float",
     "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "float",
     "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Int64",
@@ -271,26 +255,6 @@ pupil_census = {
 cfr_index_col = "URN"
 cfr = {"URN": "Int64"}
 
-ar_cell_mapping_index_col = "cell"
-ar_cell_mapping = {
-    "cell": "string",
-    "Description L1": "string",
-    "Metric": "string",
-    "Metric ID": "Int64",
-    "Cost Pool": "string",
-    "Presentation name": "string",
-    "Cost Pool ID": "Int64",
-}
-
-ar_index_col = "academyupin"
-ar = {
-    "academyupin": "Int64",
-    "trustupin": "Int64",
-    "companynumber": "Int64",
-    "aruniquereference": "string",
-    "value": "float",
-}
-
 
 groups_index_col = "URN"
 groups = {
@@ -320,19 +284,17 @@ groups = {
 ks2_index_col = "URN"
 ks2 = {
     "URN": "Int64",
-    "LEA": "Int64",
-    "ESTAB": "Int64",
     "READPROG": "string",
     "WRITPROG": "string",
     "MATPROG": "string",
 }
 
 ks4_index_col = "URN"
-ks4 = {"URN": "Int64", "ATT8SCR": "string", "P8MEA": "string", "P8_BANDING": "string"}
+ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "float"}
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {
-    "URN":"Int64",
+    "URN": "Int64",
     "Academy UPIN": "Int64",
     "In year balance": "float",
     "PFI": "string",
@@ -401,8 +363,8 @@ aar_academies = {
     "Costs of Brought in Professional Services": "float",
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
-    "London Weighting":"string",
-    'Date joined or opened if in period':"string"
+    "London Weighting": "string",
+    "Date joined or opened if in period": "string"
 }
 
 aar_central_services_index_col = "Lead UPIN"

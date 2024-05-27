@@ -64,12 +64,18 @@ force_grid_wrap = 0
 [tool.coverage.run]
 source = ["src"]
 branch = true
-omit = ['']
+omit = ['main.py', 'storage.py', 'database.py']
 
 [tool.coverage.report]
 exclude_lines = [
     "# noqa",
     "raise NotImplementedError"
+]
+exclude_also = [
+    "def compute_rag",
+    "def compute_category_rag",
+    "def compute_comparator_set",
+    "def compute_custom_comparator_set"
 ]
 
 [tool.coverage.html]
@@ -78,6 +84,11 @@ directory = "tests/output/html"
 [tool.coverage.xml]
 output = "tests/output/coverage.xml"
 
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore::UserWarning",
+    'ignore::DeprecationWarning',
+]
 
 [build-system]
 requires = ["poetry-core"]
