@@ -12,7 +12,11 @@ from dask.distributed import Client
 
 load_dotenv()
 
-from src.pipeline.database import insert_comparator_set, insert_metric_rag
+from src.pipeline.database import (
+    insert_comparator_set,
+    insert_metric_rag,
+    insert_schools_and_trusts_and_local_authorities
+)
 
 from src.pipeline.rag import compute_rag
 from src.pipeline.comparator_sets import (
@@ -146,8 +150,14 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
 
+    links_data = get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="utf-8"
+    )
+
     academies = build_academy_data(
-        academies_data, year, schools, census, sen, cdc, aar, ks2, ks4
+        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4
     )
 
     write_blob(
@@ -168,8 +178,15 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
         f"{set_type}/{year}/maintained_schools_master_list.csv",
         encoding="utf-8",
     )
+
+    links_data = get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="utf-8"
+    )
+
     maintained_schools = build_maintained_school_data(
-        maintained_schools_data, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data, links_data, year, schools, census, sen, cdc, ks2, ks4
     )
 
     write_blob(
@@ -218,6 +235,8 @@ def pre_process_all_schools(set_type, year, data_ref):
         f"{set_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
     )
+
+    insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
 
 
 def pre_process_data(worker_client, set_type, year):
