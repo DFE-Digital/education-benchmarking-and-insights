@@ -27,11 +27,11 @@
   
   {% set html %}
   <h3 class="govuk-notification-banner__heading">
-    Comparator set created
+    Comparator set {{ 'updated' if data['editSet'] == 'true' else "created" }}
   </h3>
   <p><a href="/school-homepage" class="govuk-link">Compare your chosen schools</a></p>
   <p><a href="/comparators/create/view" class="govuk-link">View your comparator set</a></p>
-  <p><a href="/comparators/create/by-name" class="govuk-link">Manage your comparator set</a></p>
+  <p><a href="/comparators/create/by-name?editSet=true" class="govuk-link">Manage your comparator set</a></p>
   {% endset %}
 
     {{ govukNotificationBanner({

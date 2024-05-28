@@ -69,7 +69,7 @@
     <h1 class="govuk-heading-m">Selected schools ({{rows.length}})</h1>
     
     {{ govukButton({
-        text: "Create comparator set from selected schools",
+        text: 'Save comparator set' if data['editSet'] == 'true' else "Create comparator set from selected schools",
         href: 'generated'
       }) }}
 
