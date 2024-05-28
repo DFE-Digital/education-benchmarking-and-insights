@@ -82,7 +82,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     name: "comparePhase",
                     fieldset: {
                         legend: {
-                        text: "Phase of schools",
+                        text: "Category of schools",
                         isPageHeading: false,
                         classes: "govuk-fieldset__legend--s"
                         }
@@ -104,8 +104,18 @@ Choose characteristics to find matching schools – {{ serviceName }}
                             checked: true
                         },
                         {
-                            value: "allThrough",
-                            text: "All-through",
+                            value: "pru",
+                            text: "Pupil referral units or alternative provision schools",
+                            checked: checked("comparePhase", "pru")
+                        },
+                        {
+                            value: "special",
+                            text: "Special",
+                            checked: checked("comparePhase", "special")
+                        },
+                        {
+                            value: "utc",
+                            text: "University terchnical college",
                             checked: checked("comparePhase", "allThrough")
                         }
                     ]
@@ -377,7 +387,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
     </div>
     </div>
 
-
+<!--
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
@@ -396,12 +406,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <legend class="govuk-visually-hidden">School type</legend>
 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    <!--
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Nursery" value="Nursery">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Nursery">Nursery</label>
                         </div>
-                    -->
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Community" value="Community school">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Community">Community</label>
@@ -484,7 +492,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 </div>
                 </div>
 
-    
+    -->
 
 
 
@@ -885,7 +893,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         </div>
                         </div>
             
-        
+        <!--
                 {% if data['comparePhase'] %}
                 {% if 'special' in data['comparePhase'] or 'referral' in data['comparePhase']  %}
                 <div class="govuk-form-group" style="margin: 30px 0">
@@ -894,13 +902,13 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
                         <input class="govuk-checkboxes__input" id="checkbox-MinSpecLearnDiff" type="checkbox" aria-controls="pc5" aria-expanded="false">
-                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.04</span></label>
+                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8.04</span></label>
                         </div>
                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc5">
                         <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                         <div class="govuk-hint">
-                                    <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.04%</span></span>
+                                    <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.04%</span></span>
         
                         </div>
         
@@ -1337,7 +1345,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
                 {% endif %}
                 {% endif %}
-
+-->
 <!--
                 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
                 <script>

@@ -48,7 +48,18 @@ router.get( '/comparators/create/characteristics', (req, res) => {
 router.get( '/comparators/create/preview', (req, res) => {
 
     var rows = [];
-    var comparators = generatePupilComparators();
+    var comparators;
+
+    if ( req.session.data['comparators'] && req.session.data['comparators'].length >= 30 ) {
+        comparators = req.session.data['comparators'];
+        console.log('new');
+    } else {
+        comparators = generatePupilComparators();
+        console.log('existing');
+    }
+
+    console.log(comparators);
+
     comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
     req.session.data['comparators'] = comparators;
     
@@ -59,6 +70,7 @@ router.get( '/comparators/create/preview', (req, res) => {
         rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
     }
 
+    console.log(rows);
     res.render( '/comparators/create/preview', { rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
 
     // clear confirmation/errors
@@ -83,19 +95,6 @@ router.post( '/comparators/create/generate-comparators', (req, res) => {
 
 })
 */
-
-router.post( '/comparators/create/review', (req, res) => {
-
-    var comparators = generatePupilComparators();
-    comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
-
-    req.session.data['comparators'] = comparators;
-    req.session.data['confirmation'] = 'comparator-generated';
-    req.session.data['comparatorSetType'] = 'generated';
-
-    res.redirect( '/comparators/create/review' );
-
-})
 
 router.get( '/comparators/view', (req, res) => {
     var pupilRows = [];
@@ -195,29 +194,12 @@ function addSchool (req, res, schoolName) {
 
 })
 
-/*
-router.get( '/add-comparator-school', (req, res) => {
-
-    var schoolName = req.session.data.school;
-
-    if ( schoolName ) {
-        addSchool( req, res, schoolName);
-    } else {
-        req.session.data['errorThisPage'] = 'true';
-        req.session.data['errorNoSchool'] = 'true';
-    }
-
-    res.redirect( '/comparators/create/review' );
-
-})
-*/
-
 router.get( '/comparators/undo-remove', (req, res) => {
 
     var schoolName = req.query.schoolName;
     addSchool( req, res, schoolName);
 
-    res.redirect( '/comparators/create/review' );
+    res.redirect( '/comparators/create/view' );
 
 })
 
@@ -264,28 +246,6 @@ router.get( '/comparators/create/view', (req, res) => {
 })
 
 
-router.get( '/comparators/create/review', (req, res) => {
-
-    var rows = [];
-    var schoolRows = getSchoolList();
-    var comparators = req.session.data.comparators || [];
-    
-    for ( i=0; i<comparators.length; i++) {
-        var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
-    }
-
-    res.render( '/comparators/create/review', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
-
-    // clear confirmation/errors
-    req.session.data['confirmation'] = '';
-    req.session.data['errorThisPage'] = 'false';
-    req.session.data['errorNoSchool'] = 'false';
-
-})
-
-
-
 router.get( '/comparators/remove', (req, res) => {
 
     if (req.session.data.comparators ) {
@@ -296,7 +256,7 @@ router.get( '/comparators/remove', (req, res) => {
         req.session.data['confirmation'] = 'comparator-removed';
     }
 
-    res.redirect( '/comparators/create/review' );
+    res.redirect( '/comparators/create/by-name' );
 
 })
 
@@ -320,17 +280,6 @@ router.get( '/comparators', (req, res) => {
     req.session.data['confirmation'] = '';
 
 })
-
-/*
-router.get( '/comparators/create', (req, res) => {
-
-    if (req.session.data.comparators ) {
-        res.redirect( '/comparators/create/review' );
-    } else {
-        res.render( '/comparators/index' );
-    }
-})
-*/
 
 router.get( '/comparators/view-school', (req, res) => {
 
@@ -540,7 +489,6 @@ function generatePupilComparators() {
     
     for (i=0; i<30; i++ ) {
         intRandom = Math.floor( Math.random() * objSchools.length ) ;
-        console.log( intRandom );
         objSchool = objSchools[ intRandom ];
         
         comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
