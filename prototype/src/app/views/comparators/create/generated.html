@@ -22,16 +22,16 @@
 
   <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
   <h1 class="govuk-heading-l">
-    Comparator set
+   Set of schools created
   </h1>
   
   {% set html %}
   <h3 class="govuk-notification-banner__heading">
-    Comparator set created
+    You've created your own set of schools
   </h3>
-  <p><a href="/school-homepage" class="govuk-link">Compare your chosen schools</a></p>
-  <p><a href="/comparators/create/view" class="govuk-link">View your comparator set</a></p>
-  <p><a href="/comparators/create/by-name" class="govuk-link">Manage your comparator set</a></p>
+  <p><a href="/school-homepage" class="govuk-link">Use this set to benchmark against {{ data['school-name'] }}</a></p>
+  <p><a href="/comparators/create/view" class="govuk-link">View your set of schools</a></p>
+  <p><a href="/comparators/create/by-name" class="govuk-link">Manage your set of schools</a></p>
   {% endset %}
 
     {{ govukNotificationBanner({
@@ -39,7 +39,7 @@
       type: "success"
     }) }}
     
-
+    
 
     </div>
 </div>

@@ -40,8 +40,14 @@
 
   <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
   <h1 class="govuk-heading-l">
-    Find a school using a school name, postcode or URN
+    Choose up to 30 schools
   </h1>
+  <p class="govuk-body">We'll use these to create a set of schools to benchmark {{ data['school-name'] }} against.</p>
+  <p class="govuk-body">You can choose fewer than 30 schools, but you may not be able to see all spending priorities.</p>
+  
+  <div id="school-search-hint" class="govuk-hint">
+    Choose by school name, postcode or URN
+  </div>
 
       <form action="/add-comparator-school" method="post">
         <div class="school-search">
@@ -58,7 +64,7 @@
             }) }}
             
             {{ govukButton({
-              text: "Select school"
+              text: "Choose school"
             }) }}
         </div>
       </form>
@@ -66,10 +72,10 @@
 
     {% if data['comparators'] | length %}
 
-    <h1 class="govuk-heading-m">Selected schools ({{rows.length}})</h1>
+    <h1 class="govuk-heading-m">Chosen schools ({{rows.length}})</h1>
     
     {{ govukButton({
-        text: "Create comparator set from selected schools",
+        text: "Create a set using these schools",
         href: 'generated'
       }) }}
 
