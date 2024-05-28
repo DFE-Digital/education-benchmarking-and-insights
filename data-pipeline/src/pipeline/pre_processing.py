@@ -203,12 +203,11 @@ def prepare_ks4_data(ks4_path):
         index_col=input_schemas.ks4_index_col,
         dtype=input_schemas.ks4,
         usecols=input_schemas.ks4.keys(),
-        na_values=["NE", "SUPP"]
+        na_values=["NP", "NE", "SUPP", "LOWCOV"]
     )
 
     ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
     ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)
-    ks4["P8_BANDING"] = ks4["P8_BANDING"].astype(float).fillna(0)
 
     ks4.rename(
         columns={
@@ -433,7 +432,7 @@ def build_academy_data(
 
     group_links = pd.read_csv(
         links_data_path,
-        encoding="unicode-escape",
+        encoding="cp1252",
         index_col=input_schemas.groups_index_col,
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
@@ -447,7 +446,7 @@ def build_academy_data(
 
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
-    ).set_index("URN")
+    )
 
     academies = (
         academies_base.merge(census, on="URN", how="left")
@@ -510,7 +509,7 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna('Neither')
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-    academies["Is PFI"] = academies["Is PFI"].fillna(False)
+    academies["Is PFI"] = academies["Is PFI"].astype(bool).fillna(False)
     academies["CFO Email"] = None
     academies["CFO Name"] = None
 
@@ -519,8 +518,7 @@ def build_academy_data(
             category, academies, config.rag_category_settings[category]["type"]
         )
 
-    academies.set_index("UKPRN", inplace=True)
-    return academies
+    return academies.set_index("UKPRN")
 
 
 def build_maintained_school_data(
@@ -611,7 +609,6 @@ def build_maintained_school_data(
         maintained_schools = build_cost_series(category, maintained_schools,
                                                config.rag_category_settings[category]["type"])
 
-    maintained_schools = maintained_schools.reset_index().set_index("UKPRN")
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
 
     (hard_federations, soft_federations) = build_federations_data(links_data_path, maintained_schools)
@@ -627,7 +624,7 @@ def build_maintained_school_data(
     maintained_schools.rename(columns={"FederationName": "Federation Name"}, inplace=True)
     maintained_schools = maintained_schools[~maintained_schools.index.duplicated()]
 
-    return maintained_schools
+    return maintained_schools.set_index("UKPRN")
 
 
 def build_federations_data(links_data_path, maintained_schools):

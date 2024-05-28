@@ -6,6 +6,7 @@ import logging
 import pandas as pd
 import sqlalchemy
 from sqlalchemy import create_engine, event
+from src.pipeline.storage import (write_blob)
 
 azure_logger = logging.getLogger("azure")
 azure_logger.setLevel(logging.WARNING)
@@ -75,6 +76,7 @@ def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
 
 def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
     projections = {
+        "UKPRN": "UKPRN",
         "URN": "URN",
         "EstablishmentName": "SchoolName",
         "Trust UKPRN": "TrustUKPRN",
@@ -99,7 +101,14 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "HeadEmail": "HeadTeacherEmail",
     }
 
-    write_frame = df.rename(columns=projections)[[*projections.values()]]
+    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]].dropna()
+
+    write_blob(
+        "pre-processed",
+        f"default/2022/school_db_write.csv",
+        write_frame.to_csv(),
+    )
+
     upsert(write_frame, "School", keys=["UKPRN"])
     logger.info(f"Wrote {len(df)} rows to school {run_type} - {year}")
 

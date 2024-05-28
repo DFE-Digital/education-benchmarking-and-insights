@@ -80,8 +80,6 @@ academy_master_list = {
     "Regional School Commissioner": "string",
     "Valid From": "string",
     "Valid to": "string",
-    "Date joined or opened if in period": "string",
-    "Date left or closed if in period": "string",
     "Territory": "string",
     "Academy Status": "string",
     "Academy Trust Status": "string",
@@ -290,7 +288,7 @@ ks2 = {
 }
 
 ks4_index_col = "URN"
-ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "float"}
+ks4 = {"URN": "Int64", "ATT8SCR": "float", "P8MEA": "float", "P8_BANDING": "string"}
 
 aar_academies_index_col = "Academy UPIN"
 aar_academies = {
@@ -364,7 +362,8 @@ aar_academies = {
     "Total Expenditure": "float",
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
     "London Weighting": "string",
-    "Date joined or opened if in period": "string"
+    "Date joined or opened if in period": "string",
+    "Date left or closed if in period": "string"
 }
 
 aar_central_services_index_col = "Lead UPIN"
