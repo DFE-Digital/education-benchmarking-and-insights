@@ -22,9 +22,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-
-        <form action="/comparators/create/review" method="post">
-
                         
             {% if data['errorThisPage'] == 'true' %}
             
@@ -741,21 +738,21 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-Defecit" type="checkbox" aria-controls="pc23" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Schools in defecit</label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Schools in deficit</label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" data-module="govuk-radios" id="pc23">
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                             <div class="govuk-hint">
-                                <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">not in defecit</span>.</span>
+                                <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">not in deficit</span>.</span>
                             </div>
                             <div class="govuk-radios__item">
                                 <input type="radio" name="Defecit" id="Defecit.Exclude" value="Exclude" class="govuk-radios__input criteria-radio">
-                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude">Exclude schools in defecit</label>
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude">Exclude schools in deficit</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input type="radio" name="Defecit" id="Defecit.Include" value="Include" class="govuk-radios__input criteria-radio">
-                                <label class="govuk-label govuk-radios__label" for="Defecit.Include">Include schools in defecit</label>
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Include">Include schools in deficit</label>
                             </div>
                         </fieldset>
                     </div>
@@ -1380,11 +1377,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
             </div>
 
             {{ govukButton({
-            text: "Create comparison set",
-            classes: "govuk-button--primary"
+                text: "Continue",
+                href: '/comparators/create/preview',
+                classes: "govuk-button--primary"
             }) }}
-        </form>
-
 
     </div>
 </div>

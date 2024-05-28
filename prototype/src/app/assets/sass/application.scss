@@ -175,6 +175,16 @@ p.priority .govuk-tag {
 }
 
 // COMPARATOR SETS
+
+
+.school-search .govuk-form-group {
+    width: calc(100% - 176px) 
+}
+
+.school-search-old .govuk-form-group {
+    width: calc(100% - 76px) 
+}
+
 .school-search .govuk-form-group, .school-search button {
     display: inline-block;
     vertical-align: top;
@@ -182,10 +192,6 @@ p.priority .govuk-tag {
 
 .school-search .govuk-form-group.govuk-form-group--error {
     width: calc(100% - 96px)
-}
-
-.school-search .govuk-form-group {
-    width: calc(100% - 76px) 
 }
 
 .school-search button {

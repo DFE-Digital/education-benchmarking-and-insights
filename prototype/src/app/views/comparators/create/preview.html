@@ -1,0 +1,76 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  View your custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create"
+    }) }}
+
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+      
+  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+  <h1 class="govuk-heading-l">
+    Schools matched using the characteristics you selected
+  </h1>
+
+  <p class="govuk-body">These are the 30 closest matches to your school from the 812 schools matching the characteristics you selected.</p>
+
+    {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
+
+    {{ govukButton({
+        text: "Create comparator set from selected schools",
+        href: 'view?confirmation=comparator-generated'
+      }) }}
+
+    <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new list</a></p>
+
+    {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "School",
+          classes: "govuk-!-width-one-third"
+        },
+        {
+          text: "Characteristics",
+          colspan: 2
+        }
+      ],
+      "rows": rows
+    }) }}
+    
+    {% endif %}
+
+
+    </div>
+</div>
+
+<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
+
+  <select style="height:30px;" onchange="window.location.href='?'+this.value">
+
+      <option value="errorThisPage=false&errorNoSchool=false"
+              {% if errorThisPage != 'true' %}selected{% endif %}>Errors - Off</option>
+
+      <option value="errorThisPage=true&errorNoSchool=true"
+              {% if errorNoSchool == 'true' %}selected{% endif %}>Error: No answer entered</option>
+  </select>
+
+</form>
+
+
+
+
+{% endblock %}

@@ -1,0 +1,94 @@
+{% from "govuk/components/breadcrumbs/macro.njk" import govukBreadcrumbs %}
+
+{% extends "layouts/main.html" %}
+
+{% block pageTitle %}
+  Comparator set - {{ data['school-name'] }} – {{ serviceName }}
+{% endblock %}
+
+{% block beforeContent %}
+
+  {% if confirmation == 'comparator-generated' %}
+
+    {{ govukBackLink({
+        text: "Back",
+        href: "/comparators/create/by-name"
+    }) }}
+
+    {% else %}
+
+    {{ govukBreadcrumbs({
+      items: [
+        {
+          text: "Home",
+          href: "/find-school"
+        },
+        {
+          text: "Your school",
+          href: "/school-homepage"
+        }
+      ]
+    }) }}
+
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-full">
+
+  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+  <h1 class="govuk-heading-l">
+    Comparator set
+  </h1>
+
+  {% if confirmation %}
+  
+    {{ govukNotificationBanner({
+      text: 'Comparator set created',
+      type: "success"
+    }) }}
+    
+  {% endif %}
+
+  <p><a href="/school-homepage" class="govuk-link">Compare these schools</a></p>
+  <p><a href="/comparators/create/by-name" class="govuk-link">Manage your comparator set</a></p>
+
+    {% if data['comparators'] | length %}
+
+    {{ govukTable({
+      firstCellIsHeader: false,
+      head: [
+        {
+          text: "School",
+          classes: "govuk-!-width-one-third"
+        },
+        {
+          text: "Type"
+        },
+        {
+          text: "Number of pupils"
+        },
+        {
+          text: "Pupils with special educational needs"
+        },
+        {
+          text: "Pupils eligible for free school meals"
+        },
+        {
+          text: ""
+        }
+      ],
+      "rows": rows
+    }) }}
+    
+    {% endif %}
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}
