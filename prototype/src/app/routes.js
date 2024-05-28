@@ -45,7 +45,39 @@ router.get( '/comparators/create/characteristics', (req, res) => {
 
 })
 
-router.post( '/comparators/create/review', (req, res) => {
+router.get( '/comparators/create/preview', (req, res) => {
+
+    var rows = [];
+    var comparators;
+
+    if ( req.session.data['comparators'] && req.session.data['comparators'].length >= 30 ) {
+        comparators = req.session.data['comparators'];
+    } else {
+        comparators = generatePupilComparators();
+    }
+
+    comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
+    req.session.data['comparators'] = comparators;
+    
+    for ( i=0; i<comparators.length; i++) {
+        var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + comparators[i].comparatorName +"</span><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        var charsHtml = "<p class=\"govuk-body\">Number of pupils</p><p class=\"govuk-body\">Pupils with special educational needs (SEN):</p><p class=\"govuk-body\">Number of schools within trust:</p><p class=\"govuk-body\">Key stage 4 progress:</p>";
+        var valuesHtml = "<p class=\"govuk-body\">" + comparators[i].comparatorPupils.toLocaleString() + "</p><p class=\"govuk-body\">" + comparators[i].comparatorSen + "%</p><p class=\"govuk-body\">" + ( Math.floor(Math.random() * (43 - 3 + 1) ) + 3) + "</p><p class=\"govuk-body\">" + Math.floor( (Math.random() * 100 ) ) / 100 + "</p>";
+        rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
+    }
+
+    res.render( '/comparators/create/preview', { rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+
+    // clear confirmation/errors
+    req.session.data['confirmation'] = '';
+    req.session.data['errorThisPage'] = 'false';
+    req.session.data['errorNoSchool'] = 'false';
+
+})
+
+
+/*
+router.post( '/comparators/create/generate-comparators', (req, res) => {
 
     var comparators = generatePupilComparators();
     comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
@@ -54,9 +86,10 @@ router.post( '/comparators/create/review', (req, res) => {
     req.session.data['confirmation'] = 'comparator-generated';
     req.session.data['comparatorSetType'] = 'generated';
 
-    res.redirect( '/comparators/create/review' );
+    res.render( '/comparators/create/preview', { rows: comparators } );
 
 })
+*/
 
 router.get( '/comparators/view', (req, res) => {
     var pupilRows = [];
@@ -141,7 +174,7 @@ function addSchool (req, res, schoolName) {
   }
 
 
-router.get( '/add-comparator-school', (req, res) => {
+  router.get( '/add-comparator-school', (req, res) => {
 
     var schoolName = req.session.data.school;
 
@@ -152,32 +185,32 @@ router.get( '/add-comparator-school', (req, res) => {
         req.session.data['errorNoSchool'] = 'true';
     }
 
-    res.redirect( '/comparators/create/review' );
+    res.redirect( '/comparators/create/by-name' );
 
 })
-
 
 router.get( '/comparators/undo-remove', (req, res) => {
 
     var schoolName = req.query.schoolName;
     addSchool( req, res, schoolName);
 
-    res.redirect( '/comparators/create/review' );
+    res.redirect( '/comparators/create/view' );
 
 })
 
-router.get( '/comparators/create/review', (req, res) => {
+
+router.get( '/comparators/create/by-name', (req, res) => {
 
     var rows = [];
     var schoolRows = getSchoolList();
     var comparators = req.session.data.comparators || [];
     
     for ( i=0; i<comparators.length; i++) {
-        var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + comparators[i].comparatorName + "</span><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
         rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'}, {'html': '<a href="/comparators/remove?id=' + i + '">Remove</a>' } ] );
     }
 
-    res.render( '/comparators/create/review', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+    res.render( '/comparators/create/by-name', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
 
     // clear confirmation/errors
     req.session.data['confirmation'] = '';
@@ -186,6 +219,26 @@ router.get( '/comparators/create/review', (req, res) => {
 
 })
 
+
+router.get( '/comparators/create/view', (req, res) => {
+
+    var rows = [];
+    var schoolRows = getSchoolList();
+    var comparators = req.session.data.comparators || [];
+    
+    for ( i=0; i<comparators.length; i++) {
+        var nameHtml = "<a href=\"/comparators/view-school?comparatorType=custom&comparatorId=" + [i] +"\" class=\"govuk-link\">" + comparators[i].comparatorName +"</a><br><span class=\"govuk-hint\">" + comparators[i].comparatorLocation + ", " + comparators[i].comparatorPostcode + "</span>";
+        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': comparators[i].comparatorPupils.toLocaleString()}, {'text': comparators[i].comparatorSen + '%'}, {'text': comparators[i].comparatorMeals + '%'} ] );
+    }
+
+    res.render( '/comparators/create/view', { schoolRows: schoolRows, rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+
+    // clear confirmation/errors
+    req.session.data['confirmation'] = '';
+    req.session.data['errorThisPage'] = 'false';
+    req.session.data['errorNoSchool'] = 'false';
+
+})
 
 
 router.get( '/comparators/remove', (req, res) => {
@@ -198,7 +251,7 @@ router.get( '/comparators/remove', (req, res) => {
         req.session.data['confirmation'] = 'comparator-removed';
     }
 
-    res.redirect( '/comparators/create/review' );
+    res.redirect( '/comparators/create/by-name' );
 
 })
 
@@ -222,17 +275,6 @@ router.get( '/comparators', (req, res) => {
     req.session.data['confirmation'] = '';
 
 })
-
-/*
-router.get( '/comparators/create', (req, res) => {
-
-    if (req.session.data.comparators ) {
-        res.redirect( '/comparators/create/review' );
-    } else {
-        res.render( '/comparators/index' );
-    }
-})
-*/
 
 router.get( '/comparators/view-school', (req, res) => {
 
@@ -439,9 +481,11 @@ function generatePupilComparators() {
     var objSchoolsFile = require('../app/data/schools.json');
     var objSchools = objSchoolsFile.schools;
     var comparators = [];
-
+    
     for (i=0; i<30; i++ ) {
-        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
+        intRandom = Math.floor( Math.random() * objSchools.length ) ;
+        objSchool = objSchools[ intRandom ];
+        
         comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
         comparatorMeals = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 )* 10 ) /10;
         comparatorSen = Math.floor( ( ( Math.random() * (9 - 0.8 + 1) ) + 2.3 )* 10 ) /10;
@@ -459,7 +503,7 @@ function generateBuildingComparators() {
     var comparators = [];
 
     for (i=0; i<30; i++ ) {
-        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length-1 ) ];
+        objSchool = objSchools[ Math.floor( Math.random() * objSchools.length ) ];
         comparatorPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
         comparatorGifa = comparatorPupils * Math.floor( ( Math.random() * (12 - 10 + 1) ) + 10 );
         comparatorAge = Math.floor( ( ( Math.random() * (87 - 4.3 + 1) ) + 4.3 ) );
@@ -477,7 +521,7 @@ function generateTrusts() {
     var trusts = [];
 
     for (i=0; i<10; i++ ) {
-        objTrust = objTrusts[ Math.floor( Math.random() * objTrusts.length-1 ) ];
+        objTrust = objTrusts[ Math.floor( Math.random() * objTrusts.length ) ];
 
         trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
         trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438 * trustSchools;

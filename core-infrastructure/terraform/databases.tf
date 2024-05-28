@@ -17,6 +17,42 @@ resource "azurerm_key_vault_secret" "sql-connection-string" {
   depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
 }
 
+resource "azurerm_key_vault_secret" "sql-domain-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  key_vault_id = azurerm_key_vault.key-vault.id
+  name         = "core-sql-domain-name"
+  value        = azurerm_mssql_server.sql-server.fully_qualified_domain_name
+  content_type = "text/plain"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
+resource "azurerm_key_vault_secret" "sql-db-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  key_vault_id = azurerm_key_vault.key-vault.id
+  name         = "core-sql-db-name"
+  value        = azurerm_mssql_database.sql-db.name
+  content_type = "text/plain"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
+resource "azurerm_key_vault_secret" "sql-user-name" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  key_vault_id = azurerm_key_vault.key-vault.id
+  name         = "core-sql-user-name"
+  value        = local.sql-admin-login
+  content_type = "text/plain"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
+resource "azurerm_key_vault_secret" "sql-password" {
+  #checkov:skip=CKV_AZURE_41:See ADO backlog AB#206511
+  key_vault_id = azurerm_key_vault.key-vault.id
+  name         = "core-sql-password"
+  value        = random_password.sql-admin-password.result
+  content_type = "password"
+  depends_on   = [azurerm_key_vault_access_policy.terraform_sp_access]
+}
+
 resource "azurerm_mssql_server" "sql-server" {
   #checkov:skip=CKV_AZURE_113:See ADO backlog AB#206493
   #checkov:skip=CKV2_AZURE_45:See ADO backlog AB#206493
