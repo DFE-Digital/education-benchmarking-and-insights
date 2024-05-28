@@ -52,13 +52,9 @@ router.get( '/comparators/create/preview', (req, res) => {
 
     if ( req.session.data['comparators'] && req.session.data['comparators'].length >= 30 ) {
         comparators = req.session.data['comparators'];
-        console.log('new');
     } else {
         comparators = generatePupilComparators();
-        console.log('existing');
     }
-
-    console.log(comparators);
 
     comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
     req.session.data['comparators'] = comparators;
@@ -70,7 +66,6 @@ router.get( '/comparators/create/preview', (req, res) => {
         rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
     }
 
-    console.log(rows);
     res.render( '/comparators/create/preview', { rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
 
     // clear confirmation/errors
