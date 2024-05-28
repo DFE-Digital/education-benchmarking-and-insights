@@ -29,12 +29,37 @@
 
     {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
 
-    {{ govukButton({
-        text: "Create comparator set from selected schools",
-        href: 'view?confirmation=comparator-generated'
-      }) }}
+      <p class="govuk-body">All schools listed meet the following characteristics:</p>
+
+        <table class="govuk-table govuk-!-margin-bottom-0">
+          <tbody class="govuk-table__body">
+            <tr class="govuk-table__row">
+              <td scope="row" class="govuk-table__header govuk-!-width-one-third" style="border: none">
+                <ul class="govuk-list govuk-list--bullet">
+                  <li>Type of school</li>
+                  <li>Category of school</li>
+                  <li>Local authority</li>
+                  <li>Part of a private finance initiative</li>
+                </ul>
+              </td>
+              <td class="govuk-table__cell" style="border: none">
+                <ul class="govuk-list">
+                  <li>Academies</li>
+                  <li>Secondary</li>
+                  <li>North Yorkshire Council</li>
+                  <li>Part of PFI</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
 
     <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new list</a></p>
+
+    {{ govukButton({
+      text: "Create comparator set from these schools",
+      href: 'generated'
+    }) }}
 
     {{ govukTable({
       firstCellIsHeader: false,
@@ -44,7 +69,7 @@
           classes: "govuk-!-width-one-third"
         },
         {
-          text: "Characteristics",
+          text: "Individual characteristics",
           colspan: 2
         }
       ],
@@ -53,23 +78,14 @@
     
     {% endif %}
 
+    {{ govukButton({
+      text: "Create comparator set from these schools",
+      href: 'generated'
+    }) }}
+
 
     </div>
 </div>
-
-<form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
-
-  <select style="height:30px;" onchange="window.location.href='?'+this.value">
-
-      <option value="errorThisPage=false&errorNoSchool=false"
-              {% if errorThisPage != 'true' %}selected{% endif %}>Errors - Off</option>
-
-      <option value="errorThisPage=true&errorNoSchool=true"
-              {% if errorNoSchool == 'true' %}selected{% endif %}>Error: No answer entered</option>
-  </select>
-
-</form>
-
 
 
 

@@ -2,41 +2,17 @@
 
 {% extends "layouts/main.html" %}
 
-{% if data['comparators'] %}
-  {% set actionText = 'Your' %}
-{% else %}
-  {% set actionText = 'Create a' %}
-{% endif %}
-
 {% block pageTitle %}
-  {{ actionText }} custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
+  Custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
-
-  {% if confirmation == 'comparator-generated' %}
 
     {{ govukBackLink({
         text: "Back",
         href: "/comparators/create"
     }) }}
 
-    {% else %}
-
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home",
-          href: "/find-school"
-        },
-        {
-          text: "Your school",
-          href: "/school-homepage"
-        }
-      ]
-    }) }}
-
-  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -81,7 +57,6 @@
               items: schoolRows
             }) }}
             
-
             {{ govukButton({
               text: "Select school"
             }) }}
@@ -89,13 +64,13 @@
       </form>
 
 
-    {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
+    {% if data['comparators'] | length %}
 
     <h1 class="govuk-heading-m">Selected schools ({{rows.length}})</h1>
     
     {{ govukButton({
         text: "Create comparator set from selected schools",
-        href: 'view?confirmation=comparator-generated'
+        href: 'generated'
       }) }}
 
     {{ govukTable({
@@ -124,14 +99,7 @@
       "rows": rows
     }) }}
     
-    {% endif %}
-
-    {% if data['comparators'] | length %}
     <p class="govuk-body" style="float: right"><a href="/comparators/reset" class="govuk-link">Remove all your choices</a></p>
-    {% else %}
-
-    <p class="govuk-body">No schools selected</p>
-
     {% endif %}
 
 

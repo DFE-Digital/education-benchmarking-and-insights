@@ -8,15 +8,6 @@
 
 {% block beforeContent %}
 
-  {% if confirmation == 'comparator-generated' %}
-
-    {{ govukBackLink({
-        text: "Back",
-        href: "/comparators/create/by-name"
-    }) }}
-
-    {% else %}
-
     {{ govukBreadcrumbs({
       items: [
         {
@@ -30,7 +21,6 @@
       ]
     }) }}
 
-  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -42,15 +32,6 @@
   <h1 class="govuk-heading-l">
     Comparator set
   </h1>
-
-  {% if confirmation %}
-  
-    {{ govukNotificationBanner({
-      text: 'Comparator set created',
-      type: "success"
-    }) }}
-    
-  {% endif %}
 
   <p><a href="/school-homepage" class="govuk-link">Compare these schools</a></p>
   <p><a href="/comparators/create/by-name" class="govuk-link">Manage your comparator set</a></p>
