@@ -47,6 +47,11 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   secret {
+    name  = "db-connection-string"
+    value = "Driver={ODBC Driver 18 for SQL Server};Server=${data.azurerm_key_vault_secret.core-db-domain-name.value},1433;Database=${data.azurerm_key_vault_secret.core-db-domain-name.value};UID=${data.azurerm_key_vault_secret.core-db-user-name.value};PWD=${data.azurerm_key_vault_secret.core-db-password.value};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30"
+  }
+
+  secret {
     name  = "registry-password"
     value = data.azurerm_container_registry.acr.admin_password
   }
@@ -87,6 +92,11 @@ resource "azurerm_container_app" "data-pipeline" {
       env {
         name        = "STORAGE_CONNECTION_STRING"
         secret_name = "queue-connection-string"
+      }
+
+      env {
+        name        = "DATABASE_CONNECTION_STRING"
+        secret_name = "db-connection-string"
       }
     }
 
