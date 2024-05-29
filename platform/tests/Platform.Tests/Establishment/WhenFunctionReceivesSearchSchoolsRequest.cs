@@ -12,7 +12,7 @@ public class WhenFunctionReceivesSearchSchoolsRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Search
+        SchoolSearch
             .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequestModel>()))
             .ReturnsAsync(new SearchResponseModel<SchoolResponseModel>());
 
@@ -25,7 +25,7 @@ public class WhenFunctionReceivesSearchSchoolsRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Search
+        SchoolSearch
             .Setup(d => d.SearchAsync(It.IsAny<PostSearchRequestModel>()))
             .Throws(new Exception());
 

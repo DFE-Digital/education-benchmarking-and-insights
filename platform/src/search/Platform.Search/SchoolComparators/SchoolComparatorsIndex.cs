@@ -5,8 +5,8 @@ namespace Platform.Search.SchoolComparators;
 
 public class SchoolComparatorsIndex
 {
-    [SimpleField(IsKey = true, IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? UKPRN { get; set; }
+    [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
+    public string? URN { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? Sector { get; set; } // Academy / Maintained

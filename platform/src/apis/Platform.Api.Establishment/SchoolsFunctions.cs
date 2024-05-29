@@ -10,6 +10,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
 using Platform.Api.Establishment.Db;
+using Platform.Api.Establishment.Search;
 using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -22,18 +23,21 @@ public class SchoolsFunctions
 {
     private readonly ILogger<SchoolsFunctions> _logger;
     private readonly ISchoolDb _db;
-    private readonly ISearchService<SchoolResponseModel> _search;
+    private readonly ISearchService<SchoolResponseModel> _schoolSearch;
     private readonly IValidator<PostSuggestRequestModel> _validator;
+    private readonly ISchoolComparatorsService _comparatorSearch;
 
     public SchoolsFunctions(
         ILogger<SchoolsFunctions> logger,
         ISchoolDb db,
-        ISearchService<SchoolResponseModel> search,
+        ISearchService<SchoolResponseModel> schoolSearch,
+        ISchoolComparatorsService comparatorSearch,
         IValidator<PostSuggestRequestModel> validator)
     {
         _logger = logger;
         _db = db;
-        _search = search;
+        _schoolSearch = schoolSearch;
+        _comparatorSearch = comparatorSearch;
         _validator = validator;
     }
 
@@ -124,7 +128,7 @@ public class SchoolsFunctions
             try
             {
                 var body = req.ReadAsJson<PostSearchRequestModel>();
-                var schools = await _search.SearchAsync(body);
+                var schools = await _schoolSearch.SearchAsync(body);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)
@@ -162,12 +166,43 @@ public class SchoolsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
 
-                var schools = await _search.SuggestAsync(body);
+                var schools = await _schoolSearch.SuggestAsync(body);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to get school suggestions");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(SchoolComparatorsAsync))]
+    [ProducesResponseType(typeof(SchoolComparatorResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> SchoolComparatorsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/comparators")]
+        [RequestBodyType(typeof(PostSchoolComparatorsRequestModel), "The comparator characteristics object")]
+        HttpRequest req)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var body = req.ReadAsJson<PostSchoolComparatorsRequestModel>();
+                //TODO : Add request validation
+                var comparators = await _comparatorSearch.ComparatorsAsync(body);
+                return new JsonContentResult(comparators);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to create school comparators");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
