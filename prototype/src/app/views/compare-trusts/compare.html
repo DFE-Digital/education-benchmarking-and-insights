@@ -31,7 +31,19 @@
       <form action="/compare-trusts" method="post">
         <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
         <h1 class="govuk-heading-l">Compare trusts</h1>
-         
+
+        {% set html %}
+        <h3 class="govuk-notification-banner__heading">
+            You've created a set of trusts to compare
+        </h3>
+        {% endset %}
+
+        {{ govukNotificationBanner({
+        html: html,
+        type: "success"
+        }) }}
+
+
         <div class="govuk-width-container">
         
             
@@ -39,12 +51,11 @@
                 <div class="govuk-grid-column-two-thirds">
                     <p class="govuk-body">Compare your spending costs against similar trusts.</p>    
                     <p class="govuk-body">SOMETHING ABOUT DATA SOURCES</p>
-                    <p class="govuk-body"><a href="/compare-trusts/by-name">Review or change the trusts you're compared against</a></p>
+                    <p><a href="/compare-trusts/view" class="govuk-link">View and manage your set of schools</a></p>
                 </div>
             </div>
             
-            
-            
+          
             
             
             <div id="compare-your-costs" data-type="school" data-id="114518">

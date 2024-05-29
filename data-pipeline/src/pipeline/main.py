@@ -153,7 +153,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     links_data = get_blob(
         raw_container,
         f"{set_type}/{year}/gias_all_links.csv",
-        encoding="utf-8"
+        encoding="cp1252"
     )
 
     academies = build_academy_data(
@@ -182,7 +182,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     links_data = get_blob(
         raw_container,
         f"{set_type}/{year}/gias_all_links.csv",
-        encoding="utf-8"
+        encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
@@ -229,11 +229,18 @@ def pre_process_all_schools(set_type, year, data_ref):
     logger.info("Building All schools Set")
     academies, maintained_schools = data_ref
 
-    all_schools = pd.concat([academies, maintained_schools])
+    all_schools = pd.concat([academies, maintained_schools], axis=0)
+
     write_blob(
         "pre-processed",
         f"{set_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/all_schools.csv",
+        all_schools.to_csv(),
     )
 
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
@@ -266,14 +273,7 @@ def pre_process_data(worker_client, set_type, year):
         ]
     )
 
-    data2_ref = worker_client.scatter((academies, maintained_schools))
-
-    worker_client.gather(
-        [
-            worker_client.submit(pre_process_federations, set_type, year, data2_ref),
-            worker_client.submit(pre_process_all_schools, set_type, year, data2_ref),
-        ]
-    )
+    pre_process_all_schools(set_type, year, (academies, maintained_schools))
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
@@ -421,7 +421,7 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
 
         msg_payload["success"] = True
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         msg_payload["success"] = False
         msg_payload["error"] = str(error)
     finally:
@@ -448,7 +448,7 @@ def receive_one_message(worker_client):
                     logger.info("no messages received")
                     exit(0)
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         exit(-1)
 
 
@@ -469,7 +469,7 @@ def receive_messages(worker_client):
                     else:
                         time.sleep(1)
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         exit(-1)
 
 

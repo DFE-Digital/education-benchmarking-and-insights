@@ -43,6 +43,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ISearchService<SchoolResponseModel>, SchoolSearchService>();
         builder.Services.AddSingleton<ISearchService<TrustResponseModel>, TrustSearchService>();
         builder.Services.AddSingleton<ISearchService<LocalAuthorityResponseModel>, LocalAuthoritySearchService>();
+        builder.Services.AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
 
         builder.Services.AddTransient<IValidator<PostSuggestRequestModel>, PostSuggestRequestValidator>();
     }

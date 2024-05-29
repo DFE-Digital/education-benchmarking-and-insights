@@ -48,7 +48,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
   secret {
     name  = "db-connection-string"
-    value = "Driver={ODBC Driver 18 for SQL Server};Server=${data.azurerm_key_vault_secret.core-db-domain-name.value},1433;Database=${data.azurerm_key_vault_secret.core-db-domain-name.value};UID=${data.azurerm_key_vault_secret.core-db-user-name.value};PWD=${data.azurerm_key_vault_secret.core-db-password.value};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30"
+    value = "Driver={ODBC Driver 18 for SQL Server};Server=${data.azurerm_key_vault_secret.core-db-domain-name.value},1433;Database=${data.azurerm_key_vault_secret.core-db-name.value};UID=${data.azurerm_key_vault_secret.core-db-user-name.value};PWD=${data.azurerm_key_vault_secret.core-db-password.value};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30"
   }
 
   secret {
