@@ -49,10 +49,15 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         {
             var text = value.Text?.Replace("*", "");
 
+            var additionalText = "";
+
+            if (!string.IsNullOrWhiteSpace(value.Document?.CompanyNumber))
+                additionalText = text == value.Document.CompanyNumber ? $" ({value.Text})" : $" ({value.Document.CompanyNumber})";
+
             if (text != value.Document?.Name)
-            {
                 value.Text = value.Document?.Name;
-            }
+
+            value.Text = $"{value.Text}{additionalText}";
 
             return value;
         });
