@@ -8,29 +8,11 @@
 
 {% block beforeContent %}
 
-  {% if confirmation == 'trusts-generated' %}
-
     {{ govukBackLink({
         text: "Back",
         href: "/compare-trusts/characteristics"
     }) }}
 
-    {% else %}
-
-    {{ govukBreadcrumbs({
-      items: [
-        {
-          text: "Home",
-          href: "/find-school"
-        },
-        {
-          text: "Your trust",
-          href: "/trust-homepage"
-        }
-      ]
-    }) }}
-
-  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -57,9 +39,9 @@
   {% endif %}
 
   <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
-  <h1 class="govuk-heading-l">Compare against trusts</h1>
+  <h1 class="govuk-heading-l">Choose trusts</h1>
 
-
+<!--
   {% if confirmation %}
 
   {% if confirmation == 'trusts-generated' %}
@@ -88,13 +70,15 @@
       html: html,
       type: "success"
     }) }}
-    
-  {% endif %}
 
-      {% if confirmation != 'trusts-generated' %}
+  {% endif %}
+  -->
+
     
       <form action="/compare-trusts/add-trust" method="post">
-        <h2 class="govuk-heading-m">Trust name</h2>
+        <div id="school-search-hint" class="govuk-hint">
+          Choose by trust name or company number
+        </div>
         <div class="school-search">
 
             {{ xGovukAutocomplete({
@@ -107,29 +91,39 @@
               errorMessage: null if errorThisPage != 'true' else { html: errorText },
               items: trustRows
             }) }}
-            
 
             {{ govukButton({
-              text: "Choose"
+              text: "Choose trust"
             }) }}
         </div>
       </form>
-      {% endif %}
   
       
-    {% if ( data['trusts'] | length or confirmation == 'trust-removed' ) and confirmation != 'trust-reset' %}
+    {% if data['trusts'] | length %}
 
+    <!--
       {% if trustSetType == 'generated' %}
       <p class="govuk-body">These 10 trusts are the closest matches based on the characteristics you selected.<br />
           <a href="/compare-trusts/characteristics">Change characteristics and generate a new set</a>
       </p>
       {% endif %}
+      -->
+
+      <h1 class="govuk-heading-m">Chosen trusts ({{rows.length}})</h1>
+
+      {{ govukButton({
+        text: 'Save your set' if data['editSet'] == 'true' else "Create a set using these trusts",
+        href: '/loading?redirect=/compare-trusts/compare'
+      }) }}
 
       {{ govukTable({
       firstCellIsHeader: false,
       head: [
         {
           text: "Trust"
+        },
+        {
+          text: "School phase"
         },
         {
           text: "Number of pupils"
@@ -139,9 +133,6 @@
         },
         {
           text: "Total income"
-        },
-        {
-          text: "School phase"
         },
         {
           text: ""
@@ -154,16 +145,7 @@
 
     {% if data['trusts'] | length and confirmation != 'trust-reset' %}
 
-    {{ govukButton({
-      href: "/compare-trusts/compare",
-      text: "Compare these trusts"
-    }) }}
-
-    <p class="govuk-body"><a href="/compare-trusts/reset" class="govuk-link">Delete all your choices </a></p>
-    {% else %}
-
-    <p class="govuk-body">No trusts chosen</p>
-
+    <p class="govuk-body" style="float: right"><a href="/compare-trusts/reset" class="govuk-link">Remove all your choices</a></p>
     {% endif %}
 
 

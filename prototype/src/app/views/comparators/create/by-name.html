@@ -75,8 +75,8 @@
     <h1 class="govuk-heading-m">Chosen schools ({{rows.length}})</h1>
     
     {{ govukButton({
-        text: "Create a set using these schools",
-        href: 'generated'
+        text: 'Save your set' if data['editSet'] == 'true' else "Create a set using these schools",
+        href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
       }) }}
 
     {{ govukTable({
