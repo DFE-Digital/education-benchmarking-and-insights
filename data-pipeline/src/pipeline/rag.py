@@ -177,7 +177,7 @@ def compute_rag(data, comparators):
 
     # reduce to only used columns so that extraction routines are more efficient
     cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
-    df = data[data.columns[cols]]
+    df = data[data.columns[cols]].fillna(0.0)
 
     # Pre-computes the column accessors for each cost category
     column_cache = {}
