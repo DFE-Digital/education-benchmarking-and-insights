@@ -3,7 +3,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Set of schools - {{ data['school-name'] }} – {{ serviceName }}
+  Set of trusts - {{ data['trust-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -15,8 +15,8 @@
           href: "/find-school"
         },
         {
-          text: "Your school",
-          href: "/school-homepage"
+          text: "Your trust",
+          href: "/trust-homepage"
         }
       ]
     }) }}
@@ -28,33 +28,32 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
 
-  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
   <h1 class="govuk-heading-l">
-    Set of schools
+    Set of trusts
   </h1>
 
-  <p><a href="/comparators/create/by-name?editSet=true" class="govuk-link">Manage your set of schools</a></p>
+  <p><a href="/compare-trusts/by-name?editSet=true" class="govuk-link">Manage your set of trusts</a></p>
 
-    {% if data['comparators'] | length %}
+    {% if data['trusts'] | length %}
 
     {{ govukTable({
       firstCellIsHeader: false,
       head: [
         {
-          text: "School",
-          classes: "govuk-!-width-one-third"
+            text: "Trust"
         },
         {
-          text: "Type"
+            text: "School phase"
         },
         {
-          text: "Number of pupils"
+            text: "Number of pupils"
         },
         {
-          text: "Pupils with special educational needs"
+            text: "Number of schools"
         },
         {
-          text: "Pupils eligible for free school meals"
+            text: "Total income"
         }
       ],
       "rows": rows
