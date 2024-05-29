@@ -6,13 +6,36 @@ using Azure.Search.Documents.Models;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public abstract class SearchService
+public abstract class SearchService(Uri searchEndpoint, string indexName, AzureKeyCredential credential)
 {
-    private readonly SearchClient _client;
+    private readonly SearchClient _client = new(searchEndpoint, indexName, credential);
 
-    protected SearchService(Uri searchEndpoint, string indexName, AzureKeyCredential credential)
+    protected async Task<IEnumerable<ScoreResponseModel<T>>> SearchAsync<T>(string? search, string? filters, int? size = null)
     {
-        _client = new SearchClient(searchEndpoint, indexName, credential);
+        var options = new SearchOptions
+        {
+            Size = size,
+            IncludeTotalCount = true,
+            Filter = filters,
+            QueryType = SearchQueryType.Full
+        };
+
+        var searchResponse = await _client.SearchAsync<T>(search, options);
+        var searchResults = searchResponse.Value;
+        return searchResults
+            .GetResults()
+            .Select(result => new ScoreResponseModel<T>
+            {
+                Score = result.Score,
+                Document = result.Document
+            });
+    }
+
+    protected async Task<T> LookUpAsync<T>(string? key)
+    {
+
+        var response = await _client.GetDocumentAsync<T>(key);
+        return response.Value;
     }
 
     protected async Task<SearchResponseModel<T>> SearchAsync<T>(PostSearchRequestModel request, Func<FilterCriteriaRequestModel[], string?>? filterExpBuilder = null, string[]? facets = null)
