@@ -226,4 +226,4 @@ def compute_rag(data, comparators):
                     logger.exception(
                         f"An exception {type(error).__name__} occurred processing {urn}:", exc_info=error
                     )
-                    return
+                    continue
