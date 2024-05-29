@@ -45,7 +45,7 @@ public static class Lookups
             "Amber", (TagColour.Yellow, "Medium priority", "medium")
         },
         {
-            "Green", (TagColour.Grey, "Low priority", "low")
+            "Green", (TagColour.Green, "Low priority", "low")
         }
     };
 
