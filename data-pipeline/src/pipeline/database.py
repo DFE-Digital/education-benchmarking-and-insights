@@ -15,8 +15,7 @@ logger = logging.getLogger("fbit-data-pipeline:db")
 logger.setLevel(logging.INFO)
 
 conn_str = os.getenv("DATABASE_CONNECTION_STRING")
-quoted = quote_plus(conn_str)
-engine = create_engine("mssql+pyodbc:///?odbc_connect={}".format(quoted))
+engine = create_engine("mssql+pyodbc:///?odbc_connect={}".format(conn_str))
 
 
 @event.listens_for(engine, "before_cursor_execute")
