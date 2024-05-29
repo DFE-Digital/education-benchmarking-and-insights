@@ -122,7 +122,7 @@ def ks4_data() -> pd.DataFrame:
         "URN": [100150, 100152, 100153],
         "ATT8SCR": ["0.1", "SUPP", "NE"],
         "P8MEA": ["0.1", "SUPP", "NE"],
-        "P8_BANDING": ["0.1", "SUPP", "NE"],
+        "P8_BANDING": ["Average", "Average", "Average"],
     })
 
 
@@ -210,7 +210,8 @@ def aar_data() -> pd.DataFrame:
         "Total Expenditure": [1000, 1001, 1002],
         "Share of Revenue Reserve, distributed on per pupil basis\n": [1000, 1001, 1002],
         "London Weighting": ["Neither", "Outer", "Inner"],
-        "Date joined or opened if in period": [None, "01/05/2023", None]
+        "Date joined or opened if in period": [None, "01/05/2023", None],
+        "Date left or closed if in period": [None, "01/05/2023", None]
     })
 
 

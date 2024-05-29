@@ -108,7 +108,7 @@ def test_category_stats(value, data, diff_mean, percent_diff, percentile, decile
     }
 
     expected = {
-        "UKPRN": "10000101",
+        "URN": "10000101",
         "Category": "Teaching and Teaching support staff",
         "SubCategory": "Sub Cat",
         "Value": value,
