@@ -9,7 +9,6 @@ using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Establishment.Search;
 
-
 [ExcludeFromCodeCoverage]
 public class SchoolSearchService : SearchService, ISearchService<SchoolResponseModel>
 {
@@ -22,7 +21,7 @@ public class SchoolSearchService : SearchService, ISearchService<SchoolResponseM
 
     public Task<SearchResponseModel<SchoolResponseModel>> SearchAsync(PostSearchRequestModel request)
     {
-        return SearchAsync<SchoolResponseModel>(request, CreateFilterExpression, Facets);
+        return SearchAsync<SchoolResponseModel>(request, FilterExpression, Facets);
     }
 
     public Task<SuggestResponseModel<SchoolResponseModel>> SuggestAsync(PostSuggestRequestModel request)
@@ -38,7 +37,7 @@ public class SchoolSearchService : SearchService, ISearchService<SchoolResponseM
         return SuggestAsync<SchoolResponseModel>(request, selectFields: fields);
     }
 
-    private static string? CreateFilterExpression(FilterCriteriaRequestModel[] filters)
+    private static string? FilterExpression(FilterCriteriaRequestModel[] filters)
     {
         if (filters is not { Length: > 0 })
         {
