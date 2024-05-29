@@ -12,6 +12,8 @@ from dask.distributed import Client
 
 load_dotenv()
 
+from src.pipeline.log import setup_logger
+
 from src.pipeline.database import (
     insert_comparator_set,
     insert_metric_rag,
@@ -47,13 +49,10 @@ from src.pipeline.storage import (
     write_blob,
 )
 
-logger = logging.getLogger("fbit-data-pipeline")
-logger.setLevel(logging.INFO)
+logger = setup_logger("fbit-data-pipeline")
 
 ds_logger = logging.getLogger("distributed.utils_perf")
 ds_logger.setLevel(logging.ERROR)
-
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def pre_process_cdc(set_type: str, year: int) -> pd.DataFrame:
@@ -237,12 +236,6 @@ def pre_process_all_schools(set_type, year, data_ref):
         all_schools.to_parquet(),
     )
 
-    write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/all_schools.csv",
-        all_schools.to_csv(),
-    )
-
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
 
 
@@ -355,7 +348,7 @@ def compute_comparator_sets(set_type, year):
 def compute_rag_for(data_type, set_type, year, data, comparators):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
-    df = pd.DataFrame(compute_rag(data, comparators))
+    df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
 
     logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")
 

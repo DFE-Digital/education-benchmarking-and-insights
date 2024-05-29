@@ -2,8 +2,7 @@ import numpy as np
 import pandas as pd
 import logging
 
-logger = logging.getLogger("fbit-data-pipeline:comparator-set")
-logger.setLevel(logging.INFO)
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 # TODO: This should be moved to pre-processing really
@@ -238,7 +237,7 @@ def compute_distances(orig_data, grouped_data):
     for phase, row in grouped_data.iterrows():
         pupil_distance = compute_pupils_comparator((phase, row))
         building_distance = compute_buildings_comparator((phase, row))
-        all_urns = np.array(row["UKPRN"])
+        all_urns = np.array(row["URN"])
         all_regions = np.array(row["GOR (name)"])
 
         for idx in range(len(all_urns)):
@@ -252,12 +251,7 @@ def compute_distances(orig_data, grouped_data):
                 pupils.loc[ukprn] = pupil_set
                 buildings.loc[ukprn] = building_set
             except Exception as error:
-                logger.exception(
-                    f"An exception occurred processing {ukprn}:",
-                    type(error).__name__,
-                    "–",
-                    error,
-                )
+                logger.exception(f"An exception occurred {type(error).__name__} processing {ukprn}:", exc_info=error)
                 return
 
     orig_data["Pupil"] = pupils

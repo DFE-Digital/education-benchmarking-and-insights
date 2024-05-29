@@ -1,21 +1,35 @@
 import json
-from urllib.parse import quote_plus
-import pyodbc
 import os
 import logging
 import pandas as pd
 import sqlalchemy
-from sqlalchemy import create_engine, event
+from sqlalchemy import create_engine, event, URL
 from src.pipeline.storage import (write_blob)
 
 azure_logger = logging.getLogger("azure")
 azure_logger.setLevel(logging.WARNING)
 
-logger = logging.getLogger("fbit-data-pipeline:db")
-logger.setLevel(logging.INFO)
+logger = logging.getLogger("fbit-data-pipeline")
 
-conn_str = os.getenv("DATABASE_CONNECTION_STRING")
-engine = create_engine("mssql+pyodbc:///?odbc_connect={}".format(conn_str))
+db_args = os.getenv("DB_ARGS")
+
+args = []
+for sub in db_args.split(';'):
+    if '=' in sub:
+        args.append(map(str.strip, sub.split('=', 1)))
+args = dict(args)
+
+connection_url = URL.create(
+    "mssql+pyodbc",
+    username=os.getenv("DB_USER"),
+    password=os.getenv("DB_PWD"),
+    host=os.getenv("DB_HOST"),
+    database=os.getenv("DB_NAME"),
+    port=os.getenv("DB_PORT"),
+    query={"driver": "ODBC Driver 18 for SQL Server"} | args
+)
+
+engine = create_engine(connection_url)
 
 
 @event.listens_for(engine, "before_cursor_execute")
@@ -27,6 +41,8 @@ def receive_before_cursor_execute(
 
 
 def upsert(df, table_name, keys: list[str]):
+    logger.info(f"Connecting to database {engine.url}")
+
     update_cols = []
     insert_cols = [*keys]
     insert_vals = [f'src.{key_name}' for key_name in keys]
@@ -56,31 +72,30 @@ def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFr
         lambda x: json.dumps(x.tolist())
     )
 
-    upsert(write_frame, "ComparatorSet", keys=["RunType", "RunId", "UKPRN", "SetType"])
+    upsert(write_frame, "ComparatorSet", keys=["RunType", "RunId", "URN", "SetType"])
     logger.info(
-        f"Wrote {len(df)} rows to comparator set {run_type} - {set_type} - {year}"
+        f"Wrote {len(write_frame)} rows to comparator set {run_type} - {set_type} - {year}"
     )
 
 
 def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
     write_frame = df[
-        ["Value", "Mean", "DiffMean", "PercentDiff", "Percentile", "Decile", "RAG"]
+        ["Category", "SubCategory", "Value", "Mean", "DiffMean", "PercentDiff", "Percentile", "Decile", "RAG"]
     ].copy()
     write_frame["RunType"] = run_type
     write_frame["RunId"] = year
 
-    upsert(write_frame, "MetricRAG", keys=["RunType", "RunId", "UKPRN", "Category", "SubCategory"])
-    logger.info(f"Wrote {len(df)} rows to metric rag {run_type} - {year}")
+    upsert(write_frame, "MetricRAG", keys=["RunType", "RunId", "URN", "Category", "SubCategory"])
+    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {year}")
 
 
 def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
     projections = {
-        "UKPRN": "UKPRN",
         "URN": "URN",
         "EstablishmentName": "SchoolName",
-        "Trust UKPRN": "TrustUKPRN",
+        "Company Registration Number": "TrustCompanyNumber",
         "Trust Name": "TrustName",
-        "Federation Lead School UKPRN": "FederationLeadUKPRN",
+        "Federation Lead School URN": "FederationLeadURN",
         "Federation Name": "FederationLeadName",
         "LA Code": "LACode",
         "LA Name": "LAName",
@@ -100,19 +115,12 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "HeadEmail": "HeadTeacherEmail",
     }
 
-    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]].dropna()
+    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
-    write_blob(
-        "pre-processed",
-        f"default/2022/school_db_write.csv",
-        write_frame.to_csv(),
-    )
-
-    upsert(write_frame, "School", keys=["UKPRN"])
-    logger.info(f"Wrote {len(df)} rows to school {run_type} - {year}")
+    upsert(write_frame, "School", keys=["URN"])
+    logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
 
     trust_projections = {
-        "Trust UKPRN": "UKPRN",
         "Trust Name": "TrustName",
         "Group UID": "UID",
         "CFO Name": "CFOName",
@@ -132,8 +140,8 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         .drop(columns=["Trust UKPRN"])
     )
 
-    upsert(trusts, "Trust", keys=["UKPRN"])
-    logger.info(f"Wrote {len(df)} rows to trust {run_type} - {year}")
+    upsert(trusts, "Trust", keys=["CompanyNumber"])
+    logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {year}")
 
     la_projections = {
         "LA Code": "Code",
@@ -147,3 +155,4 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
     las.set_index("Code", inplace=True)
 
     upsert(las, "LocalAuthority", keys=["Code"])
+    logger.info(f"Wrote {len(las)} rows to LAs {run_type} - {year}")

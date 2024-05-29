@@ -47,8 +47,8 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   secret {
-    name  = "db-connection-string"
-    value = "Driver={ODBC Driver 18 for SQL Server};Server=${data.azurerm_key_vault_secret.core-db-domain-name.value},1433;Database=${data.azurerm_key_vault_secret.core-db-name.value};UID=${data.azurerm_key_vault_secret.core-db-user-name.value};PWD=${data.azurerm_key_vault_secret.core-db-password.value};Encrypt=yes;TrustServerCertificate=no;Connection Timeout=30"
+    name  = "db-password"
+    value = data.azurerm_key_vault_secret.core-db-password.value
   }
 
   secret {
@@ -73,7 +73,6 @@ resource "azurerm_container_app" "data-pipeline" {
       cpu    = 4
       memory = "16Gi"
 
-      ##TODO: Review if this is the best way to build this env
       env {
         name  = "WORKER_QUEUE_NAME"
         value = "data-pipeline-job-start"
@@ -95,8 +94,33 @@ resource "azurerm_container_app" "data-pipeline" {
       }
 
       env {
-        name        = "DATABASE_CONNECTION_STRING"
-        secret_name = "db-connection-string"
+        name        = "DB_PWD"
+        secret_name = "db-password"
+      }
+
+      env {
+        name  = "DB_HOST"
+        value = data.azurerm_key_vault_secret.core-db-domain-name.value
+      }
+
+      env {
+        name  = "DB_NAME"
+        value = data.azurerm_key_vault_secret.core-db-name.value
+      }
+
+      env {
+        name  = "DB_PORT"
+        value = "1433"
+      }
+
+      env {
+        name  = "DB_USER"
+        value = data.azurerm_key_vault_secret.core-db-user-name.value
+      }
+
+      env {
+        name  = "DB_ARGS"
+        value = "Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
       }
     }
 
