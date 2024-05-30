@@ -2,11 +2,11 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using Dapper.Contrib.Extensions;
 
-namespace Platform.Api.Benchmark.Db;
+namespace Platform.Api.Benchmark.FinancialPlans;
 
 [ExcludeFromCodeCoverage]
 [Table("FinancialPlan")]
-public record FinancialPlanDataObject
+public record FinancialPlan
 {
     [ExplicitKey] public int Year { get; set; }
     [ExplicitKey] public string? Urn { get; set; }

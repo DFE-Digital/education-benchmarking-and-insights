@@ -8,28 +8,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Benchmark.Db;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
-namespace Platform.Api.Benchmark;
+namespace Platform.Api.Benchmark.FinancialPlans;
 
 [ApiExplorerSettings(GroupName = "Financial Plan")]
 public class FinancialPlanFunctions
 {
     private readonly ILogger<FinancialPlanFunctions> _logger;
-    private readonly IFinancialPlanDb _db;
+    private readonly IFinancialPlanService _service;
 
-    public FinancialPlanFunctions(ILogger<FinancialPlanFunctions> logger, IFinancialPlanDb db)
+    public FinancialPlanFunctions(ILogger<FinancialPlanFunctions> logger, IFinancialPlanService service)
     {
         _logger = logger;
-        _db = db;
+        _service = service;
     }
 
 
     [FunctionName(nameof(SingleFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(FinancialPlanDetails), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleFinancialPlanAsync(
@@ -43,12 +41,14 @@ public class FinancialPlanFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Year", year }
                }))
         {
             try
             {
-                var plan = await _db.SingleFinancialPlanInput(urn, year);
+                var plan = await _service.DetailsAsync(urn, year);
                 return plan != null
                     ? new JsonContentResult(plan)
                     : new NotFoundResult();
@@ -62,7 +62,7 @@ public class FinancialPlanFunctions
     }
 
     [FunctionName(nameof(QueryFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(FinancialPlanSummary), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> QueryFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}")]
@@ -74,12 +74,13 @@ public class FinancialPlanFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "URN", urn }
                }))
         {
             try
             {
-                var plans = await _db.QueryFinancialPlan(urn);
+                var plans = await _service.QueryAsync(urn);
                 return new JsonContentResult(plans);
             }
             catch (Exception e)
@@ -91,13 +92,13 @@ public class FinancialPlanFunctions
     }
 
     [FunctionName(nameof(UpsertFinancialPlanAsync))]
-    [ProducesResponseType(typeof(FinancialPlanInputResponseModel), (int)HttpStatusCode.Created)]
+    [ProducesResponseType(typeof(FinancialPlanDetails), (int)HttpStatusCode.Created)]
     [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.Conflict)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UpsertFinancialPlanAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "financial-plan/{urn}/{year}")]
-        [RequestBodyType(typeof(FinancialPlanInputRequestModel), "The financial plan object")]
+        [RequestBodyType(typeof(FinancialPlanDetails), "The financial plan object")]
         HttpRequest req,
         string urn,
         int year)
@@ -107,15 +108,17 @@ public class FinancialPlanFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Year", year }
                }))
         {
             try
             {
-                var body = req.ReadAsJson<FinancialPlanInputRequestModel>();
+                var body = req.ReadAsJson<FinancialPlanDetails>();
 
                 //TODO : Consider adding request validator
-                var result = await _db.UpsertFinancialPlan(urn, year, body);
+                var result = await _service.UpsertAsync(urn, year, body);
 
                 return result.CreateResponse();
             }
@@ -141,12 +144,14 @@ public class FinancialPlanFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Year", year }
                }))
         {
             try
             {
-                await _db.DeleteFinancialPlan(urn, year);
+                await _service.DeleteAsync(urn, year);
                 return new OkResult();
             }
             catch (Exception e)

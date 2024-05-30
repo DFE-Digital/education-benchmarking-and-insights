@@ -68,7 +68,7 @@ public class CensusProxyController(
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {
         var result = await comparatorSetService.ReadComparatorSet(id);
-        return result.DefaultPupil;
+        return result.Pupil;
     }
 
     private async Task<IEnumerable<string>> GetTrustSet(string id, string? phase)

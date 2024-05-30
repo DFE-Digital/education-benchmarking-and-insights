@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Platform.Domain;
+namespace Platform.Api.Benchmark.FinancialPlans;
 
 [ExcludeFromCodeCoverage]
-public record FinancialPlanResponseModel
+public record FinancialPlanSummary
 {
     public int Year { get; set; }
     public string? Urn { get; set; }

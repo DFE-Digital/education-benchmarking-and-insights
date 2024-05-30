@@ -213,8 +213,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
             .ReturnsAsync(ApiResult.Ok(new ComparatorSet
             {
-                DefaultArea = schools.Select(x => x.URN ?? "Missing urn"),
-                DefaultPupil = schools.Select(x => x.URN ?? "Missing urn")
+                Building = schools.Select(x => x.URN ?? "Missing urn"),
+                Pupil = schools.Select(x => x.URN ?? "Missing urn")
             }));
 
         BenchmarkApi

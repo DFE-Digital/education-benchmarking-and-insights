@@ -1,14 +1,14 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
-namespace Platform.Domain;
+namespace Platform.Api.Benchmark.FinancialPlans;
 
 [ExcludeFromCodeCoverage]
-public record FinancialPlanInputResponseModel
+public record FinancialPlanDetails
 {
     public int Year { get; set; }
     public string? Urn { get; set; }
+    public string? UpdatedBy { get; set; }
     public bool IsComplete { get; set; }
     public decimal TargetContactRatio { get; set; }
     public int? TotalIncome { get; set; }
@@ -81,7 +81,7 @@ public record FinancialPlanInputResponseModel
     public decimal? AssistantsYear4 { get; set; }
     public decimal? AssistantsYear5 { get; set; }
     public decimal? AssistantsYear6 { get; set; }
-    public TeachingPeriodResponseModel[]? OtherTeachingPeriods { get; set; }
+    public TeachingPeriod[]? OtherTeachingPeriods { get; set; }
     public bool ManagementRoleHeadteacher { get; set; }
     public bool ManagementRoleDeputyHeadteacher { get; set; }
     public bool ManagementRoleNumeracyLead { get; set; }
@@ -118,4 +118,11 @@ public record FinancialPlanInputResponseModel
     public int?[] TeachingPeriodsHeadLargeCurriculum { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsPastoralLeader { get; set; } = Array.Empty<int?>();
     public int?[] TeachingPeriodsOtherMembers { get; set; } = Array.Empty<int?>();
+}
+
+[ExcludeFromCodeCoverage]
+public record TeachingPeriod
+{
+    public string? PeriodName { get; set; }
+    public string? PeriodsPerTimetable { get; set; }
 }

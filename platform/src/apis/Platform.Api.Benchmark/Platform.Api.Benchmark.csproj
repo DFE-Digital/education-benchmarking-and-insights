@@ -31,4 +31,7 @@
         <ProjectReference Include="..\..\abstractions\Platform.Functions\Platform.Functions.csproj" />
         <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Db\" />
+    </ItemGroup>
 </Project>
