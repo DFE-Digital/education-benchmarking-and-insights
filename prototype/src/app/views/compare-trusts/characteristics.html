@@ -17,13 +17,13 @@
 
 {% block content %}
 
+<span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+<h1 class="govuk-heading-l">Choose characteristics to find matching trusts</h1>
+
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-        <form action="/compare-trusts/by-name" method="post">
-            <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
-            <h1 class="govuk-heading-l">Choose comparison characteristics</h1>
-
+            <!--
             <div class="sticky-div matching-schools">
                 <div class="govuk-grid-row">
                     <div class="govuk-grid-column-three-quarters">
@@ -33,19 +33,20 @@
                     </div>
                 </div>
             </div>
+            -->
 
             <div class="govuk-form-group">
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-MinNoPupil" type="checkbox" aria-controls="rc_NoPupil" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 1,156 pupils</span></label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinNoPupil">Number of pupils <span class="govuk-visually-hidden">{{ data['trust-name'] }} has 14,156 pupils</span></label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="rc_NoPupil">
                     <div class="govuk-form-group">
                     <fieldset class="govuk-fieldset">
                     <div class="govuk-hint">
                             <span>{{ data['trust-name'] }} has </span>
-                                <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1,156 pupils</span>
+                                <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">14,156 pupils</span>
                     </div>
 
                     <span class="govuk-error-message"></span>
@@ -156,10 +157,10 @@
                     </div>
                     <div class="govuk-grid-column-one-third">
                         <label class="govuk-label" for="MaxSize">To</label>
-                        <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" min="0" max="100" >
-                    </div>
-                    <div class="govuk-grid-column-one-third" style="margin-top: 37px; margin-bottom: 0s;">
-                        <p class="govuk-body">square metres</p>
+                        <div style="width: 300px">
+                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxSize" id="MaxSize" class="govuk-input form-control criteria-input max-js" style="display: inline-block; width: 160px" min="0" max="100" >
+                            <p class="govuk-body" style="display: inline-block; margin-left: 10px">square metres</p>
+                        </div>
                     </div>
                     </fieldset>
                     </div>
@@ -407,68 +408,39 @@
                     
     
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
-                    <div class="govuk-checkboxes__item question">
-                    <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc1" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) <span class="govuk-visually-hidden">The value for {{ data['trust-name'] }} is 8</span></label>
-                    </div>
-                    <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
-                    <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset">
-                        <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
-                    <div class="govuk-hint">
-                                <span><span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils at {{ data['trust-name'] }} schools have SEN needs but no statement or EHC.</span>
-    
-                    </div>
-    
-    
-                    <span class="govuk-error-message"></span>
-    
-                    <div class="govuk-grid-column-one-quarter">
-                        <label class="govuk-label" for="MinPerSENReg">From</label>
-                        <div class="govuk-input__wrapper">
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSENReg" id="MinPerSENReg" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
-                            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+                        <div class="govuk-checkboxes__item question">
+                        <input class="govuk-checkboxes__input" id="checkbox-MinPerSENReg" type="checkbox" aria-controls="pc1" aria-expanded="false">
+                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinPerSENReg">Pupils with special educational needs (SEN) <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8</span></label>
                         </div>
-                    </div>
-                    <div class="govuk-grid-column-one-quarter">
-                        <label class="govuk-label" for="MaxPerSENReg">To</label>
-                        <div class="govuk-input__wrapper">
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSENReg" id="MaxPerSENReg" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
-                            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+                        <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
+                        <div class="govuk-form-group">
+                        <fieldset class="govuk-fieldset">
+                        <div class="govuk-hint">
+                                    <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils with special educational needs</span>
+                    
                         </div>
-                   </div>
-                    </fieldset>
-                    </div>
-                    <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset">
-                        <p class="govuk-body">With statements or education and health care (EHC) plans</p>
-                    <div class="govuk-hint">
-                        <span><span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.1%</span> of pupils at {{ data['trust-name'] }} schools have SEN needs and a statement or EHC.</span>
-    
-                    </div>
-    
-    
-                    <span class="govuk-error-message"></span>
-    
-                    <div class="govuk-grid-column-one-quarter">
-                        <label class="govuk-label" for="MinPerSEN">From</label>
-                        <div class="govuk-input__wrapper">
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
-                            <div class="govuk-input__suffix" aria-hidden="true">%</div>
+                    
+                    
+                        <span class="govuk-error-message"></span>
+                    
+                        <div class="govuk-grid-column-one-quarter">
+                            <label class="govuk-label" for="MinPerSENReg">From</label>
+                            <div class="govuk-input__wrapper">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSENReg" id="MinPerSENReg" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+                                <div class="govuk-input__suffix" aria-hidden="true">%</div>
+                            </div>
+                        </div>
+                        <div class="govuk-grid-column-one-quarter">
+                            <label class="govuk-label" for="MaxPerSENReg">To</label>
+                            <div class="govuk-input__wrapper">
+                                <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSENReg" id="MaxPerSENReg" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with special educational needs (SEN) who don't have statements or education and health care (EHC) plans">
+                                <div class="govuk-input__suffix" aria-hidden="true">%</div>
+                            </div>
                        </div>
-                    </div>
-                    <div class="govuk-grid-column-one-quarter">
-                        <label class="govuk-label" for="MaxPerSEN">To</label>
-                        <div class="govuk-input__wrapper">
-                            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
-                            <div class="govuk-input__suffix" aria-hidden="true">%</div>
-                       </div>
-                    </div>
-                    </fieldset>
-                    </div>
-                    </div>
-                    </div>
-    
+                        </fieldset>
+                        </div>
+                        </div>
+                        </div>
     
     
     
@@ -504,11 +476,11 @@
         </div>
 
             {{ govukButton({
-            text: "Find similar trusts",
+            text: "Continue",
+            href: '/compare-trusts/preview',
             classes: "govuk-button--primary"
             }) }}
-        </form>
-
+<!--
         <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
         <script>
             intMatches = 2619;
@@ -539,7 +511,7 @@
             }
 
         </script>
-      
+-->
     </div>
 </div>
 {% endblock %}

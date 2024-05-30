@@ -182,7 +182,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 </div>
                 <div class="govuk-grid-column-one-quarter">
                     <label class="govuk-label" for="MaxNoPupil">To</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-6" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-5" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
                 </div>
                 </fieldset>
                 </div>
@@ -332,9 +332,8 @@ Choose characteristics to find matching schools – {{ serviceName }}
     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
     <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-        <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
     <div class="govuk-hint">
-                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils without EHC plans</span>
+                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils with special educational needs</span>
 
     </div>
 
@@ -355,33 +354,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
             <div class="govuk-input__suffix" aria-hidden="true">%</div>
         </div>
    </div>
-    </fieldset>
-    </div>
-    <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-        <p class="govuk-body">With statements or education and health care (EHC) plans</p>
-    <div class="govuk-hint">
-                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils with EHC plans</span>
-
-    </div>
-
-
-    <span class="govuk-error-message"></span>
-
-    <div class="govuk-grid-column-one-quarter">
-        <label class="govuk-label" for="MinPerSEN">From</label>
-        <div class="govuk-input__wrapper">
-            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
-            <div class="govuk-input__suffix" aria-hidden="true">%</div>
-       </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <label class="govuk-label" for="MaxPerSEN">To</label>
-        <div class="govuk-input__wrapper">
-            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
-            <div class="govuk-input__suffix" aria-hidden="true">%</div>
-       </div>
-    </div>
     </fieldset>
     </div>
     </div>

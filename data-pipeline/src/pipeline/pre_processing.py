@@ -5,14 +5,14 @@ import src.pipeline.mappings as mappings
 import src.pipeline.config as config
 import pandas as pd
 import logging
+import numpy as np
 
 from warnings import simplefilter
 
 simplefilter(action="ignore", category=pd.errors.PerformanceWarning)
+simplefilter(action="ignore", category=FutureWarning)
 
-
-logger = logging.getLogger("fbit-data-pipeline:pre-processing")
-logger.setLevel(logging.INFO)
+logger = logging.getLogger("fbit-data-pipeline")
 
 
 def prepare_cdc_data(cdc_file_path, current_year):
@@ -411,6 +411,7 @@ def build_cost_series(category_name, df, basis):
 
     for sub_category in sub_categories:
         df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
+        df[sub_category + "_Per Unit"].replace([np.inf, -np.inf, np.nan], 0, inplace=True)
 
     return df
 
@@ -518,7 +519,7 @@ def build_academy_data(
             category, academies, config.rag_category_settings[category]["type"]
         )
 
-    return academies.set_index("UKPRN")
+    return academies.set_index("URN")
 
 
 def build_maintained_school_data(
@@ -565,6 +566,7 @@ def build_maintained_school_data(
         ),
         axis=1,
     )
+
     maintained_schools["School Balance"] = (
         maintained_schools["Total Income   I01 to I18"]
         - maintained_schools["Total Expenditure  E01 to E32"]
@@ -615,16 +617,16 @@ def build_maintained_school_data(
 
     # Applying federation mappings
     list_of_laestabs = maintained_schools["LAEstab"][maintained_schools["Lead school in federation"] != "0"]
-    list_of_ukprns = maintained_schools.index[maintained_schools["Lead school in federation"] != "0"]
-    lae_ukprn = dict(zip(list_of_laestabs, list_of_ukprns))
+    list_of_urns = maintained_schools.index[maintained_schools["Lead school in federation"] != "0"]
+    lae_ukprn = dict(zip(list_of_laestabs, list_of_urns))
 
-    maintained_schools["Federation Lead School UKPRN"] = maintained_schools["Lead school in federation"].map(lae_ukprn)
+    maintained_schools["Federation Lead School URN"] = maintained_schools["Lead school in federation"].map(lae_ukprn)
     maintained_schools = pd.merge(maintained_schools, hard_federations[['FederationName']], how='left', left_index=True,
                                   right_index=True)
     maintained_schools.rename(columns={"FederationName": "Federation Name"}, inplace=True)
     maintained_schools = maintained_schools[~maintained_schools.index.duplicated()]
 
-    return maintained_schools.set_index("UKPRN")
+    return maintained_schools.set_index("URN")
 
 
 def build_federations_data(links_data_path, maintained_schools):

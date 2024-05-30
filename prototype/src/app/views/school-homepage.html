@@ -29,7 +29,22 @@
 <h2 class="govuk-heading-m">Part of <a href="/trust-homepage">{{ data['trust-name'] }}</a></h2>
 {% endif %}
 
-{% if confirmation == 'comparator-reset' %}
+
+{% if data['confirmation'] == 'comparator-generated' %}
+
+{% set html %}
+<h3 class="govuk-notification-banner__heading">
+  You are now benchmarking against your own set of schools
+</h3>
+<p><a href="/comparators/create/view" class="govuk-link">View and manage your set of schools</a></p>
+{% endset %}
+
+  {{ govukNotificationBanner({
+    html: html,
+    type: "success"
+  }) }}
+  
+{% elseif confirmation == 'comparator-reset' %}
 
 {{ govukNotificationBanner({
   html: '<strong>You have now removed all the similar schools you chose.</strong><p class="govuk-body">The list has reverted to the similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose some new similar schools</a></p>',
