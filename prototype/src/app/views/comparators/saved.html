@@ -3,7 +3,7 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-    Compare trusts - {{ data['trust-name'] }} – {{ serviceName }}
+  Create a custom comparator set - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
@@ -14,8 +14,8 @@
         href: "/find-school"
       },
       {
-        text: "Your trust",
-        href: "/trust-homepage"
+        text: "Your school",
+        href: "/school-homepage"
       }
     ]
   }) }}
@@ -28,8 +28,8 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
 
-      <form action="/compare-trusts" method="post">
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+      <form action="/comparators/create" method="post">
+        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <!---<h1 class="govuk-heading-l">How do you want to choose similar schools?</h1>
 
         {{ govukInsetText({
@@ -38,10 +38,10 @@
         
 
         {{ govukRadios({
-          name: "compareRouteTrusts",
+          name: "compareRoute",
           fieldset: {
             legend: {
-              text: "How do you want to choose similar trusts?",
+              text: "How do you want to choose your set of schools?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
@@ -50,13 +50,13 @@
             {
               value: "by-name?editSet=false",
               text: "By name",
-              checked: checked("compareRouteTrusts", "by-name?editSet=false")
+              checked: checked("compareRoute", "by-name?editSet=false")
             },
             {
               value: "characteristics",
               text: "By characteristic",
-              checked: checked("compareRouteTrusts", "characteristics"),
-              hint: { text: "For example, number of pupils or schools." }
+              checked: checked("compareRoute", "characteristics"),
+              hint: { text: "For example, number of pupils or building size." }
             }
           ]
         }) }}
