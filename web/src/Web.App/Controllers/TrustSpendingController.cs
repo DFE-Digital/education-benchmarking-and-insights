@@ -41,7 +41,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                 var schoolsQuery = new ApiQuery();
                 foreach (var school in schools)
                 {
-                    schoolsQuery.AddIfNotNull("urns", school.Urn);
+                    schoolsQuery.AddIfNotNull("urns", school.URN);
                 }
 
                 if (costCategoryIds != null)

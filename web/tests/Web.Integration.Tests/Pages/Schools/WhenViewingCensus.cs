@@ -33,7 +33,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
     }
 
     [Theory]
@@ -49,7 +49,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 
     [Theory]
@@ -64,7 +64,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCustomData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCustomData(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -92,13 +92,13 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
         var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.Name)
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.SchoolName, school.SchoolName)
+            .With(x => x.Urn, school.URN)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
@@ -106,7 +106,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools)
-            .Navigate(Paths.SchoolCensus(school.Urn));
+            .Navigate(Paths.SchoolCensus(school.URN));
 
         return (page, school);
     }
@@ -116,11 +116,11 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
+            ("Benchmark census data", Paths.SchoolCensus(school.URN).ToAbsolute())
         };
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark census data");
@@ -135,7 +135,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         Assert.Equal(2, toolsLinks.Count);
 
         DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
-            Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
+            Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 }

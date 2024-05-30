@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain;
+using Platform.Api.Establishment.Schools;
 using Platform.Functions;
 using Xunit;
 
@@ -11,9 +11,9 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new SchoolResponseModel());
+        SchoolService
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(new School());
 
         var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -25,9 +25,9 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn404OnInvalidRequest()
     {
 
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((SchoolResponseModel?)null);
+        SchoolService
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync((School?)null);
 
         var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as NotFoundResult;
 
@@ -38,8 +38,8 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
+        SchoolService
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SingleSchoolAsync(CreateRequest(), "1") as StatusCodeResult;

@@ -45,7 +45,7 @@ const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
       return;
     }
 
-    setInputValue(value.document.name);
+    setInputValue(value.document.trustName);
     setSelectedCompanyNumber(value.document.companyNumber);
   };
 
@@ -61,7 +61,7 @@ const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
         suggestionFormatter={(item) =>
           item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
         }
-        valueFormatter={(item) => item?.document?.name ?? ""}
+        valueFormatter={(item) => item?.document?.trustName ?? ""}
       />
       <input value={selectedCompanyNumber} name="companyNumber" type="hidden" />
     </div>

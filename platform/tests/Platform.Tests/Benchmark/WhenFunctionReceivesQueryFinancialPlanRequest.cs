@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Domain;
 using Platform.Functions;
 using Xunit;
@@ -11,9 +12,9 @@ public class WhenFunctionReceivesQueryFinancialPlanRequest : FinancialPlanFuncti
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.QueryFinancialPlan(It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<FinancialPlanResponseModel>());
+        Service
+            .Setup(d => d.QueryAsync(It.IsAny<string>()))
+            .ReturnsAsync(Array.Empty<FinancialPlanSummary>());
 
         var result = await Functions.QueryFinancialPlanAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -24,8 +25,8 @@ public class WhenFunctionReceivesQueryFinancialPlanRequest : FinancialPlanFuncti
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.QueryFinancialPlan(It.IsAny<string>()))
+        Service
+            .Setup(d => d.QueryAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.QueryFinancialPlanAsync(CreateRequest(), "1") as StatusCodeResult;

@@ -10,8 +10,8 @@ public class SchoolSpendingViewModel(
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
 
-    public string? Name => school.Name;
-    public string? Urn => school.Urn;
+    public string? Name => school.SchoolName;
+    public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
 
     public IEnumerable<CostCategory> PriorityCosts => _categories

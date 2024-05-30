@@ -4,7 +4,7 @@ namespace Web.App.ViewModels;
 public class TrustSpendingViewModel(Trust trust, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
 {
     public string? CompanyNumber => trust.CompanyNumber;
-    public string? Name => trust.Name;
+    public string? Name => trust.TrustName;
     public int NumberSchools => schools.Count;
 
     // todo: sorting; either here or in API
@@ -19,7 +19,7 @@ public class TrustSpendingViewModel(Trust trust, IReadOnlyCollection<School> sch
                     y.Key,
                     y.Select(z => z.PriorityTag).FirstOrDefault(),
                     y.SelectMany(z => schools
-                        .Where(s => s.Urn == z.Urn)
+                        .Where(s => s.URN == z.Urn)
                         .Select(s => new RagSchoolSpendingSchoolViewModel(s, z)))
                         .OrderByDescending(s => s.Value)
                 ))
@@ -44,8 +44,8 @@ public class RagSchoolsSpendingStatusViewModel(
 
 public class RagSchoolSpendingSchoolViewModel(School? school, RagRating? rating)
 {
-    public string? Urn => school?.Urn;
-    public string? Name => school?.Name;
+    public string? Urn => school?.URN;
+    public string? Name => school?.SchoolName;
     public int? Decile => rating?.Decile;
     public decimal? Value => rating?.Value;
 }

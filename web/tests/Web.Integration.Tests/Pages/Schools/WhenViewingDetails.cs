@@ -26,7 +26,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -59,14 +59,14 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
                 .Create()
             : Fixture.Build<School>()
                 .With(x => x.FinanceType, financeType)
-                .With(x => x.CompanyNumber, "1223545")
-                .With(x => x.TrustOrCompanyName, "Test Trust")
-                .With(x => x.OfstedRating, "0")
+                .With(x => x.TrustCompanyNumber, "1223545")
+                .With(x => x.TrustName, "Test Trust")
+                .With(x => x.OfstedDescription, "0")
                 .Create();
 
         var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.Name)
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.SchoolName, school.SchoolName)
+            .With(x => x.Urn, school.URN)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
@@ -75,21 +75,21 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
             .SetupEstablishment(school)
             .SetupBenchmark(schools)
             .SetupInsights(school, finances)
-            .Navigate(Paths.SchoolDetails(school.Urn));
+            .Navigate(Paths.SchoolDetails(school.URN));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(school.Urn).ToAbsolute());
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolDetails(school.URN).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Contact details - Financial Benchmarking and Insights Tool - GOV.UK",
             "Contact details");
 
         if (school.IsPartOfTrust)
         {
-            DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");
+            DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
     }
 }

@@ -83,7 +83,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             f.SetFormValues(_formValues.ToDictionary(k => k.Key, v => v.Value?.ToString() ?? string.Empty));
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -113,12 +113,12 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         });
 
         // go forward...
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataWorkforceData(school.URN).ToAbsolute());
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
         // ... and then back again
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());
         var customValues = page.QuerySelectorAll("input").Not("[type='hidden']").ToList();
         Assert.Equal(4, customValues.Count);
 
@@ -151,7 +151,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             f.SetFormValues(_formValues.ToDictionary(k => k.Key, _ => "invalid"));
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataNonFinancialData(school.URN).ToAbsolute());
         DocumentAssert.SummaryErrors(
             page,
             (nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), "Enter number of pupils (full time equivalent) in the correct format"),
@@ -191,13 +191,13 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .Create();
 
         var page = await Client.SetupEstablishment(school)
@@ -205,14 +205,14 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupHttpContextAccessor()
-            .Navigate(Paths.SchoolCustomDataNonFinancialData(school.Urn));
+            .Navigate(Paths.SchoolCustomDataNonFinancialData(school.URN));
 
         return (page, school);
     }
 
     private void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolCustomDataFinancialData(school.Urn).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolCustomDataFinancialData(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Customise your data - Financial Benchmarking and Insights Tool - GOV.UK", "Change non-financial data");
 
         var currentValues = page.QuerySelectorAll("span[id^='current-']");

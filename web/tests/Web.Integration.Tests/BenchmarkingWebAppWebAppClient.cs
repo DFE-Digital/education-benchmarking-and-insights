@@ -48,7 +48,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupEstablishment(School school)
     {
         EstablishmentApi.Reset();
-        EstablishmentApi.Setup(api => api.GetSchool(school.Urn)).ReturnsAsync(ApiResult.Ok(school));
+        EstablishmentApi.Setup(api => api.GetSchool(school.URN)).ReturnsAsync(ApiResult.Ok(school));
         return this;
     }
 
@@ -114,7 +114,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupCensus(School school, Census census)
     {
         CensusApi.Reset();
-        CensusApi.Setup(api => api.Get(school.Urn, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(census));
+        CensusApi.Setup(api => api.Get(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(census));
         return this;
     }
 
@@ -130,7 +130,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
-        InsightApi.Setup(api => api.GetSchoolFinances(school.Urn)).ReturnsAsync(ApiResult.Ok(finances));
+        InsightApi.Setup(api => api.GetSchoolFinances(school.URN)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetCurrentReturnYears())
             .ReturnsAsync(ApiResult.Ok(new FinanceYears
@@ -140,16 +140,16 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             }));
         InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
-        InsightApi.Setup(api => api.GetSchoolExpenditure(school.Urn, It.IsAny<ApiQuery?>()))
+        InsightApi.Setup(api => api.GetSchoolExpenditure(school.URN, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
-        InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.Urn)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
+        InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.URN)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
         return this;
     }
 
     public BenchmarkingWebAppClient SetupIncome(School school, Income? income = null)
     {
         IncomeApi.Reset();
-        IncomeApi.Setup(api => api.School(school.Urn, It.IsAny<ApiQuery?>()))
+        IncomeApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(income));
         return this;
     }
@@ -213,8 +213,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
             .ReturnsAsync(ApiResult.Ok(new ComparatorSet
             {
-                DefaultArea = schools.Select(x => x.Urn ?? "Missing urn"),
-                DefaultPupil = schools.Select(x => x.Urn ?? "Missing urn")
+                Building = schools.Select(x => x.URN ?? "Missing urn"),
+                Pupil = schools.Select(x => x.URN ?? "Missing urn")
             }));
 
         BenchmarkApi

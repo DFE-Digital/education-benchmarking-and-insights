@@ -31,8 +31,8 @@ public class SchoolSpendingController(
                 var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
 
-                var pupilExpenditure = await financeService.GetExpenditure(set.DefaultPupil);
-                var areaExpenditure = await financeService.GetExpenditure(set.DefaultArea);
+                var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
+                var areaExpenditure = await financeService.GetExpenditure(set.Building);
 
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure);
 

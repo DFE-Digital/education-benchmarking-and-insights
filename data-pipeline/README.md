@@ -61,7 +61,7 @@ The docker compose file is located in the `docker` directory. Navigate to this d
 
     docker compose up -d
 
-this will start 2 docker containers. `Azurite` and the `pipeline` containers. Once the containers are up and running the end to end tests can be run using
+this will start 3 docker containers. `Azurite`, `Sql Server` and the `pipeline` containers. Once the containers are up and running the end to end tests can be run using
 
     make e2e-test-local
 

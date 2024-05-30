@@ -4,7 +4,7 @@ public class BenchmarkApi(HttpClient httpClient, string? key = default) : ApiBas
 {
     public async Task<ApiResult> GetComparatorSet(string? urn)
     {
-        return await GetAsync($"api/comparator-set/{urn}");
+        return await GetAsync($"api/comparator-set/{urn}/default");
     }
 
     public async Task<ApiResult> UpsertFinancialPlan(PutFinancialPlanRequest request)

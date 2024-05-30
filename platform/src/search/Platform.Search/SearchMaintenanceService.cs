@@ -180,8 +180,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
         var builders = new DataSourceConnectionBuilder[]
         {
-            new SchoolDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new TrustDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new SchoolComparatorsAcademyDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
             new SchoolComparatorsMaintainedDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),

@@ -26,15 +26,36 @@ router.get( '/trust-homepage', (req, res) => {
     res.render( '/trust-homepage' );
 })
 
+router.get( '/sign-in', (req, res) => {
+
+    var goToUrl;
+    if ( req.session.data['goTo'] ) {
+        goToUrl = req.session.data['goTo'];
+    } else if (req.get('Referrer')) { 
+        goToUrl = new URL(req.get('Referrer')).pathname;
+    }
+    
+    res.render( '/sign-in', { goToUrl: goToUrl } );
+})
+
+
+router.get( '/sign-out', (req, res) => {
+
+    req.session.data['signedIn'] = 'false';
+
+    if (req.get('Referrer')) { 
+        goToUrl = new URL(req.get('Referrer')).pathname;
+    }
+
+    res.redirect( goToUrl );
+})
+
+
 router.get( '/school-homepage', (req, res) => {
     res.render( '/school-homepage' );
+    req.session.data['confirmation'] = '';
 })
 
-router.get( '/comparators/create/local-authority', (req, res) => {
-
-    var rows = getLocalAuthorityList();
-    res.render( '/comparators/create/local-authority', { rows: rows } );
-})
 
 // ADD SCHOOLS BY CHARACTERISTICS
 
@@ -75,21 +96,15 @@ router.get( '/comparators/create/preview', (req, res) => {
 
 })
 
+router.get( '/comparators', (req, res) => {
 
-/*
-router.post( '/comparators/create/generate-comparators', (req, res) => {
-
-    var comparators = generatePupilComparators();
-    comparators.sort((a, b) => a.comparatorName > b.comparatorName ? 1 : -1);
-
-    req.session.data['comparators'] = comparators;
-    req.session.data['confirmation'] = 'comparator-generated';
-    req.session.data['comparatorSetType'] = 'generated';
-
-    res.render( '/comparators/create/preview', { rows: comparators } );
+    if ( req.session.data['signedIn'] == 'true' ) {
+        res.redirect( '/comparators/create' );
+    } else {
+        res.render( '/comparators/index' );
+    }
 
 })
-*/
 
 router.get( '/comparators/view', (req, res) => {
     var pupilRows = [];
@@ -258,8 +273,8 @@ router.get( '/comparators/remove', (req, res) => {
 
 router.get( '/comparators/reset-confirmed', (req, res) => {
 
-    req.session.data.comparators = null;
-    req.session.data.comparatorSetType = null;
+    req.session.data['comparators'] = null;
+    req.session.data['comparatorSetType'] = null;
 
     res.render( '/school-homepage', {confirmation: 'comparator-reset' } );
 
@@ -322,11 +337,11 @@ router.post( '/set-school', (req, res) => {
 // COMPARE TRUSTS
 
 router.post( '/compare-trusts', (req, res) => {
-    var compareRoute = 'by-name';
-    if ( req.session.data['compareRoute'] ) {
-        compareRoute = req.session.data['compareRoute'];
+    var compareRouteTrusts = 'by-name';
+    if ( req.session.data['compareRouteTrusts'] ) {
+        compareRouteTrusts = req.session.data['compareRouteTrusts'];
     }
-    res.redirect( '/compare-trusts/' + compareRoute );
+    res.redirect( '/compare-trusts/' + compareRouteTrusts );
 })
 
 router.get( '/compare-trusts/by-name', (req, res) => {

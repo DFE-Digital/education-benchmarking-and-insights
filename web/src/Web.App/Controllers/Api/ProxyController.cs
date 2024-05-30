@@ -79,7 +79,7 @@ public class ProxyController(
             .AddIfNotNull("phase", phase);
 
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
+        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
         return new JsonResult(result);
     }
 
@@ -87,16 +87,16 @@ public class ProxyController(
     {
         var query = new ApiQuery()
             .AddIfNotNull("companyNumber", id)
-            .AddIfNotNull("phase", phase); ;
+            .AddIfNotNull("phase", phase);
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
+        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
         return new JsonResult(result);
     }
 
     private async Task<IActionResult> SchoolExpenditure(string id)
     {
         var set = await comparatorSetService.ReadComparatorSet(id);
-        var result = await financeService.GetExpenditure(set.DefaultPupil);
+        var result = await financeService.GetExpenditure(set.Pupil);
         return new JsonResult(result);
     }
 }

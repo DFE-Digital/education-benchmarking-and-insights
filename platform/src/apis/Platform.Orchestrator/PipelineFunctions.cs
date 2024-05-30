@@ -27,6 +27,10 @@ public class PipelineFunctions
         _sender = sender;
     }
 
+    //Default yearly processing
+    //User-defined comparator set
+    //Custom data set
+
 
     [FunctionName(nameof(InitiatePipelineJob))]
     public async Task<IActionResult> InitiatePipelineJob(

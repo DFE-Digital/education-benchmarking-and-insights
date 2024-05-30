@@ -12,12 +12,15 @@ public class TrustIndexBuilder : IndexBuilder
     public override async Task Build(SearchIndexClient client)
     {
         var searchFields = new FieldBuilder().Build(typeof(TrustIndex));
-
         var definition = new SearchIndex(Name, searchFields);
-        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Trust, nameof(TrustIndex.CompanyNumber), nameof(TrustIndex.Name));
+        var suggestFields = new[]
+        {
+            nameof(TrustIndex.CompanyNumber),
+            nameof(TrustIndex.TrustName)
+        };
 
+        var suggester = new SearchSuggester(SearchResourceNames.Suggesters.Trust, suggestFields);
         definition.Suggesters.Add(suggester);
-
         await client.CreateOrUpdateIndexAsync(definition);
     }
 }
