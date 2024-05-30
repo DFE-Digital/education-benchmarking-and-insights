@@ -42,10 +42,10 @@
   <h1 class="govuk-heading-l">
     Choose schools to benchmark against
   </h1>
-  <p class="govuk-body">You can choose up to 30 schools, but for best results we recommend choosing a minimum of 10.</p>
+  <p class="govuk-body">Choose between 10 and 30 schools for best results.</p>
   
   <div id="school-search-hint" class="govuk-hint">
-    Choose by school name, postcode or URN
+    Search by school name, postcode or URN
   </div>
 
       <form action="/add-comparator-school" method="post">
@@ -75,7 +75,7 @@
     <h1 class="govuk-heading-m">Chosen schools ({{rows.length}})</h1>
     
     {{ govukButton({
-        text: 'Save your set' if data['editSet'] == 'true' else "Create a set using these schools",
+        text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these schools",
         href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
       }) }}
 

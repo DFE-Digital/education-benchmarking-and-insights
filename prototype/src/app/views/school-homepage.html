@@ -36,7 +36,8 @@
 <h3 class="govuk-notification-banner__heading">
   You are now benchmarking against your own set of schools
 </h3>
-<p><a href="/comparators/create/view" class="govuk-link">View and manage your set of schools</a></p>
+<p><a href="/comparators/create/view" class="govuk-link">View and change your set of schools</a></p>
+<p><a href="/comparators/reset" class="govuk-link">Change back to the sets of schools we chose</a></p>
 {% endset %}
 
   {{ govukNotificationBanner({
@@ -47,7 +48,7 @@
 {% elseif confirmation == 'comparator-reset' %}
 
 {{ govukNotificationBanner({
-  html: '<strong>You have now removed all the similar schools you chose.</strong><p class="govuk-body">The list has reverted to the similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose some new similar schools</a></p>',
+  html: '<h3 class="govuk-notification-banner__heading">You have now removed all the schools you chose</h3><p class="govuk-body">Benchmarking has reverted to the sets of similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose a new set of your own schools</a></p>',
   type: "success"
 }) }}
 
