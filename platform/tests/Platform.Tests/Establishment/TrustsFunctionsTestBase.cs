@@ -1,9 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Establishment;
-using Platform.Api.Establishment.Db;
-using Platform.Domain;
+using Platform.Api.Establishment.Trusts;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Tests.Establishment;
@@ -11,15 +9,13 @@ namespace Platform.Tests.Establishment;
 public class TrustsFunctionsTestBase : FunctionsTestBase
 {
     protected readonly TrustsFunctions Functions;
-    protected readonly Mock<ISearchService<TrustResponseModel>> Search;
-    protected readonly Mock<IValidator<PostSuggestRequestModel>> Validator;
-    protected readonly Mock<ITrustDb> Db;
+    protected readonly Mock<ITrustService> Service;
+    protected readonly Mock<IValidator<PostSuggestRequest>> Validator;
 
     protected TrustsFunctionsTestBase()
     {
-        Search = new Mock<ISearchService<TrustResponseModel>>();
-        Validator = new Mock<IValidator<PostSuggestRequestModel>>();
-        Db = new Mock<ITrustDb>();
-        Functions = new TrustsFunctions(new NullLogger<TrustsFunctions>(), Search.Object, Validator.Object, Db.Object);
+        Service = new Mock<ITrustService>();
+        Validator = new Mock<IValidator<PostSuggestRequest>>();
+        Functions = new TrustsFunctions(new NullLogger<TrustsFunctions>(), Service.Object, Validator.Object);
     }
 }

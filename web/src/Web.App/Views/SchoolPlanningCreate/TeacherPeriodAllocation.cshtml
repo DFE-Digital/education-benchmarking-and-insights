@@ -6,12 +6,12 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
-        @using (Html.BeginForm("TeacherPeriodAllocation", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("TeacherPeriodAllocation", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="govuk-form-group">
                 <fieldset class="govuk-fieldset">
                     <legend class="govuk-fieldset__legend govuk-fieldset__legend--l">
-                        <span class="govuk-caption-l">@Model.School.Name</span>
+                        <span class="govuk-caption-l">@Model.School.SchoolName</span>
                         <h1 class="govuk-fieldset__heading">
                             @ViewData[ViewDataKeys.Title]
                         </h1>

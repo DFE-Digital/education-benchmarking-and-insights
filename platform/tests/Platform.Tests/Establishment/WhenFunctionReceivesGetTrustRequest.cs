@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain;
+using Platform.Api.Establishment.Trusts;
 using Platform.Functions;
 using Xunit;
 
@@ -11,9 +11,9 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new TrustResponseModel());
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(new Trust());
 
         var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -25,9 +25,9 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     public async Task ShouldReturn404OnInvalidRequest()
     {
 
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((TrustResponseModel?)null);
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync((Trust?)null);
 
         var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as NotFoundResult;
 
@@ -38,8 +38,8 @@ public class WhenFunctionReceivesGetTrustRequest : TrustsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SingleTrustAsync(CreateRequest(), "1") as StatusCodeResult;

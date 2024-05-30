@@ -67,8 +67,8 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         var expectedPage = school.IsPrimary
-            ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
@@ -96,7 +96,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("TimetablePeriods", expectedMsg));
     }
 
@@ -111,8 +111,8 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         page = await Client.Follow(anchor);
 
         var path = useFigures
-            ? Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear)
-            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear);
+            ? Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear)
+            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear);
 
         DocumentAssert.AssertPageUrl(page, path.ToAbsolute());
     }
@@ -149,7 +149,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
+            Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -181,7 +181,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -189,7 +189,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         bool? useFigures = true, string? timetablePeriods = null, bool isPrimary = false)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
             .Create();
@@ -198,7 +198,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, useFigures)
             .With(x => x.TimetablePeriods, timetablePeriods)
@@ -209,7 +209,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear));
 
         return (page, school);
     }
@@ -217,8 +217,8 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
     private static void AssertPageLayout(IHtmlDocument page, School school, bool useFigures = true)
     {
         var path = useFigures
-            ? Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear)
-            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.Urn, CurrentYear);
+            ? Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear)
+            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear);
 
         DocumentAssert.BackLink(page, "Back", path.ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Timetable cycle - Financial Benchmarking and Insights Tool - GOV.UK",

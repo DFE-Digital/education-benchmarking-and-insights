@@ -5,11 +5,10 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Establishment;
-using Platform.Api.Establishment.Db;
-using Platform.Api.Establishment.Search;
-using Platform.Domain;
+using Platform.Api.Establishment.LocalAuthorities;
+using Platform.Api.Establishment.Schools;
+using Platform.Api.Establishment.Trusts;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Search;
 using Platform.Infrastructure.Sql;
 
@@ -28,23 +27,15 @@ public class Startup : FunctionsStartup
         builder.Services.AddHealthChecks();
 
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
-        builder.Services.AddOptions<SchoolDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<TrustDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
-        builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
-        builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
-        builder.Services.AddSingleton<ISchoolDb, SchoolDb>();
-        builder.Services.AddSingleton<ITrustDb, TrustDb>();
-        builder.Services.AddSingleton<ILocalAuthorityDb, LocalAuthorityDb>();
-
-        builder.Services.AddSingleton<ISearchService<SchoolResponseModel>, SchoolSearchService>();
-        builder.Services.AddSingleton<ISearchService<TrustResponseModel>, TrustSearchService>();
-        builder.Services.AddSingleton<ISearchService<LocalAuthorityResponseModel>, LocalAuthoritySearchService>();
+        builder.Services.AddSingleton<ISchoolService, SchoolService>();
+        builder.Services.AddSingleton<ITrustService, TrustService>();
+        builder.Services.AddSingleton<ILocalAuthorityService, LocalAuthorityService>();
         builder.Services.AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
 
-        builder.Services.AddTransient<IValidator<PostSuggestRequestModel>, PostSuggestRequestValidator>();
+        builder.Services.AddTransient<IValidator<PostSuggestRequest>, PostSuggestRequestValidator>();
     }
 }

@@ -1,11 +1,14 @@
+﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using Dapper.Contrib.Extensions;
 
-namespace Web.App.Domain;
+namespace Platform.Api.Establishment.Trusts;
 
 [ExcludeFromCodeCoverage]
+[Table("Trust")]
 public record Trust
 {
-    public string? CompanyNumber { get; set; }
+    [ExplicitKey] public string? CompanyNumber { get; set; }
     public string? TrustName { get; set; }
     public string? UID { get; set; }
     public string? CFOName { get; set; }

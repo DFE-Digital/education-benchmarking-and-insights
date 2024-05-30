@@ -7,11 +7,11 @@ using Microsoft.Extensions.Options;
 using Platform.Domain;
 using Platform.Infrastructure.Search;
 
-namespace Platform.Api.Establishment.Search;
+namespace Platform.Api.Establishment.Schools;
 
 public interface ISchoolComparatorsService
 {
-    Task<IEnumerable<SchoolComparatorResponseModel>> ComparatorsAsync(PostSchoolComparatorsRequestModel request);
+    Task<IEnumerable<SchoolComparator>> ComparatorsAsync(PostSchoolComparatorsRequest request);
 }
 
 [ExcludeFromCodeCoverage]
@@ -24,21 +24,21 @@ public class SchoolComparatorsService : SearchService, ISchoolComparatorsService
     {
     }
 
-    public async Task<IEnumerable<SchoolComparatorResponseModel>> ComparatorsAsync(PostSchoolComparatorsRequestModel request)
+    public async Task<IEnumerable<SchoolComparator>> ComparatorsAsync(PostSchoolComparatorsRequest request)
     {
-        var school = await LookUpAsync<SchoolComparatorResponseModel>(request.Target);
+        var school = await LookUpAsync<SchoolComparator>(request.Target);
 
         var filter = request.FilterExpression();
         var search = request.SearchExpression();
-        var result = await SearchAsync<SchoolComparatorResponseModel>(search, filter, 100000);
+        var result = await SearchAsync<SchoolComparator>(search, filter, 100000);
 
         return result.OrderByDescending(x => CalculateScore(request, x, school)).Select(x => x.Document)
-            .OfType<SchoolComparatorResponseModel>().Take(30);
+            .OfType<SchoolComparator>().Take(30);
     }
 
-    private static double? CalculateScore(PostSchoolComparatorsRequestModel request,
-        ScoreResponseModel<SchoolComparatorResponseModel> x,
-        SchoolComparatorResponseModel school)
+    private static double? CalculateScore(PostSchoolComparatorsRequest request,
+        ScoreResponse<SchoolComparator> x,
+        SchoolComparator school)
     {
         if (x.Document == null)
         {

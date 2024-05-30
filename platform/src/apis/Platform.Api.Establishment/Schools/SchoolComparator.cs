@@ -1,6 +1,6 @@
-namespace Platform.Domain;
+namespace Platform.Api.Establishment.Schools;
 
-public class SchoolComparatorResponseModel
+public class SchoolComparator
 {
     public string? URN { get; set; }
     public string? Sector { get; set; }

@@ -4,8 +4,8 @@ namespace Web.App.ViewModels;
 
 public class TrustDetailsViewModel(Trust trust, IReadOnlyCollection<School> schools)
 {
-    public string? Name => trust.Name;
+    public string? Name => trust.TrustName;
     public string? CompanyNumber => trust.CompanyNumber;
-    public string? Uid => trust.Uid;
+    public string? Uid => trust.UID;
     public IEnumerable<School> Schools => schools;
 }

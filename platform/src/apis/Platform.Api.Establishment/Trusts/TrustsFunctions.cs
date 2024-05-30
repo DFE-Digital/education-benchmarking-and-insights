@@ -9,33 +9,28 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Establishment.Db;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
 
-namespace Platform.Api.Establishment;
+namespace Platform.Api.Establishment.Trusts;
 
 [ApiExplorerSettings(GroupName = "Trusts")]
 public class TrustsFunctions
 {
     private readonly ILogger<TrustsFunctions> _logger;
-    private readonly ISearchService<TrustResponseModel> _search;
-    private readonly IValidator<PostSuggestRequestModel> _validator;
-    private readonly ITrustDb _db;
+    private readonly ITrustService _service;
+    private readonly IValidator<PostSuggestRequest> _validator;
 
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ISearchService<TrustResponseModel> search, IValidator<PostSuggestRequestModel> validator, ITrustDb db)
+    public TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustService service, IValidator<PostSuggestRequest> validator)
     {
         _logger = logger;
-        _search = search;
+        _service = service;
         _validator = validator;
-        _db = db;
     }
 
-
     [FunctionName(nameof(SingleTrustAsync))]
-    [ProducesResponseType(typeof(TrustResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(Trust), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleTrustAsync(
@@ -47,12 +42,13 @@ public class TrustsFunctions
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "Identifier", identifier}
                }))
         {
             try
             {
-                var response = await _db.Get(identifier);
+                var response = await _service.GetAsync(identifier);
 
                 return response == null
                     ? new NotFoundResult()
@@ -67,12 +63,12 @@ public class TrustsFunctions
     }
 
     [FunctionName(nameof(SuggestTrustsAsync))]
-    [ProducesResponseType(typeof(SuggestResponseModel<TrustResponseModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuggestResponse<Trust>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")] HttpRequest req)
+        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -84,7 +80,7 @@ public class TrustsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequestModel>();
+                var body = req.ReadAsJson<PostSuggestRequest>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
@@ -92,7 +88,7 @@ public class TrustsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
 
-                var trusts = await _search.SuggestAsync(body);
+                var trusts = await _service.SuggestAsync(body);
                 return new JsonContentResult(trusts);
             }
             catch (Exception e)

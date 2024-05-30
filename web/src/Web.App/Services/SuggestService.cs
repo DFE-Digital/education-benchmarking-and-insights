@@ -22,14 +22,15 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
 
             var additionalDetails = new List<string?>();
 
-            if (!string.IsNullOrWhiteSpace(value.Document?.Town))
-                additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town);
-            if (!string.IsNullOrWhiteSpace(value.Document?.Postcode))
-                additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
+            //TODO : Add address details
+            // if (!string.IsNullOrWhiteSpace(value.Document?.Town))
+            //     additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town);
+            // if (!string.IsNullOrWhiteSpace(value.Document?.Postcode))
+            //     additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
 
-            if (text != value.Document?.Name)
+            if (text != value.Document?.SchoolName)
             {
-                value.Text = value.Document?.Name;
+                value.Text = value.Document?.SchoolName;
             }
 
             var additionalText = additionalDetails.Count > 0
@@ -54,8 +55,8 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
             if (!string.IsNullOrWhiteSpace(value.Document?.CompanyNumber))
                 additionalText = text == value.Document.CompanyNumber ? $" ({value.Text})" : $" ({value.Document.CompanyNumber})";
 
-            if (text != value.Document?.Name)
-                value.Text = value.Document?.Name;
+            if (text != value.Document?.TrustName)
+                value.Text = value.Document?.TrustName;
 
             value.Text = $"{value.Text}{additionalText}";
 

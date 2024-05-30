@@ -9,58 +9,53 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Establishment.Db;
-using Platform.Api.Establishment.Search;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;
 
-namespace Platform.Api.Establishment;
+namespace Platform.Api.Establishment.Schools;
 
 [ApiExplorerSettings(GroupName = "Schools")]
 public class SchoolsFunctions
 {
     private readonly ILogger<SchoolsFunctions> _logger;
-    private readonly ISchoolDb _db;
-    private readonly ISearchService<SchoolResponseModel> _schoolSearch;
-    private readonly IValidator<PostSuggestRequestModel> _validator;
-    private readonly ISchoolComparatorsService _comparatorSearch;
+    private readonly ISchoolService _schoolService;
+    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ISchoolComparatorsService _comparatorService;
 
     public SchoolsFunctions(
         ILogger<SchoolsFunctions> logger,
-        ISchoolDb db,
-        ISearchService<SchoolResponseModel> schoolSearch,
-        ISchoolComparatorsService comparatorSearch,
-        IValidator<PostSuggestRequestModel> validator)
+        ISchoolService schoolService,
+        ISchoolComparatorsService comparatorService,
+        IValidator<PostSuggestRequest> validator)
     {
         _logger = logger;
-        _db = db;
-        _schoolSearch = schoolSearch;
-        _comparatorSearch = comparatorSearch;
+        _schoolService = schoolService;
+        _comparatorService = comparatorService;
         _validator = validator;
     }
 
     [FunctionName(nameof(SingleSchoolAsync))]
-    [ProducesResponseType(typeof(SchoolResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(School), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SingleSchoolAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{identifier}")]
         HttpRequest req,
-        string urn)
+        string identifier)
     {
         var correlationId = req.GetCorrelationId();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
+                   { "CorrelationID", correlationId },
+                   { "Identifier", identifier}
                }))
         {
             try
             {
-                var school = await _db.Get(urn);
+                var school = await _schoolService.GetAsync(identifier);
 
                 return school == null
                     ? new NotFoundResult()
@@ -75,7 +70,7 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(QuerySchoolsAsync))]
-    [ProducesResponseType(typeof(IEnumerable<SchoolResponseModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IEnumerable<School>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("companyNumber", "Company number", DataType = typeof(int), Required = false)]
     [QueryStringParameter("laCode", "Local authority code", DataType = typeof(int), Required = false)]
@@ -98,7 +93,7 @@ public class SchoolsFunctions
                 var companyNumber = req.Query["companyNumber"].ToString();
                 var laCode = req.Query["laCode"].ToString();
                 var phase = req.Query["phase"].ToString();
-                var schools = await _db.Query(companyNumber, laCode, phase);
+                var schools = await _schoolService.QueryAsync(companyNumber, laCode, phase);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)
@@ -109,43 +104,13 @@ public class SchoolsFunctions
         }
     }
 
-    [FunctionName(nameof(SearchSchoolsAsync))]
-    [ProducesResponseType(typeof(SearchResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> SearchSchoolsAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/search")]
-        [RequestBodyType(typeof(PostSearchRequestModel), "The search object")]
-        HttpRequest req)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId }
-               }))
-        {
-            try
-            {
-                var body = req.ReadAsJson<PostSearchRequestModel>();
-                var schools = await _schoolSearch.SearchAsync(body);
-                return new JsonContentResult(schools);
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to search schools");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
-
     [FunctionName(nameof(SuggestSchoolsAsync))]
-    [ProducesResponseType(typeof(SuggestResponseModel<SchoolResponseModel>), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SuggestResponse<School>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequestModel), "The suggest object")]
+        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -158,7 +123,7 @@ public class SchoolsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequestModel>();
+                var body = req.ReadAsJson<PostSuggestRequest>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)
@@ -166,7 +131,7 @@ public class SchoolsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
 
-                var schools = await _schoolSearch.SuggestAsync(body);
+                var schools = await _schoolService.SuggestAsync(body);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)
@@ -178,11 +143,11 @@ public class SchoolsFunctions
     }
 
     [FunctionName(nameof(SchoolComparatorsAsync))]
-    [ProducesResponseType(typeof(SchoolComparatorResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(SchoolComparator[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SchoolComparatorsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/comparators")]
-        [RequestBodyType(typeof(PostSchoolComparatorsRequestModel), "The comparator characteristics object")]
+        [RequestBodyType(typeof(PostSchoolComparatorsRequest), "The comparator characteristics object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -195,9 +160,9 @@ public class SchoolsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSchoolComparatorsRequestModel>();
+                var body = req.ReadAsJson<PostSchoolComparatorsRequest>();
                 //TODO : Add request validation
-                var comparators = await _comparatorSearch.ComparatorsAsync(body);
+                var comparators = await _comparatorService.ComparatorsAsync(body);
                 return new JsonContentResult(comparators);
             }
             catch (Exception e)

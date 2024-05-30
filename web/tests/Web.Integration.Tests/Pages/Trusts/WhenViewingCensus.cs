@@ -63,12 +63,12 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
             .Create();
 
         var primarySchools = Fixture.Build<School>()
-            .With(x => x.CompanyNumber, trust.CompanyNumber)
+            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .CreateMany(9);
 
         var secondarySchools = Fixture.Build<School>()
-            .With(x => x.CompanyNumber, trust.CompanyNumber)
+            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
             .CreateMany(11);
 

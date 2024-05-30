@@ -38,7 +38,7 @@ export type LaInputProps = {
       "text": "*Harrow* Way Community School",
       "document": {
         "urn": "116431",
-        "name": "Harrow Way Community School",
+        "schoolName": "Harrow Way Community School",
         "town": "Andover",
         "postcode": "SP10 3RH",
         "hasSixthForm": false
@@ -47,7 +47,7 @@ export type LaInputProps = {
  */
 export type SchoolDocument = {
   hasSixthForm: boolean;
-  name: string;
+  schoolName: string;
   postcode: string;
   town: string;
   urn: string;
@@ -59,13 +59,13 @@ export type SchoolDocument = {
       "text": "*Advantage* Multi Academy Trust",
       "document": {
         "companyNumber": "10969334",
-        "name": "Advantage Multi Academy Trust"
+        "trustName": "Advantage Multi Academy Trust"
       }
     }
  */
 export type TrustDocument = {
   companyNumber: string;
-  name: string;
+  trustName: string;
 };
 
 /**

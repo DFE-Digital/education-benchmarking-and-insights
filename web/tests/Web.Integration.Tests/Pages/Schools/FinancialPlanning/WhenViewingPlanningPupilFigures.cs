@@ -41,7 +41,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -76,7 +76,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -110,7 +110,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -150,7 +150,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute());
     }
 
 
@@ -208,7 +208,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("pupil-figures", "Enter pupil figures for at least one year"));
     }
 
@@ -244,14 +244,14 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isSixth = false, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
             .With(x => x.HasSixthForm, isSixth)
@@ -263,7 +263,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -272,7 +272,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear));
 
         return (page, school);
     }
@@ -280,7 +280,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back",
-            Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
             "What are your pupil figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your pupil figures?");

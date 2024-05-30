@@ -4,20 +4,20 @@ using Azure.Search.Documents.Models;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public record SuggestResponseModel<T>
+public record SuggestResponse<T>
 {
-    public IEnumerable<SuggestValueResponseModel<T>> Results { get; set; } = Array.Empty<SuggestValueResponseModel<T>>();
+    public IEnumerable<SuggestValue<T>> Results { get; set; } = Array.Empty<SuggestValue<T>>();
 }
 
 [ExcludeFromCodeCoverage]
-public record SuggestValueResponseModel<T>
+public record SuggestValue<T>
 {
     public string? Text { get; set; }
     public T? Document { get; set; }
 
-    public static SuggestValueResponseModel<T> Create(SearchSuggestion<T> suggestion)
+    public static SuggestValue<T> Create(SearchSuggestion<T> suggestion)
     {
-        return new SuggestValueResponseModel<T>
+        return new SuggestValue<T>
         {
             Text = suggestion.Text,
             Document = suggestion.Document

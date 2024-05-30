@@ -39,7 +39,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -73,7 +73,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -106,7 +106,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -149,7 +149,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningManagersPerRole(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningManagersPerRole(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Theory]
@@ -191,7 +191,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningManagersPerRole(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningManagersPerRole(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Theory]
@@ -314,14 +314,14 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("management-roles", "Select at least one management role"));
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, overallPhase)
             .Create();
@@ -332,7 +332,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -341,7 +341,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear));
 
         return (page, school);
     }
@@ -349,7 +349,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back",
-            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
             "Management roles with teaching responsibilties - Financial Benchmarking and Insights Tool - GOV.UK",
             "Management roles with teaching responsibilties");

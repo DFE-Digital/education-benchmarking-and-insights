@@ -66,7 +66,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, PlanYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, PlanYear).ToAbsolute());
     }
 
     [Theory]
@@ -93,7 +93,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalIncome(school.Urn, PlanYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTotalIncome(school.URN, PlanYear).ToAbsolute());
     }
 
     [Theory]
@@ -158,7 +158,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, PlanYear).ToAbsolute(), HttpStatusCode.NotFound);
+            Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, PlanYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -177,7 +177,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, PlanYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, PlanYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -189,26 +189,26 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school, Finances finances)> SetupNavigateInitPage(string financeType,
         string phase, bool? useFigures = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, phase)
             .Create();
 
         var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.Name)
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.SchoolName, school.SchoolName)
+            .With(x => x.Urn, school.URN)
             .With(x => x.YearEnd, FinancesYear)
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, PlanYear)
             .With(x => x.UseFigures, useFigures)
             .Create();
@@ -218,14 +218,14 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, PlanYear));
+            .Navigate(Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, PlanYear));
 
         return (page, school, finances);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school, Finances finances)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Prepopulated data - Financial Benchmarking and Insights Tool - GOV.UK", "Prepopulated data");
         DocumentAssert.Heading2(page, $"Figures from {finances.YearEnd - 1} - {finances.YearEnd}");
 
@@ -239,7 +239,7 @@ public class WhenViewingPlanningPrePopulateData(SchoolBenchmarkingWebAppClient c
 
         var cta = page.QuerySelector(".govuk-button");
         DocumentAssert.PrimaryCta(cta, "Continue",
-            Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, PlanYear));
+            Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, PlanYear));
     }
 
     private static void AssertCostsTable(IParentNode page, School school, Finances finances)

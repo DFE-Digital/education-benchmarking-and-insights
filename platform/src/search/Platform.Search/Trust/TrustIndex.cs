@@ -8,5 +8,5 @@ public class TrustIndex
     public string? CompanyNumber { get; set; }
 
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string? Name { get; set; }
+    public string? TrustName { get; set; }
 }

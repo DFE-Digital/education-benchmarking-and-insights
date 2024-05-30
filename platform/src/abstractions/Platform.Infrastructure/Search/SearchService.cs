@@ -10,7 +10,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
 {
     private readonly SearchClient _client = new(searchEndpoint, indexName, credential);
 
-    protected async Task<IEnumerable<ScoreResponseModel<T>>> SearchAsync<T>(string? search, string? filters, int? size = null)
+    protected async Task<IEnumerable<ScoreResponse<T>>> SearchAsync<T>(string? search, string? filters, int? size = null)
     {
         var options = new SearchOptions
         {
@@ -24,7 +24,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         var searchResults = searchResponse.Value;
         return searchResults
             .GetResults()
-            .Select(result => new ScoreResponseModel<T>
+            .Select(result => new ScoreResponse<T>
             {
                 Score = result.Score,
                 Document = result.Document
@@ -38,7 +38,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         return response.Value;
     }
 
-    protected async Task<SearchResponseModel<T>> SearchAsync<T>(PostSearchRequestModel request, Func<FilterCriteriaRequestModel[], string?>? filterExpBuilder = null, string[]? facets = null)
+    protected async Task<SearchResponse<T>> SearchAsync<T>(PostSearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
@@ -66,10 +66,10 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         var outputFacets = searchResults.Facets is { Count: > 0 } ? BuildFacetOutput(searchResults.Facets) : default;
         var results = searchResults.GetResults().Select(result => result.Document);
 
-        return SearchResponseModel<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
+        return SearchResponse<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
-    protected async Task<SuggestResponseModel<T>> SuggestAsync<T>(PostSuggestRequestModel request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected async Task<SuggestResponse<T>> SuggestAsync<T>(PostSuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
         var options = new SuggestOptions
         {
@@ -92,9 +92,9 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         }
 
         var response = await _client.SuggestAsync<T>(request.SearchText, request.SuggesterName, options);
-        var results = response.Value.Results.Select(SuggestValueResponseModel<T>.Create);
+        var results = response.Value.Results.Select(SuggestValue<T>.Create);
 
-        return new SuggestResponseModel<T>
+        return new SuggestResponse<T>
         {
             Results = results
         };

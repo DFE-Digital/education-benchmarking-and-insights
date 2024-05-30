@@ -1,10 +1,7 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Establishment;
-using Platform.Api.Establishment.Db;
-using Platform.Api.Establishment.Search;
-using Platform.Domain;
+using Platform.Api.Establishment.Schools;
 using Platform.Infrastructure.Search;
 
 namespace Platform.Tests.Establishment;
@@ -12,17 +9,15 @@ namespace Platform.Tests.Establishment;
 public class SchoolsFunctionsTestBase : FunctionsTestBase
 {
     protected readonly SchoolsFunctions Functions;
-    protected readonly Mock<ISchoolDb> Db;
-    protected readonly Mock<ISearchService<SchoolResponseModel>> SchoolSearch;
-    protected readonly Mock<ISchoolComparatorsService> ComparatorsSearch;
-    protected readonly Mock<IValidator<PostSuggestRequestModel>> Validator;
+    protected readonly Mock<ISchoolService> SchoolService;
+    protected readonly Mock<ISchoolComparatorsService> ComparatorsService;
+    protected readonly Mock<IValidator<PostSuggestRequest>> Validator;
 
     protected SchoolsFunctionsTestBase()
     {
-        Db = new Mock<ISchoolDb>();
-        SchoolSearch = new Mock<ISearchService<SchoolResponseModel>>();
-        ComparatorsSearch = new Mock<ISchoolComparatorsService>();
-        Validator = new Mock<IValidator<PostSuggestRequestModel>>();
-        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(), Db.Object, SchoolSearch.Object, ComparatorsSearch.Object, Validator.Object);
+        SchoolService = new Mock<ISchoolService>();
+        ComparatorsService = new Mock<ISchoolComparatorsService>();
+        Validator = new Mock<IValidator<PostSuggestRequest>>();
+        Functions = new SchoolsFunctions(new NullLogger<SchoolsFunctions>(), SchoolService.Object, ComparatorsService.Object, Validator.Object);
     }
 }

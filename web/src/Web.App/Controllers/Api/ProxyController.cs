@@ -79,7 +79,7 @@ public class ProxyController(
             .AddIfNotNull("phase", phase);
 
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
+        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
         return new JsonResult(result);
     }
 
@@ -89,7 +89,7 @@ public class ProxyController(
             .AddIfNotNull("companyNumber", id)
             .AddIfNotNull("phase", phase); ;
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.Urn).OfType<string>());
+        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
         return new JsonResult(result);
     }
 

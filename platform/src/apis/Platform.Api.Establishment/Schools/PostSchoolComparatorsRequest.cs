@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
-namespace Platform.Domain;
+namespace Platform.Api.Establishment.Schools;
 
-public record PostSchoolComparatorsRequestModel
+public record PostSchoolComparatorsRequest
 {
     public string? Target { get; set; }
     public CharacteristicList? Sector { get; set; }
@@ -62,7 +63,7 @@ public record PostSchoolComparatorsRequestModel
 
 public record CharacteristicList
 {
-    public string[] Values { get; set; } = [];
+    public string[] Values { get; set; } = Array.Empty<string>();
 }
 
 public record CharacteristicRange

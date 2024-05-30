@@ -1,11 +1,14 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
+using Dapper.Contrib.Extensions;
 
-namespace Web.App.Domain;
+namespace Platform.Api.Establishment.Schools;
 
 [ExcludeFromCodeCoverage]
+[Table("School")]
 public record School
 {
-    public string? URN { get; set; }
+    [ExplicitKey] public string? URN { get; set; }
     public string? SchoolName { get; set; }
     public string? FinanceType { get; set; }
     public string? OverallPhase { get; set; }
@@ -27,16 +30,4 @@ public record School
     public string? LACode { get; set; }
     public string? LAName { get; set; }
     public string? LondonWeighting { get; set; }
-
-
-    // public string? Address { get; set; }
-    // public string? Street { get; set; }
-    // public string? Locality { get; set; }
-    // public string? Address3 { get; set; }
-    // public string? Town { get; set; }
-    // public string? County { get; set; }
-    // public string? Postcode { get; set; }
-
-    public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
-    public bool IsPartOfTrust => !string.IsNullOrEmpty(TrustCompanyNumber);
 }

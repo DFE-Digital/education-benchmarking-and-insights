@@ -3,7 +3,7 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolChangeData;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataNonFinancialData, name = Model.School.Name, id = Model.School.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new { title = PageTitles.SchoolChangeDataNonFinancialData, name = Model.School.SchoolName, id = Model.School.URN, kind = OrganisationTypes.School })
 
 <div class="govuk-warning-text">
     <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
@@ -14,7 +14,7 @@
 </div>
 
 @await Html.PartialAsync("_ErrorSummary")
-@using (Html.BeginForm("NonFinancialData", "SchoolCustomDataChange", new { urn = Model.School.Urn }, FormMethod.Post, true, new { novalidate = "novalidate", id = "form-custom-data-non-financial" }))
+@using (Html.BeginForm("NonFinancialData", "SchoolCustomDataChange", new { urn = Model.School.URN }, FormMethod.Post, true, new { novalidate = "novalidate", id = "form-custom-data-non-financial" }))
 {
     @await Html.PartialAsync("_CustomDataEntryTable", Model.NonFinancialDataSection)
     <button type="submit" class="govuk-button" data-module="govuk-button">

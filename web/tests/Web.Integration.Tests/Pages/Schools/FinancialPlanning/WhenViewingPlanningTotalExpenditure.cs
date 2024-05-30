@@ -44,7 +44,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalTeacherCost(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -56,7 +56,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
         page = await Client.Follow(anchor);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -91,7 +91,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
+            Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -123,7 +123,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -149,7 +149,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total expenditure" : "Total expenditure must be 0 or more";
         DocumentAssert.FormErrors(page, ("TotalExpenditure", expectedMsg));
@@ -158,7 +158,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -166,7 +166,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalExpenditure)
@@ -177,7 +177,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear));
 
         return (page, school);
     }
@@ -185,7 +185,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         DocumentAssert.BackLink(page, "Back",
-            Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "What is your total expenditure? - Financial Benchmarking and Insights Tool - GOV.UK", "What is your total expenditure?");
     }
 }
