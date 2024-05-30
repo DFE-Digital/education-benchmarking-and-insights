@@ -30,7 +30,14 @@
 {% endif %}
 
 
-{% if data['confirmation'] == 'comparator-generated' %}
+{% if confirmation == 'comparator-reset' %}
+
+{{ govukNotificationBanner({
+  html: '<strong>You have now removed all the similar schools you chose.</strong><p class="govuk-body">The list has reverted to the similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose some new similar schools</a></p>',
+  type: "success" 
+}) }} 
+
+{% elseif data['comparators'] | length %}
 
 {% set html %}
 <h3 class="govuk-notification-banner__heading">
@@ -41,16 +48,9 @@
 
   {{ govukNotificationBanner({
     html: html,
-    type: "success"
+    type: "success" if data['confirmation'] == 'comparator-generated' else null
   }) }}
   
-{% elseif confirmation == 'comparator-reset' %}
-
-{{ govukNotificationBanner({
-  html: '<strong>You have now removed all the similar schools you chose.</strong><p class="govuk-body">The list has reverted to the similar schools we chose originally.</p><p class="govuk-body"><a href="/comparators/create">Choose some new similar schools</a></p>',
-  type: "success"
-}) }}
-
 {% endif %}
 
 <p>This school's data covers the financial year September 2022 to August 2023 academies accounts return (AAR).</p>
