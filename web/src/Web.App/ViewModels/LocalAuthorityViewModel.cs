@@ -6,10 +6,10 @@ public class LocalAuthorityViewModel(LocalAuthority localAuthority, IReadOnlyCol
 {
     public string? Code => localAuthority.Code;
     public string? Name => localAuthority.Name;
-    public IEnumerable<School> PrimarySchools => schools.Where(IsPrimary).OrderBy(x => x.Name);
-    public IEnumerable<School> SecondarySchools => schools.Where(IsSecondary).OrderBy(x => x.Name);
-    public IEnumerable<School> SpecialOrPruSchools => schools.Where(IsSpecialOrPru).OrderBy(x => x.Name);
-    public IEnumerable<School> OtherSchools => schools.Where(IsOther).OrderBy(x => x.Name);
+    public IEnumerable<School> PrimarySchools => schools.Where(IsPrimary).OrderBy(x => x.SchoolName);
+    public IEnumerable<School> SecondarySchools => schools.Where(IsSecondary).OrderBy(x => x.SchoolName);
+    public IEnumerable<School> SpecialOrPruSchools => schools.Where(IsSpecialOrPru).OrderBy(x => x.SchoolName);
+    public IEnumerable<School> OtherSchools => schools.Where(IsOther).OrderBy(x => x.SchoolName);
 
     private static bool IsPrimary(School school)
     {

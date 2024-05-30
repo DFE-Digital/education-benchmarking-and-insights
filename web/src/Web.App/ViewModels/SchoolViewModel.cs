@@ -6,13 +6,13 @@ public class SchoolViewModel(
     Finances? finances,
     IEnumerable<RagRating> ratings)
 {
-    public string? Name => school.Name;
-    public string? Urn => school.Urn;
+    public string? Name => school.SchoolName;
+    public string? Urn => school.URN;
     public string? OverallPhase => school.OverallPhase;
-    public string? OfstedRating => school.OfstedRating;
+    public string? OfstedRating => school.OfstedDescription;
     public bool IsPartOfTrust => school.IsPartOfTrust;
-    public string? TrustIdentifier => school.CompanyNumber;
-    public string? TrustName => school.TrustOrCompanyName;
+    public string? TrustIdentifier => school.TrustCompanyNumber;
+    public string? TrustName => school.TrustName;
     public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;
     public decimal? RevenueReserve => finances?.RevenueReserve;
     public bool IsMissingFinancials => finances == null;

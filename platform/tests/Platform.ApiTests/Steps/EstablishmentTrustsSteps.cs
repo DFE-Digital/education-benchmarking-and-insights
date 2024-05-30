@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using FluentAssertions;
+using Platform.Api.Establishment.Trusts;
 using Platform.ApiTests.Drivers;
 using Platform.Domain;
 using Platform.Functions;
@@ -141,12 +142,12 @@ public class EstablishmentTrustsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponseModel<TrustResponseModel>>().Results;
+        var results = content.FromJson<SuggestResponse<Trust>>().Results;
         var set = new List<dynamic>();
 
         foreach (var result in results)
         {
-            set.Add(new { result.Text, result.Document?.Name, result.Document?.CompanyNumber });
+            set.Add(new { result.Text, result.Document?.TrustName, result.Document?.CompanyNumber });
         }
 
         table.CompareToDynamicSet(set, false);

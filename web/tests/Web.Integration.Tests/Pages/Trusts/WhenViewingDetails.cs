@@ -56,7 +56,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
             .Create();
 
         var schools = Fixture.Build<School>()
-            .With(x => x.CompanyNumber, trust.CompanyNumber)
+            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .CreateMany(30).ToArray();
 
 
@@ -73,7 +73,7 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         DocumentAssert.AssertPageUrl(page, Paths.TrustDetails(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.BackLink(page, "Back", Paths.TrustHome(trust.CompanyNumber).ToAbsolute());
 
-        Assert.NotNull(trust.Name);
+        Assert.NotNull(trust.TrustName);
         DocumentAssert.TitleAndH1(page, "Contact details - Financial Benchmarking and Insights Tool - GOV.UK", "Contact details");
 
         var details = page.QuerySelector("dl.govuk-summary-list");
@@ -86,9 +86,9 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         foreach (var schoolElement in schoolList.Children)
         {
             var schoolName = schoolElement.QuerySelector("a")?.TextContent;
-            var school = schools.FirstOrDefault(s => s.Name == schoolName);
+            var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
             Assert.NotNull(school);
-            Assert.Equal(trust.CompanyNumber, school.CompanyNumber);
+            Assert.Equal(trust.CompanyNumber, school.TrustCompanyNumber);
         }
     }
 }

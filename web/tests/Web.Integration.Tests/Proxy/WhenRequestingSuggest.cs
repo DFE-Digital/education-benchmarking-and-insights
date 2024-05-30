@@ -1,4 +1,3 @@
-using AutoFixture;
 using Newtonsoft.Json.Linq;
 using System.Net;
 using Web.App.Infrastructure.Apis;
@@ -42,13 +41,13 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
             var found = false;
             var expectedText = expectedValue.Text;
             var expectedCompanyNumber = expectedValue.Document?.CompanyNumber;
-            var expectedName = expectedValue.Document?.Name;
+            var expectedName = expectedValue.Document?.TrustName;
 
             foreach (var resultObj in resultArray)
             {
                 var actualText = resultObj["text"]?.ToString();
                 var actualCompanyNumber = resultObj["document"]?["companyNumber"]?.ToString();
-                var actualName = resultObj["document"]?["name"]?.ToString();
+                var actualName = resultObj["document"]?["trustName"]?.ToString();
 
                 if (actualText == expectedText &&
                     actualCompanyNumber == expectedCompanyNumber &&
@@ -79,7 +78,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "12345678",
-                                Name = "Test Trust"
+                                TrustName = "Test Trust"
                             }
                         }
                     ]
@@ -94,7 +93,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                              Document = new Trust
                              {
                                  CompanyNumber = "12345678",
-                                 Name = "Test Trust"
+                                 TrustName = "Test Trust"
                              }
                          }
                     ]
@@ -113,7 +112,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "12345678",
-                                Name = "Test Trust"
+                                TrustName = "Test Trust"
                             }
                         }
                     ]
@@ -128,7 +127,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                          Document = new Trust
                          {
                              CompanyNumber = "12345678",
-                             Name = "Test Trust"
+                             TrustName = "Test Trust"
                          }
                      }
                     ]
@@ -147,7 +146,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "12345678",
-                                Name = "Test Trust"
+                                TrustName = "Test Trust"
                             }
                         },
                         new SuggestValue<Trust>
@@ -156,7 +155,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "87654321",
-                                Name = "Another Test Trust"
+                                TrustName = "Another Test Trust"
                             }
                         },
 
@@ -172,7 +171,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                              Document = new Trust
                              {
                                  CompanyNumber = "12345678",
-                                 Name = "Test Trust"
+                                 TrustName = "Test Trust"
                              }
                          },
                          new SuggestValue<Trust>
@@ -181,7 +180,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                              Document = new Trust
                              {
                                  CompanyNumber = "87654321",
-                                 Name = "Another Test Trust"
+                                 TrustName = "Another Test Trust"
                              }
                          }
                      ]
@@ -200,7 +199,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "12345678",
-                                Name = "Test Trust"
+                                TrustName = "Test Trust"
                             }
                         },
                         new SuggestValue<Trust>
@@ -209,7 +208,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                             Document = new Trust
                             {
                                 CompanyNumber = "12345679",
-                                Name = "Another Test Trust"
+                                TrustName = "Another Test Trust"
                             }
                         },
                     ]
@@ -224,7 +223,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                              Document = new Trust
                              {
                                  CompanyNumber = "12345678",
-                                 Name = "Test Trust"
+                                 TrustName = "Test Trust"
                              }
                          },
                          new SuggestValue<Trust>
@@ -233,7 +232,7 @@ public class WhenRequestingSuggest(SchoolBenchmarkingWebAppClient client) : ICla
                              Document = new Trust
                              {
                                  CompanyNumber = "12345679",
-                                 Name = "Another Test Trust"
+                                 TrustName = "Another Test Trust"
                              }
                          }
                     ]

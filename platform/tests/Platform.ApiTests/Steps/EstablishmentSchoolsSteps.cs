@@ -1,6 +1,7 @@
 using System.Net;
 using System.Text;
 using FluentAssertions;
+using Platform.Api.Establishment.Schools;
 using Platform.ApiTests.Drivers;
 using Platform.Domain;
 using Platform.Functions;
@@ -85,12 +86,12 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var results = content.FromJson<SuggestResponseModel<SchoolResponseModel>>().Results;
+        var results = content.FromJson<SuggestResponse<School>>().Results;
         var set = new List<dynamic>();
 
         foreach (var result in results)
         {
-            set.Add(new { result.Text, result.Document?.Name, result.Document?.Urn });
+            set.Add(new { result.Text, result.Document?.SchoolName, result.Document?.URN });
         }
 
         table.CompareToDynamicSet(set, false);
@@ -115,10 +116,10 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SchoolResponseModel>();
+        var result = content.FromJson<School>();
 
-        result.Name.Should().Be("Burscough Bridge St John's Church of England Primary School");
-        result.Urn.Should().Be("119376");
+        result.SchoolName.Should().Be("Burscough Bridge St John's Church of England Primary School");
+        result.URN.Should().Be("119376");
     }
 
     [Given("a invalid school request")]
@@ -159,7 +160,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResponseModel<SchoolResponseModel>>();
+        var result = content.FromJson<PagedResponseModel<School>>();
 
         result.Page.Should().Be(page);
         result.PageSize.Should().Be(pageSize);
@@ -198,7 +199,7 @@ public class EstablishmentSchoolsSteps
         response.StatusCode.Should().Be(HttpStatusCode.OK);
 
         var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<SearchResponseModel<SchoolResponseModel>>();
+        var result = content.FromJson<SearchResponse<School>>();
 
         result.Page.Should().Be(1);
         result.PageSize.Should().Be(15);

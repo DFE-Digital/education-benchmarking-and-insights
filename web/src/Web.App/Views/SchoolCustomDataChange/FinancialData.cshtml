@@ -6,15 +6,15 @@
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
     title = PageTitles.SchoolChangeDataFinancialData,
-    name = Model.School.Name,
-    id = Model.School.Urn,
+    name = Model.School.SchoolName,
+    id = Model.School.URN,
     kind = OrganisationTypes.School
 })
 
 @await Html.PartialAsync("_ErrorSummary")
 @using (Html.BeginForm("FinancialData", "SchoolCustomDataChange", new
         {
-            urn = Model.School.Urn
+            urn = Model.School.URN
         }, FormMethod.Post, true, new
         {
             novalidate = "novalidate",

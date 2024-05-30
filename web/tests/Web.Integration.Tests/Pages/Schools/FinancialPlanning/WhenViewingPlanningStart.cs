@@ -27,7 +27,7 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
         var anchor = page.QuerySelector(".govuk-grid-row .govuk-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHelp(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHelp(school.URN).ToAbsolute());
     }
 
     [Theory]
@@ -38,7 +38,7 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
         var (page, school) = await SetupNavigateInitPage(financeType);
         var anchor = page.QuerySelector(".govuk-button");
         page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute());
     }
 
 
@@ -52,7 +52,7 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -80,25 +80,25 @@ public class WhenViewingPlanningStart(SchoolBenchmarkingWebAppClient client) : P
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .Navigate(Paths.SchoolFinancialPlanningStart(school.Urn));
+            .Navigate(Paths.SchoolFinancialPlanningStart(school.URN));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Financial Benchmarking and Insights Tool - GOV.UK", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.Urn));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         var helpLink = page.QuerySelector(".govuk-grid-row .govuk-link");
-        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolFinancialPlanningHelp(school.Urn).ToAbsolute());
+        DocumentAssert.Link(helpLink, "can be found here", Paths.SchoolFinancialPlanningHelp(school.URN).ToAbsolute());
     }
 }

@@ -43,7 +43,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -54,7 +54,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
+            Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -121,7 +121,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -147,7 +147,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute());
 
         var expectedMsg = value is null ? "Enter your total income" : "Total income must be 0 or more";
         DocumentAssert.FormErrors(page, ("TotalIncome", expectedMsg));
@@ -156,7 +156,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -164,7 +164,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalIncome)
@@ -175,14 +175,14 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningTotalIncome(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "What is your total income? - Financial Benchmarking and Insights Tool - GOV.UK", "What is your total income?");
     }
 }

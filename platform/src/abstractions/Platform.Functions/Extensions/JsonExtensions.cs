@@ -30,7 +30,7 @@ public static class JsonExtensions
     }
 
 
-    public static T FromJson<T>(this string source)
+    public static T FromJson<T>(this string? source)
     {
         return JsonConvert.DeserializeObject<T>(source, Settings) ?? throw new ArgumentNullException();
     }

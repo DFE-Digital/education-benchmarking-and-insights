@@ -5,6 +5,6 @@ namespace Web.App.ViewModels;
 public class TrustComparisonViewModel(Trust trust, string[] phases)
 {
     public string? CompanyNumber => trust.CompanyNumber;
-    public string? Name => trust.Name;
+    public string? Name => trust.TrustName;
     public string[] Phases => phases;
 }

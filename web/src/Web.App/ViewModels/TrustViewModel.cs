@@ -5,7 +5,7 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
 {
 
     public string? CompanyNumber => trust.CompanyNumber;
-    public string? Name => trust.Name;
+    public string? Name => trust.TrustName;
     public int NumberSchools => schools.Count;
     public decimal? RevenueReserve => balance.RevenueReserve;
     public decimal? InYearBalance => balance.InYearBalance;
@@ -53,11 +53,11 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
             OverallPhase: x.Key,
             Schools: x
                 .Select(s => new RagSchoolViewModel(
-                    s.Urn,
-                    s.Name,
-                    ratings.Where(NotOther).Where(Red).Count(r => r.Urn == s.Urn),
-                    ratings.Where(NotOther).Where(Amber).Count(r => r.Urn == s.Urn),
-                    ratings.Where(NotOther).Where(Green).Count(r => r.Urn == s.Urn)
+                    s.URN,
+                    s.SchoolName,
+                    ratings.Where(NotOther).Where(Red).Count(r => r.Urn == s.URN),
+                    ratings.Where(NotOther).Where(Amber).Count(r => r.Urn == s.URN),
+                    ratings.Where(NotOther).Where(Green).Count(r => r.Urn == s.URN)
                 ))
                 .OrderByDescending(o => o.RedRatio)
                 .ThenByDescending(o => o.AmberRatio)

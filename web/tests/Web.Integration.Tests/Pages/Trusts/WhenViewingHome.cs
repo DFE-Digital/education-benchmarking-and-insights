@@ -78,7 +78,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var schools = Fixture.Build<School>()
             .With(x => x.OverallPhase, () => OverallPhaseTypes.All.ElementAt(random.Next(0, OverallPhaseTypes.All.Length - 1)))
-            .With(x => x.CompanyNumber, trust.CompanyNumber)
+            .With(x => x.TrustCompanyNumber, trust.CompanyNumber)
             .CreateMany(20).ToArray();
 
         var ratings = Fixture.Build<RagRating>()
@@ -89,7 +89,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         foreach (var rating in ratings)
         {
             rating.CostCategory = AllCostCategories[rating.CostCategoryId];
-            rating.Urn = schools.ElementAt(random.Next(0, schools.Length - 1)).Urn;
+            rating.Urn = schools.ElementAt(random.Next(0, schools.Length - 1)).URN;
         }
 
         var page = await Client.SetupEstablishment(trust, schools)
@@ -116,8 +116,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         DocumentAssert.TextEqual(dataSourceElement, "This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).");
 
-        Assert.NotNull(trust.Name);
-        DocumentAssert.TitleAndH1(page, "Your trust - Financial Benchmarking and Insights Tool - GOV.UK", trust.Name);
+        Assert.NotNull(trust.TrustName);
+        DocumentAssert.TitleAndH1(page, "Your trust - Financial Benchmarking and Insights Tool - GOV.UK", trust.TrustName);
 
         // headlines
         var highPriorityHeadline = page.QuerySelector("li.app-headline-high") as IHtmlListItemElement;

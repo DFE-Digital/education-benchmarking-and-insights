@@ -25,7 +25,7 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
-                var finances = await financeService.GetFinances(set.DefaultArea);
+                var finances = await financeService.GetFinances(set.Building);
                 var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
                 return View(viewModel);
             }
@@ -49,7 +49,7 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
-                var finances = await financeService.GetFinances(set.DefaultPupil);
+                var finances = await financeService.GetFinances(set.Pupil);
                 var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
                 return View(viewModel);
             }

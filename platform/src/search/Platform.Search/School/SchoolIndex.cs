@@ -5,21 +5,13 @@ namespace Platform.Search.School;
 public class SchoolIndex
 {
     [SimpleField(IsKey = true, IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string? Urn { get; set; }
+    public string? URN { get; set; }
 
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string? Name { get; set; }
+    public string? SchoolName { get; set; }
 
-    [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
-    public string? LaEstab { get; set; }
-
-    [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? FinanceType { get; set; }
-
-    [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Kind { get; set; }
-
-    [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
+    //Need to review address fields
+    /*[SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
     public string? Street { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
@@ -35,5 +27,5 @@ public class SchoolIndex
     public string? County { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Postcode { get; set; }
+    public string? Postcode { get; set; }*/
 }
