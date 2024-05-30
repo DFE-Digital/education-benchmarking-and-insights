@@ -7,6 +7,7 @@ import {
   chartSeriesComparer,
   shortValueFormatter,
   statValueFormatter,
+  fullValueFormatter,
 } from "./utils";
 
 describe("Chart utils", () => {
@@ -91,12 +92,12 @@ describe("Chart utils", () => {
       it("formats the values using compact notation", () => {
         const result = values.map((v) => shortValueFormatter(v, options));
         expect(result).toEqual([
-          "-987.7",
+          "-987.65",
           "0",
           "1",
-          "2.3",
-          "12.3k",
-          "890.1m",
+          "2.35",
+          "12.35k",
+          "890.12m",
           "not-a-number",
         ]);
       });
@@ -223,6 +224,80 @@ describe("Chart utils", () => {
           "890,123,456 british pounds",
           "not-a-number",
         ]);
+      });
+    });
+  });
+
+  describe("fullValueFormatter()", () => {
+    describe("with default options", () => {
+      const options: Partial<ValueFormatterOptions> = {};
+
+      it("formats the values to two decimal places with number separators only", () => {
+        const result = values.map((v) => fullValueFormatter(v, options));
+        expect(result).toEqual([
+          "-987.65",
+          "0",
+          "1",
+          "2.35",
+          "12,345.67",
+          "890,123,456",
+          "not-a-number",
+        ]);
+      });
+    });
+
+    describe("fullValueFormatter()", () => {
+      describe("with amount options", () => {
+        const options: Partial<ValueFormatterOptions> = { valueUnit: "amount" };
+
+        it("formats the values to two decimal places with number separators only", () => {
+          const result = values.map((v) => fullValueFormatter(v, options));
+          expect(result).toEqual([
+            "-987.65",
+            "0",
+            "1",
+            "2.35",
+            "12,345.67",
+            "890,123,456",
+            "not-a-number",
+          ]);
+        });
+      });
+
+      describe("with currency option", () => {
+        const options: Partial<ValueFormatterOptions> = {
+          valueUnit: "currency",
+        };
+
+        it("formats the values to zero decimal places as GBP", () => {
+          const result = values.map((v) => fullValueFormatter(v, options));
+          expect(result).toEqual([
+            "-£988",
+            "£0",
+            "£1",
+            "£2",
+            "£12,346",
+            "£890,123,456",
+            "not-a-number",
+          ]);
+        });
+      });
+
+      describe("with percent option", () => {
+        const options: Partial<ValueFormatterOptions> = { valueUnit: "%" };
+
+        it("formats the values to one decimal place as percent", () => {
+          const result = values.map((v) => fullValueFormatter(v, options));
+          expect(result).toEqual([
+            "-987.7%",
+            "0%",
+            "1%",
+            "2.3%",
+            "12,345.7%",
+            "890,123,456%",
+            "not-a-number",
+          ]);
+        });
       });
     });
   });

@@ -39,7 +39,12 @@ export function shortValueFormatter(
           ? "percent"
           : undefined,
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
-    maximumFractionDigits: options?.valueUnit === "currency" ? undefined : 1,
+    maximumFractionDigits:
+      options?.valueUnit === "currency"
+        ? undefined
+        : options?.valueUnit === "%"
+          ? 1
+          : 2,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();
@@ -65,6 +70,33 @@ export function statValueFormatter(
     currency: options?.valueUnit === "currency" ? "GBP" : undefined,
     currencyDisplay: options?.currencyAsName ? "name" : "symbol",
     maximumFractionDigits: options?.compact ? undefined : 0,
+  })
+    .format(options?.valueUnit === "%" ? value / 100 : value)
+    .toLowerCase();
+}
+
+export function fullValueFormatter(
+  value: ValueFormatterValue,
+  options?: Partial<ValueFormatterOptions>
+): string {
+  if (typeof value !== "number") {
+    return String(value) || "";
+  }
+
+  return new Intl.NumberFormat("en-GB", {
+    style:
+      options?.valueUnit === "currency"
+        ? "currency"
+        : options?.valueUnit === "%"
+          ? "percent"
+          : undefined,
+    currency: options?.valueUnit === "currency" ? "GBP" : undefined,
+    maximumFractionDigits:
+      options?.valueUnit === "currency"
+        ? 0
+        : options?.valueUnit === "%"
+          ? 1
+          : 2,
   })
     .format(options?.valueUnit === "%" ? value / 100 : value)
     .toLowerCase();

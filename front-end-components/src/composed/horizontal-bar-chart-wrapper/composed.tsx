@@ -137,6 +137,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                   tableHeadings={data.tableHeadings}
                   data={sortedDataPoints}
                   preventFocus={mode !== ChartModeTable}
+                  valueUnit={valueUnit ?? dimension.unit}
                 />
               </div>
             </>
