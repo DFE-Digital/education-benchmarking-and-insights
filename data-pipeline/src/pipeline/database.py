@@ -78,15 +78,16 @@ def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFr
     )
 
 
-def insert_metric_rag(run_type: str, year: str, df: pd.DataFrame):
+def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame):
     write_frame = df[
         ["Category", "SubCategory", "Value", "Mean", "DiffMean", "PercentDiff", "Percentile", "Decile", "RAG"]
     ].copy()
     write_frame["RunType"] = run_type
     write_frame["RunId"] = year
+    write_frame["SetType"] = set_type
 
-    upsert(write_frame, "MetricRAG", keys=["RunType", "RunId", "URN", "Category", "SubCategory"])
-    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {year}")
+    upsert(write_frame, "MetricRAG", keys=["RunType", "RunId", "SetType", "URN", "Category", "SubCategory"])
+    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}")
 
 
 def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):

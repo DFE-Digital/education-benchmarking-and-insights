@@ -345,7 +345,7 @@ def compute_comparator_sets(set_type, year):
     return time_taken
 
 
-def compute_rag_for(data_type, set_type, year, data, comparators):
+def compute_rag_for(data_type, mix_type, set_type, year, data, comparators):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
     df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
@@ -358,7 +358,7 @@ def compute_rag_for(data_type, set_type, year, data, comparators):
         df.to_parquet(),
     )
 
-    insert_metric_rag(set_type, year, df)
+    insert_metric_rag(set_type, mix_type, year, df)
 
 
 def run_compute_rag(set_type, year):
@@ -373,7 +373,7 @@ def run_compute_rag(set_type, year):
             f"{set_type}/{year}/maintained_schools_comparators.parquet",
         )
     )
-    compute_rag_for("maintained_schools", set_type, year, ms_data, ms_comparators)
+    compute_rag_for("maintained_schools", "unmixed", set_type, year, ms_data, ms_comparators)
 
     academy_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet")
@@ -381,7 +381,7 @@ def run_compute_rag(set_type, year):
     academy_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet")
     )
-    compute_rag_for("academies", set_type, year, academy_data, academy_comparators)
+    compute_rag_for("academies", "unmixed", set_type, year, academy_data, academy_comparators)
 
     mixed_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet")
@@ -389,7 +389,7 @@ def run_compute_rag(set_type, year):
     mixed_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet")
     )
-    compute_rag_for("mixed", set_type, year, mixed_data, mixed_comparators)
+    compute_rag_for("mixed", "mixed", set_type, year, mixed_data, mixed_comparators)
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
