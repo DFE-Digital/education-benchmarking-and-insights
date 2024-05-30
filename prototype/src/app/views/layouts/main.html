@@ -29,7 +29,12 @@ https://prototype-kit.service.gov.uk/docs/how-to-use-layouts
         <a href="/" class="govuk-header__link govuk-header__service-name">
           {{ serviceName }}
         </a>
-        <a href="/sign-in" class="govuk-header__link govuk-header__service-name" style="float: right; font-weight: normal;">Sign in</a>
+        {% if data['signedIn'] == 'true' %}
+        <a href="/sign-out" class="govuk-header__link govuk-header__service-name" style="float: right; font-weight: normal;">Sign out</a>
+        {% else %}
+        <a href="/sign-in?goTo=" class="govuk-header__link govuk-header__service-name" style="float: right; font-weight: normal;">Sign in</a>
+
+        {% endif %}
       </div>
     </div>
   </header>

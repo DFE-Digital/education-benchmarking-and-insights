@@ -38,7 +38,7 @@
         
 
         {{ govukRadios({
-          name: "compareRoute",
+          name: "compareRouteTrusts",
           fieldset: {
             legend: {
               text: "How do you want to choose similar trusts?",
@@ -50,12 +50,12 @@
             {
               value: "by-name?editSet=false",
               text: "By name",
-              checked: checked("compareRoute", "by-name?editSet=false")
+              checked: checked("compareRouteTrusts", "by-name?editSet=false")
             },
             {
               value: "characteristics",
               text: "By characteristic",
-              checked: checked("compareRoute", "characteristics"),
+              checked: checked("compareRouteTrusts", "characteristics"),
               hint: { text: "For example, number of pupils or schools." }
             }
           ]
