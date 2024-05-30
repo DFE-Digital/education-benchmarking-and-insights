@@ -24,10 +24,10 @@
     {
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.CostCategory</h3>
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
                     @await Component.InvokeAsync("Tag", new { category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText })
-                    Spends <strong>@category.Rating.FromMedian.Difference.ToCurrency()</strong> @category.Rating.Unit @category.Rating.FromMedian.Description the median of similar schools.
+                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2"
                      data-spending-and-costs-composed
@@ -38,7 +38,7 @@
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>
+                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
                 </p>
             </div>
         </div>
@@ -58,10 +58,10 @@
     {
         <div class="govuk-grid-row govuk-!-margin-bottom-4">
             <div class="govuk-grid-column-two-thirds">
-                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.CostCategory</h3>
+                <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
                     @await Component.InvokeAsync("Tag", new { category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText })
-                    Spends <strong>@category.Rating.FromMedian.Difference.ToCurrency()</strong> @category.Rating.Unit @category.Rating.FromMedian.Description the median of similar schools.
+                    Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2"
                      data-spending-and-costs-composed
@@ -72,7 +72,7 @@
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
-                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.CostCategory?.ToLower() costs</a>
+                    <a href="comparison#@category.Rating.CostCategoryAnchorId" class="govuk-link govuk-link--no-visited-state">View all @category.Rating.Category?.ToLower() costs</a>
                 </p>
             </div>
         </div>

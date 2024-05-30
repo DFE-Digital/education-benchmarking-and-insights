@@ -13,7 +13,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunction
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string?>()))
+            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
             .ReturnsAsync(new DefaultComparatorSet());
 
         var result =
@@ -29,7 +29,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunction
     public async Task ShouldReturn500OnError()
     {
         Service
-            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string?>()))
+            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions

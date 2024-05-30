@@ -9,17 +9,17 @@ public class TrustSpendingViewModel(Trust trust, IReadOnlyCollection<School> sch
 
     // todo: sorting; either here or in API
     public IEnumerable<RagSchoolsSpendingViewModel> Ratings => ratings
-        .OrderBy(x => x.CostCategory)
-        .ThenBy(x => x.StatusOrder)
-        .GroupBy(x => x.CostCategory)
+        .OrderBy(x => x.Category)
+        .ThenBy(x => Lookups.StatusOrderMap[x.RAG ?? string.Empty])
+        .GroupBy(x => x.Category)
         .Select(x => new RagSchoolsSpendingViewModel(
             x.Key,
-            x.GroupBy(y => y.Status)
+            x.GroupBy(y => y.RAG)
                 .Select(y => new RagSchoolsSpendingStatusViewModel(
                     y.Key,
                     y.Select(z => z.PriorityTag).FirstOrDefault(),
                     y.SelectMany(z => schools
-                        .Where(s => s.URN == z.Urn)
+                        .Where(s => s.URN == z.URN)
                         .Select(s => new RagSchoolSpendingSchoolViewModel(s, z)))
                         .OrderByDescending(s => s.Value)
                 ))
@@ -46,6 +46,6 @@ public class RagSchoolSpendingSchoolViewModel(School? school, RagRating? rating)
 {
     public string? Urn => school?.URN;
     public string? Name => school?.SchoolName;
-    public int? Decile => rating?.Decile;
+    public decimal? Decile => rating?.Decile;
     public decimal? Value => rating?.Value;
 }

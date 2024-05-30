@@ -10,10 +10,9 @@ public abstract class RagViewModel(int red, int amber, int green)
     private decimal Total => red + amber + green;
 }
 
-public class RagCostCategoryViewModel(string? category, int? categoryId, int red, int amber, int green) : RagViewModel(red, amber, green)
+public class RagCostCategoryViewModel(string? category, int red, int amber, int green) : RagViewModel(red, amber, green)
 {
     public string? Category => category;
-    public int? CategoryId => categoryId;
 }
 
 public class RagSchoolViewModel(string? urn, string? name, int red, int amber, int green) : RagViewModel(red, amber, green)

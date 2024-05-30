@@ -17,13 +17,13 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
     [HttpGet]
     public async Task<IActionResult> Index(
         string companyNumber,
-        [FromQuery(Name = "category")] int[]? costCategoryIds,
+        [FromQuery(Name = "category")] string[]? categories,
         [FromQuery(Name = "status")] string[]? statuses)
     {
         using (logger.BeginScope(new
         {
             companyNumber,
-            costCategoryId = costCategoryIds,
+            category = categories,
             status = statuses
         }))
         {
@@ -44,11 +44,11 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                     schoolsQuery.AddIfNotNull("urns", school.URN);
                 }
 
-                if (costCategoryIds != null)
+                if (categories != null)
                 {
-                    foreach (var costCategoryId in costCategoryIds)
+                    foreach (var category in categories)
                     {
-                        schoolsQuery.AddIfNotNull("categories", costCategoryId.ToString());
+                        schoolsQuery.AddIfNotNull("categories", category);
                     }
                 }
 

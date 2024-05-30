@@ -39,7 +39,7 @@ module "insight-fa" {
     "Cosmos__CfrLatestYear"               = 2023,
     "Cosmos__AarLatestYear"               = 2022,
     "Cosmos__EstablishmentCollectionName" = "GIAS"
-    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-sql-connection-string.versionless_id})"
+    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }

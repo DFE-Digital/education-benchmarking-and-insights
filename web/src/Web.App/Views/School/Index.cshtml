@@ -1,4 +1,3 @@
-@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
@@ -77,14 +76,14 @@ else
                     @foreach (var rating in Model.Ratings)
                     {
                         <div>
-                            <h4 class="govuk-heading-s">@rating.CostCategory</h4>
+                            <h4 class="govuk-heading-s">@rating.Category</h4>
                             <p class="priority @rating.PriorityTag?.Class govuk-body">
                                 @await Component.InvokeAsync("Tag", new
                                 {
                                     rating.PriorityTag?.Colour,
                                     rating.PriorityTag?.DisplayText
                                 })
-                                Spends <strong>@rating.FromMedian.Difference.ToCurrency()</strong> @rating.Unit @rating.FromMedian.Description the median of similar schools.
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
                         </div>
                     }

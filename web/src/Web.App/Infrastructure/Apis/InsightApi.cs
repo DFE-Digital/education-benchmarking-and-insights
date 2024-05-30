@@ -29,7 +29,7 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
 
     public async Task<ApiResult> GetRatings(ApiQuery? query = null)
     {
-        return await GetAsync($"api/ratings{query?.ToQueryString()}");
+        return await GetAsync($"api/metric-rag/default{query?.ToQueryString()}");
     }
 
     public async Task<ApiResult> GetSchoolFinances(ApiQuery? query = null)
