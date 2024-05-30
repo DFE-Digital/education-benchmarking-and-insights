@@ -41,6 +41,7 @@ IF NOT EXISTS(SELECT *
             URN         nvarchar(6)  NOT NULL,
             Category    nvarchar(50) NOT NULL,
             SubCategory nvarchar(50) NOT NULL,
+            SetType     nvarchar(50) NOT NULL,
             Value       decimal      NULL,
             Mean        decimal      NULL,
             DiffMean    decimal      NULL,
@@ -49,7 +50,7 @@ IF NOT EXISTS(SELECT *
             Decile      decimal      NULL,
             RAG         nvarchar(10) NOT NULL,
 
-            CONSTRAINT PK_MetricRAG PRIMARY KEY (RunType, RunId, URN, Category, SubCategory)
+            CONSTRAINT PK_MetricRAG PRIMARY KEY (RunType, RunId, SetType, URN, Category, SubCategory)
         );
     END;
 
@@ -146,7 +147,6 @@ IF NOT EXISTS(SELECT *
             HasNursery         bit           NOT NULL,
             IsPFISchool        bit           NOT NULL,
             OfstedDate         date          NULL,
-            OfstedRating       tinyint       NULL,
             OfstedDescription  nvarchar(20)  NULL,
             Telephone          nvarchar(20)  NULL,
             Website            nvarchar(255) NULL,
