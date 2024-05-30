@@ -1,0 +1,69 @@
+@using Web.App.Extensions
+@model Web.App.ViewModels.TrustSpendingViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustSpending;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.Trust,
+    isPartOfTrust = true,
+    className = "govuk-grid-column-full"
+})
+
+@foreach (var rating in Model.Ratings)
+{
+    <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+
+    @foreach (var status in rating.Statuses)
+    {
+        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+
+        <div class="top-categories">
+            <div>
+                <p class="priority @status.PriorityTag?.Class govuk-body">
+                    @await Component.InvokeAsync("Tag", new
+                    {
+                        status.PriorityTag?.Colour,
+                        status.PriorityTag?.DisplayText
+                    })
+                    @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
+                    in the @status.PriorityTag?.DisplayText.ToLower() range
+                </p>
+            </div>
+        </div>
+
+        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">Rank</th>
+                <th scope="col" class="govuk-table__header">School</th>
+                <th scope="col" class="govuk-table__header">Expenditure</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+            @for (var i = 0; i < status.Schools.Count(); i++)
+            {
+                var school = status.Schools.ElementAt(i);
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">@(i + 1)</td>
+                    <td class="govuk-table__cell">
+                        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+                    </td>
+                    <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    }
+}
+
+@await Component.InvokeAsync("GetHelp")

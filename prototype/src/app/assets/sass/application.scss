@@ -175,17 +175,23 @@ p.priority .govuk-tag {
 }
 
 // COMPARATOR SETS
+
+
+.school-search .govuk-form-group {
+    width: calc(100% - 166px) 
+}
+
+.school-search-old .govuk-form-group {
+    width: calc(100% - 66px) 
+}
+
 .school-search .govuk-form-group, .school-search button {
     display: inline-block;
     vertical-align: top;
 }
 
 .school-search .govuk-form-group.govuk-form-group--error {
-    width: calc(100% - 96px)
-}
-
-.school-search .govuk-form-group {
-    width: calc(100% - 76px) 
+    width: calc(100% - 86px)
 }
 
 .school-search button {
@@ -275,3 +281,26 @@ div.sortWrapper {
     width: 100%;
 }
 
+
+.loading {
+    text-align: center;
+}
+
+.loading .spinner {
+    border: 12px solid #DEE0E2;
+    border-radius: 50%;
+    border-top-color: #005EA5;
+    margin: auto auto 20px auto;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite;
+    animation: spin 2s linear infinite;
+  }
+  @-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

@@ -38,6 +38,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
+    public BenchmarkingWebAppClient SetupEstablishment(SuggestOutput<Trust> trustTestData)
+    {
+        EstablishmentApi.Reset();
+        EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>())).ReturnsAsync(ApiResult.Ok(trustTestData));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupEstablishment(School school)
     {
         EstablishmentApi.Reset();

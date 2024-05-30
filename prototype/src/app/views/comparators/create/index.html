@@ -41,16 +41,16 @@
           name: "compareRoute",
           fieldset: {
             legend: {
-              text: "How do you want to choose similar schools?",
+              text: "How do you want to choose your set of schools?",
               isPageHeading: true,
               classes: "govuk-fieldset__legend--l"
             }
           },
           items: [
             {
-              value: "review",
+              value: "by-name?editSet=false",
               text: "By name",
-              checked: checked("compareRoute", "review")
+              checked: checked("compareRoute", "by-name?editSet=false")
             },
             {
               value: "characteristics",

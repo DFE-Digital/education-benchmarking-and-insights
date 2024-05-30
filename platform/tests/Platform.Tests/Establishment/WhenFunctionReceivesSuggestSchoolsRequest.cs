@@ -13,7 +13,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Search
+        SchoolSearch
             .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequestModel>()))
             .ReturnsAsync(new SuggestResponseModel<SchoolResponseModel>());
 

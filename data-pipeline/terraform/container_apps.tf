@@ -47,6 +47,11 @@ resource "azurerm_container_app" "data-pipeline" {
   }
 
   secret {
+    name  = "db-password"
+    value = data.azurerm_key_vault_secret.core-db-password.value
+  }
+
+  secret {
     name  = "registry-password"
     value = data.azurerm_container_registry.acr.admin_password
   }
@@ -68,7 +73,6 @@ resource "azurerm_container_app" "data-pipeline" {
       cpu    = 4
       memory = "16Gi"
 
-      ##TODO: Review if this is the best way to build this env
       env {
         name  = "WORKER_QUEUE_NAME"
         value = "data-pipeline-job-start"
@@ -87,6 +91,36 @@ resource "azurerm_container_app" "data-pipeline" {
       env {
         name        = "STORAGE_CONNECTION_STRING"
         secret_name = "queue-connection-string"
+      }
+
+      env {
+        name        = "DB_PWD"
+        secret_name = "db-password"
+      }
+
+      env {
+        name  = "DB_HOST"
+        value = data.azurerm_key_vault_secret.core-db-domain-name.value
+      }
+
+      env {
+        name  = "DB_NAME"
+        value = data.azurerm_key_vault_secret.core-db-name.value
+      }
+
+      env {
+        name  = "DB_PORT"
+        value = "1433"
+      }
+
+      env {
+        name  = "DB_USER"
+        value = data.azurerm_key_vault_secret.core-db-user-name.value
+      }
+
+      env {
+        name  = "DB_ARGS"
+        value = "Encrypt=no;TrustServerCertificate=no;Connection Timeout=30"
       }
     }
 

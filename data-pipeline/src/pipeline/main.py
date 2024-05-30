@@ -12,7 +12,13 @@ from dask.distributed import Client
 
 load_dotenv()
 
-from src.pipeline.database import insert_comparator_set, insert_metric_rag
+from src.pipeline.log import setup_logger
+
+from src.pipeline.database import (
+    insert_comparator_set,
+    insert_metric_rag,
+    insert_schools_and_trusts_and_local_authorities
+)
 
 from src.pipeline.rag import compute_rag
 from src.pipeline.comparator_sets import (
@@ -23,6 +29,7 @@ from src.pipeline.pre_processing import (
     build_academy_data,
     build_federations_data,
     build_maintained_school_data,
+    build_bfr_data,
     prepare_aar_data,
     prepare_cdc_data,
     prepare_census_data,
@@ -43,13 +50,10 @@ from src.pipeline.storage import (
     write_blob,
 )
 
-logger = logging.getLogger("fbit-data-pipeline")
-logger.setLevel(logging.INFO)
+logger = setup_logger("fbit-data-pipeline")
 
 ds_logger = logging.getLogger("distributed.utils_perf")
 ds_logger.setLevel(logging.ERROR)
-
-logging.basicConfig(stream=sys.stdout, level=logging.INFO)
 
 
 def pre_process_cdc(set_type: str, year: int) -> pd.DataFrame:
@@ -146,8 +150,14 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
         raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
 
+    links_data = get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="cp1252"
+    )
+
     academies = build_academy_data(
-        academies_data, year, schools, census, sen, cdc, aar, ks2, ks4
+        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4
     )
 
     write_blob(
@@ -168,8 +178,15 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
         f"{set_type}/{year}/maintained_schools_master_list.csv",
         encoding="utf-8",
     )
+
+    links_data = get_blob(
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="cp1252"
+    )
+
     maintained_schools = build_maintained_school_data(
-        maintained_schools_data, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data, links_data, year, schools, census, sen, cdc, ks2, ks4
     )
 
     write_blob(
@@ -212,19 +229,62 @@ def pre_process_all_schools(set_type, year, data_ref):
     logger.info("Building All schools Set")
     academies, maintained_schools = data_ref
 
-    all_schools = pd.concat([academies, maintained_schools])
+    all_schools = pd.concat([academies, maintained_schools], axis=0)
+
     write_blob(
         "pre-processed",
         f"{set_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
+    insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
+
+
+def pre_process_bfr(set_type, year):
+    logger.info("Processing BFR Data")
+
+    bfr_sofa = get_blob(
+        raw_container, f"{set_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
+    )
+
+    bfr_3y = get_blob(
+        raw_container, f"{set_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
+    )
+
+    bfr_sofa, bfr_3y, bfr, bfr_metrics = build_bfr_data(bfr_sofa, bfr_3y)
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_sofa.parquet",
+        bfr_sofa.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_3y.parquet",
+        bfr_3y.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr.parquet",
+        bfr.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_metrics.parquet",
+        bfr.to_parquet(),
+    )
+
+    return bfr_sofa, bfr_3y, bfr, bfr_metrics
+
 
 def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
 
-    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather(
+    cdc, census, sen, ks2, ks4, aar, schools, bfr = worker_client.gather(
         [
             worker_client.submit(pre_process_cdc, set_type, year),
             worker_client.submit(pre_process_census, set_type, year),
@@ -233,6 +293,7 @@ def pre_process_data(worker_client, set_type, year):
             worker_client.submit(pre_process_ks4, set_type, year),
             worker_client.submit(pre_process_academy_ar, set_type, year),
             worker_client.submit(pre_process_schools, set_type, year),
+            worker_client.submit(pre_process_bfr, set_type, year),
         ]
     )
 
@@ -247,14 +308,7 @@ def pre_process_data(worker_client, set_type, year):
         ]
     )
 
-    data2_ref = worker_client.scatter((academies, maintained_schools))
-
-    worker_client.gather(
-        [
-            worker_client.submit(pre_process_federations, set_type, year, data2_ref),
-            worker_client.submit(pre_process_all_schools, set_type, year, data2_ref),
-        ]
-    )
+    pre_process_all_schools(set_type, year, (academies, maintained_schools))
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
@@ -333,10 +387,10 @@ def compute_comparator_sets(set_type, year):
     return time_taken
 
 
-def compute_rag_for(data_type, set_type, year, data, comparators):
+def compute_rag_for(data_type, mix_type, set_type, year, data, comparators):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
-    df = pd.DataFrame(compute_rag(data, comparators))
+    df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
 
     logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")
 
@@ -346,7 +400,7 @@ def compute_rag_for(data_type, set_type, year, data, comparators):
         df.to_parquet(),
     )
 
-    insert_metric_rag(set_type, year, df)
+    insert_metric_rag(set_type, mix_type, year, df)
 
 
 def run_compute_rag(set_type, year):
@@ -361,7 +415,7 @@ def run_compute_rag(set_type, year):
             f"{set_type}/{year}/maintained_schools_comparators.parquet",
         )
     )
-    compute_rag_for("maintained_schools", set_type, year, ms_data, ms_comparators)
+    compute_rag_for("maintained_schools", "unmixed", set_type, year, ms_data, ms_comparators)
 
     academy_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet")
@@ -369,7 +423,7 @@ def run_compute_rag(set_type, year):
     academy_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet")
     )
-    compute_rag_for("academies", set_type, year, academy_data, academy_comparators)
+    compute_rag_for("academies", "unmixed", set_type, year, academy_data, academy_comparators)
 
     mixed_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet")
@@ -377,7 +431,7 @@ def run_compute_rag(set_type, year):
     mixed_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet")
     )
-    compute_rag_for("mixed", set_type, year, mixed_data, mixed_comparators)
+    compute_rag_for("mixed", "mixed", set_type, year, mixed_data, mixed_comparators)
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
@@ -402,7 +456,7 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
 
         msg_payload["success"] = True
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         msg_payload["success"] = False
         msg_payload["error"] = str(error)
     finally:
@@ -429,7 +483,7 @@ def receive_one_message(worker_client):
                     logger.info("no messages received")
                     exit(0)
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         exit(-1)
 
 
@@ -450,7 +504,7 @@ def receive_messages(worker_client):
                     else:
                         time.sleep(1)
     except Exception as error:
-        logger.exception("An exception occurred:", type(error).__name__, "–", error)
+        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
         exit(-1)
 
 

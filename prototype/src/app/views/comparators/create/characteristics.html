@@ -22,9 +22,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-three-quarters">
-
-        <form action="/comparators/create/review" method="post">
-
                         
             {% if data['errorThisPage'] == 'true' %}
             
@@ -85,7 +82,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     name: "comparePhase",
                     fieldset: {
                         legend: {
-                        text: "Phase of schools",
+                        text: "Category of schools",
                         isPageHeading: false,
                         classes: "govuk-fieldset__legend--s"
                         }
@@ -107,8 +104,18 @@ Choose characteristics to find matching schools – {{ serviceName }}
                             checked: true
                         },
                         {
-                            value: "allThrough",
-                            text: "All-through",
+                            value: "pru",
+                            text: "Pupil referral units or alternative provision schools",
+                            checked: checked("comparePhase", "pru")
+                        },
+                        {
+                            value: "special",
+                            text: "Special",
+                            checked: checked("comparePhase", "special")
+                        },
+                        {
+                            value: "utc",
+                            text: "University terchnical college",
                             checked: checked("comparePhase", "allThrough")
                         }
                     ]
@@ -175,7 +182,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 </div>
                 <div class="govuk-grid-column-one-quarter">
                     <label class="govuk-label" for="MaxNoPupil">To</label>
-                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-6" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
+                    <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxNoPupil" id="MaxNoPupil" class="govuk-input form-control criteria-input max-js govuk-input--width-5" min="0" max="100000"     aria-label="Maximum value for Number of pupils">
                 </div>
                 </fieldset>
                 </div>
@@ -325,9 +332,8 @@ Choose characteristics to find matching schools – {{ serviceName }}
     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc1">
     <div class="govuk-form-group">
     <fieldset class="govuk-fieldset">
-        <p class="govuk-body">Without statements or education and health care (EHC) plans</p>
     <div class="govuk-hint">
-                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils without EHC plans</span>
+                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.00%</span> of pupils with special educational needs</span>
 
     </div>
 
@@ -350,37 +356,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
    </div>
     </fieldset>
     </div>
-    <div class="govuk-form-group">
-    <fieldset class="govuk-fieldset">
-        <p class="govuk-body">With statements or education and health care (EHC) plans</p>
-    <div class="govuk-hint">
-                <span>{{ data['school-name'] }} has <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">0.10%</span> of pupils with EHC plans</span>
-
-    </div>
-
-
-    <span class="govuk-error-message"></span>
-
-    <div class="govuk-grid-column-one-quarter">
-        <label class="govuk-label" for="MinPerSEN">From</label>
-        <div class="govuk-input__wrapper">
-            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MinPerSEN" id="MinPerSEN" class="govuk-input form-control criteria-input min-js govuk-input--width-3" min="0" max="100" aria-label="Minimum value for Pupils with SEN who have statements or EHC plans">
-            <div class="govuk-input__suffix" aria-hidden="true">%</div>
-       </div>
-    </div>
-    <div class="govuk-grid-column-one-quarter">
-        <label class="govuk-label" for="MaxPerSEN">To</label>
-        <div class="govuk-input__wrapper">
-            <input type="text" pattern="[0-9]*" inputmode="numeric" name="AdvancedCriteria.MaxPerSEN" id="MaxPerSEN" class="govuk-input form-control criteria-input max-js govuk-input--width-3" min="0" max="100"     aria-label="Maximum value for Pupils with SEN who have statements or EHC plans">
-            <div class="govuk-input__suffix" aria-hidden="true">%</div>
-       </div>
-    </div>
-    </fieldset>
-    </div>
     </div>
     </div>
 
-
+<!--
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                 <div class="govuk-checkboxes__item question">
@@ -399,12 +378,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <legend class="govuk-visually-hidden">School type</legend>
 
                 <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                    <!--
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Nursery" value="Nursery">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Nursery">Nursery</label>
                         </div>
-                    -->
                         <div class="govuk-checkboxes__item">
                             <input class="govuk-checkboxes__input criteria-checkbox" type="checkbox" name="AdvancedCriteria.TypeOfEstablishment" id="TypeOfEstablishment.Community" value="Community school">
                             <label class="govuk-label govuk-checkboxes__label" for="TypeOfEstablishment.Community">Community</label>
@@ -487,7 +464,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 </div>
                 </div>
 
-    
+    -->
 
 
 
@@ -741,21 +718,21 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                     <div class="govuk-checkboxes__item question">
                     <input class="govuk-checkboxes__input" id="checkbox-Defecit" type="checkbox" aria-controls="pc23" aria-expanded="false">
-                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Schools in defecit</label>
+                    <label class="govuk-label govuk-checkboxes__label" for="checkbox-Defecit">Schools in deficit</label>
                     </div>
                     <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" data-module="govuk-radios" id="pc23">
                     <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                             <div class="govuk-hint">
-                                <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">not in defecit</span>.</span>
+                                <span>{{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">not in deficit</span>.</span>
                             </div>
                             <div class="govuk-radios__item">
                                 <input type="radio" name="Defecit" id="Defecit.Exclude" value="Exclude" class="govuk-radios__input criteria-radio">
-                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude">Exclude schools in defecit</label>
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude">Exclude schools in deficit</label>
                             </div>
                             <div class="govuk-radios__item">
                                 <input type="radio" name="Defecit" id="Defecit.Include" value="Include" class="govuk-radios__input criteria-radio">
-                                <label class="govuk-label govuk-radios__label" for="Defecit.Include">Include schools in defecit</label>
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Include">Include schools in deficit</label>
                             </div>
                         </fieldset>
                     </div>
@@ -888,7 +865,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         </div>
                         </div>
             
-        
+        <!--
                 {% if data['comparePhase'] %}
                 {% if 'special' in data['comparePhase'] or 'referral' in data['comparePhase']  %}
                 <div class="govuk-form-group" style="margin: 30px 0">
@@ -897,13 +874,13 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
                         <input class="govuk-checkboxes__input" id="checkbox-MinSpecLearnDiff" type="checkbox" aria-controls="pc5" aria-expanded="false">
-                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 1.04</span></label>
+                        <label class="govuk-label govuk-checkboxes__label" for="checkbox-MinSpecLearnDiff">Specific learning difficulty <span class="govuk-visually-hidden">The value for {{ data['school-name'] }} is 8.04</span></label>
                         </div>
                         <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="pc5">
                         <div class="govuk-form-group">
                         <fieldset class="govuk-fieldset">
                         <div class="govuk-hint">
-                                    <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">1.04%</span></span>
+                                    <span>The value for {{ data['school-name'] }} is <span class="govuk-!-font-size-19 govuk-!-font-weight-bold">8.04%</span></span>
         
                         </div>
         
@@ -1340,7 +1317,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
                 {% endif %}
                 {% endif %}
-
+-->
 <!--
                 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
                 <script>
@@ -1380,11 +1357,10 @@ Choose characteristics to find matching schools – {{ serviceName }}
             </div>
 
             {{ govukButton({
-            text: "Create comparison set",
-            classes: "govuk-button--primary"
+                text: "Continue",
+                href: '/comparators/create/preview',
+                classes: "govuk-button--primary"
             }) }}
-        </form>
-
 
     </div>
 </div>

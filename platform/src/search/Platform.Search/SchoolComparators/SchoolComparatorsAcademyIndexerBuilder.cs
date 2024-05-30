@@ -18,7 +18,7 @@ public class SchoolComparatorsAcademyIndexerBuilder : IndexerBuilder
         {
             FieldMappings =
             {
-                new FieldMapping("URN") { TargetFieldName = nameof(SchoolComparatorsIndex.UKPRN) },
+                new FieldMapping("URN") { TargetFieldName = nameof(SchoolComparatorsIndex.URN) },
                 new FieldMapping("FinanceType") { TargetFieldName = nameof(SchoolComparatorsIndex.Sector) },
                 new FieldMapping("Overall Phase") { TargetFieldName = nameof(SchoolComparatorsIndex.Phase) },
                 new FieldMapping("LA") { TargetFieldName = nameof(SchoolComparatorsIndex.LocalAuthority) },

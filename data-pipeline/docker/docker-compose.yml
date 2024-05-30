@@ -31,10 +31,18 @@ services:
       dockerfile: ./docker/pipeline-worker/Dockerfile
     environment:
       - STORAGE_CONNECTION_STRING=DefaultEndpointsProtocol=http;AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;BlobEndpoint=http://azurite:10000/devstoreaccount1;QueueEndpoint=http://azurite:10001/devstoreaccount1;TableEndpoint=http://azurite:10002/devstoreaccount1;
-      - DATABASE_CONNECTION_STRING=Driver={ODBC Driver 18 for SQL Server};Server=mssql,1433;Database=Core;UID=sa;PWD=mystrong!Pa55word;Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
       - WORKER_QUEUE_NAME=data-pipeline-job-start
       - COMPLETE_QUEUE_NAME=data-pipeline-job-finished
       - RAW_DATA_CONTAINER=raw
+      - DB_NAME=data
+      - DB_PORT=1433
+      - DB_ARGS=Encrypt=no;TrustServerCertificate=no;Connection Timeout=30
+      - DB_HOST=mssql
+      - DB_USER=sa
+      - DB_PWD=mystrong!Pa55word
+#      - DB_HOST=s198d01-sql.database.windows.net
+#      - DB_USER=sql-admin
+#      - DB_PWD=ouwHwiAYS8O_*It+
       - ENV=dev
     depends_on:
       - azurite
