@@ -690,3 +690,79 @@ def build_federations_data(links_data_path, maintained_schools):
     )
 
     return hard_federations, soft_federations
+
+
+def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
+    bfr_sofa = pd.read_csv(
+        bfr_sofa_data_path,
+        encoding='unicode-escape',
+        dtype=input_schemas.bfr_sofa_cols,
+        usecols=input_schemas.bfr_sofa_cols.keys(),
+    )
+
+    bfr_3y = pd.read_csv(
+        bfr_3y_data_path,
+        encoding='unicode-escape',
+        dtype=input_schemas.bfr_3y_cols,
+        usecols=input_schemas.bfr_3y_cols.keys(),
+    )
+    # remove unused metrics
+    bfr_sofa = bfr_sofa[bfr_sofa['EFALineNo'].isin([298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999])]
+
+    self_gen_income = bfr_sofa[bfr_sofa['EFALineNo'].isin([211, 220])].groupby('TrustUPIN')[
+        ['Y1P1', 'Y1P2', 'Y2P1', 'Y2P2']].sum().reset_index()
+    self_gen_income['Title'] = 'Self-generated income'
+
+    grant_funding = bfr_sofa[bfr_sofa['EFALineNo'].isin([199, 200, 205, 210])].groupby('TrustUPIN')[
+        ['Y1P1', 'Y1P2', 'Y2P1', 'Y2P2']].sum().reset_index()
+    grant_funding['Title'] = 'Grant funding'
+
+    bfr_sofa = bfr_sofa[~bfr_sofa['EFALineNo'].isin([211, 220, 199, 200, 205, 210])]
+    bfr_sofa = pd.concat([bfr_sofa, self_gen_income, grant_funding])
+    bfr_sofa['Title'].replace(
+        {'Balance c/f to next period ': 'Revenue reserves', 'Pupil numbers (actual and estimated)': 'Pupil numbers',
+         'Total revenue expenditure': 'Total expenditure', 'Total revenue income': 'Total income',
+         'Total staff costs': 'Staff costs'}, inplace=True)
+    bfr_sofa['Y1'] = bfr_sofa['Y1P1'] + bfr_sofa['Y1P2']
+    bfr_sofa.drop_duplicates(inplace=True)
+
+    bfr_3y['EFALineNo'].replace({2980: 298, 4300: 430, 3800: 380, 9000: 999}, inplace=True)
+    bfr_3y = bfr_3y[bfr_3y['EFALineNo'].isin([298, 430, 335, 380, 999])]
+    bfr_3y.drop_duplicates(inplace=True)
+
+    bfr = pd.merge(bfr_sofa, bfr_3y, how='left', on=('TrustUPIN', 'EFALineNo'))
+
+    # get year balance and difference
+    bfr_metrics = bfr[['TrustUPIN']].copy().set_index('TrustUPIN')
+
+    bfr_metrics['Revenue reserve as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Revenue reserves'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+
+    bfr_metrics['Staff costs as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Staff costs'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+
+    bfr_metrics['Expenditure as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Total expenditure'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+
+    bfr_metrics['percent self-generated income'] = round(
+        bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] / (
+                    bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] +
+                    bfr[bfr['Title'] == 'Grant funding'].set_index('TrustUPIN')[['Y1']]) * 100, 0)
+
+    bfr_metrics['percent grant funding'] = 100 - bfr_metrics['percent self-generated income']
+
+    # Slope analysis
+    # TODO need to add in historic data to this
+    bfr_revenue_reserves = bfr[bfr['Title'] == 'Revenue reserves'].set_index('TrustUPIN')
+    bfr_pupil_numbers = bfr[bfr['Title'] == 'Pupil numbers'].set_index('TrustUPIN')
+    bfr_revenue_reserves_per_pupil = (bfr_revenue_reserves[['Y1P1', 'Y1P2', 'Y1P1', 'Y1P2', 'Y1', 'Y2', 'Y3', 'Y4']] / bfr_pupil_numbers[['Y1P1', 'Y1P2', 'Y1P1', 'Y1P2', 'Y1', 'Y2', 'Y3', 'Y4']])
+
+    bfr_revenue_reserves_per_pupil = pd.merge(bfr_revenue_reserves_per_pupil,
+                                              bfr_revenue_reserves[['CreatedBy', 'Category', 'Title', 'EFALineNo']],
+                                              left_index=True, right_index=True)
+
+    return bfr_sofa, bfr_3y, bfr, bfr_metrics
+

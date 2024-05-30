@@ -237,7 +237,6 @@ workforce_census = {
     "Total School Workforce (Headcount)": "Int64",
 }
 
-
 pupil_census_index_col = "URN"
 pupil_census = {
     "URN": "Int64",
@@ -252,7 +251,6 @@ pupil_census = {
 
 cfr_index_col = "URN"
 cfr = {"URN": "Int64"}
-
 
 groups_index_col = "URN"
 groups = {
@@ -277,7 +275,6 @@ groups = {
     "LA (code)": "Int64",
     "LA (name)": "string",
 }
-
 
 ks2_index_col = "URN"
 ks2 = {
@@ -370,4 +367,27 @@ aar_central_services_index_col = "Lead UPIN"
 aar_central_services = {
     "Lead UPIN": "Int64",
     "In Year Balance": "float",
+}
+
+bfr_cell_mapping_cols = {'EFALineNo': 'Int64', 'balance_flag': 'Int64'}
+
+bfr_sofa_index_col = []
+bfr_sofa_cols = {
+    'TrustUPIN': 'Int64',
+    'CreatedBy': 'string',
+    'Category': 'string',
+    'Title': 'string',
+    'EFALineNo': 'Int64',
+    'Y1P1': 'float',
+    'Y1P2': 'float',
+    'Y2P1': 'float',
+    'Y2P2': 'float'
+}
+
+bfr_3y_cols = {
+    'TrustUPIN': 'Int64',
+    'EFALineNo': 'Int64',
+    'Y2': 'Int64',
+    'Y3': 'Int64',
+    'Y4': 'Int64'
 }

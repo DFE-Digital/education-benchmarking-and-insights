@@ -29,6 +29,7 @@ from src.pipeline.pre_processing import (
     build_academy_data,
     build_federations_data,
     build_maintained_school_data,
+    build_bfr_data,
     prepare_aar_data,
     prepare_cdc_data,
     prepare_census_data,
@@ -239,11 +240,51 @@ def pre_process_all_schools(set_type, year, data_ref):
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
 
 
+def pre_process_bfr(set_type, year):
+    logger.info("Processing BFR Data")
+
+    bfr_sofa = get_blob(
+        raw_container, f"{set_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
+    )
+
+    bfr_3y = get_blob(
+        raw_container, f"{set_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
+    )
+
+    bfr_sofa, bfr_3y, bfr, bfr_metrics = build_bfr_data(bfr_sofa, bfr_3y)
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_sofa.parquet",
+        bfr_sofa.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_3y.parquet",
+        bfr_3y.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr.parquet",
+        bfr.to_parquet(),
+    )
+
+    write_blob(
+        "pre-processed",
+        f"{set_type}/{year}/bfr_metrics.parquet",
+        bfr.to_parquet(),
+    )
+
+    return bfr_sofa, bfr_3y, bfr, bfr_metrics
+
+
 def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
 
-    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather(
+    cdc, census, sen, ks2, ks4, aar, schools, bfr = worker_client.gather(
         [
             worker_client.submit(pre_process_cdc, set_type, year),
             worker_client.submit(pre_process_census, set_type, year),
@@ -252,6 +293,7 @@ def pre_process_data(worker_client, set_type, year):
             worker_client.submit(pre_process_ks4, set_type, year),
             worker_client.submit(pre_process_academy_ar, set_type, year),
             worker_client.submit(pre_process_schools, set_type, year),
+            worker_client.submit(pre_process_bfr, set_type, year),
         ]
     )
 
