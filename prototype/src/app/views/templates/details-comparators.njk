@@ -1,41 +1,10 @@
 {% if data['comparators'] %}
     <p class="govuk-body">You are now comparing {{ data['school-name'] }} with your own chosen schools.</p>
-    <p class="govuk-body"><a href="/comparators/create/review">Change your similar schools</a></p>
+    <p class="govuk-body"><a href="/comparators/create/view">View and manage your set of schools</a></p>
 
 {% else %}
-        <details class="govuk-details">
-        <summary class="govuk-details__summary">
-            <span class="govuk-details__summary-text">
-            How we choose similar schools
-            </span>
-        </summary>
-        <div class="govuk-details__text">
-        <h3 class="govuk-heading-s">Utilities and premises costs</h3>
-            <p class="govuk-body">For these costs, we choose <a class="govuk-link" href="/comparators/view">30 similar schools</a> based on:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>school phase or type</li>
-                <li>boarding or non-boarding type</li>
-                <li>region</li>
-                <li>gross internal floor area</li>
-                <li>average age of buildings</li>
-                <li>whether they are a Private Finance Initiative (PFI) school</li>
-            </ul>
-            <p class="govuk-body">These costs are measured per square metre.</p>
-        <h3 class="govuk-heading-s">All other costs</h3>
-       <p class="govuk-body">For these costs, we choose <a class="govuk-link" href="/comparators/view">30 similar schools</a> based on:</p>
-            <ul class="govuk-list govuk-list--bullet">
-                <li>school phase or type</li>
-                <li>boarding or non-boarding type</li>
-                <li>region</li>
-                <li>number of pupils</li>
-                <li>pupils eligible for free school meals (FSM)</li>
-                <li>pupils with special educational needs (SEN)</li>
-            </ul>
-            <p class="govuk-body">These costs are measured per pupil.</p>
-            <p>Teacher contact ratio is not used to choose similar schools.</p>
-            <p><a href="/comparators">Choose your own similar schools</a></p>
 
+    <p class="govuk-body"><a href="/comparators/view">We’ve chosen 2 sets of similar schools</a> to benchmark this school's spending against.</p>
+    <p class="govuk-body"><a href="/comparators">Choose your own set of schools</a></p>
 
-        </div>
-        </details>
 {% endif %}

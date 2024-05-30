@@ -28,6 +28,7 @@ router.get( '/trust-homepage', (req, res) => {
 
 router.get( '/school-homepage', (req, res) => {
     res.render( '/school-homepage' );
+    req.session.data['confirmation'] = '';
 })
 
 router.get( '/comparators/create/local-authority', (req, res) => {
@@ -258,8 +259,8 @@ router.get( '/comparators/remove', (req, res) => {
 
 router.get( '/comparators/reset-confirmed', (req, res) => {
 
-    req.session.data.comparators = null;
-    req.session.data.comparatorSetType = null;
+    req.session.data['comparators'] = null;
+    req.session.data['comparatorSetType'] = null;
 
     res.render( '/school-homepage', {confirmation: 'comparator-reset' } );
 
@@ -322,11 +323,11 @@ router.post( '/set-school', (req, res) => {
 // COMPARE TRUSTS
 
 router.post( '/compare-trusts', (req, res) => {
-    var compareRoute = 'by-name';
-    if ( req.session.data['compareRoute'] ) {
-        compareRoute = req.session.data['compareRoute'];
+    var compareRouteTrusts = 'by-name';
+    if ( req.session.data['compareRouteTrusts'] ) {
+        compareRoute = req.session.data['compareRouteTrusts'];
     }
-    res.redirect( '/compare-trusts/' + compareRoute );
+    res.redirect( '/compare-trusts/' + compareRouteTrusts );
 })
 
 router.get( '/compare-trusts/by-name', (req, res) => {
