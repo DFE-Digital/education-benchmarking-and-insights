@@ -87,12 +87,7 @@ router.get( '/comparators/create/preview', (req, res) => {
         rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
     }
 
-    res.render( '/comparators/create/preview', { rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
-
-    // clear confirmation/errors
-    req.session.data['confirmation'] = '';
-    req.session.data['errorThisPage'] = 'false';
-    req.session.data['errorNoSchool'] = 'false';
+    res.render( '/comparators/create/preview', { rows: rows } );
 
 })
 
@@ -408,12 +403,8 @@ router.get( '/compare-trusts/preview', (req, res) => {
         rows.push( [ {'html':  nameHtml}, {'html': charsHtml}, {'html': valuesHtml} ] );
     }
 
-    res.render( '/compare-trusts/preview', { rows: rows, confirmation: req.session.data['confirmation'], comparatorSetType: req.session.data['comparatorSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
+    res.render( '/compare-trusts/preview', { rows: rows} );
 
-    // clear confirmation/errors
-    req.session.data['confirmation'] = '';
-    req.session.data['errorThisPage'] = 'false';
-    req.session.data['errorNoSchool'] = 'false';
 
 })
 
