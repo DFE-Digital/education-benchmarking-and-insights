@@ -10,22 +10,21 @@ public class SchoolIndex
     [SimpleField(IsFilterable = true, IsSortable = false, IsFacetable = false)]
     public string? SchoolName { get; set; }
 
-    //Need to review address fields
-    /*[SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Street { get; set; }
+    [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
+    public string? AddressStreet { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Locality { get; set; }
+    public string? AddressLocality { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Address3 { get; set; }
+    public string? AddressLine3 { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Town { get; set; }
+    public string? AddressTown { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? County { get; set; }
+    public string? AddressCounty { get; set; }
 
     [SimpleField(IsFilterable = false, IsSortable = false, IsFacetable = false)]
-    public string? Postcode { get; set; }*/
+    public string? AddressPostcode { get; set; }
 }

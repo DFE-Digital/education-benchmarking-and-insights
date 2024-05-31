@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Dapper.Contrib.Extensions;
 
 namespace Platform.Api.Establishment.Schools;
@@ -30,4 +32,10 @@ public record School
     public string? LACode { get; set; }
     public string? LAName { get; set; }
     public string? LondonWeighting { get; set; }
+    public string? AddressStreet { get; set; }
+    public string? AddressLocality { get; set; }
+    public string? AddressLine3 { get; set; }
+    public string? AddressTown { get; set; }
+    public string? AddressCounty { get; set; }
+    public string? AddressPostcode { get; set; }
 }

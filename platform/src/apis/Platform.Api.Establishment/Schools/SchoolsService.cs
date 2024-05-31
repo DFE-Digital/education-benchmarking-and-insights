@@ -66,8 +66,8 @@ public class SchoolsService : SearchService, ISchoolsService
         {
             nameof(School.URN),
             nameof(School.SchoolName),
-            //nameof(School.Town),
-            //nameof(School.Postcode)
+            nameof(School.AddressTown),
+            nameof(School.AddressPostcode)
         };
 
         return SuggestAsync<School>(request, selectFields: fields);

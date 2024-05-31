@@ -1,4 +1,7 @@
-﻿namespace Platform.Api.Insight.Schools;
+﻿using System.Collections.Generic;
+using System.Linq;
+
+namespace Platform.Api.Insight.Schools;
 
 public record SchoolCharacteristic
 {
@@ -26,4 +29,6 @@ public record SchoolCharacteristic
     public int? NumberOfPupilsSixthForm { get; set; }
     public decimal? KeyStage2Progress { get; set; }
     public decimal? KeyStage4Progress { get; set; }
+
+    public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
 }

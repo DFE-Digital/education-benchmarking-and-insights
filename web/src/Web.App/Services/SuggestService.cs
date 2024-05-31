@@ -22,11 +22,10 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
 
             var additionalDetails = new List<string?>();
 
-            //TODO : Add address details
-            // if (!string.IsNullOrWhiteSpace(value.Document?.Town))
-            //     additionalDetails.Add(text == value.Document.Town ? value.Text : value.Document.Town);
-            // if (!string.IsNullOrWhiteSpace(value.Document?.Postcode))
-            //     additionalDetails.Add(text == value.Document.Postcode ? value.Text : value.Document.Postcode);
+            if (!string.IsNullOrWhiteSpace(value.Document?.AddressTown))
+                additionalDetails.Add(text == value.Document.AddressTown ? value.Text : value.Document.AddressTown);
+            if (!string.IsNullOrWhiteSpace(value.Document?.AddressPostcode))
+                additionalDetails.Add(text == value.Document.AddressPostcode ? value.Text : value.Document.AddressPostcode);
 
             if (text != value.Document?.SchoolName)
             {

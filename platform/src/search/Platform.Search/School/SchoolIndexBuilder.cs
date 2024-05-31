@@ -16,7 +16,13 @@ public class SchoolIndexBuilder : IndexBuilder
         var suggestFields = new[]
         {
             nameof(SchoolIndex.SchoolName),
-            nameof(SchoolIndex.URN)
+            nameof(SchoolIndex.URN),
+            nameof(SchoolIndex.AddressStreet),
+            nameof(SchoolIndex.AddressLocality),
+            nameof(SchoolIndex.AddressLine3),
+            nameof(SchoolIndex.AddressTown),
+            nameof(SchoolIndex.AddressCounty),
+            nameof(SchoolIndex.AddressPostcode)
         };
 
         var suggester = new SearchSuggester(SearchResourceNames.Suggesters.School, suggestFields);
