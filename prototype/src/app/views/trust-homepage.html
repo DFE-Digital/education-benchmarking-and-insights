@@ -331,7 +331,7 @@
             <li>
                 <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="/compare-trusts{% if data['trusts'] %}/compare?showBanner=false{%endif%}" class="govuk-link govuk-link--no-visited-state">Compare trusts</a>
+                    <a href="/compare-trusts{% if data['trusts'] | length %}/compare?showBanner=false{%endif%}" class="govuk-link govuk-link--no-visited-state">Compare trusts</a>
                 </h3>
                 <p class="govuk-body">
                     Compare spending against other similar trusts.

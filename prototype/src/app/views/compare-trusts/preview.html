@@ -19,15 +19,13 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-      
-  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
-  <h1 class="govuk-heading-l">
-    Trusts matched using the characteristics you selected
-  </h1>
+        
+    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
+    <h1 class="govuk-heading-l">
+      Trusts matched using the characteristics you selected
+    </h1>
 
-  <p class="govuk-body">These are the 10 closest matches to your trust from the 52 trusts matching the characteristics you selected.</p>
-
-    {% if data['trusts'] | length %}
+    <p class="govuk-body">These are the 10 closest matches to your trust from the 52 trusts matching the characteristics you selected.</p>
 
     <p><a href="/compare-trusts/characteristics" class="govuk-link">Change characteristics and create a new list</a></p>
 
@@ -50,8 +48,6 @@
       ],
       "rows": rows
     }) }}
-    
-    {% endif %}
 
     {{ govukButton({
         text: "Compare these trusts",

@@ -19,24 +19,22 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-      
-  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-  <h1 class="govuk-heading-l">
-    Schools succssfully matched
-  </h1>
+        
+    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <h1 class="govuk-heading-l">
+      Schools succssfully matched
+    </h1>
 
- <p class="govuk-body">We matched 812 schools, but these are the 30 closest matches to {{ data['school-name'] }} using the characteristics you selected.</p>
+    <p class="govuk-body">We matched 812 schools, but these are the 30 closest matches to {{ data['school-name'] }} using the characteristics you selected.</p>
 
-    {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
+    <p class="govuk-body">They are all:</p>
 
-      <p class="govuk-body">They are all:</p>
-
-      <ul class="govuk-list govuk-list--bullet">
-        <li>academies</li>
-        <li>secondary schools</li>
-        <li>schools in the North Yorkshire County Council local authority area</li>
-        <li>part of a private finance initiative</li>
-      </ul>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>academies</li>
+      <li>secondary schools</li>
+      <li>schools in the North Yorkshire County Council local authority area</li>
+      <li>part of a private finance initiative</li>
+    </ul>
 
     <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
 
@@ -60,8 +58,6 @@
       "rows": rows
     }) }}
     
-    {% endif %}
-
     {{ govukButton({
       text: "Create a set using these schools",
       href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'

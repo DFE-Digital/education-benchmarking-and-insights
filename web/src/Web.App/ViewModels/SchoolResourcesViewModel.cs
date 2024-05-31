@@ -7,8 +7,8 @@ public class SchoolResourcesViewModel(School school, IEnumerable<RagRating> rati
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public IEnumerable<RagRating> Ratings => ratings
-        .Where(x => x.Status is "Red" or "Amber")
-        .OrderBy(x => x.StatusOrder)
+        .Where(x => x.RAG is "red" or "amber")
+        .OrderBy(x => Lookups.StatusOrderMap[x.RAG ?? string.Empty])
         .ThenByDescending(x => x.Decile)
         .ThenByDescending(x => x.Value);
 }

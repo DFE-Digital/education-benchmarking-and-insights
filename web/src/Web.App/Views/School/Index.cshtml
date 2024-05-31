@@ -1,4 +1,3 @@
-@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
@@ -69,32 +68,33 @@ else
 
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
-            <h2 class="govuk-heading-m">Spending and costs</h2>
-
+            <h2 class="govuk-heading-m">Spending priorities for this school</h2>
+            @if (Model.Ratings.Any())
+            {
+                <h3 class="govuk-heading-s">Top spending priorities</h3>
+                <div class="top-categories">
+                    @foreach (var rating in Model.Ratings)
+                    {
+                        <div>
+                            <h4 class="govuk-heading-s">@rating.Category</h4>
+                            <p class="priority @rating.PriorityTag?.Class govuk-body">
+                                @await Component.InvokeAsync("Tag", new
+                                {
+                                    rating.PriorityTag?.Colour,
+                                    rating.PriorityTag?.DisplayText
+                                })
+                                Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
+                            </p>
+                        </div>
+                    }
+                </div>
+            }
+            
             <h3 class="govuk-heading-s">
                 <a href="@Url.Action("Index", "SchoolSpending", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
-                    View all spending and costs
+                    View all spending priorities for this school
                 </a>
             </h3>
-
-            <h3 class="govuk-heading-s">Top priority spending categories</h3>
-
-            <div class="top-categories">
-                @foreach (var rating in Model.Ratings)
-                {
-                    <div>
-                        <h4 class="govuk-heading-s">@rating.CostCategory</h4>
-                        <p class="priority @rating.PriorityTag?.Class govuk-body">
-                            @await Component.InvokeAsync("Tag", new
-                            {
-                                rating.PriorityTag?.Colour,
-                                rating.PriorityTag?.DisplayText
-                            })
-                            Spends <strong>@rating.FromMedian.Difference.ToCurrency()</strong> @rating.Unit @rating.FromMedian.Description the median of similar schools.
-                        </p>
-                    </div>
-                }
-            </div>
         </div>
     </div>
 }

@@ -4,6 +4,16 @@ namespace Web.App.Domain;
 
 public abstract class Category(decimal actual, SchoolExpenditure expenditure)
 {
+    public const string TeachingStaff = "Teaching and Teaching support staff";
+    public const string NonEducationalSupportStaff = "Non-educational support staff and services";
+    public const string EducationalSupplies = "Educational supplies";
+    public const string EducationalIct = "Educational ICT";
+    public const string PremisesStaffServices = "Premises staff and services";
+    public const string Utilities = "Utilities";
+    public const string AdministrativeSupplies = "Administrative supplies";
+    public const string CateringStaffServices = "Catering staff and supplies";
+    public const string Other = "Other costs";
+
     public abstract decimal Value { get; }
     public decimal Actual => actual;
     public decimal PercentageExpenditure => decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
@@ -125,41 +135,41 @@ public static class CategoryBuilder
 
         foreach (var rating in ratings)
         {
-            if (rating.CostGroup == "Area")
+            if (Lookups.CategoryTypeMap[rating.Category ?? string.Empty] == "Building")
             {
-                switch (rating.CostCategoryId)
+                switch (rating.Category)
                 {
-                    case 5:
+                    case Category.PremisesStaffServices:
                         area.Add(new PremisesStaffServices(rating));
                         break;
-                    case 6:
+                    case Category.Utilities:
                         area.Add(new Utilities(rating));
                         break;
                 }
             }
             else
             {
-                switch (rating.CostCategoryId)
+                switch (rating.Category)
                 {
-                    case 1:
+                    case Category.TeachingStaff:
                         pupil.Add(new TeachingStaff(rating));
                         break;
-                    case 2:
+                    case Category.NonEducationalSupportStaff:
                         pupil.Add(new NonEducationalSupportStaff(rating));
                         break;
-                    case 3:
+                    case Category.EducationalSupplies:
                         pupil.Add(new EducationalSupplies(rating));
                         break;
-                    case 4:
+                    case Category.EducationalIct:
                         pupil.Add(new EducationalIct(rating));
                         break;
-                    case 7:
+                    case Category.AdministrativeSupplies:
                         pupil.Add(new AdministrativeSupplies(rating));
                         break;
-                    case 8:
+                    case Category.CateringStaffServices:
                         pupil.Add(new CateringStaffServices(rating));
                         break;
-                    case 9:
+                    case Category.Other:
                         pupil.Add(new Other(rating));
                         break;
                 }

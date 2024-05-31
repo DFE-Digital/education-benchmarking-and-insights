@@ -7,7 +7,7 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 
 public interface IComparatorSetService
 {
-    Task<DefaultComparatorSet> DefaultAsync(string urn, string? setType = "unmixed");
+    Task<DefaultComparatorSet> DefaultAsync(string urn, string setType = "unmixed");
 }
 
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ public class ComparatorSetService : IComparatorSetService
         SqlMapper.AddTypeHandler(new ComparatorSetTypeHandler());
     }
 
-    public async Task<DefaultComparatorSet> DefaultAsync(string urn, string? setType)
+    public async Task<DefaultComparatorSet> DefaultAsync(string urn, string setType)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         const string setSql = "SELECT * from ComparatorSet where RunType = 'default' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
