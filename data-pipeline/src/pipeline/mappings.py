@@ -17,9 +17,6 @@ def map_academy_phase_type(code: int, provision: str):
     if not (pd.isna(code) or pd.isna(provision)):
         if provision.lower() == "special" or code == 33 or code == 36 or code == 44:
             return "Special"
-
-        if provision.lower() == "all through":
-            return "All-through"
         
         if code == 38 or code == 42 or code == 43:
             return "Alternative Provision"
