@@ -21,13 +21,13 @@ variable "configuration" {
     }
     automated-test = {
       sql-db = {
-        sku_name    = "S0"
+        sku_name    = "S1"
         max_size_gb = 5
       }
     }
     test = {
       sql-db = {
-        sku_name    = "S0"
+        sku_name    = "S1"
         max_size_gb = 5
       }
     }
@@ -39,13 +39,13 @@ variable "configuration" {
     }
     pre-production = {
       sql-db = {
-        sku_name    = "S0"
+        sku_name    = "S1"
         max_size_gb = 5
       }
     }
     production = {
       sql-db = {
-        sku_name    = "S0"
+        sku_name    = "S1"
         max_size_gb = 5
       }
     }
