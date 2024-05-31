@@ -127,7 +127,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     private School[] GenerateSchools(string localAuthorityName, string phaseType)
     {
         return Fixture.Build<School>()
-            .With(x => x.LocalAuthorityName, localAuthorityName)
+            .With(x => x.LAName, localAuthorityName)
             .With(x => x.OverallPhase, phaseType)
             .CreateMany(10)
             .ToArray();
@@ -197,9 +197,9 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             foreach (var schoolElement in schoolList.Children)
             {
                 var schoolName = schoolElement.QuerySelector("a")?.TextContent;
-                var school = schools.FirstOrDefault(s => s.Name == schoolName);
+                var school = schools.FirstOrDefault(s => s.SchoolName == schoolName);
                 Assert.NotNull(school);
-                Assert.Equal(authority.Name, school.LocalAuthorityName);
+                Assert.Equal(authority.Name, school.LAName);
                 Assert.Contains(school.OverallPhase, expectedPhaseTypes);
             }
         }

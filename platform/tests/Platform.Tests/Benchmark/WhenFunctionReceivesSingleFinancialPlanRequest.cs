@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Domain;
 using Platform.Functions;
 using Xunit;
@@ -11,9 +12,9 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.SingleFinancialPlanInput(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new FinancialPlanInputResponseModel());
+        Service
+            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync(new FinancialPlanDetails());
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as JsonContentResult;
 
@@ -25,9 +26,9 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     public async Task ShouldReturn404OnInvalidRequest()
     {
 
-        Db
-            .Setup(d => d.SingleFinancialPlanInput(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync((FinancialPlanInputResponseModel?)null);
+        Service
+            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync((FinancialPlanDetails?)null);
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as NotFoundResult;
 
@@ -38,8 +39,8 @@ public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunct
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.SingleFinancialPlanInput(It.IsAny<string>(), It.IsAny<int>()))
+        Service
+            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
         var result = await Functions.SingleFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;

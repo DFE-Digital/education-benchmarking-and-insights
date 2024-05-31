@@ -19,45 +19,27 @@
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-full">
-      
-  <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-  <h1 class="govuk-heading-l">
-    Schools matched using the characteristics you selected
-  </h1>
+        
+    <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+    <h1 class="govuk-heading-l">
+      Schools succssfully matched
+    </h1>
 
-  <p class="govuk-body">These are the 30 closest matches to your school from the 812 schools matching the characteristics you selected.</p>
+    <p class="govuk-body">We matched 812 schools, but these are the 30 closest matches to {{ data['school-name'] }} using the characteristics you selected.</p>
 
-    {% if data['comparators'] | length or confirmation == 'comparator-removed' %}
+    <p class="govuk-body">They are all:</p>
 
-      <p class="govuk-body">All schools listed meet the following characteristics:</p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>academies</li>
+      <li>secondary schools</li>
+      <li>schools in the North Yorkshire County Council local authority area</li>
+      <li>part of a private finance initiative</li>
+    </ul>
 
-        <table class="govuk-table govuk-!-margin-bottom-0">
-          <tbody class="govuk-table__body">
-            <tr class="govuk-table__row">
-              <td scope="row" class="govuk-table__header govuk-!-width-one-third" style="border: none">
-                <ul class="govuk-list govuk-list--bullet">
-                  <li>Type of school</li>
-                  <li>Category of school</li>
-                  <li>Local authority</li>
-                  <li>Part of a private finance initiative</li>
-                </ul>
-              </td>
-              <td class="govuk-table__cell" style="border: none">
-                <ul class="govuk-list">
-                  <li>Academies</li>
-                  <li>Secondary</li>
-                  <li>North Yorkshire Council</li>
-                  <li>Part of PFI</li>
-                </ul>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-
-    <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new list</a></p>
+    <p><a href="/comparators/create/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
 
     {{ govukButton({
-      text: "Create comparator set from these schools",
+      text: "Create a set using these schools",
       href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
     }) }}
 
@@ -76,10 +58,8 @@
       "rows": rows
     }) }}
     
-    {% endif %}
-
     {{ govukButton({
-      text: "Create comparator set from these schools",
+      text: "Create a set using these schools",
       href: '/loading?redirect=/school-homepage?confirmation=comparator-generated'
     }) }}
 

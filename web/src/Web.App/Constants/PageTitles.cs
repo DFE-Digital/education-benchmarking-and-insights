@@ -10,7 +10,7 @@ public static class PageTitles
     public const string ContactDetails = "Contact details";
     public const string SchoolHome = "Your school";
     public const string Comparison = "Compare your costs";
-    public const string Spending = "Spending and costs";
+    public const string Spending = "Spending priorities for this school";
     public const string Resources = "Find ways to spend less";
     public const string Census = "Benchmark census data";
     public const string Planning = "Curriculum and financial planning (CFP)";

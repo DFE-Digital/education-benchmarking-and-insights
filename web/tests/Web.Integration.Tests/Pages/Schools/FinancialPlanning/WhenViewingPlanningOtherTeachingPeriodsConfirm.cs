@@ -42,8 +42,8 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         });
 
         var expectedPath = value
-            ? Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectedPath);
     }
@@ -66,7 +66,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("Proceed", "Select yes if you want to continue without adding other teaching periods"));
     }
 
@@ -80,7 +80,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -113,7 +113,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -144,14 +144,14 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -159,7 +159,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -168,14 +168,14 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
             "Proceed without adding other teaching periods? - Financial Benchmarking and Insights Tool - GOV.UK",
             "Proceed without adding other teaching periods?");

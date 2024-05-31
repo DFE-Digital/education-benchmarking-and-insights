@@ -8,27 +8,21 @@ namespace Platform.Search.School;
 public class SchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
 {
     public override string Name => SearchResourceNames.DataSources.School;
-
     private readonly string _connectionString;
-    private readonly string _databaseId;
 
-    public SchoolDataSourceConnectionBuilder(string? connectionString, string? databaseId)
+    public SchoolDataSourceConnectionBuilder(string? connectionString)
     {
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
-        _databaseId = databaseId ?? throw new ArgumentNullException(nameof(databaseId));
     }
 
     public override async Task Build(SearchIndexerClient client)
     {
-        var fullConnString = $"{_connectionString}Database={_databaseId};";
-        const string collection = "GIAS";
-
-        var cosmosDbDataSource = new SearchIndexerDataSourceConnection(
+        var dataSource = new SearchIndexerDataSourceConnection(
             name: Name,
-            type: SearchIndexerDataSourceType.CosmosDb,
-            connectionString: fullConnString,
-            container: new SearchIndexerDataContainer(collection));
+            type: SearchIndexerDataSourceType.AzureSql,
+            connectionString: _connectionString,
+            container: new SearchIndexerDataContainer("School"));
 
-        await client.CreateOrUpdateDataSourceConnectionAsync(cosmosDbDataSource);
+        await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }
 }

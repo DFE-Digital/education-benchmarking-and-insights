@@ -42,7 +42,7 @@ variable "configuration" {
       }
     }
     test = {
-      sku_name               = "B1"
+      sku_name               = "S1"
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
@@ -66,7 +66,7 @@ variable "configuration" {
       }
     }
     pre-production = {
-      sku_name               = "B1"
+      sku_name               = "S1"
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"
@@ -78,7 +78,7 @@ variable "configuration" {
       }
     }
     production = {
-      sku_name               = "B1"
+      sku_name               = "S2"
       zone_balancing_enabled = false
       worker_count           = 1
       front_door_sku_name    = "Standard_AzureFrontDoor"

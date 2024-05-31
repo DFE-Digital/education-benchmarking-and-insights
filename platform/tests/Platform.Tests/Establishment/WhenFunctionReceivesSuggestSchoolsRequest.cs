@@ -1,7 +1,7 @@
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain;
+using Platform.Api.Establishment.Schools;
 using Platform.Functions;
 using Platform.Infrastructure.Search;
 using Xunit;
@@ -13,16 +13,16 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        SchoolSearch
-            .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequestModel>()))
-            .ReturnsAsync(new SuggestResponseModel<SchoolResponseModel>());
+        SchoolService
+            .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequest>()))
+            .ReturnsAsync(new SuggestResponse<School>());
 
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequestModel>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequestModel())) as JsonContentResult;
+            await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -33,27 +33,27 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     {
 
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequestModel>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(PostSuggestRequestModel.SuggesterName), "This error message") }));
+            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(PostSuggestRequest.SuggesterName), "This error message") }));
 
-        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequestModel())) as ValidationErrorsResult;
+        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as ValidationErrorsResult;
 
         Assert.NotNull(result);
         Assert.Equal(400, result.StatusCode);
 
         var values = result.Value as IEnumerable<ValidationError>;
         Assert.NotNull(values);
-        Assert.Contains(values, p => p.PropertyName == nameof(PostSuggestRequestModel.SuggesterName));
+        Assert.Contains(values, p => p.PropertyName == nameof(PostSuggestRequest.SuggesterName));
     }
 
     [Fact]
     public async Task ShouldReturn500OnError()
     {
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequestModel>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequestModel())) as StatusCodeResult;
+        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

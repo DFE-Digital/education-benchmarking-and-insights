@@ -37,8 +37,8 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         page = await Client.Follow(anchor);
 
         var expectPage = school.IsPrimary
-            ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectPage);
     }
@@ -78,7 +78,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -114,14 +114,14 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, overallPhase)
             .Create();
@@ -132,7 +132,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -141,7 +141,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear));
 
         return (page, school);
     }
@@ -149,8 +149,8 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
         var expectBack = school.IsPrimary
-            ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningPupilFigures(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.BackLink(page, "Back", expectBack);
         DocumentAssert.TitleAndH1(page,

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
-using Platform.Domain;
+using Platform.Api.Establishment.LocalAuthorities;
 using Platform.Functions;
 using Xunit;
 
@@ -11,9 +11,9 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new LocalAuthorityResponseModel());
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync(new LocalAuthority());
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -24,9 +24,9 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public async Task ShouldReturn404OnInvalidRequest()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync((LocalAuthorityResponseModel?)null);
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
+            .ReturnsAsync((LocalAuthority?)null);
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as NotFoundResult;
 
@@ -37,8 +37,8 @@ public class WhenFunctionReceivesGetLocalAuthorityRequest : LocalAuthoritiesFunc
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
+        Service
+            .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.SingleLocalAuthorityAsync(CreateRequest(), "1") as StatusCodeResult;

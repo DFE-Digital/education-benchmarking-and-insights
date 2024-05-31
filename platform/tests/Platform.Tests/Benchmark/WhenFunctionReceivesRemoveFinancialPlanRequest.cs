@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Domain;
 using Xunit;
 
@@ -10,11 +11,11 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.SingleFinancialPlanInput(It.IsAny<string>(), It.IsAny<int>()))
-            .ReturnsAsync(new FinancialPlanInputResponseModel());
+        Service
+            .Setup(d => d.DetailsAsync(It.IsAny<string>(), It.IsAny<int>()))
+            .ReturnsAsync(new FinancialPlanDetails());
 
-        Db.Setup(d => d.DeleteFinancialPlan(It.IsAny<string>(), It.IsAny<int>()));
+        Service.Setup(d => d.DeleteAsync(It.IsAny<string>(), It.IsAny<int>()));
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as OkResult;
 
@@ -25,8 +26,8 @@ public class WhenFunctionReceivesRemoveFinancialPlanRequest : FinancialPlanFunct
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.DeleteFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+        Service
+            .Setup(d => d.DeleteAsync(It.IsAny<string>(), It.IsAny<int>()))
             .Throws(new Exception());
 
         var result = await Functions.RemoveFinancialPlanAsync(CreateRequest(), "1", 2021) as StatusCodeResult;

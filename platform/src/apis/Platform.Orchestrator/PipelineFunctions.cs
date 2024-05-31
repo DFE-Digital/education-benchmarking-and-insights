@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
+using DurableTask.Core;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -26,6 +27,10 @@ public class PipelineFunctions
         _logger = logger;
         _sender = sender;
     }
+
+    //Default yearly processing
+    //User-defined comparator set
+    //Custom data set
 
 
     [FunctionName(nameof(InitiatePipelineJob))]
@@ -120,5 +125,23 @@ public class PipelineFunctions
         {
             JobId = input.JobId
         });
+    }
+
+    [FunctionName(nameof(PipelineJobPurgeHistory))]
+    public static Task PipelineJobPurgeHistory(
+        [DurableClient] IDurableOrchestrationClient client,
+        [TimerTrigger("0 0 12 * * *")] TimerInfo timer)
+    {
+        return client.PurgeInstanceHistoryAsync(
+            DateTime.MinValue,
+            DateTime.UtcNow.AddDays(-7),
+            new List<OrchestrationStatus>
+            {
+                OrchestrationStatus.Completed,
+                OrchestrationStatus.Failed,
+                OrchestrationStatus.Canceled,
+                OrchestrationStatus.Terminated,
+                OrchestrationStatus.Suspended
+            });
     }
 }

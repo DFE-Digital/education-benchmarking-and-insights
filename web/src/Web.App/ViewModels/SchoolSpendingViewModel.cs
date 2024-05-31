@@ -10,19 +10,19 @@ public class SchoolSpendingViewModel(
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
 
-    public string? Name => school.Name;
-    public string? Urn => school.Urn;
+    public string? Name => school.SchoolName;
+    public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
 
     public IEnumerable<CostCategory> PriorityCosts => _categories
-        .Where(x => x.Rating.Status is "Red" or "Amber")
-        .OrderBy(x => x.Rating.StatusOrder)
+        .Where(x => x.Rating.RAG is "red" or "amber")
+        .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 
     public IEnumerable<CostCategory> LowPriorityCosts => _categories
-        .Where(x => x.Rating.Status is "Green")
-        .OrderBy(x => x.Rating.StatusOrder)
+        .Where(x => x.Rating.RAG is "green")
+        .OrderBy(x => Lookups.StatusOrderMap[x.Rating.RAG ?? string.Empty])
         .ThenByDescending(x => x.Rating.Decile)
         .ThenByDescending(x => x.Rating.Value);
 

@@ -14,7 +14,7 @@ steps:
     condition: not(contains(variables['Build.SourceVersionMessage'], '[no cache]'))
     displayName: 'Cache nuget packages'
     inputs:
-      key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,platform/src/db/**/packages.lock.json,!**/bin/**,!**/obj/**'
+      key: 'nuget | "$(Agent.OS)-platform" | platform/src/search/**/packages.lock.json,platform/src/apis/**/packages.lock.json,!**/bin/**,!**/obj/**'
       path: $(PLATFORM_NUGET_CACHE)
       cacheHitVar: PLATFORM_CACHE_RESTORED
 
@@ -27,20 +27,8 @@ steps:
       projects: |
         platform/src/search/**/*.csproj
         platform/src/apis/**/*.csproj
-        platform/src/db/**/*.csproj
       feedsToUse: 'config'
       nugetConfigPath: 'platform/nuget.config'
-      
-  - task: DotNetCoreCLI@2
-    displayName: 'Build platform database'
-    inputs:
-        command: publish
-        publishWebProjects: false
-        projects: 'platform/src/db/Platform.Database/Platform.Database.csproj'
-        packagesDirectory: $(PLATFORM_NUGET_CACHE)
-        arguments: '-c Release -o $(Build.ArtifactStagingDirectory)/platform-db /p:Version=${{ parameters.BuildVersion }} /p:InformationalVersion=${{ parameters.BuildNumber }}'
-        zipAfterPublish: true
-        modifyOutputPath: true
 
   - task: DotNetCoreCLI@2
     displayName: 'Build platform search'
@@ -66,10 +54,6 @@ steps:
       zipAfterPublish: true
       modifyOutputPath: true
 
-  - publish: $(build.artifactstagingdirectory)/platform-db
-    displayName: 'Publish platform db artifacts'
-    artifact: platform-db
-    
   - publish: $(build.artifactstagingdirectory)/platform-search
     displayName: 'Publish platform search artifacts'
     artifact: platform-search

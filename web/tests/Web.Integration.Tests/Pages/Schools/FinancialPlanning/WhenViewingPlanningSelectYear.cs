@@ -43,7 +43,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), planExists ? Times.Never : Times.Once);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -57,7 +57,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute());
         DocumentAssert.FormErrors(page, ("Year", "Select the academic year you want to plan"));
     }
 
@@ -96,7 +96,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         page = await Client.SubmitForm(page.Forms[0], action);
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -112,7 +112,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         page = await Client.SubmitForm(page.Forms[0], action);
 
         PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.Urn).ToAbsolute(), HttpStatusCode.InternalServerError);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningSelectYear(school.URN).ToAbsolute(), HttpStatusCode.InternalServerError);
     }
 
     [Fact]
@@ -123,13 +123,13 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool seedPlan = true)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -139,7 +139,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var plan = !seedPlan
             ? null
             : Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -148,18 +148,18 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningSelectYear(school.Urn));
+            .Navigate(Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.Urn).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningStart(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Which academic year do you want to plan? - Financial Benchmarking and Insights Tool - GOV.UK", "Which academic year do you want to plan?");
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.Urn));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         var radios = page.QuerySelectorAll("input[type='radio']");
         Assert.Equal(ListedYears.Length, radios.Length);

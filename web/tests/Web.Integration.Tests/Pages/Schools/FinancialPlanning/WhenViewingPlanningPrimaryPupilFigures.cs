@@ -37,8 +37,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         page = await Client.Follow(anchor);
 
         var expectedPage = hasMixedClasses
-            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
@@ -77,7 +77,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -112,7 +112,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -166,7 +166,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
@@ -217,7 +217,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute());
+            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, (prop, error));
     }
 
@@ -225,7 +225,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         string financeType, bool hasMixedClasses, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .Create();
@@ -236,7 +236,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.HasMixedAgeClasses, hasMixedClasses)
             .Create();
@@ -246,7 +246,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear));
 
         return (page, school, plan);
     }
@@ -254,8 +254,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
     private static void AssertPageLayout(IHtmlDocument page, School school, FinancialPlanInput planInput)
     {
         var expectedPage = planInput.HasMixedAgeClasses.GetValueOrDefault()
-            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.BackLink(page, "Back", expectedPage);
         DocumentAssert.TitleAndH1(page,

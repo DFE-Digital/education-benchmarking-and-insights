@@ -6,7 +6,7 @@ namespace Web.App.ViewModels;
 
 public class SchoolDeploymentPlanViewModel(School school, FinancialPlanInput planInput, string? referrer)
 {
-    public string? Name => school.Name;
+    public string? Name => school.SchoolName;
     public bool IsPrimary => school.IsPrimary;
     public int Year => planInput.Year;
     public string? Urn => planInput.Urn;

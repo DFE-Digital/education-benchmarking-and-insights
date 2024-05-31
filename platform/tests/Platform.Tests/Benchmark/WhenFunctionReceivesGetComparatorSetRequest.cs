@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Domain;
 using Platform.Functions;
 using Xunit;
@@ -11,12 +12,12 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunction
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
-            .ReturnsAsync(new ComparatorSetResponseModel());
+        Service
+            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(new DefaultComparatorSet());
 
         var result =
-            await Functions.ComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
+            await Functions.ComparatorSetDefaultAsync(CreateRequest(), "12313") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -27,12 +28,12 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunction
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.Get(It.IsAny<string>()))
+        Service
+            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions
-            .ComparatorSetAsync(CreateRequest(), "12313") as StatusCodeResult;
+            .ComparatorSetDefaultAsync(CreateRequest(), "12313") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

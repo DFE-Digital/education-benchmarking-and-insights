@@ -68,7 +68,7 @@ public class CensusProxyController(
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {
         var result = await comparatorSetService.ReadComparatorSet(id);
-        return result.DefaultPupil;
+        return result.Pupil;
     }
 
     private async Task<IEnumerable<string>> GetTrustSet(string id, string? phase)
@@ -78,7 +78,7 @@ public class CensusProxyController(
             .AddIfNotNull("phase", phase);
 
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.Urn).OfType<string>();
+        return result.Select(x => x.URN).OfType<string>();
     }
 
     private async Task<IEnumerable<string>> GetLocalAuthoritySet(string id, string? phase)
@@ -88,7 +88,7 @@ public class CensusProxyController(
             .AddIfNotNull("phase", phase);
 
         var result = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        return result.Select(x => x.Urn).OfType<string>();
+        return result.Select(x => x.URN).OfType<string>();
     }
 
     private static ApiQuery BuildApiQuery(IEnumerable<string>? urns = null, string? category = null, string? dimension = null)

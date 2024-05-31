@@ -34,7 +34,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolComparison(school.URN).ToAbsolute());
     }
 
     [Theory]
@@ -50,7 +50,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
     }
 
     [Theory]
@@ -66,7 +66,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
 
         var newPage = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(newPage, Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 
     [Fact]
@@ -106,15 +106,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool isPartOfTrust = false)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
-            .With(x => x.CompanyNumber, isPartOfTrust ? "12345678" : "")
+            .With(x => x.URN, "12345")
+            .With(x => x.TrustCompanyNumber, isPartOfTrust ? "12345678" : "")
             .With(x => x.FinanceType, financeType)
-            .With(x => x.OfstedRating, "0")
+            .With(x => x.OfstedDescription, "0")
             .Create();
 
         var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.Name)
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.SchoolName, school.SchoolName)
+            .With(x => x.Urn, school.URN)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
@@ -122,7 +122,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools)
-            .Navigate(Paths.SchoolHome(school.Urn));
+            .Navigate(Paths.SchoolHome(school.URN));
 
         return (page, school);
     }
@@ -132,17 +132,17 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute())
         };
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHome(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
 
-        Assert.NotNull(school.Name);
-        DocumentAssert.TitleAndH1(page, "Your school - Financial Benchmarking and Insights Tool - GOV.UK", school.Name);
+        Assert.NotNull(school.SchoolName);
+        DocumentAssert.TitleAndH1(page, "Your school - Financial Benchmarking and Insights Tool - GOV.UK", school.SchoolName);
         if (school.IsPartOfTrust)
         {
-            DocumentAssert.Heading2(page, $"Part of {school.TrustOrCompanyName}");
+            DocumentAssert.Heading2(page, $"Part of {school.TrustName}");
         }
 
         var dataSourceElement = page.QuerySelector("main > div > div:nth-child(3) > div > p");
@@ -166,8 +166,8 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
         Assert.Equal(3, toolsLinks.Count);
 
-        DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.Urn).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[2], "Benchmark census data", Paths.SchoolCensus(school.Urn).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[0], "Compare your costs", Paths.SchoolComparison(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Curriculum and financial planning", Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[2], "Benchmark census data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 }

@@ -62,7 +62,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Theory]
@@ -85,7 +85,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("AssistantsNursery", expectedMsg));
     }
 
@@ -99,7 +99,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -134,7 +134,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
 
@@ -169,14 +169,14 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .Create();
@@ -187,7 +187,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -196,14 +196,14 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page,
             "What are your teaching assistant figures? - Financial Benchmarking and Insights Tool - GOV.UK",
             "What are your teaching assistant figures?");

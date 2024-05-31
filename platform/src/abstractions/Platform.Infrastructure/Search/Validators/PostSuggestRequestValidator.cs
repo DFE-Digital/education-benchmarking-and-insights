@@ -4,7 +4,7 @@ using FluentValidation;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public class PostSuggestRequestValidator : AbstractValidator<PostSuggestRequestModel>
+public class PostSuggestRequestValidator : AbstractValidator<PostSuggestRequest>
 {
     public PostSuggestRequestValidator()
     {

@@ -41,11 +41,11 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage()
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .Navigate(Paths.SchoolCustomData(school.Urn));
+            .Navigate(Paths.SchoolCustomData(school.URN));
 
         return (page, school);
     }
@@ -55,8 +55,8 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
         var expectedBreadcrumbs = new[]
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
-            ("Your school", Paths.SchoolHome(school.Urn).ToAbsolute()),
-            ("Customise your data", Paths.SchoolCustomData(school.Urn).ToAbsolute())
+            ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
+            ("Customise your data", Paths.SchoolCustomData(school.URN).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page,
@@ -64,6 +64,6 @@ public class WhenViewingCustomData(SchoolBenchmarkingWebAppClient client)
             "Change data used to compare this school");
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Start now", Paths.SchoolCustomDataFinancialData(school.Urn));
+        DocumentAssert.PrimaryCta(cta, "Start now", Paths.SchoolCustomDataFinancialData(school.URN));
     }
 }

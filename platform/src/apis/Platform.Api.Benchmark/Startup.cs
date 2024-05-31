@@ -4,7 +4,8 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Benchmark;
-using Platform.Api.Benchmark.Db;
+using Platform.Api.Benchmark.ComparatorSets;
+using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Sql;
@@ -24,12 +25,10 @@ public class Startup : FunctionsStartup
         builder.Services.AddHealthChecks();
 
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
-        builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
-        builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
-        builder.Services.AddSingleton<IComparatorSetDb, ComparatorSetDb>();
-        builder.Services.AddSingleton<IFinancialPlanDb, FinancialPlanDb>();
+        builder.Services.AddSingleton<IComparatorSetService, ComparatorSetService>();
+        builder.Services.AddSingleton<IFinancialPlanService, FinancialPlanService>();
     }
 }

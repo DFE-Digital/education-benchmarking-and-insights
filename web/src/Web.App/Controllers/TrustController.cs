@@ -31,7 +31,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 var schoolsQuery = new ApiQuery();
                 foreach (var school in schools)
                 {
-                    schoolsQuery.AddIfNotNull("urns", school.Urn);
+                    schoolsQuery.AddIfNotNull("urns", school.URN);
                 }
 
                 var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();

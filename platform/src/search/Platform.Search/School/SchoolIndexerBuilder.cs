@@ -18,17 +18,8 @@ public class SchoolIndexerBuilder : IndexerBuilder
         {
             FieldMappings =
             {
-                new FieldMapping("URN") { TargetFieldName = nameof(SchoolIndex.Urn) },
-                new FieldMapping("EstablishmentName") { TargetFieldName = nameof(SchoolIndex.Name) },
-                new FieldMapping("LAEstab") { TargetFieldName = nameof(SchoolIndex.LaEstab) },
-                new FieldMapping("TypeOfEstablishment") { TargetFieldName = nameof(SchoolIndex.Kind) },
-                new FieldMapping("FinanceType") { TargetFieldName = nameof(SchoolIndex.FinanceType) },
-                new FieldMapping("Street") { TargetFieldName = nameof(SchoolIndex.Street) },
-                new FieldMapping("Locality") { TargetFieldName = nameof(SchoolIndex.Locality) },
-                new FieldMapping("Address3") { TargetFieldName = nameof(SchoolIndex.Address3) },
-                new FieldMapping("Town") { TargetFieldName = nameof(SchoolIndex.Town) },
-                new FieldMapping("County") { TargetFieldName = nameof(SchoolIndex.County) },
-                new FieldMapping("Postcode") { TargetFieldName = nameof(SchoolIndex.Postcode) }
+                new FieldMapping("URN") { TargetFieldName = nameof(SchoolIndex.URN) },
+                new FieldMapping("SchoolName") { TargetFieldName = nameof(SchoolIndex.SchoolName) }
             }
         };
 

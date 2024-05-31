@@ -45,7 +45,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
       return;
     }
 
-    setInputValue(value.document.name);
+    setInputValue(value.document.schoolName);
     setSelectedUrn(value.document.urn);
   };
 
@@ -61,7 +61,7 @@ const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
         suggestionFormatter={(item) =>
           item?.text ? item.text.replace(/\*(.*)\*/, "<b>$1</b>") : ""
         }
-        valueFormatter={(item) => item?.document?.name ?? ""}
+        valueFormatter={(item) => item?.document?.schoolName ?? ""}
       />
       <input value={selectedUrn} name="urn" type="hidden" />
     </div>

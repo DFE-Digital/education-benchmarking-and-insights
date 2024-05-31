@@ -56,7 +56,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                 <h2 class="govuk-heading-m">Default characteristics</h2>
 
                 <div class="govuk-checkboxes question" data-module="govuk-checkboxes" style="margin-bottom: 20px;">
-                    <h3 class="govuk-heading-s">Type of schools</h3>
+                    <h3 class="govuk-heading-s">School types</h3>
                     
                     <div class="govuk-checkboxes" data-module="govuk-radios" id="pc123">
                     <div class="govuk-form-group">
@@ -82,7 +82,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                     name: "comparePhase",
                     fieldset: {
                         legend: {
-                        text: "Category of schools",
+                        text: "School categories",
                         isPageHeading: false,
                         classes: "govuk-fieldset__legend--s"
                         }
@@ -111,11 +111,12 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         {
                             value: "special",
                             text: "Special",
+                            attributes: 'data-aria-controls="sen-chars"',
                             checked: checked("comparePhase", "special")
                         },
                         {
                             value: "utc",
-                            text: "University terchnical college",
+                            text: "University technical college",
                             checked: checked("comparePhase", "allThrough")
                         }
                     ]
@@ -136,7 +137,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                             </div>
                             <div class="govuk-radios__item">
                                 <input type="radio" name="Defecit2" id="Defecit.Exclude3" value="Include" class="govuk-radios__input criteria-radio" data-aria-controls="conditional-la">
-                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude3">Selected local authority or authorities</label>
+                                <label class="govuk-label govuk-radios__label" for="Defecit.Exclude3">Choose a local authority or authorities</label>
                             </div>
                             <div class="govuk-radios__conditional govuk-radios__conditional--hidden" id="conditional-la">
                             {{ xGovukAutocomplete({
@@ -466,7 +467,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
     -->
 
-
+<!--
 
 
             <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
@@ -529,7 +530,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
             </div>
 
 
-
+-->
 
 
             <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
@@ -865,11 +866,13 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         </div>
                         </div>
             
-        <!--
-                {% if data['comparePhase'] %}
-                {% if 'special' in data['comparePhase'] or 'referral' in data['comparePhase']  %}
-                <div class="govuk-form-group" style="margin: 30px 0">
-                    <h2 class="govuk-heading-m">SEN characteristics</h2>
+
+
+
+
+
+                <div class="govuk-form-group govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" style="margin: 30px 0; border: none; padding-left: 0;" id="sen-chars">
+                    <h2 class="govuk-heading-s">SEN characteristics</h2>
 
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
@@ -1315,9 +1318,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
     
                 
 
-                {% endif %}
-                {% endif %}
--->
 <!--
                 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
                 <script>
@@ -1364,7 +1364,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
     </div>
 </div>
-
+</div>
 
 <form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
 

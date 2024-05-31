@@ -40,40 +40,6 @@
 
   <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
   <h1 class="govuk-heading-l">Choose trusts</h1>
-
-<!--
-  {% if confirmation %}
-
-  {% if confirmation == 'trusts-generated' %}
-    {% set html %}
-    <p class="govuk-body"><strong>Similar trusts found</strong> - <a href="/compare-trusts/compare">Compare these trusts</a></p>
-    {% endset %}
-
-  {% elseif confirmation == 'trust-added' %}
-    {% set html %}
-    <p class="govuk-body"><strong>{{ ( data['trusts'] | first ).trustName }}</strong> added to similar trusts.</p>
-    {% endset %}
-  
-  {% elseif confirmation == 'trust-removed' %}
-    {% set html %}
-    <p class="govuk-body"><strong>{{ data['trust-removed'] }}</strong> removed from similar trusts. <a href="/compare-trusts/undo-remove?trustName={{ data['trust-removed'] }}" class="govuk-link">Undo</a>.</p>
-    {% endset %}
-
-  {% elseif confirmation == 'trust-reset' %}
-    {% set html %}
-    <p class="govuk-body"><strong>You have now removed all the similar schools you chose.</strong></p>
-    {% endset %}
-
-  {% endif %}
-  
-    {{ govukNotificationBanner({
-      html: html,
-      type: "success"
-    }) }}
-
-  {% endif %}
-  -->
-
     
       <form action="/compare-trusts/add-trust" method="post">
         <div id="school-search-hint" class="govuk-hint">
@@ -113,7 +79,7 @@
 
       {{ govukButton({
         text: 'Save your set' if data['editSet'] == 'true' else "Create a set using these trusts",
-        href: '/loading?redirect=/compare-trusts/compare'
+        href: '/loading?redirect=/compare-trusts/compare?showBanner=true'
       }) }}
 
       {{ govukTable({

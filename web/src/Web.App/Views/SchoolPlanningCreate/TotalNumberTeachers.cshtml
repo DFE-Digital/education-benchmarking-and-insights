@@ -7,11 +7,11 @@
     <div class="govuk-grid-column-two-thirds">
         @await Html.PartialAsync("_ErrorSummary")
 
-        @using (Html.BeginForm("TotalNumberTeachers", "SchoolPlanningCreate", new { urn = Model.School.Urn, year = Model.PlanInput?.Year}, FormMethod.Post, true, new { novalidate = "novalidate" }))
+        @using (Html.BeginForm("TotalNumberTeachers", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year}, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
             <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TotalNumberOfTeachersFte)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
 
-                <span class="govuk-caption-l">@Model.School.Name</span>
+                <span class="govuk-caption-l">@Model.School.SchoolName</span>
                 <h1 class="govuk-label-wrapper">
                     <label class="govuk-label govuk-label--l" for="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)">
                         @ViewData[ViewDataKeys.Title]

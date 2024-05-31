@@ -24,7 +24,7 @@ public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBas
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .Navigate(Paths.SchoolHistory(school.Urn));
+            .Navigate(Paths.SchoolHistory(school.URN));
 
         return (page, school);
     }
@@ -32,8 +32,8 @@ public class WhenViewingHistory(SchoolBenchmarkingWebAppClient client) : PageBas
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.Urn).ToAbsolute());
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.Urn).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolHistory(school.URN).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolHome(school.URN).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Historic data - Financial Benchmarking and Insights Tool - GOV.UK", "Historic data");
     }
 }

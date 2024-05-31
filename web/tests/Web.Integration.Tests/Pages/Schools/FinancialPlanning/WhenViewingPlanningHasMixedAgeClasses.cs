@@ -30,7 +30,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsNotFoundPage(page);
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
     }
 
     [Fact]
@@ -96,7 +96,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute(),
+            Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.InternalServerError);
     }
 
@@ -120,7 +120,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("HasMixedAgeClasses", "Select yes if you have mixed age classes"));
     }
 
@@ -145,8 +145,8 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         var expectedPage = value
-            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.Urn, CurrentYear).ToAbsolute()
-            : Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.Urn, CurrentYear).ToAbsolute();
+            ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()
+            : Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute();
 
         DocumentAssert.AssertPageUrl(page, expectedPage);
     }
@@ -169,7 +169,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, bool? hasMixedAgeClasses = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -177,7 +177,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.HasMixedAgeClasses, hasMixedAgeClasses)
             .Create();
@@ -187,14 +187,14 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTimetableCycle(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.TitleAndH1(page, "Do you have any mixed age classes? - Financial Benchmarking and Insights Tool - GOV.UK", "Do you have any mixed age classes?");
     }
 }

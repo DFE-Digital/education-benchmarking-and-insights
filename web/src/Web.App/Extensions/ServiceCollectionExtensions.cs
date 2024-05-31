@@ -204,7 +204,7 @@ public static class ServiceCollectionExtensions
                                         var query = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
                                         var trustSchools = await api.QuerySchools(query).GetResultOrDefault<School[]>() ?? [];
                                         trusts = [companyNumber];
-                                        schools = trustSchools.Select(x => x.Urn).OfType<string>().ToArray();
+                                        schools = trustSchools.Select(x => x.URN).OfType<string>().ToArray();
                                     }
                                 }
                             }

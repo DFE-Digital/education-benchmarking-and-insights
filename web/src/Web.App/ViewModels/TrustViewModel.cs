@@ -5,7 +5,7 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
 {
 
     public string? CompanyNumber => trust.CompanyNumber;
-    public string? Name => trust.Name;
+    public string? Name => trust.TrustName;
     public int NumberSchools => schools.Count;
     public decimal? RevenueReserve => balance.RevenueReserve;
     public decimal? InYearBalance => balance.InYearBalance;
@@ -15,15 +15,14 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
 
     public IEnumerable<RagCostCategoryViewModel> Ratings => ratings
         .Where(NotOther)
-        .GroupBy(x => (x.Status, x.CostCategory, x.CostCategoryId))
-        .Select(x => (x.Key.Status, x.Key.CostCategory, x.Key.CostCategoryId, Count: x.Count()))
-        .GroupBy(x => (x.CostCategory, x.CostCategoryId))
+        .GroupBy(x => (x.RAG, x.Category))
+        .Select(x => (x.Key.RAG, x.Key.Category, Count: x.Count()))
+        .GroupBy(x => (x.Category))
         .Select(x => new RagCostCategoryViewModel(
-            x.Key.CostCategory!,
-            x.Key.CostCategoryId,
-            x.Where(w => Red(w.Status)).Select(r => r.Count).SingleOrDefault(),
-            x.Where(w => Amber(w.Status)).Select(a => a.Count).SingleOrDefault(),
-            x.Where(w => Green(w.Status)).Select(g => g.Count).SingleOrDefault()
+            x.Key,
+            x.Where(w => Red(w.RAG)).Select(r => r.Count).SingleOrDefault(),
+            x.Where(w => Amber(w.RAG)).Select(a => a.Count).SingleOrDefault(),
+            x.Where(w => Green(w.RAG)).Select(g => g.Count).SingleOrDefault()
         ))
         .OrderByDescending(o => o.RedRatio)
         .ThenByDescending(o => o.AmberRatio)
@@ -53,24 +52,24 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
             OverallPhase: x.Key,
             Schools: x
                 .Select(s => new RagSchoolViewModel(
-                    s.Urn,
-                    s.Name,
-                    ratings.Where(NotOther).Where(Red).Count(r => r.Urn == s.Urn),
-                    ratings.Where(NotOther).Where(Amber).Count(r => r.Urn == s.Urn),
-                    ratings.Where(NotOther).Where(Green).Count(r => r.Urn == s.Urn)
+                    s.URN,
+                    s.SchoolName,
+                    ratings.Where(NotOther).Where(Red).Count(r => r.URN == s.URN),
+                    ratings.Where(NotOther).Where(Amber).Count(r => r.URN == s.URN),
+                    ratings.Where(NotOther).Where(Green).Count(r => r.URN == s.URN)
                 ))
                 .OrderByDescending(o => o.RedRatio)
                 .ThenByDescending(o => o.AmberRatio)
                 .ThenBy(o => o.Name)
             ));
 
-    private static bool NotOther(RagRating ragRating) => ragRating.CostCategory != "Other";
-    private static bool Red(RagRating ragRating) => Red(ragRating.Status);
-    private static bool Amber(RagRating ragRating) => Amber(ragRating.Status);
-    private static bool Green(RagRating ragRating) => Green(ragRating.Status);
-    private static bool Red(string? status) => status == "Red";
-    private static bool Amber(string? status) => status == "Amber";
-    private static bool Green(string? status) => status == "Green";
+    private static bool NotOther(RagRating ragRating) => ragRating.Category != Category.Other;
+    private static bool Red(RagRating ragRating) => Red(ragRating.RAG);
+    private static bool Amber(RagRating ragRating) => Amber(ragRating.RAG);
+    private static bool Green(RagRating ragRating) => Green(ragRating.RAG);
+    private static bool Red(string? status) => status == "red";
+    private static bool Amber(string? status) => status == "amber";
+    private static bool Green(string? status) => status == "green";
 }
 
 public class TrustSchoolsSectionViewModel

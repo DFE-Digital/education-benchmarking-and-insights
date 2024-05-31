@@ -72,7 +72,7 @@
             @foreach (var school in Model.Schools)
             {
                 <li>
-                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.Urn})">@school.Name</a>
+                    <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "School", new {urn = school.URN})">@school.SchoolName</a>
                 </li>
             }
         </ul>

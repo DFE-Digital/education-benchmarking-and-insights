@@ -87,7 +87,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
 
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Theory]
@@ -100,7 +100,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         var anchor = page.QuerySelector(".govuk-back-link");
         page = await Client.Follow(anchor);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
     }
 
     [Fact]
@@ -136,7 +136,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
-            .With(x => x.Urn, "12345")
+            .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .Create();
 
@@ -146,7 +146,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
-            .With(x => x.Urn, school.Urn)
+            .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
 
@@ -155,17 +155,17 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
         var page = await Client.SetupEstablishment(school)
             .SetupInsights(school, finances)
             .SetupBenchmark(schools, plan)
-            .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsReview(school.Urn, CurrentYear));
+            .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsReview(school.URN, CurrentYear));
 
         return (page, school);
     }
 
     private static void AssertPageLayout(IHtmlDocument page, School school)
     {
-        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.Urn, CurrentYear).ToAbsolute());
+        DocumentAssert.BackLink(page, "Back", Paths.SchoolFinancialPlanningOtherTeachingPeriods(school.URN, CurrentYear).ToAbsolute());
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningManagementRoles(school.Urn, CurrentYear));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear));
 
         DocumentAssert.TitleAndH1(page,
             "Review other teaching periods - Financial Benchmarking and Insights Tool - GOV.UK",
