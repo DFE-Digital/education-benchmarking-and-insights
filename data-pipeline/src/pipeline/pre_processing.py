@@ -1,4 +1,5 @@
 import datetime
+import struct
 
 import src.pipeline.input_schemas as input_schemas
 import src.pipeline.mappings as mappings
@@ -313,7 +314,7 @@ def prepare_schools_data(base_data_path, links_data_path):
         encoding="cp1252",
         index_col=input_schemas.gias_index_col,
         usecols=input_schemas.gias.keys(),
-        dtype=input_schemas.gias,
+        dtype=input_schemas.gias
     )
 
     gias_links = pd.read_csv(
@@ -344,6 +345,10 @@ def prepare_schools_data(base_data_path, links_data_path):
         gias["OfstedRating (name)"].fillna("").map(mappings.map_ofsted_rating)
     )
 
+    gias["TypeOfEstablishment (name)"] = (
+        gias["TypeOfEstablishment (name)"].fillna("").map(lambda x: x.strip())
+    )
+
     gias["NurseryProvision (name)"] = gias["NurseryProvision (name)"].fillna("")
 
     gias["NurseryProvision (name)"] = gias.apply(
@@ -363,13 +368,6 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     gias["AdmissionsPolicy (name)"] = (
         gias["AdmissionsPolicy (name)"].fillna("").map(mappings.map_admission_policy)
-    )
-    gias["HeadName"] = (
-        gias["HeadTitle (name)"]
-        + " "
-        + gias["HeadFirstName"]
-        + " "
-        + gias["HeadLastName"]
     )
 
     gias_links = gias_links[
