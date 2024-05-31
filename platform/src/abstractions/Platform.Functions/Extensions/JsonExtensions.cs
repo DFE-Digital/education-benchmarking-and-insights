@@ -24,9 +24,9 @@ public static class JsonExtensions
         return JsonConvert.SerializeObject(source, formatting, Settings);
     }
 
-    public static byte[] ToJsonByteArray(this object source)
+    public static byte[] ToJsonByteArray(this object source, Formatting formatting = Formatting.Indented)
     {
-        return Encoding.UTF8.GetBytes(ToJson(source));
+        return Encoding.UTF8.GetBytes(ToJson(source,formatting));
     }
 
 

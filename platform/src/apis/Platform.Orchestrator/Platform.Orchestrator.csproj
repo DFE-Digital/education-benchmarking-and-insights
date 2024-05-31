@@ -30,5 +30,6 @@
           <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
           <CopyToPublishDirectory>Never</CopyToPublishDirectory>
         </None>
+        <ProjectReference Include="..\..\abstractions\Platform.Infrastructure\Platform.Infrastructure.csproj" />
     </ItemGroup>
 </Project>

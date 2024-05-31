@@ -37,6 +37,11 @@ resource "azurerm_storage_account" "data" {
   }
 }
 
+resource "azurerm_storage_queue" "pipeline-message-pending-queue" {
+  name                 = "data-pipeline-job-pending"
+  storage_account_name = azurerm_storage_account.data.name
+}
+
 resource "azurerm_storage_queue" "pipeline-message-start-queue" {
   name                 = "data-pipeline-job-start"
   storage_account_name = azurerm_storage_account.data.name

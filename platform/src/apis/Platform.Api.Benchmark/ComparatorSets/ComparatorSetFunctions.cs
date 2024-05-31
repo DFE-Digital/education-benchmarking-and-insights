@@ -2,11 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
+using AzureFunctions.Extensions.Swashbuckle.Attribute;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Platform.Domain.Messages;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
@@ -57,6 +60,9 @@ public class ComparatorSetFunctions
 
 
     [FunctionName(nameof(ComparatorSetUserDefinedAsync))]
+    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NoContent)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> ComparatorSetUserDefinedAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/{urn}/user-defined/{identifier}")]
@@ -76,7 +82,15 @@ public class ComparatorSetFunctions
         {
             try
             {
-                throw new NotImplementedException();
+                var comparatorSet = await _service.UserDefinedAsync(urn, identifier);
+                if (comparatorSet == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return comparatorSet.Status != "complete"
+                    ? new NoContentResult()
+                    : new JsonContentResult(comparatorSet.Set);
             }
             catch (Exception e)
             {
@@ -85,13 +99,15 @@ public class ComparatorSetFunctions
             }
         }
     }
-
-
+    
     [FunctionName(nameof(CreateComparatorSetUserDefinedAsync))]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateComparatorSetUserDefinedAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set/{urn}/user-defined/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "comparator-set/{urn}/user-defined/{identifier}")]
+        [RequestBodyType(typeof(string[]), "The user defined set of schools object")]
         HttpRequest req,
+        [Queue("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] IAsyncCollector<string> queue,
         string urn,
         string identifier)
     {
@@ -107,37 +123,28 @@ public class ComparatorSetFunctions
         {
             try
             {
-                throw new NotImplementedException();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError(e, "Failed to get comparator set");
-                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
-            }
-        }
-    }
+                var body = req.ReadAsJson<string[]>();
+                var set = new UserDefinedComparatorSet
+                {
+                    RunId = identifier,
+                    RunType = "default",
+                    Set = body,
+                    URN = urn
+                };
+                
+                await _service.UpsertUserDefinedSet(set);
 
-    [FunctionName(nameof(StatusComparatorSetUserDefinedAsync))]
-    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    public async Task<IActionResult> StatusComparatorSetUserDefinedAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "comparator-set/{urn}/user-defined/{identifier}/status")]
-        HttpRequest req,
-        string urn,
-        string identifier)
-    {
-        var correlationId = req.GetCorrelationId();
-
-        using (_logger.BeginScope(new Dictionary<string, object>
-               {
-                   { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn },
-                   { "Identifier", identifier}
-               }))
-        {
-            try
-            {
-                throw new NotImplementedException();
+                var message = new PipelineStartMessage
+                {
+                    RunId = set.RunId,
+                    RunType = set.RunType,
+                    Type = "comparator-set",
+                    URN = set.URN,
+                    Payload = new ComparatorSetPayload { Set = set.Set }
+                };
+                await queue.AddAsync(message.ToJson(Formatting.None));
+                
+                return new AcceptedResult();
             }
             catch (Exception e)
             {
