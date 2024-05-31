@@ -8,6 +8,7 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 
 public interface IComparatorSetService
 {
+    Task<string> CurrentYearAsync();
     Task<DefaultComparatorSet> DefaultAsync(string urn, string setType = "unmixed");
     Task UpsertUserDefinedSet(UserDefinedComparatorSet comparatorSet);
     Task<UserDefinedComparatorSet?> UserDefinedAsync(string urn, string identifier, string runtType = "default");
@@ -22,6 +23,13 @@ public class ComparatorSetService : IComparatorSetService
     {
         _dbFactory = dbFactory;
         SqlMapper.AddTypeHandler(new ComparatorSetTypeHandler());
+    }
+
+    public async Task<string> CurrentYearAsync()
+    {
+        const string sql = "SELECT Value from Parameters where Name = 'CurrentYear'";
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.QueryFirstAsync<string>(sql);
     }
 
     public async Task<DefaultComparatorSet> DefaultAsync(string urn, string setType)

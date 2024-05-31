@@ -124,7 +124,7 @@ public class ComparatorSetFunctions
             try
             {
                 var body = req.ReadAsJson<string[]>();
-                var set = new UserDefinedComparatorSet
+                var comparatorSet = new UserDefinedComparatorSet
                 {
                     RunId = identifier,
                     RunType = "default",
@@ -132,15 +132,17 @@ public class ComparatorSetFunctions
                     URN = urn
                 };
                 
-                await _service.UpsertUserDefinedSet(set);
-
+                await _service.UpsertUserDefinedSet(comparatorSet);
+                var year = await _service.CurrentYearAsync();
+                
                 var message = new PipelineStartMessage
                 {
-                    RunId = set.RunId,
-                    RunType = set.RunType,
+                    RunId = comparatorSet.RunId,
+                    RunType = comparatorSet.RunType,
                     Type = "comparator-set",
-                    URN = set.URN,
-                    Payload = new ComparatorSetPayload { Set = set.Set }
+                    URN = comparatorSet.URN,
+                    Year = year,
+                    Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
                 };
                 await queue.AddAsync(message.ToJson(Formatting.None));
                 
