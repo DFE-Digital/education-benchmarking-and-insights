@@ -101,7 +101,7 @@ def test_synthetic_data_env_is_set():
 
 # To add a new scenario just add a folder with the name of the scenario
 # and add the scenario to the list below.
-@pytest.mark.parametrize("scenario_name", ["scenario1"])
+@pytest.mark.parametrize("scenario_name", ["WhenLoadingSingleAcademyTrusts"])
 def test_run_scenarios(scenario_name):
     copy_raw_files_to_raw_blob_storage(scenario_name)
     trigger_pipeline(scenario_name)
