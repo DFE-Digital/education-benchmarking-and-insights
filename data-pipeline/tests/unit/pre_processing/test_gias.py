@@ -36,10 +36,6 @@ def test_prepare_school_data_has_correct_output_columns(prepared_schools_data: p
          "Postcode",
          "SchoolWebsite",
          "TelephoneNum",
-         "HeadTitle (name)",
-         "HeadFirstName",
-         "HeadLastName",
-         "HeadPreferredJobTitle",
          "GOR (name)",
          "UrbanRural (name)",
          "BoardingEstablishment (name)",
@@ -58,8 +54,7 @@ def test_prepare_school_data_has_correct_output_columns(prepared_schools_data: p
          "County (name)",
          "LA Establishment Number",
          "Has Nursery",
-         "Has Sixth Form",
-         "HeadName"
+         "Has Sixth Form"
     ]
 
 
@@ -110,12 +105,4 @@ def test_sixth_form_is_mapped_correctly(urn, expected, prepared_schools_data: pd
 def test_admissions_policy_is_mapped_correctly(urn, expected, prepared_schools_data: pd.DataFrame):
     assert prepared_schools_data.loc[urn]["AdmissionsPolicy (name)"] == expected
 
-
-@pytest.mark.parametrize("urn,expected", [
-     (100150, "Miss A HeadA"),
-     (100152, "Mr B HeadB"),
-     (100153, "Mrs C HeadC")
-])
-def test_head_name_is_mapped_correctly(urn, expected, prepared_schools_data: pd.DataFrame):
-    assert prepared_schools_data.loc[urn]["HeadName"] == expected
 

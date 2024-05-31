@@ -11,7 +11,7 @@ pd.options.mode.chained_assignment = None
 logger = logging.getLogger("fbit-data-pipeline")
 
 base_cols = [
-    "UKPRN",
+    "URN",
     "Total Internal Floor Area",
     "Age Average Score",
     "OfstedRating (name)",
