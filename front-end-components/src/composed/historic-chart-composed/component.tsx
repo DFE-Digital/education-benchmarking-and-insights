@@ -6,6 +6,7 @@ import { LineChart } from "src/components/charts/line-chart";
 import {
   shortValueFormatter,
   statValueFormatter,
+  fullValueFormatter,
 } from "src/components/charts/utils.ts";
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
@@ -90,7 +91,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
                   <tr className="govuk-table__row">
                     <td className="govuk-table__cell">{String(item.term)}</td>
                     <td className="govuk-table__cell">
-                      {shortValueFormatter(item[valueField], {
+                      {fullValueFormatter(item[valueField], {
                         valueUnit: valueUnit ?? dimension.unit,
                       })}
                     </td>

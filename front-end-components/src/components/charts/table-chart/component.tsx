@@ -4,11 +4,12 @@ import {
   TableChartProps,
 } from "src/components/charts/table-chart";
 import { SelectedSchoolContext } from "src/contexts";
+import { fullValueFormatter } from "../utils";
 
 export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
   props
 ) => {
-  const { tableHeadings, data, preventFocus } = props;
+  const { tableHeadings, data, preventFocus, valueUnit } = props;
   const selectedSchool = useContext(SelectedSchoolContext);
 
   const renderSchoolAnchor = (row: SchoolChartData) => (
@@ -61,7 +62,9 @@ export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
                       </td>
                     );
                   })}
-                <td className="govuk-table__cell">{row.value.toFixed(2)}</td>
+                <td className="govuk-table__cell">
+                  {fullValueFormatter(row.value, { valueUnit })}
+                </td>
               </tr>
             );
           })}
