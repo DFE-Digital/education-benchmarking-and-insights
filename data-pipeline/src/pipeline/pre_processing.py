@@ -691,6 +691,49 @@ def build_federations_data(links_data_path, maintained_schools):
 
     return hard_federations, soft_federations
 
+def _calculate_slopes(bfr_dataframe):
+
+    year_columns = ['Y-2','Y-1','Y1','Y2','Y3','Y4']
+    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title']=='Revenue reserves'].set_index('TrustUPIN')
+    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title']=='Pupil numbers'].set_index('TrustUPIN')
+
+    # TODO need to add in historic data to this, filling in fake values for now
+    bfr_revenue_reserves['Y-1'] = bfr_revenue_reserves['Y1']*0.96
+    bfr_revenue_reserves['Y-2'] = bfr_revenue_reserves['Y-1']*0.96
+    bfr_pupil_numbers['Y-1'] = bfr_pupil_numbers['Y1']*0.94
+    bfr_pupil_numbers['Y-2'] = bfr_pupil_numbers['Y-1']*0.94
+
+
+    # for the slope equation, x is the year, so x_bar would be 3, as we use 5 years of data.
+    x = np.array([1,2,3,4,5,6])
+    x_bar = 3.5
+    x_x_bar = x - x_bar
+
+
+    # convert to matrix
+    matrix_pupil_numbers = bfr_pupil_numbers[year_columns].values.astype(float)
+    matrix_revenue_reserves = bfr_revenue_reserves[year_columns].values.astype(float)
+
+    mrr_y_bar = np.mean(matrix_revenue_reserves, axis=1)
+    mrr_y_y_bar = matrix_revenue_reserves - np.vstack(mrr_y_bar)
+    mrr_slopes = np.sum(x_x_bar*mrr_y_y_bar,axis=1)/np.sum(x_x_bar**2)
+    bfr_revenue_reserves['slope'] = mrr_slopes
+
+
+    matrix_revenue_reserves_per_pupil = matrix_revenue_reserves/matrix_pupil_numbers
+    mrrpp_y_bar = np.mean(matrix_revenue_reserves_per_pupil, axis=1)
+    mrrpp_y_y_bar = matrix_revenue_reserves_per_pupil - np.vstack(mrrpp_y_bar)
+    
+    mrrpp_slopes = np.sum(x_x_bar*mrrpp_y_y_bar,axis=1)/np.sum(x_x_bar**2)
+
+    bfr_revenue_reserves_per_pupil = bfr_revenue_reserves[['CreatedBy','Category','Title','EFALineNo']].copy()
+    for i in range(len(year_columns)):
+        bfr_revenue_reserves_per_pupil[year_columns[i]] = matrix_revenue_reserves_per_pupil.T[i]
+
+    bfr_revenue_reserves_per_pupil['slope'] = mrrpp_slopes
+
+
+    return bfr_revenue_reserves, bfr_revenue_reserves_per_pupil
 
 def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
     bfr_sofa = pd.read_csv(
@@ -756,13 +799,7 @@ def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
 
     # Slope analysis
     # TODO need to add in historic data to this
-    bfr_revenue_reserves = bfr[bfr['Title'] == 'Revenue reserves'].set_index('TrustUPIN')
-    bfr_pupil_numbers = bfr[bfr['Title'] == 'Pupil numbers'].set_index('TrustUPIN')
-    bfr_revenue_reserves_per_pupil = (bfr_revenue_reserves[['Y1P1', 'Y1P2', 'Y1P1', 'Y1P2', 'Y1', 'Y2', 'Y3', 'Y4']] / bfr_pupil_numbers[['Y1P1', 'Y1P2', 'Y1P1', 'Y1P2', 'Y1', 'Y2', 'Y3', 'Y4']])
+    bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _calculate_slopes(bfr)
 
-    bfr_revenue_reserves_per_pupil = pd.merge(bfr_revenue_reserves_per_pupil,
-                                              bfr_revenue_reserves[['CreatedBy', 'Category', 'Title', 'EFALineNo']],
-                                              left_index=True, right_index=True)
-
-    return bfr_sofa, bfr_3y, bfr, bfr_metrics
+    return bfr_metrics, bfr_revenue_reserves, bfr_revenue_reserves_per_pupil
 
