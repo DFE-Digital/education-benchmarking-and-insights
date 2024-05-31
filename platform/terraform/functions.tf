@@ -77,7 +77,7 @@ module "orchestrator-fa" {
   key-vault-id         = data.azurerm_key_vault.key-vault.id
   location             = var.location
   enable-restrictions  = lower(var.cip-environment) != "dev"
-  always_on            = true
+  always-on            = true
   sku = {
     tier = "Standard"
     size = "S1"

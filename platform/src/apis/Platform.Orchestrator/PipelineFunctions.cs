@@ -126,7 +126,7 @@ public class PipelineFunctions
             JobId = input.JobId
         });
     }
-    
+
     [FunctionName(nameof(PipelineJobPurgeHistory))]
     public static Task PipelineJobPurgeHistory(
         [DurableClient] IDurableOrchestrationClient client,
@@ -134,7 +134,7 @@ public class PipelineFunctions
     {
         return client.PurgeInstanceHistoryAsync(
             DateTime.MinValue,
-            DateTime.UtcNow.AddDays(-7),  
+            DateTime.UtcNow.AddDays(-7),
             new List<OrchestrationStatus>
             {
                 OrchestrationStatus.Completed,
