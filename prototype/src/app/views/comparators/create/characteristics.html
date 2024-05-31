@@ -111,6 +111,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         {
                             value: "special",
                             text: "Special",
+                            attributes: 'data-aria-controls="sen-chars"',
                             checked: checked("comparePhase", "special")
                         },
                         {
@@ -865,11 +866,13 @@ Choose characteristics to find matching schools – {{ serviceName }}
                         </div>
                         </div>
             
-        <!--
-                {% if data['comparePhase'] %}
-                {% if 'special' in data['comparePhase'] or 'referral' in data['comparePhase']  %}
-                <div class="govuk-form-group" style="margin: 30px 0">
-                    <h2 class="govuk-heading-m">SEN characteristics</h2>
+
+
+
+
+
+                <div class="govuk-form-group govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" style="margin: 30px 0; border: none; padding-left: 0;" id="sen-chars">
+                    <h2 class="govuk-heading-s">SEN characteristics</h2>
 
                     <div class="govuk-checkboxes question" data-module="govuk-checkboxes">
                         <div class="govuk-checkboxes__item question">
@@ -1315,9 +1318,6 @@ Choose characteristics to find matching schools – {{ serviceName }}
     
                 
 
-                {% endif %}
-                {% endif %}
--->
 <!--
                 <script src="https://code.jquery.com/jquery-3.7.1.slim.min.js"></script>
                 <script>
@@ -1364,7 +1364,7 @@ Choose characteristics to find matching schools – {{ serviceName }}
 
     </div>
 </div>
-
+</div>
 
 <form method="post"  action="#" class="for4" style=" float: left; position: relative; bottom:-225px;  ">
 
