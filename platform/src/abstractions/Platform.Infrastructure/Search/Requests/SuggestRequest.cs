@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public record PostSuggestRequest
+public record SuggestRequest
 {
     public string? SearchText { get; set; }
     public int Size { get; set; } = 10;

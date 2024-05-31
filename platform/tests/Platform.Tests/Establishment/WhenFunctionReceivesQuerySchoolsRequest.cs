@@ -11,7 +11,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        SchoolService
+        Service
             .Setup(d => d.QueryAsync(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .ReturnsAsync(Array.Empty<School>());
 
@@ -24,7 +24,7 @@ public class WhenFunctionReceivesQuerySchoolsRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        SchoolService
+        Service
             .Setup(d => d.QueryAsync(It.IsAny<string?>(), It.IsAny<string?>(), It.IsAny<string?>()))
             .Throws(new Exception());
 

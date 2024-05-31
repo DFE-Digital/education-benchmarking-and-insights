@@ -11,7 +11,7 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Benchmark.FinancialPlans;
 
-public interface IFinancialPlanService
+public interface IFinancialPlansService
 {
     Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string urn);
     Task<FinancialPlanDetails?> DetailsAsync(string urn, int year);
@@ -20,11 +20,11 @@ public interface IFinancialPlanService
 }
 
 [ExcludeFromCodeCoverage]
-public class FinancialPlanService : IFinancialPlanService
+public class FinancialPlansService : IFinancialPlansService
 {
     private readonly IDatabaseFactory _dbFactory;
 
-    public FinancialPlanService(IDatabaseFactory dbFactory)
+    public FinancialPlansService(IDatabaseFactory dbFactory)
     {
         _dbFactory = dbFactory;
     }

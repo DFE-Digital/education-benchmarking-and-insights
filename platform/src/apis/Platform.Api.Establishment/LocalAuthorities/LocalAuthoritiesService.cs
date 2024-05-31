@@ -8,20 +8,20 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Establishment.LocalAuthorities;
 
-public interface ILocalAuthorityService
+public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthority>> SuggestAsync(PostSuggestRequest request);
+    Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request);
     Task<LocalAuthority?> GetAsync(string code);
 }
 
 
 [ExcludeFromCodeCoverage]
-public class LocalAuthorityService : SearchService, ILocalAuthorityService
+public class LocalAuthoritiesService : SearchService, ILocalAuthoritiesService
 {
     private const string IndexName = SearchResourceNames.Indexes.LocalAuthority;
     private readonly IDatabaseFactory _dbFactory;
 
-    public LocalAuthorityService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    public LocalAuthoritiesService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
         _dbFactory = dbFactory;
     }
@@ -35,7 +35,7 @@ public class LocalAuthorityService : SearchService, ILocalAuthorityService
         return await conn.QueryFirstOrDefaultAsync<LocalAuthority>(sql, parameters);
     }
 
-    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request)
     {
         var fields = new[]
         {

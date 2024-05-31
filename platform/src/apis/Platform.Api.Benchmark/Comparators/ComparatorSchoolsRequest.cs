@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Platform.Api.Establishment.Schools;
+namespace Platform.Api.Benchmark.Comparators;
 
-public record PostSchoolComparatorsRequest
+public record ComparatorSchoolsRequest
 {
     public string? Target { get; set; }
     public CharacteristicList? Sector { get; set; }

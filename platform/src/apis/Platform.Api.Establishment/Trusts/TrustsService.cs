@@ -8,20 +8,20 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Establishment.Trusts;
 
-public interface ITrustService
+public interface ITrustsService
 {
-    Task<SuggestResponse<Trust>> SuggestAsync(PostSuggestRequest request);
+    Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request);
     Task<Trust?> GetAsync(string companyNumber);
 }
 
 
 [ExcludeFromCodeCoverage]
-public class TrustService : SearchService, ITrustService
+public class TrustsService : SearchService, ITrustsService
 {
     private const string IndexName = SearchResourceNames.Indexes.Trust;
     private readonly IDatabaseFactory _dbFactory;
 
-    public TrustService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    public TrustsService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
         _dbFactory = dbFactory;
     }
@@ -35,7 +35,7 @@ public class TrustService : SearchService, ITrustService
         return await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
     }
 
-    public Task<SuggestResponse<Trust>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request)
     {
         var fields = new[]
         {

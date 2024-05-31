@@ -6,7 +6,7 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 
 [ExcludeFromCodeCoverage]
 [Table("UserDefinedComparatorSet")]
-public record UserDefinedComparatorSet
+public record ComparatorSetUserDefined
 {
     [ExplicitKey] public string? RunType { get; set; }
     [ExplicitKey] public string? RunId { get; set; }

@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public record PostSearchRequest
+public record SearchRequest
 {
     public string? SearchText { get; set; }
     public int PageSize { get; set; } = 15;

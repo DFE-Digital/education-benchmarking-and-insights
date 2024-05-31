@@ -26,7 +26,7 @@ public static class JsonExtensions
 
     public static byte[] ToJsonByteArray(this object source, Formatting formatting = Formatting.Indented)
     {
-        return Encoding.UTF8.GetBytes(ToJson(source,formatting));
+        return Encoding.UTF8.GetBytes(ToJson(source, formatting));
     }
 
 

@@ -7,14 +7,14 @@ using Xunit;
 
 namespace Platform.Tests.Benchmark;
 
-public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetFunctionsTestBase
+public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
             .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new DefaultComparatorSet());
+            .ReturnsAsync(new ComparatorSetDefault());
 
         var result =
             await Functions.ComparatorSetDefaultAsync(CreateRequest(), "12313") as JsonContentResult;

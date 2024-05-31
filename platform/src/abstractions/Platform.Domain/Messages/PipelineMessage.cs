@@ -26,7 +26,7 @@ public record PipelineStartMessage
 [JsonConverter(typeof(JsonSubtypes), "Kind")]
 public abstract record Payload
 {
-    [JsonProperty("Kind")] 
+    [JsonProperty("Kind")]
     public virtual string? Kind { get; }
 };
 

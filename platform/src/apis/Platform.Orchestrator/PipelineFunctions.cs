@@ -14,14 +14,14 @@ public class PipelineFunctions
     private readonly ILogger<PipelineFunctions> _logger;
     private readonly IJobStartMessageSender _sender;
     private readonly IPipelineDb _db;
-    
+
     public PipelineFunctions(ILogger<PipelineFunctions> logger, IJobStartMessageSender sender, IPipelineDb db)
     {
         _logger = logger;
         _sender = sender;
         _db = db;
     }
-    
+
     [FunctionName(nameof(InitiatePipelineJob))]
     [StorageAccount("PipelineMessageHub:ConnectionString")]
     public async Task InitiatePipelineJob(
@@ -62,7 +62,7 @@ public class PipelineFunctions
                        {{"Application", Constants.ApplicationName}}))
             {
                 await client.RaiseEventAsync(message.JobId.ToString(), nameof(PipelineJobFinished));
-                
+
                 //TODO: log finished message
             }
         }
@@ -72,7 +72,7 @@ public class PipelineFunctions
             throw;
         }
     }
-    
+
     [FunctionName(nameof(PipelineJobOrchestrator))]
     public async Task PipelineJobOrchestrator([OrchestrationTrigger] IDurableOrchestrationContext context)
     {
@@ -82,10 +82,10 @@ public class PipelineFunctions
 
         switch (input.Type)
         {
-            case "comparator-set" :
+            case "comparator-set":
                 await context.CallActivityAsync(nameof(UpdateComparatorSetTrigger), input);
                 break;
-            case "custom-data" :
+            case "custom-data":
                 await context.CallActivityAsync(nameof(UpdateCustomDataTrigger), input);
                 break;
         }
@@ -97,20 +97,20 @@ public class PipelineFunctions
         var message = context.GetInput<PipelineStartMessage>();
         await _sender.Send(message);
     }
-    
+
     [FunctionName(nameof(UpdateComparatorSetTrigger))]
     public async Task UpdateComparatorSetTrigger([ActivityTrigger] IDurableActivityContext context)
     {
         var message = context.GetInput<PipelineStartMessage>();
         await _db.UpdateComparatorSetStatus(message.URN, message.RunId, message.RunType);
     }
-    
+
     [FunctionName(nameof(UpdateCustomDataTrigger))]
     public async Task UpdateCustomDataTrigger([ActivityTrigger] IDurableActivityContext context)
     {
         var message = context.GetInput<PipelineStartMessage>();
     }
-    
+
     [FunctionName(nameof(PipelineJobPurgeHistory))]
     public static Task PipelineJobPurgeHistory(
         [DurableClient] IDurableOrchestrationClient client,

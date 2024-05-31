@@ -31,11 +31,10 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
-        builder.Services.AddSingleton<ISchoolService, SchoolService>();
-        builder.Services.AddSingleton<ITrustService, TrustService>();
-        builder.Services.AddSingleton<ILocalAuthorityService, LocalAuthorityService>();
-        builder.Services.AddSingleton<ISchoolComparatorsService, SchoolComparatorsService>();
+        builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
+        builder.Services.AddSingleton<ITrustsService, TrustsService>();
+        builder.Services.AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>();
 
-        builder.Services.AddTransient<IValidator<PostSuggestRequest>, PostSuggestRequestValidator>();
+        builder.Services.AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
     }
 }

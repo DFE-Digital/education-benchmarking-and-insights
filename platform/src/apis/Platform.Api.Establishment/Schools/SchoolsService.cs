@@ -8,20 +8,20 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Establishment.Schools;
 
-public interface ISchoolService
+public interface ISchoolsService
 {
-    Task<SuggestResponse<School>> SuggestAsync(PostSuggestRequest request);
+    Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request);
     Task<School?> GetAsync(string urn);
     Task<IEnumerable<School>> QueryAsync(string? companyNumber, string? laCode, string? phase);
 }
 
 
 [ExcludeFromCodeCoverage]
-public class SchoolService : SearchService, ISchoolService
+public class SchoolsService : SearchService, ISchoolsService
 {
     private const string IndexName = SearchResourceNames.Indexes.School;
     private readonly IDatabaseFactory _dbFactory;
-    public SchoolService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
+    public SchoolsService(IDatabaseFactory dbFactory, IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName, options.Value.Credential)
     {
         _dbFactory = dbFactory;
     }
@@ -60,7 +60,7 @@ public class SchoolService : SearchService, ISchoolService
         return await conn.QueryAsync<School>(template.RawSql, template.Parameters);
     }
 
-    public Task<SuggestResponse<School>> SuggestAsync(PostSuggestRequest request)
+    public Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request)
     {
         var fields = new[]
         {

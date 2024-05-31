@@ -24,12 +24,12 @@ public class PipelineDb : IPipelineDb
     public async Task UpdateComparatorSetStatus(string? urn, string? runId, string? runType)
     {
         const string sql = "UPDATE UserDefinedComparatorSet SET Status = 'complete' where URN = @URN AND RunId = @RunId AND RunType = @RunType";
-        var parameters = new {URN = urn, RunId = runId, RunType = runType };
-        
+        var parameters = new { URN = urn, RunId = runId, RunType = runType };
+
         using var conn = await _dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();
         await conn.ExecuteAsync(sql, parameters, transaction);
-        
+
         transaction.Commit();
     }
 }

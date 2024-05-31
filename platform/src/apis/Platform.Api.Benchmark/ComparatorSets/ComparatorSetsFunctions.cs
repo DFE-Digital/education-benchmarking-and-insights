@@ -15,20 +15,20 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
-[ApiExplorerSettings(GroupName = "Comparator Set")]
-public class ComparatorSetFunctions
+[ApiExplorerSettings(GroupName = "Comparator Sets")]
+public class ComparatorSetsFunctions
 {
-    private readonly ILogger<ComparatorSetFunctions> _logger;
-    private readonly IComparatorSetService _service;
+    private readonly ILogger<ComparatorSetsFunctions> _logger;
+    private readonly IComparatorSetsService _service;
 
-    public ComparatorSetFunctions(IComparatorSetService service, ILogger<ComparatorSetFunctions> logger)
+    public ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger)
     {
         _service = service;
         _logger = logger;
     }
 
     [FunctionName(nameof(ComparatorSetDefaultAsync))]
-    [ProducesResponseType(typeof(DefaultComparatorSet), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetDefault), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> ComparatorSetDefaultAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/{urn}/default")]
@@ -99,7 +99,7 @@ public class ComparatorSetFunctions
             }
         }
     }
-    
+
     [FunctionName(nameof(CreateComparatorSetUserDefinedAsync))]
     [ProducesResponseType((int)HttpStatusCode.Accepted)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
@@ -124,17 +124,17 @@ public class ComparatorSetFunctions
             try
             {
                 var body = req.ReadAsJson<string[]>();
-                var comparatorSet = new UserDefinedComparatorSet
+                var comparatorSet = new ComparatorSetUserDefined
                 {
                     RunId = identifier,
                     RunType = "default",
                     Set = body,
                     URN = urn
                 };
-                
+
                 await _service.UpsertUserDefinedSet(comparatorSet);
                 var year = await _service.CurrentYearAsync();
-                
+
                 var message = new PipelineStartMessage
                 {
                     RunId = comparatorSet.RunId,
@@ -145,7 +145,7 @@ public class ComparatorSetFunctions
                     Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
                 };
                 await queue.AddAsync(message.ToJson(Formatting.None));
-                
+
                 return new AcceptedResult();
             }
             catch (Exception e)
