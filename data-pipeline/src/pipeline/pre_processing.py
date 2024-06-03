@@ -128,7 +128,7 @@ def prepare_sen_data(sen_path):
     )
     sen["Percentage SEN"] = (((sen["EHC plan"] + sen["SEN support"]) / sen["Total pupils"]) * 100.0).fillna(0)
     sen["Percentage with EHC"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
-    sen["Percentage without EHC"] = 100.0 - sen["Percentage with EHC"]
+    sen["Percentage without EHC"] = sen["Percentage SEN"] - sen["Percentage with EHC"]
 
     sen["Primary Need SPLD"] = (
         sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
@@ -195,18 +195,6 @@ def prepare_sen_data(sen_path):
             "Percentage SEN",
             "Percentage with EHC",
             "Percentage without EHC",
-            # "Primary Need SPLD",
-            # "Primary Need MLD",
-            # "Primary Need SLD",
-            # "Primary Need PMLD",
-            # "Primary Need SEMH",
-            # "Primary Need SLCN",
-            # "Primary Need HI",
-            # "Primary Need VI",
-            # "Primary Need MSI",
-            # "Primary Need PD",
-            # "Primary Need ASD",
-            # "Primary Need OTH",
             "Percentage Primary Need SPLD",
             "Percentage Primary Need MLD",
             "Percentage Primary Need SLD",

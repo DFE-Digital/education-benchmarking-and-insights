@@ -240,8 +240,6 @@ def prepared_aar_data(aar_data: pd.DataFrame, aar_central_services_data: pd.Data
 def workforce_census_data() -> pd.DataFrame:
     return pd.DataFrame({
         "URN": [100150, 100152, 100153],
-        "Number of Vacant Teacher Posts": [0, 1, 1],
-        "Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified teachers)": [16.3, 17.3, 24.9],
         "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": [6.9, 7.9, 10],
         "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": [13, 14, 15],
         "Teachers with Qualified Teacher Status (%) (Headcount)": [80, 80, 100],
@@ -265,10 +263,17 @@ def pupil_census_data() -> pd.DataFrame:
         "% of pupils known to be eligible for and claiming free school me": [33.8, 23.4, 33.2],
         "% of pupils known to be eligible for free school meals (Performa": [52.3, 60.3, 47.7],
         "number of pupils whose first language is known or believed to be other than English": [93, 236, 127],
-        "full time pupils": [325, 599, 465],
+        "headcount of pupils": [325, 599, 465],
+        "fte pupils": [320, 590, 460],
         "ward_name": ["Bilborough", "Aspley", "Bilborough"],
         "district_administrative_name": ["Nottingham", "Nottingham", "Nottingham"],
-        "region_name": ["East Midlands", "East Midlands", "East Midlands"]
+        "region_name": ["East Midlands", "East Midlands", "East Midlands"],
+        "Number of early year pupils (years E1 and E2)": [10, 20, 30],
+        "Number of nursery pupils (years N1 and N2)": [10, 20, 30],
+        "Full time boys Year group 12": [10, 20, 30],
+        "Full time girls Year group 12": [10, 20, 30],
+        "Full time boys Year group 13": [10, 20, 30],
+        "Full time girls Year group 13": [10, 20, 30],
     })
 
 
