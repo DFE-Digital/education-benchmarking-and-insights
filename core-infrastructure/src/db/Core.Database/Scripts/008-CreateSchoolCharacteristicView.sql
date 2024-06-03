@@ -1,18 +1,21 @@
-IF NOT EXISTS(SELECT 1
-              FROM sys.views
-              WHERE name = 'SchoolCharacteristic')
+IF EXISTS(SELECT 1
+          FROM sys.views
+          WHERE name = 'SchoolCharacteristic')
     BEGIN
-        CREATE VIEW SchoolCharacteristic
-        AS
-        SELECT URN,
-               SchoolName,
-               AddressTown,
-               AddressPostcode,
-               OverallPhase,
-               LAName,
-               OfstedDescription,
-               LondonWeighting,
-               FinanceType
-        FROM dbo.School
+        DROP VIEW SchoolCharacteristic
     END
+GO
+
+CREATE VIEW SchoolCharacteristic
+AS
+SELECT URN,
+       SchoolName,
+       AddressTown,
+       AddressPostcode,
+       OverallPhase,
+       LAName,
+       OfstedDescription,
+       LondonWeighting,
+       FinanceType
+FROM dbo.School
 GO
