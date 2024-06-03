@@ -61,7 +61,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(), HttpStatusCode.NotFound);
@@ -92,7 +92,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
@@ -118,7 +118,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("HasMixedAgeClasses", "Select yes if you have mixed age classes"));
@@ -142,7 +142,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         var expectedPage = value
             ? Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute()

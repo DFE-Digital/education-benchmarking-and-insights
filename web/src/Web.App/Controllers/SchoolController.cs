@@ -14,7 +14,7 @@ public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
-    IInsightApi insightApi)
+    IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {
     [HttpGet]
@@ -28,7 +28,7 @@ public class SchoolController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(urn);
-                var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var viewModel = new SchoolViewModel(school, finances, ratings);
                 return View(viewModel);
             }

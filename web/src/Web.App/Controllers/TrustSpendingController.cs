@@ -11,14 +11,14 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}/spending-and-costs")]
-public class TrustSpendingController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IInsightApi insightApi)
+public class TrustSpendingController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(
         string companyNumber,
-        [FromQuery(Name = "category")] string?[]? categories,
-        [FromQuery(Name = "priority")] string?[]? priorities)
+        [FromQuery(Name = "category")] string[]? categories,
+        [FromQuery(Name = "priority")] string[]? priorities)
     {
         using (logger.BeginScope(new
         {
@@ -75,7 +75,7 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                     }
                 }
 
-                var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(schoolsQuery).GetResultOrThrow<RagRating[]>();
                 var viewModel = new TrustSpendingViewModel(trust, schools, ratings, categories, priorities);
 
                 return View(viewModel);

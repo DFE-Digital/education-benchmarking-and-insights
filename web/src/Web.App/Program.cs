@@ -101,10 +101,25 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IBalanceApi, BalanceApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 
+    builder.Services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
+    builder.Services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
     builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
         .ConfigureHttpClientForApi(Constants.EstablishmentApi);
 
-    builder.Services.AddHttpClient<IBenchmarkApi, BenchmarkApi>()
+    builder.Services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>()
+        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+
+    builder.Services.AddHttpClient<IComparatorApi, ComparatorApi>()
+        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+
+    builder.Services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>()
+        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+
+    builder.Services.AddHttpClient<IUserDataApi, UserDataApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
 }
 

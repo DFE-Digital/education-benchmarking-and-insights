@@ -15,26 +15,26 @@ public interface IFinancialPlanService
     Task Update(string? urn, int? year, string user, Stage stage);
 }
 
-public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanService
+public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
 {
     public async Task TryCreateEmpty(string? urn, int? year, string user)
     {
-        var plan = await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrDefault<FinancialPlanInput>();
+        var plan = await api.GetAsync(urn, year).GetResultOrDefault<FinancialPlanInput>();
         if (plan == null)
         {
             var request = new PutFinancialPlanRequest { Urn = urn, Year = year, User = user };
-            await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+            await api.UpsertAsync(request).EnsureSuccess();
         }
     }
 
     public async Task<FinancialPlanInput> Get(string? urn, int? year)
     {
-        return await benchmarkApi.GetFinancialPlan(urn, year).GetResultOrThrow<FinancialPlanInput>();
+        return await api.GetAsync(urn, year).GetResultOrThrow<FinancialPlanInput>();
     }
 
     public async Task<IEnumerable<FinancialPlan>> List(string? urn)
     {
-        return await benchmarkApi.QueryFinancialPlan(urn).GetResultOrDefault<FinancialPlan[]>() ?? Array.Empty<FinancialPlan>();
+        return await api.QueryAsync(urn).GetResultOrDefault<FinancialPlan[]>() ?? Array.Empty<FinancialPlan>();
     }
 
     public async Task Update(string? urn, int? year, string user, Stage stage)
@@ -44,6 +44,6 @@ public class FinancialPlanService(IBenchmarkApi benchmarkApi) : IFinancialPlanSe
 
         var request = PutFinancialPlanRequestFactory.Create(plan);
         request.User = user;
-        await benchmarkApi.UpsertFinancialPlan(request).EnsureSuccess();
+        await api.UpsertAsync(request).EnsureSuccess();
     }
 }

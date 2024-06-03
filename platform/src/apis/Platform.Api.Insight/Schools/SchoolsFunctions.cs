@@ -22,11 +22,11 @@ public class SchoolsFunctions
         _logger = logger;
     }
 
-    [FunctionName(nameof(QuerySchoolsPupilCharacteristicsAsync))]
+    [FunctionName(nameof(QuerySchoolsCharacteristicsAsync))]
     [ProducesResponseType(typeof(SchoolCharacteristic[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    public async Task<IActionResult> QuerySchoolsPupilCharacteristicsAsync(
+    public async Task<IActionResult> QuerySchoolsCharacteristicsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "schools/characteristics")]
         HttpRequest req)
     {

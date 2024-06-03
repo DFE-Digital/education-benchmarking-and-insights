@@ -10,7 +10,7 @@ public interface IComparatorSetService
     Task<ComparatorSet> ReadComparatorSet(string urn);
 }
 
-public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBenchmarkApi benchmarkApi) : IComparatorSetService
+public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : IComparatorSetService
 {
     public async Task<ComparatorSet> ReadComparatorSet(string urn)
     {
@@ -27,7 +27,7 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IBen
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
 
-        var set = await benchmarkApi.GetComparatorSet(urn).GetResultOrThrow<ComparatorSet>();
+        var set = await api.GetDefaultAsync(urn).GetResultOrThrow<ComparatorSet>();
 
         context?.Session.Set(key, set);
 
