@@ -11,7 +11,12 @@ def test_prepare_cdc_data_has_correct_output_columns(cdc_data):
     assert list(result.columns) == [
         "Total Internal Floor Area",
         "Age Average Score",
+        "Building Age"
     ]
+
+
+def test_cdc_has_correct_building_age(prepared_cdc_data: dict):
+    assert pytest.approx(prepared_cdc_data["Building Age"], 0.5) == 1988
 
 
 def test_cdc_has_correct_total_internal_floor_area(prepared_cdc_data: dict):
