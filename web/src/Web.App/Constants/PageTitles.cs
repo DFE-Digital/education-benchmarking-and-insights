@@ -25,6 +25,7 @@ public static class PageTitles
     public const string SchoolPlanningTimetableCycle = "Timetable cycle";
     public const string SchoolComparators = "Schools we chose for benchmarking";
     public const string SchoolComparatorsCreate = "Choose your own set of schools";
+    public const string SchoolComparatorsCreateBy = "How do you want to choose your set of schools?";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";

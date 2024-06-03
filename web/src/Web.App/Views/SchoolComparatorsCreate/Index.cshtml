@@ -17,7 +17,7 @@
 
         @if (User.Identity is { IsAuthenticated: true })
         {
-            @Html.ActionLink("Continue", "By", "SchoolComparatorsCreate", new
+            @Html.ActionLink("Continue", "Index", "SchoolComparatorsCreateBy", new
             {
                 urn = Model.Urn
             }, new
@@ -33,7 +33,7 @@
 
             @Html.ActionLink("Sign in", "Signin", "Account", new
             {
-                redirectUri = Url.Action("By", "SchoolComparatorsCreate", new
+                redirectUri = Url.Action("Index", "SchoolComparatorsCreateBy", new
                 {
                     urn = Model.Urn
                 })
