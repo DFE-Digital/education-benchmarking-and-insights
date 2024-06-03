@@ -19,10 +19,10 @@ namespace Platform.Api.Establishment.Trusts;
 public class TrustsFunctions
 {
     private readonly ILogger<TrustsFunctions> _logger;
-    private readonly ITrustService _service;
-    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ITrustsService _service;
+    private readonly IValidator<SuggestRequest> _validator;
 
-    public TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustService service, IValidator<PostSuggestRequest> validator)
+    public TrustsFunctions(ILogger<TrustsFunctions> logger, ITrustsService service, IValidator<SuggestRequest> validator)
     {
         _logger = logger;
         _service = service;
@@ -68,7 +68,7 @@ public class TrustsFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")] HttpRequest req)
+        [RequestBodyType(typeof(SuggestRequest), "The suggest object")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
 
@@ -80,7 +80,7 @@ public class TrustsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequest>();
+                var body = req.ReadAsJson<SuggestRequest>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)

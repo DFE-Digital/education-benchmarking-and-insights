@@ -2,7 +2,7 @@
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
-public record DefaultComparatorSet
+public record ComparatorSetDefault
 {
     public string? URN { get; set; }
     public string? SetType { get; set; }

@@ -103,7 +103,7 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "London Weighting": "LondonWeighting",
         "Finance Type": "FinanceType",
         "Overall Phase": "OverallPhase",
-        "SchoolPhaseType": "SchoolType",
+        "TypeOfEstablishment (name)": "SchoolType",
         "Has Sixth Form": "HasSixthForm",
         "Has Nursery": "HasNursery",
         "Is PFI": "IsPFISchool",
@@ -111,9 +111,12 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "OfstedRating (name)": "OfstedDescription",
         "TelephoneNum": "Telephone",
         "SchoolWebsite": "Website",
-        "Email": "ContactEmail",
-        "HeadName": "HeadTeacherName",
-        "HeadEmail": "HeadTeacherEmail",
+        "Street": "AddressStreet",
+        "Locality": "AddressLocality",
+        "Address3": "AddressLine3",
+        "Town": "AddressTown",
+        "County (name)": "AddressCounty",
+        "Postcode": "AddressPostcode"
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]

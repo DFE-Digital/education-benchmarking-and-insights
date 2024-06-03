@@ -11,19 +11,4 @@
             </span>
         </p>
     </div>
-    <div class="govuk-phase-banner">
-        <p class="govuk-phase-banner__content app-login-banner">
-            <strong>@Model.Organisation</strong>
-            <span class="app-float-right">
-                @if (User.Identity is { IsAuthenticated: true })
-                {
-                    @Html.ActionLink("Sign out", "Signout", "Account", null, new { @class = "govuk-link govuk-link--no-visited-state" })
-                }
-                else
-                {
-                    @Html.ActionLink("Sign in", "Signin", "Account", new{redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-link govuk-link--no-visited-state" })
-                }
-            </span>
-        </p>
-    </div>
 </div> 

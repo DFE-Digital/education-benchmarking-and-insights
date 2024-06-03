@@ -13,16 +13,16 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        SchoolService
-            .Setup(d => d.SuggestAsync(It.IsAny<PostSuggestRequest>()))
+        Service
+            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>()))
             .ReturnsAsync(new SuggestResponse<School>());
 
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(new ValidationResult());
 
         var result =
-            await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as JsonContentResult;
+            await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new SuggestRequest())) as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -33,27 +33,27 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     {
 
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(PostSuggestRequest.SuggesterName), "This error message") }));
+            .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
+            .ReturnsAsync(new ValidationResult(new[] { new ValidationFailure(nameof(SuggestRequest.SuggesterName), "This error message") }));
 
-        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as ValidationErrorsResult;
+        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new SuggestRequest())) as ValidationErrorsResult;
 
         Assert.NotNull(result);
         Assert.Equal(400, result.StatusCode);
 
         var values = result.Value as IEnumerable<ValidationError>;
         Assert.NotNull(values);
-        Assert.Contains(values, p => p.PropertyName == nameof(PostSuggestRequest.SuggesterName));
+        Assert.Contains(values, p => p.PropertyName == nameof(SuggestRequest.SuggesterName));
     }
 
     [Fact]
     public async Task ShouldReturn500OnError()
     {
         Validator
-            .Setup(v => v.ValidateAsync(It.IsAny<PostSuggestRequest>(), It.IsAny<CancellationToken>()))
+            .Setup(v => v.ValidateAsync(It.IsAny<SuggestRequest>(), It.IsAny<CancellationToken>()))
             .Throws(new Exception());
 
-        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new PostSuggestRequest())) as StatusCodeResult;
+        var result = await Functions.SuggestSchoolsAsync(CreateRequestWithBody(new SuggestRequest())) as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

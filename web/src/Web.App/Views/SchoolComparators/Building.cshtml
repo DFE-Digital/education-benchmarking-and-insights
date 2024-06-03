@@ -1,9 +1,0 @@
-﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
-@{
-    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsBuilding;
-}
-
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
-
-@await Html.PartialAsync("_SchoolTable", Model)
-@await Html.PartialAsync("_CustomSet", Model)

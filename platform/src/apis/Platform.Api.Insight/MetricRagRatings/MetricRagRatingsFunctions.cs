@@ -15,12 +15,12 @@ using Platform.Functions.Extensions;
 namespace Platform.Api.Insight.MetricRagRatings;
 
 [ApiExplorerSettings(GroupName = "Metric RAG Ratings")]
-public class MetricRagRatingFunctions
+public class MetricRagRatingsFunctions
 {
-    private readonly ILogger<MetricRagRatingFunctions> _logger;
-    private readonly IMetricRagRatingService _service;
+    private readonly ILogger<MetricRagRatingsFunctions> _logger;
+    private readonly IMetricRagRatingsService _service;
 
-    public MetricRagRatingFunctions(IMetricRagRatingService service, ILogger<MetricRagRatingFunctions> logger)
+    public MetricRagRatingsFunctions(IMetricRagRatingsService service, ILogger<MetricRagRatingsFunctions> logger)
     {
         _service = service;
         _logger = logger;

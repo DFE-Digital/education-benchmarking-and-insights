@@ -19,11 +19,11 @@ namespace Platform.Api.Establishment.LocalAuthorities;
 public class LocalAuthoritiesFunctions
 {
     private readonly ILogger<LocalAuthoritiesFunctions> _logger;
-    private readonly ILocalAuthorityService _service;
-    private readonly IValidator<PostSuggestRequest> _validator;
+    private readonly ILocalAuthoritiesService _service;
+    private readonly IValidator<SuggestRequest> _validator;
 
     public LocalAuthoritiesFunctions(ILogger<LocalAuthoritiesFunctions> logger,
-        ILocalAuthorityService service, IValidator<PostSuggestRequest> validator)
+        ILocalAuthoritiesService service, IValidator<SuggestRequest> validator)
     {
         _logger = logger;
         _service = service;
@@ -68,7 +68,7 @@ public class LocalAuthoritiesFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> SuggestLocalAuthoritiesAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "local-authorities/suggest")]
-        [RequestBodyType(typeof(PostSuggestRequest), "The suggest object")]
+        [RequestBodyType(typeof(SuggestRequest), "The suggest object")]
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
@@ -81,7 +81,7 @@ public class LocalAuthoritiesFunctions
         {
             try
             {
-                var body = req.ReadAsJson<PostSuggestRequest>();
+                var body = req.ReadAsJson<SuggestRequest>();
 
                 var validationResult = await _validator.ValidateAsync(body);
                 if (!validationResult.IsValid)

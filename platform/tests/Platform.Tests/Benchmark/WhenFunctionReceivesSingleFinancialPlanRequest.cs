@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Platform.Tests.Benchmark;
 
-public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlanFunctionsTestBase
+public class WhenFunctionReceivesSingleFinancialPlanRequest : FinancialPlansFunctionsTestBase
 {
     [Fact]
     public async Task ShouldReturn200OnValidRequest()

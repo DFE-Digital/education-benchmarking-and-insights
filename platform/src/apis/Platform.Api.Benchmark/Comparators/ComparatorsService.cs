@@ -1,44 +1,48 @@
 using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Options;
-using Platform.Domain;
 using Platform.Infrastructure.Search;
 
-namespace Platform.Api.Establishment.Schools;
+namespace Platform.Api.Benchmark.Comparators;
 
-public interface ISchoolComparatorsService
+public interface IComparatorsService
 {
-    Task<IEnumerable<SchoolComparator>> ComparatorsAsync(PostSchoolComparatorsRequest request);
+    Task<ComparatorSchools> SchoolsAsync(ComparatorSchoolsRequest request);
 }
 
 [ExcludeFromCodeCoverage]
-public class SchoolComparatorsService : SearchService, ISchoolComparatorsService
+public class ComparatorsService : SearchService, IComparatorsService
 {
     private const string IndexName = SearchResourceNames.Indexes.SchoolComparators;
 
-    public SchoolComparatorsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
+    public ComparatorsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
         options.Value.Credential)
     {
     }
 
-    public async Task<IEnumerable<SchoolComparator>> ComparatorsAsync(PostSchoolComparatorsRequest request)
+    public async Task<ComparatorSchools> SchoolsAsync(ComparatorSchoolsRequest request)
     {
-        var school = await LookUpAsync<SchoolComparator>(request.Target);
+        var school = await LookUpAsync<ComparatorSchool>(request.Target);
 
         var filter = request.FilterExpression();
         var search = request.SearchExpression();
-        var result = await SearchAsync<SchoolComparator>(search, filter, 100000);
+        var result = await SearchAsync<ComparatorSchool>(search, filter, 100000);
 
-        return result.OrderByDescending(x => CalculateScore(request, x, school)).Select(x => x.Document)
-            .OfType<SchoolComparator>().Take(30);
+        return new ComparatorSchools
+        {
+            TotalSchools = result.Total,
+            Schools = result.Response
+                .OrderByDescending(x => CalculateScore(request, x, school))
+                .Select(x => x.Document?.URN)
+                .OfType<string>().Take(29) // Comparator set is 30 (target school + 29 similar schools)
+        };
     }
 
-    private static double? CalculateScore(PostSchoolComparatorsRequest request,
-        ScoreResponse<SchoolComparator> x,
-        SchoolComparator school)
+    private static double? CalculateScore(ComparatorSchoolsRequest request,
+        ScoreResponse<ComparatorSchool> x,
+        ComparatorSchool school)
     {
         if (x.Document == null)
         {

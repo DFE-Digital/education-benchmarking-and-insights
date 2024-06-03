@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 using Platform.Domain.Messages;
 using Platform.Functions.Extensions;
 
@@ -9,7 +10,7 @@ namespace Platform.Orchestrator;
 
 public interface IJobStartMessageSender
 {
-    Task Send(PipelineMessage input);
+    Task Send(PipelineStartMessage input);
 }
 
 public record JobStartMessageSenderOptions
@@ -33,7 +34,7 @@ public class JobStartMessageSender : IJobStartMessageSender
         });
     }
 
-    public async Task Send(PipelineMessage input)
+    public async Task Send(PipelineStartMessage input)
     {
         await _client.SendMessageAsync(new BinaryData(input.ToJsonByteArray()));
     }

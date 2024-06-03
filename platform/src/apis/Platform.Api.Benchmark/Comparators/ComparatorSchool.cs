@@ -1,6 +1,6 @@
-namespace Platform.Api.Establishment.Schools;
+namespace Platform.Api.Benchmark.Comparators;
 
-public class SchoolComparator
+public record ComparatorSchool
 {
     public string? URN { get; set; }
     public string? Sector { get; set; }

@@ -13,13 +13,13 @@ using Platform.Functions.Extensions;
 
 namespace Platform.Api.Benchmark.FinancialPlans;
 
-[ApiExplorerSettings(GroupName = "Financial Plan")]
-public class FinancialPlanFunctions
+[ApiExplorerSettings(GroupName = "Financial Plans")]
+public class FinancialPlansFunctions
 {
-    private readonly ILogger<FinancialPlanFunctions> _logger;
-    private readonly IFinancialPlanService _service;
+    private readonly ILogger<FinancialPlansFunctions> _logger;
+    private readonly IFinancialPlansService _service;
 
-    public FinancialPlanFunctions(ILogger<FinancialPlanFunctions> logger, IFinancialPlanService service)
+    public FinancialPlansFunctions(ILogger<FinancialPlansFunctions> logger, IFinancialPlansService service)
     {
         _logger = logger;
         _service = service;
@@ -65,7 +65,7 @@ public class FinancialPlanFunctions
     [ProducesResponseType(typeof(FinancialPlanSummary), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> QueryFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plans/{urn}")]
         HttpRequest req,
         string urn)
     {

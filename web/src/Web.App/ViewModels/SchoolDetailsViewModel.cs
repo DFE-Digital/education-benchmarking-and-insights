@@ -9,10 +9,10 @@ public class SchoolDetailsViewModel(School school)
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
-    public string? Address => ""; //school.Address;
+    public string? Address => school.Address;
     public string? Telephone => school.Telephone;
     public string? LocalAuthorityName => school.LAName;
-    public string? Website
+    public string Website
     {
         get
         {

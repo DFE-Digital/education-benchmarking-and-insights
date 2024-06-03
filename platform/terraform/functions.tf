@@ -14,7 +14,11 @@ module "benchmark-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "Search__Name"                         = azurerm_search_service.search.name
+    "Search__Key"                          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
+    "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
+    "PipelineMessageHub__JobSPendingQueue" = "data-pipeline-job-pending"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
@@ -77,7 +81,7 @@ module "orchestrator-fa" {
   key-vault-id         = data.azurerm_key_vault.key-vault.id
   location             = var.location
   enable-restrictions  = lower(var.cip-environment) != "dev"
-  always_on            = true
+  always-on            = true
   sku = {
     tier = "Standard"
     size = "S1"
@@ -85,8 +89,10 @@ module "orchestrator-fa" {
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
-    "PipelineMessageHub__JobFinishedQueue" = "job-finished"
-    "PipelineMessageHub__JobStartQueue"    = "job-start"
+    "PipelineMessageHub__JobFinishedQueue" = "data-pipeline-job-finished"
+    "PipelineMessageHub__JobStartQueue"    = "data-pipeline-job-start"
+    "PipelineMessageHub__JobSPendingQueue" = "data-pipeline-job-pending"
+    "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }

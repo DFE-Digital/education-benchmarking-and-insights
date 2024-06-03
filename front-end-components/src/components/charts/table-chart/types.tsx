@@ -1,7 +1,10 @@
+import { ChartSeriesValueUnit } from "src/components/charts/types";
+
 export type TableChartProps<TData extends SchoolChartData> = {
   tableHeadings: string[];
   data?: TData[];
   preventFocus?: boolean;
+  valueUnit?: ChartSeriesValueUnit | undefined;
 };
 
 export type SchoolChartData = {

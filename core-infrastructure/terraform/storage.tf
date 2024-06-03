@@ -5,6 +5,7 @@ resource "azurerm_storage_account" "data" {
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
   name                            = "${var.environment-prefix}data"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -35,6 +36,11 @@ resource "azurerm_storage_account" "data" {
     expiration_action = "Log"
     expiration_period = "90.00:00:00"
   }
+}
+
+resource "azurerm_storage_queue" "pipeline-message-pending-queue" {
+  name                 = "data-pipeline-job-pending"
+  storage_account_name = azurerm_storage_account.data.name
 }
 
 resource "azurerm_storage_queue" "pipeline-message-start-queue" {
