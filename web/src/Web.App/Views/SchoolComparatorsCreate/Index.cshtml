@@ -1,0 +1,54 @@
+﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreate;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">Use this to choose which schools @Model.Name is benchmarked against.</p>
+
+        @if (User.Identity is { IsAuthenticated: true })
+        {
+            @Html.ActionLink("Continue", "By", "SchoolComparatorsCreate", new
+            {
+                urn = Model.Urn
+            }, new
+            {
+                @class = "govuk-button"
+            })
+        }
+        else
+        {
+            <p class="govuk-body">
+                You will need a <a href="https://services.signin.education.gov.uk/" class="govuk-link govuk-link--no-visited-state">DfE Sign-in account</a>.
+            </p>
+
+            @Html.ActionLink("Sign in", "Signin", "Account", new
+            {
+                redirectUri = Url.Action("By", "SchoolComparatorsCreate", new
+                {
+                    urn = Model.Urn
+                })
+            }, new
+            {
+                @class = "govuk-button"
+            })
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}
