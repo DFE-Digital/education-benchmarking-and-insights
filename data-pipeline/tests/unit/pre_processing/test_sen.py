@@ -9,22 +9,11 @@ def test_prepare_sen_data_has_correct_output_columns(sen_data):
     result = prepare_sen_data(StringIO(sen_data.to_csv()))
 
     assert list(result.columns) == [
-        "Total pupils",
         "EHC plan",
         "SEN support",
         "Percentage SEN",
-        "Primary Need SPLD",
-        "Primary Need MLD",
-        "Primary Need SLD",
-        "Primary Need PMLD",
-        "Primary Need SEMH",
-        "Primary Need SLCN",
-        "Primary Need HI",
-        "Primary Need VI",
-        "Primary Need MSI",
-        "Primary Need PD",
-        "Primary Need ASD",
-        "Primary Need OTH",
+        "Percentage with EHC",
+        "Percentage without EHC",
         "Percentage Primary Need SPLD",
         "Percentage Primary Need MLD",
         "Percentage Primary Need SLD",
@@ -48,52 +37,12 @@ def test_percentage_sen_computed_correctly(prepared_sen_data: dict):
     assert prepared_sen_data["Percentage SEN"] == 70
 
 
-def test_primary_need_spld_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need SPLD"] == 2
+def test_percentage_ehc_computed_correctly(prepared_sen_data: dict):
+    assert prepared_sen_data["Percentage with EHC"] == 50
 
 
-def test_primary_need_mld_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need MLD"] == 3
-
-
-def test_primary_need_sld_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need SLD"] == 4
-
-
-def test_primary_need_pmld_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need PMLD"] == 5
-
-
-def test_primary_need_semh_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need SEMH"] == 6
-
-
-def test_primary_need_slnc_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need SLCN"] == 7
-
-
-def test_primary_need_hi_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need HI"] == 8
-
-
-def test_primary_need_vi_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need VI"] == 9
-
-
-def test_primary_need_msi_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need MSI"] == 10
-
-
-def test_primary_need_pd_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need PD"] == 11
-
-
-def test_primary_need_asd_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need ASD"] == 12
-
-
-def test_primary_need_oth_computed_correctly(prepared_sen_data: dict):
-    assert prepared_sen_data["Primary Need OTH"] == 13
+def test_perecentage_without_ehc_computed_correctly(prepared_sen_data: dict):
+    assert prepared_sen_data["Percentage without EHC"] == 20
 
 
 def test_percentage_primary_need_spld_computed_correctly(prepared_sen_data: dict):
