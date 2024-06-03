@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Extensions;
+using Web.App.Identity;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -18,7 +20,8 @@ public class SchoolComparatorsCreateByController(
     ILogger<SchoolComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
     IComparatorSetService comparatorSetService,
-    ISchoolInsightApi schoolInsightApi
+    ISchoolInsightApi schoolInsightApi,
+    IComparatorSetApi comparatorSetApi
 ) : Controller
 {
     [HttpGet]
@@ -152,6 +155,49 @@ public class SchoolComparatorsCreateByController(
         {
             urn
         });
+    }
+    
+    [HttpGet]
+    [Route("submit")]
+    [ImportModelState]
+    public async Task<IActionResult> Submit(string urn)
+    {
+        using (logger.BeginScope(new
+               {
+                   urn
+               }))
+        {
+            try
+            {
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                if (userDefinedSet.Set.Length == 0)
+                {
+                    return RedirectToAction("Index", new
+                    {
+                        urn
+                    });
+                }
+
+                User.TryGetClaim(ClaimNames.UserId, out var userId);
+                var request = new PutComparatorSetUserDefinedRequest
+                {
+                    URN = urn,
+                    Set = userDefinedSet.Set,
+                    UserId = userId
+                };
+
+                await comparatorSetApi.UpsertUserDefinedAsync(request).EnsureSuccess();;
+                comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined());
+                var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error submitting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
     }
 
     [HttpGet]

@@ -10,12 +10,12 @@ public class ComparatorSetApi(HttpClient httpClient, string? key = default)
 
     public async Task<ApiResult> GetUserDefinedAsync(string urn, string? identifier)
     {
-        return await GetAsync($"comparator-set/{urn}/user-defined/{identifier}");
+        return await GetAsync($"api/comparator-set/{urn}/user-defined/{identifier}");
     }
 
     public async Task<ApiResult> UpsertUserDefinedAsync(PutComparatorSetUserDefinedRequest request)
     {
-        return await PutAsync($"comparator-set/{request.URN}/user-defined/{request.Identifier}", new JsonContent(request));
+        return await PutAsync($"api/comparator-set/{request.URN}/user-defined/{request.Identifier}", new JsonContent(request));
     }
 }
 

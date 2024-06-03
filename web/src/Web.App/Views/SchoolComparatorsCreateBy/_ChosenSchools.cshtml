@@ -3,8 +3,12 @@
 
 @if (Model.Schools != null && Model.Schools.Any())
 {
+    <h1 class="govuk-heading-m">Chosen schools (@Model.Schools.Count())</h1>
+    <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        Create a set using these schools
+    </a>
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m">Chosen schools (@Model.Schools.Length)</caption>
+        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen schools (@Model.Schools.Count())</caption>
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header govuk-!-width-one-third">School</th>
