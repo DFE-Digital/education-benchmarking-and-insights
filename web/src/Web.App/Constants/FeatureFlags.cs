@@ -7,4 +7,5 @@ public static class FeatureFlags
     public const string UserDefinedComparators = nameof(UserDefinedComparators);
     public const string Trusts = nameof(Trusts);
     public const string LocalAuthorities = nameof(LocalAuthorities);
+    public const string DisableOrganisationClaimCheck = nameof(DisableOrganisationClaimCheck);
 }
