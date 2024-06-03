@@ -388,3 +388,10 @@ def bfr_3y_data():
     'Y2P1': [399,654,1017,0,6349,1,404,6647,8107,7972],
     'Y2P2': [293,539,1098,0,4785,9,267,5252,6187,6268]
     })
+
+@pytest.fixture
+def prepared_bfr_data(bfr_sofa_data: pd.DataFrame, bfr_3y_data: pd.DataFrame) -> dict:
+    return build_bfr_data(
+        StringIO(bfr_sofa_data.to_csv()),
+        StringIO(bfr_3y_data.to_csv())
+    )
