@@ -8,7 +8,7 @@ public class ComparatorSetApi(HttpClient httpClient, string? key = default)
         return await GetAsync($"api/comparator-set/{urn}/default");
     }
 
-    public async Task<ApiResult> GetUserDefinedAsync(string urn, string identifier)
+    public async Task<ApiResult> GetUserDefinedAsync(string urn, string? identifier)
     {
         return await GetAsync($"comparator-set/{urn}/user-defined/{identifier}");
     }
@@ -23,6 +23,6 @@ public class ComparatorSetApi(HttpClient httpClient, string? key = default)
 public interface IComparatorSetApi
 {
     Task<ApiResult> GetDefaultAsync(string urn);
-    Task<ApiResult> GetUserDefinedAsync(string urn, string identifier);
+    Task<ApiResult> GetUserDefinedAsync(string urn, string? identifier);
     Task<ApiResult> UpsertUserDefinedAsync(PutComparatorSetUserDefinedRequest request);
 }
