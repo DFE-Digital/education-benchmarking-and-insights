@@ -68,6 +68,7 @@ resource "azurerm_linux_web_app" "education-benchmarking-as" {
     "FeatureManagement__CustomData"                  = var.configuration[var.environment].features.CustomData
     "FeatureManagement__Trusts"                      = var.configuration[var.environment].features.Trusts
     "FeatureManagement__LocalAuthorities"            = var.configuration[var.environment].features.LocalAuthorities
+    "FeatureManagement__UserDefinedComparators"      = var.configuration[var.environment].features.UserDefinedComparators
     "Apis__Insight__Url"                             = data.azurerm_key_vault_secret.insight-api-host.value
     "Apis__Insight__Key"                             = data.azurerm_key_vault_secret.insight-api-key.value
     "Apis__Establishment__Url"                       = data.azurerm_key_vault_secret.establishment-api-host.value
