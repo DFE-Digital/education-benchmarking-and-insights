@@ -14,6 +14,7 @@ variable "configuration" {
       CustomData                  = bool
       Trusts                      = bool
       LocalAuthorities            = bool
+      UserDefinedComparators      = bool
     })
   }))
   default = {
@@ -27,6 +28,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = true
         CustomData                  = true
         LocalAuthorities            = true
+        UserDefinedComparators      = true
       }
     }
     automated-test = {
@@ -39,6 +41,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = true
         CustomData                  = true
         LocalAuthorities            = true
+        UserDefinedComparators      = false
       }
     }
     test = {
@@ -51,6 +54,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = false
         CustomData                  = false
         LocalAuthorities            = false
+        UserDefinedComparators      = false
       }
     }
     feature = {
@@ -63,6 +67,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = true
         CustomData                  = true
         LocalAuthorities            = true
+        UserDefinedComparators      = true
       }
     }
     pre-production = {
@@ -75,6 +80,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = false
         CustomData                  = false
         LocalAuthorities            = false
+        UserDefinedComparators      = false
       }
     }
     production = {
@@ -87,6 +93,7 @@ variable "configuration" {
         CurriculumFinancialPlanning = false
         CustomData                  = false
         LocalAuthorities            = false
+        UserDefinedComparators      = false
       }
     }
   }
