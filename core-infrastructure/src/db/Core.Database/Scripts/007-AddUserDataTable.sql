@@ -13,5 +13,5 @@ IF NOT EXISTS(SELECT *
             CONSTRAINT PK_UserData PRIMARY KEY (Id)
         );
 
-        CREATE INDEX UserData_UserId ON School (UserId)
+        CREATE INDEX UserData_UserId ON UserData (UserId)
     END;
