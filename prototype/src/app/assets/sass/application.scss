@@ -320,3 +320,52 @@ div.sortWrapper {
     line-height: 2rem;
     font-weight: bold;
   }
+
+
+// TRUST HOMEPAGE
+
+svg.rag-stack {
+    width: 100%;
+  
+    // colours taken from node_modules/govuk-frontend/dist/govuk/components/tag/_tag.scss
+    rect.rag-stack-red {
+      fill: govuk-colour("red");
+    }
+  
+    rect.rag-stack-amber {
+      fill: govuk-colour("yellow");
+    }
+  
+    rect.rag-stack-green {
+      fill: #e1e6d2;
+    }
+  
+    a {
+      cursor: pointer;
+    }
+  
+    a:hover rect.rag-stack-red,
+    a:active rect.rag-stack-red {
+      fill: govuk-tint(govuk-colour("red"), 20%);
+    }
+  
+    a:hover rect.rag-stack-amber,
+    a:active rect.rag-stack-amber {
+      fill: govuk-tint(govuk-colour("yellow"), 20%);
+    }
+  
+    a:hover rect.rag-stack-green,
+    a:active rect.rag-stack-green {
+      fill: govuk-tint(#e1e6d2, 20%);
+    }
+  }
+
+  .govuk-table.table-cost-category-rag tbody tr td {
+    border-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .govuk-table.table-school-rag thead tr th {
+    border-bottom: 0;
+    padding-bottom: 10px;
+}
