@@ -112,6 +112,14 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
   end_ip_address   = "0.0.0.0"
 }
 
+resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
+  count            = var.environment == "production" ? 0 : 1
+  name             = "DFE_VPN_Remote"
+  server_id        = azurerm_mssql_server.sql-server.id
+  start_ip_address = "208.127.46.236"
+  end_ip_address   = "208.127.46.255"
+}
+
 resource "azurerm_mssql_server_security_alert_policy" "sql-security-alert-policy" {
   #checkov:skip=CKV_AZURE_26:See ADO backlog AB#206493
   #checkov:skip=CKV_AZURE_27:See ADO backlog AB#206493

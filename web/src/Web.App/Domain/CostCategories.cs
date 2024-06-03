@@ -1,5 +1,5 @@
 ﻿using System.Collections.ObjectModel;
-
+using Web.App.Extensions;
 namespace Web.App.Domain;
 
 public abstract class Category(decimal actual, SchoolExpenditure expenditure)
@@ -16,8 +16,64 @@ public abstract class Category(decimal actual, SchoolExpenditure expenditure)
 
     public abstract decimal Value { get; }
     public decimal Actual => actual;
-    public decimal PercentageExpenditure => decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
-    public decimal PercentageIncome => decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+
+    public decimal PercentageExpenditure => expenditure.TotalExpenditure == decimal.Zero
+        ? 0
+        : decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+
+    public decimal PercentageIncome => expenditure.TotalExpenditure == decimal.Zero
+        ? 0
+        : decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+
+    public static string? FromSlug(string? slug)
+    {
+        if (slug == TeachingStaff.ToSlug())
+        {
+            return TeachingStaff;
+        }
+
+        if (slug == NonEducationalSupportStaff.ToSlug())
+        {
+            return NonEducationalSupportStaff;
+        }
+
+        if (slug == EducationalSupplies.ToSlug())
+        {
+            return EducationalSupplies;
+        }
+
+        if (slug == EducationalIct.ToSlug())
+        {
+            return EducationalIct;
+        }
+
+        if (slug == PremisesStaffServices.ToSlug())
+        {
+            return PremisesStaffServices;
+        }
+
+        if (slug == Utilities.ToSlug())
+        {
+            return Utilities;
+        }
+
+        if (slug == AdministrativeSupplies.ToSlug())
+        {
+            return AdministrativeSupplies;
+        }
+
+        if (slug == CateringStaffServices.ToSlug())
+        {
+            return CateringStaffServices;
+        }
+
+        if (slug == Other.ToSlug())
+        {
+            return Other;
+        }
+
+        return null;
+    }
 }
 
 public class PupilCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
@@ -25,7 +81,9 @@ public class PupilCategory(decimal actual, SchoolExpenditure expenditure) : Cate
     private readonly decimal _actual = actual;
     private readonly SchoolExpenditure _expenditure = expenditure;
 
-    public override decimal Value => decimal.Round(_actual / _expenditure.NumberOfPupils, 0, MidpointRounding.AwayFromZero);
+    public override decimal Value => _expenditure.NumberOfPupils == decimal.Zero
+        ? 0
+        : decimal.Round(_actual / _expenditure.NumberOfPupils, 0, MidpointRounding.AwayFromZero);
 }
 
 public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
@@ -33,9 +91,10 @@ public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Categ
     private readonly decimal _actual = actual;
     private readonly SchoolExpenditure _expenditure = expenditure;
 
-    public override decimal Value => decimal.Round(_actual / _expenditure.FloorArea, 0, MidpointRounding.AwayFromZero);
+    public override decimal Value => _expenditure.FloorArea == decimal.Zero
+        ? 0
+        : decimal.Round(_actual / _expenditure.FloorArea, 0, MidpointRounding.AwayFromZero);
 }
-
 
 public abstract class CostCategory(RagRating rating)
 {
@@ -47,11 +106,10 @@ public abstract class CostCategory(RagRating rating)
         set => _values[index] = value;
     }
     public RagRating Rating => rating;
-    public abstract void Add(string urn, SchoolExpenditure expenditure);
 
     public ReadOnlyDictionary<string, Category> Values => _values.AsReadOnly();
+    public abstract void Add(string urn, SchoolExpenditure expenditure);
 }
-
 
 public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 {
