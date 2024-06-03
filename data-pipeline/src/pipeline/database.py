@@ -2,12 +2,9 @@ import json
 import os
 import logging
 import pandas as pd
+import numpy as np
 import sqlalchemy
 from sqlalchemy import create_engine, event, URL
-from src.pipeline.storage import (write_blob)
-
-azure_logger = logging.getLogger("azure")
-azure_logger.setLevel(logging.WARNING)
 
 logger = logging.getLogger("fbit-data-pipeline")
 
@@ -119,7 +116,8 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "Postcode": "AddressPostcode"
     }
 
-    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
+    write_frame = (df.reset_index().rename(columns=projections)[[*projections.values()]]
+                   .drop_duplicates())
 
     upsert(write_frame, "School", keys=["URN"])
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
@@ -164,66 +162,71 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
 
 def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     projections = {
-        "EstablishmentType (name)", "EstablishmentType",
-        "TotalInternalFloorArea", "TotalInternalFloorArea",
-        "Indicative Age", "BuildingAverageAge",
-        "Number of Pupils", "TotalPupils",
-        "", "TotalPupilsSixthForm",
-        "", "TotalPupilsNursery",
-        "Total School Workforce (Headcount)", "WorkforceHeadcount",
-        "Total School Workforce (Full-Time Equivalent)", "WorkforceFTE",
-        "", "WorkforceHeadcountPerFTE",
-        "", "WorkforcePercentTotalWorkforce",
-        "", "WorkforcePerPupil",
-        "Total Number of Teachers (Headcount)", "TeachersHeadcount",
-        "Total Number of Teachers (Full-Time Equivalent)", "TeachersFTE",
-        "", "TeachersHeadcountPerFTE",
-        "", "TeachersPercentTotalWorkforce",
-        "", "TeachersPerPupil",
-        "Total Number of Teachers in the Leadership Group (Headcount)", "SeniorLeadershipHeadcount",
-        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)", "SeniorLeadershipFTE",
-        "", "SeniorLeadershipHeadcountPerFTE",
-        "", "SeniorLeadershipPercentTotalWorkforce",
-        "", "SeniorLeadershipPerPupil",
-        "Total Number of Teaching Assistants (Headcount)", "TeachingAssistantHeadcount",
-        "Total Number of Teaching Assistants (Full-Time Equivalent)", "TeachingAssistantFTE",
-        "", "TeachingAssistantHeadcountPerFTE",
-        "", "TeachingAssistantPercentTotalWorkforce",
-        "", "TeachingAssistantPerPupil",
-        "Non Classroom Support Staff Headcount", "NonClassroomSupportStaffHeadcount",
-        "Non Classroom Support Staff FTE", "NonClassroomSupportStaffFTE",
-        "", "NonClassroomSupportStaffHeadcountPerFTE",
-        "", "NonClassroomSupportStaffPercentTotalWorkforce",
-        "", "NonClassroomSupportStaffPerPupil",
-        "Total Number of Auxiliary Staff (Headcount)", "AuxiliaryStaffHeadcount",
-        "Total Number of Auxiliary Staff (Full-Time Equivalent)", "AuxiliaryStaffFTE",
-        "", "AuxiliaryStaffHeadcountPerFTE",
-        "", "AuxiliaryStaffPercentTotalWorkforce",
-        "", "AuxiliaryStaffPerPupil",
-        "Teachers with Qualified Teacher Status (%) (Headcount)", "PercentTeacherWithQualifiedStatus",
-        "Percentage Free school meals", "PercentFreeSchoolMeals",
-        "Percentage SEN", "PercentSpecialEducationNeeds",
-        "Percentage with EHC", "PercentWithEducationalHealthCarePlan",
-        "Percentage without EHC", "PercentWithoutEducationalHealthCarePlan",
-        "Ks2Progress", "KS2Progress",
-        "Progress8Measure", "KS4Progress",
-        "", "PredictedPercentChangePupils3To5Years",
-        "Percentage Primary Need VI", "PercentWithVI",
-        "Percentage Primary Need SPLD", "PercentWithSPLD",
-        "Percentage Primary Need SLD", "PercentWithSLD",
-        "Percentage Primary Need SLCN", "PercentWithSLCN",
-        "Percentage Primary Need SEMH", "PercentWithSEMH",
-        "Percentage Primary Need PMLD", "PercentWithPMLD",
-        "Percentage Primary Need PD", "PercentWithPD",
-        "Percentage Primary Need OTH", "PercentWithOTH",
-        "Percentage Primary Need MSI", "PercentWithMSI",
-        "Percentage Primary Need MLD", "PercentWithMLD",
-        "Percentage Primary Need HI", "PercentWithHI",
-        "Percentage Primary Need ASD", "PercentWithASD"
+        "URN": "URN",
+        "TypeOfEstablishment (name)": "EstablishmentType",
+        "Total Internal Floor Area": "TotalInternalFloorArea",
+        "Building Age": "BuildingAverageAge",
+        "Number of pupils": "TotalPupils",
+        "TotalPupilsSixthForm": "TotalPupilsSixthForm",
+        "TotalPupilsNursery": "TotalPupilsNursery",
+        "Total School Workforce (Headcount)": "WorkforceHeadcount",
+        "Total School Workforce (Full-Time Equivalent)": "WorkforceFTE",
+        "WorkforceHeadcountPerFTE": "WorkforceHeadcountPerFTE",
+        "WorkforcePercentTotalWorkforce": "WorkforcePercentTotalWorkforce",
+        "WorkforcePerPupil": "WorkforcePerPupil",
+        "Total Number of Teachers (Headcount)": "TeachersHeadcount",
+        "Total Number of Teachers (Full-Time Equivalent)": "TeachersFTE",
+        "TeachersHeadcountPerFTE": "TeachersHeadcountPerFTE",
+        "TeachersPercentTotalWorkforce": "TeachersPercentTotalWorkforce",
+        "TeachersPerPupil": "TeachersPerPupil",
+        "Total Number of Teachers in the Leadership Group (Headcount)": "SeniorLeadershipHeadcount",
+        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)": "SeniorLeadershipFTE",
+        "SeniorLeadershipHeadcountPerFTE": "SeniorLeadershipHeadcountPerFTE",
+        "SeniorLeadershipPercentTotalWorkforce": "SeniorLeadershipPercentTotalWorkforce",
+        "SeniorLeadershipPerPupil": "SeniorLeadershipPerPupil",
+        "Total Number of Teaching Assistants (Headcount)": "TeachingAssistantHeadcount",
+        "Total Number of Teaching Assistants (Full-Time Equivalent)": "TeachingAssistantFTE",
+        "TeachingAssistantHeadcountPerFTE": "TeachingAssistantHeadcountPerFTE",
+        "TeachingAssistantPercentTotalWorkforce": "TeachingAssistantPercentTotalWorkforce",
+        "TeachingAssistantPerPupil": "TeachingAssistantPerPupil",
+        "NonClassroomSupportStaffHeadcount": "NonClassroomSupportStaffHeadcount",
+        "NonClassroomSupportStaffFTE": "NonClassroomSupportStaffFTE",
+        "NonClassroomSupportStaffHeadcountPerFTE": "NonClassroomSupportStaffHeadcountPerFTE",
+        "NonClassroomSupportStaffPercentTotalWorkforce": "NonClassroomSupportStaffPercentTotalWorkforce",
+        "NonClassroomSupportStaffPerPupil": "NonClassroomSupportStaffPerPupil",
+        "Total Number of Auxiliary Staff (Headcount)": "AuxiliaryStaffHeadcount",
+        "Total Number of Auxiliary Staff (Full-Time Equivalent)": "AuxiliaryStaffFTE",
+        "AuxiliaryStaffHeadcountPerFTE": "AuxiliaryStaffHeadcountPerFTE",
+        "AuxiliaryStaffPercentTotalWorkforce": "AuxiliaryStaffPercentTotalWorkforce",
+        "AuxiliaryStaffPerPupil": "AuxiliaryStaffPerPupil",
+        "Teachers with Qualified Teacher Status (%) (Headcount)": "PercentTeacherWithQualifiedStatus",
+        "Percentage Free school meals": "PercentFreeSchoolMeals",
+        "Percentage SEN": "PercentSpecialEducationNeeds",
+        "Percentage with EHC": "PercentWithEducationalHealthCarePlan",
+        "Percentage without EHC": "PercentWithoutEducationalHealthCarePlan",
+        "Ks2Progress": "KS2Progress",
+        "Progress8Measure": "KS4Progress",
+        "Percentage Primary Need VI": "PercentWithVI",
+        "Percentage Primary Need SPLD": "PercentWithSPLD",
+        "Percentage Primary Need SLD": "PercentWithSLD",
+        "Percentage Primary Need SLCN": "PercentWithSLCN",
+        "Percentage Primary Need SEMH": "PercentWithSEMH",
+        "Percentage Primary Need PMLD": "PercentWithPMLD",
+        "Percentage Primary Need PD": "PercentWithPD",
+        "Percentage Primary Need OTH": "PercentWithOTH",
+        "Percentage Primary Need MSI": "PercentWithMSI",
+        "Percentage Primary Need MLD": "PercentWithMLD",
+        "Percentage Primary Need HI": "PercentWithHI",
+        "Percentage Primary Need ASD": "PercentWithASD"
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
-    upsert(write_frame, "School", keys=["URN"])
-    logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = year
+    write_frame.set_index("URN", inplace=True)
+    write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
+
+    upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"])
+    logger.info(f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}")
 

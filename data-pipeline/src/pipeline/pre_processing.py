@@ -32,8 +32,8 @@ def prepare_cdc_data(cdc_file_path, current_year):
     )
     cdc["Age Score"] = cdc["Proportion Area"] * (current_year - cdc["Indicative Age"])
     cdc["Age Average Score"] = cdc.groupby(by=["URN"])["Age Score"].sum()
-
-    return cdc[["Total Internal Floor Area", "Age Average Score"]].drop_duplicates()
+    cdc["Building Age"] = cdc.groupby(by=["URN"])["Indicative Age"].mean()
+    return cdc[["Total Internal Floor Area", "Age Average Score", "Building Age"]].drop_duplicates()
 
 
 def prepare_census_data(workforce_census_path, pupil_census_path):
@@ -61,17 +61,59 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         how="inner",
         rsuffix="_pupil",
         lsuffix="_workforce",
-    )
+    ).rename(columns={
+        "headcount of pupils": "Number of pupils",
+        "fte pupils": "Number of Pupils (FTE)",
+        "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "NonClassroomSupportStaffFTE",
+        "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "NonClassroomSupportStaffHeadcount",
+        "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
+        "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals"
+    })
 
-    census.rename(
-        columns={
-            "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "Non Classroom Support Staff FTE",
-            "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Non Classroom Support Staff Headcount",
-            "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
-            "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals",
-        },
-        inplace=True,
-    )
+    census["TotalPupilsNursery"] = census["Number of early year pupils (years E1 and E2)"] + census["Number of nursery pupils (years N1 and N2)"]
+    census["TotalPupilsSixthForm"] = census["Full time boys Year group 12"] + census["Full time boys Year group 13"] + census["Full time girls Year group 12"] + census["Full time girls Year group 13"]
+
+    census["WorkforceHeadcountPerFTE"] = census["Total School Workforce (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]
+    census["WorkforcePercentTotalWorkforce"] = (census["Total School Workforce (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["WorkforcePerPupil"] = census["Total School Workforce (Headcount)"] / census["Number of pupils"]
+
+    census["TeachersHeadcountPerFTE"] = census["Total Number of Teachers (Headcount)"] / census[
+        "Total Number of Teachers (Full-Time Equivalent)"]
+    census["TeachersPercentTotalWorkforce"] = (census["Total Number of Teachers (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["TeachersPerPupil"] = census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
+
+    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
+        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
+    census["SeniorLeadershipPercentTotalWorkforce"] = (census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+
+    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
+        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
+    census["SeniorLeadershipPercentTotalWorkforce"] = (census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+
+    census["TeachingAssistantHeadcountPerFTE"] = census["Total Number of Teaching Assistants (Headcount)"] / census[
+        "Total Number of Teaching Assistants (Full-Time Equivalent)"]
+    census["TeachingAssistantPercentTotalWorkforce"] = (census["Total Number of Teaching Assistants (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["TeachingAssistantPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+
+    census["NonClassroomSupportStaffHeadcountPerFTE"] = census["NonClassroomSupportStaffHeadcount"] / census[
+        "NonClassroomSupportStaffFTE"]
+    census["NonClassroomSupportStaffPercentTotalWorkforce"] = (census["NonClassroomSupportStaffHeadcount"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["NonClassroomSupportStaffPerPupil"] = census["NonClassroomSupportStaffHeadcount"] / census["Number of pupils"]
+
+    census["AuxiliaryStaffHeadcountPerFTE"] = census["Total Number of Auxiliary Staff (Headcount)"] / census[
+        "Total Number of Auxiliary Staff (Full-Time Equivalent)"]
+    census["AuxiliaryStaffPercentTotalWorkforce"] = (census["Total Number of Auxiliary Staff (Headcount)"] / census[
+        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["AuxiliaryStaffPerPupil"] = census["Total Number of Auxiliary Staff (Headcount)"] / census["Number of pupils"]
 
     return census
 
@@ -148,24 +190,23 @@ def prepare_sen_data(sen_path):
 
     return sen[
         [
-            "Total pupils",
             "EHC plan",
             "SEN support",
             "Percentage SEN",
             "Percentage with EHC",
             "Percentage without EHC",
-            "Primary Need SPLD",
-            "Primary Need MLD",
-            "Primary Need SLD",
-            "Primary Need PMLD",
-            "Primary Need SEMH",
-            "Primary Need SLCN",
-            "Primary Need HI",
-            "Primary Need VI",
-            "Primary Need MSI",
-            "Primary Need PD",
-            "Primary Need ASD",
-            "Primary Need OTH",
+            # "Primary Need SPLD",
+            # "Primary Need MLD",
+            # "Primary Need SLD",
+            # "Primary Need PMLD",
+            # "Primary Need SEMH",
+            # "Primary Need SLCN",
+            # "Primary Need HI",
+            # "Primary Need VI",
+            # "Primary Need MSI",
+            # "Primary Need PD",
+            # "Primary Need ASD",
+            # "Primary Need OTH",
             "Percentage Primary Need SPLD",
             "Percentage Primary Need MLD",
             "Percentage Primary Need SLD",
@@ -501,7 +542,6 @@ def build_academy_data(
             "UKPRN_x": "UKPRN",
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
-            "Number of Pupils": "Number of pupils",
             "Academy Trust Name": "Trust Name",
             "Academy UKPRN": "Trust UKPRN",
         },
@@ -602,10 +642,7 @@ def build_maintained_school_data(
     maintained_schools["London Weighting"] = maintained_schools["London Weighting"].fillna('Neither')
 
     maintained_schools.rename(
-        columns={
-            "No Pupils": "Number of pupils",
-        }
-        | config.cost_category_map["maintained_schools"],
+        columns=config.cost_category_map["maintained_schools"],
         inplace=True,
     )
 
