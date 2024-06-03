@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Web.App.Domain
 @using Web.App.Extensions
 @model Web.App.ViewModels.TrustSpendingViewModel
 @{
@@ -19,51 +21,95 @@
     className = "govuk-grid-column-full"
 })
 
-@foreach (var rating in Model.Ratings)
-{
-    <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+<div class="govuk-grid-row">
+    <aside class="govuk-grid-column-one-quarter">
+        <h3 class="govuk-heading-s">Filter priority schools</h3>
 
-    @foreach (var status in rating.Statuses)
-    {
-        <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
-
-        <div class="top-categories">
-            <div>
-                <p class="priority @status.PriorityTag?.Class govuk-body">
-                    @await Component.InvokeAsync("Tag", new
-                    {
-                        status.PriorityTag?.Colour,
-                        status.PriorityTag?.DisplayText
-                    })
-                    @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
-                    in the @status.PriorityTag?.DisplayText.ToLower() range
-                </p>
+        <form method="get">
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="priority">
+                    Priority
+                </label>
+                <select class="govuk-select" id="priority" name="priority">
+                    <option value="">All priorities</option>
+                    <option value="high" selected="@(Model.IsPriorityHigh ? "selected" : null)">High priority</option>
+                    <option value="medium" selected="@(Model.IsPriorityMedium ? "selected" : null)">Medium priority</option>
+                    <option value="low" selected="@(Model.IsPriorityLow ? "selected" : null)">Low priority</option>
+                </select>
             </div>
-        </div>
 
-        <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Rank</th>
-                <th scope="col" class="govuk-table__header">School</th>
-                <th scope="col" class="govuk-table__header">Expenditure</th>
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            @for (var i = 0; i < status.Schools.Count(); i++)
+            <div class="govuk-form-group">
+                <label class="govuk-label" for="category">
+                    Cost Category
+                </label>
+                <select class="govuk-select" id="category" name="category">
+                    <option value="">All categories</option>
+                    <option value="@Category.TeachingStaff.ToSlug()" selected="@(Model.CostCategories.Contains(Category.TeachingStaff.ToSlug()) ? "selected" : null)">@Category.TeachingStaff</option>
+                    <option value="@Category.NonEducationalSupportStaff.ToSlug()" selected="@(Model.CostCategories.Contains(Category.NonEducationalSupportStaff.ToSlug()) ? "selected" : null)">@Category.NonEducationalSupportStaff</option>
+                    <option value="@Category.EducationalSupplies.ToSlug()" selected="@(Model.CostCategories.Contains(Category.EducationalSupplies.ToSlug()) ? "selected" : null)">@Category.EducationalSupplies</option>
+                    <option value="@Category.EducationalIct.ToSlug()" selected="@(Model.CostCategories.Contains(Category.EducationalIct.ToSlug()) ? "selected" : null)">@Category.EducationalIct</option>
+                    <option value="@Category.PremisesStaffServices.ToSlug()" selected="@(Model.CostCategories.Contains(Category.PremisesStaffServices.ToSlug()) ? "selected" : null)">@Category.PremisesStaffServices</option>
+                    <option value="@Category.Utilities.ToSlug()" selected="@(Model.CostCategories.Contains(Category.Utilities.ToSlug()) ? "selected" : null)">@Category.Utilities</option>
+                    <option value="@Category.AdministrativeSupplies.ToSlug()" selected="@(Model.CostCategories.Contains(Category.AdministrativeSupplies.ToSlug()) ? "selected" : null)">@Category.AdministrativeSupplies</option>
+                    <option value="@Category.CateringStaffServices.ToSlug()" selected="@(Model.CostCategories.Contains(Category.CateringStaffServices.ToSlug()) ? "selected" : null)">@Category.CateringStaffServices</option>
+                    <option value="@Category.Other.ToSlug()" selected="@(Model.CostCategories.Contains(Category.Other.ToSlug()) ? "selected" : null)">@Category.Other</option>
+                </select>
+            </div>
+
+            <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button">
+                Update filter
+            </button>
+        </form>
+    </aside>
+    <div class="govuk-grid-column-three-quarters">
+        @foreach (var rating in Model.Ratings)
+        {
+            <h2 class="govuk-heading-m" id="@rating.CostCategory?.ToSlug()">@rating.CostCategory</h2>
+
+            @foreach (var status in rating.Statuses)
             {
-                var school = status.Schools.ElementAt(i);
-                <tr class="govuk-table__row">
-                    <td class="govuk-table__cell">@(i + 1)</td>
-                    <td class="govuk-table__cell">
-                        <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
-                    </td>
-                    <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
-                </tr>
+                <h3 class="govuk-heading-s">@status.PriorityTag?.DisplayText</h3>
+
+                <div class="top-categories">
+                    <div>
+                        <p class="priority @status.PriorityTag?.Class govuk-body">
+                            @await Component.InvokeAsync("Tag", new
+                            {
+                                status.PriorityTag?.Colour,
+                                status.PriorityTag?.DisplayText
+                            })
+                            @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
+                            in the @status.PriorityTag?.DisplayText.ToLower() range
+                        </p>
+                    </div>
+                </div>
+
+                <table class="govuk-table table-trust-spending-and-costs" id="govuk-trust-spending-and-costs-@rating.CostCategory?.ToSlug()-@status.Status?.ToSlug()">
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">Rank</th>
+                        <th scope="col" class="govuk-table__header">School</th>
+                        <th scope="col" class="govuk-table__header">Expenditure</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+                    @for (var i = 0; i < status.Schools.Count(); i++)
+                    {
+                        var school = status.Schools.ElementAt(i);
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">@(i + 1)</td>
+                            <td class="govuk-table__cell">
+                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolSpending", new { urn = school.Urn })">@school.Name</a>
+                            </td>
+                            <td class="govuk-table__cell">@school.Value.ToCurrency(0)</td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             }
-            </tbody>
-        </table>
-    }
-}
+        }
+
+    </div>
+</div>
 
 @await Component.InvokeAsync("GetHelp")

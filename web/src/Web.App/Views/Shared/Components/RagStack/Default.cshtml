@@ -10,12 +10,12 @@
 else
 {
     <svg style="height:@(Model.Height)px;" class="rag-stack" role="img" aria-labelledby="@id-rag">
-        <title id="@id-rag">RAG ratings for @Model.Identifier: @Model.Red red, @Model.Amber amber and @Model.Green green</title>
+        <title id="@id-rag">@Model.Red high, @Model.Amber medium and @Model.Green low priorities for @Model.Identifier</title>
         @if (Model.RedPercentage > 0)
         {
             if (!string.IsNullOrWhiteSpace(Model.RedHref))
             {
-                @:<a href="@Model.RedHref" aria-label="@Model.Red red">
+                @:<a href="@Model.RedHref" aria-label="@Model.Red high priority">
             }
             <rect
                 role="presentation"
@@ -34,7 +34,7 @@ else
         {
             if (!string.IsNullOrWhiteSpace(Model.AmberHref))
             {
-                @:<a href="@Model.AmberHref" aria-label="@Model.Amber amber">
+                @:<a href="@Model.AmberHref" aria-label="@Model.Amber medium priority">
             }
             <rect
                 role="presentation"
@@ -53,7 +53,7 @@ else
         {
             if (!string.IsNullOrWhiteSpace(Model.GreenHref))
             {
-                @:<a href="@Model.GreenHref" aria-label="@Model.Green green">
+                @:<a href="@Model.GreenHref" aria-label="@Model.Green low priority">
             }
             <rect
                 role="presentation"

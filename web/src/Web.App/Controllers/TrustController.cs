@@ -11,7 +11,7 @@ namespace Web.App.Controllers;
 [Controller]
 [FeatureGate(FeatureFlags.Trusts)]
 [Route("trust/{companyNumber}")]
-public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IInsightApi insightApi, IBalanceApi balanceApi)
+public class TrustController(ILogger<TrustController> logger, IEstablishmentApi establishmentApi, IBalanceApi balanceApi, IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {
     [HttpGet]
@@ -34,7 +34,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                     schoolsQuery.AddIfNotNull("urns", school.URN);
                 }
 
-                var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(schoolsQuery).GetResultOrThrow<RagRating[]>();
                 var viewModel = new TrustViewModel(trust, balance, schools, ratings);
                 return View(viewModel);
             }

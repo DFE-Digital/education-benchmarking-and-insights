@@ -29,6 +29,8 @@ public class UserDataFunctions
     [ProducesResponseType(typeof(UserData), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("userId", "User Id", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("type", "Type", DataType = typeof(string), Required = false)]
+    [QueryStringParameter("status", "Status", DataType = typeof(string), Required = false)]
     public async Task<IActionResult> QueryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "user-data")]
         HttpRequest req)
@@ -44,7 +46,9 @@ public class UserDataFunctions
             try
             {
                 var userId = req.Query["userId"].ToString();
-                var data = await _service.QueryAsync(userId);
+                var type = req.Query["type"].ToString();
+                var status = req.Query["status"].ToString();
+                var data = await _service.QueryAsync(userId, type, status);
 
                 return new JsonContentResult(data);
             }

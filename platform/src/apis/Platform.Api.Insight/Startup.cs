@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight;
 using Platform.Api.Insight.Db;
 using Platform.Api.Insight.MetricRagRatings;
+using Platform.Api.Insight.Schools;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Sql;
@@ -42,5 +43,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IBalanceDb, BalanceDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ISchoolMetricsDb, SchoolMetricsDb>();
+        builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
     }
 }
