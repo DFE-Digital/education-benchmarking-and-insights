@@ -1,4 +1,5 @@
-﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparators;
 }
@@ -42,9 +43,9 @@
                 </li>
             </ul>
             <div class="govuk-tabs__panel" id="running">
-                <h2 class="govuk-heading-m">Running cost categories</h2>
+                <h2 class="govuk-heading-l">Running cost categories</h2>
                 <p class="govuk-body">We've chosen 30 similar schools to benchmark this school against running cost categories, which includes all staffing, ICT, consultancy and catering.</p>
-                <h3 class="govuk-heading-s">How we chose these schools</h3>
+                <h3 class="govuk-heading-m">How we chose these schools</h3>
                 <p class="govuk-body">We chose these schools based on:</p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>school phase or type</li>
@@ -53,12 +54,48 @@
                     <li>pupils eligible for free school meals (FSM)</li>
                     <li>pupils with special educational needs (SEN)</li>
                 </ul>
-                <h3 class="govuk-heading-s">Schools we've chosen</h3>
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-table__caption--m">Schools we've chosen</caption>
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">School</th>
+                        <th scope="col" class="govuk-table__header">Type</th>
+                        <th scope="col" class="govuk-table__header">Number of pupils</th>
+                        <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
+                        <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+
+                    @foreach (var school in Model.PupilSchools.Where(x => x.URN != Model.Urn))
+                    {
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">
+                                <strong>@school.SchoolName</strong>
+                                <br/>
+                                <span class="govuk-hint">@school.Address</span>
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.OverallPhase
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.TotalPupils
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.PercentSpecialEducationNeeds.ToPercent()
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.PercentFreeSchoolMeals.ToPercent()
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             </div>
             <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="building">
-                <h2 class="govuk-heading-m">Building cost categories</h2>
+                <h2 class="govuk-heading-1">Building cost categories</h2>
                 <p class="govuk-body">We've chosen 30 similar schools to benchmark this school against running cost categories, which includes all staffing, ICT, consultancy and catering.</p>
-                <h3 class="govuk-heading-s">How we chose these schools</h3>
+                <h3 class="govuk-heading-m">How we chose these schools</h3>
                 <p class="govuk-body">We chose these schools based on:</p>
                 <ul class="govuk-list govuk-list--bullet">
                     <li>school phase or type</li>
@@ -67,7 +104,53 @@
                     <li>average age of buildings</li>
                     <li>whether they are a Private Finance Initiative (PFI) school</li>
                 </ul>
-                <h3 class="govuk-heading-s">Schools we've chosen</h3>
+                <table class="govuk-table">
+                    <caption class="govuk-table__caption govuk-table__caption--m">Schools we've chosen</caption>
+                    <thead class="govuk-table__head">
+                    <tr class="govuk-table__row">
+                        <th scope="col" class="govuk-table__header">School</th>
+                        <th scope="col" class="govuk-table__header">Type</th>
+                        <th scope="col" class="govuk-table__header">Number of pupils</th>
+                        <th scope="col" class="govuk-table__header">Gross internal floor area</th>
+                        <th scope="col" class="govuk-table__header">Average age of buildings</th>
+                    </tr>
+                    </thead>
+                    <tbody class="govuk-table__body">
+
+                    @foreach (var (index, school) in Model.BuildingSchools.Where(x => x.URN != Model.Urn).Select((school, index) => (index, school)))
+                    {
+                        <tr class="govuk-table__row">
+                            <td class="govuk-table__cell">
+                                <strong>@school.SchoolName</strong>
+                                <br/>
+                                <span class="govuk-hint">@school.Address</span>
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.OverallPhase
+                            </td>
+                            <td class="govuk-table__cell">
+                                @school.TotalPupils
+                            </td>
+                            @if (User.Identity is { IsAuthenticated: true })
+                            {
+                                <td class="govuk-table__cell">
+                                    @school.GrossInternalFloorArea
+                                </td>
+                                <td class="govuk-table__cell">
+                                    @school.AverageBuildingAge
+                                </td>
+                            }
+                            else if (index == 0)
+                            {
+                                <td class="govuk-table__cell" colspan="2" rowspan="@Model.BuildingSchools.Count()" style="text-align: center; vertical-align: top;">
+                                    @Html.ActionLink("Sign in", "Signin", "Account", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-link govuk-link--no-visited-state" })
+                                    to see
+                                </td>
+                            }
+                        </tr>
+                    }
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>

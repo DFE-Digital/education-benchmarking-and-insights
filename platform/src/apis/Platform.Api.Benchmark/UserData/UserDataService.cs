@@ -8,7 +8,7 @@ namespace Platform.Api.Benchmark.UserData;
 
 public interface IUserDataService
 {
-    Task<IEnumerable<UserData>> QueryAsync(string userId);
+    Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null);
 }
 
 [ExcludeFromCodeCoverage]
@@ -21,11 +21,24 @@ public class UserDataService : IUserDataService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<UserData>> QueryAsync(string userId)
+    public async Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null)
     {
-        const string sql = "SELECT * from UserData where UserId = @UserId";
-        var parameters = new { UserId = userId };
+        var builder = new SqlBuilder();
+        var template = builder.AddTemplate("SELECT * from UserData /**where**/");
+
+        builder.Where("UserId = @userId", new { userId });
+
+        if (!string.IsNullOrEmpty(type))
+        {
+            builder.Where("Type = @type", new { type });
+        }
+
+        if (!string.IsNullOrEmpty(status))
+        {
+            builder.Where("Status = @status", new { status });
+        }
+
         using var conn = await _dbFactory.GetConnection();
-        return await conn.QueryAsync<UserData>(sql, parameters);
+        return await conn.QueryAsync<UserData>(template.RawSql, template.Parameters);
     }
 }

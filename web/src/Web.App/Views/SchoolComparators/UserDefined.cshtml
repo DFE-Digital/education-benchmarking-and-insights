@@ -1,0 +1,68 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsUserDefined;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+            <p class="govuk-body">
+                <a class="govuk-link govuk-link--no-visited-state"
+                   href="">
+                    Change your set of schools
+                </a>
+            </p>
+        <table class="govuk-table">
+            <thead class="govuk-table__head">
+            <tr class="govuk-table__row">
+                <th scope="col" class="govuk-table__header">School</th>
+                <th scope="col" class="govuk-table__header">Type</th>
+                <th scope="col" class="govuk-table__header">Number of pupils</th>
+                <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
+                <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
+            </tr>
+            </thead>
+            <tbody class="govuk-table__body">
+
+            @foreach (var school in Model.UserDefinedSchools.Where(x => x.URN != Model.Urn))
+            {
+                <tr class="govuk-table__row">
+                    <td class="govuk-table__cell">
+                        <strong>@school.SchoolName</strong>
+                        <br/>
+                        <span class="govuk-hint">@school.Address</span>
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.OverallPhase
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.TotalPupils
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.PercentSpecialEducationNeeds.ToPercent()
+                    </td>
+                    <td class="govuk-table__cell">
+                        @school.PercentFreeSchoolMeals.ToPercent()
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

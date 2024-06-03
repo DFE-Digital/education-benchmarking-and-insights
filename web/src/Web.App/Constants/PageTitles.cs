@@ -24,6 +24,7 @@ public static class PageTitles
     public const string SchoolPlanningTotalEducationSupport = "What is your total spend on education support staff?";
     public const string SchoolPlanningTimetableCycle = "Timetable cycle";
     public const string SchoolComparators = "Schools we chose for benchmarking";
+    public const string SchoolComparatorsUserDefined = "Your set of schools";
     public const string SchoolComparatorsCreate = "Choose your own set of schools";
     public const string SchoolComparatorsCreateBy = "How do you want to choose your set of schools?";
     public const string TrustHome = "Your trust";
