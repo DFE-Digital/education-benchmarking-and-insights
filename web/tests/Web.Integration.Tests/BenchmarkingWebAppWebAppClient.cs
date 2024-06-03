@@ -20,9 +20,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 {
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
-    public Mock<IBenchmarkApi> BenchmarkApi { get; } = new();
+    public Mock<IFinancialPlanApi> FinancialPlanApi { get; } = new();
+    public Mock<IComparatorSetApi> ComparatorSetApi { get; } = new();
     public Mock<ICensusApi> CensusApi { get; } = new();
     public Mock<IIncomeApi> IncomeApi { get; } = new();
+    public Mock<IMetricRagRatingApi> MetricRagRatingApi { get; } = new();
     public Mock<IBalanceApi> BalanceApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
@@ -31,9 +33,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddDistributedMemoryCache();
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
-        services.AddSingleton(BenchmarkApi.Object);
+        services.AddSingleton(FinancialPlanApi.Object);
+        services.AddSingleton(ComparatorSetApi.Object);
         services.AddSingleton(CensusApi.Object);
         services.AddSingleton(IncomeApi.Object);
+        services.AddSingleton(MetricRagRatingApi.Object);
         services.AddSingleton(BalanceApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
@@ -130,6 +134,8 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
+        MetricRagRatingApi.Reset();
+
         InsightApi.Setup(api => api.GetSchoolFinances(school.URN)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
         InsightApi.Setup(api => api.GetCurrentReturnYears())
@@ -138,7 +144,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
                 Aar = 2022,
                 Cfr = 2021
             }));
-        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>()))
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
         InsightApi.Setup(api => api.GetSchoolExpenditure(school.URN, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
@@ -164,8 +170,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public BenchmarkingWebAppClient SetupInsights(IEnumerable<RagRating>? ratings = null)
     {
         InsightApi.Reset();
+        MetricRagRatingApi.Reset();
         InsightApi.Setup(api => api.GetSchoolFinances(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());
-        InsightApi.Setup(api => api.GetRatings(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(ratings ?? Array.Empty<RagRating>()));
+        MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(ratings ?? Array.Empty<RagRating>()));
         InsightApi.Setup(api => api.GetCurrentReturnYears()).ReturnsAsync(ApiResult.Ok(new FinanceYears
         {
             Aar = 2022,
@@ -176,52 +183,55 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
 
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
-        BenchmarkApi.Reset();
-        BenchmarkApi.Setup(api => api.GetComparatorSet(It.IsAny<string?>())).Throws(new Exception());
-        BenchmarkApi.Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
-        BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
+        FinancialPlanApi.Reset();
+        ComparatorSetApi.Reset();
+        ComparatorSetApi.Setup(api => api.GetDefaultAsync(It.IsAny<string>())).Throws(new Exception());
+        FinancialPlanApi.Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
+        FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
         return this;
     }
 
     public BenchmarkingWebAppClient SetupBenchmarkWithNotFound()
     {
-        BenchmarkApi.Reset();
-        BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+        FinancialPlanApi.Reset();
+        FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>()))
             .ReturnsAsync(ApiResult.NotFound());
         return this;
     }
 
     public BenchmarkingWebAppClient SetupBenchmark(School[] schools, FinancialPlanInput? plan = null)
     {
-        BenchmarkApi.Reset();
+        FinancialPlanApi.Reset();
+        ComparatorSetApi.Reset();
+
         if (plan == null)
         {
-            BenchmarkApi.Setup(api => api.GetFinancialPlan(It.IsAny<string>(), It.IsAny<int>()))
+            FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>()))
                 .ReturnsAsync(ApiResult.NotFound());
         }
         else
         {
             ArgumentNullException.ThrowIfNull(plan.Urn);
-            BenchmarkApi.Setup(api => api.GetFinancialPlan(plan.Urn, plan.Year)).ReturnsAsync(ApiResult.Ok(plan));
+            FinancialPlanApi.Setup(api => api.GetAsync(plan.Urn, plan.Year)).ReturnsAsync(ApiResult.Ok(plan));
         }
 
-        BenchmarkApi
-            .Setup(api => api.QueryFinancialPlan(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
+        FinancialPlanApi
+            .Setup(api => api.QueryAsync(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
-        BenchmarkApi
-            .Setup(api => api.GetComparatorSet(It.IsAny<string?>()))
+        ComparatorSetApi
+            .Setup(api => api.GetDefaultAsync(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok(new ComparatorSet
             {
                 Building = schools.Select(x => x.URN ?? "Missing urn"),
                 Pupil = schools.Select(x => x.URN ?? "Missing urn")
             }));
 
-        BenchmarkApi
-            .Setup(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()))
+        FinancialPlanApi
+            .Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()))
             .ReturnsAsync(ApiResult.Ok())
             .Callback<PutFinancialPlanRequest>(request =>
-                BenchmarkApi.Setup(api => api.GetFinancialPlan(request.Urn ?? "", request.Year))
+                FinancialPlanApi.Setup(api => api.GetAsync(request.Urn ?? "", request.Year))
                     .ReturnsAsync(ApiResult.Ok(new FinancialPlanInput
                     {
                         Urn = request.Urn,

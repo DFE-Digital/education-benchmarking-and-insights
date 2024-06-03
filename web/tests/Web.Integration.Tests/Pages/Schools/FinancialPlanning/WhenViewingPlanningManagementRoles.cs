@@ -69,7 +69,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
@@ -102,7 +102,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
@@ -146,7 +146,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningManagersPerRole(school.URN, CurrentYear).ToAbsolute());
@@ -188,7 +188,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page,
             Paths.SchoolFinancialPlanningManagersPerRole(school.URN, CurrentYear).ToAbsolute());
@@ -312,7 +312,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
             }); ;
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("management-roles", "Select at least one management role"));

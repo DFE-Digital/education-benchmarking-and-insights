@@ -15,7 +15,7 @@ public class SchoolSpendingController(
         IEstablishmentApi establishmentApi,
         IFinanceService financeService,
         IComparatorSetService comparatorSetService,
-        IInsightApi insightApi)
+        IMetricRagRatingApi metricRagRatingApi)
     : Controller
 {
     [HttpGet]
@@ -28,7 +28,7 @@ public class SchoolSpendingController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
 
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);

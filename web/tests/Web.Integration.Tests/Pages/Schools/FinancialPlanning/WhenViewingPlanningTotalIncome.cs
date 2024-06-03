@@ -41,7 +41,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Once);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear).ToAbsolute());
     }
@@ -85,7 +85,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsNotFoundPage(page);
         DocumentAssert.AssertPageUrl(page,
@@ -117,7 +117,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         PageAssert.IsProblemPage(page);
         DocumentAssert.AssertPageUrl(page,
@@ -145,7 +145,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear).ToAbsolute());
 
