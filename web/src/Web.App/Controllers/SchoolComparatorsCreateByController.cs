@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -7,6 +6,7 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
+using Web.App.TagHelpers;
 using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
@@ -17,7 +17,8 @@ namespace Web.App.Controllers;
 public class SchoolComparatorsCreateByController(
     ILogger<SchoolComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
-    IComparatorSetService comparatorSetService
+    IComparatorSetService comparatorSetService,
+    ISchoolInsightApi schoolInsightApi
 ) : Controller
 {
     [HttpGet]
@@ -80,11 +81,19 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = comparatorSetService.ReadUserDefinedComparatorSet(urn);
-                var viewModel = new SchoolComparatorsByNameViewModel(school, set);
+                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+
+                var schoolsQuery = new ApiQuery();
+                foreach (var selectedUrn in userDefinedSet.Set)
+                {
+                    schoolsQuery.AddIfNotNull("urns", selectedUrn);
+                }
+
+                var schoolCharacteristics = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);
+                var viewModel = new SchoolComparatorsByNameViewModel(school, schoolCharacteristics);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -98,18 +107,45 @@ public class SchoolComparatorsCreateByController(
     [HttpPost]
     [Route("name")]
     [ExportModelState]
-    public IActionResult Name([FromRoute] string urn, [FromForm] SchoolComparatorsByNameAddViewModel viewModel)
+    public IActionResult Name([FromRoute] string urn, [FromForm] SchoolComparatorsUrnViewModel viewModel)
     {
         if (!ModelState.IsValid)
         {
             return RedirectToAction("Name");
         }
 
-        var set = comparatorSetService.ReadUserDefinedComparatorSet(urn);
-        if (!string.IsNullOrWhiteSpace(viewModel.Urn) && !set.Urns.Contains(viewModel.Urn))
+        var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+        if (!string.IsNullOrWhiteSpace(viewModel.Urn) && !userDefinedSet.Set.Contains(viewModel.Urn))
         {
-            set.Urns = set.Urns.Append(viewModel.Urn);
-            comparatorSetService.SetUserDefinedComparatorSet(urn, set);
+            userDefinedSet.Set = userDefinedSet.Set.ToList().Append(viewModel.Urn).ToArray();
+            comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+        }
+
+        return RedirectToAction("Name", new
+        {
+            urn
+        });
+    }
+
+    [HttpPost]
+    [Route("remove")]
+    public IActionResult Remove([FromRoute] string urn, [FromForm] SchoolComparatorsUrnViewModel viewModel)
+    {
+        if (!ModelState.IsValid)
+        {
+            return RedirectToAction("Name", new
+            {
+                urn
+            });
+        }
+
+        var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+        if (!string.IsNullOrWhiteSpace(viewModel.Urn) && userDefinedSet.Set.Contains(viewModel.Urn))
+        {
+            var set = userDefinedSet.Set.ToList();
+            set.Remove(viewModel.Urn);
+            userDefinedSet.Set = set.ToArray();
+            comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
         }
 
         return RedirectToAction("Name", new
@@ -129,7 +165,7 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolComparatorsViewModel(school);
@@ -143,5 +179,19 @@ public class SchoolComparatorsCreateByController(
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private async Task<T[]?> GetSchoolCharacteristics<T>(IEnumerable<string> set)
+    {
+        var query = new ApiQuery();
+        var schools = set as string[] ?? set.ToArray();
+        if (schools.Length != 0)
+        {
+            foreach (var urn in schools)
+            {
+                query.AddIfNotNull("urns", urn);
+            }
+        }
+        return await schoolInsightApi.GetCharacteristicsAsync(query).GetResultOrDefault<T[]>();
     }
 }
