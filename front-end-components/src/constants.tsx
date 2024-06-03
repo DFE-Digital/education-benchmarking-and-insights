@@ -10,3 +10,4 @@ export const SpendingAndCostsComposedElementId = "spending-and-costs-composed";
 export const FindOrganisationElementId = "find-organisation";
 export const SchoolEstablishment = "school";
 export const TrustEstablishment = "trust";
+export const SchoolSuggesterId = "school-suggester";
