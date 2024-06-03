@@ -11,7 +11,8 @@ from src.pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_aar_data,
     prepare_census_data,
-    prepare_schools_data
+    prepare_schools_data,
+    build_bfr_data
 )
 
 
@@ -362,3 +363,28 @@ def prepared_schools_data(gias_data: pd.DataFrame, gias_links: pd.DataFrame) -> 
         StringIO(gias_links.to_csv())
     )
 
+
+@pytest.fixture
+def bfr_sofa_data():
+    return pd.DataFrame({
+    'TrustUPIN': [140992,140992,140992,140992],
+    'EFALineNo': [2980,4300,3800,9000],
+    'Y2': [14381,1132,14347,2168],
+    'Y3': [14325,655,14802,2174],
+    'Y4': [14491,-93,15239,2158]
+    })
+
+
+@pytest.fixture
+def bfr_3y_data():
+    return pd.DataFrame({
+    'TrustUPIN': [140992,140992,140992,140992,140992,140992,140992,140992,140992,140992],
+    'CreatedBy': ['Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser','Ian James Nurser'],
+    'Category': ['Revenue Income','Revenue Income','Revenue Totals','Other Items','Revenue Expenditure','Revenue Income','Revenue Income','Revenue Income','Revenue Expenditure','Revenue Income'],
+    'Title': ['Income from trading activities','Local authority revenue income','Balance c/f to next period ','Pupil numbers (actual and estimated)','Total staff costs','Other government grants','Other income, including investment income','Total DfE/ESFA revenue income','Total revenue expenditure','Total revenue income'],
+    'EFALineNo': [211,200,430,999,335,205,220,199,380,298],
+    'Y1P1': [296,654,1388,2228,5993,0,403,6477,8042,7834],
+    'Y1P2': [279,444,1152,2197,4458,0,240,4777,5582,5346],
+    'Y2P1': [399,654,1017,0,6349,1,404,6647,8107,7972],
+    'Y2P2': [293,539,1098,0,4785,9,267,5252,6187,6268]
+    })

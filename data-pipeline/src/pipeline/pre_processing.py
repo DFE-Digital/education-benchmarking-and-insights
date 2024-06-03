@@ -764,7 +764,6 @@ def _volatility_analysis(bfr):
     bfr['volatility_status'] = np.select(volatility_conditions, volatility_messages, default='')
     return bfr
 
-
 def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
     bfr_sofa = pd.read_csv(
         bfr_sofa_data_path,
@@ -800,7 +799,7 @@ def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
     bfr_sofa.drop_duplicates(inplace=True)
 
     bfr_3y['EFALineNo'].replace({2980: 298, 4300: 430, 3800: 380, 9000: 999}, inplace=True)
-    bfr_3y = bfr_3y[bfr_3y['EFALineNo'].isin([298, 430, 335, 380, 999])]
+    bfr_3y = bfr_3y[bfr_3y['EFALineNo'].isin([298, 430, 380, 999])]
     bfr_3y.drop_duplicates(inplace=True)
 
     bfr = pd.merge(bfr_sofa, bfr_3y, how='left', on=('TrustUPIN', 'EFALineNo'))
