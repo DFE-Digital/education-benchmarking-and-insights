@@ -6,17 +6,17 @@ using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Insight.MetricRagRatings;
 
-public interface IMetricRagRatingService
+public interface IMetricRagRatingsService
 {
     Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
         string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
 }
 
-public class MetricRagRatingService : IMetricRagRatingService
+public class MetricRagRatingsService : IMetricRagRatingsService
 {
     private readonly IDatabaseFactory _dbFactory;
 
-    public MetricRagRatingService(IDatabaseFactory dbFactory)
+    public MetricRagRatingsService(IDatabaseFactory dbFactory)
     {
         _dbFactory = dbFactory;
     }

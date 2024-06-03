@@ -27,11 +27,6 @@ public class InsightApi(HttpClient httpClient, string? key = default) : ApiBase(
         return await GetAsync($"api/schools/expenditure{query?.ToQueryString()}");
     }
 
-    public async Task<ApiResult> GetRatings(ApiQuery? query = null)
-    {
-        return await GetAsync($"api/metric-rag/default{query?.ToQueryString()}");
-    }
-
     public async Task<ApiResult> GetSchoolFinances(ApiQuery? query = null)
     {
         return await GetAsync($"api/schools{query?.ToQueryString()}");
@@ -55,11 +50,7 @@ public interface IInsightApi
     Task<ApiResult> GetSchoolExpenditure(string? urn, ApiQuery? query = null);
     Task<ApiResult> GetSchoolExpenditureHistory(string? urn, ApiQuery? query = null);
     Task<ApiResult> GetSchoolsExpenditure(ApiQuery? query = null);
-
     Task<ApiResult> GetTrustExpenditureHistory(string? companyNo, ApiQuery? query = null);
-
-    Task<ApiResult> GetRatings(ApiQuery? query = null);
     Task<ApiResult> GetCurrentReturnYears();
-
     Task<ApiResult> GetSchoolFloorAreaMetric(string? urn);
 }

@@ -10,14 +10,14 @@
     - package-ecosystem: "terraform"
       directory: "/core-infrastructure/terraform"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[terraform] "
 
     - package-ecosystem: "npm"
       directory: "/front-end-components"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[npm] "
       open-pull-requests-limit: 10
@@ -25,14 +25,14 @@
     - package-ecosystem: "terraform"
       directory: "/platform/terraform"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Domain"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -62,7 +62,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Functions"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -92,7 +92,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/abstractions/Platform.Infrastructure"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -122,7 +122,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Benchmark"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -152,7 +152,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Establishment"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -182,7 +182,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/apis/Platform.Api.Insight"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -212,7 +212,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -242,7 +242,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.App"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -272,7 +272,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/src/search/Platform.Search.Processor"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -302,7 +302,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.ApiTests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -332,7 +332,7 @@
     - package-ecosystem: "nuget"
       directory: "/platform/tests/Platform.Tests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
       ignore:
@@ -362,14 +362,14 @@
     - package-ecosystem: "npm"
       directory: "/prototype/src"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[npm] "
 
     - package-ecosystem: "terraform"
       directory: "/prototype/terraform"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[terraform] "
 
@@ -378,48 +378,48 @@
       registries:
         - npm-azure-artifacts
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[npm] "
 
     - package-ecosystem: "terraform"
       directory: "/web/terraform"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[terraform] "
 
     - package-ecosystem: "nuget"
       directory: "/web/src/Web.App"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.A11yTests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.E2ETests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Integration.Tests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "
 
     - package-ecosystem: "nuget"
       directory: "/web/tests/Web.Tests"
       schedule:
-        interval: "weekly"
+        interval: "monthly"
       commit-message:
         prefix: "[nuget] "

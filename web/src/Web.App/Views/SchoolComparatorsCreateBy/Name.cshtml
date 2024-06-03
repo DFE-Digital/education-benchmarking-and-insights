@@ -1,0 +1,63 @@
+﻿@using Web.App.Domain
+@using Web.App.TagHelpers
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolComparatorsByNameViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateByName;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">Choose between 10 and 30 schools for best results.</p>
+    </div>
+    <div class="govuk-grid-column-full">
+        @await Html.PartialAsync("_ErrorSummary")
+        @using (Html.BeginForm("Name", "SchoolComparatorsCreateBy", new
+                {
+                    urn = Model.Urn
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
+        {
+            <p class="govuk-body govuk-hint">Search by school name, postcode or URN</p>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-three-quarters">
+                    <div id="school-suggester"></div>
+                </div>
+                <div class="govuk-grid-column-one-quarter">
+                    <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                        Choose school
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@using (Html.BeginForm("Remove", "SchoolComparatorsCreateBy", new
+        {
+            urn = Model.Urn
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate"
+        }))
+{
+    @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools))
+}
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

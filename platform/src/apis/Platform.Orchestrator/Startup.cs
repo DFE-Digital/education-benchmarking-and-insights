@@ -1,10 +1,10 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
+using Platform.Infrastructure.Sql;
 using Platform.Orchestrator;
 
 [assembly: WebJobsStartup(typeof(Startup))]
@@ -22,7 +22,10 @@ public class Startup : FunctionsStartup
         builder.Services.AddHealthChecks();
 
         builder.Services.AddOptions<JobStartMessageSenderOptions>().BindConfiguration("PipelineMessageHub").ValidateDataAnnotations();
+        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
 
+        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
         builder.Services.AddSingleton<IJobStartMessageSender, JobStartMessageSender>();
+        builder.Services.AddSingleton<IPipelineDb, PipelineDb>();
     }
 }

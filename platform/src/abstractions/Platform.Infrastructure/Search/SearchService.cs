@@ -10,7 +10,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
 {
     private readonly SearchClient _client = new(searchEndpoint, indexName, credential);
 
-    protected async Task<IEnumerable<ScoreResponse<T>>> SearchAsync<T>(string? search, string? filters, int? size = null)
+    protected async Task<(long? Total, IEnumerable<ScoreResponse<T>> Response)> SearchAsync<T>(string? search, string? filters, int? size = null)
     {
         var options = new SearchOptions
         {
@@ -22,13 +22,13 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
 
         var searchResponse = await _client.SearchAsync<T>(search, options);
         var searchResults = searchResponse.Value;
-        return searchResults
+        return (searchResults.TotalCount, searchResults
             .GetResults()
             .Select(result => new ScoreResponse<T>
             {
                 Score = result.Score,
                 Document = result.Document
-            });
+            }));
     }
 
     protected async Task<T> LookUpAsync<T>(string? key)
@@ -38,7 +38,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         return response.Value;
     }
 
-    protected async Task<SearchResponse<T>> SearchAsync<T>(PostSearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
+    protected async Task<SearchResponse<T>> SearchAsync<T>(SearchRequest request, Func<FilterCriteria[], string?>? filterExpBuilder = null, string[]? facets = null)
     {
         var options = new SearchOptions
         {
@@ -69,7 +69,7 @@ public abstract class SearchService(Uri searchEndpoint, string indexName, AzureK
         return SearchResponse<T>.Create(results, request.Page, request.PageSize, searchResults.TotalCount, outputFacets);
     }
 
-    protected async Task<SuggestResponse<T>> SuggestAsync<T>(PostSuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
+    protected async Task<SuggestResponse<T>> SuggestAsync<T>(SuggestRequest request, Func<string?>? filterExpBuilder = null, string[]? selectFields = null)
     {
         var options = new SuggestOptions
         {

@@ -47,6 +47,15 @@ public static class BreadcrumbNodes
         Parent = SchoolHome(urn)
     };
 
+    public static MvcBreadcrumbNode SchoolComparators(string urn) => new("Index", "SchoolComparators", "Comparator sets")
+    {
+        RouteValues = new
+        {
+            urn
+        },
+        Parent = SchoolHome(urn)
+    };
+
     public static MvcBreadcrumbNode SchoolCustomData(string urn) => new("Index", "SchoolCustomData", PageTitles.SchoolChangeData)
     {
         RouteValues = new

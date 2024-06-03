@@ -1,77 +1,34 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.FeatureManagement.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-using Web.App.Services;
-using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
-public class SchoolComparatorsController(ILogger<SchoolComparatorsController> logger, IComparatorSetService comparatorSetService, IEstablishmentApi establishmentApi, IFinanceService financeService) : Controller
+public class SchoolComparatorsController(ILogger<SchoolComparatorsController> logger, IEstablishmentApi establishmentApi, IComparatorSetApi comparatorSetApi, ISchoolInsightApi schoolInsightApi, IUserDataApi userDataApi) : Controller
 {
     [HttpGet]
-    [Route("building")]
-    public async Task<IActionResult> Building(string urn, string referrer)
+    public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = await comparatorSetService.ReadComparatorSet(urn);
-                var finances = await financeService.GetFinances(set.Building);
-                var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
-                return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error displaying school building comparators: {DisplayUrl}", Request.GetDisplayUrl());
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-            }
-        }
-    }
+                var set = await comparatorSetApi.GetDefaultAsync(urn).GetResultOrThrow<ComparatorSet>();
+                var pupil = await GetSchoolCharacteristics<SchoolCharacteristicPupil>(set.Pupil);
+                var building = await GetSchoolCharacteristics<SchoolCharacteristicBuilding>(set.Building);
 
-    [HttpGet]
-    [Route("pupil")]
-    public async Task<IActionResult> Pupil(string urn, string referrer)
-    {
-        using (logger.BeginScope(new { urn, referrer }))
-        {
-            try
-            {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
-
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = await comparatorSetService.ReadComparatorSet(urn);
-                var finances = await financeService.GetFinances(set.Pupil);
-                var viewModel = new SchoolComparatorsViewModel(school, referrer, finances);
-                return View(viewModel);
-            }
-            catch (Exception e)
-            {
-                logger.LogError(e, "An error displaying school pupil comparators: {DisplayUrl}", Request.GetDisplayUrl());
-                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
-            }
-        }
-    }
-
-    [HttpGet]
-    [Route("custom")]
-    public async Task<IActionResult> Custom(string urn, string referrer)
-    {
-        using (logger.BeginScope(new { urn, referrer }))
-        {
-            try
-            {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
-                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school, referrer);
+                var viewModel = new SchoolComparatorsViewModel(school, pupil: pupil, building: building);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -82,18 +39,38 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
         }
     }
 
-
     [HttpGet]
-    [Route("custom/create")]
-    public async Task<IActionResult> Create(string urn, string referrer)
+    [Route("user-defined")]
+    [Authorize]
+    [FeatureGate(FeatureFlags.UserDefinedComparators)]
+    public async Task<IActionResult> UserDefined(string urn)
     {
-        using (logger.BeginScope(new { urn, referrer }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = RefererBackInfo(referrer, urn);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school, referrer);
+                var query = new ApiQuery()
+                    .AddIfNotNull("userId", User.UserId())
+                    .AddIfNotNull("status", "active")
+                    .AddIfNotNull("type", "comparator-set");
+
+                var userSets = await userDataApi.GetAsync(query).GetResultOrDefault<UserData[]>();
+                SchoolCharacteristicUserDefined[]? schools = null;
+
+                if (userSets != null)
+                {
+                    var setId = userSets.FirstOrDefault()?.Id;
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedAsync(urn, setId).GetResultOrDefault<ComparatorSetUserDefined>();
+                    if (userDefinedSet != null)
+                    {
+                        schools = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);
+                    }
+                }
+
+                var viewModel = new SchoolComparatorsViewModel(school, userDefined: schools);
                 return View(viewModel);
             }
             catch (Exception e)
@@ -104,14 +81,18 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
         }
     }
 
-    private BacklinkInfo RefererBackInfo(string referrer, string urn)
+    private async Task<T[]?> GetSchoolCharacteristics<T>(IEnumerable<string> set)
     {
-        return referrer switch
+        var query = new ApiQuery();
+        var schools = set as string[] ?? set.ToArray();
+        if (schools.Length != 0)
         {
-            Referrers.SchoolSpending => new BacklinkInfo(Url.Action("Index", "SchoolSpending", new { urn }), $"Back to {PageTitles.Spending.ToLower()}"),
-            Referrers.SchoolComparison => new BacklinkInfo(Url.Action("Index", "SchoolComparison", new { urn }), $"Back to {PageTitles.Comparison.ToLower()}"),
-            Referrers.SchoolCensus => new BacklinkInfo(Url.Action("Index", "SchoolCensus", new { urn }), $"Back to {PageTitles.Census.ToLower()}"),
-            _ => throw new ArgumentOutOfRangeException(nameof(referrer))
-        };
+            foreach (var urn in schools)
+            {
+                query.AddIfNotNull("urns", urn);
+
+            }
+        }
+        return await schoolInsightApi.GetCharacteristicsAsync(query).GetResultOrDefault<T[]>();
     }
 }

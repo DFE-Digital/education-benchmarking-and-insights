@@ -3,12 +3,11 @@
 @import "headlines";
 @import "link-list";
 
-.app-login-banner {
-  width: 100%;
-}
-
-.app-float-right {
+.app-signin {
   float: right;
+  font-size: 1rem;
+  line-height: 2rem;
+  font-weight: bold;
 }
 
 .app-view-component {

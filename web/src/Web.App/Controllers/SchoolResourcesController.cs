@@ -12,7 +12,7 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/find-ways-to-spend-less")]
 public class SchoolResourcesController(
     IEstablishmentApi establishmentApi,
-    IInsightApi insightApi,
+    IMetricRagRatingApi metricRagRatingApi,
     ILogger<SchoolResourcesController> logger) : Controller
 {
     [HttpGet]
@@ -26,7 +26,7 @@ public class SchoolResourcesController(
                 ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action("Index", "School", new { urn }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var ratings = await insightApi.GetRatings(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var viewModel = new SchoolResourcesViewModel(school, ratings);
 
                 return View(viewModel);

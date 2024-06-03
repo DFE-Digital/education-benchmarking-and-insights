@@ -41,7 +41,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
             });
         });
 
-        Client.BenchmarkApi.Verify(api => api.UpsertFinancialPlan(It.IsAny<PutFinancialPlanRequest>()), planExists ? Times.Never : Times.Once);
+        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), planExists ? Times.Never : Times.Once);
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
     }

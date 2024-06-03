@@ -27,16 +27,13 @@ public record School
     public string? LACode { get; set; }
     public string? LAName { get; set; }
     public string? LondonWeighting { get; set; }
-
-
-    // public string? Address { get; set; }
-    // public string? Street { get; set; }
-    // public string? Locality { get; set; }
-    // public string? Address3 { get; set; }
-    // public string? Town { get; set; }
-    // public string? County { get; set; }
-    // public string? Postcode { get; set; }
-
+    public string? AddressStreet { get; set; }
+    public string? AddressLocality { get; set; }
+    public string? AddressLine3 { get; set; }
+    public string? AddressTown { get; set; }
+    public string? AddressCounty { get; set; }
+    public string? AddressPostcode { get; set; }
+    public string? Address { get; set; }
     public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
     public bool IsPartOfTrust => !string.IsNullOrEmpty(TrustCompanyNumber);
 }

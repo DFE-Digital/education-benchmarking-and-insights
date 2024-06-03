@@ -82,6 +82,12 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
   log_monitoring_enabled = true
 }
 
+resource "azurerm_user_assigned_identity" "sql-db-admin" {
+  name                = "sql-db-admin"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+}
+
 resource "azurerm_mssql_database" "sql-db" {
   #checkov:skip=CKV_AZURE_224:See ADO backlog AB#206493
   #checkov:skip=CKV_AZURE_229:See ADO backlog AB#206493
@@ -90,6 +96,11 @@ resource "azurerm_mssql_database" "sql-db" {
   tags        = local.common-tags
   sku_name    = var.configuration[var.environment].sql-db.sku_name
   max_size_gb = var.configuration[var.environment].sql-db.max_size_gb
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.sql-db-admin.id]
+  }
 
   threat_detection_policy {
     state            = "Enabled"
@@ -110,6 +121,14 @@ resource "azurerm_mssql_firewall_rule" "sql-server-fw-azure-services" {
   server_id        = azurerm_mssql_server.sql-server.id
   start_ip_address = "0.0.0.0"
   end_ip_address   = "0.0.0.0"
+}
+
+resource "azurerm_mssql_firewall_rule" "sql-server-fw-dfe-remote" {
+  count            = var.environment == "production" ? 0 : 1
+  name             = "DFE_VPN_Remote"
+  server_id        = azurerm_mssql_server.sql-server.id
+  start_ip_address = "208.127.46.236"
+  end_ip_address   = "208.127.46.255"
 }
 
 resource "azurerm_mssql_server_security_alert_policy" "sql-security-alert-policy" {
@@ -138,11 +157,19 @@ resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
   principal_type       = "ServicePrincipal"
 }
 
+resource "azurerm_role_assignment" "sql-db-admin-log-storage-role-blob" {
+  scope                = azurerm_storage_account.sql-log-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_user_assigned_identity.sql-db-admin.principal_id
+  principal_type       = "ServicePrincipal"
+}
+
 resource "azurerm_storage_account" "sql-log-storage" {
   #checkov:skip=CKV_AZURE_43:False positive on storage account adhering to the naming rules
   #checkov:skip=CKV2_AZURE_33:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_1:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
   name                            = "${var.environment-prefix}sqllog"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name

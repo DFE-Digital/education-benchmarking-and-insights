@@ -11,7 +11,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        SchoolService
+        Service
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync(new School());
 
@@ -25,7 +25,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     public async Task ShouldReturn404OnInvalidRequest()
     {
 
-        SchoolService
+        Service
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .ReturnsAsync((School?)null);
 
@@ -38,7 +38,7 @@ public class WhenFunctionReceivesGetSchoolRequest : SchoolsFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        SchoolService
+        Service
             .Setup(d => d.GetAsync(It.IsAny<string>()))
             .Throws(new Exception());
 

@@ -75,7 +75,7 @@
                     School website
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    @if (!string.IsNullOrEmpty(@Model.Website))
+                    @if (!string.IsNullOrEmpty(Model.Website))
                     {
                         <a rel="external noopener noreferrer"
                            class="govuk-link govuk-link--no-visited-state"
@@ -85,16 +85,6 @@
                             <span class="govuk-visually-hidden">Opens in a new window</span>
                         </a>
                     }
-                </dd>
-            </div>
-            <div class="govuk-summary-list__row">
-                <dt class="govuk-summary-list__key">
-                    Contact email
-                </dt>
-                <dd class="govuk-summary-list__value">
-                    <strong class="app-tag-login govuk-!-text-align-centre govuk-!-font-weight-bold">
-                        Log in to view contact information
-                    </strong>
                 </dd>
             </div>
         </dl>
