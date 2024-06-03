@@ -66,7 +66,7 @@
     <thead class="govuk-table__head govuk-visually-hidden">
     <tr class="govuk-table__row">
         <th scope="col" class="govuk-table__header govuk-!-width-one-quarter">Category</th>
-        <th scope="col" class="govuk-table__header">Sum of Red/Amber/Green schools</th>
+        <th scope="col" class="govuk-table__header">Sum of High/Medium/Low priority school cost categories</th>
     </tr>
     </thead>
     <tbody class="govuk-table__body">
@@ -74,7 +74,7 @@
     {
         <tr class="govuk-table__row">
             <td class="govuk-table__cell govuk-!-width-one-third">
-                <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
+                <a href="@Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug() })" class="govuk-link govuk-link--no-visited-state">@rating.Category</a>
             </td>
             <td class="govuk-table__cell">
                 @await Component.InvokeAsync("RagStack", new
@@ -83,9 +83,9 @@
                     red = rating.Red,
                     amber = rating.Amber,
                     green = rating.Green,
-                    redHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category, status = "red" })}",
-                    amberHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category, status = "amber" })}",
-                    greenHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category, status = "green" })}"
+                    redHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "high" })}",
+                    amberHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "medium" })}",
+                    greenHref = $"{Url.Action("Index", "TrustSpending", new { companyNumber = Model.CompanyNumber, category = rating.Category?.ToSlug(), priority = "low" })}"
                 })
             </td>
         </tr>

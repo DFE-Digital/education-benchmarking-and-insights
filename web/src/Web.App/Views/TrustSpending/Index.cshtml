@@ -1,3 +1,5 @@
+@using Microsoft.AspNetCore.Mvc.TagHelpers
+@using Web.App.Domain
 @using Web.App.Extensions
 @model Web.App.ViewModels.TrustSpendingViewModel
 @{
@@ -25,14 +27,14 @@
 
         <form method="get">
             <div class="govuk-form-group">
-                <label class="govuk-label" for="status">
+                <label class="govuk-label" for="priority">
                     Priority
                 </label>
-                <select class="govuk-select" id="status" name="status">
+                <select class="govuk-select" id="priority" name="priority">
                     <option value="">All priorities</option>
-                    <option value="red" selected="@(Model.IsStatusRed ? "selected" : null)">High priority</option>
-                    <option value="amber" selected="@(Model.IsStatusAmber ? "selected" : null)">Medium priority</option>
-                    <option value="green" selected="@(Model.IsStatusGreen ? "selected" : null)">Low priority</option>
+                    <option value="high" selected="@(Model.IsPriorityHigh ? "selected" : null)">High priority</option>
+                    <option value="medium" selected="@(Model.IsPriorityMedium ? "selected" : null)">Medium priority</option>
+                    <option value="low" selected="@(Model.IsPriorityLow ? "selected" : null)">Low priority</option>
                 </select>
             </div>
 
@@ -42,15 +44,15 @@
                 </label>
                 <select class="govuk-select" id="category" name="category">
                     <option value="">All categories</option>
-                    <option value="1" selected="@(Model.CostCategories.Contains(1) ? "selected" : null)">Teaching and teaching support staff</option>
-                    <option value="2" selected="@(Model.CostCategories.Contains(2) ? "selected" : null)">Non-educational support staff</option>
-                    <option value="3" selected="@(Model.CostCategories.Contains(3) ? "selected" : null)">Educational supplies</option>
-                    <option value="4" selected="@(Model.CostCategories.Contains(4) ? "selected" : null)">Educational ICT</option>
-                    <option value="5" selected="@(Model.CostCategories.Contains(5) ? "selected" : null)">Premises and services</option>
-                    <option value="6" selected="@(Model.CostCategories.Contains(6) ? "selected" : null)">Utilities</option>
-                    <option value="7" selected="@(Model.CostCategories.Contains(7) ? "selected" : null)">Administrative supplies</option>
-                    <option value="8" selected="@(Model.CostCategories.Contains(8) ? "selected" : null)">Catering staff and services</option>
-                    <option value="9" selected="@(Model.CostCategories.Contains(9) ? "selected" : null)">Other</option>
+                    <option value="@Category.TeachingStaff.ToSlug()" selected="@(Model.CostCategories.Contains(Category.TeachingStaff.ToSlug()) ? "selected" : null)">@Category.TeachingStaff</option>
+                    <option value="@Category.NonEducationalSupportStaff.ToSlug()" selected="@(Model.CostCategories.Contains(Category.NonEducationalSupportStaff.ToSlug()) ? "selected" : null)">@Category.NonEducationalSupportStaff</option>
+                    <option value="@Category.EducationalSupplies.ToSlug()" selected="@(Model.CostCategories.Contains(Category.EducationalSupplies.ToSlug()) ? "selected" : null)">@Category.EducationalSupplies</option>
+                    <option value="@Category.EducationalIct.ToSlug()" selected="@(Model.CostCategories.Contains(Category.EducationalIct.ToSlug()) ? "selected" : null)">@Category.EducationalIct</option>
+                    <option value="@Category.PremisesStaffServices.ToSlug()" selected="@(Model.CostCategories.Contains(Category.PremisesStaffServices.ToSlug()) ? "selected" : null)">@Category.PremisesStaffServices</option>
+                    <option value="@Category.Utilities.ToSlug()" selected="@(Model.CostCategories.Contains(Category.Utilities.ToSlug()) ? "selected" : null)">@Category.Utilities</option>
+                    <option value="@Category.AdministrativeSupplies.ToSlug()" selected="@(Model.CostCategories.Contains(Category.AdministrativeSupplies.ToSlug()) ? "selected" : null)">@Category.AdministrativeSupplies</option>
+                    <option value="@Category.CateringStaffServices.ToSlug()" selected="@(Model.CostCategories.Contains(Category.CateringStaffServices.ToSlug()) ? "selected" : null)">@Category.CateringStaffServices</option>
+                    <option value="@Category.Other.ToSlug()" selected="@(Model.CostCategories.Contains(Category.Other.ToSlug()) ? "selected" : null)">@Category.Other</option>
                 </select>
             </div>
 

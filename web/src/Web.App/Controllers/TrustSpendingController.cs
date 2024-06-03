@@ -17,14 +17,14 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
     [HttpGet]
     public async Task<IActionResult> Index(
         string companyNumber,
-        [FromQuery(Name = "category")] string[]? categories,
-        [FromQuery(Name = "status")] string[]? statuses)
+        [FromQuery(Name = "category")] string?[]? categories,
+        [FromQuery(Name = "priority")] string?[]? priorities)
     {
         using (logger.BeginScope(new
         {
             companyNumber,
             category = categories,
-            status = statuses
+            priority = priorities
         }))
         {
             try
@@ -48,20 +48,35 @@ public class TrustSpendingController(ILogger<TrustController> logger, IEstablish
                 {
                     foreach (var category in categories)
                     {
-                        schoolsQuery.AddIfNotNull("categories", category);
+                        var categoryParsed = Category.FromSlug(category);
+                        if (!string.IsNullOrWhiteSpace(categoryParsed))
+                        {
+                            schoolsQuery.AddIfNotNull("categories", categoryParsed);
+                        }
                     }
                 }
 
-                if (statuses != null)
+                if (priorities != null)
                 {
-                    foreach (var status in statuses)
+                    foreach (var priority in priorities)
                     {
-                        schoolsQuery.AddIfNotNull("statuses", status);
+                        var statusParsed = priority?.ToLowerInvariant() switch
+                        {
+                            "high" => "Red",
+                            "medium" => "Amber",
+                            "low" => "Green",
+                            _ => null
+                        };
+
+                        if (!string.IsNullOrWhiteSpace(statusParsed))
+                        {
+                            schoolsQuery.AddIfNotNull("statuses", statusParsed);
+                        }
                     }
                 }
 
                 var ratings = await insightApi.GetRatings(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustSpendingViewModel(trust, schools, ratings, costCategoryIds, statuses);
+                var viewModel = new TrustSpendingViewModel(trust, schools, ratings, categories, priorities);
 
                 return View(viewModel);
             }
