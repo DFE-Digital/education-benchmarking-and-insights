@@ -36,6 +36,6 @@ public class JobStartMessageSender : IJobStartMessageSender
 
     public async Task Send(PipelineStartMessage input)
     {
-        await _client.SendMessageAsync(new BinaryData(input.ToJsonByteArray(Formatting.None)));
+        await _client.SendMessageAsync(new BinaryData(input.ToJsonByteArray()));
     }
 }

@@ -85,7 +85,7 @@ public class FinancialPlansService : IFinancialPlansService
         existing.UpdatedBy = plan.UpdatedBy;
         existing.Version += 1;
         existing.IsComplete = plan.IsComplete;
-        existing.Input = plan.ToJson(Formatting.None);
+        existing.Input = plan.ToJson();
 
         await connection.UpdateAsync(existing, transaction);
 
@@ -109,7 +109,7 @@ public class FinancialPlansService : IFinancialPlansService
             CreatedBy = plan.UpdatedBy,
             Version = 1,
             IsComplete = plan.IsComplete,
-            Input = plan.ToJson(Formatting.None)
+            Input = plan.ToJson()
         };
 
         await connection.InsertAsync(plan, transaction);

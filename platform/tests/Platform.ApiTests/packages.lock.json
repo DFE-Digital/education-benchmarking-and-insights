@@ -2134,7 +2134,7 @@
       },
       "Microsoft.Extensions.Diagnostics.HealthChecks": {
         "type": "CentralTransitive",
-        "requested": "[6.0.30, )",
+        "requested": "[6.0.31, )",
         "resolved": "6.0.31",
         "contentHash": "SMQXp+dJvX0BogVHKwi5l8MEkThOe2DWHn5vxJ1ebmOsfHEmkeFPLEWmFMxicHmnmlUPfhNUx3fxesfXL1x6lw==",
         "dependencies": {

@@ -140,7 +140,7 @@ public class ComparatorSetsFunctions
                     Year = year,
                     Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
                 };
-                await queue.AddAsync(message.ToJson(Formatting.None));
+                await queue.AddAsync(message.ToJson());
 
                 return new AcceptedResult();
             }

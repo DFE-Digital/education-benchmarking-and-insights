@@ -19,12 +19,12 @@ public static class JsonExtensions
         }
     };
 
-    public static string ToJson(this object? source, Formatting formatting = Formatting.Indented)
+    public static string ToJson(this object? source, Formatting formatting = Formatting.None)
     {
         return JsonConvert.SerializeObject(source, formatting, Settings);
     }
 
-    public static byte[] ToJsonByteArray(this object source, Formatting formatting = Formatting.Indented)
+    public static byte[] ToJsonByteArray(this object source, Formatting formatting = Formatting.None)
     {
         return Encoding.UTF8.GetBytes(ToJson(source, formatting));
     }
