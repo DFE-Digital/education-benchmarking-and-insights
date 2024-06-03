@@ -27,6 +27,7 @@ public static class PageTitles
     public const string SchoolComparatorsUserDefined = "Your set of schools";
     public const string SchoolComparatorsCreate = "Choose your own set of schools";
     public const string SchoolComparatorsCreateBy = "How do you want to choose your set of schools?";
+    public const string SchoolComparatorsCreateByName = "Choose schools to benchmark against";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
     public const string SchoolPlanningHasMixedAgeClasses = "Do you have any mixed age classes?";
