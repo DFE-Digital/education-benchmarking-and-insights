@@ -87,12 +87,12 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Benchmark census data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute()),
+            ("Benchmark pupil and workforce data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute()),
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark census data");
+        DocumentAssert.TitleAndH1(page, "Benchmark pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark pupil and workforce data");
 
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);

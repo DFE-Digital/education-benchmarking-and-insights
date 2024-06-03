@@ -7,5 +7,6 @@ public class TrustDetailsViewModel(Trust trust, IReadOnlyCollection<School> scho
     public string? Name => trust.TrustName;
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Uid => trust.UID;
+    public string? Contaact => trust.CFOEmail;
     public IEnumerable<School> Schools => schools;
 }

@@ -33,7 +33,7 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
         {type === SchoolEstablishment && (
           <li className="govuk-tabs__list-item">
             <a className="govuk-tabs__tab" href="#census">
-              Census
+              Pupil and workforce
             </a>
           </li>
         )}

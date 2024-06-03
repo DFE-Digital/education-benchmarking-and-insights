@@ -32,9 +32,16 @@
                     Contact
                 </dt>
                 <dd class="govuk-summary-list__value">
-                    <strong class="app-tag-login govuk-!-text-align-centre govuk-!-font-weight-bold">
-                        Log in to view contact information
-                    </strong>
+                    @if (User.Identity is { IsAuthenticated: true })
+                    {
+                        @Model.Contaact
+                    }
+                    else
+                    {
+                        <strong class="app-tag-login govuk-!-text-align-centre govuk-!-font-weight-bold">
+                            Log in to view contact information
+                        </strong>    
+                    }
                 </dd>
             </div>
         </dl>
@@ -56,11 +63,6 @@
             </a>
         </li>
         <li class="govuk-tabs__list-item" role="presentation">
-            <a class="govuk-tabs__tab" href="#return" id="tab_return" role="tab" aria-controls="return" aria-selected="false" tabindex="-1">
-                Schools in trust’s 2022 to 2023 return
-            </a>
-        </li>
-        <li class="govuk-tabs__list-item" role="presentation">
             <a class="govuk-tabs__tab" href="#history" id="tab_history" role="tab" aria-controls="history" aria-selected="false" tabindex="-1">
                 Trust history
             </a>
@@ -76,8 +78,6 @@
                 </li>
             }
         </ul>
-    </div>
-    <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="return" role="tabpanel" aria-labelledby="tab_return">
     </div>
     <div class="govuk-tabs__panel govuk-tabs__panel--hidden" id="history" role="tabpanel" aria-labelledby="tab_history">
     </div>

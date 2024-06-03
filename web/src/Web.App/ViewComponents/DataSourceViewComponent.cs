@@ -24,7 +24,7 @@ public class DataSourceViewComponent(IFinanceService financeService) : ViewCompo
             OrganisationTypes.Trust =>
                 $"This trust's data covers the financial year September {years.Aar - 1} to August {years.Aar} academies accounts return (AAR).",
             OrganisationTypes.LocalAuthority =>
-                $"This local authorities data covers the financial year April {years.Cfr - 1} to March {years.Cfr} consistent financial reporting return (CFR).",
+                $"This data covers the financial year April {years.Cfr - 1} to March {years.Cfr} consistent financial reporting return (CFR).",
             _ => throw new ArgumentOutOfRangeException(nameof(kind))
         };
 
