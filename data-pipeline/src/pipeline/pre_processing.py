@@ -65,9 +65,8 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
 
     census.rename(
         columns={
-            # TODO: Are the top to mappings here seem to be named badly
-            "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "FullTimeOther",
-            "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "FullTimeOtherHeadCount",
+            "Total Number of Non-Classroom-based School Support Staff, (Other school support staff plus Administrative staff plus Technicians and excluding Auxiliary staff (Full-Time Equivalent)": "Non Classroom Support Staff FTE",
+            "Total Number of Non Classroom-based School Support Staff, Excluding Auxiliary Staff (Headcount)": "Non Classroom Support Staff Headcount",
             "% of pupils known to be eligible for free school meals (Performa": "Percentage Free school meals",
             "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals",
         },
@@ -86,6 +85,9 @@ def prepare_sen_data(sen_path):
         usecols=input_schemas.sen.keys(),
     )
     sen["Percentage SEN"] = (((sen["EHC plan"] + sen["SEN support"]) / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage with EHC"] = ((sen["EHC plan"] / sen["Total pupils"]) * 100.0).fillna(0)
+    sen["Percentage without EHC"] = 100.0 - sen["Percentage with EHC"]
+
     sen["Primary Need SPLD"] = (
         sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     )
@@ -150,6 +152,8 @@ def prepare_sen_data(sen_path):
             "EHC plan",
             "SEN support",
             "Percentage SEN",
+            "Percentage with EHC",
+            "Percentage without EHC",
             "Primary Need SPLD",
             "Primary Need MLD",
             "Primary Need SLD",

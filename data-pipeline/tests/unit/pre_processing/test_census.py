@@ -14,8 +14,8 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         'Number of Vacant Teacher Posts',
         'Pupil: Teacher Ratio (Full-Time Equivalent of qualified and unqualified '
         'teachers)',
-        'FullTimeOther',
-        'FullTimeOtherHeadCount',
+        'NonClassroomSupportStaffFTE',
+        'NonClassroomSupportStaffHeadcount',
         'Teachers with Qualified Teacher Status (%) (Headcount)',
         'Total Number of Teaching Assistants (Full-Time Equivalent)',
         'Total Number of Teaching Assistants (Headcount)',

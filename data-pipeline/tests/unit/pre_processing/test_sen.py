@@ -13,6 +13,8 @@ def test_prepare_sen_data_has_correct_output_columns(sen_data):
         "EHC plan",
         "SEN support",
         "Percentage SEN",
+        "Percentage with EHC",
+        "Percentage without EHC",
         "Primary Need SPLD",
         "Primary Need MLD",
         "Primary Need SLD",
