@@ -82,6 +82,12 @@ resource "azurerm_mssql_server_extended_auditing_policy" "sql-server-audit-polic
   log_monitoring_enabled = true
 }
 
+resource "azurerm_user_assigned_identity" "sql-db-admin" {
+  name                = "sql-db-admin"
+  location            = azurerm_resource_group.resource-group.location
+  resource_group_name = azurerm_resource_group.resource-group.name
+}
+
 resource "azurerm_mssql_database" "sql-db" {
   #checkov:skip=CKV_AZURE_224:See ADO backlog AB#206493
   #checkov:skip=CKV_AZURE_229:See ADO backlog AB#206493
@@ -90,6 +96,11 @@ resource "azurerm_mssql_database" "sql-db" {
   tags        = local.common-tags
   sku_name    = var.configuration[var.environment].sql-db.sku_name
   max_size_gb = var.configuration[var.environment].sql-db.max_size_gb
+
+  identity {
+    type         = "UserAssigned"
+    identity_ids = [azurerm_user_assigned_identity.sql-db-admin.id]
+  }
 
   threat_detection_policy {
     state            = "Enabled"
@@ -143,6 +154,13 @@ resource "azurerm_role_assignment" "sql-log-storage-role-blob" {
   scope                = azurerm_storage_account.sql-log-storage.id
   role_definition_name = "Storage Blob Data Contributor"
   principal_id         = azurerm_mssql_server.sql-server.identity[0].principal_id
+  principal_type       = "ServicePrincipal"
+}
+
+resource "azurerm_role_assignment" "sql-db-admin-log-storage-role-blob" {
+  scope                = azurerm_storage_account.sql-log-storage.id
+  role_definition_name = "Storage Blob Data Contributor"
+  principal_id         = azurerm_user_assigned_identity.sql-db-admin.principal_id
   principal_type       = "ServicePrincipal"
 }
 
