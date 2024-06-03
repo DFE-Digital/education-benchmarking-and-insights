@@ -3,7 +3,13 @@
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparators;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -12,7 +18,7 @@
         <feature name="@FeatureFlags.UserDefinedComparators">
             <p class="govuk-body">
                 <a class="govuk-link govuk-link--no-visited-state"
-                   href="">
+                   href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Urn })">
                     Choose your own set of schools
                 </a>
             </p>

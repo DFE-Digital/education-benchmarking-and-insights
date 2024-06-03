@@ -1,0 +1,26 @@
+﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreate;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">TODO: next up</p>
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}
