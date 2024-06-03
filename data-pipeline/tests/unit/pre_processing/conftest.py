@@ -390,7 +390,7 @@ def bfr_3y_data():
     })
 
 @pytest.fixture
-def prepared_bfr_data(bfr_sofa_data: pd.DataFrame, bfr_3y_data: pd.DataFrame) -> dict:
+def prepared_bfr_data(bfr_sofa_data: pd.DataFrame, bfr_3y_data: pd.DataFrame) -> list:
     return build_bfr_data(
         StringIO(bfr_sofa_data.to_csv()),
         StringIO(bfr_3y_data.to_csv())

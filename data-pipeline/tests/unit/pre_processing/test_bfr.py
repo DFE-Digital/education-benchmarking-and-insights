@@ -1,8 +1,8 @@
 import pandas as pd
 import pytest
 
-def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_metrics_data: pd.DataFrame):
-    assert list(prepared_bfr_metrics_data.columns) == [
+def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):
+    assert list(prepared_bfr_data[0].columns) == [
         'Revenue reserve as percentage of income',
         'Staff costs as percentage of income',
         'Expenditure as percentage of income',
@@ -11,8 +11,8 @@ def test_bfr_metric_data_has_correct_output_columns(prepared_bfr_metrics_data: p
     ]
 
 
-def test_bfr_revenue_reserves_data_has_correct_output_columns(prepared_bfr_revenue_reserves_data: pd.DataFrame):
-    assert list(prepared_bfr_revenue_reserves_data.columns) == [ 
+def test_bfr_revenue_reserves_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):
+    assert list(prepared_bfr_data[1].columns) == [ 
         'CreatedBy', 
         'Category',
         'Title',
@@ -31,8 +31,8 @@ def test_bfr_revenue_reserves_data_has_correct_output_columns(prepared_bfr_reven
         'slope_flag'
     ]
 
-def test_bfr_revenue_reserves_per_pupil_data_has_correct_output_columns(prepared_bfr_revenue_reserves_per_pupil_data: pd.DataFrame):
-    assert list(prepared_bfr_revenue_reserves_per_pupil_data.columns) == [ 
+def test_bfr_revenue_reserves_per_pupil_data_has_correct_output_columns(prepared_bfr_data: pd.DataFrame):
+    assert list(prepared_bfr_data[2].columns) == [ 
         'CreatedBy',
         'Category',
         'Title',
