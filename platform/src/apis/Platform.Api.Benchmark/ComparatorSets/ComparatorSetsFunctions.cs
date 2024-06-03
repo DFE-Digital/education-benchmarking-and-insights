@@ -61,7 +61,6 @@ public class ComparatorSetsFunctions
 
     [FunctionName(nameof(ComparatorSetUserDefinedAsync))]
     [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
-    [ProducesResponseType((int)HttpStatusCode.NoContent)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> ComparatorSetUserDefinedAsync(
@@ -83,13 +82,8 @@ public class ComparatorSetsFunctions
             try
             {
                 var comparatorSet = await _service.UserDefinedAsync(urn, identifier);
-                if (comparatorSet == null)
-                {
-                    return new NotFoundResult();
-                }
-
-                return comparatorSet.Status != "complete"
-                    ? new NoContentResult()
+                return comparatorSet == null
+                    ? new NotFoundResult()
                     : new JsonContentResult(comparatorSet.Set);
             }
             catch (Exception e)
@@ -105,7 +99,7 @@ public class ComparatorSetsFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateComparatorSetUserDefinedAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "comparator-set/{urn}/user-defined/{identifier}")]
-        [RequestBodyType(typeof(string[]), "The user defined set of schools object")]
+        [RequestBodyType(typeof(ComparatorSetUserDefinedRequest), "The user defined set of schools object")]
         HttpRequest req,
         [Queue("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] IAsyncCollector<string> queue,
         string urn,
@@ -123,16 +117,18 @@ public class ComparatorSetsFunctions
         {
             try
             {
-                var body = req.ReadAsJson<string[]>();
+                var body = req.ReadAsJson<ComparatorSetUserDefinedRequest>();
+                //TODO : Add request validation
                 var comparatorSet = new ComparatorSetUserDefined
                 {
                     RunId = identifier,
                     RunType = "default",
-                    Set = body,
+                    Set = body.Set,
                     URN = urn
                 };
 
                 await _service.UpsertUserDefinedSet(comparatorSet);
+                await _service.UpsertUserData(identifier, body.UserId);
                 var year = await _service.CurrentYearAsync();
 
                 var message = new PipelineStartMessage

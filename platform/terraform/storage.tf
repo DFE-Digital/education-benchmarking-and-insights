@@ -5,6 +5,7 @@ resource "azurerm_storage_account" "platform-storage" {
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
   name                            = "${var.environment-prefix}platformstorage"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name
@@ -45,6 +46,7 @@ resource "azurerm_storage_account" "orchestrator-storage" {
   #checkov:skip=CKV2_AZURE_40:See ADO backlog AB#206389
   #checkov:skip=CKV2_AZURE_41:See ADO backlog AB#206389
   #checkov:skip=CKV_AZURE_59:See ADO backlog AB#206389
+  #checkov:skip=CKV2_AZURE_50:potential false positive https://github.com/bridgecrewio/checkov/issues/6388
   name                            = "${var.environment-prefix}orchestrator"
   location                        = azurerm_resource_group.resource-group.location
   resource_group_name             = azurerm_resource_group.resource-group.name

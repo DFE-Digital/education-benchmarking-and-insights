@@ -7,7 +7,7 @@ namespace Platform.Orchestrator;
 
 public interface IPipelineDb
 {
-    Task UpdateComparatorSetStatus(string? urn, string? runId, string? runType);
+    Task UpdateStatus(string? id);
 }
 
 
@@ -21,10 +21,10 @@ public class PipelineDb : IPipelineDb
         _dbFactory = dbFactory;
     }
 
-    public async Task UpdateComparatorSetStatus(string? urn, string? runId, string? runType)
+    public async Task UpdateStatus(string? id)
     {
-        const string sql = "UPDATE UserDefinedComparatorSet SET Status = 'complete' where URN = @URN AND RunId = @RunId AND RunType = @RunType";
-        var parameters = new { URN = urn, RunId = runId, RunType = runType };
+        const string sql = "UPDATE UserData SET Status = 'complete' where Id = @Id";
+        var parameters = new { Id = id };
 
         using var conn = await _dbFactory.GetConnection();
         using var transaction = conn.BeginTransaction();

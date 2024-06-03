@@ -12,5 +12,4 @@ public record ComparatorSetUserDefined
     [ExplicitKey] public string? RunId { get; set; }
     [ExplicitKey] public string? URN { get; set; }
     public string[] Set { get; set; } = Array.Empty<string>();
-    public string? Status { get; set; } = "pending";
 };

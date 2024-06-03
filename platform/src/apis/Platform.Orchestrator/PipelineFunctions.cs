@@ -83,10 +83,8 @@ public class PipelineFunctions
         switch (input.Type)
         {
             case "comparator-set":
-                await context.CallActivityAsync(nameof(UpdateComparatorSetTrigger), input);
-                break;
             case "custom-data":
-                await context.CallActivityAsync(nameof(UpdateCustomDataTrigger), input);
+                await context.CallActivityAsync(nameof(UpdateStatusTrigger), input);
                 break;
         }
     }
@@ -98,17 +96,11 @@ public class PipelineFunctions
         await _sender.Send(message);
     }
 
-    [FunctionName(nameof(UpdateComparatorSetTrigger))]
-    public async Task UpdateComparatorSetTrigger([ActivityTrigger] IDurableActivityContext context)
+    [FunctionName(nameof(UpdateStatusTrigger))]
+    public async Task UpdateStatusTrigger([ActivityTrigger] IDurableActivityContext context)
     {
         var message = context.GetInput<PipelineStartMessage>();
-        await _db.UpdateComparatorSetStatus(message.URN, message.RunId, message.RunType);
-    }
-
-    [FunctionName(nameof(UpdateCustomDataTrigger))]
-    public async Task UpdateCustomDataTrigger([ActivityTrigger] IDurableActivityContext context)
-    {
-        var message = context.GetInput<PipelineStartMessage>();
+        await _db.UpdateStatus(message.RunId);
     }
 
     [FunctionName(nameof(PipelineJobPurgeHistory))]

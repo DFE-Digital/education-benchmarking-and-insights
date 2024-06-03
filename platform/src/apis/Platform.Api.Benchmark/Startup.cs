@@ -7,8 +7,8 @@ using Platform.Api.Benchmark;
 using Platform.Api.Benchmark.Comparators;
 using Platform.Api.Benchmark.ComparatorSets;
 using Platform.Api.Benchmark.FinancialPlans;
+using Platform.Api.Benchmark.UserData;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Search;
 using Platform.Infrastructure.Sql;
 
@@ -34,5 +34,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IComparatorSetsService, ComparatorSetsService>();
         builder.Services.AddSingleton<IFinancialPlansService, FinancialPlansService>();
         builder.Services.AddSingleton<IComparatorsService, ComparatorsService>();
+        builder.Services.AddSingleton<IUserDataService, UserDataService>();
     }
 }

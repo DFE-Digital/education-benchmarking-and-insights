@@ -1,3 +1,4 @@
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
@@ -12,6 +13,7 @@ public interface IComparatorSetsService
     Task<ComparatorSetDefault> DefaultAsync(string urn, string setType = "unmixed");
     Task UpsertUserDefinedSet(ComparatorSetUserDefined comparatorSet);
     Task<ComparatorSetUserDefined?> UserDefinedAsync(string urn, string identifier, string runtType = "default");
+    Task UpsertUserData(string identifier, string? userId);
 }
 
 [ExcludeFromCodeCoverage]
@@ -56,8 +58,6 @@ public class ComparatorSetsService : IComparatorSetsService
         if (existing != null)
         {
             existing.Set = comparatorSet.Set;
-            existing.Status = "pending";
-
             await conn.UpdateAsync(existing, transaction);
         }
         else
@@ -75,5 +75,36 @@ public class ComparatorSetsService : IComparatorSetsService
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefined>(sql, parameters);
+    }
+
+    public async Task UpsertUserData(string identifier, string? userId)
+    {
+        const string sql = "SELECT * from UserData where Id = @Id";
+
+        var parameters = new { Id = identifier };
+
+        using var conn = await _dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<ComparatorSetUserData>(sql, parameters);
+
+        using var transaction = conn.BeginTransaction();
+        if (existing != null)
+        {
+            existing.Expiry = DateTimeOffset.Now.AddDays(30);
+            existing.Status = "pending";
+            await conn.UpdateAsync(existing, transaction);
+        }
+        else
+        {
+            var data = new ComparatorSetUserData
+            {
+                Id = identifier,
+                UserId = userId,
+                Expiry = DateTimeOffset.Now.AddDays(30)
+            };
+
+            await conn.InsertAsync(data, transaction);
+        }
+
+        transaction.Commit();
     }
 }
