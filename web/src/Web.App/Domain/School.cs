@@ -33,7 +33,7 @@ public record School
     public string? AddressTown { get; set; }
     public string? AddressCounty { get; set; }
     public string? AddressPostcode { get; set; }
-
+    public string? Address { get; set; }
     public bool IsPrimary => OverallPhase == OverallPhaseTypes.Primary;
     public bool IsPartOfTrust => !string.IsNullOrEmpty(TrustCompanyNumber);
 }

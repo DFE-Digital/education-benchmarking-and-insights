@@ -7,11 +7,7 @@ public record SchoolCharacteristic
 {
     public string? URN { get; set; }
     public string? SchoolName { get; set; }
-    public string? AddressStreet { get; set; }
-    public string? AddressLocality { get; set; }
-    public string? AddressLine3 { get; set; }
     public string? AddressTown { get; set; }
-    public string? AddressCounty { get; set; }
     public string? AddressPostcode { get; set; }
     public string? OverallPhase { get; set; }
     public decimal? TotalPupils { get; set; }
@@ -30,5 +26,5 @@ public record SchoolCharacteristic
     public decimal? KeyStage2Progress { get; set; }
     public decimal? KeyStage4Progress { get; set; }
 
-    public string Address => string.Join(", ", new List<string?> { AddressStreet, AddressLocality, AddressLine3, AddressTown, AddressCounty, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
+    public string Address => string.Join(", ", new List<string?> { AddressTown, AddressPostcode }.Where(x => !string.IsNullOrEmpty(x)));
 }
