@@ -18,6 +18,7 @@ flowchart TD
     end
 
     cdc[["CDC"]]
+    bfr[["BFR"]]
     gias[["Schools (GIAS)"]]
     sen[["SEN"]]
     ms[["Maintained Schools master list"]]
@@ -31,6 +32,7 @@ flowchart TD
     db[(Platform Database)]
 
     sen --> raw
+    bfr --> raw
     gias --> raw
     cdc --> raw
     ms --> raw
@@ -63,7 +65,8 @@ The pre-processing module takes the raw data and transforms, joins and cleanses 
 | **Academy Account Returns** | academy_ar.xlsx | Academy UPIN | This is the consolidated list of all Academy Account Returns financial data for the given financial year. | 
 | **Key stage 2/4** | ks2.xlsx, ks4.xlsx | URN | This set of files contains the attainment figures for Key stage 2/4 across both schools and academies | 
 | **Pupil Census** | census_pupils.csv | URN | Contains the pupil census information collected during the census data collection, this data set is key for attributes like Percentage of free school meals and English as a first language | 
-| **Worforce Census** | census_workforce.xlsx | URN | Contains schools workforce information, for example the Number of teachers in a school both Headcount and Full-Time equivalent as well as other information such as Number of Vacant posts and Teacher Pupil ratios. | 
+| **Worforce Census** | census_workforce.xlsx | URN | Contains schools workforce information, for example the Number of teachers in a school both Headcount and Full-Time equivalent as well as other information such as Number of Vacant posts and Teacher Pupil ratios. |
+| **BFR** | BFR_SOFA_raw.csv, BFR_3Y_raw.csv | The BFR is a collection that spans the past, current and future financial years. It collects data in a format to allow for academic and financial year analysis by ESFA/DfE for more information see [here](https://www.gov.uk/guidance/academies-budget-forecast-return) | 
 
 
 The following diagrams are a logical representation of the types of data that are derived from the raw data. Note the word logical, this isn't representative of how the actual processing flows. 
@@ -131,6 +134,13 @@ flowchart TD
             pupil_census[["Pupil Census"]]
             wf_census[["Workforce Census"]]
         end
+
+        subgraph bfr [Budget Forecast Returns]
+            bfr_sofa[["BFR Sofa"]]
+            bfr_3y[["BFR 3Y"]]
+            bfr_bfr[["BFR"]]
+            bfr_metrics[["BFR Metrics"]]
+        end
         
         cdc --> ppstore
         gias --> ppstore
@@ -140,6 +150,7 @@ flowchart TD
         sen --> ppstore
         ks --> ppstore
         census --> ppstore
+        bfr --> ppstore
     end
 ```
 
@@ -447,7 +458,7 @@ The currently configured mappings can be found [here](https://github.com/DFE-Dig
 
 Once all of the processing is complete the data is stored in the platform database so that it is available to query from reporting engines and the FBIT front end. The schema for this data consists of the following tables
 
-> Note: The RunType and RunID are metadata fields that allow the front end and other tools to identify which pipeline run that the data has been derived from. 
+> Note: The RunType, RunID, SetType are metadata fields that allow the front end and other tools to identify which pipeline run that the data has been derived from. 
 
 ```mermaid
 classDiagram
@@ -457,7 +468,7 @@ class ComparatorSet {
    nvarchar(max) Building
    nvarchar(50) RunType
    nvarchar(50) RunId
-   nvarchar(50) UKPRN
+   nvarchar(6) URN
    nvarchar(50) SetType
 }
 class FinancialPlan {
@@ -469,7 +480,7 @@ class FinancialPlan {
    nvarchar(255) UpdatedBy
    bit IsComplete
    int Version
-   nvarchar(50) UKPRN
+   nvarchar(6) URN
    smallint Year
 }
 class LocalAuthority {
@@ -486,52 +497,45 @@ class MetricRAG {
    nvarchar(10) RAG
    nvarchar(50) RunType
    nvarchar(50) RunId
-   nvarchar(50) UKPRN
+   nvarchar(6) URN
    nvarchar(50) Category
    nvarchar(50) SubCategory
-}
-class SchemaVersions {
-   nvarchar(255) ScriptName
-   datetime Applied
-   int Id
+   nvarchar(50) SetType
 }
 class School {
-   nvarchar(6) URN
    nvarchar(255) SchoolName
-   nvarchar(50) TrustUKPRN
+   nvarchar(8) TrustCompanyNumber
    nvarchar(255) TrustName
-   nvarchar(50) FederationLeadUKPRN
+   nvarchar(6) FederationLeadURN
    nvarchar(255) FederationLeadName
    nvarchar(3) LACode
    nvarchar(100) LAName
    nvarchar(10) LondonWeighting
    nvarchar(10) FinanceType
-   nvarchar(20) OverallPhase
-   nvarchar(20) SchoolType
+   nvarchar(50) OverallPhase
+   nvarchar(50) SchoolType
    bit HasSixthForm
    bit HasNursery
    bit IsPFISchool
    date OfstedDate
-   tinyint OfstedRating
    nvarchar(20) OfstedDescription
    nvarchar(20) Telephone
    nvarchar(255) Website
    nvarchar(255) ContactEmail
    nvarchar(255) HeadteacherName
    nvarchar(255) HeadteacherEmail
-   nvarchar(50) UKPRN
+   nvarchar(6) URN
 }
 class Trust {
-   nvarchar(8) CompanyNumber
    nvarchar(255) TrustName
    nvarchar(255) CFOName
    nvarchar(255) CFOEmail
    date OpenDate
    nvarchar(50) UID
-   nvarchar(50) UKPRN
+   nvarchar(8) CompanyNumber
 }
 class TrustHistory {
-   nvarchar(50) TrustUKPRN
+   nvarchar(8) CompanyNumber
    date EventDate
    nvarchar(100) EventName
    smallint AcademicYear
@@ -543,10 +547,8 @@ class UserDefinedComparatorSet {
    nvarchar(max) Set
    nvarchar(50) RunType
    nvarchar(50) RunId
-   nvarchar(50) UKPRN
+   nvarchar(6) URN
 }
-
-
 ```
 
 
