@@ -1,6 +1,6 @@
 ﻿@using Web.App.Domain
-@using Web.App.Extensions
 @using Web.App.TagHelpers
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolComparatorsByNameViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateByName;
@@ -42,7 +42,17 @@
         }
     </div>
 </div>
-<div>dump: @Model.Set.ToJson()</div>
+
+@using (Html.BeginForm("Remove", "SchoolComparatorsCreateBy", new
+        {
+            urn = Model.Urn
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate"
+        }))
+{
+    @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools))
+}
 
 @section scripts
 {
