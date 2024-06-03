@@ -36,7 +36,7 @@ public class ComparatorsService : SearchService, IComparatorsService
             Schools = result.Response
                 .OrderByDescending(x => CalculateScore(request, x, school))
                 .Select(x => x.Document?.URN)
-                .OfType<string>().Take(30)
+                .OfType<string>().Take(29) // Comparator set is 30 (target school + 29 similar schools)
         };
     }
 
