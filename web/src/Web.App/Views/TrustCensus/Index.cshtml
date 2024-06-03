@@ -15,4 +15,14 @@
      data-phases="@Model.Phases.ToJson(Formatting.None)">
 </div>
 
-@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.CompareYourCosts } })
+@await Component.InvokeAsync("TrustFinanceTools", new
+{
+    identifier = Model.CompanyNumber, 
+    tools = new[]
+    {
+        FinanceTools.CompareYourCosts,
+        FinanceTools.CentralServices,
+        FinanceTools.ForecastRisk,
+        FinanceTools.FinancialPlanning
+    }
+})
