@@ -151,4 +151,17 @@ public static class ClaimsPrincipalExtensions
 
         return principal;
     }
+
+    public static bool TryGetClaim(this ClaimsPrincipal principal, string claimName, out string? value)
+    {
+        var claim = principal.Claims.FirstOrDefault(c => c.Type == claimName);
+        if (claim == null)
+        {
+            value = null;
+            return false;
+        }
+
+        value = claim.Value;
+        return true;
+    }
 }
