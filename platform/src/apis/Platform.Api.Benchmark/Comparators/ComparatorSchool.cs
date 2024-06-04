@@ -10,12 +10,12 @@ public record ComparatorSchool
     public double? PercentFreeSchoolMeals { get; set; }
     public double? PercentSpecialEducationNeeds { get; set; }
     public string? LondonWeighting { get; set; }
-    public int? AverageBuildingAge { get; set; }
-    public int? TotalInternalFloorArea { get; set; }
+    public double? BuildingAverageAge { get; set; }
+    public double? TotalInternalFloorArea { get; set; }
     public string? OfstedDescription { get; set; }
     public int? SchoolsInTrust { get; set; }
     public bool? IsPFISchool { get; set; }
-    public int? TotalPupilsSixthForm { get; set; }
+    public double? TotalPupilsSixthForm { get; set; }
     public double? KS2Progress { get; set; }
     public double? KS4Progress { get; set; }
     public double? PercentWithVI { get; set; }

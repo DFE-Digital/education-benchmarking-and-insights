@@ -16,12 +16,12 @@ public record SchoolCharacteristic
     public decimal? PercentFreeSchoolMeals { get; set; }
     public decimal? PercentSpecialEducationNeeds { get; set; }
     public string? LondonWeighting { get; set; }
-    public int? AverageBuildingAge { get; set; }
-    public int? TotalInternalFloorArea { get; set; }
+    public decimal? BuildingAverageAge { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
     public string? OfstedDescription { get; set; }
     public int? SchoolsInTrust { get; set; }
     public bool? IsPFISchool { get; set; }
-    public int? TotalPupilsSixthForm { get; set; }
+    public decimal? TotalPupilsSixthForm { get; set; }
     public decimal? KS2Progress { get; set; }
     public decimal? KS4Progress { get; set; }
     public decimal? PercentWithVI { get; set; }

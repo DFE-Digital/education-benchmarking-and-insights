@@ -18,13 +18,13 @@ public class SchoolComparatorsIndex
     public string? LAName { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double TotalPupils { get; set; }
+    public double? TotalPupils { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double PercentFreeSchoolMeals { get; set; }
+    public double? PercentFreeSchoolMeals { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double PercentSpecialEducationNeeds { get; set; }
+    public double? PercentSpecialEducationNeeds { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? SchoolType { get; set; }
@@ -36,10 +36,10 @@ public class SchoolComparatorsIndex
     public string? LondonWeighting { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int AverageBuildingAge { get; set; }
+    public double? BuildingAverageAge { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int TotalInternalFloorArea { get; set; }
+    public double? TotalInternalFloorArea { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? OfstedDescription { get; set; }
@@ -54,7 +54,7 @@ public class SchoolComparatorsIndex
     public bool IsPFISchool { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int? TotalPupilsSixthForm { get; set; }
+    public double? TotalPupilsSixthForm { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
     public double? KS2Progress { get; set; }

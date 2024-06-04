@@ -15,6 +15,9 @@ public static class DecimalExtensions
     public static string ToPercent(this decimal? value) => value.HasValue ? value.Value.ToPercent() : string.Empty;
 
     public static string ToPercent(this decimal value) => $"{value:0.##}%";
+    
+    public static string ToYear(this decimal? value) => value.HasValue ? value.Value.ToYear() : string.Empty;
+    public static string ToYear(this decimal value) => $"{value:0}";
 
     public static string ToSimpleDisplay(this decimal value) => $"{value:0.##}";
 

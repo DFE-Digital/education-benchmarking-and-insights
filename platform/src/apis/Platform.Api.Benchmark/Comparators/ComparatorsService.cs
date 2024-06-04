@@ -58,10 +58,10 @@ public class ComparatorsService : SearchService, IComparatorsService
             baseScore += CalcRatio(x.Document.TotalPupils.Value, school.TotalPupils.Value);
         }
 
-        if (request.AverageBuildingAge != null && x.Document.AverageBuildingAge != null &&
-            school.AverageBuildingAge != null)
+        if (request.BuildingAverageAge != null && x.Document.BuildingAverageAge != null &&
+            school.BuildingAverageAge != null)
         {
-            baseScore += CalcRatio(x.Document.AverageBuildingAge.Value, school.AverageBuildingAge.Value);
+            baseScore += CalcRatio(x.Document.BuildingAverageAge.Value, school.BuildingAverageAge.Value);
         }
 
         if (request.TotalInternalFloorArea != null && x.Document.TotalInternalFloorArea != null &&

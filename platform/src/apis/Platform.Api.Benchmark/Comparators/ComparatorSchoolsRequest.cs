@@ -15,7 +15,7 @@ public record ComparatorSchoolsRequest
     public CharacteristicList? LondonWeighting { get; set; }
     public CharacteristicList? OfstedDescription { get; set; }
     public CharacteristicRange? TotalPupils { get; set; }
-    public CharacteristicRange? AverageBuildingAge { get; set; }
+    public CharacteristicRange? BuildingAverageAge { get; set; }
     public CharacteristicRange? TotalInternalFloorArea { get; set; }
     public CharacteristicRange? PercentFreeSchoolMeals { get; set; }
     public CharacteristicRange? PercentSpecialEducationNeeds { get; set; }
@@ -41,7 +41,7 @@ public record ComparatorSchoolsRequest
         return new List<string>()
             .AddNotValueFilter("URN", Target)
             .AddRangeFilter(nameof(TotalPupils), TotalPupils)
-            .AddRangeFilter(nameof(AverageBuildingAge), AverageBuildingAge)
+            .AddRangeFilter(nameof(BuildingAverageAge), BuildingAverageAge)
             .AddRangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)
             .AddRangeFilter(nameof(TotalPupilsSixthForm), TotalPupilsSixthForm)
             .AddRangeFilter(nameof(PercentFreeSchoolMeals), PercentFreeSchoolMeals)
