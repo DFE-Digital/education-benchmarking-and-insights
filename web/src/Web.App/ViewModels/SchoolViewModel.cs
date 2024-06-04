@@ -4,7 +4,8 @@ namespace Web.App.ViewModels;
 public class SchoolViewModel(
     School school,
     Finances? finances,
-    IEnumerable<RagRating> ratings)
+    IEnumerable<RagRating> ratings,
+    bool? comparatorGenerated)
 {
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
@@ -22,4 +23,5 @@ public class SchoolViewModel(
         .ThenByDescending(x => x.Decile)
         .ThenByDescending(x => x.Value)
         .Take(3);
+    public bool? ComparatorGenerated => comparatorGenerated;
 }
