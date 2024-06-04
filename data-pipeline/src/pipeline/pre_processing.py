@@ -70,8 +70,10 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         "% of pupils known to be eligible for and claiming free school me": "Percentage claiming Free school meals"
     })
 
-    census["TotalPupilsNursery"] = census["Number of early year pupils (years E1 and E2)"] + census["Number of nursery pupils (years N1 and N2)"]
-    census["TotalPupilsSixthForm"] = census["Full time boys Year group 12"] + census["Full time boys Year group 13"] + census["Full time girls Year group 12"] + census["Full time girls Year group 13"]
+    census["TotalPupilsNursery"] = census["Number of early year pupils (years E1 and E2)"] + census[
+        "Number of nursery pupils (years N1 and N2)"]
+    census["TotalPupilsSixthForm"] = census["Full time boys Year group 12"] + census["Full time boys Year group 13"] + \
+                                     census["Full time girls Year group 12"] + census["Full time girls Year group 13"]
 
     census["WorkforceHeadcountPerFTE"] = census["Total School Workforce (Headcount)"] / census[
         "Total School Workforce (Full-Time Equivalent)"]
@@ -85,35 +87,47 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         "Total School Workforce (Full-Time Equivalent)"]) * 100.0
     census["TeachersPerPupil"] = census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
 
-    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
-        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
-    census["SeniorLeadershipPercentTotalWorkforce"] = (census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
+                                                census[
+                                                    "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
+    census["SeniorLeadershipPercentTotalWorkforce"] = (census[
+                                                           "Total Number of Teachers in the Leadership Group (Headcount)"] /
+                                                       census[
+                                                           "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
+                                         census["Number of pupils"]
 
-    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
-        "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
-    census["SeniorLeadershipPercentTotalWorkforce"] = (census["Total Number of Teachers in the Leadership Group (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
+                                                census[
+                                                    "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
+    census["SeniorLeadershipPercentTotalWorkforce"] = (census[
+                                                           "Total Number of Teachers in the Leadership Group (Headcount)"] /
+                                                       census[
+                                                           "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
+                                         census["Number of pupils"]
 
     census["TeachingAssistantHeadcountPerFTE"] = census["Total Number of Teaching Assistants (Headcount)"] / census[
         "Total Number of Teaching Assistants (Full-Time Equivalent)"]
-    census["TeachingAssistantPercentTotalWorkforce"] = (census["Total Number of Teaching Assistants (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["TeachingAssistantPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / census["Number of pupils"]
+    census["TeachingAssistantPercentTotalWorkforce"] = (census["Total Number of Teaching Assistants (Headcount)"] /
+                                                        census[
+                                                            "Total School Workforce (Full-Time Equivalent)"]) * 100.0
+    census["TeachingAssistantPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
+                                          census["Number of pupils"]
 
     census["NonClassroomSupportStaffHeadcountPerFTE"] = census["NonClassroomSupportStaffHeadcount"] / census[
         "NonClassroomSupportStaffFTE"]
     census["NonClassroomSupportStaffPercentTotalWorkforce"] = (census["NonClassroomSupportStaffHeadcount"] / census[
         "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["NonClassroomSupportStaffPerPupil"] = census["NonClassroomSupportStaffHeadcount"] / census["Number of pupils"]
+    census["NonClassroomSupportStaffPerPupil"] = census["NonClassroomSupportStaffHeadcount"] / census[
+        "Number of pupils"]
 
     census["AuxiliaryStaffHeadcountPerFTE"] = census["Total Number of Auxiliary Staff (Headcount)"] / census[
         "Total Number of Auxiliary Staff (Full-Time Equivalent)"]
     census["AuxiliaryStaffPercentTotalWorkforce"] = (census["Total Number of Auxiliary Staff (Headcount)"] / census[
         "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["AuxiliaryStaffPerPupil"] = census["Total Number of Auxiliary Staff (Headcount)"] / census["Number of pupils"]
+    census["AuxiliaryStaffPerPupil"] = census["Total Number of Auxiliary Staff (Headcount)"] / census[
+        "Number of pupils"]
 
     return census
 
@@ -131,18 +145,18 @@ def prepare_sen_data(sen_path):
     sen["Percentage without EHC"] = sen["Percentage SEN"] - sen["Percentage with EHC"]
 
     sen["Primary Need SPLD"] = (
-        sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
+            sen["EHC_Primary_need_spld"] + sen["SUP_Primary_need_spld"]
     )
     sen["Primary Need MLD"] = sen["EHC_Primary_need_mld"] + sen["SUP_Primary_need_mld"]
     sen["Primary Need SLD"] = sen["EHC_Primary_need_sld"] + sen["SUP_Primary_need_sld"]
     sen["Primary Need PMLD"] = (
-        sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
+            sen["EHC_Primary_need_pmld"] + sen["SUP_Primary_need_pmld"]
     )
     sen["Primary Need SEMH"] = (
-        sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
+            sen["EHC_Primary_need_semh"] + sen["SUP_Primary_need_semh"]
     )
     sen["Primary Need SLCN"] = (
-        sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
+            sen["EHC_Primary_need_slcn"] + sen["SUP_Primary_need_slcn"]
     )
     sen["Primary Need HI"] = sen["EHC_Primary_need_hi"] + sen["SUP_Primary_need_hi"]
     sen["Primary Need VI"] = sen["EHC_Primary_need_vi"] + sen["SUP_Primary_need_vi"]
@@ -152,40 +166,40 @@ def prepare_sen_data(sen_path):
     sen["Primary Need OTH"] = sen["EHC_Primary_need_oth"] + sen["SUP_Primary_need_oth"]
 
     sen["Percentage Primary Need SPLD"] = (
-        (sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need SPLD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need MLD"] = (
-        (sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need MLD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need SLD"] = (
-        (sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need SLD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need PMLD"] = (
-        (sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need PMLD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need SEMH"] = (
-        (sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need SEMH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need SLCN"] = (
-        (sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need SLCN"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need HI"] = (
-        (sen["Primary Need HI"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need HI"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need VI"] = (
-        (sen["Primary Need VI"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need VI"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need MSI"] = (
-        (sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need MSI"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need PD"] = (
-        (sen["Primary Need PD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need PD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need ASD"] = (
-        (sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need ASD"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
     sen["Percentage Primary Need OTH"] = (
-        (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
+            (sen["Primary Need OTH"] / sen["Total pupils"]) * 100.0
     ).fillna(0)
 
     return sen[
@@ -223,9 +237,9 @@ def prepare_ks2_data(ks2_path):
     ks2["WRITPROG"] = ks2["WRITPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
 
     ks2["Ks2Progress"] = (
-        ks2["READPROG"].astype(float)
-        + ks2["MATPROG"].astype(float)
-        + ks2["WRITPROG"].astype(float)
+            ks2["READPROG"].astype(float)
+            + ks2["MATPROG"].astype(float)
+            + ks2["WRITPROG"].astype(float)
     )
 
     return ks2[["Ks2Progress"]].dropna()
@@ -278,11 +292,11 @@ def prepare_aar_data(aar_path):
 
     aar.rename(
         columns={
-            "In year balance": "Academy Balance",
-            "PFI": "PFI School",
-            "Lead UPIN": "Trust UPIN",
-        }
-        | config.cost_category_map["academies"],
+                    "In year balance": "Academy Balance",
+                    "PFI": "PFI School",
+                    "Lead UPIN": "Trust UPIN",
+                }
+                | config.cost_category_map["academies"],
         inplace=True,
     )
 
@@ -360,7 +374,7 @@ def prepare_schools_data(base_data_path, links_data_path):
 
     # GIAS transformations
     gias["LA Establishment Number"] = (
-        gias["LA (code)"].astype("string") + "-" + gias["EstablishmentNumber"].astype("string")
+            gias["LA (code)"].astype("string") + "-" + gias["EstablishmentNumber"].astype("string")
     )
     gias["LA Establishment Number"] = gias["LA Establishment Number"].astype("string")
 
@@ -434,7 +448,8 @@ def build_cost_series(category_name, df, basis):
     ]
 
     # Create total column
-    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(axis=1)
+    df[category_name + "_Total"] = df[df.columns[pd.Series(df.columns).str.startswith(category_name)]].fillna(0).sum(
+        axis=1)
 
     sub_categories = df.columns[
         df.columns.str.startswith(category_name)
@@ -448,7 +463,7 @@ def build_cost_series(category_name, df, basis):
 
 
 def build_academy_data(
-    academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
+        academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -553,7 +568,7 @@ def build_academy_data(
 
 
 def build_maintained_school_data(
-    maintained_schools_data_path, links_data_path, year, schools, census, sen, cdc, ks2, ks4
+        maintained_schools_data_path, links_data_path, year, schools, census, sen, cdc, ks2, ks4
 ):
     maintained_schools_year_start_date = datetime.date(year - 1, 4, 1)
     maintained_schools_year_end_date = datetime.date(year, 3, 31)
@@ -598,8 +613,8 @@ def build_maintained_school_data(
     )
 
     maintained_schools["School Balance"] = (
-        maintained_schools["Total Income   I01 to I18"]
-        - maintained_schools["Total Expenditure  E01 to E32"]
+            maintained_schools["Total Income   I01 to I18"]
+            - maintained_schools["Total Expenditure  E01 to E32"]
     )
 
     maintained_schools["School Financial Position"] = maintained_schools[
@@ -667,7 +682,7 @@ def build_federations_data(links_data_path, maintained_schools):
 
     federations = maintained_schools[["URN", "LAEstab"]][
         maintained_schools["Federation"] == "Lead school"
-    ].copy()
+        ].copy()
 
     # join
     federations = federations.join(
@@ -721,21 +736,32 @@ def build_federations_data(links_data_path, maintained_schools):
 
 def _calculate_metrics(bfr):
     bfr_metrics = bfr[['TrustUPIN']].copy().set_index('TrustUPIN')
-    bfr_metrics['Revenue reserve as percentage of income'] = round(bfr[bfr['Title']=='Revenue reserves'].set_index('TrustUPIN')[['Y1']]/bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['Staff costs as percentage of income'] = round(bfr[bfr['Title']=='Staff costs'].set_index('TrustUPIN')[['Y1']]/bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['Expenditure as percentage of income'] = round(bfr[bfr['Title']=='Total expenditure'].set_index('TrustUPIN')[['Y1']]/bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['percent self-generated income'] = round(bfr[bfr['Title']=='Self-generated income'].set_index('TrustUPIN')[['Y1']]/(bfr[bfr['Title']=='Self-generated income'].set_index('TrustUPIN')[['Y1']] + bfr[bfr['Title']=='Grant funding'].set_index('TrustUPIN')[['Y1']])*100,0)
+    bfr_metrics['Revenue reserve as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Revenue reserves'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+    bfr_metrics['Staff costs as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Staff costs'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+    bfr_metrics['Expenditure as percentage of income'] = round(
+        bfr[bfr['Title'] == 'Total expenditure'].set_index('TrustUPIN')[['Y1']] /
+        bfr[bfr['Title'] == 'Total income'].set_index('TrustUPIN')[['Y1']] * 100, 1)
+    bfr_metrics['percent self-generated income'] = round(
+        bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] / (
+                    bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] +
+                    bfr[bfr['Title'] == 'Grant funding'].set_index('TrustUPIN')[['Y1']]) * 100, 0)
     bfr_metrics['percent grant funding'] = 100 - bfr_metrics['percent self-generated income']
     return bfr_metrics
 
+
 def _calculate_slopes(matrix):
-    x = np.array([1,2,3,4,5,6])
+    x = np.array([1, 2, 3, 4, 5, 6])
     x_bar = 3.5
     x_x_bar = x - x_bar
     y_bar = np.mean(matrix, axis=1)
     y_y_bar = matrix - np.vstack(y_bar)
-    slope_array = np.sum(x_x_bar*y_y_bar,axis=1)/np.sum(x_x_bar**2)
+    slope_array = np.sum(x_x_bar * y_y_bar, axis=1) / np.sum(x_x_bar ** 2)
     return slope_array
+
 
 def _assign_slope_flag(df):
     percentile_10 = np.nanpercentile(df['slope'].values, 10)
@@ -747,30 +773,28 @@ def _assign_slope_flag(df):
 
 
 def _slope_analysis(bfr_dataframe):
-
-    year_columns = ['Y-2','Y-1','Y1','Y2','Y3','Y4']
-    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title']=='Revenue reserves'].set_index('TrustUPIN')
-    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title']=='Pupil numbers'].set_index('TrustUPIN')
+    year_columns = ['Y-2', 'Y-1', 'Y1', 'Y2', 'Y3', 'Y4']
+    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title'] == 'Revenue reserves'].set_index('TrustUPIN')
+    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title'] == 'Pupil numbers'].set_index('TrustUPIN')
 
     # TODO need to add in historic data to this, filling in fake values for now
-    bfr_revenue_reserves['Y-1'] = bfr_revenue_reserves['Y1']*0.96
-    bfr_revenue_reserves['Y-2'] = bfr_revenue_reserves['Y-1']*0.96
-    bfr_pupil_numbers['Y-1'] = bfr_pupil_numbers['Y1']*0.94
-    bfr_pupil_numbers['Y-2'] = bfr_pupil_numbers['Y-1']*0.94
+    bfr_revenue_reserves['Y-1'] = bfr_revenue_reserves['Y1'] * 0.96
+    bfr_revenue_reserves['Y-2'] = bfr_revenue_reserves['Y-1'] * 0.96
+    bfr_pupil_numbers['Y-1'] = bfr_pupil_numbers['Y1'] * 0.94
+    bfr_pupil_numbers['Y-2'] = bfr_pupil_numbers['Y-1'] * 0.94
 
     # convert to matrix
     matrix_revenue_reserves = bfr_revenue_reserves[year_columns].values.astype(float)
     matrix_pupil_numbers = bfr_pupil_numbers[year_columns].values.astype(float)
-    matrix_revenue_reserves_per_pupil = matrix_revenue_reserves/matrix_pupil_numbers
+    matrix_revenue_reserves_per_pupil = matrix_revenue_reserves / matrix_pupil_numbers
 
     # determine associated slopes
     bfr_revenue_reserves['slope'] = _calculate_slopes(matrix_revenue_reserves)
 
-    bfr_revenue_reserves_per_pupil = bfr_revenue_reserves[['CreatedBy','Category','Title','EFALineNo']].copy()
+    bfr_revenue_reserves_per_pupil = bfr_revenue_reserves[['CreatedBy', 'Category', 'Title', 'EFALineNo']].copy()
     bfr_revenue_reserves_per_pupil['slope'] = _calculate_slopes(matrix_revenue_reserves_per_pupil)
     for i in range(len(year_columns)):
         bfr_revenue_reserves_per_pupil[year_columns[i]] = matrix_revenue_reserves_per_pupil.T[i]
-
 
     # flag top 10% and bottom 90% percent of slopes with -1 and 1 respectively
     bfr_revenue_reserves = _assign_slope_flag(bfr_revenue_reserves)
@@ -778,20 +802,22 @@ def _slope_analysis(bfr_dataframe):
 
     return bfr_revenue_reserves, bfr_revenue_reserves_per_pupil
 
+
 def _volatility_analysis(bfr):
-    bfr['volatility'] = (bfr['Trust Balance'] - bfr['Y1P2'])/abs(bfr['Trust Balance'])
+    bfr['volatility'] = (bfr['Trust Balance'] - bfr['Y1P2']) / abs(bfr['Trust Balance'])
 
     volatility_conditions = [(bfr['volatility'] <= -0.05),
-                            (bfr['volatility'] <= 0.05),
-                            (bfr['volatility'] <= 0.1),
-                            (bfr['volatility'] > 0.1)]
-    volatility_messages = ["AR below forecast", 
-                        "stable forecast", 
-                        "AR above forecast", 
-                        "AR significantly above forecast"]
+                             (bfr['volatility'] <= 0.05),
+                             (bfr['volatility'] <= 0.1),
+                             (bfr['volatility'] > 0.1)]
+    volatility_messages = ["AR below forecast",
+                           "stable forecast",
+                           "AR above forecast",
+                           "AR significantly above forecast"]
 
     bfr['volatility_status'] = np.select(volatility_conditions, volatility_messages, default='')
     return bfr
+
 
 def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
     bfr_sofa = pd.read_csv(
@@ -850,8 +876,8 @@ def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
 
     bfr_metrics['percent self-generated income'] = round(
         bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] / (
-                    bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] +
-                    bfr[bfr['Title'] == 'Grant funding'].set_index('TrustUPIN')[['Y1']]) * 100, 0)
+                bfr[bfr['Title'] == 'Self-generated income'].set_index('TrustUPIN')[['Y1']] +
+                bfr[bfr['Title'] == 'Grant funding'].set_index('TrustUPIN')[['Y1']]) * 100, 0)
 
     bfr_metrics['percent grant funding'] = 100 - bfr_metrics['percent self-generated income']
 
@@ -860,4 +886,3 @@ def build_bfr_data(bfr_sofa_data_path, bfr_3y_data_path):
     bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _slope_analysis(bfr)
 
     return bfr_metrics, bfr_revenue_reserves, bfr_revenue_reserves_per_pupil
-
