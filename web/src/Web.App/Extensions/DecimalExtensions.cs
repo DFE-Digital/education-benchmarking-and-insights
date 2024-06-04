@@ -16,8 +16,11 @@ public static class DecimalExtensions
 
     public static string ToPercent(this decimal value) => $"{value:0.##}%";
 
-    public static string ToYear(this decimal? value) => value.HasValue ? value.Value.ToYear() : string.Empty;
-    public static string ToYear(this decimal value) => $"{value:0}";
+    public static string ToAge(this decimal? value) => value.HasValue ? value.Value.ToAge() : string.Empty;
+    public static string ToAge(this decimal value)
+    {
+        return $"{DateTime.UtcNow.Year - value:0} years";
+    }
 
     public static string ToSimpleDisplay(this decimal value) => $"{value:0.##}";
 
