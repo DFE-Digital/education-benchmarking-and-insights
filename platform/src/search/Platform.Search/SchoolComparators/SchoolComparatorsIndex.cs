@@ -27,12 +27,6 @@ public class SchoolComparatorsIndex
     public double? PercentSpecialEducationNeeds { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? SchoolType { get; set; }
-
-    [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? Region { get; set; }
-
-    [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? LondonWeighting { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
