@@ -31,6 +31,7 @@ public class UserDataFunctions
     [QueryStringParameter("userId", "User Id", DataType = typeof(string), Required = true)]
     [QueryStringParameter("type", "Type", DataType = typeof(string), Required = false)]
     [QueryStringParameter("status", "Status", DataType = typeof(string), Required = false)]
+    [QueryStringParameter("id", "Identifier", DataType = typeof(string), Required = false)]
     public async Task<IActionResult> QueryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "user-data")]
         HttpRequest req)
@@ -48,7 +49,8 @@ public class UserDataFunctions
                 var userId = req.Query["userId"].ToString();
                 var type = req.Query["type"].ToString();
                 var status = req.Query["status"].ToString();
-                var data = await _service.QueryAsync(userId, type, status);
+                var id = req.Query["id"].ToString();
+                var data = await _service.QueryAsync(userId, type, status, id);
 
                 return new JsonContentResult(data);
             }
