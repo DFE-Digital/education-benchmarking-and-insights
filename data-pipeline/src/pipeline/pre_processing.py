@@ -355,6 +355,7 @@ def prepare_aar_data(aar_path):
         & aar["Date joined or opened if in period"].isna()
     )
     aar = aar[mask]
+    aar.drop(columns=['URN'], inplace=True)
 
     central_services_financial = pd.read_excel(
         aar_path,

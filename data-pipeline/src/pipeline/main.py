@@ -195,7 +195,9 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     )
 
     links_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(

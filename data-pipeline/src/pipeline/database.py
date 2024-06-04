@@ -253,7 +253,9 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     )
 
 
-def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
+def insert_financial_data(
+        run_type: str, year: str, df: pd.DataFrame
+):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",
@@ -324,7 +326,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Other costs_Staff-related insurance": "StaffRelatedInsuranceCosts",
         "Other costs_Supply teacher insurance": "SupplyTeacherInsurableCosts",
         "Community focused school staff": "CommunityFocusedSchoolStaff",
-        "Community focused school costs": "CommunityFocusedSchoolCosts",
+        "Community focused school costs": "CommunityFocusedSchoolCosts"
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
