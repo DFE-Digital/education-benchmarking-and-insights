@@ -30,9 +30,9 @@ export const Headcount: React.FC<{ type: string; id: string }> = ({
 }) => {
   const phase = useContext(PhaseContext);
   const [dimension, setDimension] = useState(PupilsPerStaffRole);
-  const [data, setData] = useState<Census[]>();
+  const [data, setData] = useState<Census[] | null>();
   const getData = useCallback(async () => {
-    setData(new Array<Census>());
+    setData(null);
     return await CensusApi.query(
       type,
       id,
