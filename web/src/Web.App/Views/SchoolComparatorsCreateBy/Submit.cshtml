@@ -16,10 +16,7 @@
 @section scripts
 {
     <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js';
-      initAll();
-      
-      // todo: refactor into its own reusable partial
+      // todo: refactor entire view its own partial/component for re-use by other async processes such as custom data submission
       let done, failed = false;
       const interval = setInterval(statusCheck, 5000);
       function statusCheck() {
@@ -37,8 +34,12 @@
             })
             .then(response => response.json())
             .then(json => {
-                if (json && json.status === "complete") {
-                    done = true;
+                if (json) {
+                    if (json.status === "complete") {
+                        done = true;
+                    } else if (json.status !== "pending") {
+                        throw new Error("Unexpected response returned from API call");
+                    }
                 }
             })
             .catch(err => {

@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
@@ -12,7 +13,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[SchoolAuthorization]
+[Authorize]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
 [Route("school/{urn}/comparators/create/by")]
 public class SchoolComparatorsCreateByController(
