@@ -287,7 +287,7 @@ def compute_distances(
         # compute distances for all orgs. in this phase.
         pupil_distances = compute_pupils_comparator((phase, row))
         building_distances = compute_buildings_comparator((phase, row))
-        phase_urns = np.array(row["UKPRN"])
+        phase_urns = np.array(row["URN"])
         phase_pfi = np.array(row["PFI School"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
