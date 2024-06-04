@@ -11,7 +11,7 @@ public record ComparatorSchoolsRequest
     public CharacteristicList? Phase { get; set; }
     public CharacteristicList? LocalAuthority { get; set; }
     public CharacteristicList? SchoolPosition { get; set; }
-    public CharacteristicList? PrivateFinanceInitiative { get; set; }
+    public CharacteristicValueBool? PrivateFinanceInitiative { get; set; }
     public CharacteristicList? SchoolType { get; set; }
     public CharacteristicList? Region { get; set; }
     public CharacteristicList? LondonWeighting { get; set; }
@@ -42,6 +42,7 @@ public record ComparatorSchoolsRequest
             .AddRangeFilter(nameof(KeyStage2Progress), KeyStage2Progress)
             .AddRangeFilter(nameof(KeyStage4Progress), KeyStage4Progress)
             .AddRangeFilter(nameof(NumberSchoolsInTrust), NumberSchoolsInTrust)
+            .AddRangeFilter(nameof(PrivateFinanceInitiative), PrivateFinanceInitiative)
             .BuildFilter();
     }
 
@@ -52,7 +53,6 @@ public record ComparatorSchoolsRequest
             .AddListSearch(nameof(Phase), Phase)
             .AddListSearch(nameof(LocalAuthority), LocalAuthority)
             .AddListSearch(nameof(SchoolPosition), SchoolPosition)
-            .AddListSearch(nameof(PrivateFinanceInitiative), PrivateFinanceInitiative)
             .AddListSearch(nameof(SchoolType), SchoolType)
             .AddListSearch(nameof(Region), Region)
             .AddListSearch(nameof(LondonWeighting), LondonWeighting)
@@ -64,6 +64,11 @@ public record ComparatorSchoolsRequest
 public record CharacteristicList
 {
     public string[] Values { get; set; } = Array.Empty<string>();
+}
+
+public record CharacteristicValueBool
+{
+    public bool Values { get; set; }
 }
 
 public record CharacteristicRange
@@ -89,6 +94,16 @@ public static class ExpressionBuilder
         if (characteristic is not null)
         {
             list.Add($"(({fieldName} ge {characteristic.From}) and ({fieldName} le {characteristic.To}))");
+        }
+
+        return list;
+    }
+
+    public static List<string> AddRangeFilter(this List<string> list, string fieldName, CharacteristicValueBool? characteristic)
+    {
+        if (characteristic is not null)
+        {
+            list.Add($"({fieldName} eq {characteristic.Values})");
         }
 
         return list;

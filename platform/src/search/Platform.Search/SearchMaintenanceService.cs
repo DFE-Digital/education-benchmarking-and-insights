@@ -185,6 +185,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new SchoolComparatorsAcademyDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
             new SchoolComparatorsMaintainedDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new SchoolComparatorsSchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -214,6 +215,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new LocalAuthorityIndexerBuilder(),
             new SchoolComparatorsAcademyIndexerBuilder(),
             new SchoolComparatorsMaintainedIndexerBuilder(),
+            new SchoolComparatorsSchoolIndexerBuilder()
         };
 
         foreach (var builder in builders)

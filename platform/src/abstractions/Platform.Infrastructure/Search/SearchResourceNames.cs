@@ -12,6 +12,7 @@ public static class SearchResourceNames
         public const string LocalAuthority = "local-authority-data-source";
         public const string SchoolComparatorsMaintained = "school-comparators-maintained-data-source";
         public const string SchoolComparatorsAcademy = "school-comparators-academy-data-source";
+        public const string SchoolComparatorsSchool = "school-comparators-school-data-source";
     }
 
     public static class Indexers
@@ -21,6 +22,7 @@ public static class SearchResourceNames
         public const string LocalAuthority = "local-authority-indexer";
         public const string SchoolComparatorsMaintained = "school-comparators-maintained-indexer";
         public const string SchoolComparatorsAcademy = "school-comparators-academy-indexer";
+        public const string SchoolComparatorsSchool = "school-comparators-school-indexer";
     }
 
     public static class Indexes
