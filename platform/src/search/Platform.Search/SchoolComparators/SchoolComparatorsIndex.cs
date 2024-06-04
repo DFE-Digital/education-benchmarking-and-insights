@@ -9,25 +9,22 @@ public class SchoolComparatorsIndex
     public string? URN { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? Sector { get; set; } // Academy / Maintained
+    public string? FinanceType { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? Phase { get; set; }
+    public string? OverallPhase { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? LocalAuthority { get; set; }
+    public string? LAName { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int NumberOfPupils { get; set; }
+    public double TotalPupils { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
     public double PercentFreeSchoolMeals { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double PercentSenWithoutPlan { get; set; }
-
-    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double PercentSenWithPlan { get; set; }
+    public double PercentSpecialEducationNeeds { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
     public string? SchoolType { get; set; }
@@ -42,26 +39,62 @@ public class SchoolComparatorsIndex
     public int AverageBuildingAge { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int GrossInternalFloorArea { get; set; }
+    public int TotalInternalFloorArea { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? OfstedRating { get; set; }
+    public string? OfstedDescription { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int? NumberSchoolsInTrust { get; set; }
+    public int? SchoolsInTrust { get; set; }
 
     [SearchableField(IsFilterable = true, IsSortable = false, IsFacetable = false, AnalyzerName = LexicalAnalyzerName.Values.StandardLucene)]
-    public string? SchoolPosition { get; set; } // Deficit / Surplus
+    public string? SchoolPosition { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public bool PrivateFinanceInitiative { get; set; }
+    public bool IsPFISchool { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public int? NumberOfPupilsSixthForm { get; set; }
+    public int? TotalPupilsSixthForm { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double? KeyStage2Progress { get; set; }
+    public double? KS2Progress { get; set; }
 
     [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
-    public double? KeyStage4Progress { get; set; }
+    public double? KS4Progress { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithVI { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithSPLD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithSLD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithSLCN { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithSEMH { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithPMLD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithPD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithOTH { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithMSI { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithMLD { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithHI { get; set; }
+
+    [SimpleField(IsFilterable = true, IsFacetable = false, IsSortable = false)]
+    public double? PercentWithASD { get; set; }
 }

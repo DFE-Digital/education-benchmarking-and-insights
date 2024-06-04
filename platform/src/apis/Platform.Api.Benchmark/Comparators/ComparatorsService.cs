@@ -53,9 +53,9 @@ public class ComparatorsService : SearchService, IComparatorsService
 
         double baseScore = 0;
 
-        if (request.NumberOfPupils != null && x.Document.NumberOfPupils != null && school.NumberOfPupils != null)
+        if (request.TotalPupils != null && x.Document.TotalPupils != null && school.TotalPupils != null)
         {
-            baseScore += CalcRatio(x.Document.NumberOfPupils.Value, school.NumberOfPupils.Value);
+            baseScore += CalcRatio(x.Document.TotalPupils.Value, school.TotalPupils.Value);
         }
 
         if (request.AverageBuildingAge != null && x.Document.AverageBuildingAge != null &&
@@ -64,10 +64,10 @@ public class ComparatorsService : SearchService, IComparatorsService
             baseScore += CalcRatio(x.Document.AverageBuildingAge.Value, school.AverageBuildingAge.Value);
         }
 
-        if (request.GrossInternalFloorArea != null && x.Document.GrossInternalFloorArea != null &&
-            school.GrossInternalFloorArea != null)
+        if (request.TotalInternalFloorArea != null && x.Document.TotalInternalFloorArea != null &&
+            school.TotalInternalFloorArea != null)
         {
-            baseScore += CalcRatio(x.Document.GrossInternalFloorArea.Value, school.GrossInternalFloorArea.Value);
+            baseScore += CalcRatio(x.Document.TotalInternalFloorArea.Value, school.TotalInternalFloorArea.Value);
         }
 
         if (request.PercentFreeSchoolMeals != null && x.Document.PercentFreeSchoolMeals != null &&
@@ -76,40 +76,106 @@ public class ComparatorsService : SearchService, IComparatorsService
             baseScore += CalcRatio(x.Document.PercentFreeSchoolMeals.Value, school.PercentFreeSchoolMeals.Value);
         }
 
-        if (request.PercentSenWithoutPlan != null && x.Document.PercentSenWithoutPlan != null &&
-            school.PercentSenWithoutPlan != null)
+        if (request.PercentSpecialEducationNeeds != null && x.Document.PercentSpecialEducationNeeds != null &&
+            school.PercentSpecialEducationNeeds != null)
         {
-            baseScore += CalcRatio(x.Document.PercentSenWithoutPlan.Value, school.PercentSenWithoutPlan.Value);
+            baseScore += CalcRatio(x.Document.PercentSpecialEducationNeeds.Value, school.PercentSpecialEducationNeeds.Value);
         }
 
-        if (request.PercentSenWithPlan != null && x.Document.PercentSenWithPlan != null &&
-            school.PercentSenWithPlan != null)
+        if (request.TotalPupilsSixthForm != null && x.Document.TotalPupilsSixthForm != null &&
+            school.TotalPupilsSixthForm != null)
         {
-            baseScore += CalcRatio(x.Document.PercentSenWithPlan.Value, school.PercentSenWithPlan.Value);
+            baseScore += CalcRatio(x.Document.TotalPupilsSixthForm.Value, school.TotalPupilsSixthForm.Value);
         }
 
-        if (request.NumberOfPupilsSixthForm != null && x.Document.NumberOfPupilsSixthForm != null &&
-            school.NumberOfPupilsSixthForm != null)
+        if (request.KS2Progress != null && x.Document.KS2Progress != null &&
+            school.KS2Progress != null)
         {
-            baseScore += CalcRatio(x.Document.NumberOfPupilsSixthForm.Value, school.NumberOfPupilsSixthForm.Value);
+            baseScore += CalcRatio(x.Document.KS2Progress.Value, school.KS2Progress.Value);
         }
 
-        if (request.KeyStage2Progress != null && x.Document.KeyStage2Progress != null &&
-            school.KeyStage2Progress != null)
+        if (request.KS4Progress != null && x.Document.KS4Progress != null &&
+            school.KS4Progress != null)
         {
-            baseScore += CalcRatio(x.Document.KeyStage2Progress.Value, school.KeyStage2Progress.Value);
+            baseScore += CalcRatio(x.Document.KS4Progress.Value, school.KS4Progress.Value);
         }
 
-        if (request.KeyStage4Progress != null && x.Document.KeyStage4Progress != null &&
-            school.KeyStage4Progress != null)
+        if (request.SchoolsInTrust != null && x.Document.SchoolsInTrust != null &&
+            school.SchoolsInTrust != null)
         {
-            baseScore += CalcRatio(x.Document.KeyStage4Progress.Value, school.KeyStage4Progress.Value);
+            baseScore += CalcRatio(x.Document.SchoolsInTrust.Value, school.SchoolsInTrust.Value);
         }
 
-        if (request.NumberSchoolsInTrust != null && x.Document.NumberSchoolsInTrust != null &&
-            school.NumberSchoolsInTrust != null)
+        if (request.PercentWithVI != null && x.Document.PercentWithVI != null &&
+            school.PercentWithVI != null)
         {
-            baseScore += CalcRatio(x.Document.NumberSchoolsInTrust.Value, school.NumberSchoolsInTrust.Value);
+            baseScore += CalcRatio(x.Document.PercentWithVI.Value, school.PercentWithVI.Value);
+        }
+
+        if (request.PercentWithSPLD != null && x.Document.PercentWithSPLD != null &&
+            school.PercentWithSPLD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithSPLD.Value, school.PercentWithSPLD.Value);
+        }
+
+        if (request.PercentWithSLD != null && x.Document.PercentWithSLD != null &&
+            school.PercentWithSLD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithSLD.Value, school.PercentWithSLD.Value);
+        }
+
+        if (request.PercentWithSLCN != null && x.Document.PercentWithSLCN != null &&
+            school.PercentWithSLCN != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithSLCN.Value, school.PercentWithSLCN.Value);
+        }
+
+        if (request.PercentWithSEMH != null && x.Document.PercentWithSEMH != null &&
+            school.PercentWithSEMH != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithSEMH.Value, school.PercentWithSEMH.Value);
+        }
+
+        if (request.PercentWithPMLD != null && x.Document.PercentWithPMLD != null &&
+            school.PercentWithPMLD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithPMLD.Value, school.PercentWithPMLD.Value);
+        }
+
+        if (request.PercentWithPD != null && x.Document.PercentWithPD != null &&
+            school.PercentWithPD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithPD.Value, school.PercentWithPD.Value);
+        }
+
+        if (request.PercentWithOTH != null && x.Document.PercentWithOTH != null &&
+            school.PercentWithOTH != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithOTH.Value, school.PercentWithOTH.Value);
+        }
+
+        if (request.PercentWithMSI != null && x.Document.PercentWithMSI != null &&
+            school.PercentWithMSI != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithMSI.Value, school.PercentWithMSI.Value);
+        }
+
+        if (request.PercentWithMLD != null && x.Document.PercentWithMLD != null &&
+            school.PercentWithMLD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithMLD.Value, school.PercentWithMLD.Value);
+        }
+
+        if (request.PercentWithHI != null && x.Document.PercentWithHI != null &&
+            school.PercentWithHI != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithHI.Value, school.PercentWithHI.Value);
+        }
+
+        if (request.PercentWithASD != null && x.Document.PercentWithASD != null &&
+            school.PercentWithASD != null)
+        {
+            baseScore += CalcRatio(x.Document.PercentWithASD.Value, school.PercentWithASD.Value);
         }
 
         return 1 / baseScore + x.Score;

@@ -5,12 +5,12 @@ using Platform.Search.Builders;
 
 namespace Platform.Search.SchoolComparators;
 
-public class SchoolComparatorsSchoolDataSourceConnectionBuilder : DataSourceConnectionBuilder
+public class SchoolComparatorsDataSourceConnectionBuilder : DataSourceConnectionBuilder
 {
-    public override string Name => SearchResourceNames.DataSources.SchoolComparatorsSchool;
+    public override string Name => SearchResourceNames.DataSources.SchoolComparators;
     private readonly string _connectionString;
 
-    public SchoolComparatorsSchoolDataSourceConnectionBuilder(string? connectionString)
+    public SchoolComparatorsDataSourceConnectionBuilder(string? connectionString)
     {
         _connectionString = connectionString ?? throw new ArgumentNullException(nameof(connectionString));
     }
@@ -21,7 +21,7 @@ public class SchoolComparatorsSchoolDataSourceConnectionBuilder : DataSourceConn
             name: Name,
             type: SearchIndexerDataSourceType.AzureSql,
             connectionString: _connectionString,
-            container: new SearchIndexerDataContainer("School"));
+            container: new SearchIndexerDataContainer("SchoolCharacteristic"));
 
         await client.CreateOrUpdateDataSourceConnectionAsync(dataSource);
     }
