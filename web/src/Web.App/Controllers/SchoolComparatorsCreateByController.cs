@@ -4,7 +4,6 @@ using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
-using Web.App.Identity;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -13,7 +12,7 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-//todo: reinstate once DSI permissions resolved [SchoolAuthorization]
+[SchoolAuthorization]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
 [Route("school/{urn}/comparators/create/by")]
 public class SchoolComparatorsCreateByController(
@@ -84,7 +83,10 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    urn
+                }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
@@ -156,16 +158,16 @@ public class SchoolComparatorsCreateByController(
             urn
         });
     }
-    
+
     [HttpGet]
     [Route("submit")]
     [ImportModelState]
     public async Task<IActionResult> Submit(string urn)
     {
         using (logger.BeginScope(new
-               {
-                   urn
-               }))
+        {
+            urn
+        }))
         {
             try
             {
@@ -179,15 +181,14 @@ public class SchoolComparatorsCreateByController(
                     });
                 }
 
-                User.TryGetClaim(ClaimNames.UserId, out var userId);
                 var request = new PutComparatorSetUserDefinedRequest
                 {
                     URN = urn,
                     Set = userDefinedSet.Set,
-                    UserId = userId
+                    UserId = User.UserId()
                 };
 
-                await comparatorSetApi.UpsertUserDefinedAsync(request).EnsureSuccess();;
+                await comparatorSetApi.UpsertUserDefinedAsync(request).EnsureSuccess();
                 comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined());
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
                 return View(viewModel);
@@ -211,7 +212,10 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new { urn }));
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    urn
+                }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var viewModel = new SchoolComparatorsViewModel(school);

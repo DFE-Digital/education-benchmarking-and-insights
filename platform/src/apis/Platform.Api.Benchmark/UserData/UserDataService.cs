@@ -8,7 +8,7 @@ namespace Platform.Api.Benchmark.UserData;
 
 public interface IUserDataService
 {
-    Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null);
+    Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null);
 }
 
 [ExcludeFromCodeCoverage]
@@ -21,7 +21,7 @@ public class UserDataService : IUserDataService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null)
+    public async Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
@@ -36,6 +36,11 @@ public class UserDataService : IUserDataService
         if (!string.IsNullOrEmpty(status))
         {
             builder.Where("Status = @status", new { status });
+        }
+
+        if (!string.IsNullOrEmpty(id))
+        {
+            builder.Where("Id = @id", new { id });
         }
 
         using var conn = await _dbFactory.GetConnection();
