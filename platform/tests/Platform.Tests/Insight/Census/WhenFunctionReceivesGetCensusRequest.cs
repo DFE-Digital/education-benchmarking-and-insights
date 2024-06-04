@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
 using Moq;
-using Platform.Domain;
+using Platform.Api.Insight.Census;
 using Platform.Functions;
 using Xunit;
 
@@ -14,9 +14,9 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.Get(Urn, It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new CensusResponseModel());
+        Service
+            .Setup(d => d.GetAsync(Urn))
+            .ReturnsAsync(new CensusModel());
 
         var result = await Functions.CensusAsync(CreateRequest(), Urn) as JsonContentResult;
 
@@ -25,14 +25,12 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     }
 
     [Theory]
-    [InlineData(null, null, null, CensusDimensions.Total)]
-    [InlineData("category", "dimension", null, CensusDimensions.Total)]
-    [InlineData(CensusCategories.TeachersFte, CensusDimensions.HeadcountPerFte, CensusCategories.TeachersFte,
-        CensusDimensions.HeadcountPerFte)]
-    public async Task ShouldTryParseQueryString(string? category, string? dimension, string? expectedCategory,
-        string expectedDimension)
+    [InlineData(null, null)]
+    [InlineData("category", "dimension")]
+    [InlineData(CensusCategories.TeachersFte, CensusDimensions.HeadcountPerFte)]
+    public async Task ShouldTryParseQueryString(string? category, string? dimension)
     {
-        Db.Setup(d => d.Get(Urn, expectedCategory, expectedDimension)).Verifiable();
+        Service.Setup(d => d.GetAsync(Urn)).Verifiable();
 
         var query = new Dictionary<string, StringValues>
         {
@@ -41,15 +39,15 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
         };
         await Functions.CensusAsync(CreateRequest(query), Urn);
 
-        Db.Verify();
+        Service.Verify();
     }
 
     [Fact]
     public async Task ShouldReturn404OnNotFound()
     {
-        Db
-            .Setup(d => d.Get(Urn, It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync((CensusResponseModel?)null);
+        Service
+            .Setup(d => d.GetAsync(Urn))
+            .ReturnsAsync((CensusModel?)null);
 
         var result = await Functions.CensusAsync(CreateRequest(), Urn) as NotFoundResult;
 
@@ -60,8 +58,8 @@ public class WhenFunctionReceivesGetCensusRequest : CensusFunctionsTestBase
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.Get(Urn, It.IsAny<string>(), It.IsAny<string>()))
+        Service
+            .Setup(d => d.GetAsync(Urn))
             .Throws(new Exception());
 
         var result = await Functions.CensusAsync(CreateRequest(), Urn) as StatusCodeResult;

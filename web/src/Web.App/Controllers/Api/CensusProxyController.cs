@@ -54,7 +54,7 @@ public class CensusProxyController(
             try
             {
                 var query = BuildApiQuery(dimension: dimension);
-                var result = await censusApi.History(id, query).GetResultOrDefault<Census[]>();
+                var result = await censusApi.History(id, query).GetResultOrDefault<CensusHistory[]>();
                 return new JsonResult(result);
             }
             catch (Exception e)

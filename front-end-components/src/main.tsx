@@ -186,7 +186,7 @@ const HorizontalChart1Series = ({
                 shortValueFormatter(v, { valueUnit }),
             },
           }}
-          seriesLabelField="name"
+          seriesLabelField="schoolName"
           tickWidth={400}
           tick={(t) => (
             <SchoolTick
@@ -197,7 +197,7 @@ const HorizontalChart1Series = ({
                 urn && (window.location.href = `/school/${urn}`);
               }}
               schoolUrnResolver={(name) =>
-                data.find((d) => d.name === name)?.urn
+                data.find((d) => d.schoolName === name)?.urn
               }
             />
           )}

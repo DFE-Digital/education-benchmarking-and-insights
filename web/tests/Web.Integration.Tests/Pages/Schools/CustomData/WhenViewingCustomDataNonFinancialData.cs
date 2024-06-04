@@ -48,7 +48,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         _formValues = new Dictionary<string, decimal?>
         {
             {
-                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), _customCensus.NumberOfPupils
+                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), _customCensus.TotalPupils
             },
             {
                 nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent), _customFinances.FreeSchoolMealPercent
@@ -128,7 +128,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             var field = customValue.Id ?? string.Empty;
             var expected = field switch
             {
-                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => _customCensus.NumberOfPupils.ToString("#.0"),
+                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => $"{_customCensus.TotalPupils:#.0}",
                 nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => _customFinances.FreeSchoolMealPercent.ToString("#.0"),
                 nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => _customFinances.SpecialEducationalNeedsPercent.ToString("#.0"),
                 _ => _customFloorAreaMetric.FloorArea.ToString()
@@ -224,7 +224,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => _census.NumberOfPupils.ToString("#.0"),
+                nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => $"{_census.TotalPupils:#.0}",
                 nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => $"{_finances.FreeSchoolMealPercent:#}%",
                 nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => $"{_finances.SpecialEducationalNeedsPercent:#}%",
                 _ => $"{_floorAreaMetric.FloorArea} square metres"

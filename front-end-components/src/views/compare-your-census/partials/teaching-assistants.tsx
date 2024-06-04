@@ -61,7 +61,7 @@ export const TeachingAssistants: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.teachingAssistantsFte,
+              value: school.teachingAssistantFTE,
             };
           }) ?? [],
         tableHeadings,
@@ -77,7 +77,7 @@ export const TeachingAssistants: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const hasIncompleteData = data?.some((x) => x.hasIncompleteData);
+  const hasIncompleteData = false;
   const hasNoData = data?.length === 0;
 
   return (

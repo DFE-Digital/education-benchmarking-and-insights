@@ -13,6 +13,9 @@ export type UtilitiesData = {
   totalUtilitiesCosts: number;
   energyCosts: number;
   waterSewerageCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type TeachingSupportStaffProps = {
@@ -33,6 +36,9 @@ export type TeachingSupportStaffData = {
   educationalConsultancyCosts: number;
   educationSupportStaffCosts: number;
   agencySupplyTeachingStaffCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type OtherCostsProps = {
@@ -61,6 +67,9 @@ export type OtherCostsData = {
   supplyTeacherInsurableCosts: number;
   communityFocusedSchoolStaff: number;
   communityFocusedSchoolCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type PremisesStaffServicesProps = {
@@ -80,6 +89,9 @@ export type PremisesStaffServicesData = {
   maintenancePremisesCosts: number;
   otherOccupationCosts: number;
   premisesStaffCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type NonEducationalSupportStaffProps = {
@@ -99,6 +111,9 @@ export type NonEducationalSupportStaffData = {
   auditorsCosts: number;
   otherStaffCosts: number;
   professionalServicesNonCurriculumCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type EducationalSuppliesProps = {
@@ -117,6 +132,9 @@ export type EducationalSuppliesData = {
   examinationFeesCosts: number;
   breakdownEducationalSuppliesCosts: number;
   learningResourcesNonIctCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type EducationalIctProps = {
@@ -132,6 +150,9 @@ export type EducationalIctData = {
   totalExpenditure: number;
   numberOfPupils: bigint;
   learningResourcesIctCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type CateringStaffServicesProps = {
@@ -150,6 +171,9 @@ export type CateringStaffServicesData = {
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
   incomeCatering: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type AdministrativeSuppliesProps = {
@@ -165,4 +189,7 @@ export type AdministrativeSuppliesData = {
   totalExpenditure: number;
   numberOfPupils: bigint;
   administrativeSuppliesCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };

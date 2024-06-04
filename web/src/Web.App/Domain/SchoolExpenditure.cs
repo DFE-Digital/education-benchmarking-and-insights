@@ -67,4 +67,8 @@ public record SchoolExpenditure
     public decimal WaterSewerageCosts { get; set; }
     public bool HasIncompleteData { get; set; }
     public int FloorArea { get; set; }
+
+    public string? SchoolName => Name;
+    public string? LAName => LocalAuthority;
+    public decimal? TotalPupils => NumberOfPupils;
 }

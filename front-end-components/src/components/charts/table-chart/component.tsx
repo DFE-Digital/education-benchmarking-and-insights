@@ -18,7 +18,7 @@ export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
       href={`/school/${row.urn}`}
       tabIndex={preventFocus ? -1 : undefined}
     >
-      {row.name}
+      {row.schoolName}
     </a>
   );
 
@@ -38,11 +38,11 @@ export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
       <tbody className="govuk-table__body">
         {data &&
           data.map((row) => {
-            const { localAuthority, schoolType, numberOfPupils } = row;
+            const { laName, schoolType, totalPupils } = row;
             const additionalData = {
-              localAuthority,
+              laName,
               schoolType,
-              numberOfPupils,
+              totalPupils,
             };
 
             return (
