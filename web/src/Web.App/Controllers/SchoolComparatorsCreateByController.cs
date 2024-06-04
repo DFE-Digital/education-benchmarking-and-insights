@@ -224,6 +224,7 @@ public class SchoolComparatorsCreateByController(
 
     [HttpGet]
     [Route("characteristic")]
+    [ImportModelState]
     public async Task<IActionResult> Characteristic(string urn)
     {
         using (logger.BeginScope(new
@@ -239,15 +240,49 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school);
+                var characteristics = await GetSchoolCharacteristics<SchoolCharacteristic>(new[]
+                {
+                    urn
+                });
 
-                // todo: up later
-                return StatusCode(StatusCodes.Status302Found);
+                var viewModel = new SchoolComparatorsByCharacteristicViewModel(school, characteristics?.FirstOrDefault());
+                return View(viewModel);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying create school comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("characteristic")]
+    [ExportModelState]
+    public IActionResult Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
+    {
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModel
+        }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                // todo: persist
+                return StatusCode(StatusCodes.Status302Found);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
     }

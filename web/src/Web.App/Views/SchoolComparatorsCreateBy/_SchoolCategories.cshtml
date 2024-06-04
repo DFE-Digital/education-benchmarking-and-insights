@@ -1,0 +1,33 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.UserDefinedCharacteristicViewModel
+@{
+    var value = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.OverallPhase), Model.OverallPhase == null ? string.Empty : string.Join(",", Model.OverallPhase));
+    var values = value?.Split(",") ?? [];
+    var hasError = ViewData.ModelState.HasError(nameof(Model.OverallPhase));
+}
+
+<div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
+    <fieldset class="govuk-fieldset">
+        <legend class="govuk-fieldset__legend govuk-fieldset__legend--s">
+            <h3 class="govuk-fieldset__heading">
+                School categories
+            </h3>
+        </legend>
+        @if (hasError)
+        {
+            <p id="@nameof(Model.OverallPhase)-error" class="govuk-error-message">
+                <span class="govuk-visually-hidden">Error:</span> @ViewData.ModelState[nameof(Model.OverallPhase)]?.Errors.First().ErrorMessage
+            </p>
+        }
+        <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="@nameof(Model.OverallPhase)">
+            <div class="govuk-checkboxes__item">
+                <input type="checkbox" name="@nameof(Model.OverallPhase)" id="@nameof(Model.OverallPhase)-Nursery" value="Nursery" class="govuk-checkboxes__input" @(values.Contains("Nursery") ? "checked" : "")>
+                <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-Nursery">Nursery</label>
+            </div>
+            <div class="govuk-checkboxes__item">
+                <input type="checkbox" name="@nameof(Model.OverallPhase)" id="@nameof(Model.OverallPhase)-Primary" value="Primary" class="govuk-checkboxes__input" @(values.Contains("Primary") ? "checked" : "")>
+                <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-Primary">Primary</label>
+            </div>
+        </div>
+    </fieldset>
+</div>
