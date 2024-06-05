@@ -18,7 +18,7 @@ module "benchmark-fa" {
     "Search__Key"                          = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-search-key.versionless_id})"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
-    "PipelineMessageHub__JobSPendingQueue" = "data-pipeline-job-pending"
+    "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
@@ -91,7 +91,7 @@ module "orchestrator-fa" {
     "PipelineMessageHub__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.pipeline-message-hub-storage-connection-string.versionless_id})"
     "PipelineMessageHub__JobFinishedQueue" = "data-pipeline-job-finished"
     "PipelineMessageHub__JobStartQueue"    = "data-pipeline-job-start"
-    "PipelineMessageHub__JobSPendingQueue" = "data-pipeline-job-pending"
+    "PipelineMessageHub__JobPendingQueue"  = "data-pipeline-job-pending"
     "Sql__ConnectionString"                = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
