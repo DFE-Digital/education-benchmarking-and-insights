@@ -6,13 +6,14 @@ using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/comparators")]
-public class SchoolComparatorsController(ILogger<SchoolComparatorsController> logger, IEstablishmentApi establishmentApi, IComparatorSetApi comparatorSetApi, ISchoolInsightApi schoolInsightApi, IUserDataApi userDataApi) : Controller
+public class SchoolComparatorsController(ILogger<SchoolComparatorsController> logger, IEstablishmentApi establishmentApi, IComparatorSetApi comparatorSetApi, ISchoolInsightApi schoolInsightApi, IUserDataService userDataService) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
@@ -52,18 +53,12 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var query = new ApiQuery()
-                    .AddIfNotNull("userId", User.UserId())
-                    .AddIfNotNull("status", "active")
-                    .AddIfNotNull("type", "comparator-set");
-
-                var userSets = await userDataApi.GetAsync(query).GetResultOrDefault<UserData[]>();
+                var userData = await userDataService.GetAsync(User.UserId());
                 SchoolCharacteristicUserDefined[]? schools = null;
 
-                if (userSets != null)
+                if (userData.SchoolComparatorSet != null)
                 {
-                    var setId = userSets.FirstOrDefault()?.Id;
-                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, setId).GetResultOrDefault<ComparatorSetUserDefined>();
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.SchoolComparatorSet).GetResultOrDefault<ComparatorSetUserDefined>();
                     if (userDefinedSet != null)
                     {
                         schools = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);
