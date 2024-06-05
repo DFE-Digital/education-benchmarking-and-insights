@@ -18,6 +18,7 @@ public class SchoolComparatorsByCharacteristicViewModel(School school, SchoolCha
 
 public record UserDefinedCharacteristicViewModel
 {
+    // default characteristics
     [Required(ErrorMessage = "Select a school type")]
     public string? FinanceType { get; init; }
 
@@ -33,6 +34,7 @@ public record UserDefinedCharacteristicViewModel
     [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
     public string? Code { get; init; }
 
+    // number of pupils
     public string? TotalPupils { get; init; }
 
     [Display(Name = "Number of pupils from")]
@@ -45,4 +47,18 @@ public record UserDefinedCharacteristicViewModel
     [Range(1, 10000, ErrorMessage = "Enter number of pupils to between 1 and 10,000")]
     [CompareIntValue(nameof(TotalPupilsFrom), Operator.GreaterThanOrEqualTo)]
     public int? TotalPupilsTo { get; init; }
+
+    // fsm
+    public string? FreeSchoolMeals { get; init; }
+
+    [Display(Name = "Free school meals eligibility from")]
+    [RequiredDepends(nameof(FreeSchoolMeals), "true", ErrorMessage = "Enter the free school meals eligibility from")]
+    [Range(0, 100, ErrorMessage = "Enter free school meals eligibility from between 0 and 100")]
+    public decimal? FreeSchoolMealsFrom { get; init; }
+
+    [Display(Name = "Free school meals eligibility to")]
+    [RequiredDepends(nameof(FreeSchoolMeals), "true", ErrorMessage = "Enter the free school meals eligibility to")]
+    [Range(0, 100, ErrorMessage = "Enter free school meals eligibility to between 0 and 100")]
+    [CompareDecimalValue(nameof(FreeSchoolMealsFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? FreeSchoolMealsTo { get; init; }
 }

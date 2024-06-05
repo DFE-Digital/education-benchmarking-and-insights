@@ -28,44 +28,53 @@
         }))
 {
     <div class="govuk-grid-row">
-    <div class="govuk-grid-column-three-quarters">
+        <div class="govuk-grid-column-three-quarters">
 
-    <h2 class="govuk-heading-m">Default characteristics</h2>
+            <h2 class="govuk-heading-m">Default characteristics</h2>
 
-    @await Html.PartialAsync("_SchoolTypes", Model.Data)
-    @await Html.PartialAsync("_SchoolCategories", Model.Data)
-    @await Html.PartialAsync("_LocalAuthorities", Model.Data, new ViewDataDictionary(ViewData)
-    {
-        {
-            "LAName", Model.Characteristic?.LAName
-        }
-    })
-
-    <div class="govuk-form-group">
-        <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
-            <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
-                <h1 class="govuk-fieldset__heading">
-                    Additional characteristics
-                </h1>
-            </legend>
-            <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                @await Html.PartialAsync("_NumberOfPupils", Model.Data, new ViewDataDictionary(ViewData)
+            @await Html.PartialAsync("_SchoolTypes", Model.Data)
+            @await Html.PartialAsync("_SchoolCategories", Model.Data)
+            @await Html.PartialAsync("_LocalAuthorities", Model.Data, new ViewDataDictionary(ViewData)
+            {
                 {
-                    {
-                        "SchoolName", Model.Name
-                    },
-                    {
-                        "TotalPupils", Model.Characteristic?.TotalPupils
-                    }
-                })
-            </div>
-        </fieldset>
-    </div>
+                    "LAName", Model.Characteristic?.LAName
+                }
+            })
 
-    <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
-        Continue
-    </button>
-    </div>
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h1 class="govuk-fieldset__heading">
+                            Additional characteristics
+                        </h1>
+                    </legend>
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        @await Html.PartialAsync("_NumberOfPupils", Model.Data, new ViewDataDictionary(ViewData)
+                        {
+                            {
+                                "SchoolName", Model.Name
+                            },
+                            {
+                                "TotalPupils", Model.Characteristic?.TotalPupils
+                            }
+                        })
+                        @await Html.PartialAsync("_FreeSchoolMeals", Model.Data, new ViewDataDictionary(ViewData)
+                        {
+                            {
+                                "SchoolName", Model.Name
+                            },
+                            {
+                                "FreeSchoolMeals", Model.Characteristic?.PercentFreeSchoolMeals
+                            }
+                        })
+                    </div>
+                </fieldset>
+            </div>
+
+            <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                Continue
+            </button>
+        </div>
     </div>
 }
 

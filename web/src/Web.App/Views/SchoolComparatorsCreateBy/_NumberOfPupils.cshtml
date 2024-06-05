@@ -46,13 +46,13 @@
                 <label class="govuk-label" for="@nameof(Model.TotalPupilsFrom)">
                     From
                 </label>
-                <input class="govuk-input govuk-input--width-5" id="@nameof(Model.TotalPupilsFrom)" name="@nameof(Model.TotalPupilsFrom)" type="text" value="@valueFrom">
+                <input class="govuk-input govuk-input--width-5 @(ViewData.ModelState.HasError(nameof(Model.TotalPupilsFrom)) ? "govuk-input--error" : string.Empty)" id="@nameof(Model.TotalPupilsFrom)" name="@nameof(Model.TotalPupilsFrom)" type="text" value="@valueFrom">
             </div>
             <div class="govuk-grid-column-one-quarter">
                 <label class="govuk-label" for="@nameof(Model.TotalPupilsTo)">
                     To
                 </label>
-                <input class="govuk-input govuk-input--width-5" id="@nameof(Model.TotalPupilsTo)" name="@nameof(Model.TotalPupilsTo)" type="text" value="@valueTo">
+                <input class="govuk-input govuk-input--width-5 @(ViewData.ModelState.HasError(nameof(Model.TotalPupilsTo)) ? "govuk-input--error" : string.Empty)" id="@nameof(Model.TotalPupilsTo)" name="@nameof(Model.TotalPupilsTo)" type="text" value="@valueTo">
             </div>
         </fieldset>
     </div>
