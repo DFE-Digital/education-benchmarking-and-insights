@@ -1,6 +1,7 @@
 ﻿@using Web.App.Domain
 @using Web.App.Extensions
 @using Web.App.TagHelpers
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolComparatorsByCharacteristicViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateByCharacteristic;
@@ -49,24 +50,40 @@
                         </h1>
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
-                        @await Html.PartialAsync("_NumberOfPupils", Model.Data, new ViewDataDictionary(ViewData)
-                        {
-                            {
-                                "SchoolName", Model.Name
-                            },
-                            {
-                                "TotalPupils", Model.Characteristic?.TotalPupils
-                            }
-                        })
-                        @await Html.PartialAsync("_FreeSchoolMeals", Model.Data, new ViewDataDictionary(ViewData)
-                        {
-                            {
-                                "SchoolName", Model.Name
-                            },
-                            {
-                                "FreeSchoolMeals", Model.Characteristic?.PercentFreeSchoolMeals
-                            }
-                        })
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of pupils",
+                                nameof(Model.Data.TotalPupils),
+                                nameof(Model.Data.TotalPupilsFrom),
+                                nameof(Model.Data.TotalPupilsTo),
+                                Model.Name,
+                                Model.Characteristic?.TotalPupils.GetValueOrDefault().ToNumberSeparator(),
+                                "pupils"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Eligibility for free school meals (FSM)",
+                                nameof(Model.Data.FreeSchoolMeals),
+                                nameof(Model.Data.FreeSchoolMealsFrom),
+                                nameof(Model.Data.FreeSchoolMealsTo),
+                                Model.Name,
+                                Model.Characteristic?.PercentFreeSchoolMeals.ToPercent(),
+                                "of pupils eligible for FSM"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Pupils with special educational needs (SEN)",
+                                nameof(Model.Data.SpecialEducationalNeeds),
+                                nameof(Model.Data.SpecialEducationalNeedsFrom),
+                                nameof(Model.Data.SpecialEducationalNeedsTo),
+                                Model.Name,
+                                Model.Characteristic?.PercentSpecialEducationNeeds.ToPercent(),
+                                "of pupils with special educational needs",
+                                "%"))
                     </div>
                 </fieldset>
             </div>
