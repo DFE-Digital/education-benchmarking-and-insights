@@ -189,7 +189,7 @@ public class SchoolComparatorsCreateByController(
                     UserId = User.UserId()
                 };
 
-                await comparatorSetApi.UpsertUserDefinedAsync(request).EnsureSuccess();
+                await comparatorSetApi.UpsertUserDefinedSchoolAsync(request).EnsureSuccess();
                 comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined());
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
                 return View(viewModel);

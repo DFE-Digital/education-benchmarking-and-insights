@@ -185,7 +185,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         FinancialPlanApi.Reset();
         ComparatorSetApi.Reset();
-        ComparatorSetApi.Setup(api => api.GetDefaultAsync(It.IsAny<string>())).Throws(new Exception());
+        ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>())).Throws(new Exception());
         FinancialPlanApi.Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
         FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
         return this;
@@ -220,7 +220,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
         ComparatorSetApi
-            .Setup(api => api.GetDefaultAsync(It.IsAny<string>()))
+            .Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>()))
             .ReturnsAsync(ApiResult.Ok(new ComparatorSet
             {
                 Building = schools.Select(x => x.URN ?? "Missing urn"),

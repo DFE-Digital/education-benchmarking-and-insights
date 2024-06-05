@@ -48,7 +48,7 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
 
-        var set = await api.GetDefaultAsync(urn).GetResultOrThrow<ComparatorSet>();
+        var set = await api.GetDefaultSchoolAsync(urn).GetResultOrThrow<ComparatorSet>();
 
         context?.Session.Set(key, set);
 
