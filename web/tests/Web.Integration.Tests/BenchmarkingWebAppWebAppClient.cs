@@ -25,6 +25,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ICensusApi> CensusApi { get; } = new();
     public Mock<IIncomeApi> IncomeApi { get; } = new();
     public Mock<IMetricRagRatingApi> MetricRagRatingApi { get; } = new();
+    public Mock<IUserDataApi> UserDataApi { get; } = new();
     public Mock<IBalanceApi> BalanceApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
@@ -35,6 +36,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(FinancialPlanApi.Object);
         services.AddSingleton(ComparatorSetApi.Object);
+        services.AddSingleton(UserDataApi.Object);
         services.AddSingleton(CensusApi.Object);
         services.AddSingleton(IncomeApi.Object);
         services.AddSingleton(MetricRagRatingApi.Object);
@@ -185,6 +187,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         FinancialPlanApi.Reset();
         ComparatorSetApi.Reset();
+        UserDataApi.Reset();
         ComparatorSetApi.Setup(api => api.GetDefaultSchoolAsync(It.IsAny<string>())).Throws(new Exception());
         FinancialPlanApi.Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>())).Throws(new Exception());
         FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>())).Throws(new Exception());
@@ -203,6 +206,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         FinancialPlanApi.Reset();
         ComparatorSetApi.Reset();
+        UserDataApi.Reset();
+
+        UserDataApi.Setup(api => api.GetAsync(new ApiQuery())).ReturnsAsync(ApiResult.Ok(Array.Empty<UserData>()));
 
         if (plan == null)
         {

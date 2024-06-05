@@ -138,7 +138,7 @@ public class ComparatorSetsFunctions
                     {
                         RunId = comparatorSet.RunId,
                         RunType = comparatorSet.RunType,
-                        Type = "comparator-set",
+                        Type = "school-comparator-set",
                         URN = comparatorSet.URN,
                         Year = year,
                         Payload = new ComparatorSetPayload { Set = comparatorSet.Set }

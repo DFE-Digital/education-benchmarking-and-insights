@@ -16,7 +16,8 @@ public class SchoolViewModel(
     public string? TrustName => school.TrustName;
     public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;
     public decimal? RevenueReserve => finances?.RevenueReserve;
-    public bool IsMissingFinancials => finances == null;
+    public bool HasFinancials => finances != null;
+    public bool HasMetricRag => ratings.Any();
     public IEnumerable<RagRating> Ratings => ratings
         .Where(x => x.RAG is "red" or "amber")
         .OrderBy(x => Lookups.StatusOrderMap[x.RAG ?? string.Empty])

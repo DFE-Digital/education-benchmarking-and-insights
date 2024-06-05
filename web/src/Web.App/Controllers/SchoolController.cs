@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -13,7 +14,8 @@ public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
-    IMetricRagRatingApi metricRagRatingApi)
+    IMetricRagRatingApi metricRagRatingApi,
+    IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
@@ -32,7 +34,17 @@ public class SchoolController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(urn);
-                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var userData = await userDataService.GetAsync(User.UserId());
+                RagRating[] ratings;
+                if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+                {
+                    ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+
+                }
+                else
+                {
+                    ratings = []; //TODO : Lookup custom ratings
+                }
                 var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated);
                 return View(viewModel);
             }
