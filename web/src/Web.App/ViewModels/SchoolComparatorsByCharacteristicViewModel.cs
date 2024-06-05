@@ -75,4 +75,10 @@ public record UserDefinedCharacteristicViewModel
     [Range(0, 100, ErrorMessage = "Enter special educational needs to between 0 and 100")]
     [CompareDecimalValue(nameof(SpecialEducationalNeedsFrom), Operator.GreaterThanOrEqualTo)]
     public decimal? SpecialEducationalNeedsTo { get; init; }
+
+    // london weighting
+    public string? LondonWeighting { get; init; }
+
+    [RequiredDepends(nameof(LondonWeighting), "true", ErrorMessage = "Select one or more London weightings")]
+    public string[] LondonWeightings { get; init; } = [];
 }

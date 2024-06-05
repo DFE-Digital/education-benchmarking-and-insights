@@ -60,6 +60,7 @@
                                 nameof(Model.Data.TotalPupilsTo),
                                 Model.Name,
                                 Model.Characteristic?.TotalPupils.GetValueOrDefault().ToNumberSeparator(),
+                                "has",
                                 "pupils"))
                         @await Html.PartialAsync(
                             "_AdditionalCharacteristicsRange",
@@ -71,6 +72,7 @@
                                 nameof(Model.Data.FreeSchoolMealsTo),
                                 Model.Name,
                                 Model.Characteristic?.PercentFreeSchoolMeals.ToPercent(),
+                                "has",
                                 "of pupils eligible for FSM"))
                         @await Html.PartialAsync(
                             "_AdditionalCharacteristicsRange",
@@ -82,8 +84,20 @@
                                 nameof(Model.Data.SpecialEducationalNeedsTo),
                                 Model.Name,
                                 Model.Characteristic?.PercentSpecialEducationNeeds.ToPercent(),
+                                "has",
                                 "of pupils with special educational needs",
                                 "%"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "London weighting",
+                                nameof(Model.Data.LondonWeighting),
+                                nameof(Model.Data.LondonWeightings),
+                                Model.Name,
+                                Model.Characteristic?.LondonWeighting,
+                                ["Inner", "Outer", "Neither"],
+                                "is"))
                     </div>
                 </fieldset>
             </div>
