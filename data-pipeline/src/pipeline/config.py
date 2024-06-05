@@ -122,7 +122,7 @@ cost_category_map = {
         "E01  Teaching Staff": "Teaching and Teaching support staff_Teaching staff",
         "E16  Energy": "Utilities_Energy",
         "E15  Water and sewerage": "Utilities_Water and sewerage",
-        "PFI": "Is PFI School",
+        "PFI": "PFI School",
         "I07  Other grants and payments": "Other grants and payments",
         # TODO: Should these come from the census record not the MS record
         "No Pupils": "Number of pupils",
