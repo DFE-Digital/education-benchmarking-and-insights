@@ -61,4 +61,18 @@ public record UserDefinedCharacteristicViewModel
     [Range(0, 100, ErrorMessage = "Enter free school meals eligibility to between 0 and 100")]
     [CompareDecimalValue(nameof(FreeSchoolMealsFrom), Operator.GreaterThanOrEqualTo)]
     public decimal? FreeSchoolMealsTo { get; init; }
+
+    // sen
+    public string? SpecialEducationalNeeds { get; init; }
+
+    [Display(Name = "Special educational needs from")]
+    [RequiredDepends(nameof(SpecialEducationalNeeds), "true", ErrorMessage = "Enter the special educational needs eligibility from")]
+    [Range(0, 100, ErrorMessage = "Enter special educational needs from between 0 and 100")]
+    public decimal? SpecialEducationalNeedsFrom { get; init; }
+
+    [Display(Name = "Special educational needs to")]
+    [RequiredDepends(nameof(SpecialEducationalNeeds), "true", ErrorMessage = "Enter the special educational needs eligibility to")]
+    [Range(0, 100, ErrorMessage = "Enter special educational needs to between 0 and 100")]
+    [CompareDecimalValue(nameof(SpecialEducationalNeedsFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? SpecialEducationalNeedsTo { get; init; }
 }
