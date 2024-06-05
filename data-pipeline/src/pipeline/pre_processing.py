@@ -644,8 +644,7 @@ def build_maintained_school_data(
     maintained_schools["OfstedLastInsp"] = pd.to_datetime(maintained_schools["OfstedLastInsp"], dayfirst=True)
     maintained_schools["London Weighting"] = maintained_schools["London Weighting"].fillna('Neither')
 
-    maintained_schools.rename(
-        columns=config.cost_category_map["maintained_schools"],
+    maintained_schools.rename(columns=config.cost_category_map["maintained_schools"],
         inplace=True,
     )
 
@@ -667,6 +666,7 @@ def build_maintained_school_data(
                                   right_index=True)
     maintained_schools.rename(columns={"FederationName": "Federation Name"}, inplace=True)
     maintained_schools = maintained_schools[~maintained_schools.index.duplicated()]
+
 
     return maintained_schools.set_index("URN")
 
