@@ -18,6 +18,7 @@ income_category_map = {
         "Community Grants": "Income_Community grants",
         "Total Grant Funding": "Income_Total grant funding",
         "Total Self Generated Funding": "Income_Total self generated funding",
+        "Total Income": "Total Income"
     },
     "maintained_schools": {
         # "I01  Funds delegated by the LA": "",
