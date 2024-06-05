@@ -15,8 +15,6 @@
     kind = OrganisationTypes.School
 })
 
-<pre>@Model.Characteristic.ToJson()</pre>
-
 @await Html.PartialAsync("_ErrorSummary")
 
 @using (Html.BeginForm("Characteristic", "SchoolComparatorsCreateBy", new
@@ -136,6 +134,30 @@
                                 ["Outstanding", "Good", "Requires improvement", "Inadequate", "Not rated"],
                                 prefix: "is rated"))
                         @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of schools within trust",
+                                nameof(Model.Data.SchoolsInTrust),
+                                nameof(Model.Data.SchoolsInTrustFrom),
+                                nameof(Model.Data.SchoolsInTrustTo),
+                                Model.Name,
+                                null,
+                                "has",
+                                "schools"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Schools in deficit",
+                                nameof(Model.Data.Deficit),
+                                nameof(Model.Data.Deficits),
+                                Model.Name,
+                                null,
+                                ["Exclude schools in deficit", "Include schools in deficit"],
+                                false,
+                                "is"))
+                        @await Html.PartialAsync(
                             "_AdditionalCharacteristicsSelect",
                             new AdditionalCharacteristicsSelectViewModel(
                                 ViewData,
@@ -147,6 +169,40 @@
                                 ["Part of PFI", "Not part of PFI"],
                                 false,
                                 "is"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of pupils in sixth form",
+                                nameof(Model.Data.TotalPupilsSixthForm),
+                                nameof(Model.Data.TotalPupilsSixthFormFrom),
+                                nameof(Model.Data.TotalPupilsSixthFormTo),
+                                Model.Name,
+                                Model.Characteristic?.TotalPupilsSixthForm.GetValueOrDefault().ToNumberSeparator(),
+                                "has",
+                                "pupils in sixth form"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Key stage 2 progress",
+                                nameof(Model.Data.KeyStage2Progress),
+                                nameof(Model.Data.KeyStage2ProgressFrom),
+                                nameof(Model.Data.KeyStage2ProgressTo),
+                                Model.Name,
+                                null,
+                                "key stage 2 progress is"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Key stage 4 progress",
+                                nameof(Model.Data.KeyStage4Progress),
+                                nameof(Model.Data.KeyStage4ProgressFrom),
+                                nameof(Model.Data.KeyStage4ProgressTo),
+                                Model.Name,
+                                null,
+                                "key stage 4 progress is"))
                     </div>
                 </fieldset>
             </div>

@@ -2,11 +2,11 @@
 @model Web.App.ViewModels.AdditionalCharacteristicsSelectViewModel
 
 <div class="govuk-checkboxes__item">
-    <input class="govuk-checkboxes__input" 
-           id="@Model.SelectedFieldName" 
-           name="@Model.SelectedFieldName" 
-           type="checkbox" 
-           value="true" 
+    <input class="govuk-checkboxes__input"
+           id="@Model.SelectedFieldName"
+           name="@Model.SelectedFieldName"
+           type="checkbox"
+           value="true"
            data-aria-controls="conditional-@Model.SelectedFieldName" @(Model.Selected ? "checked" : "")>
     <label class="govuk-label govuk-checkboxes__label" for="@Model.SelectedFieldName">
         @Model.Title
@@ -16,7 +16,20 @@
     <div class="govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
         <fieldset class="govuk-fieldset">
             <div class="govuk-hint">
-                @Model.SchoolName @Model.Prefix <strong>@Model.SchoolValueFormatted</strong> @Model.Suffix
+                @if (string.IsNullOrWhiteSpace(Model.SchoolValueFormatted))
+                {
+                    @:No value was supplied for 
+                    @:
+                    @Model.SchoolName
+                }
+                else
+                {
+                    @Model.SchoolName
+                    @:
+                    @Model.Prefix
+                    <strong>@Model.SchoolValueFormatted</strong>
+                    @Model.Suffix
+                }
             </div>
             @if (Model.HasError)
             {
