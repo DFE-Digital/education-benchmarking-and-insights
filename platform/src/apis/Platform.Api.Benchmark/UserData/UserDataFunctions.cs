@@ -54,7 +54,7 @@ public class UserDataFunctions
                 var id = req.Query["id"].ToString();
                 var organisationType = req.Query["organisationType"].ToString();
                 var organisationId = req.Query["organisationId"].ToString();
-                var data = await _service.QueryAsync(userId, type, status, id, organisationType, organisationId);
+                var data = await _service.QueryAsync(userId, type, status, id, organisationId, organisationType);
 
                 return new JsonContentResult(data);
             }

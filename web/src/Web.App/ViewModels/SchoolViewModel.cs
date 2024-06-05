@@ -5,13 +5,15 @@ public class SchoolViewModel(
     School school,
     Finances? finances,
     IEnumerable<RagRating> ratings,
-    bool? comparatorGenerated)
+    bool? comparatorGenerated,
+    string? userDefinedSetId = null)
 {
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public string? OverallPhase => school.OverallPhase;
     public string? OfstedRating => school.OfstedDescription;
     public bool IsPartOfTrust => school.IsPartOfTrust;
+    public string? UserDefinedSetId => userDefinedSetId;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
     public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;

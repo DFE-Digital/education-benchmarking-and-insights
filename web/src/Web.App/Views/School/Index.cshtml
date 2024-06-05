@@ -56,7 +56,8 @@
 @await Component.InvokeAsync("DataSource", new
 {
     kind = OrganisationTypes.School,
-    isPartOfTrust = Model.IsPartOfTrust
+    isPartOfTrust = Model.IsPartOfTrust,
+    additionText = string.IsNullOrEmpty(Model.UserDefinedSetId) ? null : new[] { "You are now comparing with your chosen schools." }
 })
 
 @if (Model.HasFinancials)
@@ -90,7 +91,7 @@ else
         <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
         <strong class="govuk-warning-text__text">
             <span class="govuk-visually-hidden">Warning</span>
-            Financial information for this school could not be loaded. 
+            Financial information for this school could not be loaded.
         </strong>
     </div>
 }

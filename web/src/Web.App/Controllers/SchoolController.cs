@@ -45,7 +45,7 @@ public class SchoolController(
                 {
                     ratings = []; //TODO : Lookup custom ratings
                 }
-                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated);
+                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated, userData.ComparatorSet);
                 return View(viewModel);
             }
             catch (Exception e)

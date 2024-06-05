@@ -38,6 +38,7 @@ public record ComparatorSetUserData
         {
             Id = id,
             UserId = userId,
+            Type = "comparator-set",
             OrganisationType = "school",
             OrganisationId = urn,
             Expiry = DateTimeOffset.Now.AddDays(30),

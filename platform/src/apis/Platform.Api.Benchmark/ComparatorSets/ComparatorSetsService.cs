@@ -48,7 +48,7 @@ public class ComparatorSetsService : IComparatorSetsService
 
     public async Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet)
     {
-        const string sql = "SELECT * from UserDefinedComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
+        const string sql = "SELECT * from UserDefinedSchoolComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
 
         var parameters = new { comparatorSet.URN, comparatorSet.RunId, comparatorSet.RunType };
 
@@ -71,7 +71,7 @@ public class ComparatorSetsService : IComparatorSetsService
 
     public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runtType = "default")
     {
-        const string sql = "SELECT * from UserDefinedComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
+        const string sql = "SELECT * from UserDefinedSchoolComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
         var parameters = new { URN = urn, RunId = identifier, RunType = runtType };
 
         using var conn = await _dbFactory.GetConnection();

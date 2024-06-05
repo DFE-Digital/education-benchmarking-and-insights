@@ -130,7 +130,7 @@ public class ComparatorSetsFunctions
 
                 if (comparatorSet.Set.Length >= 10)
                 {
-                    await _service.UpsertUserDataAsync(ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
+                    await _service.UpsertUserDataAsync(ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
                     var year = await _service.CurrentYearAsync();
 
                     var message = new PipelineStartMessage
@@ -147,7 +147,7 @@ public class ComparatorSetsFunctions
                 }
                 else
                 {
-                    await _service.UpsertUserDataAsync(ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
+                    await _service.UpsertUserDataAsync(ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
                 }
 
                 return new AcceptedResult();
