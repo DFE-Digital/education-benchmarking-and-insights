@@ -1,0 +1,44 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorsChosenSchoolsViewModel
+
+@if (Model.Schools != null && Model.Schools.Any())
+{
+    <h1 class="govuk-heading-m">Chosen schools (@Model.Schools.Count())</h1>
+    <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+        Create a set using these schools
+    </a>
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen schools (@Model.Schools.Count())</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-third">School</th>
+            <th scope="col" class="govuk-table__header">Type</th>
+            <th scope="col" class="govuk-table__header">Number of pupils</th>
+            <th scope="col" class="govuk-table__header">Pupils with special educational needs</th>
+            <th scope="col" class="govuk-table__header">Pupils eligible for free school meals</th>
+            <th scope="col" class="govuk-table__header"></th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var school in Model.Schools.Where(x => x.URN != Model.Urn))
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    <span class="govuk-body govuk-!-font-weight-bold">@school.SchoolName</span>
+                    <br/>
+                    <span class="govuk-hint">@school.Address</span>
+                </td>
+                <td class="govuk-table__cell">@school.OverallPhase</td>
+                <td class="govuk-table__cell">@school.TotalPupils</td>
+                <td class="govuk-table__cell">@school.PercentSpecialEducationNeeds.ToPercent()</td>
+                <td class="govuk-table__cell">@school.PercentFreeSchoolMeals.ToPercent()</td>
+                <td class="govuk-table__cell">
+                    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="urn" value="@school.URN">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

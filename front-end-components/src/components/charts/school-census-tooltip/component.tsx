@@ -15,7 +15,7 @@ export function SchoolCensusTooltip<
     return (
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
         <caption className="govuk-table__caption govuk-table__caption--s">
-          {census.name}
+          {census.schoolName}
         </caption>
         <thead className="govuk-table__head govuk-visually-hidden">
           <tr className="govuk-table__row">
@@ -32,7 +32,7 @@ export function SchoolCensusTooltip<
             <th scope="row" className="govuk-table__header">
               Local authority
             </th>
-            <td className="govuk-table__cell">{census.localAuthority}</td>
+            <td className="govuk-table__cell">{census.laName}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
@@ -44,9 +44,7 @@ export function SchoolCensusTooltip<
             <th scope="row" className="govuk-table__header">
               Number of pupils
             </th>
-            <td className="govuk-table__cell">
-              {String(census.numberOfPupils)}
-            </td>
+            <td className="govuk-table__cell">{String(census.totalPupils)}</td>
           </tr>
         </tbody>
       </table>

@@ -3,5 +3,7 @@ namespace Web.App;
 public static class SessionKeys
 {
     public static string ComparatorSet(string urn) => $"comparator-set-{urn}";
+    public static string ComparatorSetUserDefined(string urn) => $"comparator-set-user-defined-{urn}";
+    public static string ComparatorSetUserDefined(string urn, string identifier) => $"comparator-set-user-defined-{urn}-{identifier}";
     public static string CustomData(string urn) => $"custom-data-{urn}";
 }

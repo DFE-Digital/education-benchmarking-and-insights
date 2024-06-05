@@ -19,19 +19,12 @@ public interface ISearchMaintenanceService
 
 public class SearchMaintenanceServiceOptions
 {
-    [Required] public CosmosOptions? Cosmos { get; set; }
     [Required] public SqlOptions? Sql { get; set; }
     [Required] public string? Name { get; set; }
     [Required] public string? Key { get; set; }
 
     public Uri SearchEndPoint => new($"https://{Name}.search.windows.net/");
     public AzureKeyCredential SearchCredentials => new(Key ?? throw new ArgumentNullException());
-
-    public class CosmosOptions
-    {
-        [Required] public string? ConnectionString { get; set; }
-        [Required] public string? DatabaseId { get; set; }
-    }
 
     public class SqlOptions
     {
@@ -175,7 +168,6 @@ public class SearchMaintenanceService : ISearchMaintenanceService
 
     private async Task BuildDataSourcesConnections()
     {
-        ArgumentNullException.ThrowIfNull(_options.Cosmos);
         ArgumentNullException.ThrowIfNull(_options.Sql);
 
         var builders = new DataSourceConnectionBuilder[]
@@ -183,8 +175,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new SchoolComparatorsAcademyDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
-            new SchoolComparatorsMaintainedDataSourceConnectionBuilder(_options.Cosmos.ConnectionString, _options.Cosmos.DatabaseId),
+            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -212,8 +203,7 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new SchoolIndexerBuilder(),
             new TrustIndexerBuilder(),
             new LocalAuthorityIndexerBuilder(),
-            new SchoolComparatorsAcademyIndexerBuilder(),
-            new SchoolComparatorsMaintainedIndexerBuilder(),
+            new SchoolComparatorsIndexerBuilder()
         };
 
         foreach (var builder in builders)

@@ -6,13 +6,15 @@ public class SchoolSpendingViewModel(
     School school,
     IEnumerable<RagRating> ratings,
     IEnumerable<SchoolExpenditure> pupilExpenditure,
-    IEnumerable<SchoolExpenditure> areaExpenditure)
+    IEnumerable<SchoolExpenditure> areaExpenditure,
+    string? userDefinedSetId = null)
 {
     private readonly CostCategory[] _categories = CategoryBuilder.Build(ratings, pupilExpenditure, areaExpenditure).ToArray();
 
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
     public bool IsPartOfTrust => school.IsPartOfTrust;
+    public string? UserDefinedSetId => userDefinedSetId;
 
     public IEnumerable<CostCategory> PriorityCosts => _categories
         .Where(x => x.Rating.RAG is "red" or "amber")

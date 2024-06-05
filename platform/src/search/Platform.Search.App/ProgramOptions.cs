@@ -11,12 +11,6 @@ public class ProgramOptions
     [Option('k', "searchKey", Required = true)]
     public string? SearchKey { get; set; }
 
-    [Option('c', "cosmosConnectionString", Required = true)]
-    public string? CosmosConnectionString { get; set; }
-
-    [Option('d', "cosmosDatabaseId", Required = true)]
-    public string? CosmosDatabaseId { get; set; }
-
-    [Option('q', "sqlConnectionString", Required = true)]
+    [Option('c', "sqlConnectionString", Required = true)]
     public string? SqlConnectionString { get; set; }
 }

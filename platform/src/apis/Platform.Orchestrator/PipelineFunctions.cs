@@ -82,7 +82,7 @@ public class PipelineFunctions
 
         switch (input.Type)
         {
-            case "comparator-set":
+            case "school-comparator-set":
             case "custom-data":
                 await context.CallActivityAsync(nameof(UpdateStatusTrigger), input);
                 break;

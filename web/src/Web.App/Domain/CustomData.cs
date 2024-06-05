@@ -75,15 +75,15 @@ public record CustomData
         RevenueReserve = finances.RevenueReserve;
 
         // Non-financial data
-        NumberOfPupilsFte = census.NumberOfPupils;
+        NumberOfPupilsFte = census.TotalPupils;
         FreeSchoolMealPercent = finances.FreeSchoolMealPercent;
         SpecialEducationalNeedsPercent = finances.SpecialEducationalNeedsPercent;
         FloorArea = floorArea.FloorArea;
 
         // Workforce data
-        WorkforceFte = census.WorkforceFte;
-        TeachersFte = census.TeachersFte;
-        SeniorLeadershipFte = census.SeniorLeadershipFte;
+        WorkforceFte = census.WorkforceFTE;
+        TeachersFte = census.TeachersFTE;
+        SeniorLeadershipFte = census.SeniorLeadershipFTE;
     }
 
     // Administrative supplies

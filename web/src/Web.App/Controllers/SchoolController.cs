@@ -1,11 +1,11 @@
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -14,13 +14,19 @@ public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
-    IMetricRagRatingApi metricRagRatingApi)
+    IMetricRagRatingApi metricRagRatingApi,
+    IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string urn)
+    public async Task<IActionResult> Index(
+        string urn,
+        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -28,8 +34,18 @@ public class SchoolController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(urn);
-                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
-                var viewModel = new SchoolViewModel(school, finances, ratings);
+                var userData = await userDataService.GetAsync(User.UserId());
+                RagRating[] ratings;
+                if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+                {
+                    ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+
+                }
+                else
+                {
+                    ratings = []; //TODO : Lookup custom ratings
+                }
+                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated);
                 return View(viewModel);
             }
             catch (Exception e)

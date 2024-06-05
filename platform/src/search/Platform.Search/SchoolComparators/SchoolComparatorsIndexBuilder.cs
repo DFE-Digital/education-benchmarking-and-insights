@@ -13,6 +13,7 @@ public class SchoolComparatorsIndexBuilder : IndexBuilder
     {
         var searchFields = new FieldBuilder().Build(typeof(SchoolComparatorsIndex));
         var definition = new SearchIndex(Name, searchFields);
+
         await client.CreateOrUpdateIndexAsync(definition);
     }
 }

@@ -99,15 +99,15 @@ public class GivenASchoolCustomDataChangeViewModel
         Assert.Equal(_finances.RevenueReserve, _sut.CurrentValues.RevenueReserve);
 
         // Non-financial data
-        Assert.Equal(_census.NumberOfPupils, _sut.CurrentValues.NumberOfPupilsFte);
+        Assert.Equal(_census.TotalPupils, _sut.CurrentValues.NumberOfPupilsFte);
         Assert.Equal(_finances.FreeSchoolMealPercent, _sut.CurrentValues.FreeSchoolMealPercent);
         Assert.Equal(_finances.SpecialEducationalNeedsPercent, _sut.CurrentValues.SpecialEducationalNeedsPercent);
         Assert.Equal(_floorArea.FloorArea, _sut.CurrentValues.FloorArea);
 
         // Workforce data
-        Assert.Equal(_census.WorkforceFte, _sut.CurrentValues.WorkforceFte);
-        Assert.Equal(_census.TeachersFte, _sut.CurrentValues.TeachersFte);
-        Assert.Equal(_census.SeniorLeadershipFte, _sut.CurrentValues.SeniorLeadershipFte);
+        Assert.Equal(_census.WorkforceFTE, _sut.CurrentValues.WorkforceFte);
+        Assert.Equal(_census.TeachersFTE, _sut.CurrentValues.TeachersFte);
+        Assert.Equal(_census.SeniorLeadershipFTE, _sut.CurrentValues.SeniorLeadershipFte);
     }
 
     [Fact]

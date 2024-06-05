@@ -88,7 +88,7 @@ def _delta_range_ratio_squared(input: np.array) -> np.array:
     return np.power(_delta_range_ratio(input), 2)
 
 
-def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array):
+def pupils_calc(pupils: np.array, fsm: np.array, sen: np.array) -> np.ndarray:
     """
     Perform pupil calculation (non-special).
 
@@ -117,7 +117,7 @@ def special_pupils_calc(
     pds: np.array,
     asds: np.array,
     oths: np.array,
-):
+) -> np.ndarray:
     """
     Perform pupil calculation (special).
 
@@ -156,7 +156,7 @@ def special_pupils_calc(
     return np.sqrt(pupils_) + np.sqrt(sen)
 
 
-def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
+def buildings_calc(gifa: np.array, average_age: np.array) -> np.ndarray:
     """
     Compute area metrics.
 
@@ -170,7 +170,7 @@ def buildings_calc(gifa: np.array, average_age: np.array) -> np.array:
     return np.sqrt(gifa_ + age)
 
 
-def compute_buildings_comparator(arg):
+def compute_buildings_comparator(arg) -> np.ndarray:
     """
     Computing area metrics, consuming attributes from the input data.
 
@@ -184,7 +184,7 @@ def compute_buildings_comparator(arg):
     return buildings_calc(gifa, age)
 
 
-def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
+def compute_pupils_comparator(arg) -> np.ndarray:
     """
     Computing pupil metrics, consuming attributes from the input data.
 
@@ -218,40 +218,107 @@ def compute_pupils_comparator(arg) -> tuple[str, np.array, np.array]:
     return pupils_calc(pupils, fsm, sen)
 
 
-def select_top_set(all_urns, all_regions, data, base_set_size=60, final_set_size=30):
-    top_index = np.argsort(data, axis=0, kind="stable")[:base_set_size]
-    top_urns = all_urns[top_index]
-    top_regions = all_regions[top_index]
-    same_region = np.argwhere(top_regions == top_regions[0]).flatten()
-    same_region_urns = top_urns[same_region]
+def select_top_set_urns(
+    urns: np.array,
+    pfi: np.array,
+    boarding: np.array,
+    regions: np.array,
+    distances: np.ndarray,
+    base_set_size=60,
+    final_set_size=30,
+) -> np.ndarray:
+    """
+    Determine the URNs of the closest orgs.
+
+    1. take the top (by default) 60 orgs. closest by distance metrics,
+       with the same PFI and Boarding status.
+    2. reduce this to those in the same region.
+    3. if fewer than (by default) 30 results, supplement this with the
+       closest by distance metrics from the original set.
+
+    :param urns: URN of each org. in this grouping.
+    :param pfi: PFI status of each org. in this grouping.
+    :param boarding: boarding status of each org. in this grouping.
+    :param regions: regional location of each org. in this grouping.
+    :param distances: computed distances of each org. from the first.
+    :return: URNs of "top" orgs. meeting criteria, orderd by distance.
+    """
+    index_by_distance = np.argsort(distances, axis=0, kind="stable")
+    urns_by_distance = urns[index_by_distance]
+
+    pfi_by_distance = pfi[index_by_distance]
+    boarding_by_distance = boarding[index_by_distance]
+    same_pfi = pfi_by_distance == pfi_by_distance[0]
+    same_boarding = boarding_by_distance == boarding_by_distance[0]
+    same_criteria = np.logical_and(
+        same_pfi,
+        same_boarding,
+    )
+    top_criteria_index = np.argwhere(same_criteria).flatten()[:base_set_size]
+
+    same_region_index = np.argwhere(regions == regions[0]).flatten()
+    top_regions_index = np.intersect1d(
+        top_criteria_index,
+        same_region_index,
+    )
+    same_region_urns = urns_by_distance[top_regions_index][:final_set_size]
+
     urns = np.append(
         same_region_urns,
-        np.delete(top_urns, same_region)[: final_set_size - len(same_region_urns)],
+        np.delete(
+            urns_by_distance,
+            same_region_index,
+        )[: final_set_size - len(same_region_urns)],
     )
+
     return urns
 
 
-def compute_distances(orig_data, grouped_data):
+# TODO: rename, this does more than distances.
+def compute_distances(
+    orig_data: pd.DataFrame,
+    grouped_data: pd.DataFrame,
+):
+    # TODO: docstring needed to explain this.
     pupils = pd.Series(index=orig_data.index, dtype=object)
     buildings = pd.Series(index=orig_data.index, dtype=object)
-    for phase, row in grouped_data.iterrows():
-        pupil_distance = compute_pupils_comparator((phase, row))
-        building_distance = compute_buildings_comparator((phase, row))
-        all_urns = np.array(row["URN"])
-        all_regions = np.array(row["GOR (name)"])
 
-        for idx in range(len(all_urns)):
-            urn = all_urns[idx]
+    for phase, row in grouped_data.iterrows():
+        # compute distances for all orgs. in this phase.
+        pupil_distances = compute_pupils_comparator((phase, row))
+        building_distances = compute_buildings_comparator((phase, row))
+        phase_urns = np.array(row["URN"])
+        phase_pfi = np.array(row["PFI School"])
+        phase_boarding = np.array(row["Boarders (name)"])
+        phase_regions = np.array(row["GOR (name)"])
+
+        # TODO: compares ab/ba and aa.
+        # compute best-set for each org. individually.
+        for idx in range(len(phase_urns)):
+            ukprn = phase_urns[idx]
             try:
-                pupil_set = select_top_set(all_urns, all_regions, pupil_distance[idx])
-                building_set = select_top_set(
-                    all_urns, all_regions, building_distance[idx]
+                top_pupil_set_urns = select_top_set_urns(
+                    phase_urns,
+                    phase_pfi,
+                    phase_boarding,
+                    phase_regions,
+                    pupil_distances[idx],
+                )
+                top_building_set_urns = select_top_set_urns(
+                    phase_urns,
+                    phase_pfi,
+                    phase_boarding,
+                    phase_regions,
+                    building_distances[idx],
                 )
 
-                pupils.loc[urn] = pupil_set
-                buildings.loc[urn] = building_set
+                pupils.loc[ukprn] = top_pupil_set_urns
+                buildings.loc[ukprn] = top_building_set_urns
             except Exception as error:
-                logger.exception(f"An exception occurred {type(error).__name__} processing {urn}:", exc_info=error)
+                logger.exception(
+                    f"An exception occurred {type(error).__name__} processing {ukprn}:",
+                    exc_info=error,
+                )
                 return
 
     orig_data["Pupil"] = pupils
@@ -262,61 +329,57 @@ def compute_distances(orig_data, grouped_data):
 
 def compute_comparator_set(data: pd.DataFrame):
     # TODO: Need to add boarding and PFI groups into this logic
-    copy = (
-        data[~data.index.isna()][
-            [
-                "OfstedRating (name)",
-                "Percentage SEN",
-                "Percentage Free school meals",
-                "Number of pupils",
-                "Total Internal Floor Area",
-                "Age Average Score",
-                "GOR (name)",
-                "SchoolPhaseType",
-                "Percentage Primary Need SPLD",
-                "Percentage Primary Need MLD",
-                "Percentage Primary Need PMLD",
-                "Percentage Primary Need SEMH",
-                "Percentage Primary Need SLCN",
-                "Percentage Primary Need HI",
-                "Percentage Primary Need MSI",
-                "Percentage Primary Need PD",
-                "Percentage Primary Need ASD",
-                "Percentage Primary Need OTH",
-            ]
+    copy = data[~data.index.isna()][
+        [
+            "OfstedRating (name)",
+            "Percentage SEN",
+            "Percentage Free school meals",
+            "Number of pupils",
+            "Total Internal Floor Area",
+            "Age Average Score",
+            "PFI School",
+            "Boarders (name)",
+            "GOR (name)",
+            "SchoolPhaseType",
+            "Percentage Primary Need SPLD",
+            "Percentage Primary Need MLD",
+            "Percentage Primary Need PMLD",
+            "Percentage Primary Need SEMH",
+            "Percentage Primary Need SLCN",
+            "Percentage Primary Need HI",
+            "Percentage Primary Need MSI",
+            "Percentage Primary Need PD",
+            "Percentage Primary Need ASD",
+            "Percentage Primary Need OTH",
         ]
-        .copy()
-    )
+    ].copy()
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
 
 
 def compute_custom_comparator_set(data: pd.DataFrame):
-    copy = (
-        data[
-            [
-                "OfstedRating (name)",
-                "Percentage SEN",
-                "Percentage Free school meals",
-                "Number of pupils",
-                "Total Internal Floor Area",
-                "Age Average Score",
-                "GOR (name)",
-                "SchoolPhaseType",
-                "Percentage Primary Need SPLD",
-                "Percentage Primary Need MLD",
-                "Percentage Primary Need PMLD",
-                "Percentage Primary Need SEMH",
-                "Percentage Primary Need SLCN",
-                "Percentage Primary Need HI",
-                "Percentage Primary Need MSI",
-                "Percentage Primary Need PD",
-                "Percentage Primary Need ASD",
-                "Percentage Primary Need OTH",
-            ]
+    copy = data[
+        [
+            "OfstedRating (name)",
+            "Percentage SEN",
+            "Percentage Free school meals",
+            "Number of pupils",
+            "Total Internal Floor Area",
+            "Age Average Score",
+            "GOR (name)",
+            "SchoolPhaseType",
+            "Percentage Primary Need SPLD",
+            "Percentage Primary Need MLD",
+            "Percentage Primary Need PMLD",
+            "Percentage Primary Need SEMH",
+            "Percentage Primary Need SLCN",
+            "Percentage Primary Need HI",
+            "Percentage Primary Need MSI",
+            "Percentage Primary Need PD",
+            "Percentage Primary Need ASD",
+            "Percentage Primary Need OTH",
         ]
-        .copy()
-    )
+    ].copy()
     copy["Custom"] = "Grouper"
     classes = copy.reset_index().groupby(["Custom"]).agg(list)
     return compute_distances(copy, classes)

@@ -46,35 +46,35 @@
 }
 
 .priority.high, .priority.high .app-tag--red {
-    border: 2px solid $rag-red-colour;
+  border: 2px solid $rag-red-colour;
 }
 
 .priority.medium, .priority.medium .app-tag--yellow {
-    border: 2px solid $rag-amber-colour;
+  border: 2px solid $rag-amber-colour;
 }
 
 .priority.low, .priority.low .app-tag--green {
-    border: 2px solid $rag-green-colour;
+  border: 2px solid $rag-green-colour;
 }
 
 .app-tag--red {
-    background-color: $rag-red-colour;
-    color: $rag-red-text-colour;
+  background-color: $rag-red-colour;
+  color: $rag-red-text-colour;
 }
 
 .app-tag--yellow {
-    background-color: $rag-amber-colour;
-    color: $rag-amber-text-colour;
+  background-color: $rag-amber-colour;
+  color: $rag-amber-text-colour;
 }
 
 .app-tag--green {
-    background-color: $rag-green-colour;
-    color: $govuk-text-colour;
+  background-color: $rag-green-colour;
+  color: $govuk-text-colour;
 }
 
 p.priority .govuk-tag {
-    margin-right: 10px;
-    border-left: none !important;
+  margin-right: 10px;
+  border-left: none !important;
 }
 
 .top-categories div {
@@ -161,3 +161,13 @@ svg.rag-stack {
     fill: govuk-tint($rag-green-colour, 20%);
   }
 }
+
+.govuk-notification-banner--failure {
+  border-color: $govuk-error-colour;
+  background-color: $govuk-error-colour;
+
+  .govuk-notification-banner__link {
+    @include govuk-link-style-error;
+  }
+}
+

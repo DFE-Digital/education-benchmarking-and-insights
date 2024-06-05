@@ -2,30 +2,48 @@
 
 <div class="govuk-grid-row govuk-!-margin-bottom-3">
     <div class="govuk-grid-column-two-thirds">
-        <p class="govuk-body">
-            <a class="govuk-link govuk-link--no-visited-state"
-               href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
-                We've chosen 2 sets of similar schools
-            </a> to benchmark this school's spending against.
-        </p>
-
-        <feature name="@FeatureFlags.UserDefinedComparators">
-            <p class="govuk-body govuk-!-margin-bottom-0">
-                <a class="govuk-link govuk-link--no-visited-state"
-                   href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Identifier })">
-                    Choose a new or saved set of your own schools
-                </a>
+        
+        @if (Model.HasUserDefinedSet)
+        {
+            <p class="govuk-body">
+                You are now comparing with your chosen schools.
             </p>
-        </feature>
-        <feature name="@FeatureFlags.CustomData">
-            <p class="govuk-body govuk-!-margin-bottom-0">
-                <a class="govuk-link govuk-link--no-visited-state"
-                   id="custom-data-link"
-                   href="@Url.Action("Index", "SchoolCustomData", new { urn = Model.Identifier })">
-                    Change the data for this school
-                </a>
-            </p>
-        </feature>
 
+            <feature name="@FeatureFlags.UserDefinedComparators">
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Identifier })">
+                        Change your similar schools
+                    </a>
+                </p>
+            </feature>
+        }
+        else
+        {
+            <p class="govuk-body">
+                <a class="govuk-link govuk-link--no-visited-state"
+                   href="@Url.Action("Index", "SchoolComparators", new { urn = Model.Identifier })">
+                    We've chosen 2 sets of similar schools
+                </a> to benchmark this school's spending against.
+            </p>
+
+            <feature name="@FeatureFlags.UserDefinedComparators">
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Identifier })">
+                        Choose a new or saved set of your own schools
+                    </a>
+                </p>
+            </feature>
+            <feature name="@FeatureFlags.CustomData">
+                <p class="govuk-body govuk-!-margin-bottom-0">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       id="custom-data-link"
+                       href="@Url.Action("Index", "SchoolCustomData", new { urn = Model.Identifier })">
+                        Change the data for this school
+                    </a>
+                </p>
+            </feature>
+        }
     </div>
 </div>

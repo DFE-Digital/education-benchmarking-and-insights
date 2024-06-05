@@ -117,13 +117,13 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your school", Paths.SchoolHome(school.URN).ToAbsolute()),
-            ("Benchmark census data", Paths.SchoolCensus(school.URN).ToAbsolute())
+            ("Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute())
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.SchoolCensus(school.URN).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK",
-            "Benchmark census data");
+        DocumentAssert.TitleAndH1(page, "Benchmark pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK",
+            "Benchmark pupil and workforce data");
 
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);

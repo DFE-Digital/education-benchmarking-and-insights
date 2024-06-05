@@ -10,10 +10,11 @@ namespace Platform.Api.Benchmark.ComparatorSets;
 public interface IComparatorSetsService
 {
     Task<string> CurrentYearAsync();
-    Task<ComparatorSetDefault> DefaultAsync(string urn, string setType = "unmixed");
-    Task UpsertUserDefinedSet(ComparatorSetUserDefined comparatorSet);
-    Task<ComparatorSetUserDefined?> UserDefinedAsync(string urn, string identifier, string runtType = "default");
-    Task UpsertUserData(string identifier, string? userId);
+    Task<ComparatorSetDefault> DefaultSchoolAsync(string urn, string setType = "unmixed");
+    Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefined comparatorSet);
+    Task<ComparatorSetUserDefined?> UserDefinedSchoolAsync(string urn, string identifier, string runtType = "default");
+    Task UpsertUserDataAsync(string identifier, string? userId, string status = "pending");
+    Task DeleteSchoolAsync(ComparatorSetUserDefined comparatorSet);
 }
 
 [ExcludeFromCodeCoverage]
@@ -34,7 +35,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstAsync<string>(sql);
     }
 
-    public async Task<ComparatorSetDefault> DefaultAsync(string urn, string setType)
+    public async Task<ComparatorSetDefault> DefaultSchoolAsync(string urn, string setType)
     {
         const string paramSql = "SELECT Value from Parameters where Name = 'CurrentYear'";
         const string setSql = "SELECT * from ComparatorSet where RunType = 'default' AND RunId = @RunId AND SetType = @SetType AND URN = @URN";
@@ -45,7 +46,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetDefault>(setSql, parameters);
     }
 
-    public async Task UpsertUserDefinedSet(ComparatorSetUserDefined comparatorSet)
+    public async Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefined comparatorSet)
     {
         const string sql = "SELECT * from UserDefinedComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
 
@@ -68,7 +69,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefined?> UserDefinedAsync(string urn, string identifier, string runtType = "default")
+    public async Task<ComparatorSetUserDefined?> UserDefinedSchoolAsync(string urn, string identifier, string runtType = "default")
     {
         const string sql = "SELECT * from UserDefinedComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
         var parameters = new { URN = urn, RunId = identifier, RunType = runtType };
@@ -77,7 +78,7 @@ public class ComparatorSetsService : IComparatorSetsService
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefined>(sql, parameters);
     }
 
-    public async Task UpsertUserData(string identifier, string? userId)
+    public async Task UpsertUserDataAsync(string identifier, string? userId, string status = "pending")
     {
         const string sql = "SELECT * from UserData where Id = @Id";
 
@@ -90,7 +91,7 @@ public class ComparatorSetsService : IComparatorSetsService
         if (existing != null)
         {
             existing.Expiry = DateTimeOffset.Now.AddDays(30);
-            existing.Status = "pending";
+            existing.Status = status;
             await conn.UpdateAsync(existing, transaction);
         }
         else
@@ -99,11 +100,26 @@ public class ComparatorSetsService : IComparatorSetsService
             {
                 Id = identifier,
                 UserId = userId,
-                Expiry = DateTimeOffset.Now.AddDays(30)
+                Expiry = DateTimeOffset.Now.AddDays(30),
+                Status = status
             };
 
             await conn.InsertAsync(data, transaction);
         }
+
+        transaction.Commit();
+    }
+
+    public async Task DeleteSchoolAsync(ComparatorSetUserDefined comparatorSet)
+    {
+        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
+        var parameters = new { Id = comparatorSet.RunId };
+
+        using var connection = await _dbFactory.GetConnection();
+        using var transaction = connection.BeginTransaction();
+
+        await connection.DeleteAsync(comparatorSet, transaction);
+        await connection.ExecuteAsync(sql, parameters, transaction);
 
         transaction.Commit();
     }

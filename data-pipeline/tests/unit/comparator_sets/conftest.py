@@ -1,6 +1,7 @@
 import random
 import string
 
+import numpy as np
 import pytest
 
 
@@ -21,4 +22,22 @@ def random_row() -> dict:
         "Percentage Primary Need ASD": random.uniform(0, 100),
         "Percentage Primary Need OTH": random.uniform(0, 100),
         "Percentage SEN": random.uniform(0, 100),
+    }
+
+
+@pytest.fixture
+def select_top_set_urns_defaults() -> dict:
+    """
+    Some default values for the `select_top_set_urns` function.
+
+    :return: function defaults
+    """
+    return {
+        "urns": np.array(list(string.ascii_uppercase)),  # ["A"…"Z"]
+        "pfi": np.array([True] * 26),  # [True, True…]
+        "boarding": np.array([True] * 26),  # [True, True…]
+        "regions": np.array(["A"] * 26),  # ["A"…"A"]
+        "distances": np.array([0.01 * i for i in range(26)]),  # [0.0, 0.01…0.25]
+        "base_set_size": 6,
+        "final_set_size": 3,
     }

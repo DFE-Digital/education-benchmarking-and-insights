@@ -6,22 +6,36 @@ public record SchoolCharacteristic
     public string? SchoolName { get; set; }
     public string? AddressTown { get; set; }
     public string? AddressPostcode { get; set; }
-    public string? OverallPhase { get; set; }
-    public decimal? TotalPupils { get; set; }
     public string? FinanceType { get; set; }
-    public string? LocalAuthority { get; set; }
+    public string? OverallPhase { get; set; }
+    public string? LAName { get; set; }
+    public decimal? TotalPupils { get; set; }
     public decimal? PercentFreeSchoolMeals { get; set; }
     public decimal? PercentSpecialEducationNeeds { get; set; }
     public string? LondonWeighting { get; set; }
-    public int? AverageBuildingAge { get; set; }
-    public int? GrossInternalFloorArea { get; set; }
-    public string? OfstedRating { get; set; }
-    public int? NumberSchoolsInTrust { get; set; }
+    public decimal? BuildingAverageAge { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
+    public string? OfstedDescription { get; set; }
+    public int? SchoolsInTrust { get; set; }
+    public bool? IsPFISchool { get; set; }
+    public decimal? TotalPupilsSixthForm { get; set; }
+    public decimal? KS2Progress { get; set; }
+    public decimal? KS4Progress { get; set; }
+    public decimal? PercentWithVI { get; set; }
+    public decimal? PercentWithSPLD { get; set; }
+    public decimal? PercentWithSLD { get; set; }
+    public decimal? PercentWithSLCN { get; set; }
+    public decimal? PercentWithSEMH { get; set; }
+    public decimal? PercentWithPMLD { get; set; }
+    public decimal? PercentWithPD { get; set; }
+    public decimal? PercentWithOTH { get; set; }
+    public decimal? PercentWithMSI { get; set; }
+    public decimal? PercentWithMLD { get; set; }
+    public decimal? PercentWithHI { get; set; }
+    public decimal? PercentWithASD { get; set; }
+
     public string? SchoolPosition { get; set; }
-    public bool? PrivateFinanceInitiative { get; set; }
-    public int? NumberOfPupilsSixthForm { get; set; }
-    public decimal? KeyStage2Progress { get; set; }
-    public decimal? KeyStage4Progress { get; set; }
+
     public string? Address { get; set; }
 }
 
@@ -53,7 +67,7 @@ public record SchoolCharacteristicBuilding
     public string? SchoolName { get; set; }
     public string? OverallPhase { get; set; }
     public decimal? TotalPupils { get; set; }
-    public int? AverageBuildingAge { get; set; }
-    public int? GrossInternalFloorArea { get; set; }
+    public decimal? BuildingAverageAge { get; set; }
+    public decimal? TotalInternalFloorArea { get; set; }
     public string? Address { get; set; }
 }

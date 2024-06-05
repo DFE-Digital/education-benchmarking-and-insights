@@ -4,5 +4,7 @@ public enum FinanceTools
 {
     CompareYourCosts,
     FinancialPlanning,
-    BenchmarkCensus
+    BenchmarkCensus,
+    CentralServices,
+    ForecastRisk
 }

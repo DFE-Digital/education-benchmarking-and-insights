@@ -9,7 +9,7 @@
 
 @await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust })
 
-@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, referrer = Referrers.SchoolSpending })
+@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId) })
 
 @if (Model.PriorityCosts.Any())
 {

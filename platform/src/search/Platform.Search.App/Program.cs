@@ -15,11 +15,6 @@ static Task RebuildIndexes(ProgramOptions options)
     {
         Key = options.SearchKey,
         Name = options.SearchName,
-        Cosmos = new SearchMaintenanceServiceOptions.CosmosOptions
-        {
-            ConnectionString = options.CosmosConnectionString,
-            DatabaseId = options.CosmosDatabaseId
-        },
         Sql = new SearchMaintenanceServiceOptions.SqlOptions
         {
             ConnectionString = options.SqlConnectionString

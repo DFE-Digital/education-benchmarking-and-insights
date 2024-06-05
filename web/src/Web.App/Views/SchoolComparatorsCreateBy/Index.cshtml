@@ -1,6 +1,5 @@
 ﻿@using Web.App.Domain
 @using Web.App.Extensions
-@using Web.App.TagHelpers
 @model Web.App.ViewModels.SchoolComparatorsViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateBy;
@@ -52,11 +51,3 @@
         }
     </div>
 </div>
-
-@section scripts
-{
-    <script type="module" add-nonce="true">
-      import { initAll } from '/js/govuk-frontend.min.js'
-      initAll()
-    </script>
-}

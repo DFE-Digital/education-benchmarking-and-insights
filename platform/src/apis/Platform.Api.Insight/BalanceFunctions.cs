@@ -47,7 +47,7 @@ public class BalanceFunctions
     }
 
     [FunctionName(nameof(BalanceSchoolHistoryAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> BalanceSchoolHistoryAsync(
@@ -158,7 +158,7 @@ public class BalanceFunctions
 
 
     [FunctionName(nameof(BalanceTrustHistoryAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(BalanceResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> BalanceTrustHistoryAsync(

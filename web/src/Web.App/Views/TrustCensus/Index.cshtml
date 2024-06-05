@@ -7,7 +7,7 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new [] {"Compare your schools census data."}})
+@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.Trust, isPartOfTrust = true, additionText = new [] {"Compare your schools pupil and workforce data."}})
 
 <div id="compare-your-census" 
      data-type="@OrganisationTypes.Trust" 
@@ -15,4 +15,14 @@
      data-phases="@Model.Phases.ToJson(Formatting.None)">
 </div>
 
-@await Component.InvokeAsync("TrustFinanceTools", new { identifier = Model.CompanyNumber, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.CompareYourCosts } })
+@await Component.InvokeAsync("TrustFinanceTools", new
+{
+    identifier = Model.CompanyNumber, 
+    tools = new[]
+    {
+        FinanceTools.CompareYourCosts,
+        FinanceTools.CentralServices,
+        FinanceTools.ForecastRisk,
+        FinanceTools.FinancialPlanning
+    }
+})

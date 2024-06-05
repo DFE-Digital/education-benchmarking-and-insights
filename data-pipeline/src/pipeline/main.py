@@ -1,7 +1,6 @@
 import json
 import logging
 import os
-import sys
 import time
 from contextlib import suppress
 import pandas as pd
@@ -17,7 +16,8 @@ from src.pipeline.log import setup_logger
 from src.pipeline.database import (
     insert_comparator_set,
     insert_metric_rag,
-    insert_schools_and_trusts_and_local_authorities
+    insert_schools_and_trusts_and_local_authorities,
+    insert_non_financial_data
 )
 
 from src.pipeline.rag import compute_rag
@@ -238,6 +238,7 @@ def pre_process_all_schools(set_type, year, data_ref):
     )
 
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
+    insert_non_financial_data(set_type, year, all_schools)
 
 
 def pre_process_bfr(set_type, year):
@@ -284,7 +285,7 @@ def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
 
-    cdc, census, sen, ks2, ks4, aar, schools, bfr = worker_client.gather(
+    cdc, census, sen, ks2, ks4, aar, schools = worker_client.gather(
         [
             worker_client.submit(pre_process_cdc, set_type, year),
             worker_client.submit(pre_process_census, set_type, year),
@@ -293,7 +294,6 @@ def pre_process_data(worker_client, set_type, year):
             worker_client.submit(pre_process_ks4, set_type, year),
             worker_client.submit(pre_process_academy_ar, set_type, year),
             worker_client.submit(pre_process_schools, set_type, year),
-            worker_client.submit(pre_process_bfr, set_type, year),
         ]
     )
 
@@ -309,6 +309,8 @@ def pre_process_data(worker_client, set_type, year):
     )
 
     pre_process_all_schools(set_type, year, (academies, maintained_schools))
+
+    # pre_process_bfr(set_type, year)
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")

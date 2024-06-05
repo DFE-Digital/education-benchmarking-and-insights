@@ -1,7 +1,7 @@
 ﻿namespace Web.App.ViewModels.Components;
 
-public class ComparatorSetDetailsViewModel(string identifier, string referrer)
+public class ComparatorSetDetailsViewModel(string identifier, bool hasUserDefinedSet)
 {
     public string Identifier => identifier;
-    public string Referrer => referrer;
+    public bool HasUserDefinedSet => hasUserDefinedSet;
 }

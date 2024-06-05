@@ -50,6 +50,9 @@ export type ExpenditureData = {
   energyCosts: number;
   waterSewerageCosts: number;
   hasIncompleteData: boolean;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type Balance = {
@@ -58,25 +61,40 @@ export type Balance = {
   dimension: string;
   inYearBalance: number;
   revenueReserve: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type Census = {
   urn: string;
-  name: string;
-  schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  yearEnd: string;
-  term: string;
-  workforceFte: number;
-  teachersFte: number;
-  seniorLeadershipFte: number;
-  teachingAssistantsFte: number;
-  nonClassroomSupportStaffFte: number;
-  auxiliaryStaffFte: number;
+  totalPupils: bigint;
+  workforceFTE: number;
   workforceHeadcount: number;
-  teachersQualified: number;
-  hasIncompleteData: boolean;
+  teachersFTE: number;
+  seniorLeadershipFTE: number;
+  teachingAssistantFTE: number;
+  nonClassroomSupportStaffFTE: number;
+  auxiliaryStaffFTE: number;
+  percentTeacherWithQualifiedStatus: number;
+  schoolName: string;
+  schoolType: string;
+  laName: string;
+};
+
+export type CensusHistory = {
+  year: string;
+  term: string;
+  urn: string;
+  totalPupils: bigint;
+  workforceFTE: number;
+  workforceHeadcount: number;
+  teachersFTE: number;
+  seniorLeadershipFTE: number;
+  teachingAssistantFTE: number;
+  nonClassroomSupportStaffFTE: number;
+  auxiliaryStaffFTE: number;
+  percentTeacherWithQualifiedStatus: number;
 };
 
 export type Income = {
@@ -100,6 +118,9 @@ export type Income = {
   receiptsSupplyTeacherInsuranceClaims: number;
   investmentIncome: number;
   otherSelfGeneratedIncome: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type Expenditure = {
@@ -148,4 +169,7 @@ export type Expenditure = {
   supplyTeacherInsurableCosts: number;
   communityFocusedSchoolStaff: number;
   communityFocusedSchoolCosts: number;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };

@@ -19,6 +19,7 @@ import {
   SpendingAndCostsComposedElementId,
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
+  SchoolSuggesterId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -38,6 +39,7 @@ import { SchoolTick } from "./components/charts/school-tick";
 import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
 import { ExpenditureData, Census } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
+import SchoolInput from "./views/find-organisation/partials/school-input";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -184,7 +186,7 @@ const HorizontalChart1Series = ({
                 shortValueFormatter(v, { valueUnit }),
             },
           }}
-          seriesLabelField="name"
+          seriesLabelField="schoolName"
           tickWidth={400}
           tick={(t) => (
             <SchoolTick
@@ -195,7 +197,7 @@ const HorizontalChart1Series = ({
                 urn && (window.location.href = `/school/${urn}`);
               }}
               schoolUrnResolver={(name) =>
-                data.find((d) => d.name === name)?.urn
+                data.find((d) => d.schoolName === name)?.urn
               }
             />
           )}
@@ -496,4 +498,14 @@ if (spendingAndCostsComposedElements) {
       );
     }
   });
+}
+
+const schoolSuggesterElement = document.getElementById(SchoolSuggesterId);
+if (schoolSuggesterElement) {
+  const root = ReactDOM.createRoot(schoolSuggesterElement);
+  root.render(
+    <React.StrictMode>
+      <SchoolInput input="" urn="" />
+    </React.StrictMode>
+  );
 }

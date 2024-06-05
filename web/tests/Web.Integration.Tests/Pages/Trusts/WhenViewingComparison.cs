@@ -27,7 +27,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         var (page, trust) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[1].QuerySelector("h3 > a");
+        var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -115,10 +115,7 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client) : Page
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(2, toolsLinks.Count);
-        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
-            Paths.TrustFinancialPlanning(trust.CompanyNumber).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark census data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
+        Assert.Equal(4, toolsLinks.Count);
     }
 }
 

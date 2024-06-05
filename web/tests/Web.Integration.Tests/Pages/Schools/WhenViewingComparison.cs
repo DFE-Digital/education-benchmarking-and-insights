@@ -138,6 +138,6 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
 
         DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
             Paths.SchoolFinancialPlanning(school.URN).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Benchmark census data", Paths.SchoolCensus(school.URN).ToAbsolute());
+        DocumentAssert.Link(toolsLinks[1], "Benchmark pupil and workforce data", Paths.SchoolCensus(school.URN).ToAbsolute());
     }
 }

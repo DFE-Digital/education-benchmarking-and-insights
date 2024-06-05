@@ -6,16 +6,25 @@ namespace Web.App.Services;
 
 public interface ISuggestService
 {
-    Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search);
+    Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null);
     Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
 {
-    public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search)
+    public async Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null)
     {
-        var suggestions = await establishmentApi.SuggestSchools(search).GetResultOrThrow<SuggestOutput<School>>();
+        var query = new ApiQuery();
+        if (excludeSchools != null)
+        {
+            foreach (var school in excludeSchools)
+            {
+                query.AddIfNotNull("urns", school);
+            }
+        }
+
+        var suggestions = await establishmentApi.SuggestSchools(search, query).GetResultOrThrow<SuggestOutput<School>>();
         return suggestions.Results.Select(value =>
         {
             var text = value.Text?.Replace("*", "");

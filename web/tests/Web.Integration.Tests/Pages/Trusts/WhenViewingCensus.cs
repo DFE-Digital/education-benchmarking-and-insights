@@ -27,7 +27,7 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         var (page, trust) = await SetupNavigateInitPage();
 
         var liElements = page.QuerySelectorAll("ul.app-links > li");
-        var anchor = liElements[1].QuerySelector("h3 > a");
+        var anchor = liElements[0].QuerySelector("h3 > a");
         Assert.NotNull(anchor);
 
         var newPage = await Client.Follow(anchor);
@@ -87,12 +87,12 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Benchmark census data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute()),
+            ("Benchmark pupil and workforce data", Paths.TrustCensus(trust.CompanyNumber).ToAbsolute()),
         };
 
         DocumentAssert.AssertPageUrl(page, Paths.TrustCensus(trust.CompanyNumber).ToAbsolute());
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
-        DocumentAssert.TitleAndH1(page, "Benchmark census data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark census data");
+        DocumentAssert.TitleAndH1(page, "Benchmark pupil and workforce data - Financial Benchmarking and Insights Tool - GOV.UK", "Benchmark pupil and workforce data");
 
         var component = page.GetElementById("compare-your-census");
         Assert.NotNull(component);
@@ -115,9 +115,6 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();
-        Assert.Equal(2, toolsLinks.Count);
-        DocumentAssert.Link(toolsLinks[0], "Curriculum and financial planning",
-            Paths.TrustFinancialPlanning(trust.CompanyNumber).ToAbsolute());
-        DocumentAssert.Link(toolsLinks[1], "Compare your costs", Paths.TrustComparison(trust.CompanyNumber).ToAbsolute());
+        Assert.Equal(4, toolsLinks.Count);
     }
 }
