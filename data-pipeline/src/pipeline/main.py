@@ -252,33 +252,38 @@ def pre_process_bfr(set_type, year):
         raw_container, f"{set_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
-    bfr_sofa, bfr_3y, bfr, bfr_metrics = build_bfr_data(bfr_sofa, bfr_3y)
+    academies_y2 = prepare_data(
+        pd.read_parquet(
+            get_blob("pre-processed", f"{set_type}/{year-2}/academies.parquet")
+        )
+    )
+
+    academies_y1 = prepare_data(
+        pd.read_parquet(
+            get_blob("pre-processed", f"{set_type}/{year-1}/academies.parquet")
+        )
+    )
+
+    academies = prepare_data(
+        pd.read_parquet(
+            get_blob("pre-processed", f"{set_type}/{year}/academies.parquet")
+        )
+    )
+    bfr_metrics, bfr = build_bfr_data(bfr_sofa, bfr_3y, academies_y2, academies_y1, academies)
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/bfr_sofa.parquet",
+        f"{set_type}/{year}/bfr_metrics.parquet",
         bfr_sofa.to_parquet(),
     )
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/bfr_3y.parquet",
+        f"{set_type}/{year}/bfr.parquet",
         bfr_3y.to_parquet(),
     )
 
-    write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/bfr.parquet",
-        bfr.to_parquet(),
-    )
-
-    write_blob(
-        "pre-processed",
-        f"{set_type}/{year}/bfr_metrics.parquet",
-        bfr.to_parquet(),
-    )
-
-    return bfr_sofa, bfr_3y, bfr, bfr_metrics
+    return bfr_metrics, bfr
 
 
 def pre_process_data(worker_client, set_type, year):

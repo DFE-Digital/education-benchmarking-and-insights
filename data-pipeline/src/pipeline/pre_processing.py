@@ -773,21 +773,48 @@ def _assign_slope_flag(df):
     return df
 
 
-def _slope_analysis(bfr_dataframe):
+def _slope_analysis(bfr_dataframe, academies_y2, academies_y1):
 
     year_columns = ['Y-2','Y-1','Y1','Y2','Y3','Y4']
-    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title']=='Revenue reserves'].set_index('TrustUPIN')
-    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title']=='Pupil numbers'].set_index('TrustUPIN')
+    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title']=='Revenue reserves']
+    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title']=='Pupil numbers']
+
+    
 
     # TODO need to add in historic data to this, filling in fake values for now
-    bfr_revenue_reserves['Y-1'] = bfr_revenue_reserves['Y1']*0.96
-    bfr_revenue_reserves['Y-2'] = bfr_revenue_reserves['Y-1']*0.96
-    bfr_pupil_numbers['Y-1'] = bfr_pupil_numbers['Y1']*0.94
-    bfr_pupil_numbers['Y-2'] = bfr_pupil_numbers['Y-1']*0.94
+    bfr_revenue_reserves = pd.merge(
+        bfr_revenue_reserves, 
+        academies_y2[['Trust UPIN','Trust Balance']].rename(columns={
+            'Trust UPIN':'TrustUPIN',
+            'Trust Balance':'Y-2'
+            }).drop_duplicates(), how='left', on='TrustUPIN')
+    
+    bfr_revenue_reserves = pd.merge(
+        bfr_revenue_reserves, 
+        academies_y1[['Trust UPIN','Trust Balance']].rename(columns={
+                'Trust UPIN':'TrustUPIN',
+                'Trust Balance':'Y-1'
+                }).drop_duplicates(), how='left', on='TrustUPIN')
+    
+    bfr_pupil_numbers = pd.merge(
+        bfr_pupil_numbers, 
+        academies_y2[['Trust UPIN','Number of pupils']].rename(columns={
+            'Trust UPIN':'TrustUPIN',
+            'Number of pupils':'Y-2'
+            }).groupby('TrustUPIN').agg(sum), how='left', on='TrustUPIN')
+    
+    bfr_pupil_numbers = pd.merge(
+        bfr_pupil_numbers, 
+        academies_y2[['Trust UPIN','Number of pupils']].rename(columns={
+            'Trust UPIN':'TrustUPIN',
+            'Number of pupils':'Y-1'
+            }).groupby('TrustUPIN').agg(sum), how='left', on='TrustUPIN')
+
 
     # convert to matrix
     matrix_revenue_reserves = bfr_revenue_reserves[year_columns].values.astype(float)
     matrix_pupil_numbers = bfr_pupil_numbers[year_columns].values.astype(float)
+
     matrix_revenue_reserves_per_pupil = matrix_revenue_reserves/matrix_pupil_numbers
 
     # determine associated slopes
@@ -820,7 +847,7 @@ def _volatility_analysis(bfr):
     bfr['volatility_status'] = np.select(volatility_conditions, volatility_messages, default='')
     return bfr
 
-def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies):
+def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies_y2, academies_y1, academies):
 
     bfr_sofa = pd.read_csv(
         bfr_sofa_data_path,
@@ -835,6 +862,8 @@ def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies):
         dtype=input_schemas.bfr_3y_cols,
         usecols=input_schemas.bfr_3y_cols.keys(),
     )    
+
+
     # remove unused metrics
     bfr_sofa = bfr_sofa[bfr_sofa['EFALineNo'].isin([298,430,335,380,211,220,199,200,205,210,999])]
 
@@ -869,7 +898,7 @@ def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies):
     # get trust metrics
     bfr_metrics = _calculate_metrics(bfr)
     # Slope analysis
-    bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _slope_analysis(bfr)
+    bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _slope_analysis(bfr, academies_y2, academies_y1)
 
     # volatility analysis
     bfr = pd.merge(bfr, academies[['Trust UPIN','Trust Balance']].rename(
