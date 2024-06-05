@@ -8,7 +8,7 @@
         Create a set using these schools
     </a>
     <table class="govuk-table">
-        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen schools (@Model.Schools.Count())</caption>
+        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen schools (@Model.Schools.Count(x => x.URN != Model.Urn))</caption>
         <thead class="govuk-table__head">
         <tr class="govuk-table__row">
             <th scope="col" class="govuk-table__header govuk-!-width-one-third">School</th>
