@@ -1,0 +1,33 @@
+﻿@model Web.App.ViewModels.SchoolComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsRevert;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">This will remove all the schools you've chosen yourself and change back to the 2 sets of schools we chose.</p>
+        @using (Html.BeginForm("Revert", "SchoolComparators", new
+                {
+                    urn = Model.Urn
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
+        {
+            <div class="govuk-button-group">
+                <button type="submit" class="govuk-button" data-module="govuk-button">
+                    Change back
+                </button>
+                <a class="govuk-link" href="@Url.Action("Index", "School", new {urn = Model.Urn})">Cancel</a>
+            </div>
+        }
+    </div>
+</div>

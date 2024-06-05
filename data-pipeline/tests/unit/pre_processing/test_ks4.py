@@ -6,7 +6,7 @@ def test_prepare_ks4_data_has_correct_output_columns(prepared_ks4_data: pd.DataF
     assert list(prepared_ks4_data.columns) == [
         "AverageAttainment",
         "Progress8Measure",
-        "Progress8Banding"
+        "Progress8Banding",
     ]
 
 
@@ -22,11 +22,11 @@ def test_ks4_progress_eight_banding(prepared_ks4_data: pd.DataFrame):
     assert prepared_ks4_data["Progress8Banding"].iloc[0] == "Average"
 
 
-def test_ks4_replaces_average_attainment_supp_with_zero(prepared_ks4_data: pd.DataFrame):
+def test_ks4_replaces_average_attainment_supp_with_zero(
+    prepared_ks4_data: pd.DataFrame,
+):
     assert prepared_ks4_data["AverageAttainment"].iloc[1] == 0
 
 
 def test_ks4_replaces_average_attainment_ne_with_zero(prepared_ks4_data: pd.DataFrame):
     assert prepared_ks4_data["AverageAttainment"].iloc[2] == 0
-
-

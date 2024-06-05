@@ -11,9 +11,9 @@ logger = logging.getLogger("fbit-data-pipeline")
 db_args = os.getenv("DB_ARGS")
 
 args = []
-for sub in db_args.split(';'):
-    if '=' in sub:
-        args.append(map(str.strip, sub.split('=', 1)))
+for sub in db_args.split(";"):
+    if "=" in sub:
+        args.append(map(str.strip, sub.split("=", 1)))
 args = dict(args)
 
 connection_url = URL.create(
@@ -23,7 +23,7 @@ connection_url = URL.create(
     host=os.getenv("DB_HOST"),
     database=os.getenv("DB_NAME"),
     port=os.getenv("DB_PORT"),
-    query={"driver": "ODBC Driver 18 for SQL Server"} | args
+    query={"driver": "ODBC Driver 18 for SQL Server"} | args,
 )
 
 engine = create_engine(connection_url)
@@ -31,7 +31,7 @@ engine = create_engine(connection_url)
 
 @event.listens_for(engine, "before_cursor_execute")
 def receive_before_cursor_execute(
-        conn, cursor, statement, params, context, executemany
+    conn, cursor, statement, params, context, executemany
 ):
     if executemany:
         cursor.fast_executemany = True
@@ -42,8 +42,8 @@ def upsert(df, table_name, keys: list[str]):
 
     update_cols = []
     insert_cols = [*keys]
-    insert_vals = [f'src.{key_name}' for key_name in keys]
-    match_keys = [f'dest.{key_name}=src.{key_name}' for key_name in keys]
+    insert_vals = [f"src.{key_name}" for key_name in keys]
+    match_keys = [f"dest.{key_name}=src.{key_name}" for key_name in keys]
 
     for col in df.columns:
         if col in keys:
@@ -51,12 +51,12 @@ def upsert(df, table_name, keys: list[str]):
         update_cols.append("{col}=src.{col}".format(col=col))
         insert_cols.append(col)
         insert_vals.append("src.{col}".format(col=col))
-    temp_table = f'{table_name}_temp'
-    df.to_sql(temp_table, engine, if_exists='replace', index=True)
+    temp_table = f"{table_name}_temp"
+    df.to_sql(temp_table, engine, if_exists="replace", index=True)
     update_stmt = f'MERGE {table_name} as dest USING {temp_table} as src ON {" AND ".join(match_keys)}  WHEN MATCHED THEN UPDATE SET {", ".join(update_cols)} WHEN NOT MATCHED BY TARGET THEN INSERT ({", ".join(insert_cols)}) VALUES ({", ".join(insert_vals)});'
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(update_stmt))
-        cnx.execute(sqlalchemy.text(f'DROP TABLE IF EXISTS {temp_table}'))
+        cnx.execute(sqlalchemy.text(f"DROP TABLE IF EXISTS {temp_table}"))
 
 
 def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFrame):
@@ -77,17 +77,35 @@ def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFr
 
 def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame):
     write_frame = df[
-        ["Category", "SubCategory", "Value", "Mean", "DiffMean", "PercentDiff", "Percentile", "Decile", "RAG"]
+        [
+            "Category",
+            "SubCategory",
+            "Value",
+            "Mean",
+            "DiffMean",
+            "PercentDiff",
+            "Percentile",
+            "Decile",
+            "RAG",
+        ]
     ].copy()
     write_frame["RunType"] = run_type
     write_frame["RunId"] = year
     write_frame["SetType"] = set_type
 
-    upsert(write_frame, "MetricRAG", keys=["RunType", "RunId", "SetType", "URN", "Category", "SubCategory"])
-    logger.info(f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}")
+    upsert(
+        write_frame,
+        "MetricRAG",
+        keys=["RunType", "RunId", "SetType", "URN", "Category", "SubCategory"],
+    )
+    logger.info(
+        f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}"
+    )
 
 
-def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df: pd.DataFrame):
+def insert_schools_and_trusts_and_local_authorities(
+    run_type: str, year: str, df: pd.DataFrame
+):
     projections = {
         "URN": "URN",
         "EstablishmentName": "SchoolName",
@@ -113,11 +131,14 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "Address3": "AddressLine3",
         "Town": "AddressTown",
         "County (name)": "AddressCounty",
-        "Postcode": "AddressPostcode"
+        "Postcode": "AddressPostcode",
     }
 
-    write_frame = (df.reset_index().rename(columns=projections)[[*projections.values()]]
-                   .drop_duplicates())
+    write_frame = (
+        df.reset_index()
+        .rename(columns=projections)[[*projections.values()]]
+        .drop_duplicates()
+    )
 
     upsert(write_frame, "School", keys=["URN"])
     logger.info(f"Wrote {len(write_frame)} rows to school {run_type} - {year}")
@@ -128,7 +149,7 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
         "CFO Name": "CFOName",
         "CFO Email": "CFOEmail",
         "OpenDate": "OpenDate",
-        "Company Registration Number": "CompanyNumber"
+        "Company Registration Number": "CompanyNumber",
     }
 
     trusts = (
@@ -145,14 +166,13 @@ def insert_schools_and_trusts_and_local_authorities(run_type: str, year: str, df
     upsert(trusts, "Trust", keys=["CompanyNumber"])
     logger.info(f"Wrote {len(trusts)} rows to trust {run_type} - {year}")
 
-    la_projections = {
-        "LA Code": "Code",
-        "LA Name": "Name"
-    }
+    la_projections = {"LA Code": "Code", "LA Name": "Name"}
 
-    las = (df.reset_index()[["LA Code", "LA Name"]]
-           .rename(columns=la_projections)[[*la_projections.values()]]
-           .drop_duplicates())
+    las = (
+        df.reset_index()[["LA Code", "LA Name"]]
+        .rename(columns=la_projections)[[*la_projections.values()]]
+        .drop_duplicates()
+    )
 
     las.set_index("Code", inplace=True)
 
@@ -217,7 +237,7 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "Percentage Primary Need MSI": "PercentWithMSI",
         "Percentage Primary Need MLD": "PercentWithMLD",
         "Percentage Primary Need HI": "PercentWithHI",
-        "Percentage Primary Need ASD": "PercentWithASD"
+        "Percentage Primary Need ASD": "PercentWithASD",
     }
 
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
@@ -228,5 +248,6 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
     upsert(write_frame, "NonFinancial", keys=["RunType", "RunId", "URN"])
-    logger.info(f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}")
-
+    logger.info(
+        f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}"
+    )

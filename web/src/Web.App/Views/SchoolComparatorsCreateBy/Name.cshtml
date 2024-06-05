@@ -54,6 +54,17 @@
     @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools))
 }
 
+@if (Model.Schools!= null && Model.Schools.Any(x => x.URN != Model.Urn))
+{
+    <p class="govuk-body govuk-!-text-align-right">
+        <a class="govuk-link govuk-link--no-visited-state"
+           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })">
+            Remove all your choices
+        </a>
+    </p>    
+}
+
+
 @section scripts
 {
     <script type="module" add-nonce="true">
