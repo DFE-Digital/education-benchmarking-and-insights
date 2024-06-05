@@ -4,11 +4,10 @@ namespace Web.App.Attributes;
 
 public class RequiredDependsAttribute(string otherProperty, string? otherValue = null) : CompareAttribute(otherProperty)
 {
-
     protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
     {
         var otherPropertyValue = validationContext.GetOtherPropertyValueOrThrow<string>(OtherProperty);
-        var propertyValue = value as string;
+        var propertyValue = value?.ToString();
 
         // other property is not set or not the otherValue, so ignore this value
         var otherPropertyValueIsSetOrMatches = string.IsNullOrWhiteSpace(otherValue)
