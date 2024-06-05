@@ -53,12 +53,12 @@ public class SchoolComparatorsController(ILogger<SchoolComparatorsController> lo
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetAsync(User.UserId());
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 SchoolCharacteristicUserDefined[]? schools = null;
 
-                if (userData.SchoolComparatorSet != null)
+                if (userData.ComparatorSet != null)
                 {
-                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.SchoolComparatorSet).GetResultOrDefault<ComparatorSetUserDefined>();
+                    var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet).GetResultOrDefault<ComparatorSetUserDefined>();
                     if (userDefinedSet != null)
                     {
                         schools = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);

@@ -1,37 +1,31 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Web.App.Domain;
 using Web.App.Extensions;
-using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 
 namespace Web.App.Controllers.Api;
 
 [ApiController]
 [Route("api/user-data")]
 [Authorize]
-public class UserDataProxyController(ILogger<ProxyController> logger, IUserDataApi userDataApi) : Controller
+public class UserDataProxyController(ILogger<ProxyController> logger, IUserDataService userDataService) : Controller
 {
     [HttpGet]
-    [Route("{identifier}")]
+    [Route("school/{urn}/{identifier}")]
     [Produces("application/json")]
-    public async Task<IActionResult> Index(string identifier)
+    public async Task<IActionResult> Index(string urn, string identifier)
     {
         using (logger.BeginScope(new { identifier }))
         {
             try
             {
-                var query = new ApiQuery()
-                    .AddIfNotNull("userId", User.UserId())
-                    .AddIfNotNull("id", identifier);
-
-                var userSets = await userDataApi.GetAsync(query).GetResultOrDefault<UserData[]>();
-                if (userSets == null || userSets.Length == 0)
+                var userSet = await userDataService.GetSchoolComparatorSetAsync(User.UserId(), identifier, urn);
+                if (userSet == null)
                 {
                     return new NotFoundResult();
                 }
 
-                return new JsonResult(userSets.FirstOrDefault());
+                return new JsonResult(userSet);
             }
             catch (Exception e)
             {

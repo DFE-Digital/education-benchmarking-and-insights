@@ -69,14 +69,14 @@ public class CensusProxyController(
 
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {
-        var userData = await userDataService.GetAsync(User.UserId());
-        if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+        var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
+        if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await comparatorSetService.ReadComparatorSet(id);
             return defaultSet.Pupil;
         }
 
-        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.SchoolComparatorSet);
+        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         return userDefinedSet.Set;
     }
 
