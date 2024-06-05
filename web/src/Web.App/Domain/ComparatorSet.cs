@@ -10,5 +10,6 @@ public record ComparatorSet
 
 public record ComparatorSetUserDefined
 {
+    public string? RunId { get; set; }
     public string[] Set { get; set; } = Array.Empty<string>();
 }

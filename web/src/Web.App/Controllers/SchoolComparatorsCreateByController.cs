@@ -75,11 +75,12 @@ public class SchoolComparatorsCreateByController(
     [HttpGet]
     [Route("name")]
     [ImportModelState]
-    public async Task<IActionResult> Name(string urn)
+    public async Task<IActionResult> Name(string urn, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
         {
-            urn
+            urn,
+            identifier
         }))
         {
             try
@@ -90,7 +91,17 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                ComparatorSetUserDefined userDefinedSet;
+                if (string.IsNullOrEmpty(identifier))
+                {
+                    userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                }
+                else
+                {
+                    userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(urn, identifier);
+                    comparatorSetService.ClearUserDefinedComparatorSet(urn, identifier);
+                    comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+                }
 
                 var schoolsQuery = new ApiQuery();
                 foreach (var selectedUrn in userDefinedSet.Set)
@@ -182,8 +193,17 @@ public class SchoolComparatorsCreateByController(
                     });
                 }
 
+                if (!userDefinedSet.Set.Contains(urn))
+                {
+                    //Ensure current school is in the set
+                    var list = userDefinedSet.Set.ToList();
+                    list.Add(urn);
+                    userDefinedSet.Set = list.ToArray();
+                }
+
                 var request = new PutComparatorSetUserDefinedRequest
                 {
+                    Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
                     URN = urn,
                     Set = userDefinedSet.Set,
                     UserId = User.UserId()
