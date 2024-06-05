@@ -121,7 +121,9 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
     mean = np.median(series)
     diff = value - mean
     diff_percent = (
-        (diff / value) * 100 if value != 0 and value != np.inf and value != np.nan and not pd.isna(value) else 0
+        (diff / value) * 100
+        if value != 0 and value != np.inf and value != np.nan and not pd.isna(value)
+        else 0
     )
     cats = category_name.split("_")
     return {
@@ -224,6 +226,7 @@ def compute_rag(data, comparators):
                         st = time.time()
                 except Exception as error:
                     logger.exception(
-                        f"An exception {type(error).__name__} occurred processing {urn}:", exc_info=error
+                        f"An exception {type(error).__name__} occurred processing {urn}:",
+                        exc_info=error,
                     )
                     return

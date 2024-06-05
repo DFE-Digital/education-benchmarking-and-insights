@@ -76,7 +76,7 @@ academy_master_list = {
     "Territory": "string",
     "Academy Status": "string",
     "Academy Trust Status": "string",
-    "Number of Academies in Trust": "Int64"
+    "Number of Academies in Trust": "Int64",
 }
 
 maintained_schools_master_list_index_col = "URN"
@@ -183,7 +183,7 @@ sen = {
     "EHC_Primary_need_asd": "float",
     "SUP_Primary_need_asd": "float",
     "EHC_Primary_need_oth": "float",
-    "SUP_Primary_need_oth": "float"
+    "SUP_Primary_need_oth": "float",
 }
 
 workforce_census_index_col = "URN"
@@ -334,7 +334,7 @@ aar_academies = {
     "Share of Revenue Reserve, distributed on per pupil basis\n": "float",
     "London Weighting": "string",
     "Date joined or opened if in period": "string",
-    "Date left or closed if in period": "string"
+    "Date left or closed if in period": "string",
 }
 
 aar_central_services_index_col = "Lead UPIN"
@@ -343,24 +343,24 @@ aar_central_services = {
     "In Year Balance": "float",
 }
 
-bfr_cell_mapping_cols = {'EFALineNo': 'Int64', 'balance_flag': 'Int64'}
+bfr_cell_mapping_cols = {"EFALineNo": "Int64", "balance_flag": "Int64"}
 
 bfr_sofa_cols = {
-    'TrustUPIN': 'Int64',
-    'CreatedBy': 'string',
-    'Category': 'string',
-    'Title': 'string',
-    'EFALineNo': 'Int64',
-    'Y1P1': 'float',
-    'Y1P2': 'float',
-    'Y2P1': 'float',
-    'Y2P2': 'float'
+    "TrustUPIN": "Int64",
+    "CreatedBy": "string",
+    "Category": "string",
+    "Title": "string",
+    "EFALineNo": "Int64",
+    "Y1P1": "float",
+    "Y1P2": "float",
+    "Y2P1": "float",
+    "Y2P2": "float",
 }
 
 bfr_3y_cols = {
-    'TrustUPIN': 'Int64',
-    'EFALineNo': 'Int64',
-    'Y2': 'Int64',
-    'Y3': 'Int64',
-    'Y4': 'Int64'
+    "TrustUPIN": "Int64",
+    "EFALineNo": "Int64",
+    "Y2": "Int64",
+    "Y3": "Int64",
+    "Y4": "Int64",
 }

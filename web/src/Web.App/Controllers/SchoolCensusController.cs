@@ -27,8 +27,8 @@ public class SchoolCensusController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCensus(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetAsync(User.UserId());
-                var viewModel = new SchoolCensusViewModel(school, userData.SchoolComparatorSet);
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet);
 
                 return View(viewModel);
             }

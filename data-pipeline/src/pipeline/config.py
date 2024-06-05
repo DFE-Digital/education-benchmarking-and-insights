@@ -50,7 +50,7 @@ cost_category_map = {
         "Auditor costs": "Non-educational support staff and services_Audit cost",
         "Interest charges for Loan and Bank": "Other costs_Interest charges for loan and bank",
         "Direct revenue financing - Revenue contributions to capital": "Other costs_Direct revenue financing",
-        "PFI Charges": "Other costs_PFI charges"
+        "PFI Charges": "Other costs_PFI charges",
     },
     "central_services": {
         "Teaching staff": "Teaching and Teaching support staff_Teaching staff",
@@ -122,7 +122,7 @@ cost_category_map = {
         "E01  Teaching Staff": "Teaching and Teaching support staff_Teaching staff",
         "E16  Energy": "Utilities_Energy",
         "E15  Water and sewerage": "Utilities_Water and sewerage",
-        "PFI": "Is PFI School",
+        "PFI": "PFI School",
         "I07  Other grants and payments": "Other grants and payments",
         # TODO: Should these come from the census record not the MS record
         "No Pupils": "Number of pupils",
@@ -132,7 +132,7 @@ cost_category_map = {
         "Revenue Reserve   B01 plus B02 plus B06": "Revenue Reserve",
         "I03  SEN funding": "SEN funding",
         "I10  Receipts from supply teacher insurance claims": "Receipts from supply teacher insurance claims",
-        "I13  Donations and or private funds": "Donations and/or voluntary funds"
+        "I13  Donations and or private funds": "Donations and/or voluntary funds",
     },
 }
 

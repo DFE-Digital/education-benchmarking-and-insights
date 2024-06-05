@@ -8,7 +8,7 @@ namespace Platform.Api.Benchmark.UserData;
 
 public interface IUserDataService
 {
-    Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null);
+    Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null, string? organisationId = null, string? organisationType = null);
 }
 
 [ExcludeFromCodeCoverage]
@@ -21,12 +21,22 @@ public class UserDataService : IUserDataService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null)
+    public async Task<IEnumerable<UserData>> QueryAsync(string userId, string? type = null, string? status = null, string? id = null, string? organisationId = null, string? organisationType = null)
     {
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
 
-        builder.Where("UserId = @userId AND Status <> 'removed'", new { userId });
+        builder.Where("UserId = @userId AND Status IN ('pending','complete')", new { userId });
+
+        if (!string.IsNullOrEmpty(organisationId))
+        {
+            builder.Where("OrganisationId = @organisationId", new { organisationId });
+        }
+
+        if (!string.IsNullOrEmpty(organisationId))
+        {
+            builder.Where("OrganisationType = @organisationType", new { organisationType });
+        }
 
         if (!string.IsNullOrEmpty(type))
         {

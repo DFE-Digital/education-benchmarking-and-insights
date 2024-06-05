@@ -15,7 +15,7 @@ public record PipelineFinishMessage
 public record PipelineStartMessage
 {
     public Guid JobId { get; set; } = Guid.NewGuid();
-    public string? Type { get; set; } // Pipeline job type : default / school-comparator-set / trust-comparator-set / custom-data
+    public string? Type { get; set; } // Pipeline job type : default / comparator-set / custom-data
     public string? RunType { get; set; }  // Data context : default / custom
     public string? RunId { get; set; } // year or id for comparator-set / custom-data
     public string? Year { get; set; } // Needed for when custom data or comparator set

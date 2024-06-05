@@ -10,6 +10,7 @@ public interface IComparatorSetService
     Task<ComparatorSetUserDefined> ReadUserDefinedComparatorSet(string urn, string identifier);
     ComparatorSetUserDefined ReadUserDefinedComparatorSet(string urn);
     ComparatorSetUserDefined SetUserDefinedComparatorSet(string urn, ComparatorSetUserDefined set);
+    void ClearUserDefinedComparatorSet(string urn, string identifier);
 }
 
 public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : IComparatorSetService
@@ -32,6 +33,14 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         var set = context?.Session.Get<ComparatorSetUserDefined>(key);
 
         return set ?? await SetUserDefinedComparatorSet(urn, identifier);
+    }
+
+    public void ClearUserDefinedComparatorSet(string urn, string identifier)
+    {
+        var key = SessionKeys.ComparatorSetUserDefined(urn, identifier);
+        var context = httpContextAccessor.HttpContext;
+
+        context?.Session.Remove(key);
     }
 
     public ComparatorSetUserDefined ReadUserDefinedComparatorSet(string urn)

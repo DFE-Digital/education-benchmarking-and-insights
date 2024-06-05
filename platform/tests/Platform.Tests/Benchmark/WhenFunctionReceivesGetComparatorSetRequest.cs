@@ -14,7 +14,7 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     {
         Service
             .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ComparatorSetDefault());
+            .ReturnsAsync(new ComparatorSetDefaultSchool());
 
         var result =
             await Functions.DefaultSchoolComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
