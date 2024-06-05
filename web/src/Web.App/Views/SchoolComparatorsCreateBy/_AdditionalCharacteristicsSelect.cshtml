@@ -33,23 +33,46 @@
                 </p>
             }
             <legend class="govuk-visually-hidden">@Model.Title</legend>
-            <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="@Model.ValueFieldName">
-                @foreach (var option in Model.Options)
-                {
-                    <div class="govuk-checkboxes__item">
-                        <input 
-                            class="govuk-checkboxes__input" 
-                            id="@Model.ValueFieldName-@option.ToSlug()" 
-                            name="@Model.ValueFieldName" 
-                            type="checkbox" 
-                            value="@option"
-                            @(Model.Values.Contains(option) ? "checked" : "")>
-                        <label class="govuk-label govuk-checkboxes__label" for="@Model.ValueFieldName-@option.ToSlug()">
-                            @option
-                        </label>
-                    </div>
-                }
-            </div>
+            @if (Model.MultiSelect)
+            {
+                <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="@Model.ValueFieldName">
+                    @foreach (var option in Model.Options)
+                    {
+                        <div class="govuk-checkboxes__item">
+                            <input
+                                class="govuk-checkboxes__input"
+                                id="@Model.ValueFieldName-@option.ToSlug()"
+                                name="@Model.ValueFieldName"
+                                type="checkbox"
+                                value="@option"
+                                @(Model.Values.Contains(option) ? "checked" : "")>
+                            <label class="govuk-label govuk-checkboxes__label" for="@Model.ValueFieldName-@option.ToSlug()">
+                                @option
+                            </label>
+                        </div>
+                    }
+                </div>
+            }
+            else
+            {
+                <div class="govuk-radios" data-module="govuk-radios" id="@Model.ValueFieldName">
+                    @foreach (var option in Model.Options)
+                    {
+                        <div class="govuk-radios__item">
+                            <input
+                                class="govuk-radios__input"
+                                id="@Model.ValueFieldName-@option.ToSlug()"
+                                name="@Model.ValueFieldName"
+                                type="radio"
+                                value="@option"
+                                @(Model.Values.Contains(option) ? "checked" : "")>
+                            <label class="govuk-label govuk-radios__label" for="@Model.ValueFieldName-@option.ToSlug()">
+                                @option
+                            </label>
+                        </div>
+                    }
+                </div>
+            }
         </fieldset>
     </div>
 </div>

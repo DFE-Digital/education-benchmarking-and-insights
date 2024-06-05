@@ -103,6 +103,7 @@ public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristic
         string? schoolName,
         string? schoolValueFormatted,
         string[] options,
+        bool multiSelect = true,
         string? prefix = null,
         string? suffix = null)
         : base(viewData, title, selectedFieldName, schoolName, schoolValueFormatted, prefix, suffix)
@@ -119,9 +120,11 @@ public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristic
         HasError = viewData.ModelState.HasError(valueFieldName);
         Errors = HasError ? [viewData.ModelState[valueFieldName]?.Errors.First().ErrorMessage!] : [];
         Options = options;
+        MultiSelect = multiSelect;
     }
 
     public string ValueFieldName { get; private set; }
     public string[] Values { get; private set; }
     public string[] Options { get; private set; }
+    public bool MultiSelect { get; private set; }
 }

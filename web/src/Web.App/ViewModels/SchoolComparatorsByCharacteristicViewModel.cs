@@ -39,12 +39,12 @@ public record UserDefinedCharacteristicViewModel
 
     [Display(Name = "Number of pupils from")]
     [RequiredDepends(nameof(TotalPupils), "true", ErrorMessage = "Enter the number of pupils from")]
-    [Range(1, 10000, ErrorMessage = "Enter number of pupils from between 1 and 10,000")]
+    [Range(1, 10_000, ErrorMessage = "Enter number of pupils from between 1 and 10,000")]
     public int? TotalPupilsFrom { get; init; }
 
     [Display(Name = "Number of pupils to")]
     [RequiredDepends(nameof(TotalPupils), "true", ErrorMessage = "Enter the number of pupils to")]
-    [Range(1, 10000, ErrorMessage = "Enter number of pupils to between 1 and 10,000")]
+    [Range(1, 10_000, ErrorMessage = "Enter number of pupils to between 1 and 10,000")]
     [CompareIntValue(nameof(TotalPupilsFrom), Operator.GreaterThanOrEqualTo)]
     public int? TotalPupilsTo { get; init; }
 
@@ -95,4 +95,30 @@ public record UserDefinedCharacteristicViewModel
     [Range(0, 100, ErrorMessage = "Enter average building age to between 0 and 100")]
     [CompareIntValue(nameof(AverageBuildingAgeFrom), Operator.GreaterThanOrEqualTo)]
     public int? AverageBuildingAgeTo { get; init; }
+
+    // floor area
+    public string? InternalFloorArea { get; init; }
+
+    [Display(Name = "Gross internal floor area from")]
+    [RequiredDepends(nameof(InternalFloorArea), "true", ErrorMessage = "Enter the gross internal floor area from")]
+    [Range(1, 100_000, ErrorMessage = "Enter gross internal floor area from between 1 and 100,000")]
+    public int? InternalFloorAreaFrom { get; init; }
+
+    [Display(Name = "Gross internal floor area to")]
+    [RequiredDepends(nameof(InternalFloorArea), "true", ErrorMessage = "Enter the gross internal floor area to")]
+    [Range(1, 100_000, ErrorMessage = "Enter gross internal floor area to between 1 and 100,000")]
+    [CompareIntValue(nameof(InternalFloorAreaFrom), Operator.GreaterThanOrEqualTo)]
+    public int? InternalFloorAreaTo { get; init; }
+
+    // ofsted
+    public string? OfstedRating { get; init; }
+
+    [RequiredDepends(nameof(OfstedRating), "true", ErrorMessage = "Select one or more Ofsted ratings")]
+    public string[] OfstedRatings { get; init; } = [];
+
+    // pfi
+    public string? PrivateFinanceInitiative { get; init; }
+
+    [RequiredDepends(nameof(PrivateFinanceInitiative), "true", ErrorMessage = "Select whether part of PFI")]
+    public string[] PrivateFinanceInitiatives { get; init; } = [];
 }

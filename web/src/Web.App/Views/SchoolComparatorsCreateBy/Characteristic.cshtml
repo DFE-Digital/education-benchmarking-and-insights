@@ -97,7 +97,7 @@
                                 Model.Name,
                                 Model.Characteristic?.LondonWeighting,
                                 ["Inner", "Outer", "Neither"],
-                                "is"))
+                                prefix: "is"))
                         @await Html.PartialAsync(
                             "_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
@@ -111,6 +111,42 @@
                                 "average building age is",
                                 "years",
                                 inputsSuffix: "years"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Gross internal floor area",
+                                nameof(Model.Data.InternalFloorArea),
+                                nameof(Model.Data.InternalFloorAreaFrom),
+                                nameof(Model.Data.InternalFloorAreaTo),
+                                Model.Name,
+                                Model.Characteristic?.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator(),
+                                "is",
+                                "square metres",
+                                inputsSuffix: "square metres"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Ofsted rating",
+                                nameof(Model.Data.OfstedRating),
+                                nameof(Model.Data.OfstedRatings),
+                                Model.Name,
+                                Model.Characteristic?.OfstedDescription,
+                                ["Outstanding", "Good", "Requires improvement", "Inadequate", "Not rated"],
+                                prefix: "is rated"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Part of a private finance initiative",
+                                nameof(Model.Data.PrivateFinanceInitiative),
+                                nameof(Model.Data.PrivateFinanceInitiatives),
+                                Model.Name,
+                                Model.Characteristic?.IsPFISchool == true ? "part of PFI" : "not part of PFI",
+                                ["Part of PFI", "Not part of PFI"],
+                                false,
+                                "is"))
                     </div>
                 </fieldset>
             </div>
