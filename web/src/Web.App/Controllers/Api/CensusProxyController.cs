@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -13,7 +14,8 @@ public class CensusProxyController(
     ILogger<ProxyController> logger,
     IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
-    IComparatorSetService comparatorSetService)
+    IComparatorSetService comparatorSetService,
+    IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
@@ -67,8 +69,15 @@ public class CensusProxyController(
 
     private async Task<IEnumerable<string>> GetSchoolSet(string id)
     {
-        var result = await comparatorSetService.ReadComparatorSet(id);
-        return result.Pupil;
+        var userData = await userDataService.GetAsync(User.UserId());
+        if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+        {
+            var defaultSet = await comparatorSetService.ReadComparatorSet(id);
+            return defaultSet.Pupil;
+        }
+
+        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.SchoolComparatorSet);
+        return userDefinedSet.Set;
     }
 
     private async Task<IEnumerable<string>> GetTrustSet(string id, string? phase)

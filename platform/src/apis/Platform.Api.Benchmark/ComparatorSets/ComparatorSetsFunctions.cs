@@ -60,7 +60,7 @@ public class ComparatorSetsFunctions
 
 
     [FunctionName(nameof(UserDefinedSchoolComparatorSetAsync))]
-    [ProducesResponseType(typeof(string[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetUserDefined), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UserDefinedSchoolComparatorSetAsync(
@@ -84,7 +84,7 @@ public class ComparatorSetsFunctions
                 var comparatorSet = await _service.UserDefinedSchoolAsync(urn, identifier);
                 return comparatorSet == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(comparatorSet.Set);
+                    : new JsonContentResult(comparatorSet);
             }
             catch (Exception e)
             {
@@ -167,7 +167,7 @@ public class ComparatorSetsFunctions
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> RemoveUserDefinedSchoolComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
         HttpRequest req,
         string urn,
         string identifier)
