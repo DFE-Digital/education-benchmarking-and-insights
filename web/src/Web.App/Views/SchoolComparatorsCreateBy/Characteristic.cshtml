@@ -98,6 +98,19 @@
                                 Model.Characteristic?.LondonWeighting,
                                 ["Inner", "Outer", "Neither"],
                                 "is"))
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Average building age",
+                                nameof(Model.Data.AverageBuildingAge),
+                                nameof(Model.Data.AverageBuildingAgeFrom),
+                                nameof(Model.Data.AverageBuildingAgeTo),
+                                Model.Name,
+                                (DateTime.Now.Year - Model.Characteristic?.BuildingAverageAge).GetValueOrDefault().ToNumberSeparator(),
+                                "average building age is",
+                                "years",
+                                inputsSuffix: "years"))
                     </div>
                 </fieldset>
             </div>

@@ -2,11 +2,11 @@
 @model Web.App.ViewModels.AdditionalCharacteristicsRangeViewModel
 
 <div class="govuk-checkboxes__item">
-    <input class="govuk-checkboxes__input" 
-           id="@Model.SelectedFieldName" 
-           name="@Model.SelectedFieldName" 
-           type="checkbox" 
-           value="true" 
+    <input class="govuk-checkboxes__input"
+           id="@Model.SelectedFieldName"
+           name="@Model.SelectedFieldName"
+           type="checkbox"
+           value="true"
            data-aria-controls="conditional-@Model.SelectedFieldName" @(Model.Selected ? "checked" : "")>
     <label class="govuk-label govuk-checkboxes__label" for="@Model.SelectedFieldName">
         @Model.Title
@@ -38,11 +38,11 @@
                     From
                 </label>
                 <div class="govuk-input__wrapper">
-                    <input 
-                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.FromFieldName) ? "govuk-input--error" : string.Empty)" 
-                        id="@Model.FromFieldName" 
-                        name="@Model.FromFieldName" 
-                        type="text" 
+                    <input
+                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.FromFieldName) ? "govuk-input--error" : string.Empty)"
+                        id="@Model.FromFieldName"
+                        name="@Model.FromFieldName"
+                        type="text"
                         value="@Model.ValueFrom">
                     @if (!string.IsNullOrWhiteSpace(Model.InputSuffix))
                     {
@@ -55,11 +55,11 @@
                     To
                 </label>
                 <div class="govuk-input__wrapper">
-                    <input 
-                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.ToFieldName) ? "govuk-input--error" : string.Empty)" 
-                        id="@Model.ToFieldName" 
-                        name="@Model.ToFieldName" 
-                        type="text" 
+                    <input
+                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.ToFieldName) ? "govuk-input--error" : string.Empty)"
+                        id="@Model.ToFieldName"
+                        name="@Model.ToFieldName"
+                        type="text"
                         value="@Model.ValueTo">
                     @if (!string.IsNullOrWhiteSpace(Model.InputSuffix))
                     {
@@ -67,6 +67,12 @@
                     }
                 </div>
             </div>
+            @if (!string.IsNullOrWhiteSpace(Model.InputsSuffix))
+            {
+                <div class="govuk-grid-column-one-quarter govuk-!-margin-top-7 govuk-!-padding-left-0">
+                    <p class="govuk-body">@Model.InputsSuffix</p>
+                </div>
+            }
         </fieldset>
     </div>
 </div>

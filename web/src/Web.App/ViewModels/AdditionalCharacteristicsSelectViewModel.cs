@@ -53,7 +53,8 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         string? schoolValueFormatted,
         string? prefix = null,
         string? suffix = null,
-        string? inputSuffix = null)
+        string? inputSuffix = null,
+        string? inputsSuffix = null)
         : base(viewData, title, selectedFieldName, schoolName, schoolValueFormatted, prefix, suffix)
     {
         FromFieldName = fromFieldName;
@@ -81,6 +82,7 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
             : [];
 
         InputSuffix = inputSuffix;
+        InputsSuffix = inputsSuffix;
     }
 
     public string FromFieldName { get; private set; }
@@ -88,6 +90,7 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
     public string? ValueFrom { get; private set; }
     public string? ValueTo { get; private set; }
     public string? InputSuffix { get; private set; }
+    public string? InputsSuffix { get; private set; }
 }
 
 public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristicsViewModel
