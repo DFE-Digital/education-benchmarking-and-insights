@@ -273,10 +273,19 @@ public class SchoolComparatorsCreateByController(
                 {
                     logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+
+                    // prevent double-reporting of the same validation error (both values are required to be submitted by the
+                    // client side component in order for a valid option to have deemed to have been selected from the suggester) 
+                    if (ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.LaInput))
+                        && ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.Code)))
+                    {
+                        ModelState.ClearValidationState(nameof(UserDefinedCharacteristicViewModel.LaInput));
+                    }
+
                     return RedirectToAction(nameof(Characteristic));
                 }
 
-                // todo: persist
+                // todo: generate preview based on characteristics
                 return StatusCode(StatusCodes.Status302Found);
             }
             catch (Exception e)

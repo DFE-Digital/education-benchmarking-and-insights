@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Reflection;
-
+using Web.App.Extensions;
 namespace Web.App.Attributes;
 
 public class CompareDecimalValueAttribute(string otherProperty, Operator operatorType) : CompareAttribute(otherProperty)
@@ -31,18 +31,7 @@ public class CompareDecimalValueAttribute(string otherProperty, Operator operato
             return null;
         }
 
-        var otherPropertyInfo = validationContext.ObjectType.GetRuntimeProperty(OtherProperty);
-        if (otherPropertyInfo == null)
-        {
-            return new ValidationResult($"Could not find a property named {OtherProperty}.");
-        }
-
-        if (otherPropertyInfo.GetIndexParameters().Length > 0)
-        {
-            throw new ArgumentException(
-                $"The property {validationContext.ObjectType.FullName}.{OtherProperty} could not be found.");
-        }
-
+        var otherPropertyInfo = validationContext.GetOtherPropertyOrThrow(OtherProperty);
         var propertyValue = value as decimal?;
         var otherPropertyValue = otherPropertyInfo.GetValue(validationContext.ObjectInstance, null) as decimal?;
         switch (OperatorType)
@@ -89,7 +78,10 @@ public class CompareDecimalValueAttribute(string otherProperty, Operator operato
         OtherPropertyDisplayName ??= GetDisplayNameForProperty(otherPropertyInfo);
 
         var memberNames = validationContext.MemberName != null
-            ? new[] { validationContext.MemberName }
+            ? new[]
+            {
+                validationContext.MemberName
+            }
             : null;
         return new ValidationResult(FormatErrorMessage(validationContext.DisplayName), memberNames);
     }

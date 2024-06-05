@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Web.App.Attributes;
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
@@ -10,7 +11,8 @@ public class SchoolComparatorsByCharacteristicViewModel(School school, SchoolCha
     public UserDefinedCharacteristicViewModel Data => new()
     {
         FinanceType = characteristic?.FinanceType,
-        OverallPhase = [Characteristic?.OverallPhase]
+        OverallPhase = [Characteristic?.OverallPhase],
+        LaSelection = characteristic == null ? null : "This"
     };
 }
 
@@ -21,4 +23,13 @@ public record UserDefinedCharacteristicViewModel
 
     [Required(ErrorMessage = "Select at least one school category")]
     public string?[]? OverallPhase { get; init; }
+
+    [Required(ErrorMessage = "Select a local authority")]
+    public string? LaSelection { get; init; }
+
+    [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
+    public string? LaInput { get; init; }
+
+    [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
+    public string? Code { get; init; }
 }

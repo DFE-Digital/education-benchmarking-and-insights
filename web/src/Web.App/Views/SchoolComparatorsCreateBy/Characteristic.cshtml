@@ -34,7 +34,12 @@
 
     @await Html.PartialAsync("_SchoolTypes", Model.Data)
     @await Html.PartialAsync("_SchoolCategories", Model.Data)
-
+    @await Html.PartialAsync("_LocalAuthorities", Model.Data, new ViewDataDictionary(ViewData)
+    {
+        {
+            "LAName", Model.Characteristic?.LAName
+        }
+    })
     @* *@
     @* *@
     @* <div class="govuk-form-group"> *@

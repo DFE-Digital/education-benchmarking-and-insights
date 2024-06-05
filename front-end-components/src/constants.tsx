@@ -11,3 +11,4 @@ export const FindOrganisationElementId = "find-organisation";
 export const SchoolEstablishment = "school";
 export const TrustEstablishment = "trust";
 export const SchoolSuggesterId = "school-suggester";
+export const LaSuggesterId = "la-suggester";
