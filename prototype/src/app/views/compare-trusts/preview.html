@@ -22,15 +22,21 @@
         
     <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
     <h1 class="govuk-heading-l">
-      Trusts matched using the characteristics you selected
+      Trusts successfully matched
     </h1>
 
-    <p class="govuk-body">These are the 10 closest matches to your trust from the 52 trusts matching the characteristics you selected.</p>
+    <p class="govuk-body">We matched 52 trusts, but these are the 10 closest matches to {{ data['trust-name'] }} using the characteristics you selected.</p>
+    <p class="govuk-body">All these trusts include:</p>
 
-    <p><a href="/compare-trusts/characteristics" class="govuk-link">Change characteristics and create a new list</a></p>
+    <ul class="govuk-list govuk-list--bullet">
+      <li>nurseries</li>
+      <li>primary schools</li>
+      <li>special schools</li>
+    </ul>
+    <p><a href="/compare-trusts/characteristics" class="govuk-link">Change characteristics and create a new set</a></p>
 
     {{ govukButton({
-      text: "Compare these trusts",
+      text: "Create a set using these trusts",
       href: '/loading?redirect=/compare-trusts/compare?showBanner=true'
     }) }}
 
@@ -42,7 +48,7 @@
           classes: "govuk-!-width-one-third"
         },
         {
-          text: "Characteristics",
+          text: "Individual characteristics",
           colspan: 2
         }
       ],
@@ -50,7 +56,7 @@
     }) }}
 
     {{ govukButton({
-        text: "Compare these trusts",
+        text: "Create a set using these trusts",
         href: '/loading?redirect=/compare-trusts/compare?showBanner=true'
     }) }}
 
