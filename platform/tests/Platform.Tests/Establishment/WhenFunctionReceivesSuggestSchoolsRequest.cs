@@ -14,7 +14,7 @@ public class WhenFunctionReceivesSuggestSchoolsRequest : SchoolsFunctionsTestBas
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>()))
+            .Setup(d => d.SuggestAsync(It.IsAny<SuggestRequest>(), It.IsAny<string[]?>()))
             .ReturnsAsync(new SuggestResponse<School>());
 
         Validator

@@ -112,7 +112,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         EstablishmentApi.Setup(api => api.GetSchool(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetTrust(It.IsAny<string>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.GetLocalAuthority(It.IsAny<string>())).Throws(new Exception());
-        EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>())).Throws(new Exception());
+        EstablishmentApi.Setup(api => api.SuggestSchools(It.IsAny<string>(), It.IsAny<ApiQuery?>())).Throws(new Exception());
         EstablishmentApi.Setup(api => api.SuggestTrusts(It.IsAny<string>())).Throws(new Exception());
         return this;
     }

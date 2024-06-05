@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using System.Threading.Tasks;
 using Dapper;
 using Microsoft.Extensions.Options;
@@ -10,11 +12,10 @@ namespace Platform.Api.Establishment.Schools;
 
 public interface ISchoolsService
 {
-    Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request);
+    Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request, string[]? excludeSchools = null);
     Task<School?> GetAsync(string urn);
     Task<IEnumerable<School>> QueryAsync(string? companyNumber, string? laCode, string? phase);
 }
-
 
 [ExcludeFromCodeCoverage]
 public class SchoolsService : SearchService, ISchoolsService
@@ -60,7 +61,7 @@ public class SchoolsService : SearchService, ISchoolsService
         return await conn.QueryAsync<School>(template.RawSql, template.Parameters);
     }
 
-    public Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request)
+    public Task<SuggestResponse<School>> SuggestAsync(SuggestRequest request, string[]? excludeSchools = null)
     {
         var fields = new[]
         {
@@ -70,6 +71,22 @@ public class SchoolsService : SearchService, ISchoolsService
             nameof(School.AddressPostcode)
         };
 
-        return SuggestAsync<School>(request, selectFields: fields);
+        return SuggestAsync<School>(request, CreateFilterExpression, selectFields: fields);
+
+        string? CreateFilterExpression()
+        {
+            if (excludeSchools is not { Length: > 0 })
+            {
+                return null;
+            }
+
+            var filterExpressions = new List<string>();
+            if (excludeSchools.Length > 0)
+            {
+                filterExpressions.Add($"({string.Join(") and ( ", excludeSchools.Select(a => $"URN ne '{a}'"))})");
+            }
+
+            return string.Join(" and ", filterExpressions);
+        }
     }
 }
