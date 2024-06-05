@@ -27,8 +27,8 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetAsync(User.UserId());
-                var viewModel = new SchoolComparisonViewModel(school, userData.SchoolComparatorSet);
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet);
 
                 return View(viewModel);
             }

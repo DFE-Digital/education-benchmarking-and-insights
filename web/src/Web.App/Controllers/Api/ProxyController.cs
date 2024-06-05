@@ -97,15 +97,15 @@ public class ProxyController(
 
     private async Task<IActionResult> SchoolExpenditure(string id)
     {
-        var userData = await userDataService.GetAsync(User.UserId());
-        if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+        var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
+        if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await comparatorSetService.ReadComparatorSet(id);
             var defaultResult = await financeService.GetExpenditure(defaultSet.Pupil);
             return new JsonResult(defaultResult);
         }
 
-        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.SchoolComparatorSet);
+        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         var userDefinedResult = await financeService.GetExpenditure(userDefinedSet.Set);
         return new JsonResult(userDefinedResult);
     }

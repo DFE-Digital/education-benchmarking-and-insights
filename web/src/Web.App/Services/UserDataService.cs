@@ -6,60 +6,67 @@ namespace Web.App.Services;
 
 public interface IUserDataService
 {
-    Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier);
-    Task<UserData?> GetCustomDataAsync(string userId, string identifier);
-    Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier);
-    Task<(string? TrustComparatorSet, string? CustomData, string? SchoolComparatorSet)> GetAsync(string userId);
+    Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier, string urn);
+    Task<UserData?> GetCustomDataAsync(string userId, string identifier, string urn);
+    Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier, string companyNumber);
+    Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(string userId, string urn);
 }
 
 public class UserDataService(IUserDataApi api) : IUserDataService
 {
-    private const string SchoolComparatorSet = "school-comparator-set";
-    private const string TrustComparatorSet = "trust-comparator-set";
+    private const string OrganisationSchool = "school";
+    private const string OrganisationTrust = "trust";
+    private const string ComparatorSet = "comparator-set";
     private const string CustomData = "custom-data";
 
-    public async Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier)
+    public async Task<UserData?> GetSchoolComparatorSetAsync(string userId, string identifier, string urn)
     {
         var query = new ApiQuery()
             .AddIfNotNull("userId", userId)
             .AddIfNotNull("id", identifier)
-            .AddIfNotNull("type", SchoolComparatorSet);
+            .AddIfNotNull("type", ComparatorSet)
+            .AddIfNotNull("organisationType", OrganisationSchool)
+            .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetCustomDataAsync(string userId, string identifier)
+    public async Task<UserData?> GetCustomDataAsync(string userId, string identifier, string urn)
     {
         var query = new ApiQuery()
             .AddIfNotNull("userId", userId)
             .AddIfNotNull("id", identifier)
-            .AddIfNotNull("type", CustomData);
+            .AddIfNotNull("type", CustomData)
+            .AddIfNotNull("organisationType", OrganisationSchool)
+            .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier)
+    public async Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier, string companyNumber)
     {
         var query = new ApiQuery()
             .AddIfNotNull("userId", userId)
             .AddIfNotNull("id", identifier)
-            .AddIfNotNull("type", TrustComparatorSet);
+            .AddIfNotNull("type", ComparatorSet)
+            .AddIfNotNull("organisationType", OrganisationTrust)
+            .AddIfNotNull("organisationId", companyNumber);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return userSets?.FirstOrDefault();
     }
 
-    public async Task<(string? TrustComparatorSet, string? CustomData, string? SchoolComparatorSet)> GetAsync(
-        string userId)
+    public async Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(string userId, string urn)
     {
         var query = new ApiQuery()
-            .AddIfNotNull("userId", userId);
+            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("organisationType", OrganisationSchool)
+            .AddIfNotNull("organisationId", urn);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
-        return (userSets?.FirstOrDefault(x => x.Type == TrustComparatorSet)?.Id,
-            userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,
-            userSets?.FirstOrDefault(x => x.Type == SchoolComparatorSet)?.Id);
+        return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,
+            userSets?.FirstOrDefault(x => x.Type == ComparatorSet)?.Id);
     }
 }

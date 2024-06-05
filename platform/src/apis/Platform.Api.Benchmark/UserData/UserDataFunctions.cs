@@ -30,6 +30,8 @@ public class UserDataFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("userId", "User Id", DataType = typeof(string), Required = true)]
     [QueryStringParameter("type", "Type", DataType = typeof(string), Required = false)]
+    [QueryStringParameter("organisationType", "Organisation Type", DataType = typeof(string), Required = false)]
+    [QueryStringParameter("organisationId", "Organisation Id", DataType = typeof(string), Required = false)]
     [QueryStringParameter("status", "Status", DataType = typeof(string), Required = false)]
     [QueryStringParameter("id", "Identifier", DataType = typeof(string), Required = false)]
     public async Task<IActionResult> QueryAsync(
@@ -50,7 +52,9 @@ public class UserDataFunctions
                 var type = req.Query["type"].ToString();
                 var status = req.Query["status"].ToString();
                 var id = req.Query["id"].ToString();
-                var data = await _service.QueryAsync(userId, type, status, id);
+                var organisationType = req.Query["organisationType"].ToString();
+                var organisationId = req.Query["organisationId"].ToString();
+                var data = await _service.QueryAsync(userId, type, status, id, organisationType, organisationId);
 
                 return new JsonContentResult(data);
             }

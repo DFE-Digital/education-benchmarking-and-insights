@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 using Platform.Domain.Messages;
 using Platform.Functions;
 using Platform.Functions.Extensions;
@@ -28,7 +27,7 @@ public class ComparatorSetsFunctions
     }
 
     [FunctionName(nameof(DefaultSchoolComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSetDefault), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetDefaultSchool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> DefaultSchoolComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "comparator-set/school/{urn}/default")]
@@ -52,7 +51,7 @@ public class ComparatorSetsFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get default comparator set");
+                _logger.LogError(e, "Failed to get default school comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -60,7 +59,7 @@ public class ComparatorSetsFunctions
 
 
     [FunctionName(nameof(UserDefinedSchoolComparatorSetAsync))]
-    [ProducesResponseType(typeof(ComparatorSetUserDefined), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(ComparatorSetUserDefinedSchool), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> UserDefinedSchoolComparatorSetAsync(
@@ -88,7 +87,7 @@ public class ComparatorSetsFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get comparator set");
+                _logger.LogError(e, "Failed to get user defined school comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -119,7 +118,7 @@ public class ComparatorSetsFunctions
             {
                 var body = req.ReadAsJson<ComparatorSetUserDefinedRequest>();
                 //TODO : Add request validation
-                var comparatorSet = new ComparatorSetUserDefined
+                var comparatorSet = new ComparatorSetUserDefinedSchool
                 {
                     RunId = identifier,
                     RunType = "default",
@@ -131,32 +130,31 @@ public class ComparatorSetsFunctions
 
                 if (comparatorSet.Set.Length >= 10)
                 {
-                    await _service.UpsertUserDataAsync(identifier, body.UserId);
+                    await _service.UpsertUserDataAsync(ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
                     var year = await _service.CurrentYearAsync();
 
                     var message = new PipelineStartMessage
                     {
                         RunId = comparatorSet.RunId,
                         RunType = comparatorSet.RunType,
-                        Type = "school-comparator-set",
+                        Type = "comparator-set",
                         URN = comparatorSet.URN,
                         Year = year,
                         Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
                     };
 
-
                     await queue.AddAsync(message.ToJson());
                 }
                 else
                 {
-                    await _service.UpsertUserDataAsync(identifier, body.UserId, "complete");
+                    await _service.UpsertUserDataAsync(ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
                 }
 
                 return new AcceptedResult();
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get comparator set");
+                _logger.LogError(e, "Failed to upsert user defined school comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
@@ -195,7 +193,7 @@ public class ComparatorSetsFunctions
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to delete comparator set");
+                _logger.LogError(e, "Failed to delete user defined school comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

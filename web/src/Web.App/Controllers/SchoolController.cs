@@ -34,9 +34,9 @@ public class SchoolController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var finances = await financeService.GetFinances(urn);
-                var userData = await userDataService.GetAsync(User.UserId());
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 RagRating[] ratings;
-                if (string.IsNullOrEmpty(userData.SchoolComparatorSet))
+                if (string.IsNullOrEmpty(userData.ComparatorSet))
                 {
                     ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
 

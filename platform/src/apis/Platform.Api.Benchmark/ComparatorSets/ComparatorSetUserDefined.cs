@@ -5,8 +5,8 @@ using Dapper.Contrib.Extensions;
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 [ExcludeFromCodeCoverage]
-[Table("UserDefinedComparatorSet")]
-public record ComparatorSetUserDefined
+[Table("UserDefinedSchoolComparatorSet")]
+public record ComparatorSetUserDefinedSchool
 {
     [ExplicitKey] public string? RunType { get; set; }
     [ExplicitKey] public string? RunId { get; set; }

@@ -30,7 +30,7 @@ public class SchoolSpendingController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userData = await userDataService.GetAsync(User.UserId());
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
 
                 var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
@@ -38,7 +38,7 @@ public class SchoolSpendingController(
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.Building);
 
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.SchoolComparatorSet);
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet);
 
                 return View(viewModel);
             }
