@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections;
+using System.ComponentModel.DataAnnotations;
 using Web.App.Extensions;
 namespace Web.App.Attributes;
 
@@ -8,6 +9,17 @@ public class RequiredDependsAttribute(string otherProperty, string? otherValue =
     {
         var otherPropertyValue = validationContext.GetOtherPropertyValueOrThrow<string>(OtherProperty);
         var propertyValue = value?.ToString();
+        if (value is IEnumerable valueArray)
+        {
+            propertyValue = null;
+            foreach (var item in valueArray)
+            {
+                if (!string.IsNullOrWhiteSpace(item?.ToString()))
+                {
+                    propertyValue = "valid";
+                }
+            }
+        }
 
         // other property is not set or not the otherValue, so ignore this value
         var otherPropertyValueIsSetOrMatches = string.IsNullOrWhiteSpace(otherValue)

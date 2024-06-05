@@ -16,7 +16,7 @@
     <div class="govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
         <fieldset class="govuk-fieldset">
             <div class="govuk-hint">
-                @Model.SchoolName has <strong>@Model.SchoolValueFormatted</strong> @Model.Suffix
+                @Model.SchoolName @Model.Prefix <strong>@Model.SchoolValueFormatted</strong> @Model.Suffix
             </div>
             @if (Model.HasError)
             {
