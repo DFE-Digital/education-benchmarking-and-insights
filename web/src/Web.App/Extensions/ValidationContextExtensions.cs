@@ -9,7 +9,7 @@ public static class ValidationContextExtensions
         var otherPropertyInfo = validationContext.ObjectType.GetRuntimeProperty(otherProperty);
         if (otherPropertyInfo == null)
         {
-            throw new ArgumentException($"Could not find a property named {otherProperty}.");
+            throw new ValidationException($"Could not find a property named {otherProperty}.");
         }
 
         if (otherPropertyInfo.GetIndexParameters().Length > 0)

@@ -32,4 +32,17 @@ public record UserDefinedCharacteristicViewModel
 
     [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
     public string? Code { get; init; }
+
+    public string? TotalPupils { get; init; }
+
+    [Display(Name = "Number of pupils from")]
+    [RequiredDepends(nameof(TotalPupils), "true", ErrorMessage = "Enter the number of pupils from")]
+    [Range(1, 10000, ErrorMessage = "Enter number of pupils from between 1 and 10,000")]
+    public int? TotalPupilsFrom { get; init; }
+
+    [Display(Name = "Number of pupils to")]
+    [RequiredDepends(nameof(TotalPupils), "true", ErrorMessage = "Enter the number of pupils to")]
+    [Range(1, 10000, ErrorMessage = "Enter number of pupils to between 1 and 10,000")]
+    [CompareIntValue(nameof(TotalPupilsFrom), Operator.GreaterThanOrEqualTo)]
+    public int? TotalPupilsTo { get; init; }
 }
