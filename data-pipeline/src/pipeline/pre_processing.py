@@ -645,7 +645,10 @@ def build_maintained_school_data(
     maintained_schools["London Weighting"] = maintained_schools["London Weighting"].fillna('Neither')
 
     maintained_schools.rename(
-        columns=config.cost_category_map["maintained_schools"],
+        columns={
+                    "PFI": "PFI School"
+                }
+                | config.cost_category_map["maintained_schools"],
         inplace=True,
     )
 
