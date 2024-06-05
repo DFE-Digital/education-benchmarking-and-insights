@@ -16,7 +16,20 @@
     <div class="govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
         <fieldset class="govuk-fieldset">
             <div class="govuk-hint">
-                @Model.SchoolName @Model.Prefix <strong>@Model.SchoolValueFormatted</strong> @Model.Suffix
+                @if (string.IsNullOrWhiteSpace(Model.SchoolValueFormatted))
+                {
+                    @:No value was supplied for 
+                    @:
+                    @Model.SchoolName
+                }
+                else
+                {
+                    @Model.SchoolName
+                    @:
+                    @Model.Prefix
+                    <strong>@Model.SchoolValueFormatted</strong>
+                    @Model.Suffix
+                }
             </div>
             @if (Model.HasError)
             {
