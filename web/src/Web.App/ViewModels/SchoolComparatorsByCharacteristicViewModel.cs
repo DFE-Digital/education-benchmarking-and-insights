@@ -81,4 +81,18 @@ public record UserDefinedCharacteristicViewModel
 
     [RequiredDepends(nameof(LondonWeighting), "true", ErrorMessage = "Select one or more London weightings")]
     public string[] LondonWeightings { get; init; } = [];
+
+    // building age
+    public string? AverageBuildingAge { get; init; }
+
+    [Display(Name = "Average building age from")]
+    [RequiredDepends(nameof(AverageBuildingAge), "true", ErrorMessage = "Enter the average building age from")]
+    [Range(0, 100, ErrorMessage = "Enter average building age from between 0 and 100")]
+    public int? AverageBuildingAgeFrom { get; init; }
+
+    [Display(Name = "Average building age to")]
+    [RequiredDepends(nameof(AverageBuildingAge), "true", ErrorMessage = "Enter the average building age to")]
+    [Range(0, 100, ErrorMessage = "Enter average building age to between 0 and 100")]
+    [CompareIntValue(nameof(AverageBuildingAgeFrom), Operator.GreaterThanOrEqualTo)]
+    public int? AverageBuildingAgeTo { get; init; }
 }
