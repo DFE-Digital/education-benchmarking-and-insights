@@ -59,17 +59,7 @@
     isPartOfTrust = Model.IsPartOfTrust
 })
 
-@if (Model.IsMissingFinancials)
-{
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            Financial information could not be loaded for this establishment
-        </strong>
-    </div>
-}
-else
+@if (Model.HasFinancials)
 {
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
@@ -93,7 +83,19 @@ else
             </ul>
         </div>
     </div>
-
+}
+else
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Financial information for this school could not be loaded. 
+        </strong>
+    </div>
+}
+@if (Model.HasMetricRag)
+{
     <div class="govuk-grid-row">
         <div class="govuk-grid-column-full">
             <h2 class="govuk-heading-m">Spending priorities for this school</h2>
@@ -124,6 +126,16 @@ else
                 </a>
             </h3>
         </div>
+    </div>
+}
+else
+{
+    <div class="govuk-warning-text">
+        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+        <strong class="govuk-warning-text__text">
+            <span class="govuk-visually-hidden">Warning</span>
+            Spending priorities for this school could not be loaded
+        </strong>
     </div>
 }
 

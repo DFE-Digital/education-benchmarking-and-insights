@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace Platform.Domain;
+namespace Platform.Api.Insight.Census;
 
 public static class CensusCategories
 {
@@ -14,7 +14,7 @@ public static class CensusCategories
     public const string TeachersQualified = nameof(TeachersQualified);
 
     public static readonly string[] All =
-    [
+    {
         WorkforceFte,
         TeachersFte,
         SeniorLeadershipFte,
@@ -23,7 +23,7 @@ public static class CensusCategories
         AuxiliaryStaffFte,
         WorkforceHeadcount,
         TeachersQualified
-    ];
+    };
 
     public static bool IsValid(string? category) => All.Any(a => a == category);
 }
@@ -36,12 +36,12 @@ public static class CensusDimensions
     public const string PupilsPerStaffRole = nameof(PupilsPerStaffRole);
 
     public static readonly string[] All =
-    [
+    {
         HeadcountPerFte,
         Total,
         PercentWorkforce,
         PupilsPerStaffRole
-    ];
+    };
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }

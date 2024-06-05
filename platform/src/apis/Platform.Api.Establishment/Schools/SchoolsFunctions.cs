@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -105,6 +106,7 @@ public class SchoolsFunctions
     [ProducesResponseType(typeof(SuggestResponse<School>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("urns", "List of school URNs to exclude", DataType = typeof(string[]), Required = false)]
     public async Task<IActionResult> SuggestSchoolsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "schools/suggest")]
         [RequestBodyType(typeof(SuggestRequest), "The suggest object")]
@@ -127,8 +129,8 @@ public class SchoolsFunctions
                 {
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
-
-                var schools = await _service.SuggestAsync(body);
+                var urns = req.Query["urns"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var schools = await _service.SuggestAsync(body, urns);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)

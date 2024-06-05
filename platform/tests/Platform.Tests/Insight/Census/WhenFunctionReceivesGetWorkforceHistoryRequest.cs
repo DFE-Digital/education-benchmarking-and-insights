@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Insight.Census;
 using Platform.Domain;
 using Platform.Functions;
 using Xunit;
@@ -11,9 +12,9 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<CensusResponseModel>());
+        Service
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
+            .ReturnsAsync(Array.Empty<CensusHistoryModel>());
 
         var result = await Functions.CensusHistoryAsync(CreateRequest(), "1") as JsonContentResult;
 
@@ -24,8 +25,8 @@ public class WhenFunctionReceivesGetWorkforceHistoryRequest : CensusFunctionsTes
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.GetHistory(It.IsAny<string>(), It.IsAny<string>()))
+        Service
+            .Setup(d => d.GetHistoryAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions.CensusHistoryAsync(CreateRequest(), "1") as StatusCodeResult;

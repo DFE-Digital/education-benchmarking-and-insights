@@ -106,7 +106,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                         },
                       } as object // todo: fix typing issue
                     }
-                    seriesLabelField="name"
+                    seriesLabelField="schoolName"
                     tickWidth={400}
                     tick={(t) => (
                       <SchoolTick
@@ -117,7 +117,8 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                           urn && (window.location.href = `/school/${urn}`);
                         }}
                         schoolUrnResolver={(name) =>
-                          data.dataPoints.find((d) => d.name === name)?.urn
+                          data.dataPoints.find((d) => d.schoolName === name)
+                            ?.urn
                         }
                       />
                     )}

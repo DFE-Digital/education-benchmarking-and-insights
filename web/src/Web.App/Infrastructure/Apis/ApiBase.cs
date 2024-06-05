@@ -31,6 +31,11 @@ public abstract class ApiBase
         return await _httpClient.PostAsync(requestUri, content).ToApiResult();
     }
 
+    protected async Task<ApiResult> DeleteAsync(string requestUri)
+    {
+        return await _httpClient.DeleteAsync(requestUri).ToApiResult();
+    }
+
     protected async Task<ApiResult> PostAsync(string requestUri, MultipartFormDataContent content)
     {
         return await _httpClient.PostAsync(requestUri, content).ToApiResult();

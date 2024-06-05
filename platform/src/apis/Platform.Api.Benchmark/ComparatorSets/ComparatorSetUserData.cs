@@ -10,7 +10,7 @@ public record ComparatorSetUserData
 {
     [ExplicitKey] public string? Id { get; set; }
     public string? UserId { get; set; }
-    public string Type => "comparator-set";
+    public string Type => "school-comparator-set";
     public DateTimeOffset Expiry { get; set; }
     public string? Status { get; set; } = "pending";
 }

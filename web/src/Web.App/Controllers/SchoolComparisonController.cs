@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -11,7 +13,8 @@ namespace Web.App.Controllers;
 [Route("school/{urn}/comparison")]
 public class SchoolComparisonController(
     IEstablishmentApi establishmentApi,
-    ILogger<SchoolComparisonController> logger)
+    ILogger<SchoolComparisonController> logger,
+    IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
@@ -24,7 +27,8 @@ public class SchoolComparisonController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparison(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparisonViewModel(school);
+                var userData = await userDataService.GetAsync(User.UserId());
+                var viewModel = new SchoolComparisonViewModel(school, userData.SchoolComparatorSet);
 
                 return View(viewModel);
             }

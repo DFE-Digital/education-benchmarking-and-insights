@@ -2,9 +2,10 @@
 
 namespace Web.App.ViewModels;
 
-public class SchoolComparisonViewModel(School school)
+public class SchoolComparisonViewModel(School school, string? userDefinedSetId = null)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public bool IsPartOfTrust => school.IsPartOfTrust;
+    public string? UserDefinedSetId => userDefinedSetId;
 }

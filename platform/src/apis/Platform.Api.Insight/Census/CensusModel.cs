@@ -1,6 +1,6 @@
-﻿namespace Web.App.Domain;
+﻿namespace Platform.Api.Insight.Census;
 
-public abstract record CensusBase
+public abstract record CensusBaseModel
 {
     public string? URN { get; set; }
     public decimal? TotalPupils { get; set; }
@@ -14,16 +14,15 @@ public abstract record CensusBase
     public decimal? PercentTeacherWithQualifiedStatus { get; set; }
 }
 
-
-public record Census : CensusBase
+public record CensusModel : CensusBaseModel
 {
     public string? SchoolName { get; set; }
     public string? SchoolType { get; set; }
     public string? LAName { get; set; }
 }
 
-public record CensusHistory : CensusBase
+public record CensusHistoryModel : CensusBaseModel
 {
     public int? Year { get; set; }
-    public string? Term { get; set; }
 }
+

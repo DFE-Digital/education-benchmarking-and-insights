@@ -26,7 +26,7 @@ public class UserDataService : IUserDataService
         var builder = new SqlBuilder();
         var template = builder.AddTemplate("SELECT * from UserData /**where**/");
 
-        builder.Where("UserId = @userId", new { userId });
+        builder.Where("UserId = @userId AND Status <> 'removed'", new { userId });
 
         if (!string.IsNullOrEmpty(type))
         {
