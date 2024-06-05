@@ -17,7 +17,7 @@ from src.pipeline.database import (
     insert_comparator_set,
     insert_metric_rag,
     insert_schools_and_trusts_and_local_authorities,
-    insert_non_financial_data
+    insert_non_financial_data,
 )
 
 from src.pipeline.rag import compute_rag
@@ -151,9 +151,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     )
 
     links_data = get_blob(
-        raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
-        encoding="cp1252"
+        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     academies = build_academy_data(
@@ -180,9 +178,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     )
 
     links_data = get_blob(
-        raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
-        encoding="cp1252"
+        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
@@ -417,7 +413,9 @@ def run_compute_rag(set_type, year):
             f"{set_type}/{year}/maintained_schools_comparators.parquet",
         )
     )
-    compute_rag_for("maintained_schools", "unmixed", set_type, year, ms_data, ms_comparators)
+    compute_rag_for(
+        "maintained_schools", "unmixed", set_type, year, ms_data, ms_comparators
+    )
 
     academy_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet")
@@ -425,7 +423,9 @@ def run_compute_rag(set_type, year):
     academy_comparators = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet")
     )
-    compute_rag_for("academies", "unmixed", set_type, year, academy_data, academy_comparators)
+    compute_rag_for(
+        "academies", "unmixed", set_type, year, academy_data, academy_comparators
+    )
 
     mixed_data = pd.read_parquet(
         get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet")
@@ -458,7 +458,9 @@ def handle_msg(worker_client, msg, worker_queue, complete_queue):
 
         msg_payload["success"] = True
     except Exception as error:
-        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
+        logger.exception(
+            f"An exception occurred: {type(error).__name__}", exc_info=error
+        )
         msg_payload["success"] = False
         msg_payload["error"] = str(error)
     finally:
@@ -485,7 +487,9 @@ def receive_one_message(worker_client):
                     logger.info("no messages received")
                     exit(0)
     except Exception as error:
-        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
+        logger.exception(
+            f"An exception occurred: {type(error).__name__}", exc_info=error
+        )
         exit(-1)
 
 
@@ -506,7 +510,9 @@ def receive_messages(worker_client):
                     else:
                         time.sleep(1)
     except Exception as error:
-        logger.exception(f"An exception occurred: {type(error).__name__}", exc_info=error)
+        logger.exception(
+            f"An exception occurred: {type(error).__name__}", exc_info=error
+        )
         exit(-1)
 
 

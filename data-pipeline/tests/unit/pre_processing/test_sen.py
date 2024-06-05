@@ -25,7 +25,7 @@ def test_prepare_sen_data_has_correct_output_columns(sen_data):
         "Percentage Primary Need MSI",
         "Percentage Primary Need PD",
         "Percentage Primary Need ASD",
-        "Percentage Primary Need OTH"
+        "Percentage Primary Need OTH",
     ]
 
 

@@ -3,9 +3,7 @@ import pytest
 
 
 def test_prepare_ks2_data_has_correct_output_columns(prepared_ks2_data: pd.DataFrame):
-    assert list(prepared_ks2_data.columns) == [
-        "Ks2Progress"
-    ]
+    assert list(prepared_ks2_data.columns) == ["Ks2Progress"]
 
 
 def test_ks2_computes_ks2_progress(prepared_ks2_data: pd.DataFrame):
