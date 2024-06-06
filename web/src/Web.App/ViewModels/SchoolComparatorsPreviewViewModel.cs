@@ -1,7 +1,11 @@
 ﻿using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class SchoolComparatorsPreviewViewModel(School school, SchoolCharacteristic[]? characteristics, long? totalSchools)
+public class SchoolComparatorsPreviewViewModel(
+    School school,
+    SchoolCharacteristic[]? characteristics,
+    long? totalSchools,
+    UserDefinedCharacteristicViewModel? userDefinedCharacteristics)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -23,6 +27,8 @@ public class SchoolComparatorsPreviewViewModel(School school, SchoolCharacterist
 
     public string? AllInLaName => AllLaNames?.Count() == 1 ? AllLaNames.Single() : null;
     public bool? AllPfi => characteristics?.All(c => c.IsPFISchool == true);
+
+    public UserDefinedCharacteristicViewModel? UserDefinedCharacteristics => userDefinedCharacteristics;
 
     private IEnumerable<string>? AllLaNames => characteristics?
         .Where(c => !string.IsNullOrWhiteSpace(c.LAName))

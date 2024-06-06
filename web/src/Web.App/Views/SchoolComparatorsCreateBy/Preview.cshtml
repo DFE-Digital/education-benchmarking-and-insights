@@ -1,4 +1,7 @@
-﻿@model Web.App.ViewModels.SchoolComparatorsPreviewViewModel
+﻿@using System.Web
+@using Web.App.Domain
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorsPreviewViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsPreview;
 }
@@ -14,7 +17,18 @@
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
         <p class="govuk-body">
-            We matched @Model.TotalSchools schools, but these are the @Model.Characteristics?.Length closest matches to
+            @if (Model.TotalSchools > Model.Characteristics?.Length)
+            {
+                @:We matched 
+                @Model.TotalSchools
+                @:schools, but these
+            }
+            else
+            {
+                @:These
+            }
+
+            are the @Model.Characteristics?.Length closest matches to
             @Model.Name using the characteristics you selected.
         </p>
 
@@ -63,12 +77,81 @@
             </ul>
         }
 
-        <p class="govuk-body">
-            <a href="@Url.Action("Characteristic", new { urn = Model.Urn })" class="govuk-link">Change characteristics and create a new set</a>
-        </p>
+        @using (Html.BeginForm("Change", "SchoolComparatorsCreateBy", new
+                {
+                    urn = Model.Urn
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
+        {
+            <input type="hidden" name="viewModelJson" value="@HttpUtility.UrlEncode(Model.UserDefinedCharacteristics.ToJson())"/>
+            <button type="submit" class="govuk-body govuk-link govuk-link--no-visited-state" name="action" value="@FormAction.Continue">
+                Change characteristics and create a new set
+            </button>
+        }
 
         <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
             Create a set using these schools
         </a>
+
+        @if (Model.Characteristics != null)
+        {
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-one-third">School</th>
+                    <th scope="col" class="govuk-table__header" colspan="2">Individual characteristics</th>
+                </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                @foreach (var characteristic in Model.Characteristics)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <span class="govuk-body govuk-!-font-weight-bold">@characteristic.SchoolName</span><br>
+                            <span class="govuk-hint">@characteristic.Address</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            <p class="govuk-body">Number of pupils</p>
+                            <p class="govuk-body">Pupils with special educational needs (SEN):</p>
+                            @if (characteristic.SchoolsInTrust.HasValue)
+                            {
+                                <p class="govuk-body">Number of schools within trust:</p>
+                            }
+                            @if (characteristic.KS4Progress.HasValue)
+                            {
+                                <p class="govuk-body">Key stage 4 progress:</p>
+                            }
+                            @if (characteristic.KS2Progress.HasValue)
+                            {
+                                <p class="govuk-body">Key stage 2 progress:</p>
+                            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                            <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
+                            @if (characteristic.SchoolsInTrust.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.SchoolsInTrust.GetValueOrDefault()</p>
+                            }
+                            @if (characteristic.KS4Progress.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.KS4Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                            }
+                            @if (characteristic.KS2Progress.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.KS2Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                Create a set using these schools
+            </a>
+        }
     </div>
 </div>
