@@ -19,6 +19,7 @@ export type FindOrganisationProps = {
 export type SchoolInputProps = {
   input: string;
   urn: string;
+  exclude?: string[];
 };
 
 export type SuggestResult<T> = {

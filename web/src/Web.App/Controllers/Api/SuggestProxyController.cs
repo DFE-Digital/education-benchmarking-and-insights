@@ -12,7 +12,7 @@ ISuggestService suggestService) : Controller
 {
     [HttpGet]
     [Produces("application/json")]
-    public async Task<IActionResult> Suggest([FromQuery] string search, [FromQuery] string type)
+    public async Task<IActionResult> Suggest([FromQuery] string search, [FromQuery] string type, [FromQuery] string[]? exclude = null)
     {
         using (logger.BeginScope(new { search }))
         {
@@ -21,7 +21,7 @@ ISuggestService suggestService) : Controller
                 switch (type.ToLower())
                 {
                     case OrganisationTypes.School:
-                        var schools = await suggestService.SchoolSuggestions(search);
+                        var schools = await suggestService.SchoolSuggestions(search, exclude);
                         return new JsonResult(schools);
                     case OrganisationTypes.Trust:
                         var trusts = await suggestService.TrustSuggestions(search);
