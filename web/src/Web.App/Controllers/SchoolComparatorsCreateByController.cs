@@ -21,7 +21,8 @@ public class SchoolComparatorsCreateByController(
     IEstablishmentApi establishmentApi,
     IComparatorSetService comparatorSetService,
     ISchoolInsightApi schoolInsightApi,
-    IComparatorSetApi comparatorSetApi
+    IComparatorSetApi comparatorSetApi,
+    IComparatorApi comparatorApi
 ) : Controller
 {
     [HttpGet]
@@ -259,7 +260,7 @@ public class SchoolComparatorsCreateByController(
     [HttpPost]
     [Route("characteristic")]
     [ExportModelState]
-    public IActionResult Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
+    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -285,7 +286,11 @@ public class SchoolComparatorsCreateByController(
                     return RedirectToAction(nameof(Characteristic));
                 }
 
-                // todo: generate preview based on characteristics
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var request = new PostSchoolComparatorsRequest(urn, school.LAName, viewModel);
+                var results = await comparatorApi.CreateSchoolsAsync(request).GetResultOrThrow<ComparatorSchools>();
+
+                // todo: add to in-memory preview set and display the preview 
                 return StatusCode(StatusCodes.Status302Found);
             }
             catch (Exception e)
