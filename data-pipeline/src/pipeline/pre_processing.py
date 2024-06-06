@@ -233,8 +233,7 @@ def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path,
         sheet_name="Academies",
-        usecols=input_schemas.aar_academies.keys(),
-        dtype=input_schemas.aar_academies,
+        usecols=input_schemas.aar_academies.keys()
     )
 
     # removing pre-transition academies
@@ -244,17 +243,17 @@ def prepare_aar_data(aar_path):
         & aar["Date joined or opened if in period"].isna()
     )
     aar = aar[mask]
-    aar.drop(columns=['URN'], inplace=True)
     
 
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
-        usecols=input_schemas.aar_central_services.keys(),
-        dtype=input_schemas.aar_central_services,
+        usecols=input_schemas.aar_central_services.keys()
     )
 
-    aar.replace(to_replace={"DNS":"","n/a":""}, inplace=True)
+    aar.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
+    aar = aar.astype(input_schemas.aar_academies)
+    aar.drop(columns=['URN'], inplace=True)
     aar.rename(
         columns={
             "In year balance": "Academy Balance",
@@ -264,8 +263,10 @@ def prepare_aar_data(aar_path):
         | config.cost_category_map["academies"],
         inplace=True,
     )
+    
 
-    central_services_financial.replace(to_replace={"DNS":"","n/a":""}, inplace=True)
+    central_services_financial.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
+    central_services_financial = central_services_financial.astype(input_schemas.aar_central_services)
     central_services_financial.rename(
         columns={
             "In Year Balance": "Central Services Balance",
@@ -273,7 +274,6 @@ def prepare_aar_data(aar_path):
         },
         inplace=True,
     )
-
     trust_income = (
         aar[["Trust UPIN", *config.income_category_map["academies"]]]
         .groupby("Trust UPIN")
