@@ -120,7 +120,7 @@ public static class ExpressionBuilder
     {
         if (characteristic is not null)
         {
-            list.Add($"({fieldName} eq {characteristic.Values})");
+            list.Add($"({fieldName} eq {characteristic.Values.ToString().ToLowerInvariant()})");
         }
 
         return list;

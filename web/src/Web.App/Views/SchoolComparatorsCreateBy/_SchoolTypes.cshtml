@@ -3,6 +3,12 @@
 @{
     var value = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.FinanceType), Model.FinanceType);
     var hasError = ViewData.ModelState.HasError(nameof(Model.FinanceType));
+    var options = new[]
+    {
+        "Maintained schools",
+        "Academies",
+        "Both"
+    };
 }
 
 <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
@@ -19,18 +25,19 @@
             </p>
         }
         <div class="govuk-radios" data-module="govuk-radios" id="@nameof(Model.FinanceType)">
-            <div class="govuk-radios__item">
-                <input type="radio" name="@nameof(Model.FinanceType)" id="@nameof(Model.FinanceType)-Maintained" value="Maintained" class="govuk-radios__input" @(value == "Maintained" ? "checked" : "")>
-                <label class="govuk-label govuk-radios__label" for="@nameof(Model.FinanceType)-Maintained">Maintained schools</label>
-            </div>
-            <div class="govuk-radios__item">
-                <input type="radio" name="@nameof(Model.FinanceType)" id="@nameof(Model.FinanceType)-Academies" value="Academy" class="govuk-radios__input" @(value == "Academy" ? "checked" : "")>
-                <label class="govuk-label govuk-radios__label" for="@nameof(Model.FinanceType)-Academies">Academies</label>
-            </div>
-            <div class="govuk-radios__item">
-                <input type="radio" name="@nameof(Model.FinanceType)" id="@nameof(Model.FinanceType)-Both" value="Both" class="govuk-radios__input" @(value == "Both" ? "checked" : "")>
-                <label class="govuk-label govuk-radios__label" for="@nameof(Model.FinanceType)-Both">Both</label>
-            </div>
+            @foreach (var option in options)
+            {
+                <div class="govuk-radios__item">
+                    <input
+                        type="radio"
+                        name="@nameof(Model.FinanceType)"
+                        id="@nameof(Model.FinanceType)-@option.ToSlug()"
+                        value="@option"
+                        class="govuk-radios__input"
+                        @(value == option ? "checked" : "")>
+                    <label class="govuk-label govuk-radios__label" for="@nameof(Model.FinanceType)-@option.ToSlug()">@option</label>
+                </div>
+            }
         </div>
     </fieldset>
 </div>

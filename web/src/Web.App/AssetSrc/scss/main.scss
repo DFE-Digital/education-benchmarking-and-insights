@@ -176,3 +176,10 @@ form.characteristics {
     margin-bottom: 30px;
   }
 }
+
+button.govuk-link {
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}

@@ -3,6 +3,7 @@ using Web.App.ViewModels;
 // ReSharper disable InconsistentNaming
 namespace Web.App.Infrastructure.Apis;
 
+// todo: unit test mapping
 public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefinedCharacteristicViewModel viewModel)
 {
     public string Target => urn;
@@ -43,12 +44,13 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
         : null;
 
     // todo: support multiple LAs (see #212642)
-    public CharacteristicList LAName => new(viewModel.LaSelection switch
-    {
-        "Choose" => viewModel.LaInput!,
-        "This" => laName!,
-        _ => "All"
-    });
+    public CharacteristicList? LAName => viewModel.LaSelection == "All"
+        ? null
+        : new CharacteristicList(viewModel.LaSelection switch
+        {
+            "Choose" => viewModel.LaInput!,
+            _ => laName!
+        });
 
     public CharacteristicList? SchoolPosition => IsSelected(viewModel.Deficit)
         ? new CharacteristicList(viewModel.Deficits.Contains("Include schools in deficit") ? "Deficit" : "Surplus")
@@ -116,19 +118,12 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
     public CharacteristicRange? PercentWithHI => null;
     public CharacteristicRange? PercentWithASD => null;
 
-    // missing
-    // Deficit
-
     private static bool IsSelected(string? value) => bool.TrueString.Equals(value, StringComparison.OrdinalIgnoreCase);
 }
 
-public record CharacteristicList(params string[] Values)
-{
-}
+public record CharacteristicList(params string[] Values);
 
-public record CharacteristicValueBool(bool Values)
-{
-}
+public record CharacteristicValueBool(bool Values);
 
 public record CharacteristicRange
 {

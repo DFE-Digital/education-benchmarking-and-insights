@@ -8,6 +8,7 @@ public abstract class AdditionalCharacteristicsViewModel
         ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
         string title,
         string selectedFieldName,
+        string? defaultSelectedFieldValue,
         string? schoolName,
         string? schoolValueFormatted,
         string? prefix,
@@ -16,7 +17,6 @@ public abstract class AdditionalCharacteristicsViewModel
         Title = title;
 
         SelectedFieldName = selectedFieldName;
-        var defaultSelectedFieldValue = string.Empty;
         if (viewData.TryGetValue(selectedFieldName, out var selectedFieldValue))
         {
             defaultSelectedFieldValue = selectedFieldValue?.ToString();
@@ -47,18 +47,20 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
         string title,
         string selectedFieldName,
+        string? defaultSelectedFieldValue,
         string fromFieldName,
+        string? defaultFromValue,
         string toFieldName,
+        string? defaultToValue,
         string? schoolName,
         string? schoolValueFormatted,
         string? prefix = null,
         string? suffix = null,
         string? inputSuffix = null,
         string? inputsSuffix = null)
-        : base(viewData, title, selectedFieldName, schoolName, schoolValueFormatted, prefix, suffix)
+        : base(viewData, title, selectedFieldName, defaultSelectedFieldValue, schoolName, schoolValueFormatted, prefix, suffix)
     {
         FromFieldName = fromFieldName;
-        var defaultFromValue = string.Empty;
         if (viewData.TryGetValue(fromFieldName, out var fromValue))
         {
             defaultFromValue = fromValue?.ToString();
@@ -66,7 +68,6 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         ValueFrom = viewData.ModelState.GetAttemptedValueOrDefault(fromFieldName, defaultFromValue);
 
         ToFieldName = toFieldName;
-        var defaultToValue = string.Empty;
         if (viewData.TryGetValue(toFieldName, out var toValue))
         {
             defaultToValue = toValue?.ToString();
@@ -99,17 +100,18 @@ public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristic
         ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
         string title,
         string selectedFieldName,
+        string? defaultSelectedFieldValue,
         string valueFieldName,
+        string? defaultValue,
         string? schoolName,
         string? schoolValueFormatted,
         string[] options,
         bool multiSelect = true,
         string? prefix = null,
         string? suffix = null)
-        : base(viewData, title, selectedFieldName, schoolName, schoolValueFormatted, prefix, suffix)
+        : base(viewData, title, selectedFieldName, defaultSelectedFieldValue, schoolName, schoolValueFormatted, prefix, suffix)
     {
         ValueFieldName = valueFieldName;
-        var defaultValue = string.Empty;
         if (viewData.TryGetValue(valueFieldName, out var value))
         {
             defaultValue = value?.ToString();
