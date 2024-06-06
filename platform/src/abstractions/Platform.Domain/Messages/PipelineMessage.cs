@@ -18,7 +18,7 @@ public record PipelineStartMessage
     public string? Type { get; set; } // Pipeline job type : default / comparator-set / custom-data
     public string? RunType { get; set; }  // Data context : default / custom
     public string? RunId { get; set; } // year or id for comparator-set / custom-data
-    public string? Year { get; set; } // Needed for when custom data or comparator set
+    public int? Year { get; set; } // Needed for when custom data or comparator set
     public string? URN { get; set; }
     public Payload? Payload { get; set; } // null for default
 }

@@ -25,6 +25,8 @@
 <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['trust-name'] }}</h1>
 <p><a href="/find-school" class="govuk-link">Change trust</a></p>
 
+<p class="govuk-body">This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).
+</p>
 <div class="govuk-grid-row headline-figures">
     <div class="govuk-grid-column-one-third">
         <div>
@@ -46,7 +48,7 @@
     </div>
 </div>
 
-<h2 class="govuk-heading-m">Trust-wide cost overview</h2>
+<h2 class="govuk-heading-m">Spending priorities for this trust</h2>
 
 <div class="govuk-grid-row priority-figures">
     <div class="govuk-grid-column-one-third high">
@@ -737,21 +739,21 @@
         <h2 class="govuk-heading-m">Finance tools</h2>
         <ul class="app-links">
             <li>
-                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <img src="/public/images/central-services.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="/compare-trusts{% if data['trusts'] | length %}/compare?showBanner=false{%endif%}" class="govuk-link govuk-link--no-visited-state">Compare trusts</a>
+                    <a href="/compare-trusts{% if data['trusts'] | length %}/compare?showBanner=false{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare spending against other similar trusts.
+                    Benchmark this trust's spending against similar trusts.
                 </p>
             </li>
             <li>
                 <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your schools</a>
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark schools spending</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare spending between the schools in this trust.
+                    Benchmark spending between the schools in this trust.
                 </p>
             </li>
             <!--
@@ -783,10 +785,10 @@
             <li>
                 <img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark workforce data</a>
+                    <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare workforce between schools in this trust.
+                    Compare pupil and workforce data between schools in this trust.
                 </p>
             </li>
         </ul>

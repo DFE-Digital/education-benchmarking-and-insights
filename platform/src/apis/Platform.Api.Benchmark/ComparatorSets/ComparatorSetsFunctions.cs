@@ -139,7 +139,7 @@ public class ComparatorSetsFunctions
                         RunType = comparatorSet.RunType,
                         Type = "comparator-set",
                         URN = comparatorSet.URN,
-                        Year = year,
+                        Year = int.Parse(year),
                         Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
                     };
 
