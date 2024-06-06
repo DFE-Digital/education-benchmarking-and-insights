@@ -27,7 +27,7 @@ ISuggestService suggestService) : Controller
                         var trusts = await suggestService.TrustSuggestions(search);
                         return new JsonResult(trusts);
                     case OrganisationTypes.LocalAuthority:
-                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search);
+                        var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude);
                         return new JsonResult(localAuthorities);
                     default:
                         throw new ArgumentOutOfRangeException(nameof(type));

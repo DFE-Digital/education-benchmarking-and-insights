@@ -8,24 +8,30 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const LaInput: React.FunctionComponent<LaInputProps> = (props) => {
-  const { input, code } = props;
+  const { input, code, exclude } = props;
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedCode, setSelectedCode] = useState<string>(code);
 
   const handleSuggest = async (query: string) => {
+    const params = new URLSearchParams({
+      type: "local-authority",
+      search: query,
+    });
+    if (exclude) {
+      exclude.forEach((e) => {
+        params.append("exclude", e);
+      });
+    }
+
     try {
-      const res = await fetch(
-        "/api/suggest?" +
-          new URLSearchParams({ type: "local-authority", search: query }),
-        {
-          redirect: "manual",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Correlation-ID": uuidv4(),
-          },
-        }
-      );
+      const res = await fetch("/api/suggest?" + params, {
+        redirect: "manual",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Correlation-ID": uuidv4(),
+        },
+      });
 
       const response = await res.json();
       if (response.error) {

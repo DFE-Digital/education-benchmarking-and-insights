@@ -31,6 +31,7 @@ export type SuggestResult<T> = {
 export type LaInputProps = {
   input: string;
   code: string;
+  exclude?: string[];
 };
 
 /**

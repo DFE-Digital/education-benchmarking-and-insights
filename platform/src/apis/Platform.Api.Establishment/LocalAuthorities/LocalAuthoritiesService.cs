@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Platform.Api.Establishment.LocalAuthorities;
 
 public interface ILocalAuthoritiesService
 {
-    Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request);
+    Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null);
     Task<LocalAuthority?> GetAsync(string code);
 }
 
@@ -35,7 +36,7 @@ public class LocalAuthoritiesService : SearchService, ILocalAuthoritiesService
         return await conn.QueryFirstOrDefaultAsync<LocalAuthority>(sql, parameters);
     }
 
-    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request)
+    public Task<SuggestResponse<LocalAuthority>> SuggestAsync(SuggestRequest request, string[]? excludeLas = null)
     {
         var fields = new[]
         {
@@ -43,6 +44,22 @@ public class LocalAuthoritiesService : SearchService, ILocalAuthoritiesService
             nameof(LocalAuthority.Name)
         };
 
-        return SuggestAsync<LocalAuthority>(request, selectFields: fields);
+        return SuggestAsync<LocalAuthority>(request, CreateFilterExpression, selectFields: fields);
+
+        string? CreateFilterExpression()
+        {
+            if (excludeLas is not { Length: > 0 })
+            {
+                return null;
+            }
+
+            var filterExpressions = new List<string>();
+            if (excludeLas.Length > 0)
+            {
+                filterExpressions.Add($"({string.Join(") and ( ", excludeLas.Select(a => $"{nameof(LocalAuthority.Name)} ne '{a}'"))})");
+            }
+
+            return string.Join(" and ", filterExpressions);
+        }
     }
 }
