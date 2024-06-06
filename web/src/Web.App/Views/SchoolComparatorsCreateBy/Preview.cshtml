@@ -1,5 +1,4 @@
-﻿@using System.Web
-@using Web.App.Domain
+﻿@using Newtonsoft.Json
 @using Web.App.Extensions
 @model Web.App.ViewModels.SchoolComparatorsPreviewViewModel
 @{
@@ -77,19 +76,11 @@
             </ul>
         }
 
-        @using (Html.BeginForm("Change", "SchoolComparatorsCreateBy", new
-                {
-                    urn = Model.Urn
-                }, FormMethod.Post, true, new
-                {
-                    novalidate = "novalidate"
-                }))
-        {
-            <input type="hidden" name="viewModelJson" value="@HttpUtility.UrlEncode(Model.UserDefinedCharacteristics.ToJson())"/>
-            <button type="submit" class="govuk-body govuk-link govuk-link--no-visited-state" name="action" value="@FormAction.Continue">
+        <p class="govuk-body">
+            <a href="@Url.Action("Change", new { urn = Model.Urn, j = Model.UserDefinedCharacteristics.ToJson(Formatting.None) })" class="govuk-link govuk-link--no-visited-state">
                 Change characteristics and create a new set
-            </button>
-        }
+            </a>
+        </p>
 
         <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
             Create a set using these schools
