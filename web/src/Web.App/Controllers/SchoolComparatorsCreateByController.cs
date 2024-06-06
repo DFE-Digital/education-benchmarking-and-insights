@@ -371,10 +371,10 @@ public class SchoolComparatorsCreateByController(
         }
     }
 
-    [HttpPost]
-    [Route("modify-characteristic")]
+    [HttpGet]
+    [Route("characteristic/change")]
     [ExportModelState]
-    public IActionResult Change([FromRoute] string urn, [FromForm] string? viewModelJson = null)
+    public IActionResult Change([FromRoute] string urn, [FromQuery(Name = "j")] string? viewModelJson = null)
     {
         using (logger.BeginScope(new
         {
