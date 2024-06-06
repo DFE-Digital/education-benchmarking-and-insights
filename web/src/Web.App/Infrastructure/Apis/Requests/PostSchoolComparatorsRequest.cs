@@ -43,13 +43,12 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
             .ToArray())
         : null;
 
-    // todo: support multiple LAs (see #212642)
     public CharacteristicList? LAName => viewModel.LaSelection == "All"
         ? null
         : new CharacteristicList(viewModel.LaSelection switch
         {
-            "Choose" => viewModel.LaInput!,
-            _ => laName!
+            "Choose" => viewModel.LaNames,
+            _ => [laName!]
         });
 
     public CharacteristicList? SchoolPosition => IsSelected(viewModel.Deficit)
