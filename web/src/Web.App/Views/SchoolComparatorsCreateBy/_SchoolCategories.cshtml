@@ -4,6 +4,15 @@
     var value = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.OverallPhase), Model.OverallPhase == null ? string.Empty : string.Join(",", Model.OverallPhase));
     var values = value?.Split(",") ?? [];
     var hasError = ViewData.ModelState.HasError(nameof(Model.OverallPhase));
+    var options = new[]
+    {
+        "Nursery",
+        "Primary",
+        "Secondary",
+        "Pupil referral units or alternative provision schools",
+        "Special",
+        "University technical college"
+    };
 }
 
 <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
@@ -20,14 +29,19 @@
             </p>
         }
         <div class="govuk-checkboxes" data-module="govuk-checkboxes" id="@nameof(Model.OverallPhase)">
-            <div class="govuk-checkboxes__item">
-                <input type="checkbox" name="@nameof(Model.OverallPhase)" id="@nameof(Model.OverallPhase)-Nursery" value="Nursery" class="govuk-checkboxes__input" @(values.Contains("Nursery") ? "checked" : "")>
-                <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-Nursery">Nursery</label>
-            </div>
-            <div class="govuk-checkboxes__item">
-                <input type="checkbox" name="@nameof(Model.OverallPhase)" id="@nameof(Model.OverallPhase)-Primary" value="Primary" class="govuk-checkboxes__input" @(values.Contains("Primary") ? "checked" : "")>
-                <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-Primary">Primary</label>
-            </div>
+            @foreach (var option in options)
+            {
+                <div class="govuk-checkboxes__item">
+                    <input
+                        type="checkbox"
+                        name="@nameof(Model.OverallPhase)"
+                        id="@nameof(Model.OverallPhase)-@option.ToSlug()"
+                        value="@option"
+                        class="govuk-checkboxes__input"
+                        @(values.Contains(option) ? "checked" : "")>
+                    <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-@option.ToSlug()">@option</label>
+                </div>
+            }
         </div>
     </fieldset>
 </div>
