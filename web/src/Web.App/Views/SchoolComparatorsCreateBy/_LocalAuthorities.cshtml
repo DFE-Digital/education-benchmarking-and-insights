@@ -1,4 +1,5 @@
-﻿@using Web.App.Extensions
+﻿@using Web.App.Domain
+@using Web.App.Extensions
 @model Web.App.ViewModels.UserDefinedCharacteristicViewModel
 @{
     var value = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.LaSelection), Model.LaSelection);
@@ -52,7 +53,45 @@
                             <span class="govuk-visually-hidden">Error:</span> @(ViewData.ModelState[nameof(Model.LaInput)]?.Errors.FirstOrDefault()?.ErrorMessage ?? ViewData.ModelState[nameof(Model.Code)]?.Errors.First().ErrorMessage)
                         </p>
                     }
-                    <div id="la-suggester" data-input="@chosenLaName" data-code="@chosenLaCode"></div>
+                    <div class="govuk-grid-row">
+                        <div class="govuk-grid-column-three-quarters">
+                            <div id="la-suggester" data-input="@chosenLaName" data-code="@chosenLaCode"></div>
+                        </div>
+                        <div class="govuk-grid-column-one-quarter">
+                            <button type="submit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button" name="action" value="@FormAction.Add">
+                                Add another
+                            </button>
+                        </div>
+                        @if (Model.LaNames.Length > 0)
+                        {
+                            <div class="govuk-grid-column-three-quarters">
+                                <table class="govuk-table govuk-!-margin-bottom-0">
+                                    <thead class="govuk-table__head">
+                                    <tr class="govuk-table__row govuk-visually-hidden">
+                                        <th scope="col" class="govuk-table__header">Local authority</th>
+                                        <th scope="col" class="govuk-table__header"></th>
+                                    </tr>
+                                    </thead>
+                                    <tbody class="govuk-table__body">
+                                    @foreach (var name in Model.LaNames)
+                                    {
+                                        <tr class="govuk-table__row">
+                                            <td class="govuk-table__cell govuk-!-padding-top-4">
+                                                <input type="hidden" name="@nameof(Model.LaNames)" value="@name"/>
+                                                @name
+                                            </td>
+                                            <td class="govuk-table__cell">
+                                                <button type="submit" class="govuk-button govuk-button--secondary govuk-!-margin-bottom-0" data-module="govuk-button" name="action" value="@FormAction.Remove-@name">
+                                                    Remove
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            </div>
+                        }
+                    </div>
                 </div>
             </div>
         </div>

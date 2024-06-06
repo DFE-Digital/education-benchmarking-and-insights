@@ -3,7 +3,7 @@ using Web.App.Attributes;
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public record UserDefinedCharacteristicViewModel()
+public record UserDefinedCharacteristicViewModel() : IValidatableObject
 {
     public UserDefinedCharacteristicViewModel(SchoolCharacteristic? characteristic) : this()
     {
@@ -38,15 +38,11 @@ public record UserDefinedCharacteristicViewModel()
     [Required(ErrorMessage = "Select at least one school category")]
     public string?[]? OverallPhase { get; set; }
 
-    // todo: support multiple LAs (see #212642)
     [Required(ErrorMessage = "Select a local authority")]
     public string? LaSelection { get; set; }
-
-    [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
-    public string? LaInput { get; init; }
-
-    [RequiredDepends(nameof(LaSelection), "Choose", ErrorMessage = "Select a local authority from the suggester")]
-    public string? Code { get; init; }
+    public string? LaInput { get; set; }
+    public string? Code { get; set; }
+    public string[] LaNames { get; set; } = [];
 
     // number of pupils
     public string? TotalPupils { get; init; }
@@ -197,4 +193,15 @@ public record UserDefinedCharacteristicViewModel()
     [Range(-20, 20, ErrorMessage = "Enter key stage 4 progress to between -20 and 20")]
     [CompareDecimalValue(nameof(KeyStage4ProgressFrom), Operator.GreaterThanOrEqualTo)]
     public decimal? KeyStage4ProgressTo { get; init; }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        var results = new List<ValidationResult>();
+        if (LaSelection == "Choose" && !(!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code) || LaNames.Length > 0))
+        {
+            results.Add(new ValidationResult("Select a local authority from the suggester", [nameof(Code)]));
+        }
+
+        return results;
+    }
 }

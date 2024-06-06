@@ -288,16 +288,40 @@ public class SchoolComparatorsCreateByController(
                 {
                     logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
                         ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    return RedirectToAction(nameof(Characteristic));
+                }
 
-                    // prevent double-reporting of the same validation error (both values are required to be submitted by the
-                    // client side component in order for a valid option to have deemed to have been selected from the suggester) 
-                    if (ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.LaInput))
-                        && ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.Code)))
+                // append/remove LA rather than submit entire form
+                if (Request.Form.TryGetValue("action", out var action)
+                    && (action == FormAction.Add || action.ToString().StartsWith(FormAction.Remove)))
+                {
+                    if (action == FormAction.Add)
                     {
-                        ModelState.ClearValidationState(nameof(UserDefinedCharacteristicViewModel.LaInput));
+                        if (!string.IsNullOrWhiteSpace(viewModel.LaInput))
+                        {
+                            viewModel.LaNames = viewModel.LaNames.Concat([viewModel.LaInput]).ToArray();
+                            viewModel.LaInput = null;
+                            viewModel.Code = null;
+                        }
+                    }
+                    else
+                    {
+                        var laName = action.ToString()[(FormAction.Remove.Length + 1)..];
+                        viewModel.LaNames = viewModel.LaNames.Except([laName]).ToArray();
                     }
 
-                    return RedirectToAction(nameof(Characteristic));
+                    TempData["UserDefinedCharacteristics"] = viewModel.ToJson();
+                    return RedirectToAction(nameof(Characteristic), new
+                    {
+                        urn
+                    });
+                }
+
+                if (!string.IsNullOrWhiteSpace(viewModel.LaInput))
+                {
+                    viewModel.LaNames = viewModel.LaNames.Concat([viewModel.LaInput]).ToArray();
+                    viewModel.LaInput = null;
+                    viewModel.Code = null;
                 }
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
