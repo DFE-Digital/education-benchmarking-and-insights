@@ -24,7 +24,7 @@
         }
     </div>
     <div class="govuk-grid-column-full">
-        @if (Model.ComparatorGenerated.HasValue)
+        @if (Model.ComparatorGenerated.HasValue && Model.HasMetricRag)
         {
             var success = Model.ComparatorGenerated == true;
             <div class="govuk-notification-banner govuk-notification-banner--@(success ? "success" : "failure")" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -45,6 +45,37 @@
                         <a class="govuk-notification-banner__link"
                            href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Urn })">
                             View and change your set of schools
+                        </a>
+                    </p>
+                    <p>
+                        <a class="govuk-notification-banner__link"
+                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })">
+                            Change back to the sets of schools we chose
+                        </a>
+                    </p>
+                </div>
+            </div>
+        }
+
+
+        @if (!Model.HasMetricRag && !string.IsNullOrEmpty(Model.UserDefinedSetId))
+        {
+            <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        Important
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading">
+                        You've chosen fewer than 10 schools so we cannot display spending priorities</h3>
+                    <p>
+                        You're now benchmarking against your chosen schools, but to see spending priorities you need to choose 10 or more schools.
+                    </p>
+                    <p>
+                        <a class="govuk-notification-banner__link"
+                           href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Urn })">
+                            Choose more schools
                         </a>
                     </p>
                     <p>
@@ -133,16 +164,6 @@ else
                 </a>
             </h3>
         </div>
-    </div>
-}
-else
-{
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            Spending priorities for this school could not be loaded
-        </strong>
     </div>
 }
 
