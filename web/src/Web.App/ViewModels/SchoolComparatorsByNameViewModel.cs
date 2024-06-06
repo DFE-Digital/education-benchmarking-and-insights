@@ -7,6 +7,7 @@ public class SchoolComparatorsByNameViewModel(School school, SchoolCharacteristi
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public SchoolCharacteristicUserDefined[]? Schools => schoolCharacteristics;
+    public int ComparatorCount => schoolCharacteristics?.Count(s => s.URN != school.URN) ?? 0;
 }
 
 public record SchoolComparatorsUrnViewModel

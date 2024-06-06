@@ -136,6 +136,13 @@ public class SchoolComparatorsCreateByController(
         var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
         if (!string.IsNullOrWhiteSpace(viewModel.Urn) && !userDefinedSet.Set.Contains(viewModel.Urn))
         {
+            var countOthers = userDefinedSet.Set.Count(s => s != urn);
+            if (countOthers >= 29)
+            {
+                ModelState.AddModelError(nameof(SchoolComparatorsUrnViewModel.Urn), "Maximum number of comparison schools reached");
+                return RedirectToAction("Name");
+            }
+
             userDefinedSet.Set = userDefinedSet.Set.ToList().Append(viewModel.Urn).ToArray();
             comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
         }

@@ -4,6 +4,7 @@
 @model Web.App.ViewModels.SchoolComparatorsByNameViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateByName;
+    var comparatorSetFull = Model.ComparatorCount >= 29;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
@@ -34,7 +35,13 @@
                     <div id="school-suggester"></div>
                 </div>
                 <div class="govuk-grid-column-one-quarter">
-                    <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                    <button
+                        type="submit"
+                        class="govuk-button"
+                        data-module="govuk-button"
+                        name="action"
+                        value="@FormAction.Continue"
+                        @(comparatorSetFull ? "disabled aria-disabled=\"true\"" : string.Empty)>
                         Choose school
                     </button>
                 </div>
@@ -54,14 +61,14 @@
     @await Html.PartialAsync("_ChosenSchools", new SchoolComparatorsChosenSchoolsViewModel(Model.Urn, Model.Schools))
 }
 
-@if (Model.Schools!= null && Model.Schools.Any(x => x.URN != Model.Urn))
+@if (Model.Schools != null && Model.Schools.Any(x => x.URN != Model.Urn))
 {
     <p class="govuk-body govuk-!-text-align-right">
         <a class="govuk-link govuk-link--no-visited-state"
            href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })">
             Remove all your choices
         </a>
-    </p>    
+    </p>
 }
 
 
