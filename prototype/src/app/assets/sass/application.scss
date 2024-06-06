@@ -369,3 +369,9 @@ svg.rag-stack {
     border-bottom: 0;
     padding-bottom: 10px;
 }
+
+
+// CUSTOM DATA
+.govuk-table__cell .govuk-input__wrapper, .govuk-table__cell .govuk-form-group {
+    float: right;
+}

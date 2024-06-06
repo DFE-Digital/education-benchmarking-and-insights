@@ -35,10 +35,12 @@
               text: "Type of data"
             },
             {
-              text: "Current data"
+              text: "Current data",
+              classes: "govuk-!-text-align-right"
             },
             {
-              text: "Custom data"
+              text: "Custom data",
+              classes: "govuk-!-text-align-right"
             }
           ],
           rows: [
@@ -47,7 +49,8 @@
                 text: "Number of pupils (full time equivalent)"
               },
               {
-                text: "8,712"
+                text: "8,712",
+                classes: "govuk-!-text-align-right"
               },
               {
                 html: govukInput({
@@ -69,7 +72,8 @@
                 text: "Pupils eligible for free school meals (FSM)"
               },
               {
-                text: "6.4%"
+                text: "6.4%",
+                classes: "govuk-!-text-align-right"
               },
               {
                 html: govukInput({
@@ -94,7 +98,8 @@
                 text: "Pupils with special educational needs (SEN)"
               },
               {
-                text: "5.9%"
+                text: "5.9%",
+                classes: "govuk-!-text-align-right"
               },
               {
                 html: govukInput({
@@ -119,7 +124,8 @@
                 text: "Predicted percentage pupil change 3 to 5 years"
               },
               {
-                text: "5.3%"
+                text: "5.3%",
+                classes: "govuk-!-text-align-right"
               },
               {
                 html: govukInput({
@@ -144,7 +150,8 @@
                 text: "Gross internal floor area"
               },
               {
-                text: "12,234 square metres"
+                text: "12,234 square metres",
+                classes: "govuk-!-text-align-right"
               },
               {
                 html: govukInput({
@@ -167,11 +174,22 @@
           ]
         }) }}
 
-        {{ govukButton({
-          href: '/custom-data/workforce',
-          text: "Continue"
-        }) }}
+        <form method="post" action="/custom-data/workforce">
+          <input type="hidden" name="changed" id="changed" value="" />
 
+          {{ govukButton({
+            text: "Continue"
+          }) }}
+
+        </form>
+    
     </div>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script> 
+<script> 
+  $("input").on("change", function() { 
+    $("#changed").val('true');
+  }); 
+</script> 
+
 {% endblock %}
