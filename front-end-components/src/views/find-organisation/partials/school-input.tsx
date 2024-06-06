@@ -8,24 +8,30 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const SchoolInput: React.FunctionComponent<SchoolInputProps> = (props) => {
-  const { input, urn } = props;
+  const { input, urn, exclude } = props;
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedUrn, setSelectedUrn] = useState<string>(urn);
 
   const handleSuggest = async (query: string) => {
+    const params = new URLSearchParams({
+      type: "school",
+      search: query,
+    });
+    if (exclude) {
+      exclude.forEach((e) => {
+        params.append("exclude", e);
+      });
+    }
+
     try {
-      const res = await fetch(
-        "/api/suggest?" +
-          new URLSearchParams({ type: "school", search: query }),
-        {
-          redirect: "manual",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Correlation-ID": uuidv4(),
-          },
-        }
-      );
+      const res = await fetch("/api/suggest?" + params, {
+        redirect: "manual",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Correlation-ID": uuidv4(),
+        },
+      });
 
       const response = await res.json();
       if (response.error) {

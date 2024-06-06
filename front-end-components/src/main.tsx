@@ -504,11 +504,15 @@ if (spendingAndCostsComposedElements) {
 
 const schoolSuggesterElement = document.getElementById(SchoolSuggesterId);
 if (schoolSuggesterElement) {
-  const { input, urn } = schoolSuggesterElement.dataset;
+  const { input, urn, exclude } = schoolSuggesterElement.dataset;
   const root = ReactDOM.createRoot(schoolSuggesterElement);
   root.render(
     <React.StrictMode>
-      <SchoolInput input={input || ""} urn={urn || ""} />
+      <SchoolInput
+        input={input || ""}
+        urn={urn || ""}
+        exclude={exclude ? exclude.split(",") : undefined}
+      />
     </React.StrictMode>
   );
 }
