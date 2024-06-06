@@ -12,6 +12,9 @@ export type TotalExpenditureData = {
   totalIncome: number;
   totalExpenditure: number;
   numberOfPupils: bigint;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
 };
 
 export type ExpenditureAccordionProps = {

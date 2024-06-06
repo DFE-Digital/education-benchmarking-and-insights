@@ -67,7 +67,7 @@ public class IncomeFunctions
     }
 
     [FunctionName(nameof(IncomeSchoolHistoryAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> IncomeSchoolHistoryAsync(
@@ -139,7 +139,7 @@ public class IncomeFunctions
 
 
     [FunctionName(nameof(IncomeTrustHistoryAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(IncomeResponseModel[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> IncomeTrustHistoryAsync(

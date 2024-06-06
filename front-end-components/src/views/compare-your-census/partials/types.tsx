@@ -1,71 +1,71 @@
 export type SchoolCensusData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  workforceFte: number;
+  laName: string;
+  workforceFTE: number;
 };
 
 export type AuxiliaryStaffData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  auxiliaryStaffFte: number;
+  laName: string;
+  auxiliaryStaffFTE: number;
 };
 
 export type HeadcountData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
+  laName: string;
   workforceHeadcount: number;
 };
 
 export type NonClassroomSupportData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  nonClassroomSupportStaffFte: number;
+  laName: string;
+  nonClassroomSupportStaffFTE: number;
 };
 
 export type SeniorLeadershipData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  seniorLeadershipFte: number;
+  laName: string;
+  seniorLeadershipFTE: number;
 };
 
 export type TeachingAssistantsData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  teachingAssistantsFte: number;
+  laName: string;
+  teachingAssistantFTE: number;
 };
 
 export type TotalTeachersData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  teachersFte: number;
+  laName: string;
+  teachersFTE: number;
 };
 
 export type TotalTeachersQualifiedData = {
   urn: string;
-  name: string;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
-  teachersQualified: number;
+  laName: string;
+  percentTeacherWithQualifiedStatus: number;
 };

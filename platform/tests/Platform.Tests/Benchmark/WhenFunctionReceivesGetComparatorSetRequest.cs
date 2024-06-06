@@ -13,11 +13,11 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task ShouldReturn200OnValidRequest()
     {
         Service
-            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(new ComparatorSetDefault());
+            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .ReturnsAsync(new ComparatorSetDefaultSchool());
 
         var result =
-            await Functions.ComparatorSetDefaultAsync(CreateRequest(), "12313") as JsonContentResult;
+            await Functions.DefaultSchoolComparatorSetAsync(CreateRequest(), "12313") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -29,11 +29,11 @@ public class WhenFunctionReceivesGetComparatorSetRequest : ComparatorSetsFunctio
     public async Task ShouldReturn500OnError()
     {
         Service
-            .Setup(d => d.DefaultAsync(It.IsAny<string>(), It.IsAny<string>()))
+            .Setup(d => d.DefaultSchoolAsync(It.IsAny<string>(), It.IsAny<string>()))
             .Throws(new Exception());
 
         var result = await Functions
-            .ComparatorSetDefaultAsync(CreateRequest(), "12313") as StatusCodeResult;
+            .DefaultSchoolComparatorSetAsync(CreateRequest(), "12313") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

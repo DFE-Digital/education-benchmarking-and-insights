@@ -1,8 +1,11 @@
-import { Census } from "src/services/types";
+import { Census, CensusHistory } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class CensusApi {
-  static async history(id: string, dimension: string): Promise<Census[]> {
+  static async history(
+    id: string,
+    dimension: string
+  ): Promise<CensusHistory[]> {
     return fetch(
       "/api/census/history?" +
         new URLSearchParams({ id: id, dimension: dimension }),

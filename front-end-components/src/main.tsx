@@ -20,6 +20,7 @@ import {
   VerticalBarChart2SeriesElementId,
   VerticalBarChart3SeriesElementId,
   SchoolSuggesterId,
+  LaSuggesterId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -40,6 +41,7 @@ import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
 import { ExpenditureData, Census } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
+import LaInput from "./views/find-organisation/partials/la-input";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -186,7 +188,7 @@ const HorizontalChart1Series = ({
                 shortValueFormatter(v, { valueUnit }),
             },
           }}
-          seriesLabelField="name"
+          seriesLabelField="schoolName"
           tickWidth={400}
           tick={(t) => (
             <SchoolTick
@@ -197,7 +199,7 @@ const HorizontalChart1Series = ({
                 urn && (window.location.href = `/school/${urn}`);
               }}
               schoolUrnResolver={(name) =>
-                data.find((d) => d.name === name)?.urn
+                data.find((d) => d.schoolName === name)?.urn
               }
             />
           )}
@@ -502,10 +504,22 @@ if (spendingAndCostsComposedElements) {
 
 const schoolSuggesterElement = document.getElementById(SchoolSuggesterId);
 if (schoolSuggesterElement) {
+  const { input, urn } = schoolSuggesterElement.dataset;
   const root = ReactDOM.createRoot(schoolSuggesterElement);
   root.render(
     <React.StrictMode>
-      <SchoolInput input="" urn="" />
+      <SchoolInput input={input || ""} urn={urn || ""} />
+    </React.StrictMode>
+  );
+}
+
+const laSuggesterElement = document.getElementById(LaSuggesterId);
+if (laSuggesterElement) {
+  const { input, code } = laSuggesterElement.dataset;
+  const root = ReactDOM.createRoot(laSuggesterElement);
+  root.render(
+    <React.StrictMode>
+      <LaInput input={input || ""} code={code || ""} />
     </React.StrictMode>
   );
 }

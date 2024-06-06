@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -8,24 +9,22 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.Http;
 using Microsoft.Extensions.Logging;
-using Platform.Api.Insight.Db;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 
-namespace Platform.Api.Insight;
+namespace Platform.Api.Insight.Census;
 
 [ApiExplorerSettings(GroupName = "Census")]
 public class CensusFunctions
 {
 
     private readonly ILogger<CensusFunctions> _logger;
-    private readonly ICensusDb _db;
+    private readonly ICensusService _service;
 
-    public CensusFunctions(ILogger<CensusFunctions> logger, ICensusDb db)
+    public CensusFunctions(ILogger<CensusFunctions> logger, ICensusService service)
     {
         _logger = logger;
-        _db = db;
+        _service = service;
     }
 
     [FunctionName(nameof(CensusAllCategories))]
@@ -67,7 +66,7 @@ public class CensusFunctions
     }
 
     [FunctionName(nameof(CensusAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CensusResponse), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("category", "Census category", DataType = typeof(string))]
@@ -99,22 +98,21 @@ public class CensusFunctions
                     dimension = CensusDimensions.Total;
                 }
 
-                var result = await _db.Get(urn, category, dimension);
-
+                var result = await _service.GetAsync(urn);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(result);
+                    : new JsonContentResult(CensusResponseFactory.Create(result, category, dimension));
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to get census history");
+                _logger.LogError(e, "Failed to get census");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }
     }
 
     [FunctionName(nameof(CensusHistoryAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CensusHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
     public async Task<IActionResult> CensusHistoryAsync(
@@ -134,8 +132,8 @@ public class CensusFunctions
             {
                 //TODO: Add validation for dimension
                 var dimension = req.Query["dimension"].ToString();
-                var result = await _db.GetHistory(urn, dimension);
-                return new JsonContentResult(result);
+                var result = await _service.GetHistoryAsync(urn);
+                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, dimension)));
             }
             catch (Exception e)
             {
@@ -146,7 +144,7 @@ public class CensusFunctions
     }
 
     [FunctionName(nameof(QueryCensusAsync))]
-    [ProducesResponseType(typeof(CensusResponseModel[]), (int)HttpStatusCode.OK)]
+    [ProducesResponseType(typeof(CensusResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("category", "Census category", DataType = typeof(string), Required = true)]
@@ -169,8 +167,8 @@ public class CensusFunctions
                 var urns = req.Query["urns"].ToString().Split(",");
                 var category = req.Query["category"].ToString();
                 var dimension = req.Query["dimension"].ToString();
-                var finances = await _db.Get(urns, category, dimension);
-                return new JsonContentResult(finances);
+                var result = await _service.QueryAsync(urns);
+                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, category, dimension)));
             }
             catch (Exception e)
             {

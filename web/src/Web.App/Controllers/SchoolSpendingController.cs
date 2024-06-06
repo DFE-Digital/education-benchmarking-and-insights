@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -15,7 +16,8 @@ public class SchoolSpendingController(
         IEstablishmentApi establishmentApi,
         IFinanceService financeService,
         IComparatorSetService comparatorSetService,
-        IMetricRagRatingApi metricRagRatingApi)
+        IMetricRagRatingApi metricRagRatingApi,
+        IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
@@ -28,13 +30,15 @@ public class SchoolSpendingController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolSpending(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+
                 var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
                 var set = await comparatorSetService.ReadComparatorSet(urn);
 
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.Building);
 
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure);
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet);
 
                 return View(viewModel);
             }

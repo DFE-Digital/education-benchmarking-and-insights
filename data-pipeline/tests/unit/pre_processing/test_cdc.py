@@ -11,7 +11,7 @@ def test_prepare_cdc_data_has_correct_output_columns(cdc_data):
     assert list(result.columns) == [
         "Total Internal Floor Area",
         "Age Average Score",
-        "Building Age"
+        "Building Age",
     ]
 
 
@@ -29,4 +29,3 @@ def test_cdc_has_correct_age_average_score(prepared_cdc_data: dict):
 
 def test_cdc_has_correct_index(prepared_cdc_data: dict):
     assert prepared_cdc_data["URN"] == 100150
-

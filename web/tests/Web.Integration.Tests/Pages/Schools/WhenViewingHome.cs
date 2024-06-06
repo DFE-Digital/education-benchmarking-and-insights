@@ -160,7 +160,7 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         var changeLinkElement = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Change school");
         DocumentAssert.Link(changeLinkElement, "Change school", $"{Paths.FindOrganisation.ToAbsolute()}?method=school");
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[6]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[5]"); //NB: No RAG therefore section not shown
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

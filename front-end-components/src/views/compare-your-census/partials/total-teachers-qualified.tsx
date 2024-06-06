@@ -50,14 +50,14 @@ export const TotalTeachersQualified: React.FC<{ type: string; id: string }> = ({
           data?.map((school) => {
             return {
               ...school,
-              value: school.teachersQualified,
+              value: school.percentTeacherWithQualifiedStatus,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data]);
 
-  const hasIncompleteData = data?.some((x) => x.hasIncompleteData);
+  const hasIncompleteData = false;
   const hasNoData = data?.length === 0;
 
   return (

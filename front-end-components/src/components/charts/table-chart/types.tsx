@@ -9,9 +9,9 @@ export type TableChartProps<TData extends SchoolChartData> = {
 
 export type SchoolChartData = {
   urn: string;
-  name: string;
-  value: number;
+  totalPupils: bigint;
+  schoolName: string;
   schoolType: string;
-  localAuthority: string;
-  numberOfPupils: bigint;
+  laName: string;
+  value: number;
 };

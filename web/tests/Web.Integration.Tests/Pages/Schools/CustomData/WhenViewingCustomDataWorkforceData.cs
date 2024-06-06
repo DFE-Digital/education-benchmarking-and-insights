@@ -33,21 +33,21 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var customCensus = Fixture.Build<Census>()
-            .With(c => c.WorkforceFte, Fixture.CreateDecimal(101, 200))
-            .With(c => c.TeachersFte, Fixture.CreateDecimal(51, 100))
-            .With(c => c.SeniorLeadershipFte, Fixture.CreateDecimal(0, 50))
+            .With(c => c.WorkforceFTE, Fixture.CreateDecimal(101, 200))
+            .With(c => c.TeachersFTE, Fixture.CreateDecimal(51, 100))
+            .With(c => c.SeniorLeadershipFTE, Fixture.CreateDecimal(0, 50))
             .Create();
 
         _formValues = new Dictionary<string, decimal?>
         {
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.WorkforceFte
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte), customCensus.WorkforceFTE
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.TeachersFte
+                nameof(WorkforceDataCustomDataViewModel.TeachersFte), customCensus.TeachersFTE
             },
             {
-                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadershipFte
+                nameof(WorkforceDataCustomDataViewModel.SeniorLeadershipFte), customCensus.SeniorLeadershipFTE
             }
         };
     }
@@ -174,9 +174,9 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.WorkforceFte,
-                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.TeachersFte,
-                _ => _census.SeniorLeadershipFte
+                nameof(WorkforceDataCustomDataViewModel.WorkforceFte) => _census.WorkforceFTE,
+                nameof(WorkforceDataCustomDataViewModel.TeachersFte) => _census.TeachersFTE,
+                _ => _census.SeniorLeadershipFTE
             };
 
             Assert.True(expected?.ToString("#.0").Equals(actual), $"{field} expected to be {expected} but found {actual}");

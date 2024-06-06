@@ -65,7 +65,7 @@ resource "azurerm_container_app" "data-pipeline" {
 
   template {
     min_replicas    = 0
-    max_replicas    = 5
+    max_replicas    = var.environment == "development" ? 1 : 10
     revision_suffix = replace(split(":", var.image-name)[1], ".", "-")
     container {
       name   = "edis-data-pipeline"

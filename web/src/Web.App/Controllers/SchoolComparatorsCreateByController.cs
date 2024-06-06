@@ -1,3 +1,4 @@
+using System.Web;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
@@ -21,7 +22,8 @@ public class SchoolComparatorsCreateByController(
     IEstablishmentApi establishmentApi,
     IComparatorSetService comparatorSetService,
     ISchoolInsightApi schoolInsightApi,
-    IComparatorSetApi comparatorSetApi
+    IComparatorSetApi comparatorSetApi,
+    IComparatorApi comparatorApi
 ) : Controller
 {
     [HttpGet]
@@ -75,11 +77,12 @@ public class SchoolComparatorsCreateByController(
     [HttpGet]
     [Route("name")]
     [ImportModelState]
-    public async Task<IActionResult> Name(string urn)
+    public async Task<IActionResult> Name(string urn, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
         {
-            urn
+            urn,
+            identifier
         }))
         {
             try
@@ -90,7 +93,17 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                ComparatorSetUserDefined userDefinedSet;
+                if (string.IsNullOrEmpty(identifier))
+                {
+                    userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                }
+                else
+                {
+                    userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(urn, identifier);
+                    comparatorSetService.ClearUserDefinedComparatorSet(urn, identifier);
+                    comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+                }
 
                 var schoolsQuery = new ApiQuery();
                 foreach (var selectedUrn in userDefinedSet.Set)
@@ -182,14 +195,23 @@ public class SchoolComparatorsCreateByController(
                     });
                 }
 
+                if (!userDefinedSet.Set.Contains(urn))
+                {
+                    //Ensure current school is in the set
+                    var list = userDefinedSet.Set.ToList();
+                    list.Add(urn);
+                    userDefinedSet.Set = list.ToArray();
+                }
+
                 var request = new PutComparatorSetUserDefinedRequest
                 {
+                    Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
                     URN = urn,
                     Set = userDefinedSet.Set,
                     UserId = User.UserId()
                 };
 
-                await comparatorSetApi.UpsertUserDefinedAsync(request).EnsureSuccess();
+                await comparatorSetApi.UpsertUserDefinedSchoolAsync(request).EnsureSuccess();
                 comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined());
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
                 return View(viewModel);
@@ -204,6 +226,7 @@ public class SchoolComparatorsCreateByController(
 
     [HttpGet]
     [Route("characteristic")]
+    [ImportModelState]
     public async Task<IActionResult> Characteristic(string urn)
     {
         using (logger.BeginScope(new
@@ -219,15 +242,162 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var viewModel = new SchoolComparatorsViewModel(school);
+                var characteristics = await GetSchoolCharacteristics<SchoolCharacteristic>(new[]
+                {
+                    urn
+                });
 
-                // todo: up later
-                return StatusCode(StatusCodes.Status302Found);
+                UserDefinedCharacteristicViewModel? userDefinedCharacteristic = null;
+                if (TempData.TryGetValue("UserDefinedCharacteristics", out var matchCharacteristics))
+                {
+                    userDefinedCharacteristic = (matchCharacteristics as string)?.FromJson<UserDefinedCharacteristicViewModel>();
+                }
+
+                var viewModel = new SchoolComparatorsByCharacteristicViewModel(school, characteristics?.FirstOrDefault(), userDefinedCharacteristic);
+                return View(viewModel);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying create school comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("characteristic")]
+    [ExportModelState]
+    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
+    {
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModel
+        }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+
+                    // prevent double-reporting of the same validation error (both values are required to be submitted by the
+                    // client side component in order for a valid option to have deemed to have been selected from the suggester) 
+                    if (ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.LaInput))
+                        && ModelState.HasError(nameof(UserDefinedCharacteristicViewModel.Code)))
+                    {
+                        ModelState.ClearValidationState(nameof(UserDefinedCharacteristicViewModel.LaInput));
+                    }
+
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var request = new PostSchoolComparatorsRequest(urn, school.LAName, viewModel);
+                var results = await comparatorApi.CreateSchoolsAsync(request).GetResultOrThrow<ComparatorSchools>();
+
+                // try again if too few results returned
+                // todo: unhappy path(s) under review as part of other ticket(s)
+                if (results.TotalSchools < 2)
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to find any matching schools. Modify the characteristics and try again.");
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                TempData["UserDefinedCharacteristics"] = viewModel.ToJson();
+                comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined
+                {
+                    Set = results.Schools.ToArray(),
+                    TotalSchools = results.TotalSchools
+                });
+
+                return RedirectToAction(nameof(Preview), new
+                {
+                    urn
+                });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("characteristic/preview")]
+    [ImportModelState]
+    public async Task<IActionResult> Preview(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    urn
+                }));
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                if (userDefinedSet.Set.Length <= 1)
+                {
+                    return new NotFoundResult();
+                }
+
+                UserDefinedCharacteristicViewModel? userDefinedCharacteristic = null;
+                if (TempData.TryGetValue("UserDefinedCharacteristics", out var matchCharacteristics))
+                {
+                    userDefinedCharacteristic = (matchCharacteristics as string)?.FromJson<UserDefinedCharacteristicViewModel>();
+                }
+
+                var characteristics = await GetSchoolCharacteristics<SchoolCharacteristic>(userDefinedSet.Set.Where(s => s != urn));
+                var viewModel = new SchoolComparatorsPreviewViewModel(
+                    school,
+                    characteristics,
+                    userDefinedSet.TotalSchools.GetValueOrDefault(),
+                    userDefinedCharacteristic);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create school comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("characteristic/change")]
+    [ExportModelState]
+    public IActionResult Change([FromRoute] string urn, [FromQuery(Name = "j")] string? viewModelJson = null)
+    {
+        using (logger.BeginScope(new
+        {
+            urn,
+            viewModelJson
+        }))
+        {
+            try
+            {
+                if (viewModelJson != null)
+                {
+                    TempData["UserDefinedCharacteristics"] = HttpUtility.UrlDecode(viewModelJson);
+                }
+
+                return RedirectToAction(nameof(Characteristic), new
+                {
+                    urn
+                });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
             }
         }
     }
