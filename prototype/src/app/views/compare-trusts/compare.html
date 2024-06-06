@@ -30,13 +30,14 @@
 
       <form action="/compare-trusts" method="post">
         <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Compare trusts</h1>
+        <h1 class="govuk-heading-l">Benchmark spending for this trust</h1>
 
         {% if data['showBanner'] != 'false' %}
         {% set html %}
         <h3 class="govuk-notification-banner__heading">
             You've created a set of trusts to compare
         </h3>
+        <p><a href="/compare-trusts/view" class="govuk-link">View and change your set of trusts</a></p>
         {% endset %}
 
         {{ govukNotificationBanner({
@@ -44,17 +45,16 @@
         type: "success"
         }) }}
         {% endif %}
-
+        <div class="govuk-grid-row">
+            <div class="govuk-grid-column-two-thirds">
+                <p class="govuk-body">Compare spending costs for this trust against similar trusts.</p> 
+                <p class="govuk-body">This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).</p>
+            </div>
+        </div>        
         <div class="govuk-width-container">
         
             
-            <div class="govuk-grid-row">
-                <div class="govuk-grid-column-two-thirds">
-                    <p class="govuk-body">Compare your spending costs against similar trusts.</p>    
-                    <p class="govuk-body">SOMETHING ABOUT DATA SOURCES</p>
-                    <p><a href="/compare-trusts/view" class="govuk-link">View and manage your set of trusts</a></p>
-                </div>
-            </div>
+            
             
           
             
@@ -81,7 +81,7 @@
                         </div>
                         <div class="govuk-grid-row">
                             <div class="govuk-grid-column-two-thirds">
-                                <h2 class="govuk-heading-m">Total Expenditure</h2>
+                                <h2 class="govuk-heading-m">Total expenditure</h2>
                                 <div class="govuk-form-group">
                                     <label class="govuk-label" for="total-expenditure-dimension">View graph as</label>
                                     <select class="govuk-select" name="dimension" id="total-expenditure-dimension">

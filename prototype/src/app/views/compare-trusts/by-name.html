@@ -39,11 +39,11 @@
   {% endif %}
 
   <span class="govuk-caption-l"><a href="/trust-homepage" class="govuk-link--no-underline">{{ data['trust-name'] }}</a></span>
-  <h1 class="govuk-heading-l">Choose trusts</h1>
+  <h1 class="govuk-heading-l">Choose trusts to benchmark against</h1>
     
       <form action="/compare-trusts/add-trust" method="post">
         <div id="school-search-hint" class="govuk-hint">
-          Choose by trust name or company number
+          Search by trust name or company number
         </div>
         <div class="school-search">
 
@@ -78,7 +78,7 @@
       <h1 class="govuk-heading-m">Chosen trusts ({{rows.length}})</h1>
 
       {{ govukButton({
-        text: 'Save your set' if data['editSet'] == 'true' else "Create a set using these trusts",
+        text: 'Change your set' if data['editSet'] == 'true' else "Create a set using these trusts",
         href: '/loading?redirect=/compare-trusts/compare?showBanner=true'
       }) }}
 

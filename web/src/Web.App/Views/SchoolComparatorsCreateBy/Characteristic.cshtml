@@ -1,0 +1,271 @@
+﻿@using Web.App.Domain
+@using Web.App.Extensions
+@using Web.App.TagHelpers
+@using Web.App.ViewModels
+@model Web.App.ViewModels.SchoolComparatorsByCharacteristicViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsCreateByCharacteristic;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+@await Html.PartialAsync("_ErrorSummary")
+
+@using (Html.BeginForm("Characteristic", "SchoolComparatorsCreateBy", new
+        {
+            urn = Model.Urn
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate",
+            @class = "characteristics"
+        }))
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters">
+
+            <h2 class="govuk-heading-m">Default characteristics</h2>
+
+            @await Html.PartialAsync("_SchoolTypes", Model.Data)
+            @await Html.PartialAsync("_SchoolCategories", Model.Data)
+            @await Html.PartialAsync("_LocalAuthorities", Model.Data, new ViewDataDictionary(ViewData)
+            {
+                {
+                    "LAName", Model.Characteristic?.LAName
+                }
+            })
+
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" aria-describedby="contact-hint">
+                    <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                        <h1 class="govuk-fieldset__heading">
+                            Additional characteristics
+                        </h1>
+                    </legend>
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of pupils",
+                                nameof(Model.Data.TotalPupils),
+                                Model.Data.TotalPupils,
+                                nameof(Model.Data.TotalPupilsFrom),
+                                Model.Data.TotalPupilsFrom.HasValue ? Model.Data.TotalPupilsFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.TotalPupilsTo),
+                                Model.Data.TotalPupilsTo.HasValue ? Model.Data.TotalPupilsTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalPupils.GetValueOrDefault().ToNumberSeparator(),
+                                "has",
+                                "pupils"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Eligibility for free school meals (FSM)",
+                                nameof(Model.Data.FreeSchoolMeals),
+                                Model.Data.FreeSchoolMeals,
+                                nameof(Model.Data.FreeSchoolMealsFrom),
+                                Model.Data.FreeSchoolMealsFrom.HasValue ? Model.Data.FreeSchoolMealsFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.FreeSchoolMealsTo),
+                                Model.Data.FreeSchoolMealsTo.HasValue ? Model.Data.FreeSchoolMealsTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.PercentFreeSchoolMeals.ToPercent(),
+                                "has",
+                                "of pupils eligible for FSM",
+                                "%"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Pupils with special educational needs (SEN)",
+                                nameof(Model.Data.SpecialEducationalNeeds),
+                                Model.Data.SpecialEducationalNeeds,
+                                nameof(Model.Data.SpecialEducationalNeedsFrom),
+                                Model.Data.SpecialEducationalNeedsFrom.HasValue ? Model.Data.SpecialEducationalNeedsFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.SpecialEducationalNeedsTo),
+                                Model.Data.SpecialEducationalNeedsTo.HasValue ? Model.Data.SpecialEducationalNeedsTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.PercentSpecialEducationNeeds.ToPercent(),
+                                "has",
+                                "of pupils with special educational needs",
+                                "%"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "London weighting",
+                                nameof(Model.Data.LondonWeighting),
+                                Model.Data.LondonWeighting,
+                                nameof(Model.Data.LondonWeightings),
+                                string.Join(",", Model.Data.LondonWeightings),
+                                Model.Name,
+                                Model.Characteristic?.LondonWeighting,
+                                ["Inner", "Outer", "Neither"],
+                                prefix: "is"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Average building age",
+                                nameof(Model.Data.AverageBuildingAge),
+                                Model.Data.AverageBuildingAge,
+                                nameof(Model.Data.AverageBuildingAgeFrom),
+                                Model.Data.AverageBuildingAgeFrom.HasValue ? Model.Data.AverageBuildingAgeFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.AverageBuildingAgeTo),
+                                Model.Data.AverageBuildingAgeTo.HasValue ? Model.Data.AverageBuildingAgeTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                (DateTime.Now.Year - Model.Characteristic?.BuildingAverageAge).GetValueOrDefault().ToNumberSeparator(),
+                                "average building age is",
+                                "years",
+                                inputsSuffix: "years"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Gross internal floor area",
+                                nameof(Model.Data.InternalFloorArea),
+                                Model.Data.InternalFloorArea,
+                                nameof(Model.Data.InternalFloorAreaFrom),
+                                Model.Data.InternalFloorAreaFrom.HasValue ? Model.Data.InternalFloorAreaFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.InternalFloorAreaTo),
+                                Model.Data.InternalFloorAreaTo.HasValue ? Model.Data.InternalFloorAreaTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator(),
+                                "is",
+                                "square metres",
+                                inputsSuffix: "square metres"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Ofsted rating",
+                                nameof(Model.Data.OfstedRating),
+                                Model.Data.OfstedRating,
+                                nameof(Model.Data.OfstedRatings),
+                                string.Join(",", Model.Data.OfstedRatings),
+                                Model.Name,
+                                Model.Characteristic?.OfstedDescription,
+                                ["Outstanding", "Good", "Requires improvement", "Inadequate", "Not rated"],
+                                prefix: "is rated"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of schools within trust",
+                                nameof(Model.Data.SchoolsInTrust),
+                                Model.Data.SchoolsInTrust,
+                                nameof(Model.Data.SchoolsInTrustFrom),
+                                Model.Data.SchoolsInTrustFrom.HasValue ? Model.Data.SchoolsInTrustFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.SchoolsInTrustTo),
+                                Model.Data.SchoolsInTrustTo.HasValue ? Model.Data.SchoolsInTrustTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                null,
+                                "has",
+                                "schools"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Schools in deficit",
+                                nameof(Model.Data.Deficit),
+                                Model.Data.Deficit,
+                                nameof(Model.Data.Deficits),
+                                Model.Data.Deficits.FirstOrDefault() ?? string.Empty,
+                                Model.Name,
+                                null,
+                                ["Exclude schools in deficit", "Include schools in deficit"],
+                                false,
+                                "is"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "Part of a private finance initiative",
+                                nameof(Model.Data.PrivateFinanceInitiative),
+                                Model.Data.PrivateFinanceInitiative,
+                                nameof(Model.Data.PrivateFinanceInitiatives),
+                                Model.Data.PrivateFinanceInitiatives.FirstOrDefault() ?? string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.IsPFISchool == true ? "part of PFI" : "not part of PFI",
+                                ["Part of PFI", "Not part of PFI"],
+                                false,
+                                "is"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of pupils in sixth form",
+                                nameof(Model.Data.TotalPupilsSixthForm),
+                                Model.Data.TotalPupilsSixthForm,
+                                nameof(Model.Data.TotalPupilsSixthFormFrom),
+                                Model.Data.TotalPupilsSixthFormFrom.HasValue ? Model.Data.TotalPupilsSixthFormFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.TotalPupilsSixthFormTo),
+                                Model.Data.TotalPupilsSixthFormTo.HasValue ? Model.Data.TotalPupilsSixthFormTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalPupilsSixthForm.GetValueOrDefault().ToNumberSeparator(),
+                                "has",
+                                "pupils in sixth form"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Key stage 2 progress",
+                                nameof(Model.Data.KeyStage2Progress),
+                                Model.Data.KeyStage2Progress,
+                                nameof(Model.Data.KeyStage2ProgressFrom),
+                                Model.Data.KeyStage2ProgressFrom.HasValue ? Model.Data.KeyStage2ProgressFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.KeyStage2ProgressTo),
+                                Model.Data.KeyStage2ProgressTo.HasValue ? Model.Data.KeyStage2ProgressTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                null,
+                                "key stage 2 progress is"))
+
+                        @await Html.PartialAsync(
+                            "_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Key stage 4 progress",
+                                nameof(Model.Data.KeyStage4Progress),
+                                Model.Data.KeyStage4Progress,
+                                nameof(Model.Data.KeyStage4ProgressFrom),
+                                Model.Data.KeyStage4ProgressFrom.HasValue ? Model.Data.KeyStage4ProgressFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.KeyStage4ProgressTo),
+                                Model.Data.KeyStage4ProgressTo.HasValue ? Model.Data.KeyStage4ProgressTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                null,
+                                "key stage 4 progress is"))
+                    </div>
+                </fieldset>
+            </div>
+
+            <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                Continue
+            </button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

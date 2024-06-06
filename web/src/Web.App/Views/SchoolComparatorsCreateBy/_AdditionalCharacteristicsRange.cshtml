@@ -1,0 +1,91 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.AdditionalCharacteristicsRangeViewModel
+
+<div class="govuk-checkboxes__item">
+    <input class="govuk-checkboxes__input"
+           id="@Model.SelectedFieldName"
+           name="@Model.SelectedFieldName"
+           type="checkbox"
+           value="true"
+           data-aria-controls="conditional-@Model.SelectedFieldName" @(Model.Selected ? "checked" : "")>
+    <label class="govuk-label govuk-checkboxes__label" for="@Model.SelectedFieldName">
+        @Model.Title
+    </label>
+</div>
+<div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-@Model.SelectedFieldName">
+    <div class="govuk-form-group @(Model.HasError ? "govuk-form-group--error" : string.Empty)">
+        <fieldset class="govuk-fieldset">
+            <div class="govuk-hint">
+                @if (string.IsNullOrWhiteSpace(Model.SchoolValueFormatted))
+                {
+                    @:No value was supplied for 
+                    @:
+                    @Model.SchoolName
+                }
+                else
+                {
+                    @Model.SchoolName
+                    @:
+                    @Model.Prefix
+                    <strong>@Model.SchoolValueFormatted</strong>
+                    @Model.Suffix
+                }
+            </div>
+            @if (Model.HasError)
+            {
+                <p id="@Model.SelectedFieldName-error" class="govuk-error-message">
+                    <span class="govuk-visually-hidden">Error:</span>
+                    @for (var i = 0; i < Model.Errors.Length; i++)
+                    {
+                        @Model.Errors[i]
+                        if (i < Model.Errors.Length - 1)
+                        {
+                            <br/>
+                        }
+                    }
+                </p>
+            }
+            <legend class="govuk-visually-hidden">@Model.Title</legend>
+            <div class="govuk-grid-column-one-quarter">
+                <label class="govuk-label" for="@Model.FromFieldName">
+                    From
+                </label>
+                <div class="govuk-input__wrapper">
+                    <input
+                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.FromFieldName) ? "govuk-input--error" : string.Empty)"
+                        id="@Model.FromFieldName"
+                        name="@Model.FromFieldName"
+                        type="text"
+                        value="@Model.ValueFrom">
+                    @if (!string.IsNullOrWhiteSpace(Model.InputSuffix))
+                    {
+                        <div class="govuk-input__suffix" aria-hidden="true">@Model.InputSuffix</div>
+                    }
+                </div>
+            </div>
+            <div class="govuk-grid-column-one-quarter">
+                <label class="govuk-label" for="@Model.ToFieldName">
+                    To
+                </label>
+                <div class="govuk-input__wrapper">
+                    <input
+                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.ToFieldName) ? "govuk-input--error" : string.Empty)"
+                        id="@Model.ToFieldName"
+                        name="@Model.ToFieldName"
+                        type="text"
+                        value="@Model.ValueTo">
+                    @if (!string.IsNullOrWhiteSpace(Model.InputSuffix))
+                    {
+                        <div class="govuk-input__suffix" aria-hidden="true">@Model.InputSuffix</div>
+                    }
+                </div>
+            </div>
+            @if (!string.IsNullOrWhiteSpace(Model.InputsSuffix))
+            {
+                <div class="govuk-grid-column-one-quarter govuk-!-margin-top-7 govuk-!-padding-left-0">
+                    <p class="govuk-body">@Model.InputsSuffix</p>
+                </div>
+            }
+        </fieldset>
+    </div>
+</div>

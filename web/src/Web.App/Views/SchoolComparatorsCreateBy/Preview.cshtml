@@ -1,0 +1,148 @@
+﻿@using Newtonsoft.Json
+@using Web.App.Extensions
+@model Web.App.ViewModels.SchoolComparatorsPreviewViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsPreview;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
+    kind = OrganisationTypes.School
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            @if (Model.TotalSchools > Model.Characteristics?.Length)
+            {
+                @:We matched 
+                @Model.TotalSchools
+                @:schools, but these
+            }
+            else
+            {
+                @:These
+            }
+
+            are the @Model.Characteristics?.Length closest matches to
+            @Model.Name using the characteristics you selected.
+        </p>
+
+        @if (Model.AnyUniqueGroupings)
+        {
+            <p class="govuk-body">
+                They are all:
+            </p>
+            <ul class="govuk-list govuk-list--bullet">
+                @if (Model.AllAcademies == true)
+                {
+                    <li>academies</li>
+                }
+                @if (Model.AllMaintained == true)
+                {
+                    <li>maintained schools</li>
+                }
+                @if (Model.AllNursery == true)
+                {
+                    <li>nurseries</li>
+                }
+                @if (Model.AllPrimary == true)
+                {
+                    <li>primary schools</li>
+                }
+                @if (Model.AllSecondary == true)
+                {
+                    <li>secondary schools</li>
+                }
+                @if (Model.AllPupilReferralUnit == true)
+                {
+                    <li>pupil referral units or alternative provision schools</li>
+                }
+                @if (Model.AllPupilReferralUnit == true)
+                {
+                    <li>special schools</li>
+                }
+                @if (!string.IsNullOrWhiteSpace(Model.AllInLaName))
+                {
+                    <li>schools in the @Model.AllInLaName local authority area</li>
+                }
+                @if (Model.AllPfi == true)
+                {
+                    <li>part of a private finance initiative</li>
+                }
+            </ul>
+        }
+
+        <p class="govuk-body">
+            <a href="@Url.Action("Change", new { urn = Model.Urn, j = Model.UserDefinedCharacteristics.ToJson(Formatting.None) })" class="govuk-link govuk-link--no-visited-state">
+                Change characteristics and create a new set
+            </a>
+        </p>
+
+        <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+            Create a set using these schools
+        </a>
+
+        @if (Model.Characteristics != null)
+        {
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-one-third">School</th>
+                    <th scope="col" class="govuk-table__header" colspan="2">Individual characteristics</th>
+                </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                @foreach (var characteristic in Model.Characteristics)
+                {
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <span class="govuk-body govuk-!-font-weight-bold">@characteristic.SchoolName</span><br>
+                            <span class="govuk-hint">@characteristic.Address</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            <p class="govuk-body">Number of pupils</p>
+                            <p class="govuk-body">Pupils with special educational needs (SEN):</p>
+                            @if (characteristic.SchoolsInTrust.HasValue)
+                            {
+                                <p class="govuk-body">Number of schools within trust:</p>
+                            }
+                            @if (characteristic.KS4Progress.HasValue)
+                            {
+                                <p class="govuk-body">Key stage 4 progress:</p>
+                            }
+                            @if (characteristic.KS2Progress.HasValue)
+                            {
+                                <p class="govuk-body">Key stage 2 progress:</p>
+                            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                            <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
+                            @if (characteristic.SchoolsInTrust.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.SchoolsInTrust.GetValueOrDefault()</p>
+                            }
+                            @if (characteristic.KS4Progress.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.KS4Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                            }
+                            @if (characteristic.KS2Progress.HasValue)
+                            {
+                                <p class="govuk-body">@characteristic.KS2Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                Create a set using these schools
+            </a>
+        }
+    </div>
+</div>
