@@ -250,13 +250,13 @@ def pre_process_bfr(set_type, year):
 
     academies_y2 = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{int(year)-2}/academies.parquet")
+            get_blob("pre-processed", f"{set_type}/{year-2}/academies.parquet")
         )
     )
 
     academies_y1 = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{int(year)-1}/academies.parquet")
+            get_blob("pre-processed", f"{set_type}/{year-1}/academies.parquet")
         )
     )
 
