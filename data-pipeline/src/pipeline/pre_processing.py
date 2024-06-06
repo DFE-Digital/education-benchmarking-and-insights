@@ -233,8 +233,7 @@ def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path,
         sheet_name="Academies",
-        usecols=input_schemas.aar_academies.keys(),
-        #dtype=input_schemas.aar_academies,
+        usecols=input_schemas.aar_academies.keys()
     )
 
     # removing pre-transition academies
@@ -249,8 +248,7 @@ def prepare_aar_data(aar_path):
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
-        usecols=input_schemas.aar_central_services.keys(),
-        #dtype=input_schemas.aar_central_services,
+        usecols=input_schemas.aar_central_services.keys()
     )
 
     aar.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
