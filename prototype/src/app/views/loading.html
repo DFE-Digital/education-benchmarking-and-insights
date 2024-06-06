@@ -10,7 +10,12 @@
     <div class="govuk-grid-column-full loading">
             
         <h1 class="govuk-heading-l">
+            {% if data['action'] == 'generating' %}
+            Generating benchmarking data
+            {% else %}
             Updating benchmarking data
+
+            {% endif %}
         </h1>
 
         <div class="spinner"></div>

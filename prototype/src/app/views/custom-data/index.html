@@ -41,14 +41,10 @@
           <li>correct any errors for a more accurate comparison </li>
         </ul>
 
-        <!---<p>In order to save your data, you will need to sign in with a <a href="https://profile.signin.education.gov.uk/register">DfE Sign-in account</a>.</p>--->
-
-        <div class="govuk-inset-text">
-          We will delete your changes when you leave the service. 
-        </div>
+        <p class="govuk-body">You will need a <a href="https://services.signin.education.gov.uk/">DfE Sign-in account</a>.</p>
 
         {{ govukButton({
-          href: '/custom-data/financial-data',
+          href: '/sign-in?goTo=/custom-data/financial-data',
           text: "Start now"
         }) }}
 
