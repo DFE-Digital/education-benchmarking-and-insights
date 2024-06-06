@@ -50,7 +50,9 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
         _ => "All"
     });
 
-    public CharacteristicList? SchoolPosition => null;
+    public CharacteristicList? SchoolPosition => IsSelected(viewModel.Deficit)
+        ? new CharacteristicList(viewModel.Deficits.Contains("Include schools in deficit") ? "Deficit" : "Surplus")
+        : null;
 
     public CharacteristicValueBool? IsPFISchool => IsSelected(viewModel.PrivateFinanceInitiative)
         ? new CharacteristicValueBool(viewModel.PrivateFinanceInitiatives.Contains("Part of PFI"))
@@ -113,7 +115,7 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
     public CharacteristicRange? PercentWithMLD => null;
     public CharacteristicRange? PercentWithHI => null;
     public CharacteristicRange? PercentWithASD => null;
-    
+
     // missing
     // Deficit
 

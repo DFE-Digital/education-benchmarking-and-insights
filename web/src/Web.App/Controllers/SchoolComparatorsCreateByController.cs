@@ -290,13 +290,57 @@ public class SchoolComparatorsCreateByController(
                 var request = new PostSchoolComparatorsRequest(urn, school.LAName, viewModel);
                 var results = await comparatorApi.CreateSchoolsAsync(request).GetResultOrThrow<ComparatorSchools>();
 
-                // todo: add to in-memory preview set and display the preview 
-                return StatusCode(StatusCodes.Status302Found);
+                comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined
+                {
+                    Set = results.Schools.ToArray(),
+                    TotalSchools = results.TotalSchools
+                });
+
+                return RedirectToAction(nameof(Preview), new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("preview")]
+    [ImportModelState]
+    public async Task<IActionResult> Preview(string urn)
+    {
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    urn
+                }));
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                if (userDefinedSet.Set.Length <= 1)
+                {
+                    return new NotFoundResult();
+                }
+
+                var characteristics = await GetSchoolCharacteristics<SchoolCharacteristic>(userDefinedSet.Set.Where(s => s != urn));
+                var viewModel = new SchoolComparatorsPreviewViewModel(school, characteristics, userDefinedSet.TotalSchools.GetValueOrDefault());
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create school comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
     }
