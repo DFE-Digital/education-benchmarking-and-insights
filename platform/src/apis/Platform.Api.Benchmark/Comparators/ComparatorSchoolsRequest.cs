@@ -135,7 +135,7 @@ public static class ExpressionBuilder
     {
         if (characteristic is not null)
         {
-            list.Add($"{fieldName}:({string.Join(") OR ( ", characteristic.Values.Select(a => $"'{a}'"))})");
+            list.Add($"{fieldName}:({string.Join(" OR ", characteristic.Values.Select(a => $"'{a}'"))})");
         }
 
         return list;
