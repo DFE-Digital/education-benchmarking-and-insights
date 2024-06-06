@@ -3,7 +3,7 @@
 
 @if (Model.Schools != null && Model.Schools.Any())
 {
-    <h1 class="govuk-heading-m">Chosen schools (@Model.Schools.Count())</h1>
+    <h1 class="govuk-heading-m">Chosen schools (@Model.Schools.Count(x => x.URN != Model.Urn))</h1>
     <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
         Create a set using these schools
     </a>
