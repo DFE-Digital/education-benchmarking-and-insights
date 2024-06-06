@@ -30,6 +30,7 @@ public static class PageTitles
     public const string SchoolComparatorsCreateBy = "How do you want to choose your set of schools?";
     public const string SchoolComparatorsCreateByCharacteristic = "Choose characteristics to find matching schools";
     public const string SchoolComparatorsCreateByName = "Choose schools to benchmark against";
+    public const string SchoolComparatorsPreview = "Schools successfully matched";
     public const string SchoolComparatorsSubmit = "Updating benchmarking data";
     public const string TrustHome = "Your trust";
     public const string HistoricData = "Historic data";
