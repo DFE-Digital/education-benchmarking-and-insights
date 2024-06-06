@@ -8,7 +8,7 @@ public interface ISuggestService
 {
     Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null);
     Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search);
-    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search);
+    Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
 public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestService
@@ -72,9 +72,18 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         });
     }
 
-    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search)
+    public async Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null)
     {
-        var suggestions = await establishmentApi.SuggestLocalAuthorities(search).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
+        var query = new ApiQuery();
+        if (excludeLas != null)
+        {
+            foreach (var la in excludeLas)
+            {
+                query.AddIfNotNull("names", la);
+            }
+        }
+
+        var suggestions = await establishmentApi.SuggestLocalAuthorities(search, query).GetResultOrThrow<SuggestOutput<LocalAuthority>>();
         return suggestions.Results.Select(value =>
         {
             var text = value.Text?.Replace("*", "");

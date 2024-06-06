@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -89,7 +90,8 @@ public class LocalAuthoritiesFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
 
-                var trusts = await _service.SuggestAsync(body);
+                var names = req.Query["names"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var trusts = await _service.SuggestAsync(body, names);
                 return new JsonContentResult(trusts);
             }
             catch (Exception e)

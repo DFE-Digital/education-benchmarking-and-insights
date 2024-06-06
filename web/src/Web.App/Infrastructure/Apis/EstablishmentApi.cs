@@ -43,12 +43,12 @@ public class EstablishmentApi(HttpClient httpClient, string? key = default)
         });
     }
 
-    public Task<ApiResult> SuggestLocalAuthorities(string search)
+    public Task<ApiResult> SuggestLocalAuthorities(string search, ApiQuery? query = null)
     {
         return SendAsync(new HttpRequestMessage
         {
             Method = HttpMethod.Post,
-            RequestUri = new Uri("api/local-authorities/suggest", UriKind.Relative),
+            RequestUri = new Uri($"api/local-authorities/suggest{query?.ToQueryString()}", UriKind.Relative),
             Content = new JsonContent(new { SearchText = search, Size = 10, SuggesterName = "local-authority-suggester" })
         });
     }
@@ -62,5 +62,5 @@ public interface IEstablishmentApi
     Task<ApiResult> QuerySchools(ApiQuery? query);
     Task<ApiResult> SuggestSchools(string search, ApiQuery? query = null);
     Task<ApiResult> SuggestTrusts(string search);
-    Task<ApiResult> SuggestLocalAuthorities(string search);
+    Task<ApiResult> SuggestLocalAuthorities(string search, ApiQuery? query = null);
 }

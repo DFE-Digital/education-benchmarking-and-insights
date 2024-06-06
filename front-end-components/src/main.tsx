@@ -519,11 +519,15 @@ if (schoolSuggesterElement) {
 
 const laSuggesterElement = document.getElementById(LaSuggesterId);
 if (laSuggesterElement) {
-  const { input, code } = laSuggesterElement.dataset;
+  const { input, code, exclude } = laSuggesterElement.dataset;
   const root = ReactDOM.createRoot(laSuggesterElement);
   root.render(
     <React.StrictMode>
-      <LaInput input={input || ""} code={code || ""} />
+      <LaInput
+        input={input || ""}
+        code={code || ""}
+        exclude={exclude ? exclude.split(",") : undefined}
+      />
     </React.StrictMode>
   );
 }
