@@ -244,10 +244,6 @@ def prepare_aar_data(aar_path):
         & aar["Date joined or opened if in period"].isna()
     )
     aar = aar[mask]
-<<<<<<< HEAD
-=======
-    aar.drop(columns=['URN'], inplace=True)
->>>>>>> main
     
 
     central_services_financial = pd.read_excel(
@@ -257,13 +253,9 @@ def prepare_aar_data(aar_path):
         #dtype=input_schemas.aar_central_services,
     )
 
-<<<<<<< HEAD
     aar.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
     aar = aar.astype(input_schemas.aar_academies)
     aar.drop(columns=['URN'], inplace=True)
-=======
-    aar.replace(to_replace={"DNS":"","n/a":""}, inplace=True)
->>>>>>> main
     aar.rename(
         columns={
             "In year balance": "Academy Balance",
@@ -275,12 +267,8 @@ def prepare_aar_data(aar_path):
     )
     
 
-<<<<<<< HEAD
     central_services_financial.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
     central_services_financial = central_services_financial.astype(input_schemas.aar_central_services)
-=======
-    central_services_financial.replace(to_replace={"DNS":"","n/a":""}, inplace=True)
->>>>>>> main
     central_services_financial.rename(
         columns={
             "In Year Balance": "Central Services Balance",
