@@ -1,10 +1,11 @@
 using System.Net;
+using System.Text.RegularExpressions;
 using Microsoft.Playwright;
 using Web.A11yTests.Drivers;
 using Xunit.Abstractions;
 namespace Web.A11yTests;
 
-public abstract class AuthPageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver) : PageBase(testOutputHelper, webDriver)
+public abstract partial class AuthPageBase(ITestOutputHelper testOutputHelper, WebDriver webDriver) : PageBase(testOutputHelper, webDriver)
 {
     protected override async Task GoToPage(HttpStatusCode statusCode = HttpStatusCode.OK, IPage? basePage = null)
     {
@@ -13,16 +14,28 @@ public abstract class AuthPageBase(ITestOutputHelper testOutputHelper, WebDriver
         await page.Locator("#username").FillAsync(TestConfiguration.Authentication.Username);
         await page.Locator("#password").FillAsync(TestConfiguration.Authentication.Password);
         await page.GetByText("Sign in").ClickAsync();
+        await page.WaitForURLAsync(SelectOrganisation());
+        await page.Locator("#organisation").Locator("input[type='radio']").First.ClickAsync();
+        await page.GetByText("Continue").ClickAsync();
         await page.WaitForURLAsync($"{ServiceUrl.TrimEnd('/')}/");
 
         // Save storage state into the file.
         // Tests are executed in <TestProject>\bin\Debug\netX.0\ therefore relative
         // path is used to reference playwright/.auth created in project root.
+        const string statePath = "../../../playwright/.auth/state.json";
+        if (!File.Exists(statePath))
+        {
+            await File.Create(statePath).DisposeAsync();
+        }
+
         await page.Context.StorageStateAsync(new BrowserContextStorageStateOptions
         {
-            Path = "../../../playwright/.auth/state.json"
+            Path = statePath
         });
 
         await base.GoToPage(statusCode, page);
     }
+
+    [GeneratedRegex("\\/select-organisation{1}")]
+    private static partial Regex SelectOrganisation();
 }

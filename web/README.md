@@ -54,11 +54,14 @@ However, if you are using deployed instances of the Platform APIs then having in
 
 Feature flags may also be defined in the `FeatureManagement` section:
 
-| Name                          | Purpose                                               |
-|-------------------------------|-------------------------------------------------------|
-| `CurriculumFinancialPlanning` | Toggles the Curriculum and Financial Planning feature |
-| `CustomData`                  | Toggles the Custom Data feature                       |
-| `Trusts`                      | Toggles the Trust feature                             |
+| Name                            | Purpose                                                              |
+|---------------------------------|----------------------------------------------------------------------|
+| `CurriculumFinancialPlanning`   | Toggles the Curriculum and Financial Planning feature                |
+| `CustomData`                    | Toggles the Custom Data feature                                      |
+| `DisableOrganisationClaimCheck` | Skips the Organisation Claim check in `SchoolAuthorizationAttribute` |
+| `LocalAuthorities`              | Toggles the Local Authorities feature                                |
+| `Trusts`                        | Toggles the Trust feature                                            |
+| `UserDefinedComparators`        | Toggles the User Defined comparators feature                         |
 
 #### DfE Sign-in (DSI) authentication
 
@@ -150,10 +153,15 @@ Add the following configuration in `appsettings.local.json` in the root of `Web.
 From the root of the `web` run
 
 ```bat
-dotnet test tests\Web.A11yTests --filter "Category!=CustomData&Category!=FinancialPlanning"
+dotnet test tests\Web.A11yTests
 ```
 
 _Playwright is used for end-to-end and accessibility testing which opens a browser and navigates like a user._
 
 > **NOTE:** Running _all_ accessibility tests locally using DSI credentials that are not configured to be able to access the
-> school defined in config will result in test failures for those in the `CustomData` and `FinancialPlanning` xUnit categories.
+> school defined in config will result in test failures for those in the `CustomData` and `FinancialPlanning` xUnit categories
+> unless the feature flag `DisableOrganisationClaimCheck` has been set to `true`. To skip these tests use the following filter:
+
+```bat
+dotnet test tests\Web.A11yTests --filter "Category!=CustomData&Category!=FinancialPlanning"
+```

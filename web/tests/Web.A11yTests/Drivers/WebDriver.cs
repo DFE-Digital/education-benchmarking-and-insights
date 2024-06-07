@@ -14,13 +14,14 @@ public class WebDriver(IMessageSink messageSink) : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    public async Task<IPage> GetPage(string url, HttpStatusCode statusCode, IPage? basePage = null)
+    public async Task<IPage> GetPage(string url, HttpStatusCode statusCode, IPage? basePage = null, string? storageStatePath = null)
     {
         _browser ??= await InitialiseBrowser();
 
         var contextOptions = new BrowserNewContextOptions
         {
-            IgnoreHTTPSErrors = true
+            IgnoreHTTPSErrors = true,
+            StorageStatePath = storageStatePath
         };
         var browserContext = await _browser.NewContextAsync(contextOptions);
 
