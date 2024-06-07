@@ -1,6 +1,9 @@
 ﻿using Web.App.Domain;
 using Web.App.ViewModels;
 // ReSharper disable InconsistentNaming
+// ReSharper disable NotAccessedPositionalProperty.Global
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+// ReSharper disable UnusedMember.Global
 namespace Web.App.Infrastructure.Apis;
 
 // todo: unit test mapping
@@ -103,19 +106,53 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
         ? new CharacteristicRange(viewModel.SchoolsInTrustFrom, viewModel.SchoolsInTrustTo)
         : null;
 
-    // currently unmapped
-    public CharacteristicRange? PercentWithVI => null;
-    public CharacteristicRange? PercentWithSPLD => null;
-    public CharacteristicRange? PercentWithSLD => null;
-    public CharacteristicRange? PercentWithSLCN => null;
-    public CharacteristicRange? PercentWithSEMH => null;
-    public CharacteristicRange? PercentWithPMLD => null;
-    public CharacteristicRange? PercentWithPD => null;
-    public CharacteristicRange? PercentWithOTH => null;
-    public CharacteristicRange? PercentWithMSI => null;
-    public CharacteristicRange? PercentWithMLD => null;
-    public CharacteristicRange? PercentWithHI => null;
-    public CharacteristicRange? PercentWithASD => null;
+    public CharacteristicRange? PercentWithVI => IsSelected(viewModel.VisualImpairment)
+        ? new CharacteristicRange(viewModel.VisualImpairmentFrom, viewModel.VisualImpairmentTo)
+        : null;
+
+    public CharacteristicRange? PercentWithSPLD => IsSelected(viewModel.SpecificLearningDifficulty)
+        ? new CharacteristicRange(viewModel.SpecificLearningDifficultyFrom, viewModel.SpecificLearningDifficultyTo)
+        : null;
+
+    public CharacteristicRange? PercentWithSLD => IsSelected(viewModel.SpecificLearningDifficulty)
+        ? new CharacteristicRange(viewModel.SpecificLearningDifficultyFrom, viewModel.SpecificLearningDifficultyTo)
+        : null;
+
+    public CharacteristicRange? PercentWithSLCN => IsSelected(viewModel.SpeechLanguageCommunication)
+        ? new CharacteristicRange(viewModel.SpeechLanguageCommunicationFrom, viewModel.SpeechLanguageCommunicationTo)
+        : null;
+
+    public CharacteristicRange? PercentWithSEMH => IsSelected(viewModel.SocialEmotionalMentalHealth)
+        ? new CharacteristicRange(viewModel.SocialEmotionalMentalHealthFrom, viewModel.SocialEmotionalMentalHealthTo)
+        : null;
+
+    public CharacteristicRange? PercentWithPMLD => IsSelected(viewModel.ProfoundMultipleLearningDifficulty)
+        ? new CharacteristicRange(viewModel.ProfoundMultipleLearningDifficultyFrom, viewModel.ProfoundMultipleLearningDifficultyTo)
+        : null;
+
+    public CharacteristicRange? PercentWithPD => IsSelected(viewModel.PhysicalDisability)
+        ? new CharacteristicRange(viewModel.PhysicalDisabilityFrom, viewModel.PhysicalDisabilityTo)
+        : null;
+
+    public CharacteristicRange? PercentWithOTH => IsSelected(viewModel.OtherLearningDifficulty)
+        ? new CharacteristicRange(viewModel.OtherLearningDifficultyFrom, viewModel.OtherLearningDifficultyTo)
+        : null;
+
+    public CharacteristicRange? PercentWithMSI => IsSelected(viewModel.MultiSensoryImpairment)
+        ? new CharacteristicRange(viewModel.MultiSensoryImpairmentFrom, viewModel.MultiSensoryImpairmentTo)
+        : null;
+
+    public CharacteristicRange? PercentWithMLD => IsSelected(viewModel.ModerateLearningDifficulty)
+        ? new CharacteristicRange(viewModel.ModerateLearningDifficultyFrom, viewModel.ModerateLearningDifficultyTo)
+        : null;
+
+    public CharacteristicRange? PercentWithHI => IsSelected(viewModel.HearingImpairment)
+        ? new CharacteristicRange(viewModel.HearingImpairmentFrom, viewModel.HearingImpairmentTo)
+        : null;
+
+    public CharacteristicRange? PercentWithASD => IsSelected(viewModel.AutisticSpectrumDisorder)
+        ? new CharacteristicRange(viewModel.AutisticSpectrumDisorderFrom, viewModel.AutisticSpectrumDisorderTo)
+        : null;
 
     private static bool IsSelected(string? value) => bool.TrueString.Equals(value, StringComparison.OrdinalIgnoreCase);
 }

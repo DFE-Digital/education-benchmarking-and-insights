@@ -187,6 +187,174 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
     [CompareDecimalValue(nameof(KeyStage4ProgressFrom), Operator.GreaterThanOrEqualTo)]
     public decimal? KeyStage4ProgressTo { get; init; }
 
+    // spld
+    public string? SpecificLearningDifficulty { get; init; }
+
+    [Display(Name = "Specific learning difficulty from")]
+    [RequiredDepends(nameof(SpecificLearningDifficulty), "true", ErrorMessage = "Enter the specific learning difficulty from")]
+    [Range(0, 100, ErrorMessage = "Enter specific learning difficulty from between 0 and 100")]
+    public decimal? SpecificLearningDifficultyFrom { get; init; }
+
+    [Display(Name = "Specific learning difficulty to")]
+    [RequiredDepends(nameof(SpecificLearningDifficulty), "true", ErrorMessage = "Enter the specific learning difficulty to")]
+    [Range(0, 100, ErrorMessage = "Enter specific learning difficulty to between 0 and 100")]
+    [CompareDecimalValue(nameof(SpecificLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? SpecificLearningDifficultyTo { get; init; }
+
+    // mld
+    public string? ModerateLearningDifficulty { get; init; }
+
+    [Display(Name = "Moderate learning difficulty from")]
+    [RequiredDepends(nameof(ModerateLearningDifficulty), "true", ErrorMessage = "Enter the moderate learning difficulty from")]
+    [Range(0, 100, ErrorMessage = "Enter moderate learning difficulty from between 0 and 100")]
+    public decimal? ModerateLearningDifficultyFrom { get; init; }
+
+    [Display(Name = "Moderate learning difficulty to")]
+    [RequiredDepends(nameof(ModerateLearningDifficulty), "true", ErrorMessage = "Enter the moderate learning difficulty to")]
+    [Range(0, 100, ErrorMessage = "Enter moderate learning difficulty to between 0 and 100")]
+    [CompareDecimalValue(nameof(ModerateLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? ModerateLearningDifficultyTo { get; init; }
+
+    // sld
+    public string? SevereLearningDifficulty { get; init; }
+
+    [Display(Name = "Severe learning difficulty from")]
+    [RequiredDepends(nameof(SevereLearningDifficulty), "true", ErrorMessage = "Enter the severe learning difficulty from")]
+    [Range(0, 100, ErrorMessage = "Enter severe learning difficulty from between 0 and 100")]
+    public decimal? SevereLearningDifficultyFrom { get; init; }
+
+    [Display(Name = "Severe learning difficulty to")]
+    [RequiredDepends(nameof(SevereLearningDifficulty), "true", ErrorMessage = "Enter the severe learning difficulty to")]
+    [Range(0, 100, ErrorMessage = "Enter severe learning difficulty to between 0 and 100")]
+    [CompareDecimalValue(nameof(SevereLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? SevereLearningDifficultyTo { get; init; }
+
+    // pmld
+    public string? ProfoundMultipleLearningDifficulty { get; init; }
+
+    [Display(Name = "Profound and multiple learning difficulty")]
+    [RequiredDepends(nameof(ProfoundMultipleLearningDifficulty), "true", ErrorMessage = "Enter the profound and multiple learning difficulty from")]
+    [Range(0, 100, ErrorMessage = "Enter profound and multiple learning difficulty from between 0 and 100")]
+    public decimal? ProfoundMultipleLearningDifficultyFrom { get; init; }
+
+    [Display(Name = "Profound and multiple learning difficulty to")]
+    [RequiredDepends(nameof(ProfoundMultipleLearningDifficulty), "true", ErrorMessage = "Enter the profound and multiple learning difficulty to")]
+    [Range(0, 100, ErrorMessage = "Enter profound and multiple learning difficulty to between 0 and 100")]
+    [CompareDecimalValue(nameof(ProfoundMultipleLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? ProfoundMultipleLearningDifficultyTo { get; init; }
+
+    // semh
+    public string? SocialEmotionalMentalHealth { get; init; }
+
+    [Display(Name = "Social, emotional and mental health from")]
+    [RequiredDepends(nameof(SocialEmotionalMentalHealth), "true", ErrorMessage = "Enter the social, emotional and mental health from")]
+    [Range(0, 100, ErrorMessage = "Enter social, emotional and mental health from between 0 and 100")]
+    public decimal? SocialEmotionalMentalHealthFrom { get; init; }
+
+    [Display(Name = "Social, emotional and mental health to")]
+    [RequiredDepends(nameof(SocialEmotionalMentalHealth), "true", ErrorMessage = "Enter the social, emotional and mental health to")]
+    [Range(0, 100, ErrorMessage = "Enter social, emotional and mental health to between 0 and 100")]
+    [CompareDecimalValue(nameof(SocialEmotionalMentalHealthFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? SocialEmotionalMentalHealthTo { get; init; }
+
+    // slcn
+    public string? SpeechLanguageCommunication { get; init; }
+
+    [Display(Name = "Speech, language and communications needs from")]
+    [RequiredDepends(nameof(SpeechLanguageCommunication), "true", ErrorMessage = "Enter the speech, language and communications needs from")]
+    [Range(0, 100, ErrorMessage = "Enter speech, language and communications needs from between 0 and 100")]
+    public decimal? SpeechLanguageCommunicationFrom { get; init; }
+
+    [Display(Name = "Speech, language and communications needs to")]
+    [RequiredDepends(nameof(SpeechLanguageCommunication), "true", ErrorMessage = "Enter the speech, language and communications needs to")]
+    [Range(0, 100, ErrorMessage = "Enter speech, language and communications needs to between 0 and 100")]
+    [CompareDecimalValue(nameof(SpeechLanguageCommunicationFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? SpeechLanguageCommunicationTo { get; init; }
+
+    // hi
+    public string? HearingImpairment { get; init; }
+
+    [Display(Name = "Hearing impairment from")]
+    [RequiredDepends(nameof(HearingImpairment), "true", ErrorMessage = "Enter the hearing impairment from")]
+    [Range(0, 100, ErrorMessage = "Enter hearing impairment from between 0 and 100")]
+    public decimal? HearingImpairmentFrom { get; init; }
+
+    [Display(Name = "Hearing impairment to")]
+    [RequiredDepends(nameof(HearingImpairment), "true", ErrorMessage = "Enter the hearing impairment to")]
+    [Range(0, 100, ErrorMessage = "Enter hearing impairment to between 0 and 100")]
+    [CompareDecimalValue(nameof(HearingImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? HearingImpairmentTo { get; init; }
+
+    // vi
+    public string? VisualImpairment { get; init; }
+
+    [Display(Name = "Visual impairment from")]
+    [RequiredDepends(nameof(VisualImpairment), "true", ErrorMessage = "Enter the visual impairment from")]
+    [Range(0, 100, ErrorMessage = "Enter visual impairment from between 0 and 100")]
+    public decimal? VisualImpairmentFrom { get; init; }
+
+    [Display(Name = "Visual impairment to")]
+    [RequiredDepends(nameof(VisualImpairment), "true", ErrorMessage = "Enter the visual impairment to")]
+    [Range(0, 100, ErrorMessage = "Enter visual impairment to between 0 and 100")]
+    [CompareDecimalValue(nameof(VisualImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? VisualImpairmentTo { get; init; }
+
+    // msi
+    public string? MultiSensoryImpairment { get; init; }
+
+    [Display(Name = "Multi-sensory impairment from")]
+    [RequiredDepends(nameof(MultiSensoryImpairment), "true", ErrorMessage = "Enter the multi-sensory impairment from")]
+    [Range(0, 100, ErrorMessage = "Enter multi-sensory impairment from between 0 and 100")]
+    public decimal? MultiSensoryImpairmentFrom { get; init; }
+
+    [Display(Name = "Multi-sensory impairment to")]
+    [RequiredDepends(nameof(MultiSensoryImpairment), "true", ErrorMessage = "Enter the multi-sensory impairment to")]
+    [Range(0, 100, ErrorMessage = "Enter multi-sensory impairment to between 0 and 100")]
+    [CompareDecimalValue(nameof(MultiSensoryImpairmentFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? MultiSensoryImpairmentTo { get; init; }
+
+    // pd
+    public string? PhysicalDisability { get; init; }
+
+    [Display(Name = "Physical disability from")]
+    [RequiredDepends(nameof(PhysicalDisability), "true", ErrorMessage = "Enter the physical disability from")]
+    [Range(0, 100, ErrorMessage = "Enter physical disability from between 0 and 100")]
+    public decimal? PhysicalDisabilityFrom { get; init; }
+
+    [Display(Name = "Physical disability to")]
+    [RequiredDepends(nameof(PhysicalDisability), "true", ErrorMessage = "Enter the physical disability to")]
+    [Range(0, 100, ErrorMessage = "Enter physical disability to between 0 and 100")]
+    [CompareDecimalValue(nameof(PhysicalDisabilityFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? PhysicalDisabilityTo { get; init; }
+
+    // asd
+    public string? AutisticSpectrumDisorder { get; init; }
+
+    [Display(Name = "Autistic spectrum disorder from")]
+    [RequiredDepends(nameof(AutisticSpectrumDisorder), "true", ErrorMessage = "Enter the autistic spectrum disorder from")]
+    [Range(0, 100, ErrorMessage = "Enter autistic spectrum disorder from between 0 and 100")]
+    public decimal? AutisticSpectrumDisorderFrom { get; init; }
+
+    [Display(Name = "Autistic spectrum disorder to")]
+    [RequiredDepends(nameof(AutisticSpectrumDisorder), "true", ErrorMessage = "Enter the autistic spectrum disorder to")]
+    [Range(0, 100, ErrorMessage = "Enter autistic spectrum disorder to between 0 and 100")]
+    [CompareDecimalValue(nameof(AutisticSpectrumDisorderFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? AutisticSpectrumDisorderTo { get; init; }
+
+    // other
+    public string? OtherLearningDifficulty { get; init; }
+
+    [Display(Name = "Other learning difficulty from")]
+    [RequiredDepends(nameof(OtherLearningDifficulty), "true", ErrorMessage = "Enter the other learning difficulty from")]
+    [Range(0, 100, ErrorMessage = "Enter other learning difficulty from between 0 and 100")]
+    public decimal? OtherLearningDifficultyFrom { get; init; }
+
+    [Display(Name = "Other learning difficulty to")]
+    [RequiredDepends(nameof(OtherLearningDifficulty), "true", ErrorMessage = "Enter the other learning difficulty to")]
+    [Range(0, 100, ErrorMessage = "Enter other learning difficulty to between 0 and 100")]
+    [CompareDecimalValue(nameof(OtherLearningDifficultyFrom), Operator.GreaterThanOrEqualTo)]
+    public decimal? OtherLearningDifficultyTo { get; init; }
+
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
         if (LaSelection == "Choose" &&
