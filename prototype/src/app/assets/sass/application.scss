@@ -290,6 +290,13 @@ div.sortWrapper {
     width: 100%;
 }
 
+.view-as-toggle div.govuk-form-group {
+    width: 300px;
+}
+
+.view-as-toggle label {
+    width: 70px;
+}
 
 .loading {
     text-align: center;
@@ -368,6 +375,11 @@ svg.rag-stack {
   .govuk-table.table-school-rag thead tr th {
     border-bottom: 0;
     padding-bottom: 10px;
+}
+
+// COMPARE TRUSTS
+#trustTabs .view-as-toggle {
+    display: block;
 }
 
 
