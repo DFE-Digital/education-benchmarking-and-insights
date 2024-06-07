@@ -220,7 +220,7 @@ pupil_census = {
     "Full time girls Year group 12": "float",
     "Full time boys Year group 13": "float",
     "Full time girls Year group 13": "float",
-    "number_of_dual_subsidiary_registrations": "float"
+    "number_of_dual_subsidiary_registrations": "float",
 }
 
 cfr_index_col = "URN"

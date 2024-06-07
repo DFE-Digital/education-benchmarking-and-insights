@@ -5,8 +5,6 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
     assert list(prepared_census_data.columns) == [
         "Percentage claiming Free school meals",
         "Percentage Free school meals",
-        "number of pupils whose first language is known or believed to be other than "
-        "English",
         "Number of pupils",
         "Number of Pupils (FTE)",
         "ward_name",
@@ -18,6 +16,7 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Full time girls Year group 12",
         "Full time boys Year group 13",
         "Full time girls Year group 13",
+        "Pupil Dual Registrations",
         "NonClassroomSupportStaffFTE",
         "NonClassroomSupportStaffHeadcount",
         "Teachers with Qualified Teacher Status (%) (Headcount)",
@@ -32,5 +31,21 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Total Number of Auxiliary Staff (Headcount)",
         "Total School Workforce (Headcount)",
         "TotalPupilsNursery",
-        "TotalPupilsSixthForm"
+        "TotalPupilsSixthForm",
     ]
+
+
+def test_dual_pupils_handled(prepared_census_data: pd.DataFrame):
+    assert prepared_census_data.loc[100152]["Number of pupils"] == 628
+
+
+def test_dual_pupils_handled_when_z(prepared_census_data: pd.DataFrame):
+    assert prepared_census_data.loc[100150]["Number of pupils"] == 325
+
+
+def test_total_nursery_computed_correctly(prepared_census_data: pd.DataFrame):
+    assert prepared_census_data.loc[100150]["TotalPupilsNursery"] == 20
+
+
+def test_total_sixth_form_computed_correctly(prepared_census_data: pd.DataFrame):
+    assert prepared_census_data.loc[100150]["TotalPupilsSixthForm"] == 40

@@ -265,7 +265,9 @@ def pre_process_bfr(set_type, year):
             get_blob("pre-processed", f"{set_type}/{year}/academies.parquet")
         )
     )
-    bfr_metrics, bfr = build_bfr_data(bfr_sofa, bfr_3y, academies_y2, academies_y1, academies)
+    bfr_metrics, bfr = build_bfr_data(
+        bfr_sofa, bfr_3y, academies_y2, academies_y1, academies
+    )
 
     write_blob(
         "pre-processed",
