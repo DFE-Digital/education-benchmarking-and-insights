@@ -7,14 +7,7 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
 {
     public UserDefinedCharacteristicViewModel(SchoolCharacteristic? characteristic) : this()
     {
-        // default characteristics
-        FinanceType = characteristic?.FinanceType switch
-        {
-            EstablishmentTypes.Academies => "Academies",
-            EstablishmentTypes.Maintained => "Maintained schools",
-            _ => "Both"
-        };
-
+        FinanceType = "Both";
         OverallPhase =
         [
             characteristic?.OverallPhase switch
@@ -27,8 +20,7 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
                 _ => "University technical college"
             }
         ];
-
-        LaSelection = characteristic == null ? null : "This";
+        LaSelection = "All";
     }
 
     // default characteristics
