@@ -172,7 +172,7 @@
                                 nameof(Model.Data.SchoolsInTrustTo),
                                 Model.Data.SchoolsInTrustTo.HasValue ? Model.Data.SchoolsInTrustTo.Value.ToString() : string.Empty,
                                 Model.Name,
-                                null,
+                                Model.Characteristic?.SchoolsInTrust.ToString(),
                                 "has",
                                 "schools"))
 
@@ -186,10 +186,10 @@
                                 nameof(Model.Data.Deficits),
                                 Model.Data.Deficits.FirstOrDefault() ?? string.Empty,
                                 Model.Name,
-                                null,
+                                Model.Characteristic?.SchoolPosition,
                                 ["Exclude schools in deficit", "Include schools in deficit"],
                                 false,
-                                "is"))
+                                "is in"))
 
                         @await Html.PartialAsync(
                             "_AdditionalCharacteristicsSelect",
@@ -234,7 +234,7 @@
                                 nameof(Model.Data.KeyStage2ProgressTo),
                                 Model.Data.KeyStage2ProgressTo.HasValue ? Model.Data.KeyStage2ProgressTo.Value.ToSimpleDisplay() : string.Empty,
                                 Model.Name,
-                                null,
+                                Model.Characteristic?.KS2Progress.ToString(),
                                 "key stage 2 progress is"))
 
                         @await Html.PartialAsync(
@@ -249,7 +249,7 @@
                                 nameof(Model.Data.KeyStage4ProgressTo),
                                 Model.Data.KeyStage4ProgressTo.HasValue ? Model.Data.KeyStage4ProgressTo.Value.ToSimpleDisplay() : string.Empty,
                                 Model.Name,
-                                null,
+                                Model.Characteristic?.KS4Progress.ToString(),
                                 "key stage 4 progress is"))
                     </div>
                 </fieldset>
