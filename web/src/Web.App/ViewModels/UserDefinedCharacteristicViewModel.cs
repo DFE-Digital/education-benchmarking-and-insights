@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
 using Web.App.Domain;
+// ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Web.App.ViewModels;
 
 public record UserDefinedCharacteristicViewModel() : IValidatableObject
