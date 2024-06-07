@@ -25,6 +25,15 @@
 <h1 class="govuk-heading-l govuk-!-margin-bottom-1">{{ data['trust-name'] }}</h1>
 <p><a href="/find-school" class="govuk-link">Change trust</a></p>
 
+{% if confirmation == 'trust-reset' %}
+
+{{ govukNotificationBanner({
+    text: 'Your set of trusts has been removed',
+    type: "success"
+}) }}
+
+{% endif %}
+
 <p class="govuk-body">This trust's data covers the financial year September 2021 to August 2022 academies accounts return (AAR).
 </p>
 <div class="govuk-grid-row headline-figures">
@@ -741,11 +750,14 @@
             <li>
                 <img src="/public/images/central-services.png" alt="" class="app-view-component">
                 <h3 class="govuk-heading-s">
-                    <a href="/compare-trusts{% if data['trusts'] | length %}/compare?showBanner=false{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
+                    <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/compare-trusts{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
                 </h3>
                 <p class="govuk-body">
                     Benchmark this trust's spending against similar trusts.
                 </p>
+                <strong class="govuk-tag govuk-tag--grey">
+                    Requires login
+                </strong>
             </li>
             <li>
                 <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
