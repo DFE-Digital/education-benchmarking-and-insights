@@ -60,7 +60,7 @@
                 {
                     <li>pupil referral units or alternative provision schools</li>
                 }
-                @if (Model.AllPupilReferralUnit == true)
+                @if (Model.AllSpecial == true)
                 {
                     <li>special schools</li>
                 }
@@ -157,6 +157,54 @@
                                 {
                                     <p class="govuk-body">Key stage 4 progress</p>
                                 }
+                                @if (Model.SpecificLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">Specific learning difficulty</p>
+                                }
+                                @if (Model.ModerateLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">Moderate learning difficulty</p>
+                                }
+                                @if (Model.SevereLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">Severe learning difficulty</p>
+                                }
+                                @if (Model.ProfoundMultipleLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">Profound and multiple learning difficulty</p>
+                                }
+                                @if (Model.SocialEmotionalMentalHealthSelected)
+                                {
+                                    <p class="govuk-body">Social, emotional and mental health</p>
+                                }
+                                @if (Model.SpeechLanguageCommunicationSelected)
+                                {
+                                    <p class="govuk-body">Speech, language and communications needs</p>
+                                }
+                                @if (Model.HearingImpairmentSelected)
+                                {
+                                    <p class="govuk-body">Hearing impairment</p>
+                                }
+                                @if (Model.VisualImpairmentSelected)
+                                {
+                                    <p class="govuk-body">Visual impairment</p>
+                                }
+                                @if (Model.MultiSensoryImpairmentSelected)
+                                {
+                                    <p class="govuk-body">Multi-sensory impairment</p>
+                                }
+                                @if (Model.PhysicalDisabilitySelected)
+                                {
+                                    <p class="govuk-body">Physical disability</p>
+                                }
+                                @if (Model.AutisticSpectrumDisorderSelected)
+                                {
+                                    <p class="govuk-body">Autistic spectrum disorder</p>
+                                }
+                                @if (Model.OtherLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">Other learning difficulty</p>
+                                }
                             }
                             else
                             {
@@ -219,6 +267,54 @@
                                 @if (Model.KeyStage4ProgressSelected)
                                 {
                                     <p class="govuk-body">@characteristic.KS4Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                                }
+                                @if (Model.SpecificLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithSPLD.ToPercent()</p>
+                                }
+                                @if (Model.ModerateLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithMLD.ToPercent()</p>
+                                }
+                                @if (Model.SevereLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithSLD.ToPercent()</p>
+                                }
+                                @if (Model.ProfoundMultipleLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithMLD.ToPercent()</p>
+                                }
+                                @if (Model.SocialEmotionalMentalHealthSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithSEMH.ToPercent()</p>
+                                }
+                                @if (Model.SpeechLanguageCommunicationSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithSLD.ToPercent()</p>
+                                }
+                                @if (Model.HearingImpairmentSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithHI.ToPercent()</p>
+                                }
+                                @if (Model.VisualImpairmentSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithVI.ToPercent()</p>
+                                }
+                                @if (Model.MultiSensoryImpairmentSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithMSI.ToPercent()</p>
+                                }
+                                @if (Model.PhysicalDisabilitySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithPD.ToPercent()</p>
+                                }
+                                @if (Model.AutisticSpectrumDisorderSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithASD.ToPercent()</p>
+                                }
+                                @if (Model.OtherLearningDifficultySelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentWithOTH.ToPercent()</p>
                                 }
                             }
                             else

@@ -44,6 +44,18 @@ public class SchoolComparatorsPreviewViewModel(
     public bool TotalPupilsSixthFormSelected => IsSelected(userDefinedCharacteristics?.TotalPupilsSixthForm);
     public bool KeyStage2ProgressSelected => IsSelected(userDefinedCharacteristics?.KeyStage2Progress);
     public bool KeyStage4ProgressSelected => IsSelected(userDefinedCharacteristics?.KeyStage4Progress);
+    public bool SpecificLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.SpecificLearningDifficulty);
+    public bool ModerateLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.ModerateLearningDifficulty);
+    public bool SevereLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.SevereLearningDifficulty);
+    public bool ProfoundMultipleLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.ProfoundMultipleLearningDifficulty);
+    public bool SocialEmotionalMentalHealthSelected => IsSelected(userDefinedCharacteristics?.SocialEmotionalMentalHealth);
+    public bool SpeechLanguageCommunicationSelected => IsSelected(userDefinedCharacteristics?.SpeechLanguageCommunication);
+    public bool HearingImpairmentSelected => IsSelected(userDefinedCharacteristics?.HearingImpairment);
+    public bool VisualImpairmentSelected => IsSelected(userDefinedCharacteristics?.VisualImpairment);
+    public bool MultiSensoryImpairmentSelected => IsSelected(userDefinedCharacteristics?.MultiSensoryImpairment);
+    public bool PhysicalDisabilitySelected => IsSelected(userDefinedCharacteristics?.PhysicalDisability);
+    public bool AutisticSpectrumDisorderSelected => IsSelected(userDefinedCharacteristics?.AutisticSpectrumDisorder);
+    public bool OtherLearningDifficultySelected => IsSelected(userDefinedCharacteristics?.OtherLearningDifficulty);
     public bool? HasAdditionalCharacteristics => TotalPupilsSelected
                                                  || FreeSchoolMealsSelected
                                                  || SpecialEducationalNeedsSelected
@@ -56,7 +68,19 @@ public class SchoolComparatorsPreviewViewModel(
                                                  || PrivateFinanceInitiativeSelected
                                                  || TotalPupilsSixthFormSelected
                                                  || KeyStage2ProgressSelected
-                                                 || KeyStage4ProgressSelected;
+                                                 || KeyStage4ProgressSelected
+                                                 || SpecificLearningDifficultySelected
+                                                 || ModerateLearningDifficultySelected
+                                                 || SevereLearningDifficultySelected
+                                                 || ProfoundMultipleLearningDifficultySelected
+                                                 || SocialEmotionalMentalHealthSelected
+                                                 || SpeechLanguageCommunicationSelected
+                                                 || HearingImpairmentSelected
+                                                 || VisualImpairmentSelected
+                                                 || MultiSensoryImpairmentSelected
+                                                 || PhysicalDisabilitySelected
+                                                 || AutisticSpectrumDisorderSelected
+                                                 || OtherLearningDifficultySelected;
 
     private IEnumerable<string>? AllLaNames => characteristics?
         .Where(c => !string.IsNullOrWhiteSpace(c.LAName))
