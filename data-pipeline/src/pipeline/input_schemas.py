@@ -209,7 +209,6 @@ pupil_census = {
     "URN": "Int64",
     "% of pupils known to be eligible for and claiming free school me": "float",
     "% of pupils known to be eligible for free school meals (Performa": "float",
-    "number of pupils whose first language is known or believed to be other than English": "float",
     "headcount of pupils": "float",
     "fte pupils": "float",
     "ward_name": "string",
@@ -221,6 +220,7 @@ pupil_census = {
     "Full time girls Year group 12": "float",
     "Full time boys Year group 13": "float",
     "Full time girls Year group 13": "float",
+    "number_of_dual_subsidiary_registrations": "float"
 }
 
 cfr_index_col = "URN"
