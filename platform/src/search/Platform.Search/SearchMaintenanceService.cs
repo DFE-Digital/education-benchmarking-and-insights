@@ -8,6 +8,7 @@ using Platform.Search.LocalAuthority;
 using Platform.Search.School;
 using Platform.Search.SchoolComparators;
 using Platform.Search.Trust;
+using Platform.Search.TrustComparators;
 
 namespace Platform.Search;
 
@@ -145,7 +146,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new TrustIndexBuilder(),
             new SchoolIndexBuilder(),
             new LocalAuthorityIndexBuilder(),
-            new SchoolComparatorsIndexBuilder()
+            new SchoolComparatorsIndexBuilder(),
+            new TrustComparatorsIndexBuilder()
         };
 
         foreach (var builder in builders)
@@ -175,7 +177,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new SchoolDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new TrustDataSourceConnectionBuilder(_options.Sql.ConnectionString),
             new LocalAuthorityDataSourceConnectionBuilder(_options.Sql.ConnectionString),
-            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
+            new SchoolComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString),
+            new TrustComparatorsDataSourceConnectionBuilder(_options.Sql.ConnectionString)
         };
 
         foreach (var builder in builders)
@@ -203,7 +206,8 @@ public class SearchMaintenanceService : ISearchMaintenanceService
             new SchoolIndexerBuilder(),
             new TrustIndexerBuilder(),
             new LocalAuthorityIndexerBuilder(),
-            new SchoolComparatorsIndexerBuilder()
+            new SchoolComparatorsIndexerBuilder(),
+            new TrustComparatorsIndexerBuilder()
         };
 
         foreach (var builder in builders)

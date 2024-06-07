@@ -33,7 +33,8 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddSingleton<IComparatorSetsService, ComparatorSetsService>();
         builder.Services.AddSingleton<IFinancialPlansService, FinancialPlansService>();
-        builder.Services.AddSingleton<IComparatorsService, ComparatorsService>();
+        builder.Services.AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>();
+        builder.Services.AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
         builder.Services.AddSingleton<IUserDataService, UserDataService>();
     }
 }

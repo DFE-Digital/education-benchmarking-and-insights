@@ -11,6 +11,7 @@ public static class SearchResourceNames
         public const string Trust = "trust-data-source";
         public const string LocalAuthority = "local-authority-data-source";
         public const string SchoolComparators = "school-comparators-data-source";
+        public const string TrustComparators = "trust-comparators-data-source";
     }
 
     public static class Indexers
@@ -19,6 +20,7 @@ public static class SearchResourceNames
         public const string Trust = "trust-indexer";
         public const string LocalAuthority = "local-authority-indexer";
         public const string SchoolComparators = "school-comparators-indexer";
+        public const string TrustComparators = "trust-comparators-indexer";
     }
 
     public static class Indexes
@@ -27,6 +29,7 @@ public static class SearchResourceNames
         public const string Trust = "trust-index";
         public const string LocalAuthority = "local-authority-index";
         public const string SchoolComparators = "school-comparators-index";
+        public const string TrustComparators = "trust-comparators-index";
     }
 
     public static class Suggesters

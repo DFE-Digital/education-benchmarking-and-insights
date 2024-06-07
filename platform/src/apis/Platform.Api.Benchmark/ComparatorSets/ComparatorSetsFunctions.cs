@@ -75,7 +75,7 @@ public class ComparatorSetsFunctions
                    { "Application", Constants.ApplicationName },
                    { "CorrelationID", correlationId },
                    { "URN", urn },
-                   { "Identifier", identifier}
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -100,7 +100,8 @@ public class ComparatorSetsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
         [RequestBodyType(typeof(ComparatorSetUserDefinedRequest), "The user defined set of schools object")]
         HttpRequest req,
-        [Queue("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")] IAsyncCollector<string> queue,
+        [Queue("%PipelineMessageHub:JobPendingQueue%", Connection = "PipelineMessageHub:ConnectionString")]
+        IAsyncCollector<string> queue,
         string urn,
         string identifier)
     {
@@ -111,7 +112,7 @@ public class ComparatorSetsFunctions
                    { "Application", Constants.ApplicationName },
                    { "CorrelationID", correlationId },
                    { "URN", urn },
-                   { "Identifier", identifier}
+                   { "Identifier", identifier }
                }))
         {
             try
@@ -130,7 +131,8 @@ public class ComparatorSetsFunctions
 
                 if (comparatorSet.Set.Length >= 10)
                 {
-                    await _service.UpsertUserDataAsync(ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
+                    await _service.UpsertUserDataAsync(
+                        ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
                     var year = await _service.CurrentYearAsync();
 
                     var message = new PipelineStartMessage
@@ -147,7 +149,8 @@ public class ComparatorSetsFunctions
                 }
                 else
                 {
-                    await _service.UpsertUserDataAsync(ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
+                    await _service.UpsertUserDataAsync(
+                        ComparatorSetUserData.CompleteSchool(identifier, body.UserId, urn));
                 }
 
                 return new AcceptedResult();
@@ -165,7 +168,8 @@ public class ComparatorSetsFunctions
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> RemoveUserDefinedSchoolComparatorSetAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "delete", Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
+        [HttpTrigger(AuthorizationLevel.Admin, "delete",
+            Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
         HttpRequest req,
         string urn,
         string identifier)
@@ -194,6 +198,131 @@ public class ComparatorSetsFunctions
             catch (Exception e)
             {
                 _logger.LogError(e, "Failed to delete user defined school comparator set");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+
+    [FunctionName(nameof(UserDefinedTrustComparatorSetAsync))]
+    [ProducesResponseType(typeof(ComparatorSetUserDefinedTrust), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> UserDefinedTrustComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get",
+            Route = "comparator-set/trust/{companyNumber}/user-defined/{identifier}")]
+        HttpRequest req,
+        string companyNumber,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber },
+                   { "Identifier", identifier }
+               }))
+        {
+            try
+            {
+                var comparatorSet = await _service.UserDefinedTrustAsync(companyNumber, identifier);
+                return comparatorSet == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(comparatorSet);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get user defined trust comparator set");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(CreateUserDefinedTrustComparatorSetAsync))]
+    [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> CreateUserDefinedTrustComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "put",
+            Route = "comparator-set/trust/{companyNumber}/user-defined/{identifier}")]
+        [RequestBodyType(typeof(ComparatorSetUserDefinedRequest), "The user defined set of schools object")]
+        HttpRequest req,
+        string companyNumber,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber },
+                   { "Identifier", identifier }
+               }))
+        {
+            try
+            {
+                var body = req.ReadAsJson<ComparatorSetUserDefinedRequest>();
+                //TODO : Add request validation
+                var comparatorSet = new ComparatorSetUserDefinedTrust
+                {
+                    RunId = identifier,
+                    RunType = "default",
+                    Set = body.Set,
+                    CompanyNumber = companyNumber
+                };
+
+                await _service.UpsertUserDefinedTrustAsync(comparatorSet);
+
+                await _service.UpsertUserDataAsync(
+                    ComparatorSetUserData.CompleteTrust(identifier, body.UserId, companyNumber));
+
+                return new AcceptedResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to upsert user defined trust comparator set");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
+    [FunctionName(nameof(RemoveUserDefinedTrustComparatorSetAsync))]
+    [ProducesResponseType((int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> RemoveUserDefinedTrustComparatorSetAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "delete",
+            Route = "comparator-set/trust/{companyNumber}/user-defined/{identifier}")]
+        HttpRequest req,
+        string companyNumber,
+        string identifier)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "CompanyNumber", companyNumber },
+                   { "Identifier", identifier }
+               }))
+        {
+            try
+            {
+                var comparatorSet = await _service.UserDefinedTrustAsync(companyNumber, identifier);
+                if (comparatorSet == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                await _service.DeleteTrustAsync(comparatorSet);
+                return new OkResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to delete user defined trust comparator set");
                 return new StatusCodeResult(StatusCodes.Status500InternalServerError);
             }
         }

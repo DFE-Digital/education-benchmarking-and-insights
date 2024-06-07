@@ -7,22 +7,22 @@ using Platform.Infrastructure.Search;
 
 namespace Platform.Api.Benchmark.Comparators;
 
-public interface IComparatorsService
+public interface IComparatorSchoolsService
 {
-    Task<ComparatorSchools> SchoolsAsync(ComparatorSchoolsRequest request);
+    Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request);
 }
 
 [ExcludeFromCodeCoverage]
-public class ComparatorsService : SearchService, IComparatorsService
+public class ComparatorSchoolsService : SearchService, IComparatorSchoolsService
 {
     private const string IndexName = SearchResourceNames.Indexes.SchoolComparators;
 
-    public ComparatorsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
+    public ComparatorSchoolsService(IOptions<SearchServiceOptions> options) : base(options.Value.Endpoint, IndexName,
         options.Value.Credential)
     {
     }
 
-    public async Task<ComparatorSchools> SchoolsAsync(ComparatorSchoolsRequest request)
+    public async Task<ComparatorSchools> ComparatorsAsync(ComparatorSchoolsRequest request)
     {
         var school = await LookUpAsync<ComparatorSchool>(request.Target);
 

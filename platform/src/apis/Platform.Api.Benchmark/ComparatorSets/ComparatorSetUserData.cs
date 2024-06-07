@@ -45,4 +45,18 @@ public record ComparatorSetUserData
             Status = "complete"
         };
     }
+
+    public static ComparatorSetUserData CompleteTrust(string id, string? userId, string companyNumber)
+    {
+        return new ComparatorSetUserData
+        {
+            Id = id,
+            UserId = userId,
+            Type = "comparator-set",
+            OrganisationType = "trust",
+            OrganisationId = companyNumber,
+            Expiry = DateTimeOffset.Now.AddDays(30),
+            Status = "complete"
+        };
+    }
 }

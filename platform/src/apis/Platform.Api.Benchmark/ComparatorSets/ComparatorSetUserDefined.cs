@@ -12,4 +12,15 @@ public record ComparatorSetUserDefinedSchool
     [ExplicitKey] public string? RunId { get; set; }
     [ExplicitKey] public string? URN { get; set; }
     public string[] Set { get; set; } = Array.Empty<string>();
+}
+
+
+[ExcludeFromCodeCoverage]
+[Table("UserDefinedTrustComparatorSet")]
+public record ComparatorSetUserDefinedTrust
+{
+    [ExplicitKey] public string? RunType { get; set; }
+    [ExplicitKey] public string? RunId { get; set; }
+    [ExplicitKey] public string? CompanyNumber { get; set; }
+    public string[] Set { get; set; } = Array.Empty<string>();
 };

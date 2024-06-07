@@ -11,9 +11,12 @@ public interface IComparatorSetsService
     Task<string> CurrentYearAsync();
     Task<ComparatorSetDefaultSchool> DefaultSchoolAsync(string urn, string setType = "unmixed");
     Task UpsertUserDefinedSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
-    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runtType = "default");
+    Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = "default");
     Task UpsertUserDataAsync(ComparatorSetUserData userData);
     Task DeleteSchoolAsync(ComparatorSetUserDefinedSchool comparatorSet);
+    Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
+    Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = "default");
+    Task UpsertUserDefinedTrustAsync(ComparatorSetUserDefinedTrust comparatorSet);
 }
 
 [ExcludeFromCodeCoverage]
@@ -68,10 +71,10 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runtType = "default")
+    public async Task<ComparatorSetUserDefinedSchool?> UserDefinedSchoolAsync(string urn, string identifier, string runType = "default")
     {
         const string sql = "SELECT * from UserDefinedSchoolComparatorSet where URN = @URN AND RunId = @RunId AND RunType = @RunType";
-        var parameters = new { URN = urn, RunId = identifier, RunType = runtType };
+        var parameters = new { URN = urn, RunId = identifier, RunType = runType };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedSchool>(sql, parameters);
@@ -111,6 +114,52 @@ public class ComparatorSetsService : IComparatorSetsService
 
         await connection.DeleteAsync(comparatorSet, transaction);
         await connection.ExecuteAsync(sql, parameters, transaction);
+
+        transaction.Commit();
+    }
+
+    public async Task DeleteTrustAsync(ComparatorSetUserDefinedTrust comparatorSet)
+    {
+        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
+        var parameters = new { Id = comparatorSet.RunId };
+
+        using var connection = await _dbFactory.GetConnection();
+        using var transaction = connection.BeginTransaction();
+
+        await connection.DeleteAsync(comparatorSet, transaction);
+        await connection.ExecuteAsync(sql, parameters, transaction);
+
+        transaction.Commit();
+    }
+
+    public async Task<ComparatorSetUserDefinedTrust> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = "default")
+    {
+        const string sql = "SELECT * from UserDefinedTrustComparatorSet where CompanyNumber = @CompanyNumber AND RunId = @RunId AND RunType = @RunType";
+        var parameters = new { CompanyNumber = companyNumber, RunId = identifier, RunType = runType };
+
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedTrust>(sql, parameters);
+    }
+
+    public async Task UpsertUserDefinedTrustAsync(ComparatorSetUserDefinedTrust comparatorSet)
+    {
+        const string sql = "SELECT * from UserDefinedTrustComparatorSet where CompanyNumber = @CompanyNumber AND RunId = @RunId AND RunType = @RunType";
+
+        var parameters = new { comparatorSet.CompanyNumber, comparatorSet.RunId, comparatorSet.RunType };
+
+        using var conn = await _dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<ComparatorSetUserDefinedTrust>(sql, parameters);
+
+        using var transaction = conn.BeginTransaction();
+        if (existing != null)
+        {
+            existing.Set = comparatorSet.Set;
+            await conn.UpdateAsync(existing, transaction);
+        }
+        else
+        {
+            await conn.InsertAsync(comparatorSet, transaction);
+        }
 
         transaction.Commit();
     }
