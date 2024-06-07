@@ -181,7 +181,6 @@ public class SchoolComparatorsCreateByController(
 
     [HttpGet]
     [Route("submit")]
-    [ImportModelState]
     public async Task<IActionResult> Submit(string urn)
     {
         using (logger.BeginScope(new
