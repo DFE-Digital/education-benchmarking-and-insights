@@ -31,5 +31,4 @@ steps:
     continueOnError: true #temp allow pipeline to continue whilst func test env is seeded with data
     inputs:
       command: test
-      arguments: --filter "Category!=CustomData&Category!=FinancialPlanning" # todo: remove filter when DSI organisation available in pre-prod
       projects: '${{ parameters.workspaceDir }}/a11y-tests-files/Web.A11yTests/Web.A11yTests.dll'
