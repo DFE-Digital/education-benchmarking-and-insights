@@ -1,5 +1,4 @@
-﻿@using Newtonsoft.Json
-@using Web.App.Extensions
+﻿@using Web.App.Extensions
 @model Web.App.ViewModels.SchoolComparatorsPreviewViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.SchoolComparatorsPreview;
@@ -27,7 +26,7 @@
                 @:These
             }
 
-            are the @Model.Characteristics?.Length closest matches to
+            are the @Model.ClosestSchools matches to
             @Model.Name using the characteristics you selected.
         </p>
 
@@ -77,17 +76,17 @@
         }
 
         <p class="govuk-body">
-            <a href="@Url.Action("Change", new { urn = Model.Urn, j = Model.UserDefinedCharacteristics.ToJson(Formatting.None) })" class="govuk-link govuk-link--no-visited-state">
+            <a href="@Url.Action("Characteristic", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
                 Change characteristics and create a new set
             </a>
         </p>
 
-        <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
-            Create a set using these schools
-        </a>
-
         @if (Model.Characteristics != null)
         {
+            <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                Create a set using these schools
+            </a>
+            
             <table class="govuk-table">
                 <thead class="govuk-table__head">
                 <tr class="govuk-table__row">

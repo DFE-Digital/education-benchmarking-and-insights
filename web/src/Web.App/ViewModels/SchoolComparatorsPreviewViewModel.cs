@@ -4,6 +4,7 @@ namespace Web.App.ViewModels;
 public class SchoolComparatorsPreviewViewModel(
     School school,
     SchoolCharacteristic[]? characteristics,
+    long? closestSchools,
     long? totalSchools,
     UserDefinedCharacteristicViewModel? userDefinedCharacteristics)
 {
@@ -11,6 +12,7 @@ public class SchoolComparatorsPreviewViewModel(
     public string? Name => school.SchoolName;
 
     public SchoolCharacteristic[]? Characteristics => characteristics;
+    public long? ClosestSchools => closestSchools;
     public long? TotalSchools => totalSchools;
 
     public bool AnyUniqueGroupings => AllAcademies == true || AllMaintained == true || AllNursery == true || AllPrimary == true

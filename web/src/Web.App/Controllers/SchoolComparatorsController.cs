@@ -101,7 +101,7 @@ public class SchoolComparatorsController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error reverting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -126,11 +126,13 @@ public class SchoolComparatorsController(
                     comparatorSetService.ClearUserDefinedComparatorSet(urn, userData.ComparatorSet);
                 }
 
+                comparatorSetService.ClearUserDefinedComparatorSet(urn);
+                comparatorSetService.ClearUserDefinedCharacteristic(urn);
                 return RedirectToAction("Index", "School", new { urn });
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error reverting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

@@ -2,6 +2,7 @@ using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.ViewModels;
 namespace Web.App.Services;
 
 public interface IComparatorSetService
@@ -10,7 +11,10 @@ public interface IComparatorSetService
     Task<ComparatorSetUserDefined> ReadUserDefinedComparatorSet(string urn, string identifier);
     ComparatorSetUserDefined ReadUserDefinedComparatorSet(string urn);
     ComparatorSetUserDefined SetUserDefinedComparatorSet(string urn, ComparatorSetUserDefined set);
-    void ClearUserDefinedComparatorSet(string urn, string identifier);
+    void ClearUserDefinedComparatorSet(string urn, string? identifier = null);
+    UserDefinedCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn);
+    UserDefinedCharacteristicViewModel SetUserDefinedCharacteristic(string urn, UserDefinedCharacteristicViewModel characteristic);
+    void ClearUserDefinedCharacteristic(string urn);
 }
 
 public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : IComparatorSetService
@@ -35,9 +39,11 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         return set ?? await SetUserDefinedComparatorSet(urn, identifier);
     }
 
-    public void ClearUserDefinedComparatorSet(string urn, string identifier)
+    public void ClearUserDefinedComparatorSet(string urn, string? identifier = null)
     {
-        var key = SessionKeys.ComparatorSetUserDefined(urn, identifier);
+        var key = string.IsNullOrWhiteSpace(identifier)
+            ? SessionKeys.ComparatorSetUserDefined(urn)
+            : SessionKeys.ComparatorSetUserDefined(urn, identifier);
         var context = httpContextAccessor.HttpContext;
 
         context?.Session.Remove(key);
@@ -61,6 +67,28 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         context?.Session.Set(key, set);
 
         return set;
+    }
+
+    public UserDefinedCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn)
+    {
+        var key = SessionKeys.ComparatorSetCharacteristic(urn);
+        var context = httpContextAccessor.HttpContext;
+        return context?.Session.Get<UserDefinedCharacteristicViewModel>(key);
+    }
+
+    public UserDefinedCharacteristicViewModel SetUserDefinedCharacteristic(string urn, UserDefinedCharacteristicViewModel set)
+    {
+        var key = SessionKeys.ComparatorSetCharacteristic(urn);
+        var context = httpContextAccessor.HttpContext;
+        context?.Session.Set(key, set);
+        return set;
+    }
+
+    public void ClearUserDefinedCharacteristic(string urn)
+    {
+        var key = SessionKeys.ComparatorSetCharacteristic(urn);
+        var context = httpContextAccessor.HttpContext;
+        context?.Session.Remove(key);
     }
 
     private async Task<ComparatorSet> SetComparatorSet(string urn)
