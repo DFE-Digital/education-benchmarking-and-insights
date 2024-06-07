@@ -86,7 +86,7 @@
             <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
                 Create a set using these schools
             </a>
-            
+
             <table class="govuk-table">
                 <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
@@ -103,35 +103,129 @@
                             <span class="govuk-hint">@characteristic.Address</span>
                         </td>
                         <td class="govuk-table__cell">
-                            <p class="govuk-body">Number of pupils</p>
-                            <p class="govuk-body">Pupils with special educational needs (SEN):</p>
-                            @if (characteristic.SchoolsInTrust.HasValue)
+                            @if (Model.HasAdditionalCharacteristics == true)
                             {
-                                <p class="govuk-body">Number of schools within trust:</p>
+                                @if (Model.TotalPupilsSelected)
+                                {
+                                    <p class="govuk-body">Number of pupils</p>
+                                }
+                                @if (Model.FreeSchoolMealsSelected)
+                                {
+                                    <p class="govuk-body">Eligibility for free school meals (FSM)</p>
+                                }
+                                @if (Model.SpecialEducationalNeedsSelected)
+                                {
+                                    <p class="govuk-body">Pupils with special educational needs (SEN)</p>
+                                }
+                                @if (Model.LondonWeightingSelected)
+                                {
+                                    <p class="govuk-body">London weighting</p>
+                                }
+                                @if (Model.AverageBuildingAgeSelected)
+                                {
+                                    <p class="govuk-body">Average building age</p>
+                                }
+                                @if (Model.InternalFloorAreaSelected)
+                                {
+                                    <p class="govuk-body">Gross internal floor area</p>
+                                }
+                                @if (Model.OfstedRatingSelected)
+                                {
+                                    <p class="govuk-body">Ofsted rating</p>
+                                }
+                                @if (Model.SchoolsInTrustSelected)
+                                {
+                                    <p class="govuk-body">Number of schools within trust</p>
+                                }
+                                @if (Model.DeficitSelected)
+                                {
+                                    <p class="govuk-body">Financial position</p>
+                                }
+                                @if (Model.PrivateFinanceInitiativeSelected)
+                                {
+                                    <p class="govuk-body">Part of a private finance initiative</p>
+                                }
+                                @if (Model.TotalPupilsSixthFormSelected)
+                                {
+                                    <p class="govuk-body">Number of pupils in sixth form</p>
+                                }
+                                @if (Model.KeyStage2ProgressSelected)
+                                {
+                                    <p class="govuk-body">Key stage 2 progress</p>
+                                }
+                                @if (Model.KeyStage4ProgressSelected)
+                                {
+                                    <p class="govuk-body">Key stage 4 progress</p>
+                                }
                             }
-                            @if (characteristic.KS4Progress.HasValue)
+                            else
                             {
-                                <p class="govuk-body">Key stage 4 progress:</p>
-                            }
-                            @if (characteristic.KS2Progress.HasValue)
-                            {
-                                <p class="govuk-body">Key stage 2 progress:</p>
+                                <p class="govuk-body">Number of pupils</p>
+                                <p class="govuk-body">Eligibility for free school meals (FSM)</p>
+                                <p class="govuk-body">Pupils with special educational needs (SEN)</p>
                             }
                         </td>
                         <td class="govuk-table__cell">
-                            <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
-                            <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
-                            @if (characteristic.SchoolsInTrust.HasValue)
+                            @if (Model.HasAdditionalCharacteristics == true)
                             {
-                                <p class="govuk-body">@characteristic.SchoolsInTrust.GetValueOrDefault()</p>
+                                @if (Model.TotalPupilsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.FreeSchoolMealsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentFreeSchoolMeals.ToPercent()</p>
+                                }
+                                @if (Model.SpecialEducationalNeedsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
+                                }
+                                @if (Model.LondonWeightingSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.LondonWeighting</p>
+                                }
+                                @if (Model.AverageBuildingAgeSelected)
+                                {
+                                    <p class="govuk-body">@(DateTime.Now.Year - characteristic.BuildingAverageAge).GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.InternalFloorAreaSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.OfstedRatingSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.OfstedDescription</p>
+                                }
+                                @if (Model.SchoolsInTrustSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.SchoolsInTrust.GetValueOrDefault()</p>
+                                }
+                                @if (Model.DeficitSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.SchoolPosition</p>
+                                }
+                                @if (Model.PrivateFinanceInitiativeSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.IsPFISchool.GetValueOrDefault()</p>
+                                }
+                                @if (Model.TotalPupilsSixthFormSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalPupilsSixthForm.GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.KeyStage2ProgressSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.KS2Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                                }
+                                @if (Model.KeyStage4ProgressSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.KS4Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                                }
                             }
-                            @if (characteristic.KS4Progress.HasValue)
+                            else
                             {
-                                <p class="govuk-body">@characteristic.KS4Progress.GetValueOrDefault().ToSimpleDisplay()</p>
-                            }
-                            @if (characteristic.KS2Progress.HasValue)
-                            {
-                                <p class="govuk-body">@characteristic.KS2Progress.GetValueOrDefault().ToSimpleDisplay()</p>
+                                <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                                <p class="govuk-body">@characteristic.PercentFreeSchoolMeals.ToPercent()</p>
+                                <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
                             }
                         </td>
                     </tr>

@@ -31,10 +31,38 @@ public class SchoolComparatorsPreviewViewModel(
     public bool? AllPfi => characteristics?.All(c => c.IsPFISchool == true);
 
     public UserDefinedCharacteristicViewModel? UserDefinedCharacteristics => userDefinedCharacteristics;
+    public bool TotalPupilsSelected => IsSelected(userDefinedCharacteristics?.TotalPupils);
+    public bool FreeSchoolMealsSelected => IsSelected(userDefinedCharacteristics?.FreeSchoolMeals);
+    public bool SpecialEducationalNeedsSelected => IsSelected(userDefinedCharacteristics?.SpecialEducationalNeeds);
+    public bool LondonWeightingSelected => IsSelected(userDefinedCharacteristics?.LondonWeighting);
+    public bool AverageBuildingAgeSelected => IsSelected(userDefinedCharacteristics?.AverageBuildingAge);
+    public bool InternalFloorAreaSelected => IsSelected(userDefinedCharacteristics?.InternalFloorArea);
+    public bool OfstedRatingSelected => IsSelected(userDefinedCharacteristics?.OfstedRating);
+    public bool SchoolsInTrustSelected => IsSelected(userDefinedCharacteristics?.SchoolsInTrust);
+    public bool DeficitSelected => IsSelected(userDefinedCharacteristics?.Deficit);
+    public bool PrivateFinanceInitiativeSelected => IsSelected(userDefinedCharacteristics?.PrivateFinanceInitiative);
+    public bool TotalPupilsSixthFormSelected => IsSelected(userDefinedCharacteristics?.TotalPupilsSixthForm);
+    public bool KeyStage2ProgressSelected => IsSelected(userDefinedCharacteristics?.KeyStage2Progress);
+    public bool KeyStage4ProgressSelected => IsSelected(userDefinedCharacteristics?.KeyStage4Progress);
+    public bool? HasAdditionalCharacteristics => TotalPupilsSelected
+                                                 || FreeSchoolMealsSelected
+                                                 || SpecialEducationalNeedsSelected
+                                                 || LondonWeightingSelected
+                                                 || AverageBuildingAgeSelected
+                                                 || InternalFloorAreaSelected
+                                                 || OfstedRatingSelected
+                                                 || SchoolsInTrustSelected
+                                                 || DeficitSelected
+                                                 || PrivateFinanceInitiativeSelected
+                                                 || TotalPupilsSixthFormSelected
+                                                 || KeyStage2ProgressSelected
+                                                 || KeyStage4ProgressSelected;
 
     private IEnumerable<string>? AllLaNames => characteristics?
         .Where(c => !string.IsNullOrWhiteSpace(c.LAName))
         .GroupBy(c => c.LAName)
         .Select(g => g.Key)
         .OfType<string>();
+
+    private static bool IsSelected(string? value) => bool.TrueString.Equals(value, StringComparison.OrdinalIgnoreCase);
 }

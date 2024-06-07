@@ -15,7 +15,7 @@ namespace Web.App.Controllers;
 [Controller]
 [Authorize]
 [FeatureGate(FeatureFlags.UserDefinedComparators)]
-[Route("school/{urn}/comparators/create/by")]
+[Route("school/{urn}/comparators/create")]
 public class SchoolComparatorsCreateByController(
     ILogger<SchoolComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
@@ -26,6 +26,7 @@ public class SchoolComparatorsCreateByController(
 ) : Controller
 {
     [HttpGet]
+    [Route("by")]
     public async Task<IActionResult> Index(string urn)
     {
         using (logger.BeginScope(new
@@ -50,6 +51,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpPost]
+    [Route("by")]
     public async Task<IActionResult> Index(string urn, [FromForm] string? by)
     {
         if (!string.IsNullOrWhiteSpace(by))
@@ -74,7 +76,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpGet]
-    [Route("name")]
+    [Route("by/name")]
     [ImportModelState]
     public async Task<IActionResult> Name(string urn, [FromQuery] string? identifier = null)
     {
@@ -123,7 +125,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpPost]
-    [Route("name")]
+    [Route("by/name")]
     [ExportModelState]
     public IActionResult Name([FromRoute] string urn, [FromForm] SchoolComparatorsUrnViewModel viewModel)
     {
@@ -231,7 +233,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpGet]
-    [Route("characteristic")]
+    [Route("by/characteristic")]
     [ImportModelState]
     public async Task<IActionResult> Characteristic(string urn)
     {
@@ -266,7 +268,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpPost]
-    [Route("characteristic")]
+    [Route("by/characteristic")]
     [ExportModelState]
     public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
     {
@@ -367,7 +369,7 @@ public class SchoolComparatorsCreateByController(
     }
 
     [HttpGet]
-    [Route("characteristic/preview")]
+    [Route("preview")]
     [ImportModelState]
     public async Task<IActionResult> Preview(string urn)
     {
