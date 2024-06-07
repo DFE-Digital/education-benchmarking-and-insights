@@ -8,6 +8,9 @@
     var chosenLaName = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.LaInput), string.Empty);
     var chosenLaCode = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.Code), string.Empty);
     var hasChosenError = ViewData.ModelState.HasError(nameof(Model.LaInput)) || ViewData.ModelState.HasError(nameof(Model.Code));
+    var laNames = Model.LaNamesMutated == true
+        ? Model.LaNames
+        : ViewContext.ModelState.GetAttemptedValueOrDefault(nameof(Model.LaNames), string.Join(",", Model.LaNames))?.Split(",", StringSplitOptions.RemoveEmptyEntries);
 }
 
 <div class="govuk-form-group @(hasError ? "govuk-form-group--error" : string.Empty)">
@@ -62,7 +65,7 @@
                                 Add another
                             </button>
                         </div>
-                        @if (Model.LaNames.Length > 0)
+                        @if (laNames?.Length > 0)
                         {
                             <div class="govuk-grid-column-three-quarters">
                                 <table class="govuk-table govuk-!-margin-bottom-0">
@@ -73,7 +76,7 @@
                                     </tr>
                                     </thead>
                                     <tbody class="govuk-table__body">
-                                    @foreach (var name in Model.LaNames)
+                                    @foreach (var name in laNames)
                                     {
                                         <tr class="govuk-table__row">
                                             <td class="govuk-table__cell govuk-!-padding-top-4">

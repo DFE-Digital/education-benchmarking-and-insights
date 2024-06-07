@@ -278,13 +278,6 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
-                if (!ModelState.IsValid)
-                {
-                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
-                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
-                    return RedirectToAction(nameof(Characteristic));
-                }
-
                 // append/remove LA rather than submit entire form
                 if (Request.Form.TryGetValue("action", out var action)
                     && (action == FormAction.Add || action.ToString().StartsWith(FormAction.Remove)))
@@ -304,6 +297,7 @@ public class SchoolComparatorsCreateByController(
                         viewModel.LaNames = viewModel.LaNames.Except([laName]).ToArray();
                     }
 
+                    viewModel.LaNamesMutated = true;
                     comparatorSetService.SetUserDefinedCharacteristic(urn, viewModel);
                     return RedirectToAction(nameof(Characteristic), new
                     {
@@ -311,11 +305,33 @@ public class SchoolComparatorsCreateByController(
                     });
                 }
 
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+
+                    // ensure model state correctly persists multiple LAs upon validation error elsewhere
+                    if (!string.IsNullOrWhiteSpace(viewModel.LaInput))
+                    {
+                        ModelState.SetModelValue(
+                            nameof(viewModel.LaNames),
+                            viewModel.LaNames,
+                            string.Join(",", viewModel.LaNames.Concat([viewModel.LaInput]).Distinct().ToArray()));
+                        ModelState.SetModelValue(nameof(viewModel.LaInput), null, null);
+                        ModelState.SetModelValue(nameof(viewModel.Code), null, null);
+                    }
+
+                    comparatorSetService.ClearUserDefinedCharacteristic(urn);
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                // build and submit comparator schools based on characteristics
                 if (!string.IsNullOrWhiteSpace(viewModel.LaInput))
                 {
                     viewModel.LaNames = viewModel.LaNames.Concat([viewModel.LaInput]).ToArray();
                     viewModel.LaInput = null;
                     viewModel.Code = null;
+                    viewModel.LaNamesMutated = false;
                 }
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();

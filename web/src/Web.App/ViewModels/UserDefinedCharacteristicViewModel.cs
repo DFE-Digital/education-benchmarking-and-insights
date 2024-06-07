@@ -35,6 +35,7 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
     public string? LaInput { get; set; }
     public string? Code { get; set; }
     public string[] LaNames { get; set; } = [];
+    public bool? LaNamesMutated { get; set; }
 
     // number of pupils
     public string? TotalPupils { get; init; }
@@ -188,12 +189,10 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        var results = new List<ValidationResult>();
-        if (LaSelection == "Choose" && !(!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code) || LaNames.Length > 0))
+        if (LaSelection == "Choose" &&
+            !(!string.IsNullOrWhiteSpace(LaInput) && !string.IsNullOrWhiteSpace(Code) || LaNames.Length > 0))
         {
-            results.Add(new ValidationResult("Select a local authority from the suggester", [nameof(Code)]));
+            yield return new ValidationResult("Select a local authority from the suggester", [nameof(Code)]);
         }
-
-        return results;
     }
 }
