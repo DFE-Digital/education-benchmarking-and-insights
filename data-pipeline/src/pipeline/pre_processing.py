@@ -45,7 +45,7 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         index_col=input_schemas.workforce_census_index_col,
         usecols=input_schemas.workforce_census.keys(),
         dtype=input_schemas.workforce_census,
-        na_values=["x", "u", "c"],
+        na_values=["x", "u", "c", "z"],
         keep_default_na=True,
     ).drop_duplicates()
 
@@ -53,9 +53,24 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         pupil_census_path,
         encoding="utf8",
         index_col=input_schemas.pupil_census_index_col,
-        usecols=input_schemas.pupil_census.keys(),
+        usecols=lambda x: x in input_schemas.pupil_census.keys(),
         dtype=input_schemas.pupil_census,
+        na_values=["x", "u", "c", "z"],
+        keep_default_na=True,
     ).drop_duplicates()
+
+    if "number_of_dual_subsidiary_registrations" in school_pupil_census.columns:
+        school_pupil_census.rename(
+            columns={
+                "number_of_dual_subsidiary_registrations": "Pupil Dual Registrations"
+            },
+            inplace=True,
+        )
+        school_pupil_census["Pupil Dual Registrations"] = school_pupil_census[
+            "Pupil Dual Registrations"
+        ].fillna(0)
+    else:
+        school_pupil_census["Pupil Dual Registrations"] = 0
 
     census = school_pupil_census.join(
         school_workforce_census,
@@ -74,10 +89,15 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         }
     )
 
+    census["Number of pupils"] = (
+        census["Number of pupils"] + census["Pupil Dual Registrations"]
+    )
+
     census["TotalPupilsNursery"] = (
         census["Number of early year pupils (years E1 and E2)"]
         + census["Number of nursery pupils (years N1 and N2)"]
     )
+
     census["TotalPupilsSixthForm"] = (
         census["Full time boys Year group 12"]
         + census["Full time boys Year group 13"]
@@ -231,9 +251,7 @@ def prepare_ks4_data(ks4_path):
 
 def prepare_aar_data(aar_path):
     aar = pd.read_excel(
-        aar_path,
-        sheet_name="Academies",
-        usecols=input_schemas.aar_academies.keys()
+        aar_path, sheet_name="Academies", usecols=input_schemas.aar_academies.keys()
     )
 
     # removing pre-transition academies
@@ -243,17 +261,16 @@ def prepare_aar_data(aar_path):
         & aar["Date joined or opened if in period"].isna()
     )
     aar = aar[mask]
-    
 
     central_services_financial = pd.read_excel(
         aar_path,
         sheet_name="CentralServices",
-        usecols=input_schemas.aar_central_services.keys()
+        usecols=input_schemas.aar_central_services.keys(),
     )
 
-    aar.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
+    aar.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
     aar = aar.astype(input_schemas.aar_academies)
-    aar.drop(columns=['URN'], inplace=True)
+    aar.drop(columns=["URN"], inplace=True)
     aar.rename(
         columns={
             "In year balance": "Academy Balance",
@@ -263,10 +280,13 @@ def prepare_aar_data(aar_path):
         | config.cost_category_map["academies"],
         inplace=True,
     )
-    
 
-    central_services_financial.replace(to_replace={"DNS":np.nan,"n/a":np.nan}, inplace=True)
-    central_services_financial = central_services_financial.astype(input_schemas.aar_central_services)
+    central_services_financial.replace(
+        to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True
+    )
+    central_services_financial = central_services_financial.astype(
+        input_schemas.aar_central_services
+    )
     central_services_financial.rename(
         columns={
             "In Year Balance": "Central Services Balance",
@@ -745,31 +765,49 @@ def build_federations_data(links_data_path, maintained_schools):
 
 
 def _calculate_metrics(bfr):
-    bfr_metrics = bfr[['TrustUPIN']].copy().set_index('TrustUPIN')
-    bfr_metrics['Revenue reserve as percentage of income'] =\
-          round(bfr[bfr['Title']=='Revenue reserves'].set_index('TrustUPIN')[['Y1']]
-                /bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['Staff costs as percentage of income'] =\
-          round(bfr[bfr['Title']=='Staff costs'].set_index('TrustUPIN')[['Y1']]
-                /bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['Expenditure as percentage of income'] =\
-          round(bfr[bfr['Title']=='Total expenditure'].set_index('TrustUPIN')[['Y1']]
-                /bfr[bfr['Title']=='Total income'].set_index('TrustUPIN')[['Y1']]*100,1)
-    bfr_metrics['percent self-generated income'] =\
-          round(bfr[bfr['Title']=='Self-generated income'].set_index('TrustUPIN')[['Y1']]/
-                (bfr[bfr['Title']=='Self-generated income'].set_index('TrustUPIN')[['Y1']] +
-                  bfr[bfr['Title']=='Grant funding'].set_index('TrustUPIN')[['Y1']])*100,0)
-    bfr_metrics['percent grant funding'] = 100 - bfr_metrics['percent self-generated income']
+    bfr_metrics = bfr[["TrustUPIN"]].copy().set_index("TrustUPIN")
+    bfr_metrics["Revenue reserve as percentage of income"] = round(
+        bfr[bfr["Title"] == "Revenue reserves"].set_index("TrustUPIN")[["Y1"]]
+        / bfr[bfr["Title"] == "Total income"].set_index("TrustUPIN")[["Y1"]]
+        * 100,
+        1,
+    )
+    bfr_metrics["Staff costs as percentage of income"] = round(
+        bfr[bfr["Title"] == "Staff costs"].set_index("TrustUPIN")[["Y1"]]
+        / bfr[bfr["Title"] == "Total income"].set_index("TrustUPIN")[["Y1"]]
+        * 100,
+        1,
+    )
+    bfr_metrics["Expenditure as percentage of income"] = round(
+        bfr[bfr["Title"] == "Total expenditure"].set_index("TrustUPIN")[["Y1"]]
+        / bfr[bfr["Title"] == "Total income"].set_index("TrustUPIN")[["Y1"]]
+        * 100,
+        1,
+    )
+    bfr_metrics["percent self-generated income"] = round(
+        bfr[bfr["Title"] == "Self-generated income"].set_index("TrustUPIN")[["Y1"]]
+        / (
+            bfr[bfr["Title"] == "Self-generated income"].set_index("TrustUPIN")[["Y1"]]
+            + bfr[bfr["Title"] == "Grant funding"].set_index("TrustUPIN")[["Y1"]]
+        )
+        * 100,
+        0,
+    )
+    bfr_metrics["percent grant funding"] = (
+        100 - bfr_metrics["percent self-generated income"]
+    )
     return bfr_metrics
 
+
 def _calculate_slopes(matrix):
-    x = np.array([1,2,3,4,5,6])
+    x = np.array([1, 2, 3, 4, 5, 6])
     x_bar = 3.5
     x_x_bar = x - x_bar
     y_bar = np.mean(matrix, axis=1)
     y_y_bar = matrix - np.vstack(y_bar)
     slope_array = np.sum(x_x_bar * y_y_bar, axis=1) / np.sum(x_x_bar**2)
     return slope_array
+
 
 def _assign_slope_flag(df):
     percentile_10 = np.nanpercentile(df["slope"].values, 10)
@@ -781,48 +819,54 @@ def _assign_slope_flag(df):
 
 
 def _slope_analysis(bfr_dataframe, academies_y2, academies_y1):
-
-    year_columns = ['Y-2','Y-1','Y1','Y2','Y3','Y4']
-    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe['Title']=='Revenue reserves']
-    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe['Title']=='Pupil numbers']
-
-    
+    year_columns = ["Y-2", "Y-1", "Y1", "Y2", "Y3", "Y4"]
+    bfr_revenue_reserves = bfr_dataframe[bfr_dataframe["Title"] == "Revenue reserves"]
+    bfr_pupil_numbers = bfr_dataframe[bfr_dataframe["Title"] == "Pupil numbers"]
 
     # TODO need to add in historic data to this, filling in fake values for now
     bfr_revenue_reserves = pd.merge(
-        bfr_revenue_reserves, 
-        academies_y2[['Trust UPIN','Trust Balance']].rename(columns={
-            'Trust UPIN':'TrustUPIN',
-            'Trust Balance':'Y-2'
-            }).drop_duplicates(), how='left', on='TrustUPIN')
-    
-    bfr_revenue_reserves = pd.merge(
-        bfr_revenue_reserves, 
-        academies_y1[['Trust UPIN','Trust Balance']].rename(columns={
-                'Trust UPIN':'TrustUPIN',
-                'Trust Balance':'Y-1'
-                }).drop_duplicates(), how='left', on='TrustUPIN')
-    
-    bfr_pupil_numbers = pd.merge(
-        bfr_pupil_numbers, 
-        academies_y2[['Trust UPIN','Number of pupils']].rename(columns={
-            'Trust UPIN':'TrustUPIN',
-            'Number of pupils':'Y-2'
-            }).groupby('TrustUPIN').agg(sum), how='left', on='TrustUPIN')
-    
-    bfr_pupil_numbers = pd.merge(
-        bfr_pupil_numbers, 
-        academies_y2[['Trust UPIN','Number of pupils']].rename(columns={
-            'Trust UPIN':'TrustUPIN',
-            'Number of pupils':'Y-1'
-            }).groupby('TrustUPIN').agg(sum), how='left', on='TrustUPIN')
+        bfr_revenue_reserves,
+        academies_y2[["Trust UPIN", "Trust Balance"]]
+        .rename(columns={"Trust UPIN": "TrustUPIN", "Trust Balance": "Y-2"})
+        .drop_duplicates(),
+        how="left",
+        on="TrustUPIN",
+    )
 
+    bfr_revenue_reserves = pd.merge(
+        bfr_revenue_reserves,
+        academies_y1[["Trust UPIN", "Trust Balance"]]
+        .rename(columns={"Trust UPIN": "TrustUPIN", "Trust Balance": "Y-1"})
+        .drop_duplicates(),
+        how="left",
+        on="TrustUPIN",
+    )
+
+    bfr_pupil_numbers = pd.merge(
+        bfr_pupil_numbers,
+        academies_y2[["Trust UPIN", "Number of pupils"]]
+        .rename(columns={"Trust UPIN": "TrustUPIN", "Number of pupils": "Y-2"})
+        .groupby("TrustUPIN")
+        .agg(sum),
+        how="left",
+        on="TrustUPIN",
+    )
+
+    bfr_pupil_numbers = pd.merge(
+        bfr_pupil_numbers,
+        academies_y2[["Trust UPIN", "Number of pupils"]]
+        .rename(columns={"Trust UPIN": "TrustUPIN", "Number of pupils": "Y-1"})
+        .groupby("TrustUPIN")
+        .agg(sum),
+        how="left",
+        on="TrustUPIN",
+    )
 
     # convert to matrix
     matrix_revenue_reserves = bfr_revenue_reserves[year_columns].values.astype(float)
     matrix_pupil_numbers = bfr_pupil_numbers[year_columns].values.astype(float)
 
-    matrix_revenue_reserves_per_pupil = matrix_revenue_reserves/matrix_pupil_numbers
+    matrix_revenue_reserves_per_pupil = matrix_revenue_reserves / matrix_pupil_numbers
 
     # determine associated slopes
     bfr_revenue_reserves["slope"] = _calculate_slopes(matrix_revenue_reserves)
@@ -838,12 +882,12 @@ def _slope_analysis(bfr_dataframe, academies_y2, academies_y1):
             matrix_revenue_reserves_per_pupil.T[i]
         )
 
-
     # flag top 10% and bottom 90% percent of slopes with -1 and 1 respectively
     bfr_revenue_reserves = _assign_slope_flag(bfr_revenue_reserves)
     bfr_revenue_reserves_per_pupil = _assign_slope_flag(bfr_revenue_reserves_per_pupil)
 
     return bfr_revenue_reserves, bfr_revenue_reserves_per_pupil
+
 
 def _volatility_analysis(bfr):
     bfr["volatility"] = (bfr["Trust Balance"] - bfr["Y1P2"]) / abs(bfr["Trust Balance"])
@@ -866,8 +910,10 @@ def _volatility_analysis(bfr):
     )
     return bfr
 
-def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies_y2, academies_y1, academies):
 
+def build_bfr_data(
+    bfr_sofa_data_path, bfr_3y_data_path, academies_y2, academies_y1, academies
+):
     bfr_sofa = pd.read_csv(
         bfr_sofa_data_path,
         encoding="unicode-escape",
@@ -880,77 +926,110 @@ def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies_y2, academies_
         encoding="unicode-escape",
         dtype=input_schemas.bfr_3y_cols,
         usecols=input_schemas.bfr_3y_cols.keys(),
-    )    
-
+    )
 
     # remove unused metrics
-    bfr_sofa = bfr_sofa[bfr_sofa['EFALineNo'].isin([298,430,335,380,211,220,199,200,205,210,999])]
+    bfr_sofa = bfr_sofa[
+        bfr_sofa["EFALineNo"].isin(
+            [298, 430, 335, 380, 211, 220, 199, 200, 205, 210, 999]
+        )
+    ]
 
-    self_gen_income = bfr_sofa[
-        bfr_sofa['EFALineNo'].isin([211,220])
-        ].groupby('TrustUPIN')[['Y1P1','Y1P2','Y2P1','Y2P2']].sum().reset_index()
-    self_gen_income['Title'] = 'Self-generated income'
+    self_gen_income = (
+        bfr_sofa[bfr_sofa["EFALineNo"].isin([211, 220])]
+        .groupby("TrustUPIN")[["Y1P1", "Y1P2", "Y2P1", "Y2P2"]]
+        .sum()
+        .reset_index()
+    )
+    self_gen_income["Title"] = "Self-generated income"
 
-    grant_funding = bfr_sofa[
-        bfr_sofa['EFALineNo'].isin([199,200,205,210])
-        ].groupby('TrustUPIN')[['Y1P1','Y1P2','Y2P1','Y2P2']].sum().reset_index()
-    grant_funding['Title'] = 'Grant funding'
+    grant_funding = (
+        bfr_sofa[bfr_sofa["EFALineNo"].isin([199, 200, 205, 210])]
+        .groupby("TrustUPIN")[["Y1P1", "Y1P2", "Y2P1", "Y2P2"]]
+        .sum()
+        .reset_index()
+    )
+    grant_funding["Title"] = "Grant funding"
 
-    bfr_sofa = bfr_sofa[~bfr_sofa['EFALineNo'].isin([211,220,199,200,205,210])]
+    bfr_sofa = bfr_sofa[~bfr_sofa["EFALineNo"].isin([211, 220, 199, 200, 205, 210])]
     bfr_sofa = pd.concat([bfr_sofa, self_gen_income, grant_funding])
-    bfr_sofa['Title'].replace({
-        'Balance c/f to next period ':'Revenue reserves',
-        'Pupil numbers (actual and estimated)':'Pupil numbers',
-        'Total revenue expenditure':'Total expenditure',
-        'Total revenue income':'Total income','Total staff costs':'Staff costs'
-        }, inplace=True)
-    bfr_sofa['Y1'] = bfr_sofa['Y1P1'] + bfr_sofa['Y1P2']
+    bfr_sofa["Title"].replace(
+        {
+            "Balance c/f to next period ": "Revenue reserves",
+            "Pupil numbers (actual and estimated)": "Pupil numbers",
+            "Total revenue expenditure": "Total expenditure",
+            "Total revenue income": "Total income",
+            "Total staff costs": "Staff costs",
+        },
+        inplace=True,
+    )
+    bfr_sofa["Y1"] = bfr_sofa["Y1P1"] + bfr_sofa["Y1P2"]
     bfr_sofa.drop_duplicates(inplace=True)
-    
-    bfr_3y['EFALineNo'].replace({2980:298,4300:430,3800:380,9000:999}, inplace=True)
-    bfr_3y = bfr_3y[bfr_3y['EFALineNo'].isin([298,430,335,380,999])]
-    bfr_3y.drop_duplicates(inplace=True)
-    
 
-    bfr = pd.merge(bfr_sofa, bfr_3y, how='left', on=('TrustUPIN','EFALineNo'))
-    
+    bfr_3y["EFALineNo"].replace(
+        {2980: 298, 4300: 430, 3800: 380, 9000: 999}, inplace=True
+    )
+    bfr_3y = bfr_3y[bfr_3y["EFALineNo"].isin([298, 430, 335, 380, 999])]
+    bfr_3y.drop_duplicates(inplace=True)
+
+    bfr = pd.merge(bfr_sofa, bfr_3y, how="left", on=("TrustUPIN", "EFALineNo"))
+
     # get trust metrics
     bfr_metrics = _calculate_metrics(bfr)
     # Slope analysis
-    bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _slope_analysis(bfr, academies_y2, academies_y1)
+    bfr_revenue_reserves, bfr_revenue_reserves_per_pupil = _slope_analysis(
+        bfr, academies_y2, academies_y1
+    )
 
     # volatility analysis
-    bfr = pd.merge(bfr, academies[['Trust UPIN','Trust Balance']].rename(
-        columns={'Trust UPIN': 'TrustUPIN'}), how='left', on='TrustUPIN')
+    bfr = pd.merge(
+        bfr,
+        academies[["Trust UPIN", "Trust Balance"]].rename(
+            columns={"Trust UPIN": "TrustUPIN"}
+        ),
+        how="left",
+        on="TrustUPIN",
+    )
     bfr = _volatility_analysis(bfr)
-    
+
     bfr_metrics.drop_duplicates(inplace=True)
-    
-    use_columns = ["Y-2","Y-1","Y1","Y2","Y3","slope","slope_flag"]
-    
+
+    use_columns = ["Y-2", "Y-1", "Y1", "Y2", "Y3", "slope", "slope_flag"]
+
     bfr_revenue_reserves.drop_duplicates(inplace=True)
     bfr_revenue_reserves = bfr_revenue_reserves[use_columns]
-    bfr_revenue_reserves.rename(columns={
-        "Y-2":"revenue_reserves_year_-2",
-        "Y-1":"revenue_reserves_year_-1",
-        "Y1":"revenue_reserves_year_0",
-        "Y2":"revenue_reserves_year_1",
-        "Y3":"revenue_reserves_year_2",
-        "slope":"revenue_reserves_slope",
-        "slope_flag":"revenue_reserves_slope_flag"}, inplace=True)
-    
-    
+    bfr_revenue_reserves.rename(
+        columns={
+            "Y-2": "revenue_reserves_year_-2",
+            "Y-1": "revenue_reserves_year_-1",
+            "Y1": "revenue_reserves_year_0",
+            "Y2": "revenue_reserves_year_1",
+            "Y3": "revenue_reserves_year_2",
+            "slope": "revenue_reserves_slope",
+            "slope_flag": "revenue_reserves_slope_flag",
+        },
+        inplace=True,
+    )
+
     bfr_revenue_reserves_per_pupil.drop_duplicates(inplace=True)
     bfr_revenue_reserves_per_pupil = bfr_revenue_reserves_per_pupil[use_columns]
-    bfr_revenue_reserves_per_pupil.rename(columns={
-        "Y-2":"revenue_reserves_year_per_pupil_-2",
-        "Y-1":"revenue_reserves_year_per_pupil_-1",
-        "Y1":"revenue_reserves_year_per_pupil_0",
-        "Y2":"revenue_reserves_year_per_pupil_1",
-        "Y3":"revenue_reserves_year_per_pupil_2",
-        "slope":"revenue_reserves_year_per_pupil_slope",
-        "slope_flag":"revenue_reserves_year_per_pupil_slope_flag"}, inplace=True)
-    
-    bfr_metrics = pd.merge(bfr_metrics, bfr_revenue_reserves, left_index=True, right_index=True)
-    bfr_metrics = pd.merge(bfr_metrics, bfr_revenue_reserves_per_pupil, left_index=True, right_index=True)
+    bfr_revenue_reserves_per_pupil.rename(
+        columns={
+            "Y-2": "revenue_reserves_year_per_pupil_-2",
+            "Y-1": "revenue_reserves_year_per_pupil_-1",
+            "Y1": "revenue_reserves_year_per_pupil_0",
+            "Y2": "revenue_reserves_year_per_pupil_1",
+            "Y3": "revenue_reserves_year_per_pupil_2",
+            "slope": "revenue_reserves_year_per_pupil_slope",
+            "slope_flag": "revenue_reserves_year_per_pupil_slope_flag",
+        },
+        inplace=True,
+    )
+
+    bfr_metrics = pd.merge(
+        bfr_metrics, bfr_revenue_reserves, left_index=True, right_index=True
+    )
+    bfr_metrics = pd.merge(
+        bfr_metrics, bfr_revenue_reserves_per_pupil, left_index=True, right_index=True
+    )
     return bfr_metrics, bfr
