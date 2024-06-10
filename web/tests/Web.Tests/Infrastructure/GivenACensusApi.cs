@@ -1,9 +1,9 @@
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
+using Xunit.Abstractions;
 namespace Web.Tests.Infrastructure;
 
-public class GivenACensusApi : ApiClientTestBase
+public class GivenACensusApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)
 {
     [Fact]
     public void SetsFunctionKeyIfProvided()
