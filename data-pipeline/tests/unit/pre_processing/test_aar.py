@@ -6,7 +6,8 @@ from src.pipeline.config import income_category_map
 
 def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
     assert list(prepared_aar_data.columns) == [
-        "Academy Balance",
+        "URN",
+        "In year balance",
         "PFI School",
         "Trust UPIN",
         "DFE/EFA Revenue grants (includes Coronavirus Government Funding",
@@ -77,8 +78,8 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Date joined or opened if in period",
         "Date left or closed if in period",
         "Trust Balance",
-        "Trust_DFE/EFA Revenue grants (includes Coronavirus Government Funding",
-        "Trust_of which: Coronavirus Government Funding",
+        # "Trust_DFE/EFA Revenue grants (includes Coronavirus Government Funding",
+        # "Trust_of which: Coronavirus Government Funding",
         "Trust_SEN funding",
         "Trust_Other DfE/EFA Revenue Grants",
         "Trust_Other income - LA & other Government grants",
@@ -91,9 +92,14 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Trust_Donations and/or voluntary funds",
         "Trust_Other self-generated income",
         "Trust_Investment income",
+        "Trust_Direct Grants",
+        "Trust_Community Grants",
+        "Trust_Total Grant Funding",
+        "Trust_Total Self Generated Funding",
+        "Trust_Total Income",
         "Central Services Balance",
         "Central Services Financial Position",
-        "Academy Financial Position",
+        "Financial Position",
         "Trust Financial Position",
         "Is PFI",
     ]
@@ -151,7 +157,7 @@ def test_aar_central_services_financial_position(prepared_aar_data: pd.DataFrame
 
 def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
     assert (
-        prepared_aar_data["Academy Financial Position"][
+        prepared_aar_data["Financial Position"][
             prepared_aar_data["Trust UPIN"] == 137157
         ].iloc[0]
         == "Surplus"
@@ -180,7 +186,7 @@ def test_aar_central_services_financial_position_deficit(
 
 def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
     assert (
-        prepared_aar_data["Academy Financial Position"][
+        prepared_aar_data["Financial Position"][
             prepared_aar_data["Trust UPIN"] == 135112
         ].iloc[0]
         == "Deficit"

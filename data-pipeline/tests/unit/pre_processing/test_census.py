@@ -32,6 +32,24 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "Total School Workforce (Headcount)",
         "TotalPupilsNursery",
         "TotalPupilsSixthForm",
+        "WorkforceHeadcountPerFTE",
+        "WorkforcePercentTotalWorkforce",
+        "WorkforcePerPupil",
+        "TeachersHeadcountPerFTE",
+        "TeachersPercentTotalWorkforce",
+        "TeachersPerPupil",
+        "SeniorLeadershipHeadcountPerFTE",
+        "SeniorLeadershipPercentTotalWorkforce",
+        "SeniorLeadershipPerPupil",
+        "TeachingAssistantHeadcountPerFTE",
+        "TeachingAssistantPercentTotalWorkforce",
+        "TeachingAssistantPerPupil",
+        "NonClassroomSupportStaffHeadcountPerFTE",
+        "NonClassroomSupportStaffPercentTotalWorkforce",
+        "NonClassroomSupportStaffPerPupil",
+        "AuxiliaryStaffHeadcountPerFTE",
+        "AuxiliaryStaffPercentTotalWorkforce",
+        "AuxiliaryStaffPerPupil"
     ]
 
 
