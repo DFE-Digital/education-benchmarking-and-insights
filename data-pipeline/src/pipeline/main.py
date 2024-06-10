@@ -18,7 +18,7 @@ from src.pipeline.database import (
     insert_metric_rag,
     insert_schools_and_trusts_and_local_authorities,
     insert_non_financial_data,
-    insert_financial_data
+    insert_financial_data,
 )
 
 from src.pipeline.rag import compute_rag
@@ -142,11 +142,10 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
 
     return schools
 
+
 def pre_process_cfo(set_type, year) -> pd.DataFrame:
     logger.info("Processing CFO Data")
-    cfo_data = get_blob(
-        raw_container, f"{set_type}/{year}/cfo.csv", encoding="cp1252"
-    )
+    cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.csv", encoding="cp1252")
 
     cfo = build_cfo_data(cfo_data)
     write_blob(
@@ -194,9 +193,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     )
 
     links_data = get_blob(
-        raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
-        encoding="cp1252"
+        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(

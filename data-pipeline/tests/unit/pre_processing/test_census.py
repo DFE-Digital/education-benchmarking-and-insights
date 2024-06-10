@@ -49,7 +49,7 @@ def test_census_data_has_correct_output_columns(prepared_census_data: pd.DataFra
         "NonClassroomSupportStaffPerPupil",
         "AuxiliaryStaffHeadcountPerFTE",
         "AuxiliaryStaffPercentTotalWorkforce",
-        "AuxiliaryStaffPerPupil"
+        "AuxiliaryStaffPerPupil",
     ]
 
 

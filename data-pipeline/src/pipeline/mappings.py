@@ -228,10 +228,10 @@ def _diff_month(d1, d2):
 
 
 def map_academy_period_return(
-        opened_in_period: datetime,
-        closed_in_period: datetime,
-        year_start_date: datetime,
-        year_end_date: datetime,
+    opened_in_period: datetime,
+    closed_in_period: datetime,
+    year_start_date: datetime,
+    year_end_date: datetime,
 ):
     if pd.isna(closed_in_period) and pd.isna(opened_in_period):
         return 12
@@ -239,4 +239,3 @@ def map_academy_period_return(
         return _diff_month(closed_in_period, year_start_date)
     elif opened_in_period:
         return _diff_month(year_end_date, opened_in_period)
-
