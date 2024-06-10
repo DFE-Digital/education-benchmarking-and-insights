@@ -6,24 +6,26 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
 [Route("school/{urn}/spending-and-costs")]
 public class SchoolSpendingController(
-        ILogger<SchoolController> logger,
-        IEstablishmentApi establishmentApi,
-        IFinanceService financeService,
-        IComparatorSetService comparatorSetService,
-        IMetricRagRatingApi metricRagRatingApi,
-        IUserDataService userDataService)
+    ILogger<SchoolController> logger,
+    IEstablishmentApi establishmentApi,
+    IFinanceService financeService,
+    ISchoolComparatorSetService schoolComparatorSetService,
+    IMetricRagRatingApi metricRagRatingApi,
+    IUserDataService userDataService)
     : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -33,7 +35,7 @@ public class SchoolSpendingController(
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
 
                 var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
-                var set = await comparatorSetService.ReadComparatorSet(urn);
+                var set = await schoolComparatorSetService.ReadComparatorSet(urn);
 
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.Building);

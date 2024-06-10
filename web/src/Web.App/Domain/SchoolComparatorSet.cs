@@ -2,13 +2,13 @@ using System.Diagnostics.CodeAnalysis;
 namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
-public record ComparatorSet
+public record SchoolComparatorSet
 {
     public IEnumerable<string> Pupil { get; set; } = Array.Empty<string>();
     public IEnumerable<string> Building { get; set; } = Array.Empty<string>();
 }
 
-public record ComparatorSetUserDefined
+public record UserDefinedSchoolComparatorSet
 {
     public string? RunId { get; set; }
     public long? TotalSchools { get; set; }

@@ -5,7 +5,6 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -14,7 +13,7 @@ public class ProxyController(
     ILogger<ProxyController> logger,
     IEstablishmentApi establishmentApi,
     IFinanceService financeService,
-    IComparatorSetService comparatorSetService,
+    ISchoolComparatorSetService schoolComparatorSetService,
     IUserDataService userDataService)
     : Controller
 {
@@ -23,7 +22,11 @@ public class ProxyController(
     [Route("establishments/expenditure")]
     public async Task<IActionResult> EstablishmentExpenditure([FromQuery] string type, [FromQuery] string id, [FromQuery] string? phase)
     {
-        using (logger.BeginScope(new { type, id }))
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -52,7 +55,11 @@ public class ProxyController(
     [Route("establishments/expenditure/history")]
     public async Task<IActionResult> EstablishmentExpenditureHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
     {
-        using (logger.BeginScope(new { type, id }))
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -100,12 +107,12 @@ public class ProxyController(
         var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
-            var defaultSet = await comparatorSetService.ReadComparatorSet(id);
+            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
             var defaultResult = await financeService.GetExpenditure(defaultSet.Pupil);
             return new JsonResult(defaultResult);
         }
 
-        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         var userDefinedResult = await financeService.GetExpenditure(userDefinedSet.Set);
         return new JsonResult(userDefinedResult);
     }

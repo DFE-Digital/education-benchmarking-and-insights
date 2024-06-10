@@ -24,7 +24,7 @@ public class WhenViewingComparatorsCreatePreview(SchoolBenchmarkingWebAppClient 
             .Create();
 
         var key = SessionKeys.ComparatorSetUserDefined(school.URN!);
-        var set = new ComparatorSetUserDefined
+        var set = new UserDefinedSchoolComparatorSet
         {
             Set = ["1", "2", "3"],
             TotalSchools = 123
