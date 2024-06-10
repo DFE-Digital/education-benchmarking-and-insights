@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading.Tasks;
@@ -10,7 +11,7 @@ namespace Platform.Api.Establishment.Trusts;
 
 public interface ITrustsService
 {
-    Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request);
+    Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null);
     Task<Trust?> GetAsync(string companyNumber);
 }
 
@@ -35,7 +36,7 @@ public class TrustsService : SearchService, ITrustsService
         return await conn.QueryFirstOrDefaultAsync<Trust>(sql, parameters);
     }
 
-    public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request)
+    public Task<SuggestResponse<Trust>> SuggestAsync(SuggestRequest request, string[]? excludeTrusts = null)
     {
         var fields = new[]
         {
@@ -43,6 +44,22 @@ public class TrustsService : SearchService, ITrustsService
             nameof(Trust.TrustName)
         };
 
-        return SuggestAsync<Trust>(request, selectFields: fields);
+        return SuggestAsync<Trust>(request, CreateFilterExpression, selectFields: fields);
+
+        string? CreateFilterExpression()
+        {
+            if (excludeTrusts is not { Length: > 0 })
+            {
+                return null;
+            }
+
+            var filterExpressions = new List<string>();
+            if (excludeTrusts.Length > 0)
+            {
+                filterExpressions.Add($"({string.Join(") and ( ", excludeTrusts.Select(a => $"{nameof(Trust.CompanyNumber)} ne '{a}'"))})");
+            }
+
+            return string.Join(" and ", filterExpressions);
+        }
     }
 }

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -66,6 +67,7 @@ public class TrustsFunctions
     [ProducesResponseType(typeof(SuggestResponse<Trust>), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("companyNumbers", "List of trust company numbers to exclude", DataType = typeof(string[]), Required = false)]
     public async Task<IActionResult> SuggestTrustsAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "post", Route = "trusts/suggest")]
         [RequestBodyType(typeof(SuggestRequest), "The suggest object")] HttpRequest req)
@@ -88,7 +90,8 @@ public class TrustsFunctions
                     return new ValidationErrorsResult(validationResult.Errors);
                 }
 
-                var trusts = await _service.SuggestAsync(body);
+                var numbers = req.Query["companyNumbers"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var trusts = await _service.SuggestAsync(body, numbers);
                 return new JsonContentResult(trusts);
             }
             catch (Exception e)

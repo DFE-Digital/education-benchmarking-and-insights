@@ -1,6 +1,7 @@
 export type TrustInputProps = {
   input: string;
   companyNumber: string;
+  exclude?: string[];
 };
 
 export type FindOrganisationProps = {
