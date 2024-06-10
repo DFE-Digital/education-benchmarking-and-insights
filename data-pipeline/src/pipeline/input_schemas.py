@@ -110,7 +110,6 @@ maintained_schools_master_list = {
     "I16  Community focussed school funding and   or grants": "float",
     "I17  Community focused school facilities income": "float",
     "I18  Additional grant for schools": "float",
-    "Total Income   I01 to I08, I11 to I15, I18": "float",
     "Total Income   I01 to I18": "float",
     "E01  Teaching Staff": "float",
     "E02  Supply teaching staff": "float",
@@ -145,10 +144,8 @@ maintained_schools_master_list = {
     "E30 Direct revenue financing (revenue contributions to capital)": "float",
     "E31  Community focused school staff": "float",
     "E32 Community focused school costs": "float",
-    "Total Expenditure  E01 to E29 and E31 to E32 minus I9, I10, I16 and I17": "float",
     "Total Expenditure  E01 to E32": "float",
     "Revenue Reserve   B01 plus B02 plus B06": "float",
-    "In-year Balance   Total Income (I01 to I18) minus Total Expenditure (E01 to E32)": "float",
 }
 
 cdc_index_col = "URN"

@@ -6,7 +6,6 @@ using Web.App.ViewModels;
 // ReSharper disable UnusedMember.Global
 namespace Web.App.Infrastructure.Apis;
 
-// todo: unit test mapping
 public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefinedCharacteristicViewModel viewModel)
 {
     public string Target => urn;
@@ -24,10 +23,11 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
             [
                 EstablishmentTypes.Academies
             ],
-            _ =>
+            "Maintained schools" =>
             [
                 EstablishmentTypes.Maintained
-            ]
+            ],
+            _ => throw new ArgumentOutOfRangeException(nameof(FinanceType))
         });
 
     public CharacteristicList? OverallPhase => viewModel.OverallPhase is { Length: > 0 }
@@ -114,8 +114,8 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
         ? new CharacteristicRange(viewModel.SpecificLearningDifficultyFrom, viewModel.SpecificLearningDifficultyTo)
         : null;
 
-    public CharacteristicRange? PercentWithSLD => IsSelected(viewModel.SpecificLearningDifficulty)
-        ? new CharacteristicRange(viewModel.SpecificLearningDifficultyFrom, viewModel.SpecificLearningDifficultyTo)
+    public CharacteristicRange? PercentWithSLD => IsSelected(viewModel.SevereLearningDifficulty)
+        ? new CharacteristicRange(viewModel.SevereLearningDifficultyFrom, viewModel.SevereLearningDifficultyTo)
         : null;
 
     public CharacteristicRange? PercentWithSLCN => IsSelected(viewModel.SpeechLanguageCommunication)

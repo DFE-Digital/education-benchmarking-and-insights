@@ -1,9 +1,9 @@
 using Web.App.Infrastructure.Apis;
 using Xunit;
-
+using Xunit.Abstractions;
 namespace Web.Tests.Infrastructure;
 
-public class GivenAnEstablishmentApi : ApiClientTestBase
+public class GivenAnEstablishmentApi(ITestOutputHelper testOutputHelper) : ApiClientTestBase(testOutputHelper)
 {
     [Fact]
     public void SetsFunctionKeyIfProvided()
@@ -33,13 +33,40 @@ public class GivenAnEstablishmentApi : ApiClientTestBase
     }
 
     [Fact]
+    public async Task GetLocalAuthorityShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+
+        await api.GetLocalAuthority("12343");
+
+        VerifyCall(HttpMethod.Get, "api/local-authority/12343");
+    }
+
+    [Fact]
     public async Task SuggestSchoolsShouldCallCorrectUrl()
     {
         var api = new EstablishmentApi(HttpClient);
 
-        await api.SuggestSchools("");
+        await api.SuggestSchools("term");
 
-        VerifyCall(HttpMethod.Post, "api/schools/suggest");
+        VerifyCall(
+            HttpMethod.Post,
+            "api/schools/suggest",
+            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"school-suggester\"}");
+    }
+
+    [Fact]
+    public async Task SuggestSchoolsWithExclusionShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+
+        const string exclude = "exclude";
+        await api.SuggestSchools("term", new ApiQuery().AddIfNotNull("urns", exclude));
+
+        VerifyCall(
+            HttpMethod.Post,
+            "api/schools/suggest?urns=" + exclude,
+            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"school-suggester\"}");
     }
 
     [Fact]
@@ -47,8 +74,25 @@ public class GivenAnEstablishmentApi : ApiClientTestBase
     {
         var api = new EstablishmentApi(HttpClient);
 
-        await api.SuggestTrusts("");
+        await api.SuggestTrusts("term");
 
-        VerifyCall(HttpMethod.Post, "api/trusts/suggest");
+        VerifyCall(
+            HttpMethod.Post,
+            "api/trusts/suggest",
+            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"trust-suggester\"}");
+    }
+
+    [Fact]
+    public async Task SuggestSuggestLocalAuthoritiesShouldCallCorrectUrl()
+    {
+        var api = new EstablishmentApi(HttpClient);
+
+        const string exclude = "exclude";
+        await api.SuggestLocalAuthorities("term", new ApiQuery().AddIfNotNull("names", exclude));
+
+        VerifyCall(
+            HttpMethod.Post,
+            "api/local-authorities/suggest?names=" + exclude,
+            "{\"searchText\":\"term\",\"size\":10,\"suggesterName\":\"local-authority-suggester\"}");
     }
 }

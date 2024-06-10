@@ -18,6 +18,7 @@ from src.pipeline.database import (
     insert_metric_rag,
     insert_schools_and_trusts_and_local_authorities,
     insert_non_financial_data,
+    insert_financial_data
 )
 
 from src.pipeline.rag import compute_rag
@@ -193,7 +194,9 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     )
 
     links_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
+        raw_container,
+        f"{set_type}/{year}/gias_all_links.csv",
+        encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
@@ -250,6 +253,7 @@ def pre_process_all_schools(set_type, year, data_ref):
 
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
     insert_non_financial_data(set_type, year, all_schools)
+    insert_financial_data(set_type, year, all_schools)
 
 
 def pre_process_bfr(set_type, year):
