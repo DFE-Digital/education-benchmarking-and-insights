@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
+using FluentValidation;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Azure.WebJobs;
@@ -19,11 +20,17 @@ public class ComparatorSetsFunctions
 {
     private readonly ILogger<ComparatorSetsFunctions> _logger;
     private readonly IComparatorSetsService _service;
+    private readonly IValidator<ComparatorSetUserDefinedSchool> _schoolValidator;
+    private readonly IValidator<ComparatorSetUserDefinedTrust> _trustValidator;
 
-    public ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger)
+    public ComparatorSetsFunctions(IComparatorSetsService service, ILogger<ComparatorSetsFunctions> logger,
+        IValidator<ComparatorSetUserDefinedSchool> schoolValidator,
+        IValidator<ComparatorSetUserDefinedTrust> trustValidator)
     {
         _service = service;
         _logger = logger;
+        _schoolValidator = schoolValidator;
+        _trustValidator = trustValidator;
     }
 
     [FunctionName(nameof(DefaultSchoolComparatorSetAsync))]
@@ -95,6 +102,7 @@ public class ComparatorSetsFunctions
 
     [FunctionName(nameof(CreateUserDefinedSchoolComparatorSetAsync))]
     [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateUserDefinedSchoolComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put", Route = "comparator-set/school/{urn}/user-defined/{identifier}")]
@@ -118,7 +126,6 @@ public class ComparatorSetsFunctions
             try
             {
                 var body = req.ReadAsJson<ComparatorSetUserDefinedRequest>();
-                //TODO : Add request validation
                 var comparatorSet = new ComparatorSetUserDefinedSchool
                 {
                     RunId = identifier,
@@ -126,6 +133,12 @@ public class ComparatorSetsFunctions
                     Set = body.Set,
                     URN = urn
                 };
+
+                var validationResult = await _schoolValidator.ValidateAsync(comparatorSet);
+                if (!validationResult.IsValid)
+                {
+                    return new BadRequestResult();
+                }
 
                 await _service.UpsertUserDefinedSchoolAsync(comparatorSet);
 
@@ -242,6 +255,7 @@ public class ComparatorSetsFunctions
 
     [FunctionName(nameof(CreateUserDefinedTrustComparatorSetAsync))]
     [ProducesResponseType((int)HttpStatusCode.Accepted)]
+    [ProducesResponseType((int)HttpStatusCode.BadRequest)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     public async Task<IActionResult> CreateUserDefinedTrustComparatorSetAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "put",
@@ -264,7 +278,6 @@ public class ComparatorSetsFunctions
             try
             {
                 var body = req.ReadAsJson<ComparatorSetUserDefinedRequest>();
-                //TODO : Add request validation
                 var comparatorSet = new ComparatorSetUserDefinedTrust
                 {
                     RunId = identifier,
@@ -272,6 +285,12 @@ public class ComparatorSetsFunctions
                     Set = body.Set,
                     CompanyNumber = companyNumber
                 };
+
+                var validationResult = await _trustValidator.ValidateAsync(comparatorSet);
+                if (!validationResult.IsValid)
+                {
+                    return new BadRequestResult();
+                }
 
                 await _service.UpsertUserDefinedTrustAsync(comparatorSet);
 
