@@ -34,8 +34,12 @@ router.get( '/sign-in', (req, res) => {
     } else if (req.get('Referrer')) { 
         goToUrl = new URL(req.get('Referrer')).pathname;
     }
-    
-    res.render( '/sign-in', { goToUrl: goToUrl } );
+
+    if ( req.session.data['signedIn'] == 'true' ) {
+        res.redirect( goToUrl );
+    } else {
+        res.render( '/sign-in', { goToUrl: goToUrl } );
+    }
 })
 
 
@@ -346,9 +350,22 @@ router.get( '/compare-trusts/by-name', (req, res) => {
     var trusts = req.session.data.trusts || [];
     
     for ( i=0; i<trusts.length; i++) {
+
+        var schoolTypes = trusts[i].trustSchools + ' schools<p class="govuk-hint">';
+        if ( trusts[i].trustSchoolsNursery ) {
+            schoolTypes += trusts[i].trustSchoolsNursery + ' nurseries<br />';
+        }
+        
+        if ( trusts[i].trustSchoolsPrimary ) {
+            schoolTypes += trusts[i].trustSchoolsPrimary + ' primaries<br />';
+        }
+        if ( trusts[i].trustSchoolsSecondary ) {
+            schoolTypes += trusts[i].trustSchoolsSecondary + ' secondaries<br />';
+        }
+        schoolTypes += '</p>';
         
         var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + trusts[i].trustName + "</span><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': trusts[i].trustPupils.toLocaleString()}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() }, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
+        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" }, {'html': '<a href="/compare-trusts/remove?id=' + i + '">Remove</a>' } ] );
     }
 
     res.render( '/compare-trusts/by-name', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], trustSetType: req.session.data['trustSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -369,8 +386,21 @@ router.get( '/compare-trusts/view', (req, res) => {
     
     for ( i=0; i<trusts.length; i++) {
 
-        var nameHtml = "<span class=\"govuk-body govuk-!-font-weight-bold\">" + trusts[i].trustName + "</span><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
-        rows.push( [ {'html':  nameHtml}, {'text': 'Secondary'}, {'text': trusts[i].trustPupils.toLocaleString()}, {'text': trusts[i].trustSchools}, {'text': '£' + trusts[i].trustIncome.toLocaleString() } ] );
+        var schoolTypes = trusts[i].trustSchools + ' schools<p class="govuk-hint">';
+        if ( trusts[i].trustSchoolsNursery ) {
+            schoolTypes += trusts[i].trustSchoolsNursery + ' nurseries<br />';
+        }
+        
+        if ( trusts[i].trustSchoolsPrimary ) {
+            schoolTypes += trusts[i].trustSchoolsPrimary + ' primaries<br />';
+        }
+        if ( trusts[i].trustSchoolsSecondary ) {
+            schoolTypes += trusts[i].trustSchoolsSecondary + ' secondaries<br />';
+        }
+        schoolTypes += '</p>';
+        
+        var nameHtml = "<a href=\"/trust-homepage?trust-name=" + trusts[i].trustName + "\" class=\"govuk-link\">" + trusts[i].trustName + "</a><br><span class=\"govuk-hint\">" +  trusts[i].trustNumber + "</span>";
+        rows.push( [ {'html':  nameHtml}, {'html': schoolTypes}, {'text': trusts[i].trustPupils.toLocaleString(), classes: "govuk-!-text-align-right" }, {'text': '£' + trusts[i].trustIncome.toLocaleString(), classes: "govuk-!-text-align-right" } ] );
     }
 
     res.render( '/compare-trusts/view', { trustRows: trustRows, rows: rows, confirmation: req.session.data['confirmation'], trustSetType: req.session.data['trustSetType'], errorThisPage: req.session.data['errorThisPage'], errorNoSchool: req.session.data['errorNoSchool'] } );
@@ -414,11 +444,14 @@ function addTrust (req, res, trustName) {
 
     trustNameOnly = trustName.substring( 0, trustName.lastIndexOf(' (') );
     trustNumber = trustName.substring( trustName.lastIndexOf(' (')+2, trustName.length-1 );
-    trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438;
     trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
-    trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 );
+    trustSchoolsPrimary = Math.floor( trustSchools * Math.random() );
+    trustSchoolsNursery =  Math.floor( ( trustSchools - trustSchoolsPrimary ) * Math.random() );
+    trustSchoolsSecondary = trustSchools - trustSchoolsPrimary - trustSchoolsNursery;
+    trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438 * trustSchools;
+    trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 * trustSchools );
    
-    trusts.unshift({'trustName': trustNameOnly, 'trustNumber': trustNumber, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustIncome': trustIncome });
+    trusts.unshift({'trustName': trustNameOnly, 'trustNumber': trustNumber, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustSchoolsPrimary': trustSchoolsPrimary, 'trustSchoolsNursery': trustSchoolsNursery, 'trustSchoolsSecondary': trustSchoolsSecondary, 'trustIncome': trustIncome });
     req.session.data['trusts'] = trusts;
     req.session.data['confirmation'] = 'trust-added';
     req.session.data.trust = null;
@@ -585,10 +618,13 @@ function generateTrusts() {
         objTrust = objTrusts[ Math.floor( Math.random() * objTrusts.length ) ];
 
         trustSchools = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ));
+        trustSchoolsPrimary = Math.floor( trustSchools * Math.random() );
+        trustSchoolsNursery =  Math.floor( ( trustSchools - trustSchoolsPrimary ) * Math.random() );
+        trustSchoolsSecondary = trustSchools - trustSchoolsPrimary - trustSchoolsNursery;
         trustPupils = Math.floor(Math.random() * (2782 - 438 + 1) ) + 438 * trustSchools;
         trustIncome = Math.floor( ( ( Math.random() * (18 - 4.3 + 1) ) + 4.3 ) * 1000000 * trustSchools );
 
-        trusts.push({'trustName': objTrust.trustName, 'trustNumber': objTrust.trustNumber, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustIncome': trustIncome });
+        trusts.push({'trustName': objTrust.trustName, 'trustNumber': objTrust.trustNumber, 'trustPupils': trustPupils, 'trustSchools': trustSchools, 'trustSchoolsPrimary': trustSchoolsPrimary, 'trustSchoolsNursery': trustSchoolsNursery, 'trustSchoolsSecondary': trustSchoolsSecondary, 'trustIncome': trustIncome });
     }
 
     return trusts;

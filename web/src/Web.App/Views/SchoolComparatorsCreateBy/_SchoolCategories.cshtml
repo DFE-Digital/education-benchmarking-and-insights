@@ -38,7 +38,8 @@
                         id="@nameof(Model.OverallPhase)-@option.ToSlug()"
                         value="@option"
                         class="govuk-checkboxes__input"
-                        @(values.Contains(option) ? "checked" : "")>
+                        @(values.Contains(option) ? "checked" : string.Empty)
+                        @(option == "Special" ? "data-aria-controls=conditional-sen" : string.Empty)>
                     <label class="govuk-label govuk-checkboxes__label" for="@nameof(Model.OverallPhase)-@option.ToSlug()">@option</label>
                 </div>
             }

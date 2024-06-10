@@ -255,6 +255,211 @@
                 </fieldset>
             </div>
 
+            <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-sen">
+                <div class="govuk-form-group">
+                    <fieldset class="govuk-fieldset" aria-describedby="contact-hint" id="additional-characteristics">
+                        <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
+                            <h1 class="govuk-fieldset__heading">
+                                Additional characteristics
+                            </h1>
+                        </legend>
+                        <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Specific learning difficulty",
+                                    nameof(Model.Data.SpecificLearningDifficulty),
+                                    Model.Data.SpecificLearningDifficulty,
+                                    nameof(Model.Data.SpecificLearningDifficultyFrom),
+                                    Model.Data.SpecificLearningDifficultyFrom.HasValue ? Model.Data.SpecificLearningDifficultyFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.SpecificLearningDifficultyTo),
+                                    Model.Data.SpecificLearningDifficultyTo.HasValue ? Model.Data.SpecificLearningDifficultyTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithSPLD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Moderate learning difficulty",
+                                    nameof(Model.Data.ModerateLearningDifficulty),
+                                    Model.Data.ModerateLearningDifficulty,
+                                    nameof(Model.Data.ModerateLearningDifficultyFrom),
+                                    Model.Data.ModerateLearningDifficultyFrom.HasValue ? Model.Data.ModerateLearningDifficultyFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.ModerateLearningDifficultyTo),
+                                    Model.Data.ModerateLearningDifficultyTo.HasValue ? Model.Data.ModerateLearningDifficultyTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithMLD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Severe learning difficulty",
+                                    nameof(Model.Data.SevereLearningDifficulty),
+                                    Model.Data.SevereLearningDifficulty,
+                                    nameof(Model.Data.SevereLearningDifficultyFrom),
+                                    Model.Data.SevereLearningDifficultyFrom.HasValue ? Model.Data.SevereLearningDifficultyFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.SevereLearningDifficultyTo),
+                                    Model.Data.SevereLearningDifficultyTo.HasValue ? Model.Data.SevereLearningDifficultyTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithSLD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Profound and multiple learning difficulty",
+                                    nameof(Model.Data.ProfoundMultipleLearningDifficulty),
+                                    Model.Data.ProfoundMultipleLearningDifficulty,
+                                    nameof(Model.Data.ProfoundMultipleLearningDifficultyFrom),
+                                    Model.Data.ProfoundMultipleLearningDifficultyFrom.HasValue ? Model.Data.ProfoundMultipleLearningDifficultyFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.ProfoundMultipleLearningDifficultyTo),
+                                    Model.Data.ProfoundMultipleLearningDifficultyTo.HasValue ? Model.Data.ProfoundMultipleLearningDifficultyTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithPMLD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Social, emotional and mental health",
+                                    nameof(Model.Data.SocialEmotionalMentalHealth),
+                                    Model.Data.SocialEmotionalMentalHealth,
+                                    nameof(Model.Data.SocialEmotionalMentalHealthFrom),
+                                    Model.Data.SocialEmotionalMentalHealthFrom.HasValue ? Model.Data.SocialEmotionalMentalHealthFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.SocialEmotionalMentalHealthTo),
+                                    Model.Data.SocialEmotionalMentalHealthTo.HasValue ? Model.Data.SocialEmotionalMentalHealthTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithSEMH.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Speech, language and communications needs",
+                                    nameof(Model.Data.SpeechLanguageCommunication),
+                                    Model.Data.SpeechLanguageCommunication,
+                                    nameof(Model.Data.SpeechLanguageCommunicationFrom),
+                                    Model.Data.SpeechLanguageCommunicationFrom.HasValue ? Model.Data.SpeechLanguageCommunicationFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.SpeechLanguageCommunicationTo),
+                                    Model.Data.SpeechLanguageCommunicationTo.HasValue ? Model.Data.SpeechLanguageCommunicationTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithSLCN.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Hearing impairment",
+                                    nameof(Model.Data.HearingImpairment),
+                                    Model.Data.HearingImpairment,
+                                    nameof(Model.Data.HearingImpairmentFrom),
+                                    Model.Data.HearingImpairmentFrom.HasValue ? Model.Data.HearingImpairmentFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.HearingImpairmentTo),
+                                    Model.Data.HearingImpairmentTo.HasValue ? Model.Data.HearingImpairmentTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithHI.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Visual impairment",
+                                    nameof(Model.Data.VisualImpairment),
+                                    Model.Data.VisualImpairment,
+                                    nameof(Model.Data.VisualImpairmentFrom),
+                                    Model.Data.VisualImpairmentFrom.HasValue ? Model.Data.VisualImpairmentFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.VisualImpairmentTo),
+                                    Model.Data.VisualImpairmentTo.HasValue ? Model.Data.VisualImpairmentTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithVI.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Multi-sensory impairment",
+                                    nameof(Model.Data.MultiSensoryImpairment),
+                                    Model.Data.MultiSensoryImpairment,
+                                    nameof(Model.Data.MultiSensoryImpairmentFrom),
+                                    Model.Data.MultiSensoryImpairmentFrom.HasValue ? Model.Data.MultiSensoryImpairmentFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.MultiSensoryImpairmentTo),
+                                    Model.Data.MultiSensoryImpairmentTo.HasValue ? Model.Data.MultiSensoryImpairmentTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithMSI.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Physical disability",
+                                    nameof(Model.Data.PhysicalDisability),
+                                    Model.Data.PhysicalDisability,
+                                    nameof(Model.Data.PhysicalDisabilityFrom),
+                                    Model.Data.PhysicalDisabilityFrom.HasValue ? Model.Data.PhysicalDisabilityFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.PhysicalDisabilityTo),
+                                    Model.Data.PhysicalDisabilityTo.HasValue ? Model.Data.PhysicalDisabilityTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithPD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Autistic spectrum disorder",
+                                    nameof(Model.Data.AutisticSpectrumDisorder),
+                                    Model.Data.AutisticSpectrumDisorder,
+                                    nameof(Model.Data.AutisticSpectrumDisorderFrom),
+                                    Model.Data.AutisticSpectrumDisorderFrom.HasValue ? Model.Data.AutisticSpectrumDisorderFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.AutisticSpectrumDisorderTo),
+                                    Model.Data.AutisticSpectrumDisorderTo.HasValue ? Model.Data.AutisticSpectrumDisorderTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithASD.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+
+                            @await Html.PartialAsync(
+                                "_AdditionalCharacteristicsRange",
+                                new AdditionalCharacteristicsRangeViewModel(
+                                    ViewData,
+                                    "Other learning difficulty",
+                                    nameof(Model.Data.OtherLearningDifficulty),
+                                    Model.Data.OtherLearningDifficulty,
+                                    nameof(Model.Data.OtherLearningDifficultyFrom),
+                                    Model.Data.OtherLearningDifficultyFrom.HasValue ? Model.Data.OtherLearningDifficultyFrom.Value.ToSimpleDisplay() : string.Empty,
+                                    nameof(Model.Data.OtherLearningDifficultyTo),
+                                    Model.Data.OtherLearningDifficultyTo.HasValue ? Model.Data.OtherLearningDifficultyTo.Value.ToSimpleDisplay() : string.Empty,
+                                    $"The value for {Model.Name}",
+                                    Model.Characteristic?.PercentWithOTH.ToPercent(),
+                                    "is",
+                                    inputSuffix: "%"))
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+
             <button type="submit" class="govuk-button" data-module="govuk-button" name="action" data-prevent-double-click="true" value="@FormAction.Continue">
                 Continue
             </button>
