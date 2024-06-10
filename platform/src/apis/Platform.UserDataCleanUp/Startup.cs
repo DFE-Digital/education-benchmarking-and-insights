@@ -1,15 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using System.Reflection;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Sql;
-using Platform.Orchestrator;
+using Platform.UserDataCleanUp;
 
 [assembly: WebJobsStartup(typeof(Startup))]
 
-namespace Platform.Orchestrator;
+namespace Platform.UserDataCleanUp;
 
 [ExcludeFromCodeCoverage]
 public class Startup : FunctionsStartup
@@ -19,11 +18,9 @@ public class Startup : FunctionsStartup
         builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
         builder.Services.AddHealthChecks();
 
-        builder.Services.AddOptions<JobStartMessageSenderOptions>().BindConfiguration("PipelineMessageHub").ValidateDataAnnotations();
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
 
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
-        builder.Services.AddSingleton<IJobStartMessageSender, JobStartMessageSender>();
-        builder.Services.AddSingleton<IPipelineDb, PipelineDb>();
+        builder.Services.AddSingleton<IPlatformDb, PlatformDb>();
     }
 }

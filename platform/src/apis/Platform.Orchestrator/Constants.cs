@@ -2,5 +2,5 @@
 
 public static class Constants
 {
-    public const string ApplicationName = "orchestration-api";
+    public const string ApplicationName = "orchestration";
 }
