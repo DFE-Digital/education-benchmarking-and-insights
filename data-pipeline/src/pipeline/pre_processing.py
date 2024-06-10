@@ -42,12 +42,14 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     school_workforce_census = pd.read_excel(
         workforce_census_path,
         header=5,
-        index_col=input_schemas.workforce_census_index_col,
         usecols=input_schemas.workforce_census.keys(),
-        dtype=input_schemas.workforce_census,
-        na_values=["x", "u", "c", "z"],
+        na_values=["x", "u", "c", "z", ":"],
         keep_default_na=True,
     ).drop_duplicates()
+
+    school_workforce_census = school_workforce_census.astype(
+        input_schemas.workforce_census
+    ).set_index(input_schemas.workforce_census_index_col)
 
     school_pupil_census = pd.read_csv(
         pupil_census_path,
@@ -90,74 +92,112 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     )
 
     census["Number of pupils"] = (
-            census["Number of pupils"] + census["Pupil Dual Registrations"]
+        census["Number of pupils"] + census["Pupil Dual Registrations"]
     )
 
     census["TotalPupilsNursery"] = (
-            census["Number of early year pupils (years E1 and E2)"]
-            + census["Number of nursery pupils (years N1 and N2)"]
+        census["Number of early year pupils (years E1 and E2)"]
+        + census["Number of nursery pupils (years N1 and N2)"]
     )
 
     census["TotalPupilsSixthForm"] = (
-            census["Full time boys Year group 12"]
-            + census["Full time boys Year group 13"]
-            + census["Full time girls Year group 12"]
-            + census["Full time girls Year group 13"]
+        census["Full time boys Year group 12"]
+        + census["Full time boys Year group 13"]
+        + census["Full time girls Year group 12"]
+        + census["Full time girls Year group 13"]
     )
 
-    census["WorkforceHeadcountPerFTE"] = census["Total School Workforce (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]
-    census["WorkforcePercentTotalWorkforce"] = (census["Total School Workforce (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["WorkforcePerPupil"] = census["Total School Workforce (Headcount)"] / census["Number of pupils"]
+    census["WorkforceHeadcountPerFTE"] = (
+        census["Total School Workforce (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    )
+    census["WorkforcePercentTotalWorkforce"] = (
+        census["Total School Workforce (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["WorkforcePerPupil"] = (
+        census["Total School Workforce (Headcount)"] / census["Number of pupils"]
+    )
 
-    census["TeachersHeadcountPerFTE"] = census["Total Number of Teachers (Headcount)"] / census[
-        "Total Number of Teachers (Full-Time Equivalent)"]
-    census["TeachersPercentTotalWorkforce"] = (census["Total Number of Teachers (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["TeachersPerPupil"] = census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
+    census["TeachersHeadcountPerFTE"] = (
+        census["Total Number of Teachers (Headcount)"]
+        / census["Total Number of Teachers (Full-Time Equivalent)"]
+    )
+    census["TeachersPercentTotalWorkforce"] = (
+        census["Total Number of Teachers (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["TeachersPerPupil"] = (
+        census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
+    )
 
-    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
-                                                census[
-                                                    "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
-    census["SeniorLeadershipPercentTotalWorkforce"] = (census[
-                                                           "Total Number of Teachers in the Leadership Group (Headcount)"] /
-                                                       census[
-                                                           "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
-                                         census["Number of pupils"]
+    census["SeniorLeadershipHeadcountPerFTE"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census[
+            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
+        ]
+    )
+    census["SeniorLeadershipPercentTotalWorkforce"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["SeniorLeadershipPerPupil"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census["Number of pupils"]
+    )
 
-    census["SeniorLeadershipHeadcountPerFTE"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
-                                                census[
-                                                    "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"]
-    census["SeniorLeadershipPercentTotalWorkforce"] = (census[
-                                                           "Total Number of Teachers in the Leadership Group (Headcount)"] /
-                                                       census[
-                                                           "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["SeniorLeadershipPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
-                                         census["Number of pupils"]
+    census["SeniorLeadershipHeadcountPerFTE"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census[
+            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
+        ]
+    )
+    census["SeniorLeadershipPercentTotalWorkforce"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["SeniorLeadershipPerPupil"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census["Number of pupils"]
+    )
 
-    census["TeachingAssistantHeadcountPerFTE"] = census["Total Number of Teaching Assistants (Headcount)"] / census[
-        "Total Number of Teaching Assistants (Full-Time Equivalent)"]
-    census["TeachingAssistantPercentTotalWorkforce"] = (census["Total Number of Teaching Assistants (Headcount)"] /
-                                                        census[
-                                                            "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["TeachingAssistantPerPupil"] = census["Total Number of Teachers in the Leadership Group (Headcount)"] / \
-                                          census["Number of pupils"]
+    census["TeachingAssistantHeadcountPerFTE"] = (
+        census["Total Number of Teaching Assistants (Headcount)"]
+        / census["Total Number of Teaching Assistants (Full-Time Equivalent)"]
+    )
+    census["TeachingAssistantPercentTotalWorkforce"] = (
+        census["Total Number of Teaching Assistants (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["TeachingAssistantPerPupil"] = (
+        census["Total Number of Teachers in the Leadership Group (Headcount)"]
+        / census["Number of pupils"]
+    )
 
-    census["NonClassroomSupportStaffHeadcountPerFTE"] = census["NonClassroomSupportStaffHeadcount"] / census[
-        "NonClassroomSupportStaffFTE"]
-    census["NonClassroomSupportStaffPercentTotalWorkforce"] = (census["NonClassroomSupportStaffHeadcount"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["NonClassroomSupportStaffPerPupil"] = census["NonClassroomSupportStaffHeadcount"] / census[
-        "Number of pupils"]
+    census["NonClassroomSupportStaffHeadcountPerFTE"] = (
+        census["NonClassroomSupportStaffHeadcount"]
+        / census["NonClassroomSupportStaffFTE"]
+    )
+    census["NonClassroomSupportStaffPercentTotalWorkforce"] = (
+        census["NonClassroomSupportStaffHeadcount"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["NonClassroomSupportStaffPerPupil"] = (
+        census["NonClassroomSupportStaffHeadcount"] / census["Number of pupils"]
+    )
 
-    census["AuxiliaryStaffHeadcountPerFTE"] = census["Total Number of Auxiliary Staff (Headcount)"] / census[
-        "Total Number of Auxiliary Staff (Full-Time Equivalent)"]
-    census["AuxiliaryStaffPercentTotalWorkforce"] = (census["Total Number of Auxiliary Staff (Headcount)"] / census[
-        "Total School Workforce (Full-Time Equivalent)"]) * 100.0
-    census["AuxiliaryStaffPerPupil"] = census["Total Number of Auxiliary Staff (Headcount)"] / census[
-        "Number of pupils"]
+    census["AuxiliaryStaffHeadcountPerFTE"] = (
+        census["Total Number of Auxiliary Staff (Headcount)"]
+        / census["Total Number of Auxiliary Staff (Full-Time Equivalent)"]
+    )
+    census["AuxiliaryStaffPercentTotalWorkforce"] = (
+        census["Total Number of Auxiliary Staff (Headcount)"]
+        / census["Total School Workforce (Full-Time Equivalent)"]
+    ) * 100.0
+    census["AuxiliaryStaffPerPupil"] = (
+        census["Total Number of Auxiliary Staff (Headcount)"]
+        / census["Number of pupils"]
+    )
 
     return census
 
@@ -327,10 +367,10 @@ def prepare_aar_data(aar_path):
 
     aar.rename(
         columns={
-                    "PFI": "PFI School",
-                    "Lead UPIN": "Trust UPIN",
-                }
-                | config.cost_category_map["academies"],
+            "PFI": "PFI School",
+            "Lead UPIN": "Trust UPIN",
+        }
+        | config.cost_category_map["academies"],
         inplace=True,
     )
 
@@ -509,8 +549,41 @@ def build_cost_series(category_name, df, basis):
     return df
 
 
+def build_cfo_data(cfo_data_path):
+
+    cfo_data = pd.read_excel(
+        cfo_data_path,
+    )
+
+    cfo_data.rename(
+        columns={
+            "URN/UID": "URN",
+            "Establishment/Multi Academy Trust Name": "Trust Name",
+            "Direct email address": "CFO email",
+        },
+        inplace=True,
+    )
+
+    cfo_data["CFO name"] = (
+        cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
+    )
+
+    cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
+    return cfo_data
+
+
 def build_academy_data(
-    academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
+    academy_data_path,
+    links_data_path,
+    year,
+    schools,
+    census,
+    sen,
+    cdc,
+    aar,
+    ks2,
+    ks4,
+    cfo,
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -556,6 +629,7 @@ def build_academy_data(
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
         .merge(group_links, on="URN", how="inner")
+        .merge(cfo, on="URN", how="left")
     )
 
     # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
@@ -589,7 +663,7 @@ def build_academy_data(
             pd.to_datetime(df["Date joined or opened if in period"]),
             pd.to_datetime(df["Date left or closed if in period"]),
             pd.to_datetime(academy_year_start_date),
-            pd.to_datetime(academy_year_end_date)
+            pd.to_datetime(academy_year_end_date),
         ),
         axis=1,
     )
@@ -609,8 +683,10 @@ def build_academy_data(
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
             "Academy Trust Name": "Trust Name",
-            "Academy UKPRN": "Trust UKPRN"
-        } | config.income_category_map["academies"] | config.cost_category_map["academies"],
+            "Academy UKPRN": "Trust UKPRN",
+        }
+        | config.income_category_map["academies"]
+        | config.cost_category_map["academies"],
         inplace=True,
     )
 
@@ -686,8 +762,8 @@ def build_maintained_school_data(
     )
 
     maintained_schools["In year balance"] = (
-            maintained_schools["Total Income   I01 to I18"]
-            - maintained_schools["Total Expenditure  E01 to E32"]
+        maintained_schools["Total Income   I01 to I18"]
+        - maintained_schools["Total Expenditure  E01 to E32"]
     )
 
     maintained_schools["Financial Position"] = maintained_schools[
@@ -722,9 +798,9 @@ def build_maintained_school_data(
     ].fillna("Neither")
 
     maintained_schools.rename(
-        columns={
-            "Period covered by return (months)": "Period covered by return"
-        } |config.cost_category_map["maintained_schools"] | config.income_category_map["maintained_schools"],
+        columns={"Period covered by return (months)": "Period covered by return"}
+        | config.cost_category_map["maintained_schools"]
+        | config.income_category_map["maintained_schools"],
         inplace=True,
     )
 
