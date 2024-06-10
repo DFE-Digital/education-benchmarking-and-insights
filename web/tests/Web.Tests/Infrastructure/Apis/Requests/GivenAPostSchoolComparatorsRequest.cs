@@ -578,7 +578,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -599,7 +599,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -620,7 +620,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -641,7 +641,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -662,8 +662,8 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
-        
+
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -684,7 +684,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
@@ -705,7 +705,7 @@ public class GivenAPostSchoolComparatorsRequest
         Assert.Equal(expectedFrom, actual?.From);
         Assert.Equal(expectedTo, actual?.To);
     }
-    
+
     [Theory]
     [InlineData("false", null, null, null, null)]
     [InlineData("true", 123, 456, 123, 456)]
