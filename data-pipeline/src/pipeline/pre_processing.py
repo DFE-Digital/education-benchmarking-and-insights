@@ -43,7 +43,7 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         workforce_census_path,
         header=5,
         usecols=input_schemas.workforce_census.keys(),
-        na_values=["x", "u", "c", "z"],
+        na_values=["x", "u", "c", "z",":"],
         keep_default_na=True,
     ).drop_duplicates()
 
@@ -456,8 +456,25 @@ def build_cost_series(category_name, df, basis):
     return df
 
 
+
+def build_cfo_data(cfo_data_path):
+
+    cfo_data = pd.read_excel(
+        cfo_data_path,
+    )
+
+    cfo_data.rename(columns={'URN/UID': 'URN',
+                             'Establishment/Multi Academy Trust Name':'Trust Name',
+                             'Direct email address':'CFO email'}, inplace=True)
+    
+    cfo_data['CFO name'] = cfo_data['Title'] + ' ' + cfo_data['Forename 1'] + ' ' + cfo_data['Surname']
+
+    cfo_data = cfo_data[['URN','CFO name','CFO email']].copy()
+    return cfo_data
+
+
 def build_academy_data(
-    academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4
+    academy_data_path, links_data_path, year, schools, census, sen, cdc, aar, ks2, ks4, cfo
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -503,6 +520,7 @@ def build_academy_data(
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
         .merge(group_links, on="URN", how="inner")
+        .merge(cfo, on="URN", how="left")
     )
 
     # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
@@ -1037,9 +1055,3 @@ def build_bfr_data(
 
 
 
-def build_cfo_data(cfo_data_path):
-
-    cfo_data = pd.read_excel(
-        cfo_data_path,
-    )
-    return cfo_data
