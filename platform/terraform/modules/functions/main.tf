@@ -62,6 +62,20 @@ resource "azurerm_windows_function_app" "func-app" {
       use_dotnet_isolated_runtime = false
     }
 
+    ip_restriction_default_action = var.enable-restrictions ? "Deny" : "Allow"
+
+    #To be removed post ITHC
+    ip_restriction {
+      ip_address = "51.142.180.30/32"
+      name       = "ITHC - 1"
+    }
+
+    #To be removed post ITHC
+    ip_restriction {
+      ip_address = "185.120.72.241/30"
+      name       = "ITHC - 2"
+    }
+
     dynamic "ip_restriction" {
       for_each = var.enable-restrictions ? ["apply"] : []
       content {
