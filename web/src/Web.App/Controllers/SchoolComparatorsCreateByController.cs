@@ -19,7 +19,7 @@ namespace Web.App.Controllers;
 public class SchoolComparatorsCreateByController(
     ILogger<SchoolComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
-    IComparatorSetService comparatorSetService,
+    ISchoolComparatorSetService schoolComparatorSetService,
     ISchoolInsightApi schoolInsightApi,
     IComparatorSetApi comparatorSetApi,
     IComparatorApi comparatorApi
@@ -94,16 +94,16 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                ComparatorSetUserDefined userDefinedSet;
+                UserDefinedSchoolComparatorSet userDefinedSet;
                 if (string.IsNullOrEmpty(identifier))
                 {
-                    userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                    userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
                 }
                 else
                 {
-                    userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(urn, identifier);
-                    comparatorSetService.ClearUserDefinedComparatorSet(urn, identifier);
-                    comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+                    userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, identifier);
+                    schoolComparatorSetService.ClearUserDefinedComparatorSet(urn, identifier);
+                    schoolComparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
                 }
 
                 var schoolsQuery = new ApiQuery();
@@ -134,7 +134,7 @@ public class SchoolComparatorsCreateByController(
             return RedirectToAction("Name");
         }
 
-        var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+        var userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
         if (!string.IsNullOrWhiteSpace(viewModel.Urn) && !userDefinedSet.Set.Contains(viewModel.Urn))
         {
             var countOthers = userDefinedSet.Set.Count(s => s != urn);
@@ -145,7 +145,7 @@ public class SchoolComparatorsCreateByController(
             }
 
             userDefinedSet.Set = userDefinedSet.Set.ToList().Append(viewModel.Urn).ToArray();
-            comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+            schoolComparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
         }
 
         return RedirectToAction("Name", new
@@ -166,13 +166,13 @@ public class SchoolComparatorsCreateByController(
             });
         }
 
-        var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+        var userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
         if (!string.IsNullOrWhiteSpace(viewModel.Urn) && userDefinedSet.Set.Contains(viewModel.Urn))
         {
             var set = userDefinedSet.Set.ToList();
             set.Remove(viewModel.Urn);
             userDefinedSet.Set = set.ToArray();
-            comparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
+            schoolComparatorSetService.SetUserDefinedComparatorSet(urn, userDefinedSet);
         }
 
         return RedirectToAction("Name", new
@@ -193,7 +193,7 @@ public class SchoolComparatorsCreateByController(
             try
             {
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                var userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
                 if (userDefinedSet.Set.Length == 0)
                 {
                     return RedirectToAction("Index", new
@@ -219,8 +219,8 @@ public class SchoolComparatorsCreateByController(
                 };
 
                 await comparatorSetApi.UpsertUserDefinedSchoolAsync(request).EnsureSuccess();
-                comparatorSetService.ClearUserDefinedComparatorSet(urn);
-                comparatorSetService.ClearUserDefinedCharacteristic(urn);
+                schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
+                schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
                 return View(viewModel);
             }
@@ -255,7 +255,7 @@ public class SchoolComparatorsCreateByController(
                     urn
                 });
 
-                var userDefinedCharacteristic = comparatorSetService.ReadUserDefinedCharacteristic(urn);
+                var userDefinedCharacteristic = schoolComparatorSetService.ReadUserDefinedCharacteristic(urn);
                 var viewModel = new SchoolComparatorsByCharacteristicViewModel(school, characteristics?.FirstOrDefault(), userDefinedCharacteristic);
                 return View(viewModel);
             }
@@ -300,7 +300,7 @@ public class SchoolComparatorsCreateByController(
                     }
 
                     viewModel.LaNamesMutated = true;
-                    comparatorSetService.SetUserDefinedCharacteristic(urn, viewModel);
+                    schoolComparatorSetService.SetUserDefinedCharacteristic(urn, viewModel);
                     return RedirectToAction(nameof(Characteristic), new
                     {
                         urn
@@ -323,7 +323,7 @@ public class SchoolComparatorsCreateByController(
                         ModelState.SetModelValue(nameof(viewModel.Code), null, null);
                     }
 
-                    comparatorSetService.ClearUserDefinedCharacteristic(urn);
+                    schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
                     return RedirectToAction(nameof(Characteristic));
                 }
 
@@ -348,8 +348,8 @@ public class SchoolComparatorsCreateByController(
                     return RedirectToAction(nameof(Characteristic));
                 }
 
-                comparatorSetService.SetUserDefinedCharacteristic(urn, viewModel);
-                comparatorSetService.SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined
+                schoolComparatorSetService.SetUserDefinedCharacteristic(urn, viewModel);
+                schoolComparatorSetService.SetUserDefinedComparatorSet(urn, new UserDefinedSchoolComparatorSet
                 {
                     Set = results.Schools.ToArray(),
                     TotalSchools = results.TotalSchools
@@ -386,7 +386,7 @@ public class SchoolComparatorsCreateByController(
                 }));
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var userDefinedSet = comparatorSetService.ReadUserDefinedComparatorSet(urn);
+                var userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
                 if (userDefinedSet.Set.Length <= 1)
                 {
                     return RedirectToAction(nameof(Characteristic), new
@@ -395,7 +395,7 @@ public class SchoolComparatorsCreateByController(
                     });
                 }
 
-                var userDefinedCharacteristic = comparatorSetService.ReadUserDefinedCharacteristic(urn);
+                var userDefinedCharacteristic = schoolComparatorSetService.ReadUserDefinedCharacteristic(urn);
                 var characteristics = await GetSchoolCharacteristics<SchoolCharacteristic>(userDefinedSet.Set.Where(s => s != urn));
                 var viewModel = new SchoolComparatorsPreviewViewModel(
                     school,

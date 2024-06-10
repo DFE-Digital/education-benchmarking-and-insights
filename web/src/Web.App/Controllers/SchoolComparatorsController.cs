@@ -8,7 +8,6 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -19,19 +18,22 @@ public class SchoolComparatorsController(
     IComparatorSetApi comparatorSetApi,
     ISchoolInsightApi schoolInsightApi,
     IUserDataService userDataService,
-    IComparatorSetService comparatorSetService) : Controller
+    ISchoolComparatorSetService schoolComparatorSetService) : Controller
 {
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<ComparatorSet>();
+                var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
                 var pupil = await GetSchoolCharacteristics<SchoolCharacteristicPupil>(set.Pupil);
                 var building = await GetSchoolCharacteristics<SchoolCharacteristicBuilding>(set.Building);
 
@@ -52,7 +54,10 @@ public class SchoolComparatorsController(
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> UserDefined(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -65,7 +70,7 @@ public class SchoolComparatorsController(
                 if (userData.ComparatorSet != null)
                 {
                     var userDefinedSet = await comparatorSetApi.GetUserDefinedSchoolAsync(urn, userData.ComparatorSet)
-                        .GetResultOrDefault<ComparatorSetUserDefined>();
+                        .GetResultOrDefault<UserDefinedSchoolComparatorSet>();
                     if (userDefinedSet != null)
                     {
                         schools = await GetSchoolCharacteristics<SchoolCharacteristicUserDefined>(userDefinedSet.Set);
@@ -89,7 +94,10 @@ public class SchoolComparatorsController(
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> Revert(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -113,7 +121,10 @@ public class SchoolComparatorsController(
     [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> RevertSet(string urn)
     {
-        using (logger.BeginScope(new { urn }))
+        using (logger.BeginScope(new
+        {
+            urn
+        }))
         {
             try
             {
@@ -123,12 +134,15 @@ public class SchoolComparatorsController(
                 if (userData.ComparatorSet != null)
                 {
                     await comparatorSetApi.RemoveUserDefinedSchoolAsync(urn, userData.ComparatorSet).EnsureSuccess();
-                    comparatorSetService.ClearUserDefinedComparatorSet(urn, userData.ComparatorSet);
+                    schoolComparatorSetService.ClearUserDefinedComparatorSet(urn, userData.ComparatorSet);
                 }
 
-                comparatorSetService.ClearUserDefinedComparatorSet(urn);
-                comparatorSetService.ClearUserDefinedCharacteristic(urn);
-                return RedirectToAction("Index", "School", new { urn });
+                schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
+                schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
+                return RedirectToAction("Index", "School", new
+                {
+                    urn
+                });
             }
             catch (Exception e)
             {
