@@ -40,8 +40,9 @@
                         class="govuk-button"
                         data-module="govuk-button"
                         name="action"
-                        value="@FormAction.Continue"
-                        @(comparatorSetFull ? "disabled aria-disabled=\"true\"" : string.Empty)>
+                        value="@FormAction.Add"
+                        @(comparatorSetFull ? "disabled aria-disabled=\"true\"" : string.Empty)
+                        id="choose-school">
                         Choose school
                     </button>
                 </div>

@@ -21,12 +21,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IInsightApi> InsightApi { get; } = new();
     public Mock<IEstablishmentApi> EstablishmentApi { get; } = new();
     public Mock<IFinancialPlanApi> FinancialPlanApi { get; } = new();
+    public Mock<IComparatorApi> ComparatorApi { get; } = new();
     public Mock<IComparatorSetApi> ComparatorSetApi { get; } = new();
     public Mock<ICensusApi> CensusApi { get; } = new();
     public Mock<IIncomeApi> IncomeApi { get; } = new();
     public Mock<IMetricRagRatingApi> MetricRagRatingApi { get; } = new();
     public Mock<IUserDataApi> UserDataApi { get; } = new();
     public Mock<IBalanceApi> BalanceApi { get; } = new();
+    public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -35,12 +37,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(InsightApi.Object);
         services.AddSingleton(EstablishmentApi.Object);
         services.AddSingleton(FinancialPlanApi.Object);
+        services.AddSingleton(ComparatorApi.Object);
         services.AddSingleton(ComparatorSetApi.Object);
         services.AddSingleton(UserDataApi.Object);
         services.AddSingleton(CensusApi.Object);
         services.AddSingleton(IncomeApi.Object);
         services.AddSingleton(MetricRagRatingApi.Object);
         services.AddSingleton(BalanceApi.Object);
+        services.AddSingleton(SchoolInsightApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -184,6 +188,20 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupSchoolInsightApi(IEnumerable<SchoolCharacteristic>? characteristics = null)
+    {
+        SchoolInsightApi.Reset();
+        SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? Array.Empty<SchoolCharacteristic>()));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupComparatorApi(ComparatorSchools? comparatorSchools = null)
+    {
+        ComparatorApi.Reset();
+        ComparatorApi.Setup(api => api.CreateSchoolsAsync(It.IsAny<PostSchoolComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorSchools));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupBenchmarkWithException()
     {
         FinancialPlanApi.Reset();
@@ -261,10 +279,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupHttpContextAccessor()
+    public BenchmarkingWebAppClient SetupHttpContextAccessor(ConcurrentDictionary<string, byte[]>? items = null)
     {
         HttpContextAccessor.Reset();
-        var session = new SessionStub();
+        var session = new SessionStub(items);
         var context = new DefaultHttpContext
         {
             Session = session
@@ -274,9 +292,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    private class SessionStub : ISession
+    private class SessionStub(ConcurrentDictionary<string, byte[]>? items = null) : ISession
     {
-        private readonly ConcurrentDictionary<string, byte[]> _items = new();
+        private readonly ConcurrentDictionary<string, byte[]> _items = items ?? new ConcurrentDictionary<string, byte[]>();
 
         public Task LoadAsync(CancellationToken cancellationToken = new()) => throw new NotImplementedException();
 
