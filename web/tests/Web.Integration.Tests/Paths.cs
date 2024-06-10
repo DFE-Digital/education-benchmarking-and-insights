@@ -72,6 +72,10 @@ public static class Paths
     public static string SchoolComparatorsCreatePreview(string? urn) => $"/school/{urn}/comparators/create/preview";
     public static string SchoolComparatorsCreateSubmit(string? urn) => $"/school/{urn}/comparators/create/submit";
 
+    public static string TrustComparators(string? companyNumber) => $"/trust/{companyNumber}/comparators";
+    public static string TrustComparatorsCreateBy(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by";
+    public static string TrustComparatorsCreateByName(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/name";
+    public static string TrustComparatorsCreateByCharacteristic(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/characteristic";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
