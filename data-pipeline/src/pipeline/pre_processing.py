@@ -42,12 +42,12 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
     school_workforce_census = pd.read_excel(
         workforce_census_path,
         header=5,
-        index_col=input_schemas.workforce_census_index_col,
         usecols=input_schemas.workforce_census.keys(),
-        dtype=input_schemas.workforce_census,
         na_values=["x", "u", "c", "z"],
         keep_default_na=True,
     ).drop_duplicates()
+
+    school_workforce_census = school_workforce_census.astype(input_schemas.workforce_census).set_index(input_schemas.workforce_census_index_col)
 
     school_pupil_census = pd.read_csv(
         pupil_census_path,
@@ -1033,3 +1033,13 @@ def build_bfr_data(
         bfr_metrics, bfr_revenue_reserves_per_pupil, left_index=True, right_index=True
     )
     return bfr_metrics, bfr
+
+
+
+
+def build_cfo_data(cfo_data_path):
+
+    cfo_data = pd.read_excel(
+        cfo_data_path,
+    )
+    return cfo_data
