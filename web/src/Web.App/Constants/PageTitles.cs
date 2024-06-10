@@ -53,4 +53,5 @@ public static class PageTitles
     public const string SchoolChangeDataWorkforceData = "Change workforce data";
     public const string LocalAuthorityHome = "Your local authority";
     public const string TrustSpending = "Spending priorities for this trust";
+    public const string TrustComparatorsCreateBy = "How do you want to choose your own set of trusts?";
 }

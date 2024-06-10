@@ -1,0 +1,53 @@
+﻿@using Web.App.Domain
+@using Web.App.Extensions
+@model Web.App.ViewModels.TrustComparatorsViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateBy;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        @await Html.PartialAsync("_ErrorSummary")
+        @using (Html.BeginForm("Index", "TrustComparatorsCreateBy", new
+                {
+                    companyNumber = Model.CompanyNumber
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
+        {
+            <div class="@(ViewData.ModelState.HasError("by") ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
+                <fieldset class="govuk-fieldset">
+                    <div class="govuk-radios" data-module="govuk-radios">
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="by-name" name="by" type="radio" value="name">
+                            <label class="govuk-label govuk-radios__label" for="by-name">
+                                By name
+                            </label>
+                        </div>
+                        <div class="govuk-radios__item">
+                            <input class="govuk-radios__input" id="by-characteristic" name="by" type="radio" value="characteristic">
+                            <label class="govuk-label govuk-radios__label" for="by-characteristic">
+                                By characteristic
+                            </label>
+                            <div id="by-characteristic-item-hint" class="govuk-hint govuk-radios__hint">
+                                For example, number of pupils or schools.
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <button type="submit" class="govuk-button" data-module="govuk-button" name="action" value="@FormAction.Continue">
+                Continue
+            </button>
+        }
+    </div>
+</div>
