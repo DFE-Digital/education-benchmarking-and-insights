@@ -24,7 +24,7 @@ ISuggestService suggestService) : Controller
                         var schools = await suggestService.SchoolSuggestions(search, exclude);
                         return new JsonResult(schools);
                     case OrganisationTypes.Trust:
-                        var trusts = await suggestService.TrustSuggestions(search);
+                        var trusts = await suggestService.TrustSuggestions(search, exclude);
                         return new JsonResult(trusts);
                     case OrganisationTypes.LocalAuthority:
                         var localAuthorities = await suggestService.LocalAuthoritySuggestions(search, exclude);
