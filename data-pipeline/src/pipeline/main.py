@@ -151,7 +151,7 @@ def pre_process_cfo(set_type, year) -> pd.DataFrame:
     cfo = build_cfo_data(cfo_data)
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/cfo.csv",
+        f"{set_type}/{year}/cfo.parquet",
         cfo.to_parquet(),
     )
 
