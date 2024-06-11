@@ -47,6 +47,7 @@ resource "azurerm_storage_account" "data-source-storage" {
 }
 
 resource "azurerm_storage_container" "return-container" {
+  #checkov:skip=CKV2_AZURE_21:See ADO backlog AB#206507
   name                 = "returns"
   storage_account_name = azurerm_storage_account.data-source-storage.name
 }
