@@ -1,6 +1,9 @@
 {
 	"name": "blob_s198d02_school",
 	"properties": {
+		"folder": {
+			"name": "blob_s198d02"
+		},
 		"type": "MappingDataFlow",
 		"typeProperties": {
 			"sources": [
