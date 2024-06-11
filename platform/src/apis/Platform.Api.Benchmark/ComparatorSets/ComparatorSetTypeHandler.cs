@@ -13,7 +13,7 @@ public class ComparatorSetTypeHandler : SqlMapper.TypeHandler<string[]>
     public override void SetValue(IDbDataParameter parameter, string[] value)
     {
         parameter.DbType = DbType.String;
-        parameter.Value = value.ToJson(Formatting.None);
+        parameter.Value = value.ToJson();
     }
 
     public override string[] Parse(object? value)

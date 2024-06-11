@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Benchmark;
 using Platform.Api.Benchmark.Comparators;
 using Platform.Api.Benchmark.ComparatorSets;
+using Platform.Api.Benchmark.CustomData;
 using Platform.Api.Benchmark.FinancialPlans;
 using Platform.Api.Benchmark.UserData;
 using Platform.Functions.Extensions;
@@ -37,6 +38,7 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>();
         builder.Services.AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
         builder.Services.AddSingleton<IUserDataService, UserDataService>();
+        builder.Services.AddSingleton<ICustomDataService, CustomDataService>();
 
         builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>();
         builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
