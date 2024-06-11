@@ -29,6 +29,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IUserDataApi> UserDataApi { get; } = new();
     public Mock<IBalanceApi> BalanceApi { get; } = new();
     public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
+    public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -45,6 +46,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(MetricRagRatingApi.Object);
         services.AddSingleton(BalanceApi.Object);
         services.AddSingleton(SchoolInsightApi.Object);
+        services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -192,6 +194,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         SchoolInsightApi.Reset();
         SchoolInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? Array.Empty<SchoolCharacteristic>()));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupTrustInsightApi(IEnumerable<TrustCharacteristic>? characteristics = null)
+    {
+        TrustInsightApi.Reset();
+        TrustInsightApi.Setup(api => api.GetCharacteristicsAsync(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(characteristics ?? Array.Empty<TrustCharacteristic>()));
         return this;
     }
 
