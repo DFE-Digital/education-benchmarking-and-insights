@@ -1,6 +1,7 @@
 import datetime
 
 import pandas as pd
+import numpy as np
 
 
 def map_ofsted_rating(rating: str):
@@ -240,3 +241,23 @@ def map_academy_period_return(
     elif opened_in_period:
         return _diff_month(year_end_date, opened_in_period)
 
+
+def map_cost_series(category_name, df, basis):
+    # Create total column
+    df[category_name + "_Total"] = (
+        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]]
+        .fillna(0)
+        .sum(axis=1)
+    )
+
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis
+        df[sub_category + "_Per Unit"].replace(
+            [np.inf, -np.inf, np.nan], 0, inplace=True
+        )
+
+    return df
