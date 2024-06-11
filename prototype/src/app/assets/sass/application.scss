@@ -387,3 +387,36 @@ svg.rag-stack {
 .govuk-table__cell .govuk-input__wrapper, .govuk-table__cell .govuk-form-group {
     float: right;
 }
+
+.custom-data input {
+    text-align: right;
+}
+
+// SIDE BY SIDE COMPARISON
+
+.comparison .priority-figures div span {
+    height: 63px;
+    display: inline-block;
+}
+
+.comparison .priority-figures div p:first-child {
+    height: 50px;
+}
+
+.comparison .priority-figures div p:nth-child(2) {
+    font-size: 18px;
+}
+
+.comparison .priority-figures div p:nth-child(3) {
+    font-size: 21px;
+}
+
+.comparison .priority-figures div span:nth-child(2) {
+    font-size: 32px;
+    line-height: 55px;
+    vertical-align: middle;
+}
+
+.comparison .top-categories .govuk-tag {
+    width: 130px;
+}

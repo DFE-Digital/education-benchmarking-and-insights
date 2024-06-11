@@ -56,6 +56,22 @@
   
 {% endif %}
 
+{% if data['customData'] == 'generated' %}
+
+{% set html %}
+<p class="govuk-notification-banner__heading">
+    You are viewing the originally reported data
+</p>
+<p class="govuk-body">The information displayed is the originally reported data, not the customised data that was provided.</p>
+<p class="govuk-body"><a href="/custom-data/custom-homepage" class="govuk-notification-banner__link">View benchmarking against your customised data</a></p>
+{% endset %}
+
+{{ govukNotificationBanner({
+html: html
+}) }}
+
+{% endif %}
+
 <p>This school's data covers the financial year September 2022 to August 2023 academies accounts return (AAR).</p>
 
 <div class="govuk-grid-row headline-figures">
