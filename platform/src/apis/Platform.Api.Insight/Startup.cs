@@ -8,6 +8,7 @@ using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Db;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
+using Platform.Api.Insight.Trusts;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Sql;
@@ -45,5 +46,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ISchoolMetricsDb, SchoolMetricsDb>();
         builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
+        builder.Services.AddSingleton<ITrustsService, TrustsService>();
     }
 }
