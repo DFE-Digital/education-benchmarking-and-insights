@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
@@ -36,5 +37,8 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>();
         builder.Services.AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
         builder.Services.AddSingleton<IUserDataService, UserDataService>();
+
+        builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>();
+        builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
     }
 }
