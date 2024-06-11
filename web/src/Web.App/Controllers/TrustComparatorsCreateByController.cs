@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -19,7 +20,8 @@ public class TrustComparatorsCreateByController(
     ILogger<TrustComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
     ITrustComparatorSetService trustComparatorSetService,
-    ITrustInsightApi trustInsightApi
+    ITrustInsightApi trustInsightApi,
+    IComparatorApi comparatorApi
 ) : Controller
 {
     [HttpGet]
@@ -172,7 +174,94 @@ public class TrustComparatorsCreateByController(
 
     [HttpGet]
     [Route("by/characteristic")]
-    public IActionResult Characteristic(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    [ImportModelState]
+    public async Task<IActionResult> Characteristic(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    companyNumber
+                }));
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(new[]
+                {
+                    companyNumber
+                });
+
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var viewModel = new TrustComparatorsByCharacteristicViewModel(trust, characteristics?.FirstOrDefault(), userDefinedCharacteristic);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create trust comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("by/characteristic")]
+    [ExportModelState]
+    public async Task<IActionResult> Characteristic([FromRoute] string companyNumber, [FromForm] UserDefinedTrustCharacteristicViewModel viewModel)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber,
+            viewModel
+        }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                var request = new PostTrustComparatorsRequest(companyNumber, viewModel);
+                var results = await comparatorApi.CreateTrustsAsync(request).GetResultOrThrow<ComparatorTrusts>();
+
+                // try again if too few results returned
+                // todo: unhappy path(s) under review as part of other ticket(s)
+                if (results.TotalTrusts < 2)
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to find any matching trusts. Modify the characteristics and try again.");
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                trustComparatorSetService.SetUserDefinedCharacteristic(companyNumber, viewModel);
+                trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, new UserDefinedTrustComparatorSet
+                {
+                    Set = results.Trusts.ToArray(),
+                    TotalTrusts = results.TotalTrusts
+                });
+
+                return RedirectToAction(nameof(Preview), new
+                {
+                    companyNumber
+                });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("preview")]
+    public IActionResult Preview(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
 
     private async Task<T[]?> GetTrustCharacteristics<T>(IEnumerable<string> set)
     {

@@ -4,9 +4,9 @@ using Web.App.Domain;
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Web.App.ViewModels;
 
-public record UserDefinedCharacteristicViewModel() : IValidatableObject
+public record UserDefinedSchoolCharacteristicViewModel() : IValidatableObject
 {
-    public UserDefinedCharacteristicViewModel(SchoolCharacteristic? characteristic) : this()
+    public UserDefinedSchoolCharacteristicViewModel(SchoolCharacteristic? characteristic) : this()
     {
         FinanceType = "Both";
         OverallPhase =
@@ -120,7 +120,7 @@ public record UserDefinedCharacteristicViewModel() : IValidatableObject
     [RequiredDepends(nameof(OfstedRating), "true", ErrorMessage = "Select one or more Ofsted ratings")]
     public string[] OfstedRatings { get; init; } = [];
 
-    // number of pupils
+    // number of schools
     public string? SchoolsInTrust { get; init; }
 
     [Display(Name = "Number of schools within trust from")]

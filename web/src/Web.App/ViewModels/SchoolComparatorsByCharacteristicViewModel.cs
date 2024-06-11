@@ -4,10 +4,10 @@ namespace Web.App.ViewModels;
 public class SchoolComparatorsByCharacteristicViewModel(
     School school,
     SchoolCharacteristic? characteristic,
-    UserDefinedCharacteristicViewModel? userDefinedCharacteristic)
+    UserDefinedSchoolCharacteristicViewModel? userDefinedCharacteristic)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public SchoolCharacteristic? Characteristic => characteristic;
-    public UserDefinedCharacteristicViewModel Data => userDefinedCharacteristic ?? new UserDefinedCharacteristicViewModel(characteristic);
+    public UserDefinedSchoolCharacteristicViewModel Data => userDefinedCharacteristic ?? new UserDefinedSchoolCharacteristicViewModel(characteristic);
 }
