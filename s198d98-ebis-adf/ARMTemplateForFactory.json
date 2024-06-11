@@ -277,7 +277,7 @@
 									},
 									{
 										"source": {
-											"name": "OfstedDate",
+											"name": "substring(OfstedDate,0,4)",
 											"type": "String",
 											"physicalType": "String"
 										},
