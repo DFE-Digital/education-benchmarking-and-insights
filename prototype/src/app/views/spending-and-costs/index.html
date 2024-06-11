@@ -7,43 +7,68 @@
 {% extends "layouts/main.html" %}
 
 {% block pageTitle %}
-  Spending and costs - {{ data['school-name'] }} – {{ serviceName }}
+  Spending and costs - Custom data - {{ data['school-name'] }} – {{ serviceName }}
 {% endblock %}
 
 {% block beforeContent %}
-  {{ govukBreadcrumbs({
-    items: [
-      {
-        text: "Home",
-        href: "/find-school"
-      },
-      {
-        text: "Your school",
-        href: "/school-homepage"
-      }
-    ]
-  }) }}
+<div class="govuk-breadcrumbs">
+  <ol class="govuk-breadcrumbs__list">
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/find-school">Home</a>
+    </li>
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/school-homepage?customData=generated">Your school</a>
+    </li>
+    {% if data['customData'] == 'true' %}
+    <li class="govuk-breadcrumbs__list-item">
+      <a class="govuk-breadcrumbs__link" href="/custom-data/custom-homepage">Customised data</a>
+    </li>
+    {% endif %}
+  </ol>
+</div>
+
 {% endblock %}
 
 
 {% block content %}
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
 
-        <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+        <span class="govuk-caption-l"><a href="/school-homepage?customData=generated" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
         <h1 class="govuk-heading-l">Spending priorities for this school</h1>
 
-        <p class="govuk-body">
-          This school's data covers the financial year September 2022 to August 2023 academies accounts return (AAR).
-        </p>
+        {% if data['customData'] == 'true' %}
 
-        <p class="govuk-body"><a href="/comparators/view">We’ve chosen 2 sets of similar schools</a> to benchmark this school's spending against.</p>
-        
-          <p class="govuk-body"><a href="/comparators">Choose a new or saved set of your own schools</a>
-            <br>
-        <a href="/custom-data" style="govuk-link">Change the data for this school</a>
-        </p>
+          {% set html %}
+          <p class="govuk-notification-banner__heading">
+            You are viewing customised data
+          </p>
+          <p class="govuk-body">The information displayed in based around the custom data provided, not the originally reported data.</p>
+          <p><a href="/school-homepage?customData=generated" class="govuk-link">Return to school homepage and view originally reported data </a></p>
+
+          {% endset %}
+
+          {{ govukNotificationBanner({
+          html: html
+          }) }}
+
+          </div>
+          <div class="govuk-grid-column-two-thirds">
+        {% else %}
+
+        </div>
+        <div class="govuk-grid-column-two-thirds">
+          <p class="govuk-body">
+            This school's data covers the financial year September 2022 to August 2023 academies accounts return (AAR).
+          </p>
+
+          <p class="govuk-body"><a href="/comparators/view">We’ve chosen 2 sets of similar schools</a> to benchmark this school's spending against.</p>
+          <p class="govuk-body"><a href="/comparators">Choose a new or saved set of your own schools</a></p>
+          <p><a href="/custom-data" style="govuk-link">Change the data for this school</a></p>
+
+        {% endif %}
+
 
         <h2 class="govuk-heading-m govuk-!-font-size-36">Priority cost categories</h2>
 
