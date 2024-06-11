@@ -9,17 +9,24 @@
 						"referenceName": "blob_school",
 						"type": "DatasetReference"
 					},
-					"name": "blobschool"
+					"name": "Source"
 				}
 			],
 			"sinks": [
 				{
-					"name": "sink1"
+					"dataset": {
+						"referenceName": "s198d02_school",
+						"type": "DatasetReference"
+					},
+					"name": "Sink"
 				}
 			],
 			"transformations": [
 				{
-					"name": "blobschoolderived"
+					"name": "DerivedColumn"
+				},
+				{
+					"name": "AlterRow"
 				}
 			],
 			"scriptLines": [
@@ -52,18 +59,51 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> blobschool",
-				"blobschool derive(HasSixthForm = toBoolean(HasSixthForm),",
+				"     ignoreNoFilesFound: false) ~> Source",
+				"Source derive(HasSixthForm = toBoolean(HasSixthForm),",
 				"          HasNursery = toBoolean(HasNursery),",
 				"          IsPFISchool = toBoolean(IsPFISchool),",
-				"          OfstedDate = toDate(OfstedDate)) ~> blobschoolderived",
-				"blobschoolderived sink(validateSchema: false,",
+				"          OfstedDate = toDate(OfstedDate)) ~> DerivedColumn",
+				"DerivedColumn alterRow(upsertIf(true())) ~> AlterRow",
+				"AlterRow sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          URN as string,",
+				"          SchoolName as string,",
+				"          TrustCompanyNumber as string,",
+				"          TrustName as string,",
+				"          FederationLeadURN as string,",
+				"          FederationLeadName as string,",
+				"          LACode as string,",
+				"          LAName as string,",
+				"          LondonWeighting as string,",
+				"          FinanceType as string,",
+				"          OverallPhase as string,",
+				"          SchoolType as string,",
+				"          HasSixthForm as boolean,",
+				"          HasNursery as boolean,",
+				"          IsPFISchool as boolean,",
+				"          OfstedDate as date,",
+				"          OfstedDescription as string,",
+				"          Telephone as string,",
+				"          Website as string,",
+				"          AddressStreet as string,",
+				"          AddressLocality as string,",
+				"          AddressLine3 as string,",
+				"          AddressTown as string,",
+				"          AddressCounty as string,",
+				"          AddressPostcode as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['URN'],",
+				"     format: 'table',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     store: 'cache',",
-				"     format: 'inline',",
-				"     output: true,",
-				"     saveOrder: 1) ~> sink1"
+				"     saveOrder: 1,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> Sink"
 			]
 		}
 	}
