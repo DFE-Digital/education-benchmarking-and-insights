@@ -38,6 +38,7 @@ from src.pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
+    build_cfo_data,
 )
 
 from src.pipeline.storage import (
@@ -150,7 +151,7 @@ def pre_process_cfo(set_type, year) -> pd.DataFrame:
     cfo = build_cfo_data(cfo_data)
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/cfo.parquet",
+        f"{set_type}/{year}/cfo.csv",
         cfo.to_parquet(),
     )
 
