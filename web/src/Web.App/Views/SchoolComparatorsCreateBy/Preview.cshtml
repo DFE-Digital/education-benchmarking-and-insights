@@ -76,14 +76,22 @@
         }
 
         <p class="govuk-body">
-            <a href="@Url.Action("Characteristic", new { urn = Model.Urn })" class="govuk-link govuk-link--no-visited-state">
+            <a
+                href="@Url.Action("Characteristic", new { urn = Model.Urn })"
+                class="govuk-link govuk-link--no-visited-state"
+                id="change-set">
                 Change characteristics and create a new set
             </a>
         </p>
 
         @if (Model.Characteristics != null)
         {
-            <a href="@Url.Action("Submit", new { urn = Model.Urn })" role="button" draggable="false" class="govuk-button" data-module="govuk-button" id="create-set">
+            <a
+                href="@Url.Action("Submit", new { urn = Model.Urn })"
+                role="button" draggable="false"
+                class="govuk-button"
+                data-module="govuk-button"
+                id="create-set">
                 Create a set using these schools
             </a>
 

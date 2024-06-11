@@ -69,6 +69,26 @@ module "establishment-fa" {
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }
 
+module "data-clean-up-fa" {
+  source                                 = "./modules/functions"
+  function-name                          = "clean-up"
+  common-tags                            = local.common-tags
+  environment-prefix                     = var.environment-prefix
+  resource-group-name                    = azurerm_resource_group.resource-group.name
+  storage-account-name                   = azurerm_storage_account.platform-storage.name
+  storage-account-id                     = azurerm_storage_account.platform-storage.id
+  storage-account-key                    = azurerm_storage_account.platform-storage.primary_access_key
+  key-vault-id                           = data.azurerm_key_vault.key-vault.id
+  location                               = var.location
+  enable-restrictions                    = false
+  application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
+  app-settings = merge(local.default_app_settings, {
+    "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+  })
+  subnet_id = data.azurerm_subnet.web-app-subnet.id
+}
+
+
 module "orchestrator-fa" {
   source               = "./modules/functions"
   function-name        = "orchestrator"

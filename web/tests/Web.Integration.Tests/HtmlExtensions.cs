@@ -4,7 +4,6 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AngleSharp.Io;
 using Xunit;
-
 namespace Web.Integration.Tests;
 
 public static class HtmlExtensions
@@ -34,8 +33,9 @@ public static class HtmlExtensions
     public static async Task<IHtmlDocument> GetDocumentAsync(this HttpResponseMessage response)
     {
         var content = await response.Content.ReadAsStringAsync();
-        var document = await BrowsingContext.New(Configuration.Default.WithCss())
-            .OpenAsync(ResponseFactory, CancellationToken.None);
+        var document = await BrowsingContext.New(Configuration.Default.WithCss().WithJs())
+            .OpenAsync(ResponseFactory, CancellationToken.None)
+            .WaitUntilAvailable();
 
         return (IHtmlDocument)document;
 
