@@ -5,36 +5,36 @@ using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
 namespace Web.App.Services;
 
-public interface IComparatorSetService
+public interface ISchoolComparatorSetService
 {
-    Task<ComparatorSet> ReadComparatorSet(string urn);
-    Task<ComparatorSetUserDefined> ReadUserDefinedComparatorSet(string urn, string identifier);
-    ComparatorSetUserDefined ReadUserDefinedComparatorSet(string urn);
-    ComparatorSetUserDefined SetUserDefinedComparatorSet(string urn, ComparatorSetUserDefined set);
+    Task<SchoolComparatorSet> ReadComparatorSet(string urn);
+    Task<UserDefinedSchoolComparatorSet> ReadUserDefinedComparatorSet(string urn, string identifier);
+    UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn);
+    UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set);
     void ClearUserDefinedComparatorSet(string urn, string? identifier = null);
     UserDefinedCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn);
     UserDefinedCharacteristicViewModel SetUserDefinedCharacteristic(string urn, UserDefinedCharacteristicViewModel characteristic);
     void ClearUserDefinedCharacteristic(string urn);
 }
 
-public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : IComparatorSetService
+public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor, IComparatorSetApi api) : ISchoolComparatorSetService
 {
-    public async Task<ComparatorSet> ReadComparatorSet(string urn)
+    public async Task<SchoolComparatorSet> ReadComparatorSet(string urn)
     {
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
 
-        var set = context?.Session.Get<ComparatorSet>(key);
+        var set = context?.Session.Get<SchoolComparatorSet>(key);
 
         return set ?? await SetComparatorSet(urn);
     }
 
-    public async Task<ComparatorSetUserDefined> ReadUserDefinedComparatorSet(string urn, string identifier)
+    public async Task<UserDefinedSchoolComparatorSet> ReadUserDefinedComparatorSet(string urn, string identifier)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn, identifier);
         var context = httpContextAccessor.HttpContext;
 
-        var set = context?.Session.Get<ComparatorSetUserDefined>(key);
+        var set = context?.Session.Get<UserDefinedSchoolComparatorSet>(key);
 
         return set ?? await SetUserDefinedComparatorSet(urn, identifier);
     }
@@ -49,17 +49,17 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         context?.Session.Remove(key);
     }
 
-    public ComparatorSetUserDefined ReadUserDefinedComparatorSet(string urn)
+    public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn);
         var context = httpContextAccessor.HttpContext;
 
-        var set = context?.Session.Get<ComparatorSetUserDefined>(key);
+        var set = context?.Session.Get<UserDefinedSchoolComparatorSet>(key);
 
-        return set ?? SetUserDefinedComparatorSet(urn, new ComparatorSetUserDefined());
+        return set ?? SetUserDefinedComparatorSet(urn, new UserDefinedSchoolComparatorSet());
     }
 
-    public ComparatorSetUserDefined SetUserDefinedComparatorSet(string urn, ComparatorSetUserDefined set)
+    public UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn);
         var context = httpContextAccessor.HttpContext;
@@ -91,24 +91,24 @@ public class ComparatorSetService(IHttpContextAccessor httpContextAccessor, ICom
         context?.Session.Remove(key);
     }
 
-    private async Task<ComparatorSet> SetComparatorSet(string urn)
+    private async Task<SchoolComparatorSet> SetComparatorSet(string urn)
     {
         var key = SessionKeys.ComparatorSet(urn);
         var context = httpContextAccessor.HttpContext;
 
-        var set = await api.GetDefaultSchoolAsync(urn).GetResultOrThrow<ComparatorSet>();
+        var set = await api.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
 
         context?.Session.Set(key, set);
 
         return set;
     }
 
-    private async Task<ComparatorSetUserDefined> SetUserDefinedComparatorSet(string urn, string identifier)
+    private async Task<UserDefinedSchoolComparatorSet> SetUserDefinedComparatorSet(string urn, string identifier)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn, identifier);
         var context = httpContextAccessor.HttpContext;
 
-        var set = await api.GetUserDefinedSchoolAsync(urn, identifier).GetResultOrThrow<ComparatorSetUserDefined>();
+        var set = await api.GetUserDefinedSchoolAsync(urn, identifier).GetResultOrThrow<UserDefinedSchoolComparatorSet>();
         context?.Session.Set(key, set);
 
         return set;

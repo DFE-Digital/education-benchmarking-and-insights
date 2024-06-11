@@ -1,0 +1,48 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.TrustComparatorsChosenTrustsViewModel
+
+@if (Model.Trusts != null && Model.Trusts.Any())
+{
+    <h1 class="govuk-heading-m">Chosen trusts (@Model.Trusts.Count(x => x.CompanyNumber != Model.CompanyNumber))</h1>
+    <a
+        href="@Url.Action("Submit", new { companyNumber = Model.CompanyNumber })"
+        role="button"
+        draggable="false"
+        class="govuk-button"
+        data-module="govuk-button"
+        id="create-set">
+        Create a set using these trusts
+    </a>
+    <table class="govuk-table">
+        <caption class="govuk-table__caption govuk-table__caption--m govuk-visually-hidden">Chosen trusts (@Model.Trusts.Count(x => x.CompanyNumber != Model.CompanyNumber))</caption>
+        <thead class="govuk-table__head">
+        <tr class="govuk-table__row">
+            <th scope="col" class="govuk-table__header govuk-!-width-one-third">Trust</th>
+            <th scope="col" class="govuk-table__header">Schools</th>
+            <th scope="col" class="govuk-table__header">Number of pupils</th>
+            <th scope="col" class="govuk-table__header">Total income</th>
+            <th scope="col" class="govuk-table__header"></th>
+        </tr>
+        </thead>
+        <tbody class="govuk-table__body">
+        @foreach (var trust in Model.Trusts.Where(x => x.CompanyNumber != Model.CompanyNumber))
+        {
+            <tr class="govuk-table__row">
+                <td class="govuk-table__cell">
+                    <span class="govuk-body govuk-!-font-weight-bold">@trust.TrustName</span>
+                    <br/>
+                    <span class="govuk-hint">@trust.CompanyNumber</span>
+                </td>
+                <td class="govuk-table__cell">@trust.SchoolsInTrust.GetValueOrDefault().ToSimpleDisplay()</td>
+                <td class="govuk-table__cell">@trust.TotalPupils.GetValueOrDefault().ToSimpleDisplay()</td>
+                <td class="govuk-table__cell">@trust.TotalIncome?.ToCurrency(0)</td>
+                <td class="govuk-table__cell">
+                    <button type="submit" class="govuk-button govuk-button--secondary" data-module="govuk-button" name="companyNumber" value="@trust.CompanyNumber">
+                        Remove
+                    </button>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

@@ -91,8 +91,8 @@ public class LocalAuthoritiesFunctions
                 }
 
                 var names = req.Query["names"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var trusts = await _service.SuggestAsync(body, names);
-                return new JsonContentResult(trusts);
+                var localAuthorities = await _service.SuggestAsync(body, names);
+                return new JsonContentResult(localAuthorities);
             }
             catch (Exception e)
             {

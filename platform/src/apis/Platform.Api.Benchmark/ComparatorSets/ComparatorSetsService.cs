@@ -132,7 +132,7 @@ public class ComparatorSetsService : IComparatorSetsService
         transaction.Commit();
     }
 
-    public async Task<ComparatorSetUserDefinedTrust> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = "default")
+    public async Task<ComparatorSetUserDefinedTrust?> UserDefinedTrustAsync(string companyNumber, string identifier, string runType = "default")
     {
         const string sql = "SELECT * from UserDefinedTrustComparatorSet where CompanyNumber = @CompanyNumber AND RunId = @RunId AND RunType = @RunType";
         var parameters = new { CompanyNumber = companyNumber, RunId = identifier, RunType = runType };

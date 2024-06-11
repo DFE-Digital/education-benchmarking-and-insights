@@ -8,24 +8,31 @@ import {
 import { v4 as uuidv4 } from "uuid";
 
 const TrustInput: React.FunctionComponent<TrustInputProps> = (props) => {
-  const { input, companyNumber } = props;
+  const { input, companyNumber, exclude } = props;
   const [inputValue, setInputValue] = useState<string>(input);
   const [selectedCompanyNumber, setSelectedCompanyNumber] =
     useState<string>(companyNumber);
 
   const handleSuggest = async (query: string) => {
+    const params = new URLSearchParams({
+      type: "trust",
+      search: query,
+    });
+    if (exclude) {
+      exclude.forEach((e) => {
+        params.append("exclude", e);
+      });
+    }
+
     try {
-      const res = await fetch(
-        "/api/suggest?" + new URLSearchParams({ type: "trust", search: query }),
-        {
-          redirect: "manual",
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-            "X-Correlation-ID": uuidv4(),
-          },
-        }
-      );
+      const res = await fetch("/api/suggest?" + params, {
+        redirect: "manual",
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          "X-Correlation-ID": uuidv4(),
+        },
+      });
 
       const response = await res.json();
       if (response.error) {

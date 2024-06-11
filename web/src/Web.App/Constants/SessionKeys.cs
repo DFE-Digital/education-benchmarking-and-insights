@@ -7,4 +7,5 @@ public static class SessionKeys
     public static string ComparatorSetUserDefined(string urn) => $"comparator-set-user-defined-{urn}";
     public static string ComparatorSetUserDefined(string urn, string identifier) => $"comparator-set-user-defined-{urn}-{identifier}";
     public static string CustomData(string urn) => $"custom-data-{urn}";
+    public static string TrustComparatorSetUserDefined(string companyNumber) => $"trust-comparator-set-user-defined-{companyNumber}";
 }

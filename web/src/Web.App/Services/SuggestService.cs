@@ -7,7 +7,7 @@ namespace Web.App.Services;
 public interface ISuggestService
 {
     Task<IEnumerable<SuggestValue<School>>> SchoolSuggestions(string search, string[]? excludeSchools = null);
-    Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search);
+    Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null);
     Task<IEnumerable<SuggestValue<LocalAuthority>>> LocalAuthoritySuggestions(string search, string[]? excludeLas = null);
 }
 
@@ -51,9 +51,18 @@ public class SuggestService(IEstablishmentApi establishmentApi) : ISuggestServic
         });
     }
 
-    public async Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search)
+    public async Task<IEnumerable<SuggestValue<Trust>>> TrustSuggestions(string search, string[]? excludeTrusts = null)
     {
-        var suggestions = await establishmentApi.SuggestTrusts(search).GetResultOrThrow<SuggestOutput<Trust>>();
+        var query = new ApiQuery();
+        if (excludeTrusts != null)
+        {
+            foreach (var school in excludeTrusts)
+            {
+                query.AddIfNotNull("companyNumbers", school);
+            }
+        }
+
+        var suggestions = await establishmentApi.SuggestTrusts(search, query).GetResultOrThrow<SuggestOutput<Trust>>();
         return suggestions.Results.Select(value =>
         {
             var text = value.Text?.Replace("*", "");

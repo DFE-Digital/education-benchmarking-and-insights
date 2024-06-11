@@ -21,6 +21,7 @@ import {
   VerticalBarChart3SeriesElementId,
   SchoolSuggesterId,
   LaSuggesterId,
+  TrustSuggesterId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -42,6 +43,7 @@ import { ExpenditureData, Census } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
 import LaInput from "./views/find-organisation/partials/la-input";
+import TrustInput from "./views/find-organisation/partials/trust-input";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -526,6 +528,21 @@ if (laSuggesterElement) {
       <LaInput
         input={input || ""}
         code={code || ""}
+        exclude={exclude ? exclude.split(",") : undefined}
+      />
+    </React.StrictMode>
+  );
+}
+
+const trustSuggesterElement = document.getElementById(TrustSuggesterId);
+if (trustSuggesterElement) {
+  const { input, companyNumber, exclude } = trustSuggesterElement.dataset;
+  const root = ReactDOM.createRoot(trustSuggesterElement);
+  root.render(
+    <React.StrictMode>
+      <TrustInput
+        input={input || ""}
+        companyNumber={companyNumber || ""}
         exclude={exclude ? exclude.split(",") : undefined}
       />
     </React.StrictMode>

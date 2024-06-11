@@ -5,7 +5,6 @@ using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -14,7 +13,7 @@ public class CensusProxyController(
     ILogger<ProxyController> logger,
     IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
-    IComparatorSetService comparatorSetService,
+    ISchoolComparatorSetService schoolComparatorSetService,
     IUserDataService userDataService)
     : Controller
 {
@@ -22,7 +21,11 @@ public class CensusProxyController(
     [Produces("application/json")]
     public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase)
     {
-        using (logger.BeginScope(new { type, id }))
+        using (logger.BeginScope(new
+        {
+            type,
+            id
+        }))
         {
             try
             {
@@ -51,7 +54,10 @@ public class CensusProxyController(
     [Route("history")]
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension)
     {
-        using (logger.BeginScope(new { id }))
+        using (logger.BeginScope(new
+        {
+            id
+        }))
         {
             try
             {
@@ -72,11 +78,11 @@ public class CensusProxyController(
         var userData = await userDataService.GetSchoolDataAsync(User.UserId(), id);
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
-            var defaultSet = await comparatorSetService.ReadComparatorSet(id);
+            var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
             return defaultSet.Pupil;
         }
 
-        var userDefinedSet = await comparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
+        var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
         return userDefinedSet.Set;
     }
 
