@@ -221,8 +221,8 @@
 							},
 							{
 								"source": {
-									"name": "substring(OfstedDate,0,4)",
-									"type": "String",
+									"name": "OfstedDate",
+									"type": "Date",
 									"physicalType": "String"
 								},
 								"sink": {
