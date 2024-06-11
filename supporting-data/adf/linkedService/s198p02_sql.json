@@ -10,7 +10,7 @@
 					"referenceName": "s198p02_keyvault",
 					"type": "LinkedServiceReference"
 				},
-				"secretName": "ebis-sql-connection-string"
+				"secretName": "core-sql-connection-string"
 			}
 		}
 	}
