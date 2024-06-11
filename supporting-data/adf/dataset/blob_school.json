@@ -1,0 +1,125 @@
+{
+	"name": "blob_school",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d98_storage",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "blob"
+		},
+		"annotations": [],
+		"type": "Excel",
+		"typeProperties": {
+			"sheetName": "School",
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"fileName": "schooldb.xls",
+				"container": "raw"
+			},
+			"firstRowAsHeader": true
+		},
+		"schema": [
+			{
+				"name": "URN",
+				"type": "String"
+			},
+			{
+				"name": "SchoolName",
+				"type": "String"
+			},
+			{
+				"name": "TrustCompanyNumber",
+				"type": "String"
+			},
+			{
+				"name": "TrustName",
+				"type": "String"
+			},
+			{
+				"name": "FederationLeadURN",
+				"type": "String"
+			},
+			{
+				"name": "FederationLeadName",
+				"type": "String"
+			},
+			{
+				"name": "LACode",
+				"type": "String"
+			},
+			{
+				"name": "LAName",
+				"type": "String"
+			},
+			{
+				"name": "LondonWeighting",
+				"type": "String"
+			},
+			{
+				"name": "FinanceType",
+				"type": "String"
+			},
+			{
+				"name": "OverallPhase",
+				"type": "String"
+			},
+			{
+				"name": "SchoolType",
+				"type": "String"
+			},
+			{
+				"name": "HasSixthForm",
+				"type": "String"
+			},
+			{
+				"name": "HasNursery",
+				"type": "String"
+			},
+			{
+				"name": "IsPFISchool",
+				"type": "String"
+			},
+			{
+				"name": "OfstedDate",
+				"type": "String"
+			},
+			{
+				"name": "OfstedDescription",
+				"type": "String"
+			},
+			{
+				"name": "Telephone",
+				"type": "String"
+			},
+			{
+				"name": "Website",
+				"type": "String"
+			},
+			{
+				"name": "AddressStreet",
+				"type": "String"
+			},
+			{
+				"name": "AddressLocality",
+				"type": "String"
+			},
+			{
+				"name": "AddressLine3",
+				"type": "String"
+			},
+			{
+				"name": "AddressTown",
+				"type": "String"
+			},
+			{
+				"name": "AddressCounty",
+				"type": "String"
+			},
+			{
+				"name": "AddressPostcode",
+				"type": "String"
+			}
+		]
+	}
+}
