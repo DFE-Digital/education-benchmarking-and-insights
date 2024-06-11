@@ -14,7 +14,6 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
-
 [assembly: InternalsVisibleTo("Web.Tests")]
 
 CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-GB");
@@ -44,6 +43,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IFinanceService, FinanceService>();
 builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
 builder.Services.AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>();
+builder.Services.AddScoped<ITrustComparatorSetService, TrustComparatorSetService>();
 builder.Services.AddScoped<ISuggestService, SuggestService>();
 builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>();
 builder.Services.AddScoped<ICustomDataService, CustomDataService>();
@@ -122,6 +122,9 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services.AddHttpClient<IUserDataApi, UserDataApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+
+    builder.Services.AddHttpClient<ITrustInsightApi, TrustInsightApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
 }
 
 var app = builder.Build();
