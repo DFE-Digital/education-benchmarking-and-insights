@@ -475,6 +475,9 @@
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
+				"folder": {
+					"name": "blob_s198d02"
+				},
 				"type": "MappingDataFlow",
 				"typeProperties": {
 					"sources": [
