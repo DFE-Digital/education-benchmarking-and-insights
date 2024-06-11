@@ -12,7 +12,11 @@
 					"name": "blobschool"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "blobschoolderived"
@@ -52,7 +56,14 @@
 				"blobschool derive(HasSixthForm = toBoolean(HasSixthForm),",
 				"          HasNursery = toBoolean(HasNursery),",
 				"          IsPFISchool = toBoolean(IsPFISchool),",
-				"          OfstedDate = toDate(OfstedDate)) ~> blobschoolderived"
+				"          OfstedDate = toDate(OfstedDate)) ~> blobschoolderived",
+				"blobschoolderived sink(validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     store: 'cache',",
+				"     format: 'inline',",
+				"     output: true,",
+				"     saveOrder: 1) ~> sink1"
 			]
 		}
 	}
