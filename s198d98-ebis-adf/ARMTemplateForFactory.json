@@ -53,13 +53,13 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02')]",
 			"type": "Microsoft.DataFactory/factories/pipelines",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"activities": [
 					{
-						"name": "Data flow1",
+						"name": "School",
 						"type": "ExecuteDataFlow",
 						"dependsOn": [],
 						"policy": {
@@ -72,7 +72,7 @@
 						"userProperties": [],
 						"typeProperties": {
 							"dataflow": {
-								"referenceName": "blob_school_converted",
+								"referenceName": "blob_s198d02_school",
 								"type": "DataFlowReference",
 								"parameters": {},
 								"datasetParameters": {
@@ -92,13 +92,10 @@
 				"policy": {
 					"elapsedTimeMetric": {}
 				},
-				"folder": {
-					"name": "blob_s198d02"
-				},
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_school_converted')]"
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]"
 			]
 		},
 		{
@@ -520,7 +517,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_school_converted')]",
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -626,7 +623,9 @@
 						"     skipDuplicateMapInputs: true,",
 						"     skipDuplicateMapOutputs: true,",
 						"     saveOrder: 1,",
-						"     errorHandlingOption: 'stopOnFirstError') ~> Sink"
+						"     errorHandlingOption: 'allErrors',",
+						"     transactionCommit: 'single',",
+						"     reportSuccessOnError: false) ~> Sink"
 					]
 				}
 			},
