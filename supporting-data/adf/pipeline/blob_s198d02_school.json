@@ -1,0 +1,370 @@
+{
+	"name": "blob_s198d02_school",
+	"properties": {
+		"activities": [
+			{
+				"name": "Copy School",
+				"type": "Copy",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"URN"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SchoolName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SchoolName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TrustCompanyNumber",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "TrustCompanyNumber",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "TrustName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "TrustName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FederationLeadURN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FederationLeadURN",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FederationLeadName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FederationLeadName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LACode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "LACode",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LAName",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "LAName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "LondonWeighting",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "LondonWeighting",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "FinanceType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "FinanceType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "OverallPhase",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OverallPhase",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SchoolType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SchoolType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "HasSixthForm",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "HasSixthForm",
+									"type": "Boolean",
+									"physicalType": "bit"
+								}
+							},
+							{
+								"source": {
+									"name": "HasNursery",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "HasNursery",
+									"type": "Boolean",
+									"physicalType": "bit"
+								}
+							},
+							{
+								"source": {
+									"name": "IsPFISchool",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "IsPFISchool",
+									"type": "Boolean",
+									"physicalType": "bit"
+								}
+							},
+							{
+								"source": {
+									"name": "OfstedDate",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OfstedDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "OfstedDescription",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "OfstedDescription",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Telephone",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Telephone",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Website",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Website",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressStreet",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressStreet",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressLocality",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressLocality",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressLine3",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressLine3",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressTown",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressTown",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressCounty",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressCounty",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "AddressPostcode",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "AddressPostcode",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": true,
+							"dateFormat": "yyyy-MM-dd"
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "blob_school",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "s198d02_school",
+						"type": "DatasetReference"
+					}
+				]
+			}
+		],
+		"folder": {
+			"name": "blob_s198d02"
+		},
+		"annotations": []
+	}
+}
