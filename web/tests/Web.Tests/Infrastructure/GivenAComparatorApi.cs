@@ -20,7 +20,7 @@ public class GivenAComparatorApi(ITestOutputHelper testOutputHelper) : ApiClient
     {
         var api = new ComparatorApi(HttpClient);
 
-        var request = new PostSchoolComparatorsRequest("urn", "laName", new UserDefinedCharacteristicViewModel());
+        var request = new PostSchoolComparatorsRequest("urn", "laName", new UserDefinedSchoolCharacteristicViewModel());
 
         await api.CreateSchoolsAsync(request);
 

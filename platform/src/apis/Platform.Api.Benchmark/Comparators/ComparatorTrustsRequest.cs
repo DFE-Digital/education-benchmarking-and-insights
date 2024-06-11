@@ -8,7 +8,7 @@ public record ComparatorTrustsRequest
     public CharacteristicList? PhasesCovered { get; set; }
     public CharacteristicRange? TotalPupils { get; set; }
     public CharacteristicRange? TotalIncome { get; set; }
-    public CharacteristicRange? OpenDate { get; set; }
+    public CharacteristicDateRange? OpenDate { get; set; }
     public CharacteristicRange? TotalInternalFloorArea { get; set; }
     public CharacteristicRange? PercentFreeSchoolMeals { get; set; }
     public CharacteristicRange? PercentSpecialEducationNeeds { get; set; }

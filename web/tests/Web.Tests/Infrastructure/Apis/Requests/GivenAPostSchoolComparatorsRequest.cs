@@ -20,7 +20,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsTarget()
     {
         // arrange
-        var viewModel = _fixture.Create<UserDefinedCharacteristicViewModel>();
+        var viewModel = _fixture.Create<UserDefinedSchoolCharacteristicViewModel>();
 
         // act
         var actual = new PostSchoolComparatorsRequest(_urn, LAName, viewModel).Target;
@@ -48,7 +48,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsFinanceTypeOrThrows(string? financeType, string[]? expected, bool exception = false)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             FinanceType = financeType
         };
@@ -129,7 +129,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsOverallPhase(string?[]? overallPhase, string[]? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             OverallPhase = overallPhase
         };
@@ -159,7 +159,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsLAName(string? laSelection, string[]? laNames, string[]? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             LaSelection = laSelection,
             LaNames = laNames ?? []
@@ -179,7 +179,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsSchoolPosition(string? selected, string? value, string? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             Deficit = selected,
             Deficits = [value!]
@@ -199,7 +199,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsIsPFISchool(string? selected, string? value, bool? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             PrivateFinanceInitiative = selected,
             PrivateFinanceInitiatives = [value!]
@@ -238,7 +238,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsLondonWeighting(string? selected, string[]? values, string[]? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             LondonWeighting = selected,
             LondonWeightings = values ?? []
@@ -272,7 +272,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsOfstedDescription(string? selected, string[]? values, string[]? expected)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             OfstedRating = selected,
             OfstedRatings = values ?? []
@@ -291,7 +291,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsTotalPupils(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             TotalPupils = selected,
             TotalPupilsFrom = from,
@@ -312,7 +312,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsBuildingAverageAge(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             AverageBuildingAge = selected,
             AverageBuildingAgeFrom = from,
@@ -333,7 +333,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsTotalInternalFloorArea(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             InternalFloorArea = selected,
             InternalFloorAreaFrom = from,
@@ -354,7 +354,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentFreeSchoolMeals(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             FreeSchoolMeals = selected,
             FreeSchoolMealsFrom = from,
@@ -375,7 +375,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentSpecialEducationNeeds(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SpecialEducationalNeeds = selected,
             SpecialEducationalNeedsFrom = from,
@@ -396,7 +396,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsTotalPupilsSixthForm(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             TotalPupilsSixthForm = selected,
             TotalPupilsSixthFormFrom = from,
@@ -417,7 +417,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsKS2Progress(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             KeyStage2Progress = selected,
             KeyStage2ProgressFrom = from,
@@ -438,7 +438,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsKS4Progress(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             KeyStage4Progress = selected,
             KeyStage4ProgressFrom = from,
@@ -459,7 +459,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsSchoolsInTrust(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SchoolsInTrust = selected,
             SchoolsInTrustFrom = from,
@@ -480,7 +480,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithVI(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             VisualImpairment = selected,
             VisualImpairmentFrom = from,
@@ -501,7 +501,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithSPLD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SpecificLearningDifficulty = selected,
             SpecificLearningDifficultyFrom = from,
@@ -522,7 +522,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithSLD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SevereLearningDifficulty = selected,
             SevereLearningDifficultyFrom = from,
@@ -543,7 +543,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithSLCN(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SpeechLanguageCommunication = selected,
             SpeechLanguageCommunicationFrom = from,
@@ -564,7 +564,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithSEMH(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             SocialEmotionalMentalHealth = selected,
             SocialEmotionalMentalHealthFrom = from,
@@ -585,7 +585,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithPMLD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             ProfoundMultipleLearningDifficulty = selected,
             ProfoundMultipleLearningDifficultyFrom = from,
@@ -606,7 +606,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithPD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             PhysicalDisability = selected,
             PhysicalDisabilityFrom = from,
@@ -627,7 +627,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithOTH(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             OtherLearningDifficulty = selected,
             OtherLearningDifficultyFrom = from,
@@ -648,7 +648,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithMSI(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             MultiSensoryImpairment = selected,
             MultiSensoryImpairmentFrom = from,
@@ -670,7 +670,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithMLD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             ModerateLearningDifficulty = selected,
             ModerateLearningDifficultyFrom = from,
@@ -691,7 +691,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithHI(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             HearingImpairment = selected,
             HearingImpairmentFrom = from,
@@ -712,7 +712,7 @@ public class GivenAPostSchoolComparatorsRequest
     public void MapsPercentWithASD(string? selected, int? from, int? to, int? expectedFrom, int? expectedTo)
     {
         // arrange
-        var viewModel = new UserDefinedCharacteristicViewModel
+        var viewModel = new UserDefinedSchoolCharacteristicViewModel
         {
             AutisticSpectrumDisorder = selected,
             AutisticSpectrumDisorderFrom = from,

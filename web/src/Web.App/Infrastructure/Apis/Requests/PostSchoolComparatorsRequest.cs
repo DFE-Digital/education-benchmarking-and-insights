@@ -6,7 +6,7 @@ using Web.App.ViewModels;
 // ReSharper disable UnusedMember.Global
 namespace Web.App.Infrastructure.Apis;
 
-public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefinedCharacteristicViewModel viewModel)
+public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefinedSchoolCharacteristicViewModel viewModel)
 {
     public string Target => urn;
 
@@ -155,26 +155,4 @@ public class PostSchoolComparatorsRequest(string urn, string? laName, UserDefine
         : null;
 
     private static bool IsSelected(string? value) => bool.TrueString.Equals(value, StringComparison.OrdinalIgnoreCase);
-}
-
-public record CharacteristicList(params string[] Values);
-
-public record CharacteristicValueBool(bool Values);
-
-public record CharacteristicRange
-{
-    public CharacteristicRange(decimal? from, decimal? to)
-    {
-        From = from.GetValueOrDefault();
-        To = to.GetValueOrDefault();
-    }
-
-    public CharacteristicRange(int? from, int? to)
-    {
-        From = Convert.ToDecimal(from);
-        To = Convert.ToDecimal(to);
-    }
-
-    public decimal From { get; set; }
-    public decimal To { get; set; }
 }
