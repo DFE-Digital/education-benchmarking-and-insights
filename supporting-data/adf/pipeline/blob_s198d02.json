@@ -1,9 +1,9 @@
 {
-	"name": "blob_s198d02_school",
+	"name": "blob_s198d02",
 	"properties": {
 		"activities": [
 			{
-				"name": "Data flow1",
+				"name": "School",
 				"type": "ExecuteDataFlow",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +16,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"dataflow": {
-						"referenceName": "blob_school_converted",
+						"referenceName": "blob_s198d02_school",
 						"type": "DataFlowReference"
 					},
 					"compute": {
@@ -27,9 +27,6 @@
 				}
 			}
 		],
-		"folder": {
-			"name": "blob_s198d02"
-		},
 		"annotations": []
 	}
 }

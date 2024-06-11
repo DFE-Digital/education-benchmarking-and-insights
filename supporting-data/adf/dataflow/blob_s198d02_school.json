@@ -1,5 +1,5 @@
 {
-	"name": "blob_school_converted",
+	"name": "blob_s198d02_school",
 	"properties": {
 		"type": "MappingDataFlow",
 		"typeProperties": {
@@ -103,7 +103,9 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     saveOrder: 1,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> Sink"
+				"     errorHandlingOption: 'allErrors',",
+				"     transactionCommit: 'single',",
+				"     reportSuccessOnError: false) ~> Sink"
 			]
 		}
 	}
