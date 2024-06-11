@@ -301,7 +301,7 @@
 					},
 					{
 						"name": "OfstedDate",
-						"type": "Date"
+						"type": "String"
 					},
 					{
 						"name": "OfstedDescription",
@@ -696,7 +696,7 @@
 									{
 										"source": {
 											"name": "OfstedDate",
-											"type": "Date",
+											"type": "String",
 											"physicalType": "String"
 										},
 										"sink": {
