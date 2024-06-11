@@ -1,0 +1,51 @@
+{
+	"name": "blob_school_converted",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "blob_school",
+						"type": "DatasetReference"
+					},
+					"name": "blobschoolconverted"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          URN as string,",
+				"          SchoolName as string,",
+				"          TrustCompanyNumber as string,",
+				"          TrustName as string,",
+				"          FederationLeadURN as string,",
+				"          FederationLeadName as string,",
+				"          LACode as string,",
+				"          LAName as string,",
+				"          LondonWeighting as string,",
+				"          FinanceType as string,",
+				"          OverallPhase as string,",
+				"          SchoolType as string,",
+				"          HasSixthForm as string,",
+				"          HasNursery as string,",
+				"          IsPFISchool as string,",
+				"          OfstedDate as string 'yyyy-MM-dd',",
+				"          OfstedDescription as string,",
+				"          Telephone as string,",
+				"          Website as string,",
+				"          AddressStreet as string,",
+				"          AddressLocality as string,",
+				"          AddressLine3 as string,",
+				"          AddressTown as string,",
+				"          AddressCounty as string,",
+				"          AddressPostcode as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> blobschoolconverted"
+			]
+		}
+	}
+}
