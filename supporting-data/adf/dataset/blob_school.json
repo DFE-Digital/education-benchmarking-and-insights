@@ -82,7 +82,7 @@
 			},
 			{
 				"name": "OfstedDate",
-				"type": "Date"
+				"type": "String"
 			},
 			{
 				"name": "OfstedDescription",

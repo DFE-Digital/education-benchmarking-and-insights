@@ -222,7 +222,7 @@
 							{
 								"source": {
 									"name": "OfstedDate",
-									"type": "Date",
+									"type": "String",
 									"physicalType": "String"
 								},
 								"sink": {
