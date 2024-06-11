@@ -9,11 +9,15 @@
 						"referenceName": "blob_school",
 						"type": "DatasetReference"
 					},
-					"name": "blobschoolconverted"
+					"name": "blobschool"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "blobschoolderived"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          URN as string,",
@@ -31,7 +35,7 @@
 				"          HasSixthForm as string,",
 				"          HasNursery as string,",
 				"          IsPFISchool as string,",
-				"          OfstedDate as string 'yyyy-MM-dd',",
+				"          OfstedDate as string,",
 				"          OfstedDescription as string,",
 				"          Telephone as string,",
 				"          Website as string,",
@@ -44,7 +48,11 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> blobschoolconverted"
+				"     ignoreNoFilesFound: false) ~> blobschool",
+				"blobschool derive(HasSixthForm = toBoolean(HasSixthForm),",
+				"          HasNursery = toBoolean(HasNursery),",
+				"          IsPFISchool = toBoolean(IsPFISchool),",
+				"          OfstedDate = toDate(OfstedDate)) ~> blobschoolderived"
 			]
 		}
 	}
