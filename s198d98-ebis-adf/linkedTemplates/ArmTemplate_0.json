@@ -11,6 +11,10 @@
 			"type": "string",
 			"defaultValue": "https://s198d01-ebis-keyvault.vault.azure.net/"
 		},
+		"s198d02_keyvault_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://s198d02-ebis-keyvault.vault.azure.net/"
+		},
 		"s198p02_keyvault_properties_typeProperties_baseUrl": {
 			"type": "string",
 			"defaultValue": "https://s198p02-ebis-keyvault.vault.azure.net/"
@@ -19,13 +23,13 @@
 			"type": "string",
 			"defaultValue": "https://s198t01-ebis-keyvault.vault.azure.net/"
 		},
-		"s198d01_cosmos_properties_typeProperties_connectionString_secretName": {
-			"type": "string",
-			"defaultValue": "supporting-data-cosmos-connection-string"
-		},
 		"s198d01_sql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "ebis-sql-connection-string"
+			"defaultValue": "core-sql-connection-string"
+		},
+		"s198d02_sql_properties_typeProperties_connectionString_secretName": {
+			"type": "string",
+			"defaultValue": "core-sql-connection-string"
 		},
 		"s198d98_storage_sasUri": {
 			"type": "secureString",
@@ -35,21 +39,13 @@
 			"type": "string",
 			"defaultValue": "supporting-data-storage-sas-token"
 		},
-		"s198p02_cosmos_properties_typeProperties_connectionString_secretName": {
-			"type": "string",
-			"defaultValue": "adf-cosmos-connection-string"
-		},
 		"s198p02_sql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "ebis-sql-connection-string"
-		},
-		"s198t01_cosmos_properties_typeProperties_connectionString_secretName": {
-			"type": "string",
-			"defaultValue": "adf-cosmos-connection-string"
+			"defaultValue": "core-sql-connection-string"
 		},
 		"s198t01_sql_properties_typeProperties_connectionString_secretName": {
 			"type": "string",
-			"defaultValue": "ebis-sql-connection-string"
+			"defaultValue": "core-sql-connection-string"
 		}
 	},
 	"variables": {
@@ -65,6 +61,19 @@
 				"type": "AzureKeyVault",
 				"typeProperties": {
 					"baseUrl": "[parameters('s198d01_keyvault_properties_typeProperties_baseUrl')]"
+				}
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_keyvault')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureKeyVault",
+				"typeProperties": {
+					"baseUrl": "[parameters('s198d02_keyvault_properties_typeProperties_baseUrl')]"
 				}
 			},
 			"dependsOn": []
@@ -96,28 +105,6 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d01_cosmos')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"connectionString": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "s198d01_keyvault",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('s198d01_cosmos_properties_typeProperties_connectionString_secretName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/s198d01_keyvault')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/s198d01_sql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -137,6 +124,28 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/s198d01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_sql')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"annotations": [],
+				"type": "AzureSqlDatabase",
+				"typeProperties": {
+					"connectionString": {
+						"type": "AzureKeyVaultSecret",
+						"store": {
+							"referenceName": "s198d02_keyvault",
+							"type": "LinkedServiceReference"
+						},
+						"secretName": "[parameters('s198d02_sql_properties_typeProperties_connectionString_secretName')]"
+					}
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_keyvault')]"
 			]
 		},
 		{
@@ -163,28 +172,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198p02_cosmos')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"connectionString": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "s198p02_keyvault",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('s198p02_cosmos_properties_typeProperties_connectionString_secretName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/s198p02_keyvault')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/s198p02_sql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -207,28 +194,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198t01_cosmos')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"annotations": [],
-				"type": "CosmosDb",
-				"typeProperties": {
-					"connectionString": {
-						"type": "AzureKeyVaultSecret",
-						"store": {
-							"referenceName": "s198t01_keyvault",
-							"type": "LinkedServiceReference"
-						},
-						"secretName": "[parameters('s198t01_cosmos_properties_typeProperties_connectionString_secretName')]"
-					}
-				}
-			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/linkedServices/s198t01_keyvault')]"
-			]
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/s198t01_sql')]",
 			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
@@ -248,6 +213,642 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/s198t01_keyvault')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_school')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "School",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "SchoolName",
+						"type": "String"
+					},
+					{
+						"name": "TrustCompanyNumber",
+						"type": "String"
+					},
+					{
+						"name": "TrustName",
+						"type": "String"
+					},
+					{
+						"name": "FederationLeadURN",
+						"type": "String"
+					},
+					{
+						"name": "FederationLeadName",
+						"type": "String"
+					},
+					{
+						"name": "LACode",
+						"type": "String"
+					},
+					{
+						"name": "LAName",
+						"type": "String"
+					},
+					{
+						"name": "LondonWeighting",
+						"type": "String"
+					},
+					{
+						"name": "FinanceType",
+						"type": "String"
+					},
+					{
+						"name": "OverallPhase",
+						"type": "String"
+					},
+					{
+						"name": "SchoolType",
+						"type": "String"
+					},
+					{
+						"name": "HasSixthForm",
+						"type": "String"
+					},
+					{
+						"name": "HasNursery",
+						"type": "String"
+					},
+					{
+						"name": "IsPFISchool",
+						"type": "String"
+					},
+					{
+						"name": "OfstedDate",
+						"type": "String"
+					},
+					{
+						"name": "OfstedDescription",
+						"type": "String"
+					},
+					{
+						"name": "Telephone",
+						"type": "String"
+					},
+					{
+						"name": "Website",
+						"type": "String"
+					},
+					{
+						"name": "AddressStreet",
+						"type": "String"
+					},
+					{
+						"name": "AddressLocality",
+						"type": "String"
+					},
+					{
+						"name": "AddressLine3",
+						"type": "String"
+					},
+					{
+						"name": "AddressTown",
+						"type": "String"
+					},
+					{
+						"name": "AddressCounty",
+						"type": "String"
+					},
+					{
+						"name": "AddressPostcode",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_school')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustCompanyNumber",
+						"type": "nvarchar"
+					},
+					{
+						"name": "TrustName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FederationLeadURN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FederationLeadName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LACode",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LAName",
+						"type": "nvarchar"
+					},
+					{
+						"name": "LondonWeighting",
+						"type": "nvarchar"
+					},
+					{
+						"name": "FinanceType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "OverallPhase",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SchoolType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "HasSixthForm",
+						"type": "bit"
+					},
+					{
+						"name": "HasNursery",
+						"type": "bit"
+					},
+					{
+						"name": "IsPFISchool",
+						"type": "bit"
+					},
+					{
+						"name": "OfstedDate",
+						"type": "date"
+					},
+					{
+						"name": "OfstedDescription",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Telephone",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Website",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressStreet",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLocality",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressLine3",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressTown",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressCounty",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AddressPostcode",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "School"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Copy School",
+						"type": "Copy",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"URN"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "URN",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SchoolName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SchoolName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TrustCompanyNumber",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TrustCompanyNumber",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "TrustName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "TrustName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FederationLeadURN",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FederationLeadURN",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FederationLeadName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FederationLeadName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LACode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LACode",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LAName",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LAName",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "LondonWeighting",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "LondonWeighting",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "FinanceType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "FinanceType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "OverallPhase",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OverallPhase",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "SchoolType",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "SchoolType",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "HasSixthForm",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "HasSixthForm",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "HasNursery",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "HasNursery",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "IsPFISchool",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "IsPFISchool",
+											"type": "Boolean",
+											"physicalType": "bit"
+										}
+									},
+									{
+										"source": {
+											"name": "OfstedDate",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OfstedDate",
+											"type": "DateTime",
+											"physicalType": "date"
+										}
+									},
+									{
+										"source": {
+											"name": "OfstedDescription",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "OfstedDescription",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Telephone",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Telephone",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "Website",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "Website",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressStreet",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressStreet",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLocality",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressLocality",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressLine3",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressLine3",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressTown",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressTown",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressCounty",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressCounty",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									},
+									{
+										"source": {
+											"name": "AddressPostcode",
+											"type": "String",
+											"physicalType": "String"
+										},
+										"sink": {
+											"name": "AddressPostcode",
+											"type": "String",
+											"physicalType": "nvarchar"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": true,
+									"dateFormat": "yyyy-MM-dd"
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "blob_school",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d02_school",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"folder": {
+					"name": "blob_s198d02"
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_school')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_school')]"
 			]
 		}
 	]
