@@ -6,26 +6,29 @@ namespace Web.App.Controllers;
 [Route("/")]
 public class StaticContentController : Controller
 {
-    [HttpGet]
-    [Route("help-with-this-service")]
-    public IActionResult ServiceHelp()
-    {
-        return View();
-    }
+    // TODO: review for public beta
+    //[HttpGet]
+    //[Route("help-with-this-service")]
+    //public IActionResult ServiceHelp()
+    //{
+    //    return View();
+    //}
 
-    [HttpGet]
-    [Route("submit-an-enquiry")]
-    public IActionResult SubmitEnquiry()
-    {
-        return View();
-    }
+    // TODO: review for public beta
+    //[HttpGet]
+    //[Route("submit-an-enquiry")]
+    //public IActionResult SubmitEnquiry()
+    //{
+    //    return View();
+    //}
 
-    [HttpGet]
-    [Route("ask-for-help")]
-    public IActionResult AskForHelp()
-    {
-        return View();
-    }
+    // TODO: review for public beta
+    //[HttpGet]
+    //[Route("ask-for-help")]
+    //public IActionResult AskForHelp()
+    //{
+    //    return View();
+    //}
 
     [HttpGet]
     [Route("cookies")]
@@ -51,11 +54,12 @@ public class StaticContentController : Controller
         return View();
     }
 
-    [HttpGet]
-    [Route("accessibility")]
-    public IActionResult Accessibility()
-    {
-        ViewData[ViewDataKeys.UseJsBackLink] = true;
-        return View();
-    }
+    // TODO: review for public beta
+    //[HttpGet]
+    //[Route("accessibility")]
+    //public IActionResult Accessibility()
+    //{
+    //    ViewData[ViewDataKeys.UseJsBackLink] = true;
+    //    return View();
+    //}
 }
