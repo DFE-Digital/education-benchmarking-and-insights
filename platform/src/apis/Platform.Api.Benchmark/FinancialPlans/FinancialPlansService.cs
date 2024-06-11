@@ -112,7 +112,7 @@ public class FinancialPlansService : IFinancialPlansService
             Input = plan.ToJson()
         };
 
-        await connection.InsertAsync(plan, transaction);
+        await connection.InsertAsync(newPlan, transaction);
 
         transaction.Commit();
 

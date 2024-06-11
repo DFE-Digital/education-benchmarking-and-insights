@@ -22,7 +22,7 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
         var plan = await api.GetAsync(urn, year).GetResultOrDefault<FinancialPlanInput>();
         if (plan == null)
         {
-            var request = new PutFinancialPlanRequest { Urn = urn, Year = year, User = user };
+            var request = new PutFinancialPlanRequest { Urn = urn, Year = year, UpdatedBy = user };
             await api.UpsertAsync(request).EnsureSuccess();
         }
     }
@@ -34,7 +34,7 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
 
     public async Task<IEnumerable<FinancialPlan>> List(string? urn)
     {
-        return await api.QueryAsync(urn).GetResultOrDefault<FinancialPlan[]>() ?? Array.Empty<FinancialPlan>();
+        return await api.QueryAsync(urn).GetResultOrDefault<FinancialPlan[]>() ?? [];
     }
 
     public async Task Update(string? urn, int? year, string user, Stage stage)
@@ -43,7 +43,7 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
         stage.SetPlanValues(plan);
 
         var request = PutFinancialPlanRequestFactory.Create(plan);
-        request.User = user;
+        request.UpdatedBy = user;
         await api.UpsertAsync(request).EnsureSuccess();
     }
 }

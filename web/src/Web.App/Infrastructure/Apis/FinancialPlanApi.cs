@@ -14,7 +14,7 @@ public class FinancialPlanApi(HttpClient httpClient, string? key = default) : Ap
 
     public async Task<ApiResult> QueryAsync(string? urn, ApiQuery? query = null)
     {
-        return await GetAsync($"api/financial-plan/{urn}{query?.ToQueryString()}");
+        return await GetAsync($"api/financial-plans/{urn}{query?.ToQueryString()}");
     }
 }
 
