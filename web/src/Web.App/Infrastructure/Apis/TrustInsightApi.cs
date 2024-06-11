@@ -10,8 +10,10 @@ public class TrustInsightApi(HttpClient httpClient, string? key = default) : Api
             .Select(q => new TrustCharacteristicUserDefined
             {
                 CompanyNumber = q.Value,
-                TrustName = "ACME Trust",
-                Address = "Stub Street, Fakesville"
+                TrustName = "ACME Trust " + q.Value,
+                SchoolsInTrust = 12,
+                TotalPupils = 345,
+                TotalIncome = 123_456_789
             }) ?? [];
 
         return Task.FromResult(ApiResult.Ok(stubCompanies));
