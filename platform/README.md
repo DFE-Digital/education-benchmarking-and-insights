@@ -26,9 +26,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Establishment`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
-    "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__EstablishmentCollectionName" : "GIAS",
     "Search__Name" : "s198d01-ebis-search",
     "Search__Key" : "[INSERT KEY VALUE]",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
@@ -50,9 +47,11 @@ Add configuration in `local.settings.json` for `Platform.Api.Benchmark`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
-    "Cosmos__DatabaseId" : "ebis-data",
-    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+    "Search__Name" : "s198d01-ebis-search",
+    "Search__Key" : "[INSERT KEY VALUE]",
+    "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
+    "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
+    "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending"
   },
   "Host": {
     "CORS": "*",
@@ -98,15 +97,49 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
     "Values": {
         "AzureWebJobsStorage": "UseDevelopmentStorage=true",
         "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "ASPNETCORE_ENVIRONMENT": "Development",
         "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
         "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
-        "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start"
+        "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start",
+        "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending"
     },
     "Host": {
         "CORS": "*",
         "LocalHttpPort": 7081
     }
 }
+```
+
+#### User Data Cleanup Function App
+
+For local development it's assumed Azurite will be used. More information can be found [here](https://learn.microsoft.com/en-us/azure/storage/common/storage-use-azurite?tabs=visual-studio%2Cblob-storage).
+
+Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
+
+```json
+{
+    "IsEncrypted": false,
+    "Values": {
+        "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+        "FUNCTIONS_WORKER_RUNTIME": "dotnet",
+        "ASPNETCORE_ENVIRONMENT": "Development",
+        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
+    },
+    "Host": {
+        "CORS": "*",
+        "LocalHttpPort": 7082
+    }
+}
+```
+
+#### Search Index App
+
+For local development it's assumed deployed instance of Azure Search will be used. 
+
+The following program arguments are required to run the search index sync app 
+
+```bat
+-s 's198d01-ebis-search' -k '[INSERT SEARCH KEY]' -c '[INSERT CONNECTION STRING VALUE]'
 ```
 
 ##### Azurite dependencies
@@ -119,6 +152,7 @@ The following items should be created:
 |-------|------------------------------|--------|
 | Queue | `data-pipeline-job-finished` |        |
 | Queue | `data-pipeline-job-start`    |        |
+| Queue | `data-pipeline-job-pending`  |        |
 
 When running the `Orchestrator` API, errors such as:
 
