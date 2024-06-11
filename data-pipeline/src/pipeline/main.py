@@ -319,7 +319,9 @@ def pre_process_data(worker_client, set_type, year):
     )
 
     data_ref = worker_client.scatter((schools, census, sen, cdc, aar, ks2, ks4, cfo))
-
+    logger.info("TEST HERE")
+    logger.info("TEST HERE")
+    logger.info("TEST HERE")
     academies, maintained_schools = worker_client.gather(
         [
             worker_client.submit(pre_process_academies_data, set_type, year, data_ref),
