@@ -1,5 +1,6 @@
 ﻿@using Web.App.Domain
 @using Web.App.TagHelpers
+@using Web.App.ViewModels
 @model Web.App.ViewModels.TrustComparatorsByNameViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByName;
@@ -49,6 +50,17 @@
         }
     </div>
 </div>
+
+@using (Html.BeginForm("Remove", "TrustComparatorsCreateBy", new
+        {
+            companyNumber = Model.CompanyNumber
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate"
+        }))
+{
+    @await Html.PartialAsync("_ChosenTrusts", new TrustComparatorsChosenTrustsViewModel(Model.CompanyNumber, Model.Trusts))
+}
 
 @section scripts
 {
