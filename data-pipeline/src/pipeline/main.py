@@ -38,6 +38,7 @@ from src.pipeline.pre_processing import (
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
+    build_cfo_data,
 )
 
 from src.pipeline.storage import (
@@ -170,7 +171,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     )
 
     academies = build_academy_data(
-        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4
+        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4, cfo
     )
 
     write_blob(
@@ -184,7 +185,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
 
 def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
-    schools, census, sen, cdc, aar, ks2, ks4 = data_ref
+    schools, census, sen, cdc, aar, ks2, ks4, cfo = data_ref
 
     maintained_schools_data = get_blob(
         raw_container,
