@@ -1,0 +1,59 @@
+﻿@using Web.App.Domain
+@using Web.App.TagHelpers
+@model Web.App.ViewModels.TrustComparatorsByNameViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByName;
+    var comparatorSetFull = Model.ComparatorCount >= 9;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <p class="govuk-body">Choose between 4 and 9 trusts for best results.</p>
+    </div>
+    <div class="govuk-grid-column-full">
+        @await Html.PartialAsync("_ErrorSummary")
+        @using (Html.BeginForm("Name", "TrustComparatorsCreateBy", new
+                {
+                    companyNumber = Model.CompanyNumber
+                }, FormMethod.Post, true, new
+                {
+                    novalidate = "novalidate"
+                }))
+        {
+            <p class="govuk-body govuk-hint">Search by trust name or company number</p>
+            <div class="govuk-grid-row">
+                <div class="govuk-grid-column-three-quarters">
+                    <div id="trust-suggester" data-exclude="@(string.Join(",", Model.ExcludeCompanyNumbers))"></div>
+                </div>
+                <div class="govuk-grid-column-one-quarter">
+                    <button
+                        type="submit"
+                        class="govuk-button"
+                        data-module="govuk-button"
+                        name="action"
+                        value="@FormAction.Add"
+                        @(comparatorSetFull ? "disabled aria-disabled=\"true\"" : string.Empty)
+                        id="choose-trust">
+                        Choose trust
+                    </button>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}
