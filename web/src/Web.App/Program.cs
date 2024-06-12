@@ -11,6 +11,7 @@ using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Storage;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
@@ -125,6 +126,13 @@ if (!builder.Environment.IsIntegration())
 
     builder.Services.AddHttpClient<ITrustInsightApi, TrustInsightApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
+
+    builder.Services.AddOptions<DataSourceStorageOptions>()
+        .BindConfiguration("Storage")
+        .ValidateDataAnnotations();
+
+    builder.Services.AddSingleton<IDataSourceStorage, DataSourceStorage>();
+
 }
 
 var app = builder.Build();

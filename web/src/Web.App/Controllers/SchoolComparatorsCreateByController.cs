@@ -270,7 +270,7 @@ public class SchoolComparatorsCreateByController(
     [HttpPost]
     [Route("by/characteristic")]
     [ExportModelState]
-    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
+    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedSchoolCharacteristicViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -370,7 +370,6 @@ public class SchoolComparatorsCreateByController(
 
     [HttpGet]
     [Route("preview")]
-    [ImportModelState]
     public async Task<IActionResult> Preview(string urn)
     {
         using (logger.BeginScope(new

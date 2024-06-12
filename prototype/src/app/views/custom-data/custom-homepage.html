@@ -17,7 +17,7 @@
       },
       {
         text: "Your school",
-        href: "/school-homepage"
+        href: "/school-homepage?customData=generated"
       }
     ]
   }) }}
@@ -26,7 +26,7 @@
 
 {% block content %}
 
-<span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
+<span class="govuk-caption-l"><a href="/school-homepage?customData=generated" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
 <h1 class="govuk-heading-l">Use your customised data</h1>
 
 {% if data['confirmation'] == 'generated' %}
@@ -38,16 +38,18 @@
         <p class="govuk-body">As you have changed the characteristics of your school, we have created <a href="/comparators/view">2 new sets of similar schools</a> to benchmark this school's spending against, to ensure you are compared against similar schools.</p>
     {% endif %}
 
-    <p><a href="/custom-data/financial-data" class="govuk-link">View or change your custom data</a></p>
-    <p><a href="/school-homepage" class="govuk-link">Return to the spending overview for {{ data['school-name'] }}</a></p>
     {% endset %}
 
     {{ govukNotificationBanner({
         html: html,
-        type: "important"
+        type: "success"
     }) }}
-  
+
 {% endif %}
+
+<p><a href="/custom-data/financial-data" class="govuk-link">View or change your custom data</a></p>
+<p><a href="/school-homepage?customData=generated" class="govuk-link">Return to the spending overview for {{ data['school-name'] }}</a></p>
+
 
 <div class="govuk-grid-row">
     <div class="govuk-grid-column-full">
@@ -56,9 +58,9 @@
 
         {% if data['changed'] != 'true' %}
             <li>
-                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <a href="/custom-data/side-by-side"><img src="/public/images/compare-your-costs.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Side-by-side comparison</a>
+                    <a href="/custom-data/side-by-side" class="govuk-link govuk-link--no-visited-state">Side-by-side comparison</a>
                 </h3>
                 <p class="govuk-body">
                     See how your custom data results in benchmarking changes compared to your original data.
@@ -67,7 +69,7 @@
         {% endif %}
 
             <li>
-                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <a href="#"><img src="/public/images/compare-your-costs.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
                 </h3>
@@ -76,16 +78,16 @@
                 </p>
             </li>
             <li>
-                <img src="/public/images/areas-for-investigation.png" alt="" class="app-view-component">
+                <a href="/spending-and-costs?customData=true"><img src="/public/images/areas-for-investigation.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
-                    <a href="#" class="govuk-link govuk-link--no-visited-state">Spending priorities for this school</a>
+                    <a href="/spending-and-costs?customData=true" class="govuk-link govuk-link--no-visited-state">Spending priorities for this school</a>
                 </h3>
                 <p class="govuk-body">
                     Compare your custom data against similar schools.
                 </p>
             </li>
             <li>
-                <img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component">
+                <a href="#"><img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                 </h3>

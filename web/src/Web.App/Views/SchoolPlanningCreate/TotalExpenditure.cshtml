@@ -9,6 +9,7 @@
         @await Html.PartialAsync("_ErrorSummary")
         @using (Html.BeginForm("TotalExpenditure", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
+            <input type="hidden" name="@nameof(Model.Referrer)" value="@Model.Referrer"/>
             <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TotalExpenditure)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <span class="govuk-caption-l">@Model.School.SchoolName</span>
                 <h1 class="govuk-label-wrapper">

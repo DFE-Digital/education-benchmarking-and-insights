@@ -41,7 +41,7 @@
                     <td class="govuk-table__cell">
                         @if (plan.IsComplete)
                         {
-                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Green, DisplayText = "Complete" })
+                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.GdsGreen, DisplayText = "Complete" })
                         }
                         else
                         {

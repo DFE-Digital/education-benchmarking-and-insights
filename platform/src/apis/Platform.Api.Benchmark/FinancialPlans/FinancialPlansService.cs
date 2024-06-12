@@ -4,7 +4,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using Dapper;
 using Dapper.Contrib.Extensions;
-using Newtonsoft.Json;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Sql;
@@ -15,6 +14,7 @@ public interface IFinancialPlansService
 {
     Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string urn);
     Task<FinancialPlanDetails?> DetailsAsync(string urn, int year);
+    Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year);
     Task<Result> UpsertAsync(string urn, int year, FinancialPlanDetails plan);
     Task DeleteAsync(string urn, int year);
 }
@@ -42,6 +42,12 @@ public class FinancialPlansService : IFinancialPlansService
     {
         var result = await GetFinancialPlan(urn, year);
         return result?.Input?.FromJson<FinancialPlanDetails>();
+    }
+
+    public async Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year)
+    {
+        var result = await GetFinancialPlan(urn, year);
+        return result?.DeploymentPlan?.FromJson<FinancialPlanDeployment>();
     }
 
     public async Task<Result> UpsertAsync(string urn, int year, FinancialPlanDetails plan)
@@ -86,6 +92,7 @@ public class FinancialPlansService : IFinancialPlansService
         existing.Version += 1;
         existing.IsComplete = plan.IsComplete;
         existing.Input = plan.ToJson();
+        existing.DeploymentPlan = plan.IsComplete ? DeploymentPlanFactory.Create(plan).ToJson() : null;
 
         await connection.UpdateAsync(existing, transaction);
 
@@ -109,10 +116,11 @@ public class FinancialPlansService : IFinancialPlansService
             CreatedBy = plan.UpdatedBy,
             Version = 1,
             IsComplete = plan.IsComplete,
-            Input = plan.ToJson()
+            Input = plan.ToJson(),
+            DeploymentPlan = plan.IsComplete ? DeploymentPlanFactory.Create(plan).ToJson() : null
         };
 
-        await connection.InsertAsync(plan, transaction);
+        await connection.InsertAsync(newPlan, transaction);
 
         transaction.Commit();
 

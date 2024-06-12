@@ -8,6 +8,7 @@
         <RuntimeIdentifiers>linux-x64</RuntimeIdentifiers>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Azure.Storage.Blobs" />
         <PackageReference Include="CorrelationId"/>
         <PackageReference Include="FluentValidation"/>
         <PackageReference Include="FluentValidation.AspNetCore" />

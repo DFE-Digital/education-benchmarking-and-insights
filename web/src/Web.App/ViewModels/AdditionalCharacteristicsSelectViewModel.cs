@@ -5,7 +5,7 @@ namespace Web.App.ViewModels;
 public abstract class AdditionalCharacteristicsViewModel
 {
     protected AdditionalCharacteristicsViewModel(
-        ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
+        ViewDataDictionary viewData,
         string title,
         string selectedFieldName,
         string? defaultSelectedFieldValue,
@@ -44,7 +44,7 @@ public abstract class AdditionalCharacteristicsViewModel
 public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristicsViewModel
 {
     public AdditionalCharacteristicsRangeViewModel(
-        ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
+        ViewDataDictionary viewData,
         string title,
         string selectedFieldName,
         string? defaultSelectedFieldValue,
@@ -57,7 +57,8 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
         string? prefix = null,
         string? suffix = null,
         string? inputSuffix = null,
-        string? inputsSuffix = null)
+        string? inputsSuffix = null,
+        bool? wide = null)
         : base(viewData, title, selectedFieldName, defaultSelectedFieldValue, schoolName, schoolValueFormatted, prefix, suffix)
     {
         FromFieldName = fromFieldName;
@@ -84,6 +85,7 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
 
         InputSuffix = inputSuffix;
         InputsSuffix = inputsSuffix;
+        Wide = wide;
     }
 
     public string FromFieldName { get; private set; }
@@ -92,12 +94,13 @@ public class AdditionalCharacteristicsRangeViewModel : AdditionalCharacteristics
     public string? ValueTo { get; private set; }
     public string? InputSuffix { get; private set; }
     public string? InputsSuffix { get; private set; }
+    public bool? Wide { get; private set; }
 }
 
 public class AdditionalCharacteristicsSelectViewModel : AdditionalCharacteristicsViewModel
 {
     public AdditionalCharacteristicsSelectViewModel(
-        ViewDataDictionary<SchoolComparatorsByCharacteristicViewModel> viewData,
+        ViewDataDictionary viewData,
         string title,
         string selectedFieldName,
         string? defaultSelectedFieldValue,

@@ -61,6 +61,41 @@ public class FinancialPlansFunctions
         }
     }
 
+    [FunctionName(nameof(DeploymentPlanAsync))]
+    [ProducesResponseType(typeof(FinancialPlanDeployment), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.NotFound)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> DeploymentPlanAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plan/{urn}/{year}/deployment")]
+        HttpRequest req,
+        string urn,
+        int year)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId },
+                   { "URN", urn },
+                   { "Year", year }
+               }))
+        {
+            try
+            {
+                var plan = await _service.DeploymentPlanAsync(urn, year);
+                return plan != null
+                    ? new JsonContentResult(plan)
+                    : new NotFoundResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get deployment plan");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
     [FunctionName(nameof(QueryFinancialPlanAsync))]
     [ProducesResponseType(typeof(FinancialPlanSummary), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
