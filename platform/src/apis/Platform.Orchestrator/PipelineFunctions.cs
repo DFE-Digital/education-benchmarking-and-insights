@@ -80,11 +80,11 @@ public class PipelineFunctions
     {
         var input = context.GetInput<PipelineStartMessage>();
         await context.CallActivityAsync(nameof(OnStartJobTrigger), input);
-        
+
         _logger.LogInformation("{JobId} waiting for finished event", input.JobId);
         await context.WaitForExternalEvent(nameof(PipelineJobFinished));
         _logger.LogInformation("{JobId} received finished event", input.JobId);
-        
+
         switch (input.Type)
         {
             case "comparator-set":
@@ -105,7 +105,7 @@ public class PipelineFunctions
     public async Task UpdateStatusTrigger([ActivityTrigger] IDurableActivityContext context)
     {
         var message = context.GetInput<PipelineStartMessage>();
-        
+
         _logger.LogInformation("Updating status for {RunId}", message.RunId);
         await _db.UpdateStatus(message.RunId);
     }
