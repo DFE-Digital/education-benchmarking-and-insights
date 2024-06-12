@@ -370,7 +370,7 @@ def prepare_central_services_data(cs_path):
         mappings.map_is_surplus_deficit
     )
 
-    central_services_financial["Other grants"] = central_services_financial["Other income (LA & other Government grants)"] + central_services_financial["Non- Government"]
+    central_services_financial["Income_Other grants"] = central_services_financial["Income_Other grants"] + central_services_financial["Income_Non government"]
 
     return central_services_financial
 
@@ -426,7 +426,7 @@ def prepare_aar_data(aar_path):
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
-    aar["Other grants"] = aar["Other income - LA & other Government grants"] + aar["Non-Government"]
+    aar["Income_Other grants"] = aar["Income_Other grants"] + aar["Income_Non government"]
 
     return aar.set_index("URN")
 
@@ -681,6 +681,11 @@ def build_academy_data(
             category, academies, basis_data
         )
 
+    academies["Catering staff and supplies_Net Costs"] = (
+            academies["Income_Catering services"]
+            + academies["Catering staff and supplies_Total"]
+    )
+
     trust_basis_data = (academies.sort_values(by="Trust UPIN")[
             ["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]
         ].groupby(["Trust UPIN"])
@@ -701,6 +706,11 @@ def build_academy_data(
         central_services = mappings.map_cost_series(
             category, central_services, cs_basis_data
         )
+
+    central_services["Catering staff and supplies_Net Costs"] = (
+            central_services["Income_Catering services"]
+            + central_services["Catering staff and supplies_Total"]
+    )
 
     # Apportion the central services income fields
     income_cols = central_services.columns[
@@ -834,7 +844,6 @@ def build_maintained_school_data(
             + maintained_schools["I18  Additional grant for schools"]
     )
 
-
     maintained_schools.rename(
         columns={"Period covered by return (months)": "Period covered by return"}
         | config.cost_category_map["maintained_schools"]
@@ -849,6 +858,11 @@ def build_maintained_school_data(
         maintained_schools = mappings.map_cost_series(
             category, maintained_schools, basis_data
         )
+
+    maintained_schools["Catering staff and supplies_Net Costs"] = (
+            maintained_schools["Income_Catering services"]
+            + maintained_schools["Catering staff and supplies_Total"]
+    )
 
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
 

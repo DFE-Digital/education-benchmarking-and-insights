@@ -190,7 +190,7 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     )
 
     academies = build_academy_data(
-        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4, central_services
+        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services
     )
 
     write_blob(
@@ -324,7 +324,7 @@ def pre_process_bfr(set_type, year):
 
 def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
-    logger.info("Pre-processing data")
+    logger.info(f"Pre-processing data {set_type} - {year}")
 
     cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = worker_client.gather(
         [
