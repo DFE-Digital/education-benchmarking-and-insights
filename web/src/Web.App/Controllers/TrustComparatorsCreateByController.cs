@@ -261,7 +261,47 @@ public class TrustComparatorsCreateByController(
 
     [HttpGet]
     [Route("preview")]
-    public IActionResult Preview(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    public async Task<IActionResult> Preview(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    companyNumber
+                }));
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                if (userDefinedSet.Set.Length <= 1)
+                {
+                    return RedirectToAction(nameof(Characteristic), new
+                    {
+                        companyNumber
+                    });
+                }
+
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(userDefinedSet.Set.Where(s => s != companyNumber));
+                var viewModel = new TrustComparatorsPreviewViewModel(
+                    trust,
+                    characteristics,
+                    userDefinedSet.Set.Length,
+                    userDefinedSet.TotalTrusts.GetValueOrDefault(),
+                    userDefinedCharacteristic);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create trust comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
 
     private async Task<T[]?> GetTrustCharacteristics<T>(IEnumerable<string> set)
     {

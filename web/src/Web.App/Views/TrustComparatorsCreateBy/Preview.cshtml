@@ -1,0 +1,169 @@
+﻿@using Web.App.Extensions
+@model Web.App.ViewModels.TrustComparatorsPreviewViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsPreview;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            @if (Model.TotalTrusts > Model.Characteristics?.Length)
+            {
+                @:We matched 
+                @Model.TotalTrusts
+                @:trusts, but these
+            }
+            else
+            {
+                @:These
+            }
+
+            are the @Model.ClosestTrusts closest matches to
+            @Model.Name using the characteristics you selected.
+        </p>
+
+        <p class="govuk-body">
+            <a
+                href="@Url.Action("Characteristic", new { companyNumber = Model.CompanyNumber })"
+                class="govuk-link govuk-link--no-visited-state"
+                id="change-set">
+                Change characteristics and create a new set
+            </a>
+        </p>
+
+        @if (Model.Characteristics != null)
+        {
+            <a
+                href="@Url.Action("Submit", new { companyNumber = Model.CompanyNumber })"
+                role="button" draggable="false"
+                class="govuk-button"
+                data-module="govuk-button"
+                id="create-set">
+                Create a set using these trusts
+            </a>
+
+            <table class="govuk-table">
+                <thead class="govuk-table__head">
+                <tr class="govuk-table__row">
+                    <th scope="col" class="govuk-table__header govuk-!-width-one-third">Trust</th>
+                    <th scope="col" class="govuk-table__header" colspan="2">Individual characteristics</th>
+                </tr>
+                </thead>
+                <tbody class="govuk-table__body">
+                @foreach (var characteristic in Model.Characteristics)
+                {
+                    var phases = characteristic.Phases;
+                    <tr class="govuk-table__row">
+                        <td class="govuk-table__cell">
+                            <span class="govuk-body govuk-!-font-weight-bold">@characteristic.TrustName</span><br>
+                            <span class="govuk-hint">@characteristic.CompanyNumber</span>
+                        </td>
+                        <td class="govuk-table__cell">
+                            @if (Model.HasAdditionalCharacteristics == true)
+                            {
+                                @if (Model.TotalPupilsSelected)
+                                {
+                                    <p class="govuk-body">Number of pupils</p>
+                                }
+                                @if (Model.SchoolsInTrustSelected)
+                                {
+                                    <p class="govuk-body">Number of schools</p>
+                                }
+                                @if (Model.TotalIncomeSelected)
+                                {
+                                    <p class="govuk-body">Total income</p>
+                                }
+                                @if (Model.InternalFloorAreaSelected)
+                                {
+                                    <p class="govuk-body">Total gross internal floor area</p>
+                                }
+                                @if (Model.FreeSchoolMealsSelected)
+                                {
+                                    <p class="govuk-body">Eligibility for free school meals (FSM)</p>
+                                }
+                                @if (Model.OverallPhaseSelected)
+                                {
+                                    <p class="govuk-body">School phases covered by trust</p>
+                                }
+                                @if (Model.SpecialEducationalNeedsSelected)
+                                {
+                                    <p class="govuk-body">Pupils with special educational needs (SEN)</p>
+                                }
+                                @if (Model.FormationYearSelected)
+                                {
+                                    <p class="govuk-body">Trust formation year</p>
+                                }
+                            }
+                            else
+                            {
+                                <p class="govuk-body">Number of pupils</p>
+                                <p class="govuk-body">Eligibility for free school meals (FSM)</p>
+                                <p class="govuk-body">Pupils with special educational needs (SEN)</p>
+                            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            @if (Model.HasAdditionalCharacteristics == true)
+                            {
+                                @if (Model.TotalPupilsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.SchoolsInTrustSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.SchoolsInTrust.GetValueOrDefault()</p>
+                                }
+                                @if (Model.TotalIncomeSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalIncome.ToCurrency(0)</p>
+                                }
+                                @if (Model.InternalFloorAreaSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator()</p>
+                                }
+                                @if (Model.FreeSchoolMealsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentFreeSchoolMeals.ToPercent()</p>
+                                }
+                                @if (Model.OverallPhaseSelected)
+                                {
+                                    <p class="govuk-body">
+                                        @(phases.Length > 1
+                                            ? $"{string.Join(", ", phases.Take(new Range(0, phases.Length - 1)))} and {phases.Last()}"
+                                            : phases.FirstOrDefault())
+                                    </p>
+                                }
+                                @if (Model.SpecialEducationalNeedsSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
+                                }
+                                @if (Model.FormationYearSelected)
+                                {
+                                    <p class="govuk-body">@characteristic.OpenDate?.ToString("yyyy")</p>
+                                }
+                            }
+                            else
+                            {
+                                <p class="govuk-body">@characteristic.TotalPupils.GetValueOrDefault().ToNumberSeparator()</p>
+                                <p class="govuk-body">@characteristic.PercentFreeSchoolMeals.ToPercent()</p>
+                                <p class="govuk-body">@characteristic.PercentSpecialEducationNeeds.ToPercent()</p>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+
+            <a href="@Url.Action("Submit", new { companyNumber = Model.CompanyNumber })" role="button" draggable="false" class="govuk-button" data-module="govuk-button">
+                Create a set using these trusts
+            </a>
+        }
+    </div>
+</div>
