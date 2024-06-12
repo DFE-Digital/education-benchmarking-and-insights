@@ -21,6 +21,7 @@ public class TrustComparatorsCreateByController(
     IEstablishmentApi establishmentApi,
     ITrustComparatorSetService trustComparatorSetService,
     ITrustInsightApi trustInsightApi,
+    IComparatorSetApi comparatorSetApi,
     IComparatorApi comparatorApi
 ) : Controller
 {
@@ -77,11 +78,12 @@ public class TrustComparatorsCreateByController(
     [HttpGet]
     [Route("by/name")]
     [ImportModelState]
-    public async Task<IActionResult> Name(string companyNumber)
+    public async Task<IActionResult> Name(string companyNumber, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
         {
-            companyNumber
+            companyNumber,
+            identifier
         }))
         {
             try
@@ -92,7 +94,18 @@ public class TrustComparatorsCreateByController(
                 }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                UserDefinedTrustComparatorSet userDefinedSet;
+                if (string.IsNullOrEmpty(identifier))
+                {
+                    userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                }
+                else
+                {
+                    userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber, identifier);
+                    trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber, identifier);
+                    trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, userDefinedSet);
+                }
+
                 var trustsQuery = new ApiQuery();
                 foreach (var selectedCompanyNumber in userDefinedSet.Set)
                 {
@@ -170,7 +183,53 @@ public class TrustComparatorsCreateByController(
 
     [HttpGet]
     [Route("submit")]
-    public IActionResult Submit(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    public async Task<IActionResult> Submit(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                if (userDefinedSet.Set.Length == 0)
+                {
+                    return RedirectToAction("Index", new
+                    {
+                        urn = companyNumber
+                    });
+                }
+
+                if (!userDefinedSet.Set.Contains(companyNumber))
+                {
+                    // ensure current trust is in the set
+                    var list = userDefinedSet.Set.ToList();
+                    list.Add(companyNumber);
+                    userDefinedSet.Set = list.ToArray();
+                }
+
+                var request = new PutComparatorSetUserDefinedRequest
+                {
+                    Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
+                    Set = userDefinedSet.Set,
+                    UserId = User.UserId()
+                };
+
+                await comparatorSetApi.UpsertUserDefinedTrustAsync(companyNumber, request).EnsureSuccess();
+                trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
+                trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                var viewModel = new TrustComparatorsSubmittedViewModel(trust, request);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error submitting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
 
     [HttpGet]
     [Route("by/characteristic")]

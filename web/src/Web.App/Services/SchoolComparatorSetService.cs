@@ -39,16 +39,6 @@ public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor
         return set ?? await SetUserDefinedComparatorSet(urn, identifier);
     }
 
-    public void ClearUserDefinedComparatorSet(string urn, string? identifier = null)
-    {
-        var key = string.IsNullOrWhiteSpace(identifier)
-            ? SessionKeys.ComparatorSetUserDefined(urn)
-            : SessionKeys.ComparatorSetUserDefined(urn, identifier);
-        var context = httpContextAccessor.HttpContext;
-
-        context?.Session.Remove(key);
-    }
-
     public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn);
@@ -57,6 +47,16 @@ public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor
         var set = context?.Session.Get<UserDefinedSchoolComparatorSet>(key);
 
         return set ?? SetUserDefinedComparatorSet(urn, new UserDefinedSchoolComparatorSet());
+    }
+
+    public void ClearUserDefinedComparatorSet(string urn, string? identifier = null)
+    {
+        var key = string.IsNullOrWhiteSpace(identifier)
+            ? SessionKeys.ComparatorSetUserDefined(urn)
+            : SessionKeys.ComparatorSetUserDefined(urn, identifier);
+        var context = httpContextAccessor.HttpContext;
+
+        context?.Session.Remove(key);
     }
 
     public UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set)

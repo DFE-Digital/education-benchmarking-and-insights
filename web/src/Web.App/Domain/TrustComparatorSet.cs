@@ -8,6 +8,7 @@ public record TrustComparatorSetUserDefined
 
 public record UserDefinedTrustComparatorSet
 {
+    public string? RunId { get; set; }
     public long? TotalTrusts { get; set; }
     public string[] Set { get; set; } = [];
 }

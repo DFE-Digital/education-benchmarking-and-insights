@@ -1,7 +1,12 @@
 using Web.App.Domain;
 namespace Web.App.ViewModels;
 
-public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<School> schools, IEnumerable<RagRating> ratings)
+public class TrustViewModel(
+    Trust trust,
+    Balance balance,
+    IReadOnlyCollection<School> schools,
+    IEnumerable<RagRating> ratings,
+    bool? comparatorGenerated)
 {
 
     public string? CompanyNumber => trust.CompanyNumber;
@@ -17,7 +22,7 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
         .Where(NotOther)
         .GroupBy(x => (x.RAG, x.Category))
         .Select(x => (x.Key.RAG, x.Key.Category, Count: x.Count()))
-        .GroupBy(x => (x.Category))
+        .GroupBy(x => x.Category)
         .Select(x => new RagCostCategoryViewModel(
             x.Key,
             x.Where(w => Red(w.RAG)).Select(r => r.Count).SingleOrDefault(),
@@ -43,6 +48,8 @@ public class TrustViewModel(Trust trust, Balance balance, IReadOnlyCollection<Sc
     public IEnumerable<RagSchoolViewModel> SpecialOrPruSchools =>
         Schools.Where(s => s.OverallPhase is OverallPhaseTypes.Special or OverallPhaseTypes.PupilReferralUnit)
             .SelectMany(s => s.Schools);
+
+    public bool? ComparatorGenerated => comparatorGenerated;
 
     private IEnumerable<(
         string? OverallPhase,
