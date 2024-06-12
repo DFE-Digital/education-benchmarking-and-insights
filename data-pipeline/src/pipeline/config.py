@@ -6,6 +6,7 @@ income_category_map = {
         "Other income - LA & other Government grants": "Income_Other grants",
         "Academies": "Income_Academies",
         "Non-Government": "Income_Non government",
+        "Government source, non-grant": "Income_Government source",
         "All income from facilities and services": "Income_Facilities and services",
         "Income from catering": "Income_Catering services",
         "Receipts from supply teacher insurance claims": "Income_Receipts supply teacher insurance",
@@ -17,7 +18,7 @@ income_category_map = {
         "Total Grant Funding": "Income_Total grant funding",
         "Total Self Generated Funding": "Income_Total self generated funding",
         "Total Income": "Income_Total",
-        "Revenue Reserve": "Revenue reserve",
+        "Revenue reserve": "Revenue reserve",
     },
     "central_services": {
         "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_DFE revenue grants",
@@ -38,7 +39,7 @@ income_category_map = {
         "Grant Funding": "Income_Total grant funding",
         "Self Generated Funding": "Income_Total self generated funding",
         "Total Income ": "Income_Total",
-        "Revenue Reserve ": "Revenue reserve"
+        "Revenue Reserve": "Revenue reserve"
     },
     "maintained_schools": {
         # "I01  Funds delegated by the LA": "",
@@ -54,9 +55,10 @@ income_category_map = {
         # "I11  Receipts from other insurance claims": "",
         # "I12  Income from contributions to visits etc ": "",
         "I13  Donations and or private funds": "Income_Donations and voluntary funds",
-        "I16  Community focussed school funding and   or grants": "Income_Community grants",
+        # "I16  Community focussed school funding and   or grants": "Income_Community grants",
         # "I17  Community focused school facilities income": "",
         # "I18  Additional grant for schools": "Income_Other grants",
+        "CI04 Direct revenue financing": "Income_Direct revenue finance",
         "Total Income   I01 to I18": "Income_Total",
         "Revenue Reserve   B01 plus B02 plus B06": "Revenue reserve",
     }
@@ -115,7 +117,7 @@ cost_category_map = {
         "Rent and Rates": "Other costs_Rent and rates",
         "Other occupation costs": "Premises staff and services_Other occupation costs",
         "Special facilities": "Other costs_Special facilities",
-        "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (non ICT equipment)",
+        "Learning resources (not ICT equipment)": "Educational supplies_Learning resources (not ICT equipment)",
         "ICT learning resources": "Educational ICT_ICT learning resources",
         "Examination fees": "Educational supplies_Examination fees",
         "Educational Consultancy": "Teaching and Teaching support staff_Educational consultancy",

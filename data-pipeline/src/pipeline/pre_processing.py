@@ -108,98 +108,6 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         + census["Full time girls Year group 13"]
     )
 
-    census["WorkforceHeadcountPerFTE"] = (
-        census["Total School Workforce (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    )
-    census["WorkforcePercentTotalWorkforce"] = (
-        census["Total School Workforce (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["WorkforcePerPupil"] = (
-        census["Total School Workforce (Headcount)"] / census["Number of pupils"]
-    )
-
-    census["TeachersHeadcountPerFTE"] = (
-        census["Total Number of Teachers (Headcount)"]
-        / census["Total Number of Teachers (Full-Time Equivalent)"]
-    )
-    census["TeachersPercentTotalWorkforce"] = (
-        census["Total Number of Teachers (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["TeachersPerPupil"] = (
-        census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
-    )
-
-    census["SeniorLeadershipHeadcountPerFTE"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census[
-            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
-        ]
-    )
-    census["SeniorLeadershipPercentTotalWorkforce"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["SeniorLeadershipPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["SeniorLeadershipHeadcountPerFTE"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census[
-            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
-        ]
-    )
-    census["SeniorLeadershipPercentTotalWorkforce"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["SeniorLeadershipPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["TeachingAssistantHeadcountPerFTE"] = (
-        census["Total Number of Teaching Assistants (Headcount)"]
-        / census["Total Number of Teaching Assistants (Full-Time Equivalent)"]
-    )
-    census["TeachingAssistantPercentTotalWorkforce"] = (
-        census["Total Number of Teaching Assistants (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["TeachingAssistantPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["NonClassroomSupportStaffHeadcountPerFTE"] = (
-        census["NonClassroomSupportStaffHeadcount"]
-        / census["NonClassroomSupportStaffFTE"]
-    )
-    census["NonClassroomSupportStaffPercentTotalWorkforce"] = (
-        census["NonClassroomSupportStaffHeadcount"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["NonClassroomSupportStaffPerPupil"] = (
-        census["NonClassroomSupportStaffHeadcount"] / census["Number of pupils"]
-    )
-
-    census["AuxiliaryStaffHeadcountPerFTE"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Total Number of Auxiliary Staff (Full-Time Equivalent)"]
-    )
-    census["AuxiliaryStaffPercentTotalWorkforce"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["AuxiliaryStaffPerPupil"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Number of pupils"]
-    )
-
     return census
 
 
@@ -670,8 +578,6 @@ def build_academy_data(
     academies["Email"] = ""
     academies["HeadEmail"] = ""
     academies["Is PFI"] = academies["Is PFI"].astype(bool).fillna(False)
-    academies["CFO Email"] = None
-    academies["CFO Name"] = None
 
     for category in config.rag_category_settings.keys():
         basis_data = academies[

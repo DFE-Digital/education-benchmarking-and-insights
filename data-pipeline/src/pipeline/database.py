@@ -146,21 +146,20 @@ def insert_schools_and_trusts_and_local_authorities(
     trust_projections = {
         "Trust Name": "TrustName",
         "Group UID": "UID",
-        "CFO Name": "CFOName",
-        "CFO Email": "CFOEmail",
+        "CFO name": "CFOName",
+        "CFO email": "CFOEmail",
         "OpenDate": "OpenDate",
-        "Company Registration Number": "CompanyNumber",
+        "Company Registration Number": "CompanyNumber"
     }
 
     trusts = (
-        df[~df["Trust UKPRN"].isna()]
+        df[~df["Company Registration Number"].isna()]
         .reset_index()
-        .sort_values(by=["Trust UKPRN", "OpenDate"], ascending=False)
-        .groupby(["Trust UKPRN"])
+        .sort_values(by=["Company Registration Number", "OpenDate"], ascending=False)
+        .groupby(["Company Registration Number"])
         .first()
-        .rename(columns=trust_projections)[[*trust_projections.values()]]
         .reset_index()
-        .drop(columns=["Trust UKPRN"])
+        .rename(columns=trust_projections)[[*trust_projections.values()]]
     )
 
     upsert(trusts, "Trust", keys=["CompanyNumber"])
@@ -191,34 +190,16 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
         "TotalPupilsNursery": "TotalPupilsNursery",
         "Total School Workforce (Headcount)": "WorkforceHeadcount",
         "Total School Workforce (Full-Time Equivalent)": "WorkforceFTE",
-        "WorkforceHeadcountPerFTE": "WorkforceHeadcountPerFTE",
-        "WorkforcePercentTotalWorkforce": "WorkforcePercentTotalWorkforce",
-        "WorkforcePerPupil": "WorkforcePerPupil",
         "Total Number of Teachers (Headcount)": "TeachersHeadcount",
         "Total Number of Teachers (Full-Time Equivalent)": "TeachersFTE",
-        "TeachersHeadcountPerFTE": "TeachersHeadcountPerFTE",
-        "TeachersPercentTotalWorkforce": "TeachersPercentTotalWorkforce",
-        "TeachersPerPupil": "TeachersPerPupil",
         "Total Number of Teachers in the Leadership Group (Headcount)": "SeniorLeadershipHeadcount",
         "Total Number of Teachers in the Leadership Group (Full-time Equivalent)": "SeniorLeadershipFTE",
-        "SeniorLeadershipHeadcountPerFTE": "SeniorLeadershipHeadcountPerFTE",
-        "SeniorLeadershipPercentTotalWorkforce": "SeniorLeadershipPercentTotalWorkforce",
-        "SeniorLeadershipPerPupil": "SeniorLeadershipPerPupil",
         "Total Number of Teaching Assistants (Headcount)": "TeachingAssistantHeadcount",
         "Total Number of Teaching Assistants (Full-Time Equivalent)": "TeachingAssistantFTE",
-        "TeachingAssistantHeadcountPerFTE": "TeachingAssistantHeadcountPerFTE",
-        "TeachingAssistantPercentTotalWorkforce": "TeachingAssistantPercentTotalWorkforce",
-        "TeachingAssistantPerPupil": "TeachingAssistantPerPupil",
         "NonClassroomSupportStaffHeadcount": "NonClassroomSupportStaffHeadcount",
         "NonClassroomSupportStaffFTE": "NonClassroomSupportStaffFTE",
-        "NonClassroomSupportStaffHeadcountPerFTE": "NonClassroomSupportStaffHeadcountPerFTE",
-        "NonClassroomSupportStaffPercentTotalWorkforce": "NonClassroomSupportStaffPercentTotalWorkforce",
-        "NonClassroomSupportStaffPerPupil": "NonClassroomSupportStaffPerPupil",
         "Total Number of Auxiliary Staff (Headcount)": "AuxiliaryStaffHeadcount",
         "Total Number of Auxiliary Staff (Full-Time Equivalent)": "AuxiliaryStaffFTE",
-        "AuxiliaryStaffHeadcountPerFTE": "AuxiliaryStaffHeadcountPerFTE",
-        "AuxiliaryStaffPercentTotalWorkforce": "AuxiliaryStaffPercentTotalWorkforce",
-        "AuxiliaryStaffPerPupil": "AuxiliaryStaffPerPupil",
         "Teachers with Qualified Teacher Status (%) (Headcount)": "PercentTeacherWithQualifiedStatus",
         "Percentage Free school meals": "PercentFreeSchoolMeals",
         "Percentage SEN": "PercentSpecialEducationNeeds",
@@ -265,12 +246,11 @@ def insert_financial_data(
         "Income_Total": "TotalIncome",
         "Total Expenditure": "TotalExpenditure",
         "Total Internal Floor Area": "TotalInternalFloorArea",
-        "Number of pupils": "NumberOfPupils",
+        "Number of pupils": "TotalPupils",
         "In year balance": "InYearBalance",
         "Revenue reserve": "RevenueReserve",
         "Income_Total grant funding": "TotalGrantFunding",
         "Income_Total self generated funding": "TotalSelfGeneratedFunding",
-        "Direct revenue financing - Revenue contributions to capital": "DirectRevenueFinancing",
         "Income_Direct grants": "DirectGrants",
         "Income_Other DFE grants": "OtherDfeGrants",
         "Income_Other grants": "OtherIncomeGrants",
@@ -328,10 +308,10 @@ def insert_financial_data(
         "Income_Total_CS": "TotalIncomeCS",
         "Total Expenditure_CS": "TotalExpenditureCS",
         "In year balance_CS": "InYearBalanceCS",
-        "Revenue Reserve_CS": "RevenueReserveCS",
+        "Revenue reserve_CS": "RevenueReserveCS",
+        "Income_Direct revenue finance": "DirectRevenueFinancing",
         "Income_Total grant funding_CS": "TotalGrantFundingCS",
         "Income_Total self generated funding_CS": "TotalSelfGeneratedFundingCS",
-        "Direct revenue financing - Revenue contributions to capital_CS": "DirectRevenueFinancingCS",
         "Income_Direct grants_CS": "DirectGrantsCS",
         "Income_Other DFE grants_CS": "OtherDfeGrantsCS",
         "Income_Other grants_CS": "OtherIncomeGrantsCS",
@@ -374,7 +354,6 @@ def insert_financial_data(
         "Catering staff and supplies_Catering supplies_CS": "CateringSuppliesCostsCS",
         "Other costs_Total_CS": "TotalOtherCostsCS",
         "Other costs_Direct revenue financing_CS": "DirectRevenueFinancingCostsCS",
-        "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
         "Other costs_Indirect employee expenses_CS": "IndirectEmployeeExpensesCS",
         "Other costs_Interest charges for loan and bank_CS": "InterestChargesLoanBankCS",
         "Other costs_Other insurance premiums_CS": "OtherInsurancePremiumsCostsCS",
@@ -384,6 +363,7 @@ def insert_financial_data(
         "Other costs_Staff development and training_CS": "StaffDevelopmentTrainingCostsCS",
         "Other costs_Staff-related insurance_CS": "StaffRelatedInsuranceCostsCS",
         "Other costs_Supply teacher insurance_CS": "SupplyTeacherInsurableCostsCS",
+        # "Other costs_Grounds maintenance_CS": "GroundsMaintenanceCostsCS",
         # "": "CommunityFocusedSchoolStaffCS",
         # "": "CommunityFocusedSchoolCostsCS",
         # "": "PrePost16FundingCS",
