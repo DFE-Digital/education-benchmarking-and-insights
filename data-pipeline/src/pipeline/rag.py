@@ -238,7 +238,7 @@ def compute_rag(data, comparators):
 def compute_user_defined_rag(
     data: pd.DataFrame,
     target_urn: int,
-    set_urns: pd.DataFrame,
+    set_urns: list[int],
 ) -> Generator[dict, None, None]:
     """
     Perform user-defined RAG calculation.
