@@ -8,13 +8,14 @@ namespace Platform.Domain.Messages;
 [ExcludeFromCodeCoverage]
 public record PipelineFinishMessage
 {
-    public Guid JobId { get; set; } = Guid.NewGuid();
+    public string? JobId { get; set; }
+    public string? RunId { get; set; }
 }
 
 [ExcludeFromCodeCoverage]
 public record PipelineStartMessage
 {
-    public Guid JobId { get; set; } = Guid.NewGuid();
+    public string? JobId { get; set; } = Guid.NewGuid().ToString();
     public string? Type { get; set; } // Pipeline job type : default / comparator-set / custom-data
     public string? RunType { get; set; }  // Data context : default / custom
     public string? RunId { get; set; } // year or id for comparator-set / custom-data
