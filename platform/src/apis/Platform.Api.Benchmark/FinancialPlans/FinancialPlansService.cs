@@ -87,12 +87,20 @@ public class FinancialPlansService : IFinancialPlansService
         using var connection = await _dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
+        var deployment = plan.IsComplete ? DeploymentPlanFactory.Create(plan) : null;
+
         existing.UpdatedAt = DateTimeOffset.UtcNow;
         existing.UpdatedBy = plan.UpdatedBy;
         existing.Version += 1;
         existing.IsComplete = plan.IsComplete;
         existing.Input = plan.ToJson();
-        existing.DeploymentPlan = plan.IsComplete ? DeploymentPlanFactory.Create(plan).ToJson() : null;
+        existing.DeploymentPlan = deployment?.ToJson();
+        existing.AverageClassSize = deployment?.AverageClassSize;
+        existing.AverageClassSizeRating = deployment?.AverageClassSizeRating;
+        existing.TeacherContactRatio = deployment?.TeacherContactRatio;
+        existing.ContactRatioRating = deployment?.ContactRatioRating;
+        existing.InYearBalancePercentIncomeRating = deployment?.InYearBalancePercentIncomeRating;
+        existing.InYearBalance = deployment?.InYearBalance;
 
         await connection.UpdateAsync(existing, transaction);
 
@@ -106,6 +114,8 @@ public class FinancialPlansService : IFinancialPlansService
         using var connection = await _dbFactory.GetConnection();
         using var transaction = connection.BeginTransaction();
 
+        var deployment = plan.IsComplete ? DeploymentPlanFactory.Create(plan) : null;
+
         var newPlan = new FinancialPlan
         {
             Year = year,
@@ -117,7 +127,13 @@ public class FinancialPlansService : IFinancialPlansService
             Version = 1,
             IsComplete = plan.IsComplete,
             Input = plan.ToJson(),
-            DeploymentPlan = plan.IsComplete ? DeploymentPlanFactory.Create(plan).ToJson() : null
+            DeploymentPlan = deployment?.ToJson(),
+            AverageClassSize = deployment?.AverageClassSize,
+            AverageClassSizeRating = deployment?.AverageClassSizeRating,
+            TeacherContactRatio = deployment?.TeacherContactRatio,
+            ContactRatioRating = deployment?.ContactRatioRating,
+            InYearBalancePercentIncomeRating = deployment?.InYearBalancePercentIncomeRating,
+            InYearBalance = deployment?.InYearBalance
         };
 
         await connection.InsertAsync(newPlan, transaction);

@@ -22,6 +22,7 @@ public static class DecimalExtensions
         return $"{DateTime.UtcNow.Year - value:0} years";
     }
 
+    public static string ToSimpleDisplay(this decimal? value) => value.HasValue ? value.Value.ToSimpleDisplay() : string.Empty;
     public static string ToSimpleDisplay(this decimal value) => $"{value:0.##}";
 
     public static string ToNumberSeparator(this decimal value) => $"{value:N0}";

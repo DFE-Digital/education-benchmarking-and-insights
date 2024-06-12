@@ -18,16 +18,15 @@ public class SchoolDeploymentPlanViewModel(School school, DeploymentPlan plan)
     public int TimetablePeriods => plan.TimetablePeriods;
     public decimal PupilTeacherRatio => plan.PupilTeacherRatio;
     public decimal AverageClassSize => plan.AverageClassSize;
-    public Rating AverageClassSizeRating => RatingCalculations.AverageClassSize(AverageClassSize);
+    public RatingViewModel AverageClassSizeRating => RatingViewModel.Map[plan.AverageClassSizeRating ?? ""];
     public decimal AverageTeacherLoad => plan.AverageTeacherLoad;
     public decimal TeacherContactRatio => plan.TeacherContactRatio;
-    public Rating TeacherContactRatioRating => RatingCalculations.ContactRatio(TeacherContactRatio);
+    public RatingViewModel TeacherContactRatioRating => RatingViewModel.Map[plan.ContactRatioRating ?? ""];
     public decimal IncomePerPupil => plan.IncomePerPupil;
     public decimal TeacherCostPercentageExpenditure => plan.TeacherCostPercentageExpenditure;
     public decimal TeacherCostPercentageIncome => plan.TeacherCostPercentageIncome;
     public decimal InYearBalance => plan.InYearBalance;
-    public Rating InYearBalanceRating =>
-        RatingCalculations.InYearBalancePercentIncome(InYearBalance / TotalIncome * 100);
+    public RatingViewModel InYearBalanceRating => RatingViewModel.Map[plan.InYearBalancePercentIncomeRating ?? ""];
     public decimal CostPerLesson => plan.CostPerLesson;
     public decimal AverageTeacherCost => plan.AverageTeacherCost;
     public decimal AverageTeachingAssistantCost => plan.AverageTeachingAssistantCost;
@@ -57,4 +56,18 @@ public class SchoolDeploymentPlanViewModel(School school, DeploymentPlan plan)
     public ManagementRole[] ManagementRoles => plan.ManagementRoles;
     public ScenarioPlan[] ScenarioPlans => plan.ScenarioPlans;
     public decimal TargetContactRatio => plan.TargetContactRatio;
+}
+
+public record RatingViewModel(TagColour Colour, string DisplayText)
+{
+    public static readonly Dictionary<string, RatingViewModel> Map = new()
+    {
+        { "red", Red },
+        { "amber", Amber },
+        { "green", Green }
+    };
+
+    public static RatingViewModel Red => new(TagColour.Red, "Red");
+    public static RatingViewModel Amber => new(TagColour.Yellow, "Amber");
+    public static RatingViewModel Green => new(TagColour.Green, "Green");
 }

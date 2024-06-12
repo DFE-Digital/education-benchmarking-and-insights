@@ -27,6 +27,9 @@ public record DeploymentPlan
     public decimal InYearBalance { get; set; }
     public decimal CostPerLesson { get; set; }
     public decimal TargetContactRatio { get; set; }
+    public string? ContactRatioRating { get; set; }
+    public string? InYearBalancePercentIncomeRating { get; set; }
+    public string? AverageClassSizeRating { get; set; }
 
     public ManagementRole[] ManagementRoles { get; set; } = Array.Empty<ManagementRole>();
     public ScenarioPlan[] ScenarioPlans { get; set; } = Array.Empty<ScenarioPlan>();

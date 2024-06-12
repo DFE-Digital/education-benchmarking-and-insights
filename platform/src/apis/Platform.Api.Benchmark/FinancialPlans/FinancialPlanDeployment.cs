@@ -36,6 +36,9 @@ public record FinancialPlanDeployment
     public PrimaryPupilGroup[] PrimaryStaffDeployment { get; set; } = Array.Empty<PrimaryPupilGroup>();
     public PupilGroup[] StaffDeployment { get; set; } = Array.Empty<PupilGroup>();
     public decimal TargetContactRatio { get; set; }
+    public string? ContactRatioRating { get; set; }
+    public string? InYearBalancePercentIncomeRating { get; set; }
+    public string? AverageClassSizeRating { get; set; }
 }
 
 public record ManagementRole(string Description, decimal FullTimeEquivalent, decimal TeachingPeriods);
@@ -104,7 +107,7 @@ public static class DeploymentPlanFactory
 
         var totalTeachingPeriods = teachingPeriods + otherPeriods;
         var pupilTeacherRatio = totalPupils / plan.TotalNumberOfTeachersFte ?? 0;
-        var averageClassSize = totalTeachingPeriods > 0 ? totalPupils * teachingPeriods / totalTeachingPeriods : 0;
+        var averageClassSize = totalTeachingPeriods > 0 && plan.TimetablePeriods > 0 ? (totalPupils * plan.TimetablePeriods ?? 0) / totalTeachingPeriods : 0;
         var averageTeacherLoad = totalTeachingPeriods / plan.TotalNumberOfTeachersFte ?? 0;
         var teacherContactRatio = totalTeachingPeriods > 0 || teachingPeriods > 0
             ? totalTeachingPeriods / (teachingPeriods * plan.TotalNumberOfTeachersFte) ?? 0
@@ -156,10 +159,47 @@ public static class DeploymentPlanFactory
             ManagementRoles = managementRoles,
             ScenarioPlans = scenarioPlans,
             StaffDeployment = staffDeployment,
-            PrimaryStaffDeployment = primaryStaffDeployment
+            PrimaryStaffDeployment = primaryStaffDeployment,
+            InYearBalancePercentIncomeRating = InYearBalancePercentIncomeRating((decimal)inYearBalance / plan.TotalIncome ?? 0 * 100),
+            AverageClassSizeRating = AverageClassSizeRating(averageClassSize),
+            ContactRatioRating = ContactRatioRating(teacherContactRatio)
         };
     }
 
+
+    public static string AverageClassSizeRating(decimal value)
+    {
+        return value switch
+        {
+            < 19.5M => "red",
+            >= 19.5M and < 20M => "amber",
+            >= 20M and < 22.5M => "green",
+            >= 22.5M and < 23.5M => "amber",
+            >= 23.5M => "red"
+        };
+    }
+
+    public static string ContactRatioRating(decimal value)
+    {
+        return value switch
+        {
+            < 0.7M => "red",
+            >= 0.7M and < 0.74M => "amber",
+            >= 0.74M and < 0.8M => "green",
+            >= 0.8M and < 0.82M => "amber",
+            >= 0.82M => "red"
+        };
+    }
+
+    public static string InYearBalancePercentIncomeRating(decimal value)
+    {
+        return value switch
+        {
+            < -5.0M => "red",
+            >= -5.0M and < 0M => "amber",
+            >= 0M => "green"
+        };
+    }
 
     private static decimal TotalPupils(FinancialPlanDetails plan)
     {
@@ -247,7 +287,7 @@ public static class DeploymentPlanFactory
     }
 
     private static decimal OtherPeriods(FinancialPlanDetails plan) =>
-        plan.OtherTeachingPeriods?.Sum(x => int.Parse(x.PeriodsPerTimetable ?? "")) ?? 0;
+        plan.OtherTeachingPeriods?.Sum(x => int.Parse(x.PeriodsPerTimetable ?? "0")) ?? 0;
 
     private static ScenarioPlan[] BuildScenarioPlans(ManagementRole[] managementRoles, FinancialPlanDetails plan,
         decimal totalTeachingPeriods)
