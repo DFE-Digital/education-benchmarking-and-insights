@@ -59,28 +59,10 @@
         <h3 class="govuk-heading-s">Current contact ratio: @Model.TeacherContactRatio.ToSimpleDisplay()</h3>
         <h3 class="govuk-heading-s">
             Target contact ratio: @Model.TargetContactRatio.ToSimpleDisplay()
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
-                Change
-                <span class="govuk-visually-hidden"> target contact ratio</span>
-            </a>
         </h3>
         @await Html.PartialAsync("_ScenarioPlanner", Model)
     </div>
 </div>
-
-@if (Model.Referrer == Referrers.TeachingPeriodsManager)
-{
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-two-thirds">
-            <a href="@Url.Action("Index", new { urn = Model.Urn })" class="govuk-button">
-                Go to dashboard
-            </a>
-        </div>
-    </div>    
-}
-
-
-
 
 @section scripts
 {

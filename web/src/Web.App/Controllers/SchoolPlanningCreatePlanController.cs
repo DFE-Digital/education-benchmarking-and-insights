@@ -1023,7 +1023,7 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("View", "SchoolPlanning", new { urn, year, referrer = Referrers.TeachingPeriodsManager });
+                return RedirectToAction("View", "SchoolPlanning", new { urn, year });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);
