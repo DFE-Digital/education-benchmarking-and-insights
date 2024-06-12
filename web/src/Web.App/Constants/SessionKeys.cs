@@ -9,4 +9,5 @@ public static class SessionKeys
     public static string CustomData(string urn) => $"custom-data-{urn}";
     public static string TrustComparatorSetCharacteristic(string urn) => $"trust-comparator-set-characteristic-{urn}";
     public static string TrustComparatorSetUserDefined(string companyNumber) => $"trust-comparator-set-user-defined-{companyNumber}";
+    public static string TrustComparatorSetUserDefined(string companyNumber, string identifier) => $"trust-comparator-set-user-defined-{companyNumber}-{identifier}";
 }

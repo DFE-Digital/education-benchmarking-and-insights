@@ -5,7 +5,6 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.ViewModels;
-
 namespace Web.App.Controllers;
 
 [Controller]
@@ -15,9 +14,14 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
     : Controller
 {
     [HttpGet]
-    public async Task<IActionResult> Index(string companyNumber)
+    public async Task<IActionResult> Index(
+        string companyNumber,
+        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
     {
-        using (logger.BeginScope(new { companyNumber }))
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
         {
             try
             {
@@ -35,7 +39,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 }
 
                 var ratings = await metricRagRatingApi.GetDefaultAsync(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustViewModel(trust, balance, schools, ratings);
+                var viewModel = new TrustViewModel(trust, balance, schools, ratings, comparatorGenerated);
                 return View(viewModel);
             }
             catch (Exception e)

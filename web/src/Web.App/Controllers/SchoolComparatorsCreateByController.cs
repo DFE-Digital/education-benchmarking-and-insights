@@ -213,12 +213,11 @@ public class SchoolComparatorsCreateByController(
                 var request = new PutComparatorSetUserDefinedRequest
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
-                    URN = urn,
                     Set = userDefinedSet.Set,
                     UserId = User.UserId()
                 };
 
-                await comparatorSetApi.UpsertUserDefinedSchoolAsync(request).EnsureSuccess();
+                await comparatorSetApi.UpsertUserDefinedSchoolAsync(urn, request).EnsureSuccess();
                 schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
                 schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
