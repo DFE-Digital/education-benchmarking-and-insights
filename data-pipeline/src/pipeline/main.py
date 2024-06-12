@@ -305,6 +305,7 @@ def pre_process_bfr(set_type, year):
 def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
+    logger.info(f"{set_type}, {year}")
 
     cdc, census, sen, ks2, ks4, aar, schools, cfo = worker_client.gather(
         [
