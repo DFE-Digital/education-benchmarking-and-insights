@@ -588,10 +588,8 @@ def handle_msg(
     """
     msg_payload = json.loads(msg.content)
     try:
-        if (
-            payload := msg_payload.get("payload", {}).get("kind")
-            == "ComparatorSetPayload"
-        ):
+        payload = msg_payload.get("payload", {})
+        if payload.get("kind") == "ComparatorSetPayload":
             msg_payload["rag_duration"] = run_user_defined_rag(
                 year=msg_payload["year"],
                 run_id=msg_payload["runId"],
