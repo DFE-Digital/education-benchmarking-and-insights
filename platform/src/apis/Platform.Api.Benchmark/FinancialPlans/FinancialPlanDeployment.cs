@@ -537,16 +537,31 @@ public static class DeploymentPlanFactory
     {
         var groups = new List<PrimaryPupilGroup>();
 
-        if (plan.PupilsReception > 0)
+        if (plan.PupilsNursery > 0)
         {
             groups.Add(new(
                 "Nursery",
+                plan.PupilsNursery ?? 0,
+                plan.TeachersNursery ?? 0,
+                totalTeachingPeriods,
+                plan.TotalNumberOfTeachersFte ?? 0,
+                plan.TotalTeacherCosts ?? 0,
+                plan.AssistantsNursery ?? 0,
+                totalTeachingAssistants,
+                plan.EducationSupportStaffCosts ?? 0,
+                totalPupils));
+        }
+
+        if (plan.PupilsReception > 0)
+        {
+            groups.Add(new(
+                "Reception",
                 plan.PupilsReception ?? 0,
                 plan.TeachersReception ?? 0,
                 totalTeachingPeriods,
                 plan.TotalNumberOfTeachersFte ?? 0,
                 plan.TotalTeacherCosts ?? 0,
-                plan.AssistantsNursery ?? 0,
+                plan.AssistantsReception ?? 0,
                 totalTeachingAssistants,
                 plan.EducationSupportStaffCosts ?? 0,
                 totalPupils));
