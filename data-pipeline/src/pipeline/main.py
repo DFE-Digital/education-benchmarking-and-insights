@@ -146,6 +146,7 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
 
 def pre_process_cfo(set_type, year) -> pd.DataFrame:
     logger.info("Processing CFO Data")
+    logger.info(f"{set_type}/{year}/cfo.xlsx")
     cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.xlsx")
 
     cfo = build_cfo_data(cfo_data)
@@ -314,6 +315,7 @@ def pre_process_data(worker_client, set_type, year):
             worker_client.submit(pre_process_ks4, set_type, year),
             worker_client.submit(pre_process_academy_ar, set_type, year),
             worker_client.submit(pre_process_schools, set_type, year),
+            worker_client.submit(pre_process_cfo, set_type, year),
         ]
     )
 
