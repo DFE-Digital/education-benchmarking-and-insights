@@ -24,6 +24,7 @@
         </div>
         @using (Html.BeginForm("TimetableCycle", "SchoolPlanningCreate", new { urn = Model.School.URN, year = Model.PlanInput?.Year }, FormMethod.Post, true, new { novalidate = "novalidate" }))
         {
+            <input type="hidden" name="@nameof(Model.Referrer)" value="@Model.Referrer"/>
             <div class="@(ViewData.ModelState.HasError(nameof(Model.PlanInput.TimetablePeriods)) ? "govuk-form-group govuk-form-group--error" : "govuk-form-group")">
                 <label class="govuk-label govuk-label--m" for="timetable-periods">
                     How many periods are there in one timetable cycle?
