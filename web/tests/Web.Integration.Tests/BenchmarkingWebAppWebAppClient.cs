@@ -204,10 +204,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupComparatorApi(ComparatorSchools? comparatorSchools = null)
+    public BenchmarkingWebAppClient SetupComparatorApi(ComparatorSchools? comparatorSchools = null, ComparatorTrusts? comparatorTrusts = null)
     {
         ComparatorApi.Reset();
         ComparatorApi.Setup(api => api.CreateSchoolsAsync(It.IsAny<PostSchoolComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorSchools));
+        ComparatorApi.Setup(api => api.CreateTrustsAsync(It.IsAny<PostTrustComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorTrusts));
         return this;
     }
 

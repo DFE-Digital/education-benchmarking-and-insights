@@ -76,6 +76,7 @@ public static class Paths
     public static string TrustComparatorsCreateBy(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by";
     public static string TrustComparatorsCreateByName(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/name";
     public static string TrustComparatorsCreateByCharacteristic(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/characteristic";
+    public static string TrustComparatorsCreatePreview(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/preview";
     public static string TrustComparatorsCreateSubmit(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/submit";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
