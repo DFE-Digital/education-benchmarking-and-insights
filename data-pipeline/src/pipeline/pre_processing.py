@@ -330,7 +330,7 @@ def prepare_aar_data(aar_path):
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
-    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI school")
+    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI school").astype(bool).fillna(False)
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
@@ -577,7 +577,6 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-    academies["Is PFI"] = academies["Is PFI"].astype(bool).fillna(False)
 
     for category in config.rag_category_settings.keys():
         basis_data = academies[

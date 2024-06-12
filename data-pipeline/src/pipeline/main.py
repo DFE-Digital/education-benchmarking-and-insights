@@ -270,6 +270,8 @@ def pre_process_all_schools(set_type, year, data_ref):
         all_schools.to_parquet(),
     )
 
+    # TODO: Shouldn't need to filter this out
+    all_schools = all_schools[~all_schools["Financial Position"].isna()]
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
     insert_non_financial_data(set_type, year, all_schools)
     insert_financial_data(set_type, year, all_schools)

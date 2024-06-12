@@ -110,6 +110,7 @@ maintained_schools_master_list = {
     "I17  Community focused school facilities income": "float",
     "I18  Additional grant for schools": "float",
     "Total Income   I01 to I18": "float",
+    "CI04 Direct revenue financing": "float",
     "E01  Teaching Staff": "float",
     "E02  Supply teaching staff": "float",
     "E03 Education support staff": "float",
