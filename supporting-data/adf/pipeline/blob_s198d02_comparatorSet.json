@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Blob_comparatorSet",
+				"name": "ComparatorSet",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
