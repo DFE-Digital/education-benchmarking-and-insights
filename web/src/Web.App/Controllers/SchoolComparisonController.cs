@@ -28,7 +28,7 @@ public class SchoolComparisonController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet);
+                var viewModel = new SchoolComparisonViewModel(school, userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
             }

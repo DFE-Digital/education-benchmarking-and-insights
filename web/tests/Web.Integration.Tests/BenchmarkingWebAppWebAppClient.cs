@@ -30,6 +30,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<IBalanceApi> BalanceApi { get; } = new();
     public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
+    public Mock<ICustomDataApi> CustomDataApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -47,6 +48,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(BalanceApi.Object);
         services.AddSingleton(SchoolInsightApi.Object);
         services.AddSingleton(TrustInsightApi.Object);
+        services.AddSingleton(CustomDataApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -144,6 +146,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     {
         InsightApi.Reset();
         MetricRagRatingApi.Reset();
+        CustomDataApi.Reset();
+
+        CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>()))
+            .ReturnsAsync(ApiResult.Ok);
 
         InsightApi.Setup(api => api.GetSchoolFinances(school.URN)).ReturnsAsync(ApiResult.Ok(finances));
         InsightApi.Setup(api => api.GetSchoolsExpenditure(It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok());

@@ -28,7 +28,7 @@ public class SchoolCensusController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet);
+                var viewModel = new SchoolCensusViewModel(school, userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
             }

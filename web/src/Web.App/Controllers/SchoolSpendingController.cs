@@ -40,7 +40,7 @@ public class SchoolSpendingController(
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.Building);
 
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet);
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
             }

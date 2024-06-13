@@ -146,7 +146,7 @@ public class SchoolCustomDataChangeController(
     [HttpPost]
     [Route("workforce")]
     [ExportModelState]
-    public IActionResult WorkforceData(string urn, [FromForm] WorkforceDataCustomDataViewModel viewModel)
+    public async Task<IActionResult> WorkforceData(string urn, [FromForm] WorkforceDataCustomDataViewModel viewModel)
     {
         using (logger.BeginScope(new { urn, viewModel }))
         {
@@ -161,7 +161,8 @@ public class SchoolCustomDataChangeController(
 
                 customDataService.MergeCustomDataIntoSession(urn, viewModel);
 
-                // todo: post to orchestrator
+                await customDataService.CreateCustomData(urn, User.UserId());
+
                 customDataService.ClearCustomDataFromSession(urn);
                 // todo: persist orchestrator job ID to auth user data
 

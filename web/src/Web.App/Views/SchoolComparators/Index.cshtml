@@ -17,12 +17,15 @@
         <p class="govuk-body">These are the 2 sets of similar schools we've chosen to benchmark this school's spending against.</p>
 
         <feature name="@FeatureFlags.UserDefinedComparators">
-            <p class="govuk-body">
-                <a class="govuk-link govuk-link--no-visited-state"
-                   href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Urn })">
-                    Choose your own set of schools
-                </a>
-            </p>
+            @if (!Model.HasCustomData)
+            {
+                <p class="govuk-body">
+                    <a class="govuk-link govuk-link--no-visited-state"
+                       href="@Url.Action("Index", "SchoolComparatorsCreate", new { urn = Model.Urn })">
+                        Choose your own set of schools
+                    </a>
+                </p>
+            }
         </feature>
     </div>
 </div>

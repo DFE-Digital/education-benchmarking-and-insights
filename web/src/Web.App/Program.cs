@@ -115,6 +115,9 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
 
+    builder.Services.AddHttpClient<ICustomDataApi, CustomDataApi>()
+        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
+
     builder.Services.AddHttpClient<IComparatorApi, ComparatorApi>()
         .ConfigureHttpClientForApi(Constants.BenchmarkApi);
 

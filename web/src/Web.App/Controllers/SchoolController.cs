@@ -45,7 +45,7 @@ public class SchoolController(
                 {
                     ratings = await metricRagRatingApi.UserDefinedAsync(userData.ComparatorSet).GetResultOrThrow<RagRating[]>();
                 }
-                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated, userData.ComparatorSet);
+                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated, userData.ComparatorSet, userData.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)
