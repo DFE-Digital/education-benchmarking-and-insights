@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -35,6 +36,31 @@ public class SchoolComparisonController(
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying school comparison: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("custom-data")]
+    [SchoolAuthorization]
+    public async Task<IActionResult> CustomData(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying custom school comparison: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
