@@ -1,5 +1,5 @@
 {
-	"name": "s198d02_ComparatorSet_copy1",
+	"name": "s198d02_ComparatorSet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "s198d02_sql",
