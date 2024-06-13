@@ -149,7 +149,7 @@ def insert_schools_and_trusts_and_local_authorities(
         "CFO name": "CFOName",
         "CFO email": "CFOEmail",
         "OpenDate": "OpenDate",
-        "Company Registration Number": "CompanyNumber"
+        "Company Registration Number": "CompanyNumber",
     }
 
     trusts = (
@@ -234,9 +234,7 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     )
 
 
-def insert_financial_data(
-        run_type: str, year: str, df: pd.DataFrame
-):
+def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
         "TypeOfEstablishment (name)": "EstablishmentType",

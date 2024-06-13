@@ -39,7 +39,7 @@ income_category_map = {
         "Grant Funding": "Income_Total grant funding",
         "Self Generated Funding": "Income_Total self generated funding",
         "Total Income ": "Income_Total",
-        "Revenue Reserve": "Revenue reserve"
+        "Revenue Reserve": "Revenue reserve",
     },
     "maintained_schools": {
         # "I01  Funds delegated by the LA": "",
@@ -61,7 +61,7 @@ income_category_map = {
         "CI04 Direct revenue financing": "Income_Direct revenue finance",
         "Total Income   I01 to I18": "Income_Total",
         "Revenue Reserve   B01 plus B02 plus B06": "Revenue reserve",
-    }
+    },
 }
 
 cost_category_map = {

@@ -354,4 +354,3 @@ def compute_comparator_set(data: pd.DataFrame):
     ].copy()
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
     return compute_distances(copy, classes)
-

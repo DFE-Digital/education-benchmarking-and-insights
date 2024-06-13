@@ -267,18 +267,20 @@ def prepare_central_services_data(cs_path):
     )
 
     central_services_financial.rename(
-        columns={
-                    "Lead UPIN": "Trust UPIN",
-                    "In Year Balance": "In year balance"
-                } | config.cost_category_map["central_services"] | config.income_category_map["central_services"],
+        columns={"Lead UPIN": "Trust UPIN", "In Year Balance": "In year balance"}
+        | config.cost_category_map["central_services"]
+        | config.income_category_map["central_services"],
         inplace=True,
     )
 
-    central_services_financial["Financial Position"] = central_services_financial["In year balance"].map(
-        mappings.map_is_surplus_deficit
-    )
+    central_services_financial["Financial Position"] = central_services_financial[
+        "In year balance"
+    ].map(mappings.map_is_surplus_deficit)
 
-    central_services_financial["Income_Other grants"] = central_services_financial["Income_Other grants"] + central_services_financial["Income_Non government"]
+    central_services_financial["Income_Other grants"] = (
+        central_services_financial["Income_Other grants"]
+        + central_services_financial["Income_Non government"]
+    )
 
     return central_services_financial
 
@@ -316,9 +318,7 @@ def prepare_aar_data(aar_path):
         .rename(columns={"In year balance": "Trust Balance"})
     )
 
-    aar = (
-        aar.merge(trust_balance, on="Trust UPIN", how="left")
-    )
+    aar = aar.merge(trust_balance, on="Trust UPIN", how="left")
 
     aar["Financial Position"] = aar["In year balance"].map(
         mappings.map_is_surplus_deficit
@@ -330,11 +330,15 @@ def prepare_aar_data(aar_path):
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
-    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI school").astype(bool).fillna(False)
+    aar["Is PFI"] = (
+        aar["PFI School"].map(lambda x: x == "PFI school").astype(bool).fillna(False)
+    )
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
-    aar["Income_Other grants"] = aar["Income_Other grants"] + aar["Income_Non government"]
+    aar["Income_Other grants"] = (
+        aar["Income_Other grants"] + aar["Income_Non government"]
+    )
 
     return aar.set_index("URN")
 
@@ -446,7 +450,7 @@ def build_cfo_data(cfo_data_path):
     )
 
     cfo_data["CFO name"] = (
-            cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
+        cfo_data["Title"] + " " + cfo_data["Forename 1"] + " " + cfo_data["Surname"]
     )
 
     cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
@@ -454,18 +458,18 @@ def build_cfo_data(cfo_data_path):
 
 
 def build_academy_data(
-        academy_data_path,
-        links_data_path,
-        year,
-        schools,
-        census,
-        sen,
-        cdc,
-        aar,
-        ks2,
-        ks4,
-        cfo,
-        central_services
+    academy_data_path,
+    links_data_path,
+    year,
+    schools,
+    census,
+    sen,
+    cdc,
+    aar,
+    ks2,
+    ks4,
+    cfo,
+    central_services,
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -580,53 +584,68 @@ def build_academy_data(
 
     for category in config.rag_category_settings.keys():
         basis_data = academies[
-            "Number of pupils" if config.rag_category_settings[category]["type"] == "Pupil" else "Total Internal Floor Area"
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
         ]
-        academies = mappings.map_cost_series(
-            category, academies, basis_data
-        )
+        academies = mappings.map_cost_series(category, academies, basis_data)
 
     academies["Catering staff and supplies_Net Costs"] = (
-            academies["Income_Catering services"]
-            + academies["Catering staff and supplies_Total"]
+        academies["Income_Catering services"]
+        + academies["Catering staff and supplies_Total"]
     )
 
-    trust_basis_data = (academies.sort_values(by="Trust UPIN")[
+    trust_basis_data = (
+        academies.sort_values(by="Trust UPIN")[
             ["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]
-        ].groupby(["Trust UPIN"])
-         .sum()
-         .rename(columns={
-             "Number of pupils": "Total pupils in trust",
-             "Total Internal Floor Area": "Total Internal Floor Area in trust"
-         })
+        ]
+        .groupby(["Trust UPIN"])
+        .sum()
+        .rename(
+            columns={
+                "Number of pupils": "Total pupils in trust",
+                "Total Internal Floor Area": "Total Internal Floor Area in trust",
+            }
+        )
     )
 
-    central_services = central_services.merge(trust_basis_data, on="Trust UPIN", how="left")
+    central_services = central_services.merge(
+        trust_basis_data, on="Trust UPIN", how="left"
+    )
 
     # Apportion central services data based on the given basis of the cost category
     for category in config.rag_category_settings.keys():
         cs_basis_data = central_services[
-            "Total pupils in trust" if config.rag_category_settings[category]["type"] == "Pupil" else "Total Internal Floor Area in trust"
+            (
+                "Total pupils in trust"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area in trust"
+            )
         ]
         central_services = mappings.map_cost_series(
             category, central_services, cs_basis_data
         )
 
     central_services["Catering staff and supplies_Net Costs"] = (
-            central_services["Income_Catering services"]
-            + central_services["Catering staff and supplies_Total"]
+        central_services["Income_Catering services"]
+        + central_services["Catering staff and supplies_Total"]
     )
 
     # Apportion the central services income fields
     income_cols = central_services.columns[
-            central_services.columns.str.startswith("Income_")
+        central_services.columns.str.startswith("Income_")
     ].values.tolist()
 
     for income_col in income_cols:
-        central_services[income_col] = central_services[income_col] / central_services["Total pupils in trust"]
+        central_services[income_col] = (
+            central_services[income_col] / central_services["Total pupils in trust"]
+        )
 
-    academies = (academies
-                 .merge(central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")))
+    academies = academies.merge(
+        central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
+    )
 
     return academies.set_index("URN")
 
@@ -728,25 +747,27 @@ def build_maintained_school_data(
     )
 
     maintained_schools["Income_Targeted grants"] = (
-            maintained_schools["I04  Funding for minority ethnic pupils"]
-            + maintained_schools["I03  SEN funding"]
-            + maintained_schools["I05  Pupil Premium"]
-            + maintained_schools["I15  Pupil focussed extended school funding and   or grants"]
+        maintained_schools["I04  Funding for minority ethnic pupils"]
+        + maintained_schools["I03  SEN funding"]
+        + maintained_schools["I05  Pupil Premium"]
+        + maintained_schools[
+            "I15  Pupil focussed extended school funding and   or grants"
+        ]
     )
 
     maintained_schools["Income_Total self generated funding"] = (
-            maintained_schools["I08  Income from facilities and services"]
-            + maintained_schools["I09  Income from catering"]
-            + maintained_schools["I10  Receipts from supply teacher insurance claims"]
-            + maintained_schools["I11  Receipts from other insurance claims"]
-            + maintained_schools["I12  Income from contributions to visits etc "]
-            + maintained_schools["I13  Donations and or private funds"]
-            + maintained_schools["I17  Community focused school facilities income"]
+        maintained_schools["I08  Income from facilities and services"]
+        + maintained_schools["I09  Income from catering"]
+        + maintained_schools["I10  Receipts from supply teacher insurance claims"]
+        + maintained_schools["I11  Receipts from other insurance claims"]
+        + maintained_schools["I12  Income from contributions to visits etc "]
+        + maintained_schools["I13  Donations and or private funds"]
+        + maintained_schools["I17  Community focused school facilities income"]
     )
 
     maintained_schools["Income_Community grants"] = (
-            maintained_schools["I16  Community focussed school funding and   or grants"]
-            + maintained_schools["I18  Additional grant for schools"]
+        maintained_schools["I16  Community focussed school funding and   or grants"]
+        + maintained_schools["I18  Additional grant for schools"]
     )
 
     maintained_schools.rename(
@@ -758,15 +779,19 @@ def build_maintained_school_data(
 
     for category in config.rag_category_settings.keys():
         basis_data = maintained_schools[
-            "Number of pupils" if config.rag_category_settings[category]["type"] == "Pupil" else "Total Internal Floor Area"
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
         ]
         maintained_schools = mappings.map_cost_series(
             category, maintained_schools, basis_data
         )
 
     maintained_schools["Catering staff and supplies_Net Costs"] = (
-            maintained_schools["Income_Catering services"]
-            + maintained_schools["Catering staff and supplies_Total"]
+        maintained_schools["Income_Catering services"]
+        + maintained_schools["Catering staff and supplies_Total"]
     )
 
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]

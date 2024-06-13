@@ -41,7 +41,7 @@ from src.pipeline.pre_processing import (
     prepare_schools_data,
     prepare_sen_data,
     build_cfo_data,
-    prepare_central_services_data
+    prepare_central_services_data,
 )
 
 from src.pipeline.storage import (
@@ -190,7 +190,18 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
     )
 
     academies = build_academy_data(
-        academies_data, links_data, year, schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services
+        academies_data,
+        links_data,
+        year,
+        schools,
+        census,
+        sen,
+        cdc,
+        aar,
+        ks2,
+        ks4,
+        cfo,
+        central_services,
     )
 
     write_blob(
@@ -213,9 +224,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     )
 
     links_data = get_blob(
-        raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
-        encoding="cp1252"
+        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
@@ -264,14 +273,15 @@ def pre_process_all_schools(set_type, year, data_ref):
 
     all_schools = pd.concat([academies, maintained_schools], axis=0)
 
+    # TODO: Shouldn't need to filter this out
+    all_schools = all_schools[~all_schools["Financial Position"].isna()]
+
     write_blob(
         "pre-processed",
         f"{set_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
-    # TODO: Shouldn't need to filter this out
-    all_schools = all_schools[~all_schools["Financial Position"].isna()]
     insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
     insert_non_financial_data(set_type, year, all_schools)
     insert_financial_data(set_type, year, all_schools)
@@ -328,21 +338,25 @@ def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info(f"Pre-processing data {set_type} - {year}")
 
-    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = worker_client.gather(
-        [
-            worker_client.submit(pre_process_cdc, set_type, year),
-            worker_client.submit(pre_process_census, set_type, year),
-            worker_client.submit(pre_process_sen, set_type, year),
-            worker_client.submit(pre_process_ks2, set_type, year),
-            worker_client.submit(pre_process_ks4, set_type, year),
-            worker_client.submit(pre_process_academy_ar, set_type, year),
-            worker_client.submit(pre_process_schools, set_type, year),
-            worker_client.submit(pre_process_cfo, set_type, year),
-            worker_client.submit(pre_process_central_services, set_type, year),
-        ]
+    cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
+        worker_client.gather(
+            [
+                worker_client.submit(pre_process_cdc, set_type, year),
+                worker_client.submit(pre_process_census, set_type, year),
+                worker_client.submit(pre_process_sen, set_type, year),
+                worker_client.submit(pre_process_ks2, set_type, year),
+                worker_client.submit(pre_process_ks4, set_type, year),
+                worker_client.submit(pre_process_academy_ar, set_type, year),
+                worker_client.submit(pre_process_schools, set_type, year),
+                worker_client.submit(pre_process_cfo, set_type, year),
+                worker_client.submit(pre_process_central_services, set_type, year),
+            ]
+        )
     )
 
-    data_ref = worker_client.scatter((schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services))
+    data_ref = worker_client.scatter(
+        (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
+    )
 
     academies, maintained_schools = worker_client.gather(
         [

@@ -145,7 +145,9 @@ def map_maintained_school_status(
     year_end_date: datetime,
 ):
     if not (
-        pd.isnull(return_period_length) and pd.isnull(start_date) and pd.isnull(closed_date)
+        pd.isnull(return_period_length)
+        and pd.isnull(start_date)
+        and pd.isnull(closed_date)
     ):
         if closed_date < year_start_date:
             return "Closed"
@@ -229,10 +231,10 @@ def _diff_month(d1, d2):
 
 
 def map_academy_period_return(
-        opened_in_period: datetime,
-        closed_in_period: datetime,
-        year_start_date: datetime,
-        year_end_date: datetime,
+    opened_in_period: datetime,
+    closed_in_period: datetime,
+    year_start_date: datetime,
+    year_end_date: datetime,
 ):
     if not pd.isnull(closed_in_period):
         return _diff_month(closed_in_period, year_start_date)
