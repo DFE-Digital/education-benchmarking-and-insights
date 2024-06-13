@@ -1,10 +1,10 @@
-import os
 import json
+import os
 import time
+from io import BytesIO
 
 import pandas as pd
 import pytest
-from io import BytesIO
 from dotenv import load_dotenv
 
 dotenv_path = os.path.join(
@@ -13,11 +13,11 @@ dotenv_path = os.path.join(
 load_dotenv(dotenv_path)
 
 from src.pipeline.storage import (
-    write_blob,
-    worker_queue_name,
     complete_queue_name,
     connect_to_queue,
     create_container,
+    worker_queue_name,
+    write_blob,
 )
 
 year = 2022

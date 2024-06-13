@@ -1,19 +1,19 @@
-from io import StringIO, BytesIO
+from io import BytesIO, StringIO
 
 import numpy as np
 import pandas as pd
 import pytest
 
 from src.pipeline.pre_processing import (
+    build_bfr_data,
+    prepare_aar_data,
     prepare_cdc_data,
-    prepare_sen_data,
+    prepare_census_data,
+    prepare_central_services_data,
     prepare_ks2_data,
     prepare_ks4_data,
-    prepare_aar_data,
-    prepare_census_data,
     prepare_schools_data,
-    prepare_central_services_data,
-    build_bfr_data,
+    prepare_sen_data,
 )
 
 
