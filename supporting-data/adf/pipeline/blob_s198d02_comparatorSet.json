@@ -3,8 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "ComparatorSet",
-				"type": "ExecuteDataFlow",
+				"name": "Blob_comparatorSet",
+				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
 					"timeout": "0.12:00:00",
@@ -15,16 +15,122 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"dataflow": {
-						"referenceName": "blob_s198d02_ComparatorSet",
-						"type": "DataFlowReference"
+					"source": {
+						"type": "ExcelSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"enablePartitionDiscovery": false
+						}
 					},
-					"compute": {
-						"coreCount": 8,
-						"computeType": "General"
+					"sink": {
+						"type": "AzureSqlSink",
+						"writeBehavior": "upsert",
+						"upsertSettings": {
+							"useTempDB": true,
+							"keys": [
+								"URN"
+							]
+						},
+						"sqlWriterUseTableLock": false,
+						"disableMetricsCollection": false
 					},
-					"traceLevel": "Fine"
-				}
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "RunType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RunType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "RunId",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "RunId",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "URN",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SetType",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "SetType",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Pupil",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Pupil",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Building",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "Building",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "blob_comparatorSet",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "s198d02_ComparatorSet",
+						"type": "DatasetReference"
+					}
+				]
 			}
 		],
 		"annotations": []
