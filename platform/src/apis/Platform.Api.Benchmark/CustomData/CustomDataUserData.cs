@@ -19,7 +19,7 @@ public record CustomDataUserData
     public string? Status { get; set; }
 
 
-    public static CustomDataUserData CompleteSchool(string? id, string? userId, string? urn)
+    public static CustomDataUserData School(string? id, string? userId, string? urn)
     {
         return new CustomDataUserData
         {
@@ -29,7 +29,7 @@ public record CustomDataUserData
             OrganisationType = "school",
             OrganisationId = urn,
             Expiry = DateTimeOffset.Now.AddDays(30),
-            Status = "complete"
+            Status = "pending"
         };
     }
 }
