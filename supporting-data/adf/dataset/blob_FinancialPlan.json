@@ -59,6 +59,30 @@
 			{
 				"name": "Version",
 				"type": "String"
+			},
+			{
+				"name": "TeacherContactRatio",
+				"type": "String"
+			},
+			{
+				"name": "ContactRatioRating",
+				"type": "String"
+			},
+			{
+				"name": "InYearBalance",
+				"type": "String"
+			},
+			{
+				"name": "InYearBalancePercentIncomeRating",
+				"type": "String"
+			},
+			{
+				"name": "AverageClassSize",
+				"type": "String"
+			},
+			{
+				"name": "AverageClassSizeRating",
+				"type": "String"
 			}
 		]
 	}
