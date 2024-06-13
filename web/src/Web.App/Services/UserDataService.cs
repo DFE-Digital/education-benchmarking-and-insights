@@ -1,7 +1,6 @@
 ﻿using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-
 namespace Web.App.Services;
 
 public interface IUserDataService
@@ -10,6 +9,7 @@ public interface IUserDataService
     Task<UserData?> GetCustomDataAsync(string userId, string identifier, string urn);
     Task<UserData?> GetTrustComparatorSetAsync(string userId, string identifier, string companyNumber);
     Task<(string? CustomData, string? ComparatorSet)> GetSchoolDataAsync(string userId, string urn);
+    Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(string userId, string companyNumber);
 }
 
 public class UserDataService(IUserDataApi api) : IUserDataService
@@ -64,6 +64,18 @@ public class UserDataService(IUserDataApi api) : IUserDataService
             .AddIfNotNull("userId", userId)
             .AddIfNotNull("organisationType", OrganisationSchool)
             .AddIfNotNull("organisationId", urn);
+
+        var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
+        return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,
+            userSets?.FirstOrDefault(x => x.Type == ComparatorSet)?.Id);
+    }
+
+    public async Task<(string? CustomData, string? ComparatorSet)> GetTrustDataAsync(string userId, string companyNumber)
+    {
+        var query = new ApiQuery()
+            .AddIfNotNull("userId", userId)
+            .AddIfNotNull("organisationType", OrganisationTrust)
+            .AddIfNotNull("organisationId", companyNumber);
 
         var userSets = await api.GetAsync(query).GetResultOrDefault<UserData[]>();
         return (userSets?.FirstOrDefault(x => x.Type == CustomData)?.Id,

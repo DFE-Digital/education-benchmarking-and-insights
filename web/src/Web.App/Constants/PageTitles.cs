@@ -58,4 +58,5 @@ public static class PageTitles
     public const string TrustComparatorsCreateByCharacteristic = "Choose characteristics to find matching trusts";
     public const string TrustComparatorsPreview = "Trusts successfully matched";
     public const string TrustComparatorsSubmit = "Generating benchmarking data";
+    public const string TrustComparatorsUserDefined = "Your set of trusts";
 }
