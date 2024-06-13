@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -99,23 +100,23 @@ public class FinancialPlansFunctions
     [FunctionName(nameof(QueryFinancialPlanAsync))]
     [ProducesResponseType(typeof(FinancialPlanSummary), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    [QueryStringParameter("urns", "List of school URNs to exclude", DataType = typeof(string[]), Required = true)]
     public async Task<IActionResult> QueryFinancialPlanAsync(
-        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plans/{urn}")]
-        HttpRequest req,
-        string urn)
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "financial-plans")]
+        HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
                    { "Application", Constants.ApplicationName },
-                   { "CorrelationID", correlationId },
-                   { "URN", urn }
+                   { "CorrelationID", correlationId }
                }))
         {
             try
             {
-                var plans = await _service.QueryAsync(urn);
+                var urns = req.Query["urns"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
+                var plans = await _service.QueryAsync(urns);
                 return new JsonContentResult(plans);
             }
             catch (Exception e)

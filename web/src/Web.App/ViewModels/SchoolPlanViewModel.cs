@@ -10,7 +10,7 @@ public class SchoolPlanViewModel(School school, IEnumerable<FinancialPlan> plans
     public IEnumerable<FinancialPlan> Plans => plans.OrderByDescending(x => x.Year);
 
     public FinancialPlan? LatestPlan => Plans.FirstOrDefault(x => x.IsComplete);
-    public FinancialPlan? PreviousPlan => Plans.ElementAtOrDefault(1);
+    public FinancialPlan? PreviousPlan => Plans.Where(x => x.IsComplete).ElementAtOrDefault(1);
 
     public static string HeadlineClass(string? ragText)
     {

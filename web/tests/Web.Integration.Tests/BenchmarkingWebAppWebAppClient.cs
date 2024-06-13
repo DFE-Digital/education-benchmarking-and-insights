@@ -251,7 +251,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         }
 
         FinancialPlanApi
-            .Setup(api => api.QueryAsync(It.IsAny<string>(), It.IsAny<ApiQuery?>()))
+            .Setup(api => api.QueryAsync(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
 
         ComparatorSetApi

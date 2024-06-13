@@ -109,8 +109,8 @@ public static class DeploymentPlanFactory
         var pupilTeacherRatio = totalPupils / plan.TotalNumberOfTeachersFte ?? 0;
         var averageClassSize = totalTeachingPeriods > 0 && plan.TimetablePeriods > 0 ? (totalPupils * plan.TimetablePeriods ?? 0) / totalTeachingPeriods : 0;
         var averageTeacherLoad = totalTeachingPeriods / plan.TotalNumberOfTeachersFte ?? 0;
-        var teacherContactRatio = totalTeachingPeriods > 0 || teachingPeriods > 0
-            ? totalTeachingPeriods / (teachingPeriods * plan.TotalNumberOfTeachersFte) ?? 0
+        var teacherContactRatio = totalTeachingPeriods > 0 && plan.TimetablePeriods > 0
+            ? totalTeachingPeriods / ((plan.TimetablePeriods ?? 0) * (plan.TotalNumberOfTeachersFte ?? 0))
             : 0;
         var incomePerPupil = totalPupils > 0 ? plan.TotalIncome / totalPupils ?? 0 : 0;
         var teacherCostPercentageExpenditure = plan.TotalTeacherCosts / (decimal?)plan.TotalExpenditure * 100 ?? 0;
@@ -160,7 +160,7 @@ public static class DeploymentPlanFactory
             ScenarioPlans = scenarioPlans,
             StaffDeployment = staffDeployment,
             PrimaryStaffDeployment = primaryStaffDeployment,
-            InYearBalancePercentIncomeRating = InYearBalancePercentIncomeRating((decimal)inYearBalance / plan.TotalIncome ?? 0 * 100),
+            InYearBalancePercentIncomeRating = InYearBalancePercentIncomeRating((decimal)inYearBalance / (plan.TotalIncome ?? 0) * 100),
             AverageClassSizeRating = AverageClassSizeRating(averageClassSize),
             ContactRatioRating = ContactRatioRating(teacherContactRatio)
         };
@@ -307,7 +307,7 @@ public static class DeploymentPlanFactory
             new(
                 "Teacher without management time",
                 totalTeachingPeriods - managementPeriods,
-                plan.TotalNumberOfTeachersFte ?? 0 - managementFte,
+                (plan.TotalNumberOfTeachersFte ?? 0) - managementFte,
                 withoutManagementFteRequired),
             new(
                 "Total",

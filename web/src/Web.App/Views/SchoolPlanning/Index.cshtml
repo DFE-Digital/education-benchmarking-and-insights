@@ -91,11 +91,11 @@
                         <td class="govuk-table__cell">
                             @if (plan.IsComplete)
                             {
-                                @await Component.InvokeAsync("Tag", new { Colour = TagColour.GdsGreen, DisplayText = "Complete" })
+                                @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(TagColour.GdsGreen, "Complete") })
                             }
                             else
                             {
-                                @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "Incomplete" })
+                                @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(TagColour.Grey, "Incomplete") })
                             }
                         </td>
                         <td class="govuk-table__cell">

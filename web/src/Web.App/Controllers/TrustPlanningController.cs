@@ -5,6 +5,7 @@ using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Services;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -15,6 +16,7 @@ namespace Web.App.Controllers;
 [Route("trust/{companyNumber}/financial-planning")]
 public class TrustPlanningController(
     IEstablishmentApi establishmentApi,
+    IFinancialPlanService financialPlanService,
     ILogger<TrustPlanningController> logger)
     : Controller
 {
@@ -27,7 +29,11 @@ public class TrustPlanningController(
             {
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustPlanning(companyNumber);
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var viewModel = new TrustPlanningViewModel(trust);
+                var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
+                var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
+
+                var plans = await financialPlanService.List(schools.Select(x => x.URN).OfType<string>().ToArray());
+                var viewModel = new TrustPlanningViewModel(trust, schools, plans.ToArray());
 
                 return View(viewModel);
             }

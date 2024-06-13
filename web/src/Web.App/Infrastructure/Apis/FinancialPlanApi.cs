@@ -17,9 +17,9 @@ public class FinancialPlanApi(HttpClient httpClient, string? key = default) : Ap
         return await GetAsync($"api/financial-plan/{urn}/{year}/deployment");
     }
 
-    public async Task<ApiResult> QueryAsync(string? urn, ApiQuery? query = null)
+    public async Task<ApiResult> QueryAsync(ApiQuery? query = null)
     {
-        return await GetAsync($"api/financial-plans/{urn}{query?.ToQueryString()}");
+        return await GetAsync($"api/financial-plans{query?.ToQueryString()}");
     }
 }
 
@@ -27,6 +27,6 @@ public interface IFinancialPlanApi
 {
     Task<ApiResult> UpsertAsync(PutFinancialPlanRequest request);
     Task<ApiResult> GetAsync(string? urn, int? year);
-    Task<ApiResult> QueryAsync(string? urn, ApiQuery? query = null);
+    Task<ApiResult> QueryAsync(ApiQuery? query = null);
     Task<ApiResult> GetDeploymentPlanAsync(string? urn, int? year);
 }

@@ -1,4 +1,5 @@
 @using Web.App.Extensions
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
 @{
@@ -154,9 +155,8 @@ else
                             <h4 class="govuk-heading-s">@rating.Category</h4>
                             <p class="priority @rating.PriorityTag?.Class govuk-body">
                                 @await Component.InvokeAsync("Tag", new
-                                {
-                                    rating.PriorityTag?.Colour,
-                                    rating.PriorityTag?.DisplayText
+                                { 
+                                    rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
                                 Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
