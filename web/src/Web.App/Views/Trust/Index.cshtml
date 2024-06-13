@@ -42,8 +42,9 @@
                     </p>
                     <p>
                         <a class="govuk-notification-banner__link"
-                           href="@Url.Action("Revert", "TrustComparators", new { companyNumber = Model.CompanyNumber })">
-                            Change back to the sets of trusts we chose
+                           href="@Url.Action("Revert", "TrustComparators", new { companyNumber = Model.CompanyNumber })"
+                           id="revert-set">
+                            Change back to viewing spending priorities for this trust only
                         </a>
                     </p>
                 </div>
