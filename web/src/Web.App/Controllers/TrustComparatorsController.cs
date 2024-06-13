@@ -18,7 +18,8 @@ public class TrustComparatorsController(
     IEstablishmentApi establishmentApi,
     IComparatorSetApi comparatorSetApi,
     ITrustInsightApi trustInsightApi,
-    IUserDataService userDataService) : Controller
+    IUserDataService userDataService,
+    ITrustComparatorSetService trustComparatorSetService) : Controller
 {
     [HttpGet]
     public IActionResult Index(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
@@ -58,6 +59,70 @@ public class TrustComparatorsController(
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying trust comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("revert")]
+    [Authorize]
+    [FeatureGate(FeatureFlags.UserDefinedComparators)]
+    public async Task<IActionResult> Revert(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var viewModel = new TrustComparatorsViewModel(trust);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error reverting trust comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("revert")]
+    [Authorize]
+    [FeatureGate(FeatureFlags.UserDefinedComparators)]
+    public async Task<IActionResult> RevertSet(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
+
+                var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
+                if (userData.ComparatorSet != null)
+                {
+                    await comparatorSetApi.RemoveUserDefinedTrustAsync(companyNumber, userData.ComparatorSet).EnsureSuccess();
+                    trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber, userData.ComparatorSet);
+                }
+
+                trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
+                trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                return RedirectToAction("Index", "Trust", new
+                {
+                    companyNumber
+                });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error reverting trust comparators: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
