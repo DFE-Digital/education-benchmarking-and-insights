@@ -22,6 +22,11 @@ from src.pipeline.database import (
     insert_schools_and_trusts_and_local_authorities,
 )
 from src.pipeline.log import setup_logger
+from src.pipeline.message import (
+    InvalidMessageTypeException,
+    MessageType,
+    get_message_type,
+)
 from src.pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
@@ -589,27 +594,6 @@ def handle_msg(
     """
     Process an incoming message.
 
-    TODO: standard message format?
-
-    User-defined comparator set message _content_ will be of the form:
-
-    ```json
-    {
-        "jobId": "24463424-9642-4314-bb55-45424af6e812",
-        "type": "comparator-set",
-        "runId": "c321ef6a-3b1c-4ce2-8e32-0d0167bf2fa7",
-        "year": 2022,
-        "urn": "106057",
-        "payload": {
-            "kind": "ComparatorSetPayload",
-            "set": [
-                "145799",
-                "142875"
-            ]
-        }
-    }
-    ```
-
     Note: user-defined comparator sets will assume pre-processing has
     taken place for the year in question, failing if that does not hold
     true.
@@ -624,25 +608,28 @@ def handle_msg(
     run_type = msg_payload.get("runType", "default")
 
     try:
-        payload = msg_payload.get("payload", {})
-        if payload.get("kind") == "ComparatorSetPayload":
-            msg_payload["rag_duration"] = run_user_defined_rag(
-                year=msg_payload["year"],
-                run_id=msg_payload["runId"],
-                target_urn=int(msg_payload["urn"]),
-                comparator_set=list(map(int, payload["set"])),
-            )
-        else:
-            msg_payload["pre_process_duration"] = pre_process_data(
-                worker_client, run_type, msg_payload["year"]
-            )
-
-            msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                run_type,
-                msg_payload["year"],
-            )
-
-            msg_payload["rag_duration"] = run_compute_rag(run_type, msg_payload["year"])
+        match get_message_type(message=msg_payload):
+            case MessageType.Default:
+                msg_payload["pre_process_duration"] = pre_process_data(
+                    worker_client, run_type, msg_payload["year"]
+                )
+                msg_payload["comparator_set_duration"] = compute_comparator_sets(
+                    run_type,
+                    msg_payload["year"],
+                )
+                msg_payload["rag_duration"] = run_compute_rag(
+                    run_type,
+                    msg_payload["year"],
+                )
+            case MessageType.DefaultUserDefined:
+                msg_payload["rag_duration"] = run_user_defined_rag(
+                    year=msg_payload["year"],
+                    run_id=msg_payload["runId"],
+                    target_urn=int(msg_payload["urn"]),
+                    comparator_set=list(map(int, msg_payload["payload"]["set"])),
+                )
+            case _:
+                raise InvalidMessageTypeException("Could not determine message type.")
 
         msg_payload["success"] = True
     except Exception as error:
