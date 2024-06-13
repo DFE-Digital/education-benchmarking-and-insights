@@ -18,6 +18,9 @@
                 "X-Frame-Options": "SAMEORIGIN",
                 "X-XSS-Protection": "0"
             }
+        },
+        "queues": {
+            "messageEncoding": "none"
         }
     }
 }

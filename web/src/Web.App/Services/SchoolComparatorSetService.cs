@@ -12,8 +12,8 @@ public interface ISchoolComparatorSetService
     UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn);
     UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set);
     void ClearUserDefinedComparatorSet(string urn, string? identifier = null);
-    UserDefinedCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn);
-    UserDefinedCharacteristicViewModel SetUserDefinedCharacteristic(string urn, UserDefinedCharacteristicViewModel characteristic);
+    UserDefinedSchoolCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn);
+    void SetUserDefinedCharacteristic(string urn, UserDefinedSchoolCharacteristicViewModel characteristic);
     void ClearUserDefinedCharacteristic(string urn);
 }
 
@@ -39,16 +39,6 @@ public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor
         return set ?? await SetUserDefinedComparatorSet(urn, identifier);
     }
 
-    public void ClearUserDefinedComparatorSet(string urn, string? identifier = null)
-    {
-        var key = string.IsNullOrWhiteSpace(identifier)
-            ? SessionKeys.ComparatorSetUserDefined(urn)
-            : SessionKeys.ComparatorSetUserDefined(urn, identifier);
-        var context = httpContextAccessor.HttpContext;
-
-        context?.Session.Remove(key);
-    }
-
     public UserDefinedSchoolComparatorSet ReadUserDefinedComparatorSet(string urn)
     {
         var key = SessionKeys.ComparatorSetUserDefined(urn);
@@ -57,6 +47,16 @@ public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor
         var set = context?.Session.Get<UserDefinedSchoolComparatorSet>(key);
 
         return set ?? SetUserDefinedComparatorSet(urn, new UserDefinedSchoolComparatorSet());
+    }
+
+    public void ClearUserDefinedComparatorSet(string urn, string? identifier = null)
+    {
+        var key = string.IsNullOrWhiteSpace(identifier)
+            ? SessionKeys.ComparatorSetUserDefined(urn)
+            : SessionKeys.ComparatorSetUserDefined(urn, identifier);
+        var context = httpContextAccessor.HttpContext;
+
+        context?.Session.Remove(key);
     }
 
     public UserDefinedSchoolComparatorSet SetUserDefinedComparatorSet(string urn, UserDefinedSchoolComparatorSet set)
@@ -69,19 +69,18 @@ public class SchoolComparatorSetService(IHttpContextAccessor httpContextAccessor
         return set;
     }
 
-    public UserDefinedCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn)
+    public UserDefinedSchoolCharacteristicViewModel? ReadUserDefinedCharacteristic(string urn)
     {
         var key = SessionKeys.ComparatorSetCharacteristic(urn);
         var context = httpContextAccessor.HttpContext;
-        return context?.Session.Get<UserDefinedCharacteristicViewModel>(key);
+        return context?.Session.Get<UserDefinedSchoolCharacteristicViewModel>(key);
     }
 
-    public UserDefinedCharacteristicViewModel SetUserDefinedCharacteristic(string urn, UserDefinedCharacteristicViewModel set)
+    public void SetUserDefinedCharacteristic(string urn, UserDefinedSchoolCharacteristicViewModel set)
     {
         var key = SessionKeys.ComparatorSetCharacteristic(urn);
         var context = httpContextAccessor.HttpContext;
         context?.Session.Set(key, set);
-        return set;
     }
 
     public void ClearUserDefinedCharacteristic(string urn)

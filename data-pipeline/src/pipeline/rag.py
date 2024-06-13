@@ -1,9 +1,12 @@
+import logging
 import math
 import warnings
 import time
+from typing import Generator
+
 import numpy as np
 import pandas as pd
-import logging
+
 from src.pipeline.config import rag_category_settings
 
 pd.options.mode.chained_assignment = None
@@ -230,3 +233,58 @@ def compute_rag(data, comparators):
                         exc_info=error,
                     )
                     return
+
+
+def compute_user_defined_rag(
+    data: pd.DataFrame,
+    target_urn: int,
+    set_urns: list[int],
+) -> Generator[dict, None, None]:
+    """
+    Perform user-defined RAG calculation.
+
+    TODO: largely as per `compute_rag()` save that `set_urns` defines
+    the comparator set.
+
+    :param data: org. data for RAG computation
+    :param target_urn: URN of the reference org.
+    :param set_urns: URNs for use as the comparator-set
+    """
+    # reduce to only used columns so that extraction routines are more efficient
+    cols = data.columns.isin(base_cols) | data.columns.str.endswith("_Per Unit")
+    df = data[data.columns[cols]].fillna(0.0)
+
+    # Pre-computes the column accessors for each cost category
+    column_cache = {}
+    for category in rag_category_settings:
+        column_cache[category] = get_category_cols_predicates(category, df)
+    st = time.time()
+
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore", category=RuntimeWarning)
+        with np.errstate(invalid="ignore"):
+            target = df.loc[target_urn]
+            urn = target.name
+            try:
+                comparator_set = df[df.index.isin(set_urns)]
+                for category in rag_category_settings:
+                    rag_settings = rag_category_settings[category]
+                    for r in compute_category_rag(
+                        urn,
+                        category,
+                        rag_settings,
+                        target,
+                        comparator_set,
+                        column_cache,
+                    ):
+                        yield r
+                logger.debug(
+                    f"Completed user-defined RAGs in {time.time() - st:.2f} secs."
+                )
+                st = time.time()
+            except Exception as error:
+                logger.exception(
+                    f"An exception {type(error).__name__} occurred processing {urn}:",
+                    exc_info=error,
+                )
+                return

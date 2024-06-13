@@ -155,7 +155,7 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("timetable-cycle")]
-    public async Task<IActionResult> TimetableCycle(string urn, int year)
+    public async Task<IActionResult> TimetableCycle(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
@@ -166,10 +166,12 @@ public class SchoolPlanningCreateController(
                 ? PrePopulateDataBackLink(urn, year)
                 : TotalNumberTeachersBackLink(urn, year);
 
-            ViewData[ViewDataKeys.Backlink] = backAction;
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : backAction;
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -188,9 +190,11 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return school.IsPrimary
-                    ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
-                    : RedirectToAction("PupilFigures", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : school.IsPrimary
+                        ? RedirectToAction("PrimaryHasMixedAgeClasses", new { urn, year })
+                        : RedirectToAction("PupilFigures", new { urn, year });
             }
 
             var plan = await financialPlanService.Get(urn, year);
@@ -200,9 +204,11 @@ public class SchoolPlanningCreateController(
                 ? PrePopulateDataBackLink(urn, year)
                 : TotalNumberTeachersBackLink(urn, year);
 
-            ViewData[ViewDataKeys.Backlink] = backAction;
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : backAction;
 
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -212,17 +218,19 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("total-income")]
-    public async Task<IActionResult> TotalIncome(string urn, int year)
+    public async Task<IActionResult> TotalIncome(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
         async Task<IActionResult> Action()
         {
-            ViewData[ViewDataKeys.Backlink] = PrePopulateDataBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : PrePopulateDataBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -240,16 +248,20 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TotalExpenditure", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : RedirectToAction("TotalExpenditure", new { urn, year });
             }
 
-            ViewData[ViewDataKeys.Backlink] = PrePopulateDataBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : PrePopulateDataBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -259,17 +271,19 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("total-expenditure")]
-    public async Task<IActionResult> TotalExpenditure(string urn, int year)
+    public async Task<IActionResult> TotalExpenditure(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
         async Task<IActionResult> Action()
         {
-            ViewData[ViewDataKeys.Backlink] = TotalIncomeBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalIncomeBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -287,16 +301,20 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TotalTeacherCosts", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : RedirectToAction("TotalTeacherCosts", new { urn, year });
             }
 
-            ViewData[ViewDataKeys.Backlink] = TotalIncomeBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalIncomeBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -306,17 +324,19 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("total-teacher-costs")]
-    public async Task<IActionResult> TotalTeacherCosts(string urn, int year)
+    public async Task<IActionResult> TotalTeacherCosts(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
         async Task<IActionResult> Action()
         {
-            ViewData[ViewDataKeys.Backlink] = TotalExpenditureBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalExpenditureBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -335,17 +355,21 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return school.IsPrimary
-                    ? RedirectToAction("TotalEducationSupport", new { urn, year })
-                    : RedirectToAction("TotalNumberTeachers", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : school.IsPrimary
+                        ? RedirectToAction("TotalEducationSupport", new { urn, year })
+                        : RedirectToAction("TotalNumberTeachers", new { urn, year });
             }
 
-            ViewData[ViewDataKeys.Backlink] = TotalIncomeBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalExpenditureBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -355,17 +379,19 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("total-education-support")]
-    public async Task<IActionResult> TotalEducationSupport(string urn, int year)
+    public async Task<IActionResult> TotalEducationSupport(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
         async Task<IActionResult> Action()
         {
-            ViewData[ViewDataKeys.Backlink] = TotalTeacherCostsBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalTeacherCostsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -383,16 +409,20 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TotalNumberTeachers", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : RedirectToAction("TotalNumberTeachers", new { urn, year });
             }
 
-            ViewData[ViewDataKeys.Backlink] = TotalTeacherCostsBackLink(urn, year);
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : TotalTeacherCostsBackLink(urn, year);
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -402,7 +432,7 @@ public class SchoolPlanningCreateController(
 
     [HttpGet]
     [Route("total-number-teachers")]
-    public async Task<IActionResult> TotalNumberTeachers(string urn, int year)
+    public async Task<IActionResult> TotalNumberTeachers(string urn, int year, string? referrer = null)
     {
         return await Executor(new { urn, year }, Action);
 
@@ -413,10 +443,12 @@ public class SchoolPlanningCreateController(
                 ? TotalEducationSupportBackLink(urn, year)
                 : TotalTeacherCostsBackLink(urn, year);
 
-            ViewData[ViewDataKeys.Backlink] = backAction;
+            ViewData[ViewDataKeys.Backlink] = referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : backAction;
 
             var plan = await financialPlanService.Get(urn, year);
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, referrer);
 
             return View(viewModel);
         }
@@ -434,7 +466,9 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("TimetableCycle", new { urn, year });
+                return stage.Referrer == Referrers.DeploymentPlan
+                    ? RedirectToAction("View", "SchoolPlanning", new { urn, year })
+                    : RedirectToAction("TimetableCycle", new { urn, year });
             }
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
@@ -442,12 +476,14 @@ public class SchoolPlanningCreateController(
                 ? TotalEducationSupportBackLink(urn, year)
                 : TotalTeacherCostsBackLink(urn, year);
 
-            ViewData[ViewDataKeys.Backlink] = backAction;
+            ViewData[ViewDataKeys.Backlink] = stage.Referrer == Referrers.DeploymentPlan
+                ? DeploymentPlanLink(urn, year)
+                : backAction;
 
             var plan = await financialPlanService.Get(urn, year);
             stage.SetPlanValues(plan);
 
-            var viewModel = new SchoolPlanCreateViewModel(school, plan);
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, stage.Referrer);
 
             results.AddToModelState(ModelState);
 
@@ -1023,7 +1059,7 @@ public class SchoolPlanningCreateController(
             if (results.IsValid)
             {
                 await financialPlanService.Update(urn, year, User.UserId(), stage);
-                return RedirectToAction("View", "SchoolPlanning", new { urn, year, referrer = Referrers.TeachingPeriodsManager });
+                return RedirectToAction("View", "SchoolPlanning", new { urn, year });
             }
 
             ViewData[ViewDataKeys.Backlink] = ManagersPerRoleBackLink(urn, year);
@@ -1055,6 +1091,8 @@ public class SchoolPlanningCreateController(
             }
         }
     }
+
+    private BacklinkInfo DeploymentPlanLink(string urn, int year) => new(Url.Action("View", "SchoolPlanning", new { urn, year }));
 
     private BacklinkInfo IndexBackLink(string urn) => new(Url.Action("Index", "SchoolPlanning", new { urn }));
     private BacklinkInfo StartBackLink(string urn) => new(Url.Action("Start", new { urn }));

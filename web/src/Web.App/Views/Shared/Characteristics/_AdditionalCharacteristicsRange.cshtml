@@ -1,5 +1,13 @@
 ﻿@using Web.App.Extensions
 @model Web.App.ViewModels.AdditionalCharacteristicsRangeViewModel
+@{
+    var inputWrapperClass = Model.Wide == true ? "govuk-grid-column-one-half" : "govuk-grid-column-one-quarter";
+    var inputClassWidth = Model.Wide == true
+        ? "10"
+        : string.IsNullOrWhiteSpace(Model.InputSuffix)
+            ? "5"
+            : "3";
+}
 
 <div class="govuk-checkboxes__item">
     <input class="govuk-checkboxes__input"
@@ -46,13 +54,13 @@
                 </p>
             }
             <legend class="govuk-visually-hidden">@Model.Title</legend>
-            <div class="govuk-grid-column-one-quarter">
+            <div class="@inputWrapperClass">
                 <label class="govuk-label" for="@Model.FromFieldName">
                     From
                 </label>
                 <div class="govuk-input__wrapper">
                     <input
-                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.FromFieldName) ? "govuk-input--error" : string.Empty)"
+                        class="govuk-input govuk-input--width-@inputClassWidth @(ViewData.ModelState.HasError(Model.FromFieldName) ? "govuk-input--error" : string.Empty)"
                         id="@Model.FromFieldName"
                         name="@Model.FromFieldName"
                         type="text"
@@ -63,13 +71,13 @@
                     }
                 </div>
             </div>
-            <div class="govuk-grid-column-one-quarter">
+            <div class="@inputWrapperClass">
                 <label class="govuk-label" for="@Model.ToFieldName">
                     To
                 </label>
                 <div class="govuk-input__wrapper">
                     <input
-                        class="govuk-input govuk-input--width-@(string.IsNullOrWhiteSpace(Model.InputSuffix) ? "5" : "3") @(ViewData.ModelState.HasError(Model.ToFieldName) ? "govuk-input--error" : string.Empty)"
+                        class="govuk-input govuk-input--width-@inputClassWidth @(ViewData.ModelState.HasError(Model.ToFieldName) ? "govuk-input--error" : string.Empty)"
                         id="@Model.ToFieldName"
                         name="@Model.ToFieldName"
                         type="text"

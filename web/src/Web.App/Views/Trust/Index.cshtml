@@ -13,6 +13,44 @@
             <a href="@Url.Action("Index", "FindOrganisation", new { method = OrganisationTypes.Trust })" class="govuk-link govuk-link--no-visited-state">Change trust</a>
         </p>
     </div>
+
+    @if (Model.ComparatorGenerated.HasValue)
+    {
+        <div class="govuk-grid-column-full">
+            @{
+                var success = Model.ComparatorGenerated == true;
+            }
+            <div class="govuk-notification-banner govuk-notification-banner--@(success ? "success" : "failure")" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
+                <div class="govuk-notification-banner__header">
+                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
+                        @(success ? "Success" : "Error")
+                    </h2>
+                </div>
+                <div class="govuk-notification-banner__content">
+                    <h3 class="govuk-notification-banner__heading">@(success ? "You are now benchmarking against your own set of trusts" : "Unable to benchmark against your own set of trusts")</h3>
+                    @if (!success)
+                    {
+                        <p class="govuk-body">
+                            Please try again later.
+                        </p>
+                    }
+                    <p>
+                        <a class="govuk-notification-banner__link"
+                           href="@Url.Action("UserDefined", "TrustComparators", new { companyNumber = Model.CompanyNumber })">
+                            View and change your set of trusts
+                        </a>
+                    </p>
+                    <p>
+                        <a class="govuk-notification-banner__link"
+                           href="@Url.Action("Revert", "TrustComparators", new { companyNumber = Model.CompanyNumber })"
+                           id="revert-set">
+                            Change back to viewing spending priorities for this trust only
+                        </a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    }
 </div>
 
 @await Component.InvokeAsync("DataSource", new
@@ -153,6 +191,7 @@
     }
 })
 
+@* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("GetHelp")
+@await Component.InvokeAsync("GetHelp") *@

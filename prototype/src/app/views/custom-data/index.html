@@ -32,15 +32,20 @@
     <div class="govuk-grid-column-two-thirds">
 
         <span class="govuk-caption-l"><a href="/school-homepage" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
-        <h1 class="govuk-heading-l">Change data used to compare this school</h1>
+        <h1 class="govuk-heading-l">Enter custom data to benchmark spending</h1>
 
         <p>Use this to:</p>
 
         <ul class="govuk-list govuk-list--bullet">
-          <li>see how spending less or more affects your benchmark position</li>
+          <li>see how different spending data affects your benchmarking position</li>
           <li>correct any errors for a more accurate comparison </li>
         </ul>
 
+        {{ govukWarningText({
+          text: "This is for benchmarking only and does not update data centrally",
+          
+          iconFallbackText: "Warning"
+        }) }}
         <p class="govuk-body">You will need a <a href="https://services.signin.education.gov.uk/">DfE Sign-in account</a>.</p>
 
         {{ govukButton({

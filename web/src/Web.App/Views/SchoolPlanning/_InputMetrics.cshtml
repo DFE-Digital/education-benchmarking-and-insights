@@ -10,7 +10,7 @@
             @Model.TotalIncome.ToCurrency()
         </td>
         <td class="govuk-table__cell">
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TotalIncome", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                 Change<span class="govuk-visually-hidden"> total income</span>
             </a>
         </td>
@@ -21,7 +21,7 @@
             @Model.TotalExpenditure.ToCurrency()
         </td>
         <td class="govuk-table__cell">
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TotalExpenditure", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                 Change<span class="govuk-visually-hidden"> total expenditure</span>
             </a>
         </td>
@@ -32,7 +32,7 @@
             @Model.TotalTeacherCosts.ToCurrency()
         </td>
         <td class="govuk-table__cell">
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TotalTeacherCosts", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                 Change<span class="govuk-visually-hidden"> total teacher costs</span>
             </a>
         </td>
@@ -45,7 +45,7 @@
                 @Model.EducationSupportStaffCosts.ToCurrency()
             </td>
             <td class="govuk-table__cell">
-                <a class="govuk-link govuk-link--no-visited-state" href="#">
+                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TotalEducationSupport", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                     Change<span class="govuk-visually-hidden"> total education support staff costs</span>
                 </a>
             </td>
@@ -57,7 +57,7 @@
             @Model.TotalNumberOfTeachersFte
         </td>
         <td class="govuk-table__cell">
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TotalNumberTeachers", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                 Change<span class="govuk-visually-hidden"> full time equivalent teachers</span>
             </a>
         </td>
@@ -68,7 +68,7 @@
             @Model.TimetablePeriods
         </td>
         <td class="govuk-table__cell">
-            <a class="govuk-link govuk-link--no-visited-state" href="#">
+            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("TimetableCycle", "SchoolPlanningCreate", new { urn = Model.Urn, year = Model.Year, referrer = Referrers.DeploymentPlan})">
                 Change<span class="govuk-visually-hidden"> length of your timetable cycle</span>
             </a>
         </td>

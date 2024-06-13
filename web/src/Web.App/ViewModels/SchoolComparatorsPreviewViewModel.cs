@@ -6,7 +6,7 @@ public class SchoolComparatorsPreviewViewModel(
     SchoolCharacteristic[]? characteristics,
     long? closestSchools,
     long? totalSchools,
-    UserDefinedCharacteristicViewModel? userDefinedCharacteristics)
+    UserDefinedSchoolCharacteristicViewModel? userDefinedCharacteristics)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
@@ -30,7 +30,7 @@ public class SchoolComparatorsPreviewViewModel(
     public string? AllInLaName => AllLaNames?.Count() == 1 ? AllLaNames.Single() : null;
     public bool? AllPfi => characteristics?.All(c => c.IsPFISchool == true);
 
-    public UserDefinedCharacteristicViewModel? UserDefinedCharacteristics => userDefinedCharacteristics;
+    public UserDefinedSchoolCharacteristicViewModel? UserDefinedCharacteristics => userDefinedCharacteristics;
     public bool TotalPupilsSelected => IsSelected(userDefinedCharacteristics?.TotalPupils);
     public bool FreeSchoolMealsSelected => IsSelected(userDefinedCharacteristics?.FreeSchoolMeals);
     public bool SpecialEducationalNeedsSelected => IsSelected(userDefinedCharacteristics?.SpecialEducationalNeeds);

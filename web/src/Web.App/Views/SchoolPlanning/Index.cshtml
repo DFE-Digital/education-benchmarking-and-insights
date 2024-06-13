@@ -1,4 +1,5 @@
 @using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolPlanViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Planning;
@@ -7,60 +8,111 @@
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
 
 <div class="govuk-grid-row">
-    <div class="govuk-grid-column-two-thirds">
+    <div class="govuk-grid-column-full">
+        <p class="govuk-body">
+            Create a new plan or edit a previously created plan.
+        </p>
         <a href="@Url.Action("Start", "SchoolPlanningCreate", new { urn = Model.Urn })" role="button" class="govuk-button">
-            Create new plan
+            Continue
         </a>
     </div>
 </div>
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <table class="govuk-table">
-            <caption class="govuk-table__caption govuk-table__caption--m">Deployment plans</caption>
-            <thead class="govuk-table__head">
-            <tr class="govuk-table__row">
-                <th scope="col" class="govuk-table__header">Financial year</th>
-                <th scope="col" class="govuk-table__header">Last updated</th>
-                <th scope="col" class="govuk-table__header">Updated by</th>
-                <th scope="col" class="govuk-table__header">Status</th>
-                <th scope="col" class="govuk-table__header"></th>
-            </tr>
-            </thead>
-            <tbody class="govuk-table__body">
-            @foreach (var plan in Model.Plans.OrderByDescending(x => x.Year))
-            {
+@if (Model.Plans.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
+                <li class="@SchoolPlanViewModel.HeadlineClass(Model.LatestPlan?.ContactRatioRating)">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                        @Model.LatestPlan?.TeacherContactRatio
+                        @if (Model.PreviousPlan != null)
+                        {
+                            <span>@SchoolPlanViewModel.Different(Model.LatestPlan?.TeacherContactRatio, Model.PreviousPlan?.TeacherContactRatio)</span>
+                        }
+                    </p>
+                    @if (Model.PreviousPlan != null)
+                    {
+                        <p class="govuk-body-s govuk-!-margin-bottom-1">(was @Model.PreviousPlan?.TeacherContactRatio)</p>
+                    }
+                    <p class="govuk-body govuk-!-margin-bottom-1">Contact ratio</p>
+                </li>
+                <li class="@SchoolPlanViewModel.HeadlineClass(Model.LatestPlan?.InYearBalancePercentIncomeRating)">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                        @Model.LatestPlan?.InYearBalance.ToCurrency(0)
+                        @if (Model.PreviousPlan != null)
+                        {
+                            <span>@SchoolPlanViewModel.Different(Model.LatestPlan?.InYearBalance, Model.PreviousPlan?.InYearBalance)</span>
+                        }
+                    </p>
+                    @if (Model.PreviousPlan != null)
+                    {
+                        <p class="govuk-body-s govuk-!-margin-bottom-1">(was @Model.PreviousPlan?.InYearBalance.ToCurrency(0))</p>
+                    }
+                    <p class="govuk-body govuk-!-margin-bottom-1">In-year balance</p>
+                </li>
+                <li class="@SchoolPlanViewModel.HeadlineClass(Model.LatestPlan?.AverageClassSizeRating)">
+                    <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
+                        @Model.LatestPlan?.AverageClassSize.ToSimpleDisplay()
+                        @if (Model.PreviousPlan != null)
+                        {
+                            <span>@SchoolPlanViewModel.Different(Model.LatestPlan?.AverageClassSize, Model.PreviousPlan?.AverageClassSize)</span>
+                        }
+                    </p>
+                    @if (Model.PreviousPlan != null)
+                    {
+                        <p class="govuk-body-s govuk-!-margin-bottom-1">(was @Model.PreviousPlan?.AverageClassSize.ToSimpleDisplay())</p>
+                    }
+                    <p class="govuk-body govuk-!-margin-bottom-1">Average class size</p>
+                </li>
+            </ul>
+            <table class="govuk-table">
+                <caption class="govuk-table__caption govuk-table__caption--m">Planned years</caption>
+                <thead class="govuk-table__head">
                 <tr class="govuk-table__row">
-                    <th scope="row" class="govuk-table__header">@plan.Year.ToFinanceYear()</th>
-                    <td class="govuk-table__cell">
-                        @plan.UpdatedAt.ToString("dd MMM yyyy")
-                    </td>
-                    <td class="govuk-table__cell">
-                        @plan.UpdatedBy
-                    </td>
-                    <td class="govuk-table__cell">
-                        @if (plan.IsComplete)
-                        {
-                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Green, DisplayText = "Complete" })
-                        }
-                        else
-                        {
-                            @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "Incomplete" })
-                        }
-                    </td>
-                    <td class="govuk-table__cell">
-                        @if (plan.IsComplete)
-                        {
-                            <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })" class="govuk-link govuk-link--no-visited-state">
-                                View
-                            </a>
-                        }
-                    </td>
+                    <th scope="col" class="govuk-table__header">Financial year</th>
+                    <th scope="col" class="govuk-table__header">Last updated</th>
+                    <th scope="col" class="govuk-table__header">Updated by</th>
+                    <th scope="col" class="govuk-table__header">Status</th>
+                    <th scope="col" class="govuk-table__header"></th>
                 </tr>
-            }
-            </tbody>
-        </table>
+                </thead>
+                <tbody class="govuk-table__body">
+                @foreach (var plan in Model.Plans)
+                {
+                    <tr class="govuk-table__row">
+                        <th scope="row" class="govuk-table__header">@plan.Year.ToFinanceYear()</th>
+                        <td class="govuk-table__cell">
+                            @plan.UpdatedAt.ToString("dd MMM yyyy")
+                        </td>
+                        <td class="govuk-table__cell">
+                            @plan.UpdatedBy
+                        </td>
+                        <td class="govuk-table__cell">
+                            @if (plan.IsComplete)
+                            {
+                                @await Component.InvokeAsync("Tag", new { Colour = TagColour.GdsGreen, DisplayText = "Complete" })
+                            }
+                            else
+                            {
+                                @await Component.InvokeAsync("Tag", new { Colour = TagColour.Grey, DisplayText = "Incomplete" })
+                            }
+                        </td>
+                        <td class="govuk-table__cell">
+                            @if (plan.IsComplete)
+                            {
+                                <a href="@Url.Action("View", new { urn = Model.Urn, year = plan.Year })" class="govuk-link govuk-link--no-visited-state">
+                                    View
+                                </a>
+                            }
+                        </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+}
+
 
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })

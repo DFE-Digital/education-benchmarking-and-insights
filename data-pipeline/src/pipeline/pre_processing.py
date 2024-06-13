@@ -38,6 +38,7 @@ def prepare_cdc_data(cdc_file_path, current_year):
     ].drop_duplicates()
 
 
+# noinspection PyTypeChecker
 def prepare_census_data(workforce_census_path, pupil_census_path):
     school_workforce_census = pd.read_excel(
         workforce_census_path,
@@ -105,98 +106,6 @@ def prepare_census_data(workforce_census_path, pupil_census_path):
         + census["Full time boys Year group 13"]
         + census["Full time girls Year group 12"]
         + census["Full time girls Year group 13"]
-    )
-
-    census["WorkforceHeadcountPerFTE"] = (
-        census["Total School Workforce (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    )
-    census["WorkforcePercentTotalWorkforce"] = (
-        census["Total School Workforce (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["WorkforcePerPupil"] = (
-        census["Total School Workforce (Headcount)"] / census["Number of pupils"]
-    )
-
-    census["TeachersHeadcountPerFTE"] = (
-        census["Total Number of Teachers (Headcount)"]
-        / census["Total Number of Teachers (Full-Time Equivalent)"]
-    )
-    census["TeachersPercentTotalWorkforce"] = (
-        census["Total Number of Teachers (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["TeachersPerPupil"] = (
-        census["Total Number of Teachers (Headcount)"] / census["Number of pupils"]
-    )
-
-    census["SeniorLeadershipHeadcountPerFTE"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census[
-            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
-        ]
-    )
-    census["SeniorLeadershipPercentTotalWorkforce"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["SeniorLeadershipPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["SeniorLeadershipHeadcountPerFTE"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census[
-            "Total Number of Teachers in the Leadership Group (Full-time Equivalent)"
-        ]
-    )
-    census["SeniorLeadershipPercentTotalWorkforce"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["SeniorLeadershipPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["TeachingAssistantHeadcountPerFTE"] = (
-        census["Total Number of Teaching Assistants (Headcount)"]
-        / census["Total Number of Teaching Assistants (Full-Time Equivalent)"]
-    )
-    census["TeachingAssistantPercentTotalWorkforce"] = (
-        census["Total Number of Teaching Assistants (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["TeachingAssistantPerPupil"] = (
-        census["Total Number of Teachers in the Leadership Group (Headcount)"]
-        / census["Number of pupils"]
-    )
-
-    census["NonClassroomSupportStaffHeadcountPerFTE"] = (
-        census["NonClassroomSupportStaffHeadcount"]
-        / census["NonClassroomSupportStaffFTE"]
-    )
-    census["NonClassroomSupportStaffPercentTotalWorkforce"] = (
-        census["NonClassroomSupportStaffHeadcount"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["NonClassroomSupportStaffPerPupil"] = (
-        census["NonClassroomSupportStaffHeadcount"] / census["Number of pupils"]
-    )
-
-    census["AuxiliaryStaffHeadcountPerFTE"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Total Number of Auxiliary Staff (Full-Time Equivalent)"]
-    )
-    census["AuxiliaryStaffPercentTotalWorkforce"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Total School Workforce (Full-Time Equivalent)"]
-    ) * 100.0
-    census["AuxiliaryStaffPerPupil"] = (
-        census["Total Number of Auxiliary Staff (Headcount)"]
-        / census["Number of pupils"]
     )
 
     return census
@@ -341,6 +250,39 @@ def prepare_ks4_data(ks4_path):
     return ks4
 
 
+def prepare_central_services_data(cs_path):
+    central_services_financial = pd.read_excel(
+        cs_path,
+        sheet_name="CentralServices",
+        usecols=input_schemas.aar_central_services.keys(),
+    )
+
+    central_services_financial.replace(
+        to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True
+    )
+    central_services_financial = central_services_financial.astype(
+        input_schemas.aar_central_services
+    )
+
+    central_services_financial.rename(
+        columns={"Lead UPIN": "Trust UPIN", "In Year Balance": "In year balance"}
+        | config.cost_category_map["central_services"]
+        | config.income_category_map["central_services"],
+        inplace=True,
+    )
+
+    central_services_financial["Financial Position"] = central_services_financial[
+        "In year balance"
+    ].map(mappings.map_is_surplus_deficit)
+
+    central_services_financial["Income_Other grants"] = (
+        central_services_financial["Income_Other grants"]
+        + central_services_financial["Income_Non government"]
+    )
+
+    return central_services_financial
+
+
 def prepare_aar_data(aar_path):
     aar = pd.read_excel(
         aar_path, sheet_name="Academies", usecols=input_schemas.aar_academies.keys()
@@ -354,12 +296,6 @@ def prepare_aar_data(aar_path):
     )
     aar = aar[mask]
 
-    central_services_financial = pd.read_excel(
-        aar_path,
-        sheet_name="CentralServices",
-        usecols=input_schemas.aar_central_services.keys(),
-    )
-
     aar.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
     aar = aar.astype(input_schemas.aar_academies)
 
@@ -368,28 +304,9 @@ def prepare_aar_data(aar_path):
             "PFI": "PFI School",
             "Lead UPIN": "Trust UPIN",
         }
-        | config.cost_category_map["academies"],
+        | config.cost_category_map["academies"]
+        | config.income_category_map["academies"],
         inplace=True,
-    )
-
-    central_services_financial.replace(
-        to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True
-    )
-    central_services_financial = central_services_financial.astype(
-        input_schemas.aar_central_services
-    )
-    central_services_financial.rename(
-        columns={
-            "In Year Balance": "Central Services Balance",
-            "Lead UPIN": "Trust UPIN",
-        },
-        inplace=True,
-    )
-    trust_income = (
-        aar[["Trust UPIN", *config.income_category_map["academies"]]]
-        .groupby("Trust UPIN")
-        .sum()
-        .add_prefix("Trust_")
     )
 
     trust_balance = (
@@ -399,35 +316,29 @@ def prepare_aar_data(aar_path):
         .rename(columns={"In year balance": "Trust Balance"})
     )
 
-    central_services_balance = (
-        central_services_financial[["Trust UPIN", "Central Services Balance"]]
-        .groupby("Trust UPIN")
-        .sum()
-    )
+    aar = aar.merge(trust_balance, on="Trust UPIN", how="left")
 
-    aar = (
-        aar.merge(trust_balance, on="Trust UPIN", how="left")
-        .merge(trust_income, on="Trust UPIN", how="left")
-        .merge(central_services_balance, on="Trust UPIN", how="left")
-    )
-
-    aar["Central Services Financial Position"] = aar["Central Services Balance"].map(
-        mappings.map_is_surplus_deficit
-    )
     aar["Financial Position"] = aar["In year balance"].map(
         mappings.map_is_surplus_deficit
     )
+
     aar["Trust Financial Position"] = aar["Trust Balance"].map(
         mappings.map_is_surplus_deficit
     )
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
-    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI school")
+    aar["Is PFI"] = (
+        aar["PFI School"].map(lambda x: x == "PFI school").astype(bool).fillna(False)
+    )
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
-    return aar.set_index("Academy UPIN")
+    aar["Income_Other grants"] = (
+        aar["Income_Other grants"] + aar["Income_Non government"]
+    )
+
+    return aar.set_index("URN")
 
 
 def prepare_schools_data(base_data_path, links_data_path):
@@ -522,33 +433,7 @@ def prepare_schools_data(base_data_path, links_data_path):
     ].drop(columns=["LinkURN", "LinkName", "LinkType", "LinkEstablishedDate", "Rank"])
 
 
-def build_cost_series(category_name, df, basis):
-    basis_data = df[
-        "Number of pupils" if basis == "Pupil" else "Total Internal Floor Area"
-    ]
-
-    # Create total column
-    df[category_name + "_Total"] = (
-        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]]
-        .fillna(0)
-        .sum(axis=1)
-    )
-
-    sub_categories = df.columns[
-        df.columns.str.startswith(category_name)
-    ].values.tolist()
-
-    for sub_category in sub_categories:
-        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis_data
-        df[sub_category + "_Per Unit"].replace(
-            [np.inf, -np.inf, np.nan], 0, inplace=True
-        )
-
-    return df
-
-
 def build_cfo_data(cfo_data_path):
-
     cfo_data = pd.read_excel(
         cfo_data_path,
     )
@@ -567,8 +452,7 @@ def build_cfo_data(cfo_data_path):
     )
 
     cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
-    cfo_data.set_index('URN', inplace=True)
-    return cfo_data
+    return cfo_data.set_index("URN")
 
 
 
@@ -584,6 +468,7 @@ def build_academy_data(
     ks2,
     ks4,
     cfo,
+    central_services,
 ):
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
@@ -625,16 +510,15 @@ def build_academy_data(
     
     academies = (
         academies_base.merge(census, on="URN", how="left")
-                    .merge(sen, on="URN", how="left")
-                    .merge(cdc, on="URN", how="left") 
-                    .merge(ks2, on="URN", how="left") 
-                    .merge(ks4, on="URN", how="left") 
-                    .merge(group_links, on="URN", how="inner")
-                    .merge(aar, left_on="Academy UPIN", right_index=True, how="left"))
-    
-    
-    #.merge(cfo, on="URN", how="left")
-    # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
+        .merge(sen, on="URN", how="left")
+        .merge(cdc, on="URN", how="left")
+        .merge(aar, on="URN", how="left")
+        .merge(ks2, on="URN", how="left")
+        .merge(ks4, on="URN", how="left")
+        .merge(group_links, on="URN", how="inner")
+        .merge(cfo, on="URN", how="left")
+    )
+
     academies["Total Internal Floor Area"] = academies[
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
@@ -698,14 +582,70 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-    academies["Is PFI"] = academies["Is PFI"].astype(bool).fillna(False)
-    academies["CFO Email"] = None
-    academies["CFO Name"] = None
-    
     for category in config.rag_category_settings.keys():
-        academies = build_cost_series(
-            category, academies, config.rag_category_settings[category]["type"]
+        basis_data = academies[
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
+        ]
+        academies = mappings.map_cost_series(category, academies, basis_data)
+
+    academies["Catering staff and supplies_Net Costs"] = (
+        academies["Income_Catering services"]
+        + academies["Catering staff and supplies_Total"]
+    )
+
+    trust_basis_data = (
+        academies.sort_values(by="Trust UPIN")[
+            ["Number of pupils", "Trust UPIN", "Total Internal Floor Area"]
+        ]
+        .groupby(["Trust UPIN"])
+        .sum()
+        .rename(
+            columns={
+                "Number of pupils": "Total pupils in trust",
+                "Total Internal Floor Area": "Total Internal Floor Area in trust",
+            }
         )
+    )
+
+    central_services = central_services.merge(
+        trust_basis_data, on="Trust UPIN", how="left"
+    )
+
+    # Apportion central services data based on the given basis of the cost category
+    for category in config.rag_category_settings.keys():
+        cs_basis_data = central_services[
+            (
+                "Total pupils in trust"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area in trust"
+            )
+        ]
+        central_services = mappings.map_cost_series(
+            category, central_services, cs_basis_data
+        )
+
+    central_services["Catering staff and supplies_Net Costs"] = (
+        central_services["Income_Catering services"]
+        + central_services["Catering staff and supplies_Total"]
+    )
+
+    # Apportion the central services income fields
+    income_cols = central_services.columns[
+        central_services.columns.str.startswith("Income_")
+    ].values.tolist()
+
+    for income_col in income_cols:
+        central_services[income_col] = (
+            central_services[income_col] / central_services["Total pupils in trust"]
+        )
+
+    academies = academies.merge(
+        central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
+    )
 
     return academies.set_index("URN")
 
@@ -802,6 +742,37 @@ def build_maintained_school_data(
         "London Weighting"
     ].fillna("Neither")
 
+    maintained_schools["Income_Direct grants"] = (
+        maintained_schools["I01  Funds delegated by the LA"]
+        + maintained_schools["I02  Funding for 6th form students"]
+        + maintained_schools["I06  Other government grants"]
+        + maintained_schools["I07  Other grants and payments"]
+    )
+
+    maintained_schools["Income_Targeted grants"] = (
+        maintained_schools["I04  Funding for minority ethnic pupils"]
+        + maintained_schools["I03  SEN funding"]
+        + maintained_schools["I05  Pupil Premium"]
+        + maintained_schools[
+            "I15  Pupil focussed extended school funding and   or grants"
+        ]
+    )
+
+    maintained_schools["Income_Total self generated funding"] = (
+        maintained_schools["I08  Income from facilities and services"]
+        + maintained_schools["I09  Income from catering"]
+        + maintained_schools["I10  Receipts from supply teacher insurance claims"]
+        + maintained_schools["I11  Receipts from other insurance claims"]
+        + maintained_schools["I12  Income from contributions to visits etc "]
+        + maintained_schools["I13  Donations and or private funds"]
+        + maintained_schools["I17  Community focused school facilities income"]
+    )
+
+    maintained_schools["Income_Community grants"] = (
+        maintained_schools["I16  Community focussed school funding and   or grants"]
+        + maintained_schools["I18  Additional grant for schools"]
+    )
+
     maintained_schools.rename(
         columns={"Period covered by return (months)": "Period covered by return"}
         | config.cost_category_map["maintained_schools"]
@@ -810,9 +781,21 @@ def build_maintained_school_data(
     )
 
     for category in config.rag_category_settings.keys():
-        maintained_schools = build_cost_series(
-            category, maintained_schools, config.rag_category_settings[category]["type"]
+        basis_data = maintained_schools[
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
+        ]
+        maintained_schools = mappings.map_cost_series(
+            category, maintained_schools, basis_data
         )
+
+    maintained_schools["Catering staff and supplies_Net Costs"] = (
+        maintained_schools["Income_Catering services"]
+        + maintained_schools["Catering staff and supplies_Total"]
+    )
 
     maintained_schools = maintained_schools[maintained_schools.index.notnull()]
 
@@ -832,6 +815,7 @@ def build_maintained_school_data(
     maintained_schools["Federation Lead School URN"] = maintained_schools[
         "Lead school in federation"
     ].map(lae_ukprn)
+
     maintained_schools = pd.merge(
         maintained_schools,
         hard_federations[["FederationName"]],

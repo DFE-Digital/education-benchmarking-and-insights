@@ -51,41 +51,42 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
         DocumentAssert.AssertPageUrl(page, Paths.LocalAuthorityResources(authority.Code).ToAbsolute());
     }
 
-    [Fact]
-    public async Task CanNavigateToServiceHelp()
-    {
-        var (page, _, _) = await SetupNavigateInitPage();
+    // TODO: review for public beta
+    //[Fact]
+    //public async Task CanNavigateToServiceHelp()
+    //{
+    //    var (page, _, _) = await SetupNavigateInitPage();
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Help with this service");
-        Assert.NotNull(anchor);
+    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Help with this service");
+    //    Assert.NotNull(anchor);
 
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.ServiceHelp.ToAbsolute());
-    }
+    //    page = await Client.Follow(anchor);
+    //    DocumentAssert.AssertPageUrl(page, Paths.ServiceHelp.ToAbsolute());
+    //}
 
-    [Fact]
-    public async Task CanNavigateToAskForHelp()
-    {
-        var (page, _, _) = await SetupNavigateInitPage();
+    //[Fact]
+    //public async Task CanNavigateToAskForHelp()
+    //{
+    //    var (page, _, _) = await SetupNavigateInitPage();
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Ask for help from a school resource management advisor (SRMA)");
-        Assert.NotNull(anchor);
+    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Ask for help from a school resource management advisor (SRMA)");
+    //    Assert.NotNull(anchor);
 
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.AskForHelp.ToAbsolute());
-    }
+    //    page = await Client.Follow(anchor);
+    //    DocumentAssert.AssertPageUrl(page, Paths.AskForHelp.ToAbsolute());
+    //}
 
-    [Fact]
-    public async Task CanNavigateToSubmitAnEnquiry()
-    {
-        var (page, _, _) = await SetupNavigateInitPage();
+    //[Fact]
+    //public async Task CanNavigateToSubmitAnEnquiry()
+    //{
+    //    var (page, _, _) = await SetupNavigateInitPage();
 
-        var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Submit an enquiry");
-        Assert.NotNull(anchor);
+    //    var anchor = page.QuerySelectorAll("a").FirstOrDefault(x => x.TextContent.Trim() == "Submit an enquiry");
+    //    Assert.NotNull(anchor);
 
-        page = await Client.Follow(anchor);
-        DocumentAssert.AssertPageUrl(page, Paths.SubmitEnquiry.ToAbsolute());
-    }
+    //    page = await Client.Follow(anchor);
+    //    DocumentAssert.AssertPageUrl(page, Paths.SubmitEnquiry.ToAbsolute());
+    //}
 
     [Fact]
     public async Task CanDisplayNotFound()

@@ -62,6 +62,16 @@
     @await Html.PartialAsync("_ChosenTrusts", new TrustComparatorsChosenTrustsViewModel(Model.CompanyNumber, Model.Trusts))
 }
 
+@if (Model.Trusts != null && Model.Trusts.Any(x => x.CompanyNumber != Model.CompanyNumber))
+{
+    <p class="govuk-body govuk-!-text-align-right">
+        <a class="govuk-link govuk-link--no-visited-state"
+           href="@Url.Action("Revert", "TrustComparators", new { companyNumber = Model.CompanyNumber })">
+            Remove all your choices
+        </a>
+    </p>
+}
+
 @section scripts
 {
     <script type="module" add-nonce="true">

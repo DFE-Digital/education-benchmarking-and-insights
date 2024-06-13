@@ -1,6 +1,7 @@
 import datetime
 
 import pandas as pd
+import numpy as np
 
 
 def map_ofsted_rating(rating: str):
@@ -109,11 +110,11 @@ def map_academy_status(
     year_end_date: datetime,
 ):
     if not (
-        pd.isna(closed_in_period)
-        and pd.isna(opened_in_period)
-        and pd.isna(valid_to)
-        and pd.isna(start_date)
-        and pd.isna(closed_date)
+        pd.isnull(closed_in_period)
+        and pd.isnull(opened_in_period)
+        and pd.isnull(valid_to)
+        and pd.isnull(start_date)
+        and pd.isnull(closed_date)
     ):
         if closed_date < year_start_date:
             return "Closed"
@@ -144,7 +145,9 @@ def map_maintained_school_status(
     year_end_date: datetime,
 ):
     if not (
-        pd.isna(return_period_length) and pd.isna(start_date) and pd.isna(closed_date)
+        pd.isnull(return_period_length)
+        and pd.isnull(start_date)
+        and pd.isnull(closed_date)
     ):
         if closed_date < year_start_date:
             return "Closed"
@@ -177,9 +180,9 @@ def map_is_pfi_school(pfi: str):
 
 
 def map_is_surplus_deficit(closing_balance: float):
-    if pd.isna(closing_balance):
+    if pd.isnull(closing_balance):
         return "Unknown"
-    if closing_balance > 0:
+    if closing_balance >= 0:
         return "Surplus"
     else:
         return "Deficit"
@@ -233,9 +236,30 @@ def map_academy_period_return(
     year_start_date: datetime,
     year_end_date: datetime,
 ):
-    if pd.isna(closed_in_period) and pd.isna(opened_in_period):
-        return 12
-    elif closed_in_period:
+    if not pd.isnull(closed_in_period):
         return _diff_month(closed_in_period, year_start_date)
-    elif opened_in_period:
+    elif not pd.isnull(opened_in_period):
         return _diff_month(year_end_date, opened_in_period)
+    else:
+        return 12
+
+
+def map_cost_series(category_name, df, basis):
+    # Create total column
+    df[category_name + "_Total"] = (
+        df[df.columns[pd.Series(df.columns).str.startswith(category_name)]]
+        .fillna(0)
+        .sum(axis=1)
+    )
+
+    sub_categories = df.columns[
+        df.columns.str.startswith(category_name)
+    ].values.tolist()
+
+    for sub_category in sub_categories:
+        df[sub_category + "_Per Unit"] = df[sub_category].fillna(0) / basis
+        df[sub_category + "_Per Unit"].replace(
+            [np.inf, -np.inf, np.nan], 0, inplace=True
+        )
+
+    return df

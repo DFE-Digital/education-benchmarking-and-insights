@@ -49,7 +49,7 @@
                     </legend>
                     <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Number of pupils",
@@ -65,7 +65,7 @@
                                 "pupils"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Eligibility for free school meals (FSM)",
@@ -82,7 +82,7 @@
                                 "%"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Pupils with special educational needs (SEN)",
@@ -99,7 +99,7 @@
                                 "%"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsSelect",
+                            "Characteristics/_AdditionalCharacteristicsSelect",
                             new AdditionalCharacteristicsSelectViewModel(
                                 ViewData,
                                 "London weighting",
@@ -113,7 +113,7 @@
                                 prefix: "is"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Average building age",
@@ -130,7 +130,7 @@
                                 inputsSuffix: "years"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Gross internal floor area",
@@ -147,7 +147,7 @@
                                 inputsSuffix: "square metres"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsSelect",
+                            "Characteristics/_AdditionalCharacteristicsSelect",
                             new AdditionalCharacteristicsSelectViewModel(
                                 ViewData,
                                 "Ofsted rating",
@@ -161,7 +161,7 @@
                                 prefix: "is rated"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Number of schools within trust",
@@ -177,7 +177,7 @@
                                 "schools"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsSelect",
+                            "Characteristics/_AdditionalCharacteristicsSelect",
                             new AdditionalCharacteristicsSelectViewModel(
                                 ViewData,
                                 "Schools in deficit",
@@ -192,7 +192,7 @@
                                 "is in"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsSelect",
+                            "Characteristics/_AdditionalCharacteristicsSelect",
                             new AdditionalCharacteristicsSelectViewModel(
                                 ViewData,
                                 "Part of a private finance initiative",
@@ -207,7 +207,7 @@
                                 "is"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Number of pupils in sixth form",
@@ -223,7 +223,7 @@
                                 "pupils in sixth form"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Key stage 2 progress",
@@ -238,7 +238,7 @@
                                 "key stage 2 progress is"))
 
                         @await Html.PartialAsync(
-                            "_AdditionalCharacteristicsRange",
+                            "Characteristics/_AdditionalCharacteristicsRange",
                             new AdditionalCharacteristicsRangeViewModel(
                                 ViewData,
                                 "Key stage 4 progress",
@@ -257,15 +257,15 @@
 
             <div class="govuk-checkboxes__conditional govuk-checkboxes__conditional--hidden" id="conditional-sen">
                 <div class="govuk-form-group">
-                    <fieldset class="govuk-fieldset" aria-describedby="contact-hint" id="additional-characteristics">
+                    <fieldset class="govuk-fieldset" aria-describedby="contact-hint" id="sen-characteristics">
                         <legend class="govuk-fieldset__legend govuk-fieldset__legend--m">
                             <h1 class="govuk-fieldset__heading">
-                                Additional characteristics
+                                SEN characteristics
                             </h1>
                         </legend>
                         <div class="govuk-checkboxes" data-module="govuk-checkboxes">
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Specific learning difficulty",
@@ -281,7 +281,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Moderate learning difficulty",
@@ -297,7 +297,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Severe learning difficulty",
@@ -313,7 +313,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Profound and multiple learning difficulty",
@@ -329,7 +329,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Social, emotional and mental health",
@@ -345,7 +345,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Speech, language and communications needs",
@@ -361,7 +361,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Hearing impairment",
@@ -377,7 +377,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Visual impairment",
@@ -393,7 +393,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Multi-sensory impairment",
@@ -409,7 +409,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Physical disability",
@@ -425,7 +425,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Autistic spectrum disorder",
@@ -441,7 +441,7 @@
                                     inputSuffix: "%"))
 
                             @await Html.PartialAsync(
-                                "_AdditionalCharacteristicsRange",
+                                "Characteristics/_AdditionalCharacteristicsRange",
                                 new AdditionalCharacteristicsRangeViewModel(
                                     ViewData,
                                     "Other learning difficulty",
@@ -461,7 +461,7 @@
             </div>
 
             <button
-                type="submit" 
+                type="submit"
                 class="govuk-button"
                 data-module="govuk-button"
                 name="action"

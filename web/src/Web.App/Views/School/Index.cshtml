@@ -49,14 +49,15 @@
                     </p>
                     <p>
                         <a class="govuk-notification-banner__link"
-                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })">
+                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })"
+                           id="revert-set">
                             Change back to the sets of schools we chose
                         </a>
                     </p>
                 </div>
             </div>
         }
-        
+
         @if (!Model.HasMetricRag && !string.IsNullOrEmpty(Model.UserDefinedSetId))
         {
             <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
@@ -67,7 +68,8 @@
                 </div>
                 <div class="govuk-notification-banner__content">
                     <h3 class="govuk-notification-banner__heading">
-                        You've chosen fewer than 10 schools so we cannot display spending priorities</h3>
+                        You've chosen fewer than 10 schools so we cannot display spending priorities
+                    </h3>
                     <p>
                         You're now benchmarking against your chosen schools, but to see spending priorities you need to choose 10 or more schools.
                     </p>
@@ -79,7 +81,8 @@
                     </p>
                     <p>
                         <a class="govuk-notification-banner__link"
-                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })">
+                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })"
+                           id="revert-set">
                             Change back to the sets of schools we chose
                         </a>
                     </p>
@@ -93,7 +96,12 @@
 {
     kind = OrganisationTypes.School,
     isPartOfTrust = Model.IsPartOfTrust,
-    additionText = string.IsNullOrEmpty(Model.UserDefinedSetId) ? null : new[] { "You are now comparing with your chosen schools." }
+    additionText = string.IsNullOrEmpty(Model.UserDefinedSetId)
+        ? null
+        : new[]
+        {
+            "You are now comparing with your chosen schools."
+        }
 })
 
 @if (Model.HasFinancials)
@@ -192,9 +200,10 @@ else
     }
 })
 
+@* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("GetHelp")
+@await Component.InvokeAsync("GetHelp") *@
 
 @section scripts
 {

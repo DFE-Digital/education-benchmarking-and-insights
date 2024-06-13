@@ -6,7 +6,6 @@ using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
-using Web.App.TagHelpers;
 using Web.App.ViewModels;
 
 namespace Web.App.Controllers;
@@ -53,15 +52,11 @@ public class SchoolPlanningController(
         {
             try
             {
-                var backAction = referrer == Referrers.TeachingPeriodsManager
-                    ? Url.Action("TeachingPeriodsManager", "SchoolPlanningCreate", new { urn, year })
-                    : Url.Action("Index", new { urn });
-
-                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(backAction);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolPlanning(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var plan = await financialPlanService.Get(urn, year);
-                var viewModel = new SchoolDeploymentPlanViewModel(school, plan, referrer);
+                var plan = await financialPlanService.DeploymentPlan(urn, year);
+                var viewModel = new SchoolDeploymentPlanViewModel(school, plan);
 
                 return View(viewModel);
             }

@@ -1,5 +1,5 @@
 ﻿@using Web.App.Extensions
-@model Web.App.ViewModels.UserDefinedCharacteristicViewModel
+@model Web.App.ViewModels.UserDefinedSchoolCharacteristicViewModel
 @{
     var value = ViewData.ModelState.GetAttemptedValueOrDefault(nameof(Model.OverallPhase), Model.OverallPhase == null ? string.Empty : string.Join(",", Model.OverallPhase));
     var values = value?.Split(",") ?? [];
