@@ -59,4 +59,5 @@ public static class PageTitles
     public const string TrustComparatorsPreview = "Trusts successfully matched";
     public const string TrustComparatorsSubmit = "Generating benchmarking data";
     public const string TrustComparatorsUserDefined = "Your set of trusts";
+    public const string TrustComparatorsRevert = "Remove all your trusts?";
 }
