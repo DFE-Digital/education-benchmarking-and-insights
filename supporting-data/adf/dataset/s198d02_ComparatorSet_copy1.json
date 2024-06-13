@@ -1,0 +1,44 @@
+{
+	"name": "s198d02_ComparatorSet_copy1",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d02_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198d02"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "RunType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "RunId",
+				"type": "nvarchar"
+			},
+			{
+				"name": "URN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "SetType",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Pupil",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Building",
+				"type": "nvarchar"
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "ComparatorSet"
+		}
+	}
+}
