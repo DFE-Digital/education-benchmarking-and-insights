@@ -1,0 +1,79 @@
+﻿<h2 class="govuk-heading-m">Data Sources</h2>
+
+<h3 class="govuk-heading-s">Which types of schools can I get data for?</h3>
+
+<p class="govuk-body">
+    The data on the site is for maintained schools and academies in England. It’s based on schools’ Consistent Financial Reporting (CFR) returns and academies’ accounting returns.
+    You can also get data for multi-academy trusts (MATs).
+</p>
+
+<h3 class="govuk-heading-s">Financial returns</h3>
+
+<p class="govuk-body">
+    This is based on schools’ Consistent Financial Reporting (CFR) returns for LA maintained schools and academies’ accounting returns (AARs).
+</p>
+
+<h4 class="govuk-heading-s">LA Maintained Schools</h4>
+
+<ul class="govuk-list">
+    @foreach (var dataSourceFile in Model.MaintainedSchools)
+    {
+        <li>
+            <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
+                @dataSourceFile.DisplayText
+                <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
+            </a>
+        </li>
+    }
+</ul>
+
+<h4 class="govuk-heading-s">Academies</h4>
+
+<ul class="govuk-list">
+    @foreach (var dataSourceFile in Model.Academies)
+    {
+        <li>
+            <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href=@dataSourceFile.Link>
+                @dataSourceFile.DisplayText
+                <span class="govuk-visually-hidden"> link will open an Excel spreadsheet</span>
+            </a>
+        </li>
+    }
+</ul>
+
+<h3 class="govuk-heading-s">Performance tables</h3>
+
+<p class="govuk-body">
+    This comes from
+    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.find-school-performance-data.service.gov.uk/">Find school and college performance data in England</a>.
+    The period covered matches the submissions for financial returns.
+</p>
+
+<h3 class="govuk-heading-s">Workforce census</h3>
+
+<p class="govuk-body">
+    This comes from the
+    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/collections/statistics-school-workforce">school workforce census</a>.
+    The period covered matches the submissions for financial returns.
+</p>
+
+<h3 class="govuk-heading-s">Ofsted data</h3>
+
+<p class="govuk-body">
+    This comes from
+    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/statistical-data-sets/monthly-management-information-ofsteds-school-inspections-outcomes">Ofsted school inspections</a>. Ratings reflect those received when financial data was uploaded.
+</p>
+
+<h3 class="govuk-heading-s">Special educational needs data</h3>
+
+<p class="govuk-body">
+    This comes from
+    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.gov.uk/government/collections/statistics-special-educational-needs-sen">special educational needs statistics</a>.
+</p>
+
+<h3 class="govuk-heading-s">School contextual information</h3>
+
+<p class="govuk-body">
+    This comes from the
+    <a target="_blank" rel="external noopener noreferrer" class="govuk-link" href="https://www.get-information-schools.service.gov.uk/">Get Information About Schools</a> site.
+</p>

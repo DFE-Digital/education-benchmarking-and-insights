@@ -2,6 +2,7 @@ using System.Collections.Concurrent;
 using Moq;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
 namespace Web.Integration.Tests;
 
@@ -31,6 +32,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
+    public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -48,6 +50,21 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(SchoolInsightApi.Object);
         services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
+        services.AddSingleton(DataSourceStorage.Object);
+    }
+
+    public BenchmarkingWebAppClient SetupStorage()
+    {
+        var sharedAccessTokenModel = new SharedAccessTokenModel
+        {
+            ContainerUri = new Uri("https://teststorageaccount.net/testcontainer"),
+            SasToken = "test"
+        };
+
+        DataSourceStorage.Reset();
+        DataSourceStorage.Setup(storage => storage.GetAccessToken()).Returns(sharedAccessTokenModel);
+
+        return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(SuggestOutput<Trust> trustTestData)
