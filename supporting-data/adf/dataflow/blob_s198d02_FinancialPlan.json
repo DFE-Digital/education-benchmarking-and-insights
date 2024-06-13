@@ -1,0 +1,81 @@
+{
+	"name": "blob_s198d02_FinancialPlan",
+	"properties": {
+		"folder": {
+			"name": "blob_s198d02"
+		},
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "blob_FinancialPlan",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "s198d02_FinancialPlan",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "AlterRow1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          URN as string,",
+				"          Year as string,",
+				"          Input as string,",
+				"          DeploymentPlan as string,",
+				"          Created as string,",
+				"          CreatedBy as string,",
+				"          UpdatedAt as string,",
+				"          UpdatedBy as string,",
+				"          IsComplete as string,",
+				"          Version as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1",
+				"source1 alterRow(upsertIf(true())) ~> AlterRow1",
+				"AlterRow1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     input(",
+				"          URN as string,",
+				"          Year as integer,",
+				"          Input as string,",
+				"          DeploymentPlan as string,",
+				"          Created as string,",
+				"          CreatedBy as string,",
+				"          UpdatedAt as string,",
+				"          UpdatedBy as string,",
+				"          IsComplete as boolean,",
+				"          Version as integer,",
+				"          TeacherContactRatio as decimal(16,2),",
+				"          ContactRatioRating as string,",
+				"          InYearBalance as decimal(16,2),",
+				"          InYearBalancePercentIncomeRating as string,",
+				"          AverageClassSize as decimal(16,2),",
+				"          AverageClassSizeRating as string",
+				"     ),",
+				"     deletable:false,",
+				"     insertable:false,",
+				"     updateable:false,",
+				"     upsertable:true,",
+				"     keys:['URN'],",
+				"     format: 'table',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}

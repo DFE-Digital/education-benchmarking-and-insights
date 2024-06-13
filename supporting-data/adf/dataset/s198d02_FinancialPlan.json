@@ -10,7 +10,82 @@
 		},
 		"annotations": [],
 		"type": "AzureSqlTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "URN",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Year",
+				"type": "smallint",
+				"precision": 5
+			},
+			{
+				"name": "Input",
+				"type": "nvarchar"
+			},
+			{
+				"name": "DeploymentPlan",
+				"type": "nvarchar"
+			},
+			{
+				"name": "Created",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "CreatedBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "UpdatedAt",
+				"type": "datetimeoffset",
+				"scale": 7
+			},
+			{
+				"name": "UpdatedBy",
+				"type": "nvarchar"
+			},
+			{
+				"name": "IsComplete",
+				"type": "bit"
+			},
+			{
+				"name": "Version",
+				"type": "int",
+				"precision": 10
+			},
+			{
+				"name": "TeacherContactRatio",
+				"type": "decimal",
+				"precision": 16,
+				"scale": 2
+			},
+			{
+				"name": "ContactRatioRating",
+				"type": "nvarchar"
+			},
+			{
+				"name": "InYearBalance",
+				"type": "decimal",
+				"precision": 16,
+				"scale": 2
+			},
+			{
+				"name": "InYearBalancePercentIncomeRating",
+				"type": "nvarchar"
+			},
+			{
+				"name": "AverageClassSize",
+				"type": "decimal",
+				"precision": 16,
+				"scale": 2
+			},
+			{
+				"name": "AverageClassSizeRating",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "FinancialPlan"
