@@ -64,7 +64,7 @@ def insert_comparator_set(run_type: str, set_type: str, year: str, df: pd.DataFr
     write_frame = df[["Pupil", "Building"]].copy()
     write_frame["RunType"] = run_type
     write_frame["SetType"] = set_type
-    write_frame["RunId"] = year
+    write_frame["RunId"] = str(year)
     write_frame["Pupil"] = write_frame["Pupil"].map(lambda x: json.dumps(x.tolist()))
     write_frame["Building"] = write_frame["Building"].map(
         lambda x: json.dumps(x.tolist())
@@ -91,7 +91,7 @@ def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame)
         ]
     ].copy()
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = year
+    write_frame["RunId"] = str(year)
     write_frame["SetType"] = set_type
 
     upsert(
@@ -225,7 +225,7 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = year
+    write_frame["RunId"] = str(year)
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
@@ -374,7 +374,7 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
 
     write_frame["RunType"] = run_type
-    write_frame["RunId"] = year
+    write_frame["RunId"] = str(year)
     write_frame.set_index("URN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
