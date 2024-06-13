@@ -944,6 +944,30 @@
 					{
 						"name": "Version",
 						"type": "String"
+					},
+					{
+						"name": "TeacherContactRatio",
+						"type": "String"
+					},
+					{
+						"name": "ContactRatioRating",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalance",
+						"type": "String"
+					},
+					{
+						"name": "InYearBalancePercentIncomeRating",
+						"type": "String"
+					},
+					{
+						"name": "AverageClassSize",
+						"type": "String"
+					},
+					{
+						"name": "AverageClassSizeRating",
+						"type": "String"
 					}
 				]
 			},
@@ -1081,6 +1105,9 @@
 					"transformations": [
 						{
 							"name": "AlterRow1"
+						},
+						{
+							"name": "derivedColumn1"
 						}
 					],
 					"scriptLines": [
@@ -1094,12 +1121,25 @@
 						"          UpdatedAt as string,",
 						"          UpdatedBy as string,",
 						"          IsComplete as string,",
-						"          Version as string",
+						"          Version as string,",
+						"          TeacherContactRatio as string,",
+						"          ContactRatioRating as string,",
+						"          InYearBalance as string,",
+						"          InYearBalancePercentIncomeRating as string,",
+						"          AverageClassSize as string,",
+						"          AverageClassSizeRating as string",
 						"     ),",
 						"     allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     ignoreNoFilesFound: false) ~> source1",
-						"source1 alterRow(upsertIf(true())) ~> AlterRow1",
+						"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
+						"source1 derive(Created = toDate(Created),",
+						"          UpdatedAt = toDate(UpdatedAt),",
+						"          IsComplete = toBoolean(IsComplete),",
+						"          Version = toInteger(Version),",
+						"          TeacherContactRatio = toDecimal(TeacherContactRatio),",
+						"          InYearBalance = toDecimal(InYearBalance),",
+						"          AverageClassSize = toDecimal(AverageClassSize)) ~> derivedColumn1",
 						"AlterRow1 sink(allowSchemaDrift: true,",
 						"     validateSchema: false,",
 						"     input(",
