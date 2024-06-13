@@ -30,12 +30,12 @@ public class JobStartMessageSender : IJobStartMessageSender
 
         _client = new QueueClient(options.Value.ConnectionString, options.Value.JobStartQueue, new QueueClientOptions
         {
-            MessageEncoding = QueueMessageEncoding.Base64
+            MessageEncoding = QueueMessageEncoding.None
         });
     }
 
     public async Task Send(PipelineStartMessage input)
     {
-        await _client.SendMessageAsync(new BinaryData(input.ToJsonByteArray()));
+        await _client.SendMessageAsync(input.ToJson());
     }
 }

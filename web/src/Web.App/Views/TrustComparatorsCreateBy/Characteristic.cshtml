@@ -1,0 +1,190 @@
+﻿@using Web.App.Domain
+@using Web.App.Extensions
+@using Web.App.TagHelpers
+@using Web.App.ViewModels
+@model Web.App.ViewModels.TrustComparatorsByCharacteristicViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.TrustComparatorsCreateByCharacteristic;
+    var phases = Model.Characteristic?.Phases ?? [];
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.CompanyNumber,
+    kind = OrganisationTypes.Trust
+})
+
+@await Html.PartialAsync("_ErrorSummary")
+
+@using (Html.BeginForm("Characteristic", "TrustComparatorsCreateBy", new
+        {
+            companyNumber = Model.CompanyNumber
+        }, FormMethod.Post, true, new
+        {
+            novalidate = "novalidate",
+            @class = "characteristics"
+        }))
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-three-quarters">
+            <div class="govuk-form-group">
+                <fieldset class="govuk-fieldset" aria-describedby="contact-hint" id="additional-characteristics">
+                    <div class="govuk-checkboxes" data-module="govuk-checkboxes">
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of pupils",
+                                nameof(Model.Data.TotalPupils),
+                                Model.Data.TotalPupils,
+                                nameof(Model.Data.TotalPupilsFrom),
+                                Model.Data.TotalPupilsFrom.HasValue ? Model.Data.TotalPupilsFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.TotalPupilsTo),
+                                Model.Data.TotalPupilsTo.HasValue ? Model.Data.TotalPupilsTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalPupils.GetValueOrDefault().ToNumberSeparator(),
+                                "has",
+                                "pupils"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Number of schools",
+                                nameof(Model.Data.SchoolsInTrust),
+                                Model.Data.SchoolsInTrust,
+                                nameof(Model.Data.SchoolsInTrustFrom),
+                                Model.Data.SchoolsInTrustFrom.HasValue ? Model.Data.SchoolsInTrustFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.SchoolsInTrustTo),
+                                Model.Data.SchoolsInTrustTo.HasValue ? Model.Data.SchoolsInTrustTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.SchoolsInTrust.GetValueOrDefault().ToSimpleDisplay(),
+                                "has",
+                                "schools"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Total income",
+                                nameof(Model.Data.TotalIncome),
+                                Model.Data.TotalIncome,
+                                nameof(Model.Data.TotalIncomeFrom),
+                                Model.Data.TotalIncomeFrom.HasValue ? Model.Data.TotalIncomeFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.TotalIncomeTo),
+                                Model.Data.TotalIncomeTo.HasValue ? Model.Data.TotalIncomeTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalIncome.ToCurrency(0),
+                                "has income of",
+                                inputSuffix: "£",
+                                wide: true))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Total gross internal floor area",
+                                nameof(Model.Data.InternalFloorArea),
+                                Model.Data.InternalFloorArea,
+                                nameof(Model.Data.InternalFloorAreaFrom),
+                                Model.Data.InternalFloorAreaFrom.HasValue ? Model.Data.InternalFloorAreaFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.InternalFloorAreaTo),
+                                Model.Data.InternalFloorAreaTo.HasValue ? Model.Data.InternalFloorAreaTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.TotalInternalFloorArea.GetValueOrDefault().ToNumberSeparator(),
+                                "is",
+                                "square metres",
+                                inputsSuffix: "square metres"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsSelect",
+                            new AdditionalCharacteristicsSelectViewModel(
+                                ViewData,
+                                "School phases covered by trust",
+                                nameof(Model.Data.OverallPhase),
+                                Model.Data.OverallPhase,
+                                nameof(Model.Data.OverallPhases),
+                                string.Join(",", Model.Data.OverallPhases ?? []),
+                                Model.Name,
+                                phases.Length > 1
+                                    ? $"{string.Join(", ", phases.Take(new Range(0, phases.Length - 1)))} and {phases.Last()}"
+                                    : phases.FirstOrDefault(),
+                                [OverallPhaseTypes.Nursery, OverallPhaseTypes.Primary, OverallPhaseTypes.Secondary, OverallPhaseTypes.Special, OverallPhaseTypes.PupilReferralUnit, OverallPhaseTypes.AllThrough],
+                                prefix: "contains",
+                                suffix: "schools"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Eligibility for free school meals (FSM)",
+                                nameof(Model.Data.FreeSchoolMeals),
+                                Model.Data.FreeSchoolMeals,
+                                nameof(Model.Data.FreeSchoolMealsFrom),
+                                Model.Data.FreeSchoolMealsFrom.HasValue ? Model.Data.FreeSchoolMealsFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.FreeSchoolMealsTo),
+                                Model.Data.FreeSchoolMealsTo.HasValue ? Model.Data.FreeSchoolMealsTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.PercentFreeSchoolMeals.ToPercent(),
+                                "has",
+                                "of pupils eligible for FSM",
+                                "%"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Pupils with special educational needs (SEN)",
+                                nameof(Model.Data.SpecialEducationalNeeds),
+                                Model.Data.SpecialEducationalNeeds,
+                                nameof(Model.Data.SpecialEducationalNeedsFrom),
+                                Model.Data.SpecialEducationalNeedsFrom.HasValue ? Model.Data.SpecialEducationalNeedsFrom.Value.ToSimpleDisplay() : string.Empty,
+                                nameof(Model.Data.SpecialEducationalNeedsTo),
+                                Model.Data.SpecialEducationalNeedsTo.HasValue ? Model.Data.SpecialEducationalNeedsTo.Value.ToSimpleDisplay() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.PercentSpecialEducationNeeds.ToPercent(),
+                                "has",
+                                "of pupils with special educational needs",
+                                "%"))
+
+                        @await Html.PartialAsync(
+                            "Characteristics/_AdditionalCharacteristicsRange",
+                            new AdditionalCharacteristicsRangeViewModel(
+                                ViewData,
+                                "Trust formation year",
+                                nameof(Model.Data.FormationYear),
+                                Model.Data.FormationYear,
+                                nameof(Model.Data.FormationYearFrom),
+                                Model.Data.FormationYearFrom.HasValue ? Model.Data.FormationYearFrom.Value.ToString() : string.Empty,
+                                nameof(Model.Data.FormationYearTo),
+                                Model.Data.FormationYearTo.HasValue ? Model.Data.FormationYearTo.Value.ToString() : string.Empty,
+                                Model.Name,
+                                Model.Characteristic?.OpenDate?.ToString("yyyy"),
+                                "was formed in"))
+                    </div>
+                </fieldset>
+            </div>
+
+            <button
+                type="submit"
+                class="govuk-button"
+                data-module="govuk-button"
+                name="action"
+                data-prevent-double-click="true"
+                value="@FormAction.Continue"
+                id="submit-characteristic">
+                Continue
+            </button>
+        </div>
+    </div>
+}
+
+@section scripts
+{
+    <script type="module" add-nonce="true">
+      import { initAll } from '/js/govuk-frontend.min.js'
+      initAll()
+    </script>
+}

@@ -20,6 +20,12 @@ public record CharacteristicRange
     public decimal To { get; set; }
 }
 
+public record CharacteristicDateRange
+{
+    public DateTime From { get; set; }
+    public DateTime To { get; set; }
+}
+
 public static class ExpressionBuilder
 {
     public static List<string> AddNotValueFilter(this List<string> list, string fieldName, string? value)
@@ -47,6 +53,16 @@ public static class ExpressionBuilder
         if (characteristic is not null)
         {
             list.Add($"({fieldName} eq {characteristic.Values.ToString().ToLowerInvariant()})");
+        }
+
+        return list;
+    }
+
+    public static List<string> AddRangeFilter(this List<string> list, string fieldName, CharacteristicDateRange? characteristic)
+    {
+        if (characteristic is not null)
+        {
+            list.Add($"(({fieldName} ge {characteristic.From:s}Z) and ({fieldName} le {characteristic.To:s}Z))");
         }
 
         return list;

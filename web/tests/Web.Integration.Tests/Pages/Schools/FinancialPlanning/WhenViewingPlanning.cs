@@ -116,9 +116,9 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
         DocumentAssert.TitleAndH1(page, "Curriculum and financial planning (CFP) - Financial Benchmarking and Insights Tool - GOV.UK", "Curriculum and financial planning (CFP)");
 
         var cta = page.QuerySelector(".govuk-button");
-        DocumentAssert.PrimaryCta(cta, "Create new plan", Paths.SchoolFinancialPlanningStart(school.URN));
+        DocumentAssert.PrimaryCta(cta, "Continue", Paths.SchoolFinancialPlanningStart(school.URN));
 
-        var toolsSection = page.Body.SelectSingleNode("//main/div/div[4]");
+        var toolsSection = page.Body.SelectSingleNode("//main/div/div[3]");
         DocumentAssert.Heading2(toolsSection, "Finance tools");
 
         var toolsLinks = toolsSection.ChildNodes.QuerySelectorAll("ul> li > h3 > a").ToList();

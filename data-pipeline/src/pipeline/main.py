@@ -492,7 +492,7 @@ def run_user_defined_rag(
     year: int,
     run_id: str,
     target_urn: int,
-    comparator_set: pd.DataFrame,
+    comparator_set: list[int],
 ):
     """
     Perform user-defined RAG calculations.
@@ -588,15 +588,13 @@ def handle_msg(
     """
     msg_payload = json.loads(msg.content)
     try:
-        if (
-            payload := msg_payload.get("payload", {}).get("kind")
-            == "ComparatorSetPayload"
-        ):
+        payload = msg_payload.get("payload", {})
+        if payload.get("kind") == "ComparatorSetPayload":
             msg_payload["rag_duration"] = run_user_defined_rag(
                 year=msg_payload["year"],
                 run_id=msg_payload["runId"],
                 target_urn=int(msg_payload["urn"]),
-                comparator_set=pd.DataFrame(map(int, payload["set"])),
+                comparator_set=list(map(int, payload["set"])),
             )
         else:
             msg_payload["pre_process_duration"] = pre_process_data(

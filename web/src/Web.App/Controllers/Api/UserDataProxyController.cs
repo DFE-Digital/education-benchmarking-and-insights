@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Extensions;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
 
 [ApiController]
@@ -13,9 +12,12 @@ public class UserDataProxyController(ILogger<ProxyController> logger, IUserDataS
     [HttpGet]
     [Route("school/{urn}/{identifier}")]
     [Produces("application/json")]
-    public async Task<IActionResult> Index(string urn, string identifier)
+    public async Task<IActionResult> SchoolUserData(string urn, string identifier)
     {
-        using (logger.BeginScope(new { identifier }))
+        using (logger.BeginScope(new
+        {
+            identifier
+        }))
         {
             try
             {
@@ -29,7 +31,35 @@ public class UserDataProxyController(ILogger<ProxyController> logger, IUserDataS
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting user data {Id} for {User}", identifier, User.UserId());
+                logger.LogError(e, "An error getting school user data {Id} for {User}", identifier, User.UserId());
+                return StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("trust/{companyNumber}/{identifier}")]
+    [Produces("application/json")]
+    public async Task<IActionResult> TrustUserData(string companyNumber, string identifier)
+    {
+        using (logger.BeginScope(new
+        {
+            identifier
+        }))
+        {
+            try
+            {
+                var userSet = await userDataService.GetTrustComparatorSetAsync(User.UserId(), identifier, companyNumber);
+                if (userSet == null)
+                {
+                    return new NotFoundResult();
+                }
+
+                return new JsonResult(userSet);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error getting trust user data {Id} for {User}", identifier, User.UserId());
                 return StatusCode(500);
             }
         }

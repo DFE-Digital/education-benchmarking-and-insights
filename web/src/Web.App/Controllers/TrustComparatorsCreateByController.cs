@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
@@ -19,7 +20,9 @@ public class TrustComparatorsCreateByController(
     ILogger<TrustComparatorsCreateByController> logger,
     IEstablishmentApi establishmentApi,
     ITrustComparatorSetService trustComparatorSetService,
-    ITrustInsightApi trustInsightApi
+    ITrustInsightApi trustInsightApi,
+    IComparatorSetApi comparatorSetApi,
+    IComparatorApi comparatorApi
 ) : Controller
 {
     [HttpGet]
@@ -75,11 +78,12 @@ public class TrustComparatorsCreateByController(
     [HttpGet]
     [Route("by/name")]
     [ImportModelState]
-    public async Task<IActionResult> Name(string companyNumber)
+    public async Task<IActionResult> Name(string companyNumber, [FromQuery] string? identifier = null)
     {
         using (logger.BeginScope(new
         {
-            companyNumber
+            companyNumber,
+            identifier
         }))
         {
             try
@@ -90,7 +94,18 @@ public class TrustComparatorsCreateByController(
                 }));
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                UserDefinedTrustComparatorSet userDefinedSet;
+                if (string.IsNullOrEmpty(identifier))
+                {
+                    userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                }
+                else
+                {
+                    userDefinedSet = await trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber, identifier);
+                    trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber, identifier);
+                    trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, userDefinedSet);
+                }
+
                 var trustsQuery = new ApiQuery();
                 foreach (var selectedCompanyNumber in userDefinedSet.Set)
                 {
@@ -168,11 +183,184 @@ public class TrustComparatorsCreateByController(
 
     [HttpGet]
     [Route("submit")]
-    public IActionResult Submit(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    public async Task<IActionResult> Submit(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                if (userDefinedSet.Set.Length == 0)
+                {
+                    return RedirectToAction("Index", new
+                    {
+                        urn = companyNumber
+                    });
+                }
+
+                if (!userDefinedSet.Set.Contains(companyNumber))
+                {
+                    // ensure current trust is in the set
+                    var list = userDefinedSet.Set.ToList();
+                    list.Add(companyNumber);
+                    userDefinedSet.Set = list.ToArray();
+                }
+
+                var request = new PutComparatorSetUserDefinedRequest
+                {
+                    Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
+                    Set = userDefinedSet.Set,
+                    UserId = User.UserId()
+                };
+
+                await comparatorSetApi.UpsertUserDefinedTrustAsync(companyNumber, request).EnsureSuccess();
+                trustComparatorSetService.ClearUserDefinedComparatorSet(companyNumber);
+                trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                var viewModel = new TrustComparatorsSubmittedViewModel(trust, request);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error submitting school comparators: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
 
     [HttpGet]
     [Route("by/characteristic")]
-    public IActionResult Characteristic(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    [ImportModelState]
+    public async Task<IActionResult> Characteristic(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    companyNumber
+                }));
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(new[]
+                {
+                    companyNumber
+                });
+
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var viewModel = new TrustComparatorsByCharacteristicViewModel(trust, characteristics?.FirstOrDefault(), userDefinedCharacteristic);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create trust comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpPost]
+    [Route("by/characteristic")]
+    [ExportModelState]
+    public async Task<IActionResult> Characteristic([FromRoute] string companyNumber, [FromForm] UserDefinedTrustCharacteristicViewModel viewModel)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber,
+            viewModel
+        }))
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    logger.LogDebug("Posted Characteristic failed validation: {ModelState}",
+                        ModelState.Where(m => m.Value != null && m.Value.Errors.Any()).ToJson());
+                    trustComparatorSetService.ClearUserDefinedCharacteristic(companyNumber);
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                var request = new PostTrustComparatorsRequest(companyNumber, viewModel);
+                var results = await comparatorApi.CreateTrustsAsync(request).GetResultOrThrow<ComparatorTrusts>();
+
+                // try again if too few results returned
+                // todo: unhappy path(s) under review as part of other ticket(s)
+                if (results.TotalTrusts < 2)
+                {
+                    ModelState.AddModelError(string.Empty, "Unable to find any matching trusts. Modify the characteristics and try again.");
+                    return RedirectToAction(nameof(Characteristic));
+                }
+
+                trustComparatorSetService.SetUserDefinedCharacteristic(companyNumber, viewModel);
+                trustComparatorSetService.SetUserDefinedComparatorSet(companyNumber, new UserDefinedTrustComparatorSet
+                {
+                    Set = results.Trusts.ToArray(),
+                    TotalTrusts = results.TotalTrusts
+                });
+
+                return RedirectToAction(nameof(Preview), new
+                {
+                    companyNumber
+                });
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error occurred managing user defined characteristics: {DisplayUrl}", Request.GetDisplayUrl());
+                return StatusCode(StatusCodes.Status400BadRequest);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("preview")]
+    public async Task<IActionResult> Preview(string companyNumber)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.Backlink] = new BacklinkInfo(Url.Action(nameof(Index), new
+                {
+                    companyNumber
+                }));
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
+                if (userDefinedSet.Set.Length <= 1)
+                {
+                    return RedirectToAction(nameof(Characteristic), new
+                    {
+                        companyNumber
+                    });
+                }
+
+                var userDefinedCharacteristic = trustComparatorSetService.ReadUserDefinedCharacteristic(companyNumber);
+                var characteristics = await GetTrustCharacteristics<TrustCharacteristic>(userDefinedSet.Set.Where(s => s != companyNumber));
+                var viewModel = new TrustComparatorsPreviewViewModel(
+                    trust,
+                    characteristics,
+                    userDefinedSet.Set.Length,
+                    userDefinedSet.TotalTrusts.GetValueOrDefault(),
+                    userDefinedCharacteristic);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying create trust comparators by characteristic: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
 
     private async Task<T[]?> GetTrustCharacteristics<T>(IEnumerable<string> set)
     {

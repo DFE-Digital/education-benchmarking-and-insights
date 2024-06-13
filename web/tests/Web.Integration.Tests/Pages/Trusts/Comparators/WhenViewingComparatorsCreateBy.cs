@@ -52,7 +52,7 @@ public class WhenViewingComparatorsCreateBy(SchoolBenchmarkingWebAppClient clien
             });
         });
 
-        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByCharacteristic(trust.CompanyNumber).ToAbsolute(), HttpStatusCode.Found);
+        DocumentAssert.AssertPageUrl(page, Paths.TrustComparatorsCreateByCharacteristic(trust.CompanyNumber).ToAbsolute());
     }
 
     private async Task<(IHtmlDocument page, Trust Trust)> SetupNavigateInitPage()

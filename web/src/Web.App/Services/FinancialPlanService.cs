@@ -11,6 +11,7 @@ public interface IFinancialPlanService
 {
     Task TryCreateEmpty(string? urn, int? year, string user);
     Task<FinancialPlanInput> Get(string? urn, int? year);
+    Task<DeploymentPlan> DeploymentPlan(string? urn, int? year);
     Task<IEnumerable<FinancialPlan>> List(string? urn);
     Task Update(string? urn, int? year, string user, Stage stage);
 }
@@ -30,6 +31,11 @@ public class FinancialPlanService(IFinancialPlanApi api) : IFinancialPlanService
     public async Task<FinancialPlanInput> Get(string? urn, int? year)
     {
         return await api.GetAsync(urn, year).GetResultOrThrow<FinancialPlanInput>();
+    }
+
+    public async Task<DeploymentPlan> DeploymentPlan(string? urn, int? year)
+    {
+        return await api.GetDeploymentPlanAsync(urn, year).GetResultOrThrow<DeploymentPlan>();
     }
 
     public async Task<IEnumerable<FinancialPlan>> List(string? urn)

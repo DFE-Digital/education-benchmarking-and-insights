@@ -43,7 +43,7 @@ public class SchoolController(
                 }
                 else
                 {
-                    ratings = []; //TODO : Lookup custom ratings
+                    ratings = await metricRagRatingApi.UserDefinedAsync(userData.ComparatorSet).GetResultOrThrow<RagRating[]>();
                 }
                 var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated, userData.ComparatorSet);
                 return View(viewModel);

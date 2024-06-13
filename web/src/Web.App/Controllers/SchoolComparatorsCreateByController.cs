@@ -213,12 +213,11 @@ public class SchoolComparatorsCreateByController(
                 var request = new PutComparatorSetUserDefinedRequest
                 {
                     Identifier = userDefinedSet.RunId == null ? Guid.NewGuid() : Guid.Parse(userDefinedSet.RunId),
-                    URN = urn,
                     Set = userDefinedSet.Set,
                     UserId = User.UserId()
                 };
 
-                await comparatorSetApi.UpsertUserDefinedSchoolAsync(request).EnsureSuccess();
+                await comparatorSetApi.UpsertUserDefinedSchoolAsync(urn, request).EnsureSuccess();
                 schoolComparatorSetService.ClearUserDefinedComparatorSet(urn);
                 schoolComparatorSetService.ClearUserDefinedCharacteristic(urn);
                 var viewModel = new SchoolComparatorsSubmittedViewModel(school, request);
@@ -270,7 +269,7 @@ public class SchoolComparatorsCreateByController(
     [HttpPost]
     [Route("by/characteristic")]
     [ExportModelState]
-    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedCharacteristicViewModel viewModel)
+    public async Task<IActionResult> Characteristic([FromRoute] string urn, [FromForm] UserDefinedSchoolCharacteristicViewModel viewModel)
     {
         using (logger.BeginScope(new
         {
@@ -370,7 +369,6 @@ public class SchoolComparatorsCreateByController(
 
     [HttpGet]
     [Route("preview")]
-    [ImportModelState]
     public async Task<IActionResult> Preview(string urn)
     {
         using (logger.BeginScope(new

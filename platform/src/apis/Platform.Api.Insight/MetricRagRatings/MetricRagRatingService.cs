@@ -10,6 +10,8 @@ public interface IMetricRagRatingsService
 {
     Task<IEnumerable<MetricRagRating>> QueryAsync(string[] urns, string[] categories, string[] statuses,
         string runType = "default", string setType = "unmixed", bool includeSubCategories = false);
+
+    Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default", bool includeSubCategories = false);
 }
 
 public class MetricRagRatingsService : IMetricRagRatingsService
@@ -48,6 +50,23 @@ public class MetricRagRatingsService : IMetricRagRatingsService
         if (statuses.Any())
         {
             builder.Where("RAG IN @statuses", new { statuses });
+        }
+
+        return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters);
+    }
+
+    public async Task<IEnumerable<MetricRagRating>> UserDefinedAsync(string identifier, string runType = "default",
+        bool includeSubCategories = false)
+    {
+        using var conn = await _dbFactory.GetConnection();
+
+        var builder = new SqlBuilder();
+        var template = builder.AddTemplate("SELECT * from MetricRAG /**where**/");
+        builder.Where("RunType = @RunType AND RunId = @RunId", new { RunType = runType, RunId = identifier });
+
+        if (!includeSubCategories)
+        {
+            builder.Where("SubCategory = 'Total'");
         }
 
         return await conn.QueryAsync<MetricRagRating>(template.RawSql, template.Parameters);

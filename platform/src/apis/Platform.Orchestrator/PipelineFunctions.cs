@@ -6,6 +6,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
 using Platform.Domain.Messages;
+using Platform.Functions.Extensions;
 
 namespace Platform.Orchestrator;
 
@@ -34,11 +35,11 @@ public class PipelineFunctions
             using (_logger.BeginScope(new Dictionary<string, object>
                        {{"Application", Constants.ApplicationName}}))
             {
-                var status = await client.GetStatusAsync(message.JobId.ToString());
+                var status = await client.GetStatusAsync(message.JobId);
 
                 if (status is not { RuntimeStatus: OrchestrationRuntimeStatus.Pending or OrchestrationRuntimeStatus.Running })
                 {
-                    await client.StartNewAsync(nameof(PipelineJobOrchestrator), message.JobId.ToString(), message);
+                    await client.StartNewAsync(nameof(PipelineJobOrchestrator), message.JobId, message);
                 }
             }
         }
@@ -53,7 +54,7 @@ public class PipelineFunctions
     [StorageAccount("PipelineMessageHub:ConnectionString")]
     public async Task PipelineJobFinished(
         [QueueTrigger("%PipelineMessageHub:JobFinishedQueue%")]
-        PipelineFinishMessage message,
+        string message,
         [DurableClient] IDurableOrchestrationClient client)
     {
         try
@@ -61,8 +62,9 @@ public class PipelineFunctions
             using (_logger.BeginScope(new Dictionary<string, object>
                        {{"Application", Constants.ApplicationName}}))
             {
-                await client.RaiseEventAsync(message.JobId.ToString(), nameof(PipelineJobFinished));
-
+                var job = message.FromJson<PipelineFinishMessage>();
+                _logger.LogInformation("Finished job: {JobId}. RunId - {RunId}", job.JobId, job.RunId);
+                await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished));
                 //TODO: log finished message
             }
         }
@@ -78,11 +80,14 @@ public class PipelineFunctions
     {
         var input = context.GetInput<PipelineStartMessage>();
         await context.CallActivityAsync(nameof(OnStartJobTrigger), input);
+
+        _logger.LogInformation("{JobId} waiting for finished event", input.JobId);
         await context.WaitForExternalEvent(nameof(PipelineJobFinished));
+        _logger.LogInformation("{JobId} received finished event", input.JobId);
 
         switch (input.Type)
         {
-            case "school-comparator-set":
+            case "comparator-set":
             case "custom-data":
                 await context.CallActivityAsync(nameof(UpdateStatusTrigger), input);
                 break;
@@ -100,6 +105,8 @@ public class PipelineFunctions
     public async Task UpdateStatusTrigger([ActivityTrigger] IDurableActivityContext context)
     {
         var message = context.GetInput<PipelineStartMessage>();
+
+        _logger.LogInformation("Updating status for {RunId}", message.RunId);
         await _db.UpdateStatus(message.RunId);
     }
 
