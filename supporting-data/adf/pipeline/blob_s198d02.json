@@ -46,14 +46,6 @@
 				},
 				"userProperties": [],
 				"typeProperties": {
-					"source": {
-						"type": "ExcelSource",
-						"storeSettings": {
-							"type": "AzureBlobStorageReadSettings",
-							"recursive": true,
-							"enablePartitionDiscovery": false
-						}
-					},
 					"sink": {
 						"type": "AzureSqlSink",
 						"writeBehavior": "upsert",
@@ -73,89 +65,66 @@
 							{
 								"source": {
 									"name": "RunType",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "RunType",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "RunId",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "RunId",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "URN",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "URN",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "SetType",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "SetType",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "Pupil",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "Pupil",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							},
 							{
 								"source": {
 									"name": "Building",
-									"type": "String",
-									"physicalType": "String"
+									"type": "String"
 								},
 								"sink": {
 									"name": "Building",
-									"type": "String",
-									"physicalType": "nvarchar"
+									"type": "String"
 								}
 							}
-						],
-						"typeConversion": true,
-						"typeConversionSettings": {
-							"allowDataTruncation": true,
-							"treatBooleanAsNumber": false
-						}
+						]
 					}
 				},
-				"inputs": [
-					{
-						"referenceName": "blob_comparatorSet",
-						"type": "DatasetReference"
-					}
-				],
 				"outputs": [
 					{
 						"referenceName": "s198d02_ComparatorSet",
