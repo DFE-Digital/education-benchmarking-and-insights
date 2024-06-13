@@ -1,5 +1,5 @@
 {
-	"name": "blob_comparatorSet_copy1",
+	"name": "blob_comparatorSet",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "s198d98_storage",
