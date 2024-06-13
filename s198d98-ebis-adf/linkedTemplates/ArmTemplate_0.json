@@ -574,6 +574,175 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "FinancialPlan",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "Year",
+						"type": "String"
+					},
+					{
+						"name": "Input",
+						"type": "String"
+					},
+					{
+						"name": "DeploymentPlan",
+						"type": "String"
+					},
+					{
+						"name": "Created",
+						"type": "String"
+					},
+					{
+						"name": "CreatedBy",
+						"type": "String"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "String"
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "String"
+					},
+					{
+						"name": "IsComplete",
+						"type": "String"
+					},
+					{
+						"name": "Version",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Year",
+						"type": "smallint",
+						"precision": 5
+					},
+					{
+						"name": "Input",
+						"type": "nvarchar"
+					},
+					{
+						"name": "DeploymentPlan",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Created",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "CreatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "UpdatedAt",
+						"type": "datetimeoffset",
+						"scale": 7
+					},
+					{
+						"name": "UpdatedBy",
+						"type": "nvarchar"
+					},
+					{
+						"name": "IsComplete",
+						"type": "bit"
+					},
+					{
+						"name": "Version",
+						"type": "int",
+						"precision": 10
+					},
+					{
+						"name": "TeacherContactRatio",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "ContactRatioRating",
+						"type": "nvarchar"
+					},
+					{
+						"name": "InYearBalance",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "InYearBalancePercentIncomeRating",
+						"type": "nvarchar"
+					},
+					{
+						"name": "AverageClassSize",
+						"type": "decimal",
+						"precision": 16,
+						"scale": 2
+					},
+					{
+						"name": "AverageClassSizeRating",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "FinancialPlan"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_s198d02_school')]",
 			"type": "Microsoft.DataFactory/factories/dataflows",
 			"apiVersion": "2018-06-01",
@@ -692,6 +861,93 @@
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/datasets/blob_school')]",
 				"[concat(variables('factoryId'), '/datasets/s198d02_school')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "blob_s198d02"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "blob_FinancialPlan",
+								"type": "DatasetReference"
+							},
+							"name": "source1"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "s198d02_FinancialPlan",
+								"type": "DatasetReference"
+							},
+							"name": "sink1"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow1"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          URN as string,",
+						"          Year as string,",
+						"          Input as string,",
+						"          DeploymentPlan as string,",
+						"          Created as string,",
+						"          CreatedBy as string,",
+						"          UpdatedAt as string,",
+						"          UpdatedBy as string,",
+						"          IsComplete as string,",
+						"          Version as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source1",
+						"source1 alterRow(upsertIf(true())) ~> AlterRow1",
+						"AlterRow1 sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          URN as string,",
+						"          Year as integer,",
+						"          Input as string,",
+						"          DeploymentPlan as string,",
+						"          Created as string,",
+						"          CreatedBy as string,",
+						"          UpdatedAt as string,",
+						"          UpdatedBy as string,",
+						"          IsComplete as boolean,",
+						"          Version as integer,",
+						"          TeacherContactRatio as decimal(16,2),",
+						"          ContactRatioRating as string,",
+						"          InYearBalance as decimal(16,2),",
+						"          InYearBalancePercentIncomeRating as string,",
+						"          AverageClassSize as decimal(16,2),",
+						"          AverageClassSizeRating as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['URN'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_FinancialPlan')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_FinancialPlan')]"
 			]
 		},
 		{
@@ -879,6 +1135,52 @@
 				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]",
 				"[concat(variables('factoryId'), '/datasets/blob_comparatorSet')]",
 				"[concat(variables('factoryId'), '/datasets/s198d02_ComparatorSet')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_FinancialPlan')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Financial Plan",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "blob_s198d02_FinancialPlan",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source1": {},
+									"sink1": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_FinancialPlan')]"
 			]
 		}
 	]
