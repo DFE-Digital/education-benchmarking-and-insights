@@ -216,7 +216,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet')]",
+			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet_copy1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -400,7 +400,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet')]",
+			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet_copy1')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -729,6 +729,133 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "ComparatorSet",
+						"type": "Copy",
+						"dependsOn": [
+							{
+								"activity": "School",
+								"dependencyConditions": [
+									"Succeeded"
+								]
+							}
+						],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"source": {
+								"type": "ExcelSource",
+								"storeSettings": {
+									"type": "AzureBlobStorageReadSettings",
+									"recursive": true,
+									"enablePartitionDiscovery": false
+								}
+							},
+							"sink": {
+								"type": "AzureSqlSink",
+								"writeBehavior": "upsert",
+								"upsertSettings": {
+									"useTempDB": true,
+									"keys": [
+										"URN"
+									]
+								},
+								"sqlWriterUseTableLock": false,
+								"disableMetricsCollection": false
+							},
+							"enableStaging": false,
+							"translator": {
+								"type": "TabularTranslator",
+								"mappings": [
+									{
+										"source": {
+											"name": "RunType",
+											"type": "String"
+										},
+										"sink": {
+											"name": "RunType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "RunId",
+											"type": "String"
+										},
+										"sink": {
+											"name": "RunId",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "URN",
+											"type": "String"
+										},
+										"sink": {
+											"name": "URN",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "SetType",
+											"type": "String"
+										},
+										"sink": {
+											"name": "SetType",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Pupil",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Pupil",
+											"type": "String"
+										}
+									},
+									{
+										"source": {
+											"name": "Building",
+											"type": "String"
+										},
+										"sink": {
+											"name": "Building",
+											"type": "String"
+										}
+									}
+								],
+								"typeConversion": true,
+								"typeConversionSettings": {
+									"allowDataTruncation": true,
+									"treatBooleanAsNumber": false
+								}
+							}
+						},
+						"inputs": [
+							{
+								"referenceName": "blob_comparatorSet_copy1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						],
+						"outputs": [
+							{
+								"referenceName": "s198d02_ComparatorSet_copy1",
+								"type": "DatasetReference",
+								"parameters": {}
+							}
+						]
 					}
 				],
 				"policy": {
@@ -737,7 +864,9 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]"
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]",
+				"[concat(variables('factoryId'), '/datasets/blob_comparatorSet_copy1')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_ComparatorSet_copy1')]"
 			]
 		}
 	]
