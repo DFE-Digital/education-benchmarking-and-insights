@@ -216,6 +216,60 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d98_storage",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "blob"
+				},
+				"annotations": [],
+				"type": "Excel",
+				"typeProperties": {
+					"sheetName": "ComparatorSet",
+					"location": {
+						"type": "AzureBlobStorageLocation",
+						"fileName": "schooldb.xls",
+						"container": "raw"
+					},
+					"firstRowAsHeader": true
+				},
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "String"
+					},
+					{
+						"name": "RunId",
+						"type": "String"
+					},
+					{
+						"name": "URN",
+						"type": "String"
+					},
+					{
+						"name": "SetType",
+						"type": "String"
+					},
+					{
+						"name": "Pupil",
+						"type": "String"
+					},
+					{
+						"name": "Building",
+						"type": "String"
+					}
+				]
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d98_storage')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/blob_school')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -346,6 +400,55 @@
 			]
 		},
 		{
+			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "s198d02_sql",
+					"type": "LinkedServiceReference"
+				},
+				"folder": {
+					"name": "s198d02"
+				},
+				"annotations": [],
+				"type": "AzureSqlTable",
+				"schema": [
+					{
+						"name": "RunType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "RunId",
+						"type": "nvarchar"
+					},
+					{
+						"name": "URN",
+						"type": "nvarchar"
+					},
+					{
+						"name": "SetType",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Pupil",
+						"type": "nvarchar"
+					},
+					{
+						"name": "Building",
+						"type": "nvarchar"
+					}
+				],
+				"typeProperties": {
+					"schema": "dbo",
+					"table": "ComparatorSet"
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
 			"name": "[concat(parameters('factoryName'), '/s198d02_school')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
@@ -468,6 +571,79 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/linkedServices/s198d02_sql')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/blob_s198d02_ComparatorSet')]",
+			"type": "Microsoft.DataFactory/factories/dataflows",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"folder": {
+					"name": "blob_s198d02"
+				},
+				"type": "MappingDataFlow",
+				"typeProperties": {
+					"sources": [
+						{
+							"dataset": {
+								"referenceName": "blob_comparatorSet",
+								"type": "DatasetReference"
+							},
+							"name": "source"
+						}
+					],
+					"sinks": [
+						{
+							"dataset": {
+								"referenceName": "s198d02_ComparatorSet",
+								"type": "DatasetReference"
+							},
+							"name": "sink"
+						}
+					],
+					"transformations": [
+						{
+							"name": "AlterRow"
+						}
+					],
+					"scriptLines": [
+						"source(output(",
+						"          RunType as string,",
+						"          RunId as string,",
+						"          URN as string,",
+						"          SetType as string,",
+						"          Pupil as string,",
+						"          Building as string",
+						"     ),",
+						"     allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     ignoreNoFilesFound: false) ~> source",
+						"source alterRow(upsertIf(true())) ~> AlterRow",
+						"AlterRow sink(allowSchemaDrift: true,",
+						"     validateSchema: false,",
+						"     input(",
+						"          RunType as string,",
+						"          RunId as string,",
+						"          URN as string,",
+						"          SetType as string,",
+						"          Pupil as string,",
+						"          Building as string",
+						"     ),",
+						"     deletable:false,",
+						"     insertable:false,",
+						"     updateable:false,",
+						"     upsertable:true,",
+						"     keys:['URN'],",
+						"     format: 'table',",
+						"     skipDuplicateMapInputs: true,",
+						"     skipDuplicateMapOutputs: true,",
+						"     errorHandlingOption: 'stopOnFirstError') ~> sink"
+					]
+				}
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/blob_comparatorSet')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_ComparatorSet')]"
 			]
 		},
 		{
@@ -626,6 +802,36 @@
 							},
 							"traceLevel": "Fine"
 						}
+					},
+					{
+						"name": "ComparatorSet",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "blob_s198d02_ComparatorSet",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"source": {},
+									"sink": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
 					}
 				],
 				"policy": {
@@ -634,7 +840,8 @@
 				"annotations": []
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]"
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]",
+				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_ComparatorSet')]"
 			]
 		}
 	]
