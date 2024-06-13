@@ -26,7 +26,8 @@
 			],
 			"transformations": [
 				{
-					"name": "AlterRow"
+					"name": "AlterRow",
+					"description": "export data to s198d02_comparatorSet"
 				}
 			],
 			"scriptLines": [
