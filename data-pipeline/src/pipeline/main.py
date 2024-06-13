@@ -146,8 +146,8 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
 
 def pre_process_cfo(set_type, year) -> pd.DataFrame:
     logger.info("Processing CFO Data")
-    logger.info(f"{set_type}/{year}/cfo.xlsx")
-    cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.csv")
+    
+    cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.xlsx")
 
     cfo = build_cfo_data(cfo_data)
     write_blob(
@@ -191,7 +191,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     maintained_schools_data = get_blob(
         raw_container,
         f"{set_type}/{year}/maintained_schools_master_list.csv",
-        encoding="utf-8",
+        encoding="cp1252"
     )
 
     links_data = get_blob(
@@ -305,7 +305,6 @@ def pre_process_bfr(set_type, year):
 def pre_process_data(worker_client, set_type, year):
     start_time = time.time()
     logger.info("Pre-processing data")
-    logger.info(f"{set_type}, {year}")
 
     cdc, census, sen, ks2, ks4, aar, schools, cfo = worker_client.gather(
         [
@@ -321,9 +320,6 @@ def pre_process_data(worker_client, set_type, year):
     )
 
     data_ref = worker_client.scatter((schools, census, sen, cdc, aar, ks2, ks4, cfo))
-    logger.info("TEST HERE")
-    logger.info("TEST HERE")
-    logger.info("TEST HERE")
     academies, maintained_schools = worker_client.gather(
         [
             worker_client.submit(pre_process_academies_data, set_type, year, data_ref),

@@ -303,7 +303,6 @@ def prepare_ks2_data(ks2_path):
     ks2 = pd.read_excel(
         ks2_path,
         usecols=input_schemas.ks2.keys(),
-        index_col=input_schemas.ks2_index_col,
         dtype=input_schemas.ks2,
     )
     ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
@@ -315,19 +314,17 @@ def prepare_ks2_data(ks2_path):
         + ks2["MATPROG"].astype(float)
         + ks2["WRITPROG"].astype(float)
     )
-
-    return ks2[["Ks2Progress"]].dropna()
+    ks2 = ks2[["URN","Ks2Progress"]].dropna().drop_duplicates()
+    return ks2
 
 
 def prepare_ks4_data(ks4_path):
     ks4 = pd.read_excel(
         ks4_path,
-        index_col=input_schemas.ks4_index_col,
         dtype=input_schemas.ks4,
         usecols=input_schemas.ks4.keys(),
         na_values=["NP", "NE", "SUPP", "LOWCOV"],
     )
-
     ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
     ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)
 
@@ -340,7 +337,8 @@ def prepare_ks4_data(ks4_path):
         inplace=True,
     )
 
-    return ks4[["AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna()
+    ks4 = ks4[["URN","AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna().drop_duplicates()
+    return ks4
 
 
 def prepare_aar_data(aar_path):
@@ -569,7 +567,9 @@ def build_cfo_data(cfo_data_path):
     )
 
     cfo_data = cfo_data[["URN", "CFO name", "CFO email"]].copy()
+    cfo_data.set_index('URN', inplace=True)
     return cfo_data
+
 
 
 def build_academy_data(
@@ -588,15 +588,18 @@ def build_academy_data(
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
     academy_year_end_date = datetime.date(year, 8, 30)
-
     academies_list = pd.read_csv(
         academy_data_path,
         encoding="utf8",
-        index_col=input_schemas.academy_master_list_index_col,
-        dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
-    ).rename(columns={"UKPRN": "Academy UKPRN"})
+    )
 
+    
+    academies_list = academies_list.astype(
+        input_schemas.academy_master_list
+    ).set_index(input_schemas.academy_master_list_index_col).rename(columns={"UKPRN": "Academy UKPRN"})
+
+    
     group_links = pd.read_csv(
         links_data_path,
         encoding="cp1252",
@@ -604,46 +607,44 @@ def build_academy_data(
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
     )[["Group Type", "Group UID"]]
-
     group_links = group_links[
         group_links["Group Type"].isin(
             ["Single-academy trust", "Multi-academy trust", "Trust"]
         )
     ]
-
+    
     # remove transitioned schools from academies_list
     mask = (
         academies_list.index.duplicated(keep=False) & ~academies_list["Valid to"].isna()
     )
+    
     academies_list = academies_list[~mask]
-
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     )
-
+    
     academies = (
         academies_base.merge(census, on="URN", how="left")
-        .merge(sen, on="URN", how="left")
-        .merge(cdc, on="URN", how="left")
-        .merge(aar, left_on="Academy UPIN", right_index=True, how="left")
-        .merge(ks2, on="URN", how="left")
-        .merge(ks4, on="URN", how="left")
-        .merge(group_links, on="URN", how="inner")
-        .merge(cfo, on="URN", how="left")
-    )
-
+                    .merge(sen, on="URN", how="left")
+                    .merge(cdc, on="URN", how="left") 
+                    .merge(ks2, on="URN", how="left") 
+                    .merge(ks4, on="URN", how="left") 
+                    .merge(group_links, on="URN", how="inner")
+                    .merge(aar, left_on="Academy UPIN", right_index=True, how="left"))
+    
+    
+    #.merge(cfo, on="URN", how="left")
     # TODO: Check what to do here as CDC data doesn't seem to contain all of the academy data URN=148853 is an example
     academies["Total Internal Floor Area"] = academies[
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
-
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
         ),
         axis=1,
     )
-
+    
     academies["Status"] = academies.apply(
         lambda df: mappings.map_academy_status(
             pd.to_datetime(df["Date joined or opened if in period"]),
@@ -657,7 +658,7 @@ def build_academy_data(
         ),
         axis=1,
     )
-
+    
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"]),
@@ -667,7 +668,7 @@ def build_academy_data(
         ),
         axis=1,
     )
-
+    
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
@@ -679,6 +680,7 @@ def build_academy_data(
 
     academies.rename(
         columns={
+            "URN_x":"URN",
             "UKPRN_x": "UKPRN",
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
@@ -699,14 +701,13 @@ def build_academy_data(
     academies["Is PFI"] = academies["Is PFI"].astype(bool).fillna(False)
     academies["CFO Email"] = None
     academies["CFO Name"] = None
-
+    
     for category in config.rag_category_settings.keys():
         academies = build_cost_series(
             category, academies, config.rag_category_settings[category]["type"]
         )
 
     return academies.set_index("URN")
-
 
 def build_maintained_school_data(
     maintained_schools_data_path,
@@ -725,10 +726,14 @@ def build_maintained_school_data(
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
         encoding="utf8",
-        index_col=input_schemas.maintained_schools_master_list_index_col,
         usecols=input_schemas.maintained_schools_master_list.keys(),
-        dtype=input_schemas.maintained_schools_master_list,
     )
+    logger.info('733 preprocessing')
+    maintained_schools_list = maintained_schools_list.astype(
+        input_schemas.maintained_schools_master_list
+    ).set_index(input_schemas.maintained_schools_master_list_index_col)
+    logger.info('738 preprocessing')
+
 
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"
