@@ -230,7 +230,7 @@
         
         {{ govukButton({
           href: '/loading?action=generating&redirect=/custom-data/custom-homepage?confirmation=generated',
-          text: "Generate custom data benchmarking"
+          text: "Update" if data['customData'] == 'generate' else "Generate " + "custom data benchmarking"
         }) }}
 
     </div>
