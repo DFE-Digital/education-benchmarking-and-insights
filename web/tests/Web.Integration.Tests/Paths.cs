@@ -63,7 +63,6 @@ public static class Paths
     public static string SchoolCustomDataNonFinancialData(string? urn) => $"/school/{urn}/custom-data/school-characteristics";
     public static string SchoolCustomDataWorkforceData(string? urn) => $"/school/{urn}/custom-data/workforce";
 
-
     public static string SchoolComparators(string? urn) => $"/school/{urn}/comparators";
     public static string SchoolComparatorsCreate(string? urn) => $"/school/{urn}/comparators/create";
     public static string SchoolComparatorsCreateBy(string? urn) => $"/school/{urn}/comparators/create/by";
@@ -71,6 +70,7 @@ public static class Paths
     public static string SchoolComparatorsCreateByCharacteristic(string? urn) => $"/school/{urn}/comparators/create/by/characteristic";
     public static string SchoolComparatorsCreatePreview(string? urn) => $"/school/{urn}/comparators/create/preview";
     public static string SchoolComparatorsCreateSubmit(string? urn) => $"/school/{urn}/comparators/create/submit";
+    public static string SchoolComparatorsRevert(string? urn) => $"/school/{urn}/comparators/revert";
 
     public static string TrustComparators(string? companyNumber) => $"/trust/{companyNumber}/comparators";
     public static string TrustComparatorsCreateBy(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by";
@@ -78,6 +78,7 @@ public static class Paths
     public static string TrustComparatorsCreateByCharacteristic(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/by/characteristic";
     public static string TrustComparatorsCreatePreview(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/preview";
     public static string TrustComparatorsCreateSubmit(string? companyNumber) => $"/trust/{companyNumber}/comparators/create/submit";
+    public static string TrustComparatorsRevert(string? companyNumber) => $"/trust/{companyNumber}/comparators/revert";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
     public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
