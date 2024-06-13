@@ -11,7 +11,7 @@ public record ComparatorSetUserDefinedSchool
     [ExplicitKey] public string? RunType { get; set; }
     [ExplicitKey] public string? RunId { get; set; }
     [ExplicitKey] public string? URN { get; set; }
-    public string[] Set { get; set; } = Array.Empty<string>();
+    public ComparatorSetIds? Set { get; set; }
 }
 
 
@@ -22,5 +22,5 @@ public record ComparatorSetUserDefinedTrust
     [ExplicitKey] public string? RunType { get; set; }
     [ExplicitKey] public string? RunId { get; set; }
     [ExplicitKey] public string? CompanyNumber { get; set; }
-    public string[] Set { get; set; } = Array.Empty<string>();
-};
+    public ComparatorSetIds? Set { get; set; }
+}

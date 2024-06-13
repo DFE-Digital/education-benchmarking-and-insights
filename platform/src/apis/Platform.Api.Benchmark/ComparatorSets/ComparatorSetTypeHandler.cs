@@ -1,23 +1,20 @@
-﻿using System;
-using System.Data;
+﻿using System.Data;
 using System.Diagnostics.CodeAnalysis;
 using Dapper;
-using Newtonsoft.Json;
-using Platform.Functions.Extensions;
 
 namespace Platform.Api.Benchmark.ComparatorSets;
 
 [ExcludeFromCodeCoverage]
-public class ComparatorSetTypeHandler : SqlMapper.TypeHandler<string[]>
+public class ComparatorSetIdsTypeHandler : SqlMapper.TypeHandler<ComparatorSetIds>
 {
-    public override void SetValue(IDbDataParameter parameter, string[] value)
+    public override void SetValue(IDbDataParameter parameter, ComparatorSetIds value)
     {
         parameter.DbType = DbType.String;
-        parameter.Value = value.ToJson();
+        parameter.Value = value.ToString();
     }
 
-    public override string[] Parse(object? value)
+    public override ComparatorSetIds Parse(object? value)
     {
-        return value == null ? Array.Empty<string>() : value.ToString().FromJson<string[]>();
+        return ComparatorSetIds.FromString(value?.ToString());
     }
 }
