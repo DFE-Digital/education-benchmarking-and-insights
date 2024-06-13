@@ -216,7 +216,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet_copy1')]",
+			"name": "[concat(parameters('factoryName'), '/blob_comparatorSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -400,7 +400,7 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet_copy1')]",
+			"name": "[concat(parameters('factoryName'), '/s198d02_ComparatorSet')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
@@ -777,61 +777,73 @@
 									{
 										"source": {
 											"name": "RunType",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "RunType",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									},
 									{
 										"source": {
 											"name": "RunId",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "RunId",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									},
 									{
 										"source": {
 											"name": "URN",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "URN",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									},
 									{
 										"source": {
 											"name": "SetType",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "SetType",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									},
 									{
 										"source": {
 											"name": "Pupil",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Pupil",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									},
 									{
 										"source": {
 											"name": "Building",
-											"type": "String"
+											"type": "String",
+											"physicalType": "String"
 										},
 										"sink": {
 											"name": "Building",
-											"type": "String"
+											"type": "String",
+											"physicalType": "nvarchar"
 										}
 									}
 								],
@@ -844,14 +856,14 @@
 						},
 						"inputs": [
 							{
-								"referenceName": "blob_comparatorSet_copy1",
+								"referenceName": "blob_comparatorSet",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
 						],
 						"outputs": [
 							{
-								"referenceName": "s198d02_ComparatorSet_copy1",
+								"referenceName": "s198d02_ComparatorSet",
 								"type": "DatasetReference",
 								"parameters": {}
 							}
@@ -865,8 +877,8 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/blob_s198d02_school')]",
-				"[concat(variables('factoryId'), '/datasets/blob_comparatorSet_copy1')]",
-				"[concat(variables('factoryId'), '/datasets/s198d02_ComparatorSet_copy1')]"
+				"[concat(variables('factoryId'), '/datasets/blob_comparatorSet')]",
+				"[concat(variables('factoryId'), '/datasets/s198d02_ComparatorSet')]"
 			]
 		}
 	]
