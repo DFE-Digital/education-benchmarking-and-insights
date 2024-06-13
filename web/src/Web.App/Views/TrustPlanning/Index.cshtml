@@ -8,144 +8,161 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.CompanyNumber, kind = OrganisationTypes.Trust })
 
-<div class="govuk-grid-row">
-    <div class="govuk-grid-column-full">
-        <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-heading-1">
-                            Contact ratio
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-content-1" class="govuk-accordion__section-content">
-                    <table class="govuk-table">
-                        <thead class="govuk-table__head">
-                        <tr class="govuk-table__row">
-                            <th scope="col" class="govuk-table__header">School</th>
-                            <th scope="col" class="govuk-table__header">Financial year</th>
-                            <th scope="col" class="govuk-table__header">Contact ratio</th>
-                            <th scope="col" class="govuk-table__header">Rating</th>
-                        </tr>
-                        </thead>
-                        <tbody class="govuk-table__body">
-                        @foreach (var school in Model.Schools)
-                        {
-                            @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+@if (Model.Plans.Any())
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-accordion" data-module="govuk-accordion" id="accordion-schools">
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h3 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-schools-heading-1">
+                                Contact ratio
+                            </span>
+                        </h3>
+                    </div>
+                    <div id="accordion-schools-content-1" class="govuk-accordion__section-content">
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Financial year</th>
+                                <th scope="col" class="govuk-table__header">Contact ratio</th>
+                                <th scope="col" class="govuk-table__header">Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                            @foreach (var school in Model.Schools)
                             {
-                                <tr class="govuk-table__row">
-                                    @if (index == 0)
-                                    {
-                                        <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
-                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+                                {
+                                    <tr class="govuk-table__row">
+                                        @if (index == 0)
+                                        {
+                                            <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
+                                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                            </td>
+                                        }
+                                        <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
+                                        <td class="govuk-table__cell">
+                                            @plan.TeacherContactRatio
                                         </td>
-                                    }
-                                    <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
-                                    <td class="govuk-table__cell">
-                                        @plan.TeacherContactRatio
-                                    </td>
-                                    <td class="govuk-table__cell">
-                                        @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.ContactRatioRating) })
-                                    </td>
-                                </tr>
+                                        <td class="govuk-table__cell">
+                                            @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.ContactRatioRating) })
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-heading-2">
-                            Average class size
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-content-2" class="govuk-accordion__section-content">
-                    <table class="govuk-table">
-                        <thead class="govuk-table__head">
-                        <tr class="govuk-table__row">
-                            <th scope="col" class="govuk-table__header">School</th>
-                            <th scope="col" class="govuk-table__header">Financial year</th>
-                            <th scope="col" class="govuk-table__header">Average class size</th>
-                            <th scope="col" class="govuk-table__header">Rating</th>
-                        </tr>
-                        </thead>
-                        <tbody class="govuk-table__body">
-                        @foreach (var school in Model.Schools)
-                        {
-                            @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h3 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-schools-heading-2">
+                                Average class size
+                            </span>
+                        </h3>
+                    </div>
+                    <div id="accordion-schools-content-2" class="govuk-accordion__section-content">
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Financial year</th>
+                                <th scope="col" class="govuk-table__header">Average class size</th>
+                                <th scope="col" class="govuk-table__header">Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                            @foreach (var school in Model.Schools)
                             {
-                                <tr class="govuk-table__row">
-                                    @if (index == 0)
-                                    {
-                                        <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
-                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+                                {
+                                    <tr class="govuk-table__row">
+                                        @if (index == 0)
+                                        {
+                                            <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
+                                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                            </td>
+                                        }
+                                        <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
+                                        <td class="govuk-table__cell">
+                                            @plan.AverageClassSize
                                         </td>
-                                    }
-                                    <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
-                                    <td class="govuk-table__cell">
-                                        @plan.AverageClassSize
-                                    </td>
-                                    <td class="govuk-table__cell">
-                                        @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.AverageClassSizeRating) })
-                                    </td>
-                                </tr>
+                                        <td class="govuk-table__cell">
+                                            @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.AverageClassSizeRating) })
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
-            <div class="govuk-accordion__section">
-                <div class="govuk-accordion__section-header">
-                    <h3 class="govuk-accordion__section-heading">
-                        <span class="govuk-accordion__section-button" id="accordion-schools-heading-3">
-                            In-year balance
-                        </span>
-                    </h3>
-                </div>
-                <div id="accordion-schools-content-3" class="govuk-accordion__section-content">
-                    <table class="govuk-table">
-                        <thead class="govuk-table__head">
-                        <tr class="govuk-table__row">
-                            <th scope="col" class="govuk-table__header">School</th>
-                            <th scope="col" class="govuk-table__header">Financial year</th>
-                            <th scope="col" class="govuk-table__header">In-year balance</th>
-                            <th scope="col" class="govuk-table__header">Rating</th>
-                        </tr>
-                        </thead>
-                        <tbody class="govuk-table__body">
-                        @foreach (var school in Model.Schools)
-                        {
-                            @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+                <div class="govuk-accordion__section">
+                    <div class="govuk-accordion__section-header">
+                        <h3 class="govuk-accordion__section-heading">
+                            <span class="govuk-accordion__section-button" id="accordion-schools-heading-3">
+                                In-year balance
+                            </span>
+                        </h3>
+                    </div>
+                    <div id="accordion-schools-content-3" class="govuk-accordion__section-content">
+                        <table class="govuk-table">
+                            <thead class="govuk-table__head">
+                            <tr class="govuk-table__row">
+                                <th scope="col" class="govuk-table__header">School</th>
+                                <th scope="col" class="govuk-table__header">Financial year</th>
+                                <th scope="col" class="govuk-table__header">In-year balance</th>
+                                <th scope="col" class="govuk-table__header">Rating</th>
+                            </tr>
+                            </thead>
+                            <tbody class="govuk-table__body">
+                            @foreach (var school in Model.Schools)
                             {
-                                <tr class="govuk-table__row">
-                                    @if (index == 0)
-                                    {
-                                        <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
-                                            <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                @foreach (var (plan, index) in Model.Plans.Where(x => x.Urn == school.URN).OrderByDescending(x => x.Year).Select((plan, index) => (plan, index)))
+                                {
+                                    <tr class="govuk-table__row">
+                                        @if (index == 0)
+                                        {
+                                            <td class="govuk-table__cell" rowspan="@Model.Plans.Count(x => x.Urn == school.URN)">
+                                                <a class="govuk-link govuk-link--no-visited-state" href="@Url.Action("Index", "SchoolPlanning", new { urn = school.URN })">@school.SchoolName</a>
+                                            </td>
+                                        }
+                                        <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
+                                        <td class="govuk-table__cell">
+                                            @plan.InYearBalance.ToCurrency(0)
                                         </td>
-                                    }
-                                    <td class="govuk-table__cell">@plan.Year.ToFinanceYear()</td>
-                                    <td class="govuk-table__cell">
-                                        @plan.InYearBalance.ToCurrency(0)
-                                    </td>
-                                    <td class="govuk-table__cell">
-                                        @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.InYearBalancePercentIncomeRating) })
-                                    </td>
-                                </tr>
+                                        <td class="govuk-table__cell">
+                                            @await Component.InvokeAsync("Tag", new { rating = RatingViewModel.Create(plan.InYearBalancePercentIncomeRating) })
+                                        </td>
+                                    </tr>
+                                }
                             }
-                        }
-                        </tbody>
-                    </table>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+}
+else
+{
+    <div class="govuk-grid-row">
+        <div class="govuk-grid-column-full">
+            <div class="govuk-warning-text">
+                <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
+                <strong class="govuk-warning-text__text">
+                    <span class="govuk-visually-hidden">Warning</span>
+                    No financial plans for been created for any academies within the trust
+                </strong>
+            </div>
+        </div>
+    </div>
+}
 
 
 @section scripts
