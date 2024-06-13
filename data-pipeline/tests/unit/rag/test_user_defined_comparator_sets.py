@@ -6,7 +6,6 @@ import pytest
 from src.pipeline.comparator_sets import prepare_data
 from src.pipeline.rag import compute_user_defined_rag
 
-
 msg_payload = {
     "jobId": "ba4f078e-f32f-467f-a848-09cf9d58c8df",
     "type": "comparator-set",

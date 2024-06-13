@@ -1,10 +1,11 @@
 import json
-import os
 import logging
-import pandas as pd
+import os
+
 import numpy as np
+import pandas as pd
 import sqlalchemy
-from sqlalchemy import create_engine, event, URL
+from sqlalchemy import URL, create_engine, event
 
 logger = logging.getLogger("fbit-data-pipeline")
 
