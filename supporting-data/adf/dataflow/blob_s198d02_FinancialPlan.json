@@ -27,6 +27,9 @@
 			"transformations": [
 				{
 					"name": "AlterRow1"
+				},
+				{
+					"name": "derivedColumn1"
 				}
 			],
 			"scriptLines": [
@@ -45,7 +48,10 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false) ~> source1",
-				"source1 alterRow(upsertIf(true())) ~> AlterRow1",
+				"derivedColumn1 alterRow(upsertIf(true())) ~> AlterRow1",
+				"source1 derive(Created = toDate(Created),",
+				"          UpdatedAt = toDate(UpdatedAt),",
+				"          IsComplete = toBoolean(IsComplete)) ~> derivedColumn1",
 				"AlterRow1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     input(",
