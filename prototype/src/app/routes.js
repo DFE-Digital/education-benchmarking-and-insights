@@ -524,6 +524,23 @@ router.post( '/compare-trusts/by-name', (req, res) => {
 
 
 
+router.get( '/custom-data/generated', (req, res) => {
+    
+    req.session.data['customData'] = 'generated';
+    res.render( '/custom-data/custom-homepage', {confirmation: 'generated' } );
+
+})
+
+
+router.get( '/custom-data/updated', (req, res) => {
+    
+    req.session.data['customData'] = 'generated';
+    res.render( '/custom-data/custom-homepage', {confirmation: 'updated' } );
+
+})
+
+
+
 
 // DUMMY DATA GENERATION
 

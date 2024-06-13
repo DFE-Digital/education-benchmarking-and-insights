@@ -229,7 +229,7 @@
         }) }}
         
         {{ govukButton({
-          href: '/loading?action=generating&redirect=/custom-data/custom-homepage?confirmation=generated',
+          href: '/loading?action=' + ( 'update' if data['customData'] == 'generated' else 'generating' ) + '&redirect=/custom-data/' + ( 'updated' if data['customData'] == 'generated' else 'generated' ),
           text: "Benchmark using custom data"
         }) }}
 
