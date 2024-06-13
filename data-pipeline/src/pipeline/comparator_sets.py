@@ -288,7 +288,7 @@ def compute_distances(
         pupil_distances = compute_pupils_comparator((phase, row))
         building_distances = compute_buildings_comparator((phase, row))
         phase_urns = np.array(row["URN"])
-        phase_pfi = np.array(row["PFI School"])
+        phase_pfi = np.array(row["Is PFI"])
         phase_boarding = np.array(row["Boarders (name)"])
         phase_regions = np.array(row["GOR (name)"])
 
@@ -328,7 +328,6 @@ def compute_distances(
 
 
 def compute_comparator_set(data: pd.DataFrame):
-    # TODO: Need to add boarding and PFI groups into this logic
     copy = data[~data.index.isna()][
         [
             "OfstedRating (name)",
@@ -337,7 +336,7 @@ def compute_comparator_set(data: pd.DataFrame):
             "Number of pupils",
             "Total Internal Floor Area",
             "Age Average Score",
-            "PFI School",
+            "Is PFI",
             "Boarders (name)",
             "GOR (name)",
             "SchoolPhaseType",
@@ -354,32 +353,4 @@ def compute_comparator_set(data: pd.DataFrame):
         ]
     ].copy()
     classes = copy.reset_index().groupby(["SchoolPhaseType"]).agg(list)
-    return compute_distances(copy, classes)
-
-
-def compute_custom_comparator_set(data: pd.DataFrame):
-    copy = data[
-        [
-            "OfstedRating (name)",
-            "Percentage SEN",
-            "Percentage Free school meals",
-            "Number of pupils",
-            "Total Internal Floor Area",
-            "Age Average Score",
-            "GOR (name)",
-            "SchoolPhaseType",
-            "Percentage Primary Need SPLD",
-            "Percentage Primary Need MLD",
-            "Percentage Primary Need PMLD",
-            "Percentage Primary Need SEMH",
-            "Percentage Primary Need SLCN",
-            "Percentage Primary Need HI",
-            "Percentage Primary Need MSI",
-            "Percentage Primary Need PD",
-            "Percentage Primary Need ASD",
-            "Percentage Primary Need OTH",
-        ]
-    ].copy()
-    copy["Custom"] = "Grouper"
-    classes = copy.reset_index().groupby(["Custom"]).agg(list)
     return compute_distances(copy, classes)

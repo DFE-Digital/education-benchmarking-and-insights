@@ -307,7 +307,8 @@ def test_map_school_website(pfi, expected):
 
 
 @pytest.mark.parametrize(
-    "value,expected", [(pd.NA, "Unknown"), (0.0, "Deficit"), (1.0, "Surplus")]
+    "value,expected",
+    [(pd.NA, "Unknown"), (-0.1, "Deficit"), (0.0, "Surplus"), (1.0, "Surplus")],
 )
 def test_map_is_surplus_deficit(value, expected):
     assert mappings.map_is_surplus_deficit(value) == expected

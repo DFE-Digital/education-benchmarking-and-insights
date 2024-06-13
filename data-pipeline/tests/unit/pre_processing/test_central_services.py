@@ -1,15 +1,12 @@
 import pandas as pd
-import pytest
-
-from src.pipeline.config import income_category_map
 
 
-def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
-    assert list(prepared_aar_data.columns) == [
-        "Academy UPIN",
-        "In year balance",
-        "PFI School",
+def test_central_services_data_has_correct_output_columns(
+    prepared_central_services_data: pd.DataFrame,
+):
+    assert list(prepared_central_services_data.columns) == [
         "Trust UPIN",
+        "In year balance",
         "Income_DFE revenue grants",
         "Income_SEN funding",
         "Income_Other DFE grants",
@@ -62,58 +59,16 @@ def test_aar_data_has_correct_output_columns(prepared_aar_data: pd.DataFrame):
         "Targeted Grants",
         "Income_Total self generated funding",
         "Income_Total",
-        "Supply Staff Costs",
+        "Supply Staff",
         "Other Staff Costs",
-        "Total Staff Costs",
-        "Maintenance & Improvement Costs",
-        "Premises Costs",
-        "Catering Expenses",
-        "Occupation Costs",
-        "Total Costs of Supplies and Services",
-        "Total Costs of Educational Supplies",
-        "Costs of Brought in Professional Services",
+        "Staff Total ",
+        "Maintenance & Improvement",
+        "Premises",
+        "Catering Exp",
+        "Occupation",
+        "Supplies and Services",
+        "Educational Supplies",
+        "Brought in Professional Services",
         "Total Expenditure",
-        "London Weighting",
-        "Date joined or opened if in period",
-        "Date left or closed if in period",
-        "Trust Balance",
         "Financial Position",
-        "Trust Financial Position",
-        "Is PFI",
     ]
-
-
-def test_aar_balance_aggregated_at_trust_level(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Trust Balance"][
-            prepared_aar_data["Trust UPIN"] == 137157
-        ].iloc[0]
-        == 2001
-    )
-
-
-def test_aar_academy_financial_position(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 137157
-        ].iloc[0]
-        == "Surplus"
-    )
-
-
-def test_aar_trust_financial_position_deficit(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Trust Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 135112
-        ].iloc[0]
-        == "Deficit"
-    )
-
-
-def test_aar_academy_financial_position_deficit(prepared_aar_data: pd.DataFrame):
-    assert (
-        prepared_aar_data["Financial Position"][
-            prepared_aar_data["Trust UPIN"] == 135112
-        ].iloc[0]
-        == "Deficit"
-    )
