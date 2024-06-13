@@ -1,0 +1,19 @@
+{
+	"name": "s198d02_Financial",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "s198d02_sql",
+			"type": "LinkedServiceReference"
+		},
+		"folder": {
+			"name": "s198d02"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Financial"
+		}
+	}
+}
