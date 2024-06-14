@@ -55,7 +55,7 @@ def test_central_services_data_has_correct_output_columns(
         'Revenue reserve',
         'Income_Total grant funding',
         'Income_Direct grants',
-        'Income_Community grants',
+        'Income_Other Revenue Income',
         'Targeted Grants',
         'Income_Total self generated funding',
         'Income_Total',
