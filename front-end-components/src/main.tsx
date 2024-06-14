@@ -40,7 +40,7 @@ import {
   chartSeriesComparer,
   shortValueFormatter,
 } from "./components/charts/utils";
-import { SchoolTick } from "./components/charts/school-tick";
+import { EstablishmentTick } from "./components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
 import { ExpenditureData, Census, TrustFinancial } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
@@ -48,7 +48,6 @@ import SchoolInput from "./views/find-organisation/partials/school-input";
 import LaInput from "./views/find-organisation/partials/la-input";
 import TrustInput from "./views/find-organisation/partials/trust-input";
 import { TrustFinancialTooltip } from "./components/charts/trust-financial-tooltip";
-import { TrustTick } from "./components/charts/trust-tick";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -198,14 +197,12 @@ const HorizontalChart1Series = ({
           seriesLabelField="schoolName"
           tickWidth={400}
           tick={(t) => (
-            <SchoolTick
+            <EstablishmentTick
               {...t}
               highlightedItemKey={highlightedItemKey}
-              linkToSchool
-              onClick={(urn) => {
-                urn && (window.location.href = `/school/${urn}`);
-              }}
-              schoolUrnResolver={(name) =>
+              linkToEstablishment
+              href={(urn) => `/school/${urn}`}
+              establishmentKeyResolver={(name) =>
                 data.find((d) => d.schoolName === name)?.urn
               }
             />
@@ -329,15 +326,12 @@ const HorizontalChartTrustFinancial = ({
           seriesLabelField="name"
           tickWidth={400}
           tick={(t) => (
-            <TrustTick
+            <EstablishmentTick
               {...t}
               highlightedItemKey={highlightedItemKey}
-              linkToTrust
-              onClick={(companyNumber) => {
-                companyNumber &&
-                  (window.location.href = `/trust/${companyNumber}`);
-              }}
-              trustCompanyNumberResolver={(name) =>
+              linkToEstablishment
+              href={(companyNumber) => `/trust/${companyNumber}`}
+              establishmentKeyResolver={(name) =>
                 data.find((d) => d.name === name)?.companyNumber
               }
             />
