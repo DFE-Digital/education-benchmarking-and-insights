@@ -216,3 +216,11 @@ export type Expenditure = {
   schoolName: string;
   laName: string;
 };
+
+export type TrustFinancial = {
+  companyNumber: string;
+  name: string;
+  totalSpend: number;
+  schoolSpend: number;
+  centralSpend: number;
+};
