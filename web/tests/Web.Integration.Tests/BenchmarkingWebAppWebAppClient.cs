@@ -323,6 +323,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
+    public BenchmarkingWebAppClient SetupUserDataApi(UserData[]? data = null)
+    {
+        UserDataApi.Reset();
+        UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>())).ReturnsAsync(ApiResult.Ok(data ?? []));
+        return this;
+    }
+
     public BenchmarkingWebAppClient SetupHttpContextAccessor(ConcurrentDictionary<string, byte[]>? items = null)
     {
         HttpContextAccessor.Reset();
