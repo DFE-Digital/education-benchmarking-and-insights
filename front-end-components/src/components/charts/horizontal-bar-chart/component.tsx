@@ -31,6 +31,7 @@ import classNames from "classnames";
 import {
   ChartDataSeries,
   ChartHandler,
+  ChartSeriesConfigItem,
   ChartSeriesValue,
 } from "src/components";
 import { useDownloadPngImage } from "src/hooks/useDownloadImage";
@@ -103,11 +104,9 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
   const renderCell = (
     entry: TData,
     dataIndex: number,
-    seriesKey: keyof TData,
-    seriesIndex: number
+    seriesIndex: number,
+    config?: Partial<Record<keyof TData, ChartSeriesConfigItem>>[keyof TData]
   ) => {
-    const config = seriesConfig && seriesConfig[seriesKey];
-
     const className = classNames(
       "chart-cell",
       {
@@ -115,6 +114,8 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           entry[keyField]
         ),
         "chart-cell-active": highlightActive && dataIndex === activeItemIndex,
+        "chart-cell-stack": !!config?.stackId,
+        [`chart-cell-stack-${config?.stackId}`]: !!config?.stackId,
       },
       `chart-cell-series-${seriesIndex}`,
       config?.className
@@ -143,7 +144,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
           layout="vertical"
           margin={{
             top: margin,
-            right: margin + (labels ? 25 : 0),
+            right: margin + (labels ? 25 : 5),
             bottom: margin,
             left: margin,
           }}
@@ -152,26 +153,31 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
         >
           {grid && <CartesianGrid />}
           {!!tooltip && <Tooltip content={tooltip} />}
-          {visibleSeriesNames.map((seriesName, seriesIndex) => (
-            <Bar key={seriesName as string} dataKey={seriesName as string}>
-              {data.map((entry, dataIndex) =>
-                renderCell(entry, dataIndex, seriesName, seriesIndex)
-              )}
-              {labels && (
-                <LabelList
-                  dataKey={seriesName as string}
-                  content={(c) => (
-                    <LabelListContent
-                      {...c}
-                      valueFormatter={
-                        seriesConfig?.[seriesName]?.valueFormatter
-                      }
-                    />
-                  )}
-                />
-              )}
-            </Bar>
-          ))}
+          {visibleSeriesNames.map((seriesName, seriesIndex) => {
+            const config = seriesConfig && seriesConfig[seriesName];
+            return (
+              <Bar
+                key={seriesName as string}
+                dataKey={seriesName as string}
+                stackId={config?.stackId}
+              >
+                {data.map((entry, dataIndex) =>
+                  renderCell(entry, dataIndex, seriesIndex, config)
+                )}
+                {labels && (
+                  <LabelList
+                    dataKey={seriesName as string}
+                    content={(c) => (
+                      <LabelListContent
+                        {...c}
+                        valueFormatter={config?.valueFormatter}
+                      />
+                    )}
+                  />
+                )}
+              </Bar>
+            );
+          })}
           <XAxis
             domain={hasNegativeValues ? ["dataMin", "dataMax"] : undefined}
             type="number"
