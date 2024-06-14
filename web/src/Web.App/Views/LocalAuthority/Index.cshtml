@@ -36,7 +36,7 @@
 
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
 
-@await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources } })
+@await Component.InvokeAsync("Resources", new { identifier = Model.Code, resources = new[] { Resources.LocalAuthorityResources, Resources.DataSource } })
 
 @* TODO: review for public beta
 <hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">

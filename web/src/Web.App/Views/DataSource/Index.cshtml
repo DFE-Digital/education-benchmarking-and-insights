@@ -1,2 +1,13 @@
-﻿
+﻿@model Web.App.ViewModels.DataSourceViewModel
+
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-two-thirds">
+        <h1 class="govuk-heading-l">Data sources and interpretation</h1>
+
+        @await Html.PartialAsync("_DataSources")
+
+        @await Html.PartialAsync("_Interpretation")
+
+    </div>
+</div>
 

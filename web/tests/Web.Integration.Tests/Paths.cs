@@ -12,6 +12,7 @@ public static class Paths
     public const string Contact = "/contact";
     public const string Accessibility = "/accessibility";
     public const string Error = "/error";
+    public const string DataSources = "/data-sources";
 
     public static string StatusError(int statusCode) => $"/error/{statusCode}";
     public static string SchoolHome(string? urn) => $"/school/{urn}";
