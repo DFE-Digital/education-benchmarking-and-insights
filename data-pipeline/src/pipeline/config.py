@@ -1,8 +1,8 @@
 income_category_map = {
     "academies": {
-        "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_DFE revenue grants",
+        "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_Other DFE grants",
         "SEN funding": "Income_SEN funding",
-        "Other DfE/EFA Revenue Grants": "Income_Other DFE grants",
+        "Other DfE/EFA Revenue Grants": "Income_Pre Post 16",
         "Other income - LA & other Government grants": "Income_Other grants",
         "Academies": "Income_Academies",
         "Non-Government": "Income_Non government",
@@ -14,16 +14,16 @@ income_category_map = {
         "Other self-generated income": "Income_Other self-generated income",
         "Investment income": "Income_Investment income",
         "Direct Grants": "Income_Direct grants",
-        "Community Grants": "Income_Community grants",
+        "Community Grants": "Income_Other Revenue Income",
         "Total Grant Funding": "Income_Total grant funding",
         "Total Self Generated Funding": "Income_Total self generated funding",
         "Total Income": "Income_Total",
         "Revenue reserve": "Revenue reserve",
     },
     "central_services": {
-        "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_DFE revenue grants",
+        "DFE/EFA Revenue grants (includes Coronavirus Government Funding": "Income_Other DFE grants",
         "SEN": "Income_SEN funding",
-        "Other DfE/EFA Revenue Grants": "Income_Other DFE grants",
+        "Other DfE/EFA Revenue Grants": "Income_Pre Post 16",
         "Other income (LA & other Government grants)": "Income_Other grants",
         "Government source (non-grant)": "Income_Government source",
         "Academies": "Income_Academies",
@@ -35,7 +35,7 @@ income_category_map = {
         "Other self-generated income": "Income_Other self-generated income",
         "Investment income": "Income_Investment income",
         "Direct Grant": "Income_Direct grants",
-        "Community Grants": "Income_Community grants",
+        "Community Grants": "Income_Other Revenue Income",
         "Grant Funding": "Income_Total grant funding",
         "Self Generated Funding": "Income_Total self generated funding",
         "Total Income ": "Income_Total",
@@ -58,10 +58,13 @@ income_category_map = {
         # "I16  Community focussed school funding and   or grants": "Income_Community grants",
         # "I17  Community focused school facilities income": "",
         # "I18  Additional grant for schools": "Income_Other grants",
-        "CI04 Direct revenue financing": "Income_Direct revenue finance",
         "Total Income   I01 to I18": "Income_Total",
         "Revenue Reserve   B01 plus B02 plus B06": "Revenue reserve",
-    },
+        "Direct Grant": "Income_Direct grants",
+        "Targeted Grants": "Income_Targeted grants",
+        "Self Generated Funding": "Income_Total self generated funding",
+        "Community Grants": "Income_Other Revenue Income",
+    }
 }
 
 cost_category_map = {
@@ -168,8 +171,8 @@ cost_category_map = {
         "E15  Water and sewerage": "Utilities_Water and sewerage",
         "PFI": "Is PFI School",
         "Total Expenditure  E01 to E32": "Total Expenditure",
-        "E31  Community focused school staff": "Community focused_School staff",
-        "E32 Community focused school costs": "Community focused_School costs",
+        "E31  Community focused school staff": "Other costs_School staff",
+        "E32 Community focused school costs": "Other costs_School costs",
     },
 }
 

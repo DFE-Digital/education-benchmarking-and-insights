@@ -146,6 +146,10 @@ maintained_schools_master_list = {
     "E32 Community focused school costs": "float",
     "Total Expenditure  E01 to E32": "float",
     "Revenue Reserve   B01 plus B02 plus B06": "float",
+    "Direct Grant": "float",
+    "Targeted Grants": "float",
+    "Community Grants": "float",
+    "Self Generated Funding": "float"
 }
 
 cdc_index_col = "URN"

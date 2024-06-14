@@ -739,35 +739,19 @@ def build_maintained_school_data(
         "London Weighting"
     ].fillna("Neither")
 
-    maintained_schools["Income_Direct grants"] = (
+    maintained_schools["Income_Total grant funding"] = (
+        maintained_schools["Direct Grant"]
+        + maintained_schools["Community Grants"]
+        + maintained_schools["Targeted Grants"]
+    )
+
+    maintained_schools["Income_Direct revenue finance"] = (
+        maintained_schools["E30 Direct revenue financing (revenue contributions to capital)"]
+    )
+
+    maintained_schools["Income_Pre Post 16"] = (
         maintained_schools["I01  Funds delegated by the LA"]
         + maintained_schools["I02  Funding for 6th form students"]
-        + maintained_schools["I06  Other government grants"]
-        + maintained_schools["I07  Other grants and payments"]
-    )
-
-    maintained_schools["Income_Targeted grants"] = (
-        maintained_schools["I04  Funding for minority ethnic pupils"]
-        + maintained_schools["I03  SEN funding"]
-        + maintained_schools["I05  Pupil Premium"]
-        + maintained_schools[
-            "I15  Pupil focussed extended school funding and   or grants"
-        ]
-    )
-
-    maintained_schools["Income_Total self generated funding"] = (
-        maintained_schools["I08  Income from facilities and services"]
-        + maintained_schools["I09  Income from catering"]
-        + maintained_schools["I10  Receipts from supply teacher insurance claims"]
-        + maintained_schools["I11  Receipts from other insurance claims"]
-        + maintained_schools["I12  Income from contributions to visits etc "]
-        + maintained_schools["I13  Donations and or private funds"]
-        + maintained_schools["I17  Community focused school facilities income"]
-    )
-
-    maintained_schools["Income_Community grants"] = (
-        maintained_schools["I16  Community focussed school funding and   or grants"]
-        + maintained_schools["I18  Additional grant for schools"]
     )
 
     maintained_schools.rename(
