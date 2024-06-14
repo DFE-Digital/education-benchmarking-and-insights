@@ -103,6 +103,9 @@ if (!builder.Environment.IsIntegration())
     builder.Services.AddHttpClient<IBalanceApi, BalanceApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 
+    builder.Services.AddHttpClient<IExpenditureApi, ExpenditureApi>()
+        .ConfigureHttpClientForApi(Constants.InsightApi);
+
     builder.Services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>()
         .ConfigureHttpClientForApi(Constants.InsightApi);
 

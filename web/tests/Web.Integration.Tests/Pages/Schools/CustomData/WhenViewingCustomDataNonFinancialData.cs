@@ -13,7 +13,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
     private readonly Census _customCensus;
     private readonly Finances _customFinances;
     private readonly FloorAreaMetric _customFloorAreaMetric;
-    private readonly Expenditure _expenditure;
+    private readonly SchoolExpenditure _expenditure;
     private readonly Finances _finances;
     private readonly FloorAreaMetric _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
@@ -30,7 +30,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         _income = Fixture.Build<Income>()
             .Create();
 
-        _expenditure = Fixture.Build<Expenditure>()
+        _expenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
         _floorAreaMetric = Fixture.Build<FloorAreaMetric>()

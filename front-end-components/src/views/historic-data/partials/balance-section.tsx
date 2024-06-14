@@ -72,12 +72,12 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               chartName="In-year balance"
               data={data}
               seriesConfig={{
-                totalInYearBalance: {
+                inYearBalance: {
                   label: "In-year balance",
                   visible: true,
                 },
               }}
-              valueField="totalInYearBalance"
+              valueField="inYearBalance"
             >
               <h2 className="govuk-heading-m">In-year balance</h2>
             </HistoricChart>
@@ -86,12 +86,12 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               chartName="Revenue reserve"
               data={data}
               seriesConfig={{
-                totalRevenueReserve: {
+                revenueReserve: {
                   label: "Revenue reserve",
                   visible: true,
                 },
               }}
-              valueField="totalRevenueReserve"
+              valueField="revenueReserve"
             >
               <h2 className="govuk-heading-m">Revenue reserve</h2>
             </HistoricChart>

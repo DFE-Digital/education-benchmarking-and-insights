@@ -20,6 +20,7 @@ public class CustomDataService(
     IFinanceService financeService,
     IIncomeApi incomeApi,
     ICustomDataApi customDataApi,
+    IExpenditureApi expenditureApi,
     ILogger<CustomDataService> logger)
     : ICustomDataService
 {
@@ -29,7 +30,7 @@ public class CustomDataService(
 
         var finances = await financeService.GetFinances(urn);
         var income = await incomeApi.School(urn).GetResultOrThrow<Income>();
-        var expenditure = await financeService.GetSchoolExpenditure(urn);
+        var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
         var census = await financeService.GetSchoolCensus(urn);
         var floorArea = await financeService.GetSchoolFloorArea(urn);
 

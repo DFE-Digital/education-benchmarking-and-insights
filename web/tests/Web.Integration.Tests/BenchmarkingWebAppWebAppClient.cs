@@ -31,6 +31,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<ICustomDataApi> CustomDataApi { get; } = new();
+    public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
 
     protected override void Configure(IServiceCollection services)
@@ -49,6 +50,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(SchoolInsightApi.Object);
         services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(CustomDataApi.Object);
+        services.AddSingleton(ExpenditureApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
     }
 
@@ -142,11 +144,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     }
 
     public BenchmarkingWebAppClient SetupInsights(School school, Finances? finances = null,
-        Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
+        SchoolExpenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
         MetricRagRatingApi.Reset();
         CustomDataApi.Reset();
+        ExpenditureApi.Reset();
 
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>()))
             .ReturnsAsync(ApiResult.Ok);
@@ -161,7 +164,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             }));
         MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
-        InsightApi.Setup(api => api.GetSchoolExpenditure(school.URN, It.IsAny<ApiQuery?>()))
+        ExpenditureApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
         InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.URN)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
         return this;

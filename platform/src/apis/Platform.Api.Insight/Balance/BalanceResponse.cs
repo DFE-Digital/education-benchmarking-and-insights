@@ -45,9 +45,7 @@ public static class BalanceResponseFactory
         return response;
     }
 
-
-    private static T CreateResponse<T>(BalanceBaseModel model, string dimension)
-        where T : BalanceBaseResponse, new()
+    private static T CreateResponse<T>(BalanceBaseModel model, string dimension) where T : BalanceBaseResponse, new()
     {
         var response = new T
         {
@@ -57,7 +55,15 @@ public static class BalanceResponseFactory
             CentralRevenueReserve = CalculateValue(model.RevenueReserveCS, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension)
         };
 
+        response.InYearBalance = CalculateTotal(response.SchoolInYearBalance, response.CentralInYearBalance);
+        response.RevenueReserve = CalculateTotal(response.SchoolRevenueReserve, response.CentralRevenueReserve);
+
         return response;
+    }
+
+    private static decimal? CalculateTotal(decimal? school, decimal? central)
+    {
+        return school.GetValueOrDefault() + central.GetValueOrDefault();
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
@@ -85,18 +91,8 @@ public abstract record BalanceBaseResponse
     public decimal? CentralInYearBalance { get; set; }
     public decimal? SchoolRevenueReserve { get; set; }
     public decimal? CentralRevenueReserve { get; set; }
-
-
-    public decimal? TotalInYearBalance => CalculateTotal(SchoolInYearBalance, CentralInYearBalance);
-
-    public decimal? TotalRevenueReserve => CalculateTotal(SchoolRevenueReserve, CentralRevenueReserve);
-
-    private static decimal? CalculateTotal(decimal? school, decimal? central)
-    {
-        return school.GetValueOrDefault() + central.GetValueOrDefault();
-    }
-
-
+    public decimal? InYearBalance { get; set; }
+    public decimal? RevenueReserve { get; set; }
 }
 
 public record SchoolBalanceResponse : BalanceBaseResponse

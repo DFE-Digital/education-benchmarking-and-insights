@@ -55,11 +55,58 @@ export type ExpenditureData = {
   laName: string;
 };
 
+export type ExpenditureHistory = {
+  yearEnd: string;
+  term: string;
+  totalExpenditure: number;
+  totalTeachingSupportStaffCosts: number;
+  teachingStaffCosts: number;
+  supplyTeachingStaffCosts: number;
+  educationalConsultancyCosts: number;
+  educationSupportStaffCosts: number;
+  agencySupplyTeachingStaffCosts: number;
+  totalNonEducationalSupportStaffCosts: number;
+  administrativeClericalStaffCosts: number;
+  auditorsCosts: number;
+  otherStaffCosts: number;
+  professionalServicesNonCurriculumCosts: number;
+  totalEducationalSuppliesCosts: number;
+  examinationFeesCosts: number;
+  learningResourcesNonIctCosts: number;
+  learningResourcesIctCosts: number;
+  totalPremisesStaffServiceCosts: number;
+  cleaningCaretakingCosts: number;
+  maintenancePremisesCosts: number;
+  otherOccupationCosts: number;
+  premisesStaffCosts: number;
+  totalUtilitiesCosts: number;
+  energyCosts: number;
+  waterSewerageCosts: number;
+  administrativeSuppliesCosts: number;
+  totalGrossCateringCosts: number;
+  cateringStaffCosts: number;
+  cateringSuppliesCosts: number;
+  totalOtherCosts: number;
+  directRevenueFinancingCosts: number;
+  groundsMaintenanceCosts: number;
+  indirectEmployeeExpenses: number;
+  interestChargesLoanBank: number;
+  otherInsurancePremiumsCosts: number;
+  privateFinanceInitiativeCharges: number;
+  rentRatesCosts: number;
+  specialFacilitiesCosts: number;
+  staffDevelopmentTrainingCosts: number;
+  staffRelatedInsuranceCosts: number;
+  supplyTeacherInsurableCosts: number;
+  communityFocusedSchoolStaff: number;
+  communityFocusedSchoolCosts: number;
+};
+
 export type BalanceHistory = {
   yearEnd: string;
   term: string;
-  totalInYearBalance: number;
-  totalRevenueReserve: number;
+  inYearBalance: number;
+  revenueReserve: number;
 };
 
 export type Census = {

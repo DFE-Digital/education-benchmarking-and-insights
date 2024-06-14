@@ -7,6 +7,7 @@ using Platform.Api.Insight;
 using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Db;
+using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
@@ -31,7 +32,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<FinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<TrustFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
         builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
@@ -39,7 +39,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
 
         builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
-        builder.Services.AddSingleton<ITrustFinancesDb, TrustFinancesDb>();
         builder.Services.AddSingleton<IIncomeDb, IncomeDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ISchoolMetricsDb, SchoolMetricsDb>();
@@ -49,5 +48,6 @@ public class Startup : FunctionsStartup
         builder.Services.AddSingleton<IBalanceService, BalanceService>();
         builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
         builder.Services.AddSingleton<ITrustsService, TrustsService>();
+        builder.Services.AddSingleton<IExpenditureService, ExpenditureService>();
     }
 }

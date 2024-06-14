@@ -19,11 +19,11 @@ public abstract class Category(decimal actual, SchoolExpenditure expenditure)
 
     public decimal PercentageExpenditure => expenditure.TotalExpenditure == decimal.Zero
         ? 0
-        : decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+        : decimal.Round(Actual / (expenditure.TotalExpenditure ?? 0) * 100, 2, MidpointRounding.AwayFromZero);
 
     public decimal PercentageIncome => expenditure.TotalExpenditure == decimal.Zero
         ? 0
-        : decimal.Round(Actual / expenditure.TotalExpenditure * 100, 2, MidpointRounding.AwayFromZero);
+        : decimal.Round(Actual / (expenditure.TotalExpenditure ?? 0) * 100, 2, MidpointRounding.AwayFromZero);
 
     public static string? FromSlug(string? slug)
     {
@@ -83,7 +83,7 @@ public class PupilCategory(decimal actual, SchoolExpenditure expenditure) : Cate
 
     public override decimal Value => _expenditure.NumberOfPupils == decimal.Zero
         ? 0
-        : decimal.Round(_actual / _expenditure.NumberOfPupils, 0, MidpointRounding.AwayFromZero);
+        : decimal.Round(_actual / (_expenditure.NumberOfPupils ?? 0), 0, MidpointRounding.AwayFromZero);
 }
 
 public class AreaCategory(decimal actual, SchoolExpenditure expenditure) : Category(actual, expenditure)
@@ -115,7 +115,7 @@ public class AdministrativeSupplies(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.AdministrativeSuppliesCosts ?? 0, expenditure);
     }
 }
 
@@ -123,7 +123,7 @@ public class CateringStaffServices(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.NetCateringCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalGrossCateringCosts ?? 0, expenditure);
     }
 }
 
@@ -131,7 +131,7 @@ public class EducationalIct(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.LearningResourcesIctCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.LearningResourcesIctCosts ?? 0, expenditure);
     }
 }
 
@@ -139,7 +139,7 @@ public class EducationalSupplies(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.TotalEducationalSuppliesCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalEducationalSuppliesCosts ?? 0, expenditure);
     }
 }
 
@@ -147,7 +147,7 @@ public class NonEducationalSupportStaff(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalNonEducationalSupportStaffCosts ?? 0, expenditure);
     }
 }
 
@@ -155,7 +155,7 @@ public class TeachingStaff(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.TotalTeachingSupportStaffCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalTeachingSupportStaffCosts ?? 0, expenditure);
     }
 }
 
@@ -163,7 +163,7 @@ public class Other(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new PupilCategory(expenditure.TotalOtherCosts, expenditure);
+        this[urn] = new PupilCategory(expenditure.TotalOtherCosts ?? 0, expenditure);
     }
 }
 
@@ -171,7 +171,7 @@ public class PremisesStaffServices(RagRating rating) : CostCategory(rating)
 {
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new AreaCategory(expenditure.TotalPremisesStaffServiceCosts, expenditure);
+        this[urn] = new AreaCategory(expenditure.TotalPremisesStaffServiceCosts ?? 0, expenditure);
     }
 }
 
@@ -180,7 +180,7 @@ public class Utilities(RagRating rating) : CostCategory(rating)
 
     public override void Add(string urn, SchoolExpenditure expenditure)
     {
-        this[urn] = new AreaCategory(expenditure.TotalUtilitiesCosts, expenditure);
+        this[urn] = new AreaCategory(expenditure.TotalUtilitiesCosts ?? 0, expenditure);
     }
 }
 
@@ -244,7 +244,7 @@ public static class CategoryBuilder
 
         foreach (var expenditure in pupilExpenditure)
         {
-            var urn = expenditure.Urn;
+            var urn = expenditure.URN;
             ArgumentNullException.ThrowIfNull(urn);
 
             foreach (var category in categories.Pupil)
@@ -255,7 +255,7 @@ public static class CategoryBuilder
 
         foreach (var expenditure in areaExpenditure)
         {
-            var urn = expenditure.Urn;
+            var urn = expenditure.URN;
             ArgumentNullException.ThrowIfNull(urn);
 
             foreach (var category in categories.Area)

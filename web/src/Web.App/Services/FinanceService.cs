@@ -5,13 +5,9 @@ namespace Web.App.Services;
 
 public interface IFinanceService
 {
-    Task<SchoolExpenditure> GetSchoolExpenditure(string urn);
     Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns);
-    Task<IEnumerable<Finances>> GetFinances(IEnumerable<string> urns);
     Task<Finances?> GetFinances(string urns);
     Task<FinanceYears> GetYears();
-    Task<IEnumerable<Expenditure>> GetSchoolExpenditureHistory(string urn, string dimension);
-    Task<IEnumerable<Expenditure>> GetTrustExpenditureHistory(string companyNo, string dimension);
     Task<Census> GetSchoolCensus(string urn);
     Task<FloorAreaMetric> GetSchoolFloorArea(string urn);
 }
@@ -19,20 +15,6 @@ public interface IFinanceService
 public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFinanceService
 {
     public async Task<FinanceYears> GetYears() => await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
-
-    public async Task<SchoolExpenditure> GetSchoolExpenditure(string urn) => await insightApi.GetSchoolExpenditure(urn).GetResultOrThrow<SchoolExpenditure>();
-
-    public async Task<IEnumerable<Expenditure>> GetSchoolExpenditureHistory(string urn, string dimension)
-    {
-        var query = BuildApiQueryForDimension(dimension);
-        return await insightApi.GetSchoolExpenditureHistory(urn, query).GetResultOrDefault<IEnumerable<Expenditure>>() ?? Array.Empty<Expenditure>();
-    }
-
-    public async Task<IEnumerable<Expenditure>> GetTrustExpenditureHistory(string companyNo, string dimension)
-    {
-        var query = BuildApiQueryForDimension(dimension);
-        return await insightApi.GetTrustExpenditureHistory(companyNo, query).GetResultOrDefault<IEnumerable<Expenditure>>() ?? Array.Empty<Expenditure>();
-    }
 
     public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns)
     {

@@ -21,11 +21,7 @@ public class CensusProxyController(
     [Produces("application/json")]
     public async Task<IActionResult> Query([FromQuery] string type, [FromQuery] string id, [FromQuery] string category, [FromQuery] string dimension, [FromQuery] string? phase)
     {
-        using (logger.BeginScope(new
-        {
-            type,
-            id
-        }))
+        using (logger.BeginScope(new { type, id }))
         {
             try
             {
@@ -54,10 +50,7 @@ public class CensusProxyController(
     [Route("history")]
     public async Task<IActionResult> History([FromQuery] string id, [FromQuery] string dimension)
     {
-        using (logger.BeginScope(new
-        {
-            id
-        }))
+        using (logger.BeginScope(new { id }))
         {
             try
             {

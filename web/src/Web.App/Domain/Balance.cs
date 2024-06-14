@@ -1,22 +1,14 @@
 ﻿namespace Web.App.Domain;
 
-// public record Balance
-// {
-//     public int YearEnd { get; set; }
-//     public string? Term { get; set; }
-//     public string? Dimension { get; set; }
-//     public decimal? InYearBalance { get; set; }
-//     public decimal? RevenueReserve { get; set; }
-// }
-
 public abstract record BalanceBase
 {
     public decimal? SchoolInYearBalance { get; set; }
     public decimal? CentralInYearBalance { get; set; }
-    public decimal? TotalInYearBalance { get; set; }
+    public decimal? InYearBalance { get; set; }
+
     public decimal? SchoolRevenueReserve { get; set; }
     public decimal? CentralRevenueReserve { get; set; }
-    public decimal? TotalRevenueReserve { get; set; }
+    public decimal? RevenueReserve { get; set; }
 }
 
 public record SchoolBalance : BalanceBase

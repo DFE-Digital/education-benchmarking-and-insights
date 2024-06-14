@@ -7,8 +7,8 @@ using Web.App.Infrastructure.Extensions;
 namespace Web.App.Controllers.Api;
 
 [ApiController]
-[Route("api/balance")]
-public class BalanceProxyController(ILogger<BalanceProxyController> logger, IBalanceApi api) : Controller
+[Route("api/expenditure")]
+public class ExpenditureProxyController(ILogger<ExpenditureProxyController> logger, IExpenditureApi api) : Controller
 {
     [HttpGet]
     [Produces("application/json")]
@@ -23,8 +23,8 @@ public class BalanceProxyController(ILogger<BalanceProxyController> logger, IBal
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await api.SchoolHistory(id, query).GetResultOrDefault<BalanceHistory[]>(),
-                    OrganisationTypes.Trust => await api.TrustHistory(id, query).GetResultOrDefault<BalanceHistory[]>(),
+                    OrganisationTypes.School => await api.SchoolHistory(id, query).GetResultOrDefault<ExpenditureHistory[]>(),
+                    OrganisationTypes.Trust => await api.TrustHistory(id, query).GetResultOrDefault<ExpenditureHistory[]>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 
@@ -32,7 +32,7 @@ public class BalanceProxyController(ILogger<BalanceProxyController> logger, IBal
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error getting balance history data: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error getting expenditure history data: {DisplayUrl}", Request.GetDisplayUrl());
                 return StatusCode(500);
             }
         }

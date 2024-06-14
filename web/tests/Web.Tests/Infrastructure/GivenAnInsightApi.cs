@@ -45,16 +45,6 @@ public class GivenAnInsightApi(ITestOutputHelper testOutputHelper) : ApiClientTe
     }
 
     [Fact]
-    public async Task GetSchoolExpenditureShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolExpenditure("123213");
-
-        VerifyCall(HttpMethod.Get, "api/school/123213/expenditure");
-    }
-
-    [Fact]
     public async Task GetSchoolFloorAreaMetricShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
