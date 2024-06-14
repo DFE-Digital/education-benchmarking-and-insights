@@ -633,19 +633,19 @@ def build_academy_data(
         + central_services["Catering staff and supplies_Total"]
     )
 
-    # Apportion the central services income fields
-    income_cols = central_services.columns[
-        central_services.columns.str.startswith("Income_")
-    ].values.tolist()
-
-    for income_col in income_cols:
-        central_services[income_col] = (
-            central_services[income_col] / central_services["Total pupils in trust"]
-        )
-
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
     )
+
+    income_cols = academies.columns[
+        academies.columns.str.endswith("_CS")
+        & ~academies.columns.str.startswith("Financial Position")
+    ].values.tolist()
+
+    for income_col in income_cols:
+        academies[income_col] = (
+                academies[income_col] * (academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
+        )
 
     return academies.set_index("URN")
 
