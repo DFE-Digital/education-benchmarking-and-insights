@@ -1,5 +1,7 @@
 ﻿using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Insight;
 using Web.App.ViewModels;
 using Xunit;
 
@@ -14,7 +16,7 @@ public class GivenASchoolCustomDataChangeViewModel
     private readonly Finances _finances;
     private readonly Fixture _fixture = new();
     private readonly FloorAreaMetric _floorArea;
-    private readonly Income _income;
+    private readonly SchoolIncome _income;
     private readonly School _school;
     private readonly SchoolCustomDataChangeViewModel _sut;
 
@@ -22,7 +24,7 @@ public class GivenASchoolCustomDataChangeViewModel
     {
         _school = new School();
         _finances = _fixture.Create<Finances>();
-        _income = _fixture.Create<Income>();
+        _income = _fixture.Create<SchoolIncome>();
         _expenditure = _fixture.Create<SchoolExpenditure>();
         _census = _fixture.Create<Census>();
         _floorArea = _fixture.Create<FloorAreaMetric>();

@@ -4,6 +4,7 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 

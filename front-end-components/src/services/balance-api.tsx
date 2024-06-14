@@ -1,4 +1,4 @@
-import { Balance } from "src/services/types";
+import { BalanceHistory } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class BalanceApi {
@@ -6,7 +6,7 @@ export class BalanceApi {
     type: string,
     id: string,
     dimension: string
-  ): Promise<Balance[]> {
+  ): Promise<BalanceHistory[]> {
     return fetch(
       "/api/balance/history?" +
         new URLSearchParams({ type: type, id: id, dimension: dimension }),

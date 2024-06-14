@@ -1,7 +1,10 @@
 using System.Collections.Concurrent;
 using Moq;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Insight;
 using Web.App.Infrastructure.Apis;
+using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
 namespace Web.Integration.Tests;
 
@@ -31,7 +34,9 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     public Mock<ISchoolInsightApi> SchoolInsightApi { get; } = new();
     public Mock<ITrustInsightApi> TrustInsightApi { get; } = new();
     public Mock<ICustomDataApi> CustomDataApi { get; } = new();
+    public Mock<IExpenditureApi> ExpenditureApi { get; } = new();
     public Mock<IHttpContextAccessor> HttpContextAccessor { get; } = new();
+    public Mock<IDataSourceStorage> DataSourceStorage { get; } = new();
 
     protected override void Configure(IServiceCollection services)
     {
@@ -49,7 +54,23 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         services.AddSingleton(SchoolInsightApi.Object);
         services.AddSingleton(TrustInsightApi.Object);
         services.AddSingleton(CustomDataApi.Object);
+        services.AddSingleton(ExpenditureApi.Object);
         services.AddSingleton(HttpContextAccessor.Object);
+        services.AddSingleton(DataSourceStorage.Object);
+    }
+
+    public BenchmarkingWebAppClient SetupStorage()
+    {
+        var sharedAccessTokenModel = new SharedAccessTokenModel
+        {
+            ContainerUri = new Uri("https://teststorageaccount.net/testcontainer"),
+            SasToken = "test"
+        };
+
+        DataSourceStorage.Reset();
+        DataSourceStorage.Setup(storage => storage.GetAccessToken()).Returns(sharedAccessTokenModel);
+
+        return this;
     }
 
     public BenchmarkingWebAppClient SetupEstablishment(SuggestOutput<Trust> trustTestData)
@@ -142,11 +163,12 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     }
 
     public BenchmarkingWebAppClient SetupInsights(School school, Finances? finances = null,
-        Expenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
+        SchoolExpenditure? expenditure = null, FloorAreaMetric? floorAreaMetric = null)
     {
         InsightApi.Reset();
         MetricRagRatingApi.Reset();
         CustomDataApi.Reset();
+        ExpenditureApi.Reset();
 
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>()))
             .ReturnsAsync(ApiResult.Ok);
@@ -161,13 +183,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             }));
         MetricRagRatingApi.Setup(api => api.GetDefaultAsync(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<RagRating>()));
-        InsightApi.Setup(api => api.GetSchoolExpenditure(school.URN, It.IsAny<ApiQuery?>()))
+        ExpenditureApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(expenditure));
         InsightApi.Setup(api => api.GetSchoolFloorAreaMetric(school.URN)).ReturnsAsync(ApiResult.Ok(floorAreaMetric));
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupIncome(School school, Income? income = null)
+    public BenchmarkingWebAppClient SetupIncome(School school, SchoolIncome? income = null)
     {
         IncomeApi.Reset();
         IncomeApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))
@@ -175,10 +197,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBalance(Trust trust, Balance? balance = null)
+    public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null)
     {
         BalanceApi.Reset();
-        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new Balance()));
+        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new TrustBalance()));
         return this;
     }
 
@@ -215,6 +237,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         ComparatorApi.Reset();
         ComparatorApi.Setup(api => api.CreateSchoolsAsync(It.IsAny<PostSchoolComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorSchools));
         ComparatorApi.Setup(api => api.CreateTrustsAsync(It.IsAny<PostTrustComparatorsRequest>())).ReturnsAsync(ApiResult.Ok(comparatorTrusts));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupComparatorSetApi()
+    {
+        ComparatorApi.Reset();
+        ComparatorSetApi.Setup(api => api.UpsertUserDefinedSchoolAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
+        ComparatorSetApi.Setup(api => api.UpsertUserDefinedTrustAsync(It.IsAny<string>(), It.IsAny<PutComparatorSetUserDefinedRequest>())).ReturnsAsync(ApiResult.Ok());
         return this;
     }
 
@@ -292,6 +322,13 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
                         MixedAgeYear5Year6 = request.MixedAgeYear5Year6,
                         TimetablePeriods = request.TimetablePeriods.ToString()
                     })));
+        return this;
+    }
+
+    public BenchmarkingWebAppClient SetupUserDataApi(UserData[]? data = null)
+    {
+        UserDataApi.Reset();
+        UserDataApi.Setup(api => api.GetAsync(It.IsAny<ApiQuery>())).ReturnsAsync(ApiResult.Ok(data ?? []));
         return this;
     }
 

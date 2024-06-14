@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Domain.Insight;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 
@@ -8,12 +9,12 @@ namespace Web.App.Controllers.Api;
 
 [ApiController]
 [Route("api/income")]
-public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncomeApi incomeApi) : Controller
+public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncomeApi api) : Controller
 {
     [HttpGet]
     [Produces("application/json")]
     [Route("history")]
-    public async Task<IActionResult> EstablishmentIncomeHistory([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
+    public async Task<IActionResult> History([FromQuery] string type, [FromQuery] string id, [FromQuery] string dimension)
     {
         using (logger.BeginScope(new { type, id }))
         {
@@ -23,8 +24,8 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await incomeApi.SchoolHistory(id, query).GetResultOrDefault<Income[]>(),
-                    OrganisationTypes.Trust => await incomeApi.TrustHistory(id, query).GetResultOrDefault<Income[]>(),
+                    OrganisationTypes.School => await api.SchoolHistory(id, query).GetResultOrDefault<IncomeHistory[]>(),
+                    OrganisationTypes.Trust => await api.TrustHistory(id, query).GetResultOrDefault<IncomeHistory[]>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 

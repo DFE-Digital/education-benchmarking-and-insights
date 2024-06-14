@@ -29,21 +29,23 @@
                                 Compare your trust schools pupil and workforce data.
                             </p>
                         </li>
-                        break;                           
+                        break;
                     case FinanceTools.CentralServices:
-                        <li>
-                            <img src="/assets/images/central-services.png" alt="" class="app-view-component">
-                            <h3 class="govuk-heading-s">
-                                <a href="" class="govuk-link govuk-link--no-visited-state">Trust to trust comparison</a>
-                            </h3>
-                            <p class="govuk-body">
-                                Compare to other trusts to understand more about your priority costs.
-                            </p>
-                            <strong class="govuk-tag govuk-tag--grey">
-                                Requires login
-                            </strong>
-                        </li>
-                        break;     
+                        <feature name="@(string.Join(",", FeatureFlags.UserDefinedComparators, FeatureFlags.Trusts))">
+                            <li>
+                                <img src="/assets/images/central-services.png" alt="" class="app-view-component">
+                                <h3 class="govuk-heading-s">
+                                    <a href="@Url.Action("Index", "TrustComparators", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">Trust to trust comparison</a>
+                                </h3>
+                                <p class="govuk-body">
+                                    Compare to other trusts to understand more about your priority costs.
+                                </p>
+                                <strong class="govuk-tag govuk-tag--grey">
+                                    Requires login
+                                </strong>
+                            </li>
+                        </feature>
+                        break;
                     case FinanceTools.ForecastRisk:
                         <li>
                             <img src="/assets/images/forecast-risk.png" alt="" class="app-view-component">
@@ -57,7 +59,7 @@
                                 Requires login
                             </strong>
                         </li>
-                        break;                             
+                        break;
                     case FinanceTools.FinancialPlanning:
                         <li>
                             <img src="/assets/images/curriculum-financial-planning.png" alt="" class="app-view-component">
@@ -71,7 +73,7 @@
                                 Requires login
                             </strong>
                         </li>
-                        break;                        
+                        break;
                 }
             }
         </ul>
