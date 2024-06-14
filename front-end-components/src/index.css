@@ -198,45 +198,31 @@
   height: 100%;
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link {
   fill: var(--link-colour);
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:hover,
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:focus {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link:hover,
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link:focus {
   fill: var(--link-hover-colour);
   text-decoration: underline;
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.school-tick,
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.trust-tick {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.establishment-tick {
   transform: translate(-0.1em, 0.3em);
 }
 
-.recharts-wrapper .recharts-cartesian-axis line.school-tick-focus:has(~ text),
-.recharts-wrapper .recharts-cartesian-axis line.trust-tick-focus:has(~ text) {
+.recharts-wrapper
+  .recharts-cartesian-axis
+  line.establishment-tick-focus:has(~ text > a) {
   stroke: transparent;
   stroke-width: 1.5em;
 }
 
 .recharts-wrapper
   .recharts-cartesian-axis
-  line.school-tick-focus:has(~ text:focus),
-.recharts-wrapper
-  .recharts-cartesian-axis
-  line.trust-tick-focus:has(~ text:focus) {
+  line.establishment-tick-focus:has(~ text > a:focus) {
   stroke: var(--focus-colour);
-}
-
-.recharts-wrapper
-  .recharts-cartesian-axis
-  .recharts-text.school-tick
-  > tspan:not(:first-child),
-.recharts-wrapper
-  .recharts-cartesian-axis
-  .recharts-text.trust-tick
-  > tspan:not(:first-child) {
-  display: none;
 }
 
 .recharts-wrapper .recharts-tooltip-cursor {
