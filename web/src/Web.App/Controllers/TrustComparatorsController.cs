@@ -11,7 +11,8 @@ using Web.App.ViewModels;
 namespace Web.App.Controllers;
 
 [Controller]
-[FeatureGate(FeatureFlags.Trusts)]
+[Authorize]
+[FeatureGate(FeatureFlags.Trusts, FeatureFlags.UserDefinedComparators)]
 [Route("trust/{companyNumber}/comparators")]
 public class TrustComparatorsController(
     ILogger<TrustComparatorsController> logger,
@@ -22,12 +23,41 @@ public class TrustComparatorsController(
     ITrustComparatorSetService trustComparatorSetService) : Controller
 {
     [HttpGet]
-    public IActionResult Index(string companyNumber) => new StatusCodeResult(StatusCodes.Status302Found);
+    public async Task<IActionResult> Index(string companyNumber,
+        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
+    {
+        using (logger.BeginScope(new
+        {
+            companyNumber
+        }))
+        {
+            try
+            {
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
+
+                var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
+                var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
+                if (userData.ComparatorSet == null)
+                {
+                    return RedirectToAction("Index", "TrustComparatorsCreateBy", new
+                    {
+                        companyNumber
+                    });
+                }
+
+                var viewModel = new TrustToTrustViewModel(trust, comparatorGenerated);
+                return View(viewModel);
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying trust-to-trust landing: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
 
     [HttpGet]
     [Route("user-defined")]
-    [Authorize]
-    [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> UserDefined(string companyNumber)
     {
         using (logger.BeginScope(new
@@ -37,7 +67,7 @@ public class TrustComparatorsController(
         {
             try
             {
-                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolComparators(companyNumber);
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustComparators(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var userData = await userDataService.GetTrustDataAsync(User.UserId(), companyNumber);
@@ -66,8 +96,6 @@ public class TrustComparatorsController(
 
     [HttpGet]
     [Route("revert")]
-    [Authorize]
-    [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> Revert(string companyNumber)
     {
         using (logger.BeginScope(new
@@ -93,8 +121,6 @@ public class TrustComparatorsController(
 
     [HttpPost]
     [Route("revert")]
-    [Authorize]
-    [FeatureGate(FeatureFlags.UserDefinedComparators)]
     public async Task<IActionResult> RevertSet(string companyNumber)
     {
         using (logger.BeginScope(new
