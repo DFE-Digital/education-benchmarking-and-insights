@@ -22,11 +22,7 @@ from src.pipeline.database import (
     insert_schools_and_trusts_and_local_authorities,
 )
 from src.pipeline.log import setup_logger
-from src.pipeline.message import (
-    InvalidMessageTypeException,
-    MessageType,
-    get_message_type,
-)
+from src.pipeline.message import MessageType, get_message_type
 from src.pipeline.pre_processing import (
     build_academy_data,
     build_bfr_data,
@@ -378,12 +374,32 @@ def pre_process_data(worker_client, run_type, year):
     return time_taken
 
 
-def compute_comparator_set_for(data_type, set_type, run_type, year, data):
+def compute_comparator_set_for(
+    data_type: str,
+    set_type: str,
+    run_type: str,
+    year: int,
+    data: pd.DataFrame,
+):
+    """
+    Perform comparator-set calculation and persist the result.
+
+    Results are persisted in both blob-storage and the database.
+
+    :param data_type: type (e.g. academy) of the data
+    :param set_type: "mixed" or "unmixed"
+    :param run_type: "default" or "custom"
+    :param year: financial year in question
+    :param data: used to determine comparator set
+    """
+    # TODO: check if `run_type` is `custom`.
     st = time.time()
     logger.info(f"Computing {data_type} set")
     result = compute_comparator_set(data)
     logger.info(f"Computing {data_type} set. Done in {time.time() - st:.2f} seconds")
 
+    # TODO: `custom` `run_type` written to a run-specific location?
+    st = time.time()
     write_blob(
         "comparator-sets",
         f"{run_type}/{year}/{data_type}.parquet",
@@ -609,6 +625,7 @@ def handle_msg(
 
     try:
         match get_message_type(message=msg_payload):
+
             case MessageType.Default:
                 msg_payload["pre_process_duration"] = pre_process_data(
                     worker_client, run_type, msg_payload["year"]
@@ -621,6 +638,7 @@ def handle_msg(
                     run_type,
                     msg_payload["year"],
                 )
+
             case MessageType.DefaultUserDefined:
                 msg_payload["rag_duration"] = run_user_defined_rag(
                     year=msg_payload["year"],
@@ -628,8 +646,10 @@ def handle_msg(
                     target_urn=int(msg_payload["urn"]),
                     comparator_set=list(map(int, msg_payload["payload"]["set"])),
                 )
-            case _:
-                raise InvalidMessageTypeException("Could not determine message type.")
+
+            case MessageType.Custom:
+                # TODO: do we need to pre-process the data? Can we assume it's done as per `DefaultUserDefined`?
+                ...
 
         msg_payload["success"] = True
     except Exception as error:
