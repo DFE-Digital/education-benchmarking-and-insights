@@ -42,12 +42,12 @@ import {
 } from "./components/charts/utils";
 import { EstablishmentTick } from "./components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
-import { ExpenditureData, Census, TrustFinancial } from "./services";
+import { ExpenditureData, Census, TrustBalance } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
 import LaInput from "./views/find-organisation/partials/la-input";
 import TrustInput from "./views/find-organisation/partials/trust-input";
-import { TrustFinancialTooltip } from "./components/charts/trust-financial-tooltip";
+import { TrustBalanceTooltip } from "./components/charts/trust-balance-tooltip";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -255,13 +255,13 @@ const HorizontalChartTrustFinancial = ({
   value2Field,
   valueUnit,
 }: {
-  data: TrustFinancial[];
+  data: TrustBalance[];
   height: number;
   highlightedItemKey?: string;
-  keyField: keyof TrustFinancial;
+  keyField: keyof TrustBalance;
   sortDirection: ChartSortDirection;
-  value1Field: keyof TrustFinancial;
-  value2Field?: keyof TrustFinancial;
+  value1Field: keyof TrustBalance;
+  value2Field?: keyof TrustBalance;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart1SeriesStackedRef = useRef<ChartHandler>(null);
@@ -277,7 +277,7 @@ const HorizontalChartTrustFinancial = ({
   }, [data, sortDirection, value1Field]);
 
   const seriesConfig: Partial<
-    Record<keyof TrustFinancial, ChartSeriesConfigItem>
+    Record<keyof TrustBalance, ChartSeriesConfigItem>
   > = {
     [value1Field]: {
       label: value1Field,
@@ -323,7 +323,7 @@ const HorizontalChartTrustFinancial = ({
           onImageLoading={setImageLoading}
           ref={horizontalChart1SeriesStackedRef}
           seriesConfig={seriesConfig}
-          seriesLabelField="name"
+          seriesLabelField="trustName"
           tickWidth={400}
           tick={(t) => (
             <EstablishmentTick
@@ -332,13 +332,13 @@ const HorizontalChartTrustFinancial = ({
               linkToEstablishment
               href={(companyNumber) => `/trust/${companyNumber}`}
               establishmentKeyResolver={(name) =>
-                data.find((d) => d.name === name)?.companyNumber
+                data.find((d) => d.trustName === name)?.companyNumber
               }
             />
           )}
           valueFormatter={shortValueFormatter}
           valueUnit={valueUnit}
-          tooltip={(t) => <TrustFinancialTooltip {...t} />}
+          tooltip={(t) => <TrustBalanceTooltip {...t} />}
         />
       </div>
     </div>
@@ -363,7 +363,7 @@ if (horizontalChart1SeriesStackedElement) {
   } = horizontalChart1SeriesStackedElement.dataset;
   if (json) {
     const root = ReactDOM.createRoot(horizontalChart1SeriesStackedElement);
-    const data = JSON.parse(json) as TrustFinancial[];
+    const data = JSON.parse(json) as TrustBalance[];
 
     root.render(
       <React.StrictMode>
@@ -371,19 +371,19 @@ if (horizontalChart1SeriesStackedElement) {
           data={data}
           height={height ? parseInt(height) : 500}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof TrustFinancial}
+          keyField={keyField as keyof TrustBalance}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          value1Field={stackValueField1 as keyof TrustFinancial}
-          value2Field={stackValueField2 as keyof TrustFinancial}
+          value1Field={stackValueField1 as keyof TrustBalance}
+          value2Field={stackValueField2 as keyof TrustBalance}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
         <HorizontalChartTrustFinancial
           data={data}
           height={height ? parseInt(height) : 500}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof TrustFinancial}
+          keyField={keyField as keyof TrustBalance}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          value1Field={totalValueField as keyof TrustFinancial}
+          value1Field={totalValueField as keyof TrustBalance}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>
