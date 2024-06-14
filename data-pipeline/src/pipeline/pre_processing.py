@@ -223,7 +223,7 @@ def prepare_ks2_data(ks2_path):
         + ks2["MATPROG"].astype(float)
         + ks2["WRITPROG"].astype(float)
     )
-    ks2 = ks2[["URN","Ks2Progress"]].dropna().drop_duplicates()
+    ks2 = ks2[["URN", "Ks2Progress"]].dropna().drop_duplicates()
     return ks2
 
 
@@ -246,7 +246,11 @@ def prepare_ks4_data(ks4_path):
         inplace=True,
     )
 
-    ks4 = ks4[["URN","AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna().drop_duplicates()
+    ks4 = (
+        ks4[["URN", "AverageAttainment", "Progress8Measure", "Progress8Banding"]]
+        .dropna()
+        .drop_duplicates()
+    )
     return ks4
 
 
@@ -455,7 +459,6 @@ def build_cfo_data(cfo_data_path):
     return cfo_data.set_index("URN")
 
 
-
 def build_academy_data(
     academy_data_path,
     links_data_path,
@@ -479,12 +482,13 @@ def build_academy_data(
         usecols=input_schemas.academy_master_list.keys(),
     )
 
-    academies_list.replace(to_replace={'DNS':np.nan,'n/a':np.nan}, inplace=True)
-    academies_list = academies_list.astype(
-        input_schemas.academy_master_list
-    ).set_index(input_schemas.academy_master_list_index_col).rename(columns={"UKPRN": "Academy UKPRN"})
+    academies_list.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
+    academies_list = (
+        academies_list.astype(input_schemas.academy_master_list)
+        .set_index(input_schemas.academy_master_list_index_col)
+        .rename(columns={"UKPRN": "Academy UKPRN"})
+    )
 
-    
     group_links = pd.read_csv(
         links_data_path,
         encoding="cp1252",
@@ -497,17 +501,17 @@ def build_academy_data(
             ["Single-academy trust", "Multi-academy trust", "Trust"]
         )
     ]
-    
+
     # remove transitioned schools from academies_list
     mask = (
         academies_list.index.duplicated(keep=False) & ~academies_list["Valid to"].isna()
     )
-    
+
     academies_list = academies_list[~mask]
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     )
-    
+
     academies = (
         academies_base.merge(census, on="URN", how="left")
         .merge(sen, on="URN", how="left")
@@ -528,7 +532,7 @@ def build_academy_data(
         ),
         axis=1,
     )
-    
+
     academies["Status"] = academies.apply(
         lambda df: mappings.map_academy_status(
             pd.to_datetime(df["Date joined or opened if in period"]),
@@ -542,7 +546,7 @@ def build_academy_data(
         ),
         axis=1,
     )
-    
+
     academies["Period covered by return"] = academies.apply(
         lambda df: mappings.map_academy_period_return(
             pd.to_datetime(df["Date joined or opened if in period"]),
@@ -552,7 +556,7 @@ def build_academy_data(
         ),
         axis=1,
     )
-    
+
     academies["SchoolPhaseType"] = academies.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
@@ -564,7 +568,7 @@ def build_academy_data(
 
     academies.rename(
         columns={
-            "URN_x":"URN",
+            "URN_x": "URN",
             "UKPRN_x": "UKPRN",
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
@@ -649,6 +653,7 @@ def build_academy_data(
 
     return academies.set_index("URN")
 
+
 def build_maintained_school_data(
     maintained_schools_data_path,
     links_data_path,
@@ -668,21 +673,21 @@ def build_maintained_school_data(
         encoding="unicode-escape",
         usecols=input_schemas.maintained_schools_master_list.keys(),
     )
-    
-    mask = ((maintained_schools_list['Did Not Supply flag'] == '0').values 
-            | (maintained_schools_list['Did Not Supply flag'] == 0).values)
+
+    mask = (maintained_schools_list["Did Not Supply flag"] == "0").values | (
+        maintained_schools_list["Did Not Supply flag"] == 0
+    ).values
     maintained_schools_list = maintained_schools_list[mask].copy()
-    maintained_schools_list.replace('DNS', np.nan, inplace=True)
+    maintained_schools_list.replace("DNS", np.nan, inplace=True)
 
     maintained_schools_list = maintained_schools_list.astype(
         input_schemas.maintained_schools_master_list
     ).set_index(input_schemas.maintained_schools_master_list_index_col)
-    
-    
+
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"
     )
-    
+
     maintained_schools = (
         maintained_schools.merge(sen, on="URN", how="left")
         .merge(census, on="URN", how="left")
@@ -690,15 +695,15 @@ def build_maintained_school_data(
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
     )
-    
+
     maintained_schools["PFI"] = maintained_schools["PFI"].map(
         lambda x: "PFI school" if x == "Y" else "Non-PFI school"
     )
-    
+
     maintained_schools["Is PFI"] = maintained_schools["PFI"].map(
         lambda x: x == "PFI school"
     )
-    
+
     maintained_schools["Status"] = maintained_schools.apply(
         lambda df: mappings.map_maintained_school_status(
             df["OpenDate"],
@@ -709,31 +714,31 @@ def build_maintained_school_data(
         ),
         axis=1,
     )
-    
+
     maintained_schools["In year balance"] = (
         maintained_schools["Total Income   I01 to I18"]
         - maintained_schools["Total Expenditure  E01 to E32"]
     )
-    
+
     maintained_schools["Financial Position"] = maintained_schools[
         "In year balance"
     ].map(mappings.map_is_surplus_deficit)
-    
+
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
         axis=1,
     )
-    
+
     maintained_schools["Partial Years Present"] = maintained_schools[
         "Period covered by return (months)"
     ].map(lambda x: x != 12)
-    
+
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
-    
+
     maintained_schools["Finance Type"] = "Maintained"
 
     maintained_schools["Email"] = ""

@@ -143,7 +143,7 @@ def pre_process_schools(set_type, year) -> pd.DataFrame:
 
 def pre_process_cfo(set_type, year) -> pd.DataFrame:
     logger.info("Processing CFO Data")
-    
+
     cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.xlsx")
 
     cfo = build_cfo_data(cfo_data)
@@ -215,7 +215,7 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
     maintained_schools_data = get_blob(
         raw_container,
         f"{set_type}/{year}/maintained_schools_master_list.csv",
-        encoding="cp1252"
+        encoding="cp1252",
     )
 
     links_data = get_blob(
