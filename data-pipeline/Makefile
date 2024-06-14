@@ -28,8 +28,8 @@ e2e-test-local:
 	poetry run coverage run --rcfile ./pyproject.toml -m pytest -s --junitxml=tests/output/test-output.xml ./tests/e2e;\
 
 lint:
-	poetry run black --config ./pyproject.toml src tests;\
-	poetry run isort --settings-path ./pyproject.toml **/*.py
+	poetry run black --config ./pyproject.toml src/ tests/;\
+	poetry run isort --settings-path ./pyproject.toml src/ tests/
 
 lint-tf: 
 	terraform fmt --diff --recursive
