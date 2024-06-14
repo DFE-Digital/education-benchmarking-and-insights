@@ -55,133 +55,132 @@ ds_logger = logging.getLogger("distributed.utils_perf")
 ds_logger.setLevel(logging.ERROR)
 
 
-def pre_process_cdc(set_type: str, year: int) -> pd.DataFrame:
+def pre_process_cdc(run_type: str, year: int) -> pd.DataFrame:
     logger.info("Processing CDC Data")
-    cdc_data = get_blob(raw_container, f"{set_type}/{year}/cdc.csv", encoding="utf-8")
+    cdc_data = get_blob(raw_container, f"{run_type}/{year}/cdc.csv", encoding="utf-8")
     cdc = prepare_cdc_data(cdc_data, year)
-    write_blob("pre-processed", f"{set_type}/{year}/cdc.parquet", cdc.to_parquet())
+    write_blob("pre-processed", f"{run_type}/{year}/cdc.parquet", cdc.to_parquet())
 
     return cdc
 
 
-def pre_process_census(set_type, year) -> pd.DataFrame:
+def pre_process_census(run_type, year) -> pd.DataFrame:
     logger.info("Processing Census Data")
     workforce_census_data = get_blob(
-        raw_container, f"{set_type}/{year}/census_workforce.xlsx"
+        raw_container, f"{run_type}/{year}/census_workforce.xlsx"
     )
     pupil_census_data = get_blob(
-        raw_container, f"{set_type}/{year}/census_pupils.csv", encoding="utf-8"
+        raw_container, f"{run_type}/{year}/census_pupils.csv", encoding="utf-8"
     )
     census = prepare_census_data(workforce_census_data, pupil_census_data)
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/census.parquet",
+        f"{run_type}/{year}/census.parquet",
         census.to_parquet(),
     )
 
     return census
 
 
-def pre_process_sen(set_type, year) -> pd.DataFrame:
+def pre_process_sen(run_type, year) -> pd.DataFrame:
     logger.info("Processing SEN Data")
-    sen_data = get_blob(raw_container, f"{set_type}/{year}/sen.csv", encoding="cp1252")
+    sen_data = get_blob(raw_container, f"{run_type}/{year}/sen.csv", encoding="cp1252")
     sen = prepare_sen_data(sen_data)
-    write_blob("pre-processed", f"{set_type}/{year}/sen.parquet", sen.to_parquet())
+    write_blob("pre-processed", f"{run_type}/{year}/sen.parquet", sen.to_parquet())
 
     return sen
 
 
-def pre_process_ks2(set_type, year) -> pd.DataFrame:
+def pre_process_ks2(run_type, year) -> pd.DataFrame:
     logger.info("Processing KS2 Data")
-    ks2_data = get_blob(raw_container, f"{set_type}/{year}/ks2.xlsx")
+    ks2_data = get_blob(raw_container, f"{run_type}/{year}/ks2.xlsx")
     ks2 = prepare_ks2_data(ks2_data)
-    write_blob("pre-processed", f"{set_type}/{year}/ks2.parquet", ks2.to_parquet())
+    write_blob("pre-processed", f"{run_type}/{year}/ks2.parquet", ks2.to_parquet())
 
     return ks2
 
 
-def pre_process_ks4(set_type, year) -> pd.DataFrame:
+def pre_process_ks4(run_type, year) -> pd.DataFrame:
     logger.info("Processing KS4 Data")
-    ks4_data = get_blob(raw_container, f"{set_type}/{year}/ks4.xlsx")
+    ks4_data = get_blob(raw_container, f"{run_type}/{year}/ks4.xlsx")
     ks4 = prepare_ks4_data(ks4_data)
-    write_blob("pre-processed", f"{set_type}/{year}/ks4.parquet", ks4.to_parquet())
+    write_blob("pre-processed", f"{run_type}/{year}/ks4.parquet", ks4.to_parquet())
 
     return ks4
 
 
-def pre_process_academy_ar(set_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
+def pre_process_academy_ar(run_type, year) -> tuple[pd.DataFrame, pd.DataFrame]:
     logger.info("Processing Academy AR Data")
-    academy_ar_data = get_blob(raw_container, f"{set_type}/{year}/academy_ar.xlsx")
+    academy_ar_data = get_blob(raw_container, f"{run_type}/{year}/academy_ar.xlsx")
     aar = prepare_aar_data(academy_ar_data)
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/aar.parquet",
+        f"{run_type}/{year}/aar.parquet",
         aar.to_parquet(),
     )
 
     return aar
 
 
-def pre_process_schools(set_type, year) -> pd.DataFrame:
+def pre_process_schools(run_type, year) -> pd.DataFrame:
     logger.info("Processing Schools Data")
     gias_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias.csv", encoding="cp1252"
+        raw_container, f"{run_type}/{year}/gias.csv", encoding="cp1252"
     )
     gias_links_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias_links.csv", encoding="cp1252"
+        raw_container, f"{run_type}/{year}/gias_links.csv", encoding="cp1252"
     )
     schools = prepare_schools_data(gias_data, gias_links_data)
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/schools.parquet",
+        f"{run_type}/{year}/schools.parquet",
         schools.to_parquet(),
     )
 
     return schools
 
 
-def pre_process_cfo(set_type, year) -> pd.DataFrame:
+def pre_process_cfo(run_type, year) -> pd.DataFrame:
     logger.info("Processing CFO Data")
-    
-    cfo_data = get_blob(raw_container, f"{set_type}/{year}/cfo.xlsx")
+    cfo_data = get_blob(raw_container, f"{run_type}/{year}/cfo.xlsx")
 
     cfo = build_cfo_data(cfo_data)
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/cfo.parquet",
+        f"{run_type}/{year}/cfo.parquet",
         cfo.to_parquet(),
     )
 
     return cfo
 
 
-def pre_process_central_services(set_type, year) -> pd.DataFrame:
+def pre_process_central_services(run_type, year) -> pd.DataFrame:
     logger.info("Building Central Services Data")
 
-    academies_data = get_blob(raw_container, f"{set_type}/{year}/academy_ar.xlsx")
+    academies_data = get_blob(raw_container, f"{run_type}/{year}/academy_ar.xlsx")
 
     central_services = prepare_central_services_data(academies_data)
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/central_services.parquet",
+        f"{run_type}/{year}/central_services.parquet",
         central_services.to_parquet(),
     )
 
     return central_services
 
 
-def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
+def pre_process_academies_data(run_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Academy Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
     academies_data = get_blob(
-        raw_container, f"{set_type}/{year}/academy_master_list.csv", encoding="utf-8"
+        raw_container, f"{run_type}/{year}/academy_master_list.csv", encoding="utf-8"
     )
 
     links_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
+        raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     academies = build_academy_data(
@@ -201,25 +200,26 @@ def pre_process_academies_data(set_type, year, data_ref) -> pd.DataFrame:
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/academies.parquet",
+        f"{run_type}/{year}/academies.parquet",
         academies.to_parquet(),
     )
 
     return academies
 
 
-def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFrame:
+def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFrame:
     logger.info("Building Maintained School Set")
     schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services = data_ref
 
     maintained_schools_data = get_blob(
         raw_container,
-        f"{set_type}/{year}/maintained_schools_master_list.csv",
-        encoding="cp1252"
+        f"{run_type}/{year}/maintained_schools_master_list.csv",
+        encoding="cp1252",
+
     )
 
     links_data = get_blob(
-        raw_container, f"{set_type}/{year}/gias_all_links.csv", encoding="cp1252"
+        raw_container, f"{run_type}/{year}/gias_all_links.csv", encoding="cp1252"
     )
 
     maintained_schools = build_maintained_school_data(
@@ -228,20 +228,20 @@ def pre_process_maintained_schools_data(set_type, year, data_ref) -> pd.DataFram
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/maintained_schools.parquet",
+        f"{run_type}/{year}/maintained_schools.parquet",
         maintained_schools.to_parquet(),
     )
 
     return maintained_schools
 
 
-def pre_process_federations(set_type, year, data_ref):
+def pre_process_federations(run_type, year, data_ref):
     logger.info("Building Federations Set")
     academies, maintained_schools = data_ref
 
     gias_all_links_data = get_blob(
         raw_container,
-        f"{set_type}/{year}/gias_all_links.csv",
+        f"{run_type}/{year}/gias_all_links.csv",
         encoding="unicode-escape",
     )
 
@@ -251,18 +251,18 @@ def pre_process_federations(set_type, year, data_ref):
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/hard_federations.parquet",
+        f"{run_type}/{year}/hard_federations.parquet",
         hard_federations.to_parquet(),
     )
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/soft_federations.parquet",
+        f"{run_type}/{year}/soft_federations.parquet",
         soft_federations.to_parquet(),
     )
 
 
-def pre_process_all_schools(set_type, year, data_ref):
+def pre_process_all_schools(run_type, year, data_ref):
     logger.info("Building All schools Set")
     academies, maintained_schools = data_ref
 
@@ -273,41 +273,41 @@ def pre_process_all_schools(set_type, year, data_ref):
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/all_schools.parquet",
+        f"{run_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
-    insert_schools_and_trusts_and_local_authorities(set_type, year, all_schools)
-    insert_non_financial_data(set_type, year, all_schools)
-    insert_financial_data(set_type, year, all_schools)
+    insert_schools_and_trusts_and_local_authorities(run_type, year, all_schools)
+    insert_non_financial_data(run_type, year, all_schools)
+    insert_financial_data(run_type, year, all_schools)
 
 
-def pre_process_bfr(set_type, year):
+def pre_process_bfr(run_type, year):
     logger.info("Processing BFR Data")
 
     bfr_sofa = get_blob(
-        raw_container, f"{set_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
+        raw_container, f"{run_type}/{year}/BFR_SOFA_raw.csv", encoding="unicode-escape"
     )
 
     bfr_3y = get_blob(
-        raw_container, f"{set_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
+        raw_container, f"{run_type}/{year}/BFR_3Y_raw.csv", encoding="unicode-escape"
     )
 
     academies_y2 = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year-2}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{year-2}/academies.parquet")
         )
     )
 
     academies_y1 = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year-1}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{year-1}/academies.parquet")
         )
     )
 
     academies = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{year}/academies.parquet")
         )
     )
     bfr_metrics, bfr = build_bfr_data(
@@ -316,35 +316,35 @@ def pre_process_bfr(set_type, year):
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/bfr_metrics.parquet",
+        f"{run_type}/{year}/bfr_metrics.parquet",
         bfr_sofa.to_parquet(),
     )
 
     write_blob(
         "pre-processed",
-        f"{set_type}/{year}/bfr.parquet",
+        f"{run_type}/{year}/bfr.parquet",
         bfr_3y.to_parquet(),
     )
 
     return bfr_metrics, bfr
 
 
-def pre_process_data(worker_client, set_type, year):
+def pre_process_data(worker_client, run_type, year):
     start_time = time.time()
-    logger.info(f"Pre-processing data {set_type} - {year}")
+    logger.info(f"Pre-processing data {run_type} - {year}")
 
     cdc, census, sen, ks2, ks4, aar, schools, cfo, central_services = (
         worker_client.gather(
             [
-                worker_client.submit(pre_process_cdc, set_type, year),
-                worker_client.submit(pre_process_census, set_type, year),
-                worker_client.submit(pre_process_sen, set_type, year),
-                worker_client.submit(pre_process_ks2, set_type, year),
-                worker_client.submit(pre_process_ks4, set_type, year),
-                worker_client.submit(pre_process_academy_ar, set_type, year),
-                worker_client.submit(pre_process_schools, set_type, year),
-                worker_client.submit(pre_process_cfo, set_type, year),
-                worker_client.submit(pre_process_central_services, set_type, year),
+                worker_client.submit(pre_process_cdc, run_type, year),
+                worker_client.submit(pre_process_census, run_type, year),
+                worker_client.submit(pre_process_sen, run_type, year),
+                worker_client.submit(pre_process_ks2, run_type, year),
+                worker_client.submit(pre_process_ks4, run_type, year),
+                worker_client.submit(pre_process_academy_ar, run_type, year),
+                worker_client.submit(pre_process_schools, run_type, year),
+                worker_client.submit(pre_process_cfo, run_type, year),
+                worker_client.submit(pre_process_central_services, run_type, year),
             ]
         )
     )
@@ -355,16 +355,16 @@ def pre_process_data(worker_client, set_type, year):
 
     academies, maintained_schools = worker_client.gather(
         [
-            worker_client.submit(pre_process_academies_data, set_type, year, data_ref),
+            worker_client.submit(pre_process_academies_data, run_type, year, data_ref),
             worker_client.submit(
-                pre_process_maintained_schools_data, set_type, year, data_ref
+                pre_process_maintained_schools_data, run_type, year, data_ref
             ),
         ]
     )
 
-    pre_process_all_schools(set_type, year, (academies, maintained_schools))
+    pre_process_all_schools(run_type, year, (academies, maintained_schools))
 
-    # pre_process_bfr(set_type, year)
+    # pre_process_bfr(run_type, year)
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
@@ -372,7 +372,7 @@ def pre_process_data(worker_client, set_type, year):
     return time_taken
 
 
-def compute_comparator_set_for(data_type, mix_type, set_type, year, data):
+def compute_comparator_set_for(data_type, set_type, run_type, year, data):
     st = time.time()
     logger.info(f"Computing {data_type} set")
     result = compute_comparator_set(data)
@@ -380,18 +380,18 @@ def compute_comparator_set_for(data_type, mix_type, set_type, year, data):
 
     write_blob(
         "comparator-sets",
-        f"{set_type}/{year}/{data_type}.parquet",
+        f"{run_type}/{year}/{data_type}.parquet",
         result.to_parquet(),
     )
 
-    insert_comparator_set(set_type, mix_type, year, result)
+    insert_comparator_set(run_type, set_type, year, result)
 
 
-def compute_comparator_sets(set_type: str, year: int) -> float:
+def compute_comparator_sets(run_type: str, year: int) -> float:
     """
     Determine Comparator Sets.
 
-    :param set_type: the triggering message type
+    :param run_type: "default" or "custom" data type
     :param year: financial year in question
     :return: duration of calculation
     """
@@ -400,47 +400,47 @@ def compute_comparator_sets(set_type: str, year: int) -> float:
 
     academies = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year}/academies.parquet")
+            get_blob("pre-processed", f"{run_type}/{year}/academies.parquet")
         )
     )
 
     maintained = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year}/maintained_schools.parquet")
+            get_blob("pre-processed", f"{run_type}/{year}/maintained_schools.parquet")
         )
     )
 
     all_schools = prepare_data(
         pd.read_parquet(
-            get_blob("pre-processed", f"{set_type}/{year}/all_schools.parquet")
+            get_blob("pre-processed", f"{run_type}/{year}/all_schools.parquet")
         )
     )
 
     compute_comparator_set_for(
-        "academy_comparators", "unmixed", set_type, year, academies
+        "academy_comparators", "unmixed", run_type, year, academies
     )
     compute_comparator_set_for(
-        "maintained_schools_comparators", "unmixed", set_type, year, maintained
+        "maintained_schools_comparators", "unmixed", run_type, year, maintained
     )
     compute_comparator_set_for(
-        "mixed_comparators", "mixed", set_type, year, all_schools
+        "mixed_comparators", "mixed", run_type, year, all_schools
     )
 
     write_blob(
         "comparator-sets",
-        f"{set_type}/{year}/academies.parquet",
+        f"{run_type}/{year}/academies.parquet",
         academies.to_parquet(),
     )
 
     write_blob(
         "comparator-sets",
-        f"{set_type}/{year}/maintained_schools.parquet",
+        f"{run_type}/{year}/maintained_schools.parquet",
         maintained.to_parquet(),
     )
 
     write_blob(
         "comparator-sets",
-        f"{set_type}/{year}/all_schools.parquet",
+        f"{run_type}/{year}/all_schools.parquet",
         all_schools.to_parquet(),
     )
 
@@ -452,8 +452,8 @@ def compute_comparator_sets(set_type: str, year: int) -> float:
 
 def compute_rag_for(
     data_type: str,
-    mix_type: str,
     set_type: str,
+    run_type: str,
     year: int,
     data: pd.DataFrame,
     comparators: pd.DataFrame,
@@ -467,53 +467,53 @@ def compute_rag_for(
 
     write_blob(
         "metric-rag",
-        f"{set_type}/{year}/{data_type}.parquet",
+        f"{run_type}/{year}/{data_type}.parquet",
         df.to_parquet(),
     )
 
-    insert_metric_rag(set_type, mix_type, year, df)
+    insert_metric_rag(run_type, set_type, year, df)
 
 
-def run_compute_rag(set_type: str, year: int):
+def run_compute_rag(run_type: str, year: int):
     """
     Perform RAG calculations.
 
-    :param set_type: the triggering message type
+    :param run_type: "default" or "custom" data type
     :param year: financial year in question
     :return: duration of RAG calculations
     """
     start_time = time.time()
 
     ms_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{set_type}/{year}/maintained_schools.parquet")
+        get_blob("comparator-sets", f"{run_type}/{year}/maintained_schools.parquet")
     )
     ms_comparators = pd.read_parquet(
         get_blob(
             "comparator-sets",
-            f"{set_type}/{year}/maintained_schools_comparators.parquet",
+            f"{run_type}/{year}/maintained_schools_comparators.parquet",
         )
     )
     compute_rag_for(
-        "maintained_schools", "unmixed", set_type, year, ms_data, ms_comparators
+        "maintained_schools", "unmixed", run_type, year, ms_data, ms_comparators
     )
 
     academy_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{set_type}/{year}/academies.parquet")
+        get_blob("comparator-sets", f"{run_type}/{year}/academies.parquet")
     )
     academy_comparators = pd.read_parquet(
-        get_blob("comparator-sets", f"{set_type}/{year}/academy_comparators.parquet")
+        get_blob("comparator-sets", f"{run_type}/{year}/academy_comparators.parquet")
     )
     compute_rag_for(
-        "academies", "unmixed", set_type, year, academy_data, academy_comparators
+        "academies", "unmixed", run_type, year, academy_data, academy_comparators
     )
 
     mixed_data = pd.read_parquet(
-        get_blob("comparator-sets", f"{set_type}/{year}/all_schools.parquet")
+        get_blob("comparator-sets", f"{run_type}/{year}/all_schools.parquet")
     )
     mixed_comparators = pd.read_parquet(
-        get_blob("comparator-sets", f"{set_type}/{year}/mixed_comparators.parquet")
+        get_blob("comparator-sets", f"{run_type}/{year}/mixed_comparators.parquet")
     )
-    compute_rag_for("mixed", "mixed", set_type, year, mixed_data, mixed_comparators)
+    compute_rag_for("mixed", "mixed", run_type, year, mixed_data, mixed_comparators)
 
     time_taken = time.time() - start_time
     logger.info(f"Computing RAG done in {time_taken} seconds")
@@ -620,6 +620,8 @@ def handle_msg(
     :return: updated message payload
     """
     msg_payload = json.loads(msg.content)
+    run_type = msg_payload.get("runType", "default")
+
     try:
         payload = msg_payload.get("payload", {})
         if payload.get("kind") == "ComparatorSetPayload":
@@ -631,17 +633,15 @@ def handle_msg(
             )
         else:
             msg_payload["pre_process_duration"] = pre_process_data(
-                worker_client, msg_payload["type"], msg_payload["year"]
+                worker_client, run_type, msg_payload["year"]
             )
 
             msg_payload["comparator_set_duration"] = compute_comparator_sets(
-                msg_payload["type"],
+                run_type,
                 msg_payload["year"],
             )
 
-            msg_payload["rag_duration"] = run_compute_rag(
-                msg_payload["type"], msg_payload["year"]
-            )
+            msg_payload["rag_duration"] = run_compute_rag(run_type, msg_payload["year"])
 
         msg_payload["success"] = True
     except Exception as error:
