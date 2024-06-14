@@ -4,6 +4,8 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Insight;
 using Web.App.Extensions;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.Comparators;

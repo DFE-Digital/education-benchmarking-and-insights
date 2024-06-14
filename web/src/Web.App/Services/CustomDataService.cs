@@ -1,4 +1,6 @@
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Insight;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -29,7 +31,7 @@ public class CustomDataService(
         // todo: lookup and return current, potentially customised figures
 
         var finances = await financeService.GetFinances(urn);
-        var income = await incomeApi.School(urn).GetResultOrThrow<Income>();
+        var income = await incomeApi.School(urn).GetResultOrThrow<SchoolIncome>();
         var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
         var census = await financeService.GetSchoolCensus(urn);
         var floorArea = await financeService.GetSchoolFloorArea(urn);

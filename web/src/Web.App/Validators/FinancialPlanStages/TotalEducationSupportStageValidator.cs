@@ -1,5 +1,5 @@
 using FluentValidation;
-using Web.App.Domain.FinancialPlanStages;
+using Web.App.Domain.Benchmark.FinancialPlanStages;
 using Web.App.Extensions;
 
 namespace Web.App.Validators.FinancialPlanStages;

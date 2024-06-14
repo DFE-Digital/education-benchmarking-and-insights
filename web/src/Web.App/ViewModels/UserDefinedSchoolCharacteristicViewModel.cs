@@ -1,6 +1,8 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Attributes;
 using Web.App.Domain;
+using Web.App.Domain.Insight;
+
 // ReSharper disable PropertyCanBeMadeInitOnly.Global
 namespace Web.App.ViewModels;
 

@@ -62,7 +62,7 @@ public static class ExpenditureResponseFactory
             model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension);
 
         response.TotalExpenditure =
-            CalculateTotal(response.SchoolTotalExpenditure, response.CentralTotalExpenditure);
+            CalculateTotal(response.SchoolTotalExpenditure, response.CentralTotalExpenditure, dimension);
 
         if (category is null or ExpenditureCategories.TeachingTeachingSupportStaff)
         {
@@ -154,17 +154,17 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalTeachingSupportStaffCosts = CalculateTotal(response.SchoolTotalTeachingSupportStaffCosts,
-            response.CentralTotalTeachingSupportStaffCosts);
+            response.CentralTotalTeachingSupportStaffCosts, dimension);
         response.TeachingStaffCosts =
-            CalculateTotal(response.SchoolTeachingStaffCosts, response.CentralTeachingStaffCosts);
+            CalculateTotal(response.SchoolTeachingStaffCosts, response.CentralTeachingStaffCosts, dimension);
         response.SupplyTeachingStaffCosts = CalculateTotal(response.SchoolSupplyTeachingStaffCosts,
-            response.CentralSupplyTeachingStaffCosts);
+            response.CentralSupplyTeachingStaffCosts, dimension);
         response.EducationalConsultancyCosts = CalculateTotal(response.SchoolEducationalConsultancyCosts,
-            response.CentralEducationalConsultancyCosts);
+            response.CentralEducationalConsultancyCosts, dimension);
         response.EducationSupportStaffCosts = CalculateTotal(response.SchoolEducationSupportStaffCosts,
-            response.CentralEducationSupportStaffCosts);
+            response.CentralEducationSupportStaffCosts, dimension);
         response.AgencySupplyTeachingStaffCosts = CalculateTotal(response.SchoolAgencySupplyTeachingStaffCosts,
-            response.CentralAgencySupplyTeachingStaffCosts);
+            response.CentralAgencySupplyTeachingStaffCosts, dimension);
     }
 
     private static void SetNonEducationalSupportStaff<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -208,14 +208,14 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalNonEducationalSupportStaffCosts = CalculateTotal(
-            response.SchoolTotalNonEducationalSupportStaffCosts, response.CentralTotalNonEducationalSupportStaffCosts);
+            response.SchoolTotalNonEducationalSupportStaffCosts, response.CentralTotalNonEducationalSupportStaffCosts, dimension);
         response.AdministrativeClericalStaffCosts = CalculateTotal(response.SchoolAdministrativeClericalStaffCosts,
-            response.CentralAdministrativeClericalStaffCosts);
-        response.AuditorsCosts = CalculateTotal(response.SchoolAuditorsCosts, response.CentralAuditorsCosts);
-        response.OtherStaffCosts = CalculateTotal(response.SchoolOtherStaffCosts, response.CentralOtherStaffCosts);
+            response.CentralAdministrativeClericalStaffCosts, dimension);
+        response.AuditorsCosts = CalculateTotal(response.SchoolAuditorsCosts, response.CentralAuditorsCosts, dimension);
+        response.OtherStaffCosts = CalculateTotal(response.SchoolOtherStaffCosts, response.CentralOtherStaffCosts, dimension);
         response.ProfessionalServicesNonCurriculumCosts = CalculateTotal(
             response.SchoolProfessionalServicesNonCurriculumCosts,
-            response.CentralProfessionalServicesNonCurriculumCosts);
+            response.CentralProfessionalServicesNonCurriculumCosts, dimension);
     }
 
     private static void SetEducationalSupplies<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -244,11 +244,11 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalEducationalSuppliesCosts = CalculateTotal(response.SchoolTotalEducationalSuppliesCosts,
-            response.CentralTotalEducationalSuppliesCosts);
+            response.CentralTotalEducationalSuppliesCosts, dimension);
         response.ExaminationFeesCosts =
-            CalculateTotal(response.SchoolExaminationFeesCosts, response.CentralExaminationFeesCosts);
+            CalculateTotal(response.SchoolExaminationFeesCosts, response.CentralExaminationFeesCosts, dimension);
         response.LearningResourcesNonIctCosts = CalculateTotal(response.SchoolLearningResourcesNonIctCosts,
-            response.CentralLearningResourcesNonIctCosts);
+            response.CentralLearningResourcesNonIctCosts, dimension);
     }
 
     private static void SetEducationalIct<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -263,7 +263,7 @@ public static class ExpenditureResponseFactory
 
 
         response.LearningResourcesIctCosts = CalculateTotal(response.SchoolLearningResourcesIctCosts,
-            response.CentralLearningResourcesIctCosts);
+            response.CentralLearningResourcesIctCosts, dimension);
     }
 
     private static void SetPremisesStaffServices<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -306,15 +306,15 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalPremisesStaffServiceCosts = CalculateTotal(response.SchoolTotalPremisesStaffServiceCosts,
-            response.CentralTotalPremisesStaffServiceCosts);
+            response.CentralTotalPremisesStaffServiceCosts, dimension);
         response.CleaningCaretakingCosts = CalculateTotal(response.SchoolCleaningCaretakingCosts,
-            response.CentralCleaningCaretakingCosts);
+            response.CentralCleaningCaretakingCosts, dimension);
         response.MaintenancePremisesCosts = CalculateTotal(response.SchoolMaintenancePremisesCosts,
-            response.CentralMaintenancePremisesCosts);
+            response.CentralMaintenancePremisesCosts, dimension);
         response.OtherOccupationCosts =
-            CalculateTotal(response.SchoolOtherOccupationCosts, response.CentralOtherOccupationCosts);
+            CalculateTotal(response.SchoolOtherOccupationCosts, response.CentralOtherOccupationCosts, dimension);
         response.PremisesStaffCosts =
-            CalculateTotal(response.SchoolPremisesStaffCosts, response.CentralPremisesStaffCosts);
+            CalculateTotal(response.SchoolPremisesStaffCosts, response.CentralPremisesStaffCosts, dimension);
     }
 
     private static void SetUtilities<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -345,11 +345,11 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalUtilitiesCosts = CalculateTotal(response.SchoolTotalUtilitiesCosts,
-            response.CentralTotalUtilitiesCosts);
+            response.CentralTotalUtilitiesCosts, dimension);
         response.EnergyCosts = CalculateTotal(response.SchoolEnergyCosts,
-            response.CentralEnergyCosts);
+            response.CentralEnergyCosts, dimension);
         response.WaterSewerageCosts = CalculateTotal(response.SchoolWaterSewerageCosts,
-            response.CentralWaterSewerageCosts);
+            response.CentralWaterSewerageCosts, dimension);
     }
 
     private static void SetAdministrationSupplies<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -364,7 +364,7 @@ public static class ExpenditureResponseFactory
 
 
         response.AdministrativeSuppliesCosts = CalculateTotal(response.SchoolAdministrativeSuppliesCosts,
-            response.CentralAdministrativeSuppliesCosts);
+            response.CentralAdministrativeSuppliesCosts, dimension);
     }
 
     private static void SetCateringStaffServices<T>(ExpenditureBaseModel model, string dimension, T response)
@@ -393,16 +393,23 @@ public static class ExpenditureResponseFactory
 
 
         response.TotalGrossCateringCosts = CalculateTotal(response.SchoolTotalGrossCateringCosts,
-            response.CentralTotalGrossCateringCosts);
+            response.CentralTotalGrossCateringCosts, dimension);
         response.CateringStaffCosts =
-            CalculateTotal(response.SchoolCateringStaffCosts, response.CentralCateringStaffCosts);
+            CalculateTotal(response.SchoolCateringStaffCosts, response.CentralCateringStaffCosts, dimension);
         response.CateringSuppliesCosts = CalculateTotal(response.SchoolCateringSuppliesCosts,
-            response.CentralCateringSuppliesCosts);
+            response.CentralCateringSuppliesCosts, dimension);
     }
 
-    private static decimal? CalculateTotal(decimal? school, decimal? central)
+    private static decimal? CalculateTotal(decimal? school, decimal? central, string dimension)
     {
-        return school.GetValueOrDefault() + central.GetValueOrDefault();
+        return dimension switch
+        {
+            ExpenditureDimensions.Actuals => school.GetValueOrDefault() + central.GetValueOrDefault(),
+            ExpenditureDimensions.PerUnit => school.GetValueOrDefault() + central.GetValueOrDefault(),
+            ExpenditureDimensions.PercentIncome => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
+            ExpenditureDimensions.PercentExpenditure => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
+            _ => null
+        };
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,

@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
+using Web.App.Domain.Insight;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 

@@ -1,4 +1,5 @@
 ﻿using System.Collections.ObjectModel;
+using Web.App.Domain.Insight;
 using Web.App.Extensions;
 namespace Web.App.Domain;
 

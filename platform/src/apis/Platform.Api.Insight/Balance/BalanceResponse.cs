@@ -55,15 +55,22 @@ public static class BalanceResponseFactory
             CentralRevenueReserve = CalculateValue(model.RevenueReserveCS, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension)
         };
 
-        response.InYearBalance = CalculateTotal(response.SchoolInYearBalance, response.CentralInYearBalance);
-        response.RevenueReserve = CalculateTotal(response.SchoolRevenueReserve, response.CentralRevenueReserve);
+        response.InYearBalance = CalculateTotal(response.SchoolInYearBalance, response.CentralInYearBalance, dimension);
+        response.RevenueReserve = CalculateTotal(response.SchoolRevenueReserve, response.CentralRevenueReserve, dimension);
 
         return response;
     }
 
-    private static decimal? CalculateTotal(decimal? school, decimal? central)
+    private static decimal? CalculateTotal(decimal? school, decimal? central, string dimension)
     {
-        return school.GetValueOrDefault() + central.GetValueOrDefault();
+        return dimension switch
+        {
+            BalanceDimensions.Actuals => school.GetValueOrDefault() + central.GetValueOrDefault(),
+            BalanceDimensions.PerUnit => school.GetValueOrDefault() + central.GetValueOrDefault(),
+            BalanceDimensions.PercentIncome => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
+            BalanceDimensions.PercentExpenditure => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
+            _ => null
+        };
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,

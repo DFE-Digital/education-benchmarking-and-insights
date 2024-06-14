@@ -2,6 +2,7 @@
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;

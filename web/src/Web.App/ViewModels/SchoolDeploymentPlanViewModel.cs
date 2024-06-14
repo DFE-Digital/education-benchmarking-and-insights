@@ -1,5 +1,6 @@
 using Newtonsoft.Json;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
 using Web.App.Extensions;
 
 namespace Web.App.ViewModels;

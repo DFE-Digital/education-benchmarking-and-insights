@@ -1,6 +1,7 @@
 using Microsoft.Azure.Cosmos;
 using Web.App.Domain;
-using Web.App.Domain.FinancialPlanStages;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Benchmark.FinancialPlanStages;
 using Web.App.Factories;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;

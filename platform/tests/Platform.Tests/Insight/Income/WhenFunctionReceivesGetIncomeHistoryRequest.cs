@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
+using Platform.Api.Insight.Income;
 using Platform.Domain;
 using Platform.Functions;
 using Xunit;
@@ -11,11 +12,11 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBa
     [Fact]
     public async Task ShouldReturn200OnValidRequest()
     {
-        Db
-            .Setup(d => d.GetSchoolHistory(It.IsAny<string>(), It.IsAny<string>()))
-            .ReturnsAsync(Array.Empty<IncomeResponseModel>());
+        Service
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
+            .ReturnsAsync(Array.Empty<SchoolIncomeHistoryModel>());
 
-        var result = await Functions.IncomeSchoolHistoryAsync(CreateRequest(), "1") as JsonContentResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as JsonContentResult;
 
         Assert.NotNull(result);
         Assert.Equal(200, result.StatusCode);
@@ -24,11 +25,11 @@ public class WhenFunctionReceivesGetIncomeHistoryRequest : IncomeFunctionsTestBa
     [Fact]
     public async Task ShouldReturn500OnError()
     {
-        Db
-            .Setup(d => d.GetSchoolHistory(It.IsAny<string>(), It.IsAny<string>()))
+        Service
+            .Setup(d => d.GetSchoolHistoryAsync(It.IsAny<string>()))
             .Throws(new Exception());
 
-        var result = await Functions.IncomeSchoolHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
+        var result = await Functions.SchoolIncomeHistoryAsync(CreateRequest(), "1") as StatusCodeResult;
 
         Assert.NotNull(result);
         Assert.Equal(500, result.StatusCode);

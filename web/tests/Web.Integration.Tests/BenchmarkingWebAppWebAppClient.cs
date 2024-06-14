@@ -1,6 +1,8 @@
 using System.Collections.Concurrent;
 using Moq;
 using Web.App.Domain;
+using Web.App.Domain.Benchmark;
+using Web.App.Domain.Insight;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Storage;
 using Xunit.Abstractions;
@@ -187,7 +189,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupIncome(School school, Income? income = null)
+    public BenchmarkingWebAppClient SetupIncome(School school, SchoolIncome? income = null)
     {
         IncomeApi.Reset();
         IncomeApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>()))

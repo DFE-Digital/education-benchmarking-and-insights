@@ -3,6 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
+using Web.App.Domain.Insight;
 using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;
@@ -12,22 +13,22 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
 {
     private readonly Census _census;
     private readonly SchoolExpenditure _customExpenditure;
-    private readonly Income _customIncome;
+    private readonly SchoolIncome _customIncome;
     private readonly SchoolExpenditure _expenditure;
     private readonly Finances _finances;
     private readonly FloorAreaMetric _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
-    private readonly Income _income;
+    private readonly SchoolIncome _income;
 
     public WhenViewingCustomDataFinancialData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
         _finances = Fixture.Build<Finances>()
             .Create();
 
-        _income = Fixture.Build<Income>()
+        _income = Fixture.Build<SchoolIncome>()
             .Create();
 
-        _customIncome = Fixture.Build<Income>()
+        _customIncome = Fixture.Build<SchoolIncome>()
             .Create();
 
         _expenditure = Fixture.Build<SchoolExpenditure>()

@@ -5,6 +5,7 @@ using AutoFixture.Dsl;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Moq;
+using Web.App.Domain.Benchmark;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
