@@ -4,6 +4,7 @@ using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight;
+using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.Census;
 using Platform.Api.Insight.Db;
 using Platform.Api.Insight.MetricRagRatings;
@@ -39,12 +40,13 @@ public class Startup : FunctionsStartup
 
         builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
         builder.Services.AddSingleton<ITrustFinancesDb, TrustFinancesDb>();
-        builder.Services.AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>();
-        builder.Services.AddSingleton<ICensusService, CensusService>();
         builder.Services.AddSingleton<IIncomeDb, IncomeDb>();
-        builder.Services.AddSingleton<IBalanceDb, BalanceDb>();
         builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
         builder.Services.AddSingleton<ISchoolMetricsDb, SchoolMetricsDb>();
+
+        builder.Services.AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>();
+        builder.Services.AddSingleton<ICensusService, CensusService>();
+        builder.Services.AddSingleton<IBalanceService, BalanceService>();
         builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
         builder.Services.AddSingleton<ITrustsService, TrustsService>();
     }

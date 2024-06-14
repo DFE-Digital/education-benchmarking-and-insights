@@ -7,7 +7,7 @@ import {
   CostCategories,
 } from "src/components";
 import { ChartModeContext, ChartDimensionContext } from "src/contexts";
-import { Balance, BalanceApi } from "src/services";
+import { BalanceHistory, BalanceApi } from "src/services";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 
@@ -18,9 +18,9 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
   const defaultDimension = Actual;
   const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
   const [dimension, setDimension] = useState(defaultDimension);
-  const [data, setData] = useState(new Array<Balance>());
+  const [data, setData] = useState(new Array<BalanceHistory>());
   const getData = useCallback(async () => {
-    setData(new Array<Balance>());
+    setData(new Array<BalanceHistory>());
     return await BalanceApi.history(type, id, dimension.value);
   }, [type, id, dimension]);
 
@@ -72,12 +72,12 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               chartName="In-year balance"
               data={data}
               seriesConfig={{
-                inYearBalance: {
+                totalInYearBalance: {
                   label: "In-year balance",
                   visible: true,
                 },
               }}
-              valueField="inYearBalance"
+              valueField="totalInYearBalance"
             >
               <h2 className="govuk-heading-m">In-year balance</h2>
             </HistoricChart>
@@ -86,12 +86,12 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               chartName="Revenue reserve"
               data={data}
               seriesConfig={{
-                revenueReserve: {
+                totalRevenueReserve: {
                   label: "Revenue reserve",
                   visible: true,
                 },
               }}
-              valueField="revenueReserve"
+              valueField="totalRevenueReserve"
             >
               <h2 className="govuk-heading-m">Revenue reserve</h2>
             </HistoricChart>

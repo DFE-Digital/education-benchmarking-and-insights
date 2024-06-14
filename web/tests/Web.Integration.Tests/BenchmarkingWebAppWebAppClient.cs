@@ -175,10 +175,10 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         return this;
     }
 
-    public BenchmarkingWebAppClient SetupBalance(Trust trust, Balance? balance = null)
+    public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null)
     {
         BalanceApi.Reset();
-        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new Balance()));
+        BalanceApi.Setup(api => api.Trust(trust.CompanyNumber, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new TrustBalance()));
         return this;
     }
 

@@ -55,15 +55,11 @@ export type ExpenditureData = {
   laName: string;
 };
 
-export type Balance = {
+export type BalanceHistory = {
   yearEnd: string;
   term: string;
-  dimension: string;
-  inYearBalance: number;
-  revenueReserve: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
+  totalInYearBalance: number;
+  totalRevenueReserve: number;
 };
 
 export type Census = {

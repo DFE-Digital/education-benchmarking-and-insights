@@ -28,7 +28,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<Balance>();
+                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<TrustBalance>();
                 var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
                 var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
 

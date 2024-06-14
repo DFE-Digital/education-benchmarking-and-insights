@@ -10,7 +10,7 @@ export * from "src/components/chart-dimensions/component";
 
 export const PoundsPerPupil: Dimension = {
   label: "£ per pupil",
-  value: "PoundPerPupil",
+  value: "PerUnit",
   unit: "currency",
   heading: "Amount",
 };

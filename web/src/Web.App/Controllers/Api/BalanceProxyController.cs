@@ -23,8 +23,8 @@ public class BalanceProxyController(ILogger<BalanceProxyController> logger, IBal
 
                 var result = type.ToLower() switch
                 {
-                    OrganisationTypes.School => await balanceApi.SchoolHistory(id, query).GetResultOrDefault<Balance[]>(),
-                    OrganisationTypes.Trust => await balanceApi.TrustHistory(id, query).GetResultOrDefault<Balance[]>(),
+                    OrganisationTypes.School => await balanceApi.SchoolHistory(id, query).GetResultOrDefault<BalanceHistory[]>(),
+                    OrganisationTypes.Trust => await balanceApi.TrustHistory(id, query).GetResultOrDefault<BalanceHistory[]>(),
                     _ => throw new ArgumentOutOfRangeException(nameof(type))
                 };
 

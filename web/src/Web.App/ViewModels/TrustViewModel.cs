@@ -3,7 +3,7 @@ namespace Web.App.ViewModels;
 
 public class TrustViewModel(
     Trust trust,
-    Balance balance,
+    TrustBalance balance,
     IReadOnlyCollection<School> schools,
     IEnumerable<RagRating> ratings,
     bool? comparatorGenerated)
@@ -12,8 +12,8 @@ public class TrustViewModel(
     public string? CompanyNumber => trust.CompanyNumber;
     public string? Name => trust.TrustName;
     public int NumberSchools => schools.Count;
-    public decimal? RevenueReserve => balance.RevenueReserve;
-    public decimal? InYearBalance => balance.InYearBalance;
+    public decimal? RevenueReserve => balance.TotalRevenueReserve;
+    public decimal? InYearBalance => balance.TotalInYearBalance;
     public int Low => ratings.Where(NotOther).Count(Green);
     public int Medium => ratings.Where(NotOther).Count(Amber);
     public int High => ratings.Where(NotOther).Count(Red);
