@@ -466,6 +466,7 @@ def compute_rag_for(
 ):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
+
     df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
 
     logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")

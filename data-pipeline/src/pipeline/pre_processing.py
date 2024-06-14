@@ -479,7 +479,7 @@ def build_academy_data(
         usecols=input_schemas.academy_master_list.keys(),
     )
 
-    
+    academies_list.replace(to_replace={'DNS':np.nan,'n/a':np.nan}, inplace=True)
     academies_list = academies_list.astype(
         input_schemas.academy_master_list
     ).set_index(input_schemas.academy_master_list_index_col).rename(columns={"UKPRN": "Academy UKPRN"})
@@ -665,20 +665,24 @@ def build_maintained_school_data(
 
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
-        encoding="utf8",
+        encoding="unicode-escape",
         usecols=input_schemas.maintained_schools_master_list.keys(),
     )
-    logger.info('733 preprocessing')
+    
+    mask = ((maintained_schools_list['Did Not Supply flag'] == '0').values 
+            | (maintained_schools_list['Did Not Supply flag'] == 0).values)
+    maintained_schools_list = maintained_schools_list[mask].copy()
+    maintained_schools_list.replace('DNS', np.nan, inplace=True)
+
     maintained_schools_list = maintained_schools_list.astype(
         input_schemas.maintained_schools_master_list
     ).set_index(input_schemas.maintained_schools_master_list_index_col)
-    logger.info('738 preprocessing')
-
-
+    
+    
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"
     )
-
+    
     maintained_schools = (
         maintained_schools.merge(sen, on="URN", how="left")
         .merge(census, on="URN", how="left")
@@ -686,15 +690,15 @@ def build_maintained_school_data(
         .merge(ks2, on="URN", how="left")
         .merge(ks4, on="URN", how="left")
     )
-
+    
     maintained_schools["PFI"] = maintained_schools["PFI"].map(
         lambda x: "PFI school" if x == "Y" else "Non-PFI school"
     )
-
+    
     maintained_schools["Is PFI"] = maintained_schools["PFI"].map(
         lambda x: x == "PFI school"
     )
-
+    
     maintained_schools["Status"] = maintained_schools.apply(
         lambda df: mappings.map_maintained_school_status(
             df["OpenDate"],
@@ -705,31 +709,31 @@ def build_maintained_school_data(
         ),
         axis=1,
     )
-
+    
     maintained_schools["In year balance"] = (
         maintained_schools["Total Income   I01 to I18"]
         - maintained_schools["Total Expenditure  E01 to E32"]
     )
-
+    
     maintained_schools["Financial Position"] = maintained_schools[
         "In year balance"
     ].map(mappings.map_is_surplus_deficit)
-
+    
     maintained_schools["SchoolPhaseType"] = maintained_schools.apply(
         lambda df: mappings.map_school_phase_type(
             df["TypeOfEstablishment (code)"], df["Overall Phase"]
         ),
         axis=1,
     )
-
+    
     maintained_schools["Partial Years Present"] = maintained_schools[
         "Period covered by return (months)"
     ].map(lambda x: x != 12)
-
+    
     maintained_schools["Did Not Submit"] = maintained_schools[
         "Did Not Supply flag"
     ].map(lambda x: x == 1)
-
+    
     maintained_schools["Finance Type"] = "Maintained"
 
     maintained_schools["Email"] = ""

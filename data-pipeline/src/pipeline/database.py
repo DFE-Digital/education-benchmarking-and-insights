@@ -39,6 +39,8 @@ def receive_before_cursor_execute(
 
 def upsert(df, table_name, keys: list[str]):
     logger.info(f"Connecting to database {engine.url}")
+    df.drop_duplicates(inplace=True)
+        
 
     update_cols = []
     insert_cols = [*keys]
