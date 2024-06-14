@@ -60,12 +60,22 @@ if (!builder.Environment.IsIntegration())
     {
         builder.Configuration.GetSection("DFESignInSettings").Bind(options.Settings);
         options.Events.OnRejectPrincipal = response =>
-            Log.Logger.Warning("Token refresh failed with message: {ErrorDescription} ", response.ErrorDescription);
+            Log.Logger.Warning("Token refresh failed: {ErrorDescription} ", response.ErrorDescription);
         options.Events.OnSpuriousAuthenticationRequest =
             _ => Log.Logger.Warning("Spurious log in attempt received for DFE sign in");
         options.Events.OnRemoteFailure = ctx =>
-            Log.Logger.Warning("Remote failure for DFE-sign in - {Failure}", ctx.Failure?.Message);
-        options.Events.OnValidatedPrincipal = _ => Log.Logger.Debug("Valid principal received");
+            Log.Logger.Warning("Remote failure for DFE-sign in: {Failure}", ctx.Failure?.Message);
+        options.Events.OnValidatedPrincipal = ctx =>
+            Log.Logger.Debug(
+                "Valid principal received: {Identity} ({Organisation})",
+                ctx.Principal?.UserGuid(),
+                ctx.Principal?.Organisation().Id);
+        options.Events.OnNotValidatedPrincipal = (ctx, ex) =>
+            Log.Logger.Warning(
+                "Token validated, but additional validation failed for {Identity} ({Organisation}): {ErrorMessage}",
+                ctx.Principal?.UserGuid(),
+                ctx.Principal?.Organisation().Id,
+                ex.Message);
     });
 
     builder.Services.Configure<ForwardedHeadersOptions>(options =>
