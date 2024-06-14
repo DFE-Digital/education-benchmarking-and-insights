@@ -8,13 +8,14 @@ public class SchoolComparatorsViewModel(
     SchoolCharacteristicPupil[]? pupil = null,
     SchoolCharacteristicBuilding[]? building = null,
     SchoolCharacteristicUserDefined[]? userDefined = null,
-    string? userDefinedSetId = null)
+    string? userDefinedSetId = null,
+    bool hasCustomData = false)
 {
     public string? Urn => school.URN;
     public string? Name => school.SchoolName;
     public string? By => by;
     public string? UserDefinedSetId => userDefinedSetId;
-
+    public bool HasCustomData => hasCustomData;
     public IEnumerable<SchoolCharacteristicPupil> PupilSchools => pupil ?? [];
     public IEnumerable<SchoolCharacteristicBuilding> BuildingSchools => building ?? [];
     public IEnumerable<SchoolCharacteristicUserDefined> UserDefinedSchools => userDefined ?? [];

@@ -27,7 +27,7 @@ public class ComparatorSetsService : IComparatorSetsService
     public ComparatorSetsService(IDatabaseFactory dbFactory)
     {
         _dbFactory = dbFactory;
-        SqlMapper.AddTypeHandler(new ComparatorSetTypeHandler());
+        SqlMapper.AddTypeHandler(new ComparatorSetIdsTypeHandler());
     }
 
     public async Task<string> CurrentYearAsync()

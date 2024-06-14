@@ -12,7 +12,7 @@ namespace Platform.Api.Benchmark.FinancialPlans;
 
 public interface IFinancialPlansService
 {
-    Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string urn);
+    Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns);
     Task<FinancialPlanDetails?> DetailsAsync(string urn, int year);
     Task<FinancialPlanDeployment?> DeploymentPlanAsync(string urn, int year);
     Task<Result> UpsertAsync(string urn, int year, FinancialPlanDetails plan);
@@ -29,10 +29,10 @@ public class FinancialPlansService : IFinancialPlansService
         _dbFactory = dbFactory;
     }
 
-    public async Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string urn)
+    public async Task<IEnumerable<FinancialPlanSummary>> QueryAsync(string[] urns)
     {
-        const string sql = "SELECT * from FinancialPlan where URN = @URN";
-        var parameters = new { URN = int.Parse(urn) };
+        const string sql = "SELECT * from FinancialPlan where URN IN @URNS";
+        var parameters = new { URNS = urns };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryAsync<FinancialPlanSummary>(sql, parameters);
@@ -76,7 +76,7 @@ public class FinancialPlansService : IFinancialPlansService
     private async Task<FinancialPlan?> GetFinancialPlan(string urn, int year)
     {
         const string sql = "SELECT * from FinancialPlan where URN = @URN AND Year = @Year";
-        var parameters = new { URN = int.Parse(urn), Year = year };
+        var parameters = new { URN = urn, Year = year };
 
         using var conn = await _dbFactory.GetConnection();
         return await conn.QueryFirstOrDefaultAsync<FinancialPlan>(sql, parameters);

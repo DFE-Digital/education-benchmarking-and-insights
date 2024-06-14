@@ -1,6 +1,7 @@
 @using Microsoft.AspNetCore.Mvc.TagHelpers
 @using Web.App.Domain
 @using Web.App.Extensions
+@using Web.App.ViewModels
 @model Web.App.ViewModels.TrustSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.TrustSpending;
@@ -75,8 +76,7 @@
                         <p class="priority @status.PriorityTag?.Class govuk-body">
                             @await Component.InvokeAsync("Tag", new
                             {
-                                status.PriorityTag?.Colour,
-                                status.PriorityTag?.DisplayText
+                                rating = new RatingViewModel(status.PriorityTag?.Colour, status.PriorityTag?.DisplayText)
                             })
                             @status.Schools.Count() out of @Model.NumberSchools school@(Model.NumberSchools == 1 ? string.Empty : "s")
                             in the @status.PriorityTag?.DisplayText.ToLower() range

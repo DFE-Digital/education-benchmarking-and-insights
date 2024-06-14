@@ -15,7 +15,7 @@ import {
   chartSeriesComparer,
   shortValueFormatter,
 } from "src/components/charts/utils";
-import { SchoolTick } from "src/components/charts/school-tick";
+import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip";
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
@@ -109,14 +109,12 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     seriesLabelField="schoolName"
                     tickWidth={400}
                     tick={(t) => (
-                      <SchoolTick
+                      <EstablishmentTick
                         {...t}
                         highlightedItemKey={selectedSchool?.urn}
-                        linkToSchool
-                        onClick={(urn) => {
-                          urn && (window.location.href = `/school/${urn}`);
-                        }}
-                        schoolUrnResolver={(name) =>
+                        linkToEstablishment
+                        href={(urn) => `/school/${urn}`}
+                        establishmentKeyResolver={(name) =>
                           data.dataPoints.find((d) => d.schoolName === name)
                             ?.urn
                         }

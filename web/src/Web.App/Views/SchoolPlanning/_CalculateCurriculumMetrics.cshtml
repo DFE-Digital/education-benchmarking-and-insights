@@ -14,7 +14,7 @@
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Average class size</th>
         <td class="govuk-table__cell">
-            @await Component.InvokeAsync("Tag", new { Model.AverageClassSizeRating.Colour, Model.AverageClassSizeRating.DisplayText })
+            @await Component.InvokeAsync("Tag", new { rating = Model.AverageClassSizeRating })
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.AverageClassSize.ToSimpleDisplay()
@@ -30,7 +30,7 @@
     <tr class="govuk-table__row">
         <th scope="row" class="govuk-table__header">Teacher contact ratio</th>
         <td class="govuk-table__cell">
-            @await Component.InvokeAsync("Tag", new { Model.TeacherContactRatioRating.Colour, Model.TeacherContactRatioRating.DisplayText })
+            @await Component.InvokeAsync("Tag", new { rating = Model.TeacherContactRatioRating })
         </td>
         <td class="govuk-table__cell govuk-table__cell--numeric">
             @Model.TeacherContactRatio.ToSimpleDisplay()

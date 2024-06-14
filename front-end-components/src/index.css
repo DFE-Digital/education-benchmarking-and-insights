@@ -5,17 +5,21 @@
 
 /* start recharts */
 
-/* active colour is 8% darker */
+/* active colour is 9% darker */
 .recharts-wrapper,
 .chart-stat-wrapper {
   --grid-colour: #f0f0f0;
   --label-colour: #8c8c8c;
   --series-0-colour: #bfbfbf;
-  --series-0-active-colour: #ababab;
+  --series-0-active-colour: #aeaeae;
   --series-1-colour: #4c2c92;
-  --series-1-active-colour: #38187e;
+  --series-1-active-colour: #452885;
   --series-2-colour: #28a197;
-  --series-2-active-colour: #148d83;
+  --series-2-active-colour: ##249289;
+  --stack-0-colour: var(--series-0-colour);
+  --stack-0-active-colour: var(--series-0-active-colour);
+  --stack-1-colour: #e6e6e6;
+  --stack-1-active-colour: #d1d1d1;
   --series-highlight-colour: #12436d;
   --link-colour: #1d70b8;
   --link-hover-colour: #003078;
@@ -69,6 +73,29 @@
 .recharts-wrapper .chart-cell.chart-cell-series-2,
 .recharts-wrapper .recharts-legend-item.legend-item-2 path {
   fill: var(--series-2-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-0.chart-cell-stack-1:not(
+    .chart-cell-highlight
+  ) {
+  fill: var(--stack-0-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-0.chart-cell-stack-1.chart-cell-active:not(
+    .chart-cell-highlight
+  ) {
+  fill: var(--stack-0-active-colour);
+}
+
+.recharts-wrapper .chart-cell.chart-cell-series-1.chart-cell-stack-1 {
+  fill: var(--stack-1-colour);
+}
+
+.recharts-wrapper
+  .chart-cell.chart-cell-series-1.chart-cell-stack-1.chart-cell-active {
+  fill: var(--stack-1-active-colour);
 }
 
 .recharts-wrapper
@@ -171,36 +198,31 @@
   height: 100%;
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link {
   fill: var(--link-colour);
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:hover,
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.govuk-link:focus {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link:hover,
+.recharts-wrapper .recharts-cartesian-axis .recharts-text .govuk-link:focus {
   fill: var(--link-hover-colour);
   text-decoration: underline;
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text.school-tick {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text.establishment-tick {
   transform: translate(-0.1em, 0.3em);
 }
 
-.recharts-wrapper .recharts-cartesian-axis line.school-tick-focus:has(~ text) {
+.recharts-wrapper
+  .recharts-cartesian-axis
+  line.establishment-tick-focus:has(~ text > a) {
   stroke: transparent;
   stroke-width: 1.5em;
 }
 
 .recharts-wrapper
   .recharts-cartesian-axis
-  line.school-tick-focus:has(~ text:focus) {
+  line.establishment-tick-focus:has(~ text > a:focus) {
   stroke: var(--focus-colour);
-}
-
-.recharts-wrapper
-  .recharts-cartesian-axis
-  .recharts-text.school-tick
-  > tspan:not(:first-child) {
-  display: none;
 }
 
 .recharts-wrapper .recharts-tooltip-cursor {

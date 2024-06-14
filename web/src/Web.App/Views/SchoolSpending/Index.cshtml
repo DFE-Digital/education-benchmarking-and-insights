@@ -1,15 +1,31 @@
 ﻿@using Web.App.Extensions
 @using Newtonsoft.Json
+@using Web.App.ViewModels
 @model Web.App.ViewModels.SchoolSpendingViewModel
 @{
     ViewData[ViewDataKeys.Title] = PageTitles.Spending;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title], 
+    name = Model.Name, 
+    id = Model.Urn, 
+    kind = OrganisationTypes.School
+})
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust })
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.School, 
+    isPartOfTrust = Model.IsPartOfTrust
+})
 
-@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId) })
+@await Component.InvokeAsync("ComparatorSetDetails", new
+{
+    identifier = Model.Urn, 
+    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
+    hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
+})
 
 @if (Model.PriorityCosts.Any())
 {
@@ -26,7 +42,7 @@
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
-                    @await Component.InvokeAsync("Tag", new { category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText })
+                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
                     Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2"
@@ -60,7 +76,7 @@
             <div class="govuk-grid-column-two-thirds">
                 <h3 class="govuk-heading-s govuk-!-font-size-27">@category.Rating.Category</h3>
                 <p class="priority @category.Rating.PriorityTag?.Class govuk-body">
-                    @await Component.InvokeAsync("Tag", new { category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText })
+                    @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(category.Rating.PriorityTag?.Colour, category.Rating.PriorityTag?.DisplayText) })
                     Spends more than <strong>@category.Rating.Percentile.ToPercent()</strong> of similar schools.
                 </p>
                 <div class="govuk-!-margin-bottom-2"

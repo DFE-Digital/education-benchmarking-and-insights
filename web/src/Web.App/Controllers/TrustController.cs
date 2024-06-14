@@ -15,8 +15,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
 {
     [HttpGet]
     public async Task<IActionResult> Index(
-        string companyNumber,
-        [FromQuery(Name = "comparator-generated")] bool? comparatorGenerated)
+        string companyNumber)
     {
         using (logger.BeginScope(new
         {
@@ -28,7 +27,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.TrustHome(companyNumber);
 
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
-                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<Balance>();
+                var balance = await balanceApi.Trust(companyNumber).GetResultOrThrow<TrustBalance>();
                 var trustQuery = new ApiQuery().AddIfNotNull("companyNumber", companyNumber);
                 var schools = await establishmentApi.QuerySchools(trustQuery).GetResultOrDefault<School[]>() ?? [];
 
@@ -39,7 +38,7 @@ public class TrustController(ILogger<TrustController> logger, IEstablishmentApi 
                 }
 
                 var ratings = await metricRagRatingApi.GetDefaultAsync(schoolsQuery).GetResultOrThrow<RagRating[]>();
-                var viewModel = new TrustViewModel(trust, balance, schools, ratings, comparatorGenerated);
+                var viewModel = new TrustViewModel(trust, balance, schools, ratings);
                 return View(viewModel);
             }
             catch (Exception e)

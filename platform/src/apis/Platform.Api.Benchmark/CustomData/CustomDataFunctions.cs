@@ -88,20 +88,21 @@ public class CustomDataFunctions
             try
             {
                 var body = req.ReadAsJson<CustomDataRequest>();
-                var data = new CustomDataSchool();
+                var data = body.CreateData(identifier, urn);
 
                 await _service.UpsertCustomDataAsync(data);
-                await _service.UpsertUserDataAsync(CustomDataUserData.CompleteSchool(identifier, body.UserId, urn));
+                await _service.UpsertUserDataAsync(CustomDataUserData.School(identifier, body.UserId, urn));
+
                 var year = await _service.CurrentYearAsync();
 
                 var message = new PipelineStartMessage
                 {
-                    RunId = data.RunId,
-                    RunType = data.RunType,
+                    RunId = data.Id,
+                    RunType = "custom",
                     Type = "custom-data",
                     URN = data.URN,
                     Year = int.Parse(year),
-                    Payload = new CustomDataPayload()
+                    Payload = body.CreatePayload()
                 };
 
                 await queue.AddAsync(message.ToJson());

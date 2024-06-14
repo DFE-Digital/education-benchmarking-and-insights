@@ -10,7 +10,6 @@ using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
-
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -150,14 +149,14 @@ public static class ServiceCollectionExtensions
                 //required to set user.identity.name
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    NameClaimType = "name",
+                    NameClaimType = "name"
                 };
 
                 options.ProtocolValidator = new OpenIdConnectProtocolValidator
                 {
                     RequireSub = true,
                     RequireStateValidation = false,
-                    NonceLifetime = TimeSpan.FromMinutes(60),
+                    NonceLifetime = TimeSpan.FromMinutes(60)
                 };
 
                 options.Events = new OpenIdConnectEvents
@@ -215,6 +214,7 @@ public static class ServiceCollectionExtensions
                         }
                         catch (Exception ex)
                         {
+                            opts.Events.OnNotValidatedPrincipal(context, ex);
                             context.Fail(ex);
                         }
                     }

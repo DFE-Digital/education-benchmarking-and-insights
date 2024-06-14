@@ -1,11 +1,12 @@
-﻿using System;
-
-namespace Platform.Api.Benchmark.ComparatorSets;
+﻿namespace Platform.Api.Benchmark.ComparatorSets;
 
 public record ComparatorSetDefaultSchool
 {
     public string? URN { get; set; }
     public string? SetType { get; set; }
-    public string[] Pupil { get; set; } = Array.Empty<string>();
-    public string[] Building { get; set; } = Array.Empty<string>();
-};
+
+    public ComparatorSetIds? Pupil { get; set; }
+    public ComparatorSetIds? Building { get; set; }
+}
+
+

@@ -1,6 +1,9 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
+using Dapper;
+using Dapper.Contrib.Extensions;
+using Platform.Functions.Extensions;
 using Platform.Infrastructure.Sql;
 
 namespace Platform.Api.Benchmark.CustomData;
@@ -25,27 +28,80 @@ public class CustomDataService : ICustomDataService
     }
 
 
-    public Task UpsertCustomDataAsync(CustomDataSchool data)
+    public async Task UpsertCustomDataAsync(CustomDataSchool data)
     {
-        throw new System.NotImplementedException();
-    }
-    public Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier)
-    {
-        throw new System.NotImplementedException();
+        const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id ";
+
+        var parameters = new { data.URN, data.Id };
+
+        using var conn = await _dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);
+
+        using var transaction = conn.BeginTransaction();
+        if (existing != null)
+        {
+            existing.Data = data.Data.ToJson();
+            await conn.UpdateAsync(existing, transaction);
+        }
+        else
+        {
+            await conn.InsertAsync(data, transaction);
+        }
+
+        transaction.Commit();
     }
 
-    public Task UpsertUserDataAsync(CustomDataUserData userData)
+    public async Task<CustomDataSchool?> CustomDataSchoolAsync(string urn, string identifier)
     {
-        throw new System.NotImplementedException();
+        const string sql = "SELECT * from CustomDataSchool where URN = @URN AND Id = @Id";
+        var parameters = new { URN = urn, RunId = identifier };
+
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.QueryFirstOrDefaultAsync<CustomDataSchool>(sql, parameters);
     }
 
-    public Task<string> CurrentYearAsync()
+    public async Task UpsertUserDataAsync(CustomDataUserData userData)
     {
-        throw new NotImplementedException();
+        const string sql = "SELECT * from UserData where Id = @Id";
+
+        var parameters = new { userData.Id };
+
+        using var conn = await _dbFactory.GetConnection();
+        var existing = await conn.QueryFirstOrDefaultAsync<CustomDataUserData>(sql, parameters);
+
+        using var transaction = conn.BeginTransaction();
+        if (existing != null)
+        {
+            existing.Expiry = userData.Expiry;
+            existing.Status = userData.Status;
+            await conn.UpdateAsync(existing, transaction);
+        }
+        else
+        {
+            await conn.InsertAsync(userData, transaction);
+        }
+
+        transaction.Commit();
     }
 
-    public Task DeleteSchoolAsync(CustomDataSchool data)
+    public async Task<string> CurrentYearAsync()
     {
-        throw new NotImplementedException();
+        const string sql = "SELECT Value from Parameters where Name = 'CurrentYear'";
+        using var conn = await _dbFactory.GetConnection();
+        return await conn.QueryFirstAsync<string>(sql);
+    }
+
+    public async Task DeleteSchoolAsync(CustomDataSchool data)
+    {
+        const string sql = "UPDATE UserData SET Status = 'removed' where Id = @Id";
+        var parameters = new { data.Id };
+
+        using var connection = await _dbFactory.GetConnection();
+        using var transaction = connection.BeginTransaction();
+
+        await connection.DeleteAsync(data, transaction);
+        await connection.ExecuteAsync(sql, parameters, transaction);
+
+        transaction.Commit();
     }
 }

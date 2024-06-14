@@ -36,8 +36,9 @@ public class SchoolComparatorsController(
                 var set = await comparatorSetApi.GetDefaultSchoolAsync(urn).GetResultOrThrow<SchoolComparatorSet>();
                 var pupil = await GetSchoolCharacteristics<SchoolCharacteristicPupil>(set.Pupil);
                 var building = await GetSchoolCharacteristics<SchoolCharacteristicBuilding>(set.Building);
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
 
-                var viewModel = new SchoolComparatorsViewModel(school, pupil: pupil, building: building);
+                var viewModel = new SchoolComparatorsViewModel(school, pupil: pupil, building: building, hasCustomData: !string.IsNullOrEmpty(userData.CustomData));
                 return View(viewModel);
             }
             catch (Exception e)

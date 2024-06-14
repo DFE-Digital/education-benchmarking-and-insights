@@ -1,21 +1,21 @@
 ﻿using System.Linq;
 
-namespace Platform.Domain;
+namespace Platform.Api.Insight.Balance;
 
 public static class BalanceDimensions
 {
     public const string Actuals = nameof(Actuals);
-    public const string PoundPerPupil = nameof(PoundPerPupil);
+    public const string PerUnit = nameof(PerUnit);
     public const string PercentIncome = nameof(PercentIncome);
     public const string PercentExpenditure = nameof(PercentExpenditure);
 
-    public static readonly string[] All =
-    [
+    public static readonly string[] All = new[]
+    {
         Actuals,
-        PoundPerPupil,
+        PerUnit,
         PercentIncome,
         PercentExpenditure
-    ];
+    };
 
     public static bool IsValid(string? dimension) => All.Any(a => a == dimension);
 }

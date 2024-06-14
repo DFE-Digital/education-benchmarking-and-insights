@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Attributes;
 using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
@@ -22,10 +23,7 @@ public class SchoolSpendingController(
     [HttpGet]
     public async Task<IActionResult> Index(string urn)
     {
-        using (logger.BeginScope(new
-        {
-            urn
-        }))
+        using (logger.BeginScope(new { urn }))
         {
             try
             {
@@ -40,13 +38,38 @@ public class SchoolSpendingController(
                 var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
                 var areaExpenditure = await financeService.GetExpenditure(set.Building);
 
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet);
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
             }
             catch (Exception e)
             {
                 logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
+                return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
+            }
+        }
+    }
+
+    [HttpGet]
+    [Route("custom-data")]
+    [SchoolAuthorization]
+    public async Task<IActionResult> CustomData(string urn)
+    {
+        using (logger.BeginScope(new { urn }))
+        {
+            try
+            {
+                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                if (string.IsNullOrEmpty(userData.CustomData))
+                {
+                    return RedirectToAction("Index", "School", new { urn });
+                }
+
+                return View();
+            }
+            catch (Exception e)
+            {
+                logger.LogError(e, "An error displaying custom school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }

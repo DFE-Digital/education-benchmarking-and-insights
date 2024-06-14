@@ -1,4 +1,5 @@
 @using Web.App.Extensions
+@using Web.App.ViewModels
 @using Web.App.ViewModels.Components
 @model Web.App.ViewModels.SchoolViewModel
 @{
@@ -23,73 +24,7 @@
             </h2>
         }
     </div>
-    <div class="govuk-grid-column-full">
-        @if (Model.ComparatorGenerated.HasValue && Model.HasMetricRag)
-        {
-            var success = Model.ComparatorGenerated == true;
-            <div class="govuk-notification-banner govuk-notification-banner--@(success ? "success" : "failure")" role="alert" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                <div class="govuk-notification-banner__header">
-                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                        @(success ? "Success" : "Error")
-                    </h2>
-                </div>
-                <div class="govuk-notification-banner__content">
-                    <h3 class="govuk-notification-banner__heading">@(success ? "You are now benchmarking against your own set of schools" : "Unable to benchmark against your own set of schools")</h3>
-                    @if (!success)
-                    {
-                        <p class="govuk-body">
-                            Please try again later.
-                        </p>
-                    }
-                    <p>
-                        <a class="govuk-notification-banner__link"
-                           href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Urn })">
-                            View and change your set of schools
-                        </a>
-                    </p>
-                    <p>
-                        <a class="govuk-notification-banner__link"
-                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })"
-                           id="revert-set">
-                            Change back to the sets of schools we chose
-                        </a>
-                    </p>
-                </div>
-            </div>
-        }
-
-        @if (!Model.HasMetricRag && !string.IsNullOrEmpty(Model.UserDefinedSetId))
-        {
-            <div class="govuk-notification-banner" role="region" aria-labelledby="govuk-notification-banner-title" data-module="govuk-notification-banner">
-                <div class="govuk-notification-banner__header">
-                    <h2 class="govuk-notification-banner__title" id="govuk-notification-banner-title">
-                        Important
-                    </h2>
-                </div>
-                <div class="govuk-notification-banner__content">
-                    <h3 class="govuk-notification-banner__heading">
-                        You've chosen fewer than 10 schools so we cannot display spending priorities
-                    </h3>
-                    <p>
-                        You're now benchmarking against your chosen schools, but to see spending priorities you need to choose 10 or more schools.
-                    </p>
-                    <p>
-                        <a class="govuk-notification-banner__link"
-                           href="@Url.Action("UserDefined", "SchoolComparators", new { urn = Model.Urn })">
-                            Choose more schools
-                        </a>
-                    </p>
-                    <p>
-                        <a class="govuk-notification-banner__link"
-                           href="@Url.Action("Revert", "SchoolComparators", new { urn = Model.Urn })"
-                           id="revert-set">
-                            Change back to the sets of schools we chose
-                        </a>
-                    </p>
-                </div>
-            </div>
-        }
-    </div>
+    @await Html.PartialAsync("_Banners", Model)
 </div>
 
 @await Component.InvokeAsync("DataSource", new
@@ -154,9 +89,8 @@ else
                             <h4 class="govuk-heading-s">@rating.Category</h4>
                             <p class="priority @rating.PriorityTag?.Class govuk-body">
                                 @await Component.InvokeAsync("Tag", new
-                                {
-                                    rating.PriorityTag?.Colour,
-                                    rating.PriorityTag?.DisplayText
+                                { 
+                                    rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
                                 Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
                             </p>
@@ -196,7 +130,8 @@ else
     {
         Resources.SchoolResources,
         Resources.SchoolHistoricData,
-        Resources.SchoolDetails
+        Resources.SchoolDetails,
+        Resources.DataSource
     }
 })
 

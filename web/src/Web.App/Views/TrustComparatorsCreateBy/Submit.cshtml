@@ -22,7 +22,7 @@
       function statusCheck() {
         if (done || failed) {
             clearInterval(interval);
-            window.location.href = `/trust/@Model.CompanyNumber?comparator-generated=${!failed}`;
+            window.location.href = `/trust/@Model.CompanyNumber/comparators?comparator-generated=${!failed}`;
             return;
         }
 

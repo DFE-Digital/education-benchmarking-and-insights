@@ -3,10 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.FeatureManagement;
 using Web.App.Identity;
-
 namespace Web.App.Attributes;
 
-[AttributeUsage(AttributeTargets.Class)]
+[AttributeUsage(AttributeTargets.Class | AttributeTargets.Method)]
 public class SchoolAuthorizationAttribute : AuthorizeAttribute, IAuthorizationFilter
 {
     public async void OnAuthorization(AuthorizationFilterContext context)

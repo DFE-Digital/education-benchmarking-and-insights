@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Platform.Api.Benchmark.FinancialPlans;
-using Platform.Domain;
 using Xunit;
 
 namespace Platform.Tests.Benchmark;

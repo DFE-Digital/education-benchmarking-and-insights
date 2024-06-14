@@ -1,9 +1,9 @@
+import numpy as np
 import pandas as pd
 import pytest
 
-import numpy as np
-import src.pipeline.rag as rag
 import src.pipeline.config as config
+import src.pipeline.rag as rag
 
 
 @pytest.mark.parametrize(

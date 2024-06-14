@@ -6,7 +6,8 @@ public class SchoolViewModel(
     Finances? finances,
     IEnumerable<RagRating> ratings,
     bool? comparatorGenerated,
-    string? userDefinedSetId = null)
+    string? userDefinedSetId = null,
+    string? customDataId = null)
 {
     public string? Name => school.SchoolName;
     public string? Urn => school.URN;
@@ -14,6 +15,7 @@ public class SchoolViewModel(
     public string? OfstedRating => school.OfstedDescription;
     public bool IsPartOfTrust => school.IsPartOfTrust;
     public string? UserDefinedSetId => userDefinedSetId;
+    public string? CustomDataId => customDataId;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
     public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;

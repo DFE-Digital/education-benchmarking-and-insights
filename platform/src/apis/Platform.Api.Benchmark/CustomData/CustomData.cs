@@ -1,8 +1,13 @@
-﻿namespace Platform.Api.Benchmark.CustomData;
+﻿using System.Diagnostics.CodeAnalysis;
+using Dapper.Contrib.Extensions;
 
-public record CustomDataSchool()
+namespace Platform.Api.Benchmark.CustomData;
+
+[ExcludeFromCodeCoverage]
+[Table("CustomDataSchool")]
+public record CustomDataSchool
 {
-    public string? URN;
-    public string? RunId { get; set; }
-    public string? RunType { get; set; }
+    [ExplicitKey] public string? Id { get; set; }
+    [ExplicitKey] public string? URN { get; set; }
+    public string? Data { get; set; }
 }

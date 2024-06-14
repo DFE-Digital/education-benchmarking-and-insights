@@ -22,14 +22,17 @@ import {
   SchoolSuggesterId,
   LaSuggesterId,
   TrustSuggesterId,
+  HorizontalChartTrustFinancialElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
 import { LineChart } from "./components/charts/line-chart";
 import {
   ChartHandler,
+  ChartSeriesConfigItem,
   ChartSeriesValueUnit,
   ChartSortDirection,
+  ValueFormatterValue,
 } from "./components";
 import { ComparisonChartSummary } from "./composed/comparison-chart-summary";
 import { ResolvedStat } from "./components/charts/resolved-stat";
@@ -37,13 +40,14 @@ import {
   chartSeriesComparer,
   shortValueFormatter,
 } from "./components/charts/utils";
-import { SchoolTick } from "./components/charts/school-tick";
+import { EstablishmentTick } from "./components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
-import { ExpenditureData, Census } from "./services";
+import { ExpenditureData, Census, TrustBalance } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
 import LaInput from "./views/find-organisation/partials/la-input";
 import TrustInput from "./views/find-organisation/partials/trust-input";
+import { TrustBalanceTooltip } from "./components/charts/trust-balance-tooltip";
 
 const historicDataElement = document.getElementById(HistoricDataElementId);
 if (historicDataElement) {
@@ -193,14 +197,12 @@ const HorizontalChart1Series = ({
           seriesLabelField="schoolName"
           tickWidth={400}
           tick={(t) => (
-            <SchoolTick
+            <EstablishmentTick
               {...t}
               highlightedItemKey={highlightedItemKey}
-              linkToSchool
-              onClick={(urn) => {
-                urn && (window.location.href = `/school/${urn}`);
-              }}
-              schoolUrnResolver={(name) =>
+              linkToEstablishment
+              href={(urn) => `/school/${urn}`}
+              establishmentKeyResolver={(name) =>
                 data.find((d) => d.schoolName === name)?.urn
               }
             />
@@ -234,6 +236,154 @@ if (horizontalChart1SeriesElement) {
           keyField={keyField as keyof Census & keyof ExpenditureData}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
           valueField={valueField as keyof Census & keyof ExpenditureData}
+          valueUnit={valueUnit as ChartSeriesValueUnit}
+        />
+      </React.StrictMode>
+    );
+  }
+}
+
+// todo: move to composed components
+// eslint-disable-next-line react-refresh/only-export-components
+const HorizontalChartTrustFinancial = ({
+  data,
+  height,
+  highlightedItemKey,
+  keyField,
+  sortDirection,
+  value1Field,
+  value2Field,
+  valueUnit,
+}: {
+  data: TrustBalance[];
+  height: number;
+  highlightedItemKey?: string;
+  keyField: keyof TrustBalance;
+  sortDirection: ChartSortDirection;
+  value1Field: keyof TrustBalance;
+  value2Field?: keyof TrustBalance;
+  valueUnit?: ChartSeriesValueUnit;
+}) => {
+  const horizontalChart1SeriesStackedRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  const sortedData = useMemo(() => {
+    return data.sort((a, b) =>
+      chartSeriesComparer(a, b, {
+        dataPoint: value1Field,
+        direction: sortDirection,
+      })
+    );
+  }, [data, sortDirection, value1Field]);
+
+  const seriesConfig: Partial<
+    Record<keyof TrustBalance, ChartSeriesConfigItem>
+  > = {
+    [value1Field]: {
+      label: value1Field,
+      visible: true,
+      valueFormatter: (v: ValueFormatterValue) =>
+        shortValueFormatter(v, { valueUnit }),
+      stackId: 1,
+    },
+  };
+
+  if (value2Field) {
+    seriesConfig[value2Field] = {
+      label: value2Field,
+      visible: true,
+      valueFormatter: (v: ValueFormatterValue) =>
+        shortValueFormatter(v, { valueUnit }),
+      stackId: 1,
+    };
+  }
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => horizontalChart1SeriesStackedRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height }}>
+        <HorizontalBarChart
+          barCategoryGap={2}
+          chartName="School workforce (Full Time Equivalent)"
+          data={sortedData}
+          highlightActive
+          highlightedItemKeys={
+            highlightedItemKey ? [highlightedItemKey] : undefined
+          }
+          keyField={keyField}
+          margin={20}
+          onImageLoading={setImageLoading}
+          ref={horizontalChart1SeriesStackedRef}
+          seriesConfig={seriesConfig}
+          seriesLabelField="trustName"
+          tickWidth={400}
+          tick={(t) => (
+            <EstablishmentTick
+              {...t}
+              highlightedItemKey={highlightedItemKey}
+              linkToEstablishment
+              href={(companyNumber) => `/trust/${companyNumber}`}
+              establishmentKeyResolver={(name) =>
+                data.find((d) => d.trustName === name)?.companyNumber
+              }
+            />
+          )}
+          valueFormatter={shortValueFormatter}
+          valueUnit={valueUnit}
+          tooltip={(t) => <TrustBalanceTooltip {...t} />}
+        />
+      </div>
+    </div>
+  );
+};
+
+const horizontalChart1SeriesStackedElement = document.getElementById(
+  HorizontalChartTrustFinancialElementId
+);
+
+if (horizontalChart1SeriesStackedElement) {
+  const {
+    json,
+    height,
+    highlight,
+    keyField,
+    sortDirection,
+    stackValueField1,
+    stackValueField2,
+    totalValueField,
+    valueUnit,
+  } = horizontalChart1SeriesStackedElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(horizontalChart1SeriesStackedElement);
+    const data = JSON.parse(json) as TrustBalance[];
+
+    root.render(
+      <React.StrictMode>
+        <HorizontalChartTrustFinancial
+          data={data}
+          height={height ? parseInt(height) : 500}
+          highlightedItemKey={highlight}
+          keyField={keyField as keyof TrustBalance}
+          sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+          value1Field={stackValueField1 as keyof TrustBalance}
+          value2Field={stackValueField2 as keyof TrustBalance}
+          valueUnit={valueUnit as ChartSeriesValueUnit}
+        />
+        <HorizontalChartTrustFinancial
+          data={data}
+          height={height ? parseInt(height) : 500}
+          highlightedItemKey={highlight}
+          keyField={keyField as keyof TrustBalance}
+          sortDirection={(sortDirection as ChartSortDirection) || "asc"}
+          value1Field={totalValueField as keyof TrustBalance}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

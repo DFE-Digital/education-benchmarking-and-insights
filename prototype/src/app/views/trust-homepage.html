@@ -748,7 +748,7 @@
         <h2 class="govuk-heading-m">Finance tools</h2>
         <ul class="app-links">
             <li>
-                <img src="/public/images/central-services.png" alt="" class="app-view-component">
+                <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/compare-trusts{%endif%}"><img src="/public/images/central-services.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
                     <a href="{% if data['trusts'] | length and confirmation != 'trust-reset' %}/compare-trusts/compare?showBanner=false{% else %}/sign-in?goTo=/compare-trusts{%endif%}" class="govuk-link govuk-link--no-visited-state">Benchmark trust spending</a>
                 </h3>
@@ -760,7 +760,7 @@
                 </strong>
             </li>
             <li>
-                <img src="/public/images/compare-your-costs.png" alt="" class="app-view-component">
+                <a href="#"><img src="/public/images/compare-your-costs.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark schools spending</a>
                 </h3>
@@ -795,7 +795,7 @@
             </li>
         -->
             <li>
-                <img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component">
+                <a href="#"><img src="/public/images/benchmark-workforce.png" alt="" class="app-view-component"></a>
                 <h3 class="govuk-heading-s">
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                 </h3>

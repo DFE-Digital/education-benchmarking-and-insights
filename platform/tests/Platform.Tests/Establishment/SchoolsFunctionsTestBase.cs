@@ -1,7 +1,6 @@
 using FluentValidation;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Benchmark.Comparators;
 using Platform.Api.Establishment.Schools;
 using Platform.Infrastructure.Search;
 

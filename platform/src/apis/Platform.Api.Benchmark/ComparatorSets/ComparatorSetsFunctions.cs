@@ -130,7 +130,7 @@ public class ComparatorSetsFunctions
                 {
                     RunId = identifier,
                     RunType = "default",
-                    Set = body.Set,
+                    Set = ComparatorSetIds.FromCollection(body.Set),
                     URN = urn
                 };
 
@@ -142,7 +142,7 @@ public class ComparatorSetsFunctions
 
                 await _service.UpsertUserDefinedSchoolAsync(comparatorSet);
 
-                if (comparatorSet.Set.Length >= 10)
+                if (comparatorSet.Set.Count >= 10)
                 {
                     await _service.UpsertUserDataAsync(
                         ComparatorSetUserData.PendingSchool(identifier, body.UserId, urn));
@@ -155,7 +155,7 @@ public class ComparatorSetsFunctions
                         Type = "comparator-set",
                         URN = comparatorSet.URN,
                         Year = int.Parse(year),
-                        Payload = new ComparatorSetPayload { Set = comparatorSet.Set }
+                        Payload = new ComparatorSetPayload { Set = comparatorSet.Set.ToArray() }
                     };
 
                     await queue.AddAsync(message.ToJson());
@@ -282,7 +282,7 @@ public class ComparatorSetsFunctions
                 {
                     RunId = identifier,
                     RunType = "default",
-                    Set = body.Set,
+                    Set = ComparatorSetIds.FromCollection(body.Set),
                     CompanyNumber = companyNumber
                 };
 

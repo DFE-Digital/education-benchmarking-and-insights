@@ -8,14 +8,17 @@ import { CartesianTickItem } from "recharts/types/util/types";
 
 export interface ChartProps<TData extends ChartDataSeries>
   extends ValueFormatterProps {
+  barCategoryGap?: string | number;
   chartName: string;
   data: TData[];
   grid?: boolean;
   hideXAxis?: boolean;
   hideYAxis?: boolean;
   highlightActive?: boolean;
+  highlightedItemKeys?: ChartSeriesValue[];
   keyField: keyof TData;
   labels?: boolean;
+  legend?: boolean;
   margin?: number;
   multiLineAxisLabel?: boolean;
   onImageLoading?: (loading: boolean) => void;
@@ -23,16 +26,17 @@ export interface ChartProps<TData extends ChartDataSeries>
   seriesConfig?: ChartSeriesConfig<TData>;
   seriesLabel?: string;
   seriesLabelField: keyof TData;
+  suffix?: string;
   tooltip?: ContentType<ValueType, NameType>;
   valueLabel?: string;
   valueUnit?: ChartSeriesValueUnit;
-  suffix?: string;
 }
 
 export interface ChartSeriesConfigItem extends ValueFormatterProps {
   className?: string;
   label?: string;
   visible: boolean;
+  stackId?: number;
 }
 
 type ChartSeriesConfig<TData extends ChartDataSeries> = Partial<

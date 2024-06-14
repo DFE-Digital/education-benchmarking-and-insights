@@ -1,7 +1,7 @@
 import logging
 import math
-import warnings
 import time
+import warnings
 from typing import Generator
 
 import numpy as np

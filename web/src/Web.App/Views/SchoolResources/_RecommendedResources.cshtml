@@ -17,7 +17,7 @@
             </h2>
         </div>
         <div class="govuk-grid-column-one-third">
-            @await Component.InvokeAsync("Tag", new { rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText })
+            @await Component.InvokeAsync("Tag", new { rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText) })
         </div>
     </div>
     

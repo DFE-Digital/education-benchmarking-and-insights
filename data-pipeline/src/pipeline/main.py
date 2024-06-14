@@ -3,47 +3,41 @@ import logging
 import os
 import time
 from contextlib import suppress
+
 import pandas as pd
 import tornado.iostream
 from azure.core.exceptions import ResourceNotFoundError
 from azure.storage.queue import QueueClient, QueueMessage
-from dotenv import load_dotenv
 from dask.distributed import Client
+from dotenv import load_dotenv
 
 load_dotenv()
 
-from src.pipeline.log import setup_logger
-
+from src.pipeline.comparator_sets import compute_comparator_set, prepare_data
 from src.pipeline.database import (
     insert_comparator_set,
-    insert_metric_rag,
-    insert_schools_and_trusts_and_local_authorities,
-    insert_non_financial_data,
     insert_financial_data,
+    insert_metric_rag,
+    insert_non_financial_data,
+    insert_schools_and_trusts_and_local_authorities,
 )
-
-from src.pipeline.rag import compute_rag, compute_user_defined_rag
-from src.pipeline.comparator_sets import (
-    compute_comparator_set,
-    prepare_data,
-)
+from src.pipeline.log import setup_logger
 from src.pipeline.pre_processing import (
     build_academy_data,
-    build_federations_data,
-    build_maintained_school_data,
     build_bfr_data,
     build_cfo_data,
+    build_federations_data,
+    build_maintained_school_data,
     prepare_aar_data,
     prepare_cdc_data,
     prepare_census_data,
+    prepare_central_services_data,
     prepare_ks2_data,
     prepare_ks4_data,
     prepare_schools_data,
     prepare_sen_data,
-    build_cfo_data,
-    prepare_central_services_data,
 )
-
+from src.pipeline.rag import compute_rag, compute_user_defined_rag
 from src.pipeline.storage import (
     blob_service_client,
     complete_queue_name,

@@ -1,8 +1,6 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Insight;
 using Platform.Api.Insight.Census;
-using Platform.Api.Insight.Db;
 
 namespace Platform.Tests.Insight.Census;
 

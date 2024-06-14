@@ -3,12 +3,36 @@
     ViewData[ViewDataKeys.Title] = PageTitles.Census;
 }
 
-@await Component.InvokeAsync("EstablishmentHeading", new { title = ViewData[ViewDataKeys.Title], name = Model.Name, id = Model.Urn, kind = OrganisationTypes.School })
+@await Component.InvokeAsync("EstablishmentHeading", new
+{
+    title = ViewData[ViewDataKeys.Title], 
+    name = Model.Name, 
+    id = Model.Urn, 
+    kind = OrganisationTypes.School
+})
 
-@await Component.InvokeAsync("DataSource", new { kind = OrganisationTypes.School, isPartOfTrust = Model.IsPartOfTrust, additionText = new [] {"Compare your pupil and workforce data against similar schools"}})
+@await Component.InvokeAsync("DataSource", new
+{
+    kind = OrganisationTypes.School, 
+    isPartOfTrust = Model.IsPartOfTrust, 
+    additionText = new [] {"Compare your pupil and workforce data against similar schools"}
+})
 
-@await Component.InvokeAsync("ComparatorSetDetails", new { identifier = Model.Urn, hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId) })
+@await Component.InvokeAsync("ComparatorSetDetails", new
+{
+    identifier = Model.Urn, 
+    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
+    hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
+})
 
 <div id="compare-your-census" data-type="@OrganisationTypes.School" data-id="@Model.Urn"></div>
 
-@await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.FinancialPlanning, FinanceTools.CompareYourCosts } })
+@await Component.InvokeAsync("SchoolFinanceTools", new
+{
+    identifier = Model.Urn, 
+    tools = new[]
+    {
+        FinanceTools.FinancialPlanning, 
+        FinanceTools.CompareYourCosts
+    }
+})

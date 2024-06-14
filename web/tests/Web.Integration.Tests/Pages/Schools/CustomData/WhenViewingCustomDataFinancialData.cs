@@ -11,9 +11,9 @@ namespace Web.Integration.Tests.Pages.Schools.CustomData;
 public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWebAppClient>
 {
     private readonly Census _census;
-    private readonly Expenditure _customExpenditure;
+    private readonly SchoolExpenditure _customExpenditure;
     private readonly Income _customIncome;
-    private readonly Expenditure _expenditure;
+    private readonly SchoolExpenditure _expenditure;
     private readonly Finances _finances;
     private readonly FloorAreaMetric _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
@@ -30,10 +30,10 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         _customIncome = Fixture.Build<Income>()
             .Create();
 
-        _expenditure = Fixture.Build<Expenditure>()
+        _expenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _customExpenditure = Fixture.Build<Expenditure>()
+        _customExpenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
         _floorAreaMetric = Fixture.Build<FloorAreaMetric>()
