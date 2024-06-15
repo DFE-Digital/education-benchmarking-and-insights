@@ -327,7 +327,7 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupBalance(school, _balance)
-            .SetupExpenditure(school,_expenditure)
+            .SetupExpenditure(school, _expenditure)
             .SetupSchoolInsight(school)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataFinancialData(school.URN));

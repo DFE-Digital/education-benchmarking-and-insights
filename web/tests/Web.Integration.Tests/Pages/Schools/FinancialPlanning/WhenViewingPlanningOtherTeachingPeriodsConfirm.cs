@@ -105,9 +105,9 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
-        
+
         Client.SetupFinancialPlan();
-        
+
         page = await Client.SubmitForm(page.Forms[0], action);
 
         PageAssert.IsNotFoundPage(page);
@@ -140,7 +140,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear));

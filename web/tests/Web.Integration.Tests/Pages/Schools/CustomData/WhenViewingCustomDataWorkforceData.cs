@@ -150,7 +150,7 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupBalance(school)
-            .SetupExpenditure(school,_expenditure)
+            .SetupExpenditure(school, _expenditure)
             .SetupSchoolInsight(school, _floorAreaMetric)
             .SetUpCustomData()
             .SetupHttpContextAccessor()

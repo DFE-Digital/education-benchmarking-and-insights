@@ -69,7 +69,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         Assert.NotNull(action);
 
         Client.SetupFinancialPlan();
-        
+
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -92,7 +92,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Theory]
     [InlineData("PupilsYear7", "10")]
     [InlineData("PupilsYear8", "7")]

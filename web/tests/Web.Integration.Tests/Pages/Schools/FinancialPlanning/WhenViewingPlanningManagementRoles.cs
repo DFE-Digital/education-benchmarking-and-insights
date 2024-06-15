@@ -88,7 +88,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     [Theory]
     [InlineData(true, true, true, true, true, true, true, true)]
     [InlineData(false, true, false, true, false, true, false, true)]
@@ -311,7 +311,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear));

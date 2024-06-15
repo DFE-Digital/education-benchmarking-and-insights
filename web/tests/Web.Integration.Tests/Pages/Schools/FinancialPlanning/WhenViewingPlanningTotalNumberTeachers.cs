@@ -177,7 +177,7 @@ public class WhenViewingPlanningTotalNumberTeachers(SchoolBenchmarkingWebAppClie
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalNumberOfTeachersFte)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear));

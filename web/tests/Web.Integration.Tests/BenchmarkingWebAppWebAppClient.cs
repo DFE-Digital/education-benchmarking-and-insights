@@ -204,7 +204,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
         BalanceApi.Setup(api => api.School(school.URN, It.IsAny<ApiQuery?>())).ReturnsAsync(ApiResult.Ok(balance ?? new SchoolBalance()));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupBalance(Trust trust, TrustBalance? balance = null)
     {
         BalanceApi.Reset();
@@ -251,7 +251,7 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .ReturnsAsync(ApiResult.Ok(expenditure ?? new SchoolExpenditure()));
         return this;
     }
-    
+
     public BenchmarkingWebAppClient SetupSchoolInsight(School school, SchoolCharacteristic? characteristic = null)
     {
         SchoolInsightApi.Reset();
@@ -260,14 +260,14 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             .ReturnsAsync(ApiResult.Ok(characteristic ?? new SchoolCharacteristic()));
         return this;
     }
- 
+
     public BenchmarkingWebAppClient SetUpCustomData()
     {
         CustomDataApi.Reset();
         CustomDataApi.Setup(api => api.UpsertSchoolAsync(It.IsAny<string>(), It.IsAny<PutCustomDataRequest>())).ReturnsAsync(ApiResult.Ok());
         return this;
     }
-        
+
     public BenchmarkingWebAppClient SetupSchoolInsight(IEnumerable<SchoolCharacteristic>? characteristics = null)
     {
         SchoolInsightApi.Reset();
@@ -317,11 +317,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
     //     return this;
     // }
 
-  
+
     public BenchmarkingWebAppClient SetupFinancialPlan(FinancialPlanInput? plan = null)
     {
         FinancialPlanApi.Reset();
-        
+
         if (plan == null)
         {
             FinancialPlanApi.Setup(api => api.GetAsync(It.IsAny<string>(), It.IsAny<int>()))
@@ -332,11 +332,11 @@ public abstract class BenchmarkingWebAppClient(IMessageSink messageSink, Action<
             ArgumentNullException.ThrowIfNull(plan.Urn);
             FinancialPlanApi.Setup(api => api.GetAsync(plan.Urn, plan.Year)).ReturnsAsync(ApiResult.Ok(plan));
         }
-    
+
         FinancialPlanApi
             .Setup(api => api.QueryAsync(It.IsAny<ApiQuery?>()))
             .ReturnsAsync(ApiResult.Ok(Array.Empty<FinancialPlanInput>()));
-        
+
         FinancialPlanApi
             .Setup(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()))
             .ReturnsAsync(ApiResult.Ok())

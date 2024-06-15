@@ -22,7 +22,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
 
         AssertPageLayout(page, school);
     }
-    
+
     [Fact]
     public async Task ShowsErrorOnInValidSelect()
     {

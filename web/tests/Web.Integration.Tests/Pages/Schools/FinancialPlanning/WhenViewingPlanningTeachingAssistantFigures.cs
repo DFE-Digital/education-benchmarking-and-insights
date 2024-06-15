@@ -127,7 +127,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         Assert.NotNull(action);
 
         client.SetupFinancialPlan();
-        
+
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -137,7 +137,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
             Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()

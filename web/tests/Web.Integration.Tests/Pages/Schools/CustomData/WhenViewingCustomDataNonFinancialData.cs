@@ -203,7 +203,7 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
             .SetupBalance(school)
-            .SetupExpenditure(school,_expenditure)
+            .SetupExpenditure(school, _expenditure)
             .SetupSchoolInsight(school, _floorAreaMetric)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataNonFinancialData(school.URN));

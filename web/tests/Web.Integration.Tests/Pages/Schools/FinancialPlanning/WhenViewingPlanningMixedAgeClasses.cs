@@ -60,7 +60,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         Assert.NotNull(action);
 
         Client.SetupFinancialPlan();
-        
+
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -70,7 +70,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
             Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
-    
+
     [Theory]
     [InlineData(true, true, true, true, true, true)]
     [InlineData(false, true, false, true, false, true)]

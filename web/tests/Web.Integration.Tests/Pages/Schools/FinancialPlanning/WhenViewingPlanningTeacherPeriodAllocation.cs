@@ -69,7 +69,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         var action = page.QuerySelector(".govuk-button");
 
         client.SetupFinancialPlan();
-        
+
         Assert.NotNull(action);
 
         page = await Client.SubmitForm(page.Forms[0], action);
@@ -94,7 +94,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-    
+
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
@@ -109,7 +109,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear));

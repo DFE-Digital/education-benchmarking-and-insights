@@ -68,7 +68,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
         var page = await Client.SetupEstablishmentWithNotFound()
             .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTotalExpenditure(urn, year));
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalExpenditure(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
@@ -167,7 +167,7 @@ public class WhenViewingPlanningTotalExpenditure(SchoolBenchmarkingWebAppClient 
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalExpenditure)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTotalExpenditure(school.URN, CurrentYear));

@@ -145,7 +145,7 @@ public class WhenViewingPlanningOtherTeachingPeriodsReview(SchoolBenchmarkingWeb
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsReview(school.URN, CurrentYear));

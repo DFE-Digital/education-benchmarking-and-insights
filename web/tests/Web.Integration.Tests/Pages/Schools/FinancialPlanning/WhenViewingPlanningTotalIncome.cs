@@ -55,7 +55,7 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
         var page = await Client.SetupEstablishmentWithNotFound()
             .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTotalIncome(urn, year));
-        
+
         var expectedUrl = Paths.SchoolFinancialPlanningTotalIncome(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);

@@ -174,7 +174,7 @@ public class WhenViewingPlanningTotalTeacherCosts(SchoolBenchmarkingWebAppClient
             .With(x => x.UseFigures, false)
             .Without(x => x.TotalTeacherCosts)
             .Create();
-        
+
         var page = await Client.SetupEstablishment(school)
             .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTotalTeacherCost(school.URN, CurrentYear));
