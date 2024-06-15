@@ -200,18 +200,6 @@ public static class IncomeResponseFactory
         response.Academies = CalcTotal(academies, model, parameters.Dimension);
     }
 
-    private static decimal? CalculateTotal(decimal? school, decimal? central, string dimension)
-    {
-        return dimension switch
-        {
-            IncomeDimensions.Actuals => school.GetValueOrDefault() + central.GetValueOrDefault(),
-            IncomeDimensions.PerUnit => school.GetValueOrDefault() + central.GetValueOrDefault(),
-            IncomeDimensions.PercentIncome => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
-            IncomeDimensions.PercentExpenditure => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
-            _ => null
-        };
-    }
-
     private static decimal? CalcTotal(decimal value, IncomeBaseModel model, string dimension)
     {
         var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
