@@ -17,11 +17,11 @@
         </a>
     </div>
 </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
 
-@if (Model.Plans.Any())
-{
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
+        @if (Model.LatestPlan != null)
+        {
             <ul class="app-headline app-headline-3 govuk-!-text-align-centre">
                 <li class="@SchoolPlanViewModel.HeadlineClass(Model.LatestPlan?.ContactRatioRating)">
                     <p class="govuk-body govuk-!-font-size-48 govuk-!-margin-bottom-1">
@@ -66,6 +66,9 @@
                     <p class="govuk-body govuk-!-margin-bottom-1">Average class size</p>
                 </li>
             </ul>
+        }
+        @if (Model.Plans.Any())
+        {
             <table class="govuk-table">
                 <caption class="govuk-table__caption govuk-table__caption--m">Planned years</caption>
                 <thead class="govuk-table__head">
@@ -110,9 +113,8 @@
                 }
                 </tbody>
             </table>
-        </div>
-    </div>
-}
-
+        }
+    </div >
+</div >
 
 @await Component.InvokeAsync("SchoolFinanceTools", new { identifier = Model.Urn, tools = new[] { FinanceTools.CompareYourCosts, FinanceTools.BenchmarkCensus } })

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using Platform.Api.Insight.Income;
-using Platform.Domain;
 using Platform.Functions;
 using Xunit;
 

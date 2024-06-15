@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -67,7 +66,7 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTotalEducationSupport(urn, year));
 
 
@@ -167,20 +166,14 @@ public class WhenViewingPlanningTotalEducationSupport(SchoolBenchmarkingWebAppCl
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .With(x => x.EducationSupportStaffCosts, educationSupportStaffCosts)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTotalEducationSupport(school.URN, CurrentYear));
 
         return (page, school);

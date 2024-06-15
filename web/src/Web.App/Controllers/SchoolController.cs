@@ -13,7 +13,7 @@ namespace Web.App.Controllers;
 public class SchoolController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
+    IBalanceApi balanceApi,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService)
     : Controller
@@ -33,7 +33,7 @@ public class SchoolController(
                 ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolHome(urn);
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-                var finances = await financeService.GetFinances(urn);
+                var balance = await balanceApi.School(urn).GetResultOrDefault<SchoolBalance>();
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
                 RagRating[] ratings;
                 if (string.IsNullOrEmpty(userData.ComparatorSet))
@@ -45,7 +45,7 @@ public class SchoolController(
                 {
                     ratings = await metricRagRatingApi.UserDefinedAsync(userData.ComparatorSet).GetResultOrThrow<RagRating[]>();
                 }
-                var viewModel = new SchoolViewModel(school, finances, ratings, comparatorGenerated, userData.ComparatorSet, userData.CustomData);
+                var viewModel = new SchoolViewModel(school, balance, ratings, comparatorGenerated, userData.ComparatorSet, userData.CustomData);
                 return View(viewModel);
             }
             catch (Exception e)

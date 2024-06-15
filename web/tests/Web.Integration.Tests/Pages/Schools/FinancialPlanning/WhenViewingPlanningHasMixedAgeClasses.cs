@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -41,7 +40,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(urn, year));
 
 
@@ -58,7 +57,7 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
 
         Assert.NotNull(action);
 
-        Client.SetupEstablishmentWithNotFound();
+        Client.SetupFinancialPlan();
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
@@ -109,7 +108,6 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
         Assert.NotNull(action);
-
 
         page = await Client.SubmitForm(page.Forms[0], action, f =>
         {
@@ -174,8 +172,6 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.URN)
@@ -183,11 +179,9 @@ public class WhenViewingPlanningHasMixedAgeClasses(SchoolBenchmarkingWebAppClien
             .With(x => x.HasMixedAgeClasses, hasMixedAgeClasses)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(school.URN, CurrentYear));
 
         return (page, school);

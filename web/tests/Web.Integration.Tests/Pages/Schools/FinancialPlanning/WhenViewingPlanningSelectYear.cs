@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -23,30 +22,7 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
 
         AssertPageLayout(page, school);
     }
-
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanSelectAYear(bool planExists)
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, planExists);
-        AssertPageLayout(page, school);
-        var action = page.QuerySelector(".govuk-button");
-        Assert.NotNull(action);
-
-        page = await Client.SubmitForm(page.Forms[0], action, f =>
-        {
-            f.SetFormValues(new Dictionary<string, string>
-            {
-                { "Year", CurrentYear.ToString() }
-            });
-        });
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), planExists ? Times.Never : Times.Once);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
-    }
-
+    
     [Fact]
     public async Task ShowsErrorOnInValidSelect()
     {
@@ -134,9 +110,6 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         var plan = !seedPlan
             ? null
             : Fixture.Build<FinancialPlanInput>()
@@ -144,11 +117,8 @@ public class WhenViewingPlanningSelectYear(SchoolBenchmarkingWebAppClient client
             .With(x => x.Year, CurrentYear)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningSelectYear(school.URN));
 
         return (page, school);

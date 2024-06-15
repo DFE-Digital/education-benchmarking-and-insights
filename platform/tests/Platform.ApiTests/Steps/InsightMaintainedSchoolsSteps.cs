@@ -33,21 +33,6 @@ public class InsightMaintainedSchoolsSteps
         });
     }
 
-    [Then("the maintained school result should be ok")]
-    public async Task ThenTheMaintainedSchoolResultShouldBeOk()
-    {
-        var response = _api[MaintainedSchoolKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<FinancesResponseModel>();
-
-        result.SchoolName.Should().Be("Stockingford Maintained Nursery School");
-        result.Urn.Should().Be("125491");
-    }
-
     [Given("a invalid maintained school request")]
     public void GivenAInvalidMaintainedSchoolRequest()
     {

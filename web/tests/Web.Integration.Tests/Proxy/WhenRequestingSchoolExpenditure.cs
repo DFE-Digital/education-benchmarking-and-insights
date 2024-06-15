@@ -9,7 +9,7 @@ public class WhenRequestingSchoolExpenditure(SchoolBenchmarkingWebAppClient clie
     public async Task CanReturnInternalServerError()
     {
         const string urn = "12345";
-        var response = await client.SetupBenchmarkWithException()
+        var response = await client.SetupEstablishmentWithNotFound()
             .Get(Paths.ApiEstablishmentExpenditure("school", urn));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);

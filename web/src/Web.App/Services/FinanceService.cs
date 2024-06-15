@@ -1,54 +1,14 @@
 using Web.App.Domain;
-using Web.App.Domain.Insight;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 namespace Web.App.Services;
 
 public interface IFinanceService
 {
-    Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns);
-    Task<Finances?> GetFinances(string urns);
     Task<FinanceYears> GetYears();
-    Task<Census> GetSchoolCensus(string urn);
-    Task<FloorAreaMetric> GetSchoolFloorArea(string urn);
 }
 
-public class FinanceService(IInsightApi insightApi, ICensusApi censusApi) : IFinanceService
+public class FinanceService(IInsightApi insightApi) : IFinanceService
 {
     public async Task<FinanceYears> GetYears() => await insightApi.GetCurrentReturnYears().GetResultOrThrow<FinanceYears>();
-
-    public async Task<IEnumerable<SchoolExpenditure>> GetExpenditure(IEnumerable<string> urns)
-    {
-        var query = BuildApiQueryForComparatorSet(urns);
-        return await insightApi.GetSchoolsExpenditure(query).GetResultOrDefault<IEnumerable<SchoolExpenditure>>() ?? Array.Empty<SchoolExpenditure>();
-    }
-
-    public async Task<IEnumerable<Finances>> GetFinances(IEnumerable<string> urns)
-    {
-        var query = BuildApiQueryForComparatorSet(urns);
-        return await insightApi.GetSchoolFinances(query).GetResultOrDefault<IEnumerable<Finances>>() ?? Array.Empty<Finances>();
-    }
-
-    public async Task<Finances?> GetFinances(string urn) => await insightApi.GetSchoolFinances(urn).GetResultOrDefault<Finances>();
-
-    public async Task<Census> GetSchoolCensus(string urn) => await censusApi.Get(urn).GetResultOrThrow<Census>();
-
-    public async Task<FloorAreaMetric> GetSchoolFloorArea(string urn) => await insightApi.GetSchoolFloorAreaMetric(urn).GetResultOrThrow<FloorAreaMetric>();
-
-    private static ApiQuery BuildApiQueryForDimension(string dimension)
-    {
-        var query = new ApiQuery().AddIfNotNull("dimension", dimension);
-        return query;
-    }
-
-    private static ApiQuery BuildApiQueryForComparatorSet(IEnumerable<string> urns)
-    {
-        var query = new ApiQuery();
-        foreach (var urn in urns)
-        {
-            query.AddIfNotNull("urns", urn);
-        }
-
-        return query;
-    }
 }

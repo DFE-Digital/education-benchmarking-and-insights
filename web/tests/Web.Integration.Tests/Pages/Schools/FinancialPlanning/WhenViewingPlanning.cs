@@ -89,16 +89,11 @@ public class WhenViewingPlanning(SchoolBenchmarkingWebAppClient client) : PageBa
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.SchoolName)
-            .With(x => x.Urn, school.URN)
-            .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools)
+            .SetupMetricRagRating()
+            .SetupInsights()
+            .SetupBalance()
+            .SetupUserData()
             .Navigate(Paths.SchoolFinancialPlanning(school.URN));
 
         return (page, school);

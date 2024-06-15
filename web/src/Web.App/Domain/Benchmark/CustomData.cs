@@ -1,93 +1,11 @@
 ﻿using System.Diagnostics.CodeAnalysis;
-using Web.App.Domain.Insight;
 using Web.App.ViewModels;
 
-// ReSharper disable MemberCanBePrivate.Global
-
-namespace Web.App.Domain.Benchmark;
+namespace Web.App.Domain;
 
 [ExcludeFromCodeCoverage]
 public record CustomData
 {
-    public CustomData()
-    {
-    }
-
-    public CustomData(
-        Finances finances,
-        SchoolIncome income,
-        SchoolExpenditure expenditure,
-        Census census,
-        FloorAreaMetric floorArea)
-    {
-        // Administrative supplies
-        AdministrativeSuppliesCosts = expenditure.AdministrativeSuppliesCosts;
-
-        // Catering
-        CateringStaffCosts = expenditure.CateringStaffCosts;
-        CateringSuppliesCosts = expenditure.CateringSuppliesCosts;
-        CateringIncome = income.IncomeCatering;
-
-        // Educational supplies
-        ExaminationFeesCosts = expenditure.ExaminationFeesCosts;
-        LearningResourcesNonIctCosts = expenditure.LearningResourcesNonIctCosts;
-
-        // IT
-        LearningResourcesIctCosts = expenditure.LearningResourcesIctCosts;
-
-        // Non-educational support staff
-        AdministrativeClericalStaffCosts = expenditure.AdministrativeClericalStaffCosts;
-        AuditorsCosts = expenditure.AuditorsCosts;
-        OtherStaffCosts = expenditure.OtherStaffCosts;
-        ProfessionalServicesNonCurriculumCosts = expenditure.ProfessionalServicesNonCurriculumCosts;
-
-        // Premises and services
-        CleaningCaretakingCosts = expenditure.CleaningCaretakingCosts;
-        MaintenancePremisesCosts = expenditure.MaintenancePremisesCosts;
-        OtherOccupationCosts = expenditure.OtherOccupationCosts;
-        PremisesStaffCosts = expenditure.PremisesStaffCosts;
-
-        // Teaching and teaching support
-        AgencySupplyTeachingStaffCosts = expenditure.AgencySupplyTeachingStaffCosts;
-        EducationSupportStaffCosts = expenditure.EducationSupportStaffCosts;
-        EducationalConsultancyCosts = expenditure.EducationalConsultancyCosts;
-        SupplyTeachingStaffCosts = expenditure.SupplyTeachingStaffCosts;
-        TeachingStaffCosts = expenditure.TeachingStaffCosts;
-
-        // Utilities
-        EnergyCosts = expenditure.EnergyCosts;
-        WaterSewerageCosts = expenditure.WaterSewerageCosts;
-
-        // Other costs
-        DirectRevenueFinancingCosts = expenditure.DirectRevenueFinancingCosts;
-        GroundsMaintenanceCosts = expenditure.GroundsMaintenanceCosts;
-        IndirectEmployeeExpenses = expenditure.IndirectEmployeeExpenses;
-        InterestChargesLoanBank = expenditure.InterestChargesLoanBank;
-        OtherInsurancePremiumsCosts = expenditure.OtherInsurancePremiumsCosts;
-        PrivateFinanceInitiativeCharges = expenditure.PrivateFinanceInitiativeCharges;
-        RentRatesCosts = expenditure.RentRatesCosts;
-        SpecialFacilitiesCosts = expenditure.SpecialFacilitiesCosts;
-        StaffDevelopmentTrainingCosts = expenditure.StaffDevelopmentTrainingCosts;
-        StaffRelatedInsuranceCosts = expenditure.StaffRelatedInsuranceCosts;
-        SupplyTeacherInsurableCosts = expenditure.SupplyTeacherInsurableCosts;
-
-        // Totals
-        TotalIncome = finances.TotalIncome;
-        TotalExpenditure = finances.TotalExpenditure;
-        RevenueReserve = finances.RevenueReserve;
-
-        // Non-financial data
-        NumberOfPupilsFte = census.TotalPupils;
-        FreeSchoolMealPercent = finances.FreeSchoolMealPercent;
-        SpecialEducationalNeedsPercent = finances.SpecialEducationalNeedsPercent;
-        FloorArea = floorArea.FloorArea;
-
-        // Workforce data
-        WorkforceFte = census.WorkforceFTE;
-        TeachersFte = census.TeachersFTE;
-        SeniorLeadershipFte = census.SeniorLeadershipFTE;
-    }
-
     // Administrative supplies
     public decimal? AdministrativeSuppliesCosts { get; set; }
 
@@ -140,15 +58,15 @@ public record CustomData
     public decimal? SupplyTeacherInsurableCosts { get; set; }
 
     // Totals
-    public decimal TotalIncome { get; set; }
-    public decimal TotalExpenditure { get; set; }
-    public decimal RevenueReserve { get; set; }
+    public decimal? TotalIncome { get; set; }
+    public decimal? TotalExpenditure { get; set; }
+    public decimal? RevenueReserve { get; set; }
 
     // Non-financial data
     public decimal? NumberOfPupilsFte { get; set; }
     public decimal? FreeSchoolMealPercent { get; set; }
     public decimal? SpecialEducationalNeedsPercent { get; set; }
-    public int? FloorArea { get; set; }
+    public decimal? FloorArea { get; set; }
 
     // Workforce data
     public decimal? WorkforceFte { get; set; }

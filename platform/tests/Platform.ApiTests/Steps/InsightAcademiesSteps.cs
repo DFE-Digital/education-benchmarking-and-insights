@@ -33,21 +33,6 @@ public class InsightAcademiesSteps
         await _api.Send();
     }
 
-    [Then("the academies result should be ok")]
-    public async Task ThenTheAcademiesResultShouldBeOk()
-    {
-        var response = _api[AcademyKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<FinancesResponseModel>();
-
-        result.SchoolName.Should().Be("Mansel Primary");
-        result.Urn.Should().Be("139137");
-    }
-
     [Given("a invalid academy request")]
     public void GivenAInvalidAcademyRequest()
     {

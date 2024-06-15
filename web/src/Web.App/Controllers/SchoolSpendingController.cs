@@ -7,6 +7,7 @@ using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
 using Web.App.Services;
 using Web.App.ViewModels;
+
 namespace Web.App.Controllers;
 
 [Controller]
@@ -14,7 +15,7 @@ namespace Web.App.Controllers;
 public class SchoolSpendingController(
     ILogger<SchoolController> logger,
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
+    IExpenditureApi expenditureApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IMetricRagRatingApi metricRagRatingApi,
     IUserDataService userDataService)
@@ -32,19 +33,22 @@ public class SchoolSpendingController(
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
 
-                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
+                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
+                    .GetResultOrThrow<RagRating[]>();
                 var set = await schoolComparatorSetService.ReadComparatorSet(urn);
 
-                var pupilExpenditure = await financeService.GetExpenditure(set.Pupil);
-                var areaExpenditure = await financeService.GetExpenditure(set.Building);
+                var pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
+                var areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
 
-                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure, userData.ComparatorSet, userData.CustomData);
+                var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
+                    userData.ComparatorSet, userData.CustomData);
 
                 return View(viewModel);
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying school spending and costs: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
@@ -69,9 +73,21 @@ public class SchoolSpendingController(
             }
             catch (Exception e)
             {
-                logger.LogError(e, "An error displaying custom school spending and costs: {DisplayUrl}", Request.GetDisplayUrl());
+                logger.LogError(e, "An error displaying custom school spending and costs: {DisplayUrl}",
+                    Request.GetDisplayUrl());
                 return e is StatusCodeException s ? StatusCode((int)s.Status) : StatusCode(500);
             }
         }
+    }
+
+    private static ApiQuery BuildQuery(IEnumerable<string> urns)
+    {
+        var query = new ApiQuery().AddIfNotNull("dimension", "PerUnit");
+        foreach (var urn in urns)
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
     }
 }

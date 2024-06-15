@@ -4,7 +4,6 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -51,7 +50,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningPrimaryPupilFigures(urn, year));
 
 
@@ -70,8 +69,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
 
         Assert.NotNull(action);
 
-        Client.SetupBenchmarkWithNotFound();
-
+        Client.SetupFinancialPlan();
+        
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -94,29 +93,7 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanDisplayProblemWithServiceOnSubmit(bool hasMixed)
-    {
-        var (page, school, _) = await SetupNavigateInitPage(EstablishmentTypes.Academies, hasMixed);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
+    
     [Theory]
     [InlineData("PupilsNursery", "-1", "Pupil figures for nursery must be 0 or more")]
     [InlineData("PupilsReception", "0.5", "Pupil figures for reception must be a whole number")]
@@ -231,9 +208,6 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
@@ -242,11 +216,8 @@ public class WhenViewingPlanningPrimaryPupilFigures(SchoolBenchmarkingWebAppClie
             .With(x => x.HasMixedAgeClasses, hasMixedClasses)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningPrimaryPupilFigures(school.URN, CurrentYear));
 
         return (page, school, plan);

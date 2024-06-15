@@ -39,41 +39,30 @@
         }
 })
 
-@if (Model.HasFinancials)
-{
-    <div class="govuk-grid-row">
-        <div class="govuk-grid-column-full">
-            <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
-                <li class="app-headline-figures">
-                    <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
-                    <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
-                </li>
-                <li class="app-headline-figures">
-                    <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
-                    <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
-                </li>
-                <li class="app-headline-figures">
-                    <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
-                    <p class="govuk-body">@Model.OfstedRating</p>
-                </li>
-                <li class="app-headline-figures">
-                    <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
-                    <p class="govuk-body">@Model.OverallPhase</p>
-                </li>
-            </ul>
-        </div>
+<div class="govuk-grid-row">
+    <div class="govuk-grid-column-full">
+        <ul class="app-headline app-headline-4 govuk-!-text-align-centre">
+            <li class="app-headline-figures">
+                <p class="govuk-body govuk-!-font-weight-bold">In year balance</p>
+                <p class="govuk-body">@Model.InYearBalance.ToCurrency(0)</p>
+            </li>
+            <li class="app-headline-figures">
+                <p class="govuk-body govuk-!-font-weight-bold">Revenue reserve</p>
+                <p class="govuk-body">@Model.RevenueReserve.ToCurrency(0)</p>
+            </li>
+            <li class="app-headline-figures">
+                <p class="govuk-body govuk-!-font-weight-bold">Ofsted rating</p>
+                <p class="govuk-body">@Model.OfstedRating</p>
+            </li>
+            <li class="app-headline-figures">
+                <p class="govuk-body govuk-!-font-weight-bold">School phase</p>
+                <p class="govuk-body">@Model.OverallPhase</p>
+            </li>
+        </ul>
     </div>
-}
-else
-{
-    <div class="govuk-warning-text">
-        <span class="govuk-warning-text__icon" aria-hidden="true">!</span>
-        <strong class="govuk-warning-text__text">
-            <span class="govuk-visually-hidden">Warning</span>
-            Financial information for this school could not be loaded.
-        </strong>
-    </div>
-}
+</div>
+
+
 @if (Model.HasMetricRag)
 {
     <div class="govuk-grid-row">
@@ -89,7 +78,7 @@ else
                             <h4 class="govuk-heading-s">@rating.Category</h4>
                             <p class="priority @rating.PriorityTag?.Class govuk-body">
                                 @await Component.InvokeAsync("Tag", new
-                                { 
+                                {
                                     rating = new RatingViewModel(rating.PriorityTag?.Colour, rating.PriorityTag?.DisplayText)
                                 })
                                 Spends <strong>@rating.Value.ToCurrency(0)</strong> @rating.Unit - more than <strong>@rating.Percentile.ToPercent()</strong> of similar schools.
@@ -147,3 +136,4 @@ else
       initAll()
     </script>
 }
+

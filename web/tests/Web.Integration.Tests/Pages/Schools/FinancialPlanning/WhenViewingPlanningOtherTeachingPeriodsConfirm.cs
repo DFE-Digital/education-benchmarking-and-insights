@@ -2,7 +2,6 @@
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
@@ -91,7 +90,6 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(urn, year));
 
 
@@ -107,9 +105,9 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         var action = page.QuerySelector(".govuk-button");
 
         Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithNotFound();
-
+        
+        Client.SetupFinancialPlan();
+        
         page = await Client.SubmitForm(page.Forms[0], action);
 
         PageAssert.IsNotFoundPage(page);
@@ -131,24 +129,6 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
         PageAssert.IsProblemPage(page);
     }
 
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType)
     {
         var school = Fixture.Build<School>()
@@ -156,19 +136,13 @@ public class WhenViewingPlanningOtherTeachingPeriodsConfirm(SchoolBenchmarkingWe
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
+        
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningOtherTeachingPeriodsConfirm(school.URN, CurrentYear));
 
         return (page, school);

@@ -3,13 +3,13 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
 
-public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient client) : PageBase<SchoolBenchmarkingWebAppClient>(client)
+public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient client)
+    : PageBase<SchoolBenchmarkingWebAppClient>(client)
 {
     private static readonly int CurrentYear =
         DateTime.UtcNow.Month < 9 ? DateTime.UtcNow.Year - 1 : DateTime.UtcNow.Year;
@@ -43,7 +43,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningMixedAgeClasses(urn, year));
 
         var expectedUrl = Paths.SchoolFinancialPlanningMixedAgeClasses(urn, year).ToAbsolute();
@@ -59,8 +59,8 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
 
         Assert.NotNull(action);
 
-        Client.SetupBenchmarkWithNotFound();
-
+        Client.SetupFinancialPlan();
+        
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -70,40 +70,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
             Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
-
-    [Fact]
-    public async Task CanDisplayProblemWithService()
-    {
-        const string urn = "12345";
-        const int year = 2024;
-        var page = await Client.SetupEstablishmentWithException()
-            .Navigate(Paths.SchoolFinancialPlanningHasMixedAgeClasses(urn, year));
-
-        var expectedUrl = Paths.SchoolFinancialPlanningHasMixedAgeClasses(urn, year).ToAbsolute();
-        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
-        PageAssert.IsProblemPage(page);
-    }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
+    
     [Theory]
     [InlineData(true, true, true, true, true, true)]
     [InlineData(false, true, false, true, false, true)]
@@ -171,7 +138,6 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
     [Fact]
     public async Task ShowsErrorOnInValidSubmit()
     {
-
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
         AssertPageLayout(page, school);
         var action = page.QuerySelector(".govuk-button");
@@ -182,7 +148,8 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
 
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
+        DocumentAssert.AssertPageUrl(page,
+            Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear).ToAbsolute());
         DocumentAssert.FormErrors(page, ("mixing-classes", "Select which years have mixed age classes"));
     }
 
@@ -193,9 +160,6 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
-            .Create();
-
-        var finances = Fixture.Build<Finances>()
             .Create();
 
         var plan = Fixture.Build<FinancialPlanInput>()
@@ -213,8 +177,7 @@ public class WhenViewingPlanningMixedAgeClasses(SchoolBenchmarkingWebAppClient c
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningMixedAgeClasses(school.URN, CurrentYear));
 
         return (page, school);

@@ -70,12 +70,6 @@ Add configuration in `local.settings.json` for `Platform.Api.Insight`
   "Values": {
     "FUNCTIONS_WORKER_RUNTIME": "dotnet",
     "ASPNETCORE_ENVIRONMENT": "Development",
-    "Cosmos__ConnectionString" : "[INSERT CONNECTION STRING VALUE]",
-    "Cosmos__DatabaseId" : "ebis-data",
-    "Cosmos__FloorAreaCollectionName" : "Floor-Area-2021-2022",
-    "Cosmos__CfrLatestYear" : "[INSERT LATEST YEAR]",
-    "Cosmos__AarLatestYear" : "[INSERT LATEST YEAR]",
-    "Cosmos__EstablishmentCollectionName" : "GIAS",
     "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
   },
   "Host": {

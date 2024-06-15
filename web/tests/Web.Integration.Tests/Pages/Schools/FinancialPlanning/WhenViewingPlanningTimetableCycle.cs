@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -101,23 +100,6 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         DocumentAssert.FormErrors(page, ("TimetablePeriods", expectedMsg));
     }
 
-    [Theory]
-    [InlineData(true)]
-    [InlineData(false)]
-    public async Task CanNavigateBack(bool useFigures)
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained, useFigures);
-
-        var anchor = page.QuerySelector(".govuk-back-link");
-        page = await Client.Follow(anchor);
-
-        var path = useFigures
-            ? Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear)
-            : Paths.SchoolFinancialPlanningTotalNumberTeachers(school.URN, CurrentYear);
-
-        DocumentAssert.AssertPageUrl(page, path.ToAbsolute());
-    }
-
     [Fact]
     public async Task CanDisplayNotFound()
     {
@@ -125,7 +107,7 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(urn, year));
 
 
@@ -195,9 +177,6 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
             .With(x => x.OverallPhase, isPrimary ? OverallPhaseTypes.Primary : OverallPhaseTypes.Secondary)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
@@ -205,11 +184,8 @@ public class WhenViewingPlanningTimetableCycle(SchoolBenchmarkingWebAppClient cl
             .With(x => x.TimetablePeriods, timetablePeriods)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTimetableCycle(school.URN, CurrentYear));
 
         return (page, school);

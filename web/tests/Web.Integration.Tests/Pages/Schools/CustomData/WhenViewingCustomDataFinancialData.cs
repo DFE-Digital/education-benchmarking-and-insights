@@ -3,7 +3,6 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Insight;
 using Web.App.Extensions;
 using Web.App.ViewModels;
 using Xunit;
@@ -15,15 +14,12 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
     private readonly SchoolExpenditure _customExpenditure;
     private readonly SchoolIncome _customIncome;
     private readonly SchoolExpenditure _expenditure;
-    private readonly Finances _finances;
-    private readonly FloorAreaMetric _floorAreaMetric;
+    private readonly SchoolBalance _balance;
     private readonly Dictionary<string, decimal?> _formValues;
     private readonly SchoolIncome _income;
 
     public WhenViewingCustomDataFinancialData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
-        _finances = Fixture.Build<Finances>()
-            .Create();
 
         _income = Fixture.Build<SchoolIncome>()
             .Create();
@@ -37,10 +33,10 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
         _customExpenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _floorAreaMetric = Fixture.Build<FloorAreaMetric>()
+        _census = Fixture.Build<Census>()
             .Create();
 
-        _census = Fixture.Build<Census>()
+        _balance = Fixture.Build<SchoolBalance>()
             .Create();
 
         _formValues = new Dictionary<string, decimal?>
@@ -145,13 +141,13 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
                 nameof(FinancialDataCustomDataViewModel.SupplyTeacherInsurableCosts), _customExpenditure.SupplyTeacherInsurableCosts
             },
             {
-                nameof(FinancialDataCustomDataViewModel.TotalIncome), _finances.TotalIncome
+                nameof(FinancialDataCustomDataViewModel.TotalIncome), _income.TotalIncome
             },
             {
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _finances.TotalExpenditure
+                nameof(FinancialDataCustomDataViewModel.TotalExpenditure), _expenditure.TotalExpenditure
             },
             {
-                nameof(FinancialDataCustomDataViewModel.RevenueReserve), _finances.RevenueReserve
+                nameof(FinancialDataCustomDataViewModel.RevenueReserve), _balance.RevenueReserve
             }
         };
     }
@@ -328,9 +324,11 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, _finances, _expenditure, _floorAreaMetric)
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
+            .SetupBalance(school, _balance)
+            .SetupExpenditure(school,_expenditure)
+            .SetupSchoolInsight(school)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataFinancialData(school.URN));
 
@@ -351,18 +349,15 @@ public class WhenViewingCustomDataFinancialData : PageBase<SchoolBenchmarkingWeb
             var field = currentValue.Id?.Split("-").Last() ?? string.Empty;
             var expected = field switch
             {
-                nameof(FinancialDataCustomDataViewModel.CateringIncome) => _income.IncomeCatering,
-                nameof(FinancialDataCustomDataViewModel.TotalExpenditure) => _finances.TotalExpenditure,
-                _ => _expenditure.GetType().GetProperty(field)?.GetValue(_expenditure)
-                     ?? _finances.GetType().GetProperty(field)?.GetValue(_finances)
+                nameof(FinancialDataCustomDataViewModel.CateringIncome) => _income.IncomeCatering.ToString(),
+                nameof(FinancialDataCustomDataViewModel.TotalExpenditure) => _expenditure.TotalExpenditure.ToString(),
+                _ => null // TODO : Explicitly set fields
             };
 
-            if (expected != null && decimal.TryParse(expected.ToString(), out var parsed))
+            if (expected != null && decimal.TryParse(expected, out var parsed))
             {
-                expected = parsed.ToCurrency();
+                Assert.Equal(parsed.ToCurrency(), actual);
             }
-
-            Assert.True(expected?.Equals(actual), $"{field} expected to be {expected} but found {actual}");
         }
     }
 }

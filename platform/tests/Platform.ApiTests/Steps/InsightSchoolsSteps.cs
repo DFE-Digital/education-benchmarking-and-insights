@@ -25,32 +25,6 @@ public class InsightSchoolsSteps
         await _api.Send();
     }
 
-    [Then("the school expenditure result should be ok")]
-    public async Task ThenTheSchoolExpenditureResultShouldBeOk()
-    {
-        var response = _api[SchoolFinancesKey].Response;
-        response.Should().NotBeNull().And.Subject.StatusCode.Should().Be(HttpStatusCode.OK);
-
-        var jsonString = await response.Content.ReadAsStringAsync();
-        var json = JObject.Parse(jsonString);
-
-        json.Should().ContainKey("results");
-
-        var resultsArray = json["results"]?.ToObject<JArray>() ?? throw new ArgumentNullException();
-
-        resultsArray.Should().NotBeEmpty();
-
-        var firstResult = resultsArray[0].ToObject<SchoolExpenditureResponseModel>() ?? throw new ArgumentNullException();
-        var secondResult = resultsArray[1].ToObject<SchoolExpenditureResponseModel>() ?? throw new ArgumentNullException();
-
-        firstResult.Name.Should().Be("Wells Free School");
-        firstResult.Urn.Should().Be("139696");
-
-        secondResult.Name.Should().Be("Hadlow Rural Community School");
-        secondResult.Urn.Should().Be("139697");
-
-    }
-
     [Given("a valid schools expenditure request with urn '(.*)' and '(.*)'")]
     public void GivenAValidSchoolsExpenditureRequestWithUrnAnd(string urn1, string urn2)
     {
@@ -69,19 +43,6 @@ public class InsightSchoolsSteps
             RequestUri = new Uri($"/api/schools/expenditure?urns={urn}&page={size}", UriKind.Relative),
             Method = HttpMethod.Get
         });
-    }
-
-    [Then("the schools expenditure result should be page '(.*)' with '(.*)' page size")]
-    public async Task ThenTheSchoolsExpenditureResultShouldBePageWithPageSize(int page, int pageSize)
-    {
-        var response = _api[SchoolFinancesKey].Response;
-
-        response.Should().NotBeNull();
-        response.StatusCode.Should().Be(HttpStatusCode.OK);
-        var content = await response.Content.ReadAsByteArrayAsync();
-        var result = content.FromJson<PagedResponseModel<FinancesResponseModel>>() ?? throw new ArgumentNullException();
-        result.Page.Should().Be(page);
-        result.PageSize.Should().Be(pageSize);
     }
 
     [Given("a valid school expenditure request with size '(.*)' and urn '(.*)'")]

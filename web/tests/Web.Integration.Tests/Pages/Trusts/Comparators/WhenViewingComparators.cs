@@ -1,7 +1,6 @@
 ﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 
@@ -46,7 +45,7 @@ public class WhenViewingComparators(SchoolBenchmarkingWebAppClient client)
 
         var page = await Client.SetupEstablishment(trust)
             .SetupInsights()
-            .SetupUserDataApi(withComparatorSet ? comparatorSet : null)
+            .SetupUserData(withComparatorSet ? comparatorSet : null)
             .Navigate(Paths.TrustComparators(trust.CompanyNumber));
 
         return (page, trust);

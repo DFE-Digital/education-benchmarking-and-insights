@@ -180,6 +180,10 @@ public class ExpenditureFunctions
             {
                 //TODO: Add validation for dimension
                 var dimension = req.Query["dimension"].ToString();
+                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+                {
+                    dimension = ExpenditureDimensions.Actuals;
+                }
                 var result = await _service.GetSchoolHistoryAsync(urn);
                 return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension)));
             }
@@ -212,6 +216,10 @@ public class ExpenditureFunctions
             {
                 //TODO: Add validation for dimension
                 var dimension = req.Query["dimension"].ToString();
+                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+                {
+                    dimension = ExpenditureDimensions.Actuals;
+                }
                 var result = await _service.GetTrustHistoryAsync(companyNumber);
                 return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension)));
             }
@@ -226,9 +234,9 @@ public class ExpenditureFunctions
     [FunctionName(nameof(QuerySchoolsExpenditureAsync))]
     [ProducesResponseType(typeof(SchoolExpenditureResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
     public async Task<IActionResult> QuerySchoolsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")]
         HttpRequest req)
@@ -246,7 +254,16 @@ public class ExpenditureFunctions
                 //TODO: Add validation for urns, category and dimension
                 var urns = req.Query["urns"].ToString().Split(",");
                 var category = req.Query["category"].ToString();
+                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
+                {
+                    category = null;
+                }
+
                 var dimension = req.Query["dimension"].ToString();
+                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+                {
+                    dimension = ExpenditureDimensions.Actuals;
+                }
                 var result = await _service.QuerySchoolsAsync(urns);
                 return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension, category)));
             }
@@ -261,9 +278,9 @@ public class ExpenditureFunctions
     [FunctionName(nameof(QueryTrustsExpenditureAsync))]
     [ProducesResponseType(typeof(TrustExpenditureResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
-    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]), Required = true)]
-    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
+    [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]))]
+    [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
     public async Task<IActionResult> QueryTrustsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")]
         HttpRequest req)
@@ -281,7 +298,16 @@ public class ExpenditureFunctions
                 //TODO: Add validation for companyNumbers, category and dimension
                 var companyNumbers = req.Query["companyNumbers"].ToString().Split(",");
                 var category = req.Query["category"].ToString();
+                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
+                {
+                    category = null;
+                }
+
                 var dimension = req.Query["dimension"].ToString();
+                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
+                {
+                    dimension = ExpenditureDimensions.Actuals;
+                }
                 var result = await _service.QueryTrustsAsync(companyNumbers);
                 return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension, category)));
             }

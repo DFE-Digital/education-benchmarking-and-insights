@@ -12,7 +12,9 @@
 
         <p class="govuk-body">Here is some information we hold about your school.</p>
 
-        <h2 class="govuk-heading-m">Figures from @($"{Model.Finances?.YearEnd - 1} - {Model.Finances?.YearEnd}")</h2>
+
+        @* TODO : Add years 
+        <h2 class="govuk-heading-m">Figures from @($"{Model.Finances?.YearEnd - 1} - {Model.Finances?.YearEnd}")</h2> *@
 
         <dl class="govuk-summary-list">
             <div class="govuk-summary-list__row">
@@ -20,7 +22,7 @@
                     Total income
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Finances?.TotalIncome.ToCurrency(0)
+                    @Model.Income?.TotalIncome.ToCurrency(0)
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -28,7 +30,7 @@
                     Total expenditure
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Finances?.TotalExpenditure.ToCurrency(0)
+                    @Model.Expenditure?.TotalExpenditure.ToCurrency(0)
                 </dd>
             </div>
             <div class="govuk-summary-list__row">
@@ -36,7 +38,7 @@
                     Total teacher costs
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Finances?.TeachingStaffCosts.ToCurrency(0)
+                    @Model.Expenditure?.TeachingStaffCosts.ToCurrency(0)
                 </dd>
             </div>
             @if (Model.School.IsPrimary)
@@ -46,7 +48,7 @@
                         Total education support staff costs
                     </dt>
                     <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                        @Model.Finances?.EducationSupportStaffCosts.ToCurrency(0)
+                        @Model.Expenditure?.EducationSupportStaffCosts.ToCurrency(0)
                     </dd>
                 </div>
             }
@@ -55,7 +57,7 @@
                     Full time equivalent teachers
                 </dt>
                 <dd class="govuk-summary-list__value govuk-!-text-align-right">
-                    @Model.Finances?.TotalNumberOfTeachersFte
+                    @Model.Workforce?.TeachersFTE
                 </dd>
             </div>
         </dl>
@@ -69,11 +71,11 @@
                             Do you want to use these figures in your plan?
                         </h2>
                     </legend>
-                    <input type="hidden" name="@nameof(Model.PlanInput.TotalIncome)" value="@($"{Model.Finances?.TotalIncome:0}")"/>
-                    <input type="hidden" name="@nameof(Model.PlanInput.TotalExpenditure)" value="@($"{Model.Finances?.TotalExpenditure:0}")"/>
-                    <input type="hidden" name="@nameof(Model.PlanInput.TotalTeacherCosts)" value="@($"{Model.Finances?.TeachingStaffCosts:0}")"/>
-                    <input type="hidden" name="@nameof(Model.PlanInput.EducationSupportStaffCosts)" value="@($"{Model.Finances?.EducationSupportStaffCosts:0}")"/>
-                    <input type="hidden" name="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)" value="@Model.Finances?.TotalNumberOfTeachersFte"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalIncome)" value="@($"{Model.Income?.TotalIncome:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalExpenditure)" value="@($"{Model.Expenditure?.TotalExpenditure:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalTeacherCosts)" value="@($"{Model.Expenditure?.TeachingStaffCosts:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.EducationSupportStaffCosts)" value="@($"{Model.Expenditure?.EducationSupportStaffCosts:0}")"/>
+                    <input type="hidden" name="@nameof(Model.PlanInput.TotalNumberOfTeachersFte)" value="@Model.Workforce?.TeachersFTE"/>
 
                     @if (ViewData.ModelState.HasError(nameof(Model.PlanInput.UseFigures)))
                     {

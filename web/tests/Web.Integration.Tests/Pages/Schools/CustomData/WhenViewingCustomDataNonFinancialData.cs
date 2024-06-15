@@ -3,7 +3,6 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Insight;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -12,20 +11,19 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
 {
     private readonly Census _census;
     private readonly Census _customCensus;
-    private readonly Finances _customFinances;
-    private readonly FloorAreaMetric _customFloorAreaMetric;
+    private readonly SchoolExpenditure _customExpenditure;
+    private readonly SchoolCharacteristic _customFloorAreaMetric;
     private readonly SchoolExpenditure _expenditure;
-    private readonly Finances _finances;
-    private readonly FloorAreaMetric _floorAreaMetric;
+    private readonly SchoolCharacteristic _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
     private readonly SchoolIncome _income;
 
     public WhenViewingCustomDataNonFinancialData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
-        _finances = Fixture.Build<Finances>()
+        _expenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _customFinances = Fixture.Build<Finances>()
+        _customExpenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
         _income = Fixture.Build<SchoolIncome>()
@@ -34,10 +32,10 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
         _expenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _floorAreaMetric = Fixture.Build<FloorAreaMetric>()
+        _floorAreaMetric = Fixture.Build<SchoolCharacteristic>()
             .Create();
 
-        _customFloorAreaMetric = Fixture.Build<FloorAreaMetric>()
+        _customFloorAreaMetric = Fixture.Build<SchoolCharacteristic>()
             .Create();
 
         _census = Fixture.Build<Census>()
@@ -52,13 +50,13 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
                 nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte), _customCensus.TotalPupils
             },
             {
-                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent), _customFinances.FreeSchoolMealPercent
+                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent), _customFloorAreaMetric.PercentFreeSchoolMeals
             },
             {
-                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent), _customFinances.SpecialEducationalNeedsPercent
+                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent), _customFloorAreaMetric.PercentSpecialEducationNeeds
             },
             {
-                nameof(NonFinancialDataCustomDataViewModel.FloorArea), _customFloorAreaMetric.FloorArea
+                nameof(NonFinancialDataCustomDataViewModel.FloorArea), _customFloorAreaMetric.TotalInternalFloorArea
             }
         };
     }
@@ -130,12 +128,12 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             var expected = field switch
             {
                 nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => $"{_customCensus.TotalPupils:#.0}",
-                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => _customFinances.FreeSchoolMealPercent.ToString("#.0"),
-                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => _customFinances.SpecialEducationalNeedsPercent.ToString("#.0"),
-                _ => _customFloorAreaMetric.FloorArea.ToString()
+                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => $"{_customFloorAreaMetric.PercentFreeSchoolMeals:#.0}",
+                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => $"{_customFloorAreaMetric.PercentSpecialEducationNeeds:#.0}",
+                _ => $"{_customFloorAreaMetric.TotalInternalFloorArea:#.0}"
             };
 
-            Assert.True(expected?.Equals(actual), $"{field} expected to be {expected} but found {actual}");
+            Assert.True(expected.Equals(actual), $"{field} expected to be {expected} but found {actual}");
         }
     }
 
@@ -202,9 +200,11 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, _finances, _expenditure, _floorAreaMetric)
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
+            .SetupBalance(school)
+            .SetupExpenditure(school,_expenditure)
+            .SetupSchoolInsight(school, _floorAreaMetric)
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataNonFinancialData(school.URN));
 
@@ -226,12 +226,12 @@ public class WhenViewingCustomDataNonFinancialData : PageBase<SchoolBenchmarking
             var expected = field switch
             {
                 nameof(NonFinancialDataCustomDataViewModel.NumberOfPupilsFte) => $"{_census.TotalPupils:#.0}",
-                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => $"{_finances.FreeSchoolMealPercent:#}%",
-                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => $"{_finances.SpecialEducationalNeedsPercent:#}%",
-                _ => $"{_floorAreaMetric.FloorArea} square metres"
+                nameof(NonFinancialDataCustomDataViewModel.FreeSchoolMealPercent) => $"{_floorAreaMetric.PercentFreeSchoolMeals:#}%",
+                nameof(NonFinancialDataCustomDataViewModel.SpecialEducationalNeedsPercent) => $"{_floorAreaMetric.PercentSpecialEducationNeeds:#}%",
+                _ => $"{_floorAreaMetric.TotalInternalFloorArea:N0} square metres"
             };
 
-            Assert.True(expected?.Equals(actual), $"{field} expected to be {expected} but found {actual}");
+            Assert.True(expected.Equals(actual), $"{field} expected to be {expected} but found {actual}");
         }
     }
 }

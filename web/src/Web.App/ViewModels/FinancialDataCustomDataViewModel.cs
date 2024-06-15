@@ -40,9 +40,9 @@ public interface IFinancialDataCustomDataViewModel : ICustomDataViewModel
     decimal? StaffDevelopmentTrainingCosts { get; }
     decimal? StaffRelatedInsuranceCosts { get; }
     decimal? SupplyTeacherInsurableCosts { get; }
-    decimal TotalIncome { get; }
-    decimal TotalExpenditure { get; }
-    decimal RevenueReserve { get; }
+    decimal? TotalIncome { get; }
+    decimal? TotalExpenditure { get; }
+    decimal? RevenueReserve { get; }
 }
 
 public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewModel
@@ -189,7 +189,7 @@ public record FinancialDataCustomDataViewModel : IFinancialDataCustomDataViewMod
     public decimal? SupplyTeacherInsurableCosts { get; init; }
 
     // Totals
-    public decimal TotalIncome { get; init; }
-    public decimal TotalExpenditure { get; init; }
-    public decimal RevenueReserve { get; init; }
+    public decimal? TotalIncome { get; init; }
+    public decimal? TotalExpenditure { get; init; }
+    public decimal? RevenueReserve { get; init; }
 }

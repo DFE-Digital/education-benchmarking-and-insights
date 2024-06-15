@@ -5,7 +5,6 @@ using AutoFixture.Dsl;
 using Web.App.Domain;
 using Web.App.Infrastructure.Apis;
 using Moq;
-using Web.App.Domain.Benchmark;
 using Xunit;
 
 namespace Web.Integration.Tests.Pages.Schools.FinancialPlanning;
@@ -50,7 +49,6 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
             .Navigate(Paths.SchoolFinancialPlanningManagementRoles(urn, year));
 
         var expectedUrl = Paths.SchoolFinancialPlanningManagementRoles(urn, year).ToAbsolute();
@@ -66,7 +64,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
 
         Assert.NotNull(action);
 
-        Client.SetupBenchmarkWithNotFound();
+        Client.SetupFinancialPlan();
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
@@ -90,27 +88,7 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Primary);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
+    
     [Theory]
     [InlineData(true, true, true, true, true, true, true, true)]
     [InlineData(false, true, false, true, false, true, false, true)]
@@ -327,21 +305,15 @@ public class WhenViewingPlanningManagementRoles(SchoolBenchmarkingWebAppClient c
             .With(x => x.OverallPhase, overallPhase)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(2).ToArray();
-
+        
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningManagementRoles(school.URN, CurrentYear));
 
         return (page, school);

@@ -6,14 +6,12 @@ using Microsoft.Extensions.DependencyInjection;
 using Platform.Api.Insight;
 using Platform.Api.Insight.Balance;
 using Platform.Api.Insight.Census;
-using Platform.Api.Insight.Db;
 using Platform.Api.Insight.Expenditure;
 using Platform.Api.Insight.Income;
 using Platform.Api.Insight.MetricRagRatings;
 using Platform.Api.Insight.Schools;
 using Platform.Api.Insight.Trusts;
 using Platform.Functions.Extensions;
-using Platform.Infrastructure.Cosmos;
 using Platform.Infrastructure.Sql;
 
 [assembly: WebJobsStartup(typeof(Startup))]
@@ -31,17 +29,8 @@ public class Startup : FunctionsStartup
         builder.Services.AddHealthChecks();
 
         builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
-        builder.Services.AddOptions<SchoolFinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<FinancesDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<SchoolsDbOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
-        builder.Services.AddOptions<CosmosDatabaseOptions>().BindConfiguration("Cosmos").ValidateDataAnnotations();
 
-        builder.Services.AddSingleton<ICosmosClientFactory, CosmosClientFactory>();
         builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
-
-        builder.Services.AddSingleton<ISchoolFinancesDb, SchoolFinancesDb>();
-        builder.Services.AddSingleton<ISchoolsDb, SchoolsDb>();
-        builder.Services.AddSingleton<ISchoolMetricsDb, SchoolMetricsDb>();
 
         builder.Services.AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>();
         builder.Services.AddSingleton<ICensusService, CensusService>();

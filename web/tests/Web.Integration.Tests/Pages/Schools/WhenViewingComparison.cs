@@ -98,16 +98,9 @@ public class WhenViewingComparison(SchoolBenchmarkingWebAppClient client)
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.SchoolName)
-            .With(x => x.Urn, school.URN)
-            .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools)
+            .SetupInsights()
+            .SetupUserData()
             .Navigate(Paths.SchoolComparison(school.URN));
 
         return (page, school);

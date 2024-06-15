@@ -1,7 +1,5 @@
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
-using Platform.Api.Insight;
-using Platform.Api.Insight.Db;
 using Platform.Api.Insight.Income;
 
 namespace Platform.Tests.Insight.Income;

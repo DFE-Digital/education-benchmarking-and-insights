@@ -4,7 +4,6 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -69,9 +68,9 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
         var action = page.QuerySelector(".govuk-button");
 
+        client.SetupFinancialPlan();
+        
         Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithNotFound();
 
         page = await Client.SubmitForm(page.Forms[0], action);
 
@@ -95,30 +94,7 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var composer = Fixture.Build<FinancialPlanInput>()
-            .With(x => x.PupilsYear7, "145");
-
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies, OverallPhaseTypes.Secondary, composer);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
+    
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, string overallPhase, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
@@ -127,21 +103,15 @@ public class WhenViewingPlanningTeacherPeriodAllocation(SchoolBenchmarkingWebApp
             .With(x => x.OverallPhase, overallPhase)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
             .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
+        
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTeacherPeriodAllocation(school.URN, CurrentYear));
 
         return (page, school);

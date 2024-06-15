@@ -4,7 +4,6 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -110,7 +109,7 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTeachingAssistantFigures(urn, year));
 
 
@@ -127,8 +126,8 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
 
         Assert.NotNull(action);
 
-        Client.SetupBenchmarkWithNotFound();
-
+        client.SetupFinancialPlan();
+        
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -138,51 +137,13 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
             Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute(),
             HttpStatusCode.NotFound);
     }
-
-    [Fact]
-    public async Task CanDisplayProblemWithService()
-    {
-        const string urn = "12345";
-        const int year = 2024;
-        var page = await Client
-            .SetupEstablishmentWithException()
-            .SetupBenchmarkWithException()
-            .Navigate(Paths.SchoolFinancialPlanningTeachingAssistantFigures(urn, year));
-
-        var expectedUrl = Paths.SchoolFinancialPlanningTeachingAssistantFigures(urn, year).ToAbsolute();
-        DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
-        PageAssert.IsProblemPage(page);
-    }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
+    
     private async Task<(IHtmlDocument page, School school)> SetupNavigateInitPage(string financeType, IPostprocessComposer<FinancialPlanInput>? planComposer = null)
     {
         var school = Fixture.Build<School>()
             .With(x => x.URN, "12345")
             .With(x => x.FinanceType, financeType)
             .With(x => x.OverallPhase, OverallPhaseTypes.Primary)
-            .Create();
-
-        var finances = Fixture.Build<Finances>()
             .Create();
 
         planComposer ??= Fixture.Build<FinancialPlanInput>();
@@ -192,11 +153,8 @@ public class WhenViewingPlanningTeachingAssistantFigures(SchoolBenchmarkingWebAp
             .With(x => x.Year, CurrentYear)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTeachingAssistantFigures(school.URN, CurrentYear));
 
         return (page, school);

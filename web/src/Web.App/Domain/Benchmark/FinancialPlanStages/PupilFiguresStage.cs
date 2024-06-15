@@ -1,6 +1,6 @@
 using Web.App.Extensions;
 
-namespace Web.App.Domain.Benchmark.FinancialPlanStages;
+namespace Web.App.Domain;
 
 public class PupilFiguresStage : Stage
 {

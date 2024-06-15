@@ -1,9 +1,10 @@
 using Web.App.Domain;
+
 namespace Web.App.ViewModels;
 
 public class SchoolViewModel(
     School school,
-    Finances? finances,
+    SchoolBalance? balance,
     IEnumerable<RagRating> ratings,
     bool? comparatorGenerated,
     string? userDefinedSetId = null,
@@ -18,9 +19,8 @@ public class SchoolViewModel(
     public string? CustomDataId => customDataId;
     public string? TrustIdentifier => school.TrustCompanyNumber;
     public string? TrustName => school.TrustName;
-    public decimal? InYearBalance => finances?.TotalIncome - finances?.TotalExpenditure;
-    public decimal? RevenueReserve => finances?.RevenueReserve;
-    public bool HasFinancials => finances != null;
+    public decimal? InYearBalance => balance?.InYearBalance;
+    public decimal? RevenueReserve => balance?.RevenueReserve;
     public bool HasMetricRag => ratings.Any();
     public IEnumerable<RagRating> Ratings => ratings
         .Where(x => x.RAG is "red" or "amber")

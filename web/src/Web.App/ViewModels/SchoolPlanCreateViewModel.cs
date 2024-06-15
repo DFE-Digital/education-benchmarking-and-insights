@@ -1,5 +1,4 @@
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 
 namespace Web.App.ViewModels;
 
@@ -10,13 +9,17 @@ public class SchoolPlanCreateViewModel(School school, string? referrer = null)
         PlanInput = planInput;
     }
 
-    public SchoolPlanCreateViewModel(School school, FinancialPlanInput planInput, Finances finances, string? referrer = null) : this(school, planInput, referrer)
+    public SchoolPlanCreateViewModel(School school, FinancialPlanInput planInput, SchoolIncome income, SchoolExpenditure expenditure, Census workforce, string? referrer = null) : this(school, planInput, referrer)
     {
-        Finances = finances;
+        Income = income;
+        Expenditure = expenditure;
+        Workforce = workforce;
     }
 
     public School School { get; } = school;
     public FinancialPlanInput? PlanInput { get; init; }
-    public Finances? Finances { get; init; }
+    public SchoolIncome? Income { get; init; }
+    public SchoolExpenditure? Expenditure { get; init; }
+    public Census? Workforce { get; init; }
     public string? Referrer => referrer;
 }

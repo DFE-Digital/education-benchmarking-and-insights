@@ -63,6 +63,8 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
         var page = await Client.SetupEstablishment(trust, schools)
             .SetupBalance(trust)
             .SetupInsights()
+            .SetupMetricRagRating()
+            .SetupBalance(trust)
             .Navigate(Paths.TrustDetails(trust.CompanyNumber));
 
         return (page, trust, schools);

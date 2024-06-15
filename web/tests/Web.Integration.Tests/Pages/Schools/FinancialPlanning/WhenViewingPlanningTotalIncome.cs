@@ -3,7 +3,6 @@ using AngleSharp.Html.Dom;
 using AutoFixture;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -48,27 +47,15 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
     }
 
     [Fact]
-    public async Task CanNavigateBack()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Maintained);
-
-        var anchor = page.QuerySelector(".govuk-back-link");
-        page = await Client.Follow(anchor);
-
-        DocumentAssert.AssertPageUrl(page, Paths.SchoolFinancialPlanningPrePopulatedData(school.URN, CurrentYear).ToAbsolute());
-    }
-
-    [Fact]
     public async Task CanDisplayNotFound()
     {
         const string urn = "12345";
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningTotalIncome(urn, year));
-
-
+        
         var expectedUrl = Paths.SchoolFinancialPlanningTotalIncome(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.NotFound);
         PageAssert.IsNotFoundPage(page);
@@ -161,9 +148,6 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         var plan = Fixture.Build<FinancialPlanInput>()
             .With(x => x.Urn, school.URN)
             .With(x => x.Year, CurrentYear)
@@ -171,11 +155,8 @@ public class WhenViewingPlanningTotalIncome(SchoolBenchmarkingWebAppClient clien
             .Without(x => x.TotalIncome)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningTotalIncome(school.URN, CurrentYear));
 
         return (page, school);

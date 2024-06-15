@@ -96,16 +96,16 @@ public class WhenViewingCensus(SchoolBenchmarkingWebAppClient client) : PageBase
             .With(x => x.FinanceType, financeType)
             .Create();
 
-        var finances = Fixture.Build<Finances>()
+        var finances = Fixture.Build<SchoolBalance>()
             .With(x => x.SchoolName, school.SchoolName)
-            .With(x => x.Urn, school.URN)
+            .With(x => x.URN, school.URN)
             .Create();
 
         var schools = Fixture.Build<School>().CreateMany(30).ToArray();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools)
+            .SetupInsights()
+            .SetupUserData()
             .Navigate(Paths.SchoolCensus(school.URN));
 
         return (page, school);

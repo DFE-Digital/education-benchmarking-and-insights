@@ -1,6 +1,4 @@
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
-using Web.App.Domain.Insight;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -19,10 +17,12 @@ public interface ICustomDataService
 
 public class CustomDataService(
     IHttpContextAccessor httpContextAccessor,
-    IFinanceService financeService,
     IIncomeApi incomeApi,
     ICustomDataApi customDataApi,
     IExpenditureApi expenditureApi,
+    ISchoolInsightApi schoolInsightApi,
+    ICensusApi censusApi,
+    IBalanceApi balanceApi,
     ILogger<CustomDataService> logger)
     : ICustomDataService
 {
@@ -30,13 +30,13 @@ public class CustomDataService(
     {
         // todo: lookup and return current, potentially customised figures
 
-        var finances = await financeService.GetFinances(urn);
         var income = await incomeApi.School(urn).GetResultOrThrow<SchoolIncome>();
         var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
-        var census = await financeService.GetSchoolCensus(urn);
-        var floorArea = await financeService.GetSchoolFloorArea(urn);
+        var census = await censusApi.Get(urn).GetResultOrThrow<Census>();
+        var characteristics = await schoolInsightApi.GetCharacteristicsAsync(urn).GetResultOrThrow<SchoolCharacteristic>();
+        var balance = await balanceApi.School(urn).GetResultOrThrow<SchoolBalance>();
 
-        return new CustomData(finances, income, expenditure, census, floorArea);
+        return CustomDataFactory.Create(income, expenditure, census, characteristics, balance);
     }
 
     public CustomData GetCustomDataFromSession(string urn)

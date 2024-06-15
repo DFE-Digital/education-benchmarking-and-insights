@@ -13,28 +13,6 @@ public class GivenAnInsightApi(ITestOutputHelper testOutputHelper) : ApiClientTe
     }
 
     [Fact]
-    public async Task GetSchoolFinancesShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolFinances("123213");
-
-        VerifyCall(HttpMethod.Get, "api/school/123213");
-    }
-
-    [Fact]
-    public async Task GetSchoolsExpenditureShouldCallCorrectUrl()
-    {
-        var query = new ApiQuery().AddIfNotNull("Name", "Foo");
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolsExpenditure(query);
-
-        VerifyCall(HttpMethod.Get, "api/schools/expenditure?Name=Foo");
-    }
-
-
-    [Fact]
     public async Task GetFinanceYearsShouldCallCorrectUrl()
     {
         var api = new InsightApi(HttpClient);
@@ -42,15 +20,5 @@ public class GivenAnInsightApi(ITestOutputHelper testOutputHelper) : ApiClientTe
         await api.GetCurrentReturnYears();
 
         VerifyCall(HttpMethod.Get, "api/current-return-years");
-    }
-
-    [Fact]
-    public async Task GetSchoolFloorAreaMetricShouldCallCorrectUrl()
-    {
-        var api = new InsightApi(HttpClient);
-
-        await api.GetSchoolFloorAreaMetric("123213");
-
-        VerifyCall(HttpMethod.Get, "api/metric/123213/floor-area");
     }
 }

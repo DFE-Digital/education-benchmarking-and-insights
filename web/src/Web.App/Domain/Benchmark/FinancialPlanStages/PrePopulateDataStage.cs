@@ -1,4 +1,4 @@
-namespace Web.App.Domain.Benchmark.FinancialPlanStages;
+namespace Web.App.Domain;
 
 public class PrePopulateDataStage : Stage
 {

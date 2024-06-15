@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.App.Domain;
-using Web.App.Domain.Insight;
 
 namespace Web.App.ViewModels;
 

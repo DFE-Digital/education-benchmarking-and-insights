@@ -1,8 +1,6 @@
 ﻿using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
-using Web.App.Domain.Insight;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Trusts.Comparators;
 

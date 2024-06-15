@@ -12,7 +12,7 @@ namespace Web.App.Controllers.Api;
 public class ProxyController(
     ILogger<ProxyController> logger,
     IEstablishmentApi establishmentApi,
-    IFinanceService financeService,
+    IExpenditureApi expenditureApi,
     ISchoolComparatorSetService schoolComparatorSetService,
     IUserDataService userDataService)
     : Controller
@@ -57,7 +57,9 @@ public class ProxyController(
             .AddIfNotNull("phase", phase);
 
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
+        var result = await expenditureApi
+            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>()))
+            .GetResultOrThrow<SchoolExpenditure>();
         return new JsonResult(result);
     }
 
@@ -67,7 +69,10 @@ public class ProxyController(
             .AddIfNotNull("companyNumber", id)
             .AddIfNotNull("phase", phase);
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
-        var result = await financeService.GetExpenditure(schools.Select(x => x.URN).OfType<string>());
+        var result = await expenditureApi
+            .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>()))
+            .GetResultOrThrow<SchoolExpenditure[]>();
+
         return new JsonResult(result);
     }
 
@@ -77,12 +82,29 @@ public class ProxyController(
         if (string.IsNullOrEmpty(userData.ComparatorSet))
         {
             var defaultSet = await schoolComparatorSetService.ReadComparatorSet(id);
-            var defaultResult = await financeService.GetExpenditure(defaultSet.Pupil);
+            var defaultResult = await expenditureApi
+                .QuerySchools(BuildQuery(defaultSet.Pupil))
+                .GetResultOrThrow<SchoolExpenditure[]>();
+
             return new JsonResult(defaultResult);
         }
 
         var userDefinedSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(id, userData.ComparatorSet);
-        var userDefinedResult = await financeService.GetExpenditure(userDefinedSet.Set);
+        var userDefinedResult = await expenditureApi
+            .QuerySchools(BuildQuery(userDefinedSet.Set))
+            .GetResultOrThrow<SchoolExpenditure[]>();
+
         return new JsonResult(userDefinedResult);
+    }
+
+    private static ApiQuery BuildQuery(IEnumerable<string> urns)
+    {
+        var query = new ApiQuery();
+        foreach (var urn in urns)
+        {
+            query.AddIfNotNull("urns", urn);
+        }
+
+        return query;
     }
 }

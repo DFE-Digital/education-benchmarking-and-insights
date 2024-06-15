@@ -4,7 +4,6 @@ using AutoFixture;
 using AutoFixture.Dsl;
 using Moq;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 using Web.App.Infrastructure.Apis;
 using Xunit;
 
@@ -52,7 +51,7 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         const int year = 2024;
 
         var page = await Client.SetupEstablishmentWithNotFound()
-            .SetupBenchmarkWithNotFound()
+            .SetupFinancialPlan()
             .Navigate(Paths.SchoolFinancialPlanningPupilFigures(urn, year));
 
 
@@ -69,8 +68,8 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
 
         Assert.NotNull(action);
 
-        Client.SetupBenchmarkWithNotFound();
-
+        Client.SetupFinancialPlan();
+        
         page = await Client.SubmitForm(page.Forms[0], action);
 
         Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
@@ -87,35 +86,13 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
         const string urn = "12345";
         const int year = 2024;
         var page = await Client.SetupEstablishmentWithException()
-            .SetupBenchmarkWithException()
             .Navigate(Paths.SchoolFinancialPlanningPupilFigures(urn, year));
 
         var expectedUrl = Paths.SchoolFinancialPlanningPupilFigures(urn, year).ToAbsolute();
         DocumentAssert.AssertPageUrl(page, expectedUrl, HttpStatusCode.InternalServerError);
         PageAssert.IsProblemPage(page);
     }
-
-    [Fact]
-    public async Task CanDisplayProblemWithServiceOnSubmit()
-    {
-        var (page, school) = await SetupNavigateInitPage(EstablishmentTypes.Academies);
-        var action = page.QuerySelector(".govuk-button");
-
-        Assert.NotNull(action);
-
-        Client.SetupBenchmarkWithException();
-
-        page = await Client.SubmitForm(page.Forms[0], action);
-
-        Client.FinancialPlanApi.Verify(api => api.UpsertAsync(It.IsAny<PutFinancialPlanRequest>()), Times.Never);
-
-        PageAssert.IsProblemPage(page);
-        DocumentAssert.AssertPageUrl(page,
-            Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear).ToAbsolute(),
-            HttpStatusCode.InternalServerError);
-    }
-
-
+    
     [Theory]
     [InlineData("PupilsYear7", "10")]
     [InlineData("PupilsYear8", "7")]
@@ -257,10 +234,6 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
             .With(x => x.OverallPhase, OverallPhaseTypes.Secondary)
             .With(x => x.HasSixthForm, isSixth)
             .Create();
-
-        var finances = Fixture.Build<Finances>()
-            .Create();
-
         planComposer ??= Fixture.Build<FinancialPlanInput>();
 
         var plan = planComposer
@@ -268,11 +241,8 @@ public class WhenViewingPlanningPupilFigures(SchoolBenchmarkingWebAppClient clie
             .With(x => x.Year, CurrentYear)
             .Create();
 
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, finances)
-            .SetupBenchmark(schools, plan)
+            .SetupFinancialPlan(plan)
             .Navigate(Paths.SchoolFinancialPlanningPupilFigures(school.URN, CurrentYear));
 
         return (page, school);

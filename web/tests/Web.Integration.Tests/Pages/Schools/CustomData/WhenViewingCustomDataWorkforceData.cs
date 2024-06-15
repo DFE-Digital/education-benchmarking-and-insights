@@ -2,7 +2,6 @@
 using AngleSharp.Html.Dom;
 using AutoFixture;
 using Web.App.Domain;
-using Web.App.Domain.Insight;
 using Web.App.ViewModels;
 using Xunit;
 namespace Web.Integration.Tests.Pages.Schools.CustomData;
@@ -11,23 +10,19 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
 {
     private readonly Census _census;
     private readonly SchoolExpenditure _expenditure;
-    private readonly Finances _finances;
-    private readonly FloorAreaMetric _floorAreaMetric;
+    private readonly SchoolCharacteristic _floorAreaMetric;
     private readonly Dictionary<string, decimal?> _formValues;
     private readonly SchoolIncome _income;
 
     public WhenViewingCustomDataWorkforceData(SchoolBenchmarkingWebAppClient client) : base(client)
     {
-        _finances = Fixture.Build<Finances>()
-            .Create();
-
         _income = Fixture.Build<SchoolIncome>()
             .Create();
 
         _expenditure = Fixture.Build<SchoolExpenditure>()
             .Create();
 
-        _floorAreaMetric = Fixture.Build<FloorAreaMetric>()
+        _floorAreaMetric = Fixture.Build<SchoolCharacteristic>()
             .Create();
 
         _census = Fixture.Build<Census>()
@@ -152,9 +147,12 @@ public class WhenViewingCustomDataWorkforceData : PageBase<SchoolBenchmarkingWeb
             .Create();
 
         var page = await Client.SetupEstablishment(school)
-            .SetupInsights(school, _finances, _expenditure, _floorAreaMetric)
             .SetupIncome(school, _income)
             .SetupCensus(school, _census)
+            .SetupBalance(school)
+            .SetupExpenditure(school,_expenditure)
+            .SetupSchoolInsight(school, _floorAreaMetric)
+            .SetUpCustomData()
             .SetupHttpContextAccessor()
             .Navigate(Paths.SchoolCustomDataWorkforceData(school.URN));
 

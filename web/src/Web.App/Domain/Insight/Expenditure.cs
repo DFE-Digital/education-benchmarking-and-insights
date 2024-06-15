@@ -1,4 +1,4 @@
-﻿namespace Web.App.Domain.Insight;
+﻿namespace Web.App.Domain;
 
 public abstract record ExpenditureBase
 {
@@ -142,10 +142,6 @@ public record SchoolExpenditure : ExpenditureBase
     public decimal? TotalInternalFloorArea { get; set; }
 
     public bool HasIncompleteData { get; set; }
-    public int FloorArea { get; set; }
-    public string? Name { get; set; }
-    public string? LocalAuthority { get; set; }
-    public decimal? NumberOfPupils { get; set; }
 }
 
 public record TrustExpenditure : ExpenditureBase

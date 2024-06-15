@@ -10,7 +10,7 @@ public interface INonFinancialDataCustomDataViewModel : ICustomDataViewModel
     decimal? NumberOfPupilsFte { get; }
     decimal? FreeSchoolMealPercent { get; }
     decimal? SpecialEducationalNeedsPercent { get; }
-    int? FloorArea { get; }
+    decimal? FloorArea { get; }
 }
 
 public record NonFinancialDataCustomDataViewModel : INonFinancialDataCustomDataViewModel
@@ -29,5 +29,5 @@ public record NonFinancialDataCustomDataViewModel : INonFinancialDataCustomDataV
 
     [PositiveNumericValue]
     [Display(Name = SchoolCustomDataViewModelTitles.FloorArea)]
-    public int? FloorArea { get; init; }
+    public decimal? FloorArea { get; init; }
 }

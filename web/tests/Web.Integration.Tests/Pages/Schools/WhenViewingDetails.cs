@@ -64,17 +64,12 @@ public class WhenViewingDetails(SchoolBenchmarkingWebAppClient client) : PageBas
                 .With(x => x.OfstedDescription, "0")
                 .Create();
 
-        var finances = Fixture.Build<Finances>()
-            .With(x => x.SchoolName, school.SchoolName)
-            .With(x => x.Urn, school.URN)
-            .Create();
-
-        var schools = Fixture.Build<School>().CreateMany(30).ToArray();
-
         var page = await Client
             .SetupEstablishment(school)
-            .SetupBenchmark(schools)
-            .SetupInsights(school, finances)
+            .SetupMetricRagRating()
+            .SetupInsights()
+            .SetupBalance()
+            .SetupUserData()
             .Navigate(Paths.SchoolDetails(school.URN));
 
         return (page, school);

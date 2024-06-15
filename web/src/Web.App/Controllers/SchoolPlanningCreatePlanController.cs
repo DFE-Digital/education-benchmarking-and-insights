@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.FeatureManagement.Mvc;
 using Web.App.Attributes;
 using Web.App.Domain;
-using Web.App.Domain.Benchmark;
-using Web.App.Domain.Benchmark.FinancialPlanStages;
 using Web.App.Extensions;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
@@ -23,7 +21,9 @@ namespace Web.App.Controllers;
 public class SchoolPlanningCreateController(
     IEstablishmentApi establishmentApi,
     IFinancialPlanService financialPlanService,
-    IFinanceService financeService,
+    IIncomeApi incomeApi,
+    IExpenditureApi expenditureApi,
+    ICensusApi censusApi,
     IFinancialPlanStageValidator validator,
     ILogger<SchoolPlanningCreateController> logger)
     : Controller
@@ -114,8 +114,10 @@ public class SchoolPlanningCreateController(
 
             var plan = await financialPlanService.Get(urn, year);
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var finances = await financeService.GetFinances(urn);
-            var viewModel = new SchoolPlanCreateViewModel(school, plan, finances);
+            var income = await incomeApi.School(urn).GetResultOrThrow<SchoolIncome>();
+            var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
+            var workforce = await censusApi.Get(urn).GetResultOrThrow<Census>();
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, income, expenditure, workforce);
 
             return View(viewModel);
         }
@@ -145,8 +147,10 @@ public class SchoolPlanningCreateController(
             stage.SetPlanValues(plan);
 
             var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
-            var finances = await financeService.GetFinances(urn);
-            var viewModel = new SchoolPlanCreateViewModel(school, plan, finances);
+            var income = await incomeApi.School(urn).GetResultOrThrow<SchoolIncome>();
+            var expenditure = await expenditureApi.School(urn).GetResultOrThrow<SchoolExpenditure>();
+            var workforce = await censusApi.Get(urn).GetResultOrThrow<Census>();
+            var viewModel = new SchoolPlanCreateViewModel(school, plan, income, expenditure, workforce);
 
             results.AddToModelState(ModelState);
 

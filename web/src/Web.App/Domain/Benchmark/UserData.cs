@@ -1,4 +1,4 @@
-﻿namespace Web.App.Domain.Benchmark;
+﻿namespace Web.App.Domain;
 
 public record UserData
 {

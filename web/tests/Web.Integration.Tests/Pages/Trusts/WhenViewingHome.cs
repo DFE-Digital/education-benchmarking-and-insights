@@ -86,13 +86,15 @@ public class WhenViewingHome(SchoolBenchmarkingWebAppClient client) : PageBase<S
             .With(x => x.Category, () => AllCostCategories.Values.ElementAt(random.Next(0, AllCostCategories.Keys.Count - 1)))
             .With(x => x.RAG, () => Lookups.StatusPriorityMap.Keys.ElementAt(random.Next(0, Lookups.StatusPriorityMap.Keys.Count - 1)))
             .CreateMany(50).ToArray();
+
         foreach (var rating in ratings)
         {
             rating.URN = schools.ElementAt(random.Next(0, schools.Length - 1)).URN;
         }
 
         var page = await Client.SetupEstablishment(trust, schools)
-            .SetupInsights(ratings)
+            .SetupInsights()
+            .SetupMetricRagRating(ratings)
             .SetupBalance(trust)
             .Navigate(Paths.TrustHome(trust.CompanyNumber));
 

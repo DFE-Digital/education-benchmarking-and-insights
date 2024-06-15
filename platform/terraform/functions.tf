@@ -1,5 +1,3 @@
-
-
 module "benchmark-fa" {
   source                                 = "./modules/functions"
   function-name                          = "benchmark"
@@ -37,13 +35,7 @@ module "insight-fa" {
   enable-restrictions                    = lower(var.cip-environment) != "dev"
   application-insights-connection-string = data.azurerm_application_insights.application-insights.connection_string
   app-settings = merge(local.default_app_settings, {
-    "Cosmos__ConnectionString"            = "@Microsoft.KeyVault(SecretUri=${azurerm_key_vault_secret.platform-cosmos-read-connection-string.versionless_id})"
-    "Cosmos__DatabaseId"                  = azurerm_cosmosdb_sql_database.cosmosdb-container.name
-    "Cosmos__FloorAreaCollectionName"     = "Floor-Area-2021-2022"
-    "Cosmos__CfrLatestYear"               = 2023,
-    "Cosmos__AarLatestYear"               = 2022,
-    "Cosmos__EstablishmentCollectionName" = "GIAS"
-    "Sql__ConnectionString"               = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
+    "Sql__ConnectionString" = "@Microsoft.KeyVault(SecretUri=${data.azurerm_key_vault_secret.core-sql-connection-string.versionless_id})"
   })
   subnet_id = data.azurerm_subnet.web-app-subnet.id
 }

@@ -26,6 +26,37 @@ public class SchoolsFunctions
         _service = service;
     }
 
+    [FunctionName(nameof(SchoolsCharacteristicsAsync))]
+    [ProducesResponseType(typeof(SchoolCharacteristic), (int)HttpStatusCode.OK)]
+    [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
+    public async Task<IActionResult> SchoolsCharacteristicsAsync(
+        [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "school/{urn}/characteristics")]
+        HttpRequest req,
+        string urn)
+    {
+        var correlationId = req.GetCorrelationId();
+
+        using (_logger.BeginScope(new Dictionary<string, object>
+               {
+                   { "Application", Constants.ApplicationName },
+                   { "CorrelationID", correlationId }
+               }))
+        {
+            try
+            {
+                var result = await _service.CharacteristicAsync(urn);
+                return result == null
+                    ? new NotFoundResult()
+                    : new JsonContentResult(result);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to get school characteristics");
+                return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+            }
+        }
+    }
+
     [FunctionName(nameof(QuerySchoolsCharacteristicsAsync))]
     [ProducesResponseType(typeof(SchoolCharacteristic[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]

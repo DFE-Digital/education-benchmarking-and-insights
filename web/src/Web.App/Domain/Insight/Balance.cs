@@ -1,4 +1,4 @@
-﻿namespace Web.App.Domain.Insight;
+﻿namespace Web.App.Domain;
 
 public abstract record BalanceBase
 {

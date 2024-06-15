@@ -1,5 +1,4 @@
 ﻿using Web.App.Domain;
-using Web.App.Domain.Benchmark;
 
 namespace Web.App.ViewModels;
 
@@ -58,15 +57,15 @@ public record SchoolCustomDataViewModel : IFinancialDataCustomDataViewModel, INo
     public decimal? SupplyTeacherInsurableCosts { get; init; }
 
     // Totals
-    public decimal TotalIncome { get; init; }
-    public decimal TotalExpenditure { get; init; }
-    public decimal RevenueReserve { get; init; }
+    public decimal? TotalIncome { get; init; }
+    public decimal? TotalExpenditure { get; init; }
+    public decimal? RevenueReserve { get; init; }
 
     // Non-financial data
     public decimal? NumberOfPupilsFte { get; init; }
     public decimal? FreeSchoolMealPercent { get; init; }
     public decimal? SpecialEducationalNeedsPercent { get; init; }
-    public int? FloorArea { get; init; }
+    public decimal? FloorArea { get; init; }
 
     // Workforce data
     public decimal? WorkforceFte { get; init; }
