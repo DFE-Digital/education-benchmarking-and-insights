@@ -49,8 +49,11 @@ public static class BalanceResponseFactory
     {
         var schoolInYearBalance = CalcSchool(model.InYearBalance, model, parameters.Dimension);
         var centralInYearBalance = CalcCentral(model.InYearBalanceCS, model, parameters.Dimension);
+        var totalInYearBalance = model.InYearBalance.GetValueOrDefault() + model.InYearBalanceCS.GetValueOrDefault();
+
         var schoolRevenueReserve = CalcSchool(model.RevenueReserve, model, parameters.Dimension);
         var centralRevenueReserve = CalcCentral(model.RevenueReserveCS, model, parameters.Dimension);
+        var totalRevenueReserve = model.RevenueReserve.GetValueOrDefault() + model.RevenueReserveCS.GetValueOrDefault();
 
         return new T
         {
@@ -58,21 +61,17 @@ public static class BalanceResponseFactory
             CentralInYearBalance = parameters.IncludeBreakdown ? centralInYearBalance : null,
             SchoolRevenueReserve = parameters.IncludeBreakdown ? schoolRevenueReserve : null,
             CentralRevenueReserve = parameters.IncludeBreakdown ? centralRevenueReserve : null,
-            InYearBalance = CalculateTotal(schoolInYearBalance, centralInYearBalance, parameters.Dimension),
-            RevenueReserve = CalculateTotal(schoolRevenueReserve, centralRevenueReserve, parameters.Dimension)
+            InYearBalance = CalcTotal(totalInYearBalance, model, parameters.Dimension),
+            RevenueReserve = CalcTotal(totalRevenueReserve, model, parameters.Dimension)
         };
     }
 
-    private static decimal? CalculateTotal(decimal? school, decimal? central, string dimension)
+    private static decimal? CalcTotal(decimal value, BalanceBaseModel model, string dimension)
     {
-        return dimension switch
-        {
-            BalanceDimensions.Actuals => school.GetValueOrDefault() + central.GetValueOrDefault(),
-            BalanceDimensions.PerUnit => school.GetValueOrDefault() + central.GetValueOrDefault(),
-            BalanceDimensions.PercentIncome => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
-            BalanceDimensions.PercentExpenditure => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
-            _ => null
-        };
+        var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
+        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() + model.TotalExpenditureCS.GetValueOrDefault();
+
+        return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, dimension);
     }
 
     private static decimal? CalcSchool(decimal? value, BalanceBaseModel model, string dimension)
