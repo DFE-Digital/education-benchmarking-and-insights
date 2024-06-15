@@ -9,6 +9,8 @@ trigger:
   paths:
     include:
       - web
+      - pipelines/web
+      - pipelines/common
 
 pr:
   paths:

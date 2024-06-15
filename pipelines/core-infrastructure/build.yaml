@@ -9,6 +9,8 @@ trigger:
   paths:
     include:
       - core-infrastructure
+      - pipelines/core-infrastructure
+      - pipelines/common
 
 pr:
   paths:

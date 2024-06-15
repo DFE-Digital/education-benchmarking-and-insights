@@ -8,8 +8,9 @@ trigger:
       - main
   paths:
     include:
-      - shared
       - platform
+      - pipelines/platform
+      - pipelines/common
 
 pr:
   paths:

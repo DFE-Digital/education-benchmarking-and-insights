@@ -9,6 +9,8 @@ trigger:
   paths:
     include:
       - prototype
+      - pipelines/prototype
+      - pipelines/common
 
 pr: none
 

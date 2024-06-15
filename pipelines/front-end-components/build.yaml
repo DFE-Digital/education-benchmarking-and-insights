@@ -9,6 +9,7 @@ trigger:
   paths:
     include:
       - front-end-components
+      - pipelines/front-end-components
 
 pr:
   paths:

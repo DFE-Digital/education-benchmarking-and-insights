@@ -10,6 +10,7 @@ trigger:
     include:
       - data-pipeline
       - pipelines/data-pipeline
+      - pipelines/common
 
 pr:
   paths:
