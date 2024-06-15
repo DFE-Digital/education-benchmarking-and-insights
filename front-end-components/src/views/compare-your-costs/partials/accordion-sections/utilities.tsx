@@ -1,24 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { UtilitiesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-  UtilitiesData,
-  UtilitiesProps,
-} from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CalculatePremisesValue,
   PoundsPerMetreSq,
   PremisesCategories,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
+export const Utilities: React.FC<{
+  type: string;
+  id: string;
+}> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerMetreSq);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "Utilities",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
   const tableHeadings = useMemo(
     () => [
       "School name",
@@ -42,64 +67,55 @@ export const Utilities: React.FC<UtilitiesProps> = ({ schools }) => {
   const totalUtilitiesCostsBarData: HorizontalBarChartWrapperData<UtilitiesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculatePremisesValue({
-              dimension: dimension.value,
-              value: school.totalUtilitiesCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.totalUtilitiesCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const energyBarData: HorizontalBarChartWrapperData<UtilitiesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculatePremisesValue({
-              dimension: dimension.value,
-              value: school.energyCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.energyCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const waterSewerageBarData: HorizontalBarChartWrapperData<UtilitiesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculatePremisesValue({
-              dimension: dimension.value,
-              value: school.waterSewerageCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.waterSewerageCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
-  const id = "utilities";
+  const elementId = "utilities";
   const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${id}`,
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
         })}
-        id={id}
+        id={elementId}
       >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">

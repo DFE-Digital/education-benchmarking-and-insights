@@ -1,26 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { EducationalSuppliesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-  EducationalSuppliesData,
-  EducationalSuppliesProps,
-} from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CalculateCostValue,
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
-  schools,
-}) => {
+export const EducationalSupplies: React.FC<{
+  type: string;
+  id: string;
+}> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "EducationalSupplies",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
   const tableHeadings = useMemo(
     () => [
       "School name",
@@ -44,81 +67,55 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
   const totalEducationalSuppliesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.totalEducationalSuppliesCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.totalEducationalSuppliesCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const examinationFeesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
+        dataPoints:
+          data?.map((school) => {
+            return {
+              ...school,
               value: school.examinationFeesCosts,
-              ...school,
-            }),
-          };
-        }),
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
-
-  const breakdownEducationalBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
-    useMemo(() => {
-      return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.breakdownEducationalSuppliesCosts,
-              ...school,
-            }),
-          };
-        }),
-        tableHeadings,
-      };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const learningResourcesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.learningResourcesNonIctCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.learningResourcesNonIctCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
-  const id = "educational-supplies";
+  const elementId = "educational-supplies";
   const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${id}`,
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
         })}
-        id={id}
+        id={elementId}
       >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
@@ -155,14 +152,6 @@ export const EducationalSupplies: React.FC<EducationalSuppliesProps> = ({
             chartName="examination fees costs"
           >
             <h3 className="govuk-heading-s">Examination fees costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={breakdownEducationalBarData}
-            chartName="breakdown of eductional supplies costs"
-          >
-            <h3 className="govuk-heading-s">
-              Breakdown of educational supplies costs
-            </h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}

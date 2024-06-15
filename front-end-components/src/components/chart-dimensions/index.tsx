@@ -1,8 +1,4 @@
-import {
-  CostValue,
-  Dimension,
-  PremisesValue,
-} from "src/components/chart-dimensions";
+import { Dimension } from "src/components/chart-dimensions";
 
 /* eslint-disable react-refresh/only-export-components */
 export * from "src/components/chart-dimensions/types";
@@ -16,7 +12,7 @@ export const PoundsPerPupil: Dimension = {
 };
 export const PoundsPerMetreSq: Dimension = {
   label: "£ per m²",
-  value: "PoundPerSqMetre",
+  value: "PerUnit",
   unit: "currency",
   heading: "Amount",
 };
@@ -85,31 +81,3 @@ export const CensusCategories = [
   PercentageOfWorkforce,
   PupilsPerStaffRole,
 ];
-
-export function CalculateCostValue(costValue: CostValue): number {
-  switch (costValue.dimension) {
-    case PoundsPerPupil.value:
-      return costValue.value / Number(costValue.numberOfPupils);
-    case PercentageExpenditure.value:
-      return (costValue.value / costValue.totalExpenditure) * 100;
-    case PercentageIncome.value:
-      return (costValue.value / costValue.totalIncome) * 100;
-    case Actual.value:
-      return costValue.value;
-    default:
-      return 0;
-  }
-}
-
-export function CalculatePremisesValue(premisesValue: PremisesValue): number {
-  switch (premisesValue.dimension) {
-    case PercentageExpenditure.value:
-      return (premisesValue.value / premisesValue.totalExpenditure) * 100;
-    case PercentageIncome.value:
-      return (premisesValue.value / premisesValue.totalIncome) * 100;
-    case Actual.value:
-      return premisesValue.value;
-    default:
-      return 0;
-  }
-}

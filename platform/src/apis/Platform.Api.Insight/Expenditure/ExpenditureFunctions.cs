@@ -72,6 +72,7 @@ public class ExpenditureFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}")]
         HttpRequest req,
@@ -87,22 +88,11 @@ public class ExpenditureFunctions
         {
             try
             {
-                var category = req.Query["category"].ToString();
-                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
-                {
-                    category = null;
-                }
-
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
-
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolAsync(urn);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, dimension, category));
+                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
@@ -119,6 +109,7 @@ public class ExpenditureFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}")]
         HttpRequest req,
@@ -134,22 +125,11 @@ public class ExpenditureFunctions
         {
             try
             {
-                var category = req.Query["category"].ToString();
-                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
-                {
-                    category = null;
-                }
-
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
-
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustAsync(companyNumber);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, dimension, category));
+                    : new JsonContentResult(ExpenditureResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
@@ -163,6 +143,7 @@ public class ExpenditureFunctions
     [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")]
         HttpRequest req,
@@ -179,13 +160,9 @@ public class ExpenditureFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension)));
+                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -199,6 +176,7 @@ public class ExpenditureFunctions
     [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}/history")]
         HttpRequest req,
@@ -215,13 +193,9 @@ public class ExpenditureFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustHistoryAsync(companyNumber);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension)));
+                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -237,6 +211,7 @@ public class ExpenditureFunctions
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QuerySchoolsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")]
         HttpRequest req)
@@ -252,20 +227,9 @@ public class ExpenditureFunctions
             try
             {
                 //TODO: Add validation for urns, category and dimension
-                var urns = req.Query["urns"].ToString().Split(",");
-                var category = req.Query["category"].ToString();
-                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
-                {
-                    category = null;
-                }
-
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
-                var result = await _service.QuerySchoolsAsync(urns);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension, category)));
+                var queryParams = req.Query.Parameters();
+                var result = await _service.QuerySchoolsAsync(queryParams.Schools);
+                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -281,6 +245,7 @@ public class ExpenditureFunctions
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]))]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QueryTrustsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")]
         HttpRequest req)
@@ -296,20 +261,9 @@ public class ExpenditureFunctions
             try
             {
                 //TODO: Add validation for companyNumbers, category and dimension
-                var companyNumbers = req.Query["companyNumbers"].ToString().Split(",");
-                var category = req.Query["category"].ToString();
-                if (!ExpenditureCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
-                {
-                    category = null;
-                }
-
-                var dimension = req.Query["dimension"].ToString();
-                if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = ExpenditureDimensions.Actuals;
-                }
-                var result = await _service.QueryTrustsAsync(companyNumbers);
-                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, dimension, category)));
+                var queryParams = req.Query.Parameters();
+                var result = await _service.QueryTrustsAsync(queryParams.Trusts);
+                return new JsonContentResult(result.Select(x => ExpenditureResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {

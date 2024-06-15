@@ -48,7 +48,7 @@ export const TableChart: React.FC<TableChartProps<SchoolChartData>> = (
             return (
               <tr key={row.urn} className="govuk-table__row">
                 <td className="govuk-table__cell">
-                  {selectedSchool.urn == row.urn ? (
+                  {selectedSchool == row.urn ? (
                     <strong>{renderSchoolAnchor(row)}</strong>
                   ) : (
                     renderSchoolAnchor(row)

@@ -7,7 +7,7 @@ namespace Web.App.Controllers.Api;
 [ApiController]
 [Route("api/suggest")]
 public class SuggestProxyController(
-ILogger<ProxyController> logger,
+ILogger<SuggestProxyController> logger,
 ISuggestService suggestService) : Controller
 {
     [HttpGet]

@@ -42,7 +42,7 @@ import {
 } from "./components/charts/utils";
 import { EstablishmentTick } from "./components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "./components/charts/school-census-tooltip";
-import { ExpenditureData, Census, TrustBalance } from "./services";
+import { Census, Expenditure, TrustBalance } from "./services";
 import { LineChartTooltip } from "./components/charts/line-chart-tooltip";
 import SchoolInput from "./views/find-organisation/partials/school-input";
 import LaInput from "./views/find-organisation/partials/la-input";
@@ -142,11 +142,11 @@ const HorizontalChart1Series = ({
   valueField,
   valueUnit,
 }: {
-  data: (Census | ExpenditureData)[];
+  data: (Census | Expenditure)[];
   highlightedItemKey?: string;
-  keyField: keyof Census & keyof ExpenditureData;
+  keyField: keyof Census & keyof Expenditure;
   sortDirection: ChartSortDirection;
-  valueField: keyof Census & keyof ExpenditureData;
+  valueField: keyof Census & keyof Expenditure;
   valueUnit?: ChartSeriesValueUnit;
 }) => {
   const horizontalChart2SeriesRef = useRef<ChartHandler>(null);
@@ -233,9 +233,9 @@ if (horizontalChart1SeriesElement) {
         <HorizontalChart1Series
           data={data}
           highlightedItemKey={highlight}
-          keyField={keyField as keyof Census & keyof ExpenditureData}
+          keyField={keyField as keyof Census & keyof Expenditure}
           sortDirection={(sortDirection as ChartSortDirection) || "asc"}
-          valueField={valueField as keyof Census & keyof ExpenditureData}
+          valueField={valueField as keyof Census & keyof Expenditure}
           valueUnit={valueUnit as ChartSeriesValueUnit}
         />
       </React.StrictMode>

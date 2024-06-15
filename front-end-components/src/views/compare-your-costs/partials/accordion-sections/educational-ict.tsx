@@ -1,24 +1,48 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { EducationalIctData } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-  EducationalIctData,
-  EducationalIctProps,
-} from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CalculateCostValue,
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
+export const EducationalIct: React.FC<{
+  type: string;
+  id: string;
+}> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "EducationalIct",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
@@ -40,30 +64,27 @@ export const EducationalIct: React.FC<EducationalIctProps> = ({ schools }) => {
       ];
 
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.learningResourcesIctCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.learningResourcesIctCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
-  const id = "educational-ict";
+  const elementId = "educational-ict";
   const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${id}`,
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
         })}
-        id={id}
+        id={elementId}
       >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">

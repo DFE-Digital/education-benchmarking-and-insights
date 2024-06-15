@@ -1,11 +1,13 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { TotalExpenditureData } from "src/views/compare-your-costs/partials";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
-  TotalExpenditureData,
-  TotalExpenditureProps,
-} from "src/views/compare-your-costs/partials";
-import { ChartDimensionContext } from "src/contexts";
-import {
-  CalculateCostValue,
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
@@ -15,11 +17,31 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
-  schools,
+export const TotalExpenditure: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
 }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "TotalExpenditure",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {
@@ -32,19 +54,16 @@ export const TotalExpenditure: React.FC<TotalExpenditureProps> = ({
       ];
 
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.totalExpenditure,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.totalExpenditure,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools]);
+    }, [dimension, data]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

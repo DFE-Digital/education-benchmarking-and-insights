@@ -1,6 +1,5 @@
 import React, { useLayoutEffect } from "react";
 import { useHash } from "src/hooks/useHash";
-import { ExpenditureAccordionProps } from "src/views/compare-your-costs/partials";
 import {
   AdministrativeSupplies,
   CateringStaffServices,
@@ -13,8 +12,9 @@ import {
   Utilities,
 } from "src/views/compare-your-costs/partials/accordion-sections";
 
-export const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({
-  schools,
+export const ExpenditureAccordion: React.FC<{ type: string; id: string }> = ({
+  type,
+  id,
 }) => {
   const [hash] = useHash();
 
@@ -38,15 +38,15 @@ export const ExpenditureAccordion: React.FC<ExpenditureAccordionProps> = ({
           data-remember-expanded="false"
           id="accordion"
         >
-          <TeachingSupportStaff schools={schools} />
-          <NonEducationalSupportStaff schools={schools} />
-          <EducationalSupplies schools={schools} />
-          <EducationalIct schools={schools} />
-          <PremisesStaffServices schools={schools} />
-          <Utilities schools={schools} />
-          <AdministrativeSupplies schools={schools} />
-          <CateringStaffServices schools={schools} />
-          <OtherCosts schools={schools} />
+          <TeachingSupportStaff id={id} type={type} />
+          <NonEducationalSupportStaff id={id} type={type} />
+          <EducationalSupplies id={id} type={type} />
+          <EducationalIct id={id} type={type} />
+          <PremisesStaffServices id={id} type={type} />
+          <Utilities id={id} type={type} />
+          <AdministrativeSupplies id={id} type={type} />
+          <CateringStaffServices id={id} type={type} />
+          <OtherCosts id={id} type={type} />
         </div>
       </div>
     </div>

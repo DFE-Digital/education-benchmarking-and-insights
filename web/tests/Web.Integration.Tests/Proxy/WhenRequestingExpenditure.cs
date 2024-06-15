@@ -3,14 +3,14 @@ using Xunit;
 
 namespace Web.Integration.Tests.Proxy;
 
-public class WhenRequestingSchoolExpenditure(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
+public class WhenRequestingExpenditure(SchoolBenchmarkingWebAppClient client) : IClassFixture<SchoolBenchmarkingWebAppClient>
 {
     [Fact]
     public async Task CanReturnInternalServerError()
     {
         const string urn = "12345";
         var response = await client.SetupEstablishmentWithNotFound()
-            .Get(Paths.ApiEstablishmentExpenditure("school", urn));
+            .Get(Paths.ApiExpenditure("school", urn, "dummy", "dummy"));
 
         Assert.Equal(HttpStatusCode.InternalServerError, response.StatusCode);
     }

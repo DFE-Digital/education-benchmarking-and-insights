@@ -52,6 +52,7 @@ public class BalanceFunctions
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolBalanceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}")]
         HttpRequest req,
@@ -67,17 +68,11 @@ public class BalanceFunctions
         {
             try
             {
-                var dimension = req.Query["dimension"].ToString();
-
-                if (!BalanceDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = BalanceDimensions.Actuals;
-                }
-
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolAsync(urn);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(BalanceResponseFactory.Create(result, dimension));
+                    : new JsonContentResult(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
@@ -93,6 +88,7 @@ public class BalanceFunctions
     [ProducesResponseType((int)HttpStatusCode.NotFound)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustBalanceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}")]
         HttpRequest req,
@@ -108,16 +104,12 @@ public class BalanceFunctions
         {
             try
             {
-                var dimension = req.Query["dimension"].ToString();
-                if (!BalanceDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = BalanceDimensions.Actuals;
-                }
+                var queryParams = req.Query.Parameters();
 
                 var result = await _service.GetTrustAsync(companyNumber);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(BalanceResponseFactory.Create(result, dimension));
+                    : new JsonContentResult(BalanceResponseFactory.Create(result, queryParams));
             }
             catch (Exception e)
             {
@@ -131,6 +123,7 @@ public class BalanceFunctions
     [ProducesResponseType(typeof(SchoolBalanceHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolBalanceHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/school/{urn}/history")]
         HttpRequest req,
@@ -147,9 +140,9 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = req.Query["dimension"].ToString();
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, dimension)));
+                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -163,6 +156,7 @@ public class BalanceFunctions
     [ProducesResponseType(typeof(SchoolBalanceHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustBalanceHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trust/{companyNumber}/history")]
         HttpRequest req,
@@ -179,9 +173,9 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = req.Query["dimension"].ToString();
+                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustHistoryAsync(companyNumber);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, dimension)));
+                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -196,6 +190,7 @@ public class BalanceFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QuerySchoolsBalanceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/schools")]
         HttpRequest req)
@@ -211,10 +206,9 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for urns and dimension
-                var urns = req.Query["urns"].ToString().Split(",");
-                var dimension = req.Query["dimension"].ToString();
-                var result = await _service.QuerySchoolsAsync(urns);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, dimension)));
+                var queryParams = req.Query.Parameters();
+                var result = await _service.QuerySchoolsAsync(queryParams.Schools);
+                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {
@@ -229,6 +223,7 @@ public class BalanceFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("companyNumbers", "List of trust company numberss", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string), Required = true)]
+    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QueryTrustsBalanceAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "balance/trusts")]
         HttpRequest req)
@@ -244,10 +239,9 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for companyNumbers and dimension
-                var companyNumbers = req.Query["companyNumbers"].ToString().Split(",");
-                var dimension = req.Query["dimension"].ToString();
-                var result = await _service.QueryTrustsAsync(companyNumbers);
-                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, dimension)));
+                var queryParams = req.Query.Parameters();
+                var result = await _service.QueryTrustsAsync(queryParams.Trusts);
+                return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
             catch (Exception e)
             {

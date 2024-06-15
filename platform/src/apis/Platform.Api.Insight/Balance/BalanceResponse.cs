@@ -2,9 +2,9 @@
 
 public static class BalanceResponseFactory
 {
-    public static SchoolBalanceResponse Create(SchoolBalanceModel model, string dimension)
+    public static SchoolBalanceResponse Create(SchoolBalanceModel model, BalanceParameters parameters)
     {
-        var response = CreateResponse<SchoolBalanceResponse>(model, dimension);
+        var response = CreateResponse<SchoolBalanceResponse>(model, parameters);
 
         response.URN = model.URN;
         response.SchoolName = model.SchoolName;
@@ -15,9 +15,9 @@ public static class BalanceResponseFactory
         return response;
     }
 
-    public static TrustBalanceResponse Create(TrustBalanceModel model, string dimension)
+    public static TrustBalanceResponse Create(TrustBalanceModel model, BalanceParameters parameters)
     {
-        var response = CreateResponse<TrustBalanceResponse>(model, dimension);
+        var response = CreateResponse<TrustBalanceResponse>(model, parameters);
 
         response.CompanyNumber = model.CompanyNumber;
         response.TrustName = model.TrustName;
@@ -25,9 +25,9 @@ public static class BalanceResponseFactory
         return response;
     }
 
-    public static SchoolBalanceHistoryResponse Create(SchoolBalanceHistoryModel model, string dimension)
+    public static SchoolBalanceHistoryResponse Create(SchoolBalanceHistoryModel model, BalanceParameters parameters)
     {
-        var response = CreateResponse<SchoolBalanceHistoryResponse>(model, dimension);
+        var response = CreateResponse<SchoolBalanceHistoryResponse>(model, parameters);
 
         response.URN = model.URN;
         response.Year = model.Year;
@@ -35,9 +35,9 @@ public static class BalanceResponseFactory
         return response;
     }
 
-    public static TrustBalanceHistoryResponse Create(TrustBalanceHistoryModel model, string dimension)
+    public static TrustBalanceHistoryResponse Create(TrustBalanceHistoryModel model, BalanceParameters parameters)
     {
-        var response = CreateResponse<TrustBalanceHistoryResponse>(model, dimension);
+        var response = CreateResponse<TrustBalanceHistoryResponse>(model, parameters);
 
         response.CompanyNumber = model.CompanyNumber;
         response.Year = model.Year;
@@ -45,20 +45,22 @@ public static class BalanceResponseFactory
         return response;
     }
 
-    private static T CreateResponse<T>(BalanceBaseModel model, string dimension) where T : BalanceBaseResponse, new()
+    private static T CreateResponse<T>(BalanceBaseModel model, BalanceParameters parameters) where T : BalanceBaseResponse, new()
     {
-        var response = new T
+        var schoolInYearBalance = CalcSchool(model.InYearBalance, model, parameters.Dimension);
+        var centralInYearBalance = CalcCentral(model.InYearBalanceCS, model, parameters.Dimension);
+        var schoolRevenueReserve = CalcSchool(model.RevenueReserve, model, parameters.Dimension);
+        var centralRevenueReserve = CalcCentral(model.RevenueReserveCS, model, parameters.Dimension);
+
+        return new T
         {
-            SchoolInYearBalance = CalculateValue(model.InYearBalance, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, dimension),
-            CentralInYearBalance = CalculateValue(model.InYearBalanceCS, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension),
-            SchoolRevenueReserve = CalculateValue(model.RevenueReserve, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, dimension),
-            CentralRevenueReserve = CalculateValue(model.RevenueReserveCS, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension)
+            SchoolInYearBalance = parameters.IncludeBreakdown ? schoolInYearBalance : null,
+            CentralInYearBalance = parameters.IncludeBreakdown ? centralInYearBalance : null,
+            SchoolRevenueReserve = parameters.IncludeBreakdown ? schoolRevenueReserve : null,
+            CentralRevenueReserve = parameters.IncludeBreakdown ? centralRevenueReserve : null,
+            InYearBalance = CalculateTotal(schoolInYearBalance, centralInYearBalance, parameters.Dimension),
+            RevenueReserve = CalculateTotal(schoolRevenueReserve, centralRevenueReserve, parameters.Dimension)
         };
-
-        response.InYearBalance = CalculateTotal(response.SchoolInYearBalance, response.CentralInYearBalance, dimension);
-        response.RevenueReserve = CalculateTotal(response.SchoolRevenueReserve, response.CentralRevenueReserve, dimension);
-
-        return response;
     }
 
     private static decimal? CalculateTotal(decimal? school, decimal? central, string dimension)
@@ -71,6 +73,16 @@ public static class BalanceResponseFactory
             BalanceDimensions.PercentExpenditure => (school.GetValueOrDefault() + central.GetValueOrDefault()) / 2,
             _ => null
         };
+    }
+
+    private static decimal? CalcSchool(decimal? value, BalanceBaseModel model, string dimension)
+    {
+        return CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, dimension);
+    }
+
+    private static decimal? CalcCentral(decimal? value, BalanceBaseModel model, string dimension)
+    {
+        return CalculateValue(value, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension);
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,

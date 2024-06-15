@@ -82,7 +82,7 @@ public static class Paths
     public static string TrustComparatorsRevert(string? companyNumber) => $"/trust/{companyNumber}/comparators/revert";
 
     public static string ApiSuggest(string search, string type) => $"api/suggest?search={search}&type={type}";
-    public static string ApiEstablishmentExpenditure(string? type, string? id) => $"api/establishments/expenditure?type={type}&id={id}";
+    public static string ApiExpenditure(string? type, string? id, string category, string dimension) => $"api/expenditure?type={type}&id={id}&category={category}&dimension={dimension}";
     public static string ApiCensus(string id, string type, string category, string dimension) => $"api/census?id={id}&type={type}&category={category}&dimension={dimension}";
     public static string LocalAuthorityHome(string? code) => $"/local-authority/{code}";
     public static string LocalAuthorityResources(string? code) => $"/local-authority/{code}/find-ways-to-spend-less";

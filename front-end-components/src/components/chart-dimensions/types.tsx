@@ -8,21 +8,6 @@ export type Dimension = {
   unit?: ChartSeriesValueUnit;
 };
 
-export type CostValue = {
-  dimension: string;
-  totalExpenditure: number;
-  totalIncome: number;
-  numberOfPupils: bigint;
-  value: number;
-};
-
-export type PremisesValue = {
-  dimension: string;
-  totalExpenditure: number;
-  totalIncome: number;
-  value: number;
-};
-
 export type ChartDimensionsProps = {
   dimensions: Dimension[];
   handleChange: React.ChangeEventHandler<HTMLSelectElement>;

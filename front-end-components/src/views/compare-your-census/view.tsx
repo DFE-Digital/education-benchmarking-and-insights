@@ -35,7 +35,7 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
   };
 
   return (
-    <SelectedSchoolContext.Provider value={{ urn: id, name: "" }}>
+    <SelectedSchoolContext.Provider value={id}>
       <PhaseContext.Provider value={phase}>
         <div className="chart-options">
           <div>

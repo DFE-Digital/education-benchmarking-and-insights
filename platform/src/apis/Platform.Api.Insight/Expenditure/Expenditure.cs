@@ -22,6 +22,7 @@ public static class ExpenditureDimensions
 
 public static class ExpenditureCategories
 {
+    public const string TotalExpenditure = nameof(TotalExpenditure);
     public const string TeachingTeachingSupportStaff = nameof(TeachingTeachingSupportStaff);
     public const string NonEducationalSupportStaff = nameof(NonEducationalSupportStaff);
     public const string EducationalSupplies = nameof(EducationalSupplies);
@@ -34,6 +35,7 @@ public static class ExpenditureCategories
 
     public static readonly string[] All =
     {
+        TotalExpenditure,
         TeachingTeachingSupportStaff,
         NonEducationalSupportStaff,
         EducationalSupplies,

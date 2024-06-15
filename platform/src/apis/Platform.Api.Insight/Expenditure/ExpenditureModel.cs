@@ -1,5 +1,6 @@
 ﻿namespace Platform.Api.Insight.Expenditure;
 
+
 public abstract record ExpenditureBaseModel
 {
     public decimal? TotalPupils { get; set; }

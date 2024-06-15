@@ -1,24 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { OtherCostsData } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-  OtherCostsData,
-  OtherCostsProps,
-} from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CalculateCostValue,
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
+export const OtherCosts: React.FC<{
+  type: string;
+  id: string;
+}> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "Other",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
   const tableHeadings = useMemo(
     () => [
       "School name",
@@ -42,251 +67,209 @@ export const OtherCosts: React.FC<OtherCostsProps> = ({ schools }) => {
   const totalOtherCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.totalOtherCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.totalOtherCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const otherInsurancePremiumsCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.otherInsurancePremiumsCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.otherInsurancePremiumsCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const directRevenueFinancingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.directRevenueFinancingCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.directRevenueFinancingCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const groundsMaintenanceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.groundsMaintenanceCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.groundsMaintenanceCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const indirectEmployeeExpensesBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.indirectEmployeeExpenses,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.indirectEmployeeExpenses,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const interestChargesLoanBankBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.interestChargesLoanBank,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.interestChargesLoanBank,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const privateFinanceInitiativeChargesBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.privateFinanceInitiativeCharges,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.privateFinanceInitiativeCharges,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const rentRatesCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.rentRatesCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.rentRatesCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const specialFacilitiesCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.specialFacilitiesCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.specialFacilitiesCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const staffDevelopmentTrainingCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.staffDevelopmentTrainingCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.staffDevelopmentTrainingCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const staffRelatedInsuranceCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.staffRelatedInsuranceCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.staffRelatedInsuranceCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const supplyTeacherInsurableCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.supplyTeacherInsurableCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.supplyTeacherInsurableCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const communityFocusedSchoolStaffBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.communityFocusedSchoolStaff,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.communityFocusedSchoolStaff,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const communityFocusedSchoolCostsBarData: HorizontalBarChartWrapperData<OtherCostsData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.communityFocusedSchoolCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.communityFocusedSchoolCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
-  const id = "other";
+  const elementId = "other";
   const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${id}`,
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
         })}
-        id={id}
+        id={elementId}
       >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">

@@ -7,7 +7,7 @@ namespace Web.App.Controllers.Api;
 [ApiController]
 [Route("api/user-data")]
 [Authorize]
-public class UserDataProxyController(ILogger<ProxyController> logger, IUserDataService userDataService) : Controller
+public class UserDataProxyController(ILogger<UserDataProxyController> logger, IUserDataService userDataService) : Controller
 {
     [HttpGet]
     [Route("school/{urn}/{identifier}")]

@@ -10,7 +10,7 @@ namespace Web.App.Controllers.Api;
 [ApiController]
 [Route("api/census")]
 public class CensusProxyController(
-    ILogger<ProxyController> logger,
+    ILogger<CensusProxyController> logger,
     IEstablishmentApi establishmentApi,
     ICensusApi censusApi,
     ISchoolComparatorSetService schoolComparatorSetService,

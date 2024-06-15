@@ -1,26 +1,49 @@
-import React, { useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { CateringStaffServicesData } from "src/views/compare-your-costs/partials/accordion-sections/types";
 import {
-  CateringStaffServicesData,
-  CateringStaffServicesProps,
-} from "src/views/compare-your-costs/partials/accordion-sections/types";
-import {
-  CalculateCostValue,
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, PhaseContext } from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { Expenditure, ExpenditureApi } from "src/services";
 
-export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
-  schools,
-}) => {
+export const CateringStaffServices: React.FC<{
+  type: string;
+  id: string;
+}> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const phase = useContext(PhaseContext);
+  const [data, setData] = useState<Expenditure[] | null>();
+  const getData = useCallback(async () => {
+    setData(null);
+    return await ExpenditureApi.query(
+      type,
+      id,
+      dimension.value,
+      "CateringStaffServices",
+      phase
+    );
+  }, [id, dimension, type, phase]);
+
+  useEffect(() => {
+    getData().then((result) => {
+      setData(result);
+    });
+  }, [getData]);
+
   const tableHeadings = useMemo(
     () => [
       "School name",
@@ -41,84 +64,58 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
     setDimension(dimension);
   };
 
-  const netCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+  const totalCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.netCateringCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.totalGrossCateringCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const cateringStaffBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.cateringStaffCosts,
+        dataPoints:
+          data?.map((school) => {
+            return {
               ...school,
-            }),
-          };
-        }),
+              value: school.cateringStaffCosts,
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
   const cateringSuppliesBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
     useMemo(() => {
       return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
+        dataPoints:
+          data?.map((school) => {
+            return {
+              ...school,
               value: school.cateringSuppliesCosts,
-              ...school,
-            }),
-          };
-        }),
+            };
+          }) ?? [],
         tableHeadings,
       };
-    }, [dimension, schools, tableHeadings]);
+    }, [data, tableHeadings]);
 
-  const incomeCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
-    useMemo(() => {
-      return {
-        dataPoints: schools.map((school) => {
-          return {
-            ...school,
-            value: CalculateCostValue({
-              dimension: dimension.value,
-              value: school.incomeCatering,
-              ...school,
-            }),
-          };
-        }),
-        tableHeadings,
-      };
-    }, [dimension, schools, tableHeadings]);
-
-  const id = "catering-staff-and-services";
+  const elementId = "catering-staff-and-services";
   const [hash] = useHash();
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
       <div
         className={classNames("govuk-accordion__section", {
-          "govuk-accordion__section--expanded": hash === `#${id}`,
+          "govuk-accordion__section--expanded": hash === `#${elementId}`,
         })}
-        id={id}
+        id={elementId}
       >
         <div className="govuk-accordion__section-header">
           <h2 className="govuk-accordion__section-heading">
@@ -137,14 +134,14 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
           role="region"
         >
           <HorizontalBarChartWrapper
-            data={netCateringBarData}
-            chartName="net catering costs"
+            data={totalCateringBarData}
+            chartName="total catering costs"
           >
-            <h3 className="govuk-heading-s">Net catering costs</h3>
+            <h3 className="govuk-heading-s">Total catering costs</h3>
             <ChartDimensions
               dimensions={CostCategories}
               handleChange={handleSelectChange}
-              elementId="net-catering-costs"
+              elementId="total-catering-costs"
               defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
@@ -159,12 +156,6 @@ export const CateringStaffServices: React.FC<CateringStaffServicesProps> = ({
             chartName="catering supplies costs"
           >
             <h3 className="govuk-heading-s">Catering supplies costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={incomeCateringBarData}
-            chartName="income from catering"
-          >
-            <h3 className="govuk-heading-s">Income from catering</h3>
           </HorizontalBarChartWrapper>
         </div>
       </div>

@@ -88,7 +88,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     data={sortedDataPoints}
                     highlightActive
                     highlightedItemKeys={
-                      selectedSchool ? [selectedSchool.urn] : undefined
+                      selectedSchool ? [selectedSchool] : undefined
                     }
                     keyField="urn"
                     onImageLoading={setImageLoading}
@@ -111,7 +111,7 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     tick={(t) => (
                       <EstablishmentTick
                         {...t}
-                        highlightedItemKey={selectedSchool?.urn}
+                        highlightedItemKey={selectedSchool}
                         linkToEstablishment
                         href={(urn) => `/school/${urn}`}
                         establishmentKeyResolver={(name) =>

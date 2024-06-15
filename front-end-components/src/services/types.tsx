@@ -1,21 +1,20 @@
-export type ExpenditureData = {
+export type Expenditure = {
   urn: string;
-  name: string;
   schoolType: string;
-  localAuthority: string;
+  totalPupils: bigint;
+  schoolName: string;
+  laName: string;
   totalExpenditure: number;
   totalIncome: number;
-  numberOfPupils: bigint;
   totalTeachingSupportStaffCosts: number;
   teachingStaffCosts: number;
   supplyTeachingStaffCosts: number;
   educationalConsultancyCosts: number;
   educationSupportStaffCosts: number;
   agencySupplyTeachingStaffCosts: number;
-  netCateringCosts: number;
+  totalGrossCateringCosts: number;
   cateringStaffCosts: number;
   cateringSuppliesCosts: number;
-  incomeCatering: number;
   administrativeSuppliesCosts: number;
   learningResourcesIctCosts: number;
   totalEducationalSuppliesCosts: number;
@@ -50,9 +49,6 @@ export type ExpenditureData = {
   energyCosts: number;
   waterSewerageCosts: number;
   hasIncompleteData: boolean;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
 };
 
 export type ExpenditureHistory = {
@@ -161,57 +157,6 @@ export type Income = {
   receiptsSupplyTeacherInsuranceClaims: number;
   investmentIncome: number;
   otherSelfGeneratedIncome: number;
-  totalPupils: bigint;
-  schoolName: string;
-  laName: string;
-};
-
-export type Expenditure = {
-  yearEnd: string;
-  term: string;
-  dimension: string;
-  totalExpenditure: number;
-  totalTeachingSupportStaffCosts: number;
-  teachingStaffCosts: number;
-  supplyTeachingStaffCosts: number;
-  educationalConsultancyCosts: number;
-  educationSupportStaffCosts: number;
-  agencySupplyTeachingStaffCosts: number;
-  totalNonEducationalSupportStaffCosts: number;
-  administrativeClericalStaffCosts: number;
-  auditorsCosts: number;
-  otherStaffCosts: number;
-  professionalServicesNonCurriculumCosts: number;
-  totalEducationalSuppliesCosts: number;
-  examinationFeesCosts: number;
-  learningResourcesNonIctCosts: number;
-  learningResourcesIctCosts: number;
-  totalPremisesStaffServiceCosts: number;
-  cleaningCaretakingCosts: number;
-  maintenancePremisesCosts: number;
-  otherOccupationCosts: number;
-  premisesStaffCosts: number;
-  totalUtilitiesCosts: number;
-  energyCosts: number;
-  waterSewerageCosts: number;
-  administrativeSuppliesCosts: number;
-  totalGrossCateringCosts: number;
-  cateringStaffCosts: number;
-  cateringSuppliesCosts: number;
-  totalOtherCosts: number;
-  otherInsurancePremiumsCosts: number;
-  directRevenueFinancingCosts: number;
-  groundsMaintenanceCosts: number;
-  indirectEmployeeExpenses: number;
-  interestChargesLoanBank: number;
-  privateFinanceInitiativeCharges: number;
-  rentRatesCosts: number;
-  specialFacilitiesCosts: number;
-  staffDevelopmentTrainingCosts: number;
-  staffRelatedInsuranceCosts: number;
-  supplyTeacherInsurableCosts: number;
-  communityFocusedSchoolStaff: number;
-  communityFocusedSchoolCosts: number;
   totalPupils: bigint;
   schoolName: string;
   laName: string;
