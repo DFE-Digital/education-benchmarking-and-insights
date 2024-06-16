@@ -11,7 +11,7 @@
                     case Resources.SchoolResources:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolResources", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Resources", "School", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     Find ways to spend less
                                 </a>
                             </h3>
@@ -23,7 +23,7 @@
                     case Resources.SchoolHistoricData:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolHistory", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("History", "School", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     View historic data
                                 </a>
                             </h3>
@@ -35,7 +35,7 @@
                     case Resources.SchoolDetails:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "SchoolDetails", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Details", "School", new { urn = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     School contact details
                                 </a>
                             </h3>
@@ -47,7 +47,7 @@
                     case Resources.TrustResources:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustResources", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Resources", "Trust", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     Find ways to spend less
                                 </a>
                             </h3>
@@ -59,7 +59,7 @@
                     case Resources.TrustHistoricData:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustHistory", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("History", "Trust", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     View historic data
                                 </a>
                             </h3>
@@ -71,7 +71,7 @@
                     case Resources.TrustDetails:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "TrustDetails", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Details", "Trust", new { companyNumber = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     Trust contact details
                                 </a>
                             </h3>
@@ -83,7 +83,7 @@
                     case Resources.LocalAuthorityResources:
                         <li>
                             <h3 class="govuk-heading-s">
-                                <a href="@Url.Action("Index", "LocalAuthorityResources", new { code = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
+                                <a href="@Url.Action("Resources", "LocalAuthority", new { code = Model.Identifier })" class="govuk-link govuk-link--no-visited-state">
                                     Find ways to spend less
                                 </a>
                             </h3>
@@ -100,7 +100,7 @@
                                 </a>
                             </h3>
                             <p class="govuk-body">
-                                Find out where our data comes from and how to intepret it.
+                                Find out where our data comes from and how to interpret it.
                             </p>
                         </li>
                         break;
