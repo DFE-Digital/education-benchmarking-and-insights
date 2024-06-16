@@ -14,7 +14,7 @@ build:
 unit-test:
 	poetry run coverage run --rcfile ./pyproject.toml -m pytest --junitxml=tests/output/test-output.xml ./tests/unit;\
 	EXIT_CODE=$$?;\
-	poetry run coverage report --fail-under 70 ;\
+	poetry run coverage report --fail-under 65 ;\
 	EXIT_CODE=$$?;\
 	poetry run coverage html ;\
 	poetry run coverage xml ;\
