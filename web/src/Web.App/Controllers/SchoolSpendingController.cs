@@ -32,13 +32,27 @@ public class SchoolSpendingController(
 
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                RagRating[] ratings;
+                SchoolExpenditure[] pupilExpenditure;
+                SchoolExpenditure[] areaExpenditure;
 
-                var ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn))
-                    .GetResultOrThrow<RagRating[]>();
-                var set = await schoolComparatorSetService.ReadComparatorSet(urn);
+                if (string.IsNullOrEmpty(userData.ComparatorSet))
+                {
+                    ratings = await metricRagRatingApi.GetDefaultAsync(new ApiQuery().AddIfNotNull("urns", urn)).GetResultOrThrow<RagRating[]>();
 
-                var pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
-                var areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
+                    var set = await schoolComparatorSetService.ReadComparatorSet(urn);
+                    pupilExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Pupil)).GetResultOrThrow<SchoolExpenditure[]>();
+                    areaExpenditure = await expenditureApi.QuerySchools(BuildQuery(set.Building)).GetResultOrThrow<SchoolExpenditure[]>();
+                }
+                else
+                {
+                    ratings = await metricRagRatingApi.UserDefinedAsync(userData.ComparatorSet).GetResultOrThrow<RagRating[]>();
+                    var userSet = await schoolComparatorSetService.ReadUserDefinedComparatorSet(urn, userData.ComparatorSet);
+                    var expenditures = await expenditureApi.QuerySchools(BuildQuery(userSet.Set)).GetResultOrThrow<SchoolExpenditure[]>();
+
+                    pupilExpenditure = expenditures;
+                    areaExpenditure = expenditures;
+                }
 
                 var viewModel = new SchoolSpendingViewModel(school, ratings, pupilExpenditure, areaExpenditure,
                     userData.ComparatorSet, userData.CustomData);
