@@ -17,7 +17,7 @@ public class HomeController : Controller
     {
         return View();
     }
-    
+
     [HttpGet]
     [Route("sign-out")]
     public IActionResult Signout()

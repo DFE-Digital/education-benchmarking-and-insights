@@ -192,6 +192,8 @@ public class TrustComparatorsCreateByController(
         {
             try
             {
+                ViewData[ViewDataKeys.HiddenNavigation] = true;
+
                 var trust = await establishmentApi.GetTrust(companyNumber).GetResultOrThrow<Trust>();
                 var userDefinedSet = trustComparatorSetService.ReadUserDefinedComparatorSet(companyNumber);
                 if (userDefinedSet.Set.Length == 0)

@@ -192,6 +192,8 @@ public class SchoolComparatorsCreateByController(
         {
             try
             {
+                ViewData[ViewDataKeys.HiddenNavigation] = true;
+
                 var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
                 var userDefinedSet = schoolComparatorSetService.ReadUserDefinedComparatorSet(urn);
                 if (userDefinedSet.Set.Length == 0)

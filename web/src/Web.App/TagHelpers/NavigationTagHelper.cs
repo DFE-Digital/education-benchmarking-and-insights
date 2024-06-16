@@ -15,6 +15,11 @@ public class NavigationTagHelper(
 {
     public override async Task ProcessAsync(TagHelperContext context, TagHelperOutput output)
     {
+        if (ViewContext.ViewData[ViewDataKeys.HiddenNavigation] is true)
+        {
+            return;
+        }
+
         if (ViewContext.ViewData[ViewDataKeys.UseJsBackLink] is true)
         {
             output.TagName = "a";
