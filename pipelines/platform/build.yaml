@@ -18,7 +18,7 @@ pr:
       - platform
 
 variables:
-  - template: ...\common\vars.yaml
+  - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'platform/terraform'
   - name: TerraformDirectory

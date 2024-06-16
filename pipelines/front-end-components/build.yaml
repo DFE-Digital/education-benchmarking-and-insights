@@ -17,7 +17,7 @@ pr:
       - front-end-components
 
 variables:
-  - template: ...\common\vars.yaml
+  - template: ..\common\vars.yaml
   - name: WorkingDir
     value: 'front-end-components'
 

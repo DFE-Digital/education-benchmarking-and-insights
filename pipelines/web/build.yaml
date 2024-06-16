@@ -18,7 +18,7 @@ pr:
       - web
 
 variables:
-  - template: ...\common\vars.yaml
+  - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'web/terraform'
   - name: TerraformDirectory

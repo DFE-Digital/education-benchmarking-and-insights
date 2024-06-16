@@ -18,7 +18,7 @@ pr:
       - data-pipeline
 
 variables:
-  - template: ...\common\vars.yaml
+  - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'data-pipeline/terraform'
   - name: TerraformDirectory

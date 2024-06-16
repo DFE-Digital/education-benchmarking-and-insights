@@ -18,7 +18,7 @@ pr:
       - core-infrastructure
 
 variables:
-  - template: ...\common\vars.yaml
+  - template: ..\common\vars.yaml
   - name: TerraformFolder
     value: 'core-infrastructure/terraform'
   - name: TerraformDirectory
