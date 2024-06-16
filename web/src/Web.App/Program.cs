@@ -5,6 +5,8 @@ using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
+using Polly;
+using Polly.Extensions.Http;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
 using Web.App;
@@ -27,8 +29,22 @@ builder.Services.AddControllersWithViews()
     .AddNewtonsoftJson(options => { options.SerializerSettings.SetJsonOptions(); })
     .AddMvcOptions(options => { options.SetModelBindingOptions(); });
 
-builder.Services.AddDefaultCorrelationId();
-builder.Services.AddApplicationInsightsTelemetry();
+builder.Services
+    .AddDefaultCorrelationId()
+    .AddApplicationInsightsTelemetry()
+    .AddHttpContextAccessor()
+    .AddScoped<IFinanceService, FinanceService>()
+    .AddScoped<IFinancialPlanService, FinancialPlanService>()
+    .AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>()
+    .AddScoped<ITrustComparatorSetService, TrustComparatorSetService>()
+    .AddScoped<ISuggestService, SuggestService>()
+    .AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>()
+    .AddScoped<ICustomDataService, CustomDataService>()
+    .AddScoped<IUserDataService, UserDataService>();
+
+builder.Services.AddHealthChecks();
+builder.Services.AddFeatureManagement()
+    .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
 {
     options.TagClasses = "govuk-breadcrumbs govuk-breadcrumbs--collapse-on-mobile";
@@ -38,19 +54,6 @@ builder.Services.AddBreadcrumbs(Assembly.GetExecutingAssembly(), options =>
     options.ActiveLiTemplate =
         "<li class=\"govuk-breadcrumbs__list-item\"><a class=\"govuk-breadcrumbs__link\" href=\"{1}\">{0}</a></li>";
 });
-
-builder.Services.AddHealthChecks();
-builder.Services.AddHttpContextAccessor();
-builder.Services.AddScoped<IFinanceService, FinanceService>();
-builder.Services.AddScoped<IFinancialPlanService, FinancialPlanService>();
-builder.Services.AddScoped<ISchoolComparatorSetService, SchoolComparatorSetService>();
-builder.Services.AddScoped<ITrustComparatorSetService, TrustComparatorSetService>();
-builder.Services.AddScoped<ISuggestService, SuggestService>();
-builder.Services.AddScoped<IFinancialPlanStageValidator, FinancialPlanStageValidator>();
-builder.Services.AddScoped<ICustomDataService, CustomDataService>();
-builder.Services.AddScoped<IUserDataService, UserDataService>();
-builder.Services.AddFeatureManagement()
-    .UseDisabledFeaturesHandler(new RedirectDisabledFeatureHandler());
 
 builder.AddSessionService();
 
@@ -89,83 +92,31 @@ if (!builder.Environment.IsIntegration())
         };
     });
 
-    builder.Services.AddOptions<ApiSettings>(Constants.InsightApi)
-        .BindConfiguration(Constants.SectionInsightApi)
-        .ValidateDataAnnotations();
-
-    builder.Services.AddOptions<ApiSettings>(Constants.EstablishmentApi)
-        .BindConfiguration(Constants.SectionEstablishmentApi)
-        .ValidateDataAnnotations();
-
-    builder.Services.AddOptions<ApiSettings>(Constants.BenchmarkApi)
-        .BindConfiguration(Constants.SectionBenchmarkApi)
-        .ValidateDataAnnotations();
-
-    builder.Services.AddHttpClient<IInsightApi, InsightApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<ICensusApi, CensusApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<IIncomeApi, IncomeApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<IBalanceApi, BalanceApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<IExpenditureApi, ExpenditureApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddHttpClient<IEstablishmentApi, EstablishmentApi>()
-        .ConfigureHttpClientForApi(Constants.EstablishmentApi);
-
-    builder.Services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>()
-        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddHttpClient<ICustomDataApi, CustomDataApi>()
-        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddHttpClient<IComparatorApi, ComparatorApi>()
-        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>()
-        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddHttpClient<IUserDataApi, UserDataApi>()
-        .ConfigureHttpClientForApi(Constants.BenchmarkApi);
-
-    builder.Services.AddHttpClient<ITrustInsightApi, TrustInsightApi>()
-        .ConfigureHttpClientForApi(Constants.InsightApi);
-
-    builder.Services.AddOptions<DataSourceStorageOptions>()
-        .BindConfiguration("Storage")
-        .ValidateDataAnnotations();
-
-    builder.Services.AddSingleton<IDataSourceStorage, DataSourceStorage>();
-
+    builder.Services
+        .AddBenchmarkApi()
+        .AddEstablishmentApi()
+        .AddInsightApi()
+        .AddStorage();
 }
 
 var app = builder.Build();
+
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/error");
-    app.UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+    app
+        .UseExceptionHandler("/error")
+        .UseHsts(); // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
 }
 
-app.UseForwardedHeaders();
-app.UseMiddleware<CustomResponseHeadersMiddleware>();
-app.UseStatusCodePagesWithReExecute("/error/{0}");
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-app.UseRouting();
-app.UseAuthorization();
-app.UseSession();
+app
+    .UseForwardedHeaders()
+    .UseMiddleware<CustomResponseHeadersMiddleware>()
+    .UseStatusCodePagesWithReExecute("/error/{0}")
+    .UseHttpsRedirection()
+    .UseStaticFiles()
+    .UseRouting()
+    .UseAuthorization()
+    .UseSession();
 
 app.MapHealthChecks("/health");
 app.MapControllerRoute(
@@ -175,5 +126,8 @@ app.MapControllerRoute(
 app.Run();
 
 
+
 [ExcludeFromCodeCoverage]
 public partial class Program; // required for integration tests
+
+

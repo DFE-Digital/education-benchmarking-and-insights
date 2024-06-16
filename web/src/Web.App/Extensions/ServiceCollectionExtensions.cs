@@ -10,12 +10,14 @@ using Web.App.Identity;
 using Web.App.Identity.Models;
 using Web.App.Infrastructure.Apis;
 using Web.App.Infrastructure.Extensions;
+using Web.App.Infrastructure.Storage;
+
 namespace Web.App.Extensions;
 
 public static class ServiceCollectionExtensions
 {
     public static IServiceCollection AddDfeSignIn(this IServiceCollection services,
-        Action<DfeSignInOptions> optionCfg = null)
+        Action<DfeSignInOptions>? optionCfg = null)
     {
         var opts = new DfeSignInOptions();
         optionCfg?.Invoke(opts);
@@ -30,6 +32,61 @@ public static class ServiceCollectionExtensions
             })
             .AddDfeSignInCookie(opts)
             .AddDfeSignInOpenIdConnect(opts);
+
+        return services;
+    }
+
+    public static IServiceCollection AddBenchmarkApi(this IServiceCollection services)
+    {
+        services.AddOptions<ApiSettings>(Constants.BenchmarkApi)
+            .BindConfiguration(Constants.SectionBenchmarkApi)
+            .ValidateDataAnnotations();
+
+        services.AddHttpClient<IFinancialPlanApi, FinancialPlanApi>().Configure(Constants.BenchmarkApi);
+        services.AddHttpClient<ICustomDataApi, CustomDataApi>().Configure(Constants.BenchmarkApi);
+        services.AddHttpClient<IComparatorApi, ComparatorApi>().Configure(Constants.BenchmarkApi);
+        services.AddHttpClient<IComparatorSetApi, ComparatorSetApi>().Configure(Constants.BenchmarkApi);
+        services.AddHttpClient<IUserDataApi, UserDataApi>().Configure(Constants.BenchmarkApi);
+
+        return services;
+    }
+
+    public static IServiceCollection AddEstablishmentApi(this IServiceCollection services)
+    {
+        services.AddOptions<ApiSettings>(Constants.EstablishmentApi)
+            .BindConfiguration(Constants.SectionEstablishmentApi)
+            .ValidateDataAnnotations();
+
+        services.AddHttpClient<IEstablishmentApi, EstablishmentApi>().Configure(Constants.EstablishmentApi);
+
+        return services;
+    }
+
+    public static IServiceCollection AddInsightApi(this IServiceCollection services)
+    {
+        services.AddOptions<ApiSettings>(Constants.InsightApi)
+            .BindConfiguration(Constants.SectionInsightApi)
+            .ValidateDataAnnotations();
+
+        services.AddHttpClient<IInsightApi, InsightApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<ICensusApi, CensusApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IIncomeApi, IncomeApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IBalanceApi, BalanceApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IExpenditureApi, ExpenditureApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<IMetricRagRatingApi, MetricRagRatingApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<ISchoolInsightApi, SchoolInsightApi>().Configure(Constants.InsightApi);
+        services.AddHttpClient<ITrustInsightApi, TrustInsightApi>().Configure(Constants.InsightApi);
+
+        return services;
+    }
+
+    public static IServiceCollection AddStorage(this IServiceCollection services)
+    {
+        services.AddOptions<DataSourceStorageOptions>()
+            .BindConfiguration("Storage")
+            .ValidateDataAnnotations();
+
+        services.AddSingleton<IDataSourceStorage, DataSourceStorage>();
 
         return services;
     }

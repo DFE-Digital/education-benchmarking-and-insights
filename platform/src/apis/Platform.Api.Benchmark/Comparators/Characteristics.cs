@@ -28,7 +28,7 @@ public record CharacteristicDateRange
 
 public static class ExpressionBuilder
 {
-    public static List<string> AddNotValueFilter(this List<string> list, string fieldName, string? value)
+    public static List<string> NotValueFilter(this List<string> list, string fieldName, string? value)
     {
         if (value != null)
         {
@@ -38,7 +38,7 @@ public static class ExpressionBuilder
         return list;
     }
 
-    public static List<string> AddRangeFilter(this List<string> list, string fieldName, CharacteristicRange? characteristic)
+    public static List<string> RangeFilter(this List<string> list, string fieldName, CharacteristicRange? characteristic)
     {
         if (characteristic is not null)
         {
@@ -48,7 +48,7 @@ public static class ExpressionBuilder
         return list;
     }
 
-    public static List<string> AddRangeFilter(this List<string> list, string fieldName, CharacteristicValueBool? characteristic)
+    public static List<string> RangeFilter(this List<string> list, string fieldName, CharacteristicValueBool? characteristic)
     {
         if (characteristic is not null)
         {
@@ -58,7 +58,7 @@ public static class ExpressionBuilder
         return list;
     }
 
-    public static List<string> AddRangeFilter(this List<string> list, string fieldName, CharacteristicDateRange? characteristic)
+    public static List<string> RangeFilter(this List<string> list, string fieldName, CharacteristicDateRange? characteristic)
     {
         if (characteristic is not null)
         {
@@ -73,7 +73,7 @@ public static class ExpressionBuilder
         return string.Join(" and ", list);
     }
 
-    public static List<string> AddListSearch(this List<string> list, string fieldName, CharacteristicList? characteristic)
+    public static List<string> ListSearch(this List<string> list, string fieldName, CharacteristicList? characteristic)
     {
         if (characteristic is not null)
         {
