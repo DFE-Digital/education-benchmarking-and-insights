@@ -304,19 +304,44 @@ def select_top_set_urns(
     :param final_set_size: The final desired size of the comparator set.
     :return: URNs of "top" orgs. meeting criteria, ordered by distance.
     """
+    target_region = regions[index]
+    target_pfi = pfi[index]
+    target_boarding = boarding[index]
+
     distance_without_urn = np.delete(distances, index)
     urns_without_urn = np.delete(urns, index)
     regions_without_urn = np.delete(regions, index)
+    pfi_without_urn = np.delete(pfi, index)
+    boarding_without_urn = np.delete(boarding, index)
 
     index_by_distance = np.argsort(distance_without_urn, axis=0, kind="stable")[:base_set_size]
     urns_by_distance = urns_without_urn[index_by_distance]
 
+    # URNS is the result array we will build up
+    urns = np.array(urns[index])
+
+    if target_pfi or target_boarding == "Boarding":
+        if target_pfi:
+            top_pfi = pfi_without_urn[index_by_distance]
+            same_pfi = np.argwhere(top_pfi).flatten()
+            urns = np.append(urns, urns_by_distance[same_pfi])
+
+        if target_boarding == "Boarding":
+            top_boarding = boarding_without_urn[index_by_distance]
+            same_boarding = np.argwhere(top_boarding == target_boarding).flatten()
+            urns = np.append(urns, urns_by_distance[same_boarding])
+
     top_regions = regions_without_urn[index_by_distance]
-    same_region = np.argwhere(top_regions == top_regions[0]).flatten()
-    same_region_urns = np.append(urns[index], urns_by_distance[same_region])
+    same_region = np.argwhere(top_regions == target_region).flatten()
+    urns = np.append(urns, urns_by_distance[same_region])
+
+    if len(urns) >= final_set_size:
+        return urns[:final_set_size]
+
+    # Fill up with the rest of the URNs using the distance metric
     urns = np.append(
-        same_region_urns,
-        np.delete(urns_by_distance, same_region)[: final_set_size - len(same_region_urns)],
+        urns,
+        np.delete(urns_by_distance, same_region)[: final_set_size - len(urns)],
     )
 
     return urns

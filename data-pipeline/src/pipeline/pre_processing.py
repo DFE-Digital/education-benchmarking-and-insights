@@ -333,7 +333,7 @@ def prepare_aar_data(aar_path):
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
     aar["Is PFI"] = (
-        aar["PFI School"].map(lambda x: x == "PFI school").astype(bool).fillna(False)
+        aar["PFI School"].map(lambda x: x == "PFI School")
     )
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
