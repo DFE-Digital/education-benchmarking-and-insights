@@ -90,11 +90,11 @@
 
             @if (User.Identity is { IsAuthenticated: true })
             {
-                @Html.ActionLink("Sign out", "Signout", "Account", null, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
+                @Html.ActionLink("Sign out", "Signout", "Home", null, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
             }
             else
             {
-                @Html.ActionLink("Sign in", "Signin", "Account", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
+                @Html.ActionLink("Sign in", "Signin", "Home", new { redirectUri = ViewContext.HttpContext.Request.Path }, new { @class = "govuk-header__link govuk-header__service-name app-signin" })
             }
         </div>
     </div>
