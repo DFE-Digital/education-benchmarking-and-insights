@@ -117,7 +117,7 @@ def category_stats(urn, category_name, data, ofsted_rating, rag_mapping, close_c
     key += "_10" if close_count > 10 else ""
 
     series = data[category_name]
-    value = series.iat[0]
+    value = series.loc[urn]
 
     percentile = find_percentile(series, value)
     decile = int(percentile / 10)
@@ -209,6 +209,7 @@ def compute_rag(data, comparators):
                         )
                         if set_urns is not None:
                             comparator_set = df[df.index.isin(set_urns)]
+
                             for r in compute_category_rag(
                                 urn,
                                 cat_name,

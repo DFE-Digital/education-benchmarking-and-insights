@@ -219,7 +219,64 @@ def compute_pupils_comparator(arg) -> np.ndarray:
     return pupils_calc(pupils, fsm, sen)
 
 
+# def select_top_set_urns(
+#     urns: np.array,
+#     pfi: np.array,
+#     boarding: np.array,
+#     regions: np.array,
+#     distances: np.ndarray,
+#     base_set_size=60,
+#     final_set_size=30,
+# ) -> np.ndarray:
+#     """
+#     Determine the URNs of the closest orgs.
+#
+#     1. take the top (by default) 60 orgs. closest by distance metrics,
+#        with the same PFI and Boarding status.
+#     2. reduce this to those in the same region.
+#     3. if fewer than (by default) 30 results, supplement this with the
+#        closest by distance metrics from the original set.
+#
+#     :param urns: URN of each org. in this grouping.
+#     :param pfi: PFI status of each org. in this grouping.
+#     :param boarding: boarding status of each org. in this grouping.
+#     :param regions: regional location of each org. in this grouping.
+#     :param distances: computed distances of each org. from the first.
+#     :return: URNs of "top" orgs. meeting criteria, orderd by distance.
+#     """
+#     index_by_distance = np.argsort(distances, axis=0, kind="stable")
+#     urns_by_distance = urns[index_by_distance]
+#
+#     pfi_by_distance = pfi[index_by_distance]
+#     boarding_by_distance = boarding[index_by_distance]
+#     same_pfi = pfi_by_distance == pfi_by_distance[0]
+#     same_boarding = boarding_by_distance == boarding_by_distance[0]
+#     same_criteria = np.logical_and(
+#         same_pfi,
+#         same_boarding,
+#     )
+#     top_criteria_index = np.argwhere(same_criteria).flatten()[:base_set_size]
+#
+#     same_region_index = np.argwhere(regions == regions[0]).flatten()
+#     top_regions_index = np.intersect1d(
+#         top_criteria_index,
+#         same_region_index,
+#     )
+#     same_region_urns = urns_by_distance[top_regions_index][:final_set_size]
+#
+#     urns = np.append(
+#         same_region_urns,
+#         np.delete(
+#             urns_by_distance,
+#             same_region_index,
+#         )[: final_set_size - len(same_region_urns)],
+#     )
+#
+#     return urns
+
+
 def select_top_set_urns(
+    index: int,
     urns: np.array,
     pfi: np.array,
     boarding: np.array,
@@ -237,39 +294,29 @@ def select_top_set_urns(
     3. if fewer than (by default) 30 results, supplement this with the
        closest by distance metrics from the original set.
 
+    :param index: The index of the target URN in this grouping.
     :param urns: URN of each org. in this grouping.
     :param pfi: PFI status of each org. in this grouping.
     :param boarding: boarding status of each org. in this grouping.
     :param regions: regional location of each org. in this grouping.
     :param distances: computed distances of each org. from the first.
-    :return: URNs of "top" orgs. meeting criteria, orderd by distance.
+    :param base_set_size: The size of the initial sorted set for filtering.
+    :param final_set_size: The final desired size of the comparator set.
+    :return: URNs of "top" orgs. meeting criteria, ordered by distance.
     """
-    index_by_distance = np.argsort(distances, axis=0, kind="stable")
-    urns_by_distance = urns[index_by_distance]
+    distance_without_urn = np.delete(distances, index)
+    urns_without_urn = np.delete(urns, index)
+    regions_without_urn = np.delete(regions, index)
 
-    pfi_by_distance = pfi[index_by_distance]
-    boarding_by_distance = boarding[index_by_distance]
-    same_pfi = pfi_by_distance == pfi_by_distance[0]
-    same_boarding = boarding_by_distance == boarding_by_distance[0]
-    same_criteria = np.logical_and(
-        same_pfi,
-        same_boarding,
-    )
-    top_criteria_index = np.argwhere(same_criteria).flatten()[:base_set_size]
+    index_by_distance = np.argsort(distance_without_urn, axis=0, kind="stable")[:base_set_size]
+    urns_by_distance = urns_without_urn[index_by_distance]
 
-    same_region_index = np.argwhere(regions == regions[0]).flatten()
-    top_regions_index = np.intersect1d(
-        top_criteria_index,
-        same_region_index,
-    )
-    same_region_urns = urns_by_distance[top_regions_index][:final_set_size]
-
+    top_regions = regions_without_urn[index_by_distance]
+    same_region = np.argwhere(top_regions == top_regions[0]).flatten()
+    same_region_urns = np.append(urns[index], urns_by_distance[same_region])
     urns = np.append(
         same_region_urns,
-        np.delete(
-            urns_by_distance,
-            same_region_index,
-        )[: final_set_size - len(same_region_urns)],
+        np.delete(urns_by_distance, same_region)[: final_set_size - len(same_region_urns)],
     )
 
     return urns
@@ -296,9 +343,10 @@ def compute_distances(
         # TODO: compares ab/ba and aa.
         # compute best-set for each org. individually.
         for idx in range(len(phase_urns)):
-            ukprn = phase_urns[idx]
+            urn = phase_urns[idx]
             try:
                 top_pupil_set_urns = select_top_set_urns(
+                    idx,
                     phase_urns,
                     phase_pfi,
                     phase_boarding,
@@ -306,6 +354,7 @@ def compute_distances(
                     pupil_distances[idx],
                 )
                 top_building_set_urns = select_top_set_urns(
+                    idx,
                     phase_urns,
                     phase_pfi,
                     phase_boarding,
@@ -313,11 +362,18 @@ def compute_distances(
                     building_distances[idx],
                 )
 
-                pupils.loc[ukprn] = top_pupil_set_urns
-                buildings.loc[ukprn] = top_building_set_urns
+                if urn == 137045 and top_building_set_urns[0] != urn:
+                    print("URNS")
+                    print(phase_urns)
+                    print("Distances")
+                    print(building_distances[idx])
+                    raise ValueError(f"Expecting first index in building set to match {urn} but got {top_building_set_urns[0]} for phase urns {phase_urns} and distances {building_distances[idx]}")
+
+                pupils.loc[urn] = top_pupil_set_urns
+                buildings.loc[urn] = top_building_set_urns
             except Exception as error:
                 logger.exception(
-                    f"An exception occurred {type(error).__name__} processing {ukprn}:",
+                    f"An exception occurred {type(error).__name__} processing {urn}:",
                     exc_info=error,
                 )
                 return

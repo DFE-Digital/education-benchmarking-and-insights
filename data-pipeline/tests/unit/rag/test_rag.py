@@ -125,10 +125,10 @@ def test_category_stats(
     value, data, diff_mean, percent_diff, percentile, decile, expected_rag
 ):
     category = "Teaching and Teaching support staff_Sub Cat"
-    data = {category: pd.Series(data)}
+    data = {category: pd.Series(data, index=[item for item in range(100000, 100000+len(data))])}
 
     expected = {
-        "URN": "10000101",
+        "URN": 100000,
         "Category": "Teaching and Teaching support staff",
         "SubCategory": "Sub Cat",
         "Value": value,
@@ -143,6 +143,6 @@ def test_category_stats(
 
     rag_settings = config.rag_category_settings["Teaching and Teaching support staff"]
     assert (
-        rag.category_stats("10000101", category, data, "outstanding", rag_settings, 10)
+        rag.category_stats(100000, category, data, "outstanding", rag_settings, 10)
         == expected
     )

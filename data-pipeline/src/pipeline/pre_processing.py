@@ -32,10 +32,12 @@ def prepare_cdc_data(cdc_file_path, current_year):
     )
     cdc["Age Score"] = cdc["Proportion Area"] * (current_year - cdc["Indicative Age"])
     cdc["Age Average Score"] = cdc.groupby(by=["URN"])["Age Score"].sum()
-    cdc["Building Age"] = cdc.groupby(by=["URN"])["Indicative Age"].mean()
-    return cdc[
+    cdc["Building Age"] = cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
+    result = cdc[
         ["Total Internal Floor Area", "Age Average Score", "Building Age"]
-    ].drop_duplicates()
+    ]
+
+    return result[~result.index.duplicated(keep='first')]
 
 
 # noinspection PyTypeChecker
