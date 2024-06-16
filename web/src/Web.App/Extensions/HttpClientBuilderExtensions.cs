@@ -1,6 +1,8 @@
 using System.Diagnostics.CodeAnalysis;
 using CorrelationId.HttpClient;
 using Microsoft.Extensions.Options;
+using Polly;
+using Polly.Extensions.Http;
 using Web.App.Infrastructure.Apis;
 
 namespace Web.App.Extensions;
@@ -8,9 +10,11 @@ namespace Web.App.Extensions;
 [ExcludeFromCodeCoverage]
 public static class HttpClientBuilderExtensions
 {
-    public static IHttpClientBuilder ConfigureHttpClientForApi(this IHttpClientBuilder builder, string apiName)
+    public static IHttpClientBuilder Configure(this IHttpClientBuilder builder, string apiName)
     {
         builder
+            .SetHandlerLifetime(TimeSpan.FromMinutes(5))
+            .AddPolicyHandler(GetRetryPolicy())
             .AddCorrelationIdForwarding()
             .ConfigureHttpClient((provider, client) =>
             {
@@ -23,5 +27,13 @@ public static class HttpClientBuilderExtensions
             });
 
         return builder;
+    }
+
+    //Http retries with exponential backoff
+    private static AsyncPolicy<HttpResponseMessage> GetRetryPolicy()
+    {
+        return HttpPolicyExtensions
+            .HandleTransientHttpError()
+            .WaitAndRetryAsync(6, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)));
     }
 }

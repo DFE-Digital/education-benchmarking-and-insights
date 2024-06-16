@@ -17,21 +17,21 @@ public record ComparatorTrustsRequest
     public string FilterExpression()
     {
         return new List<string>()
-            .AddNotValueFilter("CompanyNumber", Target)
-            .AddRangeFilter(nameof(TotalPupils), TotalPupils)
-            .AddRangeFilter(nameof(TotalIncome), TotalIncome)
-            .AddRangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)
-            .AddRangeFilter(nameof(OpenDate), OpenDate)
-            .AddRangeFilter(nameof(PercentFreeSchoolMeals), PercentFreeSchoolMeals)
-            .AddRangeFilter(nameof(PercentSpecialEducationNeeds), PercentSpecialEducationNeeds)
-            .AddRangeFilter(nameof(SchoolsInTrust), SchoolsInTrust)
+            .NotValueFilter("CompanyNumber", Target)
+            .RangeFilter(nameof(TotalPupils), TotalPupils)
+            .RangeFilter(nameof(TotalIncome), TotalIncome)
+            .RangeFilter(nameof(TotalInternalFloorArea), TotalInternalFloorArea)
+            .RangeFilter(nameof(OpenDate), OpenDate)
+            .RangeFilter(nameof(PercentFreeSchoolMeals), PercentFreeSchoolMeals)
+            .RangeFilter(nameof(PercentSpecialEducationNeeds), PercentSpecialEducationNeeds)
+            .RangeFilter(nameof(SchoolsInTrust), SchoolsInTrust)
             .BuildFilter();
     }
 
     public string SearchExpression()
     {
         return new List<string>()
-            .AddListSearch(nameof(PhasesCovered), PhasesCovered)
+            .ListSearch(nameof(PhasesCovered), PhasesCovered)
             .BuildSearch();
     }
 

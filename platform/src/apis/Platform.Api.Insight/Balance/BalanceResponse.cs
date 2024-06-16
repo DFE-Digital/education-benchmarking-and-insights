@@ -49,11 +49,11 @@ public static class BalanceResponseFactory
     {
         var schoolInYearBalance = CalcSchool(model.InYearBalance, model, parameters.Dimension);
         var centralInYearBalance = CalcCentral(model.InYearBalanceCS, model, parameters.Dimension);
-        var totalInYearBalance = model.InYearBalance.GetValueOrDefault() + model.InYearBalanceCS.GetValueOrDefault();
+        var totalInYearBalance = model.InYearBalance + model.InYearBalanceCS.GetValueOrDefault();
 
         var schoolRevenueReserve = CalcSchool(model.RevenueReserve, model, parameters.Dimension);
         var centralRevenueReserve = CalcCentral(model.RevenueReserveCS, model, parameters.Dimension);
-        var totalRevenueReserve = model.RevenueReserve.GetValueOrDefault() + model.RevenueReserveCS.GetValueOrDefault();
+        var totalRevenueReserve = model.RevenueReserve + model.RevenueReserveCS.GetValueOrDefault();
 
         return new T
         {
@@ -66,7 +66,7 @@ public static class BalanceResponseFactory
         };
     }
 
-    private static decimal? CalcTotal(decimal value, BalanceBaseModel model, string dimension)
+    private static decimal? CalcTotal(decimal? value, BalanceBaseModel model, string dimension)
     {
         var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
         var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() + model.TotalExpenditureCS.GetValueOrDefault();

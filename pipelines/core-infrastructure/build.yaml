@@ -18,12 +18,11 @@ pr:
       - core-infrastructure
 
 variables:
-  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
-  Version.BuildNumber: 0.0.$(Version.Revision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  TerraformFolder: 'core-infrastructure/terraform'
-  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - template: ..\common\vars.yaml
+  - name: TerraformFolder
+    value: 'core-infrastructure/terraform'
+  - name: TerraformDirectory
+    value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
 stages:
   - stage: Build

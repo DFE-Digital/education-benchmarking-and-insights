@@ -4,7 +4,7 @@ using Xunit;
 
 namespace Web.Tests.ViewModels;
 
-public class GivenASchoolDetailsViewModel
+public class GivenASchoolViewModel
 {
     [Theory]
     [InlineData("https://some-website", "https://some-website")]
@@ -15,7 +15,7 @@ public class GivenASchoolDetailsViewModel
     public void WhenSchoolWebsiteIs(string website, string expected)
     {
         var school = new School { Website = website };
-        var vm = new SchoolDetailsViewModel(school);
+        var vm = new SchoolViewModel(school);
 
         Assert.Equal(expected, vm.Website);
     }
