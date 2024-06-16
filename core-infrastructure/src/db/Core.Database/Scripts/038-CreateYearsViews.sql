@@ -24,11 +24,11 @@ IF EXISTS(SELECT 1
           FROM sys.views
           WHERE name = 'CFRHistoryYears')
     BEGIN
-        DROP VIEW AARHistoryYears
+        DROP VIEW CFRHistoryYears
     END
 GO
 
-CREATE VIEW AARHistoryYears
+CREATE VIEW CFRHistoryYears
 AS
 SELECT Value 'Year' FROM Parameters WHERE Name = 'LatestCFRYear'
 UNION
