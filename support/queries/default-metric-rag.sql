@@ -5,3 +5,4 @@ DECLARE @Category AS NVARCHAR(100)='Administrative supplies'
 SELECT *
 FROM MetricRAG
 WHERE RunType = 'default' AND RunId = @Year AND URN = @School AND Category = @Category
+ORDER BY RunId, SubCategory, SetType
