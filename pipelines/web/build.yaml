@@ -18,15 +18,15 @@ pr:
       - web
 
 variables:
-  Version: 0.2
-  Version.Revision: $[counter(variables['Version'], 0)]
-  Version.BuildNumber: $(Version).$(Version.Revision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
-  NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
-  TerraformFolder: 'web/terraform'
-  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - template: ...\common\vars.yaml
+  - name: TerraformFolder
+    value: 'web/terraform'
+  - name: TerraformDirectory
+    value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
+  - name: NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS
+    value: 30
+  - name: NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS
+    value: 30
 
 stages:
   - stage: Build

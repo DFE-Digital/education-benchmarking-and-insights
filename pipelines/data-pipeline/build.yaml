@@ -18,13 +18,11 @@ pr:
       - data-pipeline
 
 variables:
-  Version: 0.2
-  Version.Revision: $[counter(variables['Version'], 0)]
-  Version.BuildNumber: $(Version).$(Version.Revision)
-  Version.BuildVersion: $(Version.BuildNumber)
-  TerraformFolder: 'data-pipeline/terraform'
-  TerraformDirectory: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
-  ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]
+  - template: ...\common\vars.yaml
+  - name: TerraformFolder
+    value: 'data-pipeline/terraform'
+  - name: TerraformDirectory
+    value: '$(System.DefaultWorkingDirectory)/$(TerraformFolder)'
 
 stages:
   - stage: Build
