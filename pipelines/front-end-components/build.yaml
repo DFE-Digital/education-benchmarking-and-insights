@@ -17,8 +17,9 @@ pr:
       - front-end-components
 
 variables:
-  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
-  Version.BuildNumber: 0.1.$(Version.Revision)
+  Version: 0.2
+  Version.Revision: $[counter(variables['Version'], 0)]
+  Version.BuildNumber: $(Version).$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   WorkingDir: 'front-end-components'
   ShouldDeploy: $[and(eq(variables['Build.SourceBranch'], 'refs/heads/main'), ne(variables['Build.Reason'], 'PullRequest'))]

@@ -18,7 +18,7 @@ pr:
       - core-infrastructure
 
 variables:
-  Version: 0.1
+  Version: 0.2
   Version.Revision: $[counter(variables['Version'], 0)]
   Version.BuildNumber: $(Version).$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)

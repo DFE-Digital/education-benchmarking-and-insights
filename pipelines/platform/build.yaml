@@ -18,8 +18,9 @@ pr:
       - platform
 
 variables:
-  Version.Revision: $[counter(variables['Build.SourceBranchName'], 0)]
-  Version.BuildNumber: 0.0.$(Version.Revision)
+  Version: 0.2
+  Version.Revision: $[counter(variables['Version'], 0)]
+  Version.BuildNumber: $(Version).$(Version.Revision)
   Version.BuildVersion: $(Version.BuildNumber)
   NUGET_PLUGIN_HANDSHAKE_TIMEOUT_IN_SECONDS: 30
   NUGET_PLUGIN_REQUEST_TIMEOUT_IN_SECONDS: 30
