@@ -354,6 +354,10 @@
   width: 100%;
 }
 
+.trust-options {
+  grid-template-columns: 50% 50%;
+}
+
 @media (max-width: 640px) {
   .chart-options {
     width: 100%;
