@@ -7,6 +7,7 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="AspNetCore.HealthChecks.SqlServer" />
         <PackageReference Include="AzureExtensions.Swashbuckle"/>
         <PackageReference Include="Dapper.Contrib" />
         <PackageReference Include="FluentValidation"/>

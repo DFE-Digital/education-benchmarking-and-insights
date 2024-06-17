@@ -2,7 +2,6 @@
 using FluentAssertions;
 using Newtonsoft.Json.Linq;
 using Platform.ApiTests.Drivers;
-using Platform.Domain;
 using Platform.Functions.Extensions;
 
 namespace Platform.ApiTests.Steps;

@@ -1,6 +1,5 @@
 using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Platform.Domain;
 using Platform.Functions.Extensions;
 
 namespace Platform.Functions

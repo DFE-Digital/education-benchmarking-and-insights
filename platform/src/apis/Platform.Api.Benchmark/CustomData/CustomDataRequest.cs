@@ -1,4 +1,4 @@
-﻿using Platform.Domain.Messages;
+﻿using Platform.Functions;
 using Platform.Functions.Extensions;
 
 namespace Platform.Api.Benchmark.CustomData;

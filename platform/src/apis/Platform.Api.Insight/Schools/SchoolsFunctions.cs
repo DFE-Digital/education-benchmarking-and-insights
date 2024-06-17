@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using AzureFunctions.Extensions.Swashbuckle.Attribute;
@@ -66,6 +65,7 @@ public class SchoolsFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<SchoolsParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -75,9 +75,7 @@ public class SchoolsFunctions
         {
             try
             {
-                var urns = req.Query["urns"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var schools = await _service.QueryCharacteristicAsync(urns);
-
+                var schools = await _service.QueryCharacteristicAsync(queryParams.Schools);
                 return new JsonContentResult(schools);
             }
             catch (Exception e)

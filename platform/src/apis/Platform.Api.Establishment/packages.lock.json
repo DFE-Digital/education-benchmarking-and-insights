@@ -2,6 +2,16 @@
   "version": 2,
   "dependencies": {
     "net6.0": {
+      "AspNetCore.HealthChecks.SqlServer": {
+        "type": "Direct",
+        "requested": "[6.0.2, )",
+        "resolved": "6.0.2",
+        "contentHash": "Af7ws27DnZZ4bKCiEREm7emSAKEtIiYirEAkI0ixFgK1fwJ99jmMnPC+kU01zfqn3FyCO/gZOUO7WbyVvTPpFg==",
+        "dependencies": {
+          "Microsoft.Data.SqlClient": "3.0.1",
+          "Microsoft.Extensions.Diagnostics.HealthChecks": "6.0.0"
+        }
+      },
       "AzureExtensions.Swashbuckle": {
         "type": "Direct",
         "requested": "[3.3.2, )",
@@ -464,11 +474,6 @@
         "type": "Transitive",
         "resolved": "6.0.0",
         "contentHash": "UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg=="
-      },
-      "Microsoft.Bcl.HashCode": {
-        "type": "Transitive",
-        "resolved": "1.1.0",
-        "contentHash": "J2G1k+u5unBV+aYcwxo94ip16Rkp65pgWFb0R6zwJipzWNMgvqlWeuI7/+R+e8bob66LnSG+llLJ+z8wI94cHg=="
       },
       "Microsoft.CSharp": {
         "type": "Transitive",
@@ -1011,8 +1016,8 @@
       },
       "System.Buffers": {
         "type": "Transitive",
-        "resolved": "4.5.1",
-        "contentHash": "Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg=="
+        "resolved": "4.5.0",
+        "contentHash": "pL2ChpaRRWI/p4LXyy4RgeWlYF2sgfj/pnVMvBqwNFr5cXg7CXNnWZWxrOONLg8VGdFB8oB+EG2Qw4MLgTOe+A=="
       },
       "System.ClientModel": {
         "type": "Transitive",
@@ -1049,11 +1054,6 @@
           "System.Threading": "4.3.0",
           "System.Threading.Tasks": "4.3.0"
         }
-      },
-      "System.Collections.Immutable": {
-        "type": "Transitive",
-        "resolved": "1.7.0",
-        "contentHash": "RVSM6wZUo6L2y6P3vN6gjUtyJ2IF2RVtrepF3J7nrDKfFQd5u/SnSUFclchYQis8/k5scHy9E+fVeKVQLnnkzw=="
       },
       "System.ComponentModel.Annotations": {
         "type": "Transitive",
@@ -1800,11 +1800,6 @@
           "System.Runtime": "4.3.0"
         }
       },
-      "System.ValueTuple": {
-        "type": "Transitive",
-        "resolved": "4.5.0",
-        "contentHash": "okurQJO6NRE/apDIP23ajJ0hpiNmJ+f0BwOlB/cSqTLQlw5upkf+5+96+iG2Jw40G1fCVCyPz/FhIABUjMR+RQ=="
-      },
       "System.Windows.Extensions": {
         "type": "Transitive",
         "resolved": "6.0.0",
@@ -1863,18 +1858,12 @@
           "Newtonsoft.Json": "10.0.2"
         }
       },
-      "platform.domain": {
-        "type": "Project",
-        "dependencies": {
-          "JsonSubTypes": "[2.0.1, )",
-          "Newtonsoft.Json": "[13.0.3, )"
-        }
-      },
       "platform.functions": {
         "type": "Project",
         "dependencies": {
           "AzureExtensions.Swashbuckle": "[3.3.2, )",
           "FluentValidation": "[11.9.1, )",
+          "JsonSubTypes": "[2.0.1, )",
           "Microsoft.Azure.Functions.Extensions": "[1.1.0, )",
           "Microsoft.Extensions.Configuration": "[6.0.1, )",
           "Microsoft.Extensions.Configuration.Binder": "[6.0.0, )",
@@ -1884,7 +1873,6 @@
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Microsoft.Extensions.Options.ConfigurationExtensions": "[6.0.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
-          "Platform.Domain": "[1.0.0, )",
           "Serilog.AspNetCore": "[6.1.0, )",
           "Serilog.Enrichers.CorrelationId": "[3.0.1, )",
           "Serilog.Sinks.ApplicationInsights": "[4.0.0, )"
@@ -1897,11 +1885,9 @@
           "Dapper.Contrib": "[2.0.78, )",
           "Dapper.SqlBuilder": "[2.0.78, )",
           "FluentValidation": "[11.9.1, )",
-          "Microsoft.Azure.Cosmos": "[3.40.0, )",
           "Microsoft.Data.SqlClient": "[5.2.1, )",
           "Microsoft.Extensions.Options": "[6.0.0, )",
           "Newtonsoft.Json": "[13.0.3, )",
-          "Platform.Domain": "[1.0.0, )",
           "System.Linq.Async": "[6.0.1, )"
         }
       },
@@ -1947,27 +1933,6 @@
         "contentHash": "1Po+Ypf0SjCeEKx5+C89Nb5OgTcqNvfS3uTI46MUM+KEp6Rq/M0h+vVsTUt/6DFRwZMTpsAJM4yJrZmEObVANA==",
         "dependencies": {
           "Newtonsoft.Json": "13.0.1"
-        }
-      },
-      "Microsoft.Azure.Cosmos": {
-        "type": "CentralTransitive",
-        "requested": "[3.40.0, )",
-        "resolved": "3.40.0",
-        "contentHash": "aORS4mzRk2nHav6kWo0fMCgOpF5IW2n+K7XHWPkpyxQvXuSkFMh0QD3h//YQzF/eqSJj1BMo33BOjXvTy7/Pow==",
-        "dependencies": {
-          "Azure.Core": "1.19.0",
-          "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
-          "Microsoft.Bcl.HashCode": "1.1.0",
-          "Newtonsoft.Json": "10.0.2",
-          "System.Buffers": "4.5.1",
-          "System.Collections.Immutable": "1.7.0",
-          "System.Configuration.ConfigurationManager": "6.0.0",
-          "System.Diagnostics.DiagnosticSource": "6.0.1",
-          "System.Memory": "4.5.4",
-          "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Threading.Tasks.Extensions": "4.5.4",
-          "System.ValueTuple": "4.5.0"
         }
       },
       "Microsoft.Data.SqlClient": {
@@ -2908,27 +2873,6 @@
         "contentHash": "IXoJOXIqc39AIe+CIR7koBtRGMiCt/LPM3lI+PELtDIy9XdyeSrwXFdWV9dzJ2Awl0paLWUaknLxFQ5HpHZUog==",
         "dependencies": {
           "System.Drawing.Common": "6.0.0"
-        }
-      },
-      "Microsoft.Azure.Cosmos": {
-        "type": "CentralTransitive",
-        "requested": "[3.40.0, )",
-        "resolved": "3.40.0",
-        "contentHash": "aORS4mzRk2nHav6kWo0fMCgOpF5IW2n+K7XHWPkpyxQvXuSkFMh0QD3h//YQzF/eqSJj1BMo33BOjXvTy7/Pow==",
-        "dependencies": {
-          "Azure.Core": "1.19.0",
-          "Microsoft.Bcl.AsyncInterfaces": "1.0.0",
-          "Microsoft.Bcl.HashCode": "1.1.0",
-          "Newtonsoft.Json": "10.0.2",
-          "System.Buffers": "4.5.1",
-          "System.Collections.Immutable": "1.7.0",
-          "System.Configuration.ConfigurationManager": "6.0.0",
-          "System.Diagnostics.DiagnosticSource": "6.0.1",
-          "System.Memory": "4.5.4",
-          "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Threading.Tasks.Extensions": "4.5.4",
-          "System.ValueTuple": "4.5.0"
         }
       },
       "Microsoft.Data.SqlClient": {

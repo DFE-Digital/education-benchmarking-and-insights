@@ -1,5 +1,4 @@
 using System.Net;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Xunit;

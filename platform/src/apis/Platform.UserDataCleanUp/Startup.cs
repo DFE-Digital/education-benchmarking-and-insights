@@ -15,12 +15,16 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
-        builder.Services.AddHealthChecks();
+        builder.Services
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
+        builder.Services
+            .AddOptions<SqlDatabaseOptions>()
+            .BindConfiguration("Sql")
+            .ValidateDataAnnotations();
 
-        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
-        builder.Services.AddSingleton<IPlatformDb, PlatformDb>();
+        builder.Services
+            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<IPlatformDb, PlatformDb>();
     }
 }

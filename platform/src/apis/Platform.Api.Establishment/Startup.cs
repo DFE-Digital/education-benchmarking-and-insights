@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -23,18 +24,33 @@ public class Startup : FunctionsStartup
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
 
-        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
-        builder.Services.AddHealthChecks();
+        var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        ArgumentNullException.ThrowIfNull(sql);
 
-        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
-        builder.Services.AddOptions<SearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
+        builder.Services
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
+        builder.Services
+            .AddHealthChecks()
+            .AddSqlServer(sql);
 
-        builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
-        builder.Services.AddSingleton<ITrustsService, TrustsService>();
-        builder.Services.AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>();
+        builder.Services
+            .AddOptions<SqlDatabaseOptions>()
+            .BindConfiguration("Sql")
+            .ValidateDataAnnotations();
 
-        builder.Services.AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
+        builder.Services
+            .AddOptions<SearchServiceOptions>()
+            .BindConfiguration("Search")
+            .ValidateDataAnnotations();
+
+        builder.Services
+            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<ISchoolsService, SchoolsService>()
+            .AddSingleton<ITrustsService, TrustsService>()
+            .AddSingleton<ILocalAuthoritiesService, LocalAuthoritiesService>();
+
+        builder.Services
+            .AddTransient<IValidator<SuggestRequest>, PostSuggestRequestValidator>();
     }
 }

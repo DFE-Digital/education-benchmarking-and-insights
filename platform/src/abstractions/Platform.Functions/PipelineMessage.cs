@@ -1,9 +1,8 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using JsonSubTypes;
 using Newtonsoft.Json;
 
-namespace Platform.Domain.Messages;
+namespace Platform.Functions;
 
 [ExcludeFromCodeCoverage]
 public record PipelineFinishMessage

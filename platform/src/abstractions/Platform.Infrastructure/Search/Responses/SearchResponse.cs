@@ -1,10 +1,9 @@
 using System.Diagnostics.CodeAnalysis;
-using Platform.Domain;
 
 namespace Platform.Infrastructure.Search;
 
 [ExcludeFromCodeCoverage]
-public record SearchResponse<T> : IPagedResponse
+public record SearchResponse<T>
 {
     public Dictionary<string, IList<FacetValueResponseModel>>? Facets { get; set; }
     public long TotalResults { get; set; }

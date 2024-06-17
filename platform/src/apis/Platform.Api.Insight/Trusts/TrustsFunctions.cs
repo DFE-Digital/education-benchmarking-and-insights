@@ -35,6 +35,7 @@ public class TrustsFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<TrustsParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -44,9 +45,7 @@ public class TrustsFunctions
         {
             try
             {
-                var companyNumbers = req.Query["companyNumbers"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var trusts = await _service.QueryCharacteristicAsync(companyNumbers);
-
+                var trusts = await _service.QueryCharacteristicAsync(queryParams.Truts);
                 return new JsonContentResult(trusts);
             }
             catch (Exception e)

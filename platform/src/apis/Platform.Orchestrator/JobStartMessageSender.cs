@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Azure.Storage.Queues;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using Platform.Domain.Messages;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 
 namespace Platform.Orchestrator;

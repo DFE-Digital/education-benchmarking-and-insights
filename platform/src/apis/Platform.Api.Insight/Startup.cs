@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
 using Microsoft.Azure.WebJobs.Hosting;
@@ -25,19 +26,29 @@ public class Startup : FunctionsStartup
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
 
-        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
-        builder.Services.AddHealthChecks();
+        var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        ArgumentNullException.ThrowIfNull(sql);
 
-        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
+        builder.Services
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
+        builder.Services
+            .AddHealthChecks()
+            .AddSqlServer(sql);
 
-        builder.Services.AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>();
-        builder.Services.AddSingleton<ICensusService, CensusService>();
-        builder.Services.AddSingleton<IBalanceService, BalanceService>();
-        builder.Services.AddSingleton<ISchoolsService, SchoolsService>();
-        builder.Services.AddSingleton<ITrustsService, TrustsService>();
-        builder.Services.AddSingleton<IExpenditureService, ExpenditureService>();
-        builder.Services.AddSingleton<IIncomeService, IncomeService>();
+        builder.Services
+            .AddOptions<SqlDatabaseOptions>()
+            .BindConfiguration("Sql")
+            .ValidateDataAnnotations();
+
+        builder.Services
+            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<IMetricRagRatingsService, MetricRagRatingsService>()
+            .AddSingleton<ICensusService, CensusService>()
+            .AddSingleton<IBalanceService, BalanceService>()
+            .AddSingleton<ISchoolsService, SchoolsService>()
+            .AddSingleton<ITrustsService, TrustsService>()
+            .AddSingleton<IExpenditureService, ExpenditureService>()
+            .AddSingleton<IIncomeService, IncomeService>();
     }
 }

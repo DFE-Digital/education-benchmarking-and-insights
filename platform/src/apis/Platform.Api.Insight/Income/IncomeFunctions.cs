@@ -79,6 +79,7 @@ public class IncomeFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -88,7 +89,6 @@ public class IncomeFunctions
         {
             try
             {
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolAsync(urn);
                 return result == null
                     ? new NotFoundResult()
@@ -116,6 +116,7 @@ public class IncomeFunctions
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -125,7 +126,6 @@ public class IncomeFunctions
         {
             try
             {
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustAsync(companyNumber);
                 return result == null
                     ? new NotFoundResult()
@@ -150,6 +150,7 @@ public class IncomeFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -160,7 +161,6 @@ public class IncomeFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolHistoryAsync(urn);
                 return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
@@ -183,6 +183,7 @@ public class IncomeFunctions
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -193,7 +194,6 @@ public class IncomeFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustHistoryAsync(companyNumber);
                 return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
@@ -217,6 +217,7 @@ public class IncomeFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -227,7 +228,6 @@ public class IncomeFunctions
             try
             {
                 //TODO: Add validation for urns, category and dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.QuerySchoolsAsync(queryParams.Schools);
                 return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }
@@ -251,6 +251,7 @@ public class IncomeFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<IncomeParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -261,7 +262,6 @@ public class IncomeFunctions
             try
             {
                 //TODO: Add validation for companyNumbers, category and dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.QueryTrustsAsync(queryParams.Trusts);
                 return new JsonContentResult(result.Select(x => IncomeResponseFactory.Create(x, queryParams)));
             }

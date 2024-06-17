@@ -1,20 +1,19 @@
 ﻿using System;
 using Microsoft.AspNetCore.Http;
+using Platform.Functions;
+using Platform.Functions.Extensions;
 
 namespace Platform.Api.Insight.Expenditure;
 
-public record ExpenditureParameters
+public record ExpenditureParameters : QueryParameters
 {
-    public bool IncludeBreakdown { get; set; }
-    public string? Category { get; set; }
-    public string Dimension { get; set; } = ExpenditureDimensions.Actuals;
-    public string[] Schools { get; set; } = Array.Empty<string>();
-    public string[] Trusts { get; set; } = Array.Empty<string>();
-}
+    public bool IncludeBreakdown { get; private set; }
+    public string? Category { get; private set; }
+    public string Dimension { get; private set; } = ExpenditureDimensions.Actuals;
+    public string[] Schools { get; private set; } = Array.Empty<string>();
+    public string[] Trusts { get; private set; } = Array.Empty<string>();
 
-public static class ExpenditureQueryParameters
-{
-    public static ExpenditureParameters Parameters(this IQueryCollection query)
+    public override void SetValues(IQueryCollection query)
     {
         var dimension = query["dimension"].ToString();
         if (!ExpenditureDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
@@ -28,17 +27,10 @@ public static class ExpenditureQueryParameters
             category = null;
         }
 
-        var includeBreakdown = bool.TryParse(query["includeBreakdown"].ToString(), out var val) && val;
-        var urns = query["urns"].ToString().Split(",");
-        var companyNumbers = query["companyNumbers"].ToString().Split(",");
-
-        return new ExpenditureParameters
-        {
-            IncludeBreakdown = includeBreakdown,
-            Category = category,
-            Dimension = dimension,
-            Schools = urns,
-            Trusts = companyNumbers
-        };
+        IncludeBreakdown = query.ToBool("includeBreakdown");
+        Category = category;
+        Dimension = dimension;
+        Schools = query.ToStringArray("urns");
+        Trusts = query.ToStringArray("companyNumbers"); ;
     }
 }

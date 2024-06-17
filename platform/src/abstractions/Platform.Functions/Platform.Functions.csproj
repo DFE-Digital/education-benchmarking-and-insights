@@ -11,6 +11,7 @@
         <FrameworkReference Include="Microsoft.AspNetCore.App"/>
         <PackageReference Include="AzureExtensions.Swashbuckle"/>
         <PackageReference Include="FluentValidation"/>
+        <PackageReference Include="JsonSubTypes" />
         <PackageReference Include="Microsoft.Azure.Functions.Extensions"/>
         <PackageReference Include="Microsoft.Extensions.Configuration" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Binder" />
@@ -23,6 +24,5 @@
         <PackageReference Include="Serilog.AspNetCore" />
         <PackageReference Include="Serilog.Enrichers.CorrelationId" />
         <PackageReference Include="Serilog.Sinks.ApplicationInsights" />
-        <ProjectReference Include="..\Platform.Domain\Platform.Domain.csproj" />
     </ItemGroup>
 </Project>

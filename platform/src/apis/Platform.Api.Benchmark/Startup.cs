@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using FluentValidation;
 using Microsoft.Azure.Functions.Extensions.DependencyInjection;
@@ -25,22 +26,37 @@ public class Startup : FunctionsStartup
     {
         builder.AddCustomSwashBuckle(Assembly.GetExecutingAssembly());
 
-        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
-        builder.Services.AddHealthChecks();
+        var sql = Environment.GetEnvironmentVariable("Sql__ConnectionString");
+        ArgumentNullException.ThrowIfNull(sql);
 
-        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
-        builder.Services.AddOptions<SearchServiceOptions>().BindConfiguration("Search").ValidateDataAnnotations();
+        builder.Services
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
+        builder.Services
+            .AddHealthChecks()
+            .AddSqlServer(sql);
 
-        builder.Services.AddSingleton<IComparatorSetsService, ComparatorSetsService>();
-        builder.Services.AddSingleton<IFinancialPlansService, FinancialPlansService>();
-        builder.Services.AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>();
-        builder.Services.AddSingleton<IComparatorTrustsService, ComparatorTrustsService>();
-        builder.Services.AddSingleton<IUserDataService, UserDataService>();
-        builder.Services.AddSingleton<ICustomDataService, CustomDataService>();
+        builder.Services
+            .AddOptions<SqlDatabaseOptions>()
+            .BindConfiguration("Sql")
+            .ValidateDataAnnotations();
 
-        builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>();
-        builder.Services.AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
+        builder.Services
+            .AddOptions<SearchServiceOptions>()
+            .BindConfiguration("Search")
+            .ValidateDataAnnotations();
+
+        builder.Services
+            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<IComparatorSetsService, ComparatorSetsService>()
+            .AddSingleton<IFinancialPlansService, FinancialPlansService>()
+            .AddSingleton<IComparatorSchoolsService, ComparatorSchoolsService>()
+            .AddSingleton<IComparatorTrustsService, ComparatorTrustsService>()
+            .AddSingleton<IUserDataService, UserDataService>()
+            .AddSingleton<ICustomDataService, CustomDataService>();
+
+        builder.Services
+            .AddTransient<IValidator<ComparatorSetUserDefinedSchool>, ComparatorSetUserDefinedSchoolValidator>()
+            .AddTransient<IValidator<ComparatorSetUserDefinedTrust>, ComparatorSetUserDefinedTrustValidator>();
     }
 }

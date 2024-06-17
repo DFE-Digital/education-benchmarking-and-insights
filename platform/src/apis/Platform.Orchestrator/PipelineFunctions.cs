@@ -5,7 +5,7 @@ using DurableTask.Core;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Azure.WebJobs.Extensions.DurableTask;
 using Microsoft.Extensions.Logging;
-using Platform.Domain.Messages;
+using Platform.Functions;
 using Platform.Functions.Extensions;
 
 namespace Platform.Orchestrator;
@@ -33,11 +33,14 @@ public class PipelineFunctions
         try
         {
             using (_logger.BeginScope(new Dictionary<string, object>
-                       {{"Application", Constants.ApplicationName}}))
+                   {
+                       { "Application", Constants.ApplicationName }
+                   }))
             {
                 var status = await client.GetStatusAsync(message.JobId);
 
-                if (status is not { RuntimeStatus: OrchestrationRuntimeStatus.Pending or OrchestrationRuntimeStatus.Running })
+                if (status is not
+                    { RuntimeStatus: OrchestrationRuntimeStatus.Pending or OrchestrationRuntimeStatus.Running })
                 {
                     await client.StartNewAsync(nameof(PipelineJobOrchestrator), message.JobId, message);
                 }
@@ -60,12 +63,15 @@ public class PipelineFunctions
         try
         {
             using (_logger.BeginScope(new Dictionary<string, object>
-                       {{"Application", Constants.ApplicationName}}))
+                       { { "Application", Constants.ApplicationName } }))
             {
                 var job = message.FromJson<PipelineFinishMessage>();
-                _logger.LogInformation("Finished job: {JobId}. RunId - {RunId}", job.JobId, job.RunId);
-                await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished));
-                //TODO: log finished message
+                _db.WriteToLog(job.JobId, message);
+
+                if (!string.IsNullOrEmpty(job.JobId))
+                {
+                    await client.RaiseEventAsync(job.JobId, nameof(PipelineJobFinished));
+                }
             }
         }
         catch (Exception e)

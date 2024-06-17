@@ -16,14 +16,22 @@ public class Startup : FunctionsStartup
 {
     public override void Configure(IFunctionsHostBuilder builder)
     {
-        builder.Services.AddSerilogLoggerProvider(Constants.ApplicationName);
-        builder.Services.AddHealthChecks();
+        builder.Services
+            .AddSerilogLoggerProvider(Constants.ApplicationName);
 
-        builder.Services.AddOptions<JobStartMessageSenderOptions>().BindConfiguration("PipelineMessageHub").ValidateDataAnnotations();
-        builder.Services.AddOptions<SqlDatabaseOptions>().BindConfiguration("Sql").ValidateDataAnnotations();
+        builder.Services
+            .AddOptions<JobStartMessageSenderOptions>()
+            .BindConfiguration("PipelineMessageHub")
+            .ValidateDataAnnotations();
 
-        builder.Services.AddSingleton<IDatabaseFactory, DatabaseFactory>();
-        builder.Services.AddSingleton<IJobStartMessageSender, JobStartMessageSender>();
-        builder.Services.AddSingleton<IPipelineDb, PipelineDb>();
+        builder.Services
+            .AddOptions<SqlDatabaseOptions>()
+            .BindConfiguration("Sql")
+            .ValidateDataAnnotations();
+
+        builder.Services
+            .AddSingleton<IDatabaseFactory, DatabaseFactory>()
+            .AddSingleton<IJobStartMessageSender, JobStartMessageSender>()
+            .AddSingleton<IPipelineDb, PipelineDb>();
     }
 }

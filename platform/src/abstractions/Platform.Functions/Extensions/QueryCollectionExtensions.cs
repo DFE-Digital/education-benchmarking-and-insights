@@ -4,16 +4,16 @@ namespace Platform.Functions.Extensions;
 
 public static class QueryCollectionExtensions
 {
-    public static (int Page, int PageSize) GetPagingValues(this IQueryCollection query)
+    public static string[] ToStringArray(this IQueryCollection query, string parameterName)
     {
-        var dict = query.ToDictionary(r => r.Key, r => r.Value, StringComparer.OrdinalIgnoreCase);
+        return query[parameterName].ToString()
+            .Split(",")
+            .Where(x => !string.IsNullOrEmpty(x))
+            .ToArray();
+    }
 
-        dict.TryGetValue("page", out var pageValue);
-        dict.TryGetValue("pageSize", out var pageSizeValue);
-
-        var pageParsed = int.TryParse(pageValue.ToString(), out var page);
-        var pageSizedParsed = int.TryParse(pageSizeValue.ToString(), out var pageSize);
-
-        return (pageParsed ? page : 1, pageSizedParsed ? pageSize : 10);
+    public static bool ToBool(this IQueryCollection query, string parameterName)
+    {
+        return bool.TryParse(query[parameterName].ToString(), out var val) && val;
     }
 }

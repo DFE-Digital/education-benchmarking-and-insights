@@ -3,7 +3,6 @@ using System.Text;
 using FluentAssertions;
 using Platform.Api.Establishment.Trusts;
 using Platform.ApiTests.Drivers;
-using Platform.Domain;
 using Platform.Functions;
 using Platform.Functions.Extensions;
 using Platform.Infrastructure.Search;

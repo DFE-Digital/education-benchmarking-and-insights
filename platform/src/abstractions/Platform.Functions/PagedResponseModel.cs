@@ -1,9 +1,6 @@
-using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
-namespace Platform.Domain;
+namespace Platform.Functions;
 
 [ExcludeFromCodeCoverage]
 public record PagedResponseModel<T> : IPagedResponse

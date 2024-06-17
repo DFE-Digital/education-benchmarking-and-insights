@@ -66,6 +66,7 @@ public class MetricRagRatingsFunctions
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "metric-rag/default")] HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<MetricRagRatingsParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -75,12 +76,7 @@ public class MetricRagRatingsFunctions
         {
             try
             {
-                var urns = req.Query["urns"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray(); ;
-                var categories = req.Query["categories"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-                var statuses = req.Query["statuses"].ToString().Split(",").Where(x => !string.IsNullOrEmpty(x)).ToArray();
-
-                var result = await _service.QueryAsync(urns, categories, statuses);
-
+                var result = await _service.QueryAsync(queryParams.Schools, queryParams.Categories, queryParams.Statuses);
                 return new JsonContentResult(result);
             }
             catch (Exception e)

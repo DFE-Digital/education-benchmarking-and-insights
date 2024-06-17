@@ -25,4 +25,13 @@ public static class HttpRequestExtensions
             return JsonSerializer.CreateDefault(JsonExtensions.Settings).Deserialize<T>(jsonReader) ?? throw new ArgumentNullException();
         }
     }
+
+
+    public static T GetParameters<T>(this HttpRequest req) where T : QueryParameters, new()
+    {
+        var parameters = new T();
+        parameters.SetValues(req.Query);
+
+        return parameters;
+    }
 }

@@ -77,6 +77,7 @@ public class CensusFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -86,22 +87,10 @@ public class CensusFunctions
         {
             try
             {
-                var category = req.Query["category"].ToString();
-                if (!CensusCategories.IsValid(category) || string.IsNullOrWhiteSpace(category))
-                {
-                    category = null;
-                }
-
-                var dimension = req.Query["dimension"].ToString();
-                if (!CensusDimensions.IsValid(dimension) || string.IsNullOrWhiteSpace(dimension))
-                {
-                    dimension = CensusDimensions.Total;
-                }
-
                 var result = await _service.GetAsync(urn);
                 return result == null
                     ? new NotFoundResult()
-                    : new JsonContentResult(CensusResponseFactory.Create(result, category, dimension));
+                    : new JsonContentResult(CensusResponseFactory.Create(result, queryParams.Category, queryParams.Dimension));
             }
             catch (Exception e)
             {
@@ -121,6 +110,7 @@ public class CensusFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -131,9 +121,8 @@ public class CensusFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var dimension = req.Query["dimension"].ToString();
                 var result = await _service.GetHistoryAsync(urn);
-                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, dimension)));
+                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, queryParams.Dimension)));
             }
             catch (Exception e)
             {
@@ -154,6 +143,7 @@ public class CensusFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<CensusParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -164,11 +154,8 @@ public class CensusFunctions
             try
             {
                 //TODO: Add validation for urns, category and dimension
-                var urns = req.Query["urns"].ToString().Split(",");
-                var category = req.Query["category"].ToString();
-                var dimension = req.Query["dimension"].ToString();
-                var result = await _service.QueryAsync(urns);
-                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, category, dimension)));
+                var result = await _service.QueryAsync(queryParams.Schools);
+                return new JsonContentResult(result.Select(x => CensusResponseFactory.Create(x, queryParams.Category, queryParams.Dimension)));
             }
             catch (Exception e)
             {

@@ -59,6 +59,7 @@ public class BalanceFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -68,7 +69,6 @@ public class BalanceFunctions
         {
             try
             {
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolAsync(urn);
                 return result == null
                     ? new NotFoundResult()
@@ -95,6 +95,7 @@ public class BalanceFunctions
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -104,8 +105,6 @@ public class BalanceFunctions
         {
             try
             {
-                var queryParams = req.Query.Parameters();
-
                 var result = await _service.GetTrustAsync(companyNumber);
                 return result == null
                     ? new NotFoundResult()
@@ -130,6 +129,7 @@ public class BalanceFunctions
         string urn)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -140,7 +140,6 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetSchoolHistoryAsync(urn);
                 return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
@@ -163,6 +162,7 @@ public class BalanceFunctions
         string companyNumber)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -173,7 +173,6 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.GetTrustHistoryAsync(companyNumber);
                 return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
@@ -196,6 +195,7 @@ public class BalanceFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -206,7 +206,6 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for urns and dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.QuerySchoolsAsync(queryParams.Schools);
                 return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
@@ -229,6 +228,7 @@ public class BalanceFunctions
         HttpRequest req)
     {
         var correlationId = req.GetCorrelationId();
+        var queryParams = req.GetParameters<BalanceParameters>();
 
         using (_logger.BeginScope(new Dictionary<string, object>
                {
@@ -239,7 +239,6 @@ public class BalanceFunctions
             try
             {
                 //TODO: Add validation for companyNumbers and dimension
-                var queryParams = req.Query.Parameters();
                 var result = await _service.QueryTrustsAsync(queryParams.Trusts);
                 return new JsonContentResult(result.Select(x => BalanceResponseFactory.Create(x, queryParams)));
             }
