@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { CompareYourCensusViewProps } from "src/views";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
-  SelectedSchoolContext,
+  SelectedEstablishmentContext,
   ChartModeContext,
   PhaseContext,
 } from "src/contexts";
@@ -35,7 +35,7 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
   };
 
   return (
-    <SelectedSchoolContext.Provider value={id}>
+    <SelectedEstablishmentContext.Provider value={id}>
       <PhaseContext.Provider value={phase}>
         <div className="chart-options">
           <div>
@@ -79,6 +79,6 @@ export const CompareYourCensus: React.FC<CompareYourCensusViewProps> = (
           <Headcount id={id} type={type} />
         </ChartModeContext.Provider>
       </PhaseContext.Provider>
-    </SelectedSchoolContext.Provider>
+    </SelectedEstablishmentContext.Provider>
   );
 };

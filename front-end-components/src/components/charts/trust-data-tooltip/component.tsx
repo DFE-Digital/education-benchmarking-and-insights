@@ -2,20 +2,20 @@ import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
-import { TrustBalanceTooltipProps } from "src/components/charts/trust-balance-tooltip";
-import { TrustBalance } from "src/services";
+import { TrustDataTooltipProps } from "src/components/charts/trust-data-tooltip";
 import { shortValueFormatter } from "../utils";
+import { TrustChartData } from "../table-chart";
 
-export function TrustBalanceTooltip<
+export function TrustDataTooltip<
   TValue extends ValueType,
   TName extends NameType,
->(props: TrustBalanceTooltipProps<TValue, TName>) {
-  const { active, payload } = props;
-  const format = (value: number) =>
-    shortValueFormatter(value, { valueUnit: "currency" });
+>(props: TrustDataTooltipProps<TValue, TName>) {
+  const { active, payload, valueUnit } = props;
+  const format = (value?: number) =>
+    value === undefined ? "" : shortValueFormatter(value, { valueUnit });
 
   if (active && payload && payload.length) {
-    const trust = payload[0].payload as TrustBalance;
+    const trust = payload[0].payload as TrustChartData;
     return (
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
         <caption className="govuk-table__caption govuk-table__caption--s">
@@ -36,25 +36,19 @@ export function TrustBalanceTooltip<
             <th scope="row" className="govuk-table__header">
               Total spend
             </th>
-            <td className="govuk-table__cell">
-              {format(trust.totalExpenditure)}
-            </td>
+            <td className="govuk-table__cell">{format(trust.totalValue)}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
               School spend
             </th>
-            <td className="govuk-table__cell">
-              {format(trust.schoolExpenditure)}
-            </td>
+            <td className="govuk-table__cell">{format(trust.schoolValue)}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
               Central spend
             </th>
-            <td className="govuk-table__cell">
-              {format(trust.centralExpenditure)}
-            </td>
+            <td className="govuk-table__cell">{format(trust.centralValue)}</td>
           </tr>
         </tbody>
       </table>

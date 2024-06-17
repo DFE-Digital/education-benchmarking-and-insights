@@ -50,6 +50,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
     highlightActive,
     highlightedItemKeys,
     keyField,
+    labelListSeriesName,
     labels,
     legend,
     margin: _margin,
@@ -164,17 +165,19 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
                 {data.map((entry, dataIndex) =>
                   renderCell(entry, dataIndex, seriesIndex, config)
                 )}
-                {labels && (
-                  <LabelList
-                    dataKey={seriesName as string}
-                    content={(c) => (
-                      <LabelListContent
-                        {...c}
-                        valueFormatter={config?.valueFormatter}
-                      />
-                    )}
-                  />
-                )}
+                {labels &&
+                  (!config?.stackId ||
+                    seriesIndex === visibleSeriesNames.length - 1) && (
+                    <LabelList
+                      dataKey={(labelListSeriesName ?? seriesName) as string}
+                      content={(c) => (
+                        <LabelListContent
+                          {...c}
+                          valueFormatter={config?.valueFormatter}
+                        />
+                      )}
+                    />
+                  )}
               </Bar>
             );
           })}

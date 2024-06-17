@@ -3,8 +3,11 @@ import {
   NameType,
   ValueType,
 } from "recharts/types/component/DefaultTooltipContent";
+import { ChartSeriesValueUnit } from "../types";
 
-export interface TrustBalanceTooltipProps<
+export interface TrustDataTooltipProps<
   TValue extends ValueType,
   TName extends NameType,
-> extends TooltipProps<TValue, TName> {}
+> extends TooltipProps<TValue, TName> {
+  valueUnit?: ChartSeriesValueUnit;
+}

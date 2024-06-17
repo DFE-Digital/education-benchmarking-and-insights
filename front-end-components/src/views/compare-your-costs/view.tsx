@@ -6,7 +6,7 @@ import {
 import { CompareYourCostsViewProps } from "src/views/compare-your-costs";
 import { ChartMode, ChartModeChart } from "src/components";
 import {
-  SelectedSchoolContext,
+  SelectedEstablishmentContext,
   ChartModeContext,
   //HasIncompleteDataContext,
   PhaseContext,
@@ -33,7 +33,7 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
   };
 
   return (
-    <SelectedSchoolContext.Provider value={id}>
+    <SelectedEstablishmentContext.Provider value={id}>
       <PhaseContext.Provider value={phase}>
         <div className="chart-options">
           <div>
@@ -75,6 +75,6 @@ export const CompareYourCosts: React.FC<CompareYourCostsViewProps> = (
         </ChartModeContext.Provider>
         {/*</HasIncompleteDataContext.Provider>*/}
       </PhaseContext.Provider>
-    </SelectedSchoolContext.Provider>
+    </SelectedEstablishmentContext.Provider>
   );
 };

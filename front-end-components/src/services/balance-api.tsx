@@ -5,20 +5,26 @@ export class BalanceApi {
   static async history(
     type: string,
     id: string,
-    dimension: string
+    dimension: string,
+    includeBreakdown?: boolean
   ): Promise<BalanceHistory[]> {
-    return fetch(
-      "/api/balance/history?" +
-        new URLSearchParams({ type: type, id: id, dimension: dimension }),
-      {
-        redirect: "manual",
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-          "X-Correlation-ID": uuidv4(),
-        },
-      }
-    )
+    const params = new URLSearchParams({
+      type: type,
+      id: id,
+      dimension: dimension,
+    });
+    if (includeBreakdown !== undefined) {
+      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    }
+
+    return fetch("/api/balance/history?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    })
       .then((res) => res.json())
       .then((res) => {
         if (res.error) {
