@@ -286,7 +286,7 @@ def prepare_central_services_data(cs_path):
         + central_services_financial["Income_Non government"]
     )
 
-    return central_services_financial
+    return central_services_financial.set_index("Trust UPIN")
 
 
 def prepare_aar_data(aar_path):
@@ -576,6 +576,7 @@ def build_academy_data(
             "LA (name)": "LA Name",
             "Academy Trust Name": "Trust Name",
             "Academy UKPRN": "Trust UKPRN",
+            "Lead UPIN": "Trust UPIN"
         }
         | config.income_category_map["academies"]
         | config.cost_category_map["academies"],
@@ -588,20 +589,6 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-    for category in config.rag_category_settings.keys():
-        basis_data = academies[
-            (
-                "Number of pupils"
-                if config.rag_category_settings[category]["type"] == "Pupil"
-                else "Total Internal Floor Area"
-            )
-        ]
-        academies = mappings.map_cost_series(category, academies, basis_data)
-
-    academies["Catering staff and supplies_Net Costs"] = (
-        academies["Income_Catering services"]
-        + academies["Catering staff and supplies_Total"]
-    )
 
     trust_basis_data = (
         academies.sort_values(by="Trust UPIN")[
@@ -621,37 +608,76 @@ def build_academy_data(
         trust_basis_data, on="Trust UPIN", how="left"
     )
 
-    # Apportion central services data based on the given basis of the cost category
-    for category in config.rag_category_settings.keys():
-        cs_basis_data = central_services[
-            (
-                "Total pupils in trust"
-                if config.rag_category_settings[category]["type"] == "Pupil"
-                else "Total Internal Floor Area in trust"
-            )
-        ]
-        central_services = mappings.map_cost_series(
-            category, central_services, cs_basis_data
-        )
-
-    central_services["Catering staff and supplies_Net Costs"] = (
-        central_services["Income_Catering services"]
-        + central_services["Catering staff and supplies_Total"]
-    )
-
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
     )
 
-    income_cols = academies.columns[
-        academies.columns.str.endswith("_CS")
-        & ~academies.columns.str.startswith("Financial Position")
-    ].values.tolist()
+    for category in config.rag_category_settings.keys():
 
-    for income_col in income_cols:
-        academies[income_col] = (
-                academies[income_col] * (academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
+        is_pupil_basis = (
+            config.rag_category_settings[category]["type"] == "Pupil"
+            if category in config.rag_category_settings else True
         )
+
+        apportionment_divisor = academies[
+            "Total pupils in trust" if is_pupil_basis else "Total Internal Floor Area in trust"
+        ]
+
+        apportionment_dividend = academies[
+            "Number of pupils" if is_pupil_basis else "Total Internal Floor Area"
+        ]
+
+        apportionment = apportionment_dividend / apportionment_divisor
+
+        basis_data = academies[
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
+        ]
+
+        sub_categories = academies.columns[
+            academies.columns.str.startswith(category) & ~academies.columns.str.endswith("_CS")
+        ].values.tolist()
+
+        for sub_category in sub_categories:
+            academies[sub_category + "_CS"] = academies[sub_category + "_CS"] * apportionment
+            academies[sub_category] = academies[sub_category] + academies[sub_category + "_CS"]
+            academies[sub_category + "_Per Unit"] = academies[sub_category].fillna(0) / basis_data
+            academies[sub_category + "_Per Unit"].replace(
+                [np.inf, -np.inf, np.nan], 0, inplace=True
+            )
+
+        academies[category + "_Total"] = (
+            academies[academies.columns[
+                academies.columns.str.startswith(category)
+                & ~academies.columns.str.endswith("_CS")
+                & ~academies.columns.str.endswith("_Per Unit")
+            ]]
+            .fillna(0)
+            .sum(axis=1)
+        )
+
+        academies[category + "_Total_CS"] = (
+            academies[academies.columns[
+                academies.columns.str.startswith(category)
+                & academies.columns.str.endswith("_CS")
+                & ~academies.columns.str.endswith("_Per Unit")
+                ]]
+            .fillna(0)
+            .sum(axis=1)
+        )
+
+    academies["Catering staff and supplies_Net Costs"] = (
+            academies["Income_Catering services"]
+            + academies["Catering staff and supplies_Total"]
+    )
+
+    academies["Catering staff and supplies_Net Costs_CS"] = (
+        academies["Income_Catering services_CS"]
+        + academies["Catering staff and supplies_Total_CS"]
+    )
 
     return academies.set_index("URN")
 
