@@ -427,4 +427,4 @@ documentation/**/work
 
 
 # Database launch settings
-*src/db/Core.Database/Properties/launchSettings.json
+**/Core.Database/Properties/launchSettings.json
