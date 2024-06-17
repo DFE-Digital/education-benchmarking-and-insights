@@ -1,11 +1,11 @@
-﻿@model Web.App.ViewModels.SchoolCensusViewModel
+﻿@model Web.App.ViewModels.SchoolSpendingComparisonViewModel
 @{
-    ViewData[ViewDataKeys.Title] = PageTitles.Census;
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolSpendingComparison;
 }
 
 @await Component.InvokeAsync("EstablishmentHeading", new
     {
-        title = PageTitles.Census,
+        title = PageTitles.SchoolSpendingComparison,
         name = Model.Name,
         id = Model.Urn,
         kind = OrganisationTypes.School
@@ -17,10 +17,10 @@
     {
         identifier = Model.Urn,
         tools = new[]
-                {
-        FinanceTools.SpendingComparison,
+                    {
         FinanceTools.CompareYourCosts,
         FinanceTools.Spending,
+        FinanceTools.BenchmarkCensus
     }
     })
 

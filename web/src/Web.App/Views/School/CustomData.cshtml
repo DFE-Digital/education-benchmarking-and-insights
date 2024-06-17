@@ -1,0 +1,44 @@
+﻿@model Web.App.ViewModels.SchoolViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.SchoolCustomisedData;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+    {
+        title = PageTitles.SchoolCustomisedData,
+        name = Model.Name,
+        id = Model.Urn,
+        kind = OrganisationTypes.School
+    })
+
+@await Html.PartialAsync("_CustomDataBanner")
+
+<p class="govuk-body">Use your customised data with the benchmarking tools below.</p>
+
+@* TODO: update href once path is decided when journey is complete *@
+<p class="govuk-body">
+    <a href="" class="govuk-link govuk-link--no-visited-state">
+        View or change your custom data
+    </a>
+</p>
+
+<p class="govuk-body">
+    <a href="@Url.Action("Index", "School" , new { urn=Model.Urn})" class="govuk-link govuk-link--no-visited-state">
+        Return to the spending overview for @Model.Name
+    </a>
+</p>
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("CustomDataFinanceTools", new
+    {
+        identifier = Model.Urn,
+        tools = new[]
+        {
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.Spending,
+        FinanceTools.BenchmarkCensus
+    }
+    })
+

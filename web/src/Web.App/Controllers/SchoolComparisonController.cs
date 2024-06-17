@@ -43,20 +43,26 @@ public class SchoolComparisonController(
 
     [HttpGet]
     [Route("custom-data")]
-    [SchoolAuthorization]
+    //[SchoolAuthorization]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
-                {
-                    return RedirectToAction("Index", "School", new { urn });
-                }
+                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                //if (string.IsNullOrEmpty(userData.CustomData))
+                //{
+                //    return RedirectToAction("Index", "School", new { urn });
+                //}
 
-                return View();
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataComparison(urn);
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+
+                var viewModel = new SchoolComparisonViewModel(school);
+
+                return View(viewModel);
             }
             catch (Exception e)
             {

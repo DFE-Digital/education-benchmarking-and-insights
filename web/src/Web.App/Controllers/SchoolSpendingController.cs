@@ -70,20 +70,30 @@ public class SchoolSpendingController(
 
     [HttpGet]
     [Route("custom-data")]
-    [SchoolAuthorization]
+    //[SchoolAuthorization]
     public async Task<IActionResult> CustomData(string urn)
     {
         using (logger.BeginScope(new { urn }))
         {
             try
             {
-                var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
-                if (string.IsNullOrEmpty(userData.CustomData))
-                {
-                    return RedirectToAction("Index", "School", new { urn });
-                }
+                //var userData = await userDataService.GetSchoolDataAsync(User.UserId(), urn);
+                //if (string.IsNullOrEmpty(userData.CustomData))
+                //{
+                //    return RedirectToAction("Index", "School", new { urn });
+                //}
 
-                return View();
+                ViewData[ViewDataKeys.BreadcrumbNode] = BreadcrumbNodes.SchoolCustomisedDataSpending(urn);
+
+                var school = await establishmentApi.GetSchool(urn).GetResultOrThrow<School>();
+
+                var rating = Enumerable.Empty<RagRating>();
+                var pupilExpenditure = Enumerable.Empty<SchoolExpenditure>();
+                var areaExpenditure = Enumerable.Empty<SchoolExpenditure>();
+
+                var viewModel = new SchoolSpendingViewModel(school, rating, pupilExpenditure, areaExpenditure);
+
+                return View(viewModel);
             }
             catch (Exception e)
             {

@@ -1,1 +1,26 @@
-﻿
+﻿@model Web.App.ViewModels.SchoolSpendingViewModel
+@{
+    ViewData[ViewDataKeys.Title] = PageTitles.Spending;
+}
+
+@await Component.InvokeAsync("EstablishmentHeading", new
+    {
+        title = PageTitles.Spending,
+        name = Model.Name,
+        id = Model.Urn,
+        kind = OrganisationTypes.School
+    })
+
+<hr class="govuk-section-break govuk-section-break--l govuk-section-break--visible">
+
+@await Component.InvokeAsync("CustomDataFinanceTools", new
+    {
+        identifier = Model.Urn,
+        tools = new[]
+                        {
+        FinanceTools.SpendingComparison,
+        FinanceTools.CompareYourCosts,
+        FinanceTools.BenchmarkCensus
+    }
+    })
+
