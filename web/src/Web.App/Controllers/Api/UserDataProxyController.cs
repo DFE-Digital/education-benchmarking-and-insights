@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
 using Web.App.Extensions;
 using Web.App.Services;
 namespace Web.App.Controllers.Api;
@@ -12,6 +13,9 @@ public class UserDataProxyController(ILogger<UserDataProxyController> logger, IU
     [HttpGet]
     [Route("school/{urn}/{identifier}")]
     [Produces("application/json")]
+    [ProducesResponseType<UserData>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> SchoolUserData(string urn, string identifier)
     {
         using (logger.BeginScope(new

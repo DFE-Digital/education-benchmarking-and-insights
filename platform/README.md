@@ -95,7 +95,8 @@ Add configuration in `local.settings.json` for `Platform.Orchestrator`
         "PipelineMessageHub__ConnectionString": "UseDevelopmentStorage=true",
         "PipelineMessageHub__JobFinishedQueue": "data-pipeline-job-finished",
         "PipelineMessageHub__JobStartQueue": "data-pipeline-job-start",
-        "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending"
+        "PipelineMessageHub__JobPendingQueue": "data-pipeline-job-pending",
+        "Sql__ConnectionString" : "[INSERT CONNECTION STRING VALUE]"
     },
     "Host": {
         "CORS": "*",
@@ -128,9 +129,9 @@ Add configuration in `local.settings.json` for `Platform.UserDataCleanUp`
 
 #### Search Index App
 
-For local development it's assumed deployed instance of Azure Search will be used. 
+For local development it's assumed deployed instance of Azure Search will be used.
 
-The following program arguments are required to run the search index sync app 
+The following program arguments are required to run the search index sync app
 
 ```bat
 -s 's198d01-ebis-search' -k '[INSERT SEARCH KEY]' -c '[INSERT CONNECTION STRING VALUE]'

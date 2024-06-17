@@ -1,20 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Web.App.Domain;
+using Web.App.Infrastructure.Apis;
 using Web.App.Services;
-
 namespace Web.App.Controllers.Api;
-
 
 [ApiController]
 [Route("api/suggest")]
 public class SuggestProxyController(
-ILogger<SuggestProxyController> logger,
-ISuggestService suggestService) : Controller
+    ILogger<SuggestProxyController> logger,
+    ISuggestService suggestService) : Controller
 {
     [HttpGet]
     [Produces("application/json")]
+    // https://github.com/dotnet/aspnetcore/issues/55412
+    [ProducesResponseType<IEnumerable<SuggestValue<LocalAuthority>>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<SuggestValue<Trust>>>(StatusCodes.Status200OK)]
+    [ProducesResponseType<IEnumerable<SuggestValue<School>>>(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Suggest([FromQuery] string search, [FromQuery] string type, [FromQuery] string[]? exclude = null)
     {
-        using (logger.BeginScope(new { search }))
+        using (logger.BeginScope(new
+        {
+            search
+        }))
         {
             try
             {

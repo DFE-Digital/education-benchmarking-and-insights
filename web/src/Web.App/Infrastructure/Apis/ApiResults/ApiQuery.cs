@@ -21,12 +21,26 @@ public class ApiQuery : List<QueryParameter>
     {
         Add(new QueryParameter(key, value));
     }
+
     public ApiQuery AddIfNotNull(string key, string? value)
     {
         if (string.IsNullOrWhiteSpace(value))
+        {
             return this;
+        }
 
         Add(key, value);
+        return this;
+    }
+
+    public ApiQuery AddIfNotNull(string key, bool? value)
+    {
+        if (!value.HasValue)
+        {
+            return this;
+        }
+
+        Add(key, value.Value.ToString().ToLowerInvariant());
         return this;
     }
 }
