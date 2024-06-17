@@ -10,7 +10,7 @@
 
 @if (Model.Links.Any())
 {
-    <ul class="govuk-list">
+    <ul class="@(Model.DisplayHeading ? "govuk-list": "govuk-list govuk-!-margin-bottom-0")">
         @foreach (var link in Model.Links)
         {
             <li>
