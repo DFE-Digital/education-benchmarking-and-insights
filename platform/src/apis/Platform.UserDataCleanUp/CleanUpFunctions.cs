@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
+using Platform.Functions.Extensions;
 
 namespace Platform.UserDataCleanUp;
 
@@ -31,18 +32,25 @@ public class CleanUpFunctions
 
                 foreach (var record in records)
                 {
-                    _logger.LogInformation($"Removing data : {record.Id} ({record.Type})");
-                    switch (record.Type)
+                    if (record.Id != null)
                     {
-                        case "comparator-set" when record.OrganisationType == "school":
-                            await _db.RemoveSchoolComparatorSet(record.Id);
-                            break;
-                        case "comparator-set" when record.OrganisationType == "trust":
-                            await _db.RemoveTrustComparatorSet(record.Id);
-                            break;
-                        case "custom-data":
-                            await _db.RemoveCustomData(record.Id);
-                            break;
+                        _logger.LogInformation($"Removing data : {record.Id} ({record.Type})");
+                        switch (record.Type)
+                        {
+                            case "comparator-set" when record.OrganisationType == "school":
+                                await _db.RemoveSchoolComparatorSet(record.Id);
+                                break;
+                            case "comparator-set" when record.OrganisationType == "trust":
+                                await _db.RemoveTrustComparatorSet(record.Id);
+                                break;
+                            case "custom-data":
+                                await _db.RemoveCustomData(record.Id);
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        _logger.LogWarning($"Empty record id data : {record.ToJson()}");
                     }
 
                 }

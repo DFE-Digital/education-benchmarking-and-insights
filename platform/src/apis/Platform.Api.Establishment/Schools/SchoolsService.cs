@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
@@ -44,12 +43,12 @@ public class SchoolsService : SearchService, ISchoolsService
 
         if (!string.IsNullOrEmpty(companyNumber))
         {
-            builder.Where("TrustCompanyNumber = @CompanyNumber", new { companyNumber });
+            builder.Where("TrustCompanyNumber = @CompanyNumber AND FinanceType = 'Academy'", new { companyNumber });
         }
 
         if (!string.IsNullOrEmpty(laCode))
         {
-            builder.Where("LaCode = @LaCode", new { laCode });
+            builder.Where("LaCode = @LaCode AND FinanceType = 'Maintained'", new { laCode });
         }
 
         if (!string.IsNullOrEmpty(phase))

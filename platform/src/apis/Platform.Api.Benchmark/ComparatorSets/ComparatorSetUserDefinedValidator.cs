@@ -10,7 +10,7 @@ public class ComparatorSetUserDefinedSchoolValidator : AbstractValidator<Compara
     public ComparatorSetUserDefinedSchoolValidator()
     {
         RuleFor(p => p.Set)
-            .Must((obj, x) => x.Contains(obj.URN))
+            .Must((obj, x) => x != null && obj.URN != null && x.Contains(obj.URN))
             .WithMessage("Set must contain target school");
     }
 }
@@ -21,7 +21,7 @@ public class ComparatorSetUserDefinedTrustValidator : AbstractValidator<Comparat
     public ComparatorSetUserDefinedTrustValidator()
     {
         RuleFor(p => p.Set)
-            .Must((obj, x) => x.Contains(obj.CompanyNumber))
+            .Must((obj, x) => x != null && obj.CompanyNumber != null && x.Contains(obj.CompanyNumber))
             .WithMessage("Set must contain target trust");
     }
 }
