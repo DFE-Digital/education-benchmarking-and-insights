@@ -387,13 +387,6 @@ def compute_distances(
                     building_distances[idx],
                 )
 
-                if urn == 137045 and top_building_set_urns[0] != urn:
-                    print("URNS")
-                    print(phase_urns)
-                    print("Distances")
-                    print(building_distances[idx])
-                    raise ValueError(f"Expecting first index in building set to match {urn} but got {top_building_set_urns[0]} for phase urns {phase_urns} and distances {building_distances[idx]}")
-
                 pupils.loc[urn] = top_pupil_set_urns
                 buildings.loc[urn] = top_building_set_urns
             except Exception as error:
