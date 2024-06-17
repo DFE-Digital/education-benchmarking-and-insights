@@ -29,13 +29,15 @@
 <span class="govuk-caption-l"><a href="/school-homepage?customData=generated" class="govuk-link--no-underline">{{ data['school-name'] }}</a></span>
 <h1 class="govuk-heading-l">Use your customised data</h1>
 
+
+
 {% if confirmation == 'generated' %}
 
     {% set html %}
-    <h3 class="govuk-notification-banner__heading">You are now benchmarking using your customised data</h3>
+    <h3 class="govuk-notification-banner__heading">You've created some customised data</h3>
 
     {% if data['changed'] == 'true' %}
-        <p class="govuk-body">As you have changed the characteristics of your school, we have updated <a href="/comparators/view?customData=true">the similar schools</a> we benchmark this school against.</p>
+        <p class="govuk-body">Some of the data you entered means we've updated <a href="/comparators/view?customData=true">the similar schools</a> we chose to benchmark this school against.</p>
     {% endif %}
 
     {% endset %}
@@ -49,10 +51,10 @@
 
 
     {% set html %}
-    <h3 class="govuk-notification-banner__heading">Customised data updated</h3>
+    <h3 class="govuk-notification-banner__heading">You've updated your custom data</h3>
 
     {% if data['changed'] == 'true' %}
-        <p class="govuk-body">As you have changed the characteristics of your school, we have updated <a href="/comparators/view?customData=true">the similar schools</a> we benchmark this school against.</p>
+        <p class="govuk-body">Some of the data you entered means we've updated <a href="/comparators/view?customData=true">the similar schools</a> we chose to benchmark this school against.</p>
     {% endif %}
 
     {% endset %}
@@ -63,11 +65,13 @@
     }) }}
 {% endif %}
 
+<p class="govuk-body">Use your customised data with the benchmarking tools below.</p>
+
 <p><a href="/custom-data/financial-data" class="govuk-link">View or change your custom data</a></p>
-<p><a href="/school-homepage?customData=generated" class="govuk-link">Return to the spending overview for {{ data['school-name'] }}</a></p>
+<p><a href="/school-homepage?customData=generated" class="govuk-link">View the original data for {{ data['school-name'] }}</a></p>
 
 {% if data['changed'] == 'true' and confirmation != 'generated' and confirmation != 'updated' %}
-<p class="govuk-body">As you have changed the characteristics of your school, we have updated <a href="/comparators/view?customData=true">the similar schools</a> we benchmark this school against.</p>
+<p class="govuk-body">Some of the data you entered means we've updated <a href="/comparators/view?customData=true">the similar schools</a> we benchmark this school against.</p>
 {% endif %}
 
 
@@ -83,7 +87,7 @@
                     <a href="/custom-data/side-by-side" class="govuk-link govuk-link--no-visited-state">Side-by-side comparison</a>
                 </h3>
                 <p class="govuk-body">
-                    See how your custom data results in benchmarking changes compared to your original data.
+                    See how your custom data changes benchmarking compared to your original data.
                 </p>
             </li>
         {% endif %}
@@ -94,7 +98,7 @@
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Compare your costs</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare your custom data against similar schools.
+                    Use your custom data to benchmark costs against other schools.
                 </p>
             </li>
             <li>
@@ -103,7 +107,7 @@
                     <a href="/spending-and-costs?customData=true" class="govuk-link govuk-link--no-visited-state">Spending priorities for this school</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare your custom data against similar schools.
+                    Use your custom data to see spending priorities for this school.
                 </p>
             </li>
             <li>
@@ -112,7 +116,7 @@
                     <a href="#" class="govuk-link govuk-link--no-visited-state">Benchmark pupil and workforce data</a>
                 </h3>
                 <p class="govuk-body">
-                    Compare your workforce data with other schools.
+                    Use your custom data to benchmark orkforce and pupil data against other schools.
                 </p>
             </li>
         </ul>

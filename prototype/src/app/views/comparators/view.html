@@ -40,11 +40,11 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
 
         {% set html %}
         <p class="govuk-notification-banner__heading">
-          You are viewing the updated sets of schools for your customised data set
+          These sets of schools are based on your customised data
         </p>
 
-        <p class="govuk-body">As you changed the characteristics of your school, we have updated the schools you are compared to, to ensure you are compared against similar schools.</p>
-
+        <p class="govuk-body">To make sure you're still benchmarking against similar schools, we've updated the schools you are compared to based on the custom data you entered.</p>
+        <p class="govuk-body">You can still <a href="/comparators/view">view the 2 sets of schools we originally chose</a>.</p>
         {% endset %}
 
         {{ govukNotificationBanner({
@@ -61,7 +61,7 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
       {% set pupilTab %}
 
         <h2 class="govuk-heading-l">Running cost categories</h2>
-        <p class="govuk-body">We've chosen 30 similar schools to benchmark this school against running cost categories, which includes all staffing, ICT, consultancy and catering.</p>
+        <p class="govuk-body">We've chosen 29 similar schools to benchmark this school against running cost categories, which includes all staffing, ICT, consultancy and catering.</p>
         
         <h3 class="govuk-heading-m">How we chose these schools</h3>
         
@@ -101,7 +101,7 @@ Schools we chose for benchmarking - {{ data['school-name'] }} – {{ serviceName
 
       {% set buildingTab %}
       <h2 class="govuk-heading-l">Building cost categories</h2>
-      <p class="govuk-body">We've chosen 30 similar schools to benchmark this school against building cost categories, which includes utilities, cleaning and maintenance.</p>
+      <p class="govuk-body">We've chosen 29 similar schools to benchmark this school against building cost categories, which includes utilities, cleaning and maintenance.</p>
 
       <h3 class="govuk-heading-m">How we chose these schools</h3>
 
