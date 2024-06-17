@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "Core.Database": {
-      "commandName": "Project",
-      "commandLineArgs": "-c\r\n\"Server=localhost,1433;Database=data;User Id=sa;Password=mystrong!Pa55word;Encrypt=False;\""
-    }
-  }
-}
