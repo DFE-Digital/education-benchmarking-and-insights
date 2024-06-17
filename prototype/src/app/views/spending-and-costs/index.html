@@ -42,10 +42,9 @@
 
           {% set html %}
           <p class="govuk-notification-banner__heading">
-            You are viewing customised data
+            This is your custom data for this school, not the original data
           </p>
-          <p class="govuk-body">The information displayed in based around the custom data provided, not the originally reported data.</p>
-          <p><a href="/school-homepage?customData=generated" class="govuk-link">Return to school homepage and view originally reported data </a></p>
+          <p><a href="/school-homepage?customData=generated" class="govuk-link">View the original data for {{ data['school-name'] }}</a></p>
 
           {% if data['changed'] == 'true' %}
           <p class="govuk-body">As you have changed the characteristics of your school, we have updated the <a href="/comparators/view?customData=true">similar schools</a> we benchmark this school against.</p>
