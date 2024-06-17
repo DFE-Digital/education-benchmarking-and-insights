@@ -214,7 +214,8 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
     maintained_schools_data = get_blob(
         raw_container,
         f"{run_type}/{year}/maintained_schools_master_list.csv",
-        encoding="utf-8",
+        encoding="cp1252",
+
     )
 
     links_data = get_blob(
@@ -459,6 +460,7 @@ def compute_rag_for(
 ):
     st = time.time()
     logger.info(f"Computing {data_type} RAG")
+
     df = pd.DataFrame(compute_rag(data, comparators)).set_index("URN")
 
     logger.info(f"Computing {data_type} RAG. Done in {time.time() - st:.2f} seconds")

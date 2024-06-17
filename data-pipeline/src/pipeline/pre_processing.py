@@ -214,7 +214,6 @@ def prepare_ks2_data(ks2_path):
     ks2 = pd.read_excel(
         ks2_path,
         usecols=input_schemas.ks2.keys(),
-        index_col=input_schemas.ks2_index_col,
         dtype=input_schemas.ks2,
     )
     ks2["READPROG"] = ks2["READPROG"].replace({"SUPP": "0", "LOWCOV": "0"})
@@ -226,19 +225,17 @@ def prepare_ks2_data(ks2_path):
         + ks2["MATPROG"].astype(float)
         + ks2["WRITPROG"].astype(float)
     )
-
-    return ks2[["Ks2Progress"]].dropna()
+    ks2 = ks2[["URN", "Ks2Progress"]].dropna().drop_duplicates()
+    return ks2
 
 
 def prepare_ks4_data(ks4_path):
     ks4 = pd.read_excel(
         ks4_path,
-        index_col=input_schemas.ks4_index_col,
         dtype=input_schemas.ks4,
         usecols=input_schemas.ks4.keys(),
         na_values=["NP", "NE", "SUPP", "LOWCOV"],
     )
-
     ks4["ATT8SCR"] = ks4["ATT8SCR"].astype(float).fillna(0)
     ks4["P8MEA"] = ks4["P8MEA"].astype(float).fillna(0)
 
@@ -251,7 +248,12 @@ def prepare_ks4_data(ks4_path):
         inplace=True,
     )
 
-    return ks4[["AverageAttainment", "Progress8Measure", "Progress8Banding"]].dropna()
+    ks4 = (
+        ks4[["URN", "AverageAttainment", "Progress8Measure", "Progress8Banding"]]
+        .dropna()
+        .drop_duplicates()
+    )
+    return ks4
 
 
 def prepare_central_services_data(cs_path):
@@ -476,14 +478,18 @@ def build_academy_data(
     accounts_return_period_start_date = datetime.date(year - 1, 9, 10)
     academy_year_start_date = datetime.date(year - 1, 9, 1)
     academy_year_end_date = datetime.date(year, 8, 30)
-
     academies_list = pd.read_csv(
         academy_data_path,
         encoding="utf8",
-        index_col=input_schemas.academy_master_list_index_col,
-        dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
-    ).rename(columns={"UKPRN": "Academy UKPRN"})
+    )
+
+    academies_list.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
+    academies_list = (
+        academies_list.astype(input_schemas.academy_master_list)
+        .set_index(input_schemas.academy_master_list_index_col)
+        .rename(columns={"UKPRN": "Academy UKPRN"})
+    )
 
     group_links = pd.read_csv(
         links_data_path,
@@ -492,7 +498,6 @@ def build_academy_data(
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
     )[["Group Type", "Group UID"]]
-
     group_links = group_links[
         group_links["Group Type"].isin(
             ["Single-academy trust", "Multi-academy trust", "Trust"]
@@ -503,8 +508,8 @@ def build_academy_data(
     mask = (
         academies_list.index.duplicated(keep=False) & ~academies_list["Valid to"].isna()
     )
-    academies_list = academies_list[~mask]
 
+    academies_list = academies_list[~mask]
     academies_base = academies_list.merge(
         schools.reset_index(), left_index=True, right_on="LA Establishment Number"
     )
@@ -523,7 +528,6 @@ def build_academy_data(
     academies["Total Internal Floor Area"] = academies[
         "Total Internal Floor Area"
     ].fillna(academies["Total Internal Floor Area"].median())
-
     academies["Overall Phase"] = academies.apply(
         lambda df: mappings.map_academy_phase_type(
             df["TypeOfEstablishment (code)"], df["Type of Provision - Phase"]
@@ -566,6 +570,7 @@ def build_academy_data(
 
     academies.rename(
         columns={
+            "URN_x": "URN",
             "UKPRN_x": "UKPRN",
             "LA (code)": "LA Code",
             "LA (name)": "LA Name",
@@ -583,7 +588,6 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-
     for category in config.rag_category_settings.keys():
         basis_data = academies[
             (
@@ -668,11 +672,19 @@ def build_maintained_school_data(
 
     maintained_schools_list = pd.read_csv(
         maintained_schools_data_path,
-        encoding="utf8",
-        index_col=input_schemas.maintained_schools_master_list_index_col,
+        encoding="unicode-escape",
         usecols=input_schemas.maintained_schools_master_list.keys(),
-        dtype=input_schemas.maintained_schools_master_list,
     )
+
+    mask = (maintained_schools_list["Did Not Supply flag"] == "0").values | (
+        maintained_schools_list["Did Not Supply flag"] == 0
+    ).values
+    maintained_schools_list = maintained_schools_list[mask].copy()
+    maintained_schools_list.replace("DNS", np.nan, inplace=True)
+
+    maintained_schools_list = maintained_schools_list.astype(
+        input_schemas.maintained_schools_master_list
+    ).set_index(input_schemas.maintained_schools_master_list_index_col)
 
     maintained_schools = maintained_schools_list.merge(
         schools.reset_index(), left_index=True, right_on="URN"

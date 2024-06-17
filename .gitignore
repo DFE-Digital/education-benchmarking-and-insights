@@ -424,3 +424,7 @@ local.settings.json
 front-end-components/vite.config-dev.js.timestamp-*
 documentation/build
 documentation/**/work
+
+
+# Database launch settings
+**/Core.Database/Properties/launchSettings.json
