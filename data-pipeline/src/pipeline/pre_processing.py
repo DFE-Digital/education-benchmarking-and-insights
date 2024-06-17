@@ -226,7 +226,7 @@ def prepare_ks2_data(ks2_path):
         + ks2["WRITPROG"].astype(float)
     )
     ks2 = ks2[["URN", "Ks2Progress"]].dropna().drop_duplicates()
-    return ks2
+    return ks2.set_index("URN")
 
 
 def prepare_ks4_data(ks4_path):
@@ -253,7 +253,7 @@ def prepare_ks4_data(ks4_path):
         .dropna()
         .drop_duplicates()
     )
-    return ks4
+    return ks4.set_index("URN")
 
 
 def prepare_central_services_data(cs_path):
