@@ -1,21 +1,33 @@
 import { ChartDataSeriesSortMode, ChartProps } from "src/components/charts";
-import { SchoolChartData } from "src/components/charts/table-chart";
+import {
+  SchoolChartData,
+  TrustChartData,
+} from "src/components/charts/table-chart";
 
-export type HorizontalBarChartWrapperProps<TData extends SchoolChartData> =
-  Pick<ChartProps<TData>, "chartName" | "valueUnit"> & {
-    children?: React.ReactNode[] | React.ReactNode;
-    data: HorizontalBarChartWrapperPropsData<TData>;
-    sort?: ChartDataSeriesSortMode<TData>;
-  };
+export type HorizontalBarChartWrapperProps<
+  TData extends SchoolChartData | TrustChartData,
+> = Pick<ChartProps<TData>, "chartName" | "valueUnit"> & {
+  children?: React.ReactNode[] | React.ReactNode;
+  data: HorizontalBarChartWrapperPropsData<TData>;
+  sort?: ChartDataSeriesSortMode<TData>;
+};
 
-export type HorizontalBarChartWrapperPropsData<TData extends SchoolChartData> =
-  Omit<HorizontalBarChartWrapperData<TData>, "dataPoints"> & {
-    dataPoints: TData[];
-  };
+export type HorizontalBarChartWrapperPropsData<
+  TData extends SchoolChartData | TrustChartData,
+> = Omit<HorizontalBarChartWrapperData<TData>, "dataPoints"> & {
+  dataPoints: TData[];
+};
 
 export type HorizontalBarChartWrapperData<
-  TData extends Omit<SchoolChartData, "value">,
+  TData extends Omit<
+    SchoolChartData | TrustChartData,
+    "value" | "totalValue" | "schoolValue" | "centralValue"
+  >,
 > = {
   tableHeadings: string[];
-  dataPoints: (TData & { value: number })[];
+  dataPoints: (TData &
+    (
+      | { value: number }
+      | { totalValue: number; schoolValue: number; centralValue: number }
+    ))[];
 };

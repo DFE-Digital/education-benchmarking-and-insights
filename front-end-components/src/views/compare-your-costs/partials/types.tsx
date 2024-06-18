@@ -5,7 +5,6 @@ export type TotalExpenditureProps = {
 export type TotalExpenditureData = {
   urn: string;
   schoolType: string;
-  totalIncome: number;
   totalExpenditure: number;
   totalPupils: bigint;
   schoolName: string;

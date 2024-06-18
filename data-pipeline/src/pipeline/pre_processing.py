@@ -226,7 +226,7 @@ def prepare_ks2_data(ks2_path):
         + ks2["WRITPROG"].astype(float)
     )
     ks2 = ks2[["URN", "Ks2Progress"]].dropna().drop_duplicates()
-    return ks2
+    return ks2.set_index("URN")
 
 
 def prepare_ks4_data(ks4_path):
@@ -253,7 +253,7 @@ def prepare_ks4_data(ks4_path):
         .dropna()
         .drop_duplicates()
     )
-    return ks4
+    return ks4.set_index("URN")
 
 
 def prepare_central_services_data(cs_path):
@@ -286,7 +286,7 @@ def prepare_central_services_data(cs_path):
         + central_services_financial["Income_Non government"]
     )
 
-    return central_services_financial
+    return central_services_financial.set_index("Trust UPIN")
 
 
 def prepare_aar_data(aar_path):
@@ -576,6 +576,7 @@ def build_academy_data(
             "LA (name)": "LA Name",
             "Academy Trust Name": "Trust Name",
             "Academy UKPRN": "Trust UKPRN",
+            "Lead UPIN": "Trust UPIN"
         }
         | config.income_category_map["academies"]
         | config.cost_category_map["academies"],
@@ -588,20 +589,6 @@ def build_academy_data(
     academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
     academies["Email"] = ""
     academies["HeadEmail"] = ""
-    for category in config.rag_category_settings.keys():
-        basis_data = academies[
-            (
-                "Number of pupils"
-                if config.rag_category_settings[category]["type"] == "Pupil"
-                else "Total Internal Floor Area"
-            )
-        ]
-        academies = mappings.map_cost_series(category, academies, basis_data)
-
-    academies["Catering staff and supplies_Net Costs"] = (
-        academies["Income_Catering services"]
-        + academies["Catering staff and supplies_Total"]
-    )
 
     trust_basis_data = (
         academies.sort_values(by="Trust UPIN")[
@@ -621,37 +608,94 @@ def build_academy_data(
         trust_basis_data, on="Trust UPIN", how="left"
     )
 
-    # Apportion central services data based on the given basis of the cost category
-    for category in config.rag_category_settings.keys():
-        cs_basis_data = central_services[
-            (
-                "Total pupils in trust"
-                if config.rag_category_settings[category]["type"] == "Pupil"
-                else "Total Internal Floor Area in trust"
-            )
-        ]
-        central_services = mappings.map_cost_series(
-            category, central_services, cs_basis_data
-        )
-
-    central_services["Catering staff and supplies_Net Costs"] = (
-        central_services["Income_Catering services"]
-        + central_services["Catering staff and supplies_Total"]
-    )
-
     academies = academies.merge(
         central_services, on="Trust UPIN", how="left", suffixes=("", "_CS")
     )
 
+    for category in config.rag_category_settings.keys():
+
+        is_pupil_basis = (
+            config.rag_category_settings[category]["type"] == "Pupil"
+            if category in config.rag_category_settings else True
+        )
+
+        apportionment_divisor = academies[
+            "Total pupils in trust" if is_pupil_basis else "Total Internal Floor Area in trust"
+        ]
+
+        apportionment_dividend = academies[
+            "Number of pupils" if is_pupil_basis else "Total Internal Floor Area"
+        ]
+
+        basis_data = academies[
+            (
+                "Number of pupils"
+                if config.rag_category_settings[category]["type"] == "Pupil"
+                else "Total Internal Floor Area"
+            )
+        ]
+
+        sub_categories = academies.columns[
+            academies.columns.str.startswith(category) & ~academies.columns.str.endswith("_CS")
+        ].values.tolist()
+
+        apportionment = apportionment_dividend.astype(float) / apportionment_divisor.astype(float)
+
+        for sub_category in sub_categories:
+            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(float) * apportionment.astype(float)
+            academies[sub_category] = academies[sub_category] + academies[sub_category + "_CS"]
+            academies[sub_category + "_Per Unit"] = academies[sub_category].fillna(0) / basis_data
+            academies[sub_category + "_Per Unit"].replace(
+                [np.inf, -np.inf, np.nan], 0, inplace=True
+            )
+
+        academies[category + "_Total"] = (
+            academies[academies.columns[
+                academies.columns.str.startswith(category)
+                & ~academies.columns.str.endswith("_CS")
+                & ~academies.columns.str.endswith("_Per Unit")
+            ]]
+            .fillna(0)
+            .sum(axis=1)
+        )
+
+        academies[category + "_Total_CS"] = (
+            academies[academies.columns[
+                academies.columns.str.startswith(category)
+                & academies.columns.str.endswith("_CS")
+                & ~academies.columns.str.endswith("_Per Unit")
+                ]]
+            .fillna(0)
+            .sum(axis=1)
+        )
+
     income_cols = academies.columns[
-        academies.columns.str.endswith("_CS")
+        academies.columns.str.startswith("Income_")
+        & academies.columns.str.endswith("_CS")
         & ~academies.columns.str.startswith("Financial Position")
     ].values.tolist()
 
     for income_col in income_cols:
+        # Income cols `Income_XXXX_CS` have the format.
+        comps = income_col.split("_")
         academies[income_col] = (
-                academies[income_col] * (academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
+                academies[income_col] * (
+                    academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
         )
+
+        # Target income category from academy base data
+        target_income_col = f"{comps[0]}_{comps[1]}"
+        academies[target_income_col] = (academies[target_income_col] + academies[income_col])
+
+    academies["Catering staff and supplies_Net Costs"] = (
+            academies["Income_Catering services"]
+            + academies["Catering staff and supplies_Total"]
+    )
+
+    academies["Catering staff and supplies_Net Costs_CS"] = (
+        academies["Income_Catering services_CS"]
+        + academies["Catering staff and supplies_Total_CS"]
+    )
 
     return academies.set_index("URN")
 

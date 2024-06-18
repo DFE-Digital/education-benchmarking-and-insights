@@ -1,4 +1,7 @@
-﻿namespace Web.App.Extensions;
+﻿using System.Reflection;
+using Microsoft.OpenApi.Models;
+using Web.App.Infrastructure.Cosmos;
+namespace Web.App.Extensions;
 
 public static class WebApplicationBuilderExtensions
 {
@@ -12,7 +15,7 @@ public static class WebApplicationBuilderExtensions
             case "cosmos":
                 builder.Services.AddCosmosCache(opts =>
                 {
-                    var settings = section.GetSection("Settings").Get<Infrastructure.Cosmos.Settings>();
+                    var settings = section.GetSection("Settings").Get<Settings>();
 
                     ArgumentNullException.ThrowIfNull(settings);
                     ArgumentNullException.ThrowIfNull(settings.ContainerName);
@@ -20,7 +23,7 @@ public static class WebApplicationBuilderExtensions
 
                     opts.ContainerName = settings.ContainerName;
                     opts.DatabaseName = settings.DatabaseName;
-                    opts.CosmosClient = Infrastructure.Cosmos.ClientFactory.Create(settings);
+                    opts.CosmosClient = ClientFactory.Create(settings);
                     opts.CreateIfNotExists = false;
                 });
                 break;
@@ -48,5 +51,36 @@ public static class WebApplicationBuilderExtensions
         });
 
         return builder;
+    }
+
+    public static void AddSwaggerService(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddSwaggerGen(options =>
+            {
+                options.DocInclusionPredicate((_, apiDesc) =>
+                    apiDesc.ActionDescriptor.DisplayName?.StartsWith("Web.App.Controllers.Api.") == true);
+
+                options.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Version = "v1",
+                    Title = "Web.App API",
+
+                    // lazy hack to add sign in/out links to UI
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Sign in",
+                        Url = new Uri("/sign-in", UriKind.Relative)
+                    },
+                    License = new OpenApiLicense
+                    {
+                        Name = "Sign out",
+                        Url = new Uri("/sign-out", UriKind.Relative)
+                    }
+                });
+
+                var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+            });
     }
 }

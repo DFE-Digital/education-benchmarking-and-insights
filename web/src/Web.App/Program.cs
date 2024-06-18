@@ -5,15 +5,10 @@ using System.Runtime.CompilerServices;
 using CorrelationId.DependencyInjection;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.FeatureManagement;
-using Polly;
-using Polly.Extensions.Http;
 using Serilog;
 using SmartBreadcrumbs.Extensions;
-using Web.App;
 using Web.App.Extensions;
 using Web.App.Handlers;
-using Web.App.Infrastructure.Apis;
-using Web.App.Infrastructure.Storage;
 using Web.App.Middleware;
 using Web.App.Services;
 using Web.App.Validators;
@@ -97,11 +92,19 @@ if (!builder.Environment.IsIntegration())
         .AddEstablishmentApi()
         .AddInsightApi()
         .AddStorage();
+
+    builder.AddSwaggerService();
 }
 
 var app = builder.Build();
 
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app
+        .UseSwagger()
+        .UseSwaggerUI();
+}
+else
 {
     app
         .UseExceptionHandler("/error")
@@ -129,5 +132,3 @@ app.Run();
 
 [ExcludeFromCodeCoverage]
 public partial class Program; // required for integration tests
-
-

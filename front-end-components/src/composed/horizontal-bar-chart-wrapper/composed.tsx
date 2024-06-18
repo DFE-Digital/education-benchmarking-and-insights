@@ -1,14 +1,19 @@
 import { createRef, useContext, useMemo, useState } from "react";
 import { HorizontalBarChart } from "src/components/charts/horizontal-bar-chart";
-import { TableChart, SchoolChartData } from "src/components/charts/table-chart";
+import {
+  TableChart,
+  SchoolChartData,
+  TrustChartData,
+} from "src/components/charts/table-chart";
 import {
   ChartDimensionContext,
   ChartModeContext,
-  SelectedSchoolContext,
+  SelectedEstablishmentContext,
   HasIncompleteDataContext,
+  IncludeBreakdownContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
-import { ChartHandler } from "src/components/charts";
+import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
 import { HorizontalBarChartWrapperProps } from "src/composed/horizontal-bar-chart-wrapper";
 import { ChartModeChart, ChartModeTable } from "src/components";
 import {
@@ -19,35 +24,75 @@ import { EstablishmentTick } from "src/components/charts/establishment-tick";
 import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip";
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
+import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/include-breakdown";
 
-export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
-  props: HorizontalBarChartWrapperProps<TData>
-) {
+export function HorizontalBarChartWrapper<
+  TData extends SchoolChartData | TrustChartData,
+>(props: HorizontalBarChartWrapperProps<TData>) {
   const { chartName, children, data, sort, valueUnit } = props;
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
-  const selectedSchool = useContext(SelectedSchoolContext);
+  const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
+  const breakdown = useContext(IncludeBreakdownContext);
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
+  const isTrust = breakdown !== undefined;
+  const keyField = (isTrust ? "companyNumber" : "urn") as keyof TData;
+  const seriesLabelField = (
+    isTrust ? "trustName" : "schoolName"
+  ) as keyof TData;
+  const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
+    [isTrust ? "schoolValue" : "value"]: {
+      visible: true,
+      valueFormatter: (v) =>
+        shortValueFormatter(v, {
+          valueUnit: valueUnit ?? dimension.unit,
+        }),
+    },
+  };
+
+  // stack additional series if they are available in the input data set
+  let labelListSeriesName: keyof TData | undefined;
+  if (isTrust) {
+    if (breakdown === BreakdownInclude) {
+      seriesConfig.schoolValue.stackId = 1;
+      seriesConfig.centralValue = Object.assign({}, seriesConfig.schoolValue);
+      labelListSeriesName = "totalValue" as keyof TData;
+    }
+  }
 
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
+    let dataPoint = "value";
+    if (breakdown === BreakdownInclude) {
+      dataPoint = "totalValue";
+    } else if (breakdown === BreakdownExclude) {
+      dataPoint = "schoolValue";
+    }
+
     return data.dataPoints
       .map((d) =>
-        isFinite(d.value) && !isNaN(d.value) ? d : { ...d, value: 0 }
+        isFinite((d as never)[dataPoint] as number) &&
+        !isNaN((d as never)[dataPoint] as number)
+          ? d
+          : { ...d, [dataPoint]: 0 }
       )
       .sort((a, b) =>
         chartSeriesComparer(
-          a,
-          b,
+          a as TData,
+          b as TData,
           sort ?? {
             direction: "desc",
-            dataPoint: "value",
+            dataPoint: dataPoint as keyof TData,
           }
         )
-      );
-  }, [data.dataPoints, sort]);
+      ) as TData[];
+  }, [data.dataPoints, sort, breakdown]);
 
   return (
     <>
@@ -88,39 +133,46 @@ export function HorizontalBarChartWrapper<TData extends SchoolChartData>(
                     data={sortedDataPoints}
                     highlightActive
                     highlightedItemKeys={
-                      selectedSchool ? [selectedSchool] : undefined
+                      selectedEstabishment ? [selectedEstabishment] : undefined
                     }
-                    keyField="urn"
+                    keyField={keyField}
                     onImageLoading={setImageLoading}
                     labels
+                    labelListSeriesName={labelListSeriesName}
                     margin={20}
                     ref={ref}
-                    seriesConfig={
-                      {
-                        value: {
-                          visible: true,
-                          valueFormatter: (v: number) =>
-                            shortValueFormatter(v, {
-                              valueUnit: valueUnit ?? dimension.unit,
-                            }),
-                        },
-                      } as object // todo: fix typing issue
-                    }
-                    seriesLabelField="schoolName"
+                    seriesConfig={seriesConfig as object}
+                    seriesLabelField={seriesLabelField}
                     tickWidth={400}
                     tick={(t) => (
                       <EstablishmentTick
                         {...t}
-                        highlightedItemKey={selectedSchool}
+                        highlightedItemKey={selectedEstabishment}
                         linkToEstablishment
-                        href={(urn) => `/school/${urn}`}
-                        establishmentKeyResolver={(name) =>
-                          data.dataPoints.find((d) => d.schoolName === name)
-                            ?.urn
-                        }
+                        href={(id) => `/${isTrust ? "trust" : "school"}/${id}`}
+                        establishmentKeyResolver={(name) => {
+                          if (isTrust) {
+                            return (data.dataPoints as TrustChartData[]).find(
+                              (d) => d.trustName === name
+                            )?.companyNumber;
+                          }
+
+                          return (data.dataPoints as SchoolChartData[]).find(
+                            (d) => d.schoolName === name
+                          )?.urn;
+                        }}
                       />
                     )}
-                    tooltip={(t) => <SchoolCensusTooltip {...t} />}
+                    tooltip={(t) =>
+                      isTrust ? (
+                        <TrustDataTooltip
+                          {...t}
+                          valueUnit={valueUnit ?? dimension.unit}
+                        />
+                      ) : (
+                        <SchoolCensusTooltip {...t} />
+                      )
+                    }
                     valueFormatter={shortValueFormatter}
                     valueLabel={dimension.label}
                     valueUnit={valueUnit ?? dimension.unit}

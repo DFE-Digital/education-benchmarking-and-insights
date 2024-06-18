@@ -56,7 +56,7 @@ public class WhenViewingComparatorsCreateRevert(SchoolBenchmarkingWebAppClient c
         {
             ("Home", Paths.ServiceHome.ToAbsolute()),
             ("Your trust", Paths.TrustHome(trust.CompanyNumber).ToAbsolute()),
-            ("Comparator sets", Paths.TrustComparators(trust.CompanyNumber).ToAbsolute())
+            ("Compare", Paths.TrustComparators(trust.CompanyNumber).ToAbsolute())
         };
         DocumentAssert.Breadcrumbs(page, expectedBreadcrumbs);
         DocumentAssert.TitleAndH1(page,

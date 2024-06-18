@@ -8,7 +8,7 @@ export const ChartDimensionContext = createContext<Dimension>({
   value: "",
   heading: "",
 });
-export const SelectedSchoolContext = createContext("");
+export const SelectedEstablishmentContext = createContext("");
 
 interface HasIncompleteData {
   hasIncompleteData?: boolean;
@@ -17,3 +17,7 @@ interface HasIncompleteData {
 export const HasIncompleteDataContext = createContext<HasIncompleteData>({});
 
 export const PhaseContext = createContext<string | undefined>(undefined);
+
+export const IncludeBreakdownContext = createContext<string | undefined>(
+  undefined
+);

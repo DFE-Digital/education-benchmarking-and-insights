@@ -109,7 +109,7 @@ public static class BreadcrumbNodes
         Parent = TrustHome(companyNumber)
     };
 
-    public static MvcBreadcrumbNode TrustComparators(string companyNumber) => new("Index", "TrustComparators", "Comparator sets")
+    public static MvcBreadcrumbNode TrustComparators(string companyNumber) => new("Index", "TrustComparators", "Compare")
     {
         RouteValues = new
         {
