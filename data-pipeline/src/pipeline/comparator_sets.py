@@ -314,7 +314,9 @@ def select_top_set_urns(
     pfi_without_urn = np.delete(pfi, index)
     boarding_without_urn = np.delete(boarding, index)
 
-    index_by_distance = np.argsort(distance_without_urn, axis=0, kind="stable")[:base_set_size]
+    index_by_distance = np.argsort(distance_without_urn, axis=0, kind="stable")[
+        :base_set_size
+    ]
     urns_by_distance = urns_without_urn[index_by_distance]
 
     # URNS is the result array we will build up

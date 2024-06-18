@@ -32,12 +32,12 @@ def prepare_cdc_data(cdc_file_path, current_year):
     )
     cdc["Age Score"] = cdc["Proportion Area"] * (current_year - cdc["Indicative Age"])
     cdc["Age Average Score"] = cdc.groupby(by=["URN"])["Age Score"].sum()
-    cdc["Building Age"] = cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
-    result = cdc[
-        ["Total Internal Floor Area", "Age Average Score", "Building Age"]
-    ]
+    cdc["Building Age"] = (
+        cdc.groupby(by=["URN"])["Indicative Age"].mean().astype("Int64")
+    )
+    result = cdc[["Total Internal Floor Area", "Age Average Score", "Building Age"]]
 
-    return result[~result.index.duplicated(keep='first')]
+    return result[~result.index.duplicated(keep="first")]
 
 
 # noinspection PyTypeChecker
@@ -334,9 +334,7 @@ def prepare_aar_data(aar_path):
 
     aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
 
-    aar["Is PFI"] = (
-        aar["PFI School"].map(lambda x: x == "PFI School")
-    )
+    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
     aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
@@ -576,7 +574,7 @@ def build_academy_data(
             "LA (name)": "LA Name",
             "Academy Trust Name": "Trust Name",
             "Academy UKPRN": "Trust UKPRN",
-            "Lead UPIN": "Trust UPIN"
+            "Lead UPIN": "Trust UPIN",
         }
         | config.income_category_map["academies"]
         | config.cost_category_map["academies"],
@@ -616,11 +614,16 @@ def build_academy_data(
 
         is_pupil_basis = (
             config.rag_category_settings[category]["type"] == "Pupil"
-            if category in config.rag_category_settings else True
+            if category in config.rag_category_settings
+            else True
         )
 
         apportionment_divisor = academies[
-            "Total pupils in trust" if is_pupil_basis else "Total Internal Floor Area in trust"
+            (
+                "Total pupils in trust"
+                if is_pupil_basis
+                else "Total Internal Floor Area in trust"
+            )
         ]
 
         apportionment_dividend = academies[
@@ -636,35 +639,48 @@ def build_academy_data(
         ]
 
         sub_categories = academies.columns[
-            academies.columns.str.startswith(category) & ~academies.columns.str.endswith("_CS")
+            academies.columns.str.startswith(category)
+            & ~academies.columns.str.endswith("_CS")
         ].values.tolist()
 
-        apportionment = apportionment_dividend.astype(float) / apportionment_divisor.astype(float)
+        apportionment = apportionment_dividend.astype(
+            float
+        ) / apportionment_divisor.astype(float)
 
         for sub_category in sub_categories:
-            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(float) * apportionment.astype(float)
-            academies[sub_category] = academies[sub_category] + academies[sub_category + "_CS"]
-            academies[sub_category + "_Per Unit"] = academies[sub_category].fillna(0) / basis_data
+            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
+                float
+            ) * apportionment.astype(float)
+            academies[sub_category] = (
+                academies[sub_category] + academies[sub_category + "_CS"]
+            )
+            academies[sub_category + "_Per Unit"] = (
+                academies[sub_category].fillna(0) / basis_data
+            )
             academies[sub_category + "_Per Unit"].replace(
                 [np.inf, -np.inf, np.nan], 0, inplace=True
             )
 
         academies[category + "_Total"] = (
-            academies[academies.columns[
-                academies.columns.str.startswith(category)
-                & ~academies.columns.str.endswith("_CS")
-                & ~academies.columns.str.endswith("_Per Unit")
-            ]]
+            academies[
+                academies.columns[
+                    academies.columns.str.startswith(category)
+                    & ~academies.columns.str.endswith("_CS")
+                    & ~academies.columns.str.endswith("_Per Unit")
+                ]
+            ]
             .fillna(0)
             .sum(axis=1)
         )
 
         academies[category + "_Total_CS"] = (
-            academies[academies.columns[
-                academies.columns.str.startswith(category)
-                & academies.columns.str.endswith("_CS")
-                & ~academies.columns.str.endswith("_Per Unit")
-                ]]
+            academies[
+                academies.columns[
+                    academies.columns.str.startswith(category)
+                    & academies.columns.str.endswith("_CS")
+                    & ~academies.columns.str.endswith("_Per Unit")
+                ]
+            ]
             .fillna(0)
             .sum(axis=1)
         )
@@ -678,18 +694,20 @@ def build_academy_data(
     for income_col in income_cols:
         # Income cols `Income_XXXX_CS` have the format.
         comps = income_col.split("_")
-        academies[income_col] = (
-                academies[income_col] * (
-                    academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
+        academies[income_col] = academies[income_col] * (
+            academies["Number of pupils"].astype(float)
+            / academies["Total pupils in trust"].astype(float)
         )
 
         # Target income category from academy base data
         target_income_col = f"{comps[0]}_{comps[1]}"
-        academies[target_income_col] = (academies[target_income_col] + academies[income_col])
+        academies[target_income_col] = (
+            academies[target_income_col] + academies[income_col]
+        )
 
     academies["Catering staff and supplies_Net Costs"] = (
-            academies["Income_Catering services"]
-            + academies["Catering staff and supplies_Total"]
+        academies["Income_Catering services"]
+        + academies["Catering staff and supplies_Total"]
     )
 
     academies["Catering staff and supplies_Net Costs_CS"] = (
@@ -803,9 +821,9 @@ def build_maintained_school_data(
         + maintained_schools["Targeted Grants"]
     )
 
-    maintained_schools["Income_Direct revenue finance"] = (
-        maintained_schools["E30 Direct revenue financing (revenue contributions to capital)"]
-    )
+    maintained_schools["Income_Direct revenue finance"] = maintained_schools[
+        "E30 Direct revenue financing (revenue contributions to capital)"
+    ]
 
     maintained_schools["Income_Pre Post 16"] = (
         maintained_schools["I01  Funds delegated by the LA"]

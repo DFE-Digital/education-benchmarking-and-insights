@@ -5,7 +5,6 @@ import pytest
 
 from src.pipeline.comparator_sets import select_top_set_urns
 
-
 # @pytest.mark.parametrize(
 #     "local",
 #     [

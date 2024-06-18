@@ -149,7 +149,7 @@ maintained_schools_master_list = {
     "Direct Grant": "float",
     "Targeted Grants": "float",
     "Community Grants": "float",
-    "Self Generated Funding": "float"
+    "Self Generated Funding": "float",
 }
 
 cdc_index_col = "URN"

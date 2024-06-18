@@ -215,7 +215,6 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
         raw_container,
         f"{run_type}/{year}/maintained_schools_master_list.csv",
         encoding="cp1252",
-
     )
 
     links_data = get_blob(
