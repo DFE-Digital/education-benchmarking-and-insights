@@ -24,7 +24,7 @@ import {
   LaSuggesterId,
   TrustSuggesterId,
   HorizontalChartTrustFinancialElementId,
-  CompareCostsTrustElementId,
+  CompareTrustElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -106,9 +106,7 @@ if (compareCostsElement) {
   }
 }
 
-const compareCostsTrustElement = document.getElementById(
-  CompareCostsTrustElementId
-);
+const compareCostsTrustElement = document.getElementById(CompareTrustElementId);
 
 if (compareCostsTrustElement) {
   const { id } = compareCostsTrustElement.dataset;
