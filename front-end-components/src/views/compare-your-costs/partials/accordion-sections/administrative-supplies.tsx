@@ -18,7 +18,10 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { SchoolExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  AdministrativeSuppliesExpenditure,
+} from "src/services";
 
 export const AdministrativeSupplies: React.FC<{
   type: string;
@@ -26,10 +29,12 @@ export const AdministrativeSupplies: React.FC<{
 }> = ({ type, id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const phase = useContext(PhaseContext);
-  const [data, setData] = useState<SchoolExpenditure[] | null>();
+  const [data, setData] = useState<
+    AdministrativeSuppliesExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.query(
+    return await ExpenditureApi.query<AdministrativeSuppliesExpenditure>(
       type,
       id,
       dimension.value,

@@ -13,7 +13,7 @@ import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
 import { ChartDimensionContext } from "src/contexts";
 
-export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
+export function HistoricChart<TData extends ChartDataSeries>({
   chartName,
   data,
   seriesConfig,
@@ -22,7 +22,7 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
   valueUnit,
   axisLabel,
   columnHeading,
-}) => {
+}: HistoricChartProps<TData>) {
   const mode = useContext(ChartModeContext);
   const dimension = useContext(ChartDimensionContext);
 
@@ -104,4 +104,4 @@ export const HistoricChart: React.FC<HistoricChartProps<ChartDataSeries>> = ({
       )}
     </>
   );
-};
+}
