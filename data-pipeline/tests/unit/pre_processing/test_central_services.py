@@ -5,7 +5,6 @@ def test_central_services_data_has_correct_output_columns(
     prepared_central_services_data: pd.DataFrame,
 ):
     assert list(prepared_central_services_data.columns) == [
-        'Trust UPIN',
         'In year balance',
         'Income_Other DFE grants',
         'Income_SEN funding',
