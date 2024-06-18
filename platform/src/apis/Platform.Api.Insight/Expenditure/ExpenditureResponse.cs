@@ -49,15 +49,12 @@ public static class ExpenditureResponseFactory
     private static T CreateResponse<T>(ExpenditureBaseModel model, ExpenditureParameters parameters)
         where T : ExpenditureBaseResponse, new()
     {
-        var response = new T();
-
-        var schoolTotalExpenditure = CalcPupilSchool(model.TotalExpenditure, model, parameters.Dimension);
-        var centralTotalExpenditure = CalcPupilCentral(model.TotalExpenditureCS, model, parameters.Dimension);
-        var totalExpenditure = model.TotalExpenditure + model.TotalExpenditureCS.GetValueOrDefault();
-
-        response.SchoolTotalExpenditure = parameters.IncludeBreakdown ? schoolTotalExpenditure : null;
-        response.CentralTotalExpenditure = parameters.IncludeBreakdown ? centralTotalExpenditure : null;
-        response.TotalExpenditure = CalcPupilTotal(totalExpenditure, model, parameters.Dimension);
+        var response = new T
+        {
+            SchoolTotalExpenditure = CalcPupilSchool(model.TotalExpenditure - model.TotalExpenditureCS.GetValueOrDefault(), model, parameters),
+            CentralTotalExpenditure = CalcPupilCentral(model.TotalExpenditureCS, model, parameters),
+            TotalExpenditure = CalcPupilTotal(model.TotalExpenditure, model, parameters)
+        };
 
         if (parameters.Category is null or ExpenditureCategories.TeachingTeachingSupportStaff)
         {
@@ -107,369 +104,222 @@ public static class ExpenditureResponseFactory
         return response;
     }
 
-    private static void SetTeachingTeachingSupportStaff<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetTeachingTeachingSupportStaff<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
+        response.SchoolTotalTeachingSupportStaffCosts = CalcPupilSchool(model.TotalTeachingSupportStaffCosts - model.TotalTeachingSupportStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolTeachingStaffCosts = CalcPupilSchool(model.TeachingStaffCosts - model.TeachingStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolSupplyTeachingStaffCosts = CalcPupilSchool(model.SupplyTeachingStaffCosts - model.SupplyTeachingStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolEducationalConsultancyCosts = CalcPupilSchool(model.EducationalConsultancyCosts - model.EducationalConsultancyCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolEducationSupportStaffCosts = CalcPupilSchool(model.EducationSupportStaffCosts - model.EducationSupportStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolAgencySupplyTeachingStaffCosts = CalcPupilSchool(model.AgencySupplyTeachingStaffCosts - model.AgencySupplyTeachingStaffCostsCS.GetValueOrDefault(), model, parameters);
 
-        var schoolTotalTeachingSupportStaffCosts = CalcPupilSchool(model.TotalTeachingSupportStaffCosts, model, parameters.Dimension);
-        var schoolTeachingStaffCosts = CalcPupilSchool(model.TeachingStaffCosts, model, parameters.Dimension);
-        var schoolSupplyTeachingStaffCosts = CalcPupilSchool(model.SupplyTeachingStaffCosts, model, parameters.Dimension);
-        var schoolEducationalConsultancyCosts = CalcPupilSchool(model.EducationalConsultancyCosts, model, parameters.Dimension);
-        var schoolEducationSupportStaffCosts = CalcPupilSchool(model.EducationSupportStaffCosts, model, parameters.Dimension);
-        var schoolAgencySupplyTeachingStaffCosts = CalcPupilSchool(model.AgencySupplyTeachingStaffCosts, model, parameters.Dimension);
+        response.CentralTotalTeachingSupportStaffCosts = CalcPupilCentral(model.TotalTeachingSupportStaffCostsCS, model, parameters);
+        response.CentralTeachingStaffCosts = CalcPupilCentral(model.TeachingStaffCostsCS, model, parameters);
+        response.CentralSupplyTeachingStaffCosts = CalcPupilCentral(model.SupplyTeachingStaffCostsCS, model, parameters);
+        response.CentralEducationalConsultancyCosts = CalcPupilCentral(model.EducationalConsultancyCostsCS, model, parameters);
+        response.CentralEducationSupportStaffCosts = CalcPupilCentral(model.EducationSupportStaffCostsCS, model, parameters);
+        response.CentralAgencySupplyTeachingStaffCosts = CalcPupilCentral(model.AgencySupplyTeachingStaffCostsCS, model, parameters);
 
-        var centralTotalTeachingSupportStaffCosts = CalcPupilCentral(model.TotalTeachingSupportStaffCostsCS, model, parameters.Dimension);
-        var centralTeachingStaffCosts = CalcPupilCentral(model.TeachingStaffCostsCS, model, parameters.Dimension);
-        var centralSupplyTeachingStaffCosts = CalcPupilCentral(model.SupplyTeachingStaffCostsCS, model, parameters.Dimension);
-        var centralEducationalConsultancyCosts = CalcPupilCentral(model.EducationalConsultancyCostsCS, model, parameters.Dimension);
-        var centralEducationSupportStaffCosts = CalcPupilCentral(model.EducationSupportStaffCostsCS, model, parameters.Dimension);
-        var centralAgencySupplyTeachingStaffCosts = CalcPupilCentral(model.AgencySupplyTeachingStaffCostsCS, model, parameters.Dimension);
-
-        var totalTeachingSupportStaffCosts = model.TotalTeachingSupportStaffCosts + model.TotalTeachingSupportStaffCostsCS.GetValueOrDefault();
-        var teachingStaffCosts = model.TeachingStaffCosts + model.TeachingStaffCostsCS.GetValueOrDefault();
-        var supplyTeachingStaffCosts = model.SupplyTeachingStaffCosts + model.SupplyTeachingStaffCostsCS.GetValueOrDefault();
-        var educationalConsultancyCosts = model.EducationalConsultancyCosts + model.EducationalConsultancyCostsCS.GetValueOrDefault();
-        var educationSupportStaffCosts = model.EducationSupportStaffCosts + model.EducationSupportStaffCostsCS.GetValueOrDefault();
-        var agencySupplyTeachingStaffCosts = model.AgencySupplyTeachingStaffCosts + model.AgencySupplyTeachingStaffCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalTeachingSupportStaffCosts = parameters.IncludeBreakdown ? schoolTotalTeachingSupportStaffCosts : null;
-        response.SchoolTeachingStaffCosts = parameters.IncludeBreakdown ? schoolTeachingStaffCosts : null;
-        response.SchoolSupplyTeachingStaffCosts = parameters.IncludeBreakdown ? schoolSupplyTeachingStaffCosts : null;
-        response.SchoolEducationalConsultancyCosts = parameters.IncludeBreakdown ? schoolEducationalConsultancyCosts : null;
-        response.SchoolEducationSupportStaffCosts = parameters.IncludeBreakdown ? schoolEducationSupportStaffCosts : null;
-        response.SchoolAgencySupplyTeachingStaffCosts = parameters.IncludeBreakdown ? schoolAgencySupplyTeachingStaffCosts : null;
-
-        response.CentralTotalTeachingSupportStaffCosts = parameters.IncludeBreakdown ? centralTotalTeachingSupportStaffCosts : null;
-        response.CentralTeachingStaffCosts = parameters.IncludeBreakdown ? centralTeachingStaffCosts : null;
-        response.CentralSupplyTeachingStaffCosts = parameters.IncludeBreakdown ? centralSupplyTeachingStaffCosts : null;
-        response.CentralEducationalConsultancyCosts = parameters.IncludeBreakdown ? centralEducationalConsultancyCosts : null;
-        response.CentralEducationSupportStaffCosts = parameters.IncludeBreakdown ? centralEducationSupportStaffCosts : null;
-        response.CentralAgencySupplyTeachingStaffCosts = parameters.IncludeBreakdown ? centralAgencySupplyTeachingStaffCosts : null;
-
-        response.TotalTeachingSupportStaffCosts = CalcPupilTotal(totalTeachingSupportStaffCosts, model, parameters.Dimension);
-        response.TeachingStaffCosts = CalcPupilTotal(teachingStaffCosts, model, parameters.Dimension);
-        response.SupplyTeachingStaffCosts = CalcPupilTotal(supplyTeachingStaffCosts, model, parameters.Dimension);
-        response.EducationalConsultancyCosts = CalcPupilTotal(educationalConsultancyCosts, model, parameters.Dimension);
-        response.EducationSupportStaffCosts = CalcPupilTotal(educationSupportStaffCosts, model, parameters.Dimension);
-        response.AgencySupplyTeachingStaffCosts = CalcPupilTotal(agencySupplyTeachingStaffCosts, model, parameters.Dimension);
+        response.TotalTeachingSupportStaffCosts = CalcPupilTotal(model.TotalTeachingSupportStaffCosts, model, parameters);
+        response.TeachingStaffCosts = CalcPupilTotal(model.TeachingStaffCosts, model, parameters);
+        response.SupplyTeachingStaffCosts = CalcPupilTotal(model.SupplyTeachingStaffCosts, model, parameters);
+        response.EducationalConsultancyCosts = CalcPupilTotal(model.EducationalConsultancyCosts, model, parameters);
+        response.EducationSupportStaffCosts = CalcPupilTotal(model.EducationSupportStaffCosts, model, parameters);
+        response.AgencySupplyTeachingStaffCosts = CalcPupilTotal(model.AgencySupplyTeachingStaffCosts, model, parameters);
     }
 
-    private static void SetNonEducationalSupportStaff<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetNonEducationalSupportStaff<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalNonEducationalSupportStaffCosts = CalcPupilSchool(model.TotalNonEducationalSupportStaffCosts, model, parameters.Dimension);
-        var schoolAdministrativeClericalStaffCosts = CalcPupilSchool(model.AdministrativeClericalStaffCosts, model, parameters.Dimension);
-        var schoolAuditorsCosts = CalcPupilSchool(model.AuditorsCosts, model, parameters.Dimension);
-        var schoolOtherStaffCosts = CalcPupilSchool(model.OtherStaffCosts, model, parameters.Dimension);
-        var schoolProfessionalServicesNonCurriculumCosts = CalcPupilSchool(model.ProfessionalServicesNonCurriculumCosts, model, parameters.Dimension);
+        response.SchoolTotalNonEducationalSupportStaffCosts = CalcPupilSchool(model.TotalNonEducationalSupportStaffCosts - model.TotalNonEducationalSupportStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolAdministrativeClericalStaffCosts = CalcPupilSchool(model.AdministrativeClericalStaffCosts - model.AdministrativeClericalStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolAuditorsCosts = CalcPupilSchool(model.AuditorsCosts - model.AuditorsCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherStaffCosts = CalcPupilSchool(model.OtherStaffCosts - model.OtherStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolProfessionalServicesNonCurriculumCosts = CalcPupilSchool(model.ProfessionalServicesNonCurriculumCosts - model.ProfessionalServicesNonCurriculumCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalNonEducationalSupportStaffCosts = CalcPupilCentral(model.TotalNonEducationalSupportStaffCostsCS, model, parameters.Dimension);
-        var centralAdministrativeClericalStaffCosts = CalcPupilCentral(model.AdministrativeClericalStaffCostsCS, model, parameters.Dimension);
-        var centralAuditorsCosts = CalcPupilCentral(model.AuditorsCostsCS, model, parameters.Dimension);
-        var centralOtherStaffCosts = CalcPupilCentral(model.OtherStaffCostsCS, model, parameters.Dimension);
-        var centralProfessionalServicesNonCurriculumCosts = CalcPupilCentral(model.ProfessionalServicesNonCurriculumCostsCS, model, parameters.Dimension);
+        response.CentralTotalNonEducationalSupportStaffCosts = CalcPupilCentral(model.TotalNonEducationalSupportStaffCostsCS, model, parameters);
+        response.CentralAdministrativeClericalStaffCosts = CalcPupilCentral(model.AdministrativeClericalStaffCostsCS, model, parameters);
+        response.CentralAuditorsCosts = CalcPupilCentral(model.AuditorsCostsCS, model, parameters);
+        response.CentralOtherStaffCosts = CalcPupilCentral(model.OtherStaffCostsCS, model, parameters);
+        response.CentralProfessionalServicesNonCurriculumCosts = CalcPupilCentral(model.ProfessionalServicesNonCurriculumCostsCS, model, parameters);
 
-        var totalNonEducationalSupportStaffCosts = model.TotalNonEducationalSupportStaffCosts + model.TotalNonEducationalSupportStaffCostsCS.GetValueOrDefault();
-        var administrativeClericalStaffCosts = model.AdministrativeClericalStaffCosts + model.AdministrativeClericalStaffCostsCS.GetValueOrDefault();
-        var auditorsCosts = model.AuditorsCosts + model.AuditorsCostsCS.GetValueOrDefault();
-        var otherStaffCosts = model.OtherStaffCosts + model.OtherStaffCostsCS.GetValueOrDefault();
-        var professionalServicesNonCurriculumCosts = model.ProfessionalServicesNonCurriculumCosts + model.ProfessionalServicesNonCurriculumCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalNonEducationalSupportStaffCosts = parameters.IncludeBreakdown ? schoolTotalNonEducationalSupportStaffCosts : null;
-        response.SchoolAdministrativeClericalStaffCosts = parameters.IncludeBreakdown ? schoolAdministrativeClericalStaffCosts : null;
-        response.SchoolAuditorsCosts = parameters.IncludeBreakdown ? schoolAuditorsCosts : null;
-        response.SchoolOtherStaffCosts = parameters.IncludeBreakdown ? schoolOtherStaffCosts : null;
-        response.SchoolProfessionalServicesNonCurriculumCosts = parameters.IncludeBreakdown ? schoolProfessionalServicesNonCurriculumCosts : null;
-
-        response.CentralTotalNonEducationalSupportStaffCosts = parameters.IncludeBreakdown ? centralTotalNonEducationalSupportStaffCosts : null;
-        response.CentralAdministrativeClericalStaffCosts = parameters.IncludeBreakdown ? centralAdministrativeClericalStaffCosts : null;
-        response.CentralAuditorsCosts = parameters.IncludeBreakdown ? centralAuditorsCosts : null;
-        response.CentralOtherStaffCosts = parameters.IncludeBreakdown ? centralOtherStaffCosts : null;
-        response.CentralProfessionalServicesNonCurriculumCosts = parameters.IncludeBreakdown ? centralProfessionalServicesNonCurriculumCosts : null;
-
-        response.TotalNonEducationalSupportStaffCosts = CalcPupilTotal(totalNonEducationalSupportStaffCosts, model, parameters.Dimension);
-        response.AdministrativeClericalStaffCosts = CalcPupilTotal(administrativeClericalStaffCosts, model, parameters.Dimension);
-        response.AuditorsCosts = CalcPupilTotal(auditorsCosts, model, parameters.Dimension);
-        response.OtherStaffCosts = CalcPupilTotal(otherStaffCosts, model, parameters.Dimension);
-        response.ProfessionalServicesNonCurriculumCosts = CalcPupilTotal(professionalServicesNonCurriculumCosts, model, parameters.Dimension);
+        response.TotalNonEducationalSupportStaffCosts = CalcPupilTotal(model.TotalNonEducationalSupportStaffCosts, model, parameters);
+        response.AdministrativeClericalStaffCosts = CalcPupilTotal(model.AdministrativeClericalStaffCosts, model, parameters);
+        response.AuditorsCosts = CalcPupilTotal(model.AuditorsCosts, model, parameters);
+        response.OtherStaffCosts = CalcPupilTotal(model.OtherStaffCosts, model, parameters);
+        response.ProfessionalServicesNonCurriculumCosts = CalcPupilTotal(model.ProfessionalServicesNonCurriculumCosts, model, parameters);
     }
 
     private static void SetEducationalSupplies<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
         where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalEducationalSuppliesCosts = CalcPupilSchool(model.TotalEducationalSuppliesCosts, model, parameters.Dimension);
-        var schoolExaminationFeesCosts = CalcPupilSchool(model.ExaminationFeesCosts, model, parameters.Dimension);
-        var schoolLearningResourcesNonIctCosts = CalcPupilSchool(model.LearningResourcesNonIctCosts, model, parameters.Dimension);
+        response.SchoolTotalEducationalSuppliesCosts = CalcPupilSchool(model.TotalEducationalSuppliesCosts - model.TotalEducationalSuppliesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolExaminationFeesCosts = CalcPupilSchool(model.ExaminationFeesCosts - model.ExaminationFeesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolLearningResourcesNonIctCosts = CalcPupilSchool(model.LearningResourcesNonIctCosts - model.LearningResourcesNonIctCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalEducationalSuppliesCosts = CalcPupilCentral(model.TotalEducationalSuppliesCostsCS, model, parameters.Dimension);
-        var centralExaminationFeesCosts = CalcPupilCentral(model.ExaminationFeesCostsCS, model, parameters.Dimension);
-        var centralLearningResourcesNonIctCosts = CalcPupilCentral(model.LearningResourcesNonIctCostsCS, model, parameters.Dimension);
+        response.CentralTotalEducationalSuppliesCosts = CalcPupilCentral(model.TotalEducationalSuppliesCostsCS, model, parameters);
+        response.CentralExaminationFeesCosts = CalcPupilCentral(model.ExaminationFeesCostsCS, model, parameters);
+        response.CentralLearningResourcesNonIctCosts = CalcPupilCentral(model.LearningResourcesNonIctCostsCS, model, parameters);
 
-        var totalEducationalSuppliesCosts = model.TotalEducationalSuppliesCosts + model.TotalEducationalSuppliesCostsCS.GetValueOrDefault();
-        var examinationFeesCosts = model.ExaminationFeesCosts + model.ExaminationFeesCostsCS.GetValueOrDefault();
-        var earningResourcesNonIctCosts = model.LearningResourcesNonIctCosts + model.LearningResourcesNonIctCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalEducationalSuppliesCosts = parameters.IncludeBreakdown ? schoolTotalEducationalSuppliesCosts : null;
-        response.SchoolExaminationFeesCosts = parameters.IncludeBreakdown ? schoolExaminationFeesCosts : null;
-        response.SchoolLearningResourcesNonIctCosts = parameters.IncludeBreakdown ? schoolLearningResourcesNonIctCosts : null;
-
-        response.CentralTotalEducationalSuppliesCosts = parameters.IncludeBreakdown ? centralTotalEducationalSuppliesCosts : null;
-        response.CentralExaminationFeesCosts = parameters.IncludeBreakdown ? centralExaminationFeesCosts : null;
-        response.CentralLearningResourcesNonIctCosts = parameters.IncludeBreakdown ? centralLearningResourcesNonIctCosts : null;
-
-        response.TotalEducationalSuppliesCosts = CalcPupilTotal(totalEducationalSuppliesCosts, model, parameters.Dimension);
-        response.ExaminationFeesCosts = CalcPupilTotal(examinationFeesCosts, model, parameters.Dimension);
-        response.LearningResourcesNonIctCosts = CalcPupilTotal(earningResourcesNonIctCosts, model, parameters.Dimension);
+        response.TotalEducationalSuppliesCosts = CalcPupilTotal(model.TotalEducationalSuppliesCosts, model, parameters);
+        response.ExaminationFeesCosts = CalcPupilTotal(model.ExaminationFeesCosts, model, parameters);
+        response.LearningResourcesNonIctCosts = CalcPupilTotal(model.LearningResourcesNonIctCosts, model, parameters);
     }
 
-    private static void SetEducationalIct<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetEducationalIct<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolLearningResourcesIctCosts = CalcPupilSchool(model.LearningResourcesIctCosts, model, parameters.Dimension);
-        var centralLearningResourcesIctCosts = CalcPupilCentral(model.LearningResourcesIctCostsCS, model, parameters.Dimension);
-        var learningResourcesIctCosts = model.LearningResourcesIctCosts + model.LearningResourcesIctCostsCS.GetValueOrDefault();
-
-        response.SchoolLearningResourcesIctCosts = parameters.IncludeBreakdown ? schoolLearningResourcesIctCosts : null;
-        response.CentralLearningResourcesIctCosts = parameters.IncludeBreakdown ? centralLearningResourcesIctCosts : null;
-        response.LearningResourcesIctCosts = CalcPupilTotal(learningResourcesIctCosts, model, parameters.Dimension);
+        response.SchoolLearningResourcesIctCosts = CalcPupilSchool(model.LearningResourcesIctCosts - model.LearningResourcesIctCostsCS.GetValueOrDefault(), model, parameters);
+        response.CentralLearningResourcesIctCosts = CalcPupilCentral(model.LearningResourcesIctCostsCS, model, parameters);
+        response.LearningResourcesIctCosts = CalcPupilTotal(model.LearningResourcesIctCosts, model, parameters);
     }
 
-    private static void SetPremisesStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetPremisesStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalPremisesStaffServiceCosts = CalcBuildingSchool(model.TotalPremisesStaffServiceCosts, model, parameters.Dimension);
-        var schoolCleaningCaretakingCosts = CalcBuildingSchool(model.CleaningCaretakingCosts, model, parameters.Dimension);
-        var schoolMaintenancePremisesCosts = CalcBuildingSchool(model.MaintenancePremisesCosts, model, parameters.Dimension);
-        var schoolOtherOccupationCosts = CalcBuildingSchool(model.OtherOccupationCosts, model, parameters.Dimension);
-        var schoolPremisesStaffCosts = CalcBuildingSchool(model.PremisesStaffCosts, model, parameters.Dimension);
+        response.SchoolTotalPremisesStaffServiceCosts = CalcBuildingSchool(model.TotalPremisesStaffServiceCosts - model.TotalPremisesStaffServiceCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCleaningCaretakingCosts = CalcBuildingSchool(model.CleaningCaretakingCosts - model.CleaningCaretakingCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolMaintenancePremisesCosts = CalcBuildingSchool(model.MaintenancePremisesCosts - model.MaintenancePremisesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherOccupationCosts = CalcBuildingSchool(model.OtherOccupationCosts - model.OtherOccupationCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolPremisesStaffCosts = CalcBuildingSchool(model.PremisesStaffCosts - model.PremisesStaffCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalPremisesStaffServiceCosts = CalcBuildingCentral(model.TotalPremisesStaffServiceCostsCS, model, parameters.Dimension);
-        var centralCleaningCaretakingCosts = CalcBuildingCentral(model.CleaningCaretakingCostsCS, model, parameters.Dimension);
-        var centralMaintenancePremisesCosts = CalcBuildingCentral(model.MaintenancePremisesCostsCS, model, parameters.Dimension);
-        var centralOtherOccupationCosts = CalcBuildingCentral(model.OtherOccupationCostsCS, model, parameters.Dimension);
-        var centralPremisesStaffCosts = CalcBuildingCentral(model.PremisesStaffCostsCS, model, parameters.Dimension);
+        response.CentralTotalPremisesStaffServiceCosts = CalcBuildingCentral(model.TotalPremisesStaffServiceCostsCS, model, parameters);
+        response.CentralCleaningCaretakingCosts = CalcBuildingCentral(model.CleaningCaretakingCostsCS, model, parameters);
+        response.CentralMaintenancePremisesCosts = CalcBuildingCentral(model.MaintenancePremisesCostsCS, model, parameters);
+        response.CentralOtherOccupationCosts = CalcBuildingCentral(model.OtherOccupationCostsCS, model, parameters);
+        response.CentralPremisesStaffCosts = CalcBuildingCentral(model.PremisesStaffCostsCS, model, parameters);
 
-        var totalPremisesStaffServiceCosts = model.TotalPremisesStaffServiceCosts + model.TotalPremisesStaffServiceCostsCS.GetValueOrDefault();
-        var cleaningCaretakingCosts = model.CleaningCaretakingCosts + model.CleaningCaretakingCostsCS.GetValueOrDefault();
-        var maintenancePremisesCosts = model.MaintenancePremisesCosts + model.MaintenancePremisesCostsCS.GetValueOrDefault();
-        var otherOccupationCosts = model.OtherOccupationCosts + model.OtherOccupationCostsCS.GetValueOrDefault();
-        var premisesStaffCosts = model.PremisesStaffCosts + model.PremisesStaffCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalPremisesStaffServiceCosts = parameters.IncludeBreakdown ? schoolTotalPremisesStaffServiceCosts : null;
-        response.SchoolCleaningCaretakingCosts = parameters.IncludeBreakdown ? schoolCleaningCaretakingCosts : null;
-        response.SchoolMaintenancePremisesCosts = parameters.IncludeBreakdown ? schoolMaintenancePremisesCosts : null;
-        response.SchoolOtherOccupationCosts = parameters.IncludeBreakdown ? schoolOtherOccupationCosts : null;
-        response.SchoolPremisesStaffCosts = parameters.IncludeBreakdown ? schoolPremisesStaffCosts : null;
-
-        response.CentralTotalPremisesStaffServiceCosts = parameters.IncludeBreakdown ? centralTotalPremisesStaffServiceCosts : null;
-        response.CentralCleaningCaretakingCosts = parameters.IncludeBreakdown ? centralCleaningCaretakingCosts : null;
-        response.CentralMaintenancePremisesCosts = parameters.IncludeBreakdown ? centralMaintenancePremisesCosts : null;
-        response.CentralOtherOccupationCosts = parameters.IncludeBreakdown ? centralOtherOccupationCosts : null;
-        response.CentralPremisesStaffCosts = parameters.IncludeBreakdown ? centralPremisesStaffCosts : null;
-
-        response.TotalPremisesStaffServiceCosts = CalcBuildingTotal(totalPremisesStaffServiceCosts, model, parameters.Dimension);
-        response.CleaningCaretakingCosts = CalcBuildingTotal(cleaningCaretakingCosts, model, parameters.Dimension);
-        response.MaintenancePremisesCosts = CalcBuildingTotal(maintenancePremisesCosts, model, parameters.Dimension);
-        response.OtherOccupationCosts = CalcBuildingTotal(otherOccupationCosts, model, parameters.Dimension);
-        response.PremisesStaffCosts = CalcBuildingTotal(premisesStaffCosts, model, parameters.Dimension);
+        response.TotalPremisesStaffServiceCosts = CalcBuildingTotal(model.TotalPremisesStaffServiceCosts, model, parameters);
+        response.CleaningCaretakingCosts = CalcBuildingTotal(model.CleaningCaretakingCosts, model, parameters);
+        response.MaintenancePremisesCosts = CalcBuildingTotal(model.MaintenancePremisesCosts, model, parameters);
+        response.OtherOccupationCosts = CalcBuildingTotal(model.OtherOccupationCosts, model, parameters);
+        response.PremisesStaffCosts = CalcBuildingTotal(model.PremisesStaffCosts, model, parameters);
     }
 
-    private static void SetUtilities<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetUtilities<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalUtilitiesCosts = CalcBuildingSchool(model.TotalUtilitiesCosts, model, parameters.Dimension);
-        var schoolEnergyCosts = CalcBuildingSchool(model.EnergyCosts, model, parameters.Dimension);
-        var schoolWaterSewerageCosts = CalcBuildingSchool(model.WaterSewerageCosts, model, parameters.Dimension);
+        response.SchoolTotalUtilitiesCosts = CalcBuildingSchool(model.TotalUtilitiesCosts - model.TotalUtilitiesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolEnergyCosts = CalcBuildingSchool(model.EnergyCosts - model.EnergyCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolWaterSewerageCosts = CalcBuildingSchool(model.WaterSewerageCosts - model.WaterSewerageCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalUtilitiesCosts = CalcBuildingCentral(model.TotalUtilitiesCostsCS, model, parameters.Dimension);
-        var centralEnergyCosts = CalcBuildingCentral(model.EnergyCostsCS, model, parameters.Dimension);
-        var centralWaterSewerageCosts = CalcBuildingCentral(model.WaterSewerageCostsCS, model, parameters.Dimension);
+        response.CentralTotalUtilitiesCosts = CalcBuildingCentral(model.TotalUtilitiesCostsCS, model, parameters);
+        response.CentralEnergyCosts = CalcBuildingCentral(model.EnergyCostsCS, model, parameters);
+        response.CentralWaterSewerageCosts = CalcBuildingCentral(model.WaterSewerageCostsCS, model, parameters);
 
-        var totalUtilitiesCosts = model.TotalUtilitiesCosts + model.TotalUtilitiesCostsCS.GetValueOrDefault();
-        var energyCosts = model.EnergyCosts + model.EnergyCostsCS.GetValueOrDefault();
-        var waterSewerageCosts = model.WaterSewerageCosts + model.WaterSewerageCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalUtilitiesCosts = parameters.IncludeBreakdown ? schoolTotalUtilitiesCosts : null;
-        response.SchoolEnergyCosts = parameters.IncludeBreakdown ? schoolEnergyCosts : null;
-        response.SchoolWaterSewerageCosts = parameters.IncludeBreakdown ? schoolWaterSewerageCosts : null;
-
-        response.CentralTotalUtilitiesCosts = parameters.IncludeBreakdown ? centralTotalUtilitiesCosts : null;
-        response.CentralEnergyCosts = parameters.IncludeBreakdown ? centralEnergyCosts : null;
-        response.CentralWaterSewerageCosts = parameters.IncludeBreakdown ? centralWaterSewerageCosts : null;
-
-        response.TotalUtilitiesCosts = CalcBuildingTotal(totalUtilitiesCosts, model, parameters.Dimension);
-        response.EnergyCosts = CalcBuildingTotal(energyCosts, model, parameters.Dimension);
-        response.WaterSewerageCosts = CalcBuildingTotal(waterSewerageCosts, model, parameters.Dimension);
+        response.TotalUtilitiesCosts = CalcBuildingTotal(model.TotalUtilitiesCosts, model, parameters);
+        response.EnergyCosts = CalcBuildingTotal(model.EnergyCosts, model, parameters);
+        response.WaterSewerageCosts = CalcBuildingTotal(model.WaterSewerageCosts, model, parameters);
     }
 
-    private static void SetAdministrationSupplies<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetAdministrationSupplies<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolAdministrativeSuppliesCosts = CalcPupilSchool(model.AdministrativeSuppliesNonEducationalCosts, model, parameters.Dimension);
-        var centralAdministrativeSuppliesCosts = CalcPupilCentral(model.AdministrativeSuppliesNonEducationalCostsCS, model, parameters.Dimension);
-        var administrativeSuppliesCosts = model.AdministrativeSuppliesNonEducationalCosts + model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault();
-
-        response.SchoolAdministrativeSuppliesCosts = parameters.IncludeBreakdown ? schoolAdministrativeSuppliesCosts : null;
-        response.CentralAdministrativeSuppliesCosts = parameters.IncludeBreakdown ? centralAdministrativeSuppliesCosts : null;
-        response.AdministrativeSuppliesCosts = CalcPupilTotal(administrativeSuppliesCosts, model, parameters.Dimension);
+        response.SchoolAdministrativeSuppliesCosts = CalcPupilSchool(model.AdministrativeSuppliesNonEducationalCosts - model.AdministrativeSuppliesNonEducationalCostsCS.GetValueOrDefault(), model, parameters);
+        response.CentralAdministrativeSuppliesCosts = CalcPupilCentral(model.AdministrativeSuppliesNonEducationalCostsCS, model, parameters);
+        response.AdministrativeSuppliesCosts = CalcPupilTotal(model.AdministrativeSuppliesNonEducationalCosts, model, parameters);
     }
 
-    private static void SetCateringStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-        where T : ExpenditureBaseResponse, new()
+    private static void SetCateringStaffServices<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalGrossCateringCosts = CalcPupilSchool(model.TotalGrossCateringCosts, model, parameters.Dimension);
-        var schoolCateringStaffCosts = CalcPupilSchool(model.CateringStaffCosts, model, parameters.Dimension);
-        var schoolCateringSuppliesCosts = CalcPupilSchool(model.CateringSuppliesCosts, model, parameters.Dimension);
+        response.SchoolTotalGrossCateringCosts = CalcPupilSchool(model.TotalGrossCateringCosts - model.TotalGrossCateringCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCateringStaffCosts = CalcPupilSchool(model.CateringStaffCosts - model.CateringStaffCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCateringSuppliesCosts = CalcPupilSchool(model.CateringSuppliesCosts - model.CateringSuppliesCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalGrossCateringCosts = CalcPupilCentral(model.TotalGrossCateringCostsCS, model, parameters.Dimension);
-        var centralCateringStaffCosts = CalcPupilCentral(model.CateringStaffCostsCS, model, parameters.Dimension);
-        var centralCateringSuppliesCosts = CalcPupilCentral(model.CateringSuppliesCostsCS, model, parameters.Dimension);
+        response.CentralTotalGrossCateringCosts = CalcPupilCentral(model.TotalGrossCateringCostsCS, model, parameters);
+        response.CentralCateringStaffCosts = CalcPupilCentral(model.CateringStaffCostsCS, model, parameters);
+        response.CentralCateringSuppliesCosts = CalcPupilCentral(model.CateringSuppliesCostsCS, model, parameters);
 
-        var totalGrossCateringCosts = model.TotalGrossCateringCosts + model.TotalGrossCateringCostsCS.GetValueOrDefault();
-        var cateringStaffCosts = model.CateringStaffCosts + model.CateringStaffCostsCS.GetValueOrDefault();
-        var cateringSuppliesCosts = model.CateringSuppliesCosts + model.CateringSuppliesCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalGrossCateringCosts = parameters.IncludeBreakdown ? schoolTotalGrossCateringCosts : null;
-        response.SchoolCateringStaffCosts = parameters.IncludeBreakdown ? schoolCateringStaffCosts : null;
-        response.SchoolCateringSuppliesCosts = parameters.IncludeBreakdown ? schoolCateringSuppliesCosts : null;
-
-        response.CentralTotalGrossCateringCosts = parameters.IncludeBreakdown ? centralTotalGrossCateringCosts : null;
-        response.CentralCateringStaffCosts = parameters.IncludeBreakdown ? centralCateringStaffCosts : null;
-        response.CentralCateringSuppliesCosts = parameters.IncludeBreakdown ? centralCateringSuppliesCosts : null;
-
-        response.TotalGrossCateringCosts = CalcPupilTotal(totalGrossCateringCosts, model, parameters.Dimension);
-        response.CateringStaffCosts = CalcPupilTotal(cateringStaffCosts, model, parameters.Dimension);
-        response.CateringSuppliesCosts = CalcPupilTotal(cateringSuppliesCosts, model, parameters.Dimension);
+        response.TotalGrossCateringCosts = CalcPupilTotal(model.TotalGrossCateringCosts, model, parameters);
+        response.CateringStaffCosts = CalcPupilTotal(model.CateringStaffCosts, model, parameters);
+        response.CateringSuppliesCosts = CalcPupilTotal(model.CateringSuppliesCosts, model, parameters);
     }
 
-    private static void SetOther<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response)
-    where T : ExpenditureBaseResponse, new()
+    private static void SetOther<T>(ExpenditureBaseModel model, ExpenditureParameters parameters, T response) where T : ExpenditureBaseResponse, new()
     {
-        var schoolTotalOtherCosts = CalcPupilSchool(model.TotalOtherCosts, model, parameters.Dimension);
-        var schoolDirectRevenueFinancingCosts = CalcPupilSchool(model.DirectRevenueFinancingCosts, model, parameters.Dimension);
-        var schoolGroundsMaintenanceCosts = CalcPupilSchool(model.GroundsMaintenanceCosts, model, parameters.Dimension);
-        var schoolIndirectEmployeeExpenses = CalcPupilSchool(model.IndirectEmployeeExpenses, model, parameters.Dimension);
-        var schoolInterestChargesLoanBank = CalcPupilSchool(model.InterestChargesLoanBank, model, parameters.Dimension);
-        var schoolOtherInsurancePremiumsCosts = CalcPupilSchool(model.OtherInsurancePremiumsCosts, model, parameters.Dimension);
-        var schoolPrivateFinanceInitiativeCharges = CalcPupilSchool(model.PrivateFinanceInitiativeCharges, model, parameters.Dimension);
-        var schoolRentRatesCosts = CalcPupilSchool(model.RentRatesCosts, model, parameters.Dimension);
-        var schoolSpecialFacilitiesCosts = CalcPupilSchool(model.SpecialFacilitiesCosts, model, parameters.Dimension);
-        var schoolStaffDevelopmentTrainingCosts = CalcPupilSchool(model.StaffDevelopmentTrainingCosts, model, parameters.Dimension);
-        var schoolStaffRelatedInsuranceCosts = CalcPupilSchool(model.StaffRelatedInsuranceCosts, model, parameters.Dimension);
-        var schoolSupplyTeacherInsurableCosts = CalcPupilSchool(model.SupplyTeacherInsurableCosts, model, parameters.Dimension);
-        var schoolCommunityFocusedSchoolStaff = CalcPupilSchool(model.CommunityFocusedSchoolStaff, model, parameters.Dimension);
-        var schoolCommunityFocusedSchoolCosts = CalcPupilSchool(model.CommunityFocusedSchoolCosts, model, parameters.Dimension);
+        response.SchoolTotalOtherCosts = CalcPupilSchool(model.TotalOtherCosts - model.TotalOtherCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolDirectRevenueFinancingCosts = CalcPupilSchool(model.DirectRevenueFinancingCosts - model.DirectRevenueFinancingCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolGroundsMaintenanceCosts = CalcPupilSchool(model.GroundsMaintenanceCosts - model.GroundsMaintenanceCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolIndirectEmployeeExpenses = CalcPupilSchool(model.IndirectEmployeeExpenses - model.IndirectEmployeeExpensesCS.GetValueOrDefault(), model, parameters);
+        response.SchoolInterestChargesLoanBank = CalcPupilSchool(model.InterestChargesLoanBank - model.InterestChargesLoanBankCS.GetValueOrDefault(), model, parameters);
+        response.SchoolOtherInsurancePremiumsCosts = CalcPupilSchool(model.OtherInsurancePremiumsCosts - model.OtherInsurancePremiumsCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolPrivateFinanceInitiativeCharges = CalcPupilSchool(model.PrivateFinanceInitiativeCharges - model.PrivateFinanceInitiativeChargesCS.GetValueOrDefault(), model, parameters);
+        response.SchoolRentRatesCosts = CalcPupilSchool(model.RentRatesCosts - model.RentRatesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolSpecialFacilitiesCosts = CalcPupilSchool(model.SpecialFacilitiesCosts - model.SpecialFacilitiesCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolStaffDevelopmentTrainingCosts = CalcPupilSchool(model.StaffDevelopmentTrainingCosts - model.StaffDevelopmentTrainingCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolStaffRelatedInsuranceCosts = CalcPupilSchool(model.StaffRelatedInsuranceCosts - model.StaffRelatedInsuranceCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolSupplyTeacherInsurableCosts = CalcPupilSchool(model.SupplyTeacherInsurableCosts - model.SupplyTeacherInsurableCostsCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCommunityFocusedSchoolStaff = CalcPupilSchool(model.CommunityFocusedSchoolStaff - model.CommunityFocusedSchoolStaffCS.GetValueOrDefault(), model, parameters);
+        response.SchoolCommunityFocusedSchoolCosts = CalcPupilSchool(model.CommunityFocusedSchoolCosts - model.CommunityFocusedSchoolCostsCS.GetValueOrDefault(), model, parameters);
 
-        var centralTotalOtherCosts = CalcPupilCentral(model.TotalOtherCostsCS, model, parameters.Dimension);
-        var centralDirectRevenueFinancingCosts = CalcPupilCentral(model.DirectRevenueFinancingCostsCS, model, parameters.Dimension);
-        var centralGroundsMaintenanceCosts = CalcPupilCentral(model.GroundsMaintenanceCostsCS, model, parameters.Dimension);
-        var centralIndirectEmployeeExpenses = CalcPupilCentral(model.IndirectEmployeeExpensesCS, model, parameters.Dimension);
-        var centralInterestChargesLoanBank = CalcPupilCentral(model.InterestChargesLoanBankCS, model, parameters.Dimension);
-        var centralOtherInsurancePremiumsCosts = CalcPupilCentral(model.OtherInsurancePremiumsCostsCS, model, parameters.Dimension);
-        var centralPrivateFinanceInitiativeCharges = CalcPupilCentral(model.PrivateFinanceInitiativeChargesCS, model, parameters.Dimension);
-        var centralRentRatesCosts = CalcPupilCentral(model.RentRatesCostsCS, model, parameters.Dimension);
-        var centralSpecialFacilitiesCosts = CalcPupilCentral(model.SpecialFacilitiesCostsCS, model, parameters.Dimension);
-        var centralStaffDevelopmentTrainingCosts = CalcPupilCentral(model.StaffDevelopmentTrainingCostsCS, model, parameters.Dimension);
-        var centralStaffRelatedInsuranceCosts = CalcPupilCentral(model.StaffRelatedInsuranceCostsCS, model, parameters.Dimension);
-        var centralSupplyTeacherInsurableCosts = CalcPupilCentral(model.SupplyTeacherInsurableCostsCS, model, parameters.Dimension);
-        var centralCommunityFocusedSchoolStaff = CalcPupilCentral(model.CommunityFocusedSchoolStaffCS, model, parameters.Dimension);
-        var centralCommunityFocusedSchoolCosts = CalcPupilCentral(model.CommunityFocusedSchoolCostsCS, model, parameters.Dimension);
+        response.CentralTotalOtherCosts = CalcPupilCentral(model.TotalOtherCostsCS, model, parameters);
+        response.CentralDirectRevenueFinancingCosts = CalcPupilCentral(model.DirectRevenueFinancingCostsCS, model, parameters);
+        response.CentralGroundsMaintenanceCosts = CalcPupilCentral(model.GroundsMaintenanceCostsCS, model, parameters);
+        response.CentralIndirectEmployeeExpenses = CalcPupilCentral(model.IndirectEmployeeExpensesCS, model, parameters);
+        response.CentralInterestChargesLoanBank = CalcPupilCentral(model.InterestChargesLoanBankCS, model, parameters);
+        response.CentralOtherInsurancePremiumsCosts = CalcPupilCentral(model.OtherInsurancePremiumsCostsCS, model, parameters);
+        response.CentralPrivateFinanceInitiativeCharges = CalcPupilCentral(model.PrivateFinanceInitiativeChargesCS, model, parameters);
+        response.CentralRentRatesCosts = CalcPupilCentral(model.RentRatesCostsCS, model, parameters);
+        response.CentralSpecialFacilitiesCosts = CalcPupilCentral(model.SpecialFacilitiesCostsCS, model, parameters);
+        response.CentralStaffDevelopmentTrainingCosts = CalcPupilCentral(model.StaffDevelopmentTrainingCostsCS, model, parameters);
+        response.CentralStaffRelatedInsuranceCosts = CalcPupilCentral(model.StaffRelatedInsuranceCostsCS, model, parameters);
+        response.CentralSupplyTeacherInsurableCosts = CalcPupilCentral(model.SupplyTeacherInsurableCostsCS, model, parameters);
+        response.CentralCommunityFocusedSchoolStaff = CalcPupilCentral(model.CommunityFocusedSchoolStaffCS, model, parameters);
+        response.CentralCommunityFocusedSchoolCosts = CalcPupilCentral(model.CommunityFocusedSchoolCostsCS, model, parameters);
 
-        var totalOtherCosts = model.TotalOtherCosts + model.TotalOtherCostsCS.GetValueOrDefault();
-        var directRevenueFinancingCosts = model.DirectRevenueFinancingCosts + model.DirectRevenueFinancingCostsCS.GetValueOrDefault();
-        var groundsMaintenanceCosts = model.GroundsMaintenanceCosts + model.GroundsMaintenanceCostsCS.GetValueOrDefault();
-        var indirectEmployeeExpenses = model.IndirectEmployeeExpenses + model.IndirectEmployeeExpensesCS.GetValueOrDefault();
-        var interestChargesLoanBank = model.InterestChargesLoanBank + model.InterestChargesLoanBankCS.GetValueOrDefault();
-        var otherInsurancePremiumsCosts = model.OtherInsurancePremiumsCosts + model.OtherInsurancePremiumsCostsCS.GetValueOrDefault();
-        var privateFinanceInitiativeCharges = model.PrivateFinanceInitiativeCharges + model.PrivateFinanceInitiativeChargesCS.GetValueOrDefault();
-        var rentRatesCosts = model.RentRatesCosts + model.RentRatesCostsCS.GetValueOrDefault();
-        var specialFacilitiesCosts = model.SpecialFacilitiesCosts + model.SpecialFacilitiesCostsCS.GetValueOrDefault();
-        var staffDevelopmentTrainingCosts = model.StaffDevelopmentTrainingCosts + model.StaffDevelopmentTrainingCostsCS.GetValueOrDefault();
-        var staffRelatedInsuranceCosts = model.StaffRelatedInsuranceCosts + model.StaffRelatedInsuranceCostsCS.GetValueOrDefault();
-        var supplyTeacherInsurableCosts = model.SupplyTeacherInsurableCosts + model.SupplyTeacherInsurableCostsCS.GetValueOrDefault();
-        var communityFocusedSchoolStaff = model.CommunityFocusedSchoolStaff + model.CommunityFocusedSchoolStaffCS.GetValueOrDefault();
-        var communityFocusedSchoolCosts = model.CommunityFocusedSchoolCosts + model.CommunityFocusedSchoolCostsCS.GetValueOrDefault();
-
-        response.SchoolTotalOtherCosts = parameters.IncludeBreakdown ? schoolTotalOtherCosts : null;
-        response.SchoolDirectRevenueFinancingCosts = parameters.IncludeBreakdown ? schoolDirectRevenueFinancingCosts : null;
-        response.SchoolGroundsMaintenanceCosts = parameters.IncludeBreakdown ? schoolGroundsMaintenanceCosts : null;
-        response.SchoolIndirectEmployeeExpenses = parameters.IncludeBreakdown ? schoolIndirectEmployeeExpenses : null;
-        response.SchoolInterestChargesLoanBank = parameters.IncludeBreakdown ? schoolInterestChargesLoanBank : null;
-        response.SchoolOtherInsurancePremiumsCosts = parameters.IncludeBreakdown ? schoolOtherInsurancePremiumsCosts : null;
-        response.SchoolPrivateFinanceInitiativeCharges = parameters.IncludeBreakdown ? schoolPrivateFinanceInitiativeCharges : null;
-        response.SchoolRentRatesCosts = parameters.IncludeBreakdown ? schoolRentRatesCosts : null;
-        response.SchoolSpecialFacilitiesCosts = parameters.IncludeBreakdown ? schoolSpecialFacilitiesCosts : null;
-        response.SchoolStaffDevelopmentTrainingCosts = parameters.IncludeBreakdown ? schoolStaffDevelopmentTrainingCosts : null;
-        response.SchoolStaffRelatedInsuranceCosts = parameters.IncludeBreakdown ? schoolStaffRelatedInsuranceCosts : null;
-        response.SchoolSupplyTeacherInsurableCosts = parameters.IncludeBreakdown ? schoolSupplyTeacherInsurableCosts : null;
-        response.SchoolCommunityFocusedSchoolStaff = parameters.IncludeBreakdown ? schoolCommunityFocusedSchoolStaff : null;
-        response.SchoolCommunityFocusedSchoolCosts = parameters.IncludeBreakdown ? schoolCommunityFocusedSchoolCosts : null;
-
-        response.CentralTotalOtherCosts = parameters.IncludeBreakdown ? centralTotalOtherCosts : null;
-        response.CentralDirectRevenueFinancingCosts = parameters.IncludeBreakdown ? centralDirectRevenueFinancingCosts : null;
-        response.CentralGroundsMaintenanceCosts = parameters.IncludeBreakdown ? centralGroundsMaintenanceCosts : null;
-        response.CentralIndirectEmployeeExpenses = parameters.IncludeBreakdown ? centralIndirectEmployeeExpenses : null;
-        response.CentralInterestChargesLoanBank = parameters.IncludeBreakdown ? centralInterestChargesLoanBank : null;
-        response.CentralOtherInsurancePremiumsCosts = parameters.IncludeBreakdown ? centralOtherInsurancePremiumsCosts : null;
-        response.CentralPrivateFinanceInitiativeCharges = parameters.IncludeBreakdown ? centralPrivateFinanceInitiativeCharges : null;
-        response.CentralRentRatesCosts = parameters.IncludeBreakdown ? centralRentRatesCosts : null;
-        response.CentralSpecialFacilitiesCosts = parameters.IncludeBreakdown ? centralSpecialFacilitiesCosts : null;
-        response.CentralStaffDevelopmentTrainingCosts = parameters.IncludeBreakdown ? centralStaffDevelopmentTrainingCosts : null;
-        response.CentralStaffRelatedInsuranceCosts = parameters.IncludeBreakdown ? centralStaffRelatedInsuranceCosts : null;
-        response.CentralSupplyTeacherInsurableCosts = parameters.IncludeBreakdown ? centralSupplyTeacherInsurableCosts : null;
-        response.CentralCommunityFocusedSchoolStaff = parameters.IncludeBreakdown ? centralCommunityFocusedSchoolStaff : null;
-        response.CentralCommunityFocusedSchoolCosts = parameters.IncludeBreakdown ? centralCommunityFocusedSchoolCosts : null;
-
-        response.TotalOtherCosts = CalcPupilTotal(totalOtherCosts, model, parameters.Dimension);
-        response.DirectRevenueFinancingCosts = CalcPupilTotal(directRevenueFinancingCosts, model, parameters.Dimension);
-        response.GroundsMaintenanceCosts = CalcPupilTotal(groundsMaintenanceCosts, model, parameters.Dimension);
-        response.IndirectEmployeeExpenses = CalcPupilTotal(indirectEmployeeExpenses, model, parameters.Dimension);
-        response.InterestChargesLoanBank = CalcPupilTotal(interestChargesLoanBank, model, parameters.Dimension);
-        response.OtherInsurancePremiumsCosts = CalcPupilTotal(otherInsurancePremiumsCosts, model, parameters.Dimension);
-        response.PrivateFinanceInitiativeCharges = CalcPupilTotal(privateFinanceInitiativeCharges, model, parameters.Dimension);
-        response.RentRatesCosts = CalcPupilTotal(rentRatesCosts, model, parameters.Dimension);
-        response.SpecialFacilitiesCosts = CalcPupilTotal(specialFacilitiesCosts, model, parameters.Dimension);
-        response.StaffDevelopmentTrainingCosts = CalcPupilTotal(staffDevelopmentTrainingCosts, model, parameters.Dimension);
-        response.StaffRelatedInsuranceCosts = CalcPupilTotal(staffRelatedInsuranceCosts, model, parameters.Dimension);
-        response.SupplyTeacherInsurableCosts = CalcPupilTotal(supplyTeacherInsurableCosts, model, parameters.Dimension);
-        response.CommunityFocusedSchoolStaff = CalcPupilTotal(communityFocusedSchoolStaff, model, parameters.Dimension);
-        response.CommunityFocusedSchoolCosts = CalcPupilTotal(communityFocusedSchoolCosts, model, parameters.Dimension);
+        response.TotalOtherCosts = CalcPupilTotal(model.TotalOtherCosts, model, parameters);
+        response.DirectRevenueFinancingCosts = CalcPupilTotal(model.DirectRevenueFinancingCosts, model, parameters);
+        response.GroundsMaintenanceCosts = CalcPupilTotal(model.GroundsMaintenanceCosts, model, parameters);
+        response.IndirectEmployeeExpenses = CalcPupilTotal(model.IndirectEmployeeExpenses, model, parameters);
+        response.InterestChargesLoanBank = CalcPupilTotal(model.InterestChargesLoanBank, model, parameters);
+        response.OtherInsurancePremiumsCosts = CalcPupilTotal(model.OtherInsurancePremiumsCosts, model, parameters);
+        response.PrivateFinanceInitiativeCharges = CalcPupilTotal(model.PrivateFinanceInitiativeCharges, model, parameters);
+        response.RentRatesCosts = CalcPupilTotal(model.RentRatesCosts, model, parameters);
+        response.SpecialFacilitiesCosts = CalcPupilTotal(model.SpecialFacilitiesCosts, model, parameters);
+        response.StaffDevelopmentTrainingCosts = CalcPupilTotal(model.StaffDevelopmentTrainingCosts, model, parameters);
+        response.StaffRelatedInsuranceCosts = CalcPupilTotal(model.StaffRelatedInsuranceCosts, model, parameters);
+        response.SupplyTeacherInsurableCosts = CalcPupilTotal(model.SupplyTeacherInsurableCosts, model, parameters);
+        response.CommunityFocusedSchoolStaff = CalcPupilTotal(model.CommunityFocusedSchoolStaff, model, parameters);
+        response.CommunityFocusedSchoolCosts = CalcPupilTotal(model.CommunityFocusedSchoolCosts, model, parameters);
     }
 
-    private static decimal? CalcPupilTotal(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcPupilTotal(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
-        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() + model.TotalExpenditureCS.GetValueOrDefault();
-
-        return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, dimension);
+        return CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcBuildingTotal(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcBuildingTotal(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        var totalIncome = model.TotalIncome.GetValueOrDefault() + model.TotalIncomeCS.GetValueOrDefault();
-        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() + model.TotalExpenditureCS.GetValueOrDefault();
-
-        return CalculateValue(value, model.TotalInternalFloorArea, totalIncome, totalExpenditure, dimension);
+        return CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcPupilSchool(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcPupilSchool(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        return CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, dimension);
+        var totalIncome = model.TotalIncome.GetValueOrDefault() - model.TotalIncomeCS.GetValueOrDefault();
+        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() - model.TotalExpenditureCS.GetValueOrDefault();
+
+        return parameters.IncludeBreakdown
+            ? CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension)
+            : null;
     }
 
-    private static decimal? CalcBuildingSchool(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcBuildingSchool(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        return CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncome, model.TotalExpenditure, dimension);
+        var totalIncome = model.TotalIncome.GetValueOrDefault() - model.TotalIncomeCS.GetValueOrDefault();
+        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() - model.TotalExpenditureCS.GetValueOrDefault();
+
+        return parameters.IncludeBreakdown
+            ? CalculateValue(value, model.TotalInternalFloorArea, totalIncome, totalExpenditure, parameters.Dimension)
+            : null;
     }
 
-    private static decimal? CalcPupilCentral(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcPupilCentral(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        return CalculateValue(value, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, dimension);
+        return parameters.IncludeBreakdown
+            ? CalculateValue(value, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, parameters.Dimension)
+            : null;
     }
 
-    private static decimal? CalcBuildingCentral(decimal? value, ExpenditureBaseModel model, string dimension)
+    private static decimal? CalcBuildingCentral(decimal? value, ExpenditureBaseModel model, ExpenditureParameters parameters)
     {
-        return CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncomeCS, model.TotalExpenditureCS, dimension);
+        return parameters.IncludeBreakdown
+            ? CalculateValue(value, model.TotalInternalFloorArea, model.TotalIncomeCS, model.TotalExpenditureCS, parameters.Dimension)
+            : null;
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
