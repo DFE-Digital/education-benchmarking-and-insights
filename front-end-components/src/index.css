@@ -15,7 +15,7 @@
   --series-1-colour: #4c2c92;
   --series-1-active-colour: #452885;
   --series-2-colour: #28a197;
-  --series-2-active-colour: ##249289;
+  --series-2-active-colour: #249289;
   --stack-0-colour: var(--series-0-colour);
   --stack-0-active-colour: var(--series-0-active-colour);
   --stack-1-colour: #e6e6e6;
@@ -139,7 +139,7 @@
 
 .chart-stat-summary {
   display: grid;
-  grid-template-columns: auto auto auto;
+  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3);
   padding: 0;
   gap: 15px;
   width: 100%;
@@ -167,7 +167,7 @@
   .chart-stat-value-suffix {
   color: var(--label-colour);
   margin-left: 10px;
-  font-size: 0.8em;
+  font-size: 0.5em;
 }
 
 .chart-stat-wrapper.chart-stat-highlight {

@@ -32,4 +32,22 @@ public class SchoolSpendingViewModel(
         .ThenByDescending(x => x.Rating.Value);
 
     public bool HasIncompleteData => pupilExpenditure.Concat(areaExpenditure).Any(x => x.HasIncompleteData);
+
+    public static ChartStatsViewModel Stats(RagRating rating)
+    {
+        return new ChartStatsViewModel
+        {
+            Average = rating.Mean,
+            Difference = rating.DiffMean,
+            PercentDifference = rating.DiffMean / rating.Mean * 100
+        };
+    }
+}
+
+public class ChartStatsViewModel
+{
+    public decimal? Average { get; set; }
+    public decimal? Difference { get; set; }
+    public decimal? PercentDifference { get; set; }
+
 }

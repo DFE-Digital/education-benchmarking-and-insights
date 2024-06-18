@@ -625,21 +625,27 @@ const spendingAndCostsComposedElements = document.querySelectorAll<HTMLElement>(
 
 if (spendingAndCostsComposedElements) {
   spendingAndCostsComposedElements.forEach((element) => {
-    const { highlight, json, sortDirection, suffix, hasIncompleteData } =
+    const { highlight, json, sortDirection, suffix, stats, hasIncompleteData } =
       element.dataset;
-    if (json) {
+    if (json && stats) {
       const root = ReactDOM.createRoot(element);
       const data = JSON.parse(json) as {
         urn: string;
         amount: number;
       }[];
 
+      const statData = JSON.parse(stats) as {
+        average: number;
+        difference: number;
+        percentDifference: number;
+      };
+
       root.render(
         <React.StrictMode>
           <ComparisonChartSummary
-            averageType="median"
             chartName="Percentage of pupils on roll and teacher cost"
             data={data}
+            chartStats={statData}
             highlightedItemKey={highlight}
             keyField="urn"
             suffix={suffix}

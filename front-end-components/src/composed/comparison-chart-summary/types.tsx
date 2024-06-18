@@ -1,5 +1,4 @@
 import {
-  ChartDataAverage,
   ChartDataSeries,
   ChartProps,
   ChartSortDirection,
@@ -10,9 +9,15 @@ export type ComparisonChartSummaryComposedProps<TData extends ChartDataSeries> =
     ChartProps<TData>,
     "chartName" | "data" | "keyField" | "valueUnit" | "suffix"
   > & {
-    averageType?: ChartDataAverage;
     highlightedItemKey?: string;
     sortDirection: ChartSortDirection;
+    chartStats: ComparisonChartStats;
     valueField: keyof TData;
     hasIncompleteData: boolean;
   };
+
+export type ComparisonChartStats = {
+  average: number;
+  difference: number;
+  percentDifference: number;
+};

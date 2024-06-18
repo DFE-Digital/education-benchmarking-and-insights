@@ -8,20 +8,19 @@ import {
 } from "src/components/charts/utils";
 import { Stat } from "src/components/charts/stat";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
-import stats from "stats-lite";
 import { WarningBanner } from "src/components/warning-banner";
 
 export function ComparisonChartSummary<TData extends ChartDataSeries>(
   props: ComparisonChartSummaryComposedProps<TData>
 ) {
   const {
-    averageType,
     data,
     highlightedItemKey,
     keyField,
     sortDirection,
     valueField,
     suffix,
+    chartStats,
     hasIncompleteData,
     ...rest
   } = props;
@@ -50,23 +49,6 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
   const highlightedItemIndex = data.findIndex(
     (d) => d[keyField] === highlightedItemKey
   );
-
-  const average = useMemo(() => {
-    const values = data.map((d) => d[valueField] as number);
-    switch (averageType) {
-      case "median":
-        return stats.median(values);
-      case "mode":
-        return stats.mode(values);
-      default:
-        return stats.mean(values);
-    }
-  }, [averageType, data, valueField]);
-
-  const averageDiff =
-    (data[highlightedItemIndex][valueField] as number) - average;
-
-  const averageDiffPercent = (averageDiff / average) * 100;
 
   return (
     <>
@@ -107,25 +89,27 @@ export function ComparisonChartSummary<TData extends ChartDataSeries>(
             chartName="Similar schools spend"
             label="Similar schools spend"
             suffix={suffix && `${suffix}, on average`}
-            value={average}
+            value={chartStats.average}
             valueFormatter={statValueFormatter}
             valueUnit="currency"
           />
-          {!isNaN(averageDiff) && (
+          {!isNaN(chartStats.percentDifference) && (
             <Stat
               chartName="This school spends"
               label="This school spends"
               suffix={
                 <span>
-                  <strong>{averageDiff < 0 ? "less" : "more"}</strong> {suffix}
+                  <strong>{chartStats.difference < 0 ? "less" : "more"}</strong>{" "}
+                  {suffix}
                 </span>
               }
-              value={Math.abs(averageDiff)}
+              value={Math.abs(chartStats.percentDifference)}
               valueFormatter={statValueFormatter}
               valueSuffix={
-                isNaN(averageDiffPercent) || !isFinite(averageDiffPercent)
+                isNaN(chartStats.percentDifference) ||
+                !isFinite(chartStats.percentDifference)
                   ? undefined
-                  : `(${Math.abs(averageDiffPercent).toFixed(1)}%)`
+                  : `(${Math.abs(chartStats.percentDifference).toFixed(1)}%)`
               }
               valueUnit="currency"
             />

@@ -8,22 +8,22 @@
 
 @await Component.InvokeAsync("EstablishmentHeading", new
 {
-    title = ViewData[ViewDataKeys.Title], 
-    name = Model.Name, 
-    id = Model.Urn, 
+    title = ViewData[ViewDataKeys.Title],
+    name = Model.Name,
+    id = Model.Urn,
     kind = OrganisationTypes.School
 })
 
 @await Component.InvokeAsync("DataSource", new
 {
-    kind = OrganisationTypes.School, 
+    kind = OrganisationTypes.School,
     isPartOfTrust = Model.IsPartOfTrust
 })
 
 @await Component.InvokeAsync("ComparatorSetDetails", new
 {
-    identifier = Model.Urn, 
-    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId), 
+    identifier = Model.Urn,
+    hasUserDefinedSet = !string.IsNullOrEmpty(Model.UserDefinedSetId),
     hasCustomData = !string.IsNullOrEmpty(Model.CustomDataId)
 })
 
@@ -51,6 +51,7 @@
                      data-highlight="@Model.Urn"
                      data-suffix="@category.Rating.Unit"
                      data-sort-direction="asc"
+                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
@@ -85,6 +86,7 @@
                      data-highlight="@Model.Urn"
                      data-suffix="@category.Rating.Unit"
                      data-sort-direction="asc"
+                     data-stats="@SchoolSpendingViewModel.Stats(category.Rating).ToJson(Formatting.None)"
                      data-has-incomplete-data="@Model.HasIncompleteData">
                 </div>
                 <p class="govuk-body">
