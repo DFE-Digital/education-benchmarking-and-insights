@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { CateringStaffServicesData } from "src/views/compare-your-costs-trust/partials/accordion-sections/types";
+import { EducationalSuppliesData } from "src/views/compare-your-trust/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -14,22 +14,20 @@ import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
 import { TrustExpenditure, ExpenditureApi } from "src/services";
 
-export const CateringStaffServices: React.FC<{
-  type: string;
+export const EducationalSupplies: React.FC<{
   id: string;
-}> = ({ type, id }) => {
+}> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const [data, setData] = useState<TrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust(
-      type,
       id,
       dimension.value,
-      "CateringStaffServices",
+      "EducationalSupplies",
       true
     );
-  }, [id, dimension, type]);
+  }, [id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -56,55 +54,55 @@ export const CateringStaffServices: React.FC<{
     setDimension(dimension);
   };
 
-  const totalCateringBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+  const totalEducationalSuppliesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.totalGrossCateringCosts ?? 0,
-              schoolValue: trust.schoolTotalGrossCateringCosts ?? 0,
-              centralValue: trust.centralTotalGrossCateringCosts ?? 0,
+              totalValue: trust.totalEducationalSuppliesCosts ?? 0,
+              schoolValue: trust.schoolTotalEducationalSuppliesCosts ?? 0,
+              centralValue: trust.centralTotalEducationalSuppliesCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const cateringStaffBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+  const examinationFeesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.cateringStaffCosts ?? 0,
-              schoolValue: trust.schoolCateringStaffCosts ?? 0,
-              centralValue: trust.centralCateringStaffCosts ?? 0,
+              totalValue: trust.examinationFeesCosts ?? 0,
+              schoolValue: trust.schoolExaminationFeesCosts ?? 0,
+              centralValue: trust.centralExaminationFeesCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const cateringSuppliesBarData: HorizontalBarChartWrapperData<CateringStaffServicesData> =
+  const learningResourcesBarData: HorizontalBarChartWrapperData<EducationalSuppliesData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.cateringSuppliesCosts ?? 0,
-              schoolValue: trust.schoolCateringSuppliesCosts ?? 0,
-              centralValue: trust.centralCateringSuppliesCosts ?? 0,
+              totalValue: trust.learningResourcesNonIctCosts ?? 0,
+              schoolValue: trust.schoolLearningResourcesNonIctCosts ?? 0,
+              centralValue: trust.centralLearningResourcesNonIctCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const elementId = "catering-staff-and-services";
+  const elementId = "educational-supplies";
   const [hash] = useHash();
 
   return (
@@ -119,41 +117,45 @@ export const CateringStaffServices: React.FC<{
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-8"
+              id="accordion-heading-3"
             >
-              Catering staff and services
+              Educational supplies
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-8"
+          id="accordion-content-3"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-8"
+          aria-labelledby="accordion-heading-3"
           role="region"
         >
           <HorizontalBarChartWrapper
-            data={totalCateringBarData}
-            chartName="total catering costs"
+            data={totalEducationalSuppliesBarData}
+            chartName="total educational supplies costs"
           >
-            <h3 className="govuk-heading-s">Total catering costs</h3>
+            <h3 className="govuk-heading-s">
+              Total educational supplies costs
+            </h3>
             <ChartDimensions
               dimensions={CostCategories}
               handleChange={handleSelectChange}
-              elementId="total-catering-costs"
+              elementId="total-educational-supplies-costs"
               defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
-            data={cateringStaffBarData}
-            chartName="catering staff costs"
+            data={examinationFeesBarData}
+            chartName="examination fees costs"
           >
-            <h3 className="govuk-heading-s">Catering staff costs</h3>
+            <h3 className="govuk-heading-s">Examination fees costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
-            data={cateringSuppliesBarData}
-            chartName="catering supplies costs"
+            data={learningResourcesBarData}
+            chartName="learning resource (not ICT equipment) costs"
           >
-            <h3 className="govuk-heading-s">Catering supplies costs</h3>
+            <h3 className="govuk-heading-s">
+              Learning resources (not ICT equipment) costs
+            </h3>
           </HorizontalBarChartWrapper>
         </div>
       </div>

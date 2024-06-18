@@ -76,14 +76,13 @@ export class ExpenditureApi {
   }
 
   static async trust(
-    type: string,
     id: string,
     dimension: string,
     category: string,
     includeBreakdown?: boolean
   ): Promise<TrustExpenditure[]> {
     const params = new URLSearchParams({
-      type: type,
+      type: "trust",
       id: id,
       dimension: dimension,
       category: category,

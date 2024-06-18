@@ -10,12 +10,9 @@ import {
   PremisesStaffServices,
   TeachingSupportStaff,
   Utilities,
-} from "src/views/compare-your-costs-trust/partials/accordion-sections";
+} from "src/views/compare-your-trust/partials/accordion-sections";
 
-export const ExpenditureAccordion: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const ExpenditureAccordion: React.FC<{ id: string }> = ({ id }) => {
   const [hash] = useHash();
 
   useLayoutEffect(() => {
@@ -38,15 +35,15 @@ export const ExpenditureAccordion: React.FC<{ type: string; id: string }> = ({
           data-remember-expanded="false"
           id="accordion"
         >
-          <TeachingSupportStaff id={id} type={type} />
-          <NonEducationalSupportStaff id={id} type={type} />
-          <EducationalSupplies id={id} type={type} />
-          <EducationalIct id={id} type={type} />
-          <PremisesStaffServices id={id} type={type} />
-          <Utilities id={id} type={type} />
-          <AdministrativeSupplies id={id} type={type} />
-          <CateringStaffServices id={id} type={type} />
-          <OtherCosts id={id} type={type} />
+          <TeachingSupportStaff id={id} />
+          <NonEducationalSupportStaff id={id} />
+          <EducationalSupplies id={id} />
+          <EducationalIct id={id} />
+          <PremisesStaffServices id={id} />
+          <Utilities id={id} />
+          <AdministrativeSupplies id={id} />
+          <CateringStaffServices id={id} />
+          <OtherCosts id={id} />
         </div>
       </div>
     </div>

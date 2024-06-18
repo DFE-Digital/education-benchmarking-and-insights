@@ -4,7 +4,7 @@ import "src/index.css";
 import {
   CompareYourCensus,
   CompareYourCosts,
-  CompareYourCostsTrust,
+  CompareYourTrust,
   DeploymentPlan,
   FindOrganisation,
   HistoricData,
@@ -111,13 +111,13 @@ const compareCostsTrustElement = document.getElementById(
 );
 
 if (compareCostsTrustElement) {
-  const { type, id } = compareCostsTrustElement.dataset;
-  if (type && id) {
+  const { id } = compareCostsTrustElement.dataset;
+  if (id) {
     const root = ReactDOM.createRoot(compareCostsTrustElement);
 
     root.render(
       <React.StrictMode>
-        <CompareYourCostsTrust type={type} id={id} />
+        <CompareYourTrust id={id} />
       </React.StrictMode>
     );
   }
