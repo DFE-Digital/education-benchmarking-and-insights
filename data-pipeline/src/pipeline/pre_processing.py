@@ -627,8 +627,6 @@ def build_academy_data(
             "Number of pupils" if is_pupil_basis else "Total Internal Floor Area"
         ]
 
-        apportionment = apportionment_dividend / apportionment_divisor
-
         basis_data = academies[
             (
                 "Number of pupils"
@@ -641,8 +639,10 @@ def build_academy_data(
             academies.columns.str.startswith(category) & ~academies.columns.str.endswith("_CS")
         ].values.tolist()
 
+        apportionment = apportionment_dividend.astype(float) / apportionment_divisor.astype(float)
+
         for sub_category in sub_categories:
-            academies[sub_category + "_CS"] = academies[sub_category + "_CS"] * apportionment
+            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(float) * apportionment.astype(float)
             academies[sub_category] = academies[sub_category] + academies[sub_category + "_CS"]
             academies[sub_category + "_Per Unit"] = academies[sub_category].fillna(0) / basis_data
             academies[sub_category + "_Per Unit"].replace(
@@ -668,6 +668,24 @@ def build_academy_data(
             .fillna(0)
             .sum(axis=1)
         )
+
+    income_cols = academies.columns[
+        academies.columns.str.startswith("Income_")
+        & academies.columns.str.endswith("_CS")
+        & ~academies.columns.str.startswith("Financial Position")
+    ].values.tolist()
+
+    for income_col in income_cols:
+        # Income cols `Income_XXXX_CS` have the format.
+        comps = income_col.split("_")
+        academies[income_col] = (
+                academies[income_col] * (
+                    academies["Number of pupils"].astype(float) / academies["Total pupils in trust"].astype(float))
+        )
+
+        # Target income category from academy base data
+        target_income_col = f"{comps[0]}_{comps[1]}"
+        academies[target_income_col] = (academies[target_income_col] + academies[income_col])
 
     academies["Catering staff and supplies_Net Costs"] = (
             academies["Income_Catering services"]
