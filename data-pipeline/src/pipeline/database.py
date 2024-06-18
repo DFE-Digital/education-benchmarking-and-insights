@@ -235,6 +235,7 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
         f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}"
     )
 
+
 def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
@@ -410,8 +411,14 @@ def insert_bfr_metrics_data(run_type: str, year: str, df: pd.DataFrame):
     write_frame.set_index("TrustUPIN", inplace=True)
     write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
 
-    upsert(write_frame, "BudgetForecastReturnsMetrics", keys=["RunType", "RunId", "TrustUPIN"])
-    logger.info(f"Wrote {len(write_frame)} rows to BFR metrics data {run_type} - {year}")
+    upsert(
+        write_frame,
+        "BudgetForecastReturnsMetrics",
+        keys=["RunType", "RunId", "TrustUPIN"],
+    )
+    logger.info(
+        f"Wrote {len(write_frame)} rows to BFR metrics data {run_type} - {year}"
+    )
 
 
 def insert_bfr_data(run_type: str, year: str, df: pd.DataFrame):

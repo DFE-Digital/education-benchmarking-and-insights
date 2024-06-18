@@ -64,7 +64,7 @@ income_category_map = {
         "Targeted Grants": "Income_Targeted grants",
         "Self Generated Funding": "Income_Total self generated funding",
         "Community Grants": "Income_Other Revenue Income",
-    }
+    },
 }
 
 cost_category_map = {

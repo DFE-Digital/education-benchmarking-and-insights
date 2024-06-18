@@ -125,7 +125,11 @@ def test_category_stats(
     value, data, diff_mean, percent_diff, percentile, decile, expected_rag
 ):
     category = "Teaching and Teaching support staff_Sub Cat"
-    data = {category: pd.Series(data, index=[item for item in range(100000, 100000+len(data))])}
+    data = {
+        category: pd.Series(
+            data, index=[item for item in range(100000, 100000 + len(data))]
+        )
+    }
 
     expected = {
         "URN": 100000,

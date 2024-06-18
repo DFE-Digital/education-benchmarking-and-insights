@@ -215,7 +215,6 @@ def pre_process_maintained_schools_data(run_type, year, data_ref) -> pd.DataFram
         raw_container,
         f"{run_type}/{year}/maintained_schools_master_list.csv",
         encoding="cp1252",
-
     )
 
     links_data = get_blob(
@@ -348,7 +347,7 @@ def pre_process_data(worker_client, run_type, year):
             ]
         )
     )
-    
+
     data_ref = worker_client.scatter(
         (schools, census, sen, cdc, aar, ks2, ks4, cfo, central_services)
     )
@@ -364,7 +363,9 @@ def pre_process_data(worker_client, run_type, year):
 
     pre_process_all_schools(run_type, year, (academies, maintained_schools))
 
-    bfr_metrics, bfr = worker_client.gather(worker_client.submit(pre_process_bfr,run_type, year))
+    bfr_metrics, bfr = worker_client.gather(
+        worker_client.submit(pre_process_bfr, run_type, year)
+    )
 
     time_taken = time.time() - start_time
     logger.info(f"Pre-processing data done in {time_taken} seconds")
