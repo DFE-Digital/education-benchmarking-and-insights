@@ -171,10 +171,10 @@ def map_school_website(url: str):
     return "https://" + url
 
 
-def map_is_pfi_school(pfi: str):
+def map_is_pfi_school(pfi: float):
     return (
         "PFI School"
-        if pfi is not None and pfi.lower() == "part of pfi"
+        if pfi > 0
         else "Non-PFI school"
     )
 
