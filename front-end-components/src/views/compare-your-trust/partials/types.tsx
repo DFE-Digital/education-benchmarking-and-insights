@@ -9,3 +9,7 @@ export type TotalExpenditureData = {
   centralTotalExpenditure?: number;
   totalExpenditure?: number;
 };
+
+export type SpendingSectionProps = {
+  id: string;
+};

@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { OtherCostsData } from "src/views/compare-your-costs-trust/partials/accordion-sections/types";
+import { OtherCostsData } from "src/views/compare-your-trust/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -15,15 +15,14 @@ import classNames from "classnames";
 import { TrustExpenditure, ExpenditureApi } from "src/services";
 
 export const OtherCosts: React.FC<{
-  type: string;
   id: string;
-}> = ({ type, id }) => {
+}> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const [data, setData] = useState<TrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(type, id, dimension.value, "Other", true);
-  }, [id, dimension, type]);
+    return await ExpenditureApi.trust(id, dimension.value, "Other", true);
+  }, [id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {

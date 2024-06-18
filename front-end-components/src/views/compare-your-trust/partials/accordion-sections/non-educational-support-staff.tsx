@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { TeachingSupportStaffData } from "src/views/compare-your-costs-trust/partials/accordion-sections/types";
+import { NonEducationalSupportStaffData } from "src/views/compare-your-trust/partials/accordion-sections/types";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -10,26 +10,24 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
+import { useHash } from "src/hooks/useHash";
 import { TrustExpenditure, ExpenditureApi } from "src/services";
 
-export const TeachingSupportStaff: React.FC<{ type: string; id: string }> = ({
-  type,
-  id,
-}) => {
+export const NonEducationalSupportStaff: React.FC<{
+  id: string;
+}> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
   const [data, setData] = useState<TrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
     return await ExpenditureApi.trust(
-      type,
       id,
       dimension.value,
-      "TeachingTeachingSupportStaff",
+      "NonEducationalSupportStaff",
       true
     );
-  }, [id, dimension, type]);
+  }, [id, dimension]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -56,103 +54,91 @@ export const TeachingSupportStaff: React.FC<{ type: string; id: string }> = ({
     setDimension(dimension);
   };
 
-  const totalTeachingBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
+  const administrativeClericalBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.totalTeachingSupportStaffCosts ?? 0,
-              schoolValue: trust.schoolTotalTeachingSupportStaffCosts ?? 0,
-              centralValue: trust.centralTotalTeachingSupportStaffCosts ?? 0,
+              totalValue: trust.administrativeClericalStaffCosts ?? 0,
+              schoolValue: trust.schoolAdministrativeClericalStaffCosts ?? 0,
+              centralValue: trust.centralAdministrativeClericalStaffCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const teachingStaffBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
+  const totalNonEducationalBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.teachingStaffCosts ?? 0,
-              schoolValue: trust.schoolTeachingStaffCosts ?? 0,
-              centralValue: trust.centralTeachingStaffCosts ?? 0,
+              totalValue: trust.totalNonEducationalSupportStaffCosts ?? 0,
+              schoolValue:
+                trust.schoolTotalNonEducationalSupportStaffCosts ?? 0,
+              centralValue:
+                trust.centralTotalNonEducationalSupportStaffCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const supplyTeachingBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
+  const auditorsCostsBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.supplyTeachingStaffCosts ?? 0,
-              schoolValue: trust.schoolSupplyTeachingStaffCosts ?? 0,
-              centralValue: trust.centralSupplyTeachingStaffCosts ?? 0,
+              totalValue: trust.auditorsCosts ?? 0,
+              schoolValue: trust.schoolAuditorsCosts ?? 0,
+              centralValue: trust.centralAuditorsCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const educationalConsultancyBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
+  const otherStaffCostsBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.educationalConsultancyCosts ?? 0,
-              schoolValue: trust.schoolEducationalConsultancyCosts ?? 0,
-              centralValue: trust.centralEducationalConsultancyCosts ?? 0,
+              totalValue: trust.otherStaffCosts ?? 0,
+              schoolValue: trust.schoolOtherStaffCosts ?? 0,
+              centralValue: trust.centralOtherStaffCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const educationSupportStaffBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
+  const professionalServicesBarData: HorizontalBarChartWrapperData<NonEducationalSupportStaffData> =
     useMemo(() => {
       return {
         dataPoints:
           data?.map((trust) => {
             return {
               ...trust,
-              totalValue: trust.educationSupportStaffCosts ?? 0,
-              schoolValue: trust.schoolEducationSupportStaffCosts ?? 0,
-              centralValue: trust.centralEducationSupportStaffCosts ?? 0,
+              totalValue: trust.professionalServicesNonCurriculumCosts ?? 0,
+              schoolValue:
+                trust.schoolProfessionalServicesNonCurriculumCosts ?? 0,
+              centralValue:
+                trust.centralProfessionalServicesNonCurriculumCosts ?? 0,
             };
           }) ?? [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
 
-  const agencySupplyBarData: HorizontalBarChartWrapperData<TeachingSupportStaffData> =
-    useMemo(() => {
-      return {
-        dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.agencySupplyTeachingStaffCosts ?? 0,
-              schoolValue: trust.schoolAgencySupplyTeachingStaffCosts ?? 0,
-              centralValue: trust.centralAgencySupplyTeachingStaffCosts ?? 0,
-            };
-          }) ?? [],
-        tableHeadings,
-      };
-    }, [data, tableHeadings]);
-
-  const elementId = "teaching-and-teaching-support-staff";
+  const elementId = "non-educational-support-staff";
   const [hash] = useHash();
 
   return (
@@ -167,62 +153,58 @@ export const TeachingSupportStaff: React.FC<{ type: string; id: string }> = ({
           <h2 className="govuk-accordion__section-heading">
             <span
               className="govuk-accordion__section-button"
-              id="accordion-heading-1"
+              id="accordion-heading-2"
             >
-              Teaching and teaching support staff
+              Non-educational support staff
             </span>
           </h2>
         </div>
         <div
-          id="accordion-content-1"
+          id="accordion-content-2"
           className="govuk-accordion__section-content"
-          aria-labelledby="accordion-heading-1"
+          aria-labelledby="accordion-2"
           role="region"
         >
           <HorizontalBarChartWrapper
-            data={totalTeachingBarData}
-            chartName="total teaching and support staff cost"
+            data={totalNonEducationalBarData}
+            chartName="total non-educational support staff costs"
           >
             <h3 className="govuk-heading-s">
-              Total teaching and teaching support staff costs
+              Total non-educational support staff costs
             </h3>
             <ChartDimensions
               dimensions={CostCategories}
               handleChange={handleSelectChange}
-              elementId="total-teaching-support-staff-cost"
+              elementId="total-non-educational-support-staff-costs"
               defaultValue={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
-            data={teachingStaffBarData}
-            chartName="teaching staff costs"
-          >
-            <h3 className="govuk-heading-s">Teaching staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={supplyTeachingBarData}
-            chartName="supply teaching staff costs"
-          >
-            <h3 className="govuk-heading-s">Supply teaching staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={educationalConsultancyBarData}
-            chartName="educational consultancy costs"
-          >
-            <h3 className="govuk-heading-s">Educational consultancy costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={educationSupportStaffBarData}
-            chartName="educational support staff costs"
-          >
-            <h3 className="govuk-heading-s">Educational support staff costs</h3>
-          </HorizontalBarChartWrapper>
-          <HorizontalBarChartWrapper
-            data={agencySupplyBarData}
-            chartName="agency supply teaching staff costs"
+            data={administrativeClericalBarData}
+            chartName="administrative and clerical staff costs"
           >
             <h3 className="govuk-heading-s">
-              Agency supply teaching staff costs
+              Administrative and clerical staff costs
+            </h3>
+          </HorizontalBarChartWrapper>
+          <HorizontalBarChartWrapper
+            data={auditorsCostsBarData}
+            chartName="auditors costs"
+          >
+            <h3 className="govuk-heading-s">Auditors costs</h3>
+          </HorizontalBarChartWrapper>
+          <HorizontalBarChartWrapper
+            data={otherStaffCostsBarData}
+            chartName="other staff costs"
+          >
+            <h3 className="govuk-heading-s">Other staff costs</h3>
+          </HorizontalBarChartWrapper>
+          <HorizontalBarChartWrapper
+            data={professionalServicesBarData}
+            chartName="profession services (non-curriculum) costs"
+          >
+            <h3 className="govuk-heading-s">
+              Professional services (non-curriculum) costs
             </h3>
           </HorizontalBarChartWrapper>
         </div>
