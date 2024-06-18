@@ -774,7 +774,7 @@ def build_maintained_school_data(
         | config.income_category_map["maintained_schools"],
         inplace=True,
     )
-
+    print(maintained_schools.columns)
     for category in config.rag_category_settings.keys():
         basis_data = maintained_schools[
             (
@@ -1076,8 +1076,8 @@ def build_bfr_data(bfr_sofa_data_path,bfr_3y_data_path, academies_y2, academies_
         "Y1":"revenue_reserves_year_0_per_pupil",
         "Y2":"revenue_reserves_year_1_per_pupil",
         "Y3":"revenue_reserves_year_2_per_pupil",
-        "slope":"revenue_reserves_year_per_pupil_slope",
-        "slope_flag":"revenue_reserves_year_per_pupil_slope_flag"}, inplace=True)
+        "slope":"revenue_reserves_per_pupil_slope",
+        "slope_flag":"revenue_reserves_per_pupil_slope_flag"}, inplace=True)
     bfr_revenue_reserves_per_pupil.set_index('TrustUPIN', inplace=True)
     
     bfr_metrics = pd.merge(bfr_metrics, bfr_revenue_reserves, how='left', left_index=True, right_index=True)

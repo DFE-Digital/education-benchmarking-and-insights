@@ -235,7 +235,6 @@ def insert_non_financial_data(run_type: str, year: str, df: pd.DataFrame):
         f"Wrote {len(write_frame)} rows to non-financial data {run_type} - {year}"
     )
 
-
 def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
     projections = {
         "URN": "URN",
@@ -378,3 +377,66 @@ def insert_financial_data(run_type: str, year: str, df: pd.DataFrame):
 
     upsert(write_frame, "Financial", keys=["RunType", "RunId", "URN"])
     logger.info(f"Wrote {len(write_frame)} rows to financial data {run_type} - {year}")
+
+
+def insert_bfr_metrics_data(run_type: str, year: str, df: pd.DataFrame):
+    projections = {
+        "TrustUPIN": "TrustUPIN",
+        "Revenue reserve as percentage of income": "RevenueReserveAsPercentageOfIncome",
+        "Staff costs as percentage of income": "StaffCostsAsPercentageOfIncome",
+        "Expenditure as percentage of income": "ExpenditureAsPercentageOfIncome",
+        "percent self-generated income": "PercentSelfGeneratedIncome",
+        "percent grant funding": "PercentGrantFunding",
+        "revenue_reserves_year_-2": "RevenueReservesYearMinus2",
+        "revenue_reserves_year_-1": "RevenueReservesYearMinus1",
+        "revenue_reserves_year_0": "RevenueReservesYear0",
+        "revenue_reserves_year_1": "RevenueReservesYear1",
+        "revenue_reserves_year_2": "RevenueReservesYear2",
+        "revenue_reserves_slope": "RevenueReservesSlope",
+        "revenue_reserves_slope_flag": "RevenueReservesSlopeFlag",
+        "revenue_reserves_year_-2_per_pupil": "RevenueReservesYearMinus2PerPupil",
+        "revenue_reserves_year_-1_per_pupil": "RevenueReservesYearMinus1PerPupil",
+        "revenue_reserves_year_0_per_pupil": "RevenueReservesYear0PerPupil",
+        "revenue_reserves_year_1_per_pupil": "RevenueReservesYear1PerPupil",
+        "revenue_reserves_year_2_per_pupil": "RevenueReservesYear2PerPupil",
+        "revenue_reserves_per_pupil_slope": "RevenueReservesSlopePerPupil",
+        "revenue_reserves_per_pupil_slope_flag": "RevenueReservesSlopeFlagPerPupil",
+    }
+
+    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
+
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(year)
+    write_frame.set_index("TrustUPIN", inplace=True)
+    write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
+
+    upsert(write_frame, "BudgetForecastReturnsMetrics", keys=["RunType", "RunId", "TrustUPIN"])
+    logger.info(f"Wrote {len(write_frame)} rows to BFR metrics data {run_type} - {year}")
+
+
+def insert_bfr_data(run_type: str, year: str, df: pd.DataFrame):
+    projections = {
+        "TrustUPIN": "TrustUPIN",
+        "Title": "Title",
+        "Y1P1": "Y1P1",
+        "Y1P2": "Y1P2",
+        "Y2P1": "Y2P1",
+        "Y2P2": "Y2P2",
+        "Y1": "Y1",
+        "Y2": "Y2",
+        "Y3": "Y3",
+        "Y4": "Y4",
+        "Trust Balance": "TrustBalance",
+        "volatility": "Volatility",
+        "volatility_status": "VolatilityStatus",
+    }
+
+    write_frame = df.reset_index().rename(columns=projections)[[*projections.values()]]
+
+    write_frame["RunType"] = run_type
+    write_frame["RunId"] = str(year)
+    write_frame.set_index("TrustUPIN", inplace=True)
+    write_frame.replace({np.inf: np.nan, -np.inf: np.nan}, inplace=True)
+
+    upsert(write_frame, "BudgetForecastReturns", keys=["RunType", "RunId", "TrustUPIN"])
+    logger.info(f"Wrote {len(write_frame)} rows to BFR data {run_type} - {year}")
