@@ -258,21 +258,106 @@ def prepare_ks4_data(ks4_path):
 
 
 def prepare_central_services_data(cs_path):
-    central_services_financial = pd.read_excel(
+    central_services_financial = pd.read_csv(
         cs_path,
-        sheet_name="CentralServices",
         usecols=input_schemas.aar_central_services.keys(),
+        dtype=input_schemas.aar_central_services
     )
 
-    central_services_financial.replace(
-        to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True
+    central_services_financial["In year balance"] = (
+            central_services_financial["BNCH11110T (EFA Revenue Grants)"]
+            - central_services_financial["BNCH20000T (Total Costs)"]
     )
-    central_services_financial = central_services_financial.astype(
-        input_schemas.aar_central_services
+
+    central_services_financial["Income_Total grant funding"] = (
+            central_services_financial["BNCH11110T (EFA Revenue Grants)"]
+            + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
+            + central_services_financial["BNCH11141 (SEN)"]
+            + central_services_financial["BNCH11142 (Other Revenue)"]
+            + central_services_financial["BNCH11151 (Other Government Revenue Grants)"]
+            + central_services_financial["BNCH11161 (Government source (non-grant))"]
+            + central_services_financial["BNCH11162 (Academies)"]
+            + central_services_financial["BNCH11163 (Non- Government)"]
+            + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
+    )
+
+    central_services_financial["Income_Total self generated funding"] = (
+            central_services_financial["BNCH11201 (Income from facilities and services)"]
+            + central_services_financial["BNCH11202 (Income from catering)"]
+            + central_services_financial["BNCH11203 (Receipts from supply teacher insurance claims)"]
+            + central_services_financial["BNCH11300T (Voluntary income)"]
+            + central_services_financial["BNCH11204 (Other income - revenue)"]
+            + central_services_financial["BNCH11205 (Other Income from facilities and services)"]
+            + central_services_financial["BNCH11400T (Investment income)"]
+    )
+
+    central_services_financial["Income_Direct grants"] = (
+            central_services_financial["BNCH11110T (EFA Revenue Grants)"]
+            + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
+            + central_services_financial["BNCH11142 (Other Revenue)"]
+            + central_services_financial["BNCH11151 (Other Government Revenue Grants)"]
+            + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
+    )
+
+    central_services_financial["Income_Other DFE grants"] = (
+            central_services_financial["BNCH11110T (EFA Revenue Grants)"]
+            + central_services_financial["BNCH11131 (DfE Family Revenue Grants)"]
+            + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
+    )
+
+    central_services_financial["Income_Other Revenue Income"] = (
+            central_services_financial["BNCH11162 (Academies)"]
+            + central_services_financial["BNCH11163 (Non- Government)"]
+    )
+
+    central_services_financial["Income_Facilities and services"] = (
+            central_services_financial["BNCH11201 (Income from facilities and services)"]
+            + central_services_financial["BNCH11205 (Other Income from facilities and services)"]
+    )
+
+    central_services_financial["Total Expenditure"] = (
+            central_services_financial["BNCH21101 (Teaching staff)"]
+            + central_services_financial["BNCH21102 (Supply teaching staff - extra note in guidance)"]
+            + central_services_financial["BNCH21103 (Education support staff)"]
+            + central_services_financial["BNCH21104 (Administrative and clerical staff)"]
+            + central_services_financial["BNCH21105 (Premises staff)"]
+            + central_services_financial["BNCH21106 (Catering staff)"]
+            + central_services_financial["BNCH21107 (Other staff)"]
+            + central_services_financial["BNCH21201 (Indirect employee expenses)"]
+            + central_services_financial["BNCH21202 (Staff development and training)"]
+            + central_services_financial["BNCH21203 (Staff-related insurance)"]
+            + central_services_financial["BNCH21204 (Supply teacher insurance)"]
+            + central_services_financial["BNCH21301 (Maintenance of premises)"]
+            + central_services_financial["BNCH21405 (Grounds maintenance)"]
+            + central_services_financial["BNCH21401 (Cleaning and caretaking)"]
+            + central_services_financial["BNCH21402 (Water and sewerage)"]
+            + central_services_financial["BNCH21403 (Energy)"]
+            + central_services_financial["BNCH21404 (Rent and rates)"]
+            + central_services_financial["BNCH21406 (Other occupation costs)"]
+            + central_services_financial["BNCH21501 (Special facilities)"]
+            + central_services_financial["BNCH21601 (Learning resources (not ICT equipment))"]
+            + central_services_financial["BNCH21602 (ICT learning resources)"]
+            + central_services_financial["BNCH21603 (Examination fees)"]
+            + central_services_financial["BNCH21604 (Educational Consultancy)"]
+            + central_services_financial["BNCH21706 (Administrative supplies - non educational)"]
+            + central_services_financial["BNCH21606 (Agency supply teaching staff)"]
+            + central_services_financial["BNCH21701 (Catering supplies)"]
+            + central_services_financial["BNCH21705 (Other insurance premiums)"]
+            + central_services_financial["BNCH21702 (Professional Services - non-curriculum)"]
+            + central_services_financial["BNCH21703 (Auditor costs)"]
+            + central_services_financial["BNCH21801 (Interest charges for Loan and bank)"]
+            + central_services_financial["BNCH21802 (PFI Charges)"]
+    )
+
+    central_services_financial["Total Income"] = (
+            central_services_financial["Income_Total grant funding"]
+            + central_services_financial["Income_Total self generated funding"]
+            + central_services_financial["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
+            + central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"]
     )
 
     central_services_financial.rename(
-        columns={"Lead UPIN": "Trust UPIN", "In Year Balance": "In year balance"}
+        columns={"Lead_UPIN": "Trust UPIN"}
         | config.cost_category_map["central_services"]
         | config.income_category_map["central_services"],
         inplace=True,
@@ -282,45 +367,132 @@ def prepare_central_services_data(cs_path):
         "In year balance"
     ].map(mappings.map_is_surplus_deficit)
 
-    central_services_financial["Income_Other grants"] = (
-        central_services_financial["Income_Other grants"]
-        + central_services_financial["Income_Non government"]
-    )
-
     return central_services_financial.set_index("Trust UPIN")
 
 
 def prepare_aar_data(aar_path):
-    aar = pd.read_excel(
-        aar_path, sheet_name="Academies", usecols=input_schemas.aar_academies.keys()
+    aar = pd.read_csv(
+        aar_path,
+        usecols=input_schemas.aar_academies.keys(),
+        dtype=input_schemas.aar_academies
     )
 
     # removing pre-transition academies
     transitioned_academy_urns = aar["URN"][aar["URN"].duplicated(keep=False)].values
     mask = ~(
         aar["URN"].isin(transitioned_academy_urns)
-        & aar["Date joined or opened if in period"].isna()
+        & aar["Date joined or opened if in period:"].isna()
     )
     aar = aar[mask]
 
-    aar.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
-    aar = aar.astype(input_schemas.aar_academies)
+    aar["In year balance"] = aar["BNCH11110T (EFA Revenue Grants)"] - aar["BNCH20000T (Total Costs)"]
 
-    aar.rename(
-        columns={"PFI": "PFI School"}
+    aar["Income_Total grant funding"] = (
+        aar["BNCH11110T (EFA Revenue Grants)"]
+        + aar["BNCH11131 (DfE Family Revenue Grants)"]
+        + aar["BNCH11141 (SEN)"]
+        + aar["BNCH11142 (Other Revenue)"]
+        + aar["BNCH11151 (Other Government Revenue Grants)"]
+        + aar["BNCH11161 (Government source (non-grant))"]
+        + aar["BNCH11162 (Academies)"]
+        + aar["BNCH11163 (Non- Government)"]
+        + aar["BNCH11123-BAI011-A (Academies - Income)"]
+    )
+
+    aar["Income_Total self generated funding"] = (
+        aar["BNCH11201 (Income from facilities and services)"]
+        + aar["BNCH11202 (Income from catering)"]
+        + aar["BNCH11203 (Receipts from supply teacher insurance claims)"]
+        + aar["BNCH11300T (Voluntary income)"]
+        + aar["BNCH11204 (Other income - revenue)"]
+        + aar["BNCH11205 (Other Income from facilities and services)"]
+        + aar["BNCH11400T (Investment income)"]
+    )
+
+    aar["Income_Direct grants"] = (
+        aar["BNCH11110T (EFA Revenue Grants)"]
+        + aar["BNCH11131 (DfE Family Revenue Grants)"]
+        + aar["BNCH11142 (Other Revenue)"]
+        + aar["BNCH11151 (Other Government Revenue Grants)"]
+        + aar["BNCH11123-BAI011-A (Academies - Income)"]
+    )
+
+    aar["Income_Other DFE grants"] = (
+       aar["BNCH11110T (EFA Revenue Grants)"]
+       + aar["BNCH11131 (DfE Family Revenue Grants)"]
+       + aar["BNCH11123-BAI011-A (Academies - Income)"]
+    )
+
+    aar["Income_Other Revenue Income"] = (
+        aar["BNCH11162 (Academies)"]
+        + aar["BNCH11163 (Non- Government)"]
+    )
+
+    aar["Income_Facilities and services"] = (
+        aar["BNCH11201 (Income from facilities and services)"]
+        + aar["BNCH11205 (Other Income from facilities and services)"]
+    )
+
+    aar["Total Expenditure"] = (
+        aar["BNCH21101 (Teaching staff)"]
+        + aar["BNCH21102 (Supply teaching staff - extra note in guidance)"]
+        + aar["BNCH21103 (Education support staff)"]
+        + aar["BNCH21104 (Administrative and clerical staff)"]
+        + aar["BNCH21105 (Premises staff)"]
+        + aar["BNCH21106 (Catering staff)"]
+        + aar["BNCH21107 (Other staff)"]
+        + aar["BNCH21201 (Indirect employee expenses)"]
+        + aar["BNCH21202 (Staff development and training)"]
+        + aar["BNCH21203 (Staff-related insurance)"]
+        + aar["BNCH21204 (Supply teacher insurance)"]
+        + aar["BNCH21301 (Maintenance of premises)"]
+        + aar["BNCH21405 (Grounds maintenance)"]
+        + aar["BNCH21401 (Cleaning and caretaking)"]
+        + aar["BNCH21402 (Water and sewerage)"]
+        + aar["BNCH21403 (Energy)"]
+        + aar["BNCH21404 (Rent and rates)"]
+        + aar["BNCH21406 (Other occupation costs)"]
+        + aar["BNCH21501 (Special facilities)"]
+        + aar["BNCH21601 (Learning resources (not ICT equipment))"]
+        + aar["BNCH21602 (ICT learning resources)"]
+        + aar["BNCH21603 (Examination fees)"]
+        + aar["BNCH21604 (Educational Consultancy)"]
+        + aar["BNCH21706 (Administrative supplies - non educational)"]
+        + aar["BNCH21606 (Agency supply teaching staff)"]
+        + aar["BNCH21701 (Catering supplies)"]
+        + aar["BNCH21705 (Other insurance premiums)"]
+        + aar["BNCH21702 (Professional Services - non-curriculum)"]
+        + aar["BNCH21703 (Auditor costs)"]
+        + aar["BNCH21801 (Interest charges for Loan and bank)"]
+        + aar["BNCH21802 (PFI Charges)"]
+    )
+
+    aar["Total Income"] = (
+        aar["Income_Total grant funding"]
+        + aar["Income_Total self generated funding"]
+        + aar["BNCH21707 (Direct revenue financing (Revenue contributions to capital))"]
+        + aar["BNCH11123-BAI011-A (Academies - Income)"]
+    )
+
+    aar.rename(columns={
+            "ACADEMYUPIN": "Academy UPIN",
+            "Company_Number": "Company Registration Number",
+            "Date joined or opened if in period:": "Date joined or opened if in period",
+            "Date left or closed if in period:": "Date left or closed if in period"
+        }
         | config.cost_category_map["academies"]
         | config.income_category_map["academies"],
         inplace=True,
     )
 
     trust_balance = (
-        aar[["Lead UPIN", "In year balance"]]
-        .groupby("Lead UPIN")
+        aar[["Company Registration Number", "In year balance"]]
+        .groupby("Company Registration Number")
         .sum()
         .rename(columns={"In year balance": "Trust Balance"})
     )
 
-    aar = aar.merge(trust_balance, on="Lead UPIN", how="left")
+    aar = aar.merge(trust_balance, on="Company Registration Number", how="left")
 
     aar["Financial Position"] = aar["In year balance"].map(
         mappings.map_is_surplus_deficit
@@ -330,15 +502,9 @@ def prepare_aar_data(aar_path):
         mappings.map_is_surplus_deficit
     )
 
-    aar["PFI School"] = aar["PFI School"].map(mappings.map_is_pfi_school)
+    # aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
 
-    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
-
-    aar["London Weighting"] = aar["London Weighting"].fillna("Neither")
-
-    aar["Income_Other grants"] = (
-        aar["Income_Other grants"] + aar["Income_Non government"]
-    )
+    aar.drop(labels=["Company Registration Number"], axis=1, inplace=True)
 
     return aar.set_index("URN")
 
@@ -584,7 +750,11 @@ def build_academy_data(
     academies["OfstedLastInsp"] = pd.to_datetime(
         academies["OfstedLastInsp"], dayfirst=True
     )
-    academies["London Weighting"] = academies["London Weighting"].fillna("Neither")
+
+    # TODO: This needs re-instating
+    academies["London Weighting"] = "Neither"
+        # academies["London Weighting"].fillna("Neither"))
+
     academies["Email"] = ""
     academies["HeadEmail"] = ""
 
@@ -763,6 +933,10 @@ def build_academy_data(
     academies["Company Registration Number"] = academies[
         "Company Registration Number"
     ].map(mappings.map_company_number)
+
+    aar["PFI School"] = aar["Other costs_PFI charges"].map(mappings.map_is_pfi_school)
+
+    aar["Is PFI"] = aar["PFI School"].map(lambda x: x == "PFI School")
 
     return academies.set_index("URN")
 
