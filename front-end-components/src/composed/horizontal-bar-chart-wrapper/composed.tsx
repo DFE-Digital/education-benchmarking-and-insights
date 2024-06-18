@@ -80,7 +80,7 @@ export function HorizontalBarChartWrapper<
         isFinite((d as never)[dataPoint] as number) &&
         !isNaN((d as never)[dataPoint] as number)
           ? d
-          : { ...d, dataPoint: 0 }
+          : { ...d, [dataPoint]: 0 }
       )
       .sort((a, b) =>
         chartSeriesComparer(
