@@ -11,16 +11,16 @@ import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import { ExpenditureApi, TotalExpenditureTrustExpenditure } from "src/services";
 
 export const TotalExpenditure: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const [data, setData] = useState<TotalExpenditureTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<TotalExpenditureTrustExpenditure>(
       id,
       dimension.value,
       "TotalExpenditure",

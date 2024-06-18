@@ -39,13 +39,13 @@ export class ExpenditureApi {
       });
   }
 
-  static async query(
+  static async query<T extends SchoolExpenditure>(
     type: string,
     id: string,
     dimension: string,
     category: string,
     phase?: string
-  ): Promise<SchoolExpenditure[]> {
+  ): Promise<T[]> {
     const params = new URLSearchParams({
       type: type,
       id: id,
@@ -75,12 +75,12 @@ export class ExpenditureApi {
       });
   }
 
-  static async trust(
+  static async trust<T extends TrustExpenditure>(
     id: string,
     dimension: string,
     category: string,
     includeBreakdown?: boolean
-  ): Promise<TrustExpenditure[]> {
+  ): Promise<T[]> {
     const params = new URLSearchParams({
       type: "trust",
       id: id,

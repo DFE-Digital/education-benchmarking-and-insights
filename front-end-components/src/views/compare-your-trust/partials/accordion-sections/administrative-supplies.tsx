@@ -12,16 +12,21 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { useHash } from "src/hooks/useHash";
 import classNames from "classnames";
-import { TrustExpenditure, ExpenditureApi } from "src/services";
+import {
+  ExpenditureApi,
+  AdministrativeSuppliesTrustExpenditure,
+} from "src/services";
 
 export const AdministrativeSupplies: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TrustExpenditure[] | null>();
+  const [data, setData] = useState<
+    AdministrativeSuppliesTrustExpenditure[] | null
+  >();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust(
+    return await ExpenditureApi.trust<AdministrativeSuppliesTrustExpenditure>(
       id,
       dimension.value,
       "AdministrationSupplies",
