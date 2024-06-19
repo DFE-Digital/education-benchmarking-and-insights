@@ -47,7 +47,8 @@
   stroke: var(--grid-colour);
 }
 
-.recharts-wrapper .recharts-cartesian-axis .recharts-text {
+.recharts-wrapper .recharts-cartesian-axis .recharts-text,
+.recharts-wrapper .recharts-reference-line .recharts-text {
   fill: var(--label-colour);
   stroke: none;
 }

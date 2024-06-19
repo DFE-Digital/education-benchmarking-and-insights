@@ -49,7 +49,7 @@ export const CensusSection: React.FC<{ id: string }> = ({ id }) => {
               dimensions={CensusCategories}
               handleChange={handleSelectChange}
               elementId="census"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </div>
           <div className="govuk-grid-column-one-third">

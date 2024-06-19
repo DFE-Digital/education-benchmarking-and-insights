@@ -78,7 +78,7 @@ export const TotalExpenditure: React.FC<{
           })}
           handleChange={handleSelectChange}
           elementId="total-expenditure"
-          defaultValue={dimension.value}
+          value={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

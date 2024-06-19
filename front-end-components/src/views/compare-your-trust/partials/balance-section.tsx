@@ -1,7 +1,7 @@
 import React from "react";
 import {
   BalanceSectionProps,
-  InYearBalance,
+  Balance,
 } from "src/views/compare-your-trust/partials";
 import { ChartMode } from "src/components";
 import { IncludeBreakdown } from "src/components/include-breakdown";
@@ -30,7 +30,7 @@ export const BalanceSection: React.FC<BalanceSectionProps> = ({ id }) => {
         </div>
       </div>
       <div>
-        <InYearBalance id={id} />
+        <Balance id={id} />
       </div>
     </>
   );

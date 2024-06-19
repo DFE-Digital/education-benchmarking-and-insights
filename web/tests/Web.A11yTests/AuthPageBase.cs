@@ -10,7 +10,7 @@ public abstract partial class AuthPageBase(ITestOutputHelper testOutputHelper, W
     protected override async Task GoToPage(HttpStatusCode statusCode = HttpStatusCode.OK, IPage? basePage = null)
     {
         // Sign in using credentials set in config
-        var page = await webDriver.GetPage($"{ServiceUrl}/account/sign-in", HttpStatusCode.OK);
+        var page = await webDriver.GetPage($"{ServiceUrl}/sign-in", HttpStatusCode.OK);
         await page.Locator("#username").FillAsync(TestConfiguration.Authentication.Username);
         await page.Locator("#password").FillAsync(TestConfiguration.Authentication.Password);
         await page.GetByText("Sign in").ClickAsync();

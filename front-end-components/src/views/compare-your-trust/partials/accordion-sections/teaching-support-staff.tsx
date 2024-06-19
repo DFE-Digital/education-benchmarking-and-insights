@@ -205,7 +205,7 @@ export const TeachingSupportStaff: React.FC<{ id: string }> = ({ id }) => {
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-teaching-support-staff-cost"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
