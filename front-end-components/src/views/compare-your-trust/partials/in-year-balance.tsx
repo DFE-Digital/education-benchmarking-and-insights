@@ -1,31 +1,25 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { TotalExpenditureData } from "src/views/compare-your-trust/partials";
+import { BalanceData } from "src/views/compare-your-trust/partials";
 import { ChartDimensionContext } from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
   ChartDimensions,
-  PercentageExpenditure,
 } from "src/components";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
-import { ExpenditureApi, TotalExpenditureTrustExpenditure } from "src/services";
+import { BalanceApi, TrustBalance } from "src/services";
 
-export const TotalExpenditure: React.FC<{
+export const InYearBalance: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
-  const [data, setData] = useState<TotalExpenditureTrustExpenditure[] | null>();
+  const [data, setData] = useState<TrustBalance[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await ExpenditureApi.trust<TotalExpenditureTrustExpenditure>(
-      id,
-      dimension.value,
-      "TotalExpenditure",
-      true
-    );
+    return await BalanceApi.trust(id, dimension.value, true);
   }, [id, dimension]);
 
   useEffect(() => {
@@ -34,7 +28,7 @@ export const TotalExpenditure: React.FC<{
     });
   }, [getData]);
 
-  const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
+  const inYearBalanceChartData: HorizontalBarChartWrapperData<BalanceData> =
     useMemo(() => {
       const tableHeadings = [
         "Trust name",
@@ -49,9 +43,9 @@ export const TotalExpenditure: React.FC<{
             ? data.map((trust) => {
                 return {
                   ...trust,
-                  totalValue: trust.totalExpenditure ?? 0,
-                  schoolValue: trust.schoolTotalExpenditure ?? 0,
-                  centralValue: trust.centralTotalExpenditure ?? 0,
+                  totalValue: trust.inYearBalance ?? 0,
+                  schoolValue: trust.schoolInYearBalance ?? 0,
+                  centralValue: trust.centralInYearBalance ?? 0,
                 };
               })
             : [],
@@ -70,14 +64,15 @@ export const TotalExpenditure: React.FC<{
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
-        <h2 className="govuk-heading-m">Total Expenditure</h2>
+      <HorizontalBarChartWrapper
+        data={inYearBalanceChartData}
+        chartName="in year balance"
+      >
+        <h2 className="govuk-heading-m">In-year balance</h2>
         <ChartDimensions
-          dimensions={CostCategories.filter(function (category) {
-            return category !== PercentageExpenditure;
-          })}
+          dimensions={CostCategories}
           handleChange={handleSelectChange}
-          elementId="total-expenditure"
+          elementId="in-year-balance"
           defaultValue={dimension.value}
         />
       </HorizontalBarChartWrapper>

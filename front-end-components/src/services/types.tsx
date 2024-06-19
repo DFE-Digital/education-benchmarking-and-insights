@@ -315,12 +315,6 @@ export type SchoolBalanceHistory = BalanceBase & {
   term: string;
 };
 
-export type TrustBalanceHistory = TrustBalanceBase & {
-  companyNumber: string;
-  year: number;
-  term: string;
-};
-
 type CensusBase = {
   urn: string;
   totalPupils: bigint;

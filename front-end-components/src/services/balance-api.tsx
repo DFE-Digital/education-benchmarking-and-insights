@@ -1,4 +1,4 @@
-import { SchoolBalanceHistory } from "src/services/types";
+import { SchoolBalanceHistory, TrustBalance } from "src/services/types";
 import { v4 as uuidv4 } from "uuid";
 
 export class BalanceApi {
@@ -14,6 +14,39 @@ export class BalanceApi {
     });
 
     return fetch("/api/balance/history?" + params, {
+      redirect: "manual",
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Correlation-ID": uuidv4(),
+      },
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.error) {
+          throw res.error;
+        }
+
+        return res;
+      });
+  }
+
+  static async trust(
+    id: string,
+    dimension: string,
+    includeBreakdown?: boolean
+  ): Promise<TrustBalance[]> {
+    const params = new URLSearchParams({
+      type: "trust",
+      id: id,
+      dimension: dimension,
+    });
+
+    if (includeBreakdown !== undefined) {
+      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    }
+
+    return fetch("/api/balance/user-defined?" + params, {
       redirect: "manual",
       method: "GET",
       headers: {

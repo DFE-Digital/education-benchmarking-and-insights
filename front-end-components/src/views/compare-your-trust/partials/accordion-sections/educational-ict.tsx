@@ -55,14 +55,16 @@ export const EducationalIct: React.FC<{
 
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.learningResourcesIctCosts ?? 0,
-              schoolValue: trust.schoolLearningResourcesIctCosts ?? 0,
-              centralValue: trust.centralLearningResourcesIctCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.learningResourcesIctCosts ?? 0,
+                  schoolValue: trust.schoolLearningResourcesIctCosts ?? 0,
+                  centralValue: trust.centralLearningResourcesIctCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [dimension, data]);

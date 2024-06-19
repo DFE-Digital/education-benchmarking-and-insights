@@ -139,7 +139,9 @@
 
 .chart-stat-summary {
   display: grid;
-  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3);
+  grid-template-columns: calc(calc(100% - 30px) / 3) calc(calc(100% - 30px) / 3) calc(
+      calc(100% - 30px) / 3
+    );
   padding: 0;
   gap: 15px;
   width: 100%;
@@ -356,6 +358,9 @@
 
 .trust-options {
   grid-template-columns: 50% 50%;
+  border-bottom: 1px solid #b1b4b6;
+  padding-bottom: 0;
+  margin-bottom: 30px;
 }
 
 @media (max-width: 640px) {

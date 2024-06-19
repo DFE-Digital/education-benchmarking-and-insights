@@ -58,14 +58,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalUtilitiesCosts ?? 0,
-              schoolValue: trust.schoolTotalUtilitiesCosts ?? 0,
-              centralValue: trust.centralTotalUtilitiesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalUtilitiesCosts ?? 0,
+                  schoolValue: trust.schoolTotalUtilitiesCosts ?? 0,
+                  centralValue: trust.centralTotalUtilitiesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -74,14 +76,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.energyCosts ?? 0,
-              schoolValue: trust.schoolEnergyCosts ?? 0,
-              centralValue: trust.centralEnergyCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.energyCosts ?? 0,
+                  schoolValue: trust.schoolEnergyCosts ?? 0,
+                  centralValue: trust.centralEnergyCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -90,14 +94,16 @@ export const Utilities: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.waterSewerageCosts ?? 0,
-              schoolValue: trust.schoolWaterSewerageCosts ?? 0,
-              centralValue: trust.centralWaterSewerageCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.waterSewerageCosts ?? 0,
+                  schoolValue: trust.schoolWaterSewerageCosts ?? 0,
+                  centralValue: trust.centralWaterSewerageCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
