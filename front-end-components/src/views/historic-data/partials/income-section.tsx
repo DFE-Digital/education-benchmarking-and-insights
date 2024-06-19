@@ -3,15 +3,10 @@ import {
   Actual,
   ChartDimensions,
   ChartMode,
-  ChartModeChart,
   CostCategories,
 } from "src/components";
 import { Income, IncomeApi } from "src/services";
-import {
-  ChartDimensionContext,
-  ChartModeProvider,
-  useChartModeContext,
-} from "src/contexts";
+import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { IncomeSectionGrantFunding } from "src/views/historic-data/partials/income-section-grant-funding";
 import { IncomeSectionSelfGenerated } from "src/views/historic-data/partials/income-section-self-generated";
@@ -47,110 +42,108 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
   };
 
   return (
-    <ChartModeProvider initialValue={ChartModeChart}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-two-thirds">
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="income"
-              value={dimension.value}
-            />
-          </div>
-          <div className="govuk-grid-column-one-third">
-            <ChartMode
-              chartMode={chartMode}
-              handleChange={setChartMode}
-              prefix="income"
-            />
-          </div>
+    <ChartDimensionContext.Provider value={dimension}>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-two-thirds">
+          <ChartDimensions
+            dimensions={CostCategories}
+            handleChange={handleSelectChange}
+            elementId="income"
+            value={dimension.value}
+          />
         </div>
-        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
-        {data.length > 0 ? (
-          <HistoricChart
-            chartName="Total income"
-            data={data}
-            seriesConfig={{
-              totalIncome: {
-                label: "Total income",
-                visible: true,
-              },
-            }}
-            valueField="totalIncome"
-          >
-            <h2 className="govuk-heading-m">Total income</h2>
-          </HistoricChart>
-        ) : (
-          <Loading />
-        )}
-        <div
-          className="govuk-accordion"
-          data-module="govuk-accordion"
-          id="accordion-income"
+        <div className="govuk-grid-column-one-third">
+          <ChartMode
+            chartMode={chartMode}
+            handleChange={setChartMode}
+            prefix="income"
+          />
+        </div>
+      </div>
+      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+      {data.length > 0 ? (
+        <HistoricChart
+          chartName="Total income"
+          data={data}
+          seriesConfig={{
+            totalIncome: {
+              label: "Total income",
+              visible: true,
+            },
+          }}
+          valueField="totalIncome"
         >
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-income-heading-1"
-                >
-                  Grant funding
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-income-content-1"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <IncomeSectionGrantFunding data={data} />
-              </p>
-            </div>
+          <h2 className="govuk-heading-m">Total income</h2>
+        </HistoricChart>
+      ) : (
+        <Loading />
+      )}
+      <div
+        className="govuk-accordion"
+        data-module="govuk-accordion"
+        id="accordion-income"
+      >
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-income-heading-1"
+              >
+                Grant funding
+              </span>
+            </h2>
           </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-income-heading-2"
-                >
-                  Self-generated
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-income-content-2"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <IncomeSectionSelfGenerated data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-income-heading-3"
-                >
-                  Direct revenue financing
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-income-content-3"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <IncomeSectionDirectRevenue data={data} />
-              </p>
-            </div>
+          <div
+            id="accordion-income-content-1"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <IncomeSectionGrantFunding data={data} />
+            </p>
           </div>
         </div>
-      </ChartDimensionContext.Provider>
-    </ChartModeProvider>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-income-heading-2"
+              >
+                Self-generated
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-income-content-2"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <IncomeSectionSelfGenerated data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-income-heading-3"
+              >
+                Direct revenue financing
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-income-content-3"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <IncomeSectionDirectRevenue data={data} />
+            </p>
+          </div>
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
   );
 };

@@ -3,15 +3,10 @@ import {
   Actual,
   ChartDimensions,
   ChartMode,
-  ChartModeChart,
   CostCategories,
 } from "src/components";
 import { SchoolExpenditureHistory, ExpenditureApi } from "src/services";
-import {
-  ChartDimensionContext,
-  ChartModeProvider,
-  useChartModeContext,
-} from "src/contexts";
+import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs";
@@ -53,230 +48,228 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   };
 
   return (
-    <ChartModeProvider initialValue={ChartModeChart}>
-      <ChartDimensionContext.Provider value={dimension}>
-        <div className="govuk-grid-row">
-          <div className="govuk-grid-column-two-thirds">
-            <ChartDimensions
-              dimensions={CostCategories}
-              handleChange={handleSelectChange}
-              elementId="expenditure"
-              value={dimension.value}
-            />
-          </div>
-          <div className="govuk-grid-column-one-third">
-            <ChartMode
-              chartMode={chartMode}
-              handleChange={setChartMode}
-              prefix="expenditure"
-            />
-          </div>
+    <ChartDimensionContext.Provider value={dimension}>
+      <div className="govuk-grid-row">
+        <div className="govuk-grid-column-two-thirds">
+          <ChartDimensions
+            dimensions={CostCategories}
+            handleChange={handleSelectChange}
+            elementId="expenditure"
+            value={dimension.value}
+          />
         </div>
-        <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
-        {data.length > 0 ? (
-          <HistoricChart
-            chartName="Total spending and costs"
-            data={data}
-            seriesConfig={{
-              totalExpenditure: {
-                label: "Total spending and costs",
-                visible: true,
-              },
-            }}
-            valueField="totalExpenditure"
-          >
-            <h2 className="govuk-heading-m">Total spending and costs</h2>
-          </HistoricChart>
-        ) : (
-          <Loading />
-        )}
-        <div
-          className="govuk-accordion"
-          data-module="govuk-accordion"
-          id="accordion-expenditure"
+        <div className="govuk-grid-column-one-third">
+          <ChartMode
+            chartMode={chartMode}
+            handleChange={setChartMode}
+            prefix="expenditure"
+          />
+        </div>
+      </div>
+      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
+      {data.length > 0 ? (
+        <HistoricChart
+          chartName="Total spending and costs"
+          data={data}
+          seriesConfig={{
+            totalExpenditure: {
+              label: "Total spending and costs",
+              visible: true,
+            },
+          }}
+          valueField="totalExpenditure"
         >
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-1"
-                >
-                  Teaching and teaching support staff
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-1"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionTeachingCosts data={data} />
-              </p>
-            </div>
+          <h2 className="govuk-heading-m">Total spending and costs</h2>
+        </HistoricChart>
+      ) : (
+        <Loading />
+      )}
+      <div
+        className="govuk-accordion"
+        data-module="govuk-accordion"
+        id="accordion-expenditure"
+      >
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-1"
+              >
+                Teaching and teaching support staff
+              </span>
+            </h2>
           </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-2"
-                >
-                  Non-educational support staff
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-2"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionNonEducationalStaffCosts data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-3"
-                >
-                  Educational supplies
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-3"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionEducationalSupplies data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-4"
-                >
-                  Educational ICT
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-4"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionEducationalIct data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-5"
-                >
-                  Premises and services
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-5"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionPremisesServices data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-6"
-                >
-                  Utilities
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-6"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionUtilities data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-7"
-                >
-                  Administrative supplies
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-7"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionAdministrativeSupplies data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-8"
-                >
-                  Catering staff and services
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-8"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionCateringServices data={data} />
-              </p>
-            </div>
-          </div>
-          <div className="govuk-accordion__section">
-            <div className="govuk-accordion__section-header">
-              <h2 className="govuk-accordion__section-heading">
-                <span
-                  className="govuk-accordion__section-button"
-                  id="accordion-expenditure-heading-9"
-                >
-                  Other
-                </span>
-              </h2>
-            </div>
-            <div
-              id="accordion-expenditure-content-9"
-              className="govuk-accordion__section-content"
-            >
-              <p className="govuk-body">
-                <SpendingSectionOther data={data} />
-              </p>
-            </div>
+          <div
+            id="accordion-expenditure-content-1"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionTeachingCosts data={data} />
+            </p>
           </div>
         </div>
-      </ChartDimensionContext.Provider>
-    </ChartModeProvider>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-2"
+              >
+                Non-educational support staff
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-2"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionNonEducationalStaffCosts data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-3"
+              >
+                Educational supplies
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-3"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionEducationalSupplies data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-4"
+              >
+                Educational ICT
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-4"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionEducationalIct data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-5"
+              >
+                Premises and services
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-5"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionPremisesServices data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-6"
+              >
+                Utilities
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-6"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionUtilities data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-7"
+              >
+                Administrative supplies
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-7"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionAdministrativeSupplies data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-8"
+              >
+                Catering staff and services
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-8"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionCateringServices data={data} />
+            </p>
+          </div>
+        </div>
+        <div className="govuk-accordion__section">
+          <div className="govuk-accordion__section-header">
+            <h2 className="govuk-accordion__section-heading">
+              <span
+                className="govuk-accordion__section-button"
+                id="accordion-expenditure-heading-9"
+              >
+                Other
+              </span>
+            </h2>
+          </div>
+          <div
+            id="accordion-expenditure-content-9"
+            className="govuk-accordion__section-content"
+          >
+            <p className="govuk-body">
+              <SpendingSectionOther data={data} />
+            </p>
+          </div>
+        </div>
+      </div>
+    </ChartDimensionContext.Provider>
   );
 };

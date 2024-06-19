@@ -30,6 +30,7 @@ export const SpendingSection: React.FC<SpendingSectionProps> = ({ id }) => {
           />
         </div>
       </div>
+      <hr className="govuk-section-break govuk-section-break--l govuk-section-break--visible govuk-!-margin-top-0" />
       <div>
         <TotalExpenditure id={id} />
         <ExpenditureAccordion id={id} />
