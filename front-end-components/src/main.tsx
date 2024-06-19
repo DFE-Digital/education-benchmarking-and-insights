@@ -1,5 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import ReactDOM from "react-dom/client";
+import { format } from "date-fns";
 import "src/index.css";
 import {
   CompareYourCensus,
@@ -25,6 +26,7 @@ import {
   TrustSuggesterId,
   HorizontalChartTrustFinancialElementId,
   CompareTrustElementId,
+  LineChart2SeriesElementId,
 } from "src/constants";
 import { HorizontalBarChart } from "./components/charts/horizontal-bar-chart";
 import { VerticalBarChart } from "./components/charts/vertical-bar-chart";
@@ -633,6 +635,88 @@ if (lineChart1SeriesElement) {
     root.render(
       <React.StrictMode>
         <LineChart1Series data={data} />
+      </React.StrictMode>
+    );
+  }
+}
+
+// todo: move to composed components
+// eslint-disable-next-line react-refresh/only-export-components
+const LineChart2Series = ({
+  data,
+}: {
+  data: {
+    periodEndDate: string;
+    actual?: number;
+    forecast: number;
+  }[];
+}) => {
+  const lineChart2SeriesRef = useRef<ChartHandler>(null);
+  const [imageLoading, setImageLoading] = useState<boolean>();
+
+  return (
+    <div className="govuk-grid-row">
+      <button
+        className="govuk-button govuk-button--secondary"
+        data-module="govuk-button"
+        disabled={imageLoading}
+        aria-disabled={imageLoading}
+        onClick={() => lineChart2SeriesRef?.current?.download()}
+      >
+        Download as image
+      </button>
+      <div className="govuk-grid-column-two-thirds" style={{ height: 400 }}>
+        <LineChart
+          chartName="In-year balance"
+          data={data}
+          grid
+          highlightActive
+          keyField="periodEndDate"
+          margin={20}
+          onImageLoading={setImageLoading}
+          ref={lineChart2SeriesRef}
+          seriesConfig={{
+            actual: {
+              label: "Accounts return balance",
+              visible: true,
+            },
+            forecast: {
+              label: "Budget forecase return balance",
+              visible: true,
+              style: "dashed",
+            },
+          }}
+          seriesLabelField="periodEndDate"
+          seriesFormatter={(value: unknown) =>
+            format(new Date(value as string), "d MMM yyyy")
+          }
+          valueFormatter={shortValueFormatter}
+          valueUnit="currency"
+          legend
+          labels
+        />
+      </div>
+    </div>
+  );
+};
+
+const lineChart2SeriesElement = document.getElementById(
+  LineChart2SeriesElementId
+);
+
+if (lineChart2SeriesElement) {
+  const { json } = lineChart2SeriesElement.dataset;
+  if (json) {
+    const root = ReactDOM.createRoot(lineChart2SeriesElement);
+    const data = JSON.parse(json) as {
+      periodEndDate: string;
+      actual?: number;
+      forecast: number;
+    }[];
+
+    root.render(
+      <React.StrictMode>
+        <LineChart2Series data={data} />
       </React.StrictMode>
     );
   }

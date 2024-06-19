@@ -10,6 +10,7 @@ import { LineChartProps } from "src/components/charts/line-chart";
 import {
   CartesianGrid,
   Label,
+  Legend,
   Line,
   LineChart as RechartsLineChart,
   ResponsiveContainer,
@@ -34,10 +35,13 @@ function LineChartInner<TData extends ChartDataSeries>(
     hideYAxis,
     highlightActive,
     keyField,
+    labels,
+    legend,
     margin: _margin,
     multiLineAxisLabel,
     onImageLoading,
     seriesConfig,
+    seriesFormatter,
     seriesLabel,
     seriesLabelField,
     tooltip,
@@ -69,6 +73,28 @@ function LineChartInner<TData extends ChartDataSeries>(
 
   const margin = _margin || 5;
 
+  const renderLabel = ({
+    x,
+    y,
+    value,
+    className,
+  }: {
+    x: number;
+    y: number;
+    value: number;
+    className: string;
+  }) => {
+    if (!labels) {
+      return <></>;
+    }
+
+    return (
+      <text x={x} y={y} dy={-12} textAnchor="middle" className={className}>
+        {valueFormatter ? valueFormatter(value) : String(value)}
+      </text>
+    );
+  };
+
   const renderLine = (seriesKey: keyof TData, seriesIndex: number) => {
     const config = seriesConfig && seriesConfig[seriesKey];
 
@@ -95,6 +121,14 @@ function LineChartInner<TData extends ChartDataSeries>(
                 ),
               }
             : false
+        }
+        legendType="plainline"
+        strokeDasharray={config?.style === "dashed" ? "20 7" : undefined}
+        label={(props) =>
+          renderLabel({
+            ...props,
+            className: `chart-label-series-${seriesIndex}`,
+          })
         }
       ></Line>
     );
@@ -127,6 +161,9 @@ function LineChartInner<TData extends ChartDataSeries>(
             interval={0}
             padding={{ left: 50, right: 50 }}
             hide={hideXAxis}
+            tickFormatter={(value) =>
+              seriesFormatter ? seriesFormatter(value) : String(value)
+            }
           >
             {seriesLabel && <Label value={seriesLabel} position="bottom" />}
           </XAxis>
@@ -157,6 +194,17 @@ function LineChartInner<TData extends ChartDataSeries>(
           </YAxis>
           {!!tooltip && <Tooltip content={tooltip} />}
           {visibleSeriesNames.map(renderLine)}
+          {legend && (
+            <Legend
+              align="right"
+              verticalAlign="top"
+              formatter={(value) =>
+                (seriesConfig && seriesConfig[value]?.label) || value
+              }
+              height={30}
+              color="inherit"
+            />
+          )}
         </RechartsLineChart>
       </ResponsiveContainer>
     </div>
