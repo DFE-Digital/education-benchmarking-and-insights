@@ -6,11 +6,11 @@ import {
 } from "src/views/compare-your-trust/partials";
 import { ChartMode } from "src/components";
 import { IncludeBreakdown } from "src/components/include-breakdown";
-import { useChartModeContext, useIncludeBreakdownContext } from "src/contexts";
+import { useChartModeContext, useBreakdownContext } from "src/contexts";
 
 export const SpendingSection: React.FC<SpendingSectionProps> = ({ id }) => {
   const { chartMode, setChartMode } = useChartModeContext();
-  const { breakdown, setBreakdown } = useIncludeBreakdownContext();
+  const { breakdown, setBreakdown } = useBreakdownContext(true);
 
   return (
     <>

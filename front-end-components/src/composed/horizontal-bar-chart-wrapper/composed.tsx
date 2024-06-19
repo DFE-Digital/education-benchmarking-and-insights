@@ -10,7 +10,7 @@ import {
   SelectedEstablishmentContext,
   HasIncompleteDataContext,
   useChartModeContext,
-  useIncludeBreakdownContext,
+  useBreakdownContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
@@ -33,21 +33,18 @@ import {
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
-  const { chartName, children, data, sort, valueUnit } = props;
+  const { chartName, children, data, sort, trust, valueUnit } = props;
   const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
-  const { breakdown } = useIncludeBreakdownContext();
+  const { breakdown } = useBreakdownContext();
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
-  const isTrust = breakdown !== undefined;
-  const keyField = (isTrust ? "companyNumber" : "urn") as keyof TData;
-  const seriesLabelField = (
-    isTrust ? "trustName" : "schoolName"
-  ) as keyof TData;
+  const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
+  const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
-    [isTrust ? "schoolValue" : "value"]: {
+    [trust ? "schoolValue" : "value"]: {
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
@@ -58,7 +55,7 @@ export function HorizontalBarChartWrapper<
 
   // stack additional series if they are available in the input data set
   let labelListSeriesName: keyof TData | undefined;
-  if (isTrust) {
+  if (trust) {
     if (breakdown === BreakdownInclude) {
       seriesConfig.schoolValue.stackId = 1;
       seriesConfig.centralValue = Object.assign({}, seriesConfig.schoolValue);
@@ -149,9 +146,9 @@ export function HorizontalBarChartWrapper<
                         {...t}
                         highlightedItemKey={selectedEstabishment}
                         linkToEstablishment
-                        href={(id) => `/${isTrust ? "trust" : "school"}/${id}`}
+                        href={(id) => `/${trust ? "trust" : "school"}/${id}`}
                         establishmentKeyResolver={(name) => {
-                          if (isTrust) {
+                          if (trust) {
                             return (data.dataPoints as TrustChartData[]).find(
                               (d) => d.trustName === name
                             )?.companyNumber;
@@ -164,7 +161,7 @@ export function HorizontalBarChartWrapper<
                       />
                     )}
                     tooltip={(t) =>
-                      isTrust ? (
+                      trust ? (
                         <TrustDataTooltip
                           {...t}
                           valueUnit={valueUnit ?? dimension.unit}

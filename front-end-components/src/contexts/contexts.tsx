@@ -1,7 +1,7 @@
 import { createContext } from "react";
 import { Dimension } from "src/components";
 
-interface ChartModeContextValue {
+export interface ChartModeContextValue {
   chartMode: string;
   setChartMode: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -25,11 +25,11 @@ export const HasIncompleteDataContext = createContext<HasIncompleteData>({});
 
 export const PhaseContext = createContext<string | undefined>(undefined);
 
-interface IncludeBreakdownContextValue {
+export interface BreakdownContextValue {
   breakdown: string;
   setBreakdown: React.Dispatch<React.SetStateAction<string>>;
 }
 
 export const IncludeBreakdownContext = createContext<
-  IncludeBreakdownContextValue | undefined
+  BreakdownContextValue | undefined
 >(undefined);

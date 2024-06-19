@@ -99,6 +99,7 @@ export const EducationalIct: React.FC<{
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="eductional learning resources costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Educational learning resources costs

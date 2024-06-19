@@ -143,6 +143,7 @@ export const EducationalSupplies: React.FC<{
           <HorizontalBarChartWrapper
             data={totalEducationalSuppliesBarData}
             chartName="total educational supplies costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Total educational supplies costs
@@ -157,12 +158,14 @@ export const EducationalSupplies: React.FC<{
           <HorizontalBarChartWrapper
             data={examinationFeesBarData}
             chartName="examination fees costs"
+            trust
           >
             <h3 className="govuk-heading-s">Examination fees costs</h3>
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
             data={learningResourcesBarData}
             chartName="learning resource (not ICT equipment) costs"
+            trust
           >
             <h3 className="govuk-heading-s">
               Learning resources (not ICT equipment) costs

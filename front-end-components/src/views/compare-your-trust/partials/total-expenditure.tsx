@@ -70,7 +70,11 @@ export const TotalExpenditure: React.FC<{
 
   return (
     <ChartDimensionContext.Provider value={dimension}>
-      <HorizontalBarChartWrapper data={chartData} chartName="total expenditure">
+      <HorizontalBarChartWrapper
+        data={chartData}
+        chartName="total expenditure"
+        trust
+      >
         <h2 className="govuk-heading-m">Total Expenditure</h2>
         <ChartDimensions
           dimensions={CostCategories.filter(function (category) {
