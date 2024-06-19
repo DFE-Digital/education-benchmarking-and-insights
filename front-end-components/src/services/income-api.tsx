@@ -6,15 +6,18 @@ export class IncomeApi {
     type: string,
     id: string,
     dimension: string,
-    includeBreakdown?: boolean
+    excludeCentralServices?: boolean
   ): Promise<Income[]> {
     const params = new URLSearchParams({
       type: type,
       id: id,
       dimension: dimension,
     });
-    if (includeBreakdown !== undefined) {
-      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    if (excludeCentralServices !== undefined) {
+      params.append(
+        "excludeCentralServices",
+        excludeCentralServices ? "true" : "false"
+      );
     }
 
     return fetch("/api/income/history?" + params, {

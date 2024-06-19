@@ -2,10 +2,12 @@ import React from "react";
 import {
   BreakdownInclude,
   BreakdownExclude,
-  IncludeBreakdownProps,
-} from "src/components/include-breakdown";
+  CentralServicesBreakdownProps,
+} from "src/components/central-services-breakdown";
 
-export const IncludeBreakdown: React.FC<IncludeBreakdownProps> = (props) => {
+export const CentralServicesBreakdown: React.FC<
+  CentralServicesBreakdownProps
+> = (props) => {
   const { breakdown, handleChange, prefix } = props;
 
   if (breakdown === undefined) {
@@ -28,8 +30,8 @@ export const IncludeBreakdown: React.FC<IncludeBreakdownProps> = (props) => {
               id={prefix ? `${prefix}-include-breakdown` : "include-breakdown"}
               name={
                 prefix
-                  ? `${prefix}ChangedIncludeBreakdown`
-                  : "changedIncludeBreakdown"
+                  ? `${prefix}ChangedCentralServicesBreakdown`
+                  : "changedCentralServicesBreakdown"
               }
               type="radio"
               value={BreakdownInclude}
@@ -51,8 +53,8 @@ export const IncludeBreakdown: React.FC<IncludeBreakdownProps> = (props) => {
               id={prefix ? `${prefix}-exclude-breakdown` : "exclude-breakdown"}
               name={
                 prefix
-                  ? `${prefix}ChangedIncludeBreakdown`
-                  : "changedIncludeBreakdown"
+                  ? `${prefix}ChangedCentralServicesBreakdown`
+                  : "changedCentralServicesBreakdown"
               }
               type="radio"
               value={BreakdownExclude}

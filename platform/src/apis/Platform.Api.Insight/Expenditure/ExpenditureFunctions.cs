@@ -72,7 +72,7 @@ public class ExpenditureFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}")]
         HttpRequest req,
@@ -109,7 +109,7 @@ public class ExpenditureFunctions
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string))]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}")]
         HttpRequest req,
@@ -143,7 +143,7 @@ public class ExpenditureFunctions
     [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> SchoolExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/school/{urn}/history")]
         HttpRequest req,
@@ -176,7 +176,7 @@ public class ExpenditureFunctions
     [ProducesResponseType(typeof(SchoolExpenditureHistoryResponse[]), (int)HttpStatusCode.OK)]
     [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
     [QueryStringParameter("dimension", "Dimension for response values", DataType = typeof(string), Required = true)]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> TrustExpenditureHistoryAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trust/{companyNumber}/history")]
         HttpRequest req,
@@ -211,7 +211,7 @@ public class ExpenditureFunctions
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("urns", "List of school URNs", DataType = typeof(string[]), Required = true)]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QuerySchoolsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/schools")]
         HttpRequest req)
@@ -245,7 +245,7 @@ public class ExpenditureFunctions
     [QueryStringParameter("category", "Expenditure category", DataType = typeof(string))]
     [QueryStringParameter("companyNumbers", "List of trust company numbers", DataType = typeof(string[]))]
     [QueryStringParameter("dimension", "Value dimension", DataType = typeof(string))]
-    [QueryStringParameter("includeBreakdown", "Include school and central services breakdown", DataType = typeof(bool), Required = false)]
+    [QueryStringParameter("excludeCentralServices", "Exclude central services amounts", DataType = typeof(bool), Required = false)]
     public async Task<IActionResult> QueryTrustsExpenditureAsync(
         [HttpTrigger(AuthorizationLevel.Admin, "get", Route = "expenditure/trusts")]
         HttpRequest req)

@@ -5,12 +5,15 @@ import {
   SpendingSectionProps,
 } from "src/views/compare-your-trust/partials";
 import { ChartMode } from "src/components";
-import { IncludeBreakdown } from "src/components/include-breakdown";
-import { useChartModeContext, useBreakdownContext } from "src/contexts";
+import { CentralServicesBreakdown } from "src/components/central-services-breakdown";
+import {
+  useChartModeContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 
 export const SpendingSection: React.FC<SpendingSectionProps> = ({ id }) => {
   const { chartMode, setChartMode } = useChartModeContext();
-  const { breakdown, setBreakdown } = useBreakdownContext(true);
+  const { breakdown, setBreakdown } = useCentralServicesBreakdownContext(true);
 
   return (
     <>
@@ -23,7 +26,7 @@ export const SpendingSection: React.FC<SpendingSectionProps> = ({ id }) => {
           />
         </div>
         <div>
-          <IncludeBreakdown
+          <CentralServicesBreakdown
             breakdown={breakdown}
             handleChange={setBreakdown}
             prefix="spending"

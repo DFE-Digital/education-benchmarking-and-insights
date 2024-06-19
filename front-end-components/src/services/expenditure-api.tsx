@@ -10,15 +10,18 @@ export class ExpenditureApi {
     type: string,
     id: string,
     dimension: string,
-    includeBreakdown?: boolean
+    excludeCentralServices?: boolean
   ): Promise<SchoolExpenditureHistory[]> {
     const params = new URLSearchParams({
       type: type,
       id: id,
       dimension: dimension,
     });
-    if (includeBreakdown !== undefined) {
-      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    if (excludeCentralServices !== undefined) {
+      params.append(
+        "excludeCentralServices",
+        excludeCentralServices ? "true" : "false"
+      );
     }
 
     return fetch("/api/expenditure/history?" + params, {
@@ -79,7 +82,7 @@ export class ExpenditureApi {
     id: string,
     dimension: string,
     category: string,
-    includeBreakdown?: boolean
+    excludeCentralServices?: boolean
   ): Promise<T[]> {
     const params = new URLSearchParams({
       type: "trust",
@@ -88,8 +91,11 @@ export class ExpenditureApi {
       category: category,
     });
 
-    if (includeBreakdown !== undefined) {
-      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    if (excludeCentralServices !== undefined) {
+      params.append(
+        "excludeCentralServices",
+        excludeCentralServices ? "true" : "false"
+      );
     }
 
     return fetch("/api/expenditure/user-defined?" + params, {

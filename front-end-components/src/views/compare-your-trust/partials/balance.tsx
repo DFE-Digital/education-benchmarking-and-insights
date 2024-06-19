@@ -19,7 +19,7 @@ export const Balance: React.FC<{
   const [data, setData] = useState<TrustBalance[] | null>();
   const getData = useCallback(async () => {
     setData(null);
-    return await BalanceApi.trust(id, dimension.value, true);
+    return await BalanceApi.trust(id, dimension.value, false);
   }, [id, dimension]);
 
   useEffect(() => {

@@ -7,7 +7,7 @@ namespace Platform.Api.Insight.Balance;
 
 public record BalanceParameters : QueryParameters
 {
-    public bool IncludeBreakdown { get; private set; }
+    public bool ExcludeCentralServices { get; private set; }
     public string Dimension { get; private set; } = BalanceDimensions.Actuals;
     public string[] Schools { get; private set; } = Array.Empty<string>();
     public string[] Trusts { get; private set; } = Array.Empty<string>();
@@ -20,7 +20,7 @@ public record BalanceParameters : QueryParameters
             dimension = BalanceDimensions.Actuals;
         }
 
-        IncludeBreakdown = query.ToBool("includeBreakdown");
+        ExcludeCentralServices = query.ToBool("excludeCentralServices");
         Dimension = dimension;
         Schools = query.ToStringArray("urns");
         Trusts = query.ToStringArray("companyNumbers");

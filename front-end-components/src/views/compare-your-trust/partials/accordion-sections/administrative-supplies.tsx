@@ -5,7 +5,10 @@ import {
   PoundsPerPupil,
   ChartDimensions,
 } from "src/components";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   HorizontalBarChartWrapper,
   HorizontalBarChartWrapperData,
@@ -16,11 +19,16 @@ import {
   ExpenditureApi,
   AdministrativeSuppliesTrustExpenditure,
 } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const AdministrativeSupplies: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const { breakdown } = useCentralServicesBreakdownContext(true);
   const [data, setData] = useState<
     AdministrativeSuppliesTrustExpenditure[] | null
   >();
@@ -30,9 +38,9 @@ export const AdministrativeSupplies: React.FC<{
       id,
       dimension.value,
       "AdministrationSupplies",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -51,12 +59,13 @@ export const AdministrativeSupplies: React.FC<{
 
   const administrativeSuppliesBarData: HorizontalBarChartWrapperData<AdministrativeSuppliesData> =
     useMemo(() => {
-      const tableHeadings = [
-        "Trust name",
-        `Total ${dimension.heading}`,
-        `School ${dimension.heading}`,
-        `Central ${dimension.heading}`,
-      ];
+      const tableHeadings = ["Trust name", `Total ${dimension.heading}`];
+      if (breakdown === BreakdownInclude) {
+        tableHeadings.push(
+          `School ${dimension.heading}`,
+          `Central ${dimension.heading}`
+        );
+      }
 
       return {
         dataPoints:
@@ -72,7 +81,7 @@ export const AdministrativeSupplies: React.FC<{
             : [],
         tableHeadings,
       };
-    }, [data, dimension]);
+    }, [data, dimension, breakdown]);
 
   const elementId = "administrative-supplies";
   const [hash] = useHash();

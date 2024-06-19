@@ -4,14 +4,19 @@ import {
   TableChartProps,
   TrustChartData,
 } from "src/components/charts/table-chart";
-import { SelectedEstablishmentContext } from "src/contexts";
+import {
+  SelectedEstablishmentContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import { fullValueFormatter } from "../utils";
+import { BreakdownInclude } from "src/components/central-services-breakdown";
 
 export const TableChart: React.FC<
   TableChartProps<SchoolChartData | TrustChartData>
 > = (props) => {
-  const { tableHeadings, data, preventFocus, valueUnit } = props;
+  const { tableHeadings, data, preventFocus, valueUnit, trust } = props;
   const selectedSchool = useContext(SelectedEstablishmentContext);
+  const { breakdown } = useCentralServicesBreakdownContext();
 
   const renderSchoolAnchor = (row: SchoolChartData) => (
     <a
@@ -49,12 +54,12 @@ export const TableChart: React.FC<
       <tbody className="govuk-table__body">
         {data &&
           data.map((row) => {
-            const school = row as SchoolChartData;
-            const trust = row as TrustChartData;
-            const { laName, schoolType, totalPupils, urn, value } = school;
+            const schoolRow = row as SchoolChartData;
+            const trustRow = row as TrustChartData;
+            const { laName, schoolType, totalPupils, urn, value } = schoolRow;
             const { totalValue, schoolValue, centralValue, companyNumber } =
-              trust;
-            const additionalData = school.urn
+              trustRow;
+            const additionalData = schoolRow.urn
               ? {
                   laName,
                   schoolType,
@@ -64,20 +69,20 @@ export const TableChart: React.FC<
 
             return (
               <tr key={urn ?? companyNumber} className="govuk-table__row">
-                {urn ? (
+                {trust ? (
                   <td className="govuk-table__cell">
-                    {selectedSchool == urn ? (
-                      <strong>{renderSchoolAnchor(school)}</strong>
+                    {selectedSchool == companyNumber ? (
+                      <strong>{renderTrustAnchor(trustRow)}</strong>
                     ) : (
-                      renderSchoolAnchor(school)
+                      renderTrustAnchor(trustRow)
                     )}
                   </td>
                 ) : (
                   <td className="govuk-table__cell">
-                    {selectedSchool == companyNumber ? (
-                      <strong>{renderTrustAnchor(trust)}</strong>
+                    {selectedSchool == urn ? (
+                      <strong>{renderSchoolAnchor(schoolRow)}</strong>
                     ) : (
-                      renderTrustAnchor(trust)
+                      renderSchoolAnchor(schoolRow)
                     )}
                   </td>
                 )}
@@ -89,31 +94,34 @@ export const TableChart: React.FC<
                       </td>
                     );
                   })}
-                {urn && (
-                  <td className="govuk-table__cell">
-                    {fullValueFormatter(value, {
-                      valueUnit,
-                    })}
-                  </td>
-                )}
-                {companyNumber && (
+                {trust ? (
                   <>
                     <td className="govuk-table__cell">
                       {fullValueFormatter(totalValue, {
                         valueUnit,
                       })}
                     </td>
-                    <td className="govuk-table__cell">
-                      {fullValueFormatter(schoolValue, {
-                        valueUnit,
-                      })}
-                    </td>
-                    <td className="govuk-table__cell">
-                      {fullValueFormatter(centralValue, {
-                        valueUnit,
-                      })}
-                    </td>
+                    {breakdown === BreakdownInclude && (
+                      <>
+                        <td className="govuk-table__cell">
+                          {fullValueFormatter(schoolValue, {
+                            valueUnit,
+                          })}
+                        </td>
+                        <td className="govuk-table__cell">
+                          {fullValueFormatter(centralValue, {
+                            valueUnit,
+                          })}
+                        </td>
+                      </>
+                    )}
                   </>
+                ) : (
+                  <td className="govuk-table__cell">
+                    {fullValueFormatter(value, {
+                      valueUnit,
+                    })}
+                  </td>
                 )}
               </tr>
             );

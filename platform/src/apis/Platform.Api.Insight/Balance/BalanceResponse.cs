@@ -49,35 +49,34 @@ public static class BalanceResponseFactory
     {
         return new T
         {
-            SchoolInYearBalance = CalcSchool(model.InYearBalance - model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
-            CentralInYearBalance = CalcCentral(model.InYearBalanceCS, model, parameters),
-            SchoolRevenueReserve = CalcSchool(model.RevenueReserve - model.RevenueReserveCS.GetValueOrDefault(), model, parameters),
-            CentralRevenueReserve = CalcCentral(model.RevenueReserveCS, model, parameters),
-            InYearBalance = CalcTotal(model.InYearBalance, model, parameters),
-            RevenueReserve = CalcTotal(model.RevenueReserve, model, parameters)
+            SchoolInYearBalance = CalcAmount(model.InYearBalance - model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
+            CentralInYearBalance = CalcAmount(model.InYearBalanceCS, model, parameters),
+            SchoolRevenueReserve = CalcAmount(model.RevenueReserve - model.RevenueReserveCS.GetValueOrDefault(), model, parameters),
+            CentralRevenueReserve = CalcAmount(model.RevenueReserveCS, model, parameters),
+            InYearBalance = CalcTotal(model.InYearBalance, model.InYearBalanceCS.GetValueOrDefault(), model, parameters),
+            RevenueReserve = CalcTotal(model.RevenueReserve, model.RevenueReserveCS.GetValueOrDefault(), model, parameters)
         };
     }
 
-    private static decimal? CalcTotal(decimal? value, BalanceBaseModel model, BalanceParameters parameters)
+    private static decimal? CalcTotal(decimal? value, decimal valueCentral, BalanceBaseModel model, BalanceParameters parameters)
     {
-        return CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
+        var totalIncome = model.TotalIncome;
+        var totalExpenditure = model.TotalExpenditure;
+        if (parameters.ExcludeCentralServices)
+        {
+            value -= valueCentral;
+            totalIncome = model.TotalIncome.GetValueOrDefault() - model.TotalIncomeCS.GetValueOrDefault();
+            totalExpenditure = model.TotalExpenditure.GetValueOrDefault() - model.TotalExpenditureCS.GetValueOrDefault();
+        }
+
+        return CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension);
     }
 
-    private static decimal? CalcSchool(decimal? value, BalanceBaseModel model, BalanceParameters parameters)
+    private static decimal? CalcAmount(decimal? value, BalanceBaseModel model, BalanceParameters parameters)
     {
-        var totalIncome = model.TotalIncome.GetValueOrDefault() - model.TotalIncomeCS.GetValueOrDefault();
-        var totalExpenditure = model.TotalExpenditure.GetValueOrDefault() - model.TotalExpenditureCS.GetValueOrDefault();
-
-        return parameters.IncludeBreakdown
-            ? CalculateValue(value, model.TotalPupils, totalIncome, totalExpenditure, parameters.Dimension)
-            : null;
-    }
-
-    private static decimal? CalcCentral(decimal? value, BalanceBaseModel model, BalanceParameters parameters)
-    {
-        return parameters.IncludeBreakdown
-            ? CalculateValue(value, model.TotalPupils, model.TotalIncomeCS, model.TotalExpenditureCS, parameters.Dimension)
-            : null;
+        return parameters.ExcludeCentralServices
+            ? null
+            : CalculateValue(value, model.TotalPupils, model.TotalIncome, model.TotalExpenditure, parameters.Dimension);
     }
 
     private static decimal? CalculateValue(decimal? value, decimal? totalUnit, decimal? totalIncome,
