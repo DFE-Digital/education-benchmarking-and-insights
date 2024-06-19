@@ -33,7 +33,7 @@ export const IncludeBreakdown: React.FC<IncludeBreakdownProps> = (props) => {
               }
               type="radio"
               value={BreakdownInclude}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e.target.value)}
               checked={breakdown == BreakdownInclude}
             />
             <label
@@ -56,7 +56,7 @@ export const IncludeBreakdown: React.FC<IncludeBreakdownProps> = (props) => {
               }
               type="radio"
               value={BreakdownExclude}
-              onChange={handleChange}
+              onChange={(e) => handleChange(e.target.value)}
               checked={breakdown == BreakdownExclude}
             />
             <label

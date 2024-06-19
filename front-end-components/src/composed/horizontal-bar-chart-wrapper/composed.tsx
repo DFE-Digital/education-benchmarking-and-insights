@@ -7,10 +7,10 @@ import {
 } from "src/components/charts/table-chart";
 import {
   ChartDimensionContext,
-  ChartModeContext,
   SelectedEstablishmentContext,
   HasIncompleteDataContext,
-  IncludeBreakdownContext,
+  useChartModeContext,
+  useIncludeBreakdownContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
@@ -34,11 +34,11 @@ export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
 >(props: HorizontalBarChartWrapperProps<TData>) {
   const { chartName, children, data, sort, valueUnit } = props;
-  const mode = useContext(ChartModeContext);
+  const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
-  const breakdown = useContext(IncludeBreakdownContext);
+  const { breakdown } = useIncludeBreakdownContext();
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
   const isTrust = breakdown !== undefined;
@@ -98,7 +98,7 @@ export function HorizontalBarChartWrapper<
     <>
       <div className="govuk-grid-row">
         <div className="govuk-grid-column-two-thirds">{children}</div>
-        {mode == ChartModeChart && (
+        {chartMode == ChartModeChart && (
           <div className="govuk-grid-column-one-third">
             <button
               className="govuk-button govuk-button--secondary"
@@ -125,7 +125,7 @@ export function HorizontalBarChartWrapper<
         <div className="govuk-grid-column-full">
           {sortedDataPoints.length > 0 ? (
             <>
-              {mode == ChartModeChart && (
+              {chartMode == ChartModeChart && (
                 <div style={{ height: 22 * data.dataPoints.length + 75 }}>
                   <HorizontalBarChart
                     barCategoryGap={2}
@@ -181,13 +181,13 @@ export function HorizontalBarChartWrapper<
               )}
               <div
                 className={
-                  mode == ChartModeTable ? "" : "govuk-visually-hidden"
+                  chartMode == ChartModeTable ? "" : "govuk-visually-hidden"
                 }
               >
                 <TableChart
                   tableHeadings={data.tableHeadings}
                   data={sortedDataPoints}
-                  preventFocus={mode !== ChartModeTable}
+                  preventFocus={chartMode !== ChartModeTable}
                   valueUnit={valueUnit ?? dimension.unit}
                 />
               </div>

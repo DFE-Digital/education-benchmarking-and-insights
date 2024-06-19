@@ -7,7 +7,11 @@ import {
   CostCategories,
 } from "src/components";
 import { SchoolExpenditureHistory, ExpenditureApi } from "src/services";
-import { ChartDimensionContext, ChartModeContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  ChartModeProvider,
+  useChartModeContext,
+} from "src/contexts";
 import { HistoricChart } from "src/composed/historic-chart-composed";
 import { Loading } from "src/components/loading";
 import { SpendingSectionTeachingCosts } from "src/views/historic-data/partials/spending-section-teaching-costs";
@@ -25,7 +29,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   id,
 }) => {
   const defaultDimension = Actual;
-  const [displayMode, setDisplayMode] = useState<string>(ChartModeChart);
+  const { chartMode, setChartMode } = useChartModeContext();
   const [dimension, setDimension] = useState(defaultDimension);
   const [data, setData] = useState(new Array<SchoolExpenditureHistory>());
   const getData = useCallback(async () => {
@@ -39,12 +43,6 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
     });
   }, [getData]);
 
-  const handleModeChange: React.ChangeEventHandler<HTMLInputElement> = (
-    event
-  ) => {
-    setDisplayMode(event.target.value);
-  };
-
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
@@ -55,7 +53,7 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
   };
 
   return (
-    <ChartModeContext.Provider value={displayMode}>
+    <ChartModeProvider initialValue={ChartModeChart}>
       <ChartDimensionContext.Provider value={dimension}>
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-two-thirds">
@@ -68,8 +66,8 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
           </div>
           <div className="govuk-grid-column-one-third">
             <ChartMode
-              displayMode={displayMode}
-              handleChange={handleModeChange}
+              chartMode={chartMode}
+              handleChange={setChartMode}
               prefix="expenditure"
             />
           </div>
@@ -279,6 +277,6 @@ export const SpendingSection: React.FC<{ type: string; id: string }> = ({
           </div>
         </div>
       </ChartDimensionContext.Provider>
-    </ChartModeContext.Provider>
+    </ChartModeProvider>
   );
 };

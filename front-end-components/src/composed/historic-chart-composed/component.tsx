@@ -1,7 +1,6 @@
 import { useContext } from "react";
 import { ChartModeChart } from "src/components";
 import { HistoricChartProps } from "src/composed/historic-chart-composed";
-import { ChartModeContext } from "src/contexts";
 import { LineChart } from "src/components/charts/line-chart";
 import {
   shortValueFormatter,
@@ -11,7 +10,7 @@ import {
 import { LineChartTooltip } from "src/components/charts/line-chart-tooltip";
 import { ResolvedStat } from "src/components/charts/resolved-stat";
 import { ChartDataSeries } from "src/components/charts/types";
-import { ChartDimensionContext } from "src/contexts";
+import { ChartDimensionContext, useChartModeContext } from "src/contexts";
 
 export function HistoricChart<TData extends ChartDataSeries>({
   chartName,
@@ -23,13 +22,13 @@ export function HistoricChart<TData extends ChartDataSeries>({
   axisLabel,
   columnHeading,
 }: HistoricChartProps<TData>) {
-  const mode = useContext(ChartModeContext);
+  const { chartMode } = useChartModeContext();
   const dimension = useContext(ChartDimensionContext);
 
   return (
     <>
       {children}
-      {mode == ChartModeChart ? (
+      {chartMode == ChartModeChart ? (
         <div className="govuk-grid-row">
           <div className="govuk-grid-column-three-quarters">
             <div style={{ height: 200 }}>
