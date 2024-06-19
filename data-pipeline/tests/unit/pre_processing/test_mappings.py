@@ -356,3 +356,11 @@ def test_map_is_surplus_deficit(value, expected):
 )
 def test_map_school_phase_type(establishment_code, phase_type: str, expected):
     assert mappings.map_school_phase_type(establishment_code, phase_type) == expected
+
+
+@pytest.mark.parametrize(
+    "company_number,expected",
+    [("8146633", "08146633"), ("6633", "00006633"), ("18168237", "18168237")],
+)
+def test_map_company_number(company_number: str, expected: str):
+    assert mappings.map_company_number(company_number) == expected
