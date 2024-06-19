@@ -38,7 +38,7 @@ def receive_before_cursor_execute(
         cursor.fast_executemany = True
 
 
-def upsert(df, table_name, keys: list[str]):
+def upsert(df, table_name, keys: list[str], dtype: dict[str, any] = None):
     logger.info(f"Connecting to database {engine.url}")
     df.drop_duplicates(inplace=True)
 
@@ -54,7 +54,7 @@ def upsert(df, table_name, keys: list[str]):
         insert_cols.append(col)
         insert_vals.append("src.{col}".format(col=col))
     temp_table = f"{table_name}_temp"
-    df.to_sql(temp_table, engine, if_exists="replace", index=True)
+    df.to_sql(temp_table, engine, if_exists="replace", index=True, dtype=dtype)
     update_stmt = f'MERGE {table_name} as dest USING {temp_table} as src ON {" AND ".join(match_keys)}  WHEN MATCHED THEN UPDATE SET {", ".join(update_cols)} WHEN NOT MATCHED BY TARGET THEN INSERT ({", ".join(insert_cols)}) VALUES ({", ".join(insert_vals)});'
     with engine.begin() as cnx:
         cnx.execute(sqlalchemy.text(update_stmt))
@@ -99,6 +99,21 @@ def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame)
         write_frame,
         "MetricRAG",
         keys=["RunType", "RunId", "SetType", "URN", "Category", "SubCategory"],
+        dtype={
+            "RunType": sqlalchemy.types.VARCHAR(length=50),
+            "RunId": sqlalchemy.types.VARCHAR(length=50),
+            "URN": sqlalchemy.types.VARCHAR(length=6),
+            "Category": sqlalchemy.types.VARCHAR(length=50),
+            "SubCategory": sqlalchemy.types.VARCHAR(length=50),
+            "SetType": sqlalchemy.types.VARCHAR(length=50),
+            "Value": sqlalchemy.types.Numeric(16, 2),
+            "Mean": sqlalchemy.types.Numeric(16, 2),
+            "DiffMean": sqlalchemy.types.Numeric(16, 2),
+            "PercentDiff": sqlalchemy.types.Numeric(16, 2),
+            "Percentile": sqlalchemy.types.Numeric(16, 2),
+            "Decile": sqlalchemy.types.Numeric(16, 2),
+            "RAG": sqlalchemy.types.VARCHAR(length=10)
+        }
     )
     logger.info(
         f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}"

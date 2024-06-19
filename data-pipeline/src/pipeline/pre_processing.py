@@ -479,15 +479,13 @@ def build_academy_data(
     academies_list = pd.read_csv(
         academy_data_path,
         encoding="utf8",
+        index_col=input_schemas.academy_master_list_index_col,
+        dtype=input_schemas.academy_master_list,
         usecols=input_schemas.academy_master_list.keys(),
     )
 
     academies_list.replace(to_replace={"DNS": np.nan, "n/a": np.nan}, inplace=True)
-    academies_list = (
-        academies_list.astype(input_schemas.academy_master_list)
-        .set_index(input_schemas.academy_master_list_index_col)
-        .rename(columns={"UKPRN": "Academy UKPRN"})
-    )
+    academies_list.rename(columns={"UKPRN": "Academy UKPRN"}, inplace=True)
 
     group_links = pd.read_csv(
         links_data_path,
@@ -496,6 +494,7 @@ def build_academy_data(
         usecols=input_schemas.groups.keys(),
         dtype=input_schemas.groups,
     )[["Group Type", "Group UID"]]
+
     group_links = group_links[
         group_links["Group Type"].isin(
             ["Single-academy trust", "Multi-academy trust", "Trust"]
@@ -648,18 +647,36 @@ def build_academy_data(
         ) / apportionment_divisor.astype(float)
 
         for sub_category in sub_categories:
-            academies[sub_category + "_CS"] = academies[sub_category + "_CS"].astype(
-                float
-            ) * apportionment.astype(float)
+            academies[sub_category + "_CS"] = (
+                academies[sub_category + "_CS"].astype(float) * apportionment.astype(float)
+            )
             academies[sub_category] = (
-                academies[sub_category] + academies[sub_category + "_CS"]
+                (academies[sub_category] + academies[sub_category + "_CS"])
             )
-            academies[sub_category + "_Per Unit"] = (
-                academies[sub_category].fillna(0) / basis_data
-            )
+            academies[sub_category + "_Per Unit"] = (academies[sub_category].fillna(0.0) / basis_data).astype(float)
+
+            # Here be dragons, well angry pandas: this looks like it can be replaced with `np.isclose` it can, but it doesn't seem to work in all cases, you will end up with
+            # the odd -0.01 value or an untouched {rand-floating-point}e-16 which will cause an arithmetic overflow when writing to the DB.
+            academies.loc[(academies[sub_category + "_Per Unit"] >= 0) & (academies[sub_category + "_Per Unit"] <= 0.00001), sub_category + "_Per Unit"] = 0.0
+
             academies[sub_category + "_Per Unit"].replace(
-                [np.inf, -np.inf, np.nan], 0, inplace=True
+                [np.inf, -np.inf, np.nan], 0.0, inplace=True
             )
+
+        academies[category + "_Total_Per Unit"] = (
+            academies[
+                academies.columns[
+                    academies.columns.str.startswith(category)
+                    & ~academies.columns.str.endswith("_CS")
+                    & academies.columns.str.endswith("_Per Unit")
+                ]
+            ]
+            .fillna(0.0)
+            .sum(axis=1)
+        )
+
+        academies.loc[(academies[category + "_Total_Per Unit"] >= 0) & (
+                    academies[category + "_Total_Per Unit"] <= 0.00001), category + "_Total_Per Unit"] = 0.0
 
         academies[category + "_Total"] = (
             academies[
@@ -669,7 +686,7 @@ def build_academy_data(
                     & ~academies.columns.str.endswith("_Per Unit")
                 ]
             ]
-            .fillna(0)
+            .fillna(0.0)
             .sum(axis=1)
         )
 
