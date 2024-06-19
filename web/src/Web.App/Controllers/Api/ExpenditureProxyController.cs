@@ -158,7 +158,7 @@ public class ExpenditureProxyController(
         var schools = await establishmentApi.QuerySchools(query).GetResultOrThrow<IEnumerable<School>>();
         var result = await expenditureApi
             .QuerySchools(BuildQuery(schools.Select(x => x.URN).OfType<string>(), "urns", category, dimension, includeBreakdown))
-            .GetResultOrThrow<SchoolExpenditure>();
+            .GetResultOrThrow<SchoolExpenditure[]>();
         return new JsonResult(result);
     }
 
