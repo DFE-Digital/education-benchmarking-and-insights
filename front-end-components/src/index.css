@@ -359,7 +359,6 @@
 
 .trust-options {
   grid-template-columns: 50% 50%;
-  border-bottom: 1px solid #b1b4b6;
   padding-bottom: 0;
   margin-bottom: 30px;
 }

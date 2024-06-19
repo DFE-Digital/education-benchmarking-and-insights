@@ -7,6 +7,8 @@ import {
 import { HistoricDataViewProps } from "src/views/historic-data/types";
 import { SchoolEstablishment } from "src/constants.tsx";
 import { useGovUk } from "src/hooks/useGovUk";
+import { ChartModeChart } from "src/components";
+import { ChartModeProvider } from "src/contexts";
 
 export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
   const { type, id } = props;
@@ -38,23 +40,31 @@ export const HistoricData: React.FC<HistoricDataViewProps> = (props) => {
           </li>
         )}
       </ul>
-      <div className="govuk-tabs__panel" id="spending">
-        <SpendingSection type={type} id={id} />
-      </div>
-      <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="income">
-        <IncomeSection type={type} id={id} />
-      </div>
-      <div className="govuk-tabs__panel govuk-tabs__panel--hidden" id="balance">
-        <BalanceSection type={type} id={id} />
-      </div>
-      {type === SchoolEstablishment && (
+      <ChartModeProvider initialValue={ChartModeChart}>
+        <div className="govuk-tabs__panel" id="spending">
+          <SpendingSection type={type} id={id} />
+        </div>
         <div
           className="govuk-tabs__panel govuk-tabs__panel--hidden"
-          id="census"
+          id="income"
         >
-          <CensusSection id={id} />
+          <IncomeSection type={type} id={id} />
         </div>
-      )}
+        <div
+          className="govuk-tabs__panel govuk-tabs__panel--hidden"
+          id="balance"
+        >
+          <BalanceSection type={type} id={id} />
+        </div>
+        {type === SchoolEstablishment && (
+          <div
+            className="govuk-tabs__panel govuk-tabs__panel--hidden"
+            id="census"
+          >
+            <CensusSection id={id} />
+          </div>
+        )}
+      </ChartModeProvider>
     </div>
   );
 };
