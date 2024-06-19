@@ -36,6 +36,8 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
             <div className="govuk-tabs__panel" id="spending">
               <SpendingSection id={id} />
             </div>
+          </BreakdownProvider>
+          <BreakdownProvider initialValue={BreakdownInclude}>
             <div className="govuk-tabs__panel" id="balance">
               <BalanceSection id={id} />
             </div>
