@@ -60,14 +60,16 @@ export const AdministrativeSupplies: React.FC<{
 
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.administrativeSuppliesCosts ?? 0,
-              schoolValue: trust.schoolAdministrativeSuppliesCosts ?? 0,
-              centralValue: trust.centralAdministrativeSuppliesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.administrativeSuppliesCosts ?? 0,
+                  schoolValue: trust.schoolAdministrativeSuppliesCosts ?? 0,
+                  centralValue: trust.centralAdministrativeSuppliesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, dimension]);

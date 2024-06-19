@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http.Extensions;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using Web.App.Domain;
 using Web.App.Extensions;
@@ -119,6 +120,7 @@ public class ExpenditureProxyController(
     [ProducesResponseType<TrustExpenditure[]>(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    [Authorize]
     public async Task<IActionResult> UserDefined(
         [FromQuery] string type,
         [FromQuery] string id,

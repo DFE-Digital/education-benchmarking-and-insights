@@ -63,14 +63,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.totalEducationalSuppliesCosts ?? 0,
-              schoolValue: trust.schoolTotalEducationalSuppliesCosts ?? 0,
-              centralValue: trust.centralTotalEducationalSuppliesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.totalEducationalSuppliesCosts ?? 0,
+                  schoolValue: trust.schoolTotalEducationalSuppliesCosts ?? 0,
+                  centralValue: trust.centralTotalEducationalSuppliesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -79,14 +81,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.examinationFeesCosts ?? 0,
-              schoolValue: trust.schoolExaminationFeesCosts ?? 0,
-              centralValue: trust.centralExaminationFeesCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.examinationFeesCosts ?? 0,
+                  schoolValue: trust.schoolExaminationFeesCosts ?? 0,
+                  centralValue: trust.centralExaminationFeesCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
@@ -95,14 +99,16 @@ export const EducationalSupplies: React.FC<{
     useMemo(() => {
       return {
         dataPoints:
-          data?.map((trust) => {
-            return {
-              ...trust,
-              totalValue: trust.learningResourcesNonIctCosts ?? 0,
-              schoolValue: trust.schoolLearningResourcesNonIctCosts ?? 0,
-              centralValue: trust.centralLearningResourcesNonIctCosts ?? 0,
-            };
-          }) ?? [],
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.learningResourcesNonIctCosts ?? 0,
+                  schoolValue: trust.schoolLearningResourcesNonIctCosts ?? 0,
+                  centralValue: trust.centralLearningResourcesNonIctCosts ?? 0,
+                };
+              })
+            : [],
         tableHeadings,
       };
     }, [data, tableHeadings]);
