@@ -2,8 +2,8 @@ import { useContext } from "react";
 import {
   ChartModeContext,
   ChartModeContextValue,
-  IncludeBreakdownContext,
-  BreakdownContextValue,
+  CentralServicesBreakdownContext,
+  CentralServicesBreakdownContextValue,
 } from "./contexts";
 
 export const useChartModeContext = (
@@ -21,19 +21,21 @@ export const useChartModeContext = (
   return chartModeContext;
 };
 
-export const useBreakdownContext = (
+export const useCentralServicesBreakdownContext = (
   throwIfUndefined?: boolean
-): BreakdownContextValue => {
-  const includeBreakdownContext = useContext(IncludeBreakdownContext);
-  if (includeBreakdownContext === undefined) {
+): CentralServicesBreakdownContextValue => {
+  const centralServicesBreakdownContext = useContext(
+    CentralServicesBreakdownContext
+  );
+  if (centralServicesBreakdownContext === undefined) {
     if (throwIfUndefined) {
       throw new Error(
-        "includeBreakdownContext must be inside an <IncludeBreakdownProvider>"
+        "centralServicesBreakdownContext must be inside an <CentralServicesBreakdownProvider>"
       );
     }
 
     return { breakdown: "", setBreakdown: () => {} };
   }
 
-  return includeBreakdownContext;
+  return centralServicesBreakdownContext;
 };

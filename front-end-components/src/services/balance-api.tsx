@@ -34,7 +34,7 @@ export class BalanceApi {
   static async trust(
     id: string,
     dimension: string,
-    includeBreakdown?: boolean
+    excludeCentralServices?: boolean
   ): Promise<TrustBalance[]> {
     const params = new URLSearchParams({
       type: "trust",
@@ -42,8 +42,11 @@ export class BalanceApi {
       dimension: dimension,
     });
 
-    if (includeBreakdown !== undefined) {
-      params.append("includeBreakdown", includeBreakdown ? "true" : "false");
+    if (excludeCentralServices !== undefined) {
+      params.append(
+        "excludeCentralServices",
+        excludeCentralServices ? "true" : "false"
+      );
     }
 
     return fetch("/api/balance/user-defined?" + params, {

@@ -1,4 +1,4 @@
-export type IncludeBreakdownProps = {
+export type CentralServicesBreakdownProps = {
   breakdown: string | undefined;
   handleChange: (value: string) => void;
   prefix?: string;

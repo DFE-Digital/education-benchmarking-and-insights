@@ -12,7 +12,7 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
     /// <param name="type" example="school"></param>
     /// <param name="id" example="140565"></param>
     /// <param name="dimension" example="PerUnit"></param>
-    /// <param name="includeBreakdown"></param>
+    /// <param name="excludeCentralServices"></param>
     [HttpGet]
     [Produces("application/json")]
     [ProducesResponseType<IncomeHistory[]>(StatusCodes.Status200OK)]
@@ -22,7 +22,7 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
         [FromQuery] string type,
         [FromQuery] string id,
         [FromQuery] string dimension,
-        [FromQuery] bool? includeBreakdown)
+        [FromQuery] bool? excludeCentralServices)
     {
         using (logger.BeginScope(new
         {
@@ -34,7 +34,7 @@ public class IncomeProxyController(ILogger<IncomeProxyController> logger, IIncom
             {
                 var query = new ApiQuery()
                     .AddIfNotNull("dimension", dimension)
-                    .AddIfNotNull("includeBreakdown", includeBreakdown);
+                    .AddIfNotNull("excludeCentralServices", excludeCentralServices);
 
                 var result = type.ToLower() switch
                 {

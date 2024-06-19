@@ -1,6 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { TotalExpenditureData } from "src/views/compare-your-trust/partials";
-import { ChartDimensionContext } from "src/contexts";
+import {
+  ChartDimensionContext,
+  useCentralServicesBreakdownContext,
+} from "src/contexts";
 import {
   CostCategories,
   PoundsPerPupil,
@@ -12,11 +15,16 @@ import {
   HorizontalBarChartWrapperData,
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { ExpenditureApi, TotalExpenditureTrustExpenditure } from "src/services";
+import {
+  BreakdownExclude,
+  BreakdownInclude,
+} from "src/components/central-services-breakdown";
 
 export const TotalExpenditure: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
+  const { breakdown } = useCentralServicesBreakdownContext(true);
   const [data, setData] = useState<TotalExpenditureTrustExpenditure[] | null>();
   const getData = useCallback(async () => {
     setData(null);
@@ -24,9 +32,9 @@ export const TotalExpenditure: React.FC<{
       id,
       dimension.value,
       "TotalExpenditure",
-      true
+      breakdown === BreakdownExclude
     );
-  }, [id, dimension]);
+  }, [id, dimension, breakdown]);
 
   useEffect(() => {
     getData().then((result) => {
@@ -36,12 +44,13 @@ export const TotalExpenditure: React.FC<{
 
   const chartData: HorizontalBarChartWrapperData<TotalExpenditureData> =
     useMemo(() => {
-      const tableHeadings = [
-        "Trust name",
-        `Total ${dimension.heading}`,
-        `School ${dimension.heading}`,
-        `Central ${dimension.heading}`,
-      ];
+      const tableHeadings = ["Trust name", `Total ${dimension.heading}`];
+      if (breakdown === BreakdownInclude) {
+        tableHeadings.push(
+          `School ${dimension.heading}`,
+          `Central ${dimension.heading}`
+        );
+      }
 
       return {
         dataPoints:
@@ -57,7 +66,7 @@ export const TotalExpenditure: React.FC<{
             : [],
         tableHeadings,
       };
-    }, [dimension, data]);
+    }, [dimension, data, breakdown]);
 
   const handleSelectChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event

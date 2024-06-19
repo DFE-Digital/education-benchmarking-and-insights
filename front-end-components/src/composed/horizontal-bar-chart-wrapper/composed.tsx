@@ -10,7 +10,6 @@ import {
   SelectedEstablishmentContext,
   HasIncompleteDataContext,
   useChartModeContext,
-  useBreakdownContext,
 } from "src/contexts";
 import { Loading } from "src/components/loading";
 import { ChartHandler, ChartSeriesConfigItem } from "src/components/charts";
@@ -25,10 +24,6 @@ import { SchoolCensusTooltip } from "src/components/charts/school-census-tooltip
 import { WarningBanner } from "src/components/warning-banner";
 import { ErrorBanner } from "src/components/error-banner";
 import { TrustDataTooltip } from "src/components/charts/trust-data-tooltip";
-import {
-  BreakdownExclude,
-  BreakdownInclude,
-} from "src/components/include-breakdown";
 
 export function HorizontalBarChartWrapper<
   TData extends SchoolChartData | TrustChartData,
@@ -38,13 +33,12 @@ export function HorizontalBarChartWrapper<
   const dimension = useContext(ChartDimensionContext);
   const selectedEstabishment = useContext(SelectedEstablishmentContext);
   const { hasIncompleteData, hasNoData } = useContext(HasIncompleteDataContext);
-  const { breakdown } = useBreakdownContext();
   const ref = createRef<ChartHandler>();
   const [imageLoading, setImageLoading] = useState<boolean>();
   const keyField = (trust ? "companyNumber" : "urn") as keyof TData;
   const seriesLabelField = (trust ? "trustName" : "schoolName") as keyof TData;
   const seriesConfig: { [key: string]: ChartSeriesConfigItem } = {
-    [trust ? "schoolValue" : "value"]: {
+    [trust ? "totalValue" : "value"]: {
       visible: true,
       valueFormatter: (v) =>
         shortValueFormatter(v, {
@@ -53,23 +47,11 @@ export function HorizontalBarChartWrapper<
     },
   };
 
-  // stack additional series if they are available in the input data set
-  let labelListSeriesName: keyof TData | undefined;
-  if (trust) {
-    if (breakdown === BreakdownInclude) {
-      seriesConfig.schoolValue.stackId = 1;
-      seriesConfig.centralValue = Object.assign({}, seriesConfig.schoolValue);
-      labelListSeriesName = "totalValue" as keyof TData;
-    }
-  }
-
   // if a `sort` is not provided, the default sorting method will be used (value DESC)
   const sortedDataPoints = useMemo(() => {
     let dataPoint = "value";
-    if (breakdown === BreakdownInclude) {
+    if (trust) {
       dataPoint = "totalValue";
-    } else if (breakdown === BreakdownExclude) {
-      dataPoint = "schoolValue";
     }
 
     return data.dataPoints
@@ -89,7 +71,7 @@ export function HorizontalBarChartWrapper<
           }
         )
       ) as TData[];
-  }, [data.dataPoints, sort, breakdown]);
+  }, [data.dataPoints, sort, trust]);
 
   return (
     <>
@@ -135,7 +117,6 @@ export function HorizontalBarChartWrapper<
                     keyField={keyField}
                     onImageLoading={setImageLoading}
                     labels
-                    labelListSeriesName={labelListSeriesName}
                     margin={20}
                     ref={ref}
                     seriesConfig={seriesConfig as object}
@@ -186,6 +167,7 @@ export function HorizontalBarChartWrapper<
                   data={sortedDataPoints}
                   preventFocus={chartMode !== ChartModeTable}
                   valueUnit={valueUnit ?? dimension.unit}
+                  trust={trust}
                 />
               </div>
             </>

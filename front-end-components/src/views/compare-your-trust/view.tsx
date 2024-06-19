@@ -4,7 +4,7 @@ import { useGovUk } from "src/hooks/useGovUk";
 import { SpendingSection } from "./partials/spending-section";
 import { BalanceSection } from "./partials";
 import { ChartModeChart } from "src/components";
-import { BreakdownInclude } from "src/components/include-breakdown";
+import { BreakdownInclude } from "src/components/central-services-breakdown";
 import {
   ChartModeProvider,
   BreakdownProvider,
