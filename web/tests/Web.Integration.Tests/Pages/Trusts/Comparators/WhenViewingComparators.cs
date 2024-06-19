@@ -63,5 +63,9 @@ public class WhenViewingComparators(SchoolBenchmarkingWebAppClient client)
         DocumentAssert.TitleAndH1(page,
             "Benchmark spending for this trust - Financial Benchmarking and Insights Tool - GOV.UK",
             "Benchmark spending for this trust");
+
+        var placeholder = page.QuerySelector("#compare-your-trust");
+        Assert.NotNull(placeholder);
+        Assert.Equal(trust.CompanyNumber, placeholder.GetAttribute("data-id"));
     }
 }
