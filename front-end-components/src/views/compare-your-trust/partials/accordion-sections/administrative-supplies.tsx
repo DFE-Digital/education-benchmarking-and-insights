@@ -104,6 +104,7 @@ export const AdministrativeSupplies: React.FC<{
           <HorizontalBarChartWrapper
             data={administrativeSuppliesBarData}
             chartName="administrative supplies (non-eductional)"
+            trust
           >
             <h3 className="govuk-heading-s">
               Administrative supplies (Non-educational)

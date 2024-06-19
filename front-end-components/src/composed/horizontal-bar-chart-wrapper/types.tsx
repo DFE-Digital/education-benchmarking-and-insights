@@ -10,6 +10,7 @@ export type HorizontalBarChartWrapperProps<
   children?: React.ReactNode[] | React.ReactNode;
   data: HorizontalBarChartWrapperPropsData<TData>;
   sort?: ChartDataSeriesSortMode<TData>;
+  trust?: boolean;
 };
 
 export type HorizontalBarChartWrapperPropsData<

@@ -7,7 +7,7 @@ import { ChartModeChart } from "src/components";
 import { BreakdownInclude } from "src/components/include-breakdown";
 import {
   ChartModeProvider,
-  IncludeBreakdownProvider,
+  BreakdownProvider,
   SelectedEstablishmentContext,
 } from "src/contexts";
 
@@ -32,14 +32,14 @@ export const CompareYourTrust: React.FC<CompareYourTrustViewProps> = ({
       </ul>
       <SelectedEstablishmentContext.Provider value={id}>
         <ChartModeProvider initialValue={ChartModeChart}>
-          <IncludeBreakdownProvider initialValue={BreakdownInclude}>
+          <BreakdownProvider initialValue={BreakdownInclude}>
             <div className="govuk-tabs__panel" id="spending">
               <SpendingSection id={id} />
             </div>
             <div className="govuk-tabs__panel" id="balance">
               <BalanceSection id={id} />
             </div>
-          </IncludeBreakdownProvider>
+          </BreakdownProvider>
         </ChartModeProvider>
       </SelectedEstablishmentContext.Provider>
     </div>

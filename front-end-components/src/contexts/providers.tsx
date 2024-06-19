@@ -17,14 +17,14 @@ export const ChartModeProvider = ({
   );
 };
 
-type IncludeBreakdownProviderProps = PropsWithChildren<{
+type BreakdownProviderProps = PropsWithChildren<{
   initialValue: string;
 }>;
 
-export const IncludeBreakdownProvider = ({
+export const BreakdownProvider = ({
   children,
   initialValue,
-}: IncludeBreakdownProviderProps) => {
+}: BreakdownProviderProps) => {
   const [breakdown, setBreakdown] = useState<string>(initialValue);
   return (
     <IncludeBreakdownContext.Provider value={{ breakdown, setBreakdown }}>

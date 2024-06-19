@@ -94,6 +94,7 @@ export const Balance: React.FC<{
       <HorizontalBarChartWrapper
         data={inYearBalanceChartData}
         chartName="in year balance"
+        trust
       >
         <h2 className="govuk-heading-m">In-year balance</h2>
         <ChartDimensions
@@ -106,6 +107,7 @@ export const Balance: React.FC<{
       <HorizontalBarChartWrapper
         data={revenueReserveChartData}
         chartName="revenue reserve"
+        trust
       >
         <h2 className="govuk-heading-m">Revenue reserve</h2>
         <ChartDimensions
