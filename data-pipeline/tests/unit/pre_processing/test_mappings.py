@@ -297,13 +297,13 @@ def test_map_school_website(url, expected):
 @pytest.mark.parametrize(
     "pfi,expected",
     [
-        ("part of PFI", "PFI School"),
-        ("not PFI", "Non-PFI school"),
-        ("", "Non-PFI school"),
+        (1, "PFI School"),
+        (0, "Non-PFI school"),
+        (-1, "PFI School"),
         (None, "Non-PFI school"),
     ],
 )
-def test_map_school_website(pfi, expected):
+def test_map_pfi(pfi, expected):
     assert mappings.map_is_pfi_school(pfi) == expected
 
 

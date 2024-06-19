@@ -112,8 +112,8 @@ def insert_metric_rag(run_type: str, set_type: str, year: str, df: pd.DataFrame)
             "PercentDiff": sqlalchemy.types.Numeric(16, 2),
             "Percentile": sqlalchemy.types.Numeric(16, 2),
             "Decile": sqlalchemy.types.Numeric(16, 2),
-            "RAG": sqlalchemy.types.VARCHAR(length=10)
-        }
+            "RAG": sqlalchemy.types.VARCHAR(length=10),
+        },
     )
     logger.info(
         f"Wrote {len(write_frame)} rows to metric rag {run_type} - {set_type} - {year}"
