@@ -55,7 +55,7 @@ export const IncomeSection: React.FC<{ type: string; id: string }> = ({
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="income"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </div>
           <div className="govuk-grid-column-one-third">

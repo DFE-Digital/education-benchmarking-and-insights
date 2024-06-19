@@ -12,7 +12,7 @@ import {
 } from "src/composed/horizontal-bar-chart-wrapper";
 import { BalanceApi, TrustBalance } from "src/services";
 
-export const InYearBalance: React.FC<{
+export const Balance: React.FC<{
   id: string;
 }> = ({ id }) => {
   const [dimension, setDimension] = useState(PoundsPerPupil);
@@ -46,6 +46,33 @@ export const InYearBalance: React.FC<{
                   totalValue: trust.inYearBalance ?? 0,
                   schoolValue: trust.schoolInYearBalance ?? 0,
                   centralValue: trust.centralInYearBalance ?? 0,
+                  type: "balance",
+                };
+              })
+            : [],
+        tableHeadings,
+      };
+    }, [dimension, data]);
+
+  const revenueReserveChartData: HorizontalBarChartWrapperData<BalanceData> =
+    useMemo(() => {
+      const tableHeadings = [
+        "Trust name",
+        `Total ${dimension.heading}`,
+        `School ${dimension.heading}`,
+        `Central ${dimension.heading}`,
+      ];
+
+      return {
+        dataPoints:
+          data && Array.isArray(data)
+            ? data.map((trust) => {
+                return {
+                  ...trust,
+                  totalValue: trust.revenueReserve ?? 0,
+                  schoolValue: trust.schoolRevenueReserve ?? 0,
+                  centralValue: trust.centralRevenueReserve ?? 0,
+                  type: "balance",
                 };
               })
             : [],
@@ -73,7 +100,19 @@ export const InYearBalance: React.FC<{
           dimensions={CostCategories}
           handleChange={handleSelectChange}
           elementId="in-year-balance"
-          defaultValue={dimension.value}
+          value={dimension.value}
+        />
+      </HorizontalBarChartWrapper>
+      <HorizontalBarChartWrapper
+        data={revenueReserveChartData}
+        chartName="revenue reserve"
+      >
+        <h2 className="govuk-heading-m">Revenue reserve</h2>
+        <ChartDimensions
+          dimensions={CostCategories}
+          handleChange={handleSelectChange}
+          elementId="in-year-balance"
+          value={dimension.value}
         />
       </HorizontalBarChartWrapper>
     </ChartDimensionContext.Provider>

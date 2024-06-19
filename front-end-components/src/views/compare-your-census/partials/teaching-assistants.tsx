@@ -94,7 +94,7 @@ export const TeachingAssistants: React.FC<{ type: string; id: string }> = ({
             dimensions={CensusCategories}
             handleChange={handleSelectChange}
             elementId="teaching-assistants"
-            defaultValue={dimension.value}
+            value={dimension.value}
           />
         </HorizontalBarChartWrapper>
       </ChartDimensionContext.Provider>

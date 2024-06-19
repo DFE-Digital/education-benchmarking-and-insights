@@ -15,11 +15,13 @@ export function TrustDataTooltip<
     value === undefined ? "" : shortValueFormatter(value, { valueUnit });
 
   if (active && payload && payload.length) {
-    const trust = payload[0].payload as TrustChartData;
+    const { trustName, totalValue, schoolValue, centralValue, type } =
+      payload[0].payload as TrustChartData;
+    const label = type === "balance" ? type : "spend";
     return (
       <table className="govuk-table govuk-table--small-text-until-tablet tooltip-table">
         <caption className="govuk-table__caption govuk-table__caption--s">
-          {trust.trustName}
+          {trustName}
         </caption>
         <thead className="govuk-table__head govuk-visually-hidden">
           <tr className="govuk-table__row">
@@ -34,21 +36,21 @@ export function TrustDataTooltip<
         <tbody className="govuk-table__body">
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Total spend
+              Overall {label}
             </th>
-            <td className="govuk-table__cell">{format(trust.totalValue)}</td>
+            <td className="govuk-table__cell">{format(totalValue)}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              School spend
+              School {label}
             </th>
-            <td className="govuk-table__cell">{format(trust.schoolValue)}</td>
+            <td className="govuk-table__cell">{format(schoolValue)}</td>
           </tr>
           <tr className="govuk-table__row">
             <th scope="row" className="govuk-table__header">
-              Central spend
+              Central {label}
             </th>
-            <td className="govuk-table__cell">{format(trust.centralValue)}</td>
+            <td className="govuk-table__cell">{format(centralValue)}</td>
           </tr>
         </tbody>
       </table>

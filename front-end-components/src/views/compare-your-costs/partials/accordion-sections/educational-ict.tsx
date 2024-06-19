@@ -113,7 +113,7 @@ export const EducationalIct: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="eductional-learning-resources-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

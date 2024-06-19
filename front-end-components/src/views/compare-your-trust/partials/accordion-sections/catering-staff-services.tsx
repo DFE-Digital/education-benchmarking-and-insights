@@ -149,7 +149,7 @@ export const CateringStaffServices: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-catering-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

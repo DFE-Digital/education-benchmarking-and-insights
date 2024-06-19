@@ -4,7 +4,7 @@ import { ChartModeChart } from "src/components";
 import { useChartModeContext } from "src/contexts";
 
 export const ChartDimensions: React.FC<ChartDimensionsProps> = (props) => {
-  const { dimensions, elementId, handleChange, defaultValue } = props;
+  const { dimensions, elementId, handleChange, value } = props;
   const { chartMode } = useChartModeContext();
 
   return (
@@ -17,7 +17,7 @@ export const ChartDimensions: React.FC<ChartDimensionsProps> = (props) => {
         name="dimension"
         id={`${elementId}-dimension`}
         onChange={handleChange}
-        defaultValue={defaultValue}
+        value={value}
       >
         {dimensions.map((dimension) => {
           return (

@@ -112,7 +112,7 @@ export const AdministrativeSupplies: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="administrative-supplies-non-eductional"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
         </div>

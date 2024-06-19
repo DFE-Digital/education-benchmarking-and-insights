@@ -52,7 +52,7 @@ export const BalanceSection: React.FC<{ type: string; id: string }> = ({
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="balance"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </div>
           <div className="govuk-grid-column-one-third">

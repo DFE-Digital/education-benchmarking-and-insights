@@ -144,7 +144,7 @@ export const Utilities: React.FC<{
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-utilities-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

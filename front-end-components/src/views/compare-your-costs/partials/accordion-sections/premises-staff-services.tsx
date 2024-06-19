@@ -172,7 +172,7 @@ export const PremisesStaffServices: React.FC<{
               dimensions={PremisesCategories}
               handleChange={handleSelectChange}
               elementId="total-premises-staff-service-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

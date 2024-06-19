@@ -296,7 +296,7 @@ export const OtherCosts: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-otehr-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper

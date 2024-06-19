@@ -211,7 +211,7 @@ function HorizontalBarChartInner<TData extends ChartDataSeries>(
               x={0}
               label={{
                 position: "bottom",
-                offset: 9,
+                offset: 8,
                 value: valueFormatter
                   ? valueFormatter(0, { valueUnit })
                   : String(0),

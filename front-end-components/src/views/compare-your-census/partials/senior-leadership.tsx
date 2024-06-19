@@ -94,7 +94,7 @@ export const SeniorLeadership: React.FC<{ type: string; id: string }> = ({
             dimensions={CensusCategories}
             handleChange={handleSelectChange}
             elementId="senior-leadership"
-            defaultValue={dimension.value}
+            value={dimension.value}
           />
         </HorizontalBarChartWrapper>
       </ChartDimensionContext.Provider>

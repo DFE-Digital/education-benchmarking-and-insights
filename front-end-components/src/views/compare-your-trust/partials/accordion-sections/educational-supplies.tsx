@@ -151,7 +151,7 @@ export const EducationalSupplies: React.FC<{
               dimensions={CostCategories}
               handleChange={handleSelectChange}
               elementId="total-educational-supplies-costs"
-              defaultValue={dimension.value}
+              value={dimension.value}
             />
           </HorizontalBarChartWrapper>
           <HorizontalBarChartWrapper
