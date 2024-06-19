@@ -257,12 +257,18 @@ def prepare_ks4_data(ks4_path):
     return ks4.set_index("URN")
 
 
-def prepare_central_services_data(cs_path):
+def prepare_central_services_data(cs_path, current_year: int):
     central_services_financial = pd.read_csv(
         cs_path,
-        usecols=input_schemas.aar_central_services.keys(),
+        usecols=lambda x: x in input_schemas.aar_central_services.keys(),
         dtype=input_schemas.aar_central_services
     )
+
+    if (current_year < 2023) or ("BNCH11123-BTI011-A (MAT Central services - Income)" not in central_services_financial.columns):
+        central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"] = 0.0
+
+        if (current_year <= 2022) and ("BNCHBAI061 (Coronavirus Govt Funding)" in central_services_financial.columns):
+            central_services_financial["BNCH11123-BTI011-A (MAT Central services - Income)"] = central_services_financial["BNCHBAI061 (Coronavirus Govt Funding)"]
 
     central_services_financial["In year balance"] = (
             central_services_financial["BNCH11110T (EFA Revenue Grants)"]
@@ -370,12 +376,15 @@ def prepare_central_services_data(cs_path):
     return central_services_financial.set_index("Trust UPIN")
 
 
-def prepare_aar_data(aar_path):
+def prepare_aar_data(aar_path, current_year: int):
     aar = pd.read_csv(
         aar_path,
-        usecols=input_schemas.aar_academies.keys(),
+        usecols=lambda x: x in input_schemas.aar_academies.keys(),
         dtype=input_schemas.aar_academies
     )
+
+    if (current_year < 2023) or ("BNCH11123-BAI011-A (Academies - Income)" not in aar.columns):
+        aar["BNCH11123-BAI011-A (Academies - Income)"] = 0.0
 
     # removing pre-transition academies
     transitioned_academy_urns = aar["URN"][aar["URN"].duplicated(keep=False)].values
@@ -753,7 +762,7 @@ def build_academy_data(
 
     # TODO: This needs re-instating
     academies["London Weighting"] = "Neither"
-        # academies["London Weighting"].fillna("Neither"))
+    # academies["London Weighting"].fillna("Neither"))
 
     academies["Email"] = ""
     academies["HeadEmail"] = ""
@@ -1059,7 +1068,7 @@ def build_maintained_school_data(
         | config.income_category_map["maintained_schools"],
         inplace=True,
     )
-
+    
     for category in config.rag_category_settings.keys():
         basis_data = maintained_schools[
             (
